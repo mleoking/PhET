@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 /**
  * @author John Blanco
  */
-public class WanderInGeneralDirectionMotionStrategy implements IMotionStrategy {
+public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
 
     private static final double MIN_VELOCITY = 100; // In picometers/s
     private static final double MAX_VELOCITY = 500; // In picometers/s

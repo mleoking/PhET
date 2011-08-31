@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.UnattachedAndAvailableState;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 
 /**
@@ -29,11 +30,17 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // molecule moves.  This was just a convenient place to put it (so far).
     public final Property<Color> colorProperty = new Property<Color>( Color.BLACK );
 
+    // Bounds within which this biomolecule is allowed to move.
+    protected MotionBounds motionBounds = new MotionBounds();
+
     // Behavioral state that controls how the molecule moves when it is not
     // under the control of the user and how and when it attaches to other
     // biomolecules.
     protected BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState( this );
 
+    // Reference to the model in which this biomolecule exists.  This is
+    // needed in case the biomolecule needs to locate or create other
+    // biomolecules.
     protected final GeneExpressionModel model;
 
     /**
@@ -69,6 +76,10 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         return model;
     }
 
+    public void setMotionBounds( MotionBounds motionBounds ) {
+        this.motionBounds = motionBounds;
+    }
+
     /**
      * Add the specified biomolecule to the model.
      *
@@ -95,7 +106,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
     /**
      * Command the biomolecule to changes its conformation, which, for the
-     * purposes of this simulation, means that both the color and the shape can
+     * purposes of this simulation, means that both the color and the shape may
      * change.  This functionality is needed by some of the biomolecules, mostly
      * when they attach to something.  The default does nothing, and it is up to
      * the individual molecules to override in order to implement their specific
@@ -106,5 +117,9 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      */
     public void changeConformation( double changeFactor ) {
         System.out.println( getClass().getName() + "Warning: Unimplemented method called in base class." );
+    }
+
+    public MotionBounds getMotionBounds() {
+        return motionBounds;
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.IMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 
@@ -21,7 +21,7 @@ public class DetachingState extends BiomoleculeBehaviorState {
 
     private static final double DRIFT_AWAY_TIME = 3; // In seconds.
 
-    private final IMotionStrategy motionStrategy;
+    private final MotionStrategy motionStrategy;
 
     private double detachTime = DRIFT_AWAY_TIME;
 
@@ -42,7 +42,7 @@ public class DetachingState extends BiomoleculeBehaviorState {
      */
     public DetachingState( MobileBiomolecule biomolecule ) {
         super( biomolecule );
-        motionStrategy = new RandomWalkMotionStrategy();
+        motionStrategy = new RandomWalkMotionStrategy( biomolecule.getMotionBounds() );
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {

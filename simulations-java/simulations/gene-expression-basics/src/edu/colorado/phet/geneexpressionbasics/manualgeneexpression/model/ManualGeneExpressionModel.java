@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 
@@ -32,6 +34,9 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
+
+    private static final double BIOMOLECULE_STAGE_WIDTH = 2000; // In picometers.
+    private static final double BIOMOLECULE_STAGE_HEIGHT = 2000; // In picometers.
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -105,6 +110,9 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
+        mobileBiomolecule.setMotionBounds( getBoundsForActiveGene() );
+        // Hook up an observer that will activate and deactivate placement
+        // hints for this molecule.
         mobileBiomolecule.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
@@ -132,5 +140,19 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
             mobileBiomolecule.stepInTime( dt );
         }
+    }
+
+    /**
+     * Get the motion bounds for any biomolecule that is going to be associated
+     * with the currently active gene.
+     *
+     * @return
+     */
+    private MotionBounds getBoundsForActiveGene() {
+        Rectangle2D boundsRect = new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,
+                                                         DnaMolecule.Y_POS,
+                                                         BIOMOLECULE_STAGE_WIDTH,
+                                                         BIOMOLECULE_STAGE_HEIGHT );
+        return new MotionBounds( boundsRect );
     }
 }

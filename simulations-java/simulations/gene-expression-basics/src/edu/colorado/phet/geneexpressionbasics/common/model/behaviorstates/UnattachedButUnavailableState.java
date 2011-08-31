@@ -5,7 +5,7 @@ import java.util.List;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.IMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 
 /**
@@ -18,12 +18,13 @@ public class UnattachedButUnavailableState extends BiomoleculeBehaviorState {
 
     private static final double UNAVAILABLE_TIME = 3; // In seconds.
 
-    private final IMotionStrategy motionStrategy = new RandomWalkMotionStrategy();
+    private final MotionStrategy motionStrategy;
 
     private double unavailableCountdownTime = UNAVAILABLE_TIME;
 
     protected UnattachedButUnavailableState( MobileBiomolecule biomolecule ) {
         super( biomolecule );
+        motionStrategy = new RandomWalkMotionStrategy( biomolecule.getMotionBounds() );
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {

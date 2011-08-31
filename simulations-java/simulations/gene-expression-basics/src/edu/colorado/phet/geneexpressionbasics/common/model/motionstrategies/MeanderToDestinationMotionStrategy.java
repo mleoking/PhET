@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 /**
  * @author John Blanco
  */
-public class MeanderToDestinationMotionStrategy implements IMotionStrategy {
+public class MeanderToDestinationMotionStrategy extends MotionStrategy {
 
     private static final double DIRECTED_PROPORTION = 0.90; // Proportion of motion updates that move towards
     protected static final double MIN_DIRECTED_VELOCITY = 100;  // In picometers per second
@@ -30,7 +30,7 @@ public class MeanderToDestinationMotionStrategy implements IMotionStrategy {
     private ImmutableVector2D currentMotionVector = new Vector2D( 0, 0 );
 
     // Destination to which this motion strategy moves.  Note that it is
-    // potentially a moving targer.
+    // potentially a moving target.
     private final Property<Point2D> locationProperty;
 
     public MeanderToDestinationMotionStrategy( Property<Point2D> locationProperty ) {
