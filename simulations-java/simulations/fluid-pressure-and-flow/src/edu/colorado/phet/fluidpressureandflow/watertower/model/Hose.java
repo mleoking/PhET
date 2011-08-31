@@ -19,11 +19,11 @@ public class Hose {
     public final Property<Boolean> enabled = new Property<Boolean>( false );
     public final ObservableProperty<ImmutableVector2D> attachmentPoint;
 
-    //Width of the attachment opening in meters
-    public final double attachmentWidth;
+    //Width of the hole for the attachment point in meters
+    public final double holeSize;
 
-    public Hose( ObservableProperty<ImmutableVector2D> attachmentPoint, double attachmentWidth ) {
+    public Hose( ObservableProperty<ImmutableVector2D> attachmentPoint, double holeSize ) {
         this.attachmentPoint = attachmentPoint;
-        this.attachmentWidth = attachmentWidth;
+        this.holeSize = holeSize;
     }
 }
