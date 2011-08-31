@@ -307,8 +307,11 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         } );
 
         /*---------------------------------------------------------------------------*
-        * atoms
+        * scene setup
         *----------------------------------------------------------------------------*/
+
+        addLighting( getSceneNode() );
+        cam.setLocation( new Vector3f( 0, 0, 40 ) );
 
         //Create the central atom
         AtomNode center = new AtomNode( new None<PairGroup>(), assetManager );
@@ -320,24 +323,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
         rebuildBonds();
         rebuildAngles();
-
-        /*---------------------------------------------------------------------------*
-        * lights
-        *----------------------------------------------------------------------------*/
-        DirectionalLight sun = new DirectionalLight();
-        sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
-        sun.setColor( new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f ) );
-        getSceneNode().addLight( sun );
-
-        DirectionalLight moon = new DirectionalLight();
-        moon.setDirection( new Vector3f( -2, 1, -1 ).normalizeLocal() );
-        moon.setColor( new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f ) );
-        getSceneNode().addLight( moon );
-
-        /*---------------------------------------------------------------------------*
-        * camera
-        *----------------------------------------------------------------------------*/
-        cam.setLocation( new Vector3f( 0, 0, 40 ) );
 
         /*---------------------------------------------------------------------------*
         * control panel
@@ -363,6 +348,18 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
             setOffset( 0, 10 );
         }}, assetManager, inputManager );
         getBackgroundGuiNode().attachChild( namePanel );
+    }
+
+    private static void addLighting( Node node ) {
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
+        sun.setColor( new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f ) );
+        node.addLight( sun );
+
+        DirectionalLight moon = new DirectionalLight();
+        moon.setDirection( new Vector3f( -2, 1, -1 ).normalizeLocal() );
+        moon.setColor( new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f ) );
+        node.addLight( moon );
     }
 
     private void updateCursor() {
