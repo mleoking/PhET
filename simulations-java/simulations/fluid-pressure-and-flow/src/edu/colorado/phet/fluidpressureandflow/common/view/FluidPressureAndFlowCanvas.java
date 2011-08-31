@@ -36,6 +36,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.RESET;
+import static edu.umd.cs.piccolo.PNode.PROPERTY_FULL_BOUNDS;
 
 /**
  * @author Sam Reid
@@ -132,12 +133,12 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     protected void synchronizeRulerLocations( final MeterStick meterStick, final EnglishRuler englishRuler ) {
         //Make sure they remain at the same location so that toggling units won't move the ruler
-        englishRuler.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+        englishRuler.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 meterStick.setOffset( englishRuler.getOffset() );
             }
         } );
-        meterStick.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+        meterStick.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 englishRuler.setOffset( meterStick.getOffset() );
             }
@@ -145,8 +146,8 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     }
 
     //Add the velocity sensor node, and constrain to remain on the screen
-    protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model, EmptyNode velocitySensorNodeArea ) {
-        for ( VelocitySensor velocitySensor : model.getVelocitySensors() ) {
+    protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model, final EmptyNode velocitySensorNodeArea, final SensorToolBoxNode sensorToolBoxNode ) {
+        for ( final VelocitySensor velocitySensor : model.getVelocitySensors() ) {
 
             //Move so it has the right physical location so it will look like it is in the toolbox
             velocitySensor.position.set( getModelLocationForVelocitySensor( velocitySensorNodeArea ) );
@@ -155,7 +156,10 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
                     return visibleModelBounds.apply().getClosestPoint( point2D );
                 }
             } ) {{
+
+                //Make sure the node moves to front when dragged, and that it snaps back to the control panel when dropped
                 addInputEventListener( new MoveToFront( this ) );
+                addInputEventListener( new SnapToToolbox( this, sensorToolBoxNode, velocitySensor.position, getModelLocationForVelocitySensor( velocitySensorNodeArea ) ) );
             }} );
         }
     }
@@ -195,21 +199,25 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     public void addSensorToolboxNode( final FluidPressureAndFlowModel model, final FluidPressureAndFlowControlPanelNode controlPanelNode ) {
         final EmptyNode velocitySensorArea = new EmptyNode( new VelocitySensorNode( transform, model.getVelocitySensors()[0], 1, getVelocityFormatter( model ) ) );
         final EmptyNode pressureSensorArea = new EmptyNode( new PressureSensorNode( transform, model.getPressureSensors()[0], model.units, visibleModelBounds ) );
-        addChild( new SensorToolBoxNode( new HBox( velocitySensorArea, pressureSensorArea ) ) {{
+        final SensorToolBoxNode sensorToolBoxNode = new SensorToolBoxNode( new HBox( velocitySensorArea, pressureSensorArea ) ) {{
             setOffset( controlPanelNode.getFullBounds().getX() - getFullBounds().getWidth() - INSET, controlPanelNode.getFullBounds().getY() );
-        }} );
+        }};
+        addChild( sensorToolBoxNode );
 
         //Add the velocity sensor nodes
-        addVelocitySensorNodes( model, velocitySensorArea );
+        addVelocitySensorNodes( model, velocitySensorArea, sensorToolBoxNode );
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
-        for ( PressureSensor pressureSensor : model.getPressureSensors() ) {
+        for ( final PressureSensor pressureSensor : model.getPressureSensors() ) {
 
             //Move so it has the right physical location so it will look like it is in the toolbox
             pressureSensor.location.set( getModelLocationForPressureSensor( pressureSensorArea ) );
 
             addChild( new PressureSensorNode( transform, pressureSensor, model.units, visibleModelBounds ) {{
+
+                //Make sure the node moves to front when dragged, and that it snaps back to the control panel when dropped
                 addInputEventListener( new MoveToFront( this ) );
+                addInputEventListener( new SnapToToolbox( this, sensorToolBoxNode, pressureSensor.location, getModelLocationForPressureSensor( pressureSensorArea ) ) );
             }} );
         }
     }
