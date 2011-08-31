@@ -1,3 +1,4 @@
+Fixed: Update the value in the velocity sensor on reset, without this call it would reset to "?" even if 0.00 was the original value
 Fixed: Reset all should restore the sim-speed slider value
 Fixed: Play/pause buttons should reset
 Fixed: Sim should be running, not paused after reset

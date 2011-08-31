@@ -52,7 +52,9 @@ public class FoodColoring {
     }
 
     public void notifyRemoved() {
-        for ( SimpleObserver removalObserver : removalObservers ) {
+
+        //Iterate on a copy to avoid ConcurrentModificationException
+        for ( SimpleObserver removalObserver : new ArrayList<SimpleObserver>( removalObservers ) ) {
             removalObserver.update();
         }
     }
