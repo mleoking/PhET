@@ -40,6 +40,11 @@ public class JmolPanel extends JPanel {
                 g.getClipBounds( clipBounds );
                 viewer.renderScreenImage( g, currentSize, clipBounds );
             }
+
+            @Override public boolean isShowing() {
+                // fix for Molecule Shapes mouse handling.
+                return true;
+            }
         };
 
         // Jmol logger, don't dump everything out into the console
