@@ -22,6 +22,7 @@ import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.AnyChangeAdapter;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
+import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -34,13 +35,14 @@ public class RealMoleculePanelNode extends PNode {
     private PNode child = null;
     private final MoleculeModel molecule;
     private final double SIZE = MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH;
+    private final double CONTROL_OFFSET = 30;
     private PhetPPath overlayTarget;
 
     private int kitIndex = 0;
     private Property<RealMolecule> selectedMolecule = new Property<RealMolecule>( null );
     private List<RealMolecule> molecules = new ArrayList<RealMolecule>();
 
-    public RealMoleculePanelNode( MoleculeModel molecule, final RealMoleculeOverlayNode overlayNode ) {
+    public RealMoleculePanelNode( MoleculeModel molecule, final MoleculeJMEApplication app, final RealMoleculeOverlayNode overlayNode ) {
         this.molecule = molecule;
 
         // make sure we have something at the very top so the panel doesn't shrink in
@@ -58,7 +60,9 @@ public class RealMoleculePanelNode extends PNode {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     kitIndex--;
-                    selectedMolecule.set( molecules.get( kitIndex ) );
+                    synchronized ( app ) {
+                        selectedMolecule.set( molecules.get( kitIndex ) );
+                    }
                 }
             } );
         }} );
@@ -75,7 +79,9 @@ public class RealMoleculePanelNode extends PNode {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     kitIndex++;
-                    selectedMolecule.set( molecules.get( kitIndex ) );
+                    synchronized ( app ) {
+                        selectedMolecule.set( molecules.get( kitIndex ) );
+                    }
                 }
             } );
             setOffset( SIZE - getFullBounds().getWidth(), 0 );
@@ -89,7 +95,9 @@ public class RealMoleculePanelNode extends PNode {
                 public void update() {
                     if ( selectedMolecule.get() != null ) {
                         setHTML( ChemUtils.toIonSuperscript( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) ) );
-                        setOffset( ( SIZE - getFullBounds().getWidth() ) / 2, 0 );
+
+                        // center vertically and horizontally
+                        setOffset( ( SIZE - getFullBounds().getWidth() ) / 2, ( CONTROL_OFFSET - getFullBounds().getHeight() ) / 2 );
                     }
                     else {
                         setHTML( "" );
@@ -106,7 +114,7 @@ public class RealMoleculePanelNode extends PNode {
             setStrokePaint( new Color( 60, 60, 60 ) );
 
             // make room for the buttons and labels above
-            setOffset( 0, 30 );
+            setOffset( 0, CONTROL_OFFSET );
         }};
         addChild( overlayTarget );
 
