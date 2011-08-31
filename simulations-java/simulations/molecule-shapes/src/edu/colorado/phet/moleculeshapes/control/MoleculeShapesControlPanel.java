@@ -28,7 +28,7 @@ public class MoleculeShapesControlPanel extends PNode {
     private final MoleculeShapesPanelNode realMoleculePanel;
     private RealMoleculePanelNode realMoleculeNode;
 
-    public MoleculeShapesControlPanel( final MoleculeJMEApplication app ) {
+    public MoleculeShapesControlPanel( final MoleculeJMEApplication app, RealMoleculeOverlayNode overlayNode ) {
 
         /*---------------------------------------------------------------------------*
         * bonding panel
@@ -162,7 +162,7 @@ public class MoleculeShapesControlPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * real molecules panel
         *----------------------------------------------------------------------------*/
-        realMoleculeNode = new RealMoleculePanelNode( app.getMolecule() );
+        realMoleculeNode = new RealMoleculePanelNode( app.getMolecule(), overlayNode );
         realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, "Real Molecules" ) {{
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};

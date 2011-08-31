@@ -10,7 +10,7 @@ import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
  * An atom that includes additional 3D position
  */
 public class Atom3D extends Atom {
-    public final Property<ImmutableVector3D> position;
+    public final Property<ImmutableVector3D> position; // model coordinates in angstroms
 
     public Atom3D( Element element, ImmutableVector3D position ) {
         super( element );

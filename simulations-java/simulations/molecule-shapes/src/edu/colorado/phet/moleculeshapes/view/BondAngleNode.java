@@ -19,6 +19,7 @@ class BondAngleNode extends Node {
 
     // TODO: docs and cleanup, and move out if kept
     public BondAngleNode( final MoleculeJMEApplication app, ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f transformedDirection ) {
+        super( "Bond Angle" );
         float radius = 5;
         final float alpha = calculateBrightness( aDir, bDir, transformedDirection );
 
