@@ -43,9 +43,6 @@ public class PressureSensorNode extends SensorNode<Double> {
 
         addChild( new PNode() {{
 
-            //make its hot spot be its opening which is on its center left
-            translate( 0, -getFullBounds().getHeight() / 2 );
-
             final ThreeImageNode imageNode = new ThreeImageNode( PRESSURE_METER_LEFT, PRESSURE_METER_CENTER, PRESSURE_METER_RIGHT );
             addChild( imageNode );
 
@@ -66,6 +63,9 @@ public class PressureSensorNode extends SensorNode<Double> {
                     textNode.setOffset( imageNode.leftPatch.getFullBounds().getMaxX(), imageNode.centerPatch.getFullBounds().getHeight() / 2 - textNode.getFullBounds().getHeight() / 2 );
                 }
             } );
+
+            //make its hot spot be its opening which is on its center left
+            translate( 0, -getFullBounds().getHeight() / 2 );
         }} );
         addInputEventListener( new RelativeDragHandler( this, transform, sensor.location, new Function1<Point2D, Point2D>() {
             //TODO: Factor pool to subclass or general constraint method
@@ -80,6 +80,8 @@ public class PressureSensorNode extends SensorNode<Double> {
                         pt.setLocation( MathUtil.clamp( pool.getMinX(), pt.getX(), pool.getMaxX() ), pt.getY() );
                     }
                 }
+
+                //Return the closest point within the visible model bounds, so it can't be dragged offscreen
                 return visibleModelRect.apply().getClosestPoint( pt );
             }
         } ) );
