@@ -1,3 +1,5 @@
+# 0.00.07 (55950) Aug 31, 2011
+8/31/11 Depolying to dev to capture a snapshot
 Added 1D random walk when attached to DNA for molecules with general DNA affinity.
 # 0.00.06 (55793) Aug 25, 2011
 8/25/11 Taking a snapshot before making some major changes.
