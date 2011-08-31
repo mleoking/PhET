@@ -17,13 +17,20 @@ import com.jme3.scene.Node;
  * Displays a generic molecule model in 3D
  */
 public class MoleculeNode extends Node {
+    private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
+
+    private float boundingRadius = 0;
 
     public MoleculeNode( Molecule molecule, MoleculeJMEApplication app, Camera camera ) {
         super( "Molecule" );
 
         for ( Atom3D atom : molecule.getAtoms() ) {
-            attachChild( new AtomNode( atom, true, app.getAssetManager() ) );
+            AtomNode atomNode = new AtomNode( atom, true, app.getAssetManager() );
+            atomNodes.add( atomNode );
+            attachChild( atomNode );
+
+            boundingRadius = Math.max( boundingRadius, (float) ( atom.position.get().magnitude() + atomNode.getRadius() ) );
         }
 
         for ( Bond<Atom3D> bond : molecule.getBonds() ) {
@@ -38,6 +45,10 @@ public class MoleculeNode extends Node {
             attachChild( bondNode );
             bondNodes.add( bondNode );
         }
+    }
+
+    public float getBoundingRadius() {
+        return boundingRadius;
     }
 
     /**
