@@ -39,13 +39,18 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
 
     private final MessengerRna messengerRna;
 
+    // Offset from the center of the biomolecule that is synthesizing the mRNA
+    // to the place where the mRNA should appear.
+    private final ImmutableVector2D messengerRnaEmergenceOffset;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public TranscribingDnaState( MobileBiomolecule biomolecule, AttachmentSite attachmentSite, Gene geneBeingTranscribed ) {
+    public TranscribingDnaState( MobileBiomolecule biomolecule, AttachmentSite attachmentSite, Gene geneBeingTranscribed, ImmutableVector2D messengerRnaEmergenceOffset ) {
         super( biomolecule );
         this.attachmentSite = attachmentSite;
+        this.messengerRnaEmergenceOffset = messengerRnaEmergenceOffset;
         transcribedRegionLength = geneBeingTranscribed.getTranscribedRegionLength();
         // Create the mRNA molecule that will be grown during the transcription
         // process.
@@ -69,7 +74,8 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
             // This polymerase molecule is transcribing the gene.
             biomolecule.setPosition( biomolecule.getPosition().getX() + dt * VELOCITY, biomolecule.getPosition().getY() );
             distanceTraveled += dt * VELOCITY;
-            messengerRna.growTo( biomolecule.getPosition() );
+            messengerRna.growTo( biomolecule.getPosition().getX() + messengerRnaEmergenceOffset.getX(),
+                                 biomolecule.getPosition().getY() + messengerRnaEmergenceOffset.getY() );
         }
         else if ( degreeOfConformationalChange > 0 ) {
             // The molecule is changing back to the non-transcribing conformation.
