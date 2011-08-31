@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class MoleculeShapesControlPanel extends PNode {
     private static final double PANEL_SPACER = 20; // space between text and bond lines
 
-    private final MoleculeShapesPanelNode jmolPanel;
+    private final MoleculeShapesPanelNode realMoleculePanel;
     private RealMoleculeNode realMoleculeNode;
 
     public MoleculeShapesControlPanel( final MoleculeJMEApplication app ) {
@@ -160,13 +160,13 @@ public class MoleculeShapesControlPanel extends PNode {
         addChild( nonBondingPanel );
 
         /*---------------------------------------------------------------------------*
-        * experimental Jmol panel
+        * real molecules panel
         *----------------------------------------------------------------------------*/
         realMoleculeNode = new RealMoleculeNode( app.getMolecule() );
-        jmolPanel = new MoleculeShapesPanelNode( realMoleculeNode, "Real Molecules" ) {{
+        realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, "Real Molecules" ) {{
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
-        addChild( jmolPanel );
+        addChild( realMoleculePanel );
     }
 
     /**

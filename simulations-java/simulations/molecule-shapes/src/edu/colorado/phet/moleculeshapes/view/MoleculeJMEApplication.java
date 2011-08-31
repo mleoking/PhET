@@ -572,7 +572,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                         finalTop
                 );
 
-                System.out.println( cam.getProjectionMatrix() );
+//                System.out.println( cam.getProjectionMatrix() );
 
                 // update overlay camera TODO move this?
 
