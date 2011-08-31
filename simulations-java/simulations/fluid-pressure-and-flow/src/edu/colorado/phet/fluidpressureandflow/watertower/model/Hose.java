@@ -13,11 +13,14 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class Hose {
 
     //Angle in radians where 0 radians is to the right and PI/2 is straight up, should be between 0 and PI/2
-    public final Property<Double> angle = new Property<Double>( Math.PI / 4 );
+    public final Property<Double> angle = new Property<Double>( Math.PI / 2 );
 
     //Flag to indicate whether the hose has been enabled by the user
     public final Property<Boolean> enabled = new Property<Boolean>( false );
     public final ObservableProperty<ImmutableVector2D> attachmentPoint;
+
+    //The place where the water comes out, tuned based on the curves in the HoseNode so the path is smooth and natural-looking
+    public final ImmutableVector2D outputPoint = new ImmutableVector2D( 13.275, 0 );
 
     //Width of the hole for the attachment point in meters
     public final double holeSize;

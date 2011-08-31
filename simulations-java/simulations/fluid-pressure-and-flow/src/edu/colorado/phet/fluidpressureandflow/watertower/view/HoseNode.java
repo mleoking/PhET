@@ -43,10 +43,8 @@ public class HoseNode extends PNode {
                         quadTo( controlPointB1, targetB );
 
                         //Curve up to the surface
-                        //TODO: put the target point in the model
                         ImmutableVector2D controlPointC1 = targetB.plus( 2, 0 );
-                        ImmutableVector2D targetC = targetB.plus( 2, 2 );
-                        quadTo( controlPointC1, targetC );
+                        quadTo( controlPointC1, hose.outputPoint );
                     }};
 
                     //Width of the hose in stage coordinates
