@@ -69,7 +69,9 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         }
     }
 
+    //Allow water to flow out of the water tower if there is any water left, and if the door is open
     private double updateWaterTower() {
+
         //Compute the velocity of water leaving the water tower at the bottom from Toricelli's theorem, one of the main learning goals of this tab
         double velocity = Math.sqrt( 2 * g * waterTower.getWaterLevel() );
 
