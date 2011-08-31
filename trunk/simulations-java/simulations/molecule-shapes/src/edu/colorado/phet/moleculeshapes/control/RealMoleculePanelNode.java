@@ -32,10 +32,11 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class RealMoleculePanelNode extends PNode {
 
-    private PNode child = null;
     private final MoleculeModel molecule;
+    private final MoleculeJMEApplication app;
     private final double SIZE = MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH;
-    private final double CONTROL_OFFSET = 30;
+    private final double CONTROL_OFFSET = 40;
+    private final double ARROW_Y_OFFSET = 5;
     private PhetPPath overlayTarget;
 
     private int kitIndex = 0;
@@ -44,6 +45,7 @@ public class RealMoleculePanelNode extends PNode {
 
     public RealMoleculePanelNode( MoleculeModel molecule, final MoleculeJMEApplication app, final RealMoleculeOverlayNode overlayNode ) {
         this.molecule = molecule;
+        this.app = app;
 
         // make sure we have something at the very top so the panel doesn't shrink in
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE, 10 ), new Color( 0, 0, 0, 0 ) ) );
@@ -65,6 +67,7 @@ public class RealMoleculePanelNode extends PNode {
                     }
                 }
             } );
+            setOffset( 0, ARROW_Y_OFFSET );
         }} );
 
         /*---------------------------------------------------------------------------*
@@ -84,7 +87,7 @@ public class RealMoleculePanelNode extends PNode {
                     }
                 }
             } );
-            setOffset( SIZE - getFullBounds().getWidth(), 0 );
+            setOffset( SIZE - getFullBounds().getWidth(), ARROW_Y_OFFSET );
         }} );
 
         /*---------------------------------------------------------------------------*
@@ -93,14 +96,23 @@ public class RealMoleculePanelNode extends PNode {
         addChild( new HTMLNode( "", MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR, new PhetFont( 14, true ) ) {{
             selectedMolecule.addObserver( new SimpleObserver() {
                 public void update() {
-                    if ( selectedMolecule.get() != null ) {
-                        setHTML( ChemUtils.toIonSuperscript( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) ) );
+                    synchronized ( app ) {
+                        if ( selectedMolecule.get() != null ) {
+                            setHTML( ChemUtils.toIonSuperscript( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) ) );
+                        }
+                        else {
+                            setHTML( "(none)" );
+                        }
 
                         // center vertically and horizontally
                         setOffset( ( SIZE - getFullBounds().getWidth() ) / 2, ( CONTROL_OFFSET - getFullBounds().getHeight() ) / 2 );
-                    }
-                    else {
-                        setHTML( "" );
+
+                        // if it goes past 0, push it down
+                        if ( getFullBounds().getMinY() < 0 ) {
+                            setOffset( getOffset().getX(), getOffset().getY() - getFullBounds().getMinY() );
+                        }
+
+                        repaint();
                     }
                 }
             } );
@@ -117,6 +129,37 @@ public class RealMoleculePanelNode extends PNode {
             setOffset( 0, CONTROL_OFFSET );
         }};
         addChild( overlayTarget );
+
+        /*---------------------------------------------------------------------------*
+        * display type selection
+        *----------------------------------------------------------------------------*/
+//        addChild( new PSwing( new JPanel() {{
+//            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+//            setOpaque( false );
+//            final ButtonGroup group = new ButtonGroup();
+//            add( new JRadioButton( "Space Fill", true ) {{ // 50% size
+//                group.add( this );
+//                setOpaque( false );
+//                setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
+//                addActionListener( new ActionListener() {
+//                    public void actionPerformed( ActionEvent e ) {
+//
+//                    }
+//                } );
+//            }} );
+//            add( new JRadioButton( "Ball and Stick", false ) {{
+//                group.add( this );
+//                setOpaque( false );
+//                setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
+//                addActionListener( new ActionListener() {
+//                    public void actionPerformed( ActionEvent e ) {
+//
+//                    }
+//                } );
+//            }} );
+//        }} ) {{
+//            setOffset( 0, SIZE + CONTROL_OFFSET );
+//        }} );
 
         onModelChange();
 
@@ -140,32 +183,31 @@ public class RealMoleculePanelNode extends PNode {
     }
 
     private void onModelChange() {
-        if ( child != null ) {
-            overlayTarget.removeChild( child );
-            child = null;
+        synchronized ( app ) {
+            // get the list of real molecules that correspond to our VSEPR model
+            molecules = RealMolecule.getMatchingMolecules( molecule );
+            kitIndex = 0;
+
+            boolean showingMolecule = !molecules.isEmpty();
+
+            if ( showingMolecule ) {
+                selectedMolecule.set( molecules.get( 0 ) );
+            }
+            else {
+                selectedMolecule.set( null );
+            }
+
+//            if ( getChildrenReference().contains( overlayTarget ) != showingMolecule ) {
+//                if ( showingMolecule ) {
+//                    addChild( overlayTarget );
+//                }
+//                else {
+//                    removeChild( overlayTarget );
+//                }
+//            }
+
+            repaint();
         }
-
-        // get the list of real molecules that correspond to our VSEPR model
-        molecules = RealMolecule.getMatchingMolecules( molecule );
-        kitIndex = 0;
-
-        if ( molecules.isEmpty() ) {
-            selectedMolecule.set( null );
-
-            // TODO i18n
-            child = new PText( "(none)" ) {{
-                setFont( new PhetFont( 16 ) );
-                setTextPaint( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
-                setOffset( ( SIZE - getWidth() ) / 2, ( SIZE - getHeight() ) / 2 );
-            }};
-
-            overlayTarget.addChild( child );
-        }
-        else {
-            selectedMolecule.set( molecules.get( 0 ) );
-        }
-
-        repaint();
     }
 
     private static <A, B> List<B> map( List<A> list, Function1<A, B> map ) {
