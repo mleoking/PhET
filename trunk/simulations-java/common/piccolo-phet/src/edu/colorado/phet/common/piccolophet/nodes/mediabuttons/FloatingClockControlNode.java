@@ -73,11 +73,20 @@ public class FloatingClockControlNode extends PNode {
         );
     }
 
-    public FloatingClockControlNode( final SettableProperty<Boolean> playButtonPressed,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
-                                     final Property<String> timeReadout,
-                                     final VoidFunction0 step,//steps the clock when 'step' is pressed which the sim is paused
-                                     final VoidFunction0 resetTime,
-                                     final Property<Double> simulationTime, final String clearString, final ObservableProperty<Color> timeReadoutColor ) {
+    /**
+     * Creates a FloatingClockControlNode
+     *
+     * @param playButtonPressed property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
+     * @param timeReadout
+     * @param step              steps the clock when 'step' is pressed which the sim is paused
+     * @param resetTime
+     * @param simulationTime
+     * @param clearString
+     * @param timeReadoutColor
+     */
+    public FloatingClockControlNode( final SettableProperty<Boolean> playButtonPressed, final Property<String> timeReadout,
+                                     final VoidFunction0 step, final VoidFunction0 resetTime, final Property<Double> simulationTime,
+                                     final String clearString, final ObservableProperty<Color> timeReadoutColor ) {
         playPauseButton = new PlayPauseButton( 80 ) {{
             setPlaying( playButtonPressed.get() );
             final Listener updatePlayPauseButtons = new Listener() {
