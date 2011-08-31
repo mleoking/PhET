@@ -11,13 +11,11 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
-import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.common.view.ParticleNode;
-import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
 import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluidFlowModel;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FoodColoring;
@@ -119,11 +117,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
             setOffset( 10, 10 );
         }} );
 
-        //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
-        for ( PressureSensor sensor : module.model.getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, sensor, module.model.units, visibleModelBounds ) );
-        }
-
         //Add pipe front after other controls so the drag handles can't get lost behind clock control panel and other control panels
         addChild( new PipeFrontNode( transform, module.model.pipe ) );
         for ( final Particle p : module.model.getParticles() ) {
@@ -138,7 +131,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, METRIC ) );
         addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, ENGLISH ) );
 
-        addVelocitySensorNodes( module.model );
+        //Add the sensor toolbox node, which also adds the velocity and pressure sensors
+        //Doing this last ensures that the draggable sensors will appear in front of everything else
+        addSensorToolboxNode( model, controlPanelNode );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {

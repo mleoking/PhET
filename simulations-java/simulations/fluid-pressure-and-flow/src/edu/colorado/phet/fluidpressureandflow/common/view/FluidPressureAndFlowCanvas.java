@@ -14,6 +14,7 @@ import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -29,6 +30,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
+import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -39,6 +41,8 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> extends PhetPCanvas {
+
+    public static double INSET = 10;
     protected final ModelViewTransform transform;
     private final PNode rootNode;
 
@@ -140,23 +144,30 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         } );
     }
 
-    protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model ) {
-        final Property<Function1<Double, String>> formatter = new Property<Function1<Double, String>>( createFormatter( model ) ) {{
+    //Add the velocity sensor node, and constrain to remain on the screen
+    protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model, EmptyNode velocitySensorNodeArea ) {
+        for ( VelocitySensor velocitySensor : model.getVelocitySensors() ) {
+
+            //Move so it has the right physical location so it will look like it is in the toolbox
+            velocitySensor.position.set( getModelLocationForVelocitySensor( velocitySensorNodeArea ) );
+            addChild( new VelocitySensorNode( transform, velocitySensor, 1, getVelocityFormatter( model ), new Function1<Point2D, Point2D>() {
+                public Point2D apply( Point2D point2D ) {
+                    return visibleModelBounds.apply().getClosestPoint( point2D );
+                }
+            } ) {{
+                addInputEventListener( new MoveToFront( this ) );
+            }} );
+        }
+    }
+
+    public Property<Function1<Double, String>> getVelocityFormatter( final FluidPressureAndFlowModel model ) {
+        return new Property<Function1<Double, String>>( createFormatter( model ) ) {{
             model.units.addObserver( new SimpleObserver() {
                 public void update() {
                     set( createFormatter( model ) );
                 }
             } );
         }};
-
-        //Add the velocity sensor node, and constrain to remain on the screen
-        for ( VelocitySensor velocitySensor : model.getVelocitySensors() ) {
-            addChild( new VelocitySensorNode( transform, velocitySensor, 1, formatter, new Function1<Point2D, Point2D>() {
-                public Point2D apply( Point2D point2D ) {
-                    return visibleModelBounds.apply().getClosestPoint( point2D );
-                }
-            } ) );
-        }
     }
 
     private Function1<Double, String> createFormatter( final FluidPressureAndFlowModel model ) {
@@ -175,5 +186,45 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
             final int inset = 10;
             setOffset( inset, STAGE_SIZE.getHeight() - fluidDensityControl.getMaximumHeight() - inset );
         }} );
+    }
+
+    //Create and add a toolbox that contains the sensors.
+    //This is done by creating dummy nodes based on actual model sensors to get the dimensions for the toolbox panel right.
+    //This is necessary since we want the pressure sensor to have the right readout within the control panel.
+    //This also has the advantages of sizing the control panel so it will fit internationalized versions of the components
+    public void addSensorToolboxNode( final FluidPressureAndFlowModel model, final FluidPressureAndFlowControlPanelNode controlPanelNode ) {
+        final EmptyNode velocitySensorArea = new EmptyNode( new VelocitySensorNode( transform, model.getVelocitySensors()[0], 1, getVelocityFormatter( model ) ) );
+        final EmptyNode pressureSensorArea = new EmptyNode( new PressureSensorNode( transform, model.getPressureSensors()[0], model.units, visibleModelBounds ) );
+        addChild( new SensorToolBoxNode( new HBox( velocitySensorArea, pressureSensorArea ) ) {{
+            setOffset( controlPanelNode.getFullBounds().getX() - getFullBounds().getWidth() - INSET, controlPanelNode.getFullBounds().getY() );
+        }} );
+
+        //Add the velocity sensor nodes
+        addVelocitySensorNodes( model, velocitySensorArea );
+
+        //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
+        for ( PressureSensor pressureSensor : model.getPressureSensors() ) {
+
+            //Move so it has the right physical location so it will look like it is in the toolbox
+            pressureSensor.location.set( getModelLocationForPressureSensor( pressureSensorArea ) );
+
+            addChild( new PressureSensorNode( transform, pressureSensor, model.units, visibleModelBounds ) {{
+                addInputEventListener( new MoveToFront( this ) );
+            }} );
+        }
+    }
+
+    //Determine where to place the velocity sensor in the model (meters) so it will show up in the right place in the toolbox
+    private ImmutableVector2D getModelLocationForVelocitySensor( EmptyNode velocitySensorNodeArea ) {
+        Point2D globalCenter = new Point2D.Double( velocitySensorNodeArea.getGlobalFullBounds().getCenter2D().getX(), velocitySensorNodeArea.getGlobalFullBounds().getMaxY() );
+        Point2D sceneCenter = rootNode.globalToLocal( globalCenter );
+        return transform.viewToModel( new ImmutableVector2D( sceneCenter ) );
+    }
+
+    //Determine where to place the pressure sensor in the model (meters) so it will show up in the right place in the toolbox
+    private ImmutableVector2D getModelLocationForPressureSensor( EmptyNode pressureSensorArea ) {
+        Point2D globalCenter = new Point2D.Double( pressureSensorArea.getGlobalFullBounds().getX(), pressureSensorArea.getGlobalFullBounds().getCenterY() );
+        Point2D sceneCenter = rootNode.globalToLocal( globalCenter );
+        return transform.viewToModel( new ImmutableVector2D( sceneCenter ) );
     }
 }

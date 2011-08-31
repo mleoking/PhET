@@ -1,3 +1,5 @@
+Flow & Water tower: Added a toolbox for the tools
+Fixed: Sensor positions shouldn't overlap the control panel for long translated versions
 Pressure: Fixed initial location of pressure sensor
 Fixed hot spot of pressure sensor to be in the center-left, not top-left
 Constrained the pressure sensor node to remain in the visible region of the canvas, see #2826
