@@ -1,3 +1,4 @@
+Fixed: Reset all broken for toolbox sensors
 Fixed: Tools should snap back to the right location when dropped over the toolbox
 Flow & Water tower: Added a toolbox for the tools
 Fixed: Sensor positions shouldn't overlap the control panel for long translated versions
