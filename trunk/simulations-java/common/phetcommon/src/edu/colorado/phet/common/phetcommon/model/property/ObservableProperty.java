@@ -167,8 +167,7 @@ public abstract class ObservableProperty<T> implements Cloneable {
      */
     public void notifyIfChanged() {
         T newValue = get();
-        //TODO: handle nulls in this equality test
-        if ( !newValue.equals( oldValue ) ) {
+        if ( newValue == null ? oldValue != null : !newValue.equals( oldValue ) ) {
             T saveOldValue = oldValue;
             oldValue = newValue;
             notifyObservers( newValue, saveOldValue );
