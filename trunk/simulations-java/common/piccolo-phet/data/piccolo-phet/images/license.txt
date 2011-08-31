@@ -1,5 +1,7 @@
 button-template.png source=PhET notes=NP
 button-template_pressed.png source=PhET notes=NP
+faucet_front.png author=PhET notes=NP
+faucet_pipe.png author=PhET notes=NP
 measuringTape.gif source=PhET
 measuringTape.png source=PhET notes=NP
 velocity_left.png author=phet notes=NP

@@ -1,10 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.common.view.faucet;
+package edu.colorado.phet.common.piccolophet.nodes.faucet;
 
 import java.awt.TexturePaint;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -13,8 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.FAUCET_FRONT;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.FAUCET_PIPE;
+import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOURCES;
 
 /**
  * Faucet node for showing and controlling water flowing into and out of the beaker.
@@ -23,6 +23,9 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  * @author Sam Reid
  */
 public class FaucetNode extends PNode {
+
+    public static final BufferedImage FAUCET_FRONT = RESOURCES.getImage( "faucet_front.png" );
+    public static final BufferedImage FAUCET_PIPE = RESOURCES.getImage( "faucet_pipe.png" );
 
     //Locations where the left side of the faucet connects to the pipe, so that the pipe can be tiled beyond the faucet image
     private final double inputPipeY1 = 32;
