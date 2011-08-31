@@ -195,11 +195,20 @@ public class Gene {
      */
     public void activateHints( MobileBiomolecule biomolecule ) {
         if ( rnaPolymerasePlacementHint.isMatchingBiomolecule( biomolecule ) ) {
-            // For the polymerase, both the polymerase hind AND the positive
-            // transcription factor should be activated so that the user is
-            // clued in that 
-            rnaPolymerasePlacementHint.active.set( true );
-            positiveTranscriptionFactorPlacementHint.active.set( true );
+            if ( transcriptionFactorAttachmentSite.attachedMolecule.get().isNone() ) {
+                // Activate both the polymerase hint AND the positive
+                // transcription factor hint in order to convey to the user
+                // that both are needed for transcription to start.
+                rnaPolymerasePlacementHint.active.set( true );
+                positiveTranscriptionFactorPlacementHint.active.set( true );
+            }
+            else if ( ( (TranscriptionFactor) ( transcriptionFactorAttachmentSite.attachedMolecule.get().get() ) ).isPositive() ) {
+                // The positive transcription factor is already in place, so
+                // only activate the polymerase hint.
+                rnaPolymerasePlacementHint.active.set( true );
+            }
+            // Note that if the negative transcription factor is in place, the
+            // polymerase hint is not activated.
         }
         else if ( positiveTranscriptionFactorPlacementHint.isMatchingBiomolecule( biomolecule ) ) {
             positiveTranscriptionFactorPlacementHint.active.set( true );
