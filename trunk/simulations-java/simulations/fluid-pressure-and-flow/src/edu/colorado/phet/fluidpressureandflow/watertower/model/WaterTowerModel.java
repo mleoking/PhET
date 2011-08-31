@@ -37,6 +37,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
     public WaterTowerModel() {
         super( ENGLISH );
+
         //Add the pressure and velocity sensors
         addPressureSensor( new PressureSensor( this, 30, 25 ) );
         addPressureSensor( new PressureSensor( this, 30, 25 ) );

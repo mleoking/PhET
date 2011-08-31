@@ -1,3 +1,5 @@
+Fixed: Play/pause buttons should reset
+Fixed: Sim should be running, not paused after reset
 Flow: Fixed: Flux doesn't reset
 Flow: Fixed: Flux meter should hide on "reset all"
 Flow: Fixed: Flux meter location should reset on "reset all"

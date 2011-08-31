@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ModelBounds;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -42,7 +43,11 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
 
     //support for bounding drags
+    //TODO: Is this used?
     public final ModelBounds visibleModelBounds = new ModelBounds();//model coordinates of what is visible on the screen, or None if not yet set (has to be set by canvas after canvas is constructed)
+
+    //Flag to indicate whether the clock should be running when the associated module is active
+    public final BooleanProperty clockRunning = new BooleanProperty( true );
 
     //Construct a FluidPressureAndFlow model with the specified set of units (such as metric)
     public FluidPressureAndFlowModel( UnitSet unitSet ) {
@@ -121,11 +126,13 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
         for ( PressureSensor pressureSensor : pressureSensors ) {
             pressureSensor.reset();
         }
-        clock.resetSimulationTime();
         for ( VoidFunction0 resetListener : resetListeners ) {
             resetListener.apply();
         }
-        clock.start();
+
+        //Reset the clock and its associated flags, recall that the module should also be running for the clock to be running
+        clock.resetSimulationTime();
+        clockRunning.reset();
     }
 
     public void addResetListener( VoidFunction0 resetAction ) {
