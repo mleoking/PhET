@@ -100,7 +100,9 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
             addChild( new PressureSensorNode( transform, pressureSensor, module.model.units, visibleModelBounds ) );
         }
 
-        addVelocitySensorNodes( module.model );
+        //Add the sensor toolbox node, which also adds the velocity and pressure sensors
+        //Doing this last ensures that the draggable sensors will appear in front of everything else
+        addSensorToolboxNode( module.model, controlPanelNode );
     }
 
     //Additionally reset the measuring tape since not reset elsewhere
