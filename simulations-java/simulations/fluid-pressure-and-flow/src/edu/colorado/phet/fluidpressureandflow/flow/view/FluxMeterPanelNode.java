@@ -29,6 +29,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static java.awt.GridBagConstraints.*;
 
 /**
@@ -58,12 +59,12 @@ public class FluxMeterPanelNode extends PNode {
             //Populate the table by row
             //Consider using better fractions like: http://changelog.ca/log/2008/07/01/writing_fractions_in_html
 //            addChild( new HTML( "<sup>L</sup>&frasl;<sub>s</sub>" ), new Constraint( 2, 0, 1, 1, 0.5, 0.5, LINE_START, NONE, insets, 0, 0 ) );
-            addChild( new Text( "Rate:" ), new Constraint( 0, 0, LINE_END, insets, 0, 0 ) );
+            addChild( new Text( RATE ), new Constraint( 0, 0, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.rate, units.rate ), new Constraint( 1, 0, LINE_END, insets, 0, 0 ) );
             addChild( new HTML( units.rate.getAbbreviation() ), new Constraint( 2, 0, LINE_START, insets, 0, 0 ) );
 
             //Area row
-            addChild( new Text( "Area:" ), new Constraint( 0, 1, LINE_END, insets, 0, 0 ) );
+            addChild( new Text( AREA ), new Constraint( 0, 1, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.area, units.area ), new Constraint( 1, 1, LINE_END, insets, 0, 0 ) );
             addChild( new HTML( units.area.getAbbreviation() ), new Constraint( 2, 1, LINE_START, htmlInsets, 0, 0 ) );
 
@@ -72,7 +73,7 @@ public class FluxMeterPanelNode extends PNode {
 
             //Flux row
             //            addChild( new HTML( "<sup>L</sup>&frasl;<sub>(m<sup>2</sup>s)</sub>" ), new Constraint( 2, 2, 1, 1, 0.5, 0.5, LINE_START, NONE, insets, 0, 0 ) );
-            addChild( new Text( "Flux:" ), new Constraint( 0, 3, LINE_END, insets, 0, 0 ) );
+            addChild( new Text( FLUX ), new Constraint( 0, 3, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.pipe.flux, units.flux ), new Constraint( 1, 3, LINE_END, insets, 0, 0 ) );
             addChild( new HTML( units.flux.getAbbreviation() ), new Constraint( 2, 3, LINE_START, htmlInsets, 0, 0 ) );
 
