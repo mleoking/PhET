@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -150,7 +151,15 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         for ( final VelocitySensor velocitySensor : model.getVelocitySensors() ) {
 
             //Move so it has the right physical location so it will look like it is in the toolbox
-            velocitySensor.position.set( getModelLocationForVelocitySensor( velocitySensorNodeArea ) );
+            //Do so initially and on resets
+            final VoidFunction0 setPosition = new VoidFunction0() {
+                public void apply() {
+                    velocitySensor.position.set( getModelLocationForVelocitySensor( velocitySensorNodeArea ) );
+                }
+            };
+            model.addResetListener( setPosition );
+            setPosition.apply();
+
             addChild( new VelocitySensorNode( transform, velocitySensor, 1, getVelocityFormatter( model ), new Function1<Point2D, Point2D>() {
                 public Point2D apply( Point2D point2D ) {
                     return visibleModelBounds.apply().getClosestPoint( point2D );
@@ -211,7 +220,14 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         for ( final PressureSensor pressureSensor : model.getPressureSensors() ) {
 
             //Move so it has the right physical location so it will look like it is in the toolbox
-            pressureSensor.location.set( getModelLocationForPressureSensor( pressureSensorArea ) );
+            //Do so initially and on resets
+            final VoidFunction0 updatePosition = new VoidFunction0() {
+                public void apply() {
+                    pressureSensor.location.set( getModelLocationForPressureSensor( pressureSensorArea ) );
+                }
+            };
+            model.addResetListener( updatePosition );
+            updatePosition.apply();
 
             addChild( new PressureSensorNode( transform, pressureSensor, model.units, visibleModelBounds ) {{
 
