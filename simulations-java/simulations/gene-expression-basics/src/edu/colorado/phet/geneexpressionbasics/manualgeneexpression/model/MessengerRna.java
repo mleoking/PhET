@@ -89,12 +89,9 @@ public class MessengerRna extends MobileBiomolecule {
             // Cause all existing points to "drift" so that this doesn't just
             // create a straight line.
             ImmutableVector2D driftVector = driftWhileGrowingVector.getScaledInstance( growthAmount );
-//            ImmutableVector2D randomizationVector = new ImmutableVector2D( 1, 0 ).getScaledInstance( growthAmount ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
-            ImmutableVector2D randomizationVector = new ImmutableVector2D( 1, 0 ).getScaledInstance( MIN_DISTANCE_BETWEEN_POINTS * 2 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
-//            ImmutableVector2D randomizationVector = new ImmutableVector2D( 0, 0 ).getScaledInstance( growthAmount ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
             for ( Point2D point : shapeDefiningPoints ) {
-                point.setLocation( point.getX() + driftVector.getX() + randomizationVector.getX(),
-                                   point.getY() + driftVector.getY() + randomizationVector.getY() );
+                point.setLocation( point.getX() + driftVector.getX(),
+                                   point.getY() + driftVector.getY() );
             }
             if ( shapeDefiningPoints.size() >= 2 ) {
                 // If the current last point is less than the min distance from
@@ -109,9 +106,9 @@ public class MessengerRna extends MobileBiomolecule {
                     // Add a random offset to the second-to-last point, which
                     // is far enough away to keep.  This is done in order to
                     // make the shape of the mRNA a bit curvy.
-//                    ImmutableVector2D randomizationVector2 = new ImmutableVector2D( 1, 0 ).getScaledInstance( MIN_DISTANCE_BETWEEN_POINTS / 2 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
-//                    secondToLastPoint.setLocation( secondToLastPoint.getX() + driftVector.getX() + randomizationVector2.getX(),
-//                                                   secondToLastPoint.getY() + driftVector.getY() + randomizationVector2.getY() );
+                    ImmutableVector2D randomizationVector2 = new ImmutableVector2D( 1, 0 ).getScaledInstance( MIN_DISTANCE_BETWEEN_POINTS / 2 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
+                    secondToLastPoint.setLocation( secondToLastPoint.getX() + driftVector.getX() + randomizationVector2.getX(),
+                                                   secondToLastPoint.getY() + driftVector.getY() + randomizationVector2.getY() );
                 }
             }
         }
@@ -128,6 +125,5 @@ public class MessengerRna extends MobileBiomolecule {
     public void release() {
         // Set the state to just be drifting around in the cytoplasm.
         behaviorState = new DetachingState( this, new ImmutableVector2D( 0, 1 ) );
-        System.out.println( "shapeDefiningPoints.size() = " + shapeDefiningPoints.size() );
     }
 }
