@@ -22,4 +22,6 @@ public class MoleculeShapesConstants {
     public static final double CONTROL_PANEL_INNER_WIDTH = 150; // width of the inner parts of the control panel
     public static final Color CONTROL_PANEL_BORDER_COLOR = new Color( 230, 230, 230 );
     public static final float CONTROL_PANEL_BORDER_WIDTH = 2;
+
+    public static final float MODEL_BOND_RADIUS = 0.5f;
 }
