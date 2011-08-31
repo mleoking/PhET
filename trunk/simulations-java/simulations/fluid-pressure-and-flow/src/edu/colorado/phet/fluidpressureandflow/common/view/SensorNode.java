@@ -13,7 +13,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.QUESTION_MARK;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.SENSOR_PATTERN;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.VALUE_WITH_UNITS_PATTERN;
 
 /**
  * @author Sam Reid
@@ -25,8 +25,8 @@ public abstract class SensorNode<T> extends PNode {
     public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Unit> units ) {
         final Function0<String> getString = new Function0<String>() {
             public String apply() {
-                String pattern = SENSOR_PATTERN; //TODO i18n
-                String value = QUESTION_MARK; //TODO i18n
+                String pattern = VALUE_WITH_UNITS_PATTERN;
+                String value = QUESTION_MARK;
                 if ( !Double.isNaN( sensor.getScalarValue() ) ) {
                     value = units.get().getDecimalFormat().format( units.get().siToUnit( sensor.getScalarValue() ) );
                 }

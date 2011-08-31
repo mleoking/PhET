@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -16,6 +17,8 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.VALUE_WITH_UNITS_PATTERN;
 
 /**
  * @author Sam Reid
@@ -33,7 +36,7 @@ public class SidePoolHeightReadoutNode extends PNode {
                 if ( units.get().distance == Units.FEET ) {
                     format = new DecimalFormat( "0" );
                 }
-                text.setText( format.format( units.get().distance.siToUnit( pool.getHeight() ) ) + " " + units.get().distance.getAbbreviation() );
+                text.setText( MessageFormat.format( VALUE_WITH_UNITS_PATTERN, format.format( units.get().distance.siToUnit( pool.getHeight() ) ), units.get().distance.getAbbreviation() ) );
                 bracket.setPathTo( new DoubleGeneralPath() {{
                     moveTo( transform.modelToView( pool.getTopRight() ) );
                     moveToRelative( 5, 0 );
