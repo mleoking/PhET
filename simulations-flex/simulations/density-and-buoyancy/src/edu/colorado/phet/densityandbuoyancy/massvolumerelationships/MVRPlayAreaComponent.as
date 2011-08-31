@@ -60,9 +60,6 @@ public class MVRPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComp
             this.mode = mode;
             this.mode.init();
         }
-
-        const showMassReadouts = mode != sameSubstanceMode;
-        setMassReadoutsVisible( showMassReadouts );
     }
 
     public function switchToSameMass(): void {

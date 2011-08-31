@@ -13,8 +13,10 @@ import flash.geom.ColorTransform;
 public class Block extends Cuboid {
     private var _colorTransform: ColorTransform;//Used to map colors on textures, e.g., to make the brick texture look blue or red
 
-    public function Block( density: Number, size: Number, x: Number, y: Number, colorTransform: ColorTransform, model: DensityAndBuoyancyModel, __material: Material ): void {
-        super( density, size, size, size, x, y, model, __material );
+    //Block constructor
+    //Optional label for non-mystery blocks is to support the "Mass volume relationship" simulation
+    public function Block( density: Number, size: Number, x: Number, y: Number, colorTransform: ColorTransform, model: DensityAndBuoyancyModel, __material: Material, label: String = null ): void {
+        super( density, size, size, size, x, y, model, __material, label );
         this._colorTransform = colorTransform;
         getDensityProperty().addListener( updateColorTransform );
         addMaterialListener( updateColorTransform );
@@ -48,8 +50,9 @@ public class Block extends Cuboid {
     }
 
     //Create a new block with the specified density and mass.  This is done as a static function instead of an overloaded constructor to avoid confusion.
-    public static function newBlockDensityMass( density: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityAndBuoyancyModel, __material: Material ): Block {
-        return new Block( density, Math.pow( mass / density, 1.0 / 3.0 ), x, y, color, model, __material );
+    //Optional label for non-mystery blocks is to support the "Mass volume relationship" simulation
+    public static function newBlockDensityMass( density: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityAndBuoyancyModel, __material: Material, label: String = null ): Block {
+        return new Block( density, Math.pow( mass / density, 1.0 / 3.0 ), x, y, color, model, __material, label );
     }
 
     //Create a new block with the specified volume and mass.  This is done as a static function instead of an overloaded constructor to avoid confusion.
