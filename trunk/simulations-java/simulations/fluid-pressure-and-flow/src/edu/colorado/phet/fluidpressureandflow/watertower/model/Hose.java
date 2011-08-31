@@ -29,4 +29,9 @@ public class Hose {
         this.attachmentPoint = attachmentPoint;
         this.holeSize = holeSize;
     }
+
+    public void reset() {
+        angle.reset();
+        enabled.reset();
+    }
 }
