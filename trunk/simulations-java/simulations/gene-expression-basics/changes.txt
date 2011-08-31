@@ -1,3 +1,7 @@
+Added some random shaping to the mRNA to make it be a bit curvy.
+Got hints for transcription factors and polymerase working.
+Added ability for polymerase to produce mRNA
+Added ability for polymerase to exhibit the "transcription motion" on the gene.
 # 0.00.07 (55950) Aug 31, 2011
 8/31/11 Depolying to dev to capture a snapshot
 Added 1D random walk when attached to DNA for molecules with general DNA affinity.
