@@ -15,12 +15,14 @@ public class FluidPressureAndFlowResources {
 
     //Strings
     public static class Strings {
+        public static final String AREA = RESOURCES.getLocalizedString( "area" );
         public static final String ATM = RESOURCES.getLocalizedString( "atm" );
         public static final String ATMOSPHERES = RESOURCES.getLocalizedString( "atmospheres" );
         public static final String DOTS = RESOURCES.getLocalizedString( "dots" );
         public static final String ENGLISH = RESOURCES.getLocalizedString( "english" );
         public static final String FLOW = RESOURCES.getLocalizedString( "flow" );
         public static final String FLUID_DENSITY = RESOURCES.getLocalizedString( "fluidDensity" );
+        public static final String FLUX = RESOURCES.getLocalizedString( "flux" );
         public static final String FLUX_METER = RESOURCES.getLocalizedString( "fluxMeter" );
         public static final String FRICTION = RESOURCES.getLocalizedString( "friction" );
         public static final String FT = RESOURCES.getLocalizedString( "ft" );
@@ -40,6 +42,7 @@ public class FluidPressureAndFlowResources {
         public static final String PRESSURE = RESOURCES.getLocalizedString( "pressure" );
         public static final String PSI = RESOURCES.getLocalizedString( "psi" );
         public static final String QUESTION_MARK = RESOURCES.getLocalizedString( "questionMark" );
+        public static final String RATE = RESOURCES.getLocalizedString( "rate" );
         public static final String RESET = RESOURCES.getLocalizedString( "reset" );
         public static final String RULER = RESOURCES.getLocalizedString( "ruler" );
         public static final String SENSOR_PATTERN = RESOURCES.getLocalizedString( "sensorPattern" );
