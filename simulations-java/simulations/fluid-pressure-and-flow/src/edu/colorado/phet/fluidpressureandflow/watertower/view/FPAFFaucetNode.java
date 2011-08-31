@@ -16,7 +16,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
 
 /**
  * Faucet node with customizations for Fluid Pressure and Flow's water tower tab, including:
- * 1. Smaller size to fit nicely in the canves
+ * 1. Smaller size to fit nicely in the canvas
  * 2. Radio buttons to switch between automatic and manual flow
  *
  * @author Sam Reid
