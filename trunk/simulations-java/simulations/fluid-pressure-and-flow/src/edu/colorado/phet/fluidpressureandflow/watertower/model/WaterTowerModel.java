@@ -15,7 +15,9 @@ import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowM
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
+import static java.lang.Math.sqrt;
 
 /**
  * Model class for the water tower, which has a water tower that the user can raise/lower and empty/fill.
@@ -73,7 +75,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     private double updateWaterTower() {
 
         //Compute the velocity of water leaving the water tower at the bottom from Toricelli's theorem, one of the main learning goals of this tab
-        double velocity = Math.sqrt( 2 * g * waterTower.getWaterLevel() );
+        final double waterHeight = waterTower.getWaterLevel();
+        double velocity = !hose.enabled.get() ? sqrt( 2 * g * waterHeight ) : sqrt( 2 * g * ( waterHeight + waterTower.tankBottomCenter.get().getY() ) );
 
         //Determine how much fluid should leave, and how much will be left
         //Since water is incompressible, the volume that can flow out per second is proportional to the expelled velocity
@@ -95,7 +98,11 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 //shift up a bit, otherwise looks like it's coming off the bottom of the outside of the tank
                 waterDropY = waterTower.getWaterLevel() + waterTower.getTankShape().getY() - radius + 0.1;
             }
-            final WaterDrop drop = new WaterDrop( new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterDropY ), new ImmutableVector2D( velocity, 0 ), dropVolume );
+
+            //Create a water drop either at the water tower opening or at the opening of the hose
+            final WaterDrop drop = !hose.enabled.get() ?
+                                   new WaterDrop( new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterDropY ), new ImmutableVector2D( velocity, 0 ), dropVolume, true ) :
+                                   new WaterDrop( new ImmutableVector2D( hose.outputPoint.getX() + random.nextGaussian() * 0.04, 0 ), parseAngleAndMagnitude( velocity, hose.angle.get() ), dropVolume, false );
 
             //Add the drop to the list and notify listeners
             waterTowerDrops.add( drop );
@@ -116,7 +123,9 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         double faucetDropVolume = faucetFlowLevel.automatic.get() ?
                                   origFluidVolume - newVolume :
                                   faucetFlowLevel.flow.get();
+
         if ( faucetDropVolume > 0 && !waterTower.isFull() ) {
+
             //Randomly spread out the water in x and y so it doesn't look so discrete when it falls a long way and separates
             double spreadX = 0.02;
             double spreadY = 0.15;
@@ -124,7 +133,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
             double velocitySpreadY = 0.02;
             WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( -3 + random.nextGaussian() * spreadX,//magic number picked based on graphics
                                                                          WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 + random.nextGaussian() * spreadY ),
-                                                  new ImmutableVector2D( random.nextGaussian() * velocitySpreadX, random.nextGaussian() * velocitySpreadY ), faucetDropVolume );
+                                                  new ImmutableVector2D( random.nextGaussian() * velocitySpreadX, random.nextGaussian() * velocitySpreadY ), faucetDropVolume, true );
             faucetDrops.add( faucetDrop );
             for ( VoidFunction1<WaterDrop> listener : dropAddedListeners ) {
                 listener.apply( faucetDrop );

@@ -20,7 +20,7 @@ public class WaterDrop {
     private final ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
     private final double volume;
 
-    public WaterDrop( ImmutableVector2D x, final ImmutableVector2D v, final double volume ) {
+    public WaterDrop( ImmutableVector2D x, final ImmutableVector2D v, final double volume, boolean changeRadius ) {
         this.volume = volume;
         this.position = new Property<ImmutableVector2D>( x );
         this.velocity = new Property<ImmutableVector2D>( v );
@@ -28,11 +28,15 @@ public class WaterDrop {
         //v = 4/3 pi * r^3
         //constrain fluxes to be constant: velocity_1 * volume_1 = velocity_2 * volume_2
         this.radius = new Property<Double>( toRadius( volume, v.getMagnitude(), v.getMagnitude() ) );
-        this.velocity.addObserver( new SimpleObserver() {
-            public void update() {
-                radius.set( toRadius( volume, velocity.get().getMagnitude(), v.getMagnitude() ) );
-            }
-        } );
+
+        //Water flowing out of the tower needs to get smaller to look natural, but water coming out of the hose looks weird if it gets bigger as it gets closer to the top of its arch
+        if ( changeRadius ) {
+            this.velocity.addObserver( new SimpleObserver() {
+                public void update() {
+                    radius.set( toRadius( volume, velocity.get().getMagnitude(), v.getMagnitude() ) );
+                }
+            } );
+        }
     }
 
     private double toRadius( double volume, double velocity, double initialVelocity ) {
