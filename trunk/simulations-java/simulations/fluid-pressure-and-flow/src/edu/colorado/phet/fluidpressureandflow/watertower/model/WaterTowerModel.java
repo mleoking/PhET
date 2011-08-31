@@ -127,11 +127,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
             }
         }
 
-        updateWaterDrops( -2,//graphics looked weird if we had them remove at y=0 since the water drops would flicker
-                          waterTowerDrops, dt, new VoidFunction1.Null<WaterDrop>() );
+        //graphics looked weird if we had them remove at y=0 since the water drops would flicker
+        updateWaterDrops( -2, waterTowerDrops, dt, new VoidFunction1.Null<WaterDrop>() );
+
+        //absorb the water from the faucet and increase the water tower volume
         updateWaterDrops( waterTower.getWaterShape().getBounds2D().getMaxY(), faucetDrops, dt, new VoidFunction1<WaterDrop>() {
             public void apply( WaterDrop drop ) {
-                //absorb the water from the faucet and increase the water tower volume
                 waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.get() + drop.getVolume(), WaterTower.tankVolume ) );
             }
         } );
