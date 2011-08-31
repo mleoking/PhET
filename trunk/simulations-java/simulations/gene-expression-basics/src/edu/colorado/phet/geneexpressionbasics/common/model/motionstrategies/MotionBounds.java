@@ -17,6 +17,14 @@ public class MotionBounds {
 
     private Shape boundsShape = null;
 
+    public MotionBounds() {
+        // Default constructor does notion, leaves bounds infinit.
+    }
+
+    public MotionBounds( Shape boundsShape ) {
+        this.boundsShape = boundsShape;
+    }
+
     public boolean inBounds( Point2D p ) {
         if ( boundsShape == null ) {
             // No bounds means everything is in bounds.

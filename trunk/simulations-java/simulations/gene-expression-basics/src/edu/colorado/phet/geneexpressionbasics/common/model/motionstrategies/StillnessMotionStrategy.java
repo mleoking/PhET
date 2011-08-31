@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
  *
  * @author John Blanco
  */
-public class StillnessMotionStrategy implements IMotionStrategy {
+public class StillnessMotionStrategy extends MotionStrategy {
 
     public Point2D getNextLocation( double dt, Point2D currentLocation ) {
         return new Point2D.Double( currentLocation.getX(), currentLocation.getY() );

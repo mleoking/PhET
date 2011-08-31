@@ -7,7 +7,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.IMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 
 /**
@@ -15,10 +15,11 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Rand
  */
 public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
 
-    private final IMotionStrategy motionStrategy = new RandomWalkMotionStrategy();
+    private final MotionStrategy motionStrategy;
 
     public UnattachedAndAvailableState( MobileBiomolecule biomolecule ) {
         super( biomolecule );
+        motionStrategy = new RandomWalkMotionStrategy( biomolecule.getMotionBounds() );
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {

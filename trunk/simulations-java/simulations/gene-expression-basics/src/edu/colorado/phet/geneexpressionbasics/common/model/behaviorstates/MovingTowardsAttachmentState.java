@@ -6,8 +6,8 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.IMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MeanderToDestinationMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
 
 /**
  * This state controls the behavior of a biomolecule that is moving towards an
@@ -21,7 +21,7 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
 
     private static final double CAPTURE_DISTANCE = 20; // In picometers, empirically determined.
 
-    private IMotionStrategy motionStrategy;
+    private MotionStrategy motionStrategy;
     private final AttachmentSite attachmentSite;
 
     public MovingTowardsAttachmentState( MobileBiomolecule biomolecule, AttachmentSite attachmentSite ) {
