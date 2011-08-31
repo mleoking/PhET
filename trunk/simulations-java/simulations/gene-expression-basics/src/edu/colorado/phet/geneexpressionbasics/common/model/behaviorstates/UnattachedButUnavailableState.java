@@ -4,8 +4,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates;
 import java.util.List;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
-import edu.colorado.phet.geneexpressionbasics.common.model.IMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.IMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 
 /**
