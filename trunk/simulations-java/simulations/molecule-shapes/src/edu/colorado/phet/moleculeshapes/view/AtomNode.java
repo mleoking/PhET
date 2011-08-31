@@ -59,7 +59,7 @@ public class AtomNode extends Geometry {
                 JmeUtils.convertColor( atom.getColor() ),
 
                 // use either a fixed radius, or the atomic radius
-                fixedRadius ? MoleculeShapesConstants.MOLECULE_ATOM_RADIUS : (float) ( atom.getRadius() / 100 ), // 100x is picometer=>angstrom
+                fixedRadius ? MoleculeShapesConstants.MOLECULE_ATOM_RADIUS : (float) ( 0.8 * 2 * atom.getRadius() / 100 ), // 100x is picometer=>angstrom
                 assetManager );
     }
 
