@@ -88,7 +88,7 @@ public class RealMoleculePanelNode extends PNode {
             selectedMolecule.addObserver( new SimpleObserver() {
                 public void update() {
                     if ( selectedMolecule.get() != null ) {
-                        setHTML( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) );
+                        setHTML( ChemUtils.toIonSuperscript( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) ) );
                         setOffset( ( SIZE - getFullBounds().getWidth() ) / 2, 0 );
                     }
                     else {
