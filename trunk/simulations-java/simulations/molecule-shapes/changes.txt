@@ -1,3 +1,5 @@
+# 0.00.23 (56005) Aug 31, 2011
+8/31/11 JME3 real molecule view
 # 0.00.22 (55934) Aug 30, 2011
 8/30/11 Jmol real view tests
 # 0.00.21 (55849) Aug 27, 2011
