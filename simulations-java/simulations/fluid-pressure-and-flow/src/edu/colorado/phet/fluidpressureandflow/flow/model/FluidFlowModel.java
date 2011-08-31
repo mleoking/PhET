@@ -182,6 +182,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         pipe.reset();
         dropperRate.reset();
         dropperEnabled.reset();
+        fluxMeter.reset();
         //TODO: remove particle and food coloring
     }
 

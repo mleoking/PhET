@@ -1,3 +1,7 @@
+Flow: Fixed: Flux doesn't reset
+Flow: Fixed: Flux meter should hide on "reset all"
+Flow: Fixed: Flux meter location should reset on "reset all"
+Flow: Fixed: Friction checkbox doesn't reset
 Flow: Fixed: Reset all should reset the "dots" checkbox
 Water tower: Fixed: Hose does not reset on "reset all"
 Fixed: Pipe drag handles can get lost behind clock control panel and other control panels
