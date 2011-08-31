@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -44,6 +45,18 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     public static final Font CONTROL_FONT = new PhetFont( 15, false );//Font to use for the majority of controls in this sim
 
+    //Compute the bounds in the model (meters) that are visible in this canvas, for purposes of constraining draggable sensors to remain onscreen
+    public final Function0<ImmutableRectangle2D> visibleModelBounds = new Function0<ImmutableRectangle2D>() {
+        public ImmutableRectangle2D apply() {
+            //identify the bounds that objects will be constrained to be dragged within
+            int insetPixels = 10;
+            final Rectangle2D.Double viewBounds = new Rectangle2D.Double( insetPixels, insetPixels, getWidth() - insetPixels * 2, getHeight() - insetPixels * 2 );
+
+            //Convert to model bounds and return
+            return new ImmutableRectangle2D( transform.viewToModel( rootNode.globalToLocal( viewBounds ) ) );
+        }
+    };
+
     public FluidPressureAndFlowCanvas( final ModelViewTransform transform ) {
         this.transform = transform;
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
@@ -53,16 +66,6 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         addWorldChild( rootNode );
 
         setBorder( null );
-    }
-
-    //Compute the bounds in the model (meters) that are visible in this canvas, for purposes of constraining draggable sensors to remain onscreen
-    private ImmutableRectangle2D getVisibleModelBounds() {
-        //identify the bounds that objects will be constrained to be dragged within
-        int insetPixels = 10;
-        final Rectangle2D.Double viewBounds = new Rectangle2D.Double( insetPixels, insetPixels, getWidth() - insetPixels * 2, getHeight() - insetPixels * 2 );
-
-        //Convert to model bounds and return
-        return new ImmutableRectangle2D( transform.viewToModel( rootNode.globalToLocal( viewBounds ) ) );
     }
 
     public static void makeTransparent( JComponent component ) {
@@ -150,7 +153,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         for ( VelocitySensor velocitySensor : model.getVelocitySensors() ) {
             addChild( new VelocitySensorNode( transform, velocitySensor, 1, formatter, new Function1<Point2D, Point2D>() {
                 public Point2D apply( Point2D point2D ) {
-                    return getVisibleModelBounds().getClosestPoint( point2D );
+                    return visibleModelBounds.apply().getClosestPoint( point2D );
                 }
             } ) );
         }

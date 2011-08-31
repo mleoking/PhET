@@ -121,7 +121,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
         for ( PressureSensor sensor : module.model.getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, sensor, module.model.units ) );
+            addChild( new PressureSensorNode( transform, sensor, module.model.units, visibleModelBounds ) );
         }
 
         //Add pipe front after other controls so the drag handles can't get lost behind clock control panel and other control panels

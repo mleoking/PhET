@@ -97,7 +97,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
         for ( PressureSensor pressureSensor : module.model.getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, module.model.units ) );
+            addChild( new PressureSensorNode( transform, pressureSensor, module.model.units, visibleModelBounds ) );
         }
 
         addVelocitySensorNodes( module.model );
