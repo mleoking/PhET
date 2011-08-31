@@ -208,6 +208,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         g = 9.8;
         removeDrops( faucetDrops, faucetDrops );
         removeDrops( waterTowerDrops, waterTowerDrops );
+        hose.reset();
     }
 
     @Override
