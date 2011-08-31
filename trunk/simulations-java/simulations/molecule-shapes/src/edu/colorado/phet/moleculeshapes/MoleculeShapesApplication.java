@@ -106,14 +106,14 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
                              public void update() {
-                                 module.getApp().setDisplayFps( get() );
+                                 module.getApp().statistics.setDisplayFps( get() );
                              }
                          }, false );
         }} ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show Statistics", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
                              public void update() {
-                                 module.getApp().setDisplayStatView( get() );
+                                 module.getApp().statistics.setDisplayStatView( get() );
                              }
                          }, false );
         }} ) );
