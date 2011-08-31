@@ -7,7 +7,9 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
@@ -29,6 +31,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     private double g = 9.8;
     private final ArrayList<VoidFunction1<WaterDrop>> dropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
     private final ArrayList<SimpleObserver> velocityUpdateListeners = new ArrayList<SimpleObserver>();
+    public final Hose hose;
 
     public WaterTowerModel() {
         super( ENGLISH );
@@ -44,6 +47,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
+
+        hose = new Hose( new CompositeProperty<ImmutableVector2D>( new Function0<ImmutableVector2D>() {
+            public ImmutableVector2D apply() {
+                return new ImmutableVector2D( waterTower.getHoleLocation() );
+            }
+        }, waterTower.tankBottomCenter ), waterTower.holeHeight );
     }
 
     //Update the simulation when the clock ticks
@@ -173,7 +182,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         return waterTower;
     }
 
-    public FaucetFlowRate getFaucetFlowLevel() {
+    public FaucetFlowRate getFaucetFlowRate() {
         return faucetFlowLevel;
     }
 

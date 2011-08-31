@@ -112,7 +112,7 @@ public class WaterTowerNode extends PNode {
                 public void update() {
                     final Rectangle2D waterBounds = waterTower.getWaterShape().getBounds2D();
                     setPathTo( transform.modelToView( new Rectangle2D.Double( waterBounds.getMinX(), waterBounds.getMinY(),
-                                                                              waterBounds.getWidth() + 0.55 / 2, Math.min( 1, waterBounds.getHeight() ) ) ) );
+                                                                              waterBounds.getWidth() + 0.55 / 2, Math.min( waterTower.holeHeight, waterBounds.getHeight() ) ) ) );//SEE HOLE HEIGHT
                 }
             };
             waterTower.tankBottomCenter.addObserver( updateWaterLocation );

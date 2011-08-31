@@ -24,6 +24,7 @@ public class WaterTower {
     public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, MAX_Y ) );
     public final Property<Double> fluidVolume = new Property<Double>( tankVolume );//meters cubed
     public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( PANEL_OFFSET, 0 ) );//The movable panel that can cover the hole.
+    public final double holeHeight = 1;
 
     public Rectangle2D.Double getTankShape() {
         return new Rectangle2D.Double( tankBottomCenter.get().getX() - TANK_RADIUS, tankBottomCenter.get().getY(), TANK_RADIUS * 2, TANK_HEIGHT );

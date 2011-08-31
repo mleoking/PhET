@@ -40,6 +40,6 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
         add( new JSeparator() );
 
         //Hose on/off
-        add( new CheckBox( HOSE, module.hoseVisible ) );
+        add( new CheckBox( HOSE, module.model.hose.enabled ) );
     }
 }
