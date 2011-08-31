@@ -16,22 +16,26 @@ public class FluidPressureAndFlowResources {
     //Strings
     public static class Strings {
         public static final String AREA = RESOURCES.getLocalizedString( "area" );
+        public static final String AREA_UNITS_ENGLISH = RESOURCES.getLocalizedString( "areaUnitsEnglish" );
+        public static final String AREA_UNITS_METRIC = RESOURCES.getLocalizedString( "areaUnitsMetric" );
         public static final String ATM = RESOURCES.getLocalizedString( "atm" );
         public static final String ATMOSPHERES = RESOURCES.getLocalizedString( "atmospheres" );
+        public static final String DENSITY_UNITS_ENGLISH = RESOURCES.getLocalizedString( "densityUnitsEnglish" );
+        public static final String DENSITY_UNITS_METRIC = RESOURCES.getLocalizedString( "densityUnitsMetric" );
         public static final String DOTS = RESOURCES.getLocalizedString( "dots" );
         public static final String ENGLISH = RESOURCES.getLocalizedString( "english" );
         public static final String FLOW = RESOURCES.getLocalizedString( "flow" );
         public static final String FLUID_DENSITY = RESOURCES.getLocalizedString( "fluidDensity" );
         public static final String FLUX = RESOURCES.getLocalizedString( "flux" );
         public static final String FLUX_METER = RESOURCES.getLocalizedString( "fluxMeter" );
+        public static final String FLUX_UNITS_ENGLISH = RESOURCES.getLocalizedString( "fluxUnitsEnglish" );
+        public static final String FLUX_UNITS_METRIC = RESOURCES.getLocalizedString( "fluxUnitsMetric" );
         public static final String FRICTION = RESOURCES.getLocalizedString( "friction" );
         public static final String FT = RESOURCES.getLocalizedString( "ft" );
         public static final String FT_PER_S = RESOURCES.getLocalizedString( "ftPerS" );
         public static final String GASOLINE = RESOURCES.getLocalizedString( "gasoline" );
         public static final String HONEY = RESOURCES.getLocalizedString( "honey" );
         public static final String HOSE = RESOURCES.getLocalizedString( "hose" );
-        public static final String KG_PER_M_3 = RESOURCES.getLocalizedString( "kgPerM3" );
-        public static final String LB_PER_FT_3 = RESOURCES.getLocalizedString( "lbPerFt3" );
         public static final String M = RESOURCES.getLocalizedString( "m" );
         public static final String M_PER_S = RESOURCES.getLocalizedString( "mPerS" );
         public static final String MANUAL = RESOURCES.getLocalizedString( "manual" );
@@ -43,6 +47,8 @@ public class FluidPressureAndFlowResources {
         public static final String PSI = RESOURCES.getLocalizedString( "psi" );
         public static final String QUESTION_MARK = RESOURCES.getLocalizedString( "questionMark" );
         public static final String RATE = RESOURCES.getLocalizedString( "rate" );
+        public static final String RATE_UNITS_ENGLISH = RESOURCES.getLocalizedString( "rateUnitsEnglish" );
+        public static final String RATE_UNITS_METRIC = RESOURCES.getLocalizedString( "rateUnitsMetric" );
         public static final String RESET = RESOURCES.getLocalizedString( "reset" );
         public static final String RULER = RESOURCES.getLocalizedString( "ruler" );
         public static final String UNITS = RESOURCES.getLocalizedString( "units" );
