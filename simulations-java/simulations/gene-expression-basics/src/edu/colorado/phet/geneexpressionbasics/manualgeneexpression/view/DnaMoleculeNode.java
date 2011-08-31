@@ -7,7 +7,6 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.BasePair;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrandSegment;
@@ -54,10 +53,6 @@ public class DnaMoleculeNode extends PNode {
         // Add the base pairs.
         for ( BasePair basePair : dnaMolecule.getBasePairs() ) {
             middleLayer.addChild( new PhetPPath( mvt.modelToView( basePair.getShape() ), Color.DARK_GRAY ) );
-        }
-        // Add the hints.
-        for ( PlacementHint placementHint : dnaMolecule.getPlacementHints() ) {
-            frontLayer.addChild( new PlacementHintNode( mvt, placementHint ) );
         }
     }
 

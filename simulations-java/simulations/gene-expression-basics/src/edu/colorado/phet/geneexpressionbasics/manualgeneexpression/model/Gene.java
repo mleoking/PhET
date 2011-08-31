@@ -3,9 +3,13 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 
 /**
  * This class is the model representation of a gene on a DNA molecule.  Each
@@ -30,6 +34,10 @@ public class Gene {
     private final AttachmentSite polymeraseAttachmentSite;
     private final AttachmentSite transcriptionFactorAttachmentSite;
 
+    private final PlacementHint rnaPolymerasePlacementHint;
+    private final PlacementHint positiveTranscriptionFactorPlacementHint;
+    private final PlacementHint negativeTranscriptionFactorPlacementHint;
+
     /**
      * Constructor.
      *
@@ -50,9 +58,18 @@ public class Gene {
         this.transcribedRegion = transcribedRegion;
         this.transcribedRegionColor = transcribedRegionColor;
 
-        // Create the special attachment sites.
+        // Create the attachment sites for polymerase and transcription factors.
         polymeraseAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMax() ), DnaMolecule.Y_POS ), 1 );
-        transcriptionFactorAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMin() + TRANSCRIPTION_FACTOR_LOCATION_OFFSET ), DnaMolecule.Y_POS ), 1 );
+        transcriptionFactorAttachmentSite = new AttachmentSite(
+                new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMin() + TRANSCRIPTION_FACTOR_LOCATION_OFFSET ),
+                                    DnaMolecule.Y_POS ), 1 );
+
+        rnaPolymerasePlacementHint = new PlacementHint( new RnaPolymerase() );
+        rnaPolymerasePlacementHint.setPosition( polymeraseAttachmentSite.locationProperty.get() );
+        positiveTranscriptionFactorPlacementHint = new PlacementHint( TranscriptionFactor.generateTranscriptionFactor(
+                new StubGeneExpressionModel(), 0, true, transcriptionFactorAttachmentSite.locationProperty.get() ) );
+        negativeTranscriptionFactorPlacementHint = new PlacementHint( TranscriptionFactor.generateTranscriptionFactor(
+                new StubGeneExpressionModel(), 0, false, transcriptionFactorAttachmentSite.locationProperty.get() ) );
     }
 
     public Color getRegulatoryRegionColor() {
@@ -160,5 +177,41 @@ public class Gene {
 
     public boolean containsBasePair( int basePairIndex ) {
         return regulatoryRegion.contains( basePairIndex ) || transcribedRegion.contains( basePairIndex );
+    }
+
+    /**
+     * Activate any and all placement hints associated with the given
+     * biomolecule.
+     *
+     * @param biomolecule
+     */
+    public void activateHints( MobileBiomolecule biomolecule ) {
+        if ( rnaPolymerasePlacementHint.isMatchingBiomolecule( biomolecule ) ) {
+            // For the polymerase, both the polymerase hind AND the positive
+            // transcription factor should be activated so that the user is
+            // clued in that 
+            rnaPolymerasePlacementHint.active.set( true );
+            positiveTranscriptionFactorPlacementHint.active.set( true );
+        }
+        else if ( positiveTranscriptionFactorPlacementHint.isMatchingBiomolecule( biomolecule ) ) {
+            positiveTranscriptionFactorPlacementHint.active.set( true );
+        }
+        else if ( negativeTranscriptionFactorPlacementHint.isMatchingBiomolecule( biomolecule ) ) {
+            negativeTranscriptionFactorPlacementHint.active.set( true );
+        }
+    }
+
+    public void deactivateHints() {
+        rnaPolymerasePlacementHint.active.set( false );
+        positiveTranscriptionFactorPlacementHint.active.set( false );
+        negativeTranscriptionFactorPlacementHint.active.set( false );
+    }
+
+    public List<PlacementHint> getPlacementHints() {
+        return new ArrayList<PlacementHint>() {{
+            add( rnaPolymerasePlacementHint );
+            add( positiveTranscriptionFactorPlacementHint );
+            add( negativeTranscriptionFactorPlacementHint );
+        }};
     }
 }

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.umd.cs.piccolo.PNode;
@@ -60,6 +61,13 @@ public class GeneNode extends PNode {
                        transcribedRegionNode.getFullBoundsReference().getMaxY() );
         }};
         addChild( transcribedRegionCaption );
+
+        // Add the placement hints that indicate where other biomolecules can
+        // be placed.
+        for ( PlacementHint placementHint : gene.getPlacementHints() ) {
+            addChild( new PlacementHintNode( mvt, placementHint ) );
+        }
+
 
         // Add the bracket.  This is a portion (the non-textual part) of the
         // label for the gene.

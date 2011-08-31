@@ -70,6 +70,10 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
+    /**
+     * Default constructor, used mostly when instances are needed in places like
+     * control panels.
+     */
     public RnaPolymerase() {
         this( new StubGeneExpressionModel(), new Point2D.Double( 0, 0 ) );
     }
