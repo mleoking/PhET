@@ -30,7 +30,10 @@ public class EnergySkateParkApplication extends PhetApplication {
 
         module = new EnergySkateParkModule( "Module", new ConstantDtClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
         setModules( new Module[] { module } );
-//        getPhetFrame().addMenu( new EnergySkateParkOptionsMenu( module ) );
+
+        if ( config.isDev() ) {
+            getPhetFrame().addMenu( new EnergySkateParkOptionsMenu( module ) );
+        }
         if ( config.isDev() ) {
             getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );
         }
@@ -87,7 +90,7 @@ public class EnergySkateParkApplication extends PhetApplication {
             }
         };
 
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, EnergySkateParkConstants.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "energy-skate-park" );
         appConfig.setLookAndFeel( new EnergySkateParkLookAndFeel() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
