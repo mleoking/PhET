@@ -42,6 +42,12 @@ public class FluxMeterPanelNode extends PNode {
     //Font to use for readouts
     public static final PhetFont font = new PhetFont( 15 );
 
+    //Use a horizontal spacing to separate the columns
+    Insets insets = new Insets( 0, 6, 0, 3 );
+
+    //Move the HTML units up so the baselines will align (otherwise text like m^2 will center and look odd)
+    final Insets htmlInsets = new Insets( insets.top, insets.left, insets.bottom + 8, insets.right );
+
     public FluxMeterPanelNode( final ModelViewTransform transform, final FluxMeter fluxMeter, final Property<UnitSet> selectedUnits, final UnitSet units ) {
 
         //Show a panel with the readouts, using a grid bag layout to specify alignments
@@ -50,18 +56,12 @@ public class FluxMeterPanelNode extends PNode {
             //Format for showing all the numbers, reduce the number of decimals so it's not so overwhelming, but keep at least one for when the area is reduced to the minimum of 0.2m^2
             final DecimalFormat formatter = new DecimalFormat( "0.0" );
 
-            //Use a horizontal spacing to separate the columns
-            Insets insets = new Insets( 0, 6, 0, 3 );
-
-            //Move the HTML units up so the baselines will align (otherwise text like m^2 will center and look odd)
-            final Insets htmlInsets = new Insets( insets.top, insets.left, insets.bottom + 8, insets.right );
-
             //Populate the table by row
             //Consider using better fractions like: http://changelog.ca/log/2008/07/01/writing_fractions_in_html
 //            addChild( new HTML( "<sup>L</sup>&frasl;<sub>s</sub>" ), new Constraint( 2, 0, 1, 1, 0.5, 0.5, LINE_START, NONE, insets, 0, 0 ) );
             addChild( new Text( RATE ), new Constraint( 0, 0, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.rate, units.rate ), new Constraint( 1, 0, LINE_END, insets, 0, 0 ) );
-            addChild( new HTML( units.rate.getAbbreviation() ), new Constraint( 2, 0, LINE_START, insets, 0, 0 ) );
+            addChild( new HTML( units.rate.getAbbreviation() ), new Constraint( 2, 0, LINE_START, getInsets( units.rate.getAbbreviation() ), 0, 0 ) );
 
             //Area row
             addChild( new Text( AREA ), new Constraint( 0, 1, LINE_END, insets, 0, 0 ) );
@@ -107,6 +107,14 @@ public class FluxMeterPanelNode extends PNode {
                 setChildrenPickable( visible );
             }
         }.observe( fluxMeter.visible, selectedUnits );
+    }
+
+    //For strings that are HTML in one unit set but not the other, try to discover whether it is html or not so it can be vertically centered properly
+    private Insets getInsets( String rateUnits ) {
+
+        //Assume that any string with a "<" symbol contains HTML.
+        final boolean isHTML = rateUnits.indexOf( "<" ) >= 0;
+        return isHTML ? htmlInsets : insets;
     }
 
     //utility class for showing text readouts with the right font
