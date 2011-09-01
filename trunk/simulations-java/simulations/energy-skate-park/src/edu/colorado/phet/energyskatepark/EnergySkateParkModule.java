@@ -4,7 +4,6 @@ package edu.colorado.phet.energyskatepark;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -19,8 +18,8 @@ import edu.umd.cs.piccolo.PNode;
 public class EnergySkateParkModule extends AbstractEnergySkateParkModule {
     private final EnergySkateParkControlPanel energySkateParkControlPanel;
 
-    public EnergySkateParkModule( String name, ConstantDtClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
-        super( name, clock, phetFrame, options );
+    public EnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options ) {
+        super( name, phetFrame, options );
 
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );

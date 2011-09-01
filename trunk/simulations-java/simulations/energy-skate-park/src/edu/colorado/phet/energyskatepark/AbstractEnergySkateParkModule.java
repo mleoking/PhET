@@ -56,8 +56,9 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private static final boolean DEFAULT_ENERGY_POSITION_PLOT_VISIBLE = false;
 
-    public AbstractEnergySkateParkModule( String name, ConstantDtClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
-        super( name, clock );
+    public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options ) {
+        super( name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
+        ConstantDtClock clock = (ConstantDtClock) getClock();
         this.options = options;
         this.phetFrame = phetFrame;
         energyModel = new EnergySkateParkModel( floorY );
