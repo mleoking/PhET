@@ -1,13 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.swing;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JMenuItem;
+
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -31,7 +32,7 @@ public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
     }
 
     private static TestItem[] createTestItems() {
-        return new TestItem[]{
+        return new TestItem[] {
                 new TestItem( "energy-skate-park/tests/a.esp", "Head Bounce Get Stuck" ),
                 new TestItem( "energy-skate-park/tests/double-fall.esp", "Double Well fall-through" ),
                 new TestItem( "energy-skate-park/tests/moon-upside.esp", "Upside-Down on moon" ),
@@ -55,9 +56,9 @@ public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
             this.location = location;
             this.title = title;
         }
-        
-        public static TestItem getTestItemForKey(String location, String key){
-        	return new TestItem(location, EnergySkateParkStrings.getString(key));
+
+        public static TestItem getTestItemForKey( String location, String key ) {
+            return new TestItem( location, EnergySkateParkStrings.getString( key ) );
         }
 
         public String getLocation() {

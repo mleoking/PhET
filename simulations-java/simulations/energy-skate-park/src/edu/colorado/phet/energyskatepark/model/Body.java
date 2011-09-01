@@ -1,24 +1,24 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.spline.ParametricFunction2D;
-import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
-import edu.colorado.phet.energyskatepark.SkaterCharacter;
-import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
-import edu.colorado.phet.energyskatepark.model.physics.Particle;
-import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
-import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
-
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.common.spline.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.SkaterCharacter;
+import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
+import edu.colorado.phet.energyskatepark.model.physics.Particle;
+import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 /**
  * User: Sam Reid
@@ -70,7 +70,7 @@ public class Body implements Serializable {
     public void setPosition( double x, double y ) {
         Point2D origPosition = getPosition();
         particle.setPosition( x, y );
-        if( !origPosition.equals( getPosition() ) ) {
+        if ( !origPosition.equals( getPosition() ) ) {
             notifyPositionAngleChanged();
         }
     }
@@ -87,7 +87,7 @@ public class Body implements Serializable {
         setFreeFallMode();
         particle.setVelocity( 0, 0 );
         setThermalEnergy( 0.0 );
-        if( !isRestorePointSet() ) {
+        if ( !isRestorePointSet() ) {
             setAngularVelocity( 0.0 );
             setVelocity( 0, 0 );
             setPosition( 3 + 1.5, 6 );
@@ -107,8 +107,8 @@ public class Body implements Serializable {
     }
 
     private void notifyEnergyChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.energyChanged();
         }
     }
@@ -125,14 +125,14 @@ public class Body implements Serializable {
         particle.stepInTime( dt );
 
         updateStateFromParticle();
-        if( getY() < -0.1 && isFreeFallMode() && Math.abs( getGravity() ) > 0 ) {
+        if ( getY() < -0.1 && isFreeFallMode() && Math.abs( getGravity() ) > 0 ) {
             setPosition( getX(), 0.1 );
         }
-        if( origAngle != getAngle() || !origLocation.equals( getPosition() ) ) {
+        if ( origAngle != getAngle() || !origLocation.equals( getPosition() ) ) {
             notifyPositionAngleChanged();
         }
         double err = Math.abs( origEnergy - getTotalEnergy() );
-        if( err > 1E-5 && getThrust().getMagnitude() == 0 && !isUserControlled() && !isSplineUserControlled() ) {
+        if ( err > 1E-5 && getThrust().getMagnitude() == 0 && !isUserControlled() && !isSplineUserControlled() ) {
             EnergySkateParkLogging.println( "err = " + err );
             errorCount++;
             fractionalEnergyError += err / Math.abs( origEnergy );
@@ -153,8 +153,8 @@ public class Body implements Serializable {
     }
 
     private void updateStateFromParticle() {
-        if( getSpeed() > 0.01 ) {
-            if( !isFreeFallMode() && !isUserControlled() ) {
+        if ( getSpeed() > 0.01 ) {
+            if ( !isFreeFallMode() && !isUserControlled() ) {
                 facingRight = getVelocity().dot( Vector2D.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
             }
         }
@@ -178,7 +178,7 @@ public class Body implements Serializable {
 
     public void translate( double dx, double dy ) {
         particle.translate( dx, dy );
-        if( dx != 0 || dy != 0 ) {
+        if ( dx != 0 || dy != 0 ) {
             notifyPositionAngleChanged();
         }
     }
@@ -204,14 +204,14 @@ public class Body implements Serializable {
 
     public void setUserControlled( boolean userControlled ) {
         particle.setUserControlled( userControlled );
-        if( !userControlled ) {
+        if ( !userControlled ) {
             //snap to track above, if one is nearby
             snapToTrack();
 
             try {
-                restorePoint = (Body)PersistenceUtil.copy( this );
+                restorePoint = (Body) PersistenceUtil.copy( this );
             }
-            catch( PersistenceUtil.CopyFailedException e ) {
+            catch ( PersistenceUtil.CopyFailedException e ) {
                 e.printStackTrace();
             }
         }
@@ -221,17 +221,17 @@ public class Body implements Serializable {
     private void snapToTrack() {
         TraversalState match = getSnapTrackMatch();
 
-        if( match != null ) {
+        if ( match != null ) {
             EnergySkateParkLogging.println( "match = " + match );
             setPosition( match.getPosition().getX(), match.getPosition().getY() + 1E-4 );
         }
     }
 
     private TraversalState getSnapTrackMatch() {
-        TraversalState[] matches = new TraversalState[]{getTrackMatch( 0, 0.2 ), getTrackMatch( -0.1, 0.1 ), getTrackMatch( 0.1, 0.1 )};
+        TraversalState[] matches = new TraversalState[] { getTrackMatch( 0, 0.2 ), getTrackMatch( -0.1, 0.1 ), getTrackMatch( 0.1, 0.1 ) };
         TraversalState match = null;
-        for( int i = 0; i < matches.length; i++ ) {
-            if( matches[i] != null ) {
+        for ( int i = 0; i < matches.length; i++ ) {
+            if ( matches[i] != null ) {
                 match = matches[i];
                 break;
             }
@@ -241,9 +241,9 @@ public class Body implements Serializable {
 
     public Body getRestorePoint() {
         try {
-            return (Body)PersistenceUtil.copy( restorePoint );
+            return (Body) PersistenceUtil.copy( restorePoint );
         }
-        catch( PersistenceUtil.CopyFailedException e ) {
+        catch ( PersistenceUtil.CopyFailedException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
@@ -391,14 +391,14 @@ public class Body implements Serializable {
     public void setAngle( double angle ) {
         double origAngle = getAngle();
         particle.setAngle( angle );
-        if( origAngle != angle ) {
+        if ( origAngle != angle ) {
             notifyPositionAngleChanged();
         }
     }
 
     private void notifyPositionAngleChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.positionAngleChanged();
         }
     }
@@ -414,8 +414,8 @@ public class Body implements Serializable {
     }
 
     private void notifyDimensionChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.dimensionChanged();
         }
     }
@@ -447,8 +447,8 @@ public class Body implements Serializable {
     }
 
     private void notifyRestorePointChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.restorePointChanged();
         }
     }
@@ -469,8 +469,8 @@ public class Body implements Serializable {
     }
 
     private void notifySkaterCharacterChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.skaterCharacterChanged();
         }
     }
@@ -527,8 +527,8 @@ public class Body implements Serializable {
     }
 
     private void notifyThrustChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.thrustChanged();
         }
     }

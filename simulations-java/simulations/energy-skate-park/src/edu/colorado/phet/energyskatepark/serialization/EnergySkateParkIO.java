@@ -1,19 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.serialization;
 
-import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
-import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
-
-import javax.jnlp.FileContents;
-import javax.jnlp.FileOpenService;
-import javax.jnlp.FileSaveService;
-import javax.jnlp.UnavailableServiceException;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.geom.Point2D;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -21,6 +9,19 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import javax.jnlp.FileContents;
+import javax.jnlp.FileOpenService;
+import javax.jnlp.FileSaveService;
+import javax.jnlp.UnavailableServiceException;
+import javax.swing.JButton;
+
+import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
+import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 /**
  * Author: Sam Reid
@@ -54,14 +55,14 @@ public class EnergySkateParkIO implements IProguardKeepClass {
     public static void open( EnergySkateParkModule module ) throws UnavailableServiceException, IOException {
         FileOpenService fos = PhetServiceManager.getFileOpenService( module.getEnergySkateParkSimulationPanel() );
         FileContents open = fos.openFileDialog( null, null );
-        if( open == null ) {
+        if ( open == null ) {
             return;
         }
 
         XMLDecoder xmlDecoder = new XMLDecoder( open.getInputStream() );
         Object obj = xmlDecoder.readObject();
-        if( obj instanceof EnergySkateParkModuleBean ) {
-            EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean)obj;
+        if ( obj instanceof EnergySkateParkModuleBean ) {
+            EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean) obj;
             energySkateParkModelBean.apply( module );
         }
     }
@@ -70,8 +71,8 @@ public class EnergySkateParkIO implements IProguardKeepClass {
         EnergySkateParkLogging.println( "filename = " + filename );
         XMLDecoder xmlDecoder = new XMLDecoder( Thread.currentThread().getContextClassLoader().getResourceAsStream( filename ) );
         Object obj = xmlDecoder.readObject();
-        if( obj instanceof EnergySkateParkModuleBean ) {
-            EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean)obj;
+        if ( obj instanceof EnergySkateParkModuleBean ) {
+            EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean) obj;
             energySkateParkModelBean.apply( module );
         }
     }

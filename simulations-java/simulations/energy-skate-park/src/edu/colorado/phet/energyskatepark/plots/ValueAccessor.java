@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.plots;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import java.awt.Color;
 
-import java.awt.*;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 /**
  * User: Sam Reid

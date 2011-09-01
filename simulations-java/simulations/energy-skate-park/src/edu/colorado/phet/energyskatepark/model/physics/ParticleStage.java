@@ -29,7 +29,7 @@ public class ParticleStage implements Serializable {
     }
 
     public ParametricFunction2D getCubicSpline2D( int i ) {
-        return (ParametricFunction2D)splines.get( i );
+        return (ParametricFunction2D) splines.get( i );
     }
 
     public int getCubicSpline2DCount() {
@@ -51,30 +51,30 @@ public class ParticleStage implements Serializable {
     }
 
     private void notifySplineRemoved() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.splineRemoved();
         }
     }
 
     private void notifySplineAdded() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.splineAdded();
         }
     }
 
     public String toStringSerialization() {
         String str = "";
-        for( int i = 0; i < splines.size(); i++ ) {
-            ParametricFunction2D parametricFunction2D = (ParametricFunction2D)splines.get( i );
+        for ( int i = 0; i < splines.size(); i++ ) {
+            ParametricFunction2D parametricFunction2D = (ParametricFunction2D) splines.get( i );
             str += parametricFunction2D.toStringSerialization();
         }
         return str;
     }
 
     public void clear() {
-        while( splines.size() > 0 ) {
+        while ( splines.size() > 0 ) {
             removeSpline( splines.size() - 1 );
         }
 

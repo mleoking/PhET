@@ -15,7 +15,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.energyskatepark.model.*;
+import edu.colorado.phet.energyskatepark.model.Body;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkRecordableModel;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
+import edu.colorado.phet.energyskatepark.model.Planet;
+import edu.colorado.phet.energyskatepark.model.PreFabSplines;
 import edu.colorado.phet.energyskatepark.plots.BarChartDialog;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotDialog;
 import edu.colorado.phet.energyskatepark.plots.EnergyTimePlot;
@@ -96,13 +101,13 @@ public class EnergySkateParkModule extends PiccoloModule {
         setLogoPanelVisible( false );
         new WiggleMeInSpace( this ).start();
 
-        final HelpBalloon trackHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString("help.grab-a-track"), HelpBalloon.TOP_CENTER, 20 );
+        final HelpBalloon trackHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString( "help.grab-a-track" ), HelpBalloon.TOP_CENTER, 20 );
         getDefaultHelpPane().add( trackHelp );
         trackHelp.pointAt( energySkateParkSimulationPanel.getRootNode().getSplineToolbox(), energySkateParkSimulationPanel );
 
-        final HelpBalloon skateHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString("help.drag-the-skater"), HelpBalloon.RIGHT_CENTER, 20 ) {
+        final HelpBalloon skateHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString( "help.drag-the-skater" ), HelpBalloon.RIGHT_CENTER, 20 ) {
             public Point2D mapLocation( PNode node, PCanvas canvas ) {
-                if( node == null || node.getParent() == null ) {
+                if ( node == null || node.getParent() == null ) {
                     return new Point2D.Double( 0, 0 );
                 }
                 else {
@@ -114,18 +119,18 @@ public class EnergySkateParkModule extends PiccoloModule {
         skateHelp.pointAt( energySkateParkSimulationPanel.getRootNode().getSkaterNode( 0 ), energySkateParkSimulationPanel );
         energyModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void bodyCountChanged() {
-                if( energySkateParkSimulationPanel.getRootNode().numBodyGraphics() > 0 ) {
+                if ( energySkateParkSimulationPanel.getRootNode().numBodyGraphics() > 0 ) {
                     skateHelp.pointAt( energySkateParkSimulationPanel.getRootNode().getSkaterNode( 0 ), energySkateParkSimulationPanel );
                 }
             }
         } );
 
-        final HelpBalloon trackClickHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString("help.right-click-for-options"), HelpBalloon.BOTTOM_CENTER, 20 );
+        final HelpBalloon trackClickHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString( "help.right-click-for-options" ), HelpBalloon.BOTTOM_CENTER, 20 );
         getDefaultHelpPane().add( trackClickHelp );
         trackClickHelp.pointAt( 0, 0 );
         energyModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void preStep() {//todo: won't update while paused
-                if( energyModel.getNumSplines() > 0 && isHelpEnabled() ) {
+                if ( energyModel.getNumSplines() > 0 && isHelpEnabled() ) {
                     trackHelp.setVisible( isHelpEnabled() );
                     SerializablePoint2D pt = energyModel.getSpline( 0 ).getParametricFunction2D().evaluate( 0.25 );
                     Point2D w = new Point2D.Double( pt.getX(), pt.getY() );
@@ -176,14 +181,14 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void returnOrResetSkater() {
-        if( getEnergySkateParkModel().getNumBodies() > 0 ) {
+        if ( getEnergySkateParkModel().getNumBodies() > 0 ) {
             Body body = getEnergySkateParkModel().getBody( 0 );
             returnOrResetSkater( body );
         }
     }
 
     private void returnOrResetSkater( Body body ) {
-        if( body.isRestorePointSet() ) {
+        if ( body.isRestorePointSet() ) {
             returnSkateToRestorePoint( body );
         }
         else {
@@ -199,10 +204,10 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void returnSkateToRestorePoint( Body body ) {
         body.reset();
-        if( !body.isRestorePointSet() ) {
+        if ( !body.isRestorePointSet() ) {
             initBodyOnTrack( body );
         }
-        if( !getEnergySkateParkSimulationPanel().isSkaterOnscreen( body ) ) {
+        if ( !getEnergySkateParkSimulationPanel().isSkaterOnscreen( body ) ) {
             body.deleteRestorePoint();
             body.reset();
             initBodyOnTrack( body );
@@ -221,7 +226,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     private void initBodyOnTrack( Body body ) {
-        if( isTrackDefaultState() ) {
+        if ( isTrackDefaultState() ) {
             body.setSpline( energyModel.getSpline( 0 ), false, 0.1 );
             body.clearHeat();
             body.clearEnergyError();
@@ -229,8 +234,8 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     private boolean isTrackDefaultState() {
-        if( energyModel.getNumSplines() > 0 ) {
-            if( energyModel.getSpline( 0 ).equals( createDefaultTrack() ) ) {
+        if ( energyModel.getNumSplines() > 0 ) {
+            if ( energyModel.getSpline( 0 ).equals( createDefaultTrack() ) ) {
                 return true;
             }
         }
@@ -274,7 +279,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setCoefficientOfFriction( double value ) {
-        for( int i = 0; i < getEnergySkateParkModel().getNumBodies(); i++ ) {
+        for ( int i = 0; i < getEnergySkateParkModel().getNumBodies(); i++ ) {
             getEnergySkateParkModel().getBody( i ).setFrictionCoefficient( value );
         }
     }
@@ -285,20 +290,20 @@ public class EnergySkateParkModule extends PiccoloModule {
 
     public void setBounciness( double bounciness ) {
         EnergySkateParkModel model = getEnergySkateParkModel();
-        for( int i = 0; i < model.getNumBodies(); i++ ) {
+        for ( int i = 0; i < model.getNumBodies(); i++ ) {
             model.getBody( i ).setBounciness( bounciness );
         }
     }
 
     public void confirmAndReset() {
         int response = PhetOptionPane.showYesNoDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "message.confirm-reset" ) );
-        if( response == JOptionPane.OK_OPTION ) {
+        if ( response == JOptionPane.OK_OPTION ) {
             reset();
         }
     }
 
     public Planet[] getPlanets() {
-        return new Planet[]{new Planet.Space(), new Planet.Moon(), new Planet.Earth(), new Planet.Jupiter()};
+        return new Planet[] { new Planet.Space(), new Planet.Moon(), new Planet.Earth(), new Planet.Jupiter() };
     }
 
     public Frame getPhetFrame() {
@@ -338,7 +343,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     }
 
     public void setRecordOrLiveMode() {
-        if( isEnergyVsTimeGraphVisible() ) {
+        if ( isEnergyVsTimeGraphVisible() ) {
             timeSeriesModel.setRecordMode();
         }
         else {

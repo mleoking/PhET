@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import junit.framework.TestCase;
+
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.spline.CubicSpline2D;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
-
-import junit.framework.TestCase;
 
 /**
  * User: Sam Reid
@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 public class TestCubicSpline2D extends TestCase {
 
     public void testAngle() {
-        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[] {
                 new SerializablePoint2D( 0, 0 ),
                 new SerializablePoint2D( 1, 0 )
         } );
@@ -24,7 +24,7 @@ public class TestCubicSpline2D extends TestCase {
     }
 
     public void testAngleSlope() {
-        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[] {
                 new SerializablePoint2D( 0, 0 ),
                 new SerializablePoint2D( 1, 1 )
         } );
@@ -32,7 +32,7 @@ public class TestCubicSpline2D extends TestCase {
     }
 
     public void testSplineLength() {
-        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[] {
                 new SerializablePoint2D( 0, 0 ),
                 new SerializablePoint2D( 1, 0 )
         } );
@@ -40,7 +40,7 @@ public class TestCubicSpline2D extends TestCase {
     }
 
     public void testSplineLength2() {
-        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[] {
                 new SerializablePoint2D( 0, 0 ),
                 new SerializablePoint2D( 1, 1 )
         } );
@@ -48,7 +48,7 @@ public class TestCubicSpline2D extends TestCase {
     }
 
     public void testSplineLength3() {
-        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[]{
+        ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[] {
                 new SerializablePoint2D( 0, 0 ),
                 new SerializablePoint2D( 100, 0 )
         } );

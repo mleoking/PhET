@@ -1,12 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.model.Planet;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JRadioButton;
+
+import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.model.Planet;
 
 /**
  * User: Sam Reid

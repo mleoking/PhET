@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 /**
  * User: Sam Reid
@@ -32,7 +32,7 @@ public class TestState {
     }
 
     public SerializablePoint2D[] getCubicSpline2D( int i ) {
-        return (SerializablePoint2D[])controlPointSets.get( i );
+        return (SerializablePoint2D[]) controlPointSets.get( i );
     }
 
     public void start() {

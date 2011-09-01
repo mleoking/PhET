@@ -1,6 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Rectangle;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
@@ -15,18 +30,6 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.HashMap;
 
 /**
  * User: Sam Reid
@@ -75,7 +78,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
         measuringTape = new MeasuringTape( new ModelViewTransform2D(
                 new Rectangle( 50, 50 ), new Rectangle2D.Double( 0, 0, 50, 50 ) ),
-                                           new Point2D.Double( 25, 25 ) , EnergySkateParkStrings.getString("units.meters.abbreviation"));
+                                           new Point2D.Double( 25, 25 ), EnergySkateParkStrings.getString( "units.meters.abbreviation" ) );
         updateMapping();
         resetMeasuringTapeLocation();
 
@@ -94,7 +97,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 map.put( new Double( EnergySkateParkModel.G_MOON ), Color.lightGray );
                 Double key = new Double( module.getEnergySkateParkModel().getGravity() );
 //                EnergySkateParkLogging.println( "module.getEnergySkateParkModel().getGravity() = " + module.getEnergySkateParkModel().getGravity() +", contains key="+map.containsKey( new Double(module.getEnergySkateParkModel().getGravity( ))));
-                Paint paint = (Paint)( map.containsKey( key ) ? map.get( key ) : Color.black );
+                Paint paint = (Paint) ( map.containsKey( key ) ? map.get( key ) : Color.black );
                 gridNode.setGridPaint( paint );
             }
         } );
@@ -164,7 +167,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         //todo: this could be moved to PDebugKeyHandlers or a subclass
         simulationPanel.addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent event ) {
-                if( event.getKeyCode() == KeyEvent.VK_V && event.isControlDown() && event.isShiftDown() ) {
+                if ( event.getKeyCode() == KeyEvent.VK_V && event.isControlDown() && event.isShiftDown() ) {
                     showAll( EnergySkateParkRootNode.this );
                 }
             }
@@ -208,7 +211,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void showAll( PNode node ) {
         node.setVisible( true );
-        for( int i = 0; i < node.getChildrenCount(); i++ ) {
+        for ( int i = 0; i < node.getChildrenCount(); i++ ) {
             showAll( node.getChild( i ) );
         }
     }
@@ -267,7 +270,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public SplineNode splineGraphicAt( int i ) {
-        return (SplineNode)splineLayer.getChildrenReference().get( i );
+        return (SplineNode) splineLayer.getChildrenReference().get( i );
     }
 
     public int numSplineGraphics() {
@@ -280,19 +283,19 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private void updateHistory() {
-        while( numHistoryGraphics() < getModel().getNumHistoryPoints() ) {
+        while ( numHistoryGraphics() < getModel().getNumHistoryPoints() ) {
             addHistoryGraphic( new HistoryPointNode( getModel().historyPointAt( 0 ), this ) );
         }
-        while( numHistoryGraphics() > getModel().getNumHistoryPoints() ) {
+        while ( numHistoryGraphics() > getModel().getNumHistoryPoints() ) {
             removeHistoryPointGraphic( historyGraphicAt( numHistoryGraphics() - 1 ) );
         }
-        for( int i = 0; i < getModel().getNumHistoryPoints(); i++ ) {
+        for ( int i = 0; i < getModel().getNumHistoryPoints(); i++ ) {
             historyGraphicAt( i ).setHistoryPoint( getModel().historyPointAt( i ) );
         }
     }
 
     private HistoryPointNode historyGraphicAt( int i ) {
-        return (HistoryPointNode)historyLayer.getChild( i );
+        return (HistoryPointNode) historyLayer.getChild( i );
     }
 
     private void removeHistoryPointGraphic( HistoryPointNode node ) {
@@ -310,16 +313,16 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private void updateBodies() {
-        while( numBodyGraphics() < getModel().getNumBodies() ) {
+        while ( numBodyGraphics() < getModel().getNumBodies() ) {
             addSkaterNode( new SkaterNode( getModel().getBody( 0 ) ) );
         }
-        while( numBodyGraphics() > getModel().getNumBodies() ) {
+        while ( numBodyGraphics() > getModel().getNumBodies() ) {
             removeSkaterNode( getSkaterNode( numBodyGraphics() - 1 ) );
         }
-        for( int i = 0; i < getModel().getNumBodies(); i++ ) {
+        for ( int i = 0; i < getModel().getNumBodies(); i++ ) {
             getSkaterNode( i ).setBody( getModel().getBody( i ) );
         }
-        if( skaterNodeLayer.getChildrenCount() == 1 ) {
+        if ( skaterNodeLayer.getChildrenCount() == 1 ) {
             initPieChart();
             returnSkaterButtonNode.setSkaterNode( getSkaterNode( 0 ) );
         }
@@ -334,13 +337,13 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private void updateSplines() {
-        while( numSplineGraphics() < getModel().getNumSplines() ) {
+        while ( numSplineGraphics() < getModel().getNumSplines() ) {
             addSplineNode( new SplineNode( simulationPanel, getModel().getSpline( 0 ), simulationPanel ) );
         }
-        while( numSplineGraphics() > getModel().getNumSplines() ) {
+        while ( numSplineGraphics() > getModel().getNumSplines() ) {
             removeSplineNode( splineGraphicAt( numSplineGraphics() - 1 ) );
         }
-        for( int i = 0; i < getModel().getNumSplines(); i++ ) {
+        for ( int i = 0; i < getModel().getNumSplines(); i++ ) {
             splineGraphicAt( i ).setSpline( getModel().getSpline( i ) );
         }
     }
@@ -355,7 +358,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public SkaterNode getSkaterNode( int i ) {
-        return (SkaterNode)skaterNodeLayer.getChild( i );
+        return (SkaterNode) skaterNodeLayer.getChild( i );
     }
 
     public boolean isMeasuringTapeVisible() {
@@ -380,10 +383,10 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public void setIgnoreThermal( boolean selected ) {
-        if( this.ignoreThermal != selected ) {
+        if ( this.ignoreThermal != selected ) {
             this.ignoreThermal = selected;
-            for( int i = 0; i < pieChartLayer.getChildrenCount(); i++ ) {
-                EnergySkateParkPieChartNode energySkateParkPieChartNode = (EnergySkateParkPieChartNode)pieChartLayer.getChild( i );
+            for ( int i = 0; i < pieChartLayer.getChildrenCount(); i++ ) {
+                EnergySkateParkPieChartNode energySkateParkPieChartNode = (EnergySkateParkPieChartNode) pieChartLayer.getChild( i );
                 energySkateParkPieChartNode.setIgnoreThermal( ignoreThermal );
             }
         }
@@ -403,7 +406,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         double insetX = 10;
         double insetY = 10;
         legend.setOffset( getSimulationPanel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetY );
-        if( panZoomControls != null ) {
+        if ( panZoomControls != null ) {
             panZoomControls.setOffset( getSimulationPanel().getWidth() - panZoomControls.getFullBounds().getWidth() - insetX, getSimulationPanel().getHeight() - panZoomControls.getFullBounds().getHeight() - insetY );
         }
     }
@@ -462,9 +465,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     public SkaterNode getSkaterNode( Body body ) {
-        for( int i = 0; i < skaterNodeLayer.getChildrenCount(); i++ ) {
-            SkaterNode node = (SkaterNode)skaterNodeLayer.getChild( i );
-            if( node.getBody() == body ) {
+        for ( int i = 0; i < skaterNodeLayer.getChildrenCount(); i++ ) {
+            SkaterNode node = (SkaterNode) skaterNodeLayer.getChild( i );
+            if ( node.getBody() == body ) {
                 return node;
             }
         }

@@ -1,14 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.geom.Ellipse2D;
+
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 /**
  * User: Sam Reid
@@ -58,7 +60,7 @@ public class ParticleNode extends PNode {
     }
 
     private Paint getColorForTop() {
-        if( particle.isFreeFall() ) {
+        if ( particle.isFreeFall() ) {
             return particle.isAboveSplineZero() ? Color.green : Color.black;
         }
         else {
@@ -67,7 +69,7 @@ public class ParticleNode extends PNode {
     }
 
     private Color getParticleColor() {
-        if( particle.isFreeFall() ) {
+        if ( particle.isFreeFall() ) {
             return Color.blue;
         }
         else {

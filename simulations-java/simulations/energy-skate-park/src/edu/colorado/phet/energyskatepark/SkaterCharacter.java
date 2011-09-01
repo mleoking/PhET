@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * Author: Sam Reid
@@ -31,8 +31,8 @@ public class SkaterCharacter implements Serializable {
     }
 
     public boolean equals( Object obj ) {
-        if( obj instanceof SkaterCharacter ) {
-            SkaterCharacter sc = (SkaterCharacter)obj;
+        if ( obj instanceof SkaterCharacter ) {
+            SkaterCharacter sc = (SkaterCharacter) obj;
             return sc.imageURL.equals( imageURL ) &&
                    sc.name.equals( name ) &&
                    sc.mass == mass &&
@@ -68,7 +68,7 @@ public class SkaterCharacter implements Serializable {
         try {
             return ImageLoader.loadBufferedImage( getImageURL() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }

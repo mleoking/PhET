@@ -25,7 +25,7 @@ public class AutoPan {
                 //set zoom related to speed
                 //set center on player.
                 EnergySkateParkRootNode rootNode = energyCanvas.getRootNode();
-                if( rootNode.numBodyGraphics() > 0 ) {
+                if ( rootNode.numBodyGraphics() > 0 ) {
                     SkaterNode skaterNode = rootNode.getSkaterNode( 0 );
                     PBounds bodyBounds = skaterNode.getGlobalFullBounds();
                     rootNode.globalToLocal( bodyBounds );

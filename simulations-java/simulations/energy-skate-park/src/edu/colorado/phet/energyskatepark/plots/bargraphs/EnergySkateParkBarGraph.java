@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.plots.bargraphs;
 
+import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
-import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 
 /**
  * User: Sam Reid
@@ -18,7 +18,7 @@ public class EnergySkateParkBarGraph extends BarChartNode {
 
     public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, double scale ) {
         this( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), scale );
-        final ValueAccessor[] energyAccess = new ValueAccessor[]{
+        final ValueAccessor[] energyAccess = new ValueAccessor[] {
                 new ValueAccessor.KineticEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() ),
                 new ValueAccessor.PotentialEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() ),
                 new ValueAccessor.ThermalEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() ),
@@ -43,7 +43,7 @@ public class EnergySkateParkBarGraph extends BarChartNode {
 
     public static Variable[] toVariableArray( final ValueAccessor[] energyAccess, final EnergySkateParkModel energySkateParkModel ) {
         Variable[] v = new Variable[energyAccess.length];
-        for( int i = 0; i < v.length; i++ ) {
+        for ( int i = 0; i < v.length; i++ ) {
             final int i1 = i;
             v[i] = new Variable( energyAccess[i1].getName(), energyAccess[i1].getValue( energySkateParkModel ), energyAccess[i1].getColor() ) {
                 public double getValue() {

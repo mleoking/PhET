@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.test.transforms;
 
-import java.awt.*;
+import java.awt.Shape;
+import java.awt.Stroke;
 
 /**
  * User: Sam Reid

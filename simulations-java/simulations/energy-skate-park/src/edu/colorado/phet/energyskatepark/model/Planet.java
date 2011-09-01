@@ -1,13 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model;
 
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -75,7 +76,7 @@ public abstract class Planet {
 //                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/space.jpg" );
                 image = ImageLoader.loadBufferedImage( "energy-skate-park/images/blackhole_large_2.jpg" );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
             module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
@@ -98,7 +99,7 @@ public abstract class Planet {
 //                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth3.gif" );
                 image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth-background.jpg" );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
             module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
@@ -119,7 +120,7 @@ public abstract class Planet {
             try {
                 image = ImageLoader.loadBufferedImage( "energy-skate-park/images/moon2.jpg" );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
             module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
@@ -136,7 +137,7 @@ public abstract class Planet {
                 BufferedImage image = ImageLoader.loadBufferedImage( "energy-skate-park/images/jupiter4.jpg" );
                 module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
             }
-            catch( IOException e1 ) {
+            catch ( IOException e1 ) {
                 e1.printStackTrace();
             }
         }

@@ -1,8 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.common;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 /**
  * User: Sam Reid

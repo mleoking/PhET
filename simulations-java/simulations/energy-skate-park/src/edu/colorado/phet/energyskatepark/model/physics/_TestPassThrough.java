@@ -1,15 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import junit.framework.TestCase;
+
+import java.awt.geom.Line2D;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.spline.CubicSpline2D;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
-import junit.framework.TestCase;
-
-import java.awt.geom.Line2D;
 
 /**
  * Author: Sam Reid
@@ -18,7 +19,7 @@ import java.awt.geom.Line2D;
 public class _TestPassThrough extends TestCase {
 
     public ParticleTestState getDefaultTestState( double lineX, double speedX ) {
-        return new ParticleTestState( new SerializablePoint2D[]{new SerializablePoint2D( lineX, -1 ), new SerializablePoint2D( lineX, +1 )},
+        return new ParticleTestState( new SerializablePoint2D[] { new SerializablePoint2D( lineX, -1 ), new SerializablePoint2D( lineX, +1 ) },
                                       new SerializablePoint2D( 0, 0 ), new Vector2D( speedX, 0.0 ) );
     }
 
@@ -26,7 +27,7 @@ public class _TestPassThrough extends TestCase {
         EnergySkateParkLogging.println( "Starting t=0, top=" + testState.getSide() + ", testState.getParticle().getPosition() = " + testState.getParticle().getPosition() );
         boolean origSide = testState.getSide();
         double t = 0;
-        for( int i = 0; i < iterations; i++ ) {
+        for ( int i = 0; i < iterations; i++ ) {
             testState.stepInTime( dt );
             t += dt;
             boolean side = testState.getSide();

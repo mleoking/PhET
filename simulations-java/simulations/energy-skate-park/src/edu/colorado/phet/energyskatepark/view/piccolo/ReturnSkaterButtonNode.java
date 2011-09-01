@@ -1,6 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
@@ -9,10 +14,6 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -49,7 +50,7 @@ public class ReturnSkaterButtonNode extends PhetPNode {
     }
 
     private void updateText() {
-        if( skaterNode != null ) {
+        if ( skaterNode != null ) {
             bringBackSkater.setText( EnergySkateParkStrings.getString( "controls.bring-back" ) + " " + skaterNode.getBody().getSkaterCharacter().getName() );
         }
     }
@@ -61,7 +62,7 @@ public class ReturnSkaterButtonNode extends PhetPNode {
     }
 
     private void updateVisible() {
-        if( skaterNode == null ) {
+        if ( skaterNode == null ) {
             setVisible( false );
         }
         else {

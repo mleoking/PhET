@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.serialization;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
@@ -8,9 +11,6 @@ import edu.colorado.phet.energyskatepark.SkaterCharacterSet;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -27,10 +27,10 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
     }
 
     public EnergySkateParkModuleBean( EnergySkateParkModule module ) {
-        for( int i = 0; i < module.getEnergySkateParkModel().getNumBodies(); i++ ) {
+        for ( int i = 0; i < module.getEnergySkateParkModel().getNumBodies(); i++ ) {
             addBody( module.getEnergySkateParkModel().getBody( i ) );
         }
-        for( int i = 0; i < module.getEnergySkateParkModel().getNumSplines(); i++ ) {
+        for ( int i = 0; i < module.getEnergySkateParkModel().getNumSplines(); i++ ) {
             EnergySkateParkSpline splineSurface = module.getEnergySkateParkModel().getSpline( i );
             addSplineSurface( splineSurface );
         }
@@ -71,15 +71,15 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
 
     public void apply( EnergySkateParkModule module ) {
         module.getEnergySkateParkModel().removeAllBodies();
-        for( int i = 0; i < bodies.size(); i++ ) {
+        for ( int i = 0; i < bodies.size(); i++ ) {
             Body body = module.createBody();
-            ( (BodyElement)bodies.get( i ) ).apply( body );
+            ( (BodyElement) bodies.get( i ) ).apply( body );
             module.getEnergySkateParkModel().addBody( body );
         }
 
         module.getEnergySkateParkModel().removeAllSplineSurfaces();
-        for( int i = 0; i < splines.size(); i++ ) {
-            SplineElement spline = (SplineElement)splines.get( i );
+        for ( int i = 0; i < splines.size(); i++ ) {
+            SplineElement spline = (SplineElement) splines.get( i );
             module.getEnergySkateParkModel().addSplineSurface( spline.toEnergySkateParkSpline() );
         }
         module.getEnergySkateParkModel().updateFloorState();
@@ -132,7 +132,7 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
             body.setFrictionCoefficient( frictionCoefficient );
             body.setMass( mass );
 
-            if( restorePoint != null ) {
+            if ( restorePoint != null ) {
                 Body restored = new Body( body.getWidth(), body.getHeight(), body.getParticleStage(), body.getGravity(), body.getZeroPointPotentialY(), body.getSkaterCharacter() );
                 restorePoint.apply( restored );
                 body.setRestorePoint( restored );
@@ -223,7 +223,7 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
         public SplineElement( EnergySkateParkSpline splineSurface ) {
             SerializablePoint2D[] pts = splineSurface.getControlPoints();
             controlPoints = new Point2D[pts.length];
-            for( int i = 0; i < pts.length; i++ ) {
+            for ( int i = 0; i < pts.length; i++ ) {
                 controlPoints[i] = new Point2D.Double( pts[i].getX(), pts[i].getY() );
             }
             rollerCoaster = splineSurface.isRollerCoasterMode();
@@ -247,7 +247,7 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
 
         public EnergySkateParkSpline toEnergySkateParkSpline() {
             SerializablePoint2D[] pt = new SerializablePoint2D[controlPoints.length];
-            for( int i = 0; i < pt.length; i++ ) {
+            for ( int i = 0; i < pt.length; i++ ) {
                 pt[i] = new SerializablePoint2D( controlPoints[i] );
             }
             EnergySkateParkSpline skateParkSpline = new EnergySkateParkSpline( pt );

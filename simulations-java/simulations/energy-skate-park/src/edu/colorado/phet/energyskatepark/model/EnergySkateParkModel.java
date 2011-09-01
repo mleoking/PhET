@@ -1,16 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.SkaterCharacterSet;
 import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: Sam Reid
@@ -79,8 +79,8 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void clearHeat() {
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
             body.clearHeat();
         }
     }
@@ -89,11 +89,11 @@ public class EnergySkateParkModel implements Serializable {
 //        if( value == -0.0 ) {
 //            value = 0;//workaround since -0 and +0 are getting hashcoded differently
 //        }
-        if( this.gravity != value ) {
+        if ( this.gravity != value ) {
             this.gravity = value;
             notifyGravityChanged();
-            for( int i = 0; i < bodies.size(); i++ ) {
-                Body body = (Body)bodies.get( i );
+            for ( int i = 0; i < bodies.size(); i++ ) {
+                Body body = (Body) bodies.get( i );
                 body.setGravityState( getGravity(), getZeroPointPotentialY() );
             }
             updateFloorState();
@@ -101,8 +101,8 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     private void notifyGravityChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.gravityChanged();
         }
     }
@@ -112,13 +112,13 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void removeAllSplineSurfaces() {
-        while( splines.size() > 0 ) {
+        while ( splines.size() > 0 ) {
             removeSplineSurface( getSpline( 0 ) );
         }
     }
 
     public void removeAllBodies() {
-        while( bodies.size() > 0 ) {
+        while ( bodies.size() > 0 ) {
             removeBody( 0 );
         }
     }
@@ -135,7 +135,7 @@ public class EnergySkateParkModel implements Serializable {
 
     public void updateFloorState() {
         int desiredNumFloors = Math.abs( getGravity() ) > 0 ? 1 : 0;
-        if( desiredNumFloors == 1 ) {
+        if ( desiredNumFloors == 1 ) {
             floor = new Floor();
         }
         else {
@@ -146,17 +146,17 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     private void detachFromFloor() {
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
-            if( body.isOnFloor() ) {
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
+            if ( body.isOnFloor() ) {
                 body.setFreeFallMode();
             }
         }
     }
 
     private void notifyFloorChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.floorChanged();
         }
     }
@@ -167,9 +167,9 @@ public class EnergySkateParkModel implements Serializable {
 
     public EnergySkateParkModel copyState() {
         try {
-            return (EnergySkateParkModel)PersistenceUtil.copy( this );
+            return (EnergySkateParkModel) PersistenceUtil.copy( this );
         }
-        catch( PersistenceUtil.CopyFailedException e ) {
+        catch ( PersistenceUtil.CopyFailedException e ) {
             e.printStackTrace();
             return this;
         }
@@ -183,8 +183,8 @@ public class EnergySkateParkModel implements Serializable {
         setSkaterCharacter( model.getSkaterCharacter() );
 
         //detach listeners from existing bodies and splines, see removeBody
-        for( int i = 0; i < bodies.size(); i++ ) {
-            removeListeners( (Body)bodies.get( i ) );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            removeListeners( (Body) bodies.get( i ) );
         }
         this.bodies = model.bodies;
         notifyBodiesSynced();
@@ -193,8 +193,8 @@ public class EnergySkateParkModel implements Serializable {
         this.splines = model.splines;
         notifySplinesSynced();
 
-        if( this.floor != null && model.floor != null ) {
-            if( this.floor.getY() != model.floor.getY() ) {
+        if ( this.floor != null && model.floor != null ) {
+            if ( this.floor.getY() != model.floor.getY() ) {
                 this.floor.setY( model.floor.getY() );
                 notifyFloorChanged();
             }
@@ -203,53 +203,53 @@ public class EnergySkateParkModel implements Serializable {
             this.floor = model.floor;
             notifyFloorChanged();
         }
-        if( floor == null ) {
+        if ( floor == null ) {
             detachFromFloor();
         }
 
         this.history = model.history;
         notifyHistoryChanged();
 
-        if( this.gravity != model.gravity ) {
+        if ( this.gravity != model.gravity ) {
             this.gravity = model.gravity;
             notifyGravityChanged();
         }
 
-        if( this.zeroPointPotentialY != model.zeroPointPotentialY ) {
+        if ( this.zeroPointPotentialY != model.zeroPointPotentialY ) {
             this.zeroPointPotentialY = model.zeroPointPotentialY;
             notifyZeroPointPotentialYChanged();
         }
 
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.stateSet();
         }
     }
 
     private void notifyBodiesSynced() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.bodiesSynced();
         }
     }
 
     private void notifySplinesSynced() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.splinesSynced();
         }
     }
 
     private void notifyHistoryChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (EnergyModelListener)listeners.get( i ) ).historyChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (EnergyModelListener) listeners.get( i ) ).historyChanged();
         }
     }
 
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
-        for( int i = 0; i < splines.size(); i++ ) {
-            EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline)splines.get( i );
-            if( energySkateParkSpline.getParametricFunction2D() == spline ) {
+        for ( int i = 0; i < splines.size(); i++ ) {
+            EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline) splines.get( i );
+            if ( energySkateParkSpline.getParametricFunction2D() == spline ) {
                 return energySkateParkSpline;
             }
         }
@@ -257,7 +257,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     private double timeSinceLastHistory() {
-        if( history.size() == 0 ) {
+        if ( history.size() == 0 ) {
             return time;
         }
         return time - historyPointAt( history.size() - 1 ).getTime();
@@ -267,36 +267,36 @@ public class EnergySkateParkModel implements Serializable {
         time += dt;
         updateHistory();
         notifyPreStep( dt );
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
             body.stepInTime( dt );
         }
     }
 
     private void notifyPreStep( double dt ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.preStep();
         }
     }
 
     private void updateHistory() {
         boolean historyChanged = false;
-        if( recordPath && getNumBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
+        if ( recordPath && getNumBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
             history.add( new HistoryPoint( getTime(), getBody( 0 ) ) );
             historyChanged = true;
         }
-        if( history.size() > maxNumHistoryPoints ) {
+        if ( history.size() > maxNumHistoryPoints ) {
             history.remove( 0 );
             historyChanged = true;
         }
-        if( historyChanged ) {
+        if ( historyChanged ) {
             notifyHistoryChanged();
         }
     }
 
     public EnergySkateParkSpline getSpline( int i ) {
-        return (EnergySkateParkSpline)splines.get( i );
+        return (EnergySkateParkSpline) splines.get( i );
     }
 
     public void addSplineSurface( EnergySkateParkSpline energySkateParkSpline ) {
@@ -305,8 +305,8 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     private void notifySplineCountChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.splineCountChanged();
         }
     }
@@ -314,7 +314,7 @@ public class EnergySkateParkModel implements Serializable {
     public void addBody( Body body ) {
         bodies.add( body );
 //        EnergySkateParkLogging.println( "EnergySkateParkModel.addBody, bodies="+bodies.size() );
-        if( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
+        if ( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
             zeroPointPotentialY = 0;
             initZeroPointPotentialY = zeroPointPotentialY;
             body.addListener( primaryBodyAdapter );
@@ -325,15 +325,15 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     private void notifyPrimaryBodyChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.primaryBodyChanged();
         }
     }
 
     private void notifyBodyCountChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.bodyCountChanged();
         }
     }
@@ -343,7 +343,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public Body getBody( int i ) {
-        return (Body)bodies.get( i );
+        return (Body) bodies.get( i );
     }
 
     public double getGravity() {
@@ -357,9 +357,9 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     private void detachBodies( ParametricFunction2D spline ) {
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
-            if( body.isOnSpline( spline ) ) {
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
+            if ( body.isOnSpline( spline ) ) {
                 body.setFreeFallMode();
             }
         }
@@ -371,16 +371,16 @@ public class EnergySkateParkModel implements Serializable {
 
     public void setZeroPointPotentialY( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
             body.setGravityState( getGravity(), zeroPointPotentialY );
         }
         notifyZeroPointPotentialYChanged();
     }
 
     private void notifyZeroPointPotentialYChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.zeroPointPotentialYChanged();
         }
     }
@@ -400,10 +400,10 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void setSkaterCharacter( SkaterCharacter skaterCharacter ) {
-        if( !this.skaterCharacter.equals( skaterCharacter ) ) {
+        if ( !this.skaterCharacter.equals( skaterCharacter ) ) {
             this.skaterCharacter = skaterCharacter;
-            for( int i = 0; i < bodies.size(); i++ ) {
-                Body body = (Body)bodies.get( i );
+            for ( int i = 0; i < bodies.size(); i++ ) {
+                Body body = (Body) bodies.get( i );
                 body.setSkaterCharacter( skaterCharacter );
             }
             notifySkaterCharacterChanged();
@@ -411,8 +411,8 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     private void notifySkaterCharacterChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener) listeners.get( i );
             energyModelListener.skaterCharacterChanged();
         }
     }
@@ -500,7 +500,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public HistoryPoint historyPointAt( int i ) {
-        return (HistoryPoint)history.get( i );
+        return (HistoryPoint) history.get( i );
     }
 
     class PrimaryBodyListenerAdapter extends Body.ListenerAdapter implements Serializable {

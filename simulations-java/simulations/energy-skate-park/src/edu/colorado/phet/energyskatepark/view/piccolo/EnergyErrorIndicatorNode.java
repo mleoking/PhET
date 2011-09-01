@@ -1,18 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+
+import javax.swing.JButton;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 
 /**
  * Author: Sam Reid
@@ -63,12 +64,12 @@ public class EnergyErrorIndicatorNode extends PhetPNode {
     }
 
     private void update() {
-        if( body == null ) {
+        if ( body == null ) {
             setVisible( false );
         }
         else {
             setVisible( body.getErrorCount() > 0 );
-            if( body.getErrorCount() > 0 ) {
+            if ( body.getErrorCount() > 0 ) {
                 double energyError = body.getFractionalEnergyError() * 100;
                 String energyPct = new DecimalFormat( "0.00" ).format( energyError );
                 textNode.setText( "Energy Error: " + energyPct + "% (" + body.getErrorCount() + " errors)" );
@@ -79,11 +80,11 @@ public class EnergyErrorIndicatorNode extends PhetPNode {
 
     private void updateBody() {
         Body newBody = model.getNumBodies() > 0 ? model.getBody( 0 ) : null;
-        if( newBody != body ) {
-            if( body != null ) {
+        if ( newBody != body ) {
+            if ( body != null ) {
                 body.removeListener( listener );
             }
-            if( newBody != null ) {
+            if ( newBody != null ) {
                 newBody.addListener( listener );
             }
             this.body = newBody;

@@ -1,8 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.plots;
 
-import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import org.jfree.chart.axis.ValueAxis;
+
+import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 
 /**
  * Author: Sam Reid
@@ -21,7 +22,7 @@ public class VerticalZoomControl extends DefaultZoomControl {
         setZoomInEnabled( zoom > -MAX_ZOOM_IN );
         setZoomOutEnabled( zoom < MAX_ZOOM_OUT );
         double range = 7000 + zoom * 1000;
-        if( zoom <= -7 ) {
+        if ( zoom <= -7 ) {
             int powers = Math.abs( zoom + 6 );
 //            EnergySkateParkLogging.println( "powers = " + powers );
             double pow = ( Math.pow( 2, powers ) );
@@ -31,7 +32,7 @@ public class VerticalZoomControl extends DefaultZoomControl {
 //        EnergySkateParkLogging.println( "zoom=" + zoom + ", range = " + range );
         range = Math.max( range, 0 );
         double minY = zoom < 0 ? -500 : -500 - zoom * 500;
-        if( zoom <= -7 ) {
+        if ( zoom <= -7 ) {
             minY = -range / 2;
         }
 //        EnergySkateParkLogging.println( "minY = " + minY );

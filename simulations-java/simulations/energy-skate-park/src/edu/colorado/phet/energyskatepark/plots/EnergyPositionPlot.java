@@ -1,6 +1,35 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.plots;
 
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
@@ -16,23 +45,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartRenderingInfo;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.*;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -145,7 +157,7 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
                 updateGraphics();
             }
         } );
-        verticalBar.setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[]{10, 3}, 0 ) );
+        verticalBar.setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[] { 10, 3 }, 0 ) );
         verticalBar.setStrokePaint( Color.black );
         addScreenChild( verticalBar );
         legend = new EnergySkateParkLegend( module );
@@ -214,7 +226,7 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
     }
 
     private void updateGraphics() {
-        if( getWidth() > 0 && getHeight() > 0 ) {
+        if ( getWidth() > 0 && getHeight() > 0 ) {
             image.setImage( chart.createBufferedImage( getWidth(), getChartHeight(), info ) );
         }
         reset();
@@ -227,8 +239,8 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
         JFreeChart chart = ChartFactory.createScatterPlot( title,
-                                                           EnergySkateParkStrings.getString("plots.position.meters"), // x-axis label
-                                                           EnergySkateParkStrings.getString("plots.energy-vs-time.energy"), // y-axis label
+                                                           EnergySkateParkStrings.getString( "plots.position.meters" ), // x-axis label
+                                                           EnergySkateParkStrings.getString( "plots.energy-vs-time.energy" ), // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, false, true, false );
         chart.setBackgroundPaint( EnergySkateParkLookAndFeel.backgroundColor );
 
@@ -241,8 +253,8 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
     }
 
     public void reset() {
-        while( dataLayer.getChildrenCount() > 0 ) {
-            FadeDot fadeDot = (FadeDot)dataLayer.getChild( 0 );
+        while ( dataLayer.getChildrenCount() > 0 ) {
+            FadeDot fadeDot = (FadeDot) dataLayer.getChild( 0 );
             removeFadeDot( fadeDot );
         }
 
@@ -256,10 +268,10 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
 
     public void update() {
         count++;
-        if( !isActive() ) {
+        if ( !isActive() ) {
             return;
         }
-        if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
+        if ( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
             Body body = module.getEnergySkateParkModel().getBody( 0 );
             double x = toImageLocation( body.getX(), 0 ).getX();
             verticalBar.setPathTo( new Line2D.Double( x, 0, x, getHeight() ) );
@@ -269,16 +281,16 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
             addFadeDot( body.getX(), total );
             addFadeDot( body.getX(), ke );
         }
-        if( count % COUNT_MOD == 0 ) {
+        if ( count % COUNT_MOD == 0 ) {
             fadeDots();
         }
     }
 
     private void fadeDots() {
-        for( int i = 0; i < dataLayer.getChildrenCount(); i++ ) {
-            FadeDot fadeDot = (FadeDot)dataLayer.getChild( i );
+        for ( int i = 0; i < dataLayer.getChildrenCount(); i++ ) {
+            FadeDot fadeDot = (FadeDot) dataLayer.getChild( i );
             fadeDot.fade();
-            if( fadeDot.isFullyFaded() ) {
+            if ( fadeDot.isFullyFaded() ) {
                 dataLayer.removeChild( fadeDot );
                 i--;
             }
@@ -290,7 +302,7 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
     }
 
     private void addFadeDot( double x, EnergyType energyType ) {
-        if( energyType.isVisible() && inBounds( x, energyType.getValue() ) ) {
+        if ( energyType.isVisible() && inBounds( x, energyType.getValue() ) ) {
             FadeDot path = new FadeDot( energyType, toImageLocation( x, energyType.getValue() ) );
             dataLayer.addChild( path );
         }
@@ -321,13 +333,13 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
 
         public void fade() {
             age += dAge;
-            int fadeAlpha = (int)( 255 - age );
-            if( fadeAlpha < 0 ) {
+            int fadeAlpha = (int) ( 255 - age );
+            if ( fadeAlpha < 0 ) {
                 fadeAlpha = 0;
             }
             Color fadeColor = new Color( origColor.getRed(), origColor.getGreen(), origColor.getBlue(),
                                          fadeAlpha );
-            if( !fadeColor.equals( this.fadeColor ) ) {
+            if ( !fadeColor.equals( this.fadeColor ) ) {
                 setPaint( fadeColor );
                 this.fadeColor = fadeColor;
             }
@@ -349,7 +361,7 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
         x = offsetData( x, y ).getX();
         y = offsetData( x, y ).getY();
         Rectangle2D dataArea = info.getPlotInfo().getDataArea();
-        if( dataArea == null ) {
+        if ( dataArea == null ) {
             throw new RuntimeException( "Null data area" );
 //            return new Point2D.Double( );
         }

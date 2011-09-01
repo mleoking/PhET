@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.common;
 
-import java.io.*;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +26,10 @@ public class OptionalItemSerializableList extends ListDecorator implements Exter
     public void writeExternal( ObjectOutput objectOutput ) throws IOException {
         objectOutput.writeInt( countSerializables() );
 
-        for( int i = 0; i < size(); i++ ) {
+        for ( int i = 0; i < size(); i++ ) {
             Object o = get( i );
 
-            if( o instanceof Serializable ) {
+            if ( o instanceof Serializable ) {
                 objectOutput.writeObject( o );
             }
         }
@@ -36,7 +40,7 @@ public class OptionalItemSerializableList extends ListDecorator implements Exter
 
         underlying = new ArrayList( count );
 
-        for( int i = 0; i < count; i++ ) {
+        for ( int i = 0; i < count; i++ ) {
             add( objectInput.readObject() );
         }
     }
@@ -44,10 +48,10 @@ public class OptionalItemSerializableList extends ListDecorator implements Exter
     private int countSerializables() {
         int count = 0;
 
-        for( int i = 0; i < size(); i++ ) {
+        for ( int i = 0; i < size(); i++ ) {
             Object o = get( i );
 
-            if( o instanceof Serializable ) {
+            if ( o instanceof Serializable ) {
                 ++count;
             }
         }

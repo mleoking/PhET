@@ -25,7 +25,7 @@ public class EnergySkateParkRecordableModel implements RecordableModel {
     }
 
     public void setState( Object o ) {
-        model.setState( (EnergySkateParkModel)o );
+        model.setState( (EnergySkateParkModel) o );
     }
 
     public void resetTime() {

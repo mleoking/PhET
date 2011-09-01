@@ -1,14 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.swing;
 
+import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -35,7 +37,7 @@ public class PathRecordContol extends HorizontalLayoutPanel {
         clearHistory.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearPaths();
-                if( !recording ) {
+                if ( !recording ) {
                     clearHistory.setEnabled( false );
                 }
             }

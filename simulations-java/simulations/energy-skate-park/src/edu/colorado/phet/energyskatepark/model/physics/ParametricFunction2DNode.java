@@ -1,15 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -54,15 +55,15 @@ public class ParametricFunction2DNode extends PNode {
     protected void update() {
         DoubleGeneralPath doubleGeneralPath = new DoubleGeneralPath( parametricFunction2D.evaluate( 0 ) );
         double ds = 0.01;
-        for( double s = ds; s < 1.0; s += ds ) {
+        for ( double s = ds; s < 1.0; s += ds ) {
             doubleGeneralPath.lineTo( parametricFunction2D.evaluate( s ) );
         }
         doubleGeneralPath.lineTo( parametricFunction2D.evaluate( 1.0 ) );
         phetPPath.setPathTo( doubleGeneralPath.getGeneralPath() );
         updateControlPoints();
         topLayer.removeAllChildren();
-        if( normalsVisible ) {
-            for( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
+        if ( normalsVisible ) {
+            for ( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
                 double alpha = parametricFunction2D.getFractionalDistance( 0, x );
                 SerializablePoint2D pt = parametricFunction2D.evaluate( alpha );
                 Arrow arrow = new Arrow( pt, parametricFunction2D.getUnitNormalVector( alpha ).getScaledInstance( 0.1 ).getDestination( pt ), 0.03f, 0.03f, 0.01f );
@@ -72,8 +73,8 @@ public class ParametricFunction2DNode extends PNode {
         }
 
         curvatureLayer.removeAllChildren();
-        if( curvatureVisible ) {
-            for( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
+        if ( curvatureVisible ) {
+            for ( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
                 double alpha = parametricFunction2D.getFractionalDistance( 0, x );
                 SerializablePoint2D at = parametricFunction2D.evaluate( alpha );
                 ImmutableVector2D pt = parametricFunction2D.getCurvatureDirection( alpha );
@@ -84,21 +85,21 @@ public class ParametricFunction2DNode extends PNode {
         }
         topOffsetTrack.removeAllChildren();
 
-        if( topOffsetTrackVisible ) {
+        if ( topOffsetTrackVisible ) {
             double alpha = 0;
             double dAlpha = 0.005;
             DoubleGeneralPath path = new DoubleGeneralPath( parametricFunction2D.getOffsetPoint( alpha, splineOffset, true ) );
-            for( alpha = alpha + dAlpha; alpha <= 1.0; alpha += dAlpha ) {
+            for ( alpha = alpha + dAlpha; alpha <= 1.0; alpha += dAlpha ) {
                 path.lineTo( parametricFunction2D.getOffsetPoint( alpha, splineOffset, true ) );
             }
             topOffsetTrack.addChild( new PhetPPath( path.getGeneralPath(), new BasicStroke( 0.01f ), Color.green ) );
         }
         bottomOffsetTrack.removeAllChildren();
-        if( showBottomOffsetSpline ) {
+        if ( showBottomOffsetSpline ) {
             double alpha = 0;
             double dAlpha = 0.005;
             DoubleGeneralPath path = new DoubleGeneralPath( parametricFunction2D.getOffsetPoint( alpha, splineOffset, false ) );
-            for( alpha = alpha + dAlpha; alpha <= 1.0; alpha += dAlpha ) {
+            for ( alpha = alpha + dAlpha; alpha <= 1.0; alpha += dAlpha ) {
                 path.lineTo( parametricFunction2D.getOffsetPoint( alpha, splineOffset, false ) );
             }
             bottomOffsetTrack.addChild( new PhetPPath( path.getGeneralPath(), new BasicStroke( 0.01f ), Color.magenta ) );

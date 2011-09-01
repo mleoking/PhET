@@ -1,11 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-
-import javax.swing.*;
 import java.text.DecimalFormat;
 import java.util.Hashtable;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 
 /**
  * Author: Sam Reid
@@ -23,7 +25,7 @@ public class EnergySkateParkSlider extends LinearValueControl {
 
     public void setModelTicks( double[] doubles ) {
         Hashtable hash = new Hashtable();
-        for( int i = 0; i < doubles.length; i++ ) {
+        for ( int i = 0; i < doubles.length; i++ ) {
             double aDouble = doubles[i];
             DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
             hash.put( new Double( aDouble ), new JLabel( decimalFormat.format( aDouble ) ) );
@@ -32,7 +34,7 @@ public class EnergySkateParkSlider extends LinearValueControl {
     }
 
     public void setValue( double value ) {
-        if( super.getValue() != value ) {
+        if ( super.getValue() != value ) {
             super.setValue( value );
         }
     }

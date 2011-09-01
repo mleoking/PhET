@@ -1,16 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.test.transforms;
 
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.JFrame;
+
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * User: Sam Reid
@@ -28,8 +30,8 @@ public class TestTransform2 {
         PCanvas pCanvas = new PCanvas();
         final WorldNode world = new WorldNode( pCanvas, 10, 10 );
         pCanvas.getLayer().addChild( world );
-        for( int i = 0; i <= 10; i++ ) {
-            for( int j = 0; j <= 10; j++ ) {
+        for ( int i = 0; i <= 10; i++ ) {
+            for ( int j = 0; j <= 10; j++ ) {
                 PPath child = new PPath( new Rectangle2D.Double( 0, 0, 0.1, 0.1 ) );
                 child.setOffset( i, j );
                 child.setStroke( null );

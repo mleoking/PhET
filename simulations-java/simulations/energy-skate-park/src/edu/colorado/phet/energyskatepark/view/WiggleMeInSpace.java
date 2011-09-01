@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
@@ -9,8 +11,6 @@ import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -31,7 +31,7 @@ public class WiggleMeInSpace {
         hintNode.setShadowTextOffset( 1 );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
-                if( module.getEnergySkateParkModel().getGravity() == 0.0 && !hintDone ) {
+                if ( module.getEnergySkateParkModel().getGravity() == 0.0 && !hintDone ) {
                     startHint();
                 }
                 else {
@@ -56,10 +56,10 @@ public class WiggleMeInSpace {
         module.getEnergySkateParkSimulationPanel().requestFocus();
         getRootNode().addScreenChild( hintNode );
         hintNode.setOffset( module.getEnergySkateParkSimulationPanel().getWidth() / 2, hintNode.getFullBounds().getHeight() / 2 );
-        hintNode.animateTo( module.getEnergySkateParkSimulationPanel().getWidth() / 2, (int)( module.getEnergySkateParkSimulationPanel().getHeight() * 1.0 / 4.0 ) );
+        hintNode.animateTo( module.getEnergySkateParkSimulationPanel().getWidth() / 2, (int) ( module.getEnergySkateParkSimulationPanel().getHeight() * 1.0 / 4.0 ) );
         module.getEnergySkateParkModel().getBody( 0 ).addListener( new Body.ListenerAdapter() {
             public void thrustChanged() {
-                if( module.getEnergySkateParkModel().getBody( 0 ).getThrust().getMagnitude() > 0 ) {
+                if ( module.getEnergySkateParkModel().getBody( 0 ).getThrust().getMagnitude() > 0 ) {
                     hintNode.setVisible( false );
                     hintDone = true;
                 }

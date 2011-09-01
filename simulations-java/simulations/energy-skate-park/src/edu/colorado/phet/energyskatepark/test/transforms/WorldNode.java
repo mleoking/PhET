@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.test.transforms;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.Dimension2D;
+
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.Dimension2D;
 
 /**
  * User: Sam Reid
@@ -48,7 +48,7 @@ public class WorldNode extends PNode {
         double minSY = pCanvas.getHeight() / minHeight;
         double scale = Math.min( minSX, minSY );
         EnergySkateParkLogging.println( "scale = " + scale );
-        if( scale > 0 ) {
+        if ( scale > 0 ) {
             setScale( scale );
         }
     }

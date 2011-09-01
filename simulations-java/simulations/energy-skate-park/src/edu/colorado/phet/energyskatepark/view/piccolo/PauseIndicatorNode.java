@@ -1,21 +1,24 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -63,7 +66,7 @@ public class PauseIndicatorNode extends PNode {
     }
 
     private void updateVisibility() {
-        if( module.getTimeSeriesModel().isPaused() ) {
+        if ( module.getTimeSeriesModel().isPaused() ) {
             showMe();
         }
         else {
@@ -82,8 +85,8 @@ public class PauseIndicatorNode extends PNode {
     public void relayout() {
         JComponent simulationPanel = module.getSimulationPanel();
         int x = insetX;
-        int y = (int)( simulationPanel.getHeight() - getFullBounds().getHeight() - insetY );
-        if( getOffset().getX() != x || getOffset().getY() != y ) {
+        int y = (int) ( simulationPanel.getHeight() - getFullBounds().getHeight() - insetY );
+        if ( getOffset().getX() != x || getOffset().getY() != y ) {
             setOffset( x, y );
         }
     }

@@ -1,15 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.umd.cs.piccolo.util.PDimension;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.io.IOException;
+
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * User: Sam Reid
@@ -43,7 +47,7 @@ public class PanZoomControl extends JPanel {
             } );
             add( zoomIn );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         zoomIn.setEnabled( false );
@@ -96,13 +100,13 @@ public class PanZoomControl extends JPanel {
     }
 
     public void reset() {
-        while( zoomOutCount > 0 ) {
+        while ( zoomOutCount > 0 ) {
             zoomInOnce();
         }
     }
 
     public void updateScale() {
-        for( int i = 0; i < zoomOutCount; i++ ) {
+        for ( int i = 0; i < zoomOutCount; i++ ) {
             zoom( 1.0 / zoomScale );
         }
     }

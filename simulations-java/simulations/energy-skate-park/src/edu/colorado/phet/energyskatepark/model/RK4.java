@@ -6,11 +6,11 @@ package edu.colorado.phet.energyskatepark.model;
 //Solve the differential equation  using 4th order Runge-Kutta Method
 //copywrite 2002 R Landau, Oregon State U
 
-import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 public class RK4 {
     public static void main( String[] argv ) throws FileNotFoundException {// open  file RK4.dat for output data
@@ -28,7 +28,7 @@ public class RK4 {
         h = ( Tmax - Tmin ) / Ntimes;
         t = Tmin;
         Diff diff = new DampedSpring();
-        for( t = Tmin; t <= Tmax; t += h ) {
+        for ( t = Tmin; t <= Tmax; t += h ) {
             EnergySkateParkLogging.println( "RK4 t=" + t + " , x= " + y[0] + ", v= " + y[1] );//printout
             w.println( t + " " + y[0] + " " + y[1] );//output to file
             rk4( t, y, h, diff );
@@ -50,25 +50,25 @@ public class RK4 {
         double k4[] = new double[Neqs];
 
         f( t, y, F, diff );
-        for( i = 0; i < Neqs; i++ ) {
+        for ( i = 0; i < Neqs; i++ ) {
             k1[i] = h * F[i];
             ydumb[i] = y[i] + k1[i] / 2;
         }
 
         f( t + h / 2, ydumb, F, diff );
-        for( i = 0; i < Neqs; i++ ) {
+        for ( i = 0; i < Neqs; i++ ) {
             k2[i] = h * F[i];
             ydumb[i] = y[i] + k2[i] / 2;
         }
 
         f( t + h / 2, ydumb, F, diff );
-        for( i = 0; i < Neqs; i++ ) {
+        for ( i = 0; i < Neqs; i++ ) {
             k3[i] = h * F[i];
             ydumb[i] = y[i] + k3[i];
         }
 
         f( t + h, ydumb, F, diff );
-        for( i = 0; i < Neqs; i++ ) {
+        for ( i = 0; i < Neqs; i++ ) {
             k4[i] = h * F[i];
             y[i] = y[i] + ( k1[i] + 2 * ( k2[i] + k3[i] ) + k4[i] ) / 6;
         }

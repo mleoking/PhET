@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.plots.bargraphs;
 
+import java.awt.Color;
+
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -38,7 +38,7 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
-            if( rampPhysicalModel.getNumBodies() == 0 ) {
+            if ( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
             return rampPhysicalModel.getBody( 0 ).getKineticEnergy();
@@ -51,7 +51,7 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
-            if( rampPhysicalModel.getNumBodies() == 0 ) {
+            if ( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
             return rampPhysicalModel.getBody( 0 ).getPotentialEnergy();
@@ -65,7 +65,7 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
-            if( rampPhysicalModel.getNumBodies() == 0 ) {
+            if ( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
             return rampPhysicalModel.getBody( 0 ).getTotalEnergy();
@@ -79,7 +79,7 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
-            if( rampPhysicalModel.getNumBodies() == 0 ) {
+            if ( rampPhysicalModel.getNumBodies() == 0 ) {
                 return 0;
             }
             return rampPhysicalModel.getBody( 0 ).getThermalEnergy();

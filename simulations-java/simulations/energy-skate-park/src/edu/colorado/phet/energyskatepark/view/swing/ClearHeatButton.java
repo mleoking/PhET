@@ -1,13 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.swing;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -34,7 +35,7 @@ public class ClearHeatButton extends JButton {
     }
 
     private void update() {
-        if( model.getNumBodies() > 0 ) {
+        if ( model.getNumBodies() > 0 ) {
             Body body = model.getBody( 0 );
             setEnabled( body.getThermalEnergy() > 0 );
         }

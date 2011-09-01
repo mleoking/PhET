@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark;
 
@@ -7,7 +6,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.phetcommon.application.*;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
@@ -26,7 +29,7 @@ public class EnergySkateParkApplication extends PhetApplication {
         EnergySkateParkOptions options = parseOptions( config.getCommandLineArgs() );
 
         module = new EnergySkateParkModule( "Module", new ConstantDtClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
-        setModules( new Module[]{module} );
+        setModules( new Module[] { module } );
 //        getPhetFrame().addMenu( new EnergySkateParkOptionsMenu( module ) );
         if ( config.isDev() ) {
             getPhetFrame().addMenu( new EnergySkateParkTestMenu( this ) );
@@ -39,7 +42,7 @@ public class EnergySkateParkApplication extends PhetApplication {
                 try {
                     EnergySkateParkIO.save( module );
                 }
-                catch( Exception e1 ) {
+                catch ( Exception e1 ) {
                     e1.printStackTrace();
                 }
             }
@@ -51,7 +54,7 @@ public class EnergySkateParkApplication extends PhetApplication {
                 try {
                     EnergySkateParkIO.open( module );
                 }
-                catch( Exception e1 ) {
+                catch ( Exception e1 ) {
                     e1.printStackTrace();
                 }
             }

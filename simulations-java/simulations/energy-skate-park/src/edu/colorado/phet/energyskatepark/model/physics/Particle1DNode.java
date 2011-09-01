@@ -1,11 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Ellipse2D;
+
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 /**
  * User: Sam Reid
