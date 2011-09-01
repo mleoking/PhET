@@ -67,5 +67,4 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
     private double generateDirectionChangeCountdownValue() {
         return MIN_TIME_IN_ONE_DIRECTION + RAND.nextDouble() * ( MAX_TIME_IN_ONE_DIRECTION - MIN_TIME_IN_ONE_DIRECTION );
     }
-
 }

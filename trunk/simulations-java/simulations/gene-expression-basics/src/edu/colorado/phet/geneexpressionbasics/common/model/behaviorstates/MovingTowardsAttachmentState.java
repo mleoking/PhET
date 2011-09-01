@@ -27,7 +27,7 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
     public MovingTowardsAttachmentState( MobileBiomolecule biomolecule, AttachmentSite attachmentSite ) {
         super( biomolecule );
         this.attachmentSite = attachmentSite;
-        motionStrategy = new MeanderToDestinationMotionStrategy( attachmentSite.locationProperty );
+        motionStrategy = new MeanderToDestinationMotionStrategy( attachmentSite.locationProperty, biomolecule.getMotionBoundsProperty() );
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {

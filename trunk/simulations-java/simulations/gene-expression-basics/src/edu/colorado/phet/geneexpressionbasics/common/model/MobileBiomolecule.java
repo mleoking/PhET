@@ -31,7 +31,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public final Property<Color> colorProperty = new Property<Color>( Color.BLACK );
 
     // Bounds within which this biomolecule is allowed to move.
-    protected Property<MotionBounds> motionBoundsProperty = new Property<MotionBounds>( new MotionBounds() );
+    public Property<MotionBounds> motionBoundsProperty = new Property<MotionBounds>( new MotionBounds() );
 
     // Behavioral state that controls how the molecule moves when it is not
     // under the control of the user and how and when it attaches to other
@@ -119,6 +119,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         System.out.println( getClass().getName() + "Warning: Unimplemented method called in base class." );
     }
 
+    // TODO: Get rid of this.  Property was made public.
     public Property<MotionBounds> getMotionBoundsProperty() {
         return motionBoundsProperty;
     }
