@@ -28,7 +28,7 @@ public class UnattachedButUnavailableState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
-        biomolecule.setPosition( motionStrategy.getNextLocation( dt, biomolecule.getPosition() ) );
+        biomolecule.setPosition( motionStrategy.getNextLocation( biomolecule.getPosition(), dt ) );
         unavailableCountdownTime -= dt;
         if ( unavailableCountdownTime <= 0 ) {
             // Change state to become available for attaching.

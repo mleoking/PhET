@@ -31,7 +31,7 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
-        biomolecule.setPosition( motionStrategy.getNextLocation( dt, biomolecule.getPosition() ) );
+        biomolecule.setPosition( motionStrategy.getNextLocation( biomolecule.getPosition(), biomolecule.getShape(), dt ) );
         if ( biomolecule.getPosition().distance( attachmentSite.locationProperty.get() ) < CAPTURE_DISTANCE ) {
             // The molecule has reached the attachment site.  Since the
             // different biomolecules exhibit different behavior once attached,

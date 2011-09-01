@@ -33,7 +33,7 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
         } );
     }
 
-    @Override public Point2D getNextLocation( double dt, Point2D currentLocation, Shape shape ) {
+    @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
         directionChangeCountdown -= dt;
         if ( directionChangeCountdown <= 0 ) {
             // Time to change direction.
@@ -60,8 +60,8 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
         return nextLocation;
     }
 
-    @Override public Point2D getNextLocation( double dt, Point2D currentLocation ) {
-        return getNextLocation( dt, currentLocation, new Rectangle2D.Double( currentLocation.getX(), currentLocation.getY(), 0, 0 ) );
+    @Override public Point2D getNextLocation( Point2D currentLocation, double dt ) {
+        return getNextLocation( currentLocation, new Rectangle2D.Double( currentLocation.getX(), currentLocation.getY(), Double.MIN_VALUE, Double.MIN_VALUE ), dt );
     }
 
     private double generateDirectionChangeCountdownValue() {
