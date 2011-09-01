@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.awt.Shape;
+import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +66,11 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // currently active, which means that the user is viewing it.
     public final ObservableProperty<Boolean> isFirstGeneActive = activeGene.valueEquals( dnaStrand.getGenes().get( 0 ) );
     public final ObservableProperty<Boolean> isLastGeneActive = activeGene.valueEquals( dnaStrand.getLastGene() );
+
+    // List of areas where biomolecules should not be allowed.  These are
+    // generally populated by the view in order to keep biomolecules from
+    // wandering over the tool boxes and such.
+    private final List<Shape> offLimitMotionSpaces = new ArrayList<Shape>();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -140,6 +147,17 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         activateGene( 0 );
     }
 
+    /**
+     * Add a space where the biomolecules should not be allowed to wander. This
+     * is generally used by the view to prevent biomolecules from moving over
+     * tool boxes and such.
+     *
+     * @param offLimitsMotionSpace
+     */
+    public void addOffLimitsMotionSpace( Shape offLimitsMotionSpace ) {
+        offLimitMotionSpaces.add( offLimitsMotionSpace );
+    }
+
     private void stepInTime( double dt ) {
         for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
             mobileBiomolecule.stepInTime( dt );
@@ -149,15 +167,21 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     /**
      * Get the motion bounds for any biomolecule that is going to be associated
      * with the currently active gene.
-     *
-     * @return TODO: This was made public for some debugging, but can be private
-     *         when bounds are worked out.
      */
     public MotionBounds getBoundsForActiveGene() {
-        Rectangle2D boundsRect = new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,
-                                                         DnaMolecule.Y_POS - DnaMolecule.STRAND_DIAMETER * 3,
-                                                         BIOMOLECULE_STAGE_WIDTH,
-                                                         BIOMOLECULE_STAGE_HEIGHT );
-        return new MotionBounds( boundsRect );
+        // Get the nominal bounds for this gene.
+        Area bounds = new Area( new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,
+                                                        DnaMolecule.Y_POS - DnaMolecule.STRAND_DIAMETER * 3,
+                                                        BIOMOLECULE_STAGE_WIDTH,
+                                                        BIOMOLECULE_STAGE_HEIGHT ) );
+
+        // Subtract off any overlapping areas.
+        for ( Shape offLimitMotionSpace : offLimitMotionSpaces ) {
+            if ( bounds.intersects( offLimitMotionSpace.getBounds2D() ) ) {
+                bounds.subtract( new Area( offLimitMotionSpace ) );
+            }
+        }
+
+        return new MotionBounds( bounds );
     }
 }
