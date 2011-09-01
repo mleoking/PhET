@@ -36,11 +36,10 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * User: Sam Reid
- * Date: Sep 21, 2005
- * Time: 3:06:31 AM
+ * Base class used by both the main version and basic versions of Energy Skate Park.
+ *
+ * @author Sam Reid
  */
-
 public class AbstractEnergySkateParkModule extends PiccoloModule {
     private final EnergySkateParkModel energyModel;
     private final EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
