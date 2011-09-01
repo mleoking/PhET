@@ -21,12 +21,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class RotatingRulerNode extends PNode {
 
     public RotatingRulerNode( final Plank plank, final ModelViewTransform mvt, BooleanProperty visibleProperty ) {
-        final MyRulerNode rulerNode = new MyRulerNode( mvt.modelToViewDeltaX( Plank.LENGTH - 0.5 ),
-                                                       60,
-                                                       new String[] { "2", "1.75", "1.5", "1.25", "1", "0.75", "0.5", "0.25", "0", "0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2" },
-                                                       "",
-                                                       0,
-                                                       12 );
+        final TopTickMarkRulerNode rulerNode = new TopTickMarkRulerNode( mvt.modelToViewDeltaX( Plank.LENGTH - 0.5 ),
+                                                                         60,
+                                                                         new String[] { "2", "1.75", "1.5", "1.25", "1", "0.75", "0.5", "0.25", "0", "0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2" },
+                                                                         "",
+                                                                         0,
+                                                                         12 );
         rulerNode.setBackgroundPaint( new Color( 236, 225, 113, 100 ) );
         addChild( rulerNode );
         // Create and add the units label.

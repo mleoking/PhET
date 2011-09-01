@@ -359,8 +359,7 @@ public class RulerNode extends PhetPNode {
      * Creates a tick mark at a specific x location.
      * Each tick is marked at the top and bottom of the ruler.
      */
-
-    private static DoubleGeneralPath createTickMark( double xPosition, double rulerHeight, double tickHeight ) {
+    protected DoubleGeneralPath createTickMark( double xPosition, double rulerHeight, double tickHeight ) {
         DoubleGeneralPath tickPath = new DoubleGeneralPath( xPosition, 0 );
         tickPath.lineTo( xPosition, tickHeight );
         tickPath.moveTo( xPosition, rulerHeight - tickHeight );
