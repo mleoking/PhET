@@ -24,7 +24,7 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
         // Exhibit random walk motion.
-        biomolecule.setPosition( motionStrategy.getNextLocation( dt, biomolecule.getPosition() ) );
+        biomolecule.setPosition( motionStrategy.getNextLocation( dt, biomolecule.getPosition(), biomolecule.getShape() ) );
 
         // This particular state never changes as a result of time dependent
         // behavior, so it always returns itself.
