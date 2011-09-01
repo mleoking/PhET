@@ -155,7 +155,7 @@ public class Plank extends ShapeModelElement {
         // level position whenever the supports become active.
         supportColumnsActive.addObserver( new SimpleObserver() {
             public void update() {
-                forceToLevel();
+                forceToLevelAndStill();
             }
         } );
     }
@@ -345,7 +345,8 @@ public class Plank extends ShapeModelElement {
      * Force the plank back to the level position.  This is generally done when
      * some sort of support column has been put into place.
      */
-    private void forceToLevel() {
+    private void forceToLevelAndStill() {
+        angularVelocity = 0;
         tiltAngle = 0;
         updatePlankPosition();
         updateMassPositions();
