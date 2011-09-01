@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.energyskatepark;
+package edu.colorado.phet.energyskatepark.view;
 
 import java.util.ArrayList;
+
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 /**
  * Author: Sam Reid

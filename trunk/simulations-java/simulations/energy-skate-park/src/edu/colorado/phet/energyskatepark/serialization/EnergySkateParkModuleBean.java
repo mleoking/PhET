@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.SkaterCharacterSet;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
+import edu.colorado.phet.energyskatepark.view.SkaterCharacterSet;
 
 /**
  * User: Sam Reid

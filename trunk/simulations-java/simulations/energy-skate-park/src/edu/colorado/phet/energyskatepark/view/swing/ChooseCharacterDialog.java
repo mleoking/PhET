@@ -27,8 +27,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
-import edu.colorado.phet.energyskatepark.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
+import edu.colorado.phet.energyskatepark.view.SkaterCharacter;
 
 /**
  * Author: Sam Reid
