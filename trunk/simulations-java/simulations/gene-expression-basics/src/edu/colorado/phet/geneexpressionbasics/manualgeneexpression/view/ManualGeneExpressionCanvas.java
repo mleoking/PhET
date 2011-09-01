@@ -35,7 +35,13 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResourc
  * @author John Blanco
  */
 public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettable {
+
+    // Stage size, based on default screen size.
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
+
+    // Debug variable for turning on the visibility of the motion bounds.
+    private static final boolean SHOW_MOTION_BOUNDS = true;
+
     private final ModelViewTransform mvt;
     private PTransformActivity activity;
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
@@ -170,14 +176,16 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         //Uncomment this line to add zoom on right mouse click drag
         addInputEventListener( getZoomEventHandler() );
 
-        // TODO: Temp - add indication of the motion bounds.
-        final PhetPPath motionBoundsIndicator = new PhetPPath( new BasicStroke( 2 ), Color.RED );
-        modelRootNode.addChild( motionBoundsIndicator );
-        model.activeGene.addObserver( new VoidFunction1<Gene>() {
-            public void apply( Gene gene ) {
-                motionBoundsIndicator.setPathTo( mvt.modelToView( model.getBoundsForActiveGene().getBounds() ) );
-            }
-        } );
+        // Add a node to depict the motion bounds.  This is for debug purposes.
+        if ( SHOW_MOTION_BOUNDS ) {
+            final PhetPPath motionBoundsIndicator = new PhetPPath( new BasicStroke( 2 ), Color.RED );
+            modelRootNode.addChild( motionBoundsIndicator );
+            model.activeGene.addObserver( new VoidFunction1<Gene>() {
+                public void apply( Gene gene ) {
+                    motionBoundsIndicator.setPathTo( mvt.modelToView( model.getBoundsForActiveGene().getBounds() ) );
+                }
+            } );
+        }
     }
 
     public ImmutableVector2D getViewportOffset() {
