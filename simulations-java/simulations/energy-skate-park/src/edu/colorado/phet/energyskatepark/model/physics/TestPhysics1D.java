@@ -77,7 +77,6 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.getLayer().addChild( linearSegmentNode );
 
         particle = new Particle( particleStage );
-//        particle.switchToTrack( linearSpline2D, 0.5, true );
         final ParticleNode particleNode = new ParticleNode( particle );
         final ParticleImageNode particleImageNode = new ParticleImageNode( particle );
 
@@ -90,7 +89,6 @@ public class TestPhysics1D extends JFrame {
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 double e1 = particle.getTotalEnergy();
-//                EnergySkateParkLogging.println( "clockEvent = " + clockEvent.getSimulationTimeChange() );
                 particle.stepInTime( clockEvent.getSimulationTimeChange() );
                 double e2 = particle.getTotalEnergy();
                 double relativeEnergyError = ( e2 - e1 ) / normTerm;
@@ -134,7 +132,6 @@ public class TestPhysics1D extends JFrame {
                 particle1d.setUpdateStrategy( particle1d.createEuler() );
             }
         } );
-//
         JRadioButton verletOffset = new JRadioButton( "Verlet Offset", particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset );
         verletOffset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -152,7 +149,6 @@ public class TestPhysics1D extends JFrame {
                 particle.switchToTrack( cubicSpline, 0.01, true );
                 normTerm = particle.getTotalEnergy();
                 EnergySkateParkLogging.println( "normTerm = " + normTerm );
-//                enable
             }
         } );
         controlPanel.add( comp );
@@ -189,8 +185,6 @@ public class TestPhysics1D extends JFrame {
         showNormals.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 splineLayer.setNormalsVisible( showNormals.isSelected() );
-//                particleStage.setNormalsVisible(showNormals.isSelected() );)
-//                splineNode.setNormalsVisible( showNormals.isSelected() );
             }
         } );
         controlPanel.add( showNormals, gridBagConstraints );
@@ -329,13 +323,6 @@ public class TestPhysics1D extends JFrame {
 
         controlFrame.setContentPane( new JScrollPane( controlPanel ) );
 
-//        JButton resetEnergyError = new JButton( "Reset Energy Error" );
-//        resetEnergyError.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                particle1d.resetEnergyError();
-//            }
-//        } );
-//        controlPanel.add( resetEnergyError, gridBagConstraints );
         final PhetPPath phetPPath = new PhetPPath( new Rectangle2D.Double( 0, 0, 10, 10 ), Color.yellow );
         pSwingCanvas.getLayer().addChild( phetPPath );
         phetPPath.moveToBack();
@@ -380,6 +367,5 @@ public class TestPhysics1D extends JFrame {
         controlFrame.setVisible( true );
         ccpFrame.setVisible( true );
         clock.start();
-//        timer.start();
     }
 }

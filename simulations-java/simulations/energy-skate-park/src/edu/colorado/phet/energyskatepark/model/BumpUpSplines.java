@@ -17,7 +17,6 @@ public class BumpUpSplines {
         for ( int i = 0; i < model.getNumSplines(); i++ ) {
             EnergySkateParkSpline spline = model.getSpline( i );
             double y = spline.getMinY();
-//            EnergySkateParkLogging.println( "y = " + y );
             if ( y < MIN_SPLINE_Y ) {
                 spline.translate( 0, Math.abs( y ) + MIN_SPLINE_Y );
             }

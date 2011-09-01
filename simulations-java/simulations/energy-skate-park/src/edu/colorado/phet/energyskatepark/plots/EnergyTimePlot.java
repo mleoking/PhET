@@ -68,12 +68,9 @@ public class EnergyTimePlot {
     private final ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-    //    public static final double MAX_TIME = 50.0;
-    //    public static final double MAX_TIME = 30.0;
     public static final double MAX_TIME = 20.0;
     private final JDialog developerControlDialog;
     private final EnergySkateParkPlaybackPanel playbackPanel;
-//    public static final double MAX_TIME = 5.0;
 
     public EnergyTimePlot( AbstractEnergySkateParkModule module, JFrame parentFrame, ConstantDtClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
         this.model = model;
@@ -92,7 +89,6 @@ public class EnergyTimePlot {
         dynamicJFreeChartNode.setBuffered( true );
 
         dynamicJFreeChartNode.setBufferedImmediateSeries();
-//        dynamicJFreeChartNode.setPiccoloSeries();
 
         dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.thermal" ), Color.red );
         dynamicJFreeChartNode.addSeries( EnergySkateParkStrings.getString( "energy.kinetic.abbreviation" ), Color.green );
@@ -135,12 +131,6 @@ public class EnergyTimePlot {
                 }
             }
         } );
-        //this listener updates the readouts even when mode is live
-//        model.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-//            public void primaryBodyChanged() {
-//                updateReadouts();
-//            }
-//        } );
 
         dialog = new JDialog( parentFrame, EnergySkateParkStrings.getString( "plots.energy-vs-time" ), false );
         JPanel contentPane = new JPanel( new BorderLayout() );
@@ -166,7 +156,6 @@ public class EnergyTimePlot {
         phetPCanvas.addScreenChild( jFreeChartCursorNode );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void cursorTimeChanged() {
-//                EnergySkateParkLogging.println( "jFreeChartCursorNode.getTime() = " + jFreeChartCursorNode.getTime() );
                 timeSeriesModel.setPlaybackMode();
                 timeSeriesModel.setPlaybackTime( jFreeChartCursorNode.getTime() );
             }
@@ -268,7 +257,6 @@ public class EnergyTimePlot {
     public void setVisible( boolean visible ) {
         if ( visible != dialog.isVisible() ) {
             dialog.setVisible( visible );
-//            developerControlDialog.setVisible( visible );
             relayout();
             notifyVisibilityChanged();
         }

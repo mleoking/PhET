@@ -24,18 +24,14 @@ public class VerticalZoomControl extends DefaultZoomControl {
         double range = 7000 + zoom * 1000;
         if ( zoom <= -7 ) {
             int powers = Math.abs( zoom + 6 );
-//            EnergySkateParkLogging.println( "powers = " + powers );
             double pow = ( Math.pow( 2, powers ) );
-//            EnergySkateParkLogging.println( "pwo = " + pow );
             range = 1000 / pow;
         }
-//        EnergySkateParkLogging.println( "zoom=" + zoom + ", range = " + range );
         range = Math.max( range, 0 );
         double minY = zoom < 0 ? -500 : -500 - zoom * 500;
         if ( zoom <= -7 ) {
             minY = -range / 2;
         }
-//        EnergySkateParkLogging.println( "minY = " + minY );
         getAxis().setRange( minY, minY + range );
     }
 

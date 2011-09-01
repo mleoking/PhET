@@ -100,9 +100,6 @@ public class GridNode extends PhetPNode {
     private PNode createXLineNode( double minY, double maxY, double x ) {
         PPath child = new PPath( new Line2D.Double( x, minY, x, maxY ) );
         boolean thickStroke = MathUtil.isApproxEqual( x, 1, 0.001 );
-//        if ((int)x%5==0){
-//            thickStroke=true;
-//        }
         child.setStroke( new BasicStroke( 0.01f * ( thickStroke ? 3 : 1 ) ) );
         return child;
     }

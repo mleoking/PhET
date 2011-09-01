@@ -132,8 +132,6 @@ public class TestState {
         public void init( Particle particle, ParticleStage particleStage ) {
             super.init( particle, particleStage );
             particle.setFreeFall();
-//            particle.switchToTrack( particleStage.getCubicSpline2D( splineIndex ), alpha, top );
-//            particle.getParticle1D().setVelocity( velocity );
             particle.setPosition( x, y );
             particle.setVelocity( vx, vy );
         }

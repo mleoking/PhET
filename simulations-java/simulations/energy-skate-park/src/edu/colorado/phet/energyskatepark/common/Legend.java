@@ -83,11 +83,7 @@ public class Legend extends PhetPNode {
             for ( int i = 0; i < getChildrenCount(); i++ ) {
                 getChild( i ).translate( 0, -dy );
             }
-
-//            background.setOffset( -5, -5 );
         }
-
-
     }
 
     private static class SquareColor extends PPath {

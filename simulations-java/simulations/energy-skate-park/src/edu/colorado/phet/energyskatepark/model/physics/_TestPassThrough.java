@@ -51,12 +51,6 @@ public class _TestPassThrough extends TestCase {
         runTest( testState, 1.0, 100 );
     }
 
-//    public void testPointSegmentDistance2() {
-//        double dist = pointSegmentDistance( new SPoint2D( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
-//        EnergySkateParkLogging.println( "dist = " + dist );
-//        assertEquals( "point line distance should be almost zero", 0.0, dist, 1E-4 );
-//    }
-
     public void testPointSegmentDistance() {
         double dist = Particle.pointSegmentDistance( new SerializablePoint2D( 1.0, 0 ), new Line2D.Double( 0.0, 0.0, 2.0, 0.0 ) );
         EnergySkateParkLogging.println( "dist = " + dist );

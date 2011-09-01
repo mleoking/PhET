@@ -48,7 +48,6 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "location" ) ) );
         setFillHorizontal();
         showBackgroundCheckbox = new JCheckBox( EnergySkateParkStrings.getString( "controls.show-background" ), true );
-//        add( showBackgroundCheckbox );
 
         JPanel planetPanel = layout.getPlanetPanel( planetButtons );
         setAnchor( GridBagConstraints.WEST );
