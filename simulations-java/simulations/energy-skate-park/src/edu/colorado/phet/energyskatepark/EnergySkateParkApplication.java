@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
@@ -28,9 +27,7 @@ public class EnergySkateParkApplication extends PhetApplication {
     public EnergySkateParkApplication( PhetApplicationConfig config ) {
         super( config );
 
-        EnergySkateParkOptions options = parseOptions( config.getCommandLineArgs() );
-
-        module = new EnergySkateParkModule( "Module", new ConstantDtClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
+        module = new EnergySkateParkModule( "Module", getPhetFrame(), new EnergySkateParkOptions() );
         setModules( new Module[] { module } );
 
         if ( config.isDev() ) {
@@ -77,11 +74,6 @@ public class EnergySkateParkApplication extends PhetApplication {
     public void startApplication() {
         super.startApplication();
         module.getPhetPCanvas().requestFocus();
-    }
-
-    private static EnergySkateParkOptions parseOptions( String[] args ) {
-        //todo: not yet implemented
-        return new EnergySkateParkOptions();
     }
 
     public static void main( final String[] args ) {
