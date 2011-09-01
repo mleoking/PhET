@@ -29,7 +29,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelEle
  */
 public class DnaMolecule {
 
-    private static final double STRAND_DIAMETER = 200; // In picometers.
+    public static final double STRAND_DIAMETER = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
     private static final int BASE_PAIRS_PER_TWIST = 10; // In picometers.
     public static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;

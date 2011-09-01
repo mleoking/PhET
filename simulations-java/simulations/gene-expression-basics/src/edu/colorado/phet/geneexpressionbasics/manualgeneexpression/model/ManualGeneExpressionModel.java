@@ -35,8 +35,12 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // Class Data
     //------------------------------------------------------------------------
 
-    private static final double BIOMOLECULE_STAGE_WIDTH = 2000; // In picometers.
-    private static final double BIOMOLECULE_STAGE_HEIGHT = 2000; // In picometers.
+    // Stage size for the mobile biomolecules, which is basically the area in
+    // which the molecules can move.  These are empirically determined such
+    // that the molecules don't move off of the screen when looking at a given
+    // gene.
+    private static final double BIOMOLECULE_STAGE_WIDTH = 10000; // In picometers.
+    private static final double BIOMOLECULE_STAGE_HEIGHT = 5250; // In picometers.
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -151,7 +155,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
      */
     public MotionBounds getBoundsForActiveGene() {
         Rectangle2D boundsRect = new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,
-                                                         DnaMolecule.Y_POS,
+                                                         DnaMolecule.Y_POS - DnaMolecule.STRAND_DIAMETER * 3,
                                                          BIOMOLECULE_STAGE_WIDTH,
                                                          BIOMOLECULE_STAGE_HEIGHT );
         return new MotionBounds( boundsRect );
