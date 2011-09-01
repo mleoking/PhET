@@ -167,7 +167,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                    biomoleculeBoxNode.mvt,
                    new Function1<Point2D, MobileBiomolecule>() {   // Molecule creator function.
                        public MobileBiomolecule apply( Point2D pos ) {
-                           final RnaPolymerase rnaPolymerase = new RnaPolymerase( biomoleculeBoxNode.model, pos );
+                           RnaPolymerase rnaPolymerase = new RnaPolymerase( biomoleculeBoxNode.model, pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( rnaPolymerase );
                            return rnaPolymerase;
                        }
@@ -189,15 +189,17 @@ public class BiomoleculeToolBoxNode extends PNode {
         // significantly different from the size of the corresponding element
         // in the model.
         private static final double SCALING_FACTOR = 0.07;
-        private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
+        private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                                                                         new Point2D.Double( 0, 0 ),
+                                                                                                                         SCALING_FACTOR );
 
         private RibosomeCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
             super( new MobileBiomoleculeNode( SCALING_MVT, new Ribosome( new StubGeneExpressionModel() ) ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
-                   new Function1<Point2D, MobileBiomolecule>() {
+                   new Function1<Point2D, MobileBiomolecule>() {   // Molecule creator function.
                        public MobileBiomolecule apply( Point2D pos ) {
-                           Ribosome srs = new Ribosome( biomoleculeBoxNode.model );
+                           Ribosome srs = new Ribosome( biomoleculeBoxNode.model, pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( srs );
                            return srs;
                        }
@@ -257,7 +259,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                    biomoleculeBoxNode.mvt,
                    new Function1<Point2D, MobileBiomolecule>() {
                        public MobileBiomolecule apply( Point2D pos ) {
-                           MessengerRnaDestroyer mRnaDestroyer = new MessengerRnaDestroyer( biomoleculeBoxNode.model );
+                           MessengerRnaDestroyer mRnaDestroyer = new MessengerRnaDestroyer( biomoleculeBoxNode.model, pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( mRnaDestroyer );
                            return mRnaDestroyer;
                        }
