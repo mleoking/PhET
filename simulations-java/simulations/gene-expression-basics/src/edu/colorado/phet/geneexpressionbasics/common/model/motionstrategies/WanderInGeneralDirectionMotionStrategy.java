@@ -43,7 +43,7 @@ public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
             double varianceAngle = ( RAND.nextDouble() - 0.5 ) * Math.PI / 3;
             currentMotionVector = generalDirection.getInstanceOfMagnitude( newVelocity ).getRotatedInstance( varianceAngle );
             // Reset the countdown timer.
-            directionChangeCountdown = MIN_TIME_IN_ONE_DIRECTION + RAND.nextDouble() * ( MAX_TIME_IN_ONE_DIRECTION - MIN_TIME_IN_ONE_DIRECTION );
+            directionChangeCountdown = generateDirectionChangeCountdownValue();
         }
 
         // Make sure that current motion will not cause the model element to
