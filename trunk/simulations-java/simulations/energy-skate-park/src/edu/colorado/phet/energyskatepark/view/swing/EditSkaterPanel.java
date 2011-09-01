@@ -21,7 +21,7 @@ import edu.colorado.phet.energyskatepark.model.physics.Particle;
  * Apr 27, 2007, 12:44:56 AM
  */
 public class EditSkaterPanel extends AdvancedPanel {
-    private EnergySkateParkModule module;
+    private final EnergySkateParkModule module;
 
     public EditSkaterPanel( final EnergySkateParkModule module ) {
         super( EnergySkateParkStrings.getString( "controls.edit-skater" ) + " >>", EnergySkateParkStrings.getString( "controls.hide-skater-properties" ) + " <<" );

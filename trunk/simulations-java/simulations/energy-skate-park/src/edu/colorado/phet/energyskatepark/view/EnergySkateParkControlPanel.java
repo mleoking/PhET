@@ -39,12 +39,12 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class EnergySkateParkControlPanel extends ControlPanel {
-    private EnergySkateParkModule module;
-    private PieChartControlPanel piePanel;
-    private PathRecordContol pathRecordContol;
-    private LocationControlPanel locationControlPanel;
-    private AdvancedPanel advancedFrictionPanel;
-    private EditSkaterPanel editSkaterPanel;
+    private final EnergySkateParkModule module;
+    private final PieChartControlPanel piePanel;
+    private final PathRecordContol pathRecordContol;
+    private final LocationControlPanel locationControlPanel;
+    private final AdvancedPanel advancedFrictionPanel;
+    private final EditSkaterPanel editSkaterPanel;
 
 //    public static boolean PLANET_CENTERED = false;
 //    public static LocationControlPanel.PlanetButtonLayout PLANET_LAYOUT = new LocationControlPanel.TwoColumnLayout();

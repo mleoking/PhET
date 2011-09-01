@@ -10,7 +10,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
  * Jun 29, 2007, 11:17:25 PM
  */
 public class EnergyPositionPlotDialog extends PaintImmediateDialog {
-    private EnergyPositionPlot energyPosition;
+    private final EnergyPositionPlot energyPosition;
 
     public EnergyPositionPlotDialog( PhetFrame phetFrame, String title, boolean modal, EnergySkateParkModule energySkateParkModule ) {
         super( phetFrame, title, modal );

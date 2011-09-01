@@ -18,7 +18,7 @@ import edu.colorado.phet.energyskatepark.view.piccolo.SplineNode;
  * Mar 16, 2007, 12:41:42 PM
  */
 public class TestSplineNode {
-    private JFrame frame;
+    private final JFrame frame;
 
     public TestSplineNode() {
         PhetPCanvas phetPCanvas = new PhetPCanvas( new Rectangle2D.Double( 0, 0, 10, 10 ) );

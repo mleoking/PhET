@@ -20,11 +20,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 
 public class FloorNode extends PNode {
-    private EnergySkateParkModule module;
-    private EnergySkateParkModel energySkateParkModel;
-    private Floor floor;
-    private PPath groundPPath;
-    private PPath groundLinePPath;
+    private final EnergySkateParkModule module;
+    private final EnergySkateParkModel energySkateParkModel;
+    private final Floor floor;
+    private final PPath groundPPath;
+    private final PPath groundLinePPath;
 
     public FloorNode( EnergySkateParkModule module, EnergySkateParkModel energySkateParkModel, Floor floor ) {
         this.module = module;

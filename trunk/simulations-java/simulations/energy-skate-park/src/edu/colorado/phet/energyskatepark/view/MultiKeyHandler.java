@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 
 public class MultiKeyHandler {
-    private HashMap pressedKeys = new HashMap();
+    private final HashMap pressedKeys = new HashMap();
     private static final Object DUMMY_VALUE = new Object();
 
     public boolean isPressed( int vk_value ) {

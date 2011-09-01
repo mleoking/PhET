@@ -25,10 +25,10 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
  */
 
 public class PieChartControlPanel extends HorizontalLayoutPanel {
-    private EnergySkateParkModule module;
-    private EnergySkateParkControlPanel energySkateParkControlPanel;
-    private JCheckBox showThermal;
-    private JCheckBox showPieChartCheckBox;
+    private final EnergySkateParkModule module;
+    private final EnergySkateParkControlPanel energySkateParkControlPanel;
+    private final JCheckBox showThermal;
+    private final JCheckBox showPieChartCheckBox;
 
     public PieChartControlPanel( final EnergySkateParkModule module, EnergySkateParkControlPanel energySkateParkControlPanel ) {
         this.module = module;

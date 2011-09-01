@@ -16,7 +16,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
  * Jun 1, 2007, 1:39:39 PM
  */
 public class EnergySkateParkTimePanel extends JPanel {
-    private EnergySkateParkModule module;
+    private final EnergySkateParkModule module;
 
     public EnergySkateParkTimePanel( final EnergySkateParkModule module, final Clock clock ) {
         this.module = module;

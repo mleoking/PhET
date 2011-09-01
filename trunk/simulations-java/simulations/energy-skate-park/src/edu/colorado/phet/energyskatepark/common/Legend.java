@@ -23,9 +23,9 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 
 public class Legend extends PhetPNode {
-    private ArrayList list = new ArrayList();
-    private double padY = 2;
-    private PPath background;
+    private final ArrayList list = new ArrayList();
+    private final double padY = 2;
+    private final PPath background;
 
     public Legend() {
         background = new PPath();
@@ -38,9 +38,9 @@ public class Legend extends PhetPNode {
     }
 
     private static class Entry extends PNode {
-        String text;
-        PNode node;
-        private ShadowPText textNode;
+        final String text;
+        final PNode node;
+        private final ShadowPText textNode;
 
         public Entry( String text, Color textColor, PNode node ) {
             this.text = text;

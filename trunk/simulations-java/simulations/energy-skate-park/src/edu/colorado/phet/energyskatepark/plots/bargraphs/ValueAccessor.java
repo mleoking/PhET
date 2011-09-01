@@ -13,8 +13,8 @@ import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
  * Time: 1:48:27 PM
  */
 public abstract class ValueAccessor {
-    private String name;
-    private Color color;
+    private final String name;
+    private final Color color;
 
     protected ValueAccessor( String name, Color color ) {
         this.name = name;

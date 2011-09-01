@@ -39,23 +39,23 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class EnergySkateParkModule extends PiccoloModule {
-    private EnergySkateParkModel energyModel;
-    private EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
-    private EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
-    private BarChartDialog barChartDialog;
-    private double floorY = 0.0;
-    private EnergySkateParkRecordableModel energyTimeSeriesModel;
-    private SkaterCharacterSet skaterCharacterSet = new SkaterCharacterSet();
+    private final EnergySkateParkModel energyModel;
+    private final EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
+    private final EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
+    private final BarChartDialog barChartDialog;
+    private final double floorY = 0.0;
+    private final EnergySkateParkRecordableModel energyTimeSeriesModel;
+    private final SkaterCharacterSet skaterCharacterSet = new SkaterCharacterSet();
 
-    private PhetFrame phetFrame;
+    private final PhetFrame phetFrame;
 
-    private EnergySkateParkControlPanel energySkateParkControlPanel;
-    private TimeSeriesModel timeSeriesModel;
+    private final EnergySkateParkControlPanel energySkateParkControlPanel;
+    private final TimeSeriesModel timeSeriesModel;
 
-    private EnergyTimePlot energyTimePlot;
-    private EnergyPositionPlotDialog energyPositionPlotDialog;
+    private final EnergyTimePlot energyTimePlot;
+    private final EnergyPositionPlotDialog energyPositionPlotDialog;
 
-    private EnergySkateParkOptions options;
+    private final EnergySkateParkOptions options;
 
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;

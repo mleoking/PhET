@@ -13,8 +13,8 @@ import edu.colorado.phet.common.spline.ParametricFunction2D;
  */
 
 public class ParticleStage implements Serializable {
-    private ArrayList splines = new ArrayList();
-    private ArrayList listeners = new ArrayList();
+    private final ArrayList splines = new ArrayList();
+    private final ArrayList listeners = new ArrayList();
 
     public ParticleStage() {
     }

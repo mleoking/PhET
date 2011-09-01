@@ -16,8 +16,8 @@ import edu.colorado.phet.energyskatepark.model.Planet;
  */
 
 public class PlanetButton extends JRadioButton {
-    private Planet planet;
-    private boolean selected;
+    private final Planet planet;
+    private final boolean selected;
 
     public PlanetButton( final EnergySkateParkModule module, final Planet planet, boolean selected ) {
         super( planet.getName() );//+ " (" + ( Math.abs( planet.getGravity() ) ) + " N/kg)", selected );

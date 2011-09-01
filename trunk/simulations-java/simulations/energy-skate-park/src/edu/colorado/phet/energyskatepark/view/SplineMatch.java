@@ -12,8 +12,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class SplineMatch {
-    private SplineNode target;
-    private int index;
+    private final SplineNode target;
+    private final int index;
 
     public SplineMatch( SplineNode target, int index ) {
         this.target = target;

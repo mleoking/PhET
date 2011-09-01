@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 
 public class TestTransform4 {
-    private JFrame frame;
+    private final JFrame frame;
 
     public TestTransform4() {
         frame = new JFrame();
@@ -91,7 +91,7 @@ public class TestTransform4 {
     }
 
     static class WorldNode extends PNode {
-        PCanvas pCanvas;
+        final PCanvas pCanvas;
         private double minWidth;
         private double minHeight;
 
@@ -142,7 +142,7 @@ public class TestTransform4 {
     }
 
     class ModelNode extends PhetPNode {
-        private PNode node;
+        private final PNode node;
 
         public ModelNode( PNode node ) {
             super( node );

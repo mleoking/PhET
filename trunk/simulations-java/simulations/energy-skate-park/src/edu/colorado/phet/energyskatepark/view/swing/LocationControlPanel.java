@@ -24,10 +24,10 @@ import edu.colorado.phet.energyskatepark.model.Planet;
  */
 
 public class LocationControlPanel extends VerticalLayoutPanel {
-    private JCheckBox showBackgroundCheckbox;
-    private PlanetButton[] planetButtons;
-    private EnergySkateParkModule module;
-    private PlanetButtonLayout layout;
+    private final JCheckBox showBackgroundCheckbox;
+    private final PlanetButton[] planetButtons;
+    private final EnergySkateParkModule module;
+    private final PlanetButtonLayout layout;
 
     public LocationControlPanel( EnergySkateParkModule module ) {
         this( module, new VerticalPlanetButtonLayout() );

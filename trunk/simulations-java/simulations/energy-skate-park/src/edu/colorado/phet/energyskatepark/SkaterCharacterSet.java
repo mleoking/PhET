@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Mar 30, 2007, 10:25:07 PM
  */
 public class SkaterCharacterSet {
-    private ArrayList list = new ArrayList();
+    private final ArrayList list = new ArrayList();
 
     public SkaterCharacterSet() {
         addSkaterCharacter( getDefaultCharacter() );

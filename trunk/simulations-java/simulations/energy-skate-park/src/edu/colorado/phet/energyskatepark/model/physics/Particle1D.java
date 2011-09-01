@@ -33,7 +33,7 @@ public class Particle1D implements Serializable {
     private double g;// meters/s/s
     private double mass = 1.0;//kg
 
-    private List listeners = new OptionalItemSerializableList();
+    private final List listeners = new OptionalItemSerializableList();
     private boolean splineTop = true;
     private boolean reflect = true;
     private double zeroPointPotentialY = 0.0;
@@ -42,7 +42,7 @@ public class Particle1D implements Serializable {
     private double frictionCoefficient = 0;
     private double thermalEnergy = 0;
 
-    private boolean debug = false;
+    private final boolean debug = false;
 
     public Particle1D( ParametricFunction2D cubicSpline, boolean splineTop ) {
         this( cubicSpline, splineTop, 9.8 );
@@ -344,7 +344,7 @@ public class Particle1D implements Serializable {
         }
     }
 
-    boolean verbose = false;
+    final boolean verbose = false;
 
     private void verboseDebug( String text ) {
         if ( verbose ) {

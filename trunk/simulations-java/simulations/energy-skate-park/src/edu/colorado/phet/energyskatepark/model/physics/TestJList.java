@@ -17,7 +17,7 @@ import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
  */
 
 public class TestJList extends JList {
-    DefaultTestSet defaultTestSet;
+    final DefaultTestSet defaultTestSet;
 
     public TestJList( final DefaultTestSet defaultTestSet, final TestPhysics1D testPhysics1D ) {
         this.defaultTestSet = defaultTestSet;

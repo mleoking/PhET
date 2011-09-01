@@ -20,9 +20,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 public class CubicSpline2DNode extends ParametricFunction2DNode {
     private CubicSpline2D parametricFunction2D;
-    private PNode controlPointLayer = new PNode();
+    private final PNode controlPointLayer = new PNode();
 
-    private ParametricFunction2D.Listener listener = new ParametricFunction2D.Listener() {
+    private final ParametricFunction2D.Listener listener = new ParametricFunction2D.Listener() {
         public void trackChanged() {
             update();
         }
@@ -70,7 +70,7 @@ public class CubicSpline2DNode extends ParametricFunction2DNode {
 
     class ControlPointNode extends PNode {
         private int index;
-        private PhetPPath controlPoint;
+        private final PhetPPath controlPoint;
 
         public ControlPointNode( int index_ ) {
             this.index = index_;

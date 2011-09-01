@@ -14,7 +14,7 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
  */
 
 public class EnergySkateParkBarGraph extends BarChartNode {
-    private EnergySkateParkModel model;
+    private final EnergySkateParkModel model;
 
     public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, double scale ) {
         this( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), scale );

@@ -21,9 +21,9 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 
 public class BarGraphCanvas extends PSwingCanvas {
-    private EnergySkateParkModule module;
-    private PSwing clearHeatButton;
-    private VerticalZoomControl verticalZoomControl;
+    private final EnergySkateParkModule module;
+    private final PSwing clearHeatButton;
+    private final VerticalZoomControl verticalZoomControl;
 
     public BarGraphCanvas( final EnergySkateParkModule module ) {
         this.module = module;

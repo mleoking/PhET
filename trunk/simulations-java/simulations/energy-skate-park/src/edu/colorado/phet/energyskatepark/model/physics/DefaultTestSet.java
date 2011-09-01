@@ -12,14 +12,14 @@ import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
  */
 
 public class DefaultTestSet {
-    private ArrayList tests = new ArrayList();
-    private TestState dualTrackTest;
-    private TestState.SplineTestState upsideDownLoop;
-    private TestState.SplineTestState fallThroughValley;
-    private TestState.FreeFallTestState fallThroughValley2;
-    private TestState.SplineTestState fallThroughPeak;
-    private TestState.SplineTestState fallOffSteep;
-    private TestState.SplineTestState testApproachPeak;
+    private final ArrayList tests = new ArrayList();
+    private final TestState dualTrackTest;
+    private final TestState.SplineTestState upsideDownLoop;
+    private final TestState.SplineTestState fallThroughValley;
+    private final TestState.FreeFallTestState fallThroughValley2;
+    private final TestState.SplineTestState fallThroughPeak;
+    private final TestState.SplineTestState fallOffSteep;
+    private final TestState.SplineTestState testApproachPeak;
 
     public DefaultTestSet() {
         dualTrackTest = new TestState.SplineTestState( "Dual Track Test", 0, 0.92, 0.0, false );

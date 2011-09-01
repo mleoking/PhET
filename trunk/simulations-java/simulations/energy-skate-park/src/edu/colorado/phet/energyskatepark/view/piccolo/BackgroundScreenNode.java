@@ -20,9 +20,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 
 public class BackgroundScreenNode extends PhetPNode {
-    private EnergySkateParkSimulationPanel canvas;
+    private final EnergySkateParkSimulationPanel canvas;
     private BufferedImage backgroundImage;
-    private PNode floorGraphic;
+    private final PNode floorGraphic;
 
     public BackgroundScreenNode( EnergySkateParkSimulationPanel simulationPanel, BufferedImage backgroundImage, PNode floorGraphic ) {
         this.canvas = simulationPanel;

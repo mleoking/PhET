@@ -64,8 +64,8 @@ public class _TestPassThrough extends TestCase {
     }
 
     public static class ParticleTestState {
-        private ParametricFunction2D parametricFunction2D;
-        private Particle particle;
+        private final ParametricFunction2D parametricFunction2D;
+        private final Particle particle;
 
         public ParticleTestState( SerializablePoint2D[] controlPoints, SerializablePoint2D position, ImmutableVector2D velocity ) {
             parametricFunction2D = new CubicSpline2D( controlPoints );

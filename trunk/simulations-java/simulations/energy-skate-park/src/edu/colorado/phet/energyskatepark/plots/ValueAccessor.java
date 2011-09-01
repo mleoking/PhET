@@ -12,12 +12,12 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
  */
 
 public abstract class ValueAccessor {
-    private String name;
-    private String html;
-    private String units;
-    private String unitAbbreviation;
-    private Color color;
-    private String fullName;
+    private final String name;
+    private final String html;
+    private final String units;
+    private final String unitAbbreviation;
+    private final Color color;
+    private final String fullName;
 
     public static final String joules = EnergySkateParkStrings.getString( "units.joules" );
     public static final String joulesAbbreviation = "J";

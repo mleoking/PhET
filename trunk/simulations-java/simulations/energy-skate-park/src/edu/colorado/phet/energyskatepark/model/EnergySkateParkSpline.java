@@ -17,10 +17,10 @@ import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
  * Mar 16, 2007, 11:30:06 AM
  */
 public class EnergySkateParkSpline implements Serializable {
-    private DefaultTrackSpline parametricFunction2D;
+    private final DefaultTrackSpline parametricFunction2D;
     private boolean rollerCoaster;
     private boolean userControlled;
-    private boolean interactive = true;
+    private final boolean interactive = true;
     private transient ArrayList listeners = new ArrayList();
 
     public EnergySkateParkSpline( SerializablePoint2D[] controlPoints ) {

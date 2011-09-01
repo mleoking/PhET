@@ -8,8 +8,8 @@ import edu.colorado.phet.energyskatepark.view.swing.LocationControlPanel;
  * May 30, 2007, 1:43:35 PM
  */
 public class EnergySkateParkOptions {
-    private LocationControlPanel.PlanetButtonLayout planetButtonLayout;
-    private boolean centered;
+    private final LocationControlPanel.PlanetButtonLayout planetButtonLayout;
+    private final boolean centered;
 
     public EnergySkateParkOptions( LocationControlPanel.PlanetButtonLayout planetButtonLayout, boolean centered ) {
         this.planetButtonLayout = planetButtonLayout;

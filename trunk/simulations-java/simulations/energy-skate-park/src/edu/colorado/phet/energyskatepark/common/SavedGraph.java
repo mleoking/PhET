@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  */
 
 public class SavedGraph {
-    private JDialog frame;
+    private final JDialog frame;
 
     public SavedGraph( Frame owner, String title, Image image ) {
         this.frame = new JDialog( owner, title, false );

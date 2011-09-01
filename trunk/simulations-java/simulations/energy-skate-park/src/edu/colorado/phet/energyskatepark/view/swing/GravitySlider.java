@@ -20,7 +20,7 @@ import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
  */
 
 public class GravitySlider extends LinearValueControl {
-    private EnergySkateParkModule module;
+    private final EnergySkateParkModule module;
 
     public GravitySlider( final EnergySkateParkModule module ) {
         super( 0, 30, EnergySkateParkStrings.getString( "controls.gravity" ), "0.00", EnergySkateParkStrings.getString( "units.accel" ) );

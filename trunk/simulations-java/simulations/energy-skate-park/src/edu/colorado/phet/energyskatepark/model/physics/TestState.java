@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
  */
 
 public class TestState {
-    private ArrayList controlPointSets = new ArrayList();
-    private String name;
+    private final ArrayList controlPointSets = new ArrayList();
+    private final String name;
 
     public TestState( String name ) {
         this.name = name;

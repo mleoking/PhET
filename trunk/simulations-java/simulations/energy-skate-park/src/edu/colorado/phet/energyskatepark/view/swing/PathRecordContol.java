@@ -19,9 +19,9 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
  */
 
 public class PathRecordContol extends HorizontalLayoutPanel {
-    private JButton recordPath;
-    private JButton clearHistory;
-    private EnergySkateParkModule module;
+    private final JButton recordPath;
+    private final JButton clearHistory;
+    private final EnergySkateParkModule module;
     private boolean recording = false;
 
     public PathRecordContol( final EnergySkateParkModule module ) {

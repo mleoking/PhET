@@ -15,11 +15,11 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 
 public class ParticleImageNode extends PNode {
-    private Particle particle;
-    private PImage imageNode;
-    private double w;
-    private double h;
-    private double scale;
+    private final Particle particle;
+    private final PImage imageNode;
+    private final double w;
+    private final double h;
+    private final double scale;
 
     private boolean centered = false;
 

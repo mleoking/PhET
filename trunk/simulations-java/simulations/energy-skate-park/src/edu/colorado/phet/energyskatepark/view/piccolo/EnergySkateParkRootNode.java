@@ -38,30 +38,30 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 
 public class EnergySkateParkRootNode extends PhetRootPNode {
-    private EnergySkateParkModule module;
-    private EnergySkateParkSimulationPanel simulationPanel;
+    private final EnergySkateParkModule module;
+    private final EnergySkateParkSimulationPanel simulationPanel;
 
-    private PNode skaterNodeLayer = new PNode();
-    private PNode splineLayer = new PNode();
-    private PNode historyLayer = new PNode();
-    private PNode historyReadoutLayer = new PNode();
-    private PNode pieChartLayer = new PNode();
+    private final PNode skaterNodeLayer = new PNode();
+    private final PNode splineLayer = new PNode();
+    private final PNode historyLayer = new PNode();
+    private final PNode historyReadoutLayer = new PNode();
+    private final PNode pieChartLayer = new PNode();
 
-    private MeasuringTape measuringTape;
-    private ReturnSkaterButtonNode returnSkaterButtonNode;
+    private final MeasuringTape measuringTape;
+    private final ReturnSkaterButtonNode returnSkaterButtonNode;
     private boolean ignoreThermal = EnergySkateParkApplication.IGNORE_THERMAL_DEFAULT;
-    private PauseIndicatorNode pauseIndicator;
-    private EnergySkateParkLegend legend;
-    private BackgroundScreenNode backgroundScreenNode;
-    private SplineToolboxNode splineToolbox;
-    private FloorNode floorNode;
-    private ZeroPointPotentialNode zeroPointPotentialNode;
-    private GridNode gridNode;
-    private PanZoomOnscreenControlNode panZoomControls;
-    private PNode energyErrorIndicatorContainer = new PNode();
-    private EnergyErrorIndicatorNode energyErrorIndicatorNode;
-    private SurfaceObjectNode houseNode;
-    private SurfaceObjectNode mountainNode;
+    private final PauseIndicatorNode pauseIndicator;
+    private final EnergySkateParkLegend legend;
+    private final BackgroundScreenNode backgroundScreenNode;
+    private final SplineToolboxNode splineToolbox;
+    private final FloorNode floorNode;
+    private final ZeroPointPotentialNode zeroPointPotentialNode;
+    private final GridNode gridNode;
+    private final PanZoomOnscreenControlNode panZoomControls;
+    private final PNode energyErrorIndicatorContainer = new PNode();
+    private final EnergyErrorIndicatorNode energyErrorIndicatorNode;
+    private final SurfaceObjectNode houseNode;
+    private final SurfaceObjectNode mountainNode;
 
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private static final boolean DEFAULT_TAPE_VISIBLE = false;

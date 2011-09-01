@@ -25,8 +25,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class TestTransform3 {
-    private JFrame frame;
-    private static boolean invertY = false;
+    private final JFrame frame;
+    private static final boolean invertY = false;
 
     public TestTransform3() {
         frame = new JFrame();
@@ -77,7 +77,7 @@ public class TestTransform3 {
      * Node that is supposed to maintain aspect ratio when the screen resizes.
      */
     static class WorldNode extends PNode {
-        PCanvas pCanvas;
+        final PCanvas pCanvas;
         private double minWidth;
         private double minHeight;
 
@@ -127,7 +127,7 @@ public class TestTransform3 {
      * Utility class for maintaining aspect ratio for a node while setting its width.
      */
     static class ModelNode extends PhetPNode {
-        private PNode node;
+        private final PNode node;
 
         public ModelNode( PNode node ) {
             super( node );

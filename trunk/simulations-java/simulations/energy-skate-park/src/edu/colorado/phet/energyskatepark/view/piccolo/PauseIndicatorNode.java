@@ -28,9 +28,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class PauseIndicatorNode extends PNode {
 
-    private EnergySkateParkModule module;
-    private int insetX = 5;
-    private int insetY = 5;
+    private final EnergySkateParkModule module;
+    private final int insetX = 5;
+    private final int insetY = 5;
 
     public PauseIndicatorNode( final EnergySkateParkModule module ) {
         this.module = module;

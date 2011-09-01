@@ -28,13 +28,13 @@ public class EnergySkateParkModel implements Serializable {
 
     private double gravity = G_EARTH;
     private double zeroPointPotentialY;
-    private List listeners = new OptionalItemSerializableList();
+    private final List listeners = new OptionalItemSerializableList();
     private boolean recordPath = false;
     private double initZeroPointPotentialY;
     private int maxNumHistoryPoints = 100;
-    private ParticleStage particleStage;
+    private final ParticleStage particleStage;
     private SkaterCharacter skaterCharacter = SkaterCharacterSet.getDefaultCharacter();
-    private Body.ListenerAdapter primaryBodyAdapter = new PrimaryBodyListenerAdapter();
+    private final Body.ListenerAdapter primaryBodyAdapter = new PrimaryBodyListenerAdapter();
 
     public static final double G_SPACE = 0.0;
     public static final double G_EARTH = -9.81;

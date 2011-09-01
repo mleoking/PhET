@@ -51,26 +51,26 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 
 public class SplineNode extends PNode {
-    private TrackNode splinePath;
-    private PhetPPath rollerCoasterPath;
+    private final TrackNode splinePath;
+    private final PhetPPath rollerCoasterPath;
 
-    private PNode controlPointLayer;
+    private final PNode controlPointLayer;
 
     private Point2D.Double[] initDragSpline;
     private Point2D.Double controlPointLoc;
 
-    private BasicStroke dottedStroke = new BasicStroke( 0.03f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[] { 0.09f, 0.09f }, 0 );
-    private BasicStroke lineStroke = new BasicStroke( 0.03f );
+    private final BasicStroke dottedStroke = new BasicStroke( 0.03f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[] { 0.09f, 0.09f }, 0 );
+    private final BasicStroke lineStroke = new BasicStroke( 0.03f );
     private EnergySkateParkSpline spline;
     private EnergySkateParkSpline lastState;
-    private PBasicInputEventHandler dragHandler;
+    private final PBasicInputEventHandler dragHandler;
 
-    private JComponent parent;
-    private EnergySkateParkSplineEnvironment splineEnvironment;
-    private TrackNode centerPath;
-    private SplineNode.TrackPopupMenu popupMenu;
-    private EnergySkateParkSpline.Listener splineListener;
-    private boolean isDev = false;
+    private final JComponent parent;
+    private final EnergySkateParkSplineEnvironment splineEnvironment;
+    private final TrackNode centerPath;
+    private final SplineNode.TrackPopupMenu popupMenu;
+    private final EnergySkateParkSpline.Listener splineListener;
+    private final boolean isDev = false;
 
     public SplineNode( JComponent parent, EnergySkateParkSpline energySkateParkSpline, EnergySkateParkSplineEnvironment splineEnvironment ) {
         this.parent = parent;
@@ -466,8 +466,8 @@ public class SplineNode extends PNode {
     }
 
     class TrackPopupMenu extends JPopupMenu {
-        private JCheckBoxMenuItem rollerCoasterMode;
-        private EnergySkateParkSpline.Listener splineListener = new EnergySkateParkSpline.Listener() {
+        private final JCheckBoxMenuItem rollerCoasterMode;
+        private final EnergySkateParkSpline.Listener splineListener = new EnergySkateParkSpline.Listener() {
             public void rollerCoasterModeChanged() {
                 TrackPopupMenu.this.updateAll();
             }

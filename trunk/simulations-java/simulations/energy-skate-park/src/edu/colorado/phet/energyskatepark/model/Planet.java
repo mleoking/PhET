@@ -16,11 +16,11 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
  * Time: 11:45:12 PM
  */
 public abstract class Planet {
-    private String name;
-    private double gravity;
-    private Paint groundPaint;
-    private Paint groundLinePaint;
-    private boolean groundVisible;
+    private final String name;
+    private final double gravity;
+    private final Paint groundPaint;
+    private final Paint groundLinePaint;
+    private final boolean groundVisible;
 
     protected Planet( String name, double gravity, Paint groundPaint, Paint groundLinePaint, boolean groundVisible ) {
         this.gravity = gravity;

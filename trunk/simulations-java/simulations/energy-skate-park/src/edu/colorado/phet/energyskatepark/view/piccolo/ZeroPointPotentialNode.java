@@ -27,8 +27,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 
 public class ZeroPointPotentialNode extends PhetPNode {
-    private EnergySkateParkSimulationPanel panel;
-    private EnergySkateParkModel model;
+    private final EnergySkateParkSimulationPanel panel;
+    private final EnergySkateParkModel model;
 
     public ZeroPointPotentialNode( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, final EnergySkateParkModel model ) {
         this.panel = energySkateParkSimulationPanel;

@@ -22,8 +22,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 
 public class PanZoomControl extends JPanel {
-    private EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
-    private double zoomScale = 1.1;
+    private final EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
+    private final double zoomScale = 1.1;
     private int zoomOutCount = 0;
     private JButton zoomIn;
     private JButton zoomOut;

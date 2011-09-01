@@ -29,7 +29,7 @@ import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 public class Body implements Serializable {
     private Body restorePoint = null;
 
-    private Particle particle;
+    private final Particle particle;
     private boolean facingRight;
     private double width;
     private double height;
@@ -37,12 +37,12 @@ public class Body implements Serializable {
     private int errorCount = 0;
     private double fractionalEnergyError = 0.0;
 
-    private List listeners = new OptionalItemSerializableList();
+    private final List listeners = new OptionalItemSerializableList();
 
     public static final List particles = new ArrayList();
 
     //    public static double DEFAULT_STICKINESS = 0.75;
-    public static double DEFAULT_STICKINESS = 0.9;
+    public static final double DEFAULT_STICKINESS = 0.9;
     public static double staticSticky = DEFAULT_STICKINESS;
     private SkaterCharacter skaterCharacter;
 

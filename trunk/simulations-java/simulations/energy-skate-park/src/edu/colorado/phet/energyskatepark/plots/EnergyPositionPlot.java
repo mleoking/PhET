@@ -53,28 +53,28 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 
 public class EnergyPositionPlot extends BufferedPhetPCanvas {
-    private JFreeChart chart;
-    private XYSeriesCollection dataset;
-    private EnergySkateParkModule module;
+    private final JFreeChart chart;
+    private final XYSeriesCollection dataset;
+    private final EnergySkateParkModule module;
 
-    private PImage image;
-    private ChartRenderingInfo info = new ChartRenderingInfo();
+    private final PImage image;
+    private final ChartRenderingInfo info = new ChartRenderingInfo();
 
-    private PPath verticalBar = new PPath( new Line2D.Double( 0, 0, 0, 500 ) );
+    private final PPath verticalBar = new PPath( new Line2D.Double( 0, 0, 0, 500 ) );
     private static final int COUNT_MOD = 10;
 
-    private EnergySkateParkLegend legend;
+    private final EnergySkateParkLegend legend;
     private int saveCount = 1;
 
-    private EnergyType ke;
-    private EnergyType pe;
-    private EnergyType thermal;
-    private EnergyType total;
-    private JPanel southPanel;
-    private ZoomControlNode verticalZoom;
-    private ZoomControlNode horizontalZoom;
-    private PSwing southPSwing;
-    private PNode dataLayer = new PNode();
+    private final EnergyType ke;
+    private final EnergyType pe;
+    private final EnergyType thermal;
+    private final EnergyType total;
+    private final JPanel southPanel;
+    private final ZoomControlNode verticalZoom;
+    private final ZoomControlNode horizontalZoom;
+    private final PSwing southPSwing;
+    private final PNode dataLayer = new PNode();
 
     public EnergyPositionPlot( EnergySkateParkModule module ) {
         setBackground( EnergySkateParkLookAndFeel.backgroundColor );
@@ -313,11 +313,11 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
     }
 
     static class FadeDot extends PPath {
-        private Color origColor;
+        private final Color origColor;
         private double age;
-        private double dAge = 1.3 * COUNT_MOD;
+        private final double dAge = 1.3 * COUNT_MOD;
         private Color fadeColor;
-        private String name;
+        private final String name;
 
         public FadeDot( EnergyType energyType, Point2D loc ) {
             super( new Ellipse2D.Double( -3, -3, 6, 6 ), null );
@@ -376,10 +376,10 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
     }
 
     static abstract class EnergyType {
-        private EnergySkateParkModule module;
-        String name;
-        private Color color;
-        private EnergyPositionPlot energyPositionPlot;
+        private final EnergySkateParkModule module;
+        final String name;
+        private final Color color;
+        private final EnergyPositionPlot energyPositionPlot;
         boolean visible = true;
 
         public EnergyType( EnergySkateParkModule module, String name, Color color, EnergyPositionPlot energyPositionPlot ) {

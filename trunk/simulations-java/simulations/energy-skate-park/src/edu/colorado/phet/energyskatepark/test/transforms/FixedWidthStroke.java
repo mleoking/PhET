@@ -10,8 +10,8 @@ import java.awt.Stroke;
  * Time: 8:50:55 PM
  */
 class FixedWidthStroke implements Stroke {
-    private Stroke prototype;
-    private float width;
+    private final Stroke prototype;
+    private final float width;
 
     public FixedWidthStroke( Stroke prototype, float width ) {
         this.prototype = prototype;

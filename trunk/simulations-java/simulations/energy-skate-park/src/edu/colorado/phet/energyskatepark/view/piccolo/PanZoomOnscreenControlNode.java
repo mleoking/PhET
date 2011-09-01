@@ -13,7 +13,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 
 public class PanZoomOnscreenControlNode extends PhetPNode {
-    private PanZoomControl panZoomControl;
+    private final PanZoomControl panZoomControl;
 
     public PanZoomOnscreenControlNode( EnergySkateParkSimulationPanel phetPCanvas ) {
         panZoomControl = new PanZoomControl( phetPCanvas );

@@ -49,8 +49,8 @@ public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
     }
 
     public static class TestItem {
-        private String location;
-        private String title;
+        private final String location;
+        private final String title;
 
         public TestItem( String location, String title ) {
             this.location = location;

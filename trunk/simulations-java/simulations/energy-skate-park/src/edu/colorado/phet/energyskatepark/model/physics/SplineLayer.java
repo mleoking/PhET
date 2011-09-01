@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.PNode;
  * Time: 1:58:37 PM
  */
 public class SplineLayer extends PNode {
-    private ParticleStage particleStage;
+    private final ParticleStage particleStage;
     private boolean showTopOffsetSpline = false;
     private double offsetDistance = ParametricFunction2DNode.HUMAN_CENTER_OF_MASS_HEIGHT;
     private boolean showBottomOffsetSpline = false;
