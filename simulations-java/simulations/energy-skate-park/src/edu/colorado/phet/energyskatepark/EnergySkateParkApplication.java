@@ -21,7 +21,7 @@ import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTrackMenu;
 
 public class EnergySkateParkApplication extends PhetApplication {
 
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     public static final double SIMULATION_TIME_DT = 0.03;
     public static final boolean IGNORE_THERMAL_DEFAULT = false;
 
@@ -30,7 +30,7 @@ public class EnergySkateParkApplication extends PhetApplication {
 
         EnergySkateParkOptions options = parseOptions( config.getCommandLineArgs() );
 
-        module = new EnergySkateParkModule( "Module", new ConstantDtClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
+        module = new AbstractEnergySkateParkModule( "Module", new ConstantDtClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
         setModules( new Module[] { module } );
 
         if ( config.isDev() ) {
@@ -70,7 +70,7 @@ public class EnergySkateParkApplication extends PhetApplication {
         getPhetFrame().addFileMenuSeparator();
     }
 
-    public EnergySkateParkModule getModule() {
+    public AbstractEnergySkateParkModule getModule() {
         return module;
     }
 

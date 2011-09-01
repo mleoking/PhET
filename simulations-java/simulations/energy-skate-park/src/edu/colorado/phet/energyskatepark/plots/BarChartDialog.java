@@ -3,7 +3,7 @@ package edu.colorado.phet.energyskatepark.plots;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 
 /**
  * Author: Sam Reid
@@ -12,7 +12,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 public class BarChartDialog extends PaintImmediateDialog {
     private final BarGraphCanvas barGraphCanvas;
 
-    public BarChartDialog( PhetFrame phetFrame, String title, boolean modal, EnergySkateParkModule module ) {
+    public BarChartDialog( PhetFrame phetFrame, String title, boolean modal, AbstractEnergySkateParkModule module ) {
         super( phetFrame, title, modal );
         barGraphCanvas = new BarGraphCanvas( module );
         setContentPane( barGraphCanvas );

@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacter;
@@ -38,9 +38,9 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
     private final JPanel contentPanel = new JPanel( new GridBagLayout() );
     private final GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private final ArrayList characterPanels = new ArrayList();
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
 
-    public ChooseCharacterDialog( EnergySkateParkModule module ) {
+    public ChooseCharacterDialog( AbstractEnergySkateParkModule module ) {
         super( module.getPhetFrame(), EnergySkateParkStrings.getString( "controls.choose-character" ), false );
         this.module = module;
         gridBagConstraints.gridx = 0;
@@ -99,10 +99,10 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
 
     static class CharacterPanel extends JPanel {
         private boolean selected = false;
-        private final EnergySkateParkModule module;
+        private final AbstractEnergySkateParkModule module;
         private final SkaterCharacter skaterCharacter;
 
-        public CharacterPanel( EnergySkateParkModule module, SkaterCharacter skaterCharacter ) {
+        public CharacterPanel( AbstractEnergySkateParkModule module, SkaterCharacter skaterCharacter ) {
             super( new GridBagLayout() );
             this.module = module;
             this.skaterCharacter = skaterCharacter;

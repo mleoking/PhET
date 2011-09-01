@@ -4,7 +4,7 @@ package edu.colorado.phet.energyskatepark.view;
 import java.awt.Color;
 
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -19,11 +19,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 
 public class WiggleMeInSpace {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final MotionHelpBalloon hintNode;
     private boolean hintDone = false;
 
-    public WiggleMeInSpace( final EnergySkateParkModule module ) {
+    public WiggleMeInSpace( final AbstractEnergySkateParkModule module ) {
         this.module = module;
         hintNode = new MotionHelpBalloon( module.getDefaultHelpPane(), EnergySkateParkStrings.getString( "invitaiton.arrow-keys" ) );
         hintNode.setTextColor( Color.white );

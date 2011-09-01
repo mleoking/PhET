@@ -34,7 +34,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.SavedGraph;
 import edu.colorado.phet.energyskatepark.model.Body;
@@ -55,7 +55,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class EnergyPositionPlot extends BufferedPhetPCanvas {
     private final JFreeChart chart;
     private final XYSeriesCollection dataset;
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
 
     private final PImage image;
     private final ChartRenderingInfo info = new ChartRenderingInfo();
@@ -76,7 +76,7 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
     private final PSwing southPSwing;
     private final PNode dataLayer = new PNode();
 
-    public EnergyPositionPlot( EnergySkateParkModule module ) {
+    public EnergyPositionPlot( AbstractEnergySkateParkModule module ) {
         setBackground( EnergySkateParkLookAndFeel.backgroundColor );
         this.module = module;
         ke = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkStrings.getString( "energy.kinetic" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
@@ -376,13 +376,13 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
     }
 
     static abstract class EnergyType {
-        private final EnergySkateParkModule module;
+        private final AbstractEnergySkateParkModule module;
         final String name;
         private final Color color;
         private final EnergyPositionPlot energyPositionPlot;
         boolean visible = true;
 
-        public EnergyType( EnergySkateParkModule module, String name, Color color, EnergyPositionPlot energyPositionPlot ) {
+        public EnergyType( AbstractEnergySkateParkModule module, String name, Color color, EnergyPositionPlot energyPositionPlot ) {
             this.module = module;
             this.name = name;
             this.color = color;

@@ -21,8 +21,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
 import edu.colorado.phet.common.spline.ControlPointParametricFunction2D;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.BumpUpSplines;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -44,14 +44,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 
 public class EnergySkateParkSimulationPanel extends PhetPCanvas implements EnergySkateParkSplineEnvironment {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final EnergySkateParkModel energySkateParkModel;
     private final MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
     private final EnergySkateParkRootNode rootNode;
     private final double matchThresholdWorldCoordinates = 1.5 * 0.33;
     private final ArrayList listeners = new ArrayList();
 
-    public EnergySkateParkSimulationPanel( EnergySkateParkModule module ) {
+    public EnergySkateParkSimulationPanel( AbstractEnergySkateParkModule module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
         this.module = module;
         this.energySkateParkModel = module.getEnergySkateParkModel();
@@ -307,7 +307,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         energySkateParkModel.removeSplineSurface( splineNode.getSpline() );
     }
 
-    public EnergySkateParkModule getEnergySkateParkModule() {
+    public AbstractEnergySkateParkModule getEnergySkateParkModule() {
         return module;
     }
 

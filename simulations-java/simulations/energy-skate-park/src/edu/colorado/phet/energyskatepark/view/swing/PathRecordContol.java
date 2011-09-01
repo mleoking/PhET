@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 /**
@@ -21,10 +21,10 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 public class PathRecordContol extends HorizontalLayoutPanel {
     private final JButton recordPath;
     private final JButton clearHistory;
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private boolean recording = false;
 
-    public PathRecordContol( final EnergySkateParkModule module ) {
+    public PathRecordContol( final AbstractEnergySkateParkModule module ) {
         this.module = module;
         setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "controls.path" ) ) );
         recordPath = new JButton( EnergySkateParkStrings.getString( "controls.record-path" ) );

@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.Legend;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
@@ -13,9 +13,9 @@ import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
  */
 
 public class EnergySkateParkLegend extends Legend {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
 
-    public EnergySkateParkLegend( EnergySkateParkModule module ) {
+    public EnergySkateParkLegend( AbstractEnergySkateParkModule module ) {
         this.module = module;
         addEntry( EnergySkateParkStrings.getEnergyString( "energy.kinetic" ), module.getEnergyLookAndFeel().getKEColor() );
         addEntry( EnergySkateParkStrings.getEnergyString( "energy.potential" ), module.getEnergyLookAndFeel().getPEColor() );

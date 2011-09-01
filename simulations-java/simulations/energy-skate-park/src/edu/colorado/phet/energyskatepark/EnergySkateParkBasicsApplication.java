@@ -13,7 +13,7 @@ import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
 public class EnergySkateParkBasicsApplication extends PhetApplication {
     public EnergySkateParkBasicsApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new EnergySkateParkModule( "Module", new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ), getPhetFrame(), new EnergySkateParkOptions() ) );
+        addModule( new AbstractEnergySkateParkModule( "Module", new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ), getPhetFrame(), new EnergySkateParkOptions() ) );
     }
 
     public static void main( String[] args ) {

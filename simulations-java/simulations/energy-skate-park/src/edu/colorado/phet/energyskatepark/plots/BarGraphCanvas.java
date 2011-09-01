@@ -8,7 +8,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.event.AxisChangeEvent;
 import org.jfree.chart.event.AxisChangeListener;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.plots.bargraphs.EnergySkateParkBarGraph;
 import edu.colorado.phet.energyskatepark.view.swing.ClearHeatButton;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -21,11 +21,11 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 
 public class BarGraphCanvas extends PSwingCanvas {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final PSwing clearHeatButton;
     private final VerticalZoomControl verticalZoomControl;
 
-    public BarGraphCanvas( final EnergySkateParkModule module ) {
+    public BarGraphCanvas( final AbstractEnergySkateParkModule module ) {
         this.module = module;
         final EnergySkateParkBarGraph energyBarGraphSet = new EnergySkateParkBarGraph( module.getEnergySkateParkSimulationPanel(), module.getEnergySkateParkModel(),
                                                                                        400 / 5000.0 );

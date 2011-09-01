@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.colorado.phet.energyskatepark.model.Planet;
@@ -20,13 +20,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 
 public class FloorNode extends PNode {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final EnergySkateParkModel energySkateParkModel;
     private final Floor floor;
     private final PPath groundPPath;
     private final PPath groundLinePPath;
 
-    public FloorNode( EnergySkateParkModule module, EnergySkateParkModel energySkateParkModel, Floor floor ) {
+    public FloorNode( AbstractEnergySkateParkModule module, EnergySkateParkModel energySkateParkModel, Floor floor ) {
         this.module = module;
         this.energySkateParkModel = energySkateParkModel;
         energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
