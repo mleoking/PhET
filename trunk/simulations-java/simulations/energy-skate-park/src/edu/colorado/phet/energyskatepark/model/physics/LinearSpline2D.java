@@ -29,11 +29,9 @@ public class LinearSpline2D extends ControlPointParametricFunction2D {
         int aIndex = (int) ( alpha * ( getControlPoints().length - 1 ) );
 
         if ( alpha < 0 ) {//todo: this may break lots of things, may need an extrapolation
-//            alpha = 0;
             aIndex = 0;
         }
         if ( alpha > 1 - 1E-6 ) {
-//            alpha = 1 - 1E-6;
             aIndex = getControlPoints().length - 2;
         }
 

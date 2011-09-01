@@ -41,7 +41,6 @@ public class Body implements Serializable {
 
     public static final List particles = new ArrayList();
 
-    //    public static double DEFAULT_STICKINESS = 0.75;
     public static final double DEFAULT_STICKINESS = 0.9;
     public static double staticSticky = DEFAULT_STICKINESS;
     private SkaterCharacter skaterCharacter;
@@ -523,7 +522,6 @@ public class Body implements Serializable {
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
-//        EnergySkateParkLogging.println( "Body: listeners.size() = " + listeners.size() );
     }
 
     private void notifyThrustChanged() {

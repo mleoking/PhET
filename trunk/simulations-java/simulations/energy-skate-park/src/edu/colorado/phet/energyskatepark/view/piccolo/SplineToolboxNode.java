@@ -124,7 +124,6 @@ public class SplineToolboxNode extends PNode {
         spline.addControlPoint( 1, 0 );
         spline.addControlPoint( 2.0, 0 );
 
-//        return new SplineSurface( spline );
         return new EnergySkateParkSpline( spline.getControlPoints() );
     }
 }

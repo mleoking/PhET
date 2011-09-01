@@ -45,9 +45,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
     private final AdvancedPanel advancedFrictionPanel;
     private final EditSkaterPanel editSkaterPanel;
 
-//    public static boolean PLANET_CENTERED = false;
-//    public static LocationControlPanel.PlanetButtonLayout PLANET_LAYOUT = new LocationControlPanel.TwoColumnLayout();
-
     public EnergySkateParkControlPanel( final AbstractEnergySkateParkModule module ) {
         this.module = module;
         JButton reset = new JButton( EnergySkateParkStrings.getString( "controls.reset" ) );
@@ -57,10 +54,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             }
         } );
         addControl( reset );
-
-//        JButton button = new JButton("Reset 100x");
-//        button.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) { for (int i=0;i<100;i++) module.reset(); } });
-//        addControl(button);
 
         {
             JButton resetSkater = new JButton( EnergySkateParkStrings.getString( "controls.reset-character" ) );
@@ -72,23 +65,6 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             addControl( resetSkater );
         }
 
-//        {
-//            final JButton returnSkaterButton = new JButton( EnergySkateParkStrings.getString( "controls.return-character" ) );
-//            returnSkaterButton.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
-//                        module.returnSkateToRestorePoint( module.getEnergySkateParkModel().getBody( 0 ) );
-//                    }
-//                }
-//            } );
-////            addControl( returnSkaterButton );
-//            module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
-//                public void primaryBodyChanged() {
-//                    updateReturnSkaterButton( module, returnSkaterButton );
-//                }
-//            } );
-//            updateReturnSkaterButton( module, returnSkaterButton );
-//        }
         try {
             JButton chooseCharacter = new JButton( EnergySkateParkStrings.getString( "controls.choose-character" ) + "..." );
             chooseCharacter.addActionListener( new ActionListener() {

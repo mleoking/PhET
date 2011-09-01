@@ -37,12 +37,4 @@ public class TestJList extends JList {
             }
         } );
     }
-
-//    private static Object[] toList( DefaultTestSet defaultTestSet ) {
-//        Object[] items = new Object[defaultTestSet.getTestCount()];
-//        for( int i = 0; i < defaultTestSet.getTestCount(); i++ ) {
-//            items[i] = defaultTestSet.getTest( i ).getName();
-//        }
-//        return items;
-//    }
 }

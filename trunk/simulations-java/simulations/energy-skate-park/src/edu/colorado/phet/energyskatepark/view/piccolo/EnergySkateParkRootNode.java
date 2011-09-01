@@ -96,7 +96,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 map.put( new Double( EnergySkateParkModel.G_JUPITER ), Color.white );
                 map.put( new Double( EnergySkateParkModel.G_MOON ), Color.lightGray );
                 Double key = new Double( module.getEnergySkateParkModel().getGravity() );
-//                EnergySkateParkLogging.println( "module.getEnergySkateParkModel().getGravity() = " + module.getEnergySkateParkModel().getGravity() +", contains key="+map.containsKey( new Double(module.getEnergySkateParkModel().getGravity( ))));
                 Paint paint = (Paint) ( map.containsKey( key ) ? map.get( key ) : Color.black );
                 gridNode.setGridPaint( paint );
             }

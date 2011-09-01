@@ -60,11 +60,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         addFocusRequest();
         addKeyHandling();
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
-//        addKeyListener( new KeyAdapter() {
-//            public void keyPressed( KeyEvent e ) {
-//                displayMemoryUsage();
-//            }
-//        } );
         energySkateParkModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void preStep() {
                 updateThrust();
@@ -108,15 +103,9 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                 return false;
             }
         } );
-//        new Timer( 1000, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                displayMemoryUsage();
-//            }
-//        } ).start();
     }
 
     private void displayMemoryUsage() {
-//        System.gc();
         long heapSize = Runtime.getRuntime().totalMemory();// Get current size of heap in bytes
         long heapMaxSize = Runtime.getRuntime().maxMemory();// Get maximum size of heap in bytes. The heap cannot grow beyond this size.// Any attempt will result in an OutOfMemoryException.
         long heapFreeSize = Runtime.getRuntime().freeMemory();// Get amount of free memory within the heap in bytes. This size will increase // after garbage collection and decrease as new objects are created.
@@ -417,11 +406,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public boolean isSkaterOnscreen( SkaterNode skaterNode ) {
         Rectangle screenRect = new Rectangle( module.getEnergySkateParkSimulationPanel().getSize() );
-//        skaterNode.get
         Rectangle2D d = skaterNode.getRedDotGlobalFullBounds();
-//        Point2D center = d.getc
-//        EnergySkateParkLogging.println( "screenRect = " + screenRect +", center="+center);
-//        return screenRect.contains( d.getCenterX(),d.getCenterY());
         return screenRect.contains( d );
     }
 

@@ -64,6 +64,5 @@ public class ParticleImageNode extends PNode {
         imageNode.setOffset( particle.getX(), particle.getY() );
         imageNode.setRotation( particle.getAngle() + Math.PI / 2 );
         imageNode.translate( -w / 2.0, centered ? -h / 2.0 : -h );
-//        imageNode.translate( -w / 2.0, -h/2.0  );
     }
 }

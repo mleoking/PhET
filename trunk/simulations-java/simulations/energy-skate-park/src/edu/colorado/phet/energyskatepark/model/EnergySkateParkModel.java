@@ -86,9 +86,6 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void setGravity( double value ) {
-//        if( value == -0.0 ) {
-//            value = 0;//workaround since -0 and +0 are getting hashcoded differently
-//        }
         if ( this.gravity != value ) {
             this.gravity = value;
             notifyGravityChanged();
@@ -313,7 +310,6 @@ public class EnergySkateParkModel implements Serializable {
 
     public void addBody( Body body ) {
         bodies.add( body );
-//        EnergySkateParkLogging.println( "EnergySkateParkModel.addBody, bodies="+bodies.size() );
         if ( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
             zeroPointPotentialY = 0;
             initZeroPointPotentialY = zeroPointPotentialY;
@@ -491,7 +487,6 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
-//        EnergySkateParkLogging.println( "ESPM: listeners.size() = " + listeners.size() );
         listeners.add( listener );
     }
 

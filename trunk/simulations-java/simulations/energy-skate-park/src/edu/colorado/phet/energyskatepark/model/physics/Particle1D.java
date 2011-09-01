@@ -93,21 +93,12 @@ public class Particle1D implements Serializable {
             updateStrategy.stepInTime( dt / N );
         }
 
-//        totalDE += getNormalizedEnergyDiff( initEnergy );
-//        EnergySkateParkLogging.println( "Particle1D[0]: dE=" + ( getEnergy() - initEnergy ) );
         assert ( !Double.isNaN( getEnergy() ) );
         if ( getThrust().getMagnitude() == 0 ) {
             fixEnergy( initAlpha, initEnergy );
         }
 
-//        EnergySkateParkLogging.println( "Particle1D[1]: dE=" + ( getEnergy() - initEnergy ) );
-//        double dEFix = getNormalizedEnergyDiff( initEnergy );
-//            EnergySkateParkLogging.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE + ", RC=" + getRadiusOfCurvature() );
-
-//        EnergySkateParkLogging.println( "dEUpdate = " + dEUpdate + "\tdEFix=" + dEFix + ", totalDE=" + totalDE );// + ", RC=" + getRadiusOfCurvature() );
-//            EnergySkateParkLogging.println( "dEAfter = " + ( getEnergy() - initEnergy ) / initEnergy );
         //look for an adjacent location that will give the correct energy
-
         for ( int i = 0; i < listeners.size(); i++ ) {
             Particle1DNode particle1DNode = (Particle1DNode) listeners.get( i );
             particle1DNode.update();
@@ -334,7 +325,6 @@ public class Particle1D implements Serializable {
             //Choose the exact velocity in the same direction as current velocity to ensure total energy conserved.
             double vSq = Math.abs( 2 / mass * ( e0 - getPotentialEnergy() - thermalEnergy ) );
             double v = Math.sqrt( vSq );
-//            this.velocity = Math.sqrt( Math.abs( 2 * dE / mass ) ) * MathUtil.getSign( velocity );
             this.velocity = v * MathUtil.getSign( velocity );
             verboseDebug( "Set velocity to match energy, when energy was low: " );
             verboseDebug( "INC changed velocity: dE=" + ( getEnergy() - e0 ) );
@@ -405,12 +395,7 @@ public class Particle1D implements Serializable {
 
     double getRadiusOfCurvature() {
         if ( cachedRCAlpha != alpha || !cachedRCTrack.equals( track ) ) {
-//            EnergySkateParkLogging.println( "cache miss" );
             cachedRC = getRadiusOfCurvatureStatic( alpha, track );
-            //if (Math.abs(cachedRC)<1E-3){
-            //double value=getRadiusOfCurvatureStatic( alpha, track );
-            //EnergySkateParkLogging.println( "value = " + value );
-            //}
             cachedRCAlpha = alpha;
             try {
                 cachedRCTrack = (ParametricFunction2D) PersistenceUtil.copy( track );
@@ -420,18 +405,9 @@ public class Particle1D implements Serializable {
             }
         }
         else {
-//            EnergySkateParkLogging.println( "cache hit" );
         }
         return cachedRC;
     }
-//    double getRadiusOfCurvature() {
-//        double epsilon = 0.001;
-//        double a0 = alpha + track.getFractionalDistance( alpha, -epsilon / 2.0 );
-//        double a1 = alpha + track.getFractionalDistance( alpha, epsilon / 2.0 );
-//        double d = track.evaluate( a0 ).distance( track.evaluate( a1 ) );
-//        double curvature = ( track.getAngle( a0 ) - track.getAngle( a1 ) ) / d;
-//        return 1.0 / curvature;
-//    }
 
     public ImmutableVector2D getUnitParallelVector() {
         return track.getUnitParallelVector( alpha );
@@ -451,13 +427,11 @@ public class Particle1D implements Serializable {
         public void stepInTime( double dt ) {
             double R = getRadiusOfCurvature();
             double origAngle = Math.PI / 2 - track.getAngle( alpha );
-//                double aOrig = g * Math.cos( origAngle );
             double aOrig = Math.pow( R / ( R + L ), 2 ) * g * Math.cos( origAngle ) * ( 1 + L / R );
             double ds = velocity * dt - 0.5 * aOrig * dt * dt;
 
             alpha += track.getFractionalDistance( alpha, ds );
             double newAngle = Math.PI / 2 - track.getAngle( alpha );
-//                double accel = g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2.0;
             double accel = Math.pow( R / ( R + L ), 2 ) * g * ( Math.cos( origAngle ) + Math.cos( newAngle ) ) / 2 * ( 1 + L / R );
             velocity = velocity + accel * dt;
 
@@ -493,14 +467,10 @@ public class Particle1D implements Serializable {
     }
 
     public ImmutableVector2D getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
-//        EnergySkateParkLogging.println( "getRadiusOfCurvature() = " + getRadiusOfCurvature() );
         double radiusOfCurvature = getRadiusOfCurvature();
         if ( Double.isInfinite( radiusOfCurvature ) ) {
-//            EnergySkateParkLogging.println( "infinite" );
 
             radiusOfCurvature = 100000;
-//            EnergySkateParkLogging.println( "radiusOfCurvature = " + radiusOfCurvature );
-//            EnergySkateParkLogging.println( " getCurvatureDirection()  = " + getCurvatureDirection() );
             Vector2D netForceRadial = new Vector2D();
             netForceRadial.add( new Vector2D( 0, mass * g ) );//gravity
             netForceRadial.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
@@ -529,14 +499,10 @@ public class Particle1D implements Serializable {
     }
 
     public ImmutableVector2D getFrictionForce() {
-//        if( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-6 ) {
         if ( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-2 ) {
             return new Vector2D();
         }
         else {
-//        return getVelocity2D().getScaledInstance( -frictionCoefficient * 10000 );//todo factor out heuristic
-//        return getVelocity2D().getScaledInstance( -frictionCoefficient * getNormalForce().getMagnitude() );//todo factor out heuristic
-//            EnergySkateParkLogging.println( "friction = " + getTotalFriction() );
             ImmutableVector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
             if ( ( Double.isNaN( f.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
             return f;//todo factor out heuristic
@@ -550,7 +516,6 @@ public class Particle1D implements Serializable {
 
     public class Euler implements UpdateStrategy {
         public void stepInTime( double dt ) {
-//            EnergySkateParkLogging.println( "nor = " + getNormalForce().getMagnitude() );
             double origEnergy = getEnergy();
             SerializablePoint2D origLoc = getLocation();
             ImmutableVector2D netForce = getNetForce();

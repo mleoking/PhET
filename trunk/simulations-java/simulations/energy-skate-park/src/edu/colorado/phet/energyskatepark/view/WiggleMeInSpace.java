@@ -48,7 +48,6 @@ public class WiggleMeInSpace {
     }
 
     private void closeHint() {
-//        hintNode.setVisible( false );
         getRootNode().removeScreenChild( hintNode );
     }
 
@@ -65,7 +64,6 @@ public class WiggleMeInSpace {
                 }
             }
         } );
-//        hintNode.st
     }
 
     private EnergySkateParkRootNode getRootNode() {

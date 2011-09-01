@@ -363,7 +363,6 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
         Rectangle2D dataArea = info.getPlotInfo().getDataArea();
         if ( dataArea == null ) {
             throw new RuntimeException( "Null data area" );
-//            return new Point2D.Double( );
         }
         dataArea = new Rectangle2D.Double( dataArea.getX(), dataArea.getY(), dataArea.getWidth(), dataArea.getHeight() );
         double x1 = chart.getXYPlot().getDomainAxisForDataset( 0 ).valueToJava2D( x, dataArea, chart.getXYPlot().getDomainAxisEdge() );

@@ -79,7 +79,6 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
 
         contentPanel.add( characterPanel, gridBagConstraints );
         characterPanel.addMouseListener( new MouseInputAdapter() {
-            // implements java.awt.event.MouseListener
             public void mousePressed( MouseEvent e ) {
                 EnergySkateParkLogging.println( "e = " + e );
                 setSelection( characterPanel );
@@ -114,7 +113,6 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
                                            new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio(
                                                    ImageLoader.loadBufferedImage( skaterCharacter.getImageURL() ), (int) ( skaterCharacter.getModelHeight() * 75 ) ) ), JLabel.TRAILING );
                 add( label, gridBagConstraints );
-//                label.setPreferredSize( new Dimension( label.getPreferredSize().width, 200 ) );
             }
             catch ( IOException e ) {
                 e.printStackTrace();

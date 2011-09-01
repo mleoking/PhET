@@ -67,7 +67,6 @@ public class PanZoomControl extends JPanel {
     private void zoom( double zoomScale ) {
         //preserve fraction of screen ground takes up
         double fractionToGround = getScreenFractionToGround();
-//        double fraction = 0.1;//or use fixed fraction
 
         Point2D point = energySkateParkSimulationPanel.getCamera().getBounds().getCenter2D();
         energySkateParkSimulationPanel.getCamera().localToGlobal( point );

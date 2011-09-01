@@ -73,7 +73,6 @@ public abstract class Planet {
         protected void setupImage( AbstractEnergySkateParkModule module ) {
             BufferedImage image = null;
             try {
-//                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/space.jpg" );
                 image = ImageLoader.loadBufferedImage( "energy-skate-park/images/blackhole_large_2.jpg" );
             }
             catch ( IOException e ) {
@@ -95,8 +94,6 @@ public abstract class Planet {
         protected void setupImage( AbstractEnergySkateParkModule module ) {
             BufferedImage image = null;
             try {
-//                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/background-gif.gif" );
-//                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth3.gif" );
                 image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth-background.jpg" );
             }
             catch ( IOException e ) {
