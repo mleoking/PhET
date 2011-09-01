@@ -375,7 +375,7 @@ public class Plank extends ShapeModelElement {
                 tiltAngle = maxTiltAngle * ( tiltAngle < 0 ? -1 : 1 );
                 angularVelocity = 0;
             }
-            else if ( Math.abs( tiltAngle ) < 0.001 ) {
+            else if ( Math.abs( tiltAngle ) < 0.0001 ) {
                 // Below a certain threshold just force the tilt angle to be
                 // zero so that it appears perfectly level.
                 tiltAngle = 0;
