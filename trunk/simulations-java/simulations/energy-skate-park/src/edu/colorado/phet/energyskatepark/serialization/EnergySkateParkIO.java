@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContent
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.persistence.Point2DPersistenceDelegate;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 /**
@@ -29,7 +29,7 @@ import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
  */
 public class EnergySkateParkIO implements IProguardKeepClass {
 
-    public static void save( EnergySkateParkModule module ) throws UnavailableServiceException, IOException {
+    public static void save( AbstractEnergySkateParkModule module ) throws UnavailableServiceException, IOException {
         Component component = module.getEnergySkateParkSimulationPanel();
         String xml = toXMLString( module );
         EnergySkateParkLogging.println( "xml = " + xml );
@@ -41,7 +41,7 @@ public class EnergySkateParkIO implements IProguardKeepClass {
         EnergySkateParkLogging.println( "Saved file." );
     }
 
-    private static String toXMLString( EnergySkateParkModule module ) {
+    private static String toXMLString( AbstractEnergySkateParkModule module ) {
         ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         XMLEncoder e = new XMLEncoder( out );
         e.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
@@ -52,7 +52,7 @@ public class EnergySkateParkIO implements IProguardKeepClass {
         return out.toString();
     }
 
-    public static void open( EnergySkateParkModule module ) throws UnavailableServiceException, IOException {
+    public static void open( AbstractEnergySkateParkModule module ) throws UnavailableServiceException, IOException {
         FileOpenService fos = PhetServiceManager.getFileOpenService( module.getEnergySkateParkSimulationPanel() );
         FileContents open = fos.openFileDialog( null, null );
         if ( open == null ) {
@@ -67,7 +67,7 @@ public class EnergySkateParkIO implements IProguardKeepClass {
         }
     }
 
-    public static void open( String filename, EnergySkateParkModule module ) {
+    public static void open( String filename, AbstractEnergySkateParkModule module ) {
         EnergySkateParkLogging.println( "filename = " + filename );
         XMLDecoder xmlDecoder = new XMLDecoder( Thread.currentThread().getContextClassLoader().getResourceAsStream( filename ) );
         Object obj = xmlDecoder.readObject();

@@ -12,7 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
@@ -25,12 +25,12 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
  */
 
 public class PieChartControlPanel extends HorizontalLayoutPanel {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final EnergySkateParkControlPanel energySkateParkControlPanel;
     private final JCheckBox showThermal;
     private final JCheckBox showPieChartCheckBox;
 
-    public PieChartControlPanel( final EnergySkateParkModule module, EnergySkateParkControlPanel energySkateParkControlPanel ) {
+    public PieChartControlPanel( final AbstractEnergySkateParkModule module, EnergySkateParkControlPanel energySkateParkControlPanel ) {
         this.module = module;
         this.energySkateParkControlPanel = energySkateParkControlPanel;
         showPieChartCheckBox = new JCheckBox( EnergySkateParkStrings.getString( "piechart.show" ), module.isPieChartVisible() );

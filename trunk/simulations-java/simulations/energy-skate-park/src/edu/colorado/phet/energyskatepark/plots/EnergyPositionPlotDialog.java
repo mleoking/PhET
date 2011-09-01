@@ -3,7 +3,7 @@ package edu.colorado.phet.energyskatepark.plots;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 
 /**
  * Author: Sam Reid
@@ -12,7 +12,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 public class EnergyPositionPlotDialog extends PaintImmediateDialog {
     private final EnergyPositionPlot energyPosition;
 
-    public EnergyPositionPlotDialog( PhetFrame phetFrame, String title, boolean modal, EnergySkateParkModule energySkateParkModule ) {
+    public EnergyPositionPlotDialog( PhetFrame phetFrame, String title, boolean modal, AbstractEnergySkateParkModule energySkateParkModule ) {
         super( phetFrame, title, modal );
         energyPosition = new EnergyPositionPlot( energySkateParkModule );
         setContentPane( energyPosition );

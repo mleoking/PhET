@@ -19,15 +19,8 @@ public class EnergyLookAndFeel {
      */
     private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
     private final Color appliedForceColor = new Color( 180, 180, 0 );//my yellow
-    private Color netForceColor = myGreen;
     private final Color frictionForceColor = Color.red;
     private final Color weightColor = new Color( 50, 130, 215 );
-    private Color normalColor = Color.magenta;
-    private Color wallForceColor = Color.magenta;
-
-    private Color accelColor = Color.black;
-    private Color velColor = Color.black;
-    private Color positionColor = Color.black;
 
     private final Color appliedWorkColor = appliedForceColor;
     private final Color frictionWorkColor = frictionForceColor;

@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 /**
@@ -38,16 +38,16 @@ public abstract class Planet {
         return gravity;
     }
 
-    public void apply( EnergySkateParkModule module ) {
+    public void apply( AbstractEnergySkateParkModule module ) {
         setupImage( module );
         setupGravity( module );
     }
 
-    private void setupGravity( EnergySkateParkModule module ) {
+    private void setupGravity( AbstractEnergySkateParkModule module ) {
         module.getEnergySkateParkModel().setGravity( gravity );
     }
 
-    protected abstract void setupImage( EnergySkateParkModule module );
+    protected abstract void setupImage( AbstractEnergySkateParkModule module );
 
     public boolean isDefault() {
         return false;
@@ -70,7 +70,7 @@ public abstract class Planet {
             super( EnergySkateParkStrings.getString( "location.space" ), EnergySkateParkModel.G_SPACE, Color.black, Color.black, false );
         }
 
-        protected void setupImage( EnergySkateParkModule module ) {
+        protected void setupImage( AbstractEnergySkateParkModule module ) {
             BufferedImage image = null;
             try {
 //                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/space.jpg" );
@@ -92,7 +92,7 @@ public abstract class Planet {
             super( EnergySkateParkStrings.getString( "location.earth" ), EnergySkateParkModel.G_EARTH, new Color( 100, 170, 100 ), new Color( 0, 130, 0 ), true );
         }
 
-        protected void setupImage( EnergySkateParkModule module ) {
+        protected void setupImage( AbstractEnergySkateParkModule module ) {
             BufferedImage image = null;
             try {
 //                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/background-gif.gif" );
@@ -115,7 +115,7 @@ public abstract class Planet {
             super( EnergySkateParkStrings.getString( "location.moon" ), EnergySkateParkModel.G_MOON, Color.gray, Color.darkGray, true );
         }
 
-        protected void setupImage( EnergySkateParkModule module ) {
+        protected void setupImage( AbstractEnergySkateParkModule module ) {
             BufferedImage image = null;
             try {
                 image = ImageLoader.loadBufferedImage( "energy-skate-park/images/moon2.jpg" );
@@ -132,7 +132,7 @@ public abstract class Planet {
             super( EnergySkateParkStrings.getString( "location.jupiter" ), EnergySkateParkModel.G_JUPITER, new Color( 173, 114, 98 ), new Color( 62, 44, 58 ), true );
         }
 
-        protected void setupImage( EnergySkateParkModule module ) {
+        protected void setupImage( AbstractEnergySkateParkModule module ) {
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage( "energy-skate-park/images/jupiter4.jpg" );
                 module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );

@@ -4,8 +4,8 @@ package edu.colorado.phet.energyskatepark.view.swing;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 
 /**
  * Author: Sam Reid
@@ -14,7 +14,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 public class EnergySkateParkPlaybackPanel extends TimeSeriesControlPanel {
     private final ConstantDtClock clock;
 
-    public EnergySkateParkPlaybackPanel( final EnergySkateParkModule module, TimeSeriesModel timeSeriesModel, ConstantDtClock clock ) {
+    public EnergySkateParkPlaybackPanel( final AbstractEnergySkateParkModule module, TimeSeriesModel timeSeriesModel, ConstantDtClock clock ) {
         super( timeSeriesModel, EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT );
         this.clock = clock;
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {

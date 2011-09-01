@@ -8,7 +8,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
 
 /**
@@ -18,9 +18,9 @@ import edu.colorado.phet.energyskatepark.model.physics.Particle;
  */
 
 public class EnergySkateParkOptionsMenu extends JMenu {
-    private final EnergySkateParkModule energySkateParkModule;
+    private final AbstractEnergySkateParkModule energySkateParkModule;
 
-    public EnergySkateParkOptionsMenu( final EnergySkateParkModule energySkateParkModule ) {
+    public EnergySkateParkOptionsMenu( final AbstractEnergySkateParkModule energySkateParkModule ) {
         super( "Options" );
         this.energySkateParkModule = energySkateParkModule;
         setMnemonic( 'o' );

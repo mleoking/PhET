@@ -10,7 +10,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -21,9 +21,9 @@ import edu.colorado.phet.energyskatepark.model.physics.Particle;
  * Apr 27, 2007, 12:44:56 AM
  */
 public class EditSkaterPanel extends AdvancedPanel {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
 
-    public EditSkaterPanel( final EnergySkateParkModule module ) {
+    public EditSkaterPanel( final AbstractEnergySkateParkModule module ) {
         super( EnergySkateParkStrings.getString( "controls.edit-skater" ) + " >>", EnergySkateParkStrings.getString( "controls.hide-skater-properties" ) + " <<" );
         this.module = module;
         final EnergySkateParkSlider mass = new EnergySkateParkSlider(

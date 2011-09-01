@@ -19,8 +19,8 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -38,7 +38,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 
 public class EnergySkateParkRootNode extends PhetRootPNode {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final EnergySkateParkSimulationPanel simulationPanel;
 
     private final PNode skaterNodeLayer = new PNode();
@@ -67,7 +67,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
     private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
 
-    public EnergySkateParkRootNode( final EnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
+    public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
         this.simulationPanel = simulationPanel;
         EnergySkateParkModel energySkateParkModel = getModel();

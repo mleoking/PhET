@@ -41,7 +41,7 @@ import edu.umd.cs.piccolo.PNode;
  * Time: 3:06:31 AM
  */
 
-public class EnergySkateParkModule extends PiccoloModule {
+public class AbstractEnergySkateParkModule extends PiccoloModule {
     private final EnergySkateParkModel energyModel;
     private final EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
     private final EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
@@ -64,7 +64,7 @@ public class EnergySkateParkModule extends PiccoloModule {
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private static final boolean DEFAULT_ENERGY_POSITION_PLOT_VISIBLE = false;
 
-    public EnergySkateParkModule( String name, ConstantDtClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
+    public AbstractEnergySkateParkModule( String name, ConstantDtClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
         super( name, clock );
         this.options = options;
         this.phetFrame = phetFrame;

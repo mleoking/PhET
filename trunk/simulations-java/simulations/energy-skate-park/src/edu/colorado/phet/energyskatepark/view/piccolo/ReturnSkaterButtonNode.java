@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
@@ -22,14 +22,14 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 
 public class ReturnSkaterButtonNode extends PhetPNode {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final PSwingCanvas canvas;
 
     private SkaterNode skaterNode;
     private final PNode buttonNode;
     private final JButton bringBackSkater = new JButton( "" );
 
-    public ReturnSkaterButtonNode( PSwingCanvas canvas, final EnergySkateParkModule module, SkaterNode skaterNode ) {
+    public ReturnSkaterButtonNode( PSwingCanvas canvas, final AbstractEnergySkateParkModule module, SkaterNode skaterNode ) {
         this.canvas = canvas;
         this.skaterNode = skaterNode;
         this.module = module;

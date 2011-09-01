@@ -12,7 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Planet;
@@ -26,18 +26,18 @@ import edu.colorado.phet.energyskatepark.model.Planet;
 public class LocationControlPanel extends VerticalLayoutPanel {
     private final JCheckBox showBackgroundCheckbox;
     private final PlanetButton[] planetButtons;
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final PlanetButtonLayout layout;
 
-    public LocationControlPanel( EnergySkateParkModule module ) {
+    public LocationControlPanel( AbstractEnergySkateParkModule module ) {
         this( module, new VerticalPlanetButtonLayout() );
     }
 
-    public LocationControlPanel( EnergySkateParkModule module, PlanetButtonLayout layout ) {
+    public LocationControlPanel( AbstractEnergySkateParkModule module, PlanetButtonLayout layout ) {
         this( module, layout, false );
     }
 
-    public LocationControlPanel( EnergySkateParkModule module, PlanetButtonLayout layout, boolean centered ) {
+    public LocationControlPanel( AbstractEnergySkateParkModule module, PlanetButtonLayout layout, boolean centered ) {
         this.layout = layout;
         this.module = module;
         Planet[] planets = module.getPlanets();

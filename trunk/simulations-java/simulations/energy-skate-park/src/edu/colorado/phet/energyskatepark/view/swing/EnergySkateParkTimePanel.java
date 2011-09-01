@@ -8,17 +8,17 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.TimeControlListener.TimeControlAdapter;
 import edu.colorado.phet.common.phetcommon.view.clock.SimSpeedControl;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 
 /**
  * Author: Sam Reid
  * Jun 1, 2007, 1:39:39 PM
  */
 public class EnergySkateParkTimePanel extends JPanel {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
 
-    public EnergySkateParkTimePanel( final EnergySkateParkModule module, final Clock clock ) {
+    public EnergySkateParkTimePanel( final AbstractEnergySkateParkModule module, final Clock clock ) {
         this.module = module;
         final SimSpeedControl timeSpeedSlider = new SimSpeedControl( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, (ConstantDtClock) clock );
         add( timeSpeedSlider );

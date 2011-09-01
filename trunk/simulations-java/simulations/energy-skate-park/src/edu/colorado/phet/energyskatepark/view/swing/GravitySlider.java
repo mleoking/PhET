@@ -9,7 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 
@@ -20,9 +20,9 @@ import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
  */
 
 public class GravitySlider extends LinearValueControl {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
 
-    public GravitySlider( final EnergySkateParkModule module ) {
+    public GravitySlider( final AbstractEnergySkateParkModule module ) {
         super( 0, 30, EnergySkateParkStrings.getString( "controls.gravity" ), "0.00", EnergySkateParkStrings.getString( "units.accel" ) );
 
         this.module = module;

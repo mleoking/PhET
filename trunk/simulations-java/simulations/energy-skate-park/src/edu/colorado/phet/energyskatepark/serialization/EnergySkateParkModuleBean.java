@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
@@ -26,7 +26,7 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
     public EnergySkateParkModuleBean() {
     }
 
-    public EnergySkateParkModuleBean( EnergySkateParkModule module ) {
+    public EnergySkateParkModuleBean( AbstractEnergySkateParkModule module ) {
         for ( int i = 0; i < module.getEnergySkateParkModel().getNumBodies(); i++ ) {
             addBody( module.getEnergySkateParkModel().getBody( i ) );
         }
@@ -69,7 +69,7 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
         this.bodies = bodies;
     }
 
-    public void apply( EnergySkateParkModule module ) {
+    public void apply( AbstractEnergySkateParkModule module ) {
         module.getEnergySkateParkModel().removeAllBodies();
         for ( int i = 0; i < bodies.size(); i++ ) {
             Body body = module.createBody();

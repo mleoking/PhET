@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.IconComponent;
 import edu.colorado.phet.energyskatepark.view.swing.ChooseCharacterDialog;
@@ -39,7 +38,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class EnergySkateParkControlPanel extends ControlPanel {
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final PieChartControlPanel piePanel;
     private final PathRecordContol pathRecordContol;
     private final LocationControlPanel locationControlPanel;
@@ -49,7 +48,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 //    public static boolean PLANET_CENTERED = false;
 //    public static LocationControlPanel.PlanetButtonLayout PLANET_LAYOUT = new LocationControlPanel.TwoColumnLayout();
 
-    public EnergySkateParkControlPanel( final EnergySkateParkModule module ) {
+    public EnergySkateParkControlPanel( final AbstractEnergySkateParkModule module ) {
         this.module = module;
         JButton reset = new JButton( EnergySkateParkStrings.getString( "controls.reset" ) );
         reset.addActionListener( new ActionListener() {
@@ -200,50 +199,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         addControl( editSkaterPanel );
     }
 
-    DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
-
-    private void setReturnSkateText( JButton returnSkaterButton, String text ) {//for performance reasons
-        if ( !returnSkaterButton.getText().equals( text ) ) {
-            returnSkaterButton.setText( text );
-        }
-    }
-
-    private void setEnabled( JButton button, boolean enabled ) {
-        if ( button.isEnabled() != enabled ) {
-            button.setEnabled( enabled );
-        }
-    }
-
-//    private void updateReturnSkaterButton( EnergySkateParkModule module, JButton returnSkater ) {
-//        if( module.getEnergySkateParkModel().getNumBodies() > 0 ) {
-//            Body body = module.getEnergySkateParkModel().getBody( 0 );
-//            if( body.isRestorePointSet() ) {
-//
-//                String x = decimalFormat.format( body.getRestorePoint().getX() );
-//                String y = decimalFormat.format( body.getRestorePoint().getY() );
-//                String returnString = getReturnString( x, y );
-//                setReturnSkateText( returnSkater, returnString );
-//                setEnabled( returnSkater, true );
-//            }
-//            else {
-//                setReturnSkateText( returnSkater, getReturnString( "?", "?" ) );
-//                setEnabled( returnSkater, false );
-//            }
-//        }
-//        else {
-//            setReturnSkateText( returnSkater, getReturnString( "?", "?" ) );
-//            setEnabled( returnSkater, false );
-//        }
-//    }
-
-//    private String getReturnString( String x, String y ) {
-//        String template = EnergySkateParkStrings.getString( "controls.return-character" );
-//        template = template.replaceFirst( "@X", x );
-//        template = template.replaceFirst( "@Y", y );
-//        return template;
-//    }
-
-    private PNode getMeasuringTapeNode( EnergySkateParkModule module ) {
+    private PNode getMeasuringTapeNode( AbstractEnergySkateParkModule module ) {
         return module.getEnergySkateParkSimulationPanel().getRootNode().getMeasuringTapeNode();
     }
 

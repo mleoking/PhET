@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -28,11 +28,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class PauseIndicatorNode extends PNode {
 
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final int insetX = 5;
     private final int insetY = 5;
 
-    public PauseIndicatorNode( final EnergySkateParkModule module ) {
+    public PauseIndicatorNode( final AbstractEnergySkateParkModule module ) {
         this.module = module;
         PImage im = PImageFactory.create( "energy-skate-park/images/icons/java/media/Pause24.gif" );
         addChild( im );

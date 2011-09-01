@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
-import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
@@ -21,13 +21,13 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 public class EnergySkateParkPieChartNode extends PNode {
     private final PieChartNode pieChartNode;
-    private final EnergySkateParkModule module;
+    private final AbstractEnergySkateParkModule module;
     private final SkaterNode skaterNode;
     private final double dy = 25;
     private boolean ignoreThermal;
     private final Body body;
 
-    public EnergySkateParkPieChartNode( EnergySkateParkModule module, SkaterNode skaterNode ) {
+    public EnergySkateParkPieChartNode( AbstractEnergySkateParkModule module, SkaterNode skaterNode ) {
         this.module = module;
         this.skaterNode = skaterNode;
         this.pieChartNode = new PieChartNode( createPieValues(), createPieRect() );
