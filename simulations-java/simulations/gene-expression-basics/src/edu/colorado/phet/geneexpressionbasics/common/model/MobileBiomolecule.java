@@ -118,9 +118,4 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public void changeConformation( double changeFactor ) {
         System.out.println( getClass().getName() + "Warning: Unimplemented method called in base class." );
     }
-
-    // TODO: Get rid of this.  Property was made public.
-    public Property<MotionBounds> getMotionBoundsProperty() {
-        return motionBoundsProperty;
-    }
 }
