@@ -80,7 +80,7 @@ public class MeanderToDestinationMotionStrategy extends MotionStrategy {
             }
             currentMotionVector = ImmutableVector2D.parseAngleAndMagnitude( newVelocity, newAngle );
             // Reset the countdown timer.
-            directionChangeCountdown = MIN_TIME_IN_ONE_DIRECTION + RAND.nextDouble() * ( MAX_TIME_IN_ONE_DIRECTION - MIN_TIME_IN_ONE_DIRECTION );
+            directionChangeCountdown = generateDirectionChangeCountdownValue();
         }
 
         // Make sure that current motion will not cause the model element to
@@ -106,5 +106,4 @@ public class MeanderToDestinationMotionStrategy extends MotionStrategy {
     private double generateDirectionChangeCountdownValue() {
         return MIN_TIME_IN_ONE_DIRECTION + RAND.nextDouble() * ( MAX_TIME_IN_ONE_DIRECTION - MIN_TIME_IN_ONE_DIRECTION );
     }
-
 }
