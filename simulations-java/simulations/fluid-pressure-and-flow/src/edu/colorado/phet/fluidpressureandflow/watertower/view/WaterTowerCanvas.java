@@ -69,7 +69,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         //TODO: this is duplicated in FluidFlowCanvas
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new WaterTowerControlPanel( module ) ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, 2 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, INSET );
         }};
         addChild( controlPanelNode );
         addChild( new ResetAllButtonNode( module, this, (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{

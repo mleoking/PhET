@@ -21,14 +21,14 @@ import edu.colorado.phet.fluidpressureandflow.flow.model.FluidFlowModel;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FoodColoring;
 import edu.colorado.phet.fluidpressureandflow.flow.model.Particle;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
-import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
-import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.DOTS;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
+import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel.BACKGROUND;
+import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel.FOREGROUND;
 
 /**
  * Canvas for the "Flow" tab.
@@ -91,10 +91,10 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
 
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidFlowControlPanel( module ) ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, 2 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, INSET );
         }};
         addChild( controlPanelNode );
-        addChild( new ResetAllButtonNode( module, this, (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
+        addChild( new ResetAllButtonNode( module, this, (int) ( CONTROL_FONT.getSize() * 1.3 ), FOREGROUND, BACKGROUND ) {{
             setConfirmationEnabled( false );
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - 2 );
         }} );

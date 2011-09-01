@@ -34,6 +34,7 @@ import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -209,9 +210,12 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     //This also has the advantages of sizing the control panel so it will fit internationalized versions of the components
     public void addSensorToolboxNode( final FluidPressureAndFlowModel model, final FluidPressureAndFlowControlPanelNode controlPanelNode ) {
         final EmptyNode velocitySensorArea = new EmptyNode( new VelocitySensorNode( transform, model.getVelocitySensors()[0], 1, getVelocityFormatter( model ) ) );
-        final EmptyNode pressureSensorArea = new EmptyNode( new PressureSensorNode( transform, model.getPressureSensors()[0], model.units, visibleModelBounds ) );
+        final EmptyNode pressureSensorArea = new EmptyNode( new PressureSensorNode( transform, model.getPressureSensors()[0], new Property<UnitSet>( UnitSet.METRIC ), visibleModelBounds ) );
         final SensorToolBoxNode sensorToolBoxNode = new SensorToolBoxNode( new HBox( velocitySensorArea, pressureSensorArea ) ) {{
-            setOffset( controlPanelNode.getFullBounds().getX() - getFullBounds().getWidth() - INSET, controlPanelNode.getFullBounds().getY() );
+
+            //Position it to the left of the control panel, but leave extra space in case the pressure sensor node needs to jut off to the right;
+            //this could happen if the units translation in Metric is significantly longer than the units translation for English (which is used to set the default size)
+            setOffset( controlPanelNode.getFullBounds().getX() - getFullBounds().getWidth() - INSET * 3, controlPanelNode.getFullBounds().getY() );
         }};
         addChild( sensorToolBoxNode );
 
