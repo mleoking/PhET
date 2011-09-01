@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
@@ -67,5 +68,10 @@ public class MeanderToDestinationMotionStrategy extends MotionStrategy {
                                                    currentLocation.getY() + currentMotionVector.getY() * dt );
         // TODO: Need to check next location against bounds and "bounce" once we have bounds.
         return nextLocation;
+    }
+
+    @Override public Point2D getNextLocation( double dt, Point2D currentLocation, Shape shape ) {
+        // TODO: Disregards shape for now, needs to be implemented.
+        return getNextLocation( dt, currentLocation );
     }
 }

@@ -15,6 +15,8 @@ import java.awt.geom.Point2D;
  */
 public class MotionBounds {
 
+    // Use a shape, rather than a rectangle, for the bounds.  This allows
+    // more complex bounds to be used.
     private Shape boundsShape = null;
 
     public MotionBounds() {
