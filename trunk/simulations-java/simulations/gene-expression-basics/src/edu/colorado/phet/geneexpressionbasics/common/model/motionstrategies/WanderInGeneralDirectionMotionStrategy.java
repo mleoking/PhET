@@ -27,7 +27,7 @@ public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
         this.generalDirection = generalDirection;
     }
 
-    public Point2D getNextLocation( double dt, Point2D currentLocation ) {
+    public Point2D getNextLocation( Point2D currentLocation, double dt ) {
         directionChangeCountdown -= dt;
         if ( directionChangeCountdown <= 0 ) {
             // Time to change direction.
@@ -43,8 +43,8 @@ public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
         return nextLocation;
     }
 
-    @Override public Point2D getNextLocation( double dt, Point2D currentLocation, Shape shape ) {
+    @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
         // TODO: Disregards shape for now, needs to be implemented.
-        return getNextLocation( dt, currentLocation );
+        return getNextLocation( currentLocation, dt );
     }
 }

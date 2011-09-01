@@ -46,7 +46,7 @@ public class DetachingState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
-        biomolecule.setPosition( motionStrategy.getNextLocation( dt, biomolecule.getPosition() ) );
+        biomolecule.setPosition( motionStrategy.getNextLocation( biomolecule.getPosition(), dt ) );
         detachTime -= dt;
         if ( detachTime <= 0 ) {
             // Done detaching - move to next state.

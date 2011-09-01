@@ -24,22 +24,22 @@ public abstract class MotionStrategy {
      * the current motion causes the current location to go outside of the
      * motion bounds, a "bounce" will occur.
      *
-     * @param dt
      * @param currentLocation
+     * @param dt
      * @return
      */
-    public abstract Point2D getNextLocation( double dt, Point2D currentLocation );
+    public abstract Point2D getNextLocation( Point2D currentLocation, double dt );
 
     /**
      * Get the next location based on the current motion.  If the application of
      * the current motion causes any part of the provided shape to go outside of
      * the motion bounds, a "bounce" will occur.
      *
-     * @param dt
      * @param currentLocation
+     * @param dt
      * @return
      */
-    public abstract Point2D getNextLocation( double dt, Point2D currentLocation, Shape shape );
+    public abstract Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt );
 
     /**
      * Set a new value for the motion bounds.
