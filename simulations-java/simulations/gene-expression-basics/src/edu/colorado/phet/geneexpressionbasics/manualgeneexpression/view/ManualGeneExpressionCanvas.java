@@ -154,24 +154,16 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             }
         } );
 
-        // Add the tool boxes from which various biomolecules can be moved into
-        // the active area of the sim.
-        // TODO: There is some code duplication here.  Could be cleaned up by making genes provide their transcription factors.
-        BiomoleculeToolBoxNode biomoleculeToolBoxNode1 = new BiomoleculeToolBoxNode( model, this, mvt, 1 ) {{
-            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 0 ).getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-        }};
-        biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode1 );
-        modelRootNode.addChild( biomoleculeToolBoxNode1 );
-        BiomoleculeToolBoxNode biomoleculeToolBoxNode2 = new BiomoleculeToolBoxNode( model, this, mvt, 2 ) {{
-            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 1 ).getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-        }};
-        biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode2 );
-        modelRootNode.addChild( biomoleculeToolBoxNode2 );
-        BiomoleculeToolBoxNode biomoleculeToolBoxNode3 = new BiomoleculeToolBoxNode( model, this, mvt, 3 ) {{
-            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 2 ).getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-        }};
-        biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode3 );
-        modelRootNode.addChild( biomoleculeToolBoxNode3 );
+        // Add the tool boxes from which the various biomolecules can be moved
+        // into the active area of the sim.
+        for ( final Gene gene : model.getDnaMolecule().getGenes() ) {
+            BiomoleculeToolBoxNode biomoleculeToolBoxNode = new BiomoleculeToolBoxNode( model, this, mvt, gene.identifier ) {{
+                setOffset( mvt.modelToViewX( gene.getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
+            }};
+            biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode );
+            modelRootNode.addChild( biomoleculeToolBoxNode );
+            model.addOffLimitsMotionSpace( mvt.viewToModel( biomoleculeToolBoxNode.getFullBoundsReference() ) );
+        }
 
         //Uncomment this line to add zoom on right mouse click drag
         addInputEventListener( getZoomEventHandler() );
