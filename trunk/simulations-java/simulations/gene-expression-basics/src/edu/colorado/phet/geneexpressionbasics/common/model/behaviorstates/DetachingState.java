@@ -33,7 +33,7 @@ public class DetachingState extends BiomoleculeBehaviorState {
      */
     public DetachingState( MobileBiomolecule biomolecule, ImmutableVector2D detachDirection ) {
         super( biomolecule );
-        motionStrategy = new WanderInGeneralDirectionMotionStrategy( detachDirection, biomolecule.getMotionBoundsProperty() );
+        motionStrategy = new WanderInGeneralDirectionMotionStrategy( detachDirection, biomolecule.motionBoundsProperty );
     }
 
     /**
@@ -42,7 +42,7 @@ public class DetachingState extends BiomoleculeBehaviorState {
      */
     public DetachingState( MobileBiomolecule biomolecule ) {
         super( biomolecule );
-        motionStrategy = new RandomWalkMotionStrategy( biomolecule.getMotionBoundsProperty() );
+        motionStrategy = new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty );
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
