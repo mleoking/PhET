@@ -18,7 +18,7 @@ public class MotionBounds {
     private Shape boundsShape = null;
 
     public MotionBounds() {
-        // Default constructor does notion, leaves bounds infinit.
+        // Default constructor does nothing, leaves bounds infinite.
     }
 
     public MotionBounds( Shape boundsShape ) {

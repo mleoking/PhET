@@ -4,6 +4,9 @@ package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 import java.awt.geom.Point2D;
 
 /**
+ * Base class for motion strategies that can be used to exhibit different sorts
+ * of motion.
+ *
  * @author John Blanco
  */
 public abstract class MotionStrategy {
