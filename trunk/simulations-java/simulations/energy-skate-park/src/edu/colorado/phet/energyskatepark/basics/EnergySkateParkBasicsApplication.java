@@ -16,9 +16,9 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 public class EnergySkateParkBasicsApplication extends PiccoloPhetApplication {
     public EnergySkateParkBasicsApplication( PhetApplicationConfig config ) {
         super( config );
+        addModule( new IntroModule( getPhetFrame() ) );
         addModule( new FrictionModule( getPhetFrame() ) );
-        addModule( new EnergySkateParkBasicsModule( "Friction", getPhetFrame() ) );
-        addModule( new EnergySkateParkBasicsModule( "Track Playground", getPhetFrame() ) );
+        addModule( new TrackPlaygroundModule( getPhetFrame() ) );
     }
 
     public static void main( String[] args ) {
