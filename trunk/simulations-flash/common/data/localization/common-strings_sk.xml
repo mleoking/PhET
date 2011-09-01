@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--common-strings_sk.xml created Fri Dec 03 17:39:31 CET 2010 using: flash-common-strings 2.02.00 (38663), translation-utility 2.09.00 (44031) sep 14, 2010-->
+<!--common-strings_sk.xml created Thu Aug 25 01:02:45 CEST 2011 using: flash-common-strings 2.03.00 (48823), translation-utility 2.11.00 (55119) aug 13, 2011-->
 <SimStrings>
 <string key="About..." value="O programe..."/>
 <string key="SoftwareDevelopment" value="Vývoj softvéru"/>
@@ -56,6 +56,7 @@
 <string key="InstallerInfo2" value="Ak chcete najnovšiu verziu, tak prehliadač otvorí PhET web stránku, kde si môžete prevziať inštalátor PhET offline web stránky. "/>
 <string key="InstallerInfo1" value="Uloženie dátumu inštalácie vašej PhET offline web stránky vám zaistí prístup k najnovším PhET simuláciám a doplňujúcim materiálom. "/>
 <string key="StatisticsField-sim_minor_version" value="Verzia simulácie (minor)"/>
+<string key="translation.credits" value="Augustín Šutta, Bratislava"/>
 <string key="Credits" value="Tvorcovia"/>
 <string key="StatisticsField-host_flash_version" value="Verzia Flash Player"/>
 <string key="TryNow" value="Spustiť teraz"/>
@@ -68,11 +69,12 @@
 <string key="NotUpdateSim" value="Táto simulácia nemôže byť aktualizovaná automaticky."/>
 <string key="CurrentVersionIs" value="Vaša súčasná verzia {0} je {1}."/>
 <string key="StatisticsField-host_flash_os" value="Operačný systém a názov"/>
+<string key="TranslatedBy" value="Preložil:"/>
 <string key="OK" value="OK"/>
 <string key="Error" value="Chyba"/>
 <string key="CheckSimUpdates" value="Skontrolovať aktualizáciu simulácie..."/>
-<string key="StatisticsField-sim_project" value="Názov projektu"/>
 <string key="NewerVersionIs" value="K dispozícii je novšia verzia {0}."/>
+<string key="StatisticsField-sim_project" value="Názov projektu"/>
 <string key="SentInformation" value="Informácia zobrazená nižšie bude poslaná PhET po spustení simulácie."/>
 <string key="OSVersion" value="OS"/>
 <string key="Details" value="Podrobnosti"/>
