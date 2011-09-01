@@ -2,8 +2,11 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
  * Class that defines the bounds within which some shape or point is allowed to
@@ -53,5 +56,33 @@ public class MotionBounds {
 
     public void setBounds( Shape newBounds ) {
         boundsShape = new Area( newBounds );
+    }
+
+    /**
+     * Test whether the given shape will be in or out of the motion bounds if
+     * the given motion vector is applied for the given time.
+     *
+     * @param shape        - Shape of entity being tested.
+     * @param motionVector - Motion vector of the object in distance/sec
+     * @param dt           - delta time, i.e. amount of time, in seconds.
+     * @return
+     */
+    public boolean testMotionAgainstBounds( Shape shape, ImmutableVector2D motionVector, double dt ) {
+        AffineTransform motionTransform = AffineTransform.getTranslateInstance( motionVector.getX() * dt, motionVector.getY() * dt );
+        return inBounds( motionTransform.createTransformedShape( shape ) );
+    }
+
+    /**
+     * Test whether the given point will be in or out of the motion bounds if
+     * the given motion vector is applied for the given time.
+     *
+     * @param currentLocation - Current location of entity being tested.
+     * @param motionVector    - Motion vector of the object in distance/sec
+     * @param dt              - delta time, i.e. amount of time, in seconds.
+     * @return
+     */
+    public boolean testMotionAgainstBounds( Point2D currentLocation, ImmutableVector2D motionVector, double dt ) {
+        Point2D newLocation = new Point2D.Double( currentLocation.getX() + motionVector.getX() * dt, currentLocation.getY() + motionVector.getY() * dt );
+        return inBounds( newLocation );
     }
 }
