@@ -18,8 +18,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * Time: 11:15:44 AM
  */
 public class ParticleNode extends PNode {
-    private Particle particle;
-    private PhetPPath phetPPath;
+    private final Particle particle;
+    private final PhetPPath phetPPath;
 
     public ParticleNode( final Particle particle ) {
         this.particle = particle;

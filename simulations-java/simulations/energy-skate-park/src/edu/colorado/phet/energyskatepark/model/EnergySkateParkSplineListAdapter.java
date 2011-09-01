@@ -8,7 +8,7 @@ import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
  * Mar 16, 2007, 1:45:23 PM
  */
 public class EnergySkateParkSplineListAdapter extends ParticleStage {
-    private EnergySkateParkModel energySkateParkModel;
+    private final EnergySkateParkModel energySkateParkModel;
 
     public EnergySkateParkSplineListAdapter( EnergySkateParkModel energySkateParkModel ) {
         this.energySkateParkModel = energySkateParkModel;

@@ -6,7 +6,7 @@ package edu.colorado.phet.energyskatepark.model;
  * Apr 6, 2007, 9:52:32 AM
  */
 public class BumpUpSplines {
-    private EnergySkateParkModel model;
+    private final EnergySkateParkModel model;
     public static final double MIN_SPLINE_Y = 0.1;
 
     public BumpUpSplines( EnergySkateParkModel model ) {

@@ -9,9 +9,9 @@ import edu.colorado.phet.common.spline.ParametricFunction2D;
  * Mar 27, 2007, 3:14:03 PM
  */
 public class TraversalState {
-    private ParametricFunction2D parametricFunction2D;
-    private boolean top;
-    private double alpha;
+    private final ParametricFunction2D parametricFunction2D;
+    private final boolean top;
+    private final double alpha;
 
     public TraversalState( ParametricFunction2D parametricFunction2D, boolean top, double alpha ) {
         this.parametricFunction2D = parametricFunction2D;

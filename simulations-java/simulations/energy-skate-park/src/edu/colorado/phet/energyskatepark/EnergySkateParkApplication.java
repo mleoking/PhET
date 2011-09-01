@@ -19,8 +19,8 @@ import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTrackMenu;
 
 public class EnergySkateParkApplication extends PhetApplication {
 
-    private EnergySkateParkModule module;
-    public static double SIMULATION_TIME_DT = 0.03;
+    private final EnergySkateParkModule module;
+    public static final double SIMULATION_TIME_DT = 0.03;
     public static final boolean IGNORE_THERMAL_DEFAULT = false;
 
     public EnergySkateParkApplication( PhetApplicationConfig config ) {

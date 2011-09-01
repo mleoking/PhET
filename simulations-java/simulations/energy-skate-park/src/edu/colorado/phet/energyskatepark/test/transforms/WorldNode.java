@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * Time: 11:28:18 AM
  */
 public class WorldNode extends PNode {
-    PCanvas pCanvas;
+    final PCanvas pCanvas;
     private double minWidth;
     private double minHeight;
 

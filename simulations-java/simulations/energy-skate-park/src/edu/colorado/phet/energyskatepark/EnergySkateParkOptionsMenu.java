@@ -17,7 +17,7 @@ import edu.colorado.phet.energyskatepark.model.physics.Particle;
  */
 
 public class EnergySkateParkOptionsMenu extends JMenu {
-    private EnergySkateParkModule energySkateParkModule;
+    private final EnergySkateParkModule energySkateParkModule;
 
     public EnergySkateParkOptionsMenu( final EnergySkateParkModule energySkateParkModule ) {
         super( "Options" );

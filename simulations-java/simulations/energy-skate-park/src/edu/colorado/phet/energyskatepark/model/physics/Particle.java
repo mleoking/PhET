@@ -20,7 +20,7 @@ import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
  */
 
 public class Particle implements Serializable {
-    private Particle1D particle1D;
+    private final Particle1D particle1D;
     private double x;
     private double y;
     private double vx;
@@ -32,7 +32,7 @@ public class Particle implements Serializable {
     private double stickiness = 0.25;//see neumann
 
     private UpdateStrategy updateStrategy = new Particle1DUpdate();
-    private ParticleStage particleStage;
+    private final ParticleStage particleStage;
     private boolean convertNormalVelocityToThermalOnLanding = true;
 
     private double angle = DEFAULT_ANGLE;
@@ -42,9 +42,9 @@ public class Particle implements Serializable {
     private double xThrust = 0;
     private double yThrust = 0;
     private double frictionCoefficient = 0;
-    private boolean verboseDebug = true;
+    private final boolean verboseDebug = true;
 
-    private ArrayList listeners = new ArrayList();
+    private final ArrayList listeners = new ArrayList();
 
     public static final double DEFAULT_ANGLE = 0;
     public static final double DEFAULT_ELASTICITY = 0.6;

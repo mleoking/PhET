@@ -10,7 +10,7 @@ import edu.colorado.phet.common.timeseries.model.RecordableModel;
  */
 
 public class EnergySkateParkRecordableModel implements RecordableModel {
-    private EnergySkateParkModel model;
+    private final EnergySkateParkModel model;
 
     public EnergySkateParkRecordableModel( EnergySkateParkModel model ) {
         this.model = model;

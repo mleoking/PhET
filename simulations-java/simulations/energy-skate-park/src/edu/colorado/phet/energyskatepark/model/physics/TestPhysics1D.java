@@ -37,13 +37,13 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 public class TestPhysics1D extends JFrame {
-    private JFrame controlFrame;
-    private SwingClock clock;
-    private JFrame ccpFrame;
-    private PSwingCanvas pSwingCanvas;
-    private Particle particle;
-    private ParticleStage particleStage = new ParticleStage();
-    private SplineLayer splineLayer = new SplineLayer( particleStage );
+    private final JFrame controlFrame;
+    private final SwingClock clock;
+    private final JFrame ccpFrame;
+    private final PSwingCanvas pSwingCanvas;
+    private final Particle particle;
+    private final ParticleStage particleStage = new ParticleStage();
+    private final SplineLayer splineLayer = new SplineLayer( particleStage );
     private static final String VERSION = "1.05.08";
     double totalONTrackError = 0;
     double totalOffTrackError = 0;

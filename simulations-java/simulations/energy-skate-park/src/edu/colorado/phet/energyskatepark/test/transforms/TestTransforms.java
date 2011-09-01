@@ -21,9 +21,9 @@ import edu.umd.cs.piccolox.util.PFixedWidthStroke;
  */
 
 public class TestTransforms {
-    private PCanvas contentPane;
-    private JFrame frame;
-    private ModelNode worldNode4;
+    private final PCanvas contentPane;
+    private final JFrame frame;
+    private final ModelNode worldNode4;
 
     public TestTransforms() {
         frame = new JFrame();

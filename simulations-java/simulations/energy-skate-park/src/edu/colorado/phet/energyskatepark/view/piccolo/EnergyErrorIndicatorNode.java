@@ -21,9 +21,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class EnergyErrorIndicatorNode extends PhetPNode {
     private Body body;
-    private EnergySkateParkModel model;
-    private ShadowPText textNode;
-    private Body.Listener listener;
+    private final EnergySkateParkModel model;
+    private final ShadowPText textNode;
+    private final Body.Listener listener;
 
     public EnergyErrorIndicatorNode( EnergySkateParkModel model ) {
         this.model = model;

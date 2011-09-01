@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
  */
 public abstract class DefaultZoomControl extends ZoomControlNode {
     private int zoom = 0;
-    private ValueAxis axis;
+    private final ValueAxis axis;
 
     public DefaultZoomControl( int orientation, ValueAxis axis ) {
         super( orientation );

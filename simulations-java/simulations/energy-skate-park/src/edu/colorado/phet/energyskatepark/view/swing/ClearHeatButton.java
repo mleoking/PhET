@@ -17,7 +17,7 @@ import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
  */
 
 public class ClearHeatButton extends JButton {
-    private EnergySkateParkModel model;
+    private final EnergySkateParkModel model;
 
     public ClearHeatButton( final EnergySkateParkModel model ) {
         this.model = model;

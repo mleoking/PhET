@@ -22,12 +22,12 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 
 public class ReturnSkaterButtonNode extends PhetPNode {
-    private EnergySkateParkModule module;
-    private PSwingCanvas canvas;
+    private final EnergySkateParkModule module;
+    private final PSwingCanvas canvas;
 
     private SkaterNode skaterNode;
-    private PNode buttonNode;
-    private JButton bringBackSkater = new JButton( "" );
+    private final PNode buttonNode;
+    private final JButton bringBackSkater = new JButton( "" );
 
     public ReturnSkaterButtonNode( PSwingCanvas canvas, final EnergySkateParkModule module, SkaterNode skaterNode ) {
         this.canvas = canvas;

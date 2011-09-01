@@ -18,16 +18,16 @@ import edu.umd.cs.piccolo.PNode;
  * Time: 11:16:04 AM
  */
 public class ParametricFunction2DNode extends PNode {
-    private ParametricFunction2D parametricFunction2D;
-    private PhetPPath phetPPath;
+    private final ParametricFunction2D parametricFunction2D;
+    private final PhetPPath phetPPath;
 
-    private PNode topLayer = new PNode();
+    private final PNode topLayer = new PNode();
     private boolean normalsVisible = false;
 
     private boolean curvatureVisible = false;
-    private PNode curvatureLayer = new PNode();
-    private PNode topOffsetTrack = new PNode();
-    private PNode bottomOffsetTrack = new PNode();
+    private final PNode curvatureLayer = new PNode();
+    private final PNode topOffsetTrack = new PNode();
+    private final PNode bottomOffsetTrack = new PNode();
     private boolean topOffsetTrackVisible = false;
     private double splineOffset = HUMAN_CENTER_OF_MASS_HEIGHT;
     private boolean showBottomOffsetSpline = false;

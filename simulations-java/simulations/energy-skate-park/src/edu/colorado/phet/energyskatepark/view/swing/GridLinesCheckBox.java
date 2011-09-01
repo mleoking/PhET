@@ -20,7 +20,7 @@ import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
  */
 
 public class GridLinesCheckBox extends VerticalLayoutPanel {
-    private EnergySkateParkModule module;
+    private final EnergySkateParkModule module;
 
     public GridLinesCheckBox( final EnergySkateParkModule module ) {
         this.module = module;

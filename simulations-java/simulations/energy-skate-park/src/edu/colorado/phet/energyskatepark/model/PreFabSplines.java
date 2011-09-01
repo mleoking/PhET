@@ -37,7 +37,7 @@ public class PreFabSplines {
     }
 
     public static class CubicSpline {
-        private ArrayList pts = new ArrayList();
+        private final ArrayList pts = new ArrayList();
 
         public void addControlPoint( double x, double y ) {
             pts.add( new SerializablePoint2D( x, y ) );

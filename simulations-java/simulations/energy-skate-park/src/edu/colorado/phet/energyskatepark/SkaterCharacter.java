@@ -12,11 +12,11 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
  * Mar 30, 2007, 1:38:23 PM
  */
 public class SkaterCharacter implements Serializable {
-    private String imageURL;
-    private String name;
-    private double mass;
-    private double modelHeight;
-    private double heightDivisor;
+    private final String imageURL;
+    private final String name;
+    private final double mass;
+    private final double modelHeight;
+    private final double heightDivisor;
 
     public SkaterCharacter( String imageURL, String name, double mass, double modelHeight ) {
         this( imageURL, name, mass, modelHeight, 1.0 );

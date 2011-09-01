@@ -18,7 +18,7 @@ import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
  */
 
 public class EnergySkateParkTrackMenu extends JMenu {
-    private EnergySkateParkApplication parentApp;
+    private final EnergySkateParkApplication parentApp;
 
     public EnergySkateParkTrackMenu( EnergySkateParkApplication app ) {
         this( EnergySkateParkStrings.getString( "tracks-menu.title" ), app, getTests() );

@@ -18,10 +18,10 @@ public class EnergyLookAndFeel {
      * x-W_app and deltaTotalEnergy should be same color: Yellow (yellow for... I don't know, it just has to be different than blue, red, green).
      */
     private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
-    private Color appliedForceColor = new Color( 180, 180, 0 );//my yellow
+    private final Color appliedForceColor = new Color( 180, 180, 0 );//my yellow
     private Color netForceColor = myGreen;
-    private Color frictionForceColor = Color.red;
-    private Color weightColor = new Color( 50, 130, 215 );
+    private final Color frictionForceColor = Color.red;
+    private final Color weightColor = new Color( 50, 130, 215 );
     private Color normalColor = Color.magenta;
     private Color wallForceColor = Color.magenta;
 
@@ -29,15 +29,15 @@ public class EnergyLookAndFeel {
     private Color velColor = Color.black;
     private Color positionColor = Color.black;
 
-    private Color appliedWorkColor = appliedForceColor;
-    private Color frictionWorkColor = frictionForceColor;
-    private Color gravityWorkColor = weightColor;
-    private Color totalWorkColor = myGreen;
+    private final Color appliedWorkColor = appliedForceColor;
+    private final Color frictionWorkColor = frictionForceColor;
+    private final Color gravityWorkColor = weightColor;
+    private final Color totalWorkColor = myGreen;
 
-    private Color totalEnergyColor = appliedWorkColor;
-    private Color kineticEnergyColor = totalWorkColor;
-    private Color potentialEnergyColor = gravityWorkColor;
-    private Color thermalEnergyColor = frictionWorkColor;
+    private final Color totalEnergyColor = appliedWorkColor;
+    private final Color kineticEnergyColor = totalWorkColor;
+    private final Color potentialEnergyColor = gravityWorkColor;
+    private final Color thermalEnergyColor = frictionWorkColor;
 
     public Color getKEColor() {
         return kineticEnergyColor;

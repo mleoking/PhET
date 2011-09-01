@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 
 public class TestTransform2 {
-    private JFrame frame;
+    private final JFrame frame;
 
     public TestTransform2() {
         frame = new JFrame();

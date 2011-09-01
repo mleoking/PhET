@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.PNode;
  * Time: 8:54:51 PM
  */
 public class ModelNode extends PhetPNode {
-    private PNode node;
+    private final PNode node;
 
     public ModelNode( PNode node ) {
         super( node );

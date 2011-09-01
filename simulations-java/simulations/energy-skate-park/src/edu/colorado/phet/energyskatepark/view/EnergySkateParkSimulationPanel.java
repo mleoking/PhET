@@ -44,12 +44,12 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 
 public class EnergySkateParkSimulationPanel extends PhetPCanvas implements EnergySkateParkSplineEnvironment {
-    private EnergySkateParkModule module;
-    private EnergySkateParkModel energySkateParkModel;
-    private MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
-    private EnergySkateParkRootNode rootNode;
-    private double matchThresholdWorldCoordinates = 1.5 * 0.33;
-    private ArrayList listeners = new ArrayList();
+    private final EnergySkateParkModule module;
+    private final EnergySkateParkModel energySkateParkModel;
+    private final MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
+    private final EnergySkateParkRootNode rootNode;
+    private final double matchThresholdWorldCoordinates = 1.5 * 0.33;
+    private final ArrayList listeners = new ArrayList();
 
     public EnergySkateParkSimulationPanel( EnergySkateParkModule module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );

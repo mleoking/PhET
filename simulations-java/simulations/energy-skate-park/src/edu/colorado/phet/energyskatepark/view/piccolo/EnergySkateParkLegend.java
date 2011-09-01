@@ -13,7 +13,7 @@ import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
  */
 
 public class EnergySkateParkLegend extends Legend {
-    private EnergySkateParkModule module;
+    private final EnergySkateParkModule module;
 
     public EnergySkateParkLegend( EnergySkateParkModule module ) {
         this.module = module;

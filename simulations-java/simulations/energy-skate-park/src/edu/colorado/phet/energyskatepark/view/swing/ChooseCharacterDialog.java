@@ -35,10 +35,10 @@ import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
  * Mar 30, 2007, 1:16:29 PM
  */
 public class ChooseCharacterDialog extends PaintImmediateDialog {
-    private JPanel contentPanel = new JPanel( new GridBagLayout() );
-    private GridBagConstraints gridBagConstraints = new GridBagConstraints();
-    private ArrayList characterPanels = new ArrayList();
-    private EnergySkateParkModule module;
+    private final JPanel contentPanel = new JPanel( new GridBagLayout() );
+    private final GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    private final ArrayList characterPanels = new ArrayList();
+    private final EnergySkateParkModule module;
 
     public ChooseCharacterDialog( EnergySkateParkModule module ) {
         super( module.getPhetFrame(), EnergySkateParkStrings.getString( "controls.choose-character" ), false );
@@ -99,8 +99,8 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
 
     static class CharacterPanel extends JPanel {
         private boolean selected = false;
-        private EnergySkateParkModule module;
-        private SkaterCharacter skaterCharacter;
+        private final EnergySkateParkModule module;
+        private final SkaterCharacter skaterCharacter;
 
         public CharacterPanel( EnergySkateParkModule module, SkaterCharacter skaterCharacter ) {
             super( new GridBagLayout() );

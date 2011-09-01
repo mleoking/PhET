@@ -19,8 +19,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 
 public class WiggleMeInSpace {
-    private EnergySkateParkModule module;
-    private MotionHelpBalloon hintNode;
+    private final EnergySkateParkModule module;
+    private final MotionHelpBalloon hintNode;
     private boolean hintDone = false;
 
     public WiggleMeInSpace( final EnergySkateParkModule module ) {

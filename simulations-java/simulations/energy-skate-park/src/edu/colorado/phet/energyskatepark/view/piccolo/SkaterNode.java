@@ -36,12 +36,12 @@ public class SkaterNode extends PNode {
     private PImage skaterImageNode;
 
     private PPath centerDebugger;
-    protected boolean debugCenter = true;
+    protected final boolean debugCenter = true;
 
     private PNode jetPackNode;
     private BufferedImage jetPackImage;
     private BufferedImage skaterImage;
-    private Body.ListenerAdapter bodyListener = new Body.ListenerAdapter() {
+    private final Body.ListenerAdapter bodyListener = new Body.ListenerAdapter() {
 
         public void thrustChanged() {
             update();

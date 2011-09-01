@@ -50,29 +50,29 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * May 22, 2007, 2:18:52 AM
  */
 public class EnergyTimePlot {
-    private EnergySkateParkModel model;
-    private TimeSeriesModel timeSeriesModel;
-    private ConstantDtClock clock;
+    private final EnergySkateParkModel model;
+    private final TimeSeriesModel timeSeriesModel;
+    private final ConstantDtClock clock;
 
-    private JDialog dialog;
-    private PhetPCanvas phetPCanvas;
-    private DynamicJFreeChartNode dynamicJFreeChartNode;
-    private JFreeChart chart;
+    private final JDialog dialog;
+    private final PhetPCanvas phetPCanvas;
+    private final DynamicJFreeChartNode dynamicJFreeChartNode;
+    private final JFreeChart chart;
 
-    private ZoomControlNode zoomControlNode;
-    private ReadoutTextNode thermalPText;
-    private ReadoutTextNode keText;
-    private ReadoutTextNode peText;
-    private ReadoutTextNode totalText;
+    private final ZoomControlNode zoomControlNode;
+    private final ReadoutTextNode thermalPText;
+    private final ReadoutTextNode keText;
+    private final ReadoutTextNode peText;
+    private final ReadoutTextNode totalText;
 
-    private ArrayList listeners = new ArrayList();
+    private final ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
     //    public static final double MAX_TIME = 50.0;
     //    public static final double MAX_TIME = 30.0;
     public static final double MAX_TIME = 20.0;
-    private JDialog developerControlDialog;
-    private EnergySkateParkPlaybackPanel playbackPanel;
+    private final JDialog developerControlDialog;
+    private final EnergySkateParkPlaybackPanel playbackPanel;
 //    public static final double MAX_TIME = 5.0;
 
     public EnergyTimePlot( EnergySkateParkModule module, JFrame parentFrame, ConstantDtClock clock, EnergySkateParkModel model, final TimeSeriesModel timeSeriesModel ) {
@@ -233,8 +233,8 @@ public class EnergyTimePlot {
     }
 
     public class ReadoutTextNode extends PhetPNode {
-        private ShadowPText text;
-        private PPath background;
+        private final ShadowPText text;
+        private final PPath background;
 
         public ReadoutTextNode( Color color ) {
             text = new ShadowPText( " " );

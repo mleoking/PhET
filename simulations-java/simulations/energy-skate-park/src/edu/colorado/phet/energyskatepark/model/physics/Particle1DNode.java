@@ -14,8 +14,8 @@ import edu.umd.cs.piccolo.PNode;
  * Time: 11:15:44 AM
  */
 class Particle1DNode extends PNode {
-    private Particle1D particle1d;
-    private PhetPPath phetPPath;
+    private final Particle1D particle1d;
+    private final PhetPPath phetPPath;
 
     public Particle1DNode( final Particle1D particle1d ) {
         this.particle1d = particle1d;

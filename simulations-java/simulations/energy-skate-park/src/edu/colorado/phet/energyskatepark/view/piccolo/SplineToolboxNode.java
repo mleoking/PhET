@@ -30,10 +30,10 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 
 public class SplineToolboxNode extends PNode {
-    private EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
-    private PText textGraphic;
-    private PNode draggableIcon;
-    private PPath boundGraphic;
+    private final EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
+    private final PText textGraphic;
+    private final PNode draggableIcon;
+    private final PPath boundGraphic;
     private boolean created = false;
     private EnergySkateParkSpline createdSurface;
 

@@ -18,8 +18,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 
 public class GridNode extends PhetPNode {
-    private PNode lines = new PNode();
-    private PNode textLayer = new PNode();
+    private final PNode lines = new PNode();
+    private final PNode textLayer = new PNode();
     private Paint gridPaint = null;
 
     public GridNode( double minX, double minY, double maxX, double maxY, double dx, double dy ) {

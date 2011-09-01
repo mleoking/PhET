@@ -20,12 +20,12 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 
 public class EnergySkateParkPieChartNode extends PNode {
-    private PieChartNode pieChartNode;
-    private EnergySkateParkModule module;
-    private SkaterNode skaterNode;
-    private double dy = 25;
+    private final PieChartNode pieChartNode;
+    private final EnergySkateParkModule module;
+    private final SkaterNode skaterNode;
+    private final double dy = 25;
     private boolean ignoreThermal;
-    private Body body;
+    private final Body body;
 
     public EnergySkateParkPieChartNode( EnergySkateParkModule module, SkaterNode skaterNode ) {
         this.module = module;

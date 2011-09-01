@@ -10,7 +10,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
  * Jun 29, 2007, 11:12:57 PM
  */
 public class BarChartDialog extends PaintImmediateDialog {
-    private BarGraphCanvas barGraphCanvas;
+    private final BarGraphCanvas barGraphCanvas;
 
     public BarChartDialog( PhetFrame phetFrame, String title, boolean modal, EnergySkateParkModule module ) {
         super( phetFrame, title, modal );

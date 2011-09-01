@@ -10,18 +10,18 @@ import java.io.Serializable;
  */
 
 public class HistoryPoint implements Serializable {
-    private Body body;
-    private double x;
-    private double y;
-    private double time;
-    private double ke;
-    private double pe;
-    private double totalEnergy;
-    private double thermalEnergy;
+    private final Body body;
+    private final double x;
+    private final double y;
+    private final double time;
+    private final double ke;
+    private final double pe;
+    private final double totalEnergy;
+    private final double thermalEnergy;
 
     private boolean readoutVisible = false;
-    private double dy;
-    private double speed;
+    private final double dy;
+    private final double speed;
 
     public HistoryPoint( double time, Body body ) {
         this.body = body;

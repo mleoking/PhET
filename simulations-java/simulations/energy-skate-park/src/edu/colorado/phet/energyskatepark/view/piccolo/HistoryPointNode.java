@@ -28,10 +28,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 public class HistoryPointNode extends PNode {
     private HistoryPoint historyPoint;
-    private EnergySkateParkRootNode rootNode;
-    private DecimalFormat formatter = new DecimalFormat( "0.00" );
-    private ShadowHTMLNode htmlNode;
-    private Paint paint = new Color( 220, 175, 250 );
+    private final EnergySkateParkRootNode rootNode;
+    private final DecimalFormat formatter = new DecimalFormat( "0.00" );
+    private final ShadowHTMLNode htmlNode;
+    private final Paint paint = new Color( 220, 175, 250 );
 
     public HistoryPointNode( HistoryPoint historyPoint, EnergySkateParkRootNode rootNode ) {
         this.historyPoint = historyPoint;

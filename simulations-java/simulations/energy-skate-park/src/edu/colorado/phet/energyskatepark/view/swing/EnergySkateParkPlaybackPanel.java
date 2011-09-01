@@ -12,7 +12,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
  * Jun 1, 2007, 2:27:34 PM
  */
 public class EnergySkateParkPlaybackPanel extends TimeSeriesControlPanel {
-    private ConstantDtClock clock;
+    private final ConstantDtClock clock;
 
     public EnergySkateParkPlaybackPanel( final EnergySkateParkModule module, TimeSeriesModel timeSeriesModel, ConstantDtClock clock ) {
         super( timeSeriesModel, EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT );
