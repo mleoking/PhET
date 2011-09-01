@@ -12,9 +12,8 @@ import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
  * @author Sam Reid
  */
 public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
-
     public EnergySkateParkBasicsModule( String name, ConstantDtClock clock, PhetFrame phetFrame, EnergySkateParkOptions options ) {
         super( name, clock, phetFrame, options );
-
+        setControlPanel( null );
     }
 }
