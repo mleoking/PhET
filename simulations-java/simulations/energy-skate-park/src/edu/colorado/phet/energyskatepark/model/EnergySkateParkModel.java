@@ -7,10 +7,10 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
-import edu.colorado.phet.energyskatepark.SkaterCharacter;
-import edu.colorado.phet.energyskatepark.SkaterCharacterSet;
 import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
 import edu.colorado.phet.energyskatepark.model.physics.ParticleStage;
+import edu.colorado.phet.energyskatepark.view.SkaterCharacter;
+import edu.colorado.phet.energyskatepark.view.SkaterCharacterSet;
 
 /**
  * User: Sam Reid
