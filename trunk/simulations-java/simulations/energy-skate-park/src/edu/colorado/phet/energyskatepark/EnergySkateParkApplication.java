@@ -30,7 +30,7 @@ public class EnergySkateParkApplication extends PhetApplication {
 
         EnergySkateParkOptions options = parseOptions( config.getCommandLineArgs() );
 
-        module = new AbstractEnergySkateParkModule( "Module", new ConstantDtClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
+        module = new EnergySkateParkModule( "Module", new ConstantDtClock( 30, SIMULATION_TIME_DT ), getPhetFrame(), options );
         setModules( new Module[] { module } );
 
         if ( config.isDev() ) {

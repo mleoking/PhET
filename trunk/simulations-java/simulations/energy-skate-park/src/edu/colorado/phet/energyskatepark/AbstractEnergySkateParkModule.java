@@ -26,7 +26,6 @@ import edu.colorado.phet.energyskatepark.plots.BarChartDialog;
 import edu.colorado.phet.energyskatepark.plots.EnergyPositionPlotDialog;
 import edu.colorado.phet.energyskatepark.plots.EnergyTimePlot;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacterSet;
@@ -40,7 +39,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class AbstractEnergySkateParkModule extends PiccoloModule {
+public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     private final EnergySkateParkModel energyModel;
     private final EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
     private final EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
@@ -51,7 +50,6 @@ public class AbstractEnergySkateParkModule extends PiccoloModule {
 
     private final PhetFrame phetFrame;
 
-    private final EnergySkateParkControlPanel energySkateParkControlPanel;
     private final TimeSeriesModel timeSeriesModel;
 
     private final EnergyTimePlot energyTimePlot;
@@ -78,8 +76,6 @@ public class AbstractEnergySkateParkModule extends PiccoloModule {
         energySkateParkSimulationPanel = new EnergySkateParkSimulationPanel( this );
         setSimulationPanel( energySkateParkSimulationPanel );
 
-        energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
-        setControlPanel( energySkateParkControlPanel );
 
         barChartDialog = new BarChartDialog( phetFrame, EnergySkateParkStrings.getString( "plots.bar-graph" ), false, this );
         barChartDialog.setSize( 200, 625 );
@@ -171,7 +167,6 @@ public class AbstractEnergySkateParkModule extends PiccoloModule {
     public void reset() {
         energyModel.reset();
         energySkateParkSimulationPanel.reset();
-        energySkateParkControlPanel.reset();
         timeSeriesModel.reset();
         timeSeriesModel.setLiveMode();
         timeSeriesModel.startLiveMode();
