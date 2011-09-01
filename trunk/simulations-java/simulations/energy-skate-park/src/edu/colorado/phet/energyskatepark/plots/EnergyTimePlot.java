@@ -1,6 +1,29 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.plots;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNodeControlPanel;
@@ -21,20 +44,6 @@ import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkPlaybackPanel;
 import edu.umd.cs.piccolo.nodes.PPath;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -100,7 +109,7 @@ public class EnergyTimePlot {
 
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
-                if( getEnergySkateParkModel().getNumBodies() > 0 ) {
+                if ( getEnergySkateParkModel().getNumBodies() > 0 ) {
                     double thermal = getEnergySkateParkModel().getBody( 0 ).getThermalEnergy();
                     double ke = getEnergySkateParkModel().getBody( 0 ).getKineticEnergy();
                     double pe = getEnergySkateParkModel().getBody( 0 ).getPotentialEnergy();
@@ -121,7 +130,7 @@ public class EnergyTimePlot {
         } );
         timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
             public void timeChanged() {
-                if( getEnergySkateParkModel().getNumBodies() > 0 ) {
+                if ( getEnergySkateParkModel().getNumBodies() > 0 ) {
                     updateReadouts();
                 }
             }
@@ -170,7 +179,7 @@ public class EnergyTimePlot {
 
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
-                if( timeSeriesModel.numPlaybackStates() == 0 ) {
+                if ( timeSeriesModel.numPlaybackStates() == 0 ) {
                     clear();
                 }
             }
@@ -257,7 +266,7 @@ public class EnergyTimePlot {
     }
 
     public void setVisible( boolean visible ) {
-        if( visible != dialog.isVisible() ) {
+        if ( visible != dialog.isVisible() ) {
             dialog.setVisible( visible );
 //            developerControlDialog.setVisible( visible );
             relayout();
@@ -297,8 +306,8 @@ public class EnergyTimePlot {
     }
 
     private void notifyVisibilityChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).visibilityChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).visibilityChanged();
         }
     }
 }

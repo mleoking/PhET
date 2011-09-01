@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import javax.swing.JButton;
 
-import javax.swing.*;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
  * Author: Sam Reid
@@ -11,7 +11,7 @@ import javax.swing.*;
  */
 public class EnergySkateParkUtils {
     public static void fixButtonOpacity( JButton button ) {
-        if( PhetUtilities.isMacintosh() ) {
+        if ( PhetUtilities.isMacintosh() ) {
             button.setOpaque( false );
         }
     }

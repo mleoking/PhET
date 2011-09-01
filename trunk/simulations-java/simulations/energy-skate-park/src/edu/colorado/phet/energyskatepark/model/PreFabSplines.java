@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 /**
  * User: Sam Reid
@@ -48,7 +48,7 @@ public class PreFabSplines {
         }
 
         public SerializablePoint2D[] getControlPoints() {
-            return (SerializablePoint2D[])pts.toArray( new SerializablePoint2D[0] );
+            return (SerializablePoint2D[]) pts.toArray( new SerializablePoint2D[0] );
         }
     }
 

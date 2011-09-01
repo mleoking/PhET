@@ -1,6 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.common;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -8,10 +15,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -65,19 +68,19 @@ public class Legend extends PhetPNode {
 
     protected void layoutChildren() {
         super.layoutChildren();
-        if( list.size() > 0 ) {
-            Entry first = (Entry)list.get( 0 );
+        if ( list.size() > 0 ) {
+            Entry first = (Entry) list.get( 0 );
             first.setOffset( 0, 5 );
             Rectangle2D bounds = new PBounds( first.getFullBounds() );
-            for( int i = 1; i < list.size(); i++ ) {
-                Entry prev = (Entry)list.get( i - 1 );
-                Entry entry = (Entry)list.get( i );
+            for ( int i = 1; i < list.size(); i++ ) {
+                Entry prev = (Entry) list.get( i - 1 );
+                Entry entry = (Entry) list.get( i );
                 entry.setOffset( prev.getFullBounds().getX(), prev.getFullBounds().getMaxY() + padY );
                 bounds = bounds.createUnion( entry.getFullBounds() );
             }
             background.setPathTo( RectangleUtils.expand( bounds, 5, 5 ) );
             double dy = background.getFullBounds().getY();
-            for( int i = 0; i < getChildrenCount(); i++ ) {
+            for ( int i = 0; i < getChildrenCount(); i++ ) {
                 getChild( i ).translate( 0, -dy );
             }
 
@@ -95,8 +98,8 @@ public class Legend extends PhetPNode {
     }
 
     public void setFont( Font font ) {
-        for( int i = 0; i < list.size(); i++ ) {
-            Entry entry = (Entry)list.get( i );
+        for ( int i = 0; i < list.size(); i++ ) {
+            Entry entry = (Entry) list.get( i );
             entry.setFont( font );
         }
     }

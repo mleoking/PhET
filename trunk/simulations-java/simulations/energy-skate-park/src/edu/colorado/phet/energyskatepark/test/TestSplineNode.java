@@ -1,16 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.test;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.JFrame;
+
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
 import edu.colorado.phet.energyskatepark.view.SplineMatch;
 import edu.colorado.phet.energyskatepark.view.piccolo.SplineNode;
-
-import javax.swing.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Author: Sam Reid
@@ -21,9 +22,9 @@ public class TestSplineNode {
 
     public TestSplineNode() {
         PhetPCanvas phetPCanvas = new PhetPCanvas( new Rectangle2D.Double( 0, 0, 10, 10 ) );
-        EnergySkateParkSpline spline = new EnergySkateParkSpline( new SerializablePoint2D[]{
+        EnergySkateParkSpline spline = new EnergySkateParkSpline( new SerializablePoint2D[] {
                 new SerializablePoint2D( 0, 0 ),
-                new SerializablePoint2D( 5, 5 )} );
+                new SerializablePoint2D( 5, 5 ) } );
         SplineNode splineNode = new SplineNode( phetPCanvas, spline, new EnergySkateParkSplineEnvironment() {
             public void removeSpline( SplineNode splineNode ) {
             }

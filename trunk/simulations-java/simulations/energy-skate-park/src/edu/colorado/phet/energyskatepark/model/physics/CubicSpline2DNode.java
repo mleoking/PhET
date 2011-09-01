@@ -1,15 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Ellipse2D;
+
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.spline.CubicSpline2D;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 /**
  * User: Sam Reid
@@ -40,22 +41,22 @@ public class CubicSpline2DNode extends ParametricFunction2DNode {
     protected void updateControlPoints() {
 
         super.updateControlPoints();
-        if( constructed ) {
-            while( controlPointLayer.getChildrenCount() < parametricFunction2D.getNumControlPoints() ) {
+        if ( constructed ) {
+            while ( controlPointLayer.getChildrenCount() < parametricFunction2D.getNumControlPoints() ) {
                 addControlPointNode();
             }
-            while( controlPointLayer.getChildrenCount() > parametricFunction2D.getNumControlPoints() ) {
+            while ( controlPointLayer.getChildrenCount() > parametricFunction2D.getNumControlPoints() ) {
                 removeControlPointNode();
             }
-            for( int i = 0; i < controlPointLayer.getChildrenCount(); i++ ) {
-                ControlPointNode controlPointNode = (ControlPointNode)controlPointLayer.getChild( i );
+            for ( int i = 0; i < controlPointLayer.getChildrenCount(); i++ ) {
+                ControlPointNode controlPointNode = (ControlPointNode) controlPointLayer.getChild( i );
                 controlPointNode.setIndex( i );
             }
         }
     }
 
     public void setCubicSpline2D( CubicSpline2D cubicSpline2D ) {
-        if( this.parametricFunction2D != null ) {
+        if ( this.parametricFunction2D != null ) {
             this.parametricFunction2D.removeListener( listener );
         }
         this.parametricFunction2D = cubicSpline2D;

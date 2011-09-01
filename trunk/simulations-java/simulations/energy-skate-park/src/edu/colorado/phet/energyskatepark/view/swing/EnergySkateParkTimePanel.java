@@ -2,12 +2,9 @@
 package edu.colorado.phet.energyskatepark.view.swing;
 
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.TimeControlListener.TimeControlAdapter;
 import edu.colorado.phet.common.phetcommon.view.clock.SimSpeedControl;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -23,7 +20,7 @@ public class EnergySkateParkTimePanel extends JPanel {
 
     public EnergySkateParkTimePanel( final EnergySkateParkModule module, final Clock clock ) {
         this.module = module;
-        final SimSpeedControl timeSpeedSlider = new SimSpeedControl( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, (ConstantDtClock)clock );
+        final SimSpeedControl timeSpeedSlider = new SimSpeedControl( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, (ConstantDtClock) clock );
         add( timeSpeedSlider );
         PiccoloClockControlPanel controlPanel = new PiccoloClockControlPanel( clock );
         controlPanel.addTimeControlListener( new TimeControlAdapter() {

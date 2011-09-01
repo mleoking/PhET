@@ -1,6 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -15,13 +23,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -62,7 +63,7 @@ public class SkaterNode extends PNode {
 
     public SkaterNode( final Body body ) {
         this.body = body;
-        if( body == null ) {
+        if ( body == null ) {
             throw new IllegalArgumentException( "Body cannot be null in " + getClass().getName() );
         }
 
@@ -75,12 +76,12 @@ public class SkaterNode extends PNode {
             skaterImageNode = new PImage( skaterImage );
             addChild( skaterImageNode );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
         centerDebugger = new PhetPPath( Color.red );
-        if( debugCenter ) {
+        if ( debugCenter ) {
             addChild( centerDebugger );
         }
 
@@ -90,11 +91,11 @@ public class SkaterNode extends PNode {
                 boolean okToTranslate = true;
                 getBody().translate( delta.getWidth(), delta.getHeight() );
                 double y = getBody().getCenterOfMass().getY();
-                if( y <= 0 ) {
+                if ( y <= 0 ) {
                     okToTranslate = false;
                 }
                 getBody().translate( -delta.getWidth(), -delta.getHeight() );
-                if( okToTranslate ) {
+                if ( okToTranslate ) {
                     getBody().translate( delta.getWidth(), delta.getHeight() );
                     updateDragAngle();
                 }
@@ -124,7 +125,7 @@ public class SkaterNode extends PNode {
 
     private void updateDragAngle() {
         TraversalState state = getBody().getTrackMatch( 0, -2 );
-        if( state != null ) {
+        if ( state != null ) {
             ImmutableVector2D vector = state.getParametricFunction2D().getUnitNormalVector( state.getAlpha() );//todo: this code is highly similar to code in Particle.updateStateFrom1D
             double sign = state.isTop() ? 1.0 : -1.0;
             ImmutableVector2D vect = vector.getInstanceOfMagnitude( sign );
@@ -168,7 +169,7 @@ public class SkaterNode extends PNode {
         jetPackNode.transformBy( AffineTransform.getScaleInstance( 2 * body.getWidth() / skaterImage.getWidth(), -2 * body.getHeight() / skaterImage.getHeight() ) );
         jetPackNode.translate( -jetPackImage.getWidth() / 2, -jetPackImage.getHeight() / 2 );
         jetPackNode.rotateAboutPoint( -body.getThrust().getAngle() + Math.PI / 2, jetPackImage.getWidth() / 2, jetPackImage.getHeight() / 2 );
-        if( body.isFacingRight() ) {
+        if ( body.isFacingRight() ) {
             jetPackNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
             jetPackNode.translate( -jetPackImage.getWidth(), 0 );
         }
@@ -180,7 +181,7 @@ public class SkaterNode extends PNode {
         skaterImageNode.transformBy( AffineTransform.getScaleInstance( body.getWidth() / skaterImage.getWidth(), -body.getHeight() / skaterImage.getHeight() ) );
         skaterImageNode.rotate( -body.getAngle() );
         skaterImageNode.translate( -skaterImage.getWidth() / 2, -skaterImage.getHeight() / heightDivisor );
-        if( body.isFacingRight() ) {
+        if ( body.isFacingRight() ) {
             skaterImageNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
             skaterImageNode.translate( -skaterImage.getWidth(), 0 );
         }

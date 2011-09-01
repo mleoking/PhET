@@ -1,14 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
-import edu.colorado.phet.common.phetcommon.math.*;
-import edu.colorado.phet.common.spline.ParametricFunction2D;
-import edu.colorado.phet.energyskatepark.model.TraversalState;
-import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
-
 import java.awt.geom.Line2D;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.spline.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.model.TraversalState;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 /**
  * User: Sam Reid
@@ -54,7 +57,7 @@ public class Particle implements Serializable {
     public Particle( ParticleStage particleStage ) {
         particle1D = new Particle1D( particleStage.getCubicSpline2DCount() > 0 ? particleStage.getCubicSpline2D( 0 ) : null, true, g );
         this.particleStage = particleStage;
-        setUpdateStrategy( particleStage.getCubicSpline2DCount() > 0 ? ( (UpdateStrategy)new Particle1DUpdate() ) : new FreeFall() );
+        setUpdateStrategy( particleStage.getCubicSpline2DCount() > 0 ? ( (UpdateStrategy) new Particle1DUpdate() ) : new FreeFall() );
         setMass( 1.0 );//ensures particle1d has synchronized mass
     }
 
@@ -63,13 +66,13 @@ public class Particle implements Serializable {
     }
 
     public void stepInTime( double dt ) {
-        if( !userControlled ) {
+        if ( !userControlled ) {
             double origEnergy = getTotalEnergy();
             Class updateClass = updateStrategy.getClass();
             updateStrategy.stepInTime( dt );
             double finalEnergy = getTotalEnergy();
             double dE = finalEnergy - origEnergy;
-            if( Math.abs( dE ) > 1E-6 && getThrust().getMagnitude() == 0.0 ) {
+            if ( Math.abs( dE ) > 1E-6 && getThrust().getMagnitude() == 0.0 ) {
                 EnergySkateParkLogging.println( "Particle.stepInTime: de = " + dE + ", strategy=" + updateClass + ", newStrategy=" + updateStrategy.getClass() );
             }
             update();
@@ -203,7 +206,7 @@ public class Particle implements Serializable {
         boolean[] above = getOrigAbove();
         SearchState crossPoint = getBestCrossPoint( new SerializablePoint2D( getPosition().getX() + dx, getPosition().getY() + dy ), getOrigAbove(), getPosition() );
 
-        if( crossPoint == null || crossPoint.getIndex() == -1 ) {
+        if ( crossPoint == null || crossPoint.getIndex() == -1 ) {
             return null;
         }
         else {
@@ -235,20 +238,20 @@ public class Particle implements Serializable {
             double netForceRadial = particle1D.getNetForce().dot( particle1D.getCurvatureDirection() );
 
             boolean leaveTrack = false;
-            if( netForceRadial < centripForce && outsideCircle ) {
+            if ( netForceRadial < centripForce && outsideCircle ) {
                 leaveTrack = true;
             }
-            if( netForceRadial > centripForce && !outsideCircle ) {
+            if ( netForceRadial > centripForce && !outsideCircle ) {
                 leaveTrack = true;
             }
-            if( leaveTrack && !particle1D.isRollerCoasterMode() ) {
+            if ( leaveTrack && !particle1D.isRollerCoasterMode() ) {
                 switchToFreeFall();
                 Particle.this.stepInTime( dt );
             }
             else {
                 particle1D.stepInTime( dt );
                 updateStateFrom1D();
-                if( !particle1D.isReflect() && ( particle1D.getAlpha() < 0 || particle1D.getAlpha() > 1.0 ) ) {
+                if ( !particle1D.isReflect() && ( particle1D.getAlpha() < 0 || particle1D.getAlpha() > 1.0 ) ) {
                     switchToFreeFall();
                 }
             }
@@ -278,9 +281,9 @@ public class Particle implements Serializable {
         offsetOnSpline( particle1D.getCubicSpline2D(), particle1D.getAlpha(), particle1D.isSplineTop() );
         particle1D.detach();
         double dE = getTotalEnergy() - origEnergy;
-        if( Math.abs( dE ) > 1E-6 ) {
+        if ( Math.abs( dE ) > 1E-6 ) {
             EnergySkateParkLogging.println( "Switching to freefall: energy discrepancy: dE=" + dE );
-            if( dE > 0 ) {//gained energy
+            if ( dE > 0 ) {//gained energy
                 //can we reduce velocity to fix?
                 testCorrectVelocity( origEnergy );
             }
@@ -289,11 +292,11 @@ public class Particle implements Serializable {
 
     private void testCorrectVelocity( double e0 ) {
         double dE = getTotalEnergy() - e0;
-        if( Math.abs( getKineticEnergy() ) > Math.abs( dE ) ) {//amount we could reduce the energy if we deleted all the kinetic energy:
+        if ( Math.abs( getKineticEnergy() ) > Math.abs( dE ) ) {//amount we could reduce the energy if we deleted all the kinetic energy:
             verboseDebug( "Could fix all energy by changing velocity." );//todo: maybe should only do this if all velocity is not converted
             correctEnergyReduceVelocity( e0 );
             verboseDebug( "changed velocity: dE=" + ( getTotalEnergy() - e0 ) );
-            if( !MathUtil.isApproxEqual( e0, getTotalEnergy(), 1E-8 ) ) {
+            if ( !MathUtil.isApproxEqual( e0, getTotalEnergy(), 1E-8 ) ) {
                 new RuntimeException( "Energy error[p0]" ).printStackTrace();
             }
         }
@@ -303,18 +306,18 @@ public class Particle implements Serializable {
     }
 
     private void verboseDebug( String s ) {
-        if( verboseDebug ) {
+        if ( verboseDebug ) {
             EnergySkateParkLogging.println( s );
         }
     }
 
     private void correctEnergyReduceVelocity( double e0 ) {
         double velocity = getVelocity().getMagnitude();
-        for( int i = 0; i < 100; i++ ) {
+        for ( int i = 0; i < 100; i++ ) {
             double dv = ( getTotalEnergy() - e0 ) / ( mass * velocity );
             velocity -= dv;
             setVelocity( getVelocity().getInstanceOfMagnitude( Math.abs( velocity ) ) );
-            if( MathUtil.isApproxEqual( e0, getTotalEnergy(), 1E-8 ) ) {
+            if ( MathUtil.isApproxEqual( e0, getTotalEnergy(), 1E-8 ) ) {
                 break;
             }
         }
@@ -331,7 +334,7 @@ public class Particle implements Serializable {
 
     public boolean[] getOrigAbove() {
         boolean[] orig = new boolean[particleStage.getCubicSpline2DCount()];
-        for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
+        for ( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
             orig[i] = isAboveSpline( i );
         }
         return orig;
@@ -344,10 +347,10 @@ public class Particle implements Serializable {
         SerializablePoint2D p1 = new SerializablePoint2D( line.getP1() );
         SerializablePoint2D p2 = new SerializablePoint2D( line.getP2() );
         double u = ( ( pt3.getX() - p1.getX() ) * ( p2.getX() - p1.getX() ) + ( pt3.getY() - p1.getY() ) * ( p2.getY() - p1.getY() ) ) / p1.distanceSq( p2 );
-        if( u < 0 ) {
+        if ( u < 0 ) {
             return pt3.distance( line.getP1() );
         }
-        else if( u > 1 ) {
+        else if ( u > 1 ) {
             return pt3.distance( line.getP2() );
         }
         else {
@@ -369,12 +372,12 @@ public class Particle implements Serializable {
     //todo: this code is highly similar to pt-line search code, could be consolidated
     private SearchState getBestSearchPoint( SerializablePoint2D origLoc ) {
         SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
-        for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
+        for ( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
             ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
             double alpha = cubicSpline.getClosestPoint( origLoc );
-            if( alpha > 0.0 && alpha < 1.0 ) {
+            if ( alpha > 0.0 && alpha < 1.0 ) {
                 double dist = cubicSpline.evaluate( alpha ).distance( origLoc );
-                if( dist < searchState.getDistance() ) {
+                if ( dist < searchState.getDistance() ) {
                     searchState.setDistance( dist );
                     searchState.setTrack( cubicSpline );
                     searchState.setAlpha( alpha );
@@ -447,7 +450,7 @@ public class Particle implements Serializable {
             x += vx * dt + 0.5 * ax * dt * dt;
 
             double dE = getTotalEnergy() - origEnergy;
-            if( shouldFixFreeFallEnergy() ) {
+            if ( shouldFixFreeFallEnergy() ) {
                 double dH = dE / ( getMass() * getGravity() );
                 y += dH;
             }
@@ -455,15 +458,15 @@ public class Particle implements Serializable {
 
             //take a min over all possible crossover points
             SearchState searchState = getBestCrossPoint( newLoc, origAbove, origLoc );
-            if( !Double.isInfinite( searchState.getDistance() ) ) {
+            if ( !Double.isInfinite( searchState.getDistance() ) ) {
                 EnergySkateParkLogging.println( "searchState.getDistance() = " + searchState.getDistance() );
             }
             boolean interactWithTrack = searchState.getDistance() < 0.2;//this number was determined heuristically for a set of tests (free parameter), doesn't work very well for large gravity field
-            if( interactWithTrack ) {
+            if ( interactWithTrack ) {
                 interactWithTrack( searchState, newLoc, origLoc, origAbove, origEnergy, dt );
             }
             double finalEnergy = getTotalEnergy();
-            if( shouldFixFreeFallEnergy() && Math.abs( finalEnergy - origEnergy ) >= 1E-6 ) {
+            if ( shouldFixFreeFallEnergy() && Math.abs( finalEnergy - origEnergy ) >= 1E-6 ) {
                 EnergySkateParkLogging.println( "Energy error in freefall, interactWithTrack=" + interactWithTrack );
             }
         }
@@ -491,7 +494,7 @@ public class Particle implements Serializable {
 //            EnergySkateParkLogging.println( "getVelocity() = " + getVelocity() + ", testVal=" + testVal + ", newVelocity=" + newVelocity );
             boolean bounce = testVal >= ( stickiness + getTrackStickiness( cubicSpline ) );
             double GRAB_THRESHOLD = 3.0;
-            if( p < GRAB_THRESHOLD ) {
+            if ( p < GRAB_THRESHOLD ) {
                 EnergySkateParkLogging.println( "p = " + p );
                 EnergySkateParkLogging.println( "Grabbing due to small speed (for this g and dt), threshold=" + GRAB_THRESHOLD + ", v/(g*dt)=" + p );
                 bounce = false;
@@ -506,18 +509,18 @@ public class Particle implements Serializable {
             //make sure the velocity is toward the track to enable switching to track (otherwise over a tight curve, the particle doesn't leave the track when N~0)
             boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
 //                EnergySkateParkLogging.println( "velocityTowardTrack = " + velocityTowardTrack );
-            if( bounce || !velocityTowardTrack ) {
+            if ( bounce || !velocityTowardTrack ) {
                 double energyBeforeBounce = getTotalEnergy();
                 setVelocity( newVelocity );
 
                 //set the position to be just on top of the spline
                 offsetOnSpline( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
 
-                if( getTotalEnergy() > energyBeforeBounce ) {
+                if ( getTotalEnergy() > energyBeforeBounce ) {
                     correctEnergyReduceVelocity( energyBeforeBounce );
                 }
                 thermalEnergy += ( energyBeforeBounce - getTotalEnergy() );
-                if( reorientOnBounce ) {
+                if ( reorientOnBounce ) {
                     orientAngleOnTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
                 }
 //                    EnergySkateParkLogging.println( "bounced" );
@@ -536,10 +539,10 @@ public class Particle implements Serializable {
 //                    }
 //                    updateStateFrom1D();
                 double dE2 = getTotalEnergy() - origEnergy;
-                if( Math.abs( dE2 ) > 1E-6 ) {
+                if ( Math.abs( dE2 ) > 1E-6 ) {
 //                    EnergySkateParkLogging.println( "Grabbed the track, dE0 = " + dE0 + ", de1=" + dE1 + ", de2=" + dE2 );
                     //energy error on track attachment.
-                    if( dE2 < 0 ) {//lost energy
+                    if ( dE2 < 0 ) {//lost energy
                         thermalEnergy += Math.abs( dE2 );
                     }
                     else {
@@ -548,7 +551,7 @@ public class Particle implements Serializable {
                         particle1D.fixEnergy( particle1D.getAlpha(), origEnergy );
                         updateStateFrom1D();
                         double dE3 = getTotalEnergy() - origEnergy;
-                        if( Math.abs( dE3 ) > 1E-6 ) {
+                        if ( Math.abs( dE3 ) > 1E-6 ) {
                             EnergySkateParkLogging.println( "particle1d couldn't fix, deleting thermal energy (temporary solution): dE=" + Math.abs( dE3 ) );
                             thermalEnergy -= Math.abs( dE3 );
                         }
@@ -567,16 +570,16 @@ public class Particle implements Serializable {
 
     private SearchState getBestCrossPoint( SerializablePoint2D pt, boolean[] origAbove, SerializablePoint2D origLoc ) {
         SearchState searchState = new SearchState( Double.POSITIVE_INFINITY, null, 0, -1 );
-        for( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
+        for ( int i = 0; i < particleStage.getCubicSpline2DCount(); i++ ) {
             ParametricFunction2D cubicSpline = particleStage.getCubicSpline2D( i );
             double alpha = cubicSpline.getClosestPoint( new Line2D.Double( origLoc, pt ) );
             boolean above = isAboveSpline( cubicSpline, alpha, pt );
             //check for crossover
             boolean crossed = origAbove[i] != above;
-            if( crossed && ( alpha >= 0.0 && alpha <= 1.0 ) ) {
+            if ( crossed && ( alpha >= 0.0 && alpha <= 1.0 ) ) {
                 double ptLineDist = pointSegmentDistance( cubicSpline.evaluate( alpha ), new Line2D.Double( origLoc, pt ) );
 //                    EnergySkateParkLogging.println( "crossed spline[" + i + "] at alpha=" + alpha + ", ptLineDist=" + ptLineDist );
-                if( ptLineDist < searchState.getDistance() ) {
+                if ( ptLineDist < searchState.getDistance() ) {
                     searchState.setDistance( ptLineDist );
                     searchState.setTrack( cubicSpline );
                     searchState.setAlpha( alpha );
@@ -588,8 +591,8 @@ public class Particle implements Serializable {
     }
 
     private static double getTrackStickiness( ParametricFunction2D cubicSpline ) {
-        if( cubicSpline instanceof TrackWithStickiness ) {
-            TrackWithStickiness trackWithStickiness = (TrackWithStickiness)cubicSpline;
+        if ( cubicSpline instanceof TrackWithStickiness ) {
+            TrackWithStickiness trackWithStickiness = (TrackWithStickiness) cubicSpline;
             return trackWithStickiness.getStickiness();
         }
         else {
@@ -643,12 +646,12 @@ public class Particle implements Serializable {
         ImmutableVector2D newVelocity = particle1D.getVelocity2D();
         double dot = newVelocity.dot( origVel );
 //        EnergySkateParkLogging.println( "switched to track, velocity dot product= " + dot );
-        if( dot < 0 ) {
+        if ( dot < 0 ) {
             EnergySkateParkLogging.println( "Velocities were in contrary directions" );
         }
         double newEnergy = particle1D.getEnergy();
         double dE = ( newEnergy - origEnergy );
-        if( dE <= 0 ) {
+        if ( dE <= 0 ) {
 //            EnergySkateParkLogging.println( "dE = " + dE );
             particle1D.addThermalEnergy( Math.abs( dE ) );
         }
@@ -676,10 +679,10 @@ public class Particle implements Serializable {
 
     public void setUserControlled( boolean userControlled ) {
         this.userControlled = userControlled;
-        if( userControlled ) {
+        if ( userControlled ) {
             setThermalEnergy( 0.0 );
         }
-        if( !userControlled ) {
+        if ( !userControlled ) {
 
         }
     }
@@ -736,8 +739,8 @@ public class Particle implements Serializable {
     }
 
     private void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.particleChanged();
         }
     }

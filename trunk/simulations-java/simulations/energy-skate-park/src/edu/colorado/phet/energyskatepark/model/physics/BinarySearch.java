@@ -18,17 +18,17 @@ public class BinarySearch {
         double guess = ( upperBound + lowerBound ) / 2;
         double value = f.evaluate( guess );
         int count = 0;
-        while( Math.abs( value - targetValue ) > tolerance ) {
-            if( value > targetValue ) {
+        while ( Math.abs( value - targetValue ) > tolerance ) {
+            if ( value > targetValue ) {
                 upperBound = guess;
             }
-            else if( value < targetValue ) {
+            else if ( value < targetValue ) {
                 lowerBound = guess;
             }
             guess = ( upperBound + lowerBound ) / 2;
             value = f.evaluate( guess );
             count++;
-            if( count > maxIterations ) {
+            if ( count > maxIterations ) {
                 throw new RuntimeException( "Search failed after " + count + " iterations" );
             }
         }

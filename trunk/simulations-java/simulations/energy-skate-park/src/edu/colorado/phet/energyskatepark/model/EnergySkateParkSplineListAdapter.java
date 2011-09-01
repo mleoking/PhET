@@ -26,18 +26,18 @@ public class EnergySkateParkSplineListAdapter extends ParticleStage {
 
     private void update() {
         clear();
-        for( int i = 0; i < energySkateParkModel.getNumSplines(); i++ ) {
+        for ( int i = 0; i < energySkateParkModel.getNumSplines(); i++ ) {
             EnergySkateParkSpline energySkateParkSpline = energySkateParkModel.getSpline( i );
             addCubicSpline2D( energySkateParkSpline.getParametricFunction2D() );
         }
-        if( energySkateParkModel.getFloor() != null ) {
+        if ( energySkateParkModel.getFloor() != null ) {
             addCubicSpline2D( energySkateParkModel.getFloor().getParametricFunction2D() );
         }
     }
 
     public boolean isSplineUserControlled() {
-        for( int i = 0; i < energySkateParkModel.getNumSplines(); i++ ) {
-            if( energySkateParkModel.getSpline( i ).isUserControlled() ) {
+        for ( int i = 0; i < energySkateParkModel.getNumSplines(); i++ ) {
+            if ( energySkateParkModel.getSpline( i ).isUserControlled() ) {
                 return true;
             }
         }

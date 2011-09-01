@@ -1,16 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.swing;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Planet;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -37,7 +42,7 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         this.module = module;
         Planet[] planets = module.getPlanets();
         planetButtons = new PlanetButton[planets.length];
-        for( int i = 0; i < planets.length; i++ ) {
+        for ( int i = 0; i < planets.length; i++ ) {
             planetButtons[i] = new PlanetButton( module, planets[i], planets[i].isDefault() );
         }
         setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "location" ) ) );
@@ -47,7 +52,7 @@ public class LocationControlPanel extends VerticalLayoutPanel {
 
         JPanel planetPanel = layout.getPlanetPanel( planetButtons );
         setAnchor( GridBagConstraints.WEST );
-        if( !centered ) {
+        if ( !centered ) {
             setFillNone();
         }
         add( planetPanel );
@@ -87,7 +92,7 @@ public class LocationControlPanel extends VerticalLayoutPanel {
     public static class VerticalPlanetButtonLayout implements PlanetButtonLayout {
         public JPanel getPlanetPanel( PlanetButton[] planetButtons ) {
             VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-            for( int i = 0; i < planetButtons.length; i++ ) {
+            for ( int i = 0; i < planetButtons.length; i++ ) {
                 verticalLayoutPanel.add( planetButtons[i] );
             }
             return verticalLayoutPanel;
@@ -118,16 +123,16 @@ public class LocationControlPanel extends VerticalLayoutPanel {
     private void synchronizePlanet() {
         module.getEnergySkateParkSimulationPanel().getRootNode().setBackgroundVisible( showBackgroundCheckbox.isSelected() );
         boolean matched = false;
-        for( int i = 0; i < planetButtons.length; i++ ) {
+        for ( int i = 0; i < planetButtons.length; i++ ) {
             Planet planet = planetButtons[i].getPlanet();
-            if( module.getEnergySkateParkModel().getGravity() == planet.getGravity() ) {
+            if ( module.getEnergySkateParkModel().getGravity() == planet.getGravity() ) {
                 planet.apply( module );
                 matched = true;
             }
             boolean match = module.getEnergySkateParkModel().getGravity() == planet.getGravity();
             planetButtons[i].setSelected( match );
         }
-        if( !matched ) {
+        if ( !matched ) {
             module.getEnergySkateParkSimulationPanel().getRootNode().clearBackground();
         }
     }

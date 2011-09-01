@@ -1,16 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.test.transforms;
 
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
@@ -18,6 +10,16 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.JFrame;
+
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * User: Sam Reid
@@ -36,10 +38,10 @@ public class TestTransform4 {
         final TestTransform4.WorldNode world = new TestTransform4.WorldNode( pCanvas, 10, 10 );
         pCanvas.getLayer().addChild( world );
         PPath ch = null;
-        for( int i = 0; i <= 10; i++ ) {
-            for( int j = 0; j <= 10; j++ ) {
+        for ( int i = 0; i <= 10; i++ ) {
+            for ( int j = 0; j <= 10; j++ ) {
                 PPath child = new PPath( new Rectangle2D.Double( 0, 0, 0.1, 0.1 ) );
-                if( i == 0 && j == 0 ) {
+                if ( i == 0 && j == 0 ) {
                     ch = child;
                 }
                 child.setOffset( i, j );
@@ -121,7 +123,7 @@ public class TestTransform4 {
             double minSY = pCanvas.getHeight() / getMinDimension().getHeight();
             double scale = Math.min( minSX, minSY );
             EnergySkateParkLogging.println( "scale = " + scale );
-            if( scale > 0 ) {
+            if ( scale > 0 ) {
                 AffineTransform t = getTransformReference( true );
                 t.setTransform( scale, t.getShearY(), t.getShearX(), -scale, t.getTranslateX(), t.getTranslateY() + 600 );
             }

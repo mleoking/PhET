@@ -1,16 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -64,15 +65,15 @@ public class FloorNode extends PNode {
         Planet[] planets = module.getPlanets();
 
         boolean madeVisible = false;
-        for( int i = 0; i < planets.length; i++ ) {
+        for ( int i = 0; i < planets.length; i++ ) {
             Planet planet = planets[i];
-            if( planet.getGravity() == energySkateParkModel.getGravity() ) {
+            if ( planet.getGravity() == energySkateParkModel.getGravity() ) {
                 setPlanetVisible( planet );
                 madeVisible = true;
                 break;
             }
         }
-        if( !madeVisible ) {
+        if ( !madeVisible ) {
             setPlanetVisible( new Planet.Earth() );//default state
         }
         setVisible( energySkateParkModel.getFloor() != null );

@@ -32,51 +32,51 @@ public class SplineLayer extends PNode {
     }
 
     private void update() {
-        while( particleStage.getCubicSpline2DCount() < getChildrenCount() ) {
+        while ( particleStage.getCubicSpline2DCount() < getChildrenCount() ) {
             removeChild( getChildrenCount() - 1 );
         }
-        while( particleStage.getCubicSpline2DCount() > getChildrenCount() ) {
-            addChild( new CubicSpline2DNode( (CubicSpline2D)particleStage.getCubicSpline2D( particleStage.getCubicSpline2DCount() - 1 ) ) );//todo other spline types
+        while ( particleStage.getCubicSpline2DCount() > getChildrenCount() ) {
+            addChild( new CubicSpline2DNode( (CubicSpline2D) particleStage.getCubicSpline2D( particleStage.getCubicSpline2DCount() - 1 ) ) );//todo other spline types
         }
-        for( int i = 0; i < getChildrenCount(); i++ ) {
-            CubicSpline2DNode node = (CubicSpline2DNode)getChild( i );
-            node.setCubicSpline2D( (CubicSpline2D)particleStage.getCubicSpline2D( i ) );//todo: other spline types
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            CubicSpline2DNode node = (CubicSpline2DNode) getChild( i );
+            node.setCubicSpline2D( (CubicSpline2D) particleStage.getCubicSpline2D( i ) );//todo: other spline types
         }
-        for( int i = 0; i < getChildrenCount(); i++ ) {
-            ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            ParametricFunction2DNode node = (ParametricFunction2DNode) getChild( i );
             node.setShowTopOffsetSpline( showTopOffsetSpline );
             node.setShowBottomOffsetSpline( showBottomOffsetSpline );
         }
-        for( int i = 0; i < getChildrenCount(); i++ ) {
-            ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            ParametricFunction2DNode node = (ParametricFunction2DNode) getChild( i );
             node.setOffsetSplineDistance( offsetDistance );
         }
     }
 
     public void setNormalsVisible( boolean selected ) {
-        for( int i = 0; i < getChildrenCount(); i++ ) {
-            ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            ParametricFunction2DNode node = (ParametricFunction2DNode) getChild( i );
             node.setNormalsVisible( selected );
         }
     }
 
     public boolean isNormalsVisible() {
-        if( getChildrenCount() == 0 ) {
+        if ( getChildrenCount() == 0 ) {
             return false;
         }
-        return ( (ParametricFunction2DNode)getChild( 0 ) ).isNormalsVisible();
+        return ( (ParametricFunction2DNode) getChild( 0 ) ).isNormalsVisible();
     }
 
     public boolean isCurvatureVisible() {
-        if( getChildrenCount() == 0 ) {
+        if ( getChildrenCount() == 0 ) {
             return false;
         }
-        return ( (ParametricFunction2DNode)getChild( 0 ) ).isCurvatureVisible();
+        return ( (ParametricFunction2DNode) getChild( 0 ) ).isCurvatureVisible();
     }
 
     public void setCurvatureVisible( boolean selected ) {
-        for( int i = 0; i < getChildrenCount(); i++ ) {
-            ParametricFunction2DNode node = (ParametricFunction2DNode)getChild( i );
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            ParametricFunction2DNode node = (ParametricFunction2DNode) getChild( i );
             node.setCurvatureVisible( selected );
         }
     }

@@ -1,16 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model;
 
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.spline.ControlPointParametricFunction2D;
-import edu.colorado.phet.common.spline.CubicSpline2D;
-import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
-
 import java.awt.geom.GeneralPath;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.spline.ControlPointParametricFunction2D;
+import edu.colorado.phet.common.spline.CubicSpline2D;
+import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 /**
  * Author: Sam Reid
@@ -41,17 +41,17 @@ public class EnergySkateParkSpline implements Serializable {
 
     public EnergySkateParkSpline copy() {
         try {
-            return (EnergySkateParkSpline)PersistenceUtil.copy( this );
+            return (EnergySkateParkSpline) PersistenceUtil.copy( this );
         }
-        catch( PersistenceUtil.CopyFailedException e ) {
+        catch ( PersistenceUtil.CopyFailedException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
     }
 
     public boolean equals( Object obj ) {
-        if( obj instanceof EnergySkateParkSpline ) {
-            EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline)obj;
+        if ( obj instanceof EnergySkateParkSpline ) {
+            EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline) obj;
             return energySkateParkSpline.parametricFunction2D.equals( this.parametricFunction2D ) && energySkateParkSpline.rollerCoaster == rollerCoaster && energySkateParkSpline.userControlled == userControlled && energySkateParkSpline.interactive == interactive;
         }
         else {
@@ -64,7 +64,7 @@ public class EnergySkateParkSpline implements Serializable {
     }
 
     public void setRollerCoasterMode( boolean selected ) {
-        if( selected != rollerCoaster ) {
+        if ( selected != rollerCoaster ) {
             this.rollerCoaster = selected;
             parametricFunction2D.rollerCoasterMode = rollerCoaster;
             notifyRollerCoasterModeChanged();
@@ -95,7 +95,7 @@ public class EnergySkateParkSpline implements Serializable {
         SerializablePoint2D[] pts = getInterpolationPoints();
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( pts[0].getX(), pts[0].getY() );
-        for( int i = 1; i < pts.length; i++ ) {
+        for ( int i = 1; i < pts.length; i++ ) {
             path.lineTo( pts[i] );
         }
         return path.getGeneralPath();
@@ -103,11 +103,11 @@ public class EnergySkateParkSpline implements Serializable {
 
     private SerializablePoint2D[] getInterpolationPoints() {
         ArrayList pts = new ArrayList();
-        for( double alpha = 0.0; alpha <= 1.0; alpha += 0.01 ) {
+        for ( double alpha = 0.0; alpha <= 1.0; alpha += 0.01 ) {
             pts.add( parametricFunction2D.evaluate( alpha ) );
         }
         pts.add( parametricFunction2D.evaluate( 1.0 ) );
-        return (SerializablePoint2D[])pts.toArray( new SerializablePoint2D[0] );
+        return (SerializablePoint2D[]) pts.toArray( new SerializablePoint2D[0] );
     }
 
     public SerializablePoint2D getControlPoint( int index ) {
@@ -115,15 +115,15 @@ public class EnergySkateParkSpline implements Serializable {
     }
 
     public void translate( double dx, double dy ) {
-        if( dx != 0 || dy != 0 ) {
+        if ( dx != 0 || dy != 0 ) {
             parametricFunction2D.translateControlPoints( dx, dy );
             notifyControlPointsChanged();
         }
     }
 
     private void notifyControlPointsChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.controlPointsChanged();
         }
     }
@@ -153,14 +153,14 @@ public class EnergySkateParkSpline implements Serializable {
 
     public double getMinY() {
         double minY = Double.POSITIVE_INFINITY;
-        for( int i = 0; i < 100; i++ ) {
-            SerializablePoint2D pt = parametricFunction2D.evaluate( ( (double)i ) / 100.0 );
-            if( pt.getY() < minY ) {
+        for ( int i = 0; i < 100; i++ ) {
+            SerializablePoint2D pt = parametricFunction2D.evaluate( ( (double) i ) / 100.0 );
+            if ( pt.getY() < minY ) {
                 minY = pt.getY();
             }
         }
-        for( int i = 0; i < numControlPoints(); i++ ) {
-            if( getControlPoint( i ).getY() < minY ) {
+        for ( int i = 0; i < numControlPoints(); i++ ) {
+            if ( getControlPoint( i ).getY() < minY ) {
                 minY = getControlPoint( i ).getY();
             }
         }
@@ -179,7 +179,7 @@ public class EnergySkateParkSpline implements Serializable {
     }
 
     private void createListenerArray() {
-        if( listeners == null ) {
+        if ( listeners == null ) {
             listeners = new ArrayList();
         }
     }
@@ -191,8 +191,8 @@ public class EnergySkateParkSpline implements Serializable {
 
     private void notifyRollerCoasterModeChanged() {
         createListenerArray();
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).rollerCoasterModeChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).rollerCoasterModeChanged();
         }
     }
 

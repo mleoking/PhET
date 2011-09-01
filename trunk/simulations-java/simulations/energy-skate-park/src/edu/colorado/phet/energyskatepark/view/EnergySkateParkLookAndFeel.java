@@ -1,11 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view;
 
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.UIManager;
+
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid

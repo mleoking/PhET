@@ -9,20 +9,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.spline.CubicSpline2D;
-import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.common.spline.CubicSpline2D;
+import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -51,7 +57,7 @@ public class TestPhysics1D extends JFrame {
         pSwingCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setContentPane( pSwingCanvas );
 
-        final ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[]{
+        final ParametricFunction2D cubicSpline = new CubicSpline2D( new SerializablePoint2D[] {
                 new SerializablePoint2D( 1 * 2, 0.5 * 2 ),
                 new SerializablePoint2D( 2 * 2, 1 * 2 ),
                 new SerializablePoint2D( 3 * 2, 0.5 * 2 ),
@@ -226,7 +232,7 @@ public class TestPhysics1D extends JFrame {
             public void actionPerformed( ActionEvent e ) {
                 particleImageNode.update();
                 particleNode.update();
-                if( particle.isSplineMode() ) {
+                if ( particle.isSplineMode() ) {
                     EnergySkateParkLogging.println( "particle.getParticle1D().getRadiusOfCurvature() = " + particle.getParticle1D().getRadiusOfCurvature() );
                 }
             }
@@ -272,8 +278,8 @@ public class TestPhysics1D extends JFrame {
         offsetDistance.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 splineLayer.setOffsetDistance( offsetDistance.getValue() );
-                if( particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset ) {
-                    Particle1D.VerletOffset ve = (Particle1D.VerletOffset)particle1d.getUpdateStrategy();
+                if ( particle1d.getUpdateStrategy() instanceof Particle1D.VerletOffset ) {
+                    Particle1D.VerletOffset ve = (Particle1D.VerletOffset) particle1d.getUpdateStrategy();
                     ve.setL( splineLayer.getOffsetDistance() );
                 }
             }
@@ -362,7 +368,7 @@ public class TestPhysics1D extends JFrame {
 
     public void setTestState( TestState testState ) {
         particleStage.clear();
-        for( int i = 0; i < testState.numCubicSpline2Ds(); i++ ) {
+        for ( int i = 0; i < testState.numCubicSpline2Ds(); i++ ) {
             particleStage.addCubicSpline2D( new CubicSpline2D( testState.getCubicSpline2D( i ) ) );
         }
         testState.init( particle, particleStage );

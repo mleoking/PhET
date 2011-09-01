@@ -1,6 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view;
 
+import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.text.DecimalFormat;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -9,18 +22,15 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.common.IconComponent;
-import edu.colorado.phet.energyskatepark.view.swing.*;
+import edu.colorado.phet.energyskatepark.view.swing.ChooseCharacterDialog;
+import edu.colorado.phet.energyskatepark.view.swing.ClearHeatButton;
+import edu.colorado.phet.energyskatepark.view.swing.EditSkaterPanel;
+import edu.colorado.phet.energyskatepark.view.swing.FrictionControl;
+import edu.colorado.phet.energyskatepark.view.swing.GridLinesCheckBox;
+import edu.colorado.phet.energyskatepark.view.swing.LocationControlPanel;
+import edu.colorado.phet.energyskatepark.view.swing.PathRecordContol;
+import edu.colorado.phet.energyskatepark.view.swing.PieChartControlPanel;
 import edu.umd.cs.piccolo.PNode;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -89,7 +99,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             } );
             addControl( new IconComponent( chooseCharacter, BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "energy-skate-park/images/skater3.png" ), chooseCharacter.getPreferredSize().height ) ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -97,7 +107,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         try {
             measuringTapeIcon = ImageLoader.loadBufferedImage( "energy-skate-park/images/ruler-thumb.png" );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -130,7 +140,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         try {
             potentialIcon = ImageLoader.loadBufferedImage( "energy-skate-park/images/peicon.png" );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
@@ -179,7 +189,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
         addControl( new ClearHeatButton( module.getEnergySkateParkModel() ) );
 
-        advancedFrictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "controls.show-friction" )+" >>", EnergySkateParkStrings.getString( "controls.hide-friction" )+" <<" );
+        advancedFrictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "controls.show-friction" ) + " >>", EnergySkateParkStrings.getString( "controls.hide-friction" ) + " <<" );
         final FrictionControl frictionControl = new FrictionControl( module );
         advancedFrictionPanel.addControl( frictionControl );
         frictionControl.getModelSlider().setBorder( null );
@@ -193,13 +203,13 @@ public class EnergySkateParkControlPanel extends ControlPanel {
     DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
 
     private void setReturnSkateText( JButton returnSkaterButton, String text ) {//for performance reasons
-        if( !returnSkaterButton.getText().equals( text ) ) {
+        if ( !returnSkaterButton.getText().equals( text ) ) {
             returnSkaterButton.setText( text );
         }
     }
 
     private void setEnabled( JButton button, boolean enabled ) {
-        if( button.isEnabled() != enabled ) {
+        if ( button.isEnabled() != enabled ) {
             button.setEnabled( enabled );
         }
     }

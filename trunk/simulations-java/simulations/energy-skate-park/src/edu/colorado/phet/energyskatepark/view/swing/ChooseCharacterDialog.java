@@ -12,7 +12,11 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 
@@ -44,7 +48,7 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
 
         setContentPane( contentPanel );
 
-        JButton ok = new JButton( PhetCommonResources.getString("Common.choice.ok") );
+        JButton ok = new JButton( PhetCommonResources.getString( "Common.choice.ok" ) );
         ok.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
@@ -52,16 +56,16 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
         } );
         SkaterCharacter[] sk = module.getSkaterCharacters();
         CharacterPanel[] cp = new CharacterPanel[sk.length];
-        for( int i = 0; i < sk.length; i++ ) {
+        for ( int i = 0; i < sk.length; i++ ) {
             cp[i] = new CharacterPanel( module, sk[i] );
         }
         Dimension max = new Dimension( 0, 0 );
-        for( int i = 0; i < cp.length; i++ ) {
+        for ( int i = 0; i < cp.length; i++ ) {
             max.width = Math.max( max.width, cp[i].getPreferredSize().width );
             max.height = Math.max( max.height, cp[i].getPreferredSize().height );
 
         }
-        for( int i = 0; i < sk.length; i++ ) {
+        for ( int i = 0; i < sk.length; i++ ) {
             cp[i].setPreferredSize( max );
             addCharacterPanel( cp[i] );
         }
@@ -86,8 +90,8 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
     }
 
     private void setSelection( CharacterPanel characterPanel ) {
-        for( int i = 0; i < characterPanels.size(); i++ ) {
-            CharacterPanel panel = (CharacterPanel)characterPanels.get( i );
+        for ( int i = 0; i < characterPanels.size(); i++ ) {
+            CharacterPanel panel = (CharacterPanel) characterPanels.get( i );
             panel.setSelected( panel == characterPanel );
         }
         pack();
@@ -104,15 +108,15 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
             this.skaterCharacter = skaterCharacter;
             GridBagConstraints gridBagConstraints = new GridBagConstraints();
             try {
-                String pattern=EnergySkateParkStrings.getString("controls.choose-character.label.pattern");
-                String labelStr=MessageFormat.format(pattern,skaterCharacter.getName(),skaterCharacter.getMass(), EnergySkateParkStrings.getString("units.kg"));
-                JLabel label = new JLabel(labelStr,
+                String pattern = EnergySkateParkStrings.getString( "controls.choose-character.label.pattern" );
+                String labelStr = MessageFormat.format( pattern, skaterCharacter.getName(), skaterCharacter.getMass(), EnergySkateParkStrings.getString( "units.kg" ) );
+                JLabel label = new JLabel( labelStr,
                                            new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio(
-                                                   ImageLoader.loadBufferedImage( skaterCharacter.getImageURL() ), (int)( skaterCharacter.getModelHeight() * 75 ) ) ), JLabel.TRAILING );
+                                                   ImageLoader.loadBufferedImage( skaterCharacter.getImageURL() ), (int) ( skaterCharacter.getModelHeight() * 75 ) ) ), JLabel.TRAILING );
                 add( label, gridBagConstraints );
 //                label.setPreferredSize( new Dimension( label.getPreferredSize().width, 200 ) );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
             setSelected( false );
@@ -125,7 +129,7 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
         public void setSelected( boolean selected ) {
             this.selected = selected;
             setBorder( selected ? getSelectionBorder() : BorderFactory.createEtchedBorder() );
-            if( selected ) {
+            if ( selected ) {
                 module.setSkaterCharacter( skaterCharacter );
             }
         }

@@ -1,8 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.plots;
 
-import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import org.jfree.chart.axis.ValueAxis;
+
+import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 
 /**
  * Author: Sam Reid
