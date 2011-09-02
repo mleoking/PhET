@@ -52,11 +52,9 @@ import com.jme3.system.JmeCanvasContext;
 
 /**
  * Use jme3 to show a rotating molecule
- * TODO: add area for "bond angles" checkbox
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: electron geometry name repaint issue - check threading and repaint()
  * TODO: positioning bug for real molecules label when middle-clicking atoms
- * TODO: bond angles off when lone pairs are involved
  * <p/>
  * NOTES:
  * TODO: it's weird to drag out an invisible lone pair
@@ -64,6 +62,7 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: Reset: how many bonds (0 or 2) should it reset to?
  * TODO: double-check naming with double/triple bonds
  * TODO: test startup crash failure dialog
+ * TODO: looks weird to not see 180-degree angles? how even to handle?!?
  * <p/>
  * Problem spatial name: null
  * at com.jme3.scene.Spatial.checkCulling(Spatial.java:217)

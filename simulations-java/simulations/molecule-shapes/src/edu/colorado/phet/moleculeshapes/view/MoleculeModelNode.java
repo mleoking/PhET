@@ -166,15 +166,29 @@ public class MoleculeModelNode extends Node {
         // start handling angle nodes from the beginning
         angleIndex = 0;
 
+        boolean showAnglesBetweenLonePairs = MoleculeShapesApplication.allowAnglesBetweenLonePairs.get();
+
         // TODO: separate out bond angle feature
         if ( MoleculeShapesApplication.showBondAngles.get() ) {
             // iterate over all combinations of two pair groups
             for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
                 PairGroup a = molecule.getGroups().get( i );
+
+                // skip lone pairs if necessary
+                if ( a.isLonePair && !showAnglesBetweenLonePairs ) {
+                    continue;
+                }
+
                 final ImmutableVector3D aDir = a.position.get().normalized();
 
                 for ( int j = i + 1; j < molecule.getGroups().size(); j++ ) {
                     final PairGroup b = molecule.getGroups().get( j );
+
+                    // skip lone pairs if necessary
+                    if ( b.isLonePair && !showAnglesBetweenLonePairs ) {
+                        continue;
+                    }
+
                     final ImmutableVector3D bDir = b.position.get().normalized();
 
                     final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, transformedDirection );

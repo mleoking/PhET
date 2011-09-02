@@ -37,6 +37,7 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
     public static final Property<Boolean> showMolecularShapeName = new Property<Boolean>( false );
     public static final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
     public static final Property<Boolean> showBondAngles = new Property<Boolean>( false );
+    public static final Property<Boolean> allowAnglesBetweenLonePairs = new Property<Boolean>( false );
 
     public static final Property<Integer> frameRate = new Property<Integer>( 60 );
 
@@ -90,7 +91,7 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
 
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", allowDraggingBehind ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", useRotationCursor ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "(beta, slow) Show Bond Angles", showBondAngles ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Allow bond angles between lone pairs", allowAnglesBetweenLonePairs ) );
         developerMenu.add( new JMenuItem( "Change background color" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
