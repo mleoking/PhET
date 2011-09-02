@@ -36,7 +36,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
     final static Color TRANSPARENT = new Color( 0, 0, 0, 0 );
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ) );
+        super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.225, STAGE_SIZE.height * 0.75 ), scale ) );
 
         addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
 
