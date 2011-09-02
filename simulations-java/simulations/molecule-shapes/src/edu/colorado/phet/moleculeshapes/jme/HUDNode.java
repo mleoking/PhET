@@ -302,6 +302,10 @@ public class HUDNode extends Geometry {
 
         if ( comp != null ) {
             boolean clicked = false;
+            Component compWithPanes = componentAt( x, y, component, true );
+            if ( compWithPanes == null ) {
+                compWithPanes = comp;
+            }
             if ( swingButton > MouseEvent.NOBUTTON ) {
                 if ( pressed ) {
                     grabbedMouse = comp;
@@ -309,7 +313,7 @@ public class HUDNode extends Geometry {
                     downX = x;
                     downY = y;
 //                    setFocusOwner( componentAt( x, y, panel, true ) );
-                    componentAt( x, y, component, true ).requestFocus();
+                    compWithPanes.requestFocus();
 //                    dispatchEvent( panel, new FocusEvent( panel,        // TODO: remove this HACK
 //                                                          FocusEvent.FOCUS_GAINED, false, null ) );
                 }
@@ -344,7 +348,7 @@ public class HUDNode extends Geometry {
             dispatchEvent( comp, event );
             if ( clicked ) {
                 // CLICKED seems to need special glass pane handling o_O
-                comp = componentAt( x, y, component, true );
+                comp = compWithPanes;
                 final Point clickedPos = convertPoint( component, x, y, comp );
 
                 final MouseEvent clickedEvent = new MouseEvent( comp,
