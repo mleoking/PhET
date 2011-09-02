@@ -50,7 +50,6 @@ import com.jme3.system.JmeCanvasContext;
 
 /**
  * Use jme3 to show a rotating molecule
- * TODO: on JME3 loading failure, show the user some debugging information!
  * TODO: when dragging existing atoms/lone pairs and the mouse moves out of range (no sphere-hits), set its location to the CAMERA-TANGENT location
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
@@ -66,6 +65,7 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: consider color-coding the molecular / electron readouts?
  * TODO: Reset: how many bonds (0 or 2) should it reset to?
  * TODO: double-check naming with double/triple bonds
+ * TODO: test startup crash failure dialog
  * <p/>
  * Problem spatial name: null
  * at com.jme3.scene.Spatial.checkCulling(Spatial.java:217)
@@ -632,7 +632,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     @Override public void handleError( String errMsg, Throwable t ) {
         super.handleError( errMsg, t );
         if ( errMsg.equals( "Failed to initialize OpenGL context" ) ) {
-            PhetOptionPane.showMessageDialog( parentFrame, "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem." );
+            PhetOptionPane.showMessageDialog( parentFrame, "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem.\nError information:\n" + t.getMessage() );
         }
     }
 
