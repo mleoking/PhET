@@ -16,7 +16,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
-import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
+import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 import static java.lang.Math.sqrt;
 
 /**
@@ -36,7 +36,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     public final Hose hose;
 
     public WaterTowerModel() {
-        super( ENGLISH );
+        super( METRIC );
 
         //Add the pressure and velocity sensors
         addPressureSensor( new PressureSensor( this, 30, 25 ) );

@@ -30,10 +30,8 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
 
         //Units control panel that allows choice between english and metric
         SettableProperty<UnitSet> units = module.model.units;
-        add( new EnglishMetricControlPanel<WaterTowerModel>(
-                new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ),
-                new RadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ) )
-        );
+        add( new EnglishMetricControlPanel<WaterTowerModel>( new RadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ),
+                                                             new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ) ) );
 
         //Separator
         add( Box.createRigidArea( new Dimension( 5, 5 ) ) );//separate the "hose" control a bit from the other controls so it is easier to parse visually
