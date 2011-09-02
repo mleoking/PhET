@@ -24,6 +24,8 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -127,6 +129,13 @@ public class RealMoleculePanelNode extends PNode {
 
             // make room for the buttons and labels above
             setOffset( 0, CONTROL_OFFSET );
+
+            // if the user presses the mouse here, start dragging the molecule
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    app.startOverlayMoleculeDrag();
+                }
+            } );
         }};
         addChild( overlayTarget );
 

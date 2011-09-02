@@ -88,7 +88,7 @@ public class RealMolecule extends Molecule {
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.776400, 0.969600, 0 ) ), 2 );
     }};
 
-    public static final RealMolecule FORMALDEHYDE = new RealMolecule( "CH2O", 0 ) {{
+    public static final RealMolecule FORMALDEHYDE = new RealMolecule( "CH2O", 0 ) {{ // TODO: can't see hydrogens in space-fill?
         addCentralAtom( new Atom3D( C, new ImmutableVector3D( 2.5369, 0.06, 0 ) ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 3.403, 0.56, 0 ) ), 2 );
         addRadialAtom( new Atom3D( H, new ImmutableVector3D( 2, 0.37, 0 ) ), 1 );
