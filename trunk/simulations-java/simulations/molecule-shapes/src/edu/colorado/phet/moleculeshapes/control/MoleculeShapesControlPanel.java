@@ -135,6 +135,11 @@ public class MoleculeShapesControlPanel extends PNode {
                         }
                     } );
                     updateState();
+                    MoleculeJMEApplication.showLonePairs.addObserver( new SimpleObserver() {
+                        public void update() {
+                            updateState();
+                        }
+                    } );
                 }
 
                 public void updateState() {
