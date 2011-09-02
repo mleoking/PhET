@@ -263,6 +263,59 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
+    public static final RealMolecule STANNOUS_CHLORIDE = new RealMolecule( "SnCl2", 1 ) {{
+        addCentralAtom( new Atom3D( Element.Sn, new ImmutableVector3D( 2.866, -0.25, 0 ) ) );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 3.732, 0.25, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 2, 0.25, 0 ) ), 1 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule OZONE = new RealMolecule( "O3", 1 ) {{
+        addCentralAtom( new Atom3D( O, new ImmutableVector3D( -0.095000, -0.494300, 0.000000 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.148900, 0.215200, 0.000000 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.054000, 0.279100, 0.000000 ) ), 2 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule SULFUR_DIOXIDE = new RealMolecule( "SO2", 1 ) {{
+        addCentralAtom( new Atom3D( S, new ImmutableVector3D( 0.000000, -0.577400, 0.000000 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.309100, 0.288700, 0.000000 ) ), 2 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.309100, 0.288700, 0.000000 ) ), 2 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule THIAZYL_FLUORIDE = new RealMolecule( "NSF", 1 ) {{
+        addCentralAtom( new Atom3D( S, new ImmutableVector3D( 0.129500, 0.636500, 0.000000 ) ) );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.180600, -0.262900, 0.000000 ) ), 1 );
+        addRadialAtom( new Atom3D( N, new ImmutableVector3D( 1.051100, -0.373700, 0.000000 ) ), 3 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule CHLORITE = new RealMolecule( "ClO2-", 2 ) {{
+        addCentralAtom( new Atom3D( Cl, new ImmutableVector3D( 2.866, -0.25, 0 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 2, 0.25, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 3.732, 0.25, 0 ) ), 2 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule PHOSPHORYL_CHLORIDE = new RealMolecule( "POCl3", 0 ) {{
+        addCentralAtom( new Atom3D( P, new ImmutableVector3D( 0.000100, 0.000100, -0.172000 ) ) );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 0.428200, 1.785000, 0.615300 ) ), 1 );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.331700, -1.264000, 0.614400 ) ), 1 );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.760700, -0.521900, 0.613700 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.000700, 0.000800, -1.671400 ) ), 2 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule XENON_TETRAFLUORIDE = new RealMolecule( "XeF4", 2 ) {{
+        addCentralAtom( new Atom3D( Xe, new ImmutableVector3D( 2.7071, 0, 0 ) ) );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 3.4142, 0.7071, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 2, -0.7071, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 2, 0.7071, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 3.4142, -0.7071, 0 ) ), 1 );
+        centerOnCentralAtom();
+    }};
+
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
             CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE,
             FORMALDEHYDE, AMMONIA, METHANE, DICHLORODIFLUOROMETHANE, HYDROGEN_CYANIDE,
@@ -270,7 +323,8 @@ public class RealMolecule extends Molecule {
             PHOSPHORUS_TRIFLUORIDE, FLUORINE_MONOXIDE, PHOSPHORUS_PENTAFLUORIDE, SULFUR_OXIDE_TETRAFLUORIDE,
             SULFUR_TETRAFLUORIDE, XENON_DIOXYDIFLUORIDE, BROMINE_TRIFLUORIDE,
             CHLORINE_TRIFLUORIDE, XENON_DIFLUORIDE, TRIIODIDE, SULFUR_HEXAFLUORIDE,
-            BROMINE_PENTAFLUORIDE
+            BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
+            CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
