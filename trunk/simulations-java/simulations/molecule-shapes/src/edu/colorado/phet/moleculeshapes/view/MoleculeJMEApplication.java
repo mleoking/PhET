@@ -7,6 +7,7 @@ import java.util.Random;
 import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -51,7 +52,6 @@ import com.jme3.system.JmeCanvasContext;
  * Use jme3 to show a rotating molecule
  * TODO: on JME3 loading failure, show the user some debugging information!
  * TODO: when dragging existing atoms/lone pairs and the mouse moves out of range (no sphere-hits), set its location to the CAMERA-TANGENT location
- * TODO: double-check naming with double/triple bonds
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
  * TODO: collision-lab-like button unpress failures?
@@ -59,11 +59,13 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: potential listener leak with bond angles
  * TODO: electron geometry name repaint issue - check threading and repaint()
  * TODO: positioning bug for real molecules label when middle-clicking atoms
+ * TODO: bug: any mouse-up on reset button triggers reset!
  * <p/>
  * NOTES:
  * TODO: it's weird to drag out an invisible lone pair
  * TODO: consider color-coding the molecular / electron readouts?
  * TODO: Reset: how many bonds (0 or 2) should it reset to?
+ * TODO: double-check naming with double/triple bonds
  * <p/>
  * Problem spatial name: null
  * at com.jme3.scene.Spatial.checkCulling(Spatial.java:217)
@@ -101,6 +103,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private final Frame parentFrame;
     private Camera overlayCamera;                                  // TODO: refix positioning of fields
     private MoleculeShapesControlPanel controlPanelNode;
+    private RealMoleculeOverlayNode realMoleculeOverlayNode;
 
     public MoleculeJMEApplication( Frame parentFrame ) {
         this.parentFrame = parentFrame;
@@ -111,13 +114,14 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     *----------------------------------------------------------------------------*/
 
     public static enum DragMode {
-        MOLECULE_ROTATE, // rotate the molecule
+        MODEL_ROTATE, // rotate the VSEPR model molecule
         PAIR_FRESH_PLANAR, // drag an atom/lone pair on the z=0 plane
-        PAIR_EXISTING_SPHERICAL // drag an atom/lone pair across the surface of a sphere
+        PAIR_EXISTING_SPHERICAL, // drag an atom/lone pair across the surface of a sphere
+        REAL_MOLECULE_ROTATE // rotate the "real" molecule in the display
     }
 
     private boolean dragging = false; // keeps track of the drag state
-    private DragMode dragMode = DragMode.MOLECULE_ROTATE;
+    private DragMode dragMode = DragMode.MODEL_ROTATE;
     private PairGroup draggedParticle = null;
 
     /*---------------------------------------------------------------------------*
@@ -176,7 +180,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
                                 if ( isMouseDown ) {
                                     // for dragging, ignore mouse presses over the HUD
-                                    boolean mouseOverInterface = getComponentUnderPointer( Mouse.getX(), Mouse.getY() ) != null;
+                                    Component componentUnderPointer = getComponentUnderPointer( Mouse.getX(), Mouse.getY() );
+                                    boolean mouseOverInterface = componentUnderPointer != null;
                                     if ( !mouseOverInterface ) {
                                         dragging = true;
 
@@ -189,7 +194,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                                         }
                                         else {
                                             // set up default drag mode
-                                            dragMode = DragMode.MOLECULE_ROTATE;
+                                            dragMode = DragMode.MODEL_ROTATE;
                                         }
                                     }
                                 }
@@ -220,7 +225,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         *----------------------------------------------------------------------------*/
         inputManager.addListener(
                 new AnalogListener() {
-                    public void onAnalog( String name, float value, float tpf ) {
+                    public void onAnalog( final String name, final float value, float tpf ) {
 
                         //By always updating the cursor at every mouse move, we can be sure it is always correct.
                         //Whenever there is a mouse move event, make sure the cursor is in the right state.
@@ -228,20 +233,28 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
                         if ( dragging ) {
                             synchronized ( MoleculeJMEApplication.this ) {
-                                switch( dragMode ) {
-                                    case MOLECULE_ROTATE:
+                                final VoidFunction2<Quaternion, Float> updateQuaternion = new VoidFunction2<Quaternion, Float>() {
+                                    public void apply( Quaternion quaternion, Float scale ) {
                                         if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
-                                            rotation = new Quaternion().fromAngles( 0, -value * MOUSE_SCALE, 0 ).mult( rotation );
+                                            quaternion.set( new Quaternion().fromAngles( 0, -value * scale, 0 ).mult( quaternion ) );
                                         }
                                         if ( name.equals( MoleculeJMEApplication.MAP_RIGHT ) ) {
-                                            rotation = new Quaternion().fromAngles( 0, value * MOUSE_SCALE, 0 ).mult( rotation );
+                                            quaternion.set( new Quaternion().fromAngles( 0, value * scale, 0 ).mult( quaternion ) );
                                         }
                                         if ( name.equals( MoleculeJMEApplication.MAP_UP ) ) {
-                                            rotation = new Quaternion().fromAngles( -value * MOUSE_SCALE, 0, 0 ).mult( rotation );
+                                            quaternion.set( new Quaternion().fromAngles( -value * scale, 0, 0 ).mult( quaternion ) );
                                         }
                                         if ( name.equals( MoleculeJMEApplication.MAP_DOWN ) ) {
-                                            rotation = new Quaternion().fromAngles( value * MOUSE_SCALE, 0, 0 ).mult( rotation );
+                                            quaternion.set( new Quaternion().fromAngles( value * scale, 0, 0 ).mult( quaternion ) );
                                         }
+                                    }
+                                };
+                                switch( dragMode ) {
+                                    case MODEL_ROTATE:
+                                        updateQuaternion.apply( rotation, MOUSE_SCALE );
+                                        break;
+                                    case REAL_MOLECULE_ROTATE:
+                                        realMoleculeOverlayNode.updateRotation( updateQuaternion );
                                         break;
                                     case PAIR_FRESH_PLANAR:
                                         // put the particle on the z=0 plane
@@ -282,7 +295,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         overlayViewport.attachScene( overlayNode );
         addLiveNode( overlayNode );
 
-        RealMoleculeOverlayNode realMoleculeOverlayNode = new RealMoleculeOverlayNode( this, overlayCamera );
+        realMoleculeOverlayNode = new RealMoleculeOverlayNode( this, overlayCamera );
         overlayNode.attachChild( realMoleculeOverlayNode );
 
         addLighting( overlayNode );
@@ -318,6 +331,11 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         getBackgroundGuiNode().attachChild( namePanel );
     }
 
+    public void startOverlayMoleculeDrag() {
+        dragging = true;
+        dragMode = DragMode.REAL_MOLECULE_ROTATE;
+    }
+
     private static void addLighting( Node node ) {
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
@@ -341,7 +359,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
         Component component = getComponentUnderPointer( Mouse.getX(), Mouse.getY() );
 
-        if ( dragging && dragMode == DragMode.MOLECULE_ROTATE ) {
+        if ( dragging && ( dragMode == DragMode.MODEL_ROTATE || dragMode == DragMode.REAL_MOLECULE_ROTATE ) ) {
             // rotating the molecule. for now, trying out the "move" cursor
             canvas.setCursor( Cursor.getPredefinedCursor( MoleculeShapesApplication.useRotationCursor.get() ? Cursor.MOVE_CURSOR : Cursor.DEFAULT_CURSOR ) );
         }
@@ -616,5 +634,9 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         if ( errMsg.equals( "Failed to initialize OpenGL context" ) ) {
             PhetOptionPane.showMessageDialog( parentFrame, "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem." );
         }
+    }
+
+    public boolean canAutoRotateRealMolecule() {
+        return !( dragging && dragMode == DragMode.REAL_MOLECULE_ROTATE );
     }
 }
