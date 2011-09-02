@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.colorado.phet.moleculeshapes.util.CompositeNotifier;
+import edu.colorado.phet.moleculeshapes.util.Notifier;
+
 /**
  * Model of a single-atom-centered molecule which has a certain number of pair groups
  * surrounding it.
@@ -15,7 +18,10 @@ public class MoleculeModel {
     public static final int MAX_PAIRS = 6;
 
     private List<PairGroup> groups = new ArrayList<PairGroup>();
-    private List<Listener> listeners = new ArrayList<Listener>();
+
+    public final Notifier<PairGroup> onGroupAdded = new Notifier<PairGroup>();
+    public final Notifier<PairGroup> onGroupRemoved = new Notifier<PairGroup>();
+    public final Notifier<PairGroup> onGroupChanged = new CompositeNotifier<PairGroup>( onGroupAdded, onGroupRemoved );
 
     public MoleculeModel() {
     }
@@ -80,9 +86,7 @@ public class MoleculeModel {
         } );
 
         // notify
-        for ( Listener listener : listeners ) {
-            listener.onGroupAdded( pair );
-        }
+        onGroupAdded.fire( pair );
     }
 
     private int getSortingKey( PairGroup group ) {
@@ -94,9 +98,7 @@ public class MoleculeModel {
         groups.remove( pair );
 
         // notify
-        for ( Listener listener : listeners ) {
-            listener.onGroupRemoved( pair );
-        }
+        onGroupRemoved.fire( pair );
     }
 
     public List<PairGroup> getGroups() {
@@ -110,35 +112,5 @@ public class MoleculeModel {
     public boolean wouldAllowBondOrder( int bondOrder ) {
         return getStericNumber() < MAX_PAIRS;
 //        return getNumberOfPairs() + ( bondOrder == 0 ? 1 : bondOrder ) <= MAX_PAIRS;
-    }
-
-    /*---------------------------------------------------------------------------*
-    * listeners
-    *----------------------------------------------------------------------------*/
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public void removeListener( Listener listener ) {
-        listeners.remove( listener );
-    }
-
-    public static interface Listener {
-        public void onGroupAdded( PairGroup group );
-
-        public void onGroupRemoved( PairGroup group );
-    }
-
-    public static abstract class AnyChangeAdapter implements Listener {
-        public abstract void onGroupChange( PairGroup group );
-
-        public void onGroupAdded( PairGroup group ) {
-            onGroupChange( group );
-        }
-
-        public void onGroupRemoved( PairGroup group ) {
-            onGroupChange( group );
-        }
     }
 }

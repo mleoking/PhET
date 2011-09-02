@@ -16,8 +16,8 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Listener;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.asset.AssetManager;
@@ -51,12 +51,13 @@ public class MoleculeModelNode extends Node {
         this.camera = camera;
 
         // update the UI when the molecule changes electron pairs
-        molecule.addListener( new Listener() {
-            public void onGroupAdded( PairGroup group ) {
+        molecule.onGroupAdded.addTarget( new Fireable<PairGroup>() {
+            public void fire( PairGroup group ) {
                 addGroup( group );
             }
-
-            public void onGroupRemoved( PairGroup group ) {
+        } );
+        molecule.onGroupRemoved.addTarget( new Fireable<PairGroup>() {
+            public void fire( PairGroup group ) {
                 removeGroup( group );
             }
         } );

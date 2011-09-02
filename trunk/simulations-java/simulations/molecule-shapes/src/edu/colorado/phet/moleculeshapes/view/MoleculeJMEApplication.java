@@ -100,10 +100,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private MoleculeModel molecule = new MoleculeModel();
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
-    private final Frame parentFrame;
-    private Camera overlayCamera;                                  // TODO: refix positioning of fields
-    private MoleculeShapesControlPanel controlPanelNode;
-    private RealMoleculeOverlayNode realMoleculeOverlayNode;
 
     public MoleculeJMEApplication( Frame parentFrame ) {
         this.parentFrame = parentFrame;
@@ -140,6 +136,12 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private PiccoloJMENode controlPanel;
     private PiccoloJMENode resetAllNode;
     private PiccoloJMENode namePanel;
+
+    private final Frame parentFrame;
+    private Camera overlayCamera;
+
+    private MoleculeShapesControlPanel controlPanelNode;
+    private RealMoleculeOverlayNode realMoleculeOverlayNode;
 
     private MoleculeModelNode moleculeNode; // The molecule to display and rotate
 
