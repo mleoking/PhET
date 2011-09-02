@@ -35,6 +35,7 @@ import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
@@ -50,7 +51,6 @@ import com.jme3.system.JmeCanvasContext;
 
 /**
  * Use jme3 to show a rotating molecule
- * TODO: when dragging existing atoms/lone pairs and the mouse moves out of range (no sphere-hits), set its location to the CAMERA-TANGENT location
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
  * TODO: collision-lab-like button unpress failures?
@@ -436,16 +436,47 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         Ray ray = new Ray( transformedPosition, transformedDirection );
 
         // how far we will end up from the center atom
-        float distance = (float) draggedParticle.getIdealDistanceFromCenter();
+        float finalDistance = (float) draggedParticle.getIdealDistanceFromCenter();
 
         // our sphere to cast our ray against
-        BoundingSphere sphere = new BoundingSphere( distance, new Vector3f( 0, 0, 0 ) );
+        BoundingSphere sphere = new BoundingSphere( finalDistance, new Vector3f( 0, 0, 0 ) );
 
         sphere.collideWithRay( ray, results );
         if ( results.size() == 0 ) {
-            // just return the closest intersection on the plane, since we are not pointing to a spot on the "sphere"
-            // TODO: get rid of perspective "gap" here
-            return getPlanarMoleculeCursorPosition().normalize().mult( distance );
+            /*
+             * Compute the point where the closest line through the camera and tangent to our bounding sphere intersects the sphere
+             * ie, think 2d. we have a unit sphere centered at the origin, and a camera at (d,0). Our tangent point satisfies two
+             * important conditions:
+             * - it lies on the sphere. x^2 + y^2 == 1
+             * - vector to the point (x,y) is tangent to the vector from (x,y) to our camera (d,0). thus (x,y) . (d-y, -y) == 0
+             * Solve, and we get x = 1/d  plug back in for y (call that height), and we have our 2d solution.
+             *
+             * Now, back to 3D. Since camera is (0,0,d), our z == 1/d and our x^2 + y^2 == (our 2D y := height), then rescale them out of the unit sphere
+             */
+
+            float distanceFromCamera = transformedPosition.distance( new Vector3f() );
+
+            // first, calculate it in unit-sphere, as noted above
+            float d = distanceFromCamera / finalDistance; // scaled distance to the camera (from the origin)
+            float z = 1 / d; // our result z (down-scaled)
+            float height = FastMath.sqrt( d * d - 1 ) / d; // our result (down-scaled) magnitude of (x,y,0), which is the radius of the circle composed of all points that could be tangent
+
+            /*
+             * Since our camera isn't actually on the z-axis, we need to calculate two vectors. One is the direction towards
+             * the camera (planeNormal, easy!), and the other is the direction perpendicular to the planeNormal that points towards
+             * the mouse pointer (planeHitDirection).
+             */
+
+            // intersect our camera ray against our perpendicular plane (perpendicular to our camera position from the origin) to determine the orientations
+            Vector3f planeNormal = transformedPosition.normalize();
+            float t = -( transformedPosition.length() ) / ( planeNormal.dot( transformedDirection ) );
+            Vector3f planeHitDirection = transformedPosition.add( transformedDirection.mult( t ) ).normalize();
+
+            // use the above plane hit direction (perpendicular to the camera) and plane normal (collinear with the camera) to calculate the result
+            Vector3f downscaledResult = planeHitDirection.mult( height ).add( planeNormal.mult( z ) );
+
+            // scale it back to our sized sphere
+            return downscaledResult.mult( finalDistance );
         }
         else {
             // pick our desired hitpoint (there are only 2), and return it
