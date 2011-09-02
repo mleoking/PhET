@@ -1,3 +1,4 @@
+Added control panel in intro tab
 Moved help to Energy Skate Park
 Started new energy-skate-park-basics flavor
 Made fields final, removed unused classes

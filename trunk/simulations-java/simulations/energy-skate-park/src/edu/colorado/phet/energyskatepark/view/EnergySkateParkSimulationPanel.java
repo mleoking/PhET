@@ -49,7 +49,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private final MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
     private final EnergySkateParkRootNode rootNode;
     private final double matchThresholdWorldCoordinates = 1.5 * 0.33;
-    private final ArrayList listeners = new ArrayList();
+    private final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     public EnergySkateParkSimulationPanel( AbstractEnergySkateParkModule module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
@@ -105,18 +105,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         } );
     }
 
-    private void displayMemoryUsage() {
-        long heapSize = Runtime.getRuntime().totalMemory();// Get current size of heap in bytes
-        long heapMaxSize = Runtime.getRuntime().maxMemory();// Get maximum size of heap in bytes. The heap cannot grow beyond this size.// Any attempt will result in an OutOfMemoryException.
-        long heapFreeSize = Runtime.getRuntime().freeMemory();// Get amount of free memory within the heap in bytes. This size will increase // after garbage collection and decrease as new objects are created.
-        long currentUsage = heapSize - heapFreeSize;
-        EnergySkateParkLogging.println( "currentUsage=" + toMB( currentUsage ) + ", totalMemory=" + toMB( heapSize ) + ", maxMemory=" + toMB( heapMaxSize ) + ", freeMemory=" + toMB( heapFreeSize ) );
-    }
-
-    private String toMB( long heapFreeSize ) {
-        return heapFreeSize / ( 1048576L ) + "M";
-    }
-
     protected void updateWorldScale() {
         super.updateWorldScale();
         if ( rootNode != null ) {
@@ -154,10 +142,6 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         } );
     }
 
-    private void debugScreenSize() {
-        EnergySkateParkLogging.println( "getSize( ) = " + getSize() );
-    }
-
     private void updateThrust() {
         if ( energySkateParkModel.getNumBodies() > 0 ) {
             Body body = energySkateParkModel.getBody( 0 );
@@ -192,12 +176,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         module.reinitializeSkater( body );
     }
 
-    private void printControlPoints() {
-        energySkateParkModel.getSpline( 0 ).printControlPointCode();
-    }
-
     public SplineMatch proposeMatch( SplineNode splineNode, final Point2D toMatch ) {
-        ArrayList matches = new ArrayList();
+        ArrayList<SplineMatch> matches = new ArrayList<SplineMatch>();
         for ( int i = 0; i < numSplineGraphics(); i++ ) {
             SplineNode target = getSplineNode( i );
             PNode startNode = target.getControlPointGraphic( 0 );
@@ -215,17 +195,15 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                 matches.add( match );
             }
         }
-        Collections.sort( matches, new Comparator() {
-            public int compare( Object o1, Object o2 ) {
-                SplineMatch a = (SplineMatch) o1;
-                SplineMatch b = (SplineMatch) o2;
+        Collections.sort( matches, new Comparator<SplineMatch>() {
+            public int compare( SplineMatch a, SplineMatch b ) {
                 return Double.compare( distance( toMatch, a.getTarget() ), distance( toMatch, b.getTarget() ) );
             }
         } );
         if ( matches.size() == 0 ) {
             return null;
         }
-        return (SplineMatch) matches.get( 0 );
+        return matches.get( 0 );
     }
 
     private double distance( Point2D toMatch, PNode startNode ) {
@@ -309,19 +287,11 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private void keyPressed( KeyEvent e ) {
         multiKeyHandler.keyPressed( e );
         if ( hasFocus() ) {
-            if ( e.getKeyCode() == KeyEvent.VK_P ) {
-                EnergySkateParkLogging.println( "spline.getSegmentPath().getLength() = " + energySkateParkModel.getSpline( 0 ).numControlPoints() );
-                printControlPoints();
-            }
-            else if ( e.getKeyCode() == KeyEvent.VK_A ) {
+            if ( e.getKeyCode() == KeyEvent.VK_A ) {
                 addSkater();
             }
             else if ( e.getKeyCode() == KeyEvent.VK_R ) {
                 removeSkater();
-            }
-            else if ( e.getKeyCode() == KeyEvent.VK_D ) {
-                removeSkater();
-                debugScreenSize();
             }
         }
     }
@@ -348,8 +318,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public void setPieChartVisible( boolean selected ) {
         rootNode.setPieChartVisible( selected );
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).pieChartVisibilityChanged();
+        for ( Listener listener : listeners ) {
+            listener.pieChartVisibilityChanged();
         }
     }
 
@@ -363,8 +333,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void notifyZeroPointVisibleChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Object listener1 : listeners ) {
+            Listener listener = (Listener) listener1;
             listener.zeroPointEnergyVisibilityChanged();
         }
     }
@@ -417,8 +387,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     public void setIgnoreThermal( boolean b ) {
         if ( rootNode.getIgnoreThermal() != b ) {
             rootNode.setIgnoreThermal( b );
-            for ( int i = 0; i < listeners.size(); i++ ) {
-                ( (Listener) listeners.get( i ) ).ignoreThermalChanged();
+            for ( Listener listener : listeners ) {
+                listener.ignoreThermalChanged();
             }
         }
     }
@@ -453,8 +423,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     public void fireZoomEvent() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.zoomChanged();
         }
     }

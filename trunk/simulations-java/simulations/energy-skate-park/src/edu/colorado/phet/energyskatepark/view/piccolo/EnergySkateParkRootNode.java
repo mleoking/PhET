@@ -14,8 +14,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
@@ -408,6 +410,15 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         if ( panZoomControls != null ) {
             panZoomControls.setOffset( getSimulationPanel().getWidth() - panZoomControls.getFullBounds().getWidth() - insetX, getSimulationPanel().getHeight() - panZoomControls.getFullBounds().getHeight() - insetY );
         }
+        for ( VoidFunction0 layoutListener : layoutListeners ) {
+            layoutListener.apply();
+        }
+    }
+
+    private final ArrayList<VoidFunction0> layoutListeners = new ArrayList<VoidFunction0>();
+
+    public void addLayoutListener( VoidFunction0 layoutListener ) {
+        layoutListeners.add( layoutListener );
     }
 
     private EnergySkateParkSimulationPanel getSimulationPanel() {
