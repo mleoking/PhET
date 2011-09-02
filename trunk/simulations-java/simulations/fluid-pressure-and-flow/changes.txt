@@ -1,3 +1,4 @@
+Renamed "Rate:" to "Flow Rate:"
 Moved "metric" before "English" in units systems and made "metric" default on "flow" and "water tower" tabs
 Pressure: Made sensors 20% larger
 # 0.00.15 (56022) Sep 1, 2011

@@ -58,8 +58,7 @@ public class FluxMeterPanelNode extends PNode {
 
             //Populate the table by row
             //Consider using better fractions like: http://changelog.ca/log/2008/07/01/writing_fractions_in_html
-//            addChild( new HTML( "<sup>L</sup>&frasl;<sub>s</sub>" ), new Constraint( 2, 0, 1, 1, 0.5, 0.5, LINE_START, NONE, insets, 0, 0 ) );
-            addChild( new Text( RATE ), new Constraint( 0, 0, LINE_END, insets, 0, 0 ) );
+            addChild( new Text( FLOW_RATE ), new Constraint( 0, 0, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.rate, units.rate ), new Constraint( 1, 0, LINE_END, insets, 0, 0 ) );
             addChild( new HTML( units.rate.getAbbreviation() ), new Constraint( 2, 0, LINE_START, getInsets( units.rate.getAbbreviation() ), 0, 0 ) );
 
@@ -72,7 +71,6 @@ public class FluxMeterPanelNode extends PNode {
             addChild( new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ) ), new GridBagConstraints( 0, 2, 3, 1, 1, 0.5, CENTER, NONE, insets, 0, 0 ) );
 
             //Flux row
-            //            addChild( new HTML( "<sup>L</sup>&frasl;<sub>(m<sup>2</sup>s)</sub>" ), new Constraint( 2, 2, 1, 1, 0.5, 0.5, LINE_START, NONE, insets, 0, 0 ) );
             addChild( new Text( FLUX ), new Constraint( 0, 3, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.pipe.flux, units.flux ), new Constraint( 1, 3, LINE_END, insets, 0, 0 ) );
             addChild( new HTML( units.flux.getAbbreviation() ), new Constraint( 2, 3, LINE_START, htmlInsets, 0, 0 ) );
