@@ -47,7 +47,7 @@ public class HoseNode extends PNode {
         nozzleImageNode = new PImage( BufferedImageUtils.rescaleYMaintainAspectRatio( NOZZLE, (int) transform.modelToViewDeltaY( -hose.nozzleHeight ) ) ) {{
             hose.angle.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double angle ) {
-                    final ImmutableVector2D origin = getViewOutputPoint();
+                    final ImmutableVector2D origin = new ImmutableVector2D( transform.modelToView( hose.outputPoint.toPoint2D() ) );
                     setTransform( new AffineTransform() );
                     setOffset( origin.toPoint2D().getX() - getFullBounds().getWidth() / 2, origin.toPoint2D().getY() );
                     rotateAboutPoint( Math.PI / 2 - hose.angle.get(), getFullBounds().getWidth() / 2, 0 );
@@ -103,15 +103,15 @@ public class HoseNode extends PNode {
                         //When hose is pointing up, control point should be down and to the right to prevent sharp angles
                         //When hose is pointing up, control point should be up and to the left to prevent sharp angles
                         double delta = Math.cos( hose.angle.get() - Math.PI / 2 );
-                        final ImmutableVector2D intermediateDestination = new ImmutableVector2D( ( getNozzleInputModelPoint().getX() + controlPointA2.getX() ) / 2 + delta,
-                                                                                                 ( -6 + getNozzleInputModelPoint().getY() ) / 2 - delta );
+                        final ImmutableVector2D intermediateDestination = new ImmutableVector2D( ( hose.getNozzleInputPoint().getX() + controlPointA2.getX() ) / 2 + delta,
+                                                                                                 ( -6 + hose.getNozzleInputPoint().getY() ) / 2 - delta );
                         curveTo( new ImmutableVector2D( controlPointA2.getX() + 1, -6 ),
                                  new ImmutableVector2D( controlPointA2.getX() + 2, -6 ),
                                  intermediateDestination );
 
                         //Curve up to the meet the nozzle.  Using a quad here ensures that this pipe takes a smooth and straight path into the nozzle
-                        ImmutableVector2D controlPointC1 = getNozzleInputModelPoint().minus( parseAngleAndMagnitude( 2, hose.angle.get() ) );
-                        quadTo( controlPointC1, getNozzleInputModelPoint() );
+                        ImmutableVector2D controlPointC1 = hose.getNozzleInputPoint().minus( parseAngleAndMagnitude( 2, hose.angle.get() ) );
+                        quadTo( controlPointC1, hose.getNozzleInputPoint() );
                     }};
 
                     //Wrapping in an area gets rid of a kink when the water tower is low
@@ -164,13 +164,5 @@ public class HoseNode extends PNode {
 //                }
 //            } );
 //        }} );
-    }
-
-    private ImmutableVector2D getViewOutputPoint() {
-        return new ImmutableVector2D( transform.modelToView( hose.outputPoint.toPoint2D() ) );
-    }
-
-    private ImmutableVector2D getNozzleInputModelPoint() {
-        return parseAngleAndMagnitude( hose.nozzleHeight, hose.angle.get() + Math.PI ).plus( hose.outputPoint );
     }
 }

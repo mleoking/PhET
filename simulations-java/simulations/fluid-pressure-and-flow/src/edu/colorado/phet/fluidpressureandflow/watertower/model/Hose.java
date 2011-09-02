@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+
 /**
  * Model of the hose which can be attached to the water tower so that the user can spray water from the ground
  *
@@ -14,6 +16,8 @@ public class Hose {
 
     //Angle in radians where 0 radians is to the right and PI/2 is straight up, should be between 0 and PI/2
     public final Property<Double> angle = new Property<Double>( Math.PI / 2 );
+
+    public final Property<Double> y = new Property<Double>( 0.0 );
 
     //Flag to indicate whether the hose has been enabled by the user
     public final Property<Boolean> enabled = new Property<Boolean>( false );
@@ -36,5 +40,9 @@ public class Hose {
     public void reset() {
         angle.reset();
         enabled.reset();
+    }
+
+    public ImmutableVector2D getNozzleInputPoint() {
+        return parseAngleAndMagnitude( nozzleHeight, angle.get() + Math.PI ).plus( outputPoint );
     }
 }
