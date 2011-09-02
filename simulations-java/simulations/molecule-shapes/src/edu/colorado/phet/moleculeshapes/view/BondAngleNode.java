@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import edu.colorado.phet.moleculeshapes.jme.Arc;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.Sector;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 import com.jme3.material.Material;
@@ -33,13 +34,28 @@ class BondAngleNode extends Node {
         center = new Vector3f();
         midpoint = Arc.slerp( a, b, 0.5f ).mult( radius );
 
-        attachChild( new Geometry( "ArcTest", arc ) {{
+        attachChild( new Geometry( "Bond Arc", arc ) {{
             setMaterial( new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
                 setColor( "Color", new ColorRGBA( 1, 0, 0, alpha ) );
 
                 getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
                 setTransparent( true );
             }} );
+        }} );
+
+        final Material sectorMaterial = new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+            setColor( "Color", new ColorRGBA( 0.5f, 0.5f, 0.5f, alpha / 2 ) );
+
+            getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+            setTransparent( true );
+        }};
+
+        // do two swoops for transparent two-sidedness
+        attachChild( new Geometry( "Bond Sector A=>B", new Sector( a, b, radius, 20 ) ) {{
+            setMaterial( sectorMaterial );
+        }} );
+        attachChild( new Geometry( "Bond Sector B=>A", new Sector( b, a, radius, 20 ) ) {{
+            setMaterial( sectorMaterial );
         }} );
 
         setQueueBucket( Bucket.Transparent ); // allow it to be transparent
