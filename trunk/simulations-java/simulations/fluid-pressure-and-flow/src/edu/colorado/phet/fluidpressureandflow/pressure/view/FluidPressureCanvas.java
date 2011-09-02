@@ -37,7 +37,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidPressureControlPanel( module ) ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, INSET );
         }};
         addChild( controlPanelNode );
         addChild( new ResetAllButtonNode( module, this, (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{

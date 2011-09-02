@@ -1,3 +1,5 @@
+Pressure: Moved the control panel to the top right to match the other tabs
+Fixed control panel insets in all tabs
 Changed the control from flux to flow rate
 Made flux readout dependent on flow rate, not the other way around
 Renamed "Rate:" to "Flow Rate:"

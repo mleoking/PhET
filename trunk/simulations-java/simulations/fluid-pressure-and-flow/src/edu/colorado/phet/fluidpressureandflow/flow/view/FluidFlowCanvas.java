@@ -91,12 +91,12 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
 
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidFlowControlPanel( module ) ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, INSET );
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, INSET );
         }};
         addChild( controlPanelNode );
         addChild( new ResetAllButtonNode( module, this, (int) ( CONTROL_FONT.getSize() * 1.3 ), FOREGROUND, BACKGROUND ) {{
             setConfirmationEnabled( false );
-            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - 2 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - INSET );
         }} );
 
         //Create and show the fluid density controls
