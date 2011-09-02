@@ -103,8 +103,8 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
             }
         } );
 
-        houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 10 );
-        mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, 0.0 );
+        houseNode = new SurfaceObjectNode( SurfaceObjectNode.HOUSE_URL, 1.5, 12 );
+        mountainNode = new SurfaceObjectNode( SurfaceObjectNode.MOUNTAIN_URL, 1.5, -1 );
 
         returnSkaterButtonNode = new ReturnSkaterButtonNode( simulationPanel, module, null );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
