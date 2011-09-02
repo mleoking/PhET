@@ -20,8 +20,6 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.input.InputManager;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -209,7 +207,7 @@ public class MoleculeModelNode extends Node {
 
     private void showAngleLabel( String string, float brightness, Vector3f displayPoint ) {
         if ( angleIndex >= angleReadouts.size() ) {
-            angleReadouts.add( new ReadoutNode( new PText( "..." ), app.getAssetManager(), app.getInputManager() ) );
+            angleReadouts.add( new ReadoutNode( new PText( "..." ) ) );
         }
         angleReadouts.get( angleIndex ).attach( string, brightness, displayPoint );
         angleIndex++;
@@ -229,8 +227,8 @@ public class MoleculeModelNode extends Node {
 
         private boolean attached = false;
 
-        private ReadoutNode( PText text, AssetManager assetManager, InputManager inputManager ) {
-            super( text, assetManager, inputManager );
+        private ReadoutNode( PText text ) {
+            super( text, app );
             this.text = text;
 
             text.setFont( new PhetFont( 16 ) );

@@ -14,8 +14,7 @@ import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.input.InputManager;
+import com.jme3.app.Application;
 import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.JoyAxisEvent;
@@ -44,19 +43,19 @@ public class HUDNode extends Geometry {
 
     private final int width;
     private final int height;
-    private final InputManager inputManager;
+    private final Application app;
     private RawInputListener inputListener;
 
     private boolean dirty = false; // whether the image needs to be repainted
 
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
-    public HUDNode( final JComponent component, final int width, final int height, AssetManager assetManager, InputManager inputManager ) {
+    public HUDNode( final JComponent component, final int width, final int height, final Application app ) {
         super( "HUD", new Quad( width, height, true ) ); // true flips it so our components are shown in the correct Y direction
         this.component = component;
         this.width = width;
         this.height = height;
-        this.inputManager = inputManager;
+        this.app = app;
 
         image = new PaintableImage( width, height, true ) {
             {
@@ -83,8 +82,10 @@ public class HUDNode extends Geometry {
         new Timer( 10, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dirty ) {
-                    image.refreshImage();
-                    dirty = false;
+                    synchronized ( app ) {
+                        image.refreshImage();
+                        dirty = false;
+                    }
                 }
             }
         } ).start();
@@ -126,9 +127,9 @@ public class HUDNode extends Geometry {
             public void onTouchEvent( TouchEvent evt ) {
             }
         };
-        inputManager.addRawInputListener( inputListener );
+        app.getInputManager().addRawInputListener( inputListener );
 
-        setMaterial( new Material( assetManager, "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+        setMaterial( new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             setTexture( "ColorMap", new Texture2D() {{
                 setImage( image );
             }} );
@@ -144,7 +145,7 @@ public class HUDNode extends Geometry {
     }
 
     public void dispose() {
-        inputManager.removeRawInputListener( inputListener );
+        app.getInputManager().removeRawInputListener( inputListener );
     }
 
     private void initRepaintManager() {
