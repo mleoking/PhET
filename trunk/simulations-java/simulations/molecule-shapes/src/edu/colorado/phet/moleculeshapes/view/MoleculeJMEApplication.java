@@ -581,56 +581,40 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
                 resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 50, 0 ) ) );
 
+                /*---------------------------------------------------------------------------*
+                * calculate real molecule overlay bounds
+                *----------------------------------------------------------------------------*/
+
+                /*
+                * We need to position the molecule overlay over the portion of the screen taken up by
+                * the Piccolo background target
+                */
+
+                // get the bounds, relative to the Piccolo origin (which is 0,0 in the component as well)
                 PBounds localOverlayBounds = controlPanelNode.getOverlayBounds();
 
-                // TODO: cleanup
-
-//                System.out.println( "lastCanvasSize.width = " + lastCanvasSize.width );
-//                System.out.println( "lastCanvasSize.height = " + lastCanvasSize.height );
-//
-//                System.out.println( "controlPanel.getWidth() = " + controlPanel.getWidth() );
-//                System.out.println( "controlPanel.getHeight() = " + controlPanel.getHeight() );
-//
-//                System.out.println( "localbounds x: " + localOverlayBounds.getMinX() + ", " + localOverlayBounds.getMaxX() );
-//                System.out.println( "localbounds y: " + localOverlayBounds.getMinY() + ", " + localOverlayBounds.getMaxY() );
-
+                // get the translation of the control panel
                 float offsetX = controlPanel.getLocalTranslation().getX();
                 float offsetY = controlPanel.getLocalTranslation().getY();
 
-//                System.out.println( "offsetX = " + offsetX );
-//                System.out.println( "offsetY = " + offsetY );
-
+                // convert these to screen-offset from the lower-left, since the control panel itself is translated
                 double localLeft = localOverlayBounds.getMinX() + offsetX;
                 double localRight = localOverlayBounds.getMaxX() + offsetX;
-                double localTop = controlPanel.getHeight() - localOverlayBounds.getMinY() + offsetY;
-                double localBottom = controlPanel.getHeight() - localOverlayBounds.getMaxY() + offsetY;
+                double localTop = controlPanel.getHeight() - localOverlayBounds.getMinY() + offsetY; // remember, Y is flipped here
+                double localBottom = controlPanel.getHeight() - localOverlayBounds.getMaxY() + offsetY; // remember, Y is flipped here
 
-//                System.out.println( "localLeft: " + localLeft );
-//                System.out.println( "localRight = " + localRight );
-//                System.out.println( "localBottom = " + localBottom );
-//                System.out.println( "localTop = " + localTop );
-
+                // rescale these numbers to between 0 and 1 (for the entire JME3 canvas size)
                 float finalLeft = (float) ( localLeft / lastCanvasSize.width );
                 float finalRight = (float) ( localRight / lastCanvasSize.width );
                 float finalBottom = (float) ( localBottom / lastCanvasSize.height );
                 float finalTop = (float) ( localTop / lastCanvasSize.height );
 
-//                System.out.println( "finalLeft: " + finalLeft );
-//                System.out.println( "finalRight = " + finalRight );
-//                System.out.println( "finalBottom = " + finalBottom );
-//                System.out.println( "finalTop = " + finalTop );
+                // position the overlay viewport over this region
+                overlayCamera.setViewPort( finalLeft, finalRight, finalBottom, finalTop );
 
-                overlayCamera.setViewPort(
-                        finalLeft,
-                        finalRight,
-                        finalBottom,
-                        finalTop
-                );
-
-//                System.out.println( cam.getProjectionMatrix() );
-
-                // update overlay camera TODO move this?
-
+                /*---------------------------------------------------------------------------*
+                * position overlay camera
+                *----------------------------------------------------------------------------*/
                 overlayCamera.setFrustumPerspective( 45f, 1, 1f, 1000f );
                 overlayCamera.setLocation( new Vector3f( 0, 0, 40 ) );
                 overlayCamera.lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
