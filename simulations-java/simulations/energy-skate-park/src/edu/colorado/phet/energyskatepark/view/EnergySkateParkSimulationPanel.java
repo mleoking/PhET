@@ -51,6 +51,9 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private final double matchThresholdWorldCoordinates = 1.5 * 0.33;
     private final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
+    //Flag that indicates whether the keyboard can activate rocket thrusters
+    private boolean thrustEnabled = true;
+
     public EnergySkateParkSimulationPanel( AbstractEnergySkateParkModule module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
         this.module = module;
@@ -143,7 +146,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private void updateThrust() {
-        if ( energySkateParkModel.getNumBodies() > 0 ) {
+        if ( energySkateParkModel.getNumBodies() > 0 && thrustEnabled ) {
             Body body = energySkateParkModel.getBody( 0 );
             double xThrust = 0.0;
             double yThrust = 0.0;
@@ -426,5 +429,10 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         for ( Listener listener : listeners ) {
             listener.zoomChanged();
         }
+    }
+
+    //Enable or disable keyboard control of rocket thrusters
+    public void setThrustEnabled( boolean thrustEnabled ) {
+        this.thrustEnabled = thrustEnabled;
     }
 }

@@ -36,6 +36,9 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public EnergySkateParkBasicsModule( String name, PhetFrame phetFrame ) {
         super( name, phetFrame, new EnergySkateParkOptions() );
 
+        //Don't allow users to apply rocket force with the keyboard
+        energySkateParkSimulationPanel.setThrustEnabled( false );
+
         //Show the sky for the earth background
         new Planet.Earth().apply( this );
 
