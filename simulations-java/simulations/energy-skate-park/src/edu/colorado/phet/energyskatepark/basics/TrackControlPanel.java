@@ -16,8 +16,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Sam Reid
  */
-public class TrackFrictionControlPanel extends PNode {
-    public TrackFrictionControlPanel( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, final PNode energyGraphControlPanel ) {
+public class TrackControlPanel extends PNode {
+    public TrackControlPanel( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, final PNode energyGraphControlPanel ) {
         addChild( new ControlPanelNode( new VBox(
                 new PText( "Track" ) {{setFont( new PhetFont( 16, true ) );}},
                 new TextButtonNode( "Track Friction" ),
