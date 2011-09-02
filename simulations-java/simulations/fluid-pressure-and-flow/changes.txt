@@ -1,3 +1,4 @@
+Moved reset all button directly under the control panel in all tabs
 Pressure: Moved the control panel to the top right to match the other tabs
 Fixed control panel insets in all tabs
 Changed the control from flux to flow rate
