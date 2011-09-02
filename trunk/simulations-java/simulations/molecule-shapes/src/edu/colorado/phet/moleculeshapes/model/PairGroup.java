@@ -10,7 +10,6 @@ import com.jme3.math.ColorRGBA;
  * A group of electron pairs. The pairs may be part of a bond, or may be a lone electron pair.
  */
 public class PairGroup {
-    // TODO: add in developer controls for all of these
     public static final double BONDED_PAIR_DISTANCE = 10.0;
     public static final double LONE_PAIR_DISTANCE = 7.0;
 
@@ -76,11 +75,32 @@ public class PairGroup {
         position.set( position.get().plus( directionToCenter.times( ratioOfMovement * offset ) ) );
     }
 
-    public void repulseFrom( PairGroup other, double timeElapsed ) {
+    private double interpolate( double a, double b, double ratio ) {
+        return a * ( 1 - ratio ) + b * ratio;
+    }
+
+    public void repulseFrom( PairGroup other, double timeElapsed, double trueLengthsRatioOverride ) {
         // only handle the force on this object for now
 
-        // from other => this
-        ImmutableVector3D delta = position.get().minus( other.position.get() );
+        /*---------------------------------------------------------------------------*
+        * adjust the logical positions when the repulsion modifier is less than 1
+        *
+        * (this allows us to get the "VSEPR" correct geometry even with lone pairs.
+        * since lone pairs are closer in, an actual Coulomb model would diverge from
+        * the VSEPR model angles. Here, we converge to the model VSEPR behavior, but
+        * allow correct Coulomb calculations at greater distances
+        *----------------------------------------------------------------------------*/
+
+        // adjusted distances from the center atom
+        double adjustedMagnitude = interpolate( BONDED_PAIR_DISTANCE, position.get().magnitude(), trueLengthsRatioOverride );
+        double adjustedOtherMagnitude = interpolate( BONDED_PAIR_DISTANCE, other.position.get().magnitude(), trueLengthsRatioOverride );
+
+        // adjusted positions
+        ImmutableVector3D adjustedPosition = position.get().normalized().times( adjustedMagnitude );
+        ImmutableVector3D adjustedOtherPosition = other.position.get().normalized().times( adjustedOtherMagnitude );
+
+        // from other => this (adjusted)
+        ImmutableVector3D delta = adjustedPosition.minus( adjustedOtherPosition );
 
         /*---------------------------------------------------------------------------*
         * coulomb repulsion

@@ -17,8 +17,17 @@ import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
  * (2) pushes the electron pairs towards those positions.
  */
 public class AttractorModel {
-    public static void applyAttractorForces( final MoleculeModel molecule, final float timeElapsed ) {
+    /**
+     * Apply an attraction to the closest ideal position, with the given time elapsed
+     *
+     * @param molecule    Molecule structure currently
+     * @param timeElapsed Time elapsed
+     * @return A measure of total error
+     */
+    public static double applyAttractorForces( final MoleculeModel molecule, final float timeElapsed ) {
         final ResultMapping mapping = findClosestMatchingConfiguration( molecule );
+
+        double totalDeltaMagnitude = 0;
 
         // for each electron pair, push it towards its computed target
         for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
@@ -27,6 +36,7 @@ public class AttractorModel {
             ImmutableVector3D targetLocation = targetUnitVector.times( pair.position.get().magnitude() );
 
             ImmutableVector3D delta = targetLocation.minus( pair.position.get() );
+            totalDeltaMagnitude += delta.magnitude() * delta.magnitude();
 
             /*
              * NOTE: adding delta here effectively is squaring the distance, thus more force when far from the target,
@@ -38,6 +48,8 @@ public class AttractorModel {
 
             pair.addVelocity( delta.times( strength ) );
         }
+
+        return Math.sqrt( totalDeltaMagnitude );
     }
 
     /**
