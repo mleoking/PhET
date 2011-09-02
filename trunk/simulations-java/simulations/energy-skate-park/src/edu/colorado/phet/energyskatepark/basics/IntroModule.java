@@ -46,5 +46,25 @@ public class IntroModule extends EnergySkateParkBasicsModule {
                 }
             } );
         }} );
+
+        //Add the control panel that is used to change to a different track
+        final String PARABOLA = "energy-skate-park/tracks/basics/parabola.esp";
+        final ControlPanelNode trackSelectionNode = new ControlPanelNode( new VBox(
+                new TrackButton( this, PARABOLA, true ),
+                new TrackButton( this, "energy-skate-park/tracks/basics/to-the-floor.esp", true ),
+                new TrackButton( this, "energy-skate-park/tracks/basics/double-well.esp", true )
+        ), EnergySkateParkLookAndFeel.backgroundColor ) {{
+
+            //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
+            energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
+                public void apply() {
+                    setOffset( INSET, INSET );
+                }
+            } );
+        }};
+        energySkateParkSimulationPanel.getRootNode().addChild( trackSelectionNode );
+
+        //Load the initial track
+        load( PARABOLA, true );
     }
 }

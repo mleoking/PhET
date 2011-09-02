@@ -16,9 +16,7 @@ import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
  * Date: Oct 18, 2006
  * Time: 8:38:53 AM
  */
-
 public class EnergySkateParkTrackMenu extends JMenu {
-    private final EnergySkateParkApplication parentApp;
 
     public EnergySkateParkTrackMenu( EnergySkateParkApplication app ) {
         this( EnergySkateParkStrings.getString( "tracks-menu.title" ), app, getTests() );
@@ -26,10 +24,8 @@ public class EnergySkateParkTrackMenu extends JMenu {
 
     public EnergySkateParkTrackMenu( String label, final EnergySkateParkApplication parentApp, EnergySkateParkTestMenu.TestItem[] testItems ) {
         super( label );
-        this.parentApp = parentApp;
 
-        for ( int i = 0; i < testItems.length; i++ ) {
-            final EnergySkateParkTestMenu.TestItem testItem = testItems[i];
+        for ( final EnergySkateParkTestMenu.TestItem testItem : testItems ) {
             add( new JMenuItem( new AbstractAction( testItem.getTitle() ) {
                 public void actionPerformed( ActionEvent e ) {
                     EnergySkateParkIO.open( testItem.getLocation(), parentApp.getModule() );
