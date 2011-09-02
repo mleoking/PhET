@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.chemistry.model;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Class for actual element properties (symbol, radius, etc.).
@@ -85,6 +85,7 @@ public class Element {
     *----------------------------------------------------------------------------*/
 
     public static final Element B = new Element( "B", 85, 2.04, 10.811, new Color( 255, 170, 119 ) ); // peach/salmon colored, CPK coloring
+    public static final Element Be = new Element( "Be", 105, 1.57, 9.012182, new Color( 0xc2ff00 ) ); // beryllium
     public static final Element Br = new Element( "Br", 114, 2.96, 79.904, new Color( 190, 30, 20 ) ); // brown
     public static final Element C = new Element( "C", 77, 2.55, 12.0107, new Color( 178, 178, 178 ) );
     public static final Element Cl = new Element( "Cl", 100, 3.16, 35.4527, new Color( 153, 242, 57 ) );
@@ -98,7 +99,7 @@ public class Element {
     public static final Element Si = new Element( "Si", 118, 1.90, 28.0855, new Color( 240, 200, 160 ) ); // tan, Jmol coloring listed from https://secure.wikimedia.org/wikipedia/en/wiki/CPK_coloring
 
     private static final Element[] ELEMENTS = new Element[] {
-            B, Br, C, Cl, F, H, I, N, O, P, S, Si
+            B, Be, Br, C, Cl, F, H, I, N, O, P, S, Si
     };
 
     public static Element getElementBySymbol( String symbol ) {
