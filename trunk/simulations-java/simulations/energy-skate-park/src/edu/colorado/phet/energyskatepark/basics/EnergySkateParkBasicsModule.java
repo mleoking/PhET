@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
+import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.umd.cs.piccolo.PNode;
@@ -26,6 +27,11 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
     public EnergySkateParkBasicsModule( String name, PhetFrame phetFrame ) {
         super( name, phetFrame, new EnergySkateParkOptions() );
+
+        //Show the sky for the earth background
+        new Planet.Earth().apply( this );
+
+        //Control panels are floating not docked
         setControlPanel( null );
 
         //Add the energy graph control panel

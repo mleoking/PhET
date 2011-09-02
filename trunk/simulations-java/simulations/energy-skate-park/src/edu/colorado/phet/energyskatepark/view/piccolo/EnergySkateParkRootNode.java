@@ -488,4 +488,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         }
         return null;
     }
+
+    //Have to call update background when changing the canvas size without changing the image, when a component event won't be fired (such as before the window is visible)
+    public void updateBackground() {
+        backgroundScreenNode.update();
+    }
 }

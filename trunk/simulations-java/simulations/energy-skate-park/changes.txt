@@ -1,3 +1,4 @@
+Fixed sky graphics
 Moved the house to the right and the mountains to the left
 Added buttons to switch track
 Added control panel in intro tab
