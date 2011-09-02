@@ -41,15 +41,15 @@ public class UnitSet {
     public final Unit density;
     public final Unit flux;
     public final Unit area;
-    public final Unit rate;
+    public final Unit flowRate;
 
-    public UnitSet( Unit pressure, Unit velocity, Unit distance, Unit density, Unit flux, Unit area, Unit rate ) {
+    public UnitSet( Unit pressure, Unit velocity, Unit distance, Unit density, Unit flux, Unit area, Unit flowRate ) {
         this.pressure = pressure;
         this.velocity = velocity;
         this.distance = distance;
         this.density = density;
         this.flux = flux;
         this.area = area;
-        this.rate = rate;
+        this.flowRate = flowRate;
     }
 }

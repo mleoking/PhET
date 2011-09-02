@@ -27,9 +27,8 @@ public class Pipe {
     private ArrayList<CrossSection> splineCrossSections;//Nonlinear interpolation of the control sections
     private boolean dirty = true;//Flag to improve performance
 
-    //Rate of fluid flow in (m^3 / m^2 / s, which has the same units as as 1/m/s), the same as v2 / a1 from continuity equation a1 v1 = a2 v2
-    public final DoubleProperty flux = new DoubleProperty( 5.0 );
-
+    //Rate of fluid flow in volume (m^3) per second
+    public final DoubleProperty flowRate = new DoubleProperty( 5.0 );
     public final Property<Boolean> friction = new Property<Boolean>( false );
 
     //Creates a pipe with a default shape.
@@ -261,7 +260,7 @@ public class Pipe {
     }
 
     public void reset() {
-        flux.reset();
+        flowRate.reset();
         friction.reset();
         for ( CrossSection pipePosition : controlCrossSections ) {
             pipePosition.reset();
@@ -272,7 +271,7 @@ public class Pipe {
     private double getSpeed( double x ) {
         //Continuity equation: a1 v1 = a2 v2
         //TODO: treat pipes as if they are cylindrical cross sections?
-        return flux.get() / getCrossSection( x ).getHeight();
+        return flowRate.get() / getCrossSection( x ).getHeight();
     }
 
     //I was told that the fluid flow rate falls off quadratically, so use lagrange interpolation so that at the center of the pipe
