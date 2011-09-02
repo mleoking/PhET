@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Graphic that depicts how the laser may be moved.  It is only shown when the cursor is over the laser and is non-interactive.
+ * Graphic that indicates that a user can drag a component, which disappears after the user has dragged the component.
  *
  * @author Sam Reid
  */
@@ -27,11 +27,12 @@ public class TranslationDragHandle extends PNode {
         } );
 
         //Update the location when laser pivot or emission point change
-        final PNode counterClockwiseDragArrow = new PNode() {{
+        addChild( new PNode() {{
             addChild( new PhetPPath( new Arrow( tail.toPoint2D(), new Point2D.Double( tail.getX() + dx, tail.getY() + dy ), 14, 14, 8 ).getShape(), Color.red, new BasicStroke( 1 ), Color.black ) );
+
+            //Don't intercept mouse events
             setPickable( false );
             setChildrenPickable( false );
-        }};
-        addChild( counterClockwiseDragArrow );
+        }} );
     }
 }
