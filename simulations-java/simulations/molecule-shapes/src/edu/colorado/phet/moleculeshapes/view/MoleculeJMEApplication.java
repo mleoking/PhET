@@ -51,6 +51,7 @@ import com.jme3.system.JmeCanvasContext;
 
 /**
  * Use jme3 to show a rotating molecule
+ * TODO: add area for "bond angles" checkbox
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
  * TODO: with 6 triple bonds, damping can become an issue? can cause one to fly out of range!!!
