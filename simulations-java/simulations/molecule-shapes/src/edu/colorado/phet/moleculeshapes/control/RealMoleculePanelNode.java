@@ -19,9 +19,9 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.BackButton;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ForwardButton;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel.AnyChangeAdapter;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
+import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -173,8 +173,8 @@ public class RealMoleculePanelNode extends PNode {
         onModelChange();
 
         // when the VSEPR molecule changes, update our possible molecules
-        molecule.addListener( new AnyChangeAdapter() {
-            @Override public void onGroupChange( PairGroup group ) {
+        molecule.onGroupChanged.addTarget( new Fireable<PairGroup>() {
+            public void fire( PairGroup param ) {
                 onModelChange();
             }
         } );

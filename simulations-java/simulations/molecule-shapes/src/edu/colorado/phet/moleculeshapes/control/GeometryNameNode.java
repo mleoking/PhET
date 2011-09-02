@@ -14,8 +14,8 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel.AnyChangeAdapter;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -131,8 +131,8 @@ public class GeometryNameNode extends PNode {
         * change listeners
         *----------------------------------------------------------------------------*/
 
-        molecule.addListener( new AnyChangeAdapter() {
-            @Override public void onGroupChange( PairGroup group ) {
+        molecule.onGroupChanged.addTarget( new Fireable<PairGroup>() {
+            public void fire( PairGroup pairGroup ) {
                 updateMolecularText();
                 updateElectronText();
             }

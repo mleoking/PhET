@@ -13,8 +13,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel.AnyChangeAdapter;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -127,8 +127,8 @@ public class MoleculeShapesControlPanel extends PNode {
                             updateState();
                         }
                     } );
-                    app.getMolecule().addListener( new AnyChangeAdapter() {
-                        @Override public void onGroupChange( PairGroup group ) {
+                    app.getMolecule().onGroupChanged.addTarget( new Fireable<PairGroup>() {
+                        public void fire( PairGroup pairGroup ) {
                             updateState();
                         }
                     } );
