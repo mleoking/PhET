@@ -47,7 +47,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
                 new PText( "Energy Graphs" ) {{setFont( new PhetFont( 16, true ) );}},
 
                 //Checkbox to show/hide the pie chart
-                new PSwing( new JCheckBox( "Show Pie Chart", isPieChartVisible() ) {{
+                new PSwing( new JCheckBox( "Pie Chart", isPieChartVisible() ) {{
                     setFont( CONTROL_FONT );
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
