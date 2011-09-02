@@ -1,3 +1,4 @@
+Pressure: Made sensors 20% larger
 # 0.00.15 (56022) Sep 1, 2011
 Improved insets and spacing for control panels
 Moved up "ft^3/s" in rate readout in flux meter for english only since the units weren't centered
