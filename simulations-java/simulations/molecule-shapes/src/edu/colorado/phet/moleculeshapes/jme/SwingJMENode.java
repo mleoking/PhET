@@ -7,6 +7,8 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
+import edu.colorado.phet.moleculeshapes.util.VoidNotifier;
+
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.scene.Node;
@@ -21,6 +23,8 @@ public class SwingJMENode extends Node {
     private final JComponent component;
     private final AssetManager assetManager;
     private final InputManager inputManager;
+
+    public final VoidNotifier onResize = new VoidNotifier();
 
     public SwingJMENode( final JComponent component, AssetManager assetManager, InputManager inputManager ) {
         this.component = component;
@@ -53,6 +57,9 @@ public class SwingJMENode extends Node {
             size = component.getPreferredSize();
             hudNode = new HUDNode( component, size.width, size.height, assetManager, inputManager );
             attachChild( hudNode );
+
+            // notify that we resized
+            onResize.fire();
         }
     }
 
