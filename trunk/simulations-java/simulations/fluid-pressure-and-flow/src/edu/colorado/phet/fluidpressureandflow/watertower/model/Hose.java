@@ -20,10 +20,13 @@ public class Hose {
     public final ObservableProperty<ImmutableVector2D> attachmentPoint;
 
     //The place where the water comes out, tuned based on the curves in the HoseNode so the path is smooth and natural-looking
-    public final ImmutableVector2D outputPoint = new ImmutableVector2D( 13.275, 0 );
+    public final ImmutableVector2D outputPoint = new ImmutableVector2D( 13.275 + 4, 0 );
 
     //Width of the hole for the attachment point in meters
     public final double holeSize;
+
+    //Height of the nozzle in meters, determined by setting up the view as desired then doing an inverse delta transform
+    public final double nozzleHeight = 2.85;
 
     public Hose( ObservableProperty<ImmutableVector2D> attachmentPoint, double holeSize ) {
         this.attachmentPoint = attachmentPoint;

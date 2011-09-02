@@ -1,3 +1,4 @@
+Water tower: Added a nozzle graphic for the hose
 Moved the water tower slightly to the left
 Moved fluid density controls to the bottom right in all tabs
 Moved reset all button directly under the control panel in all tabs
