@@ -27,7 +27,6 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
-import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -464,10 +463,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public boolean isEnergyErrorVisible() {
         return energyErrorIndicatorContainer.getVisible();
-    }
-
-    public static void main( String[] args ) {
-        EnergySkateParkLogging.println( "new Double(0).equals( new Double(-0)) = " + new Double( 0 ).equals( new Double( -0 ) ) );
     }
 
     public void setBackgroundVisible( boolean selected ) {
