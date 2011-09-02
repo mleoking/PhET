@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
@@ -60,8 +61,11 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
         addChild( englishControl );
     }
 
-    public double getMaximumHeight() {
-        return metricControl.getMaximumHeight();
+    //Determine how big this control would be when expanded, this is the maximum of the expanded metric and english control sizes
+    public Dimension2DDouble getMaximumSize() {
+        final Dimension2DDouble metricMaxSize = metricControl.getMaximumSize();
+        final Dimension2DDouble englishMaxSize = englishControl.getMaximumSize();
+        return new Dimension2DDouble( Math.max( metricMaxSize.getWidth(), englishMaxSize.getWidth() ), Math.max( metricMaxSize.getHeight(), englishMaxSize.getHeight() ) );
     }
 
     public static class UnitFluidDensityControl<T extends FluidPressureAndFlowModel> extends PNode {
@@ -109,7 +113,7 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
         }
 
         //Find the size of this component when the slider is visible
-        public double getMaximumHeight() {
+        public Dimension2DDouble getMaximumSize() {
             //Store the original value
             boolean visible = fluidDensityControlVisible.get();
 
@@ -117,14 +121,13 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
             fluidDensityControlVisible.set( true );
 
             //Find the value we were looking for
-            final double height = getFullBounds().getHeight();
+            Dimension2DDouble size = new Dimension2DDouble( getFullBounds().getWidth(), getFullBounds().getHeight() );
 
             //Restore the old value; single threaded so nobody will notice a flicker
             fluidDensityControlVisible.set( visible );
 
-            //return the height of this component when slider is showing
-            return height;
+            //return the size of this component when slider is showing
+            return size;
         }
     }
-
 }
