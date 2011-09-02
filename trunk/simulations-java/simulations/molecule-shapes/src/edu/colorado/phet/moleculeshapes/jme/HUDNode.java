@@ -265,7 +265,6 @@ public class HUDNode extends Geometry {
 
 
     private void sendAWTMouseEvent( int x, int y, boolean pressed, int swingButton ) {
-        System.out.println( component.hashCode() );
         Component comp = componentAt( x, y, component, false );
         if ( comp == null ) {
             // added this check so that we send the event anyways, even if the mouse isn't over that portion.
