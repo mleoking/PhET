@@ -38,7 +38,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     public final EnergySkateParkModel energyModel;
     public final EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
     private final EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
-    private final BarChartDialog barChartDialog;
+    public final BarChartDialog barChartDialog;
     private final double floorY = 0.0;
     private final EnergySkateParkRecordableModel energyTimeSeriesModel;
     private final SkaterCharacterSet skaterCharacterSet = new SkaterCharacterSet();

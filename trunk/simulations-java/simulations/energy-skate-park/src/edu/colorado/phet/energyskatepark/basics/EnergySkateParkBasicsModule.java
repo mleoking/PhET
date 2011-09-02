@@ -33,7 +33,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public final String PARABOLA = "energy-skate-park/tracks/basics/parabola.esp";
     private static final Font CONTROL_FONT = new PhetFont( 16 );
 
-    public EnergySkateParkBasicsModule( String name, PhetFrame phetFrame ) {
+    public EnergySkateParkBasicsModule( String name, final PhetFrame phetFrame ) {
         super( name, phetFrame, new EnergySkateParkOptions() );
 
         //Don't allow users to apply rocket force with the keyboard
@@ -58,8 +58,19 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
                         }
                     } );
                 }} ),
+
+                //Button to show the bar graph
                 new TextButtonNode( "Bar Chart" ) {{
                     setFont( CONTROL_FONT );
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            setBarChartVisible( true );
+
+                            //Move the bar graph to the bottom right of the frame so it doesn't obscure the play area, and so it isn't too far from the play area
+                            //Or the button that launched it
+                            barChartDialog.setLocation( phetFrame.getX() + phetFrame.getWidth() - barChartDialog.getWidth(), phetFrame.getY() + phetFrame.getHeight() - barChartDialog.getHeight() );
+                        }
+                    } );
                 }}
         ), EnergySkateParkLookAndFeel.backgroundColor ) {{
 
