@@ -195,12 +195,11 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         };
     }
 
-    //Adds the fluid density control in the bottom left of the play area
+    //Adds the fluid density control in the bottom right of the play area
     protected void addFluidDensityControl( FluidPressureAndFlowModule<T> module ) {
         final FluidDensityControl<T> fluidDensityControl = new FluidDensityControl<T>( module );
         addChild( new FluidPressureAndFlowControlPanelNode( fluidDensityControl ) {{
-            final int inset = 10;
-            setOffset( inset, STAGE_SIZE.getHeight() - fluidDensityControl.getMaximumHeight() - inset );
+            setOffset( STAGE_SIZE.getWidth() - fluidDensityControl.getMaximumSize().getWidth() - INSET, STAGE_SIZE.getHeight() - fluidDensityControl.getMaximumSize().getHeight() - INSET );
         }} );
     }
 
