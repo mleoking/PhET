@@ -9,8 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.moleculeshapes.util.VoidNotifier;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.input.InputManager;
+import com.jme3.app.Application;
 import com.jme3.scene.Node;
 
 /**
@@ -21,22 +20,22 @@ public class SwingJMENode extends Node {
     private Dimension size = new Dimension();
     private HUDNode hudNode;
     private final JComponent component;
-    private final AssetManager assetManager;
-    private final InputManager inputManager;
+    private final Application app;
 
     public final VoidNotifier onResize = new VoidNotifier();
 
-    public SwingJMENode( final JComponent component, AssetManager assetManager, InputManager inputManager ) {
+    public SwingJMENode( final JComponent component, final Application app ) {
         this.component = component;
-        this.assetManager = assetManager;
-        this.inputManager = inputManager;
+        this.app = app;
         component.setSize( component.getPreferredSize() );
         component.setDoubleBuffered( false ); // avoids having the RepaintManager attempt to get the containing window (and throw a NPE)
         component.setOpaque( false );
 
         component.addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
-                onResize();
+                synchronized ( app ) {
+                    onResize();
+                }
             }
         } );
         onResize();
@@ -55,7 +54,7 @@ public class SwingJMENode extends Node {
                 hudNode.dispose();
             }
             size = component.getPreferredSize();
-            hudNode = new HUDNode( component, size.width, size.height, assetManager, inputManager );
+            hudNode = new HUDNode( component, size.width, size.height, app );
             attachChild( hudNode );
 
             // notify that we resized

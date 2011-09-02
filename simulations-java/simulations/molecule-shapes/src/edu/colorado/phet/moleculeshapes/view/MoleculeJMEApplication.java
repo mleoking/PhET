@@ -314,14 +314,14 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                     resetAll();
                 }
             } );
-        }}, assetManager, inputManager );
+        }}, this );
         getBackgroundGuiNode().attachChild( resetAllNode );
 
         /*---------------------------------------------------------------------------*
         * main control panel
         *----------------------------------------------------------------------------*/
         controlPanelNode = new MoleculeShapesControlPanel( this, realMoleculeOverlayNode );
-        controlPanel = new PiccoloJMENode( controlPanelNode, assetManager, inputManager );
+        controlPanel = new PiccoloJMENode( controlPanelNode, this );
         getBackgroundGuiNode().attachChild( controlPanel );
         controlPanel.onResize.addTarget( new Fireable<Void>() {
             public void fire( Void param ) {
@@ -335,7 +335,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule ), "Geometry Name" ) {{
             // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
             setOffset( 0, 10 );
-        }}, assetManager, inputManager );
+        }}, this );
         getBackgroundGuiNode().attachChild( namePanel );
     }
 

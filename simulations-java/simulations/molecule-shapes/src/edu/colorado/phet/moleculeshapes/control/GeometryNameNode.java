@@ -7,11 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -79,20 +77,12 @@ public class GeometryNameNode extends PNode {
         * visibility checkboxes
         *----------------------------------------------------------------------------*/
 
-        final PSwing molecularCheckbox = new PSwing( new PropertyCheckBox( "Molecule Geometry", MoleculeShapesApplication.showMolecularShapeName ) {{
-            setFont( new PhetFont( 14 ) );
-            setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
-            setOpaque( false );
-        }} ) {{
+        final PSwing molecularCheckbox = new PSwing( new MoleculeShapesPropertyCheckBox( "Molecule Geometry", MoleculeShapesApplication.showMolecularShapeName ) ) {{
             // center within it's "column"
             setOffset( ( MAX_SHAPE_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
         }};
 
-        PSwing electronCheckbox = new PSwing( new PropertyCheckBox( "Electron Geometry", MoleculeShapesApplication.showElectronShapeName ) {{
-            setFont( new PhetFont( 14 ) );
-            setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
-            setOpaque( false );
-        }} ) {{
+        PSwing electronCheckbox = new PSwing( new MoleculeShapesPropertyCheckBox( "Electron Geometry", MoleculeShapesApplication.showElectronShapeName ) ) {{
             // center within it's "column"
             setOffset( MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS + ( MAX_GEOMETRY_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
         }};
