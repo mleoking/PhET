@@ -12,6 +12,9 @@ public class IntroModule extends EnergySkateParkBasicsModule {
     public IntroModule( PhetFrame phetFrame ) {
         super( "Introduction", phetFrame );
 
+        //Don't allow the user to drag their own tracks in this module
+        getEnergySkateParkSimulationPanel().getRootNode().removeSplineToolbox();
+
         //Show the reset all button below the bottom control panel
         addResetAllButton( energyGraphControlPanel );
 

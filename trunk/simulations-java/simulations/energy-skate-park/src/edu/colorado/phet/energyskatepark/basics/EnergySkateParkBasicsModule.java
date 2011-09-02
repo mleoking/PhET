@@ -28,8 +28,6 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         super( name, phetFrame, new EnergySkateParkOptions() );
         setControlPanel( null );
 
-        getEnergySkateParkSimulationPanel().getRootNode().removeSplineToolbox();
-
         //Add the energy graph control panel
         energyGraphControlPanel = new ControlPanelNode( new VBox(
                 new PText( "Energy Graphs" ) {{setFont( new PhetFont( 16, true ) );}},
