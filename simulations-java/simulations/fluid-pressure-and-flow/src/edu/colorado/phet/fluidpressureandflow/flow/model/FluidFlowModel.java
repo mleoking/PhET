@@ -35,7 +35,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     public final FluxMeter fluxMeter = new FluxMeter( pipe );
 
     public FluidFlowModel() {
-        super( UnitSet.ENGLISH );
+        super( UnitSet.METRIC );
         getClock().addClockListener( new ClockAdapter() {
             @Override
             public void clockTicked( ClockEvent clockEvent ) {

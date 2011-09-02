@@ -36,7 +36,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         addChild( new SidePoolHeightReadoutNode( transform, module.model.getPool(), module.model.units ) );
 
         // Control Panel
-        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidPressureControlPanel<FluidPressureModel>( module ) ) {{
+        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidPressureControlPanel( module ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }};
         addChild( controlPanelNode );
