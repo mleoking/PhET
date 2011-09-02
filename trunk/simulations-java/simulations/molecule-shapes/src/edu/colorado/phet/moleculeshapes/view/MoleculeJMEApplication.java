@@ -23,6 +23,7 @@ import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import com.jme3.bounding.BoundingSphere;
@@ -317,11 +318,16 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         getBackgroundGuiNode().attachChild( resetAllNode );
 
         /*---------------------------------------------------------------------------*
-        * "new" control panel
+        * main control panel
         *----------------------------------------------------------------------------*/
         controlPanelNode = new MoleculeShapesControlPanel( this, realMoleculeOverlayNode );
         controlPanel = new PiccoloJMENode( controlPanelNode, assetManager, inputManager );
         getBackgroundGuiNode().attachChild( controlPanel );
+        controlPanel.onResize.addTarget( new Fireable<Void>() {
+            public void fire( Void param ) {
+                resizeDirty = true;
+            }
+        } );
 
         /*---------------------------------------------------------------------------*
         * "geometry name" panel
