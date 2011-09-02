@@ -21,7 +21,7 @@ import java.awt.*;
 public class Element {
 
     private final String symbol;
-    private final double radius; // picometers
+    private final double radius; // picometers (for a quick chart, see http://en.wikipedia.org/wiki/Atomic_radii_of_the_elements_(data_page) )
     private final double electronegativity; // dimensionless, see https://secure.wikimedia.org/wikipedia/en/wiki/Electronegativity
     private final double atomicWeight; // in atomic mass units (u). from http://www.webelements.com/periodicity/atomic_weight/
     private final Color color; // color used in visual representations
