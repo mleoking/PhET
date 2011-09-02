@@ -72,7 +72,6 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         energySkateParkSimulationPanel = new EnergySkateParkSimulationPanel( this );
         setSimulationPanel( energySkateParkSimulationPanel );
 
-
         barChartDialog = new BarChartDialog( phetFrame, EnergySkateParkStrings.getString( "plots.bar-graph" ), false, this );
         barChartDialog.setSize( 200, 625 );
         barChartDialog.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - barChartDialog.getWidth(), 0 );
