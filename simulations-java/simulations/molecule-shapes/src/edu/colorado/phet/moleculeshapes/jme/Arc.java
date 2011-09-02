@@ -18,7 +18,7 @@ public class Arc extends Mesh {
         Quaternion startToEnd = getRotationQuaternion( startDir, endDir );
 
         float[] array = new float[numVertices * 3];
-        short[] indices = new short[numSegments * 2];
+        short[] indices = new short[numSegments + 1];
 
         int i;
 
@@ -33,18 +33,11 @@ public class Arc extends Mesh {
             array[i + 2] = position.z;
         }
 
-        i = 0;
-        int k = 0;
-        for ( int j = 0; j < numSegments; j++ ) {
-            k = j;
-            indices[i] = (short) k;
-            i++;
-            k++;
-            indices[i] = (short) k;
-            i++;
+        for ( i = 0; i < indices.length; i++ ) {
+            indices[i] = (short) i;
         }
 
-        this.setMode( Mesh.Mode.Lines );
+        this.setMode( Mode.LineStrip );
         this.setBuffer( VertexBuffer.Type.Position, 3, array );
         this.setBuffer( VertexBuffer.Type.Index, 2, indices );//(spline.getControlPoints().size() - 1) * nbSubSegments * 2
         this.updateBound();

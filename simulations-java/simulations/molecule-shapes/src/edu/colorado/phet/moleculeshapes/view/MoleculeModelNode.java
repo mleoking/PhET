@@ -20,6 +20,8 @@ import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Listener;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import com.jme3.asset.AssetManager;
+import com.jme3.input.InputManager;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -38,6 +40,9 @@ public class MoleculeModelNode extends Node {
     private List<LonePairNode> lonePairNodes = new ArrayList<LonePairNode>();
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
     private List<Spatial> angleNodes = new ArrayList<Spatial>();
+
+    private int angleIndex = 0;
+    private List<ReadoutNode> angleReadouts = new ArrayList<ReadoutNode>();
 
     public MoleculeModelNode( final MoleculeModel molecule, final MoleculeJMEApplication app, final Camera camera ) {
         super( "Molecule Model" );
@@ -74,48 +79,54 @@ public class MoleculeModelNode extends Node {
     }
 
     private void addGroup( PairGroup group ) {
-        if ( group.isLonePair ) {
-            LonePairNode lonePairNode = new LonePairNode( group, app.getAssetManager() );
-            lonePairNodes.add( lonePairNode );
-            attachChild( lonePairNode );
+        synchronized ( app ) {
+            if ( group.isLonePair ) {
+                LonePairNode lonePairNode = new LonePairNode( group, app.getAssetManager() );
+                lonePairNodes.add( lonePairNode );
+                attachChild( lonePairNode );
+            }
+            else {
+                AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), app.getAssetManager() );
+                atomNodes.add( atomNode );
+                attachChild( atomNode );
+                rebuildBonds();
+                rebuildAngles();
+            }
         }
-        else {
-            AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), app.getAssetManager() );
-            atomNodes.add( atomNode );
-            attachChild( atomNode );
+    }
+
+    private void removeGroup( PairGroup group ) {
+        synchronized ( app ) {
+            if ( group.isLonePair ) {
+                for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
+                    // TODO: associate these more closely! (comparing positions for equality is bad)
+                    if ( lonePairNode.position == group.position ) {
+                        lonePairNodes.remove( lonePairNode );
+                        detachChild( lonePairNode );
+                    }
+                }
+            }
+            else {
+                for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
+                    // TODO: associate these more closely! (comparing positions for equality is bad)
+                    if ( atomNode.position == group.position ) {
+                        atomNodes.remove( atomNode );
+                        detachChild( atomNode );
+                    }
+                }
+            }
             rebuildBonds();
             rebuildAngles();
         }
     }
 
-    private void removeGroup( PairGroup group ) {
-        if ( group.isLonePair ) {
-            for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
-                // TODO: associate these more closely! (comparing positions for equality is bad)
-                if ( lonePairNode.position == group.position ) {
-                    lonePairNodes.remove( lonePairNode );
-                    detachChild( lonePairNode );
-                }
-            }
-        }
-        else {
-            for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
-                // TODO: associate these more closely! (comparing positions for equality is bad)
-                if ( atomNode.position == group.position ) {
-                    atomNodes.remove( atomNode );
-                    detachChild( atomNode );
-                }
-            }
-        }
-        rebuildBonds();
-        rebuildAngles();
-    }
-
     public void updateView() {
-        for ( BondNode bondNode : bondNodes ) {
-            bondNode.updateView();
+        synchronized ( app ) {
+            for ( BondNode bondNode : bondNodes ) {
+                bondNode.updateView();
+            }
+            rebuildAngles();
         }
-        rebuildAngles();
     }
 
     private void rebuildBonds() {
@@ -153,6 +164,9 @@ public class MoleculeModelNode extends Node {
         }
         angleNodes.clear();
 
+        // start handling angle nodes from the beginning
+        angleIndex = 0;
+
         // TODO: separate out bond angle feature
         if ( MoleculeShapesApplication.showBondAngles.get() ) {
             // iterate over all combinations of two pair groups
@@ -182,16 +196,64 @@ public class MoleculeModelNode extends Node {
                     float extensionFactor = 1.3f;
                     final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
 
+                    // TODO: i18n?
                     String labelText = angleFormat.format( Math.acos( aDir.dot( bDir ) ) * 180 / Math.PI ) + "°";
-                    PiccoloJMENode label = new PiccoloJMENode( new PText( labelText ) {{
-                        setFont( new PhetFont( 16 ) );
-                        setTextPaint( new Color( 1f, 1f, 1f, brightness ) );
-                    }}, app.getAssetManager(), app.getInputManager() ) {{
-                        setLocalTranslation( displayPoint.subtract( getWidth() / 2, getHeight() / 2, 0 ) );
-                    }};
-                    app.getGuiNode().attachChild( label );
-                    angleNodes.add( label );
+                    showAngleLabel( labelText, brightness, displayPoint );
                 }
+            }
+        }
+
+        removeRemainingLabels();
+    }
+
+    private void showAngleLabel( String string, float brightness, Vector3f displayPoint ) {
+        if ( angleIndex >= angleReadouts.size() ) {
+            angleReadouts.add( new ReadoutNode( new PText( "..." ), app.getAssetManager(), app.getInputManager() ) );
+        }
+        angleReadouts.get( angleIndex ).attach( string, brightness, displayPoint );
+        angleIndex++;
+    }
+
+    private void removeRemainingLabels() {
+        for ( int i = angleIndex; i < angleReadouts.size(); i++ ) {
+            angleReadouts.get( i ).detach();
+        }
+    }
+
+    /**
+     * Class for readouts. We need to reuse these, because they seem to hemorrhage texture memory otherwise (memory leak on our part???)
+     */
+    private class ReadoutNode extends PiccoloJMENode {
+        private final PText text;
+
+        private boolean attached = false;
+
+        private ReadoutNode( PText text, AssetManager assetManager, InputManager inputManager ) {
+            super( text, assetManager, inputManager );
+            this.text = text;
+
+            text.setFont( new PhetFont( 16 ) );
+        }
+
+        public void attach( String string, float brightness, Vector3f displayPoint ) {
+            if ( !text.getText().equals( string ) ) {
+                text.setText( string );
+            }
+            text.setTextPaint( new Color( 1f, 1f, 1f, brightness ) );
+            text.repaint();
+
+            setLocalTranslation( displayPoint.subtract( getWidth() / 2, getHeight() / 2, 0 ) );
+
+            if ( !attached ) {
+                attached = true;
+                app.getGuiNode().attachChild( this );
+            }
+        }
+
+        public void detach() {
+            if ( attached ) {
+                attached = false;
+                app.getGuiNode().detachChild( this );
             }
         }
     }
