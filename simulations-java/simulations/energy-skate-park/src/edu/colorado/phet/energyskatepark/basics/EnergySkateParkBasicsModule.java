@@ -68,6 +68,13 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
             } );
         }};
         energySkateParkSimulationPanel.getRootNode().addChild( energyGraphControlPanel );
+
+        //Move the legend out from behind the control panel
+        energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
+            public void apply() {
+                energySkateParkSimulationPanel.getRootNode().getLegend().translate( -energyGraphControlPanel.getFullBounds().getWidth() - INSET, 0 );
+            }
+        } );
     }
 
     //Load the specified track and set its roller coaster mode, used when the user presses different track selection buttons

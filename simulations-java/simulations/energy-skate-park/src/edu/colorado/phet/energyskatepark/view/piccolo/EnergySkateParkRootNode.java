@@ -488,4 +488,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public void updateBackground() {
         backgroundScreenNode.update();
     }
+
+    //Gets the legend that shows the different kinds of energy and their color
+    public EnergySkateParkLegend getLegend() {
+        return legend;
+    }
 }
