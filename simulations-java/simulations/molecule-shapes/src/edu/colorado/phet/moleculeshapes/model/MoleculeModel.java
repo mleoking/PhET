@@ -34,17 +34,20 @@ public class MoleculeModel {
             group.attractToIdealDistance( tpf, oldDistance );
         }
 
+        // attractive force to the correct position
+        double error = AttractorModel.applyAttractorForces( this, tpf );
+
+        // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
+        double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
+
         // repulsion forces
         for ( PairGroup group : groups ) {
             for ( PairGroup otherGroup : groups ) {
                 if ( otherGroup != group ) {
-                    group.repulseFrom( otherGroup, tpf );
+                    group.repulseFrom( otherGroup, tpf, trueLengthsRatioOverride );
                 }
             }
         }
-
-        // attractive force to the correct position
-        AttractorModel.applyAttractorForces( this, tpf );
     }
 
     public int getStericNumber() {
