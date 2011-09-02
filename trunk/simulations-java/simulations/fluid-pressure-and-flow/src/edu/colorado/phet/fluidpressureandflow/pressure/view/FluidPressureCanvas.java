@@ -47,7 +47,11 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
         for ( PressureSensor pressureSensor : module.model.getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, module.model.units, module.model.getPool(), visibleModelBounds ) );
+            addChild( new PressureSensorNode( transform, pressureSensor, module.model.units, module.model.getPool(), visibleModelBounds ) {{
+
+                //Since it is the focus of this tab, make the pressure sensor nodes larger
+                scale( 1.2 );
+            }} );
         }
 
         //Some nodes go behind the pool so that it looks like they submerge
