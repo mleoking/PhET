@@ -17,7 +17,6 @@ public class PairGroup {
     public static final double ELECTRON_PAIR_REPULSION_SCALE = 30000;
     public static final double JITTER_SCALE = 0.001;
     public static final double DAMPING_FACTOR = 0.1;
-    public static final double ATTRACTION_SCALE = 1.0;
 
     public final Property<ImmutableVector3D> position;
     public final Property<ImmutableVector3D> velocity = new Property<ImmutableVector3D>( new ImmutableVector3D() );
@@ -43,18 +42,34 @@ public class PairGroup {
         return bondOrder == 0 ? 1 : bondOrder;
     }
 
-    public void attractToDistance( double timeElapsed ) {
+    public void attractToIdealDistance( double timeElapsed, double oldDistance ) {
         if ( userControlled.get() ) {
             // don't process if being dragged
             return;
         }
 
+        double idealDistanceFromCenter = getIdealDistanceFromCenter();
+
+        /*---------------------------------------------------------------------------*
+        * prevent movement away from our ideal distance
+        *----------------------------------------------------------------------------*/
+        double currentError = Math.abs( position.get().magnitude() - idealDistanceFromCenter );
+        double oldError = Math.abs( oldDistance - idealDistanceFromCenter );
+        if ( currentError > oldError ) {
+            // our error is getting worse! for now, don't let us slide AWAY from the ideal distance ever
+            // set our distance to the old one, so it is easier to process
+            position.set( position.get().normalized().times( oldDistance ) );
+        }
+
+        /*---------------------------------------------------------------------------*
+        * use damped movement towards our ideal distance
+        *----------------------------------------------------------------------------*/
         ImmutableVector3D toCenter = position.get();
 
         double distance = toCenter.magnitude();
         ImmutableVector3D directionToCenter = toCenter.normalized();
 
-        double offset = getIdealDistanceFromCenter() - distance;
+        double offset = idealDistanceFromCenter - distance;
 
         // just modify position for now so we don't get any oscillations
         double ratioOfMovement = Math.pow( 0.1, 0.016 / timeElapsed ); // scale this exponentially by how much time has elapsed, so the more time taken, the faster we move towards the ideal distance
@@ -75,12 +90,16 @@ public class PairGroup {
 
         // mimic Coulomb's Law
         ImmutableVector3D coulombVelocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.magnitude() * delta.magnitude() ) );
-        addVelocity( coulombVelocityDelta.times( 1 ) );
+
+        // apply a nonphysical reduction on coulomb's law when the frame-rate is low, so we can avoid oscillation
+        double coulombDowngrade = Math.sqrt( ( timeElapsed > 0.017 ) ? 0.017 / timeElapsed : 1 ); // TODO: isolate the "standard" tpf?
+        addVelocity( coulombVelocityDelta.times( coulombDowngrade ) );
 
         /*---------------------------------------------------------------------------*
         * angle-based repulsion
         *----------------------------------------------------------------------------*/
 
+        /* kept for possible future tweaks
         double angle = Math.acos( position.get().normalized().dot( other.position.get().normalized() ) );
 
         ImmutableVector3D pushDirection = getTangentDirection( position.get(), delta ).normalized();
@@ -90,6 +109,7 @@ public class PairGroup {
         double pushFactor = getPushFactor() * other.getPushFactor();
         ImmutableVector3D angleVelocityDelta = pushDirection.times( anglePushEstimate * pushFactor );
         addVelocity( angleVelocityDelta.times( 0 ) );
+        */
     }
 
     public void addVelocity( ImmutableVector3D velocityChange ) {
