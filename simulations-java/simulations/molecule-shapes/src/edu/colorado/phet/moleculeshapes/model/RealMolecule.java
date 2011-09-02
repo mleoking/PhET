@@ -133,11 +133,10 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
-    public static final RealMolecule BERYLLIUM_FLUORIDE = new RealMolecule( "BeF2", 0 ) {{ // TODO: more accurate numbers?
-        addCentralAtom( new Atom3D( Be, new ImmutableVector3D( 2.866, 0, 0 ) ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 3.732, 0, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 2.00, 0, 0 ) ), 1 );
-        centerOnCentralAtom();
+    public static final RealMolecule BERYLLIUM_CHLORIDE = new RealMolecule( "BeCl2", 0 ) {{ // TODO: more accurate numbers?
+        addCentralAtom( new Atom3D( Be, new ImmutableVector3D() ) );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.220000, 0, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.220000, 0, 0 ) ), 1 );
     }};
 
     public static final RealMolecule CARBON_DISULFATE = new RealMolecule( "CS2", 0 ) {{
@@ -196,13 +195,13 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
-//    public static final RealMolecule SULFUR_TETRAFLUORIDE = new RealMolecule( "SF4", 1 ) {{
-//        addCentralAtom( new Atom3D( S, new ImmutableVector3D() ) );
-//        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.487900, 0.881900, 1.212500 ) ), 1 );
-//        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.725700, -1.288900, 0.546000 ) ), 1 );
-//        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.004000, 0.833100, -0.885500 ) ), 1 );
-//        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.241900, -0.426100, -0.873100 ) ), 1 );
-//    }};
+    public static final RealMolecule SULFUR_TETRAFLUORIDE = new RealMolecule( "SF4", 1 ) {{
+        addCentralAtom( new Atom3D( S, new ImmutableVector3D() ) );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.000000, 1.740000, 0.000000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.507000, -0.870000, 0.000000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.000000, 0.000000, 1.740000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.000000, 0.000000, -1.740000 ) ), 1 );
+    }};
 
     public static final RealMolecule XENON_DIOXYDIFLUORIDE = new RealMolecule( "XeO2F2", 1 ) {{
         addCentralAtom( new Atom3D( Element.Xe, new ImmutableVector3D( -1.187300, 24.900400, 1.887500 ) ) );
@@ -212,16 +211,6 @@ public class RealMolecule extends Molecule {
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( -2.126800, 23.895900, 0.871300 ) ), 2 );
         centerOnCentralAtom();
     }};
-
-//    public static final RealMolecule IODINE_TETRAFLUORIDE = new RealMolecule( "IF4-", 1 ) {{
-//        addCentralAtom( new Atom3D( I, new ImmutableVector3D( 3.981300, 1.196400, 0.737100 ) ) );
-//        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.166000, 1.854000, -0.066000 ) ), 1 );
-//        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.567000, -0.841000, 0.014000 ) ), 1 );
-//        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.101000, 0.161000, 1.752000 ) ), 1 );
-//        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.076000, 0.043000, -1.765000 ) ), 1 );
-//
-//        centerOnCentralAtom();
-//    }};
 
     public static final RealMolecule BROMINE_TRIFLUORIDE = new RealMolecule( "BrF3", 2 ) {{
         addCentralAtom( new Atom3D( Br, new ImmutableVector3D( 0.596100, 0.310400, 0.075500 ) ) );
@@ -253,16 +242,35 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
+    public static final RealMolecule SULFUR_HEXAFLUORIDE = new RealMolecule( "SF6", 0 ) {{
+        addCentralAtom( new Atom3D( S, new ImmutableVector3D( -1.679000, -0.674000, -1.012000 ) ) );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -2.433000, -1.012000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.080000, -0.674000, -1.012000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -0.674000, -2.771000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, 1.085000, -1.012000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -3.438000, -0.674000, -1.012000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -0.674000, 0.748000 ) ), 1 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule BROMINE_PENTAFLUORIDE = new RealMolecule( "BrF5", 1 ) {{
+        addCentralAtom( new Atom3D( B, new ImmutableVector3D( 0.042300, 0.073900, 0.191700 ) ) );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.440000, -0.261000, 1.322100 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.168400, -1.700800, -0.222300 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.332400, 0.086700, -1.013900 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.107800, -0.483500, 1.499300 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.240300, 0.306100, -1.170200 ) ), 1 );
+        centerOnCentralAtom();
+    }};
+
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
             CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE,
             FORMALDEHYDE, AMMONIA, METHANE, DICHLORODIFLUOROMETHANE, HYDROGEN_CYANIDE,
-            BERYLLIUM_FLUORIDE, CARBON_DISULFATE, SULFUR_TRIOXIDE, SILICON_TETRACHLORIDE,
+            BERYLLIUM_CHLORIDE, CARBON_DISULFATE, SULFUR_TRIOXIDE, SILICON_TETRACHLORIDE,
             PHOSPHORUS_TRIFLUORIDE, FLUORINE_MONOXIDE, PHOSPHORUS_PENTAFLUORIDE, SULFUR_OXIDE_TETRAFLUORIDE,
-//            SULFUR_TETRAFLUORIDE,
-            XENON_DIOXYDIFLUORIDE,
-//            IODINE_TETRAFLUORIDE,
-            BROMINE_TRIFLUORIDE,
-            CHLORINE_TRIFLUORIDE, XENON_DIFLUORIDE, TRIIODIDE
+            SULFUR_TETRAFLUORIDE, XENON_DIOXYDIFLUORIDE, BROMINE_TRIFLUORIDE,
+            CHLORINE_TRIFLUORIDE, XENON_DIFLUORIDE, TRIIODIDE, SULFUR_HEXAFLUORIDE,
+            BROMINE_PENTAFLUORIDE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
