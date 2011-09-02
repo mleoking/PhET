@@ -1,3 +1,4 @@
+Water tower: Added drag handles onto the hose and nozzle
 Water tower: Made the hose draggable
 Water tower: Added a nozzle graphic for the hose
 Moved the water tower slightly to the left
