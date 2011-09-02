@@ -77,44 +77,51 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
         //Compute the velocity of water leaving the water tower at the bottom from Toricelli's theorem, one of the main learning goals of this tab
         final double waterHeight = waterTower.getWaterLevel();
-        double velocity = !hose.enabled.get() ? sqrt( 2 * g * waterHeight ) : sqrt( 2 * g * ( waterHeight + waterTower.tankBottomCenter.get().getY() ) );
+        double velocity = !hose.enabled.get() ? sqrt( 2 * g * waterHeight ) : sqrt( 2 * g * ( waterHeight + waterTower.tankBottomCenter.get().getY() - hose.y.get() ) );
 
-        //Determine how much fluid should leave, and how much will be left
-        //Since water is incompressible, the volume that can flow out per second is proportional to the expelled velocity
-        double waterVolumeExpelled = velocity / 10;
-        double remainingVolume = waterTower.fluidVolume.get();
+        //If the user moved the hose above the water level, then do not let any water flow out of the hose
+        if ( velocity > 0 ) {
 
-        //the decrease in volume of the water tower should be proportional to the velocity at the output hole
-        double dropVolume = remainingVolume > waterVolumeExpelled ? waterVolumeExpelled : remainingVolume;
-        double origFluidVolume = waterTower.fluidVolume.get();
+            //Determine how much fluid should leave, and how much will be left
+            //Since water is incompressible, the volume that can flow out per second is proportional to the expelled velocity
+            double waterVolumeExpelled = velocity / 10;
+            double remainingVolume = waterTower.fluidVolume.get();
 
-        //Handle any water that should leak out
-        if ( waterTower.isHoleOpen() && remainingVolume > 0 ) {
+            //the decrease in volume of the water tower should be proportional to the velocity at the output hole
+            double dropVolume = remainingVolume > waterVolumeExpelled ? waterVolumeExpelled : remainingVolume;
+            double origFluidVolume = waterTower.fluidVolume.get();
 
-            //Create the water drop
-            double radius = Math.pow( dropVolume * 3.0 / 4.0 / Math.PI, 1.0 / 3.0 );
-            double waterDropY = waterTower.getHoleLocation().getY() + random.nextGaussian() * 0.04 + radius;
-            if ( waterDropY + radius > waterTower.getWaterLevel() + waterTower.getTankShape().getY() ) {
+            //Handle any water that should leak out
+            if ( waterTower.isHoleOpen() && remainingVolume > 0 ) {
 
-                //shift up a bit, otherwise looks like it's coming off the bottom of the outside of the tank
-                waterDropY = waterTower.getWaterLevel() + waterTower.getTankShape().getY() - radius + 0.1;
+                //Create the water drop
+                double radius = Math.pow( dropVolume * 3.0 / 4.0 / Math.PI, 1.0 / 3.0 );
+                double waterDropY = waterTower.getHoleLocation().getY() + random.nextGaussian() * 0.04 + radius;
+                if ( waterDropY + radius > waterTower.getWaterLevel() + waterTower.getTankShape().getY() ) {
+
+                    //shift up a bit, otherwise looks like it's coming off the bottom of the outside of the tank
+                    waterDropY = waterTower.getWaterLevel() + waterTower.getTankShape().getY() - radius + 0.1;
+                }
+
+                //Create a water drop either at the water tower opening or at the opening of the hose
+                final WaterDrop drop = !hose.enabled.get() ?
+                                       new WaterDrop( new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterDropY ), new ImmutableVector2D( velocity, 0 ), dropVolume, true ) :
+                                       new WaterDrop( new ImmutableVector2D( hose.outputPoint.get().getX() + random.nextGaussian() * 0.04, hose.outputPoint.get().getY() ), parseAngleAndMagnitude( velocity, hose.angle.get() ), dropVolume, false );
+
+                //Add the drop to the list and notify listeners
+                waterTowerDrops.add( drop );
+                for ( VoidFunction1<WaterDrop> dropAddedListener : dropAddedListeners ) {
+                    dropAddedListener.apply( drop );
+                }
+
+                //Decrease the volume of the water tower accordingly
+                waterTower.setFluidVolume( waterTower.fluidVolume.get() - drop.getVolume() );
             }
-
-            //Create a water drop either at the water tower opening or at the opening of the hose
-            final WaterDrop drop = !hose.enabled.get() ?
-                                   new WaterDrop( new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterDropY ), new ImmutableVector2D( velocity, 0 ), dropVolume, true ) :
-                                   new WaterDrop( new ImmutableVector2D( hose.outputPoint.getX() + random.nextGaussian() * 0.04, 0 ), parseAngleAndMagnitude( velocity, hose.angle.get() ), dropVolume, false );
-
-            //Add the drop to the list and notify listeners
-            waterTowerDrops.add( drop );
-            for ( VoidFunction1<WaterDrop> dropAddedListener : dropAddedListeners ) {
-                dropAddedListener.apply( drop );
-            }
-
-            //Decrease the volume of the water tower accordingly
-            waterTower.setFluidVolume( waterTower.fluidVolume.get() - drop.getVolume() );
+            return origFluidVolume;
         }
-        return origFluidVolume;
+        else {
+            return waterTower.fluidVolume.get();
+        }
     }
 
     //Perform any model updates related to the faucet, creating new drops to fall into the water tower and propagating them
