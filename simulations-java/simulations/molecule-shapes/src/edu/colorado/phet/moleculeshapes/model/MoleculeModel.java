@@ -27,16 +27,23 @@ public class MoleculeModel {
     }
 
     public void update( final float tpf ) {
+        // move based on velocity
         for ( PairGroup group : groups ) {
-            // run our fake physics
+            double oldDistance = group.position.get().magnitude();
             group.stepForward( tpf );
+            group.attractToIdealDistance( tpf, oldDistance );
+        }
+
+        // repulsion forces
+        for ( PairGroup group : groups ) {
             for ( PairGroup otherGroup : groups ) {
                 if ( otherGroup != group ) {
                     group.repulseFrom( otherGroup, tpf );
                 }
             }
-            group.attractToDistance( tpf );
         }
+
+        // attractive force to the correct position
         AttractorModel.applyAttractorForces( this, tpf );
     }
 
