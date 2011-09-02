@@ -45,14 +45,16 @@ public class HoseNode extends PNode {
 
         //Create the node that shows the nozzle and allows the user to rotate it
         nozzleImageNode = new PImage( BufferedImageUtils.rescaleYMaintainAspectRatio( NOZZLE, (int) transform.modelToViewDeltaY( -hose.nozzleHeight ) ) ) {{
-            hose.angle.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double angle ) {
-                    final ImmutableVector2D origin = new ImmutableVector2D( transform.modelToView( hose.outputPoint.toPoint2D() ) );
+
+            //When the hose angle or output point change, update the location and orientation of the nozzle image
+            new RichSimpleObserver() {
+                @Override public void update() {
+                    final ImmutableVector2D origin = new ImmutableVector2D( transform.modelToView( hose.outputPoint.get().toPoint2D() ) );
                     setTransform( new AffineTransform() );
                     setOffset( origin.toPoint2D().getX() - getFullBounds().getWidth() / 2, origin.toPoint2D().getY() );
                     rotateAboutPoint( Math.PI / 2 - hose.angle.get(), getFullBounds().getWidth() / 2, 0 );
                 }
-            } );
+            }.observe( hose.angle, hose.outputPoint );
 
             addInputEventListener( new CursorHandler() );
 
@@ -68,10 +70,10 @@ public class HoseNode extends PNode {
 
                 //Find the angle about the center of rotation
                 private double getAngle( PInputEvent event ) {
-                    return new ImmutableVector2D( hose.outputPoint.toPoint2D(), transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
+                    return new ImmutableVector2D( hose.outputPoint.get().toPoint2D(), transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
                 }
 
-                //Drag the prism to rotate it
+                //Drag the nozzle to rotate it
                 public void mouseDragged( PInputEvent event ) {
                     double angle = getAngle( event );
                     final double delta = angle - previousAngle;
@@ -89,6 +91,7 @@ public class HoseNode extends PNode {
             } );
         }};
 
+        //The graphic for the hose itself
         addChild( new PhetPPath( Color.green, new BasicStroke( 1 ), Color.darkGray ) {{
             new RichSimpleObserver() {
                 @Override public void update() {
@@ -117,52 +120,23 @@ public class HoseNode extends PNode {
                     //Wrapping in an area gets rid of a kink when the water tower is low
                     setPathTo( new Area( new BasicStroke( (float) hoseWidth, CAP_BUTT, JOIN_MITER ).createStrokedShape( transform.modelToView( p.getGeneralPath() ) ) ) );
                 }
-            }.observe( hose.attachmentPoint, hose.angle );
+            }.observe( hose.attachmentPoint, hose.angle, hose.y );
+
+            //Make it possible to drag hose itself to change the elevation
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent event ) {
+                    double modelDelta = transform.viewToModelDeltaY( event.getDeltaRelativeTo( getParent() ).getHeight() );
+                    hose.y.set( MathUtil.clamp( 0, hose.y.get() + modelDelta, 30 ) );
+                }
+            } );
+
         }} );
         hose.enabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );
             }
         } );
-
         addChild( nozzleImageNode );
-
-//        //Show an arrow that lets the user change the angle of the hose
-//        //Fill with an invisible color so that it is see through but still draggable
-//        addChild( new PhetPPath( new Color( 0, 0, 0, 0 ), new BasicStroke( 1 ), Color.darkGray ) {{
-//            hose.angle.addObserver( new VoidFunction1<Double>() {
-//                public void apply( Double angle ) {
-//                    final ImmutableVector2D origin = getViewOutputPoint();
-//                    setPathTo( new Arrow( origin.toPoint2D(), getViewDirection().times( 50 ).plus( origin ).toPoint2D(), 10, 10, 5 ).getShape() );
-//                }
-//            } );
-//            addInputEventListener( new CursorHandler() );
-//
-//            //Make it possible to drag the angle of the hose
-//            //Copied from PrismNode
-//            addInputEventListener( new PBasicInputEventHandler() {
-//                private double previousAngle;
-//
-//                //Store the original angle since rotations are computed as deltas between each event
-//                public void mousePressed( PInputEvent event ) {
-//                    previousAngle = getAngle( event );
-//                }
-//
-//                //Find the angle about the center of rotation
-//                private double getAngle( PInputEvent event ) {
-//                    return new ImmutableVector2D( hose.outputPoint.toPoint2D(), transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
-//                }
-//
-//                //Drag the prism to rotate it
-//                public void mouseDragged( PInputEvent event ) {
-//                    double angle = getAngle( event );
-//                    final double delta = angle - previousAngle;
-//                    final double desiredAngle = hose.angle.get() + delta;
-//                    final double newAngle = MathUtil.clamp( 0, desiredAngle, Math.PI / 2 );
-//                    hose.angle.set( newAngle );
-//                    previousAngle = angle;
-//                }
-//            } );
-//        }} );
     }
 }

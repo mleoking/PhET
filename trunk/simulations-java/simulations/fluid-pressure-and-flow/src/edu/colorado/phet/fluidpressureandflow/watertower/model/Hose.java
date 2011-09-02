@@ -2,8 +2,10 @@
 package edu.colorado.phet.fluidpressureandflow.watertower.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 
@@ -24,7 +26,7 @@ public class Hose {
     public final ObservableProperty<ImmutableVector2D> attachmentPoint;
 
     //The place where the water comes out, tuned based on the curves in the HoseNode so the path is smooth and natural-looking
-    public final ImmutableVector2D outputPoint = new ImmutableVector2D( 13.275 + 4, 0 );
+    public final CompositeProperty<ImmutableVector2D> outputPoint;
 
     //Width of the hole for the attachment point in meters
     public final double holeSize;
@@ -35,6 +37,13 @@ public class Hose {
     public Hose( ObservableProperty<ImmutableVector2D> attachmentPoint, double holeSize ) {
         this.attachmentPoint = attachmentPoint;
         this.holeSize = holeSize;
+
+        //The output point is at an arbitrary fixed x location, and the y-value is specified by another property
+        outputPoint = new CompositeProperty<ImmutableVector2D>( new Function0<ImmutableVector2D>() {
+            public ImmutableVector2D apply() {
+                return new ImmutableVector2D( 17.275, y.get() );
+            }
+        }, y );
     }
 
     public void reset() {
@@ -43,6 +52,6 @@ public class Hose {
     }
 
     public ImmutableVector2D getNozzleInputPoint() {
-        return parseAngleAndMagnitude( nozzleHeight, angle.get() + Math.PI ).plus( outputPoint );
+        return parseAngleAndMagnitude( nozzleHeight, angle.get() + Math.PI ).plus( outputPoint.get() );
     }
 }
