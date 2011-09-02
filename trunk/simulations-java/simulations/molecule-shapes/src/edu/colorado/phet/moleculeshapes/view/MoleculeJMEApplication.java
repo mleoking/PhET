@@ -53,12 +53,10 @@ import com.jme3.system.JmeCanvasContext;
  * Use jme3 to show a rotating molecule
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
- * TODO: collision-lab-like button unpress failures?
  * TODO: with 6 triple bonds, damping can become an issue? can cause one to fly out of range!!!
  * TODO: potential listener leak with bond angles
  * TODO: electron geometry name repaint issue - check threading and repaint()
  * TODO: positioning bug for real molecules label when middle-clicking atoms
- * TODO: bug: any mouse-up on reset button triggers reset!
  * <p/>
  * NOTES:
  * TODO: it's weird to drag out an invisible lone pair
