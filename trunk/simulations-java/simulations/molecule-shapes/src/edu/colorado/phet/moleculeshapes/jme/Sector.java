@@ -17,38 +17,30 @@ public class Sector extends Mesh {
         // figure out the quaternion rotation from start to end
         Quaternion startToEnd = Arc.getRotationQuaternion( startDir, endDir );
 
-        float[] array = new float[numVertices * 3]; // +1 for origin
-        short[] indices = new short[numTriangles * 2 + 1];
+        float[] vertices = new float[numVertices * 3]; // +1 for origin
+        short[] indices = new short[numTriangles * 3];
 
-        array[0] = array[1] = array[2] = 0; // origin
+        vertices[0] = vertices[1] = vertices[2] = 0; // origin
 
-        int i;
-        for ( i = 3; i < array.length - 3; i += 3 ) {
-            float ratio = ( (float) i - 3 ) / ( array.length - 6 ); // zero to 1
+        for ( int edgeIndex = 0; edgeIndex < numEdgeVertices; edgeIndex++ ) {
+            float ratio = ( (float) edgeIndex ) / ( numEdgeVertices - 1 ); // zero to 1
 
             // spherical linear interpolation (slerp) from start to end
             Vector3f position = new Quaternion().slerp( Quaternion.IDENTITY, startToEnd, ratio ).mult( startDir ).mult( radius );
 
-            array[i] = position.x;
-            array[i + 1] = position.y;
-            array[i + 2] = position.z;
+            int baseIndex = ( edgeIndex + 1 ) * 3; // allow one for the zeros (origin)
+            vertices[baseIndex] = position.x;
+            vertices[baseIndex + 1] = position.y;
+            vertices[baseIndex + 2] = position.z;
         }
 
-        indices[0] = (short) 0;
-        i = 1;
-        int k;
-        for ( int j = 0; j < numTriangles; j++ ) {
-            k = j + 1;
-            indices[i] = (short) k;
-            i++;
-            k++;
-            indices[i] = (short) k;
-            i++;
+        for ( int i = 0; i < indices.length; i++ ) {
+            indices[i] = (short) ( ( i % 3 + i / 3 ) * ( i % 3 ) * ( 3 - i % 3 ) / 2 ); // an exercise left to the reader
         }
 
-        this.setMode( Mode.TriangleFan );
-        this.setBuffer( VertexBuffer.Type.Position, 3, array );
-        this.setBuffer( VertexBuffer.Type.Index, 2, indices );//(spline.getControlPoints().size() - 1) * nbSubSegments * 2
+        this.setMode( Mode.Triangles ); // TODO: get Mode.TriangleStrip working?
+        this.setBuffer( VertexBuffer.Type.Position, 3, vertices );
+        this.setBuffer( VertexBuffer.Type.Index, 3, indices );//(spline.getControlPoints().size() - 1) * nbSubSegments * 2
         this.updateBound();
         this.updateCounts();
     }

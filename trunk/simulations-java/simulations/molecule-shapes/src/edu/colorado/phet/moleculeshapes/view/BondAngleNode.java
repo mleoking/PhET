@@ -14,6 +14,8 @@ import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.ANGLE_PRECISION;
+
 class BondAngleNode extends Node {
     private Vector3f center;
     private Vector3f midpoint;
@@ -27,7 +29,7 @@ class BondAngleNode extends Node {
         Vector3f a = JmeUtils.convertVector( aDir );
         Vector3f b = JmeUtils.convertVector( bDir );
 
-        Arc arc = new Arc( a, b, radius, 20 ) {{
+        Arc arc = new Arc( a, b, radius, ANGLE_PRECISION ) {{
             setLineWidth( 2 );
         }};
 
@@ -51,10 +53,11 @@ class BondAngleNode extends Node {
         }};
 
         // do two swoops for transparent two-sidedness
-        attachChild( new Geometry( "Bond Sector A=>B", new Sector( a, b, radius, 20 ) ) {{
+        // TODO: find which one is pointing towards the camera, and render only one?
+        attachChild( new Geometry( "Bond Sector A=>B", new Sector( a, b, radius, ANGLE_PRECISION ) ) {{
             setMaterial( sectorMaterial );
         }} );
-        attachChild( new Geometry( "Bond Sector B=>A", new Sector( b, a, radius, 20 ) ) {{
+        attachChild( new Geometry( "Bond Sector B=>A", new Sector( b, a, radius, ANGLE_PRECISION ) ) {{
             setMaterial( sectorMaterial );
         }} );
 
