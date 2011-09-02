@@ -27,7 +27,7 @@ public class FPAFFaucetNode extends FaucetNode {
 
         //Manually tuned to fit nicely in the scene
         setScale( 0.7 );
-        translate( 203, 5 );
+        translate( 165, 5 );
 
         //Radio buttons to choose between automatic and manual control
         //Add as a child of the faucetImageNode so they will move and scale with it, since they are fitted to the pipe itself
