@@ -114,7 +114,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         addClockControls( module );
 
         //Add a control for viewing and changing the fluid flow rate
-        addChild( new FluidPressureAndFlowControlPanelNode( new FluidFlowControl( module ) ) {{
+        addChild( new FluidPressureAndFlowControlPanelNode( new FluidFlowRateControl( module ) ) {{
             setOffset( 10, 10 );
         }} );
 

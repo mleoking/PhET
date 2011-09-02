@@ -25,6 +25,7 @@ public class FluidPressureAndFlowResources {
         public static final String DOTS = RESOURCES.getLocalizedString( "dots" );
         public static final String ENGLISH = RESOURCES.getLocalizedString( "english" );
         public static final String FLOW = RESOURCES.getLocalizedString( "flow" );
+        public static final String FLOW_RATE = RESOURCES.getLocalizedString( "flowRate" );
         public static final String FLUID_DENSITY = RESOURCES.getLocalizedString( "fluidDensity" );
         public static final String FLUX = RESOURCES.getLocalizedString( "flux" );
         public static final String FLUX_METER = RESOURCES.getLocalizedString( "fluxMeter" );
@@ -46,7 +47,6 @@ public class FluidPressureAndFlowResources {
         public static final String PRESSURE = RESOURCES.getLocalizedString( "pressure" );
         public static final String PSI = RESOURCES.getLocalizedString( "psi" );
         public static final String QUESTION_MARK = RESOURCES.getLocalizedString( "questionMark" );
-        public static final String RATE = RESOURCES.getLocalizedString( "rate" );
         public static final String RATE_UNITS_ENGLISH = RESOURCES.getLocalizedString( "rateUnitsEnglish" );
         public static final String RATE_UNITS_METRIC = RESOURCES.getLocalizedString( "rateUnitsMetric" );
         public static final String RESET = RESOURCES.getLocalizedString( "reset" );

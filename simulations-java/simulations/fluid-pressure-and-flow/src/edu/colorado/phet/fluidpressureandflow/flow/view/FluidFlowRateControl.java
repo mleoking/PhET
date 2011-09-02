@@ -11,7 +11,7 @@ import edu.colorado.phet.fluidpressureandflow.common.view.TickLabel;
 import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.FLOW;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.FLOW_RATE;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 
@@ -20,8 +20,8 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.
  *
  * @author Sam Reid
  */
-public class FluidFlowControl extends PNode {
-    public FluidFlowControl( final FluidFlowModule module ) {
+public class FluidFlowRateControl extends PNode {
+    public FluidFlowRateControl( final FluidFlowModule module ) {
 
         //Create one slider for each set of user-selectable units, and only show one at a time
         class UnitBasedSliderControl extends SliderControl {
@@ -36,7 +36,7 @@ public class FluidFlowControl extends PNode {
         }
 
         //Create and add the slider controls
-        addChild( new UnitBasedSliderControl( FLOW, ENGLISH ) );
-        addChild( new UnitBasedSliderControl( FLOW, METRIC ) );
+        addChild( new UnitBasedSliderControl( FLOW_RATE, ENGLISH ) );
+        addChild( new UnitBasedSliderControl( FLOW_RATE, METRIC ) );
     }
 }
