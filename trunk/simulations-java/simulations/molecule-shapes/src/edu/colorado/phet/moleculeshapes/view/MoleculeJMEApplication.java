@@ -54,7 +54,6 @@ import com.jme3.system.JmeCanvasContext;
  * Use jme3 to show a rotating molecule
  * TODO: add area for "bond angles" checkbox
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
- * TODO: minor bug at low frame rate quick-clicking bond type nodes
  * TODO: electron geometry name repaint issue - check threading and repaint()
  * TODO: positioning bug for real molecules label when middle-clicking atoms
  * TODO: bond angles off when lone pairs are involved
@@ -118,6 +117,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private boolean dragging = false; // keeps track of the drag state
     private DragMode dragMode = DragMode.MODEL_ROTATE;
     private PairGroup draggedParticle = null;
+    private boolean globalLeftMouseDown = false; // keep track of the LMB state, since we need to deal with a few synchronization issues
 
     /*---------------------------------------------------------------------------*
     * positioning
@@ -178,35 +178,13 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
                             // on left mouse button change
                             if ( name.equals( MAP_LMB ) ) {
+                                globalLeftMouseDown = isMouseDown;
 
                                 if ( isMouseDown ) {
-                                    // for dragging, ignore mouse presses over the HUD
-                                    Component componentUnderPointer = getComponentUnderPointer( Mouse.getX(), Mouse.getY() );
-                                    boolean mouseOverInterface = componentUnderPointer != null;
-                                    if ( !mouseOverInterface ) {
-                                        dragging = true;
-
-                                        PairGroup pair = getElectronPairUnderPointer();
-                                        if ( pair != null ) {
-                                            // we are over a pair group, so start the drag on it
-                                            dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
-                                            draggedParticle = pair;
-                                            pair.userControlled.set( true );
-                                        }
-                                        else {
-                                            // set up default drag mode
-                                            dragMode = DragMode.MODEL_ROTATE;
-                                        }
-                                    }
+                                    onLeftMouseDown();
                                 }
                                 else {
-                                    // not dragging.
-                                    dragging = false;
-
-                                    // release an electron pair if we were dragging it
-                                    if ( dragMode == DragMode.PAIR_FRESH_PLANAR || dragMode == DragMode.PAIR_EXISTING_SPHERICAL ) {
-                                        draggedParticle.userControlled.set( false );
-                                    }
+                                    onLeftMouseUp();
                                 }
                             }
 
@@ -234,6 +212,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
                         if ( dragging ) {
                             synchronized ( MoleculeJMEApplication.this ) {
+
+                                // function that updates a quaternion in-place, by adding the necessary rotation in, multiplied by the scale
                                 final VoidFunction2<Quaternion, Float> updateQuaternion = new VoidFunction2<Quaternion, Float>() {
                                     public void apply( Quaternion quaternion, Float scale ) {
                                         if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
@@ -250,6 +230,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                                         }
                                     }
                                 };
+
                                 switch( dragMode ) {
                                     case MODEL_ROTATE:
                                         updateQuaternion.apply( rotation, MOUSE_SCALE );
@@ -342,6 +323,63 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         dragMode = DragMode.REAL_MOLECULE_ROTATE;
     }
 
+    private void onLeftMouseDown() {
+        // for dragging, ignore mouse presses over the HUD
+        Component componentUnderPointer = getComponentUnderPointer( Mouse.getX(), Mouse.getY() );
+        boolean mouseOverInterface = componentUnderPointer != null;
+        if ( !mouseOverInterface ) {
+            dragging = true;
+
+            PairGroup pair = getElectronPairUnderPointer();
+            if ( pair != null ) {
+                // we are over a pair group, so start the drag on it
+                dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
+                draggedParticle = pair;
+                pair.userControlled.set( true );
+            }
+            else {
+                // set up default drag mode
+                dragMode = DragMode.MODEL_ROTATE;
+            }
+        }
+    }
+
+    private void onLeftMouseUp() {
+        // not dragging anymore
+        dragging = false;
+
+        // release an electron pair if we were dragging it
+        if ( dragMode == DragMode.PAIR_FRESH_PLANAR || dragMode == DragMode.PAIR_EXISTING_SPHERICAL ) {
+            draggedParticle.userControlled.set( false );
+        }
+    }
+
+    public synchronized void startNewInstanceDrag( int bondOrder ) {
+        // sanity check
+        if ( !molecule.wouldAllowBondOrder( bondOrder ) ) {
+            // don't add to the molecule if it is full
+            return;
+        }
+
+        Vector3f localPosition = getPlanarMoleculeCursorPosition();
+
+        PairGroup pair = new PairGroup( JmeUtils.convertVector( localPosition ), bondOrder, true );
+        molecule.addPair( pair );
+
+        // set up dragging information
+        dragging = true;
+        dragMode = DragMode.PAIR_FRESH_PLANAR;
+        draggedParticle = pair;
+
+        /*
+         * If the left mouse button is not down, simulate a mouse-up. This is needed due to threading issues,
+         * since if you do an "instant" mouse down/up, they both get processed before this is called.
+         */
+        if ( !globalLeftMouseDown ) {
+            onLeftMouseUp();
+        }
+    }
+
     private static void addLighting( Node node ) {
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
@@ -388,24 +426,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         MoleculeShapesApplication.showElectronShapeName.reset();
         MoleculeShapesApplication.showMolecularShapeName.reset();
         showLonePairs.reset();
-    }
-
-    public synchronized void startNewInstanceDrag( int bondOrder ) {
-        // sanity check
-        if ( !molecule.wouldAllowBondOrder( bondOrder ) ) {
-            // don't add to the molecule if it is full
-            return;
-        }
-
-        Vector3f localPosition = getPlanarMoleculeCursorPosition();
-
-        PairGroup pair = new PairGroup( JmeUtils.convertVector( localPosition ), bondOrder, true );
-        molecule.addPair( pair );
-
-        // set up dragging information
-        dragging = true;
-        dragMode = DragMode.PAIR_FRESH_PLANAR;
-        draggedParticle = pair;
     }
 
     public Vector3f getPlanarMoleculeCursorPosition() {
