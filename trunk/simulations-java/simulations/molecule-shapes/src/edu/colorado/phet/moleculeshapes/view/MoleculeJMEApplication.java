@@ -65,18 +65,6 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: double-check naming with double/triple bonds
  * TODO: test startup crash failure dialog
  * TODO: looks weird to not see 180-degree angles? how even to handle?!?
- * <p/>
- * Problem spatial name: null
- * at com.jme3.scene.Spatial.checkCulling(Spatial.java:217)
- * at com.jme3.renderer.RenderManager.renderScene(RenderManager.java:775)
- * at com.jme3.renderer.RenderManager.renderScene(RenderManager.java:793)
- * at com.jme3.renderer.RenderManager.renderViewPort(RenderManager.java:1116)
- * at com.jme3.renderer.RenderManager.render(RenderManager.java:1159)
- * at edu.colorado.phet.moleculeshapes.jme.BaseJMEApplication.update(BaseJMEApplication.java:194)
- * at com.jme3.system.lwjgl.LwjglAbstractDisplay.runLoop(LwjglAbstractDisplay.java:144)
- * at com.jme3.system.lwjgl.LwjglCanvas.runLoop(LwjglCanvas.java:199)
- * at com.jme3.system.lwjgl.LwjglAbstractDisplay.run(LwjglAbstractDisplay.java:218)
- * at java.lang.Thread.run(Thread.java:662)
  */
 public class MoleculeJMEApplication extends PhetJMEApplication {
 
