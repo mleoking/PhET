@@ -38,6 +38,11 @@ public class TrackButton extends PNode {
         BufferedImage icon = new BufferedImage( 800, 600, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = icon.createGraphics();
         module.getEnergySkateParkSimulationPanel().setSize( 800, 600 );
+
+        //Have to call update background since the size changed without the background changing
+        module.getEnergySkateParkSimulationPanel().getRootNode().updateBackground();
+
+        //Render into the image
         module.getEnergySkateParkSimulationPanel().getRootNode().fullPaint( new PPaintContext( g2 ) );
 
         //Resize to a small icon size using multi-scaling so the quality will be high
