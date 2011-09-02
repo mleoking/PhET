@@ -97,9 +97,10 @@ public class Element {
     public static final Element P = new Element( "P", 110, 2.19, 30.973762, new Color( 255, 128, 0 ) );
     public static final Element S = new Element( "S", 103, 2.58, 32.066, new Color( 212, 181, 59 ) );
     public static final Element Si = new Element( "Si", 118, 1.90, 28.0855, new Color( 240, 200, 160 ) ); // tan, Jmol coloring listed from https://secure.wikimedia.org/wikipedia/en/wiki/CPK_coloring
+    public static final Element Xe = new Element( "Xe", 108, 2.60, 131.293, new Color( 0x429eb0 ) ); // radius is based on calculated (not empirical) data
 
     private static final Element[] ELEMENTS = new Element[] {
-            B, Be, Br, C, Cl, F, H, I, N, O, P, S, Si
+            B, Be, Br, C, Cl, F, H, I, N, O, P, S, Si, Xe
     };
 
     public static Element getElementBySymbol( String symbol ) {
