@@ -200,6 +200,11 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         return splineToolbox;
     }
 
+    //Removes the spline toolbox node for basic modules
+    public void removeSplineToolbox() {
+        removeChild( splineToolbox );
+    }
+
     private void resetMeasuringTapeLocation() {
         measuringTape.setModelSrc( new Point2D.Double( 5, 5 ) );
         measuringTape.setModelDst( new Point2D.Double( 7, 5 ) );

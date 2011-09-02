@@ -22,7 +22,7 @@ public class EnergySkateParkModel implements Serializable {
     private double time = 0;
     private ArrayList history = new ArrayList();
     private ArrayList bodies = new ArrayList();
-    private ArrayList splines = new ArrayList();
+    private ArrayList<EnergySkateParkSpline> splines = new ArrayList<EnergySkateParkSpline>();
 
     private Floor floor;
 
@@ -244,10 +244,9 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public EnergySkateParkSpline getEnergySkateParkSpline( ParametricFunction2D spline ) {
-        for ( int i = 0; i < splines.size(); i++ ) {
-            EnergySkateParkSpline energySkateParkSpline = (EnergySkateParkSpline) splines.get( i );
-            if ( energySkateParkSpline.getParametricFunction2D() == spline ) {
-                return energySkateParkSpline;
+        for ( EnergySkateParkSpline s : splines ) {
+            if ( s.getParametricFunction2D() == spline ) {
+                return s;
             }
         }
         return null;
@@ -293,7 +292,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public EnergySkateParkSpline getSpline( int i ) {
-        return (EnergySkateParkSpline) splines.get( i );
+        return splines.get( i );
     }
 
     public void addSplineSurface( EnergySkateParkSpline energySkateParkSpline ) {
@@ -415,6 +414,13 @@ public class EnergySkateParkModel implements Serializable {
 
     public SkaterCharacter getSkaterCharacter() {
         return skaterCharacter;
+    }
+
+    //Changes the roller coaster mode of all currently contained splines.  If other splines are added later, they may have a different mode
+    public void setRollerCoasterMode( boolean rollerCoasterMode ) {
+        for ( EnergySkateParkSpline spline : splines ) {
+            spline.setRollerCoasterMode( rollerCoasterMode );
+        }
     }
 
     public static class EnergyModelListenerAdapter implements EnergyModelListener {
