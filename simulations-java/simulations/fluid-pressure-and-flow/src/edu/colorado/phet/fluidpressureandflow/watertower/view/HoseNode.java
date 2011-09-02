@@ -97,20 +97,23 @@ public class HoseNode extends PNode {
                 @Override public void update() {
                     final DoubleGeneralPath p = new DoubleGeneralPath( hose.attachmentPoint.get().getX(), hose.attachmentPoint.get().getY() + hose.holeSize / 2 ) {{
 
+                        //Move the hose up by this much, but clamp before it gets too high because it can cause non-smoothness
+                        double up = Math.min( 14, hose.y.get() );
+
                         //Curve to a point up and right of the hole and travel all the way to the ground
                         ImmutableVector2D controlPointA1 = hose.attachmentPoint.get().plus( 5, 0 );
                         ImmutableVector2D controlPointA2 = controlPointA1.plus( -1, 0 );
-                        ImmutableVector2D targetA = new ImmutableVector2D( controlPointA2.getX(), -1 );
+                        ImmutableVector2D targetA = new ImmutableVector2D( controlPointA2.getX(), -1 ).plus( 0, up );
                         curveTo( controlPointA1, controlPointA2, targetA );
 
                         //When hose is pointing up, control point should be down and to the right to prevent sharp angles
                         //When hose is pointing up, control point should be up and to the left to prevent sharp angles
                         double delta = Math.cos( hose.angle.get() - Math.PI / 2 );
                         final ImmutableVector2D intermediateDestination = new ImmutableVector2D( ( hose.getNozzleInputPoint().getX() + controlPointA2.getX() ) / 2 + delta,
-                                                                                                 ( -6 + hose.getNozzleInputPoint().getY() ) / 2 - delta );
-                        curveTo( new ImmutableVector2D( controlPointA2.getX() + 1, -6 ),
-                                 new ImmutableVector2D( controlPointA2.getX() + 2, -6 ),
-                                 intermediateDestination );
+                                                                                                 -3 + hose.getNozzleInputPoint().getY() / 2 - delta );
+                        curveTo( new ImmutableVector2D( controlPointA2.getX() + 1, -6 ).plus( 0, up ),
+                                 new ImmutableVector2D( controlPointA2.getX() + 2, -6 ).plus( 0, up ),
+                                 intermediateDestination.plus( 0, up / 2 ) );
 
                         //Curve up to the meet the nozzle.  Using a quad here ensures that this pipe takes a smooth and straight path into the nozzle
                         ImmutableVector2D controlPointC1 = hose.getNozzleInputPoint().minus( parseAngleAndMagnitude( 2, hose.angle.get() ) );
