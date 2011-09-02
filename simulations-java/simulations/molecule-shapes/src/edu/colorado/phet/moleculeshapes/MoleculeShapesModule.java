@@ -17,6 +17,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.jme.JmeNatives;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 
@@ -26,11 +27,13 @@ import com.jme3.system.JmeSystem;
 
 public class MoleculeShapesModule extends Module {
 
+    // TODO: isolate out JME3-specific code into the JME3 package
+
     private MoleculeJMEApplication app;
 
     public MoleculeShapesModule( Frame parentFrame, String name ) {
         super( name, new ConstantDtClock( 30.0 ) );
-        AppSettings settings = new AppSettings( true );
+        final AppSettings settings = new AppSettings( true );
 
         initializeLibraries( settings );
 
@@ -38,13 +41,22 @@ public class MoleculeShapesModule extends Module {
         settings.setSamples( Math.min( 4, getMaximumAntialiasingSamples() ) );
 
         // limit the framerate
-        settings.setFrameRate( 60 );
+        settings.setFrameRate( MoleculeShapesApplication.frameRate.get() );
 
         app = new MoleculeJMEApplication( parentFrame );
 
         app.setPauseOnLostFocus( false );
         app.setSettings( settings );
         app.createCanvas();
+
+        MoleculeShapesApplication.frameRate.addObserver( new SimpleObserver() {
+            public void update() {
+                AppSettings s = settings;
+                s.setFrameRate( MoleculeShapesApplication.frameRate.get() );
+                app.setSettings( s );
+                app.restart();
+            }
+        } );
 
         JmeCanvasContext context = (JmeCanvasContext) app.getContext();
         final Canvas canvas = context.getCanvas();

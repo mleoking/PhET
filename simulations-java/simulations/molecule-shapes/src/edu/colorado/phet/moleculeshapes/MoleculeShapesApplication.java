@@ -38,6 +38,8 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
     public static final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
     public static final Property<Boolean> showBondAngles = new Property<Boolean>( false );
 
+    public static final Property<Integer> frameRate = new Property<Integer>( 60 );
+
     private MoleculeShapesModule module;
 
     /**
@@ -117,6 +119,27 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
                              }
                          }, false );
         }} ) );
+        developerMenu.add( new JMenuItem( "FPS: 60" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    frameRate.set( 60 );
+                }
+            } );
+        }} );
+        developerMenu.add( new JMenuItem( "FPS: 20" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    frameRate.set( 20 );
+                }
+            } );
+        }} );
+        developerMenu.add( new JMenuItem( "FPS: 5" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    frameRate.set( 5 );
+                }
+            } );
+        }} );
     }
 
     //----------------------------------------------------------------------------
