@@ -5,9 +5,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -35,6 +37,9 @@ public class HoseNode extends PNode {
     private ModelViewTransform transform;
     private Hose hose;
     public final PImage nozzleImageNode;
+    final BooleanProperty showDragHandles = new BooleanProperty( true );
+    final BooleanProperty showRotationHandles = new BooleanProperty( true );
+    private boolean debugModelPosition = false;
 
     public HoseNode( final ModelViewTransform transform, final Hose hose ) {
         this.transform = transform;
@@ -75,6 +80,7 @@ public class HoseNode extends PNode {
 
                 //Drag the nozzle to rotate it
                 public void mouseDragged( PInputEvent event ) {
+                    showRotationHandles.set( false );
                     double angle = getAngle( event );
                     final double delta = angle - previousAngle;
                     double desiredAngle = hose.angle.get() + delta;
@@ -90,6 +96,52 @@ public class HoseNode extends PNode {
                 }
             } );
         }};
+
+        //Length of arrow for drag handles
+        final double dragArrowLength = 35;
+
+        //Show translate handles on the hose, position experimentally sampled since it is difficult to find the position in bezier and cubic curves using the java api
+        //Make it update when the user rotates the nozzle
+        PNode dragHandles = new PNode() {{
+            new RichSimpleObserver() {
+                @Override public void update() {
+                    removeAllChildren();
+
+                    //Experimentally determined heuristics for where to put the drag handle since it is difficult to find the position in bezier and cubic curves using the java api
+                    final ImmutableVector2D dragArrowTail = transform.modelToView( getIntermediateDestination() );
+                    double offsetX = -10;
+                    double offsetY = 10;
+
+                    //Make it longer when the nozzle rotates since the hose would hide the arrow when the nozzle points right
+                    addChild( new TranslationDragHandle( dragArrowTail.plus( offsetX, offsetY ), 0, -dragArrowLength * 1.2 - dragArrowLength * Math.cos( hose.angle.get() ) * 0.8, showDragHandles ) );
+                }
+            }.observe( hose.angle );
+        }};
+        addChild( dragHandles );
+
+        //Show rotate handles on base of the the nozzle, that move when the nozzle moves
+        PNode rotationHandles = new PNode() {{
+            new RichSimpleObserver() {
+                @Override public void update() {
+                    removeAllChildren();
+                    final ImmutableVector2D rotateArrowTail = transform.modelToView( hose.getNozzleInputPoint().plus( 0, hose.nozzleHeight * 0.13 ) );
+                    addChild( new TranslationDragHandle( rotateArrowTail, dragArrowLength, 0, showRotationHandles ) );
+                    addChild( new TranslationDragHandle( rotateArrowTail, -dragArrowLength, 0, showRotationHandles ) );
+                }
+            }.observe( hose.angle, hose.outputPoint, hose.y );
+        }};
+        addChild( rotationHandles );
+
+
+        //Utility for experimentally finding good model positions for the drag handles
+        if ( debugModelPosition ) {
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseMoved( PInputEvent event ) {
+                    Point2D pos = event.getPositionRelativeTo( getParent() );
+                    System.out.println( "transform.viewToModel( pos ) = " + transform.viewToModel( pos ) );
+                }
+            } );
+        }
 
         //The graphic for the hose itself
         addChild( new PhetPPath( Color.green, new BasicStroke( 1 ), Color.darkGray ) {{
@@ -108,9 +160,7 @@ public class HoseNode extends PNode {
 
                         //When hose is pointing up, control point should be down and to the right to prevent sharp angles
                         //When hose is pointing up, control point should be up and to the left to prevent sharp angles
-                        double delta = Math.cos( hose.angle.get() - Math.PI / 2 );
-                        final ImmutableVector2D intermediateDestination = new ImmutableVector2D( ( hose.getNozzleInputPoint().getX() + controlPointA2.getX() ) / 2 + delta,
-                                                                                                 -3 + hose.getNozzleInputPoint().getY() / 2 - delta );
+                        final ImmutableVector2D intermediateDestination = getIntermediateDestination();
                         curveTo( new ImmutableVector2D( controlPointA2.getX() + 1, -6 ).plus( 0, up ),
                                  new ImmutableVector2D( controlPointA2.getX() + 2, -6 ).plus( 0, up ),
                                  intermediateDestination.plus( 0, up / 2 ) );
@@ -131,9 +181,9 @@ public class HoseNode extends PNode {
                 public void mouseDragged( PInputEvent event ) {
                     double modelDelta = transform.viewToModelDeltaY( event.getDeltaRelativeTo( getParent() ).getHeight() );
                     hose.y.set( MathUtil.clamp( 0, hose.y.get() + modelDelta, 30 ) );
+                    showDragHandles.set( false );
                 }
             } );
-
         }} );
         hose.enabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
@@ -141,5 +191,15 @@ public class HoseNode extends PNode {
             }
         } );
         addChild( nozzleImageNode );
+    }
+
+    //Gets one of the hose control points, for use in showing the drag handle
+    private ImmutableVector2D getIntermediateDestination() {
+
+        ImmutableVector2D controlPointA1 = hose.attachmentPoint.get().plus( 5, 0 );
+        ImmutableVector2D controlPointA2 = controlPointA1.plus( -1, 0 );
+
+        double delta = Math.cos( hose.angle.get() - Math.PI / 2 );
+        return new ImmutableVector2D( ( hose.getNozzleInputPoint().getX() + controlPointA2.getX() ) / 2 + delta, -3 + hose.getNozzleInputPoint().getY() / 2 - delta );
     }
 }
