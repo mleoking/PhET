@@ -18,7 +18,7 @@ public class FluxMeter {
     public final Property<Boolean> visible = new Property<Boolean>( false );
     public final Property<Double> x = new Property<Double>( 0.0 );
     public final ObservableProperty<Double> area;
-    public final ObservableProperty<Double> rate;
+    public final ObservableProperty<Double> flux;
 
     public FluxMeter( final Pipe pipe ) {
         this.pipe = pipe;
@@ -35,12 +35,13 @@ public class FluxMeter {
             }
         } );
 
+        //Assume incompressible fluid (like water), so the flow rate must remain constant throughout the pipe
         //flux = rate / area, so rate = flux * area
-        rate = new CompositeDoubleProperty( new Function0<Double>() {
+        flux = new CompositeDoubleProperty( new Function0<Double>() {
             public Double apply() {
-                return pipe.flux.get() * area.get();
+                return pipe.flowRate.get() / area.get();
             }
-        }, pipe.flux, area );
+        }, pipe.flowRate, area );
     }
 
     public ImmutableVector2D getTop() {

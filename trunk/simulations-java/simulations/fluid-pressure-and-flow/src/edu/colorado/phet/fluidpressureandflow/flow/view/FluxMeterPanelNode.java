@@ -59,8 +59,8 @@ public class FluxMeterPanelNode extends PNode {
             //Populate the table by row
             //Consider using better fractions like: http://changelog.ca/log/2008/07/01/writing_fractions_in_html
             addChild( new Text( FLOW_RATE ), new Constraint( 0, 0, LINE_END, insets, 0, 0 ) );
-            addChild( new Text( formatter, fluxMeter.rate, units.rate ), new Constraint( 1, 0, LINE_END, insets, 0, 0 ) );
-            addChild( new HTML( units.rate.getAbbreviation() ), new Constraint( 2, 0, LINE_START, getInsets( units.rate.getAbbreviation() ), 0, 0 ) );
+            addChild( new Text( formatter, fluxMeter.pipe.flowRate, units.flowRate ), new Constraint( 1, 0, LINE_END, insets, 0, 0 ) );
+            addChild( new HTML( units.flowRate.getAbbreviation() ), new Constraint( 2, 0, LINE_START, getInsets( units.flowRate.getAbbreviation() ), 0, 0 ) );
 
             //Area row
             addChild( new Text( AREA ), new Constraint( 0, 1, LINE_END, insets, 0, 0 ) );
@@ -72,7 +72,7 @@ public class FluxMeterPanelNode extends PNode {
 
             //Flux row
             addChild( new Text( FLUX ), new Constraint( 0, 3, LINE_END, insets, 0, 0 ) );
-            addChild( new Text( formatter, fluxMeter.pipe.flux, units.flux ), new Constraint( 1, 3, LINE_END, insets, 0, 0 ) );
+            addChild( new Text( formatter, fluxMeter.flux, units.flux ), new Constraint( 1, 3, LINE_END, insets, 0, 0 ) );
             addChild( new HTML( units.flux.getAbbreviation() ), new Constraint( 2, 3, LINE_START, htmlInsets, 0, 0 ) );
 
         }}, FluidPressureControlPanel.BACKGROUND, new BasicStroke( 2 ), Color.blue ) {{

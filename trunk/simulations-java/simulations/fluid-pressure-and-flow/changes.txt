@@ -1,3 +1,5 @@
+Changed the control from flux to flow rate
+Made flux readout dependent on flow rate, not the other way around
 Renamed "Rate:" to "Flow Rate:"
 Moved "metric" before "English" in units systems and made "metric" default on "flow" and "water tower" tabs
 Pressure: Made sensors 20% larger
