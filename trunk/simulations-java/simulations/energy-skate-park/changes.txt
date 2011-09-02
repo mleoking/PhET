@@ -1,3 +1,4 @@
+Moved the legend out from behind the control panel
 Fixed sky graphics
 Moved the house to the right and the mountains to the left
 Added buttons to switch track
