@@ -57,7 +57,8 @@ public class PairGroup {
         double offset = getIdealDistanceFromCenter() - distance;
 
         // just modify position for now so we don't get any oscillations
-        position.set( position.get().plus( directionToCenter.times( 0.1 * offset ) ) );
+        double ratioOfMovement = Math.pow( 0.1, 0.016 / timeElapsed ); // scale this exponentially by how much time has elapsed, so the more time taken, the faster we move towards the ideal distance
+        position.set( position.get().plus( directionToCenter.times( ratioOfMovement * offset ) ) );
     }
 
     public void repulseFrom( PairGroup other, double timeElapsed ) {
@@ -119,7 +120,7 @@ public class PairGroup {
 
         // add in damping so we don't get the kind of oscillation that we are seeing
         double damping = 1 - DAMPING_FACTOR;
-        damping = Math.pow( damping, timeElapsed / 0.017 );
+        damping = Math.pow( damping, timeElapsed / 0.017 ); // based so that we have no modification at 0.017
         velocity.set( velocity.get().times( damping ) );
 
         // add in a small randomization into position, so we jitter away from unstable positions
