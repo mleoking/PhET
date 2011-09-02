@@ -55,6 +55,8 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: electron geometry name repaint issue - check threading and repaint()
  * TODO: positioning bug for real molecules label when middle-clicking atoms
+ * TODO: switching between ball-and-stick and spacefill
+ * TODO: better ball-and-stick (half-bond colors)
  * <p/>
  * NOTES:
  * TODO: it's weird to drag out an invisible lone pair
