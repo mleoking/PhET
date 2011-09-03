@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.dev.PerformanceFrame;
 import edu.colorado.phet.moleculeshapes.jme.ColorRGBAPropertyControl;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 
 import com.jme3.system.JmeSystem;
 import com.jme3.system.Natives;
@@ -152,6 +153,14 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
             System.out.println( "Extracting native JME3 libraries to: " + path );
             Natives.setExtractionDir( path );
             tempDir.deleteOnExit();
+        }
+
+        // attempt to read a anti-aliasing samples count from the command line args. use "-samples 0" for 0 samples, etc.
+        for ( int i = 0; i < args.length; i++ ) {
+            if ( args[i].equals( "-samples" ) && i + 1 < args.length ) {
+                JmeUtils.antiAliasingSamples.set( Integer.parseInt( args[i + 1] ) );
+                break;
+            }
         }
 
         /*

@@ -31,8 +31,8 @@ public class JmeUtils {
     *----------------------------------------------------------------------------*/
     // the running framerate
     public static final Property<Integer> frameRate = new Property<Integer>( 60 );
-    // number of antialiasing samples
-    public static final Property<Integer> antiAliasingSamples = new Property<Integer>( 0 );
+    // number of antialiasing samples to use, or null to use the default
+    public static final Property<Integer> antiAliasingSamples = new Property<Integer>( null );
     public static int maxAllowedSamples = 0; // should be written on startup
 
     /*---------------------------------------------------------------------------*
