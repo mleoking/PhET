@@ -55,8 +55,7 @@ import com.jme3.system.JmeCanvasContext;
  * Use jme3 to show a rotating molecule
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: electron geometry name repaint issue - check threading and repaint()
- * TODO: switching between ball-and-stick and spacefill
- * TODO: better ball-and-stick (half-bond colors)
+ * TODO: performance investigations (that real molecule with colors seems to really bog down. why?)
  * <p/>
  * NOTES:
  * TODO: it's weird to drag out an invisible lone pair
