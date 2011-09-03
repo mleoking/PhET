@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.dev.PerformanceFrame;
 import edu.colorado.phet.moleculeshapes.jme.ColorRGBAPropertyControl;
 
 import com.jme3.system.JmeSystem;
@@ -112,24 +113,10 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
                              }
                          }, false );
         }} ) );
-        developerMenu.add( new JMenuItem( "FPS: 60" ) {{
+        developerMenu.add( new JMenuItem( "Show Performance Window" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    MoleculeShapesProperties.frameRate.set( 60 );
-                }
-            } );
-        }} );
-        developerMenu.add( new JMenuItem( "FPS: 20" ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    MoleculeShapesProperties.frameRate.set( 20 );
-                }
-            } );
-        }} );
-        developerMenu.add( new JMenuItem( "FPS: 5" ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    MoleculeShapesProperties.frameRate.set( 5 );
+                    new PerformanceFrame( module.getApp() );
                 }
             } );
         }} );

@@ -38,7 +38,12 @@ public class MoleculeShapesModule extends Module {
         initializeLibraries( settings );
 
         // antialiasing (use at most 4 anti-aliasing samples. more makes the UI look blurry)
-        settings.setSamples( Math.min( 4, getMaximumAntialiasingSamples() ) );
+        int maxSamples = getMaximumAntialiasingSamples();
+        settings.setSamples( Math.min( 4, maxSamples ) );
+
+        // store settings within the properties
+        MoleculeShapesProperties.maxAllowedSamples = maxSamples;
+        MoleculeShapesProperties.antiAliasingSamples.set( settings.getSamples() );
 
         // limit the framerate
         settings.setFrameRate( MoleculeShapesProperties.frameRate.get() );
@@ -53,6 +58,15 @@ public class MoleculeShapesModule extends Module {
             public void update() {
                 AppSettings s = settings;
                 s.setFrameRate( MoleculeShapesProperties.frameRate.get() );
+                app.setSettings( s );
+                app.restart();
+            }
+        } );
+
+        MoleculeShapesProperties.antiAliasingSamples.addObserver( new SimpleObserver() {
+            public void update() {
+                AppSettings s = settings;
+                s.setSamples( MoleculeShapesProperties.antiAliasingSamples.get() );
                 app.setSettings( s );
                 app.restart();
             }
