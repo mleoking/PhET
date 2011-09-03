@@ -16,7 +16,7 @@ import com.jme3.scene.Node;
 
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.ANGLE_PRECISION;
 
-class BondAngleNode extends Node {
+public class BondAngleNode extends Node {
     private Vector3f center;
     private Vector3f midpoint;
 
