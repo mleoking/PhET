@@ -1,13 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
@@ -110,7 +109,7 @@ public class BondNode extends Node {
         }
 
         // add single bond nodes at each offset position
-        if ( aColor.equals( bColor ) || !MoleculeShapesApplication.useColoredBonds.get() ) {
+        if ( aColor.equals( bColor ) || !MoleculeShapesProperties.useColoredBonds.get() ) {
             for ( final Vector3f offset : offsets ) {
                 SingleBondNode child = new SingleBondNode( length, bondRadius, app.getAssetManager(), ColorRGBA.White ) {{
                     setLocalTranslation( bondCenter.add( offset ) );

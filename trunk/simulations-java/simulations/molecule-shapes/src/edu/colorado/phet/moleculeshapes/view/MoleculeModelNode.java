@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
@@ -166,10 +166,10 @@ public class MoleculeModelNode extends Node {
         // start handling angle nodes from the beginning
         angleIndex = 0;
 
-        boolean showAnglesBetweenLonePairs = MoleculeShapesApplication.allowAnglesBetweenLonePairs.get();
+        boolean showAnglesBetweenLonePairs = MoleculeShapesProperties.allowAnglesBetweenLonePairs.get();
 
         // TODO: separate out bond angle feature
-        if ( MoleculeShapesApplication.showBondAngles.get() ) {
+        if ( MoleculeShapesProperties.showBondAngles.get() ) {
             // iterate over all combinations of two pair groups
             for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
                 PairGroup a = molecule.getGroups().get( i );

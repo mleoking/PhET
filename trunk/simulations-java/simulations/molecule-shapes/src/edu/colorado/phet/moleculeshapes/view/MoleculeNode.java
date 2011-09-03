@@ -45,7 +45,7 @@ public class MoleculeNode extends Node {
                     app,
                     camera,
                     JmeUtils.convertColor( bond.a.getColor() ),
-                    JmeUtils.convertColor( bond.b.getColor() ));
+                    JmeUtils.convertColor( bond.b.getColor() ) );
             attachChild( bondNode );
             bondNodes.add( bondNode );
         }
