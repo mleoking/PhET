@@ -42,6 +42,14 @@ public class RealMolecule extends Molecule {
         translate( centralAtom.position.get().negated() );
     }
 
+    public void centerOnCentroid() {
+        ImmutableVector3D centroid = new ImmutableVector3D();
+        for ( Atom3D atom3D : getAtoms() ) {
+            centroid = centroid.plus( atom3D.position.get() );
+        }
+        translate( centroid.times( -1 / (float) getAtoms().size() ) );
+    }
+
     private void translate( ImmutableVector3D offset ) {
         for ( Atom3D atom : getAtoms() ) {
             atom.position.set( atom.position.get().plus( offset ) );
@@ -65,19 +73,19 @@ public class RealMolecule extends Molecule {
     public static final RealMolecule CARBON_MONOXIDE = new RealMolecule( "CO", 1 ) {{
         addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.528500, 0, 0 ) ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.528500, 0, 0 ) ), 3 );
-        centerOnCentralAtom();
+        centerOnCentroid();
     }};
 
     public static final RealMolecule MOLECULAR_OXYGEN = new RealMolecule( "O2", 0 ) {{
         addCentralAtom( new Atom3D( O, new ImmutableVector3D( -0.864000, 0.116000, 0.000000 ) ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.292000, 0.477000, 0.000000 ) ), 2 );
-        centerOnCentralAtom();
+        centerOnCentroid();
     }};
 
     public static final RealMolecule HYDROGEN_FLUORIDE = new RealMolecule( "HF", 0 ) {{
-        addCentralAtom( new Atom3D( F, new ImmutableVector3D( -0.405, 0.325, 0 ) ) );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.405, 1.242, 0 ) ), 1 );
-        centerOnCentralAtom();
+        addCentralAtom( new Atom3D( F, new ImmutableVector3D( 0.325, 0, 0 ) ) );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 1.242, 0, 0 ) ), 1 );
+        centerOnCentroid();
     }};
 
     public static final RealMolecule CARBON_DIOXIDE = new RealMolecule( "CO2", 0 ) {{
