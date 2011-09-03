@@ -1,3 +1,4 @@
+Improved friction and stickiness controls
 Added bar graphs
 Removed keyboard-driven rocket thrusters
 Moved the legend out from behind the control panel

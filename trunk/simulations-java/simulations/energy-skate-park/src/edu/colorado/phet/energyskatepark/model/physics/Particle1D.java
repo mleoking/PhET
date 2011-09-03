@@ -312,8 +312,10 @@ public class Particle1D implements Serializable {
                         }
                     }
                     else {
+
+                        //TODO: removed this logging output, but this case can still occur, especially with friction turned on
                         EnergySkateParkLogging.println( "Changed position, wanted to change velocity, but didn't have enough to fix it..., dE=" + ( getEnergy() - e0 ) );
-                        new RuntimeException( "Energy error[456]" ).printStackTrace();
+//                        new RuntimeException( "Energy error[456]" ).printStackTrace();
                     }
                 }
             }
