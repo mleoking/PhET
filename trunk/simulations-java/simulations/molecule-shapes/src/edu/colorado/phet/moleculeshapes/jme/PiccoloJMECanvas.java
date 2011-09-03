@@ -16,15 +16,20 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class PiccoloJMECanvas extends PSwingCanvas {
 
     public PiccoloJMECanvas( PNode node ) {
+        // make it see-through
         setOpaque( false );
+
+        // disable the normal event handlers
         removeInputEventListener( getZoomEventHandler() );
         removeInputEventListener( getPanEventHandler() );
 
+        // don't compromise quality by default
         setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 
         getLayer().addChild( node );
 
+        // if our node changes bounds, update the underlying canvas size (so we can forward those events)
         node.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 updateSize();
@@ -34,9 +39,11 @@ public class PiccoloJMECanvas extends PSwingCanvas {
         updateSize();
     }
 
+    // called when the PNode changes full bounds. triggers (under the hood) a transfer to a new HUDNode and resizing if used in PiccoloJMENode
     public void updateSize() {
         PBounds bounds = getRoot().getFullBounds();
 
+        // make extra-sure our canvas size changes
         setPreferredSize( new Dimension( (int) bounds.width, (int) bounds.height ) );
         setSize( getPreferredSize() );
     }

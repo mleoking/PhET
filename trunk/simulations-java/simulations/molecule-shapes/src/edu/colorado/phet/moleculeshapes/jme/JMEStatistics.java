@@ -11,6 +11,8 @@ import com.jme3.scene.Spatial.CullHint;
 
 /**
  * Adds the ability to show statistics to any JME application, on a particular container node
+ * <p/>
+ * Significantly rewritten and reworked from the SimpleApplication JME3 code.
  */
 public class JMEStatistics {
 

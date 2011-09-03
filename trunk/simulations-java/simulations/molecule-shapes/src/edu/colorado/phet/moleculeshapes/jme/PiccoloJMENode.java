@@ -11,9 +11,12 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import com.jme3.app.Application;
 
+/**
+ * Embed a Piccolo node within the JME3 space as a Spatial. Handles proper resizing.
+ */
 public class PiccoloJMENode extends SwingJMENode {
-
     public PiccoloJMENode( final PNode node, Application app ) {
+        // use a wrapper panel that takes up no extra room
         super( new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) ) {{
                    add( new PiccoloJMECanvas( node ) );
                }}, app );
