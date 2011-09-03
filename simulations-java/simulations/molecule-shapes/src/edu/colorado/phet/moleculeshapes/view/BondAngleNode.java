@@ -34,7 +34,7 @@ class BondAngleNode extends Node {
         }};
 
         center = new Vector3f();
-        midpoint = Arc.slerp( a, b, 0.5f ).mult( radius );
+        midpoint = JmeUtils.slerp( a, b, 0.5f ).mult( radius );
 
         attachChild( new Geometry( "Bond Arc", arc ) {{
             setMaterial( new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{

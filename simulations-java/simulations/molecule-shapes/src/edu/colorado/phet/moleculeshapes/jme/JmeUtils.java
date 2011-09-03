@@ -8,6 +8,7 @@ import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 
 /**
@@ -171,5 +172,32 @@ public class JmeUtils {
             matrix.set( 2, 2, e + hvz * v.z );
         }
 
+    }
+
+    /**
+     * Find a quaternion that transforms a unit vector A into a unit vector B. There
+     * are technically multiple solutions, so this only picks one.
+     *
+     * @param a Unit vector A
+     * @param b Unit vector B
+     * @return A quaternion s.t. Q * A = B
+     */
+    public static Quaternion getRotationQuaternion( Vector3f a, Vector3f b ) {
+        Matrix3f rotationMatrix = new Matrix3f();
+        fromStartEndVectors( rotationMatrix, convertVector( a ), convertVector( b ) );
+        return new Quaternion().fromRotationMatrix( rotationMatrix );
+    }
+
+    /**
+     * Spherical linear interpolation between two unit vectors.
+     *
+     * @param start Start unit vector
+     * @param end   End unit vector
+     * @param ratio Between 0 (at start vector) and 1 (at end vector)
+     * @return Spherical linear interpolation between the start and end
+     */
+    public static Vector3f slerp( Vector3f start, Vector3f end, float ratio ) {
+        // assumes normalized. TODO doc
+        return new Quaternion().slerp( Quaternion.IDENTITY, getRotationQuaternion( start, end ), ratio ).mult( start );
     }
 }

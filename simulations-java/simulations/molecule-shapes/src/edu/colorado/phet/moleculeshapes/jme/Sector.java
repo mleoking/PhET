@@ -15,7 +15,7 @@ public class Sector extends Mesh {
         int numVertices = numEdgeVertices + 1;
 
         // figure out the quaternion rotation from start to end
-        Quaternion startToEnd = Arc.getRotationQuaternion( startDir, endDir );
+        Quaternion startToEnd = JmeUtils.getRotationQuaternion( startDir, endDir );
 
         float[] vertices = new float[numVertices * 3]; // +1 for origin
         short[] indices = new short[numTriangles * 3];
