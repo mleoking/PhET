@@ -5,6 +5,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -15,7 +16,10 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 public class PiccoloJMECanvas extends PSwingCanvas {
 
+    private final PNode node;
+
     public PiccoloJMECanvas( PNode node ) {
+        this.node = node;
         // make it see-through
         setOpaque( false );
 
@@ -27,7 +31,7 @@ public class PiccoloJMECanvas extends PSwingCanvas {
         setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 
-        getLayer().addChild( node );
+        getLayer().addChild( new ZeroOffsetNode( node ) );
 
         // if our node changes bounds, update the underlying canvas size (so we can forward those events)
         node.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
@@ -41,7 +45,7 @@ public class PiccoloJMECanvas extends PSwingCanvas {
 
     // called when the PNode changes full bounds. triggers (under the hood) a transfer to a new HUDNode and resizing if used in PiccoloJMENode
     public void updateSize() {
-        PBounds bounds = getRoot().getFullBounds();
+        PBounds bounds = node.getFullBounds();
 
         // make extra-sure our canvas size changes
         setPreferredSize( new Dimension( (int) bounds.width, (int) bounds.height ) );

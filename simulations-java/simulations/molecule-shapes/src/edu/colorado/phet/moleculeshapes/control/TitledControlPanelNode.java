@@ -12,25 +12,30 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * A control panel node with a specific title that is moved over the top border
+ * TODO: match other constructors?
+ * TODO: title fonts?
  */
 public class TitledControlPanelNode extends ControlPanelNode {
+
     public TitledControlPanelNode( final PNode content, final String title, final Color backgroundColor, final BasicStroke borderStroke, final Color borderColor ) {
+        this( content, new PText( title ) {{
+                  setFont( new PhetFont( 14, true ) );
+                  setTextPaint( borderColor );
+              }}, backgroundColor, borderStroke, borderColor );
+    }
+
+    public TitledControlPanelNode( final PNode content, final PNode titleNode, final Color backgroundColor, final BasicStroke borderStroke, final Color borderColor ) {
         super( content, backgroundColor, borderStroke, borderColor );
 
         final ControlPanelNode controlPanelNode = this;
 
         // title
         background.addChild( 0, new PNode() {{
-            PText text = new PText( title ) {{
-                setFont( new PhetFont( 14, true ) );
-                setTextPaint( borderColor );
-            }};
-
             // background to block out border
-            addChild( new PhetPPath( padBoundsHorizontally( text.getFullBounds(), 10 ), backgroundColor ) );
-            addChild( text );
-            setOffset( ( controlPanelNode.getFullBounds().getWidth() - text.getFullBounds().getWidth() ) / 2,
-                       -text.getFullBounds().getHeight() / 2 );
+            addChild( new PhetPPath( padBoundsHorizontally( titleNode.getFullBounds(), 10 ), backgroundColor ) );
+            addChild( titleNode );
+            setOffset( ( controlPanelNode.getFullBounds().getWidth() - titleNode.getFullBounds().getWidth() ) / 2,
+                       -titleNode.getFullBounds().getHeight() / 2 );
         }} );
     }
 
