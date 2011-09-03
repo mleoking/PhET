@@ -1,3 +1,4 @@
+# 0.00.25 (56123) Sep 2, 2011
 Bugfixes and improvements
 "Real Molecule" area
 Bond angles improvements and added checkbox
