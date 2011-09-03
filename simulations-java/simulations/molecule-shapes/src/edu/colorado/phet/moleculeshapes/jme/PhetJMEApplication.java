@@ -32,6 +32,7 @@ public abstract class PhetJMEApplication extends Application {
     // statistics that can be shown on the screen
     public JMEStatistics statistics = new JMEStatistics();
 
+    // our main "root" nodes for different layers
     private Node sceneNode = new Node( "Scene Node" );
     private Node guiNode = new Node( "Gui Node" );
     private Node backgroundGuiNode = new Node( "Background Gui Node" );
