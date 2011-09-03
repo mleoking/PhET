@@ -200,6 +200,8 @@ public class MoleculeModelNode extends Node {
                     attachChild( bondAngleNode );
                     angleNodes.add( bondAngleNode );
 
+                    // TODO: integrate the labels with the BondAngleNode
+
                     Vector3f globalCenter = getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
                     Vector3f globalMidpoint = getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
 
@@ -246,6 +248,8 @@ public class MoleculeModelNode extends Node {
             this.text = text;
 
             text.setFont( new PhetFont( 16 ) );
+
+            antialiased.set( true );
         }
 
         public void attach( String string, float brightness, Vector3f displayPoint ) {

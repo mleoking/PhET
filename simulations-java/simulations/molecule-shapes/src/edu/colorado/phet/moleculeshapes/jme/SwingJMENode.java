@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculeshapes.util.VoidNotifier;
 
 import com.jme3.app.Application;
@@ -24,6 +25,13 @@ public class SwingJMENode extends Node {
     private HUDNode hudNode; // the current node displaying our component
 
     public final VoidNotifier onResize = new VoidNotifier(); // notifier that fires when this node is resized
+
+    /**
+     * Basically whether this node should be antialiased. If it is set up in a position where the texture (image)
+     * pixels are not 1-to-1 with the screen pixels (say, translated by fractions of a pixel, or any rotation),
+     * this should be set to true.
+     */
+    public final Property<Boolean> antialiased = new Property<Boolean>( false );
 
     public SwingJMENode( final JComponent component, final Application app ) {
         this.component = component;
@@ -69,7 +77,7 @@ public class SwingJMENode extends Node {
             size = component.getPreferredSize();
 
             // construct our new HUD node
-            hudNode = new HUDNode( component, size.width, size.height, app );
+            hudNode = new HUDNode( component, size.width, size.height, app, antialiased );
             attachChild( hudNode );
 
             // notify that we resized
