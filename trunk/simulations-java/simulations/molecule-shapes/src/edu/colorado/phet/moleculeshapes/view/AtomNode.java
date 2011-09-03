@@ -65,7 +65,7 @@ public class AtomNode extends Geometry {
     }
 
     public AtomNode( final Property<ImmutableVector3D> position, Option<PairGroup> pairOption, final ColorRGBA color, final float radius, AssetManager assetManager ) {
-        this(position, pairOption, new Property<ColorRGBA>( color ),radius, assetManager );
+        this( position, pairOption, new Property<ColorRGBA>( color ), radius, assetManager );
     }
 
     public AtomNode( final Property<ImmutableVector3D> position, Option<PairGroup> pairOption, final Property<ColorRGBA> color, final float radius, AssetManager assetManager ) {

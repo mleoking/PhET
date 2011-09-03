@@ -5,22 +5,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D.Double;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
+import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -37,7 +38,7 @@ public class MoleculeShapesControlPanel extends PNode {
         *----------------------------------------------------------------------------*/
         final MoleculeShapesPanelNode bondingPanel = new MoleculeShapesPanelNode( new PNode() {{
             // padding, and make sure we have the width
-            addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ), new Color( 0, 0, 0, 0 ) ) );
+            addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
 
             final double spaceBetweenTypes = 15;
 
@@ -91,7 +92,7 @@ public class MoleculeShapesControlPanel extends PNode {
         *----------------------------------------------------------------------------*/
         final MoleculeShapesPanelNode nonBondingPanel = new MoleculeShapesPanelNode( new PNode() {{
             // padding, and make sure we have the width
-            addChild( new PhetPPath( new Double( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ), new Color( 0, 0, 0, 0 ) ) );
+            addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
 
             final BondTypeControlNode lonePairNode = new BondTypeControlNode(
                     app,
@@ -159,7 +160,7 @@ public class MoleculeShapesControlPanel extends PNode {
 
             addChild( new PNode() {{
                 setOffset( 0, toggleLonePairsButton.getFullBounds().getMaxY() + 3 );
-                addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Float( 0, 0, 10, 0.1f ), new Color( 0, 0, 0, 0 ) ) );
+                addChild( new Spacer( 0, 0, 10, 0.1f ) );
             }} );
         }}, "Lone Pair" ) {{
             setOffset( 0, bondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
@@ -168,7 +169,7 @@ public class MoleculeShapesControlPanel extends PNode {
 
         // TODO: i18n
         final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new PNode() {{
-            addChild( new PhetPPath( new Double( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ), new Color( 0, 0, 0, 0 ) ) );
+            addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
             PSwing bondAngleBox = new PSwing( new MoleculeShapesPropertyCheckBox( "Show Bond Angles", MoleculeShapesProperties.showBondAngles ) );
             addChild( bondAngleBox );
         }}, "Options" ) {{
@@ -179,11 +180,35 @@ public class MoleculeShapesControlPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * real molecules panel
         *----------------------------------------------------------------------------*/
-        realMoleculeNode = new RealMoleculePanelNode( app.getMolecule(), app, overlayNode );
-        realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, "Real Molecules" ) {{
+        final Property<Boolean> minimized = new Property<Boolean>( true ) {{
+            // reset minimization on app reset
+            app.resetNotifier.addTarget( new SimpleTarget() {
+                public void update() {
+                    reset();
+                }
+            } );
+        }};
+
+        realMoleculeNode = new RealMoleculePanelNode( app.getMolecule(), app, overlayNode, minimized );
+        realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, new PNode() {{
+            final PText text = new PText( "Real Examples" ) {{
+                setFont( new PhetFont( 14, true ) );
+                setTextPaint( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
+            }};
+            addChild( text );
+
+            final double TEXT_PADDING = 4;
+            addChild( new MinimizeMaximizeButtonNode( minimized ) {{
+                setOffset( text.getWidth() + TEXT_PADDING, ( text.getFullBounds().getHeight() - getFullBounds().getHeight() ) / 2 );
+            }} );
+        }} ) {{
             setOffset( 0, optionsPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
         addChild( realMoleculePanel );
+    }
+
+    public boolean isOverlayVisible() {
+        return realMoleculeNode.isOverlayVisible();
     }
 
     /**
@@ -192,4 +217,5 @@ public class MoleculeShapesControlPanel extends PNode {
     public PBounds getOverlayBounds() {
         return realMoleculeNode.getOverlayBounds();
     }
+
 }

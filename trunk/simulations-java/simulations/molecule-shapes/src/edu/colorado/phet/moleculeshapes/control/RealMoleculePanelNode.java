@@ -41,26 +41,42 @@ public class RealMoleculePanelNode extends PNode {
 
     private final MoleculeModel molecule;
     private final MoleculeJMEApplication app;
+    private final Property<Boolean> minimized;
     private final double SIZE = MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH;
     private final double CONTROL_OFFSET = 40;
     private final double ARROW_Y_OFFSET = 5;
     private PhetPPath overlayTarget;
 
+    private PNode containerNode = new PNode();
+
     private int kitIndex = 0;
     private Property<RealMolecule> selectedMolecule = new Property<RealMolecule>( null );
     private List<RealMolecule> molecules = new ArrayList<RealMolecule>();
 
-    public RealMoleculePanelNode( MoleculeModel molecule, final MoleculeJMEApplication app, final RealMoleculeOverlayNode overlayNode ) {
+    public RealMoleculePanelNode( MoleculeModel molecule, final MoleculeJMEApplication app, final RealMoleculeOverlayNode overlayNode,
+                                  final Property<Boolean> minimized ) {
         this.molecule = molecule;
         this.app = app;
+        this.minimized = minimized;
+
+        minimized.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( minimized.get() && containerNode.getParent() != null ) {
+                    removeChild( containerNode );
+                }
+                if ( !minimized.get() && containerNode.getParent() == null ) {
+                    addChild( containerNode );
+                }
+            }
+        } );
 
         // make sure we have something at the very top so the panel doesn't shrink in
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE, 10 ), new Color( 0, 0, 0, 0 ) ) );
+        addChild( new Spacer( 0, 0, SIZE, 10 ) );
 
         /*---------------------------------------------------------------------------*
         * back button
         *----------------------------------------------------------------------------*/
-        addChild( new BackButton() {{
+        containerNode.addChild( new BackButton() {{
             selectedMolecule.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( kitIndex > 0 && !molecules.isEmpty() );
@@ -80,7 +96,7 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * forward button
         *----------------------------------------------------------------------------*/
-        addChild( new ForwardButton() {{
+        containerNode.addChild( new ForwardButton() {{
             selectedMolecule.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( kitIndex < molecules.size() - 1 && !molecules.isEmpty() );
@@ -100,7 +116,7 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * molecular formula label
         *----------------------------------------------------------------------------*/
-        addChild( new HTMLNode( "", MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR, new PhetFont( 14, true ) ) {{
+        containerNode.addChild( new HTMLNode( "", MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR, new PhetFont( 14, true ) ) {{
             selectedMolecule.addObserver( new SimpleObserver() {
                 public void update() {
                     synchronized ( app ) {
@@ -128,8 +144,9 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * overlay target
         *----------------------------------------------------------------------------*/
-        overlayTarget = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE, SIZE ), new Color( 0f, 0f, 0f, 0f ) ) {{
-            setStroke( new BasicStroke( 1 ) );
+        final float overlayBorderWidth = 1;
+        overlayTarget = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE - overlayBorderWidth, SIZE - overlayBorderWidth ), new Color( 0f, 0f, 0f, 0f ) ) {{
+            setStroke( new BasicStroke( overlayBorderWidth ) );
             setStrokePaint( new Color( 60, 60, 60 ) );
 
             // make room for the buttons and labels above
@@ -142,7 +159,7 @@ public class RealMoleculePanelNode extends PNode {
                 }
             } );
         }};
-        addChild( overlayTarget );
+        containerNode.addChild( overlayTarget );
 
         /*---------------------------------------------------------------------------*
         * display type selection
@@ -171,7 +188,7 @@ public class RealMoleculePanelNode extends PNode {
         }} ) {{
             setOffset( 0, SIZE + CONTROL_OFFSET );
         }};
-        addChild( ballAndStickPSwing );
+        containerNode.addChild( ballAndStickPSwing );
         final PSwing spaceFillPSwing = new PSwing( new JRadioButton( "Space Filling", true ) {{
             group.add( this );
             setFont( MoleculeShapesConstants.CHECKBOX_FONT_SIZE );
@@ -185,7 +202,7 @@ public class RealMoleculePanelNode extends PNode {
         }} ) {{
             setOffset( 0, ballAndStickPSwing.getFullBounds().getMaxY() );
         }};
-        addChild( spaceFillPSwing );
+        containerNode.addChild( spaceFillPSwing );
 
         onModelChange();
 
@@ -202,6 +219,10 @@ public class RealMoleculePanelNode extends PNode {
                 overlayNode.showMolecule( selectedMolecule.get() );
             }
         } );
+    }
+
+    public boolean isOverlayVisible() {
+        return !minimized.get();
     }
 
     public PBounds getOverlayBounds() {
@@ -223,12 +244,13 @@ public class RealMoleculePanelNode extends PNode {
                 selectedMolecule.set( null );
             }
 
+            // TODO: allow the collapse-on-no-model changes
 //            if ( getChildrenReference().contains( overlayTarget ) != showingMolecule ) {
 //                if ( showingMolecule ) {
-//                    addChild( overlayTarget );
+//                    containerNode.addChild( overlayTarget );
 //                }
 //                else {
-//                    removeChild( overlayTarget );
+//                    containerNode.removeChild( overlayTarget );
 //                }
 //            }
 

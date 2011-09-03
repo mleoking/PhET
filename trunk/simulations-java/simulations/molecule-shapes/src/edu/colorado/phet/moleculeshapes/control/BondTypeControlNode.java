@@ -7,7 +7,6 @@ import java.util.Collections;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -37,7 +36,7 @@ class BondTypeControlNode extends PNode {
         addChild( graphic );
 
         // add a blank background that will allow the user to click on this
-        graphic.addChild( 0, new PhetPPath( graphic.getFullBounds(), new Color( 0, 0, 0, 0 ) ) );
+        graphic.addChild( 0, new Spacer( graphic.getFullBounds() ) );
 
         removeButton = new PImage( Images.REMOVE );
         removeButton.setOffset( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - removeButton.getFullBounds().getWidth(),
