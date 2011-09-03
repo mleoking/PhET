@@ -46,7 +46,6 @@ public class JmeUtils {
      * <p/>
      * A function for creating a rotation matrix that rotates a vector called
      * "start" into another vector called "end".
-     * TODO: move to somewhere more common
      *
      * @param matrix The matrix to modify
      * @param a      normalized non-zero starting vector
