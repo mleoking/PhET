@@ -7,7 +7,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -31,7 +34,13 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public static final double INSET = 5;
     public final ControlPanelNode energyGraphControlPanel;
     public final String PARABOLA = "energy-skate-park/tracks/basics/parabola.esp";
-    private static final Font CONTROL_FONT = new PhetFont( 16 );
+    public static final Font CONTROL_FONT = new PhetFont( 15 );
+
+    //Flag to indicate that friction has been enabled
+    public final SettableProperty<Boolean> frictionEnabled = new BooleanProperty( false );
+
+    //Flag to indicate whether the skater should stick to the track
+    public final SettableProperty<Boolean> stickToTrack = new BooleanProperty( true );
 
     public EnergySkateParkBasicsModule( String name, final PhetFrame phetFrame ) {
         super( name, phetFrame, new EnergySkateParkOptions() );
@@ -44,6 +53,13 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
         //Control panels are floating not docked
         setControlPanel( null );
+
+        //When the user changes the "stick to track" setting, enable/disable the roller coaster mode
+        stickToTrack.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean stickToTrack ) {
+                getEnergySkateParkModel().setRollerCoasterMode( stickToTrack );
+            }
+        } );
 
         //Add the energy graph control panel
         energyGraphControlPanel = new ControlPanelNode( new VBox(
@@ -102,6 +118,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
         //Add the "Reset all" button
         energySkateParkSimulationPanel.getRootNode().addChild( new TextButtonNode( "Reset All" ) {{
+            setFont( CONTROL_FONT );
 
             //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
             energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
