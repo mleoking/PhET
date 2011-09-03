@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
@@ -141,10 +142,15 @@ public class BondNode extends Node {
     }
 
     public static class SingleBondNode extends Geometry {
-        public SingleBondNode( float length, float bondRadius, AssetManager assetManager, final ColorRGBA color ) {
+        public SingleBondNode( final float length, final float bondRadius, AssetManager assetManager, final ColorRGBA color ) {
             super( "Bond" );
 
-            mesh = new Cylinder( 4, 16, bondRadius, length );
+            MoleculeShapesProperties.cylinderSamples.addObserver( new SimpleObserver() {
+                public void update() {
+                    setMesh( new Cylinder( 2, MoleculeShapesProperties.cylinderSamples.get(), bondRadius, length ) );
+                }
+            } );
+
             setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
                 setBoolean( "UseMaterialColors", true );
 

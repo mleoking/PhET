@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.Atom3D;
@@ -63,14 +64,24 @@ public class AtomNode extends Geometry {
                 assetManager );
     }
 
-    public AtomNode( final Property<ImmutableVector3D> position, Option<PairGroup> pairOption, final ColorRGBA color, float radius, AssetManager assetManager ) {
-        super( "Atom", new Sphere( 32, 32, radius ) {{
+    public AtomNode( final Property<ImmutableVector3D> position, Option<PairGroup> pairOption, final ColorRGBA color, final float radius, AssetManager assetManager ) {
+        super( "Atom", new Sphere( MoleculeShapesProperties.sphereSamples.get(), MoleculeShapesProperties.sphereSamples.get(), radius ) {{
             setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
             TangentBinormalGenerator.generate( this );           // for lighting effect
         }} );
         this.radius = radius;
         this.pair = pairOption.isSome() ? pairOption.get() : null;
         this.position = position;
+
+        MoleculeShapesProperties.sphereSamples.addObserver(
+                new SimpleObserver() {// TODO: remove code duplication?
+                    public void update() {
+                        setMesh( new Sphere( MoleculeShapesProperties.sphereSamples.get(), MoleculeShapesProperties.sphereSamples.get(), radius ) {{
+                            setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
+                            TangentBinormalGenerator.generate( this );           // for lighting effect
+                        }} );
+                    }
+                }, false );
 
         setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );
