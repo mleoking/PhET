@@ -65,6 +65,13 @@ public class RealMolecule extends Molecule {
     public static final RealMolecule CARBON_MONOXIDE = new RealMolecule( "CO", 1 ) {{
         addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.528500, 0, 0 ) ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.528500, 0, 0 ) ), 3 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule MOLECULAR_HYDROGEN = new RealMolecule( "H2", 0 ) {{
+        addCentralAtom( new Atom3D( H, new ImmutableVector3D( -0.390000, 0.178000, -0.444000 ) ) );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.014000, 0.318000, 0.160000 ) ), 1 );
+        centerOnCentralAtom();
     }};
 
     public static final RealMolecule CARBON_DIOXIDE = new RealMolecule( "CO2", 0 ) {{
@@ -88,11 +95,11 @@ public class RealMolecule extends Molecule {
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.776400, 0.969600, 0 ) ), 2 );
     }};
 
-    public static final RealMolecule FORMALDEHYDE = new RealMolecule( "CH2O", 0 ) {{ // TODO: can't see hydrogens in space-fill?
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D( 2.5369, 0.06, 0 ) ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 3.403, 0.56, 0 ) ), 2 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 2, 0.37, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 2.5369, -0.56, 0 ) ), 1 );
+    public static final RealMolecule FORMALDEHYDE = new RealMolecule( "CH2O", 0 ) {{
+        addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.237000, 1.147000, -0.000000 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.237000, -0.080000, 0.000000 ) ), 2 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.702000, 1.739000, -0.000000 ) ), 1 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -1.176000, 1.739000, 0.000000 ) ), 1 );
         centerOnCentralAtom();
     }};
 
@@ -196,11 +203,12 @@ public class RealMolecule extends Molecule {
     }};
 
     public static final RealMolecule SULFUR_TETRAFLUORIDE = new RealMolecule( "SF4", 1 ) {{
-        addCentralAtom( new Atom3D( S, new ImmutableVector3D() ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.000000, 1.740000, 0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.507000, -0.870000, 0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.000000, 0.000000, 1.740000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.000000, 0.000000, -1.740000 ) ), 1 );
+        addCentralAtom( new Atom3D( S, new ImmutableVector3D( -0.504000, 0.358000, 0.168000 ) ) );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.791000, -1.156000, 0.221000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.913000, 0.980000, 0.235000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.605000, 0.317000, -1.471000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.429000, 0.386000, 1.809000 ) ), 1 );
+        centerOnCentralAtom();
     }};
 
     public static final RealMolecule XENON_DIOXYDIFLUORIDE = new RealMolecule( "XeO2F2", 1 ) {{
@@ -324,7 +332,7 @@ public class RealMolecule extends Molecule {
             SULFUR_TETRAFLUORIDE, XENON_DIOXYDIFLUORIDE, BROMINE_TRIFLUORIDE,
             CHLORINE_TRIFLUORIDE, XENON_DIFLUORIDE, TRIIODIDE, SULFUR_HEXAFLUORIDE,
             BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
-            CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE
+            CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, MOLECULAR_HYDROGEN
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
