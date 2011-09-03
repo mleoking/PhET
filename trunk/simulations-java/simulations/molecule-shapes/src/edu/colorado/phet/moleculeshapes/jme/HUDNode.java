@@ -2,8 +2,6 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
@@ -15,6 +13,7 @@ import org.lwjgl.input.Mouse;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import com.jme3.app.Application;
+import com.jme3.app.state.AbstractAppState;
 import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.JoyAxisEvent;
@@ -33,6 +32,8 @@ import com.jme3.texture.Texture2D;
 /**
  * Creates a JME3 Spatial that displays Swing components within a rectangle. It also
  * listens to mouse events via JMERepaintManager, and will update itself as necessary.
+ * <p/>
+ * NOTE: call dispose() when you are done with this! (Don't leak memory and processor time)
  */
 public class HUDNode extends Geometry {
 
@@ -46,6 +47,7 @@ public class HUDNode extends Geometry {
 
     private RawInputListener inputListener; // our listener for mouse events, so that we can forward them
     private boolean listenerAttached = false; // whether our listener is listening
+    private AbstractAppState state; // our state listener. will get updates every frame until disposed
 
     private boolean dirty = false; // whether the image needs to be repainted
 
@@ -85,23 +87,9 @@ public class HUDNode extends Geometry {
         // attach the property that our JMERepaintManager will look for. when we receive a repaint request, the dirty flag will be set
         component.putClientProperty( ON_REPAINT_CALLBACK, new VoidFunction0() {
             public void apply() {
-                dirty = true;
+                repaint();
             }
         } );
-
-        // timer that handles repaints. TODO get per-frame dirty checks!
-        new Timer( 10, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if ( dirty ) {
-
-                    // wait until we aren't rendering
-                    synchronized ( app ) {
-                        image.refreshImage();
-                        dirty = false;
-                    }
-                }
-            }
-        } ).start();
 
         // listen to mouse events
         inputListener = new RawInputListener() {
@@ -156,11 +144,29 @@ public class HUDNode extends Geometry {
         initRepaintManager();
 
         image.refreshImage();
+
+        // get an update every frame. if our image is dirty, repaint it
+        state = new AbstractAppState() {
+            @Override public void update( float tpf ) {
+                synchronized ( HUDNode.this ) {
+                    if ( dirty ) {
+                        image.refreshImage();
+                        dirty = false;
+                    }
+                }
+            }
+        };
+        app.getStateManager().attach( state );
+    }
+
+    public synchronized void repaint() {
+        dirty = true;
     }
 
     // All necessary cleanup that we need to do to never use this HUDNode again (don't leak memory)
     public void dispose() {
         ignoreInput();
+        app.getStateManager().detach( state );
     }
 
     public void ignoreInput() {
