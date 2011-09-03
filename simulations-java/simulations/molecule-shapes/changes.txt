@@ -1,3 +1,7 @@
+Bugfixes and improvements
+"Real Molecule" area
+Bond angles improvements and added checkbox
+Many dev options
 # 0.00.24 (56007) Aug 31, 2011
 8/31/11 Spacefill testing version
 # 0.00.23 (56005) Aug 31, 2011
