@@ -81,24 +81,12 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
 
+        developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", MoleculeShapesProperties.allowDraggingBehind ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", MoleculeShapesProperties.useRotationCursor ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow bond angles between lone pairs", MoleculeShapesProperties.allowAnglesBetweenLonePairs ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show colored bonds for real molecules", MoleculeShapesProperties.useColoredBonds ) );
-        developerMenu.add( new JMenuItem( "Change background color" ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    new JDialog( frame ) {{
-                        setTitle( "Background Color" );
-                        setResizable( false );
-
-                        setContentPane( new ColorRGBAPropertyControl( frame, "background color:", module.getApp().backgroundColor ) );
-                        pack();
-                        SwingUtils.centerInParent( this );
-                    }}.setVisible( true );
-                }
-            } );
-        }} );
+        developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
                              public void update() {
@@ -113,7 +101,27 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
                              }
                          }, false );
         }} ) );
-        developerMenu.add( new JMenuItem( "Show Performance Window" ) {{
+        developerMenu.add( new JSeparator() );
+        developerMenu.add( new JMenuItem( "Color Options" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new JDialog( frame ) {{
+                        setTitle( "Color Options" );
+                        setResizable( false );
+
+                        setContentPane( new JPanel() {{
+                            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+                            add( new ColorRGBAPropertyControl( frame, "Background color: ", module.getApp().backgroundColor ) );
+                            add( new ColorRGBAPropertyControl( frame, "Central atom color: ", MoleculeShapesConstants.COLOR_ATOM_CENTER ) );
+                            add( new ColorRGBAPropertyControl( frame, "Radial atom color: ", MoleculeShapesConstants.COLOR_ATOM ) );
+                        }} );
+                        pack();
+                        SwingUtils.centerInParent( this );
+                    }}.setVisible( true );
+                }
+            } );
+        }} );
+        developerMenu.add( new JMenuItem( "Performance Options" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     new PerformanceFrame( module.getApp() );
