@@ -68,9 +68,15 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
-    public static final RealMolecule MOLECULAR_HYDROGEN = new RealMolecule( "H2", 0 ) {{
-        addCentralAtom( new Atom3D( H, new ImmutableVector3D( -0.390000, 0.178000, -0.444000 ) ) );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.014000, 0.318000, 0.160000 ) ), 1 );
+    public static final RealMolecule MOLECULAR_OXYGEN = new RealMolecule( "O2", 0 ) {{
+        addCentralAtom( new Atom3D( O, new ImmutableVector3D( -0.864000, 0.116000, 0.000000 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.292000, 0.477000, 0.000000 ) ), 2 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule HYDROGEN_FLUORIDE = new RealMolecule( "HF", 0 ) {{
+        addCentralAtom( new Atom3D( F, new ImmutableVector3D( -0.405, 0.325, 0 ) ) );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.405, 1.242, 0 ) ), 1 );
         centerOnCentralAtom();
     }};
 
@@ -324,6 +330,15 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
+    public static final RealMolecule PERCHLORATE = new RealMolecule( "ClO4-", 0 ) {{
+        addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.023000, 0.014000, 0.171000 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.023000, -1.334000, -0.305000 ) ), 2 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.191000, 0.688000, -0.306000 ) ), 2 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.145000, 0.688000, -0.307000 ) ), 2 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.023000, 0.015000, 1.601000 ) ), 1 );
+        centerOnCentralAtom();
+    }};
+
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
             CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE,
             FORMALDEHYDE, AMMONIA, METHANE, DICHLORODIFLUOROMETHANE, HYDROGEN_CYANIDE,
@@ -332,7 +347,8 @@ public class RealMolecule extends Molecule {
             SULFUR_TETRAFLUORIDE, XENON_DIOXYDIFLUORIDE, BROMINE_TRIFLUORIDE,
             CHLORINE_TRIFLUORIDE, XENON_DIFLUORIDE, TRIIODIDE, SULFUR_HEXAFLUORIDE,
             BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
-            CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, MOLECULAR_HYDROGEN
+            CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, PERCHLORATE,
+            MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
