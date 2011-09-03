@@ -35,7 +35,9 @@ public abstract class JMEModule extends Module {
 
         // store settings within the properties
         JmeUtils.maxAllowedSamples = maxSamples;
-        JmeUtils.antiAliasingSamples.set( settings.getSamples() );
+        if ( JmeUtils.antiAliasingSamples.get() == null ) {
+            JmeUtils.antiAliasingSamples.set( settings.getSamples() );
+        }
 
         // limit the framerate
         settings.setFrameRate( JmeUtils.frameRate.get() );
