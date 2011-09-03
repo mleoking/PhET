@@ -12,6 +12,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 
 public class PerformanceFrame extends JFrame {
@@ -31,13 +32,13 @@ public class PerformanceFrame extends JFrame {
 
         container.add( new JLabel( "Antialiasing Samples (not working?)" ), new GridBagConstraints() {{gridy = 1;}} );
         container.add( new AntiAliasingButton( 0 ), new GridBagConstraints() {{gridy = 1;}} );
-        if ( MoleculeShapesProperties.maxAllowedSamples > 0 && MoleculeShapesProperties.maxAllowedSamples < 4 ) {
-            container.add( new AntiAliasingButton( MoleculeShapesProperties.maxAllowedSamples ), new GridBagConstraints() {{gridy = 1;}} );
+        if ( JmeUtils.maxAllowedSamples > 0 && JmeUtils.maxAllowedSamples < 4 ) {
+            container.add( new AntiAliasingButton( JmeUtils.maxAllowedSamples ), new GridBagConstraints() {{gridy = 1;}} );
         }
         else {
             container.add( new AntiAliasingButton( 4 ), new GridBagConstraints() {{gridy = 1;}} );
-            if ( MoleculeShapesProperties.maxAllowedSamples > 4 ) {
-                container.add( new AntiAliasingButton( MoleculeShapesProperties.maxAllowedSamples ), new GridBagConstraints() {{gridy = 1;}} );
+            if ( JmeUtils.maxAllowedSamples > 4 ) {
+                container.add( new AntiAliasingButton( JmeUtils.maxAllowedSamples ), new GridBagConstraints() {{gridy = 1;}} );
             }
         }
 
@@ -72,7 +73,7 @@ public class PerformanceFrame extends JFrame {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     synchronized ( app ) {
-                        MoleculeShapesProperties.frameRate.set( frameRate );
+                        JmeUtils.frameRate.set( frameRate );
                     }
                 }
             } );
@@ -86,7 +87,7 @@ public class PerformanceFrame extends JFrame {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     synchronized ( app ) {
-                        MoleculeShapesProperties.antiAliasingSamples.set( samples );
+                        JmeUtils.antiAliasingSamples.set( samples );
                     }
                 }
             } );
