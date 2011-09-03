@@ -236,7 +236,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     public static final String MAP_LMB = "CameraDrag";
     public static final String MAP_MMB = "RightMouseButton";
 
-    private static final float MOUSE_SCALE = 3.0f;
+    private static final float ROTATION_MOUSE_SENSITIVITY = 5.0f;
 
     /*---------------------------------------------------------------------------*
     * model
@@ -381,7 +381,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
                                 switch( dragMode ) {
                                     case MODEL_ROTATE:
-                                        updateQuaternion.apply( rotation, MOUSE_SCALE );
+                                        updateQuaternion.apply( rotation, ROTATION_MOUSE_SENSITIVITY );
                                         break;
                                     case REAL_MOLECULE_ROTATE:
                                         realMoleculeOverlayNode.updateRotation( updateQuaternion );
