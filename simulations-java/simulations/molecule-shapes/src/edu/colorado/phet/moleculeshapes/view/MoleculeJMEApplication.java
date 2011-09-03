@@ -56,7 +56,6 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: ability to deadlock: (see below)
  * TODO: electron geometry name repaint issue - check threading and repaint()
- * TODO: slightly increase general rotation speed?
  * <p/>
  * NOTES:
  * TODO: it's weird to drag out an invisible lone pair
