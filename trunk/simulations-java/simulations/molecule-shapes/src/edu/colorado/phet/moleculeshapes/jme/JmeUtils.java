@@ -2,7 +2,16 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
 import java.awt.*;
+import java.io.IOException;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.Pbuffer;
+import org.lwjgl.opengl.PixelFormat;
+
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 import com.jme3.math.ColorRGBA;
@@ -10,11 +19,22 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.system.AppSettings;
+import com.jme3.system.JmeSystem;
 
 /**
  * Utilities for dealing with JME3
  */
 public class JmeUtils {
+    /*---------------------------------------------------------------------------*
+    * global properties
+    *----------------------------------------------------------------------------*/
+    // the running framerate
+    public static final Property<Integer> frameRate = new Property<Integer>( 60 );
+    // number of antialiasing samples
+    public static final Property<Integer> antiAliasingSamples = new Property<Integer>( 0 );
+    public static int maxAllowedSamples = 0; // should be written on startup
+
     /*---------------------------------------------------------------------------*
     * Vector3f conversion
     *----------------------------------------------------------------------------*/
@@ -198,5 +218,45 @@ public class JmeUtils {
     public static Vector3f slerp( Vector3f start, Vector3f end, float ratio ) {
         // assumes normalized. TODO doc
         return new Quaternion().slerp( Quaternion.IDENTITY, getRotationQuaternion( start, end ), ratio ).mult( start );
+    }
+
+    /**
+     * Ensure that the (probably LWJGL) libraries are loaded (either from the JNLP path or extracted out to disk)
+     *
+     * @param settings Our current app settings
+     */
+    public static void initializeLibraries( AppSettings settings ) {
+        // if we aren't running fron JNLP (and haven't initialized before)
+        if ( !JmeSystem.isLowPermissions() ) {
+            try {
+                JmeNatives.extractNativeLibs( JmeSystem.getPlatform(), settings );
+            }
+            catch ( IOException e ) {
+                throw new RuntimeException( "JME3 failure", e );
+            }
+
+            // mark as initialized
+            JmeSystem.setLowPermissions( true );
+        }
+    }
+
+    /**
+     * @return Maxiumum anti-aliasing samples supported. Required to have the LWJGL libraries loaded before calling
+     */
+    public static int getMaximumAntialiasingSamples() {
+        int result = 0;
+        try {
+            Pbuffer pb = new Pbuffer( 10, 10, new PixelFormat( 32, 0, 24, 8, 0 ), null );
+            pb.makeCurrent();
+            boolean supported = GLContext.getCapabilities().GL_ARB_multisample;
+            if ( supported ) {
+                result = GL11.glGetInteger( GL30.GL_MAX_SAMPLES );
+            }
+            pb.destroy();
+        }
+        catch ( LWJGLException e ) {
+            //e.printStackTrace();
+        }
+        return result;
     }
 }
