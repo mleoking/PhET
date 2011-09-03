@@ -11,6 +11,8 @@ import javax.swing.*;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import com.jme3.app.Application;
@@ -52,14 +54,26 @@ public class HUDNode extends Geometry {
 
     private boolean dirty = false; // whether the image needs to be repainted
 
+    /**
+     * Basically whether this node should be antialiased. If it is set up in a position where the texture (image)
+     * pixels are not 1-to-1 with the screen pixels (say, translated by fractions of a pixel, or any rotation),
+     * this should be set to true.
+     */
+    public final Property<Boolean> antialiasing;
+
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
     public HUDNode( final JComponent component, final int width, final int height, final Application app ) {
+        this( component, width, height, app, new Property<Boolean>( false ) );
+    }
+
+    public HUDNode( final JComponent component, final int width, final int height, final Application app, final Property<Boolean> antialiasing ) {
         super( "HUD", new Quad( width, height, true ) ); // "true" flips it so our components are shown in the correct Y direction
         this.component = component;
         this.width = width;
         this.height = height;
         this.app = app;
+        this.antialiasing = antialiasing;
 
         image = new PaintableImage( width, height, true ) {
             {
@@ -142,6 +156,23 @@ public class HUDNode extends Geometry {
         setMaterial( new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             setTexture( "ColorMap", new Texture2D() {{
                 setImage( image );
+
+                // set up and listen to any antialiasing changes
+                antialiasing.addObserver( new SimpleObserver() {
+                    public void update() {
+                        // we actually modify the sampling, not the antialiasing if you want to be technical about it
+                        if ( antialiasing.get() ) {
+                            // allow general sampling
+                            setMagFilter( MagFilter.Bilinear );
+                            setMinFilter( MinFilter.BilinearNoMipMaps );
+                        }
+                        else {
+                            // when the antialiasing hits this texture, make sure we use nearest-neighbor so that we don't get any blurring
+                            setMagFilter( MagFilter.Nearest );
+                            setMinFilter( MinFilter.NearestNearestMipMap );
+                        }
+                    }
+                } );
             }} );
 
             getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
