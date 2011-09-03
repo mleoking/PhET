@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.model.Atom3D;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
@@ -42,7 +43,9 @@ public class MoleculeNode extends Node {
                     MoleculeShapesConstants.MOLECULE_BOND_RADIUS,
                     new None<Float>(),
                     app,
-                    camera );
+                    camera,
+                    JmeUtils.convertColor( bond.a.getColor() ),
+                    JmeUtils.convertColor( bond.b.getColor() ));
             attachChild( bondNode );
             bondNodes.add( bondNode );
         }

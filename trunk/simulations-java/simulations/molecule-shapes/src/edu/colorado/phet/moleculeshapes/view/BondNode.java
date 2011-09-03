@@ -1,16 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -31,10 +34,18 @@ public class BondNode extends Node {
     private final Option<Float> maxLength;
     private final MoleculeJMEApplication app;
     private final Camera camera;
+    private final ColorRGBA aColor;
+    private final ColorRGBA bColor;
 
     private final List<SingleBondNode> children = new ArrayList<SingleBondNode>();
 
-    public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius, Option<Float> maxLength, MoleculeJMEApplication app, Camera camera ) {
+    public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius,
+                     Option<Float> maxLength, MoleculeJMEApplication app, Camera camera ) {
+        this( a, b, bondOrder, bondRadius, maxLength, app, camera, ColorRGBA.White, ColorRGBA.White );
+    }
+
+    public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius,
+                     Option<Float> maxLength, MoleculeJMEApplication app, Camera camera, ColorRGBA aColor, ColorRGBA bColor ) {
         super( "Bond" );
         this.a = a;
         this.b = b;
@@ -43,6 +54,8 @@ public class BondNode extends Node {
         this.maxLength = maxLength;
         this.app = app;
         this.camera = camera;
+        this.aColor = aColor;
+        this.bColor = bColor;
 
         updateView();
     }
@@ -62,10 +75,10 @@ public class BondNode extends Node {
         Vector3f start = JmeUtils.convertVector( a.get() );
         final Vector3f end = JmeUtils.convertVector( b.get() );
 
-        Vector3f towardsEnd = end.subtract( start ).normalize();
+        final Vector3f towardsEnd = end.subtract( start ).normalize();
 
         float distance = start.distance( end );
-        float length;
+        final float length;
         float overLength = 0;
         if ( maxLength.isSome() && distance > maxLength.get() ) {
             length = maxLength.get();
@@ -97,22 +110,47 @@ public class BondNode extends Node {
         }
 
         // add single bond nodes at each offset position
-        for ( final Vector3f offset : offsets ) {
-            SingleBondNode child = new SingleBondNode( length, bondRadius, app.getAssetManager() ) {{
-                setLocalTranslation( bondCenter.add( offset ) );
-                lookAt( end.add( offset ), Vector3f.UNIT_Y );
-            }};
-            attachChild( child );
-            children.add( child );
+        if ( aColor.equals( bColor ) || !MoleculeShapesApplication.useColoredBonds.get() ) {
+            for ( final Vector3f offset : offsets ) {
+                SingleBondNode child = new SingleBondNode( length, bondRadius, app.getAssetManager(), ColorRGBA.White ) {{
+                    setLocalTranslation( bondCenter.add( offset ) );
+                    lookAt( end.add( offset ), Vector3f.UNIT_Y );
+                }};
+                attachChild( child );
+                children.add( child );
+            }
+        }
+        else {
+            for ( final Vector3f offset : offsets ) {
+                final Vector3f colorOffset = towardsEnd.mult( length / 4 );
+
+                SingleBondNode aBond = new SingleBondNode( length / 2, bondRadius, app.getAssetManager(), aColor ) {{
+                    setLocalTranslation( bondCenter.add( offset ).subtract( colorOffset ) );
+                    lookAt( end.add( offset ), Vector3f.UNIT_Y );
+                }};
+                attachChild( aBond );
+                children.add( aBond );
+
+                SingleBondNode bBond = new SingleBondNode( length / 2, bondRadius, app.getAssetManager(), bColor ) {{
+                    setLocalTranslation( bondCenter.add( offset ).add( colorOffset ) );
+                    lookAt( end.add( offset ), Vector3f.UNIT_Y );
+                }};
+                attachChild( bBond );
+                children.add( bBond );
+            }
         }
     }
 
     public static class SingleBondNode extends Geometry {
-        public SingleBondNode( float length, float bondRadius, AssetManager assetManager ) {
+        public SingleBondNode( float length, float bondRadius, AssetManager assetManager, final ColorRGBA color ) {
             super( "Bond" );
 
             mesh = new Cylinder( 4, 16, bondRadius, length );
-            setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) );
+            setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
+                setBoolean( "UseMaterialColors", true );
+
+                setColor( "Diffuse", color );
+            }} );
         }
     }
 }
