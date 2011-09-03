@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
@@ -300,7 +300,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         /*---------------------------------------------------------------------------*
         * "geometry name" panel
         *----------------------------------------------------------------------------*/
-        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule ), "Geometry Name" ) {{
+        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule, this ), "Geometry Name" ) {{
             // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
             setOffset( 0, 10 );
         }}, this );
@@ -394,7 +394,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
         if ( dragging && ( dragMode == DragMode.MODEL_ROTATE || dragMode == DragMode.REAL_MOLECULE_ROTATE ) ) {
             // rotating the molecule. for now, trying out the "move" cursor
-            canvas.setCursor( Cursor.getPredefinedCursor( MoleculeShapesApplication.useRotationCursor.get() ? Cursor.MOVE_CURSOR : Cursor.DEFAULT_CURSOR ) );
+            canvas.setCursor( Cursor.getPredefinedCursor( MoleculeShapesProperties.useRotationCursor.get() ? Cursor.MOVE_CURSOR : Cursor.DEFAULT_CURSOR ) );
         }
         else if ( pair != null || dragging ) {
             // over a pair group, OR dragging one
@@ -412,8 +412,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     public synchronized void resetAll() {
         removeAllAtoms();
-        MoleculeShapesApplication.showElectronShapeName.reset();
-        MoleculeShapesApplication.showMolecularShapeName.reset();
         showLonePairs.reset();
 
         resetNotifier.fire();
@@ -437,7 +435,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         boolean returnCloseHit = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).mult( currentLocalPosition ).z >= 0;
 
         // override for dev option
-        if ( !MoleculeShapesApplication.allowDraggingBehind.get() ) {
+        if ( !MoleculeShapesProperties.allowDraggingBehind.get() ) {
             returnCloseHit = true;
         }
 

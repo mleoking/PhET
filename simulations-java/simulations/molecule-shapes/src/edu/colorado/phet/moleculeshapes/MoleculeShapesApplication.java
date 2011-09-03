@@ -32,16 +32,6 @@ import com.jme3.system.Natives;
  */
 public class MoleculeShapesApplication extends PiccoloPhetApplication {
 
-    public static final Property<Boolean> allowDraggingBehind = new Property<Boolean>( true );
-    public static final Property<Boolean> useRotationCursor = new Property<Boolean>( true );
-    public static final Property<Boolean> showMolecularShapeName = new Property<Boolean>( false );
-    public static final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
-    public static final Property<Boolean> showBondAngles = new Property<Boolean>( false );
-    public static final Property<Boolean> allowAnglesBetweenLonePairs = new Property<Boolean>( false );
-    public static final Property<Boolean> useColoredBonds = new Property<Boolean>( false );
-
-    public static final Property<Integer> frameRate = new Property<Integer>( 60 );
-
     private MoleculeShapesModule module;
 
     /**
@@ -90,10 +80,10 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
 
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", allowDraggingBehind ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", useRotationCursor ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Allow bond angles between lone pairs", allowAnglesBetweenLonePairs ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Show colored bonds for real molecules", useColoredBonds ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", MoleculeShapesProperties.allowDraggingBehind ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", MoleculeShapesProperties.useRotationCursor ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Allow bond angles between lone pairs", MoleculeShapesProperties.allowAnglesBetweenLonePairs ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show colored bonds for real molecules", MoleculeShapesProperties.useColoredBonds ) );
         developerMenu.add( new JMenuItem( "Change background color" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -125,21 +115,21 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
         developerMenu.add( new JMenuItem( "FPS: 60" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    frameRate.set( 60 );
+                    MoleculeShapesProperties.frameRate.set( 60 );
                 }
             } );
         }} );
         developerMenu.add( new JMenuItem( "FPS: 20" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    frameRate.set( 20 );
+                    MoleculeShapesProperties.frameRate.set( 20 );
                 }
             } );
         }} );
         developerMenu.add( new JMenuItem( "FPS: 5" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    frameRate.set( 5 );
+                    MoleculeShapesProperties.frameRate.set( 5 );
                 }
             } );
         }} );

@@ -6,14 +6,16 @@ import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
+import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
+import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -62,6 +64,9 @@ public class GeometryNameNode extends PNode {
     // vertical padding between the checkboxes and the labels
     private static final double VERTICAL_PADDING = 0; // currently 0, since it looks nice on Windows
 
+    public final Property<Boolean> showMolecularShapeName = new Property<Boolean>( false );
+    public final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
+
     private PText molecularText;
     private PText electronText;
 
@@ -70,19 +75,26 @@ public class GeometryNameNode extends PNode {
 
     private final MoleculeModel molecule;
 
-    public GeometryNameNode( MoleculeModel molecule ) {
+    public GeometryNameNode( MoleculeModel molecule, MoleculeJMEApplication app ) {
         this.molecule = molecule;
+
+        app.resetNotifier.addTarget( new SimpleTarget() {
+            public void update() {
+                showMolecularShapeName.reset();
+                showElectronShapeName.reset();
+            }
+        } );
 
         /*---------------------------------------------------------------------------*
         * visibility checkboxes
         *----------------------------------------------------------------------------*/
 
-        final PSwing molecularCheckbox = new PSwing( new MoleculeShapesPropertyCheckBox( "Molecule Geometry", MoleculeShapesApplication.showMolecularShapeName ) ) {{
+        final PSwing molecularCheckbox = new PSwing( new MoleculeShapesPropertyCheckBox( "Molecule Geometry", showMolecularShapeName ) ) {{
             // center within it's "column"
             setOffset( ( MAX_SHAPE_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
         }};
 
-        PSwing electronCheckbox = new PSwing( new MoleculeShapesPropertyCheckBox( "Electron Geometry", MoleculeShapesApplication.showElectronShapeName ) ) {{
+        PSwing electronCheckbox = new PSwing( new MoleculeShapesPropertyCheckBox( "Electron Geometry", showElectronShapeName ) ) {{
             // center within it's "column"
             setOffset( MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS + ( MAX_GEOMETRY_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
         }};
@@ -105,13 +117,13 @@ public class GeometryNameNode extends PNode {
         * visibility listeners
         *----------------------------------------------------------------------------*/
 
-        MoleculeShapesApplication.showMolecularShapeName.addObserver( new SimpleObserver() {
+        showMolecularShapeName.addObserver( new SimpleObserver() {
             public void update() {
                 updateMolecularText();
             }
         } );
 
-        MoleculeShapesApplication.showElectronShapeName.addObserver( new SimpleObserver() {
+        showElectronShapeName.addObserver( new SimpleObserver() {
             public void update() {
                 updateElectronText();
             }
@@ -138,7 +150,7 @@ public class GeometryNameNode extends PNode {
         String name = molecule.getConfiguration().name;
         molecularText = getTextLabel( ( name == null ? Strings.SHAPE__EMPTY : name ) ); // replace the unknown value
         molecularText.setOffset( ( MAX_SHAPE_WIDTH - molecularText.getFullBounds().getWidth() ) / 2, readoutHeight );
-        molecularText.setVisible( MoleculeShapesApplication.showMolecularShapeName.get() );
+        molecularText.setVisible( showMolecularShapeName.get() );
 
         addChild( molecularText );
     }
@@ -152,7 +164,7 @@ public class GeometryNameNode extends PNode {
         String name = molecule.getConfiguration().geometry.name;
         electronText = getTextLabel( ( name == null ? Strings.GEOMETRY__EMPTY : name ) ); // replace the unknown value
         electronText.setOffset( columnOffset + ( MAX_SHAPE_WIDTH - electronText.getFullBounds().getWidth() ) / 2, readoutHeight );
-        electronText.setVisible( MoleculeShapesApplication.showElectronShapeName.get() );
+        electronText.setVisible( showElectronShapeName.get() );
 
         addChild( electronText );
     }

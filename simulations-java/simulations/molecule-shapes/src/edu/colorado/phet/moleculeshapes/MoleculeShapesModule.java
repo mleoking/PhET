@@ -41,7 +41,7 @@ public class MoleculeShapesModule extends Module {
         settings.setSamples( Math.min( 4, getMaximumAntialiasingSamples() ) );
 
         // limit the framerate
-        settings.setFrameRate( MoleculeShapesApplication.frameRate.get() );
+        settings.setFrameRate( MoleculeShapesProperties.frameRate.get() );
 
         app = new MoleculeJMEApplication( parentFrame );
 
@@ -49,10 +49,10 @@ public class MoleculeShapesModule extends Module {
         app.setSettings( settings );
         app.createCanvas();
 
-        MoleculeShapesApplication.frameRate.addObserver( new SimpleObserver() {
+        MoleculeShapesProperties.frameRate.addObserver( new SimpleObserver() {
             public void update() {
                 AppSettings s = settings;
-                s.setFrameRate( MoleculeShapesApplication.frameRate.get() );
+                s.setFrameRate( MoleculeShapesProperties.frameRate.get() );
                 app.setSettings( s );
                 app.restart();
             }

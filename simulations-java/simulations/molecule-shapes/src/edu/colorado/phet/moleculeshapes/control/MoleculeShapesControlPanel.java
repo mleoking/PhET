@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
@@ -169,7 +169,7 @@ public class MoleculeShapesControlPanel extends PNode {
         // TODO: i18n
         final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new PNode() {{
             addChild( new PhetPPath( new Double( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ), new Color( 0, 0, 0, 0 ) ) );
-            PSwing bondAngleBox = new PSwing( new MoleculeShapesPropertyCheckBox( "Show Bond Angles", MoleculeShapesApplication.showBondAngles ) );
+            PSwing bondAngleBox = new PSwing( new MoleculeShapesPropertyCheckBox( "Show Bond Angles", MoleculeShapesProperties.showBondAngles ) );
             addChild( bondAngleBox );
         }}, "Options" ) {{
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
