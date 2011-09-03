@@ -4,6 +4,7 @@ package edu.colorado.phet.moleculeshapes.jme;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.Callable;
 
 import javax.swing.*;
 
@@ -87,7 +88,13 @@ public class HUDNode extends Geometry {
         // attach the property that our JMERepaintManager will look for. when we receive a repaint request, the dirty flag will be set
         component.putClientProperty( ON_REPAINT_CALLBACK, new VoidFunction0() {
             public void apply() {
-                repaint();
+                // mark as dirty from the render thread
+                app.enqueue( new Callable<Object>() {
+                    public Object call() throws Exception {
+                        repaint();
+                        return null;
+                    }
+                } );
             }
         } );
 
