@@ -65,6 +65,10 @@ public class AtomNode extends Geometry {
     }
 
     public AtomNode( final Property<ImmutableVector3D> position, Option<PairGroup> pairOption, final ColorRGBA color, final float radius, AssetManager assetManager ) {
+        this(position, pairOption, new Property<ColorRGBA>( color ),radius, assetManager );
+    }
+
+    public AtomNode( final Property<ImmutableVector3D> position, Option<PairGroup> pairOption, final Property<ColorRGBA> color, final float radius, AssetManager assetManager ) {
         super( "Atom", new Sphere( MoleculeShapesProperties.sphereSamples.get(), MoleculeShapesProperties.sphereSamples.get(), radius ) {{
             setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
             TangentBinormalGenerator.generate( this );           // for lighting effect
@@ -86,7 +90,11 @@ public class AtomNode extends Geometry {
         setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );
 
-            setColor( "Diffuse", color );
+            color.addObserver( new SimpleObserver() {
+                public void update() {
+                    setColor( "Diffuse", color.get() );
+                }
+            } );
             setFloat( "Shininess", 1f ); // [0,128]
         }} );
 
