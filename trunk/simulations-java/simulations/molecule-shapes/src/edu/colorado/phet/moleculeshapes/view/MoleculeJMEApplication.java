@@ -54,8 +54,8 @@ import com.jme3.system.JmeCanvasContext;
 /**
  * Use jme3 to show a rotating molecule
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
+ *       TODO: ability to deadlock: (see below)
  * TODO: electron geometry name repaint issue - check threading and repaint()
- * TODO: performance investigations (that real molecule with colors seems to really bog down. why?)
  * <p/>
  * NOTES:
  * TODO: it's weird to drag out an invisible lone pair
@@ -64,6 +64,91 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: double-check naming with double/triple bonds
  * TODO: test startup crash failure dialog
  * TODO: looks weird to not see 180-degree angles? how even to handle?!?
+ *
+ * Found one Java-level deadlock:
+=============================
+"LWJGL Renderer Thread":
+  waiting to lock monitor 0x00000000081eeef8 (object 0x000000070016cdc8, a com.sun.java.swing.plaf.windows.AnimationController),
+  which is held by "AWT-EventQueue-0"
+"AWT-EventQueue-0":
+  waiting to lock monitor 0x0000000008071a58 (object 0x00000007000a8bb0, a edu.colorado.phet.moleculeshapes.jme.HUDNode),
+  which is held by "LWJGL Renderer Thread"
+
+Java stack information for the threads listed above:
+===================================================
+"LWJGL Renderer Thread":
+	at com.sun.java.swing.plaf.windows.AnimationController.getState(AnimationController.java:172)
+	- waiting to lock <0x000000070016cdc8> (a com.sun.java.swing.plaf.windows.AnimationController)
+	at com.sun.java.swing.plaf.windows.AnimationController.triggerAnimation(AnimationController.java:99)
+	at com.sun.java.swing.plaf.windows.AnimationController.paintSkin(AnimationController.java:223)
+	at com.sun.java.swing.plaf.windows.XPStyle$Skin.paintSkin(XPStyle.java:585)
+	at com.sun.java.swing.plaf.windows.XPStyle$Skin.paintSkin(XPStyle.java:554)
+	at com.sun.java.swing.plaf.windows.WindowsIconFactory$RadioButtonIcon.paintIcon(WindowsIconFactory.java:445)
+	at javax.swing.plaf.basic.BasicRadioButtonUI.paint(BasicRadioButtonUI.java:162)
+	- locked <0x0000000700003320> (a com.sun.java.swing.plaf.windows.WindowsRadioButtonUI)
+	at javax.swing.plaf.ComponentUI.update(ComponentUI.java:143)
+	at javax.swing.JComponent.paintComponent(JComponent.java:752)
+	at javax.swing.JComponent.paint(JComponent.java:1029)
+	at edu.umd.cs.piccolox.pswing.PSwing.paint(PSwing.java:480)
+	at edu.umd.cs.piccolox.pswing.PSwing.paint(PSwing.java:392)
+	at edu.umd.cs.piccolo.PNode.fullPaint(PNode.java:2826)
+	at edu.umd.cs.piccolo.PNode.fullPaint(PNode.java:2832)
+	at edu.umd.cs.piccolo.PNode.fullPaint(PNode.java:2832)
+	at edu.umd.cs.piccolo.PNode.fullPaint(PNode.java:2832)
+	at edu.umd.cs.piccolo.PNode.fullPaint(PNode.java:2832)
+	at edu.umd.cs.piccolo.PNode.fullPaint(PNode.java:2832)
+	at edu.umd.cs.piccolo.PNode.fullPaint(PNode.java:2832)
+	at edu.umd.cs.piccolo.PCamera.paintCameraView(PCamera.java:374)
+	at edu.umd.cs.piccolo.PCamera.paint(PCamera.java:356)
+	at edu.umd.cs.piccolo.PNode.fullPaint(PNode.java:2826)
+	at edu.umd.cs.piccolo.PCamera.fullPaint(PCamera.java:448)
+	at edu.umd.cs.piccolo.PCanvas.paintComponent(PCanvas.java:608)
+	at javax.swing.JComponent.paint(JComponent.java:1029)
+	at javax.swing.JComponent.paintChildren(JComponent.java:862)
+	- locked <0x00000007003bbce8> (a java.awt.Component$AWTTreeLock)
+	at javax.swing.JComponent.paint(JComponent.java:1038)
+	at edu.colorado.phet.moleculeshapes.jme.HUDNode$1.paint(HUDNode.java:83)
+	at edu.colorado.phet.moleculeshapes.jme.PaintableImage.refreshImage(PaintableImage.java:29)
+	at edu.colorado.phet.moleculeshapes.jme.HUDNode$5.update(HUDNode.java:153)
+	- locked <0x00000007000a8bb0> (a edu.colorado.phet.moleculeshapes.jme.HUDNode)
+	at com.jme3.app.state.AppStateManager.update(AppStateManager.java:153)
+	at edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication.update(PhetJMEApplication.java:108)
+	- locked <0x000000070007a188> (a edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication)
+	at com.jme3.system.lwjgl.LwjglAbstractDisplay.runLoop(LwjglAbstractDisplay.java:144)
+	at com.jme3.system.lwjgl.LwjglCanvas.runLoop(LwjglCanvas.java:199)
+	at com.jme3.system.lwjgl.LwjglAbstractDisplay.run(LwjglAbstractDisplay.java:218)
+	at java.lang.Thread.run(Thread.java:662)
+"AWT-EventQueue-0":
+	at edu.colorado.phet.moleculeshapes.jme.HUDNode.repaint(HUDNode.java:163)
+	- waiting to lock <0x00000007000a8bb0> (a edu.colorado.phet.moleculeshapes.jme.HUDNode)
+	at edu.colorado.phet.moleculeshapes.jme.HUDNode$2.apply(HUDNode.java:90)
+	at edu.colorado.phet.moleculeshapes.jme.JMERepaintManager.notifyComponent(JMERepaintManager.java:31)
+	at edu.colorado.phet.moleculeshapes.jme.JMERepaintManager.notifyComponent(JMERepaintManager.java:36)
+	at edu.colorado.phet.moleculeshapes.jme.JMERepaintManager.notifyComponent(JMERepaintManager.java:36)
+	at edu.colorado.phet.moleculeshapes.jme.JMERepaintManager.notifyComponent(JMERepaintManager.java:36)
+	at edu.colorado.phet.moleculeshapes.jme.JMERepaintManager.addDirtyRegion(JMERepaintManager.java:18)
+	at javax.swing.JComponent.repaint(JComponent.java:4734)
+	at java.awt.Component.repaint(Component.java:3103)
+	at com.sun.java.swing.plaf.windows.AnimationController.actionPerformed(AnimationController.java:251)
+	- locked <0x000000070016cdc8> (a com.sun.java.swing.plaf.windows.AnimationController)
+	at javax.swing.Timer.fireActionPerformed(Timer.java:291)
+	at javax.swing.Timer$DoPostEvent.run(Timer.java:221)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:209)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:642)
+	at java.awt.EventQueue.access$000(EventQueue.java:85)
+	at java.awt.EventQueue$1.run(EventQueue.java:603)
+	at java.awt.EventQueue$1.run(EventQueue.java:601)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.AccessControlContext$1.doIntersectionPrivilege(AccessControlContext.java:87)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:612)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:269)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:184)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:174)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:169)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:161)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
+
+Found 1 deadlock.
  */
 public class MoleculeJMEApplication extends PhetJMEApplication {
 
