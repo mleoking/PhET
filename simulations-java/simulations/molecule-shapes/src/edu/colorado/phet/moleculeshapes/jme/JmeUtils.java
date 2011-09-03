@@ -2,7 +2,10 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GL11;
@@ -21,6 +24,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeSystem;
+import com.jme3.system.Natives;
 
 /**
  * Utilities for dealing with JME3
@@ -258,5 +262,39 @@ public class JmeUtils {
             //e.printStackTrace();
         }
         return result;
+    }
+
+    /**
+     * Initialize our JME setup. Should be called at the very start of the application.
+     *
+     * @param commandLineArgs Args, to check for flags
+     */
+    public static void initializeJME( String[] commandLineArgs ) {
+        // don't spam the console output for every cylinder that we re-create (every frame)
+        Logger.getLogger( "de.lessvoid" ).setLevel( Level.SEVERE );
+        Logger.getLogger( "com.jme3" ).setLevel( Level.SEVERE );
+
+        // since we are including the JME3 native lib dependencies in the JNLP, don't load if we are running online
+        if ( System.getProperty( "javawebstart.version" ) != null ) {
+            // see http://jmonkeyengine.org/wiki/doku.php/jme3:webstart
+            JmeSystem.setLowPermissions( true );
+        }
+        else {
+            // create a temporary directory to hold native libs
+            final File tempDir = new File( System.getProperty( "java.io.tmpdir" ), "phet-jme3-libs" );
+            tempDir.mkdirs();
+            final String path = tempDir.getAbsolutePath();
+            System.out.println( "Extracting native JME3 libraries to: " + path );
+            Natives.setExtractionDir( path );
+            tempDir.deleteOnExit();
+        }
+
+        // attempt to read a anti-aliasing samples count from the command line args. use "-samples 0" for 0 samples, etc.
+        for ( int i = 0; i < commandLineArgs.length; i++ ) {
+            if ( commandLineArgs[i].equals( "-samples" ) && i + 1 < commandLineArgs.length ) {
+                antiAliasingSamples.set( Integer.parseInt( commandLineArgs[i + 1] ) );
+                break;
+            }
+        }
     }
 }
