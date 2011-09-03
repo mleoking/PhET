@@ -22,12 +22,11 @@ public class MoleculeNode extends Node {
 
     private float boundingRadius = 0;
 
-    public MoleculeNode( Molecule molecule, MoleculeJMEApplication app, Camera camera ) {
+    public MoleculeNode( Molecule molecule, MoleculeJMEApplication app, Camera camera, DisplayMode displayMode ) {
         super( "Molecule" );
 
         for ( Atom3D atom : molecule.getAtoms() ) {
-            // TODO: change spacefill and ball-and-stick here
-            AtomNode atomNode = new AtomNode( atom, false, app.getAssetManager() );
+            AtomNode atomNode = new AtomNode( atom, displayMode == DisplayMode.BALL_AND_STICK, app.getAssetManager() );
             atomNodes.add( atomNode );
             attachChild( atomNode );
 
@@ -35,6 +34,7 @@ public class MoleculeNode extends Node {
         }
 
         for ( Bond<Atom3D> bond : molecule.getBonds() ) {
+            // TODO: improved bond-node view
             BondNode bondNode = new BondNode(
                     bond.a.position,
                     bond.b.position,
@@ -46,6 +46,11 @@ public class MoleculeNode extends Node {
             attachChild( bondNode );
             bondNodes.add( bondNode );
         }
+    }
+
+    public static enum DisplayMode {
+        SPACE_FILL,
+        BALL_AND_STICK
     }
 
     public float getBoundingRadius() {

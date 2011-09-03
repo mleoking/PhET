@@ -8,6 +8,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.*;
+
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -23,11 +25,14 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
+import edu.colorado.phet.moleculeshapes.view.MoleculeNode;
+import edu.colorado.phet.moleculeshapes.view.MoleculeNode.DisplayMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Displays a 3D view for molecules that are "real" versions of the currently visible VSEPR model
@@ -142,33 +147,45 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * display type selection
         *----------------------------------------------------------------------------*/
-//        addChild( new PSwing( new JPanel() {{
-//            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-//            setOpaque( false );
-//            final ButtonGroup group = new ButtonGroup();
-//            add( new JRadioButton( "Space Fill", true ) {{ // 50% size
-//                group.add( this );
-//                setOpaque( false );
-//                setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
-//                addActionListener( new ActionListener() {
-//                    public void actionPerformed( ActionEvent e ) {
-//
-//                    }
-//                } );
-//            }} );
-//            add( new JRadioButton( "Ball and Stick", false ) {{
-//                group.add( this );
-//                setOpaque( false );
-//                setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
-//                addActionListener( new ActionListener() {
-//                    public void actionPerformed( ActionEvent e ) {
-//
-//                    }
-//                } );
-//            }} );
-//        }} ) {{
-//            setOffset( 0, SIZE + CONTROL_OFFSET );
-//        }} );
+        final ButtonGroup group = new ButtonGroup();
+        final PSwing ballAndStickPSwing = new PSwing( new JRadioButton( "Ball and Stick", false ) {{
+            group.add( this );
+            setFont( MoleculeShapesConstants.CHECKBOX_FONT_SIZE );
+            setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
+            setOpaque( false );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    overlayNode.displayMode.set( DisplayMode.BALL_AND_STICK );
+                }
+            } );
+
+            // keep this checkbox up-to-date with the property
+            overlayNode.displayMode.addObserver( new SimpleObserver() {
+                public void update() {
+                    boolean shouldBeSelected = overlayNode.displayMode.get() == DisplayMode.BALL_AND_STICK;
+                    if ( isSelected() != shouldBeSelected ) {
+                        setSelected( shouldBeSelected );
+                    }
+                }
+            } );
+        }} ) {{
+            setOffset( 0, SIZE + CONTROL_OFFSET );
+        }};
+        addChild( ballAndStickPSwing );
+        final PSwing spaceFillPSwing = new PSwing( new JRadioButton( "Space Filling", true ) {{
+            group.add( this );
+            setFont( MoleculeShapesConstants.CHECKBOX_FONT_SIZE );
+            setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
+            setOpaque( false );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    overlayNode.displayMode.set( MoleculeNode.DisplayMode.SPACE_FILL );
+                }
+            } );
+        }} ) {{
+            setOffset( 0, ballAndStickPSwing.getFullBounds().getMaxY() );
+        }};
+        addChild( spaceFillPSwing );
 
         onModelChange();
 

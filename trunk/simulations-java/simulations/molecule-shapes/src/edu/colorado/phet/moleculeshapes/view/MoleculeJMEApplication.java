@@ -24,6 +24,7 @@ import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
+import edu.colorado.phet.moleculeshapes.util.VoidNotifier;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import com.jme3.bounding.BoundingSphere;
@@ -86,6 +87,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private MoleculeModel molecule = new MoleculeModel();
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
+    public final VoidNotifier resetNotifier = new VoidNotifier();
 
     public MoleculeJMEApplication( Frame parentFrame ) {
         this.parentFrame = parentFrame;
@@ -414,6 +416,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         MoleculeShapesApplication.showElectronShapeName.reset();
         MoleculeShapesApplication.showMolecularShapeName.reset();
         showLonePairs.reset();
+
+        resetNotifier.fire();
     }
 
     public Vector3f getPlanarMoleculeCursorPosition() {
@@ -593,7 +597,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
                 namePanel.setLocalTranslation( padding, padding, 0 );
 
-                resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 50, 0 ) ) );
+                resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 40, 0 ) ) );
 
                 /*---------------------------------------------------------------------------*
                 * calculate real molecule overlay bounds

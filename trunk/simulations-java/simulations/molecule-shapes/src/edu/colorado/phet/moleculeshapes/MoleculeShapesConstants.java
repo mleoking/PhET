@@ -28,7 +28,7 @@ public class MoleculeShapesConstants {
     public static final float MODEL_ATOM_RADIUS = 2f;
     public static final float MODEL_BOND_RADIUS = MODEL_ATOM_RADIUS / 4;
 
-    public static final float MOLECULE_ATOM_RADIUS = 0.2f;
+    public static final float MOLECULE_ATOM_RADIUS = 0.4f;
     public static final float MOLECULE_BOND_RADIUS = MOLECULE_ATOM_RADIUS / 4;
     public static final float MOLECULE_SCALE = 14.0f;
 
