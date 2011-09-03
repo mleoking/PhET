@@ -31,27 +31,28 @@ import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture2D;
 
 /**
- * TODO: Avoid for now. This class is currently in "disaster zone" mode. many things to fix and clean up
- * TODO: Avoid for now. This class is currently in "disaster zone" mode. many things to fix and clean up
- * TODO: Avoid for now. This class is currently in "disaster zone" mode. many things to fix and clean up
- * NOTE: only one HUDNode per component works
+ * Creates a JME3 Spatial that displays Swing components within a rectangle. It also
+ * listens to mouse events via JMERepaintManager, and will update itself as necessary.
  */
 public class HUDNode extends Geometry {
 
-    private final JComponent component;
-    private final PaintableImage image;
+    private final JComponent component; // our component that we render in our HUD
+    private final PaintableImage image; // the image (JME3 texture) to which we render our component
+    private final Application app; // reference to the application. needed for input and asset managers
 
+    // the size of our canvas. this does not change
     private final int width;
     private final int height;
-    private final Application app;
-    private RawInputListener inputListener;
+
+    private RawInputListener inputListener; // our listener for mouse events, so that we can forward them
+    private boolean listenerAttached = false; // whether our listener is listening
 
     private boolean dirty = false; // whether the image needs to be repainted
 
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
     public HUDNode( final JComponent component, final int width, final int height, final Application app ) {
-        super( "HUD", new Quad( width, height, true ) ); // true flips it so our components are shown in the correct Y direction
+        super( "HUD", new Quad( width, height, true ) ); // "true" flips it so our components are shown in the correct Y direction
         this.component = component;
         this.width = width;
         this.height = height;
@@ -59,29 +60,41 @@ public class HUDNode extends Geometry {
 
         image = new PaintableImage( width, height, true ) {
             {
-                component.setDoubleBuffered( false );
-                refreshImage();
+                component.setDoubleBuffered( false ); // not necessary. we are already essentially double-buffering it
+                refreshImage(); // update it on construction
             }
 
             @Override public void paint( Graphics2D g ) {
+                // background is transparent, to support transparent graphics
                 g.setBackground( new Color( 0f, 0f, 0f, 0f ) );
                 g.clearRect( 0, 0, getWidth(), getHeight() );
+
+                // validating, so that Swing will accept non-frame-connected component trees
                 component.validate();
+
+                // set the specific size to the preferred size. otherwise size stays at 0,0
                 component.setSize( component.getPreferredSize() );
+
+                // run the full layout now that we have the size
                 layoutComponent( component );
+
                 component.paint( g );
             }
         };
 
+        // attach the property that our JMERepaintManager will look for. when we receive a repaint request, the dirty flag will be set
         component.putClientProperty( ON_REPAINT_CALLBACK, new VoidFunction0() {
             public void apply() {
                 dirty = true;
             }
         } );
 
+        // timer that handles repaints. TODO get per-frame dirty checks!
         new Timer( 10, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dirty ) {
+
+                    // wait until we aren't rendering
                     synchronized ( app ) {
                         image.refreshImage();
                         dirty = false;
@@ -90,6 +103,7 @@ public class HUDNode extends Geometry {
             }
         } ).start();
 
+        // listen to mouse events
         inputListener = new RawInputListener() {
             public void beginInput() {
             }
@@ -128,6 +142,7 @@ public class HUDNode extends Geometry {
             }
         };
         app.getInputManager().addRawInputListener( inputListener );
+        listenerAttached = true;
 
         setMaterial( new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             setTexture( "ColorMap", new Texture2D() {{
@@ -137,17 +152,27 @@ public class HUDNode extends Geometry {
             getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
             setTransparent( true );
         }} );
-//            setQueueBucket( Bucket.Transparent );
 
         initRepaintManager();
 
         image.refreshImage();
     }
 
+    // All necessary cleanup that we need to do to never use this HUDNode again (don't leak memory)
     public void dispose() {
-        app.getInputManager().removeRawInputListener( inputListener );
+        ignoreInput();
     }
 
+    public void ignoreInput() {
+        if ( listenerAttached ) {
+            listenerAttached = false;
+            synchronized ( app ) {
+                app.getInputManager().removeRawInputListener( inputListener );
+            }
+        }
+    }
+
+    // ensure that we have the correct repaint manager so that we receive repaint events
     private void initRepaintManager() {
         final RepaintManager repaintManager = RepaintManager.currentManager( component );
         if ( !( repaintManager instanceof JMERepaintManager ) ) {
@@ -181,8 +206,12 @@ public class HUDNode extends Geometry {
     }
 
     /*---------------------------------------------------------------------------*
-    * here follows a lot of JMEDesktop code, listed with the relevant license information
+    * Here follows a lot of JMEDesktop code, listed with the relevant license information
     * see https://code.google.com/p/jmonkeyengine/source/browse/trunk/src/com/jmex/awt/swingui/JMEDesktop.java?r=4078
+    *
+    * WARNING: This code has not been verified to work flawlessly, only handles mouse motion and clicks,
+    *          ignores and does not handle focus, and sometimes does not send events far enough into
+    *          PSwing handlers. Modify with caution. (Dragons be here)
     *----------------------------------------------------------------------------*/
 
     /*
@@ -313,6 +342,7 @@ public class HUDNode extends Geometry {
                     grabbedMouseButton = swingButton;
                     downX = x;
                     downY = y;
+                    // we don't use setFocusOwner, since it needs components to be frame-attached
 //                    setFocusOwner( componentAt( x, y, panel, true ) );
                     compWithPanes.requestFocus();
 //                    dispatchEvent( panel, new FocusEvent( panel,        // TODO: remove this HACK
