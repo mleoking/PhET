@@ -87,6 +87,8 @@ public class AttractorModel {
             }
         }};
 
+        final Matrix yTransposed = y.transpose();
+
         final Property<ResultMapping> bestResult = new Property<ResultMapping>( null );
 
         // iterate over different repulsion categories
@@ -116,7 +118,7 @@ public class AttractorModel {
                 }};
 
                 // S = X * Y^T
-                Matrix s = x.times( y.transpose() );
+                Matrix s = x.times( yTransposed );
 
                 SingularValueDecomposition svd = new SingularValueDecomposition( s );
                 double det = svd.getV().times( svd.getU().transpose() ).det();
