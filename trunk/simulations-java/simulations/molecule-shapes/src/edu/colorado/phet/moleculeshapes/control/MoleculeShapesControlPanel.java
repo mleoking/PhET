@@ -199,7 +199,7 @@ public class MoleculeShapesControlPanel extends PNode {
 
             final double TEXT_PADDING = 4;
             addChild( new MinimizeMaximizeButtonNode( minimized ) {{
-                setOffset( text.getWidth() + TEXT_PADDING, ( text.getFullBounds().getHeight() - getFullBounds().getHeight() ) / 2+1 );
+                setOffset( text.getWidth() + TEXT_PADDING, ( text.getFullBounds().getHeight() - getFullBounds().getHeight() ) / 2 + 1 );
             }} );
         }} ) {{
             setOffset( 0, optionsPanel.getFullBounds().getMaxY() + PANEL_SPACER );

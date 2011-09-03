@@ -6,9 +6,6 @@ package edu.colorado.phet.moleculeshapes;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.*;
 
@@ -25,9 +22,6 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.dev.PerformanceFrame;
 import edu.colorado.phet.moleculeshapes.jme.ColorRGBAPropertyControl;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
-
-import com.jme3.system.JmeSystem;
-import com.jme3.system.Natives;
 
 /**
  * The main application for Molecule Shapes
@@ -136,32 +130,7 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        // don't spam the console output for every cylinder that we re-create (every frame)
-        Logger.getLogger( "de.lessvoid" ).setLevel( Level.SEVERE );
-        Logger.getLogger( "com.jme3" ).setLevel( Level.SEVERE );
-
-        // since we are including the JME3 native lib dependencies in the JNLP, don't load if we are running online
-        if ( System.getProperty( "javawebstart.version" ) != null ) {
-            // see http://jmonkeyengine.org/wiki/doku.php/jme3:webstart
-            JmeSystem.setLowPermissions( true );
-        }
-        else {
-            // create a temporary directory to hold native libs
-            final File tempDir = new File( System.getProperty( "java.io.tmpdir" ), "phet-jme3-libs" );
-            tempDir.mkdirs();
-            final String path = tempDir.getAbsolutePath();
-            System.out.println( "Extracting native JME3 libraries to: " + path );
-            Natives.setExtractionDir( path );
-            tempDir.deleteOnExit();
-        }
-
-        // attempt to read a anti-aliasing samples count from the command line args. use "-samples 0" for 0 samples, etc.
-        for ( int i = 0; i < args.length; i++ ) {
-            if ( args[i].equals( "-samples" ) && i + 1 < args.length ) {
-                JmeUtils.antiAliasingSamples.set( Integer.parseInt( args[i + 1] ) );
-                break;
-            }
-        }
+        JmeUtils.initializeJME( args );
 
         /*
         * If you want to customize your application (look-&-feel, window size, etc)
