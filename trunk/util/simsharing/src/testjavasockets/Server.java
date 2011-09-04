@@ -22,7 +22,7 @@ public class Server {
             new Thread( new Runnable() {
                 public void run() {
                     try {
-                        System.out.println( "Server accetped socket" );
+                        System.out.println( "Server accepted socket" );
                         PrintWriter writeToClient = new PrintWriter( socket.getOutputStream(), true );
                         BufferedReader readFromClient = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
 
