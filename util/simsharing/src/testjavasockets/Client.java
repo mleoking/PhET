@@ -10,7 +10,6 @@ public class Client {
         Socket server = new Socket( "localhost", 1234 );
         ObjectOutputStream writeToServer = new ObjectOutputStream( server.getOutputStream() );
         ObjectInputStream readFromServer = new ObjectInputStream( server.getInputStream() );
-
         Object fromServer = readFromServer.readObject();
 
         System.out.println( "Server: " + fromServer );
@@ -18,6 +17,8 @@ public class Client {
         fromServer = readFromServer.readObject();
 
         System.out.println( "fromServer = " + fromServer );
+
+        writeToServer.writeObject( "logout" );
 
         writeToServer.close();
         readFromServer.close();
