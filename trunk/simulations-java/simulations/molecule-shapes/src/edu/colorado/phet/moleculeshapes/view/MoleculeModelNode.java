@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
@@ -78,54 +79,48 @@ public class MoleculeModelNode extends Node {
     }
 
     private void addGroup( PairGroup group ) {
-        synchronized ( app ) {
-            if ( group.isLonePair ) {
-                LonePairNode lonePairNode = new LonePairNode( group, app.getAssetManager() );
-                lonePairNodes.add( lonePairNode );
-                attachChild( lonePairNode );
-            }
-            else {
-                AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), app.getAssetManager() );
-                atomNodes.add( atomNode );
-                attachChild( atomNode );
-                rebuildBonds();
-                rebuildAngles();
-            }
+        if ( group.isLonePair ) {
+            LonePairNode lonePairNode = new LonePairNode( group, app.getAssetManager() );
+            lonePairNodes.add( lonePairNode );
+            attachChild( lonePairNode );
         }
-    }
-
-    private void removeGroup( PairGroup group ) {
-        synchronized ( app ) {
-            if ( group.isLonePair ) {
-                for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
-                    // TODO: associate these more closely! (comparing positions for equality is bad)
-                    if ( lonePairNode.position == group.position ) {
-                        lonePairNodes.remove( lonePairNode );
-                        detachChild( lonePairNode );
-                    }
-                }
-            }
-            else {
-                for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
-                    // TODO: associate these more closely! (comparing positions for equality is bad)
-                    if ( atomNode.position == group.position ) {
-                        atomNodes.remove( atomNode );
-                        detachChild( atomNode );
-                    }
-                }
-            }
+        else {
+            AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), app.getAssetManager() );
+            atomNodes.add( atomNode );
+            attachChild( atomNode );
             rebuildBonds();
             rebuildAngles();
         }
     }
 
-    public void updateView() {
-        synchronized ( app ) {
-            for ( BondNode bondNode : bondNodes ) {
-                bondNode.updateView();
+    private void removeGroup( PairGroup group ) {
+        if ( group.isLonePair ) {
+            for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
+                // TODO: associate these more closely! (comparing positions for equality is bad)
+                if ( lonePairNode.position == group.position ) {
+                    lonePairNodes.remove( lonePairNode );
+                    detachChild( lonePairNode );
+                }
             }
-            rebuildAngles();
         }
+        else {
+            for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
+                // TODO: associate these more closely! (comparing positions for equality is bad)
+                if ( atomNode.position == group.position ) {
+                    atomNodes.remove( atomNode );
+                    detachChild( atomNode );
+                }
+            }
+        }
+        rebuildBonds();
+        rebuildAngles();
+    }
+
+    public void updateView() {
+        for ( BondNode bondNode : bondNodes ) {
+            bondNode.updateView();
+        }
+        rebuildAngles();
     }
 
     private void rebuildBonds() {
@@ -166,67 +161,78 @@ public class MoleculeModelNode extends Node {
         // start handling angle nodes from the beginning
         angleIndex = 0;
 
-        boolean showAnglesBetweenLonePairs = MoleculeShapesProperties.allowAnglesBetweenLonePairs.get();
+        final boolean showAnglesBetweenLonePairs = MoleculeShapesProperties.allowAnglesBetweenLonePairs.get();
 
-        // TODO: separate out bond angle feature
-        if ( MoleculeShapesProperties.showBondAngles.get() ) {
-            // iterate over all combinations of two pair groups
-            for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
-                PairGroup a = molecule.getGroups().get( i );
+        // we need to run from Swing to make the label modifications
+        JmeUtils.swingLock( new Runnable() {
+            public void run() {
 
-                // skip lone pairs if necessary
-                if ( a.isLonePair && !showAnglesBetweenLonePairs ) {
-                    continue;
+                // TODO: separate out bond angle feature
+                if ( MoleculeShapesProperties.showBondAngles.get() ) {
+                    // iterate over all combinations of two pair groups
+                    for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
+                        PairGroup a = molecule.getGroups().get( i );
+
+                        // skip lone pairs if necessary
+                        if ( a.isLonePair && !showAnglesBetweenLonePairs ) {
+                            continue;
+                        }
+
+                        final ImmutableVector3D aDir = a.position.get().normalized();
+
+                        for ( int j = i + 1; j < molecule.getGroups().size(); j++ ) {
+                            final PairGroup b = molecule.getGroups().get( j );
+
+                            // skip lone pairs if necessary
+                            if ( b.isLonePair && !showAnglesBetweenLonePairs ) {
+                                continue;
+                            }
+
+                            final ImmutableVector3D bDir = b.position.get().normalized();
+
+                            final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, transformedDirection );
+                            if ( brightness == 0 ) {
+                                continue;
+                            }
+
+                            final BondAngleNode bondAngleNode = new BondAngleNode( app, aDir, bDir, transformedDirection );
+                            attachChild( bondAngleNode );
+                            angleNodes.add( bondAngleNode );
+
+                            // TODO: integrate the labels with the BondAngleNode
+
+                            Vector3f globalCenter = getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
+                            Vector3f globalMidpoint = getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
+
+                            final Vector3f screenCenter = camera.getScreenCoordinates( globalCenter );
+                            final Vector3f screenMidpoint = camera.getScreenCoordinates( globalMidpoint );
+
+                            float extensionFactor = 1.3f;
+                            final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
+
+                            // TODO: i18n?
+                            String labelText = angleFormat.format( Math.acos( aDir.dot( bDir ) ) * 180 / Math.PI ) + "°";
+                            showAngleLabel( labelText, brightness, displayPoint );
+                        }
+                    }
                 }
 
-                final ImmutableVector3D aDir = a.position.get().normalized();
+                removeRemainingLabels();
 
-                for ( int j = i + 1; j < molecule.getGroups().size(); j++ ) {
-                    final PairGroup b = molecule.getGroups().get( j );
-
-                    // skip lone pairs if necessary
-                    if ( b.isLonePair && !showAnglesBetweenLonePairs ) {
-                        continue;
-                    }
-
-                    final ImmutableVector3D bDir = b.position.get().normalized();
-
-                    final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, transformedDirection );
-                    if ( brightness == 0 ) {
-                        continue;
-                    }
-
-                    final BondAngleNode bondAngleNode = new BondAngleNode( app, aDir, bDir, transformedDirection );
-                    attachChild( bondAngleNode );
-                    angleNodes.add( bondAngleNode );
-
-                    // TODO: integrate the labels with the BondAngleNode
-
-                    Vector3f globalCenter = getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
-                    Vector3f globalMidpoint = getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
-
-                    final Vector3f screenCenter = camera.getScreenCoordinates( globalCenter );
-                    final Vector3f screenMidpoint = camera.getScreenCoordinates( globalMidpoint );
-
-                    float extensionFactor = 1.3f;
-                    final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
-
-                    // TODO: i18n?
-                    String labelText = angleFormat.format( Math.acos( aDir.dot( bDir ) ) * 180 / Math.PI ) + "°";
-                    showAngleLabel( labelText, brightness, displayPoint );
-                }
             }
-        }
-
-        removeRemainingLabels();
+        } );
     }
 
-    private void showAngleLabel( String string, float brightness, Vector3f displayPoint ) {
+    private void showAngleLabel( final String string, final float brightness, final Vector3f displayPoint ) {
+
         if ( angleIndex >= angleReadouts.size() ) {
+
             angleReadouts.add( new ReadoutNode( new PText( "..." ) ) );
+
         }
         angleReadouts.get( angleIndex ).attach( string, brightness, displayPoint );
         angleIndex++;
+
     }
 
     private void removeRemainingLabels() {

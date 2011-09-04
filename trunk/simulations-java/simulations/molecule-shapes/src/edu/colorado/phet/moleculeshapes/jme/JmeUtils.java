@@ -4,8 +4,14 @@ package edu.colorado.phet.moleculeshapes.jme;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.*;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GL11;
@@ -15,7 +21,9 @@ import org.lwjgl.opengl.Pbuffer;
 import org.lwjgl.opengl.PixelFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
+import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -33,6 +41,21 @@ public class JmeUtils {
     /*---------------------------------------------------------------------------*
     * global properties
     *----------------------------------------------------------------------------*/
+
+    // global application. since we only should have one per process, this is acceptable as global information
+    private static PhetJMEApplication instance_app;
+
+    public static synchronized void setApplication( PhetJMEApplication application ) {
+        if ( instance_app != null ) {
+            throw new RuntimeException( "Only one Application should be used" );
+        }
+        instance_app = application;
+    }
+
+    public static synchronized PhetJMEApplication getApplication() {
+        return instance_app;
+    }
+
     // the running framerate
     public static final Property<Integer> frameRate = new Property<Integer>( 60 );
     // number of antialiasing samples to use, or null to use the default
@@ -296,5 +319,123 @@ public class JmeUtils {
                 break;
             }
         }
+    }
+
+    /**
+     * Attempt to run the code within the Swing Event Dispatch Thread (EDT)
+     *
+     * @param runnable Code to run
+     */
+    public static void swingLock( Runnable runnable ) {
+        if ( SwingUtilities.isEventDispatchThread() ) {
+            // we are in the dispatch thread. just run it now (we can't call invokeAndWait from here)
+            runnable.run();
+        }
+        else {
+            try {
+                // wait for it to run in the EDT
+                SwingUtilities.invokeAndWait( runnable );
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+            catch ( InvocationTargetException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Like SwingUtilities.invokeLater, but for the JME3 thread. Will be executed at the start
+     * of the next application update
+     *
+     * @param runnable Code to run
+     */
+    public static void invokeLater( final Runnable runnable ) {
+        getApplication().enqueue( new Callable<Object>() {
+            public Object call() throws Exception {
+                runnable.run();
+                return null;
+            }
+        } );
+    }
+
+    /**
+     * Like SwingUtilities.invokeAndWait, but for the JME3 thread. Will wait until the execution is done
+     *
+     * @param runnable Code to run
+     */
+    public static void invokeAndWait( final Runnable runnable ) throws ExecutionException, InterruptedException {
+        Future<Object> future = getApplication().enqueue( new Callable<Object>() {
+            public Object call() throws Exception {
+                runnable.run();
+                return null;
+            }
+        } );
+        future.get();
+    }
+
+    /**
+     * Run the code now if we are in the JME3 thread, otherwise run it at the beginning of the next JME3 update.
+     *
+     * @param runnable Code to run
+     */
+    public static void invoke( final Runnable runnable ) {
+        if ( isLWJGLRendererThread() ) {
+            runnable.run();
+        }
+        else {
+            invokeLater( runnable );
+        }
+    }
+
+    /**
+     * Attempt to run the code within the JME3 thread
+     *
+     * @param runnable Code to run.
+     */
+    public static void jmeLock( Runnable runnable ) {
+        if ( isLWJGLRendererThread() ) {
+            runnable.run();
+        }
+        else {
+            try {
+                invokeAndWait( runnable );
+            }
+            catch ( ExecutionException e ) {
+                e.printStackTrace();
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean isLWJGLRendererThread() {
+        return Thread.currentThread().getName().equals( "LWJGL Renderer Thread" );
+    }
+
+    public static SimpleObserver swingObserver( final Runnable runnable ) {
+        return new SimpleObserver() {
+            public void update() {
+                SwingUtilities.invokeLater( runnable );
+            }
+        };
+    }
+
+    public static SimpleObserver jmeObserver( final Runnable runnable ) {
+        return new SimpleObserver() {
+            public void update() {
+                invoke( runnable );
+            }
+        };
+    }
+
+    public static SimpleTarget swingTarget( final Runnable runnable ) {
+        return new SimpleTarget() {
+            public void update() {
+                SwingUtilities.invokeLater( runnable );
+            }
+        };
     }
 }

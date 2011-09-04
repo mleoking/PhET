@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -18,17 +19,19 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * depending on the property value.
  */
 class MinimizeMaximizeButtonNode extends PhetPPath {
-    private static final double SIZE = 16;
+    private static final double SIZE = 16; // vertical and horizontal
 
-    private static final double SYMBOL_PADDING = 3;
-    private static final double SYMBOL_WIDTH = 2;
+    private static final double SYMBOL_PADDING = 3; // padding from button edge to +/- extent
+    private static final double SYMBOL_WIDTH = 2; // width of +/-
+
+    // colors
     private static final Color MAXIMIZE_GREEN = new Color( 30, 220, 30 );
     private static final Color MINIMIZE_RED = new Color( 220, 30, 30 );
 
     private boolean mouseDown = false;
 
     public MinimizeMaximizeButtonNode( final Property<Boolean> minimized ) {
-        super( new RoundRectangle2D.Double( 0, 0, SIZE, SIZE, SIZE / 2, SIZE / 2 ) );
+        super( new RoundRectangle2D.Double( 0, 0, SIZE, SIZE, SIZE / 2, SIZE / 2 ) ); // rounded button size
 
         final RoundRectangle2D.Double horizontalBar = new RoundRectangle2D.Double(
                 SYMBOL_PADDING, SIZE / 2 - SYMBOL_WIDTH / 2, // x,y
@@ -62,8 +65,8 @@ class MinimizeMaximizeButtonNode extends PhetPPath {
         addChild( icon );
 
         // keep the color updated
-        final SimpleObserver update = new SimpleObserver() {
-            public void update() {
+        final Runnable update = new Runnable() {
+            public void run() {
                 Color color = minimized.get() ? MAXIMIZE_GREEN : MINIMIZE_RED;
                 Color baseColor = mouseDown ? color.darker() : color;
                 Color highlightColor = mouseDown ? baseColor.brighter() : toHighlight( baseColor );
@@ -79,7 +82,9 @@ class MinimizeMaximizeButtonNode extends PhetPPath {
                         Math.min( 255, color.getBlue() + c ) );
             }
         };
-        minimized.addObserver( update );
+
+        // when minimization changes, update our view
+        minimized.addObserver( JmeUtils.swingObserver( update ) );
 
         // mouse handling
         addInputEventListener( new PBasicInputEventHandler() {
@@ -93,17 +98,21 @@ class MinimizeMaximizeButtonNode extends PhetPPath {
 
             @Override public void mousePressed( PInputEvent event ) {
                 mouseDown = true;
-                update.update();
+                update.run();
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
                 mouseDown = false;
-                update.update();
+                update.run();
             }
 
             @Override public void mouseClicked( PInputEvent event ) {
-                // toggle it
-                minimized.set( !minimized.get() );
+                // toggle it in JME thread
+                JmeUtils.invoke( new Runnable() {
+                    public void run() {
+                        minimized.set( !minimized.get() );
+                    }
+                } );
             }
         } );
     }

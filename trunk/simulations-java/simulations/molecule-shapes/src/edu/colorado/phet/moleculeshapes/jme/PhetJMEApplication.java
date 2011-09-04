@@ -42,6 +42,9 @@ public abstract class PhetJMEApplication extends Application {
 
     public PhetJMEApplication() {
         super();
+
+        // let everyone know that this is the one unique global instance
+        JmeUtils.setApplication( this );
     }
 
     @Override

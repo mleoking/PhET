@@ -1,30 +1,26 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.control;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
-import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.util.Fireable;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+/**
+ * The main Molecule Shapes control panel on the right hand side. It is composed of multiple sub-panels,
+ * namely "bonding", "lone pair", "options" and "real examples".
+ */
 public class MoleculeShapesControlPanel extends PNode {
     private static final double PANEL_SPACER = 20; // space between text and bond lines
 
@@ -42,43 +38,16 @@ public class MoleculeShapesControlPanel extends PNode {
 
             final double spaceBetweenTypes = 15;
 
-            final PNode singleNode = new BondTypeControlNode(
-                    app,
-                    new PImage( Images.SINGLE_BOND_SMALL ), 1 ) {{
+            final PNode singleNode = new BondTypeControlNode( app, new PImage( Images.SINGLE_BOND_SMALL ), 1 ) {{
                 setOffset( 0, 10 );
-                addDragListener( new PBasicInputEventHandler() {
-                    @Override public void mousePressed( PInputEvent event ) {
-                        if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
-                            app.startNewInstanceDrag( 1 );
-                        }
-                    }
-                } );
             }};
             addChild( singleNode );
-            final PNode doubleNode = new BondTypeControlNode(
-                    app,
-                    new PImage( Images.DOUBLE_BOND_SMALL ), 2 ) {{
+            final PNode doubleNode = new BondTypeControlNode( app, new PImage( Images.DOUBLE_BOND_SMALL ), 2 ) {{
                 setOffset( 0, singleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
-                addDragListener( new PBasicInputEventHandler() {
-                    @Override public void mousePressed( PInputEvent event ) {
-                        if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
-                            app.startNewInstanceDrag( 2 );
-                        }
-                    }
-                } );
             }};
             addChild( doubleNode );
-            final PNode tripleNode = new BondTypeControlNode(
-                    app,
-                    new PImage( Images.TRIPLE_BOND_SMALL ), 3 ) {{
+            final PNode tripleNode = new BondTypeControlNode( app, new PImage( Images.TRIPLE_BOND_SMALL ), 3 ) {{
                 setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
-                addDragListener( new PBasicInputEventHandler() {
-                    @Override public void mousePressed( PInputEvent event ) {
-                        if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
-                            app.startNewInstanceDrag( 3 );
-                        }
-                    }
-                } );
             }};
             addChild( tripleNode );
         }}, "Bonding" );
@@ -88,76 +57,36 @@ public class MoleculeShapesControlPanel extends PNode {
         setOffset( 0, 10 );
 
         /*---------------------------------------------------------------------------*
-        * non-bonding panel
+        * lone pair panel
         *----------------------------------------------------------------------------*/
         final MoleculeShapesPanelNode nonBondingPanel = new MoleculeShapesPanelNode( new PNode() {{
             // padding, and make sure we have the width
             addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
 
-            final BondTypeControlNode lonePairNode = new BondTypeControlNode(
-                    app,
-                    new PImage( Images.LONE_PAIR_SMALL ), 0 ) {
-                {
-                    setOffset( 0, 10 );
-                    // TODO: refactor the input listener into something more common (code duplication)
-                    addDragListener( new PBasicInputEventHandler() {
-                        @Override public void mousePressed( PInputEvent event ) {
-                            if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
-                                app.startNewInstanceDrag( 0 );
-                            }
-                        }
-                    } );
-                    MoleculeJMEApplication.showLonePairs.addObserver( new SimpleObserver() {
-                        public void update() {
-                            updateState();
-                        }
-                    } );
-                }
+            /*---------------------------------------------------------------------------*
+            * lone pair control
+            *----------------------------------------------------------------------------*/
+            final BondTypeControlNode lonePairNode = new BondTypeControlNode( app, new PImage( Images.LONE_PAIR_SMALL ), 0 ) {{
+                setOffset( 0, 10 );
+                MoleculeJMEApplication.showLonePairs.addObserver( JmeUtils.swingObserver( new Runnable() {
+                    public void run() {
+                        updateState();
+                    }
+                } ) );
 
-                @Override protected boolean isEnabled() {
-                    // TODO: note that it looks weird adding a pair when it is invisible
-                    return super.isEnabled();
-//                    return super.isEnabled() && MoleculeJMEApplication.showLonePairs.get();
-                }
-            };
+                // TODO: note that it looks weird adding a pair when it is invisible. this is the spot to make the change (override isEnabled)
+            }};
             addChild( lonePairNode );
 
-            final TextButtonNode toggleLonePairsButton = new TextButtonNode( "<will be replaced>", new PhetFont( 14 ), Color.ORANGE ) {
-                {
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            MoleculeJMEApplication.showLonePairs.set( !MoleculeJMEApplication.showLonePairs.get() );
-                            updateState();
-                        }
-                    } );
-                    app.getMolecule().onGroupChanged.addTarget( new Fireable<PairGroup>() {
-                        public void fire( PairGroup pairGroup ) {
-                            updateState();
-                        }
-                    } );
-                    updateState();
-                    MoleculeJMEApplication.showLonePairs.addObserver( new SimpleObserver() {
-                        public void update() {
-                            updateState();
-                        }
-                    } );
-                }
-
-                public void updateState() {
-                    // update the text state. TODO i18n
-                    setText( MoleculeJMEApplication.showLonePairs.get() ? "Hide Lone Pairs" : "Show Lone Pairs" );
-
-                    // center horizontally, and place below the lone pair image
-                    setOffset(
-                            ( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - getFullBounds().getWidth() ) / 2,
-                            lonePairNode.getFullBounds().getMaxY() + 10 );
-
-                    // enabled if there are lone pairs to hide
-                    setEnabled( !app.getMolecule().getLonePairs().isEmpty() );
-                }
-            };
+            /*---------------------------------------------------------------------------*
+            * show/hide toggle
+            *----------------------------------------------------------------------------*/
+            final TextButtonNode toggleLonePairsButton = new ToggleLonePairsButton( app.getMolecule() );
+            // set Y offset
+            toggleLonePairsButton.setOffset( toggleLonePairsButton.getOffset().getX(), lonePairNode.getFullBounds().getMaxY() + 10 );
             addChild( toggleLonePairsButton );
 
+            // extra padding below since the TextButtonNode changes size on press. without this, the panel size changes mid-click
             addChild( new PNode() {{
                 setOffset( 0, toggleLonePairsButton.getFullBounds().getMaxY() + 3 );
                 addChild( new Spacer( 0, 0, 10, 0.1f ) );
@@ -167,11 +96,19 @@ public class MoleculeShapesControlPanel extends PNode {
         }};
         addChild( nonBondingPanel );
 
-        // TODO: i18n
+        /*---------------------------------------------------------------------------*
+        * options
+        *----------------------------------------------------------------------------*/
         final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new PNode() {{
+            // enforce the width constraint
             addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
-            PSwing bondAngleBox = new PSwing( new MoleculeShapesPropertyCheckBox( "Show Bond Angles", MoleculeShapesProperties.showBondAngles ) );
-            addChild( bondAngleBox );
+
+            /*---------------------------------------------------------------------------*
+            * show bond angles
+            *----------------------------------------------------------------------------*/
+            addChild( new PSwing( new MoleculeShapesPropertyCheckBox( Strings.CONTROL__SHOW_BOND_ANGLES, MoleculeShapesProperties.showBondAngles ) ) {{
+                setOffset( 0, ( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - getFullBounds().getWidth() ) / 2 );
+            }} );
         }}, "Options" ) {{
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
@@ -191,15 +128,15 @@ public class MoleculeShapesControlPanel extends PNode {
 
         realMoleculeNode = new RealMoleculePanelNode( app.getMolecule(), app, overlayNode, minimized );
         realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, new PNode() {{
-            final PText text = new PText( "Real Examples" ) {{
+            final PText title = new PText( "Real Examples" ) {{
                 setFont( new PhetFont( 14, true ) );
                 setTextPaint( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
             }};
-            addChild( text );
+            addChild( title );
 
             final double TEXT_PADDING = 4;
             addChild( new MinimizeMaximizeButtonNode( minimized ) {{
-                setOffset( text.getWidth() + TEXT_PADDING, ( text.getFullBounds().getHeight() - getFullBounds().getHeight() ) / 2 + 1 );
+                setOffset( title.getWidth() + TEXT_PADDING, ( title.getFullBounds().getHeight() - getFullBounds().getHeight() ) / 2 + 1 );
             }} );
         }} ) {{
             setOffset( 0, optionsPanel.getFullBounds().getMaxY() + PANEL_SPACER );
