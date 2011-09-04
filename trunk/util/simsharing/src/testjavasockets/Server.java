@@ -1,9 +1,8 @@
 package testjavasockets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.StringTokenizer;
@@ -24,17 +23,17 @@ public class Server {
                 public void run() {
                     try {
                         System.out.println( "Server accepted socket" );
-                        PrintWriter writeToClient = new PrintWriter( socket.getOutputStream(), true );
-                        BufferedReader readFromClient = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
+                        ObjectOutputStream writeToClient = new ObjectOutputStream( socket.getOutputStream() );
+                        ObjectInputStream readFromClient = new ObjectInputStream( socket.getInputStream() );
 
-                        writeToClient.println( "Greetings from the server" );
-                        String fromClient = readFromClient.readLine();
+                        writeToClient.writeObject( "Greetings from the server" );
+                        Object fromClient = readFromClient.readObject();
 
-                        if ( fromClient.startsWith( "Add" ) ) {
-                            StringTokenizer st = new StringTokenizer( fromClient.substring( fromClient.indexOf( ":" ) + 1 ), ", " );
+                        if ( fromClient instanceof String && fromClient.toString().startsWith( "Add" ) ) {
+                            StringTokenizer st = new StringTokenizer( fromClient.toString().substring( fromClient.toString().indexOf( ":" ) + 1 ), ", " );
                             int x = Integer.parseInt( st.nextToken() );
                             int y = Integer.parseInt( st.nextToken() );
-                            writeToClient.println( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );
+                            writeToClient.writeObject( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );
                         }
 
                         System.out.println( "fromClient = " + fromClient );
@@ -44,6 +43,9 @@ public class Server {
                         socket.close();
                     }
                     catch ( IOException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( ClassNotFoundException e ) {
                         e.printStackTrace();
                     }
                 }

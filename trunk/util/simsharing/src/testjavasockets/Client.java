@@ -1,22 +1,21 @@
 package testjavasockets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Client {
-    private void start() throws IOException {
+    private void start() throws IOException, ClassNotFoundException {
         Socket server = new Socket( "localhost", 1234 );
-        PrintWriter writeToServer = new PrintWriter( server.getOutputStream(), true );
-        BufferedReader readFromServer = new BufferedReader( new InputStreamReader( server.getInputStream() ) );
+        ObjectOutputStream writeToServer = new ObjectOutputStream( server.getOutputStream() );
+        ObjectInputStream readFromServer = new ObjectInputStream( server.getInputStream() );
 
-        String fromServer = readFromServer.readLine();
+        Object fromServer = readFromServer.readObject();
 
         System.out.println( "Server: " + fromServer );
-        writeToServer.println( "Add these numbers: 3,7" );
-        fromServer = readFromServer.readLine();
+        writeToServer.writeObject( "Add these numbers: 3,7" );
+        fromServer = readFromServer.readObject();
 
         System.out.println( "fromServer = " + fromServer );
 
@@ -25,7 +24,7 @@ public class Client {
         server.close();
     }
 
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws IOException, ClassNotFoundException {
         new Client().start();
     }
 }
