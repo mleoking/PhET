@@ -18,6 +18,7 @@ public class Server {
     private void start() throws IOException {
         final ServerSocket serverSocket = new ServerSocket( 1234 );
         while ( listening ) {
+            System.out.println( "Server listening on port: " + serverSocket.getLocalPort() );
             final Socket socket = serverSocket.accept();
             new Thread( new Runnable() {
                 public void run() {
@@ -30,9 +31,7 @@ public class Server {
                         String fromClient = readFromClient.readLine();
 
                         if ( fromClient.startsWith( "Add" ) ) {
-                            System.out.println( "fromClient = " + fromClient );
-                            final int beginIndex = fromClient.indexOf( ":" ) + 1;
-                            StringTokenizer st = new StringTokenizer( fromClient.substring( beginIndex ), ", " );
+                            StringTokenizer st = new StringTokenizer( fromClient.substring( fromClient.indexOf( ":" ) + 1 ), ", " );
                             int x = Integer.parseInt( st.nextToken() );
                             int y = Integer.parseInt( st.nextToken() );
                             writeToClient.println( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );

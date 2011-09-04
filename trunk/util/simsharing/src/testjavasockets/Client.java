@@ -14,11 +14,11 @@ public class Client {
 
         String fromServer = readFromServer.readLine();
 
-        while ( fromServer != null ) {
-            System.out.println( "Server: " + fromServer );
-            writeToServer.println( "Add these numbers: 3,7" );
-            fromServer = readFromServer.readLine();
-        }
+        System.out.println( "Server: " + fromServer );
+        writeToServer.println( "Add these numbers: 3,7" );
+        fromServer = readFromServer.readLine();
+
+        System.out.println( "fromServer = " + fromServer );
 
         writeToServer.close();
         readFromServer.close();
