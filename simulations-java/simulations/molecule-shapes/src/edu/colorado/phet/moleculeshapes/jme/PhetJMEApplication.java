@@ -99,7 +99,7 @@ public abstract class PhetJMEApplication extends Application {
     }
 
     @Override
-    public synchronized void update() {
+    public void update() {
         super.update(); // make sure to call this
         if ( speed == 0 || paused ) {
             return;

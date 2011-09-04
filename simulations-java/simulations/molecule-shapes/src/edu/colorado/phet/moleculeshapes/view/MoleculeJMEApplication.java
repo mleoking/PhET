@@ -585,7 +585,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         molecule.removePair( group );
     }
 
-    @Override public synchronized void updateState( final float tpf ) {
+    @Override public void updateState( final float tpf ) {
         molecule.update( tpf );
         moleculeNode.setLocalRotation( rotation );
 

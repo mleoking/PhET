@@ -81,7 +81,7 @@ public class LonePairNode extends Node {
         } );
     }
 
-    public static synchronized Spatial getGeometry( AssetManager assetManager ) {
+    public static Spatial getGeometry( AssetManager assetManager ) {
         if ( lonePairGeometry == null ) {
             lonePairGeometry = assetManager.loadModel( "molecule-shapes/jme3/Models/balloon2.obj" );
             TangentBinormalGenerator.generate( lonePairGeometry );
