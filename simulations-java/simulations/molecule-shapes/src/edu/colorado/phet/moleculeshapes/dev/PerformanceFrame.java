@@ -2,8 +2,6 @@
 package edu.colorado.phet.moleculeshapes.dev;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -12,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
+import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 
@@ -70,13 +69,11 @@ public class PerformanceFrame extends JFrame {
         public FrameRateButton( final int frameRate ) {
             super( frameRate + "" );
 
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    synchronized ( app ) {
-                        JmeUtils.frameRate.set( frameRate );
-                    }
+            addActionListener( new JmeActionListener( new Runnable() {
+                public void run() {
+                    JmeUtils.frameRate.set( frameRate );
                 }
-            } );
+            } ) );
         }
     }
 
@@ -84,13 +81,11 @@ public class PerformanceFrame extends JFrame {
         public AntiAliasingButton( final int samples ) {
             super( samples + "" );
 
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    synchronized ( app ) {
-                        JmeUtils.antiAliasingSamples.set( samples );
-                    }
+            addActionListener( new JmeActionListener( new Runnable() {
+                public void run() {
+                    JmeUtils.antiAliasingSamples.set( samples );
                 }
-            } );
+            } ) );
         }
     }
 
@@ -106,9 +101,12 @@ public class PerformanceFrame extends JFrame {
             // when the slider changes, update the property
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    synchronized ( app ) {
-                        property.set( getValue() );
-                    }
+                    final int value = getValue();
+                    JmeUtils.invoke( new Runnable() {
+                        public void run() {
+                            property.set( value );
+                        }
+                    } );
                 }
             } );
 

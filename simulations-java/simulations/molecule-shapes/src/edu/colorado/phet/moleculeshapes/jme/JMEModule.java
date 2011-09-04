@@ -17,6 +17,8 @@ import com.jme3.system.JmeCanvasContext;
  * Support for creating a JME application, context and canvas
  * <p/>
  * TODO: support multiple modules in a single sim. right now this initialization looks to be more global, and would probably trounce other modules
+ * <p/>
+ * TODO: rename JME* to Jme* ?
  */
 public abstract class JMEModule extends Module {
 

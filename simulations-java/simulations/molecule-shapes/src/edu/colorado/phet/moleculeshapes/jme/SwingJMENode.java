@@ -48,9 +48,12 @@ public class SwingJMENode extends Node {
         // when our component resizes, we need to handle it!
         component.addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
-                synchronized ( app ) {
-                    onResize();
-                }
+                // ensure that it is called in the JmeUtils thread
+                JmeUtils.invoke( new Runnable() {
+                    public void run() {
+                        onResize();
+                    }
+                } );
             }
         } );
         onResize();
@@ -64,25 +67,31 @@ public class SwingJMENode extends Node {
     }
 
     // if necessary, creates a new HUD node of a different size to display our component
-    public void onResize() {
-        // verify that it is actually a size change. don't do the extra work!
-        if ( !component.getPreferredSize().equals( size ) ) {
-            // get rid of the old HUD node
-            if ( hudNode != null ) {
-                detachChild( hudNode );
-                hudNode.dispose();
+    public synchronized void onResize() {
+        // we need to prevent both JME renderings and other Swing EDT processing during this phase.
+        // WE SHOULD ONLY BE RUNNING THIS FROM THE JME THREAD
+        JmeUtils.swingLock( new Runnable() {
+            public void run() {
+                // verify that it is actually a size change. don't do the extra work!
+                if ( !component.getPreferredSize().equals( size ) ) {
+                    // get rid of the old HUD node
+                    if ( hudNode != null ) {
+                        detachChild( hudNode );
+                        hudNode.dispose();
+                    }
+
+                    // record our new size
+                    size = component.getPreferredSize();
+
+                    // construct our new HUD node
+                    hudNode = new HUDNode( component, size.width, size.height, app, antialiased );
+                    attachChild( hudNode );
+
+                    // notify that we resized
+                    onResize.fire();
+                }
             }
-
-            // record our new size
-            size = component.getPreferredSize();
-
-            // construct our new HUD node
-            hudNode = new HUDNode( component, size.width, size.height, app, antialiased );
-            attachChild( hudNode );
-
-            // notify that we resized
-            onResize.fire();
-        }
+        } );
     }
 
     public int getWidth() {

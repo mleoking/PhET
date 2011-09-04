@@ -19,7 +19,11 @@ public class ColorRGBAPropertyControl extends ColorControl {
         super( parentFrame, labelString, JmeUtils.convertColor( color.get() ) );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                color.set( JmeUtils.convertColor( getColor() ) );
+                JmeUtils.invoke( new Runnable() {
+                    public void run() {
+                        color.set( JmeUtils.convertColor( getColor() ) );
+                    }
+                } );
             }
         } );
     }

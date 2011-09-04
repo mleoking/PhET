@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculeshapes.control;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,6 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
@@ -18,7 +20,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * TODO: doc and cleanup
+ * Displays a graphic showing a bonding type (single/double/triple/lone pair) where dragging the graphic
+ * creates the real bond in 3D. Also has a button to remove a bond of that same type from play.
  */
 class BondTypeControlNode extends PNode {
     private final MoleculeJMEApplication app;
@@ -47,12 +50,16 @@ class BondTypeControlNode extends PNode {
 
         removeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseClicked( PInputEvent event ) {
-                PairGroup candidate = getLastMatchingGroup();
+                JmeUtils.invoke( new Runnable() {
+                    public void run() {
+                        PairGroup candidate = getLastMatchingGroup();
 
-                // if it exists, remove it
-                if ( candidate != null ) {
-                    app.removePairGroup( candidate );
-                }
+                        // if it exists, remove it
+                        if ( candidate != null ) {
+                            app.removePairGroup( candidate );
+                        }
+                    }
+                } );
             }
         } );
 
@@ -87,10 +94,28 @@ class BondTypeControlNode extends PNode {
                 ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
             }
         } );
+
+        addDragEvent( new Runnable() {
+            public void run() {
+                app.startNewInstanceDrag( bondOrder );
+            }
+        } );
     }
 
-    public void addDragListener( PBasicInputEventHandler dragListener ) {
-        graphic.addInputEventListener( dragListener );
+    /**
+     * Invoke the following runnable if we are enabled AND the user presses the left mouse button down
+     * on the graphic.
+     *
+     * @param runnable Code to run (will run in the JME3 thread)
+     */
+    public void addDragEvent( final Runnable runnable ) {
+        graphic.addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mousePressed( final PInputEvent event ) {
+                if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
+                    JmeUtils.invoke( runnable );
+                }
+            }
+        } );
     }
 
     private boolean hasMatchingGroup() {

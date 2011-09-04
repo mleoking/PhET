@@ -2,8 +2,6 @@
 package edu.colorado.phet.moleculeshapes.control;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +11,7 @@ import javax.swing.*;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -20,6 +19,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.BackButton;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ForwardButton;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
@@ -35,22 +36,37 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Displays a 3D view for molecules that are "real" versions of the currently visible VSEPR model
+ * The panel and controls for the Real Molecule (real examples) 3D view. It does not include the actual
+ * 3D model, which is included in the overlay
  */
 public class RealMoleculePanelNode extends PNode {
 
     private final MoleculeModel molecule;
     private final MoleculeJMEApplication app;
+
+    // whether the view is minimized or not
     private final Property<Boolean> minimized;
+
+    // size of our 3D view itself (square)
     private final double SIZE = MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH;
+
+    // offset of the 3D view from the top of the panel interior
     private final double CONTROL_OFFSET = 40;
+
+    // Y offset of the forward/back arrows
     private final double ARROW_Y_OFFSET = 5;
+
+    // our PNode where the viewport of the 3D overlay molecule should be shown
     private PhetPPath overlayTarget;
 
+    // a container for all Piccolo nodes that disappear when "minimized", so we can remove it from the scene graph for the control panel sizing
     private PNode containerNode = new PNode();
 
-    private int kitIndex = 0;
-    private Property<RealMolecule> selectedMolecule = new Property<RealMolecule>( null );
+    // which of the selected available real molecules is being viewed
+    private int kitIndex = 0; // (index)
+    private Property<RealMolecule> selectedMolecule = new Property<RealMolecule>( null ); // (the selected molecule itself)
+
+    // list of all of the real examples for the current VSEPR model. we only display at most 1 of these
     private List<RealMolecule> molecules = new ArrayList<RealMolecule>();
 
     public RealMoleculePanelNode( MoleculeModel molecule, final MoleculeJMEApplication app, final RealMoleculeOverlayNode overlayNode,
@@ -59,8 +75,10 @@ public class RealMoleculePanelNode extends PNode {
         this.app = app;
         this.minimized = minimized;
 
-        minimized.addObserver( new SimpleObserver() {
-            public void update() {
+        // when minimization changes, update our visual state
+        minimized.addObserver( JmeUtils.swingObserver( new Runnable() {
+            public void run() {
+                // since event ordering can be weird between the threads, double-check before adding or removing the container node
                 if ( minimized.get() && containerNode.getParent() != null ) {
                     removeChild( containerNode );
                 }
@@ -68,7 +86,7 @@ public class RealMoleculePanelNode extends PNode {
                     addChild( containerNode );
                 }
             }
-        } );
+        } ) );
 
         // make sure we have something at the very top so the panel doesn't shrink in
         addChild( new Spacer( 0, 0, SIZE, 10 ) );
@@ -77,19 +95,28 @@ public class RealMoleculePanelNode extends PNode {
         * back button
         *----------------------------------------------------------------------------*/
         containerNode.addChild( new BackButton() {{
-            selectedMolecule.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( kitIndex > 0 && !molecules.isEmpty() );
+            final Function0<Boolean> visibilityCondition = new Function0<Boolean>() {
+                public Boolean apply() {
+                    return kitIndex > 0 && !molecules.isEmpty();
                 }
-            } );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    kitIndex--;
-                    synchronized ( app ) {
+            };
+
+            // when the selected molecule changes, update our view in the EDT
+            selectedMolecule.addObserver( JmeUtils.swingObserver( new Runnable() {
+                public void run() {
+                    setVisible( visibilityCondition.apply() );
+                }
+            } ) );
+
+            addActionListener( new JmeActionListener( new Runnable() {
+                public void run() {
+                    // sanity check for visibility
+                    if ( visibilityCondition.apply() ) {
+                        kitIndex--;
                         selectedMolecule.set( molecules.get( kitIndex ) );
                     }
                 }
-            } );
+            } ) );
             setOffset( 0, ARROW_Y_OFFSET );
         }} );
 
@@ -97,19 +124,28 @@ public class RealMoleculePanelNode extends PNode {
         * forward button
         *----------------------------------------------------------------------------*/
         containerNode.addChild( new ForwardButton() {{
-            selectedMolecule.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( kitIndex < molecules.size() - 1 && !molecules.isEmpty() );
+            final Function0<Boolean> visibilityCondition = new Function0<Boolean>() {
+                public Boolean apply() {
+                    return kitIndex < molecules.size() - 1 && !molecules.isEmpty();
                 }
-            } );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    kitIndex++;
-                    synchronized ( app ) {
+            };
+
+            // when the selected molecule changes, update our view in the EDT
+            selectedMolecule.addObserver( JmeUtils.swingObserver( new Runnable() {
+                public void run() {
+                    setVisible( visibilityCondition.apply() );
+                }
+            } ) );
+
+            addActionListener( new JmeActionListener( new Runnable() {
+                public void run() {
+                    // sanity check for visibility
+                    if ( visibilityCondition.apply() ) {
+                        kitIndex++;
                         selectedMolecule.set( molecules.get( kitIndex ) );
                     }
                 }
-            } );
+            } ) );
             setOffset( SIZE - getFullBounds().getWidth(), ARROW_Y_OFFSET );
         }} );
 
@@ -117,28 +153,26 @@ public class RealMoleculePanelNode extends PNode {
         * molecular formula label
         *----------------------------------------------------------------------------*/
         containerNode.addChild( new HTMLNode( "", MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR, new PhetFont( 14, true ) ) {{
-            selectedMolecule.addObserver( new SimpleObserver() {
-                public void update() {
-                    synchronized ( app ) {
-                        if ( selectedMolecule.get() != null ) {
-                            setHTML( ChemUtils.toIonSuperscript( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) ) );
-                        }
-                        else {
-                            setHTML( "(none)" );
-                        }
-
-                        // center vertically and horizontally
-                        setOffset( ( SIZE - getFullBounds().getWidth() ) / 2, ( CONTROL_OFFSET - getFullBounds().getHeight() ) / 2 );
-
-                        // if it goes past 0, push it down
-                        if ( getFullBounds().getMinY() < 0 ) {
-                            setOffset( getOffset().getX(), getOffset().getY() - getFullBounds().getMinY() );
-                        }
-
-                        repaint();
+            selectedMolecule.addObserver( JmeUtils.swingObserver( new Runnable() {
+                public void run() {
+                    if ( selectedMolecule.get() != null ) {
+                        setHTML( ChemUtils.toIonSuperscript( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) ) );
                     }
+                    else {
+                        setHTML( "(none)" );
+                    }
+
+                    // center vertically and horizontally
+                    setOffset( ( SIZE - getFullBounds().getWidth() ) / 2, ( CONTROL_OFFSET - getFullBounds().getHeight() ) / 2 );
+
+                    // if it goes past 0, push it down
+                    if ( getFullBounds().getMinY() < 0 ) {
+                        setOffset( getOffset().getX(), getOffset().getY() - getFullBounds().getMinY() );
+                    }
+
+                    repaint();
                 }
-            } );
+            } ) );
         }} );
 
         /*---------------------------------------------------------------------------*
@@ -155,7 +189,11 @@ public class RealMoleculePanelNode extends PNode {
             // if the user presses the mouse here, start dragging the molecule
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( PInputEvent event ) {
-                    app.startOverlayMoleculeDrag();
+                    JmeUtils.invoke( new Runnable() {
+                        public void run() {
+                            app.startOverlayMoleculeDrag();
+                        }
+                    } );
                 }
             } );
         }};
@@ -170,21 +208,21 @@ public class RealMoleculePanelNode extends PNode {
             setFont( MoleculeShapesConstants.CHECKBOX_FONT_SIZE );
             setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
             setOpaque( false );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
+            addActionListener( new JmeActionListener( new Runnable() {
+                public void run() {
                     overlayNode.displayMode.set( DisplayMode.BALL_AND_STICK );
                 }
-            } );
+            } ) );
 
             // keep this checkbox up-to-date with the property
-            overlayNode.displayMode.addObserver( new SimpleObserver() {
-                public void update() {
+            overlayNode.displayMode.addObserver( JmeUtils.swingObserver( new Runnable() {
+                public void run() { // TODO: synchronization needed here?
                     boolean shouldBeSelected = overlayNode.displayMode.get() == DisplayMode.BALL_AND_STICK;
                     if ( isSelected() != shouldBeSelected ) {
                         setSelected( shouldBeSelected );
                     }
                 }
-            } );
+            } ) );
         }} ) {{
             setOffset( 0, SIZE + CONTROL_OFFSET );
         }};
@@ -194,11 +232,11 @@ public class RealMoleculePanelNode extends PNode {
             setFont( MoleculeShapesConstants.CHECKBOX_FONT_SIZE );
             setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
             setOpaque( false );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
+            addActionListener( new JmeActionListener( new Runnable() {
+                public void run() {
                     overlayNode.displayMode.set( MoleculeNode.DisplayMode.SPACE_FILL );
                 }
-            } );
+            } ) );
         }} ) {{
             setOffset( 0, ballAndStickPSwing.getFullBounds().getMaxY() );
         }};
@@ -230,32 +268,35 @@ public class RealMoleculePanelNode extends PNode {
     }
 
     private void onModelChange() {
-        synchronized ( app ) {
-            // get the list of real molecules that correspond to our VSEPR model
-            molecules = RealMolecule.getMatchingMolecules( molecule );
-            kitIndex = 0;
+        // get the list of real molecules that correspond to our VSEPR model
+        molecules = RealMolecule.getMatchingMolecules( molecule );
+        kitIndex = 0;
 
-            boolean showingMolecule = !molecules.isEmpty();
+        final boolean showingMolecule = !molecules.isEmpty();
 
-            if ( showingMolecule ) {
-                selectedMolecule.set( molecules.get( 0 ) );
-            }
-            else {
-                selectedMolecule.set( null );
-            }
-
-            // TODO: allow the collapse-on-no-model changes
-//            if ( getChildrenReference().contains( overlayTarget ) != showingMolecule ) {
-//                if ( showingMolecule ) {
-//                    containerNode.addChild( overlayTarget );
-//                }
-//                else {
-//                    containerNode.removeChild( overlayTarget );
-//                }
-//            }
-
-            repaint();
+        if ( showingMolecule ) {
+            selectedMolecule.set( molecules.get( 0 ) );
         }
+        else {
+            selectedMolecule.set( null );
+        }
+
+        // TODO: allow the collapse-on-no-model changes
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                // TODO: are we going to hit synchronization issues here again? YES
+                if ( getChildrenReference().contains( overlayTarget ) != showingMolecule ) {
+                    if ( showingMolecule ) {
+                        containerNode.addChild( overlayTarget );
+                    }
+                    else {
+                        containerNode.removeChild( overlayTarget );
+                    }
+                }
+
+                repaint();
+            }
+        } );
     }
 
     private static <A, B> List<B> map( List<A> list, Function1<A, B> map ) {

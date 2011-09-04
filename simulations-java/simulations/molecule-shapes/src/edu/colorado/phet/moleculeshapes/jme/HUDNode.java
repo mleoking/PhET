@@ -186,11 +186,17 @@ public class HUDNode extends Geometry {
         // get an update every frame. if our image is dirty, repaint it
         state = new AbstractAppState() {
             @Override public void update( float tpf ) {
+                // make sure dirty read/write is atomic
                 synchronized ( HUDNode.this ) {
-                    if ( dirty ) {
-                        image.refreshImage();
-                        dirty = false;
-                    }
+                    // make sure we acquire the swing thread before doing the repainting that needs to be done
+                    JmeUtils.swingLock( new Runnable() {
+                        public void run() {
+                            if ( dirty ) {
+                                image.refreshImage();
+                                dirty = false;
+                            }
+                        }
+                    } );
                 }
             }
         };
@@ -201,7 +207,7 @@ public class HUDNode extends Geometry {
         dirty = true;
     }
 
-    // All necessary cleanup that we need to do to never use this HUDNode again (don't leak memory)
+    // All necessary cleanup that we need to do to never use this HUDNode again (don't leak memory). Shouldn't conflict with JME calls
     public void dispose() {
         ignoreInput();
         app.getStateManager().detach( state );
@@ -210,18 +216,20 @@ public class HUDNode extends Geometry {
     public void ignoreInput() {
         if ( listenerAttached ) {
             listenerAttached = false;
-            synchronized ( app ) {
-                app.getInputManager().removeRawInputListener( inputListener );
-            }
+            app.getInputManager().removeRawInputListener( inputListener );
         }
     }
 
     // ensure that we have the correct repaint manager so that we receive repaint events
     private void initRepaintManager() {
-        final RepaintManager repaintManager = RepaintManager.currentManager( component );
-        if ( !( repaintManager instanceof JMERepaintManager ) ) {
-            RepaintManager.setCurrentManager( new JMERepaintManager() );
-        }
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                final RepaintManager repaintManager = RepaintManager.currentManager( component );
+                if ( !( repaintManager instanceof JMERepaintManager ) ) {
+                    RepaintManager.setCurrentManager( new JMERepaintManager() );
+                }
+            }
+        } );
     }
 
     /**
@@ -539,13 +547,18 @@ public class HUDNode extends Geometry {
         return buttonMask;
     }
 
-    public Component componentAt( int x, int y ) {
-        Component component = componentAt( x, y, this.component, true );
-        if ( component != this.component ) {
-            return component;
-        }
-
-        return null;
+    public Component componentAt( final int x, final int y ) {
+        // wrap the necessary parts within a Swing lock so that we know we don't tromp over parts
+        final Property<Component> result = new Property<Component>( null );
+        JmeUtils.swingLock( new Runnable() {
+            public void run() {
+                Component component = componentAt( x, y, HUDNode.this.component, true );
+                if ( component != HUDNode.this.component ) {
+                    result.set( component );
+                }
+            }
+        } );
+        return result.get();
     }
 
     private Component componentAt( int x, int y, Component parent, boolean scanRootPanes ) {

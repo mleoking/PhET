@@ -16,10 +16,13 @@ import com.jme3.math.Quaternion;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 
-// TODO: threading!!
+/**
+ * The visual display node that shows real molecule examples. This is a JME3 node,
+ * not piccolo, and handles switching between different molecules and rotation handling.
+ */
 public class RealMoleculeOverlayNode extends Node {
     private final MoleculeJMEApplication app;
-    private final Camera camera;
+    private final Camera camera; // track the camera so we can rotate the bonds accordingly
     private RealMolecule molecule;
     private MoleculeNode moleculeNode;
     private Quaternion rotation = new Quaternion();
@@ -32,8 +35,11 @@ public class RealMoleculeOverlayNode extends Node {
         this.app = app;
         this.camera = camera;
 
+        // before each frame
         app.getStateManager().attach( new AbstractAppState() {
             @Override public void update( final float tpf ) {
+
+                // auto-rotate the molecule if we can
                 if ( moleculeNode != null && app.canAutoRotateRealMolecule() ) {
                     updateRotation( new VoidFunction2<Quaternion, Float>() {
                         public void apply( Quaternion quaternion, Float aFloat ) {
@@ -41,6 +47,7 @@ public class RealMoleculeOverlayNode extends Node {
                         }
                     } );
 
+                    // update the bonds
                     moleculeNode.updateView();
                 }
             }
@@ -73,29 +80,28 @@ public class RealMoleculeOverlayNode extends Node {
         showMolecule( molecule, false );
     }
 
-    public void showMolecule( RealMolecule molecule, boolean keepRotation ) {
+    private void showMolecule( RealMolecule molecule, boolean keepRotation ) {
         this.molecule = molecule;
 
-        synchronized ( app ) {
-            if ( moleculeNode != null ) {
-                // reset the rotation
-                if ( !keepRotation ) {
-                    rotation = new Quaternion();
-                }
-
-                // detach it and make it null
-                detachChild( moleculeNode );
-                moleculeNode = null;
+        if ( moleculeNode != null ) {
+            // reset the rotation
+            if ( !keepRotation ) {
+                rotation = new Quaternion();
             }
 
-            if ( molecule != null ) {
-                moleculeNode = new MoleculeNode( molecule, app, camera, displayMode.get() ) {{
-                    float scale = MoleculeShapesConstants.MOLECULE_SCALE / getBoundingRadius();
-                    scale( scale );
-                    lastScale = scale;
-                }};
-                attachChild( moleculeNode );
-            }
+            // detach it and make it null
+            detachChild( moleculeNode );
+            moleculeNode = null;
+        }
+
+        if ( molecule != null ) {
+            moleculeNode = new MoleculeNode( molecule, app, camera, displayMode.get() ) {{
+                // scale the molecule node so it fits nicely within our viewport
+                float scale = MoleculeShapesConstants.MOLECULE_SCALE / getBoundingRadius();
+                scale( scale );
+                lastScale = scale;
+            }};
+            attachChild( moleculeNode );
         }
     }
 
@@ -105,11 +111,9 @@ public class RealMoleculeOverlayNode extends Node {
      * @param callback Function that modifies the Quaternion that is passed in. The Float argument is the mouse scale that should be used
      */
     public void updateRotation( VoidFunction2<Quaternion, Float> callback ) {
-        synchronized ( app ) {
-            callback.apply( rotation, 3 * lastScale );
-            moleculeNode.setLocalRotation( rotation );
-            moleculeNode.updateView();
-        }
+        callback.apply( rotation, 3 * lastScale );
+        moleculeNode.setLocalRotation( rotation );
+        moleculeNode.updateView();
     }
 
 }

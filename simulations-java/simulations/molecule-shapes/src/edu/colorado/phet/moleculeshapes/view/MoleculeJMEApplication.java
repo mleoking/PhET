@@ -1,8 +1,9 @@
 package edu.colorado.phet.moleculeshapes.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.Random;
+
+import javax.swing.*;
 
 import org.lwjgl.input.Mouse;
 
@@ -17,6 +18,7 @@ import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
 import edu.colorado.phet.moleculeshapes.jme.HUDNode;
+import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
@@ -53,10 +55,13 @@ import com.jme3.system.JmeCanvasContext;
 
 /**
  * Use jme3 to show a rotating molecule
+ * TODO: clearer separation of JME / Swing thread code
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: electron geometry name repaint issue - check threading and repaint()
  * <p/>
  * NOTES:
+ * TODO: recommend change to "option" panel for showing/hiding lone pairs?
+ * <p/>
  * TODO: it's weird to drag out an invisible lone pair
  * TODO: consider color-coding the molecular / electron readouts?
  * TODO: Reset: how many bonds (0 or 2) should it reset to?
@@ -162,26 +167,24 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 new ActionListener() {
                     public void onAction( String name, boolean isMouseDown, float tpf ) {
                         // record whether the mouse button is down
-                        synchronized ( MoleculeJMEApplication.this ) {
 
-                            // on left mouse button change
-                            if ( name.equals( MAP_LMB ) ) {
-                                globalLeftMouseDown = isMouseDown;
+                        // on left mouse button change
+                        if ( name.equals( MAP_LMB ) ) {
+                            globalLeftMouseDown = isMouseDown;
 
-                                if ( isMouseDown ) {
-                                    onLeftMouseDown();
-                                }
-                                else {
-                                    onLeftMouseUp();
-                                }
+                            if ( isMouseDown ) {
+                                onLeftMouseDown();
                             }
+                            else {
+                                onLeftMouseUp();
+                            }
+                        }
 
-                            // kill any pair groups under the middle mouse button press
-                            if ( isMouseDown && name.equals( MAP_MMB ) ) {
-                                PairGroup pair = getElectronPairUnderPointer();
-                                if ( pair != null ) {
-                                    molecule.removePair( pair );
-                                }
+                        // kill any pair groups under the middle mouse button press
+                        if ( isMouseDown && name.equals( MAP_MMB ) ) {
+                            PairGroup pair = getElectronPairUnderPointer();
+                            if ( pair != null ) {
+                                molecule.removePair( pair );
                             }
                         }
                     }
@@ -199,111 +202,115 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                         updateCursor();
 
                         if ( dragging ) {
-                            synchronized ( MoleculeJMEApplication.this ) {
 
-                                // function that updates a quaternion in-place, by adding the necessary rotation in, multiplied by the scale
-                                final VoidFunction2<Quaternion, Float> updateQuaternion = new VoidFunction2<Quaternion, Float>() {
-                                    public void apply( Quaternion quaternion, Float scale ) {
-                                        if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
-                                            quaternion.set( new Quaternion().fromAngles( 0, -value * scale, 0 ).mult( quaternion ) );
-                                        }
-                                        if ( name.equals( MoleculeJMEApplication.MAP_RIGHT ) ) {
-                                            quaternion.set( new Quaternion().fromAngles( 0, value * scale, 0 ).mult( quaternion ) );
-                                        }
-                                        if ( name.equals( MoleculeJMEApplication.MAP_UP ) ) {
-                                            quaternion.set( new Quaternion().fromAngles( -value * scale, 0, 0 ).mult( quaternion ) );
-                                        }
-                                        if ( name.equals( MoleculeJMEApplication.MAP_DOWN ) ) {
-                                            quaternion.set( new Quaternion().fromAngles( value * scale, 0, 0 ).mult( quaternion ) );
-                                        }
+                            // function that updates a quaternion in-place, by adding the necessary rotation in, multiplied by the scale
+                            final VoidFunction2<Quaternion, Float> updateQuaternion = new VoidFunction2<Quaternion, Float>() {
+                                public void apply( Quaternion quaternion, Float scale ) {
+                                    if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
+                                        quaternion.set( new Quaternion().fromAngles( 0, -value * scale, 0 ).mult( quaternion ) );
                                     }
-                                };
-
-                                switch( dragMode ) {
-                                    case MODEL_ROTATE:
-                                        updateQuaternion.apply( rotation, ROTATION_MOUSE_SENSITIVITY );
-                                        break;
-                                    case REAL_MOLECULE_ROTATE:
-                                        realMoleculeOverlayNode.updateRotation( updateQuaternion );
-                                        break;
-                                    case PAIR_FRESH_PLANAR:
-                                        // put the particle on the z=0 plane
-                                        draggedParticle.dragToPosition( JmeUtils.convertVector( getPlanarMoleculeCursorPosition() ) );
-                                        break;
-                                    case PAIR_EXISTING_SPHERICAL:
-                                        draggedParticle.dragToPosition( JmeUtils.convertVector( getSphericalMoleculeCursorPosition( JmeUtils.convertVector( draggedParticle.position.get() ) ) ) );
-                                        break;
+                                    if ( name.equals( MoleculeJMEApplication.MAP_RIGHT ) ) {
+                                        quaternion.set( new Quaternion().fromAngles( 0, value * scale, 0 ).mult( quaternion ) );
+                                    }
+                                    if ( name.equals( MoleculeJMEApplication.MAP_UP ) ) {
+                                        quaternion.set( new Quaternion().fromAngles( -value * scale, 0, 0 ).mult( quaternion ) );
+                                    }
+                                    if ( name.equals( MoleculeJMEApplication.MAP_DOWN ) ) {
+                                        quaternion.set( new Quaternion().fromAngles( value * scale, 0, 0 ).mult( quaternion ) );
+                                    }
                                 }
+                            };
+
+                            switch( dragMode ) {
+                                case MODEL_ROTATE:
+                                    updateQuaternion.apply( rotation, ROTATION_MOUSE_SENSITIVITY );
+                                    break;
+                                case REAL_MOLECULE_ROTATE:
+                                    realMoleculeOverlayNode.updateRotation( updateQuaternion );
+                                    break;
+                                case PAIR_FRESH_PLANAR:
+                                    // put the particle on the z=0 plane
+                                    draggedParticle.dragToPosition( JmeUtils.convertVector( getPlanarMoleculeCursorPosition() ) );
+                                    break;
+                                case PAIR_EXISTING_SPHERICAL:
+                                    draggedParticle.dragToPosition( JmeUtils.convertVector( getSphericalMoleculeCursorPosition( JmeUtils.convertVector( draggedParticle.position.get() ) ) ) );
+                                    break;
                             }
                         }
                     }
                 }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_LMB );
 
-        moleculeNode = new MoleculeModelNode( molecule, this, cam );
-        getSceneNode().attachChild( moleculeNode );
+        // for much of the rest, it is helpful to run in the Swing thread while the JME thread is waiting. (constructing Swing components)
+        JmeUtils.swingLock( new Runnable() {
+            public void run() {
 
-        /*---------------------------------------------------------------------------*
-        * scene setup
-        *----------------------------------------------------------------------------*/
+                moleculeNode = new MoleculeModelNode( molecule, MoleculeJMEApplication.this, cam );
+                getSceneNode().attachChild( moleculeNode );
 
-        addLighting( getSceneNode() );
-        cam.setLocation( new Vector3f( 0, 0, 40 ) );
+                /*---------------------------------------------------------------------------*
+                * scene setup
+                *----------------------------------------------------------------------------*/
 
-        // start with two single bonds
-        molecule.addPair( new PairGroup( new ImmutableVector3D( 10, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-        molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 10, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+                addLighting( getSceneNode() );
+                cam.setLocation( new Vector3f( 0, 0, 40 ) );
 
-        /*---------------------------------------------------------------------------*
-        * real molecule overlay
-        *----------------------------------------------------------------------------*/
+                // start with two single bonds
+                molecule.addPair( new PairGroup( new ImmutableVector3D( 10, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+                molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 10, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
 
-        Node overlayNode = new Node( "Overlay" );
+                /*---------------------------------------------------------------------------*
+                * real molecule overlay
+                *----------------------------------------------------------------------------*/
 
-        overlayCamera = new Camera( settings.getWidth(), settings.getHeight() );
+                Node overlayNode = new Node( "Overlay" );
 
-        final ViewPort overlayViewport = renderManager.createMainView( "Overlay Viewport", overlayCamera );
-        overlayViewport.attachScene( overlayNode );
-        addLiveNode( overlayNode );
+                overlayCamera = new Camera( settings.getWidth(), settings.getHeight() );
 
-        realMoleculeOverlayNode = new RealMoleculeOverlayNode( this, overlayCamera );
-        overlayNode.attachChild( realMoleculeOverlayNode );
+                final ViewPort overlayViewport = renderManager.createMainView( "Overlay Viewport", overlayCamera );
+                overlayViewport.attachScene( overlayNode );
+                addLiveNode( overlayNode );
 
-        addLighting( overlayNode );
+                realMoleculeOverlayNode = new RealMoleculeOverlayNode( MoleculeJMEApplication.this, overlayCamera );
+                overlayNode.attachChild( realMoleculeOverlayNode );
 
-        /*---------------------------------------------------------------------------*
-        * reset button
-        *----------------------------------------------------------------------------*/
+                addLighting( overlayNode );
 
-        // TODO: i18n (and reset behavior)
-        resetAllNode = new PiccoloJMENode( new TextButtonNode( "Reset", new PhetFont( 16 ), Color.ORANGE ) {{
-            addActionListener( new java.awt.event.ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    resetAll();
-                }
-            } );
-        }}, this );
-        getBackgroundGuiNode().attachChild( resetAllNode );
+                /*---------------------------------------------------------------------------*
+                * reset button
+                *----------------------------------------------------------------------------*/
 
-        /*---------------------------------------------------------------------------*
-        * main control panel
-        *----------------------------------------------------------------------------*/
-        controlPanelNode = new MoleculeShapesControlPanel( this, realMoleculeOverlayNode );
-        controlPanel = new PiccoloJMENode( controlPanelNode, this );
-        getBackgroundGuiNode().attachChild( controlPanel );
-        controlPanel.onResize.addTarget( new Fireable<Void>() {
-            public void fire( Void param ) {
-                resizeDirty = true;
+                // TODO: i18n (and reset behavior)
+                resetAllNode = new PiccoloJMENode( new TextButtonNode( "Reset", new PhetFont( 16 ), Color.ORANGE ) {{
+                    addActionListener( new JmeActionListener( new Runnable() {
+                        public void run() {
+                            resetAll();
+                        }
+                    } ) );
+                }}, MoleculeJMEApplication.this );
+                getBackgroundGuiNode().attachChild( resetAllNode );
+
+                /*---------------------------------------------------------------------------*
+                * main control panel
+                *----------------------------------------------------------------------------*/
+                controlPanelNode = new MoleculeShapesControlPanel( MoleculeJMEApplication.this, realMoleculeOverlayNode );
+                controlPanel = new PiccoloJMENode( controlPanelNode, MoleculeJMEApplication.this );
+                getBackgroundGuiNode().attachChild( controlPanel );
+                controlPanel.onResize.addTarget( new Fireable<Void>() {
+                    public void fire( Void param ) {
+                        resizeDirty = true;
+                    }
+                } );
+
+                /*---------------------------------------------------------------------------*
+                * "geometry name" panel
+                *----------------------------------------------------------------------------*/
+                namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule, MoleculeJMEApplication.this ), "Geometry Name" ) {{
+                    // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
+                    setOffset( 0, 10 );
+                }}, MoleculeJMEApplication.this );
+                getBackgroundGuiNode().attachChild( namePanel );
             }
         } );
-
-        /*---------------------------------------------------------------------------*
-        * "geometry name" panel
-        *----------------------------------------------------------------------------*/
-        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule, this ), "Geometry Name" ) {{
-            // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
-            setOffset( 0, 10 );
-        }}, this );
-        getBackgroundGuiNode().attachChild( namePanel );
     }
 
     public void startOverlayMoleculeDrag() {
@@ -342,7 +349,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         }
     }
 
-    public synchronized void startNewInstanceDrag( int bondOrder ) {
+    public void startNewInstanceDrag( int bondOrder ) {
         // sanity check
         if ( !molecule.wouldAllowBondOrder( bondOrder ) ) {
             // don't add to the molecule if it is full
@@ -383,33 +390,38 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private void updateCursor() {
         //This solves a problem that we saw that: when there was no padding or other component on the side of the canvas, the mouse would become East-West resize cursor
         //And wouldn't change back.
-        JmeCanvasContext context = (JmeCanvasContext) getContext();
-        Canvas canvas = context.getCanvas();
+        JmeUtils.swingLock( new Runnable() {
+            public void run() {
 
-        //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
-        PairGroup pair = getElectronPairUnderPointer();
+                JmeCanvasContext context = (JmeCanvasContext) getContext();
+                Canvas canvas = context.getCanvas();
 
-        Component component = getComponentUnderPointer( Mouse.getX(), Mouse.getY() );
+                //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
+                PairGroup pair = getElectronPairUnderPointer();
 
-        if ( dragging && ( dragMode == DragMode.MODEL_ROTATE || dragMode == DragMode.REAL_MOLECULE_ROTATE ) ) {
-            // rotating the molecule. for now, trying out the "move" cursor
-            canvas.setCursor( Cursor.getPredefinedCursor( MoleculeShapesProperties.useRotationCursor.get() ? Cursor.MOVE_CURSOR : Cursor.DEFAULT_CURSOR ) );
-        }
-        else if ( pair != null || dragging ) {
-            // over a pair group, OR dragging one
-            canvas.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        }
-        else if ( component != null ) {
-            // over a HUD node, so set the cursor to what the component would want
-            canvas.setCursor( component.getCursor() );
-        }
-        else {
-            // default to the default cursor
-            canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-        }
+                Component component = getComponentUnderPointer( Mouse.getX(), Mouse.getY() );
+
+                if ( dragging && ( dragMode == DragMode.MODEL_ROTATE || dragMode == DragMode.REAL_MOLECULE_ROTATE ) ) {
+                    // rotating the molecule. for now, trying out the "move" cursor
+                    canvas.setCursor( Cursor.getPredefinedCursor( MoleculeShapesProperties.useRotationCursor.get() ? Cursor.MOVE_CURSOR : Cursor.DEFAULT_CURSOR ) );
+                }
+                else if ( pair != null || dragging ) {
+                    // over a pair group, OR dragging one
+                    canvas.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+                }
+                else if ( component != null ) {
+                    // over a HUD node, so set the cursor to what the component would want
+                    canvas.setCursor( component.getCursor() );
+                }
+                else {
+                    // default to the default cursor
+                    canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                }
+            }
+        } );
     }
 
-    public synchronized void resetAll() {
+    public void resetAll() {
         removeAllAtoms();
         showLonePairs.reset();
 
@@ -568,15 +580,9 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         }
     }
 
-    public synchronized void removePairGroup( PairGroup group ) {
+    public void removePairGroup( PairGroup group ) {
         // synchronized removal, so we don't run over the display thread
         molecule.removePair( group );
-    }
-
-    public synchronized void testRemoveAtom() {
-        if ( !molecule.getGroups().isEmpty() ) {
-            molecule.removePair( molecule.getGroups().get( random.nextInt( molecule.getGroups().size() ) ) );
-        }
     }
 
     @Override public synchronized void updateState( final float tpf ) {
@@ -644,7 +650,9 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     public void removeAllAtoms() {
         while ( !molecule.getGroups().isEmpty() ) {
-            testRemoveAtom();
+            if ( !molecule.getGroups().isEmpty() ) {
+                molecule.removePair( molecule.getGroups().get( random.nextInt( molecule.getGroups().size() ) ) );
+            }
         }
     }
 
@@ -662,10 +670,14 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         return molecule;
     }
 
-    @Override public void handleError( String errMsg, Throwable t ) {
+    @Override public void handleError( String errMsg, final Throwable t ) {
         super.handleError( errMsg, t );
         if ( errMsg.equals( "Failed to initialize OpenGL context" ) ) {
-            PhetOptionPane.showMessageDialog( parentFrame, "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem.\nError information:\n" + t.getMessage() );
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    PhetOptionPane.showMessageDialog( parentFrame, "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem.\nError information:\n" + t.getMessage() );
+                }
+            } );
         }
     }
 
