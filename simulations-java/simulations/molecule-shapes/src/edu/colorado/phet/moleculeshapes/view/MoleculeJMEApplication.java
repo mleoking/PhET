@@ -55,6 +55,7 @@ import com.jme3.system.JmeCanvasContext;
 
 /**
  * Use jme3 to show a rotating molecule
+ * TODO: see https://www.securecoding.cert.org/confluence/display/java/TSM02-J.+Do+not+use+background+threads+during+class+initialization
  * TODO: clearer separation of JME / Swing thread code
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: electron geometry name repaint issue - check threading and repaint()
