@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.SessionStarted;
+import edu.colorado.phet.simsharing.socketutil.IActor;
 import edu.colorado.phet.simsharing.teacher.ClearDatabase;
 import edu.colorado.phet.simsharing.teacher.GetSessionList;
 import edu.colorado.phet.simsharing.teacher.SessionList;

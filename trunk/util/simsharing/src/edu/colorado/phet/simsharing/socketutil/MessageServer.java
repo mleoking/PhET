@@ -1,4 +1,4 @@
-package testjavasockets;
+package edu.colorado.phet.simsharing.socketutil;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

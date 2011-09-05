@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.socket;
 
-import testjavasockets.Client;
-
 import java.awt.AWTException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +23,9 @@ import edu.colorado.phet.simsharing.EndSession;
 import edu.colorado.phet.simsharing.GAOHelper;
 import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.StartSession;
+import edu.colorado.phet.simsharing.socketutil.Client;
+import edu.colorado.phet.simsharing.socketutil.IActor;
+import edu.colorado.phet.simsharing.socketutil.ThreadedActor;
 
 /**
  * @author Sam Reid

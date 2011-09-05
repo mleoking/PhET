@@ -1,14 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.socket;
 
-import testjavasockets.Client;
-
 import java.awt.BorderLayout;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import edu.colorado.phet.simsharing.socketutil.Client;
+import edu.colorado.phet.simsharing.socketutil.IActor;
 
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWindowOnScreen;
 
