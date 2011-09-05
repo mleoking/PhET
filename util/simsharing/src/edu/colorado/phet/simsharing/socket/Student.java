@@ -41,7 +41,9 @@ public class Student {
 
     private void start() throws IOException, ClassNotFoundException {
 
-        final IActor server = new Client();
+        //Communicate with the server in a separate thread
+        final IActor server = new ThreadedActor( new Client() );
+
         final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
             //TODO: could move exit listeners here instead of in PhetExit
             public void apply() {
