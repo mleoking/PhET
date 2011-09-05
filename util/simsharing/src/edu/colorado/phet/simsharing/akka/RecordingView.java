@@ -1,20 +1,28 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.teacher;
+package edu.colorado.phet.simsharing.akka;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorTimeoutException;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.SessionStarted;
+import edu.colorado.phet.simsharing.teacher.ClearDatabase;
+import edu.colorado.phet.simsharing.teacher.GetSessionList;
+import edu.colorado.phet.simsharing.teacher.SessionList;
 
 /**
  * @author Sam Reid

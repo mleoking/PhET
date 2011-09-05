@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing;
+package edu.colorado.phet.simsharing.akka;
 
 import akka.actor.ActorRef;
 import akka.actor.Actors;
@@ -21,6 +21,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.ImageFactory;
+import edu.colorado.phet.simsharing.AddMultiSample;
+import edu.colorado.phet.simsharing.EndSession;
+import edu.colorado.phet.simsharing.GAOHelper;
+import edu.colorado.phet.simsharing.SessionID;
+import edu.colorado.phet.simsharing.StartSession;
 
 /**
  * @author Sam Reid

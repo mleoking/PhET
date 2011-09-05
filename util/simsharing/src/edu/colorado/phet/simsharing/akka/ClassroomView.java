@@ -1,18 +1,20 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.teacher;
+package edu.colorado.phet.simsharing.akka;
 
 import akka.actor.ActorRef;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.GetStudentList;
 import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.StudentSummary;
+import edu.colorado.phet.simsharing.teacher.StudentComponent;
+import edu.colorado.phet.simsharing.teacher.StudentList;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
