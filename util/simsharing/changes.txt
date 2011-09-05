@@ -1,3 +1,4 @@
+Rewrote prototype to use java.net and use one thread per client
 Added logout command
 Started prototype for java.net
 Changed TimeControlFrame to use Not instead of SettableNot, see #3045

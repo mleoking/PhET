@@ -17,12 +17,12 @@ public class Teacher {
         this.args = args;
     }
 
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws IOException, ClassNotFoundException {
         Server.parseArgs( args );
         new Teacher( args ).start();
     }
 
-    private void start() {
+    private void start() throws IOException, ClassNotFoundException {
         final IServer server = IServer.Impl.getServer();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {

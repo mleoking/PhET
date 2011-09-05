@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.socket;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -96,6 +97,12 @@ public class ClassroomView extends PSwingCanvas {
                         } );
                     }
                     catch ( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( ClassNotFoundException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( IOException e ) {
                         e.printStackTrace();
                     }
                 }

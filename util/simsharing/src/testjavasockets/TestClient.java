@@ -15,7 +15,7 @@ public class TestClient {
     private void start() throws IOException, ClassNotFoundException, InterruptedException {
 
         //Connect to the server
-        Socket server = Server.connect();
+        Socket server = MessageServer.connect();
 
         //Create streams for communicating with the server
         ObjectOutputStream writeToServer = new ObjectOutputStream( server.getOutputStream() );
@@ -23,7 +23,7 @@ public class TestClient {
 
         //Read the initial message from the server to verify communication is working properly
         Object fromServer = readFromServer.readObject();
-        System.out.println( "Server: " + fromServer );
+        System.out.println( "MessageServer: " + fromServer );
 
         //Send a command to the server and process the result
         for ( int i = 0; i < numQuestions; i++ ) {
