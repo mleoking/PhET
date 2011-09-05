@@ -17,10 +17,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.simsharing.GAOHelper;
-import edu.colorado.phet.simsharing.GetStudentData;
-import edu.colorado.phet.simsharing.Sample;
-import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.TimeControlFrame;
+import edu.colorado.phet.simsharing.messages.GetStudentData;
+import edu.colorado.phet.simsharing.messages.Sample;
+import edu.colorado.phet.simsharing.messages.SessionID;
 
 /**
  * @author Sam Reid

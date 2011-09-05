@@ -4,7 +4,7 @@ package edu.colorado.phet.simsharing.socket;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.util.Pair;
-import edu.colorado.phet.simsharing.Sample;
+import edu.colorado.phet.simsharing.messages.Sample;
 
 /**
  * @author Sam Reid
