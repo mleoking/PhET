@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -163,64 +165,58 @@ public class MoleculeModelNode extends Node {
 
         final boolean showAnglesBetweenLonePairs = MoleculeShapesProperties.allowAnglesBetweenLonePairs.get();
 
-        // we need to run from Swing to make the label modifications
-        JmeUtils.swingLock( new Runnable() {
-            public void run() {
 
-                // TODO: separate out bond angle feature
-                if ( MoleculeShapesProperties.showBondAngles.get() ) {
-                    // iterate over all combinations of two pair groups
-                    for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
-                        PairGroup a = molecule.getGroups().get( i );
+        // TODO: separate out bond angle feature
+        if ( MoleculeShapesProperties.showBondAngles.get() ) {
+            // iterate over all combinations of two pair groups
+            for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
+                PairGroup a = molecule.getGroups().get( i );
 
-                        // skip lone pairs if necessary
-                        if ( a.isLonePair && !showAnglesBetweenLonePairs ) {
-                            continue;
-                        }
-
-                        final ImmutableVector3D aDir = a.position.get().normalized();
-
-                        for ( int j = i + 1; j < molecule.getGroups().size(); j++ ) {
-                            final PairGroup b = molecule.getGroups().get( j );
-
-                            // skip lone pairs if necessary
-                            if ( b.isLonePair && !showAnglesBetweenLonePairs ) {
-                                continue;
-                            }
-
-                            final ImmutableVector3D bDir = b.position.get().normalized();
-
-                            final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, transformedDirection );
-                            if ( brightness == 0 ) {
-                                continue;
-                            }
-
-                            final BondAngleNode bondAngleNode = new BondAngleNode( app, aDir, bDir, transformedDirection );
-                            attachChild( bondAngleNode );
-                            angleNodes.add( bondAngleNode );
-
-                            // TODO: integrate the labels with the BondAngleNode
-
-                            Vector3f globalCenter = getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
-                            Vector3f globalMidpoint = getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
-
-                            final Vector3f screenCenter = camera.getScreenCoordinates( globalCenter );
-                            final Vector3f screenMidpoint = camera.getScreenCoordinates( globalMidpoint );
-
-                            float extensionFactor = 1.3f;
-                            final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
-
-                            // TODO: i18n?
-                            String labelText = angleFormat.format( Math.acos( aDir.dot( bDir ) ) * 180 / Math.PI ) + "°";
-                            showAngleLabel( labelText, brightness, displayPoint );
-                        }
-                    }
+                // skip lone pairs if necessary
+                if ( a.isLonePair && !showAnglesBetweenLonePairs ) {
+                    continue;
                 }
 
-                removeRemainingLabels();
+                final ImmutableVector3D aDir = a.position.get().normalized();
 
+                for ( int j = i + 1; j < molecule.getGroups().size(); j++ ) {
+                    final PairGroup b = molecule.getGroups().get( j );
+
+                    // skip lone pairs if necessary
+                    if ( b.isLonePair && !showAnglesBetweenLonePairs ) {
+                        continue;
+                    }
+
+                    final ImmutableVector3D bDir = b.position.get().normalized();
+
+                    final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, transformedDirection );
+                    if ( brightness == 0 ) {
+                        continue;
+                    }
+
+                    final BondAngleNode bondAngleNode = new BondAngleNode( app, aDir, bDir, transformedDirection );
+                    attachChild( bondAngleNode );
+                    angleNodes.add( bondAngleNode );
+
+                    // TODO: integrate the labels with the BondAngleNode
+
+                    Vector3f globalCenter = getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
+                    Vector3f globalMidpoint = getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
+
+                    final Vector3f screenCenter = camera.getScreenCoordinates( globalCenter );
+                    final Vector3f screenMidpoint = camera.getScreenCoordinates( globalMidpoint );
+
+                    float extensionFactor = 1.3f;
+                    final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
+
+                    // TODO: i18n?
+                    String labelText = angleFormat.format( Math.acos( aDir.dot( bDir ) ) * 180 / Math.PI ) + "°";
+                    showAngleLabel( labelText, brightness, displayPoint );
+                }
             }
-        } );
+        }
+
+        removeRemainingLabels();
     }
 
     private void showAngleLabel( final String string, final float brightness, final Vector3f displayPoint ) {
@@ -247,7 +243,7 @@ public class MoleculeModelNode extends Node {
     private class ReadoutNode extends PiccoloJMENode {
         private final PText text;
 
-        private boolean attached = false;
+        private volatile boolean attached = false;
 
         private ReadoutNode( PText text ) {
             super( text, app );
@@ -258,26 +254,38 @@ public class MoleculeModelNode extends Node {
             antialiased.set( true );
         }
 
-        public void attach( String string, float brightness, Vector3f displayPoint ) {
-            if ( !text.getText().equals( string ) ) {
-                text.setText( string );
-            }
-            text.setTextPaint( new Color( 1f, 1f, 1f, brightness ) );
-            text.repaint();
+        public void attach( final String string, final float brightness, final Vector3f displayPoint ) {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    if ( !text.getText().equals( string ) ) {
+                        text.setText( string );
+                    }
+                    text.setTextPaint( new Color( 1f, 1f, 1f, brightness ) );
+                    text.repaint();
 
-            setLocalTranslation( displayPoint.subtract( getWidth() / 2, getHeight() / 2, 0 ) );
+                    JmeUtils.invokeLater( new Runnable() {
+                        public void run() {
+                            setLocalTranslation( displayPoint.subtract( getWidth() / 2, getHeight() / 2, 0 ) );
 
-            if ( !attached ) {
-                attached = true;
-                app.getGuiNode().attachChild( this );
-            }
+                            if ( !attached ) {
+                                attached = true;
+                                app.getGuiNode().attachChild( ReadoutNode.this );
+                            }
+                        }
+                    } );
+                }
+            } );
         }
 
         public void detach() {
-            if ( attached ) {
-                attached = false;
-                app.getGuiNode().detachChild( this );
-            }
+            JmeUtils.invokeLater( new Runnable() {
+                public void run() {
+                    if ( attached ) {
+                        attached = false;
+                        app.getGuiNode().detachChild( ReadoutNode.this );
+                    }
+                }
+            } );
         }
     }
 }

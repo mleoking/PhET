@@ -5,9 +5,8 @@ import java.util.Random;
 
 import javax.swing.*;
 
-import org.lwjgl.input.Mouse;
-
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -53,12 +52,13 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.JmeCanvasContext;
 
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
+
 /**
  * Use jme3 to show a rotating molecule
- * TODO: see https://www.securecoding.cert.org/confluence/display/java/TSM02-J.+Do+not+use+background+threads+during+class+initialization
- * TODO: clearer separation of JME / Swing thread code
- * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
- * TODO: electron geometry name repaint issue - check threading and repaint()
+ * TODO: better MVC (especially C) to deal with all of these threading issues
+ * TODO: clearer separation of JME / Swing thread code (basically, a lot of cleanup and documentation)
+ * TODO: reset doesn't get event to "un-press" when real molecules view is expanded (it contracts)
  * <p/>
  * NOTES:
  * TODO: recommend change to "option" panel for showing/hiding lone pairs?
@@ -108,10 +108,10 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         REAL_MOLECULE_ROTATE // rotate the "real" molecule in the display
     }
 
-    private boolean dragging = false; // keeps track of the drag state
-    private DragMode dragMode = DragMode.MODEL_ROTATE;
-    private PairGroup draggedParticle = null;
-    private boolean globalLeftMouseDown = false; // keep track of the LMB state, since we need to deal with a few synchronization issues
+    private volatile boolean dragging = false; // keeps track of the drag state
+    private volatile DragMode dragMode = DragMode.MODEL_ROTATE;
+    private volatile PairGroup draggedParticle = null;
+    private volatile boolean globalLeftMouseDown = false; // keep track of the LMB state, since we need to deal with a few synchronization issues
 
     /*---------------------------------------------------------------------------*
     * positioning
@@ -321,23 +321,30 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     private void onLeftMouseDown() {
         // for dragging, ignore mouse presses over the HUD
-        Component componentUnderPointer = getComponentUnderPointer( Mouse.getX(), Mouse.getY() );
-        boolean mouseOverInterface = componentUnderPointer != null;
-        if ( !mouseOverInterface ) {
-            dragging = true;
+        getComponentUnderPointer( new VoidFunction1<Component>() {
+            public void apply( final Component componentUnderPointer ) {
+                boolean mouseOverInterface = componentUnderPointer != null;
+                if ( !mouseOverInterface ) {
+                    JmeUtils.invoke( new Runnable() {
+                        public void run() {
+                            dragging = true;
 
-            PairGroup pair = getElectronPairUnderPointer();
-            if ( pair != null ) {
-                // we are over a pair group, so start the drag on it
-                dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
-                draggedParticle = pair;
-                pair.userControlled.set( true );
+                            PairGroup pair = getElectronPairUnderPointer();
+                            if ( pair != null ) {
+                                // we are over a pair group, so start the drag on it
+                                dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
+                                draggedParticle = pair;
+                                pair.userControlled.set( true );
+                            }
+                            else {
+                                // set up default drag mode
+                                dragMode = DragMode.MODEL_ROTATE;
+                            }
+                        }
+                    } );
+                }
             }
-            else {
-                // set up default drag mode
-                dragMode = DragMode.MODEL_ROTATE;
-            }
-        }
+        } );
     }
 
     private void onLeftMouseUp() {
@@ -391,17 +398,14 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private void updateCursor() {
         //This solves a problem that we saw that: when there was no padding or other component on the side of the canvas, the mouse would become East-West resize cursor
         //And wouldn't change back.
-        JmeUtils.swingLock( new Runnable() {
-            public void run() {
+        JmeCanvasContext context = (JmeCanvasContext) getContext();
+        final Canvas canvas = context.getCanvas();
 
-                JmeCanvasContext context = (JmeCanvasContext) getContext();
-                Canvas canvas = context.getCanvas();
+        //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
+        final PairGroup pair = getElectronPairUnderPointer();
 
-                //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
-                PairGroup pair = getElectronPairUnderPointer();
-
-                Component component = getComponentUnderPointer( Mouse.getX(), Mouse.getY() );
-
+        getComponentUnderPointer( new VoidFunction1<Component>() {
+            public void apply( Component component ) {
                 if ( dragging && ( dragMode == DragMode.MODEL_ROTATE || dragMode == DragMode.REAL_MOLECULE_ROTATE ) ) {
                     // rotating the molecule. for now, trying out the "move" cursor
                     canvas.setCursor( Cursor.getPredefinedCursor( MoleculeShapesProperties.useRotationCursor.get() ? Cursor.MOVE_CURSOR : Cursor.DEFAULT_CURSOR ) );
@@ -531,7 +535,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         return null;
     }
 
-    public Component getComponentUnderPointer( int x, int y ) {
+    public void getComponentUnderPointer( final VoidFunction1<Component> callback ) {
+        // TODO: inspect, verify and doc
         CollisionResults results = new CollisionResults();
         Vector2f click2d = inputManager.getCursorPosition();
         getBackgroundGuiNode().collideWith( new Ray( new Vector3f( click2d.x, click2d.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
@@ -539,13 +544,21 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
             Geometry geometry = result.getGeometry();
             if ( geometry instanceof HUDNode ) {
-                HUDNode node = (HUDNode) geometry;
-                Vector3f hitPoint = node.transformEventCoordinates( click2d.x, click2d.y );
-                Component component = node.componentAt( (int) hitPoint.x, (int) hitPoint.y );
-                return component;
+                final HUDNode node = (HUDNode) geometry;
+                final Vector3f hitPoint = node.transformEventCoordinates( click2d.x, click2d.y );
+
+                // test for the component in the EDT thread, and run the callback there
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        callback.apply( node.componentAt( (int) hitPoint.x, (int) hitPoint.y ) );
+                    }
+                } );
+
+                // don't invoke the default (null) callback
+                return;
             }
         }
-        return null;
+        callback.apply( null );
     }
 
 
@@ -591,14 +604,14 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         moleculeNode.setLocalRotation( rotation );
 
         if ( resizeDirty ) {
-            resizeDirty = false;
-            final float padding = 10;
+
             if ( controlPanel != null ) {
-                controlPanel.setLocalTranslation( lastCanvasSize.width - controlPanel.getWidth() - padding,
-                                                  lastCanvasSize.height - controlPanel.getHeight() - padding,
+                resizeDirty = false;
+                controlPanel.setLocalTranslation( lastCanvasSize.width - controlPanel.getWidth() - OUTSIDE_PADDING,
+                                                  lastCanvasSize.height - controlPanel.getHeight() - OUTSIDE_PADDING,
                                                   0 );
 
-                namePanel.setLocalTranslation( padding, padding, 0 );
+                namePanel.setLocalTranslation( OUTSIDE_PADDING, OUTSIDE_PADDING, 0 );
 
                 resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 40, 0 ) ) );
 

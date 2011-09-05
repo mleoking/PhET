@@ -24,17 +24,26 @@ public abstract class PaintableImage extends Image {
 
     }
 
+    /**
+     * Call from the EDT thread
+     */
     public void refreshImage() {
+        // paint within the EDT thread
         Graphics2D g = backImg.createGraphics();
         paint( g );
         g.dispose();
 
-        /* get the image data */
-        byte data[] = (byte[]) backImg.getRaster().getDataElements( 0, 0, backImg.getWidth(), backImg.getHeight(), null );
-        scratch.clear();
-        scratch.put( data, 0, data.length );
-        scratch.rewind();
-        setData( scratch );
+        // then transfer the image data during the JME thread
+        JmeUtils.invoke( new Runnable() {
+            public void run() {
+                /* get the image data */
+                byte data[] = (byte[]) backImg.getRaster().getDataElements( 0, 0, backImg.getWidth(), backImg.getHeight(), null );
+                scratch.clear();
+                scratch.put( data, 0, data.length );
+                scratch.rewind();
+                setData( scratch );
+            }
+        } );
     }
 
     // override this to define how to paint the image

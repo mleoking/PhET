@@ -1,3 +1,4 @@
+Deadlock, synchronization and threading improvements. Ditched SwingUtilities.invokeAndWait due to issues.
 # 0.00.28 (56151) Sep 3, 2011
 Increased mouse rotation sensitivity in the main play area
 Added minimize/maximize button to the Real Examples
