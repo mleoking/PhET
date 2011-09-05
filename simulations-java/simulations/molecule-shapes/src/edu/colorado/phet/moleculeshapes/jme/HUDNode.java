@@ -52,7 +52,7 @@ public class HUDNode extends Geometry {
     private boolean listenerAttached = false; // whether our listener is listening
     private AbstractAppState state; // our state listener. will get updates every frame until disposed
 
-    private boolean dirty = false; // whether the image needs to be repainted
+    private volatile boolean dirty = false; // whether the image needs to be repainted
 
     /**
      * Basically whether this node should be antialiased. If it is set up in a position where the texture (image)
@@ -186,24 +186,21 @@ public class HUDNode extends Geometry {
         // get an update every frame. if our image is dirty, repaint it
         state = new AbstractAppState() {
             @Override public void update( float tpf ) {
-                // make sure dirty read/write is atomic
-                synchronized ( HUDNode.this ) {
-                    // make sure we acquire the swing thread before doing the repainting that needs to be done
-                    JmeUtils.swingLock( new Runnable() {
-                        public void run() {
-                            if ( dirty ) {
-                                image.refreshImage();
-                                dirty = false;
-                            }
+                // make sure we acquire the swing thread before doing the repainting that needs to be done
+                JmeUtils.swingLock( new Runnable() {
+                    public void run() {
+                        if ( dirty ) {
+                            image.refreshImage();
+                            dirty = false;
                         }
-                    } );
-                }
+                    }
+                } );
             }
         };
         app.getStateManager().attach( state );
     }
 
-    public synchronized void repaint() {
+    public void repaint() {
         dirty = true;
     }
 

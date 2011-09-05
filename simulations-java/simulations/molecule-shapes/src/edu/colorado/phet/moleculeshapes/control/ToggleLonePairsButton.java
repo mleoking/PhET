@@ -36,7 +36,7 @@ public class ToggleLonePairsButton extends TextButtonNode {
             public void run() {
                 updateState();
             }
-        } ) );
+        } ), false );
 
         // when a molecule group changes, update (since visibility could matter)
         molecule.onGroupChanged.addTarget( JmeUtils.swingTarget( new Runnable() {

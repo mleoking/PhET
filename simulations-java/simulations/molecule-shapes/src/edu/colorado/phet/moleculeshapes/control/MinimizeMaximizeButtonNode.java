@@ -84,7 +84,8 @@ class MinimizeMaximizeButtonNode extends PhetPPath {
         };
 
         // when minimization changes, update our view
-        minimized.addObserver( JmeUtils.swingObserver( update ) );
+        minimized.addObserver( JmeUtils.swingObserver( update ), false );
+        update.run();
 
         // mouse handling
         addInputEventListener( new PBasicInputEventHandler() {

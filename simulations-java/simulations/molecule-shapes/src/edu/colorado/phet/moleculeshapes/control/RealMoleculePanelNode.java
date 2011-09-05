@@ -86,7 +86,12 @@ public class RealMoleculePanelNode extends PNode {
                     addChild( containerNode );
                 }
             }
-        } ) );
+        } ), false );
+
+        // initialize to the correct state
+        if ( !minimized.get() ) {
+            addChild( containerNode );
+        }
 
         // make sure we have something at the very top so the panel doesn't shrink in
         addChild( new Spacer( 0, 0, SIZE, 10 ) );
@@ -106,7 +111,8 @@ public class RealMoleculePanelNode extends PNode {
                 public void run() {
                     setVisible( visibilityCondition.apply() );
                 }
-            } ) );
+            } ), false );
+            setVisible( visibilityCondition.apply() );
 
             addActionListener( new JmeActionListener( new Runnable() {
                 public void run() {
@@ -135,7 +141,8 @@ public class RealMoleculePanelNode extends PNode {
                 public void run() {
                     setVisible( visibilityCondition.apply() );
                 }
-            } ) );
+            } ), false );
+            setVisible( visibilityCondition.apply() );
 
             addActionListener( new JmeActionListener( new Runnable() {
                 public void run() {
@@ -152,28 +159,35 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * molecular formula label
         *----------------------------------------------------------------------------*/
-        containerNode.addChild( new HTMLNode( "", MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR, new PhetFont( 14, true ) ) {{
-            selectedMolecule.addObserver( JmeUtils.swingObserver( new Runnable() {
-                public void run() {
-                    if ( selectedMolecule.get() != null ) {
-                        setHTML( ChemUtils.toIonSuperscript( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) ) );
+        containerNode.addChild( new HTMLNode( "", MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR, new PhetFont( 14, true ) ) {
+            {
+                selectedMolecule.addObserver( JmeUtils.swingObserver( new Runnable() {
+                    public void run() {
+                        updateView();
                     }
-                    else {
-                        setHTML( "(none)" );
-                    }
+                } ), false );
+                updateView();
+            }
 
-                    // center vertically and horizontally
-                    setOffset( ( SIZE - getFullBounds().getWidth() ) / 2, ( CONTROL_OFFSET - getFullBounds().getHeight() ) / 2 );
-
-                    // if it goes past 0, push it down
-                    if ( getFullBounds().getMinY() < 0 ) {
-                        setOffset( getOffset().getX(), getOffset().getY() - getFullBounds().getMinY() );
-                    }
-
-                    repaint();
+            public void updateView() {
+                if ( selectedMolecule.get() != null ) {
+                    setHTML( ChemUtils.toIonSuperscript( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) ) );
                 }
-            } ) );
-        }} );
+                else {
+                    setHTML( "(none)" );
+                }
+
+                // center vertically and horizontally
+                setOffset( ( SIZE - getFullBounds().getWidth() ) / 2, ( CONTROL_OFFSET - getFullBounds().getHeight() ) / 2 );
+
+                // if it goes past 0, push it down
+                if ( getFullBounds().getMinY() < 0 ) {
+                    setOffset( getOffset().getX(), getOffset().getY() - getFullBounds().getMinY() );
+                }
+
+                repaint();
+            }
+        } );
 
         /*---------------------------------------------------------------------------*
         * overlay target
@@ -215,14 +229,16 @@ public class RealMoleculePanelNode extends PNode {
             } ) );
 
             // keep this checkbox up-to-date with the property
-            overlayNode.displayMode.addObserver( JmeUtils.swingObserver( new Runnable() {
+            Runnable updateView = new Runnable() {
                 public void run() { // TODO: synchronization needed here?
                     boolean shouldBeSelected = overlayNode.displayMode.get() == DisplayMode.BALL_AND_STICK;
                     if ( isSelected() != shouldBeSelected ) {
                         setSelected( shouldBeSelected );
                     }
                 }
-            } ) );
+            };
+            overlayNode.displayMode.addObserver( JmeUtils.swingObserver( updateView ), false );
+            updateView.run();
         }} ) {{
             setOffset( 0, SIZE + CONTROL_OFFSET );
         }};
