@@ -34,23 +34,29 @@ public class Student {
     private final String[] args;
     private int count = 0;//Only send messages every count%N frames
     protected SessionID sessionID;
-    private ImageFactory imageFactory = new ImageFactory();
+    private final ImageFactory imageFactory = new ImageFactory();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public Student( String[] args ) {
         this.args = args;
     }
 
-    private void start() throws IOException, ClassNotFoundException {
+    public void start() throws IOException, ClassNotFoundException {
 
         //Communicate with the server in a separate thread
-        final IActor server = new ThreadedActor( new Client() );
+        final Client client = new Client();
+        final IActor server = new ThreadedActor( client );
 
         final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
             //TODO: could move exit listeners here instead of in PhetExit
             public void apply() {
                 if ( sessionID != null ) {
                     try {
+                        //Record the session end
                         server.tell( new EndSession( sessionID ) );
+
+                        //Allow the server thread to exit gracefully.  Blocks to ensure it happens before we exit
+                        client.tell( "logout" );
                     }
                     catch ( IOException e ) {
                         e.printStackTrace();
@@ -86,13 +92,17 @@ public class Student {
                             System.out.println( "\nReceived ID: " + sessionID );
                             finishedMessage = true;
                         }
-
-//                        server.sendOneWay( new AddStudentDataSample( sessionID, state ) );
                         if ( stateCache.size() >= 1 ) {
                             try {
                                 server.tell( new AddMultiSample( sessionID, yield( stateCache, new Function1<GravityAndOrbitsApplicationState, String>() {
                                     public String apply( GravityAndOrbitsApplicationState state ) {
-                                        return mapper.writeValueAsString( state );
+                                        try {
+                                            return mapper.writeValueAsString( state );
+                                        }
+                                        catch ( IOException e ) {
+                                            e.printStackTrace();
+                                            return "no string error";
+                                        }
                                     }
                                 } ) ) );
                             }
@@ -141,19 +151,6 @@ public class Student {
         application.getIntro().playButtonPressed.set( true );
     }
 
-    static class MyMapper extends ObjectMapper {
-        @Override public String writeValueAsString( Object value ) {
-            try {
-                return super.writeValueAsString( value );
-            }
-            catch ( IOException e ) {
-                throw new RuntimeException( e );
-            }
-        }
-    }
-
-    MyMapper mapper = new MyMapper();
-
     public static <T, U> ArrayList<U> yield( final ArrayList<T> list, final Function1<T, U> map ) {
         final ArrayList<U> arrayList = new ArrayList<U>();
         for ( T t : list ) {
@@ -165,13 +162,5 @@ public class Student {
     public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
         Server.parseArgs( args );
         new Student( args ).start();
-    }
-
-    public static class Classroom {
-        public static void main( String[] args ) throws IOException, AWTException, ClassNotFoundException {
-            for ( int i = 0; i < 30; i++ ) {
-                new Student( args ).start();
-            }
-        }
     }
 }

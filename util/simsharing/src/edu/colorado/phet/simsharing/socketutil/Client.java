@@ -9,6 +9,8 @@ import java.net.Socket;
 import edu.colorado.phet.simsharing.socket.Server;
 
 /**
+ * Fairly general-purpose class for communicating with a server over sockets.
+ *
  * @author Sam Reid
  */
 public class Client implements IActor {
