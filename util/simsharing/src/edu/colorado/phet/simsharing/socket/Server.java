@@ -62,6 +62,8 @@ public class Server {
     private Mongo mongo;
     public String databaseName = "simsharing-test-1";
 
+    private final ObjectMapper mapper = new ObjectMapper();
+
     public Server() {
         try {
             mongo = new Mongo();
@@ -77,9 +79,7 @@ public class Server {
         }
     }
 
-    /*
-    * Use phet-server for deployments, but localhost for local testing.
-     */
+    //Use phet-server for deployments, but localhost for local testing.
     public static void parseArgs( String[] args ) {
         final List<String> list = Arrays.asList( args );
         if ( list.contains( "-host" ) ) {
@@ -89,15 +89,11 @@ public class Server {
     }
 
     public Sample getSample( SessionID id, int index ) {
-//        long start = System.currentTimeMillis();
         if ( index == -1 ) {//just get the latest
             index = getLastIndex( id );
         }
         Query<Sample> found = ds.find( Sample.class, "sessionID", id ).filter( "index", index );
-        final Sample sample = found.get();
-//        long end = System.currentTimeMillis();
-//        System.out.println( "found one, elapsed = " + ( end - start ) );
-        return sample;
+        return found.get();
     }
 
     public static <T> T time( String name, Function0<T> f ) {
@@ -168,13 +164,7 @@ public class Server {
             System.out.println( "studentList = " + studentList );
             writeToClient.writeObject( studentList );
             writeToClient.flush();
-
-//            writeToClient.writeObject( "suzie, larry" );
-//            writeToClient.flush();
         }
-//                        else if ( o instanceof AddStudentDataSample ) {
-//                            addSample( (AddStudentDataSample) o );
-//                        }
         else if ( o instanceof AddMultiSample ) {
             long s = System.currentTimeMillis();
             AddMultiSample request = (AddMultiSample) o;
@@ -193,8 +183,6 @@ public class Server {
 
             ds.delete( ds.createQuery( EventReceived.class ).filter( "sessionID", request.getSessionID() ) );
             ds.save( new EventReceived( request.getSessionID(), System.currentTimeMillis() ) );
-
-//                            System.out.println( "Processed multisample from: " + request.getSessionID() + " in " + ( System.currentTimeMillis() - s ) + " msec" );
         }
         else if ( o instanceof GetSessionList ) {
             final SessionList sessionList = new SessionList();
@@ -212,26 +200,7 @@ public class Server {
         else if ( o instanceof ClearDatabase ) {
             mongo.dropDatabase( databaseName );//resets the database
         }
-
     }
-
-    ObjectMapper mapper = new ObjectMapper();
-
-//    private void addSample( AddStudentDataSample request ) {
-//        int newIndex = getLastIndex( request.getSessionID() ) + 1;
-//        ds.delete( ds.createQuery( LatestIndex.class ).filter( "sessionID", request.getSessionID() ) );
-//        ds.save( new LatestIndex( request.getSessionID(), newIndex ) );
-//
-//        try {
-//            ds.save( new Sample( System.currentTimeMillis(), request.getSessionID(), request.getData(), newIndex, newIndex ) );
-//        }
-//        catch ( IOException e ) {
-//            e.printStackTrace();
-//        }
-//
-//        ds.delete( ds.createQuery( EventReceived.class ).filter( "sessionID", request.getSessionID() ) );
-//        ds.save( new EventReceived( request.getSessionID(), System.currentTimeMillis() ) );
-//    }
 
     private int getLastIndex( SessionID sessionID ) {
         final LatestIndex index = ds.createQuery( LatestIndex.class ).filter( "sessionID", sessionID ).get();

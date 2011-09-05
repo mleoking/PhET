@@ -4,6 +4,8 @@ package edu.colorado.phet.simsharing.socket;
 import java.io.IOException;
 
 /**
+ * Primary abstraction for sending one-way and reply-oriented messages.
+ *
  * @author Sam Reid
  */
 public interface IActor {

@@ -39,7 +39,7 @@ public class ClassroomView extends PSwingCanvas {
         studentThumbnailNode = new PNode();
         getLayer().addChild( studentThumbnailNode );
 
-        //Look for new students this often
+        //Look for new students and update thumbnails this often
         new Thread( new Runnable() {
             public void run() {
                 while ( true ) {
