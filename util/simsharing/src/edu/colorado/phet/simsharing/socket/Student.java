@@ -39,7 +39,7 @@ public class Student {
 
     private void start() throws IOException, ClassNotFoundException {
 
-        final IServer server = IServer.Impl.getServer();
+        final IActor server = IActor.ServerActor.getServer();
         final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
             //TODO: could move exit listeners here instead of in PhetExit
             public void apply() {

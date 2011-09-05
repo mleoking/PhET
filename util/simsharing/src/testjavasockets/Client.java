@@ -6,12 +6,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import edu.colorado.phet.simsharing.socket.IServer;
+import edu.colorado.phet.simsharing.socket.IActor;
 
 /**
  * @author Sam Reid
  */
-public class Client implements IServer {
+public class Client implements IActor {
     private Socket socket;
     public ObjectOutputStream writeToServer;
     public ObjectInputStream readFromServer;

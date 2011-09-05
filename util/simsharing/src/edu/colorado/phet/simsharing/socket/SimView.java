@@ -36,9 +36,9 @@ public class SimView {
 
         public static class RemoteActor implements SampleSource {
             private final SessionID sessionID;
-            private IServer server;
+            private IActor server;
 
-            public RemoteActor( IServer server, SessionID sessionID ) {
+            public RemoteActor( IActor server, SessionID sessionID ) {
                 this.server = server;
                 this.sessionID = sessionID;
             }

@@ -23,7 +23,7 @@ public class Teacher {
     }
 
     private void start() throws IOException, ClassNotFoundException {
-        final IServer server = IServer.Impl.getServer();
+        final IActor server = IActor.ServerActor.getServer();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame( "Students" ) {{
