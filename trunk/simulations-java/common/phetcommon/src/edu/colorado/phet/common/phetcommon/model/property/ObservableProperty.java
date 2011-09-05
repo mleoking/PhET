@@ -50,7 +50,10 @@ public abstract class ObservableProperty<T> implements Cloneable {
      * @param notifyOnAdd
      */
     public void addObserver( SimpleObserver simpleObserver, boolean notifyOnAdd ) {
-        simpleObservers.add( simpleObserver );
+        // mutual exclusion on add/remove
+        synchronized ( simpleObservers ) {
+            simpleObservers.add( simpleObserver );
+        }
         if ( notifyOnAdd ) {
             simpleObserver.update();
         }
@@ -64,7 +67,11 @@ public abstract class ObservableProperty<T> implements Cloneable {
     }
 
     private void notifySimpleObservers() {
-        for ( SimpleObserver simpleObserver : new ArrayList<SimpleObserver>( simpleObservers ) ) {
+        ArrayList<SimpleObserver> copy;
+        synchronized ( simpleObservers ) {
+            copy = new ArrayList<SimpleObserver>( simpleObservers );
+        }
+        for ( SimpleObserver simpleObserver : copy ) {
             simpleObserver.update();
         }
     }
@@ -73,13 +80,19 @@ public abstract class ObservableProperty<T> implements Cloneable {
      * Notify observers that receive new value in the callback.
      */
     private void notifyNewValueObservers( T newValue ) {
-        for ( VoidFunction1<T> observer : new ArrayList<VoidFunction1<T>>( newValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
+        ArrayList<VoidFunction1<T>> copy;
+        synchronized ( newValueObservers ) {
+            copy = new ArrayList<VoidFunction1<T>>( newValueObservers );
+        }
+        for ( VoidFunction1<T> observer : copy ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
             observer.apply( newValue );
         }
     }
 
     public void removeObserver( SimpleObserver observer ) {
-        simpleObservers.remove( observer );
+        synchronized ( simpleObservers ) {
+            simpleObservers.remove( observer );
+        }
     }
 
     /**
@@ -89,19 +102,27 @@ public abstract class ObservableProperty<T> implements Cloneable {
      * @param observer
      */
     public void addObserver( VoidFunction1<T> observer ) {
-        newValueObservers.add( observer );
+        synchronized ( newValueObservers ) {
+            newValueObservers.add( observer );
+        }
         observer.apply( get() );
     }
 
     public void removeObserver( VoidFunction1<T> observer ) {
-        newValueObservers.remove( observer );
+        synchronized ( newValueObservers ) {
+            newValueObservers.remove( observer );
+        }
     }
 
     /*
      * Notify observers that receive the new and old values in the callback.
      */
     private void notifyNewAndOldValueObservers( T newValue, T oldValue ) {
-        for ( ChangeObserver<T> observer : new ArrayList<ChangeObserver<T>>( newAndOldValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
+        ArrayList<ChangeObserver<T>> copy;
+        synchronized ( newAndOldValueObservers ) {
+            copy = new ArrayList<ChangeObserver<T>>( newAndOldValueObservers );
+        }
+        for ( ChangeObserver<T> observer : copy ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
             observer.update( newValue, oldValue );
         }
     }
@@ -114,11 +135,15 @@ public abstract class ObservableProperty<T> implements Cloneable {
      * @param observer
      */
     public void addObserver( ChangeObserver<T> observer ) {
-        newAndOldValueObservers.add( observer );
+        synchronized ( newAndOldValueObservers ) {
+            newAndOldValueObservers.add( observer );
+        }
     }
 
     public void removeObserver( ChangeObserver<T> observer ) {
-        newAndOldValueObservers.remove( observer );
+        synchronized ( newAndOldValueObservers ) {
+            newAndOldValueObservers.remove( observer );
+        }
     }
 
     /**
@@ -166,10 +191,18 @@ public abstract class ObservableProperty<T> implements Cloneable {
      * notifications if the value has changed (and storing the new value for next time).
      */
     public void notifyIfChanged() {
-        T newValue = get();
-        if ( newValue == null ? oldValue != null : !newValue.equals( oldValue ) ) {
-            T saveOldValue = oldValue;
-            oldValue = newValue;
+        T newValue;
+        T saveOldValue = null;
+        boolean changed;
+        synchronized ( this ) {
+            newValue = get();
+            changed = newValue == null ? oldValue != null : !newValue.equals( oldValue );
+            if ( changed ) {
+                saveOldValue = oldValue;
+                oldValue = newValue;
+            }
+        }
+        if ( changed ) {
             notifyObservers( newValue, saveOldValue );
         }
     }
@@ -178,8 +211,14 @@ public abstract class ObservableProperty<T> implements Cloneable {
      * Removes all observers (0-parameter, 1-parameter and 2-parameter) from this ObservableProperty.
      */
     public void removeAllObservers() {
-        simpleObservers.clear();
-        newValueObservers.clear();
-        newAndOldValueObservers.clear();
+        synchronized ( simpleObservers ) {
+            simpleObservers.clear();
+        }
+        synchronized ( newValueObservers ) {
+            newValueObservers.clear();
+        }
+        synchronized ( newAndOldValueObservers ) {
+            newAndOldValueObservers.clear();
+        }
     }
 }

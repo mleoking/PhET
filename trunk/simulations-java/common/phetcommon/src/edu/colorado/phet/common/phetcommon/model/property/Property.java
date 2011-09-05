@@ -28,12 +28,14 @@ public class Property<T> extends SettableProperty<T> {
     }
 
     @Override
-    public T get() {
+    public synchronized T get() {
         return value;
     }
 
     public void set( T value ) {
-        this.value = value;
+        synchronized ( this ) {
+            this.value = value;
+        }
         notifyIfChanged();
     }
 
