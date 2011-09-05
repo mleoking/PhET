@@ -1,7 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.socket;
 
+import testjavasockets.MessageHandler;
+import testjavasockets.MessageServer;
+
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,12 +48,12 @@ import com.mongodb.Mongo;
  */
 public class Server {
     //Remote settings
-    public static int PORT = 44101;
-    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
+    //    public static int PORT = 44101;
+    //    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
 
     //Settings for running locally
-    //    public static String HOST_IP_ADDRESS = "localhost";
-    //    public static int PORT = 1234;
+    public static String HOST_IP_ADDRESS = "localhost";
+    public static int PORT = 1234;
 
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
     private ArrayList<SessionID> students = new ArrayList<SessionID>();
@@ -103,15 +108,21 @@ public class Server {
         return value;
     }
 
-    private void start() {
+    private void start() throws IOException {
         //TODO: start the socket server and handle messages
+        MessageServer messageServer = new MessageServer( PORT, new MessageHandler() {
+            public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) throws IOException {
+                handleMessage( message, writeToClient );
+            }
+        } );
+        messageServer.start();
     }
 
-    public void handleMessage( Object o ) {
+    public void handleMessage( Object o, ObjectOutputStream writeToClient ) throws IOException {
         if ( o instanceof GetStudentData ) {
             GetStudentData request = (GetStudentData) o;
             Sample data = getSample( request.getSessionID(), request.getIndex() );//could be null
-            getContext().replySafe( data == null ? null : new Pair<Sample, Integer>( data, getLastIndex( request.getSessionID() ) ) );
+            writeToClient.writeObject( data == null ? null : new Pair<Sample, Integer>( data, getLastIndex( request.getSessionID() ) ) );
         }
         else if ( o instanceof StartSession ) {
             if ( ds.createQuery( SessionCount.class ).get() == null ) {
@@ -123,7 +134,7 @@ public class Server {
             int sessionCount = ds.createQuery( SessionCount.class ).get().getCount();
 
             final SessionID sessionID = new SessionID( sessionCount, names[sessionCount % names.length] );
-            getContext().replySafe( sessionID );
+            writeToClient.writeObject( sessionID );
             students.add( sessionID );
             System.out.println( "session started: " + sessionID );
             ds.save( new SessionStarted( sessionID, System.currentTimeMillis() ) );
@@ -152,7 +163,14 @@ public class Server {
                 //TODO: back from json too expensive here
                 list.add( new StudentSummary( student, state == null ? null : new SerializableBufferedImage( SerializableBufferedImage.fromByteArray( state.getThumbnail() ) ), getSessionTime( student ), getTimeSinceLastEvent( student ) ) );
             }
-            getContext().replySafe( new StudentList( list ) );
+
+            final StudentList studentList = new StudentList( list );
+            System.out.println( "studentList = " + studentList );
+            writeToClient.writeObject( studentList );
+            writeToClient.flush();
+
+//            writeToClient.writeObject( "suzie, larry" );
+//            writeToClient.flush();
         }
 //                        else if ( o instanceof AddStudentDataSample ) {
 //                            addSample( (AddStudentDataSample) o );
@@ -189,16 +207,12 @@ public class Server {
             for ( SessionStarted started : sessionStarted ) {
                 sessionList.add( started );
             }
-            getContext().replySafe( sessionList );
+            writeToClient.writeObject( sessionList );
         }
         else if ( o instanceof ClearDatabase ) {
             mongo.dropDatabase( databaseName );//resets the database
         }
 
-    }
-
-    private IContext getContext() {
-        return null;
     }
 
     ObjectMapper mapper = new ObjectMapper();
@@ -238,9 +252,5 @@ public class Server {
     public static void main( String[] args ) throws IOException {
         Server.parseArgs( args );
         new Server().start();
-    }
-
-    public static interface IContext {
-        void replySafe( Object o );
     }
 }

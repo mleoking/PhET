@@ -37,19 +37,19 @@ public class Student {
         this.args = args;
     }
 
-    public static void main( final String[] args ) throws IOException, AWTException {
-        Server.parseArgs( args );
-        new Student( args ).start();
-    }
-
-    private void start() {
+    private void start() throws IOException, ClassNotFoundException {
 
         final IServer server = IServer.Impl.getServer();
         final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
             //TODO: could move exit listeners here instead of in PhetExit
             public void apply() {
                 if ( sessionID != null ) {
-                    server.tell( new EndSession( sessionID ) );
+                    try {
+                        server.tell( new EndSession( sessionID ) );
+                    }
+                    catch ( IOException e ) {
+                        e.printStackTrace();
+                    }
                 }
                 System.exit( 0 );
             }
@@ -84,11 +84,16 @@ public class Student {
 
 //                        server.sendOneWay( new AddStudentDataSample( sessionID, state ) );
                         if ( stateCache.size() >= 1 ) {
-                            server.tell( new AddMultiSample( sessionID, yield( stateCache, new Function1<GravityAndOrbitsApplicationState, String>() {
-                                public String apply( GravityAndOrbitsApplicationState state ) {
-                                    return mapper.writeValueAsString( state );
-                                }
-                            } ) ) );
+                            try {
+                                server.tell( new AddMultiSample( sessionID, yield( stateCache, new Function1<GravityAndOrbitsApplicationState, String>() {
+                                    public String apply( GravityAndOrbitsApplicationState state ) {
+                                        return mapper.writeValueAsString( state );
+                                    }
+                                } ) ) );
+                            }
+                            catch ( IOException e ) {
+                                e.printStackTrace();
+                            }
                             stateCache.clear();
                         }
                     }
@@ -112,7 +117,15 @@ public class Student {
         new Thread( new Runnable() {
             public void run() {
                 //be careful, this part blocks:
-                sessionID = (SessionID) server.ask( new StartSession() );
+                try {
+                    sessionID = (SessionID) server.ask( new StartSession() );
+                }
+                catch ( IOException e ) {
+                    e.printStackTrace();
+                }
+                catch ( ClassNotFoundException e ) {
+                    e.printStackTrace();
+                }
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ", id = " + sessionID );
@@ -144,8 +157,13 @@ public class Student {
         return arrayList;
     }
 
+    public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
+        Server.parseArgs( args );
+        new Student( args ).start();
+    }
+
     public static class Classroom {
-        public static void main( String[] args ) throws IOException, AWTException {
+        public static void main( String[] args ) throws IOException, AWTException, ClassNotFoundException {
             for ( int i = 0; i < 30; i++ ) {
                 new Student( args ).start();
             }

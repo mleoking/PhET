@@ -17,13 +17,13 @@
 //    public static int SERVER_PORT = 1234;
 //    public static int CLIENT_PORT = 1235;
 //
-//    static class Server {
+//    static class MessageServer {
 //        public void start() {
 //            remote().start( SERVER_IP_ADDRESS, SERVER_PORT ).register( "server", actorOf( new Creator<Actor>() {
 //                public Actor create() {
 //                    return new UntypedActor() {
 //                        public void onReceive( Object o ) {
-//                            System.out.println( "Server received: " + o );
+//                            System.out.println( "MessageServer received: " + o );
 //
 //                            getContext().channel().tell( "channeltell 1!" );
 //                            getContext().channel().tell( "channeltell 2!" );
@@ -35,7 +35,7 @@
 //        }
 //
 //        public static void main( String[] args ) {
-//            new Server().start();
+//            new MessageServer().start();
 //        }
 //    }
 //

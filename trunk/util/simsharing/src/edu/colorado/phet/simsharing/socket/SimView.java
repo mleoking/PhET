@@ -32,7 +32,7 @@ public class SimView {
     private final boolean autoplay;
 
     public static interface SampleSource {
-        Pair<Sample, Integer> getSample( int index );
+        Pair<Sample, Integer> getSample( int index ) throws IOException, ClassNotFoundException;
 
         public static class RemoteActor implements SampleSource {
             private final SessionID sessionID;
@@ -43,7 +43,7 @@ public class SimView {
                 this.sessionID = sessionID;
             }
 
-            public Pair<Sample, Integer> getSample( int index ) {
+            public Pair<Sample, Integer> getSample( int index ) throws IOException, ClassNotFoundException {
                 return (Pair<Sample, Integer>) server.ask( new GetStudentData( sessionID, index ) );
             }
         }
@@ -57,14 +57,22 @@ public class SimView {
         timeControl.setVisible( true );
         thread = new Thread( new Runnable() {
             public void run() {
-                doRun();
+                try {
+                    doRun();
+                }
+                catch ( ClassNotFoundException e ) {
+                    e.printStackTrace();
+                }
+                catch ( IOException e ) {
+                    e.printStackTrace();
+                }
             }
         } );
         timeControl.live.set( !playbackMode );
         if ( playbackMode ) { timeControl.playing.set( true ); }
     }
 
-    private void doRun() {
+    private void doRun() throws ClassNotFoundException, IOException {
         while ( running ) {
             try {
                 SwingUtilities.invokeAndWait( new Runnable() {

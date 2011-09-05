@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.StringTokenizer;
 
-public class Server {
+public class MessageServer {
 
     //Default host the server will run on, must be a publicly accessible IP address so clients can connect to it
     public static String DEFAULT_HOST = "localhost";
@@ -20,23 +20,25 @@ public class Server {
 
     //The port the server will use for listening
     public int port;
+    private MessageHandler messageHandler;
 
     //Create a server that will listen on the specified port.  Does not start listening until start() is called
-    public Server( int port ) {
+    public MessageServer( int port, MessageHandler messageHandler ) {
         this.port = port;
+        this.messageHandler = messageHandler;
     }
 
     //Starts the server listening on its port
-    private void start() throws IOException {
+    public void start() throws IOException {
 
         //Listen for connections on the specified port
         final ServerSocket serverSocket = new ServerSocket( port );
 
         //Accept as many incoming connections as detected while listening, and create a thread to handle each one
         while ( listening ) {
-            System.out.println( "Server listening on port: " + serverSocket.getLocalPort() );
+            System.out.println( "MessageServer listening on port: " + serverSocket.getLocalPort() );
             final Socket socket = serverSocket.accept();
-            System.out.println( "Server accepted socket" );
+            System.out.println( "MessageServer accepted socket" );
 
             //Create a new thread to handle connection
             new Thread( new Runnable() {
@@ -57,7 +59,9 @@ public class Server {
 
                             //Read the object from the client
                             Object fromClient = readFromClient.readObject();
-                            System.out.println( "fromClient = " + fromClient );
+
+                            //allow any custom handling
+                            messageHandler.handle( fromClient, writeToClient, readFromClient );
 
                             //Process the command and respond
                             if ( fromClient instanceof String && fromClient.toString().startsWith( "Add" ) ) {
@@ -96,6 +100,9 @@ public class Server {
     }
 
     public static void main( String[] args ) throws IOException {
-        new Server( DEFAULT_PORT ).start();
+        new MessageServer( DEFAULT_PORT, new MessageHandler() {
+            public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) {
+            }
+        } ).start();
     }
 }

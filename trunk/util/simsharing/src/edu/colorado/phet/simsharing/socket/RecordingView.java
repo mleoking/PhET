@@ -4,6 +4,7 @@ package edu.colorado.phet.simsharing.socket;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JButton;
@@ -49,7 +50,12 @@ public class RecordingView extends JPanel {
         add( new JButton( "Clear" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    server.tell( new ClearDatabase() );
+                    try {
+                        server.tell( new ClearDatabase() );
+                    }
+                    catch ( IOException e1 ) {
+                        e1.printStackTrace();
+                    }
                 }
             } );
         }}, BorderLayout.SOUTH );
@@ -60,11 +66,20 @@ public class RecordingView extends JPanel {
                     try {
                         //Allow a long timeout here since it may take a long time to deliver a large recorded file.
                         Thread.sleep( 1000 );
-                        final SessionList list = (SessionList) server.ask( new GetSessionList() );
+                        final SessionList[] list = new SessionList[1];
+                        try {
+                            list[0] = (SessionList) server.ask( new GetSessionList() );
+                        }
+                        catch ( IOException e ) {
+                            e.printStackTrace();
+                        }
+                        catch ( ClassNotFoundException e ) {
+                            e.printStackTrace();
+                        }
                         try {
                             SwingUtilities.invokeAndWait( new Runnable() {
                                 public void run() {
-                                    recordingList.setListData( list.toArray() );//TODO: remember user selection when list is refreshed
+                                    recordingList.setListData( list[0].toArray() );//TODO: remember user selection when list is refreshed
                                 }
                             } );
                         }
