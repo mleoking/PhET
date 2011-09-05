@@ -37,4 +37,6 @@ public class MoleculeShapesConstants {
     public static final int ANGLE_PRECISION = 25;
 
     public static final Font CHECKBOX_FONT_SIZE = new PhetFont( 14 );
+
+    public static final float OUTSIDE_PADDING = 10;
 }

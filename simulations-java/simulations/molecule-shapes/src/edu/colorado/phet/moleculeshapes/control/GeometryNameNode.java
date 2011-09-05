@@ -6,12 +6,13 @@ import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
@@ -143,17 +144,19 @@ public class GeometryNameNode extends PNode {
     }
 
     public void updateMolecularText() {
-        JmeUtils.swingLock( new Runnable() {
+        final String name = molecule.getConfiguration().name;
+        final boolean visible = showMolecularShapeName.get();
+
+        SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 // remove old readout
                 if ( molecularText != null ) {
                     removeChild( molecularText );
                 }
 
-                String name = molecule.getConfiguration().name;
                 molecularText = getTextLabel( ( name == null ? Strings.SHAPE__EMPTY : name ) ); // replace the unknown value
                 molecularText.setOffset( ( MAX_SHAPE_WIDTH - molecularText.getFullBounds().getWidth() ) / 2, readoutHeight );
-                molecularText.setVisible( showMolecularShapeName.get() );
+                molecularText.setVisible( visible );
 
                 addChild( molecularText );
             }
@@ -161,17 +164,19 @@ public class GeometryNameNode extends PNode {
     }
 
     public void updateElectronText() {
-        JmeUtils.swingLock( new Runnable() {
+        final String name = molecule.getConfiguration().geometry.name;
+        final boolean visible = showElectronShapeName.get();
+
+        SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 if ( electronText != null ) {
                     removeChild( electronText );
                 }
                 double columnOffset = MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS; // compensate for the extra needed room
 
-                String name = molecule.getConfiguration().geometry.name;
                 electronText = getTextLabel( ( name == null ? Strings.GEOMETRY__EMPTY : name ) ); // replace the unknown value
                 electronText.setOffset( columnOffset + ( MAX_SHAPE_WIDTH - electronText.getFullBounds().getWidth() ) / 2, readoutHeight );
-                electronText.setVisible( showElectronShapeName.get() );
+                electronText.setVisible( visible );
 
                 addChild( electronText );
             }

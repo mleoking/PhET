@@ -49,7 +49,7 @@ public class HUDNode extends Geometry {
     private final int height;
 
     private RawInputListener inputListener; // our listener for mouse events, so that we can forward them
-    private boolean listenerAttached = false; // whether our listener is listening
+    private volatile boolean listenerAttached = false; // whether our listener is listening
     private AbstractAppState state; // our state listener. will get updates every frame until disposed
 
     private volatile boolean dirty = false; // whether the image needs to be repainted
@@ -67,6 +67,7 @@ public class HUDNode extends Geometry {
         this( component, width, height, app, new Property<Boolean>( false ) );
     }
 
+    // initialize from the EDT
     public HUDNode( final JComponent component, final int width, final int height, final Application app, final Property<Boolean> antialiasing ) {
         super( "HUD", new Quad( width, height, true ) ); // "true" flips it so our components are shown in the correct Y direction
         this.component = component;
@@ -150,8 +151,6 @@ public class HUDNode extends Geometry {
             public void onTouchEvent( TouchEvent evt ) {
             }
         };
-        app.getInputManager().addRawInputListener( inputListener );
-        listenerAttached = true;
 
         setMaterial( new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             setTexture( "ColorMap", new Texture2D() {{
@@ -187,7 +186,7 @@ public class HUDNode extends Geometry {
         state = new AbstractAppState() {
             @Override public void update( float tpf ) {
                 // make sure we acquire the swing thread before doing the repainting that needs to be done
-                JmeUtils.swingLock( new Runnable() {
+                SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         if ( dirty ) {
                             image.refreshImage();
@@ -197,7 +196,14 @@ public class HUDNode extends Geometry {
                 } );
             }
         };
-        app.getStateManager().attach( state );
+
+        JmeUtils.invoke( new Runnable() {
+            public void run() {
+                app.getInputManager().addRawInputListener( inputListener );
+                listenerAttached = true;
+                app.getStateManager().attach( state );
+            }
+        } );
     }
 
     public void repaint() {
@@ -546,16 +552,11 @@ public class HUDNode extends Geometry {
 
     public Component componentAt( final int x, final int y ) {
         // wrap the necessary parts within a Swing lock so that we know we don't tromp over parts
-        final Property<Component> result = new Property<Component>( null );
-        JmeUtils.swingLock( new Runnable() {
-            public void run() {
-                Component component = componentAt( x, y, HUDNode.this.component, true );
-                if ( component != HUDNode.this.component ) {
-                    result.set( component );
-                }
-            }
-        } );
-        return result.get();
+        Component component = componentAt( x, y, HUDNode.this.component, true );
+        if ( component != HUDNode.this.component ) {
+            return component;
+        }
+        return null;
     }
 
     private Component componentAt( int x, int y, Component parent, boolean scanRootPanes ) {
