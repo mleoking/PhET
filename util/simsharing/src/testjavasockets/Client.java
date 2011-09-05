@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import edu.colorado.phet.simsharing.socket.IActor;
+import edu.colorado.phet.simsharing.socket.Server;
 
 /**
  * @author Sam Reid
@@ -15,6 +16,10 @@ public class Client implements IActor {
     private Socket socket;
     public ObjectOutputStream writeToServer;
     public ObjectInputStream readFromServer;
+
+    public Client() throws ClassNotFoundException, IOException {
+        this( Server.HOST_IP_ADDRESS, Server.PORT );
+    }
 
     public Client( String host, int port ) throws IOException, ClassNotFoundException {
         socket = new Socket( host, port );
