@@ -1,17 +1,16 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing;
+package edu.colorado.phet.simsharing.messages;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * @author Sam Reid
  */
-public class AddMultiSample implements Serializable {
+public class AddStudentDataSample implements Serializable {
     private SessionID sessionID;
-    private ArrayList<String> data;
+    private Object data;
 
-    public AddMultiSample( SessionID sessionID, ArrayList<String> data ) {
+    public AddStudentDataSample( SessionID sessionID, Object data ) {
         this.sessionID = sessionID;
         this.data = data;
     }
@@ -20,7 +19,7 @@ public class AddMultiSample implements Serializable {
         return sessionID;
     }
 
-    public ArrayList<String> getData() {
+    public Object getData() {
         return data;
     }
 }

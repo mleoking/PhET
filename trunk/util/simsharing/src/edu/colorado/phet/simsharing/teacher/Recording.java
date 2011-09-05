@@ -4,7 +4,7 @@ package edu.colorado.phet.simsharing.teacher;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import edu.colorado.phet.simsharing.Sample;
+import edu.colorado.phet.simsharing.messages.Sample;
 
 /**
  * @author Sam Reid

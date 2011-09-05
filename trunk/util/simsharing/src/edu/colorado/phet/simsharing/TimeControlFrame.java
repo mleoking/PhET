@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProper
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.simsharing.messages.SessionID;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 

@@ -18,8 +18,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.simsharing.SessionID;
-import edu.colorado.phet.simsharing.SessionStarted;
+import edu.colorado.phet.simsharing.messages.SessionID;
+import edu.colorado.phet.simsharing.messages.SessionStarted;
 import edu.colorado.phet.simsharing.teacher.ClearDatabase;
 import edu.colorado.phet.simsharing.teacher.GetSessionList;
 import edu.colorado.phet.simsharing.teacher.SessionList;
