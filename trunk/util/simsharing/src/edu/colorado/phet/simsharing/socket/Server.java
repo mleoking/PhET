@@ -148,7 +148,7 @@ public class Server {
         }
         else if ( o instanceof GetStudentList ) {
             ArrayList<StudentSummary> list = new ArrayList<StudentSummary>();
-            for ( SessionID student : students ) {
+            for ( SessionID student : new ArrayList<SessionID>( students ) ) {
                 final Sample latestDataPoint = getSample( student, getLastIndex( student ) );
                 GravityAndOrbitsApplicationState state = null;
                 if ( latestDataPoint != null && latestDataPoint.getJson() != null ) {
