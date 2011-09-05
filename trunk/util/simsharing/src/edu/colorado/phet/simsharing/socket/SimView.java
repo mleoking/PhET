@@ -31,6 +31,7 @@ public class SimView {
     private final String[] args;
     private final SampleSource sampleSource;
     private final boolean autoplay;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public static interface SampleSource {
         Pair<Sample, Integer> getSample( int index ) throws IOException, ClassNotFoundException;
@@ -121,8 +122,6 @@ public class SimView {
             }
         }
     }
-
-    ObjectMapper mapper = new ObjectMapper();
 
     private void alignControls() {
         timeControl.setLocation( application.getPhetFrame().getX(), application.getPhetFrame().getY() + application.getPhetFrame().getHeight() + 1 );
