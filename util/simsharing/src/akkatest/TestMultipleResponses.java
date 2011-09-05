@@ -39,7 +39,7 @@
 //        }
 //    }
 //
-//    static class Client {
+//    static class TestClient {
 //        private void start() {
 //            final ActorRef server = Actors.remote().actorFor( "server", SERVER_IP_ADDRESS, SERVER_PORT );
 //
@@ -53,7 +53,7 @@
 //                                server.tell( "hello there", getContext() );
 //                            }
 //                            else {
-//                                System.out.println( "Client received: " + o );
+//                                System.out.println( "TestClient received: " + o );
 //                            }
 //                        }
 //                    };
@@ -65,7 +65,7 @@
 //        }
 //
 //        public static void main( String[] args ) {
-//            new Client().start();
+//            new TestClient().start();
 //        }
 //    }
 //}

@@ -5,10 +5,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class Client {
+public class TestClient {
     private int numQuestions;
 
-    public Client( int numQuestions ) {
+    public TestClient( int numQuestions ) {
         this.numQuestions = numQuestions;
     }
 
@@ -43,6 +43,6 @@ public class Client {
     }
 
     public static void main( String[] args ) throws IOException, ClassNotFoundException, InterruptedException {
-        new Client( 10 ).start();
+        new TestClient( 10 ).start();
     }
 }
