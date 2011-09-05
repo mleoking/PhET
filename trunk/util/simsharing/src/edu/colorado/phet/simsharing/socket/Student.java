@@ -4,7 +4,9 @@ package edu.colorado.phet.simsharing.socket;
 import java.awt.AWTException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -36,6 +38,9 @@ public class Student {
     protected SessionID sessionID;
     private final ImageFactory imageFactory = new ImageFactory();
     private final ObjectMapper mapper = new ObjectMapper();
+
+    //Flag to indicate whether the state should saved to the disk for analysis, such as checking frame size
+    private static final boolean analyze = false;
 
     public Student( String[] args ) {
         this.args = args;
@@ -77,6 +82,11 @@ public class Student {
             public void apply() {
                 if ( count % N == 0 ) {
                     GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application, imageFactory );
+
+                    if ( analyze ) {
+                        writeExampleForAnalysis( state );
+                    }
+
                     stateCache.add( state );
                     if ( sessionID == null ) {
                         if ( !startedMessage ) {
@@ -149,6 +159,18 @@ public class Student {
             }
         } ).start();
         application.getIntro().playButtonPressed.set( true );
+    }
+
+    private void writeExampleForAnalysis( GravityAndOrbitsApplicationState state ) {
+
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream( new FileOutputStream( "C:/Users/Sam/Desktop/saved.ser" ) );
+            objectOutputStream.writeObject( state );
+            objectOutputStream.close();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     public static <T, U> ArrayList<U> yield( final ArrayList<T> list, final Function1<T, U> map ) {
