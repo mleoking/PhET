@@ -19,6 +19,7 @@ import edu.colorado.phet.simsharing.GetStudentData;
 import edu.colorado.phet.simsharing.Sample;
 import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.TimeControlFrame;
+import edu.colorado.phet.simsharing.socketutil.IActor;
 
 /**
  * @author Sam Reid

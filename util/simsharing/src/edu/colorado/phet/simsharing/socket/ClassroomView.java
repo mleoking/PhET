@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.GetStudentList;
 import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.StudentSummary;
+import edu.colorado.phet.simsharing.socketutil.IActor;
 import edu.colorado.phet.simsharing.teacher.StudentComponent;
 import edu.colorado.phet.simsharing.teacher.StudentList;
 import edu.umd.cs.piccolo.PNode;

@@ -1,12 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package testjavasockets;
+package edu.colorado.phet.simsharing.socketutil;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import edu.colorado.phet.simsharing.socket.IActor;
 import edu.colorado.phet.simsharing.socket.Server;
 
 /**

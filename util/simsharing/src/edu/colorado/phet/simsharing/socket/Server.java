@@ -1,9 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.socket;
 
-import testjavasockets.MessageHandler;
-import testjavasockets.MessageServer;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -33,6 +30,8 @@ import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.SessionStarted;
 import edu.colorado.phet.simsharing.StartSession;
 import edu.colorado.phet.simsharing.StudentSummary;
+import edu.colorado.phet.simsharing.socketutil.MessageHandler;
+import edu.colorado.phet.simsharing.socketutil.MessageServer;
 import edu.colorado.phet.simsharing.teacher.ClearDatabase;
 import edu.colorado.phet.simsharing.teacher.GetSessionList;
 import edu.colorado.phet.simsharing.teacher.SessionList;
