@@ -26,7 +26,7 @@ public class ClassroomView extends PSwingCanvas {
     private final PNode studentThumbnailNode;
     private PNode summaryNode;
 
-    public ClassroomView( final IServer server, final String[] args ) {
+    public ClassroomView( final IActor server, final String[] args ) {
         this.args = args;
         summaryNode = new PNode() {
             @Override public void addChild( PNode child ) {

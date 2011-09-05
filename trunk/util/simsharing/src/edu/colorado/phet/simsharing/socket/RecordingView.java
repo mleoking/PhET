@@ -28,9 +28,9 @@ import edu.colorado.phet.simsharing.teacher.SessionList;
 public class RecordingView extends JPanel {
     public JList recordingList;
     private SessionStarted lastShownRecording = new SessionStarted( new SessionID( -1, "hello" ), 0 );//dummy data so comparisons don't need to use null checks
-    private IServer server;
+    private IActor server;
 
-    public RecordingView( final IServer server ) {
+    public RecordingView( final IActor server ) {
         super( new BorderLayout() );
         this.server = server;
         add( new JLabel( "All Sessions" ), BorderLayout.NORTH );
