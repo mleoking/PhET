@@ -1,3 +1,4 @@
+Send one-way messages in a separate non-blocking thread
 Fixed concurrentmodificationexception in Server
 # 00.00.38 (56166) Sep 5, 2011
 # 00.00.37 (56164) Sep 5, 2011
