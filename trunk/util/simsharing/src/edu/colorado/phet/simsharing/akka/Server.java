@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing;
+package edu.colorado.phet.simsharing.akka;
 
 import akka.actor.Actor;
 import akka.actor.UntypedActor;
@@ -7,7 +7,11 @@ import akka.japi.Creator;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -15,6 +19,19 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+import edu.colorado.phet.simsharing.AddMultiSample;
+import edu.colorado.phet.simsharing.EndSession;
+import edu.colorado.phet.simsharing.EventReceived;
+import edu.colorado.phet.simsharing.GetStudentData;
+import edu.colorado.phet.simsharing.GetStudentList;
+import edu.colorado.phet.simsharing.LatestIndex;
+import edu.colorado.phet.simsharing.Sample;
+import edu.colorado.phet.simsharing.SessionCount;
+import edu.colorado.phet.simsharing.SessionEnded;
+import edu.colorado.phet.simsharing.SessionID;
+import edu.colorado.phet.simsharing.SessionStarted;
+import edu.colorado.phet.simsharing.StartSession;
+import edu.colorado.phet.simsharing.StudentSummary;
 import edu.colorado.phet.simsharing.teacher.ClearDatabase;
 import edu.colorado.phet.simsharing.teacher.GetSessionList;
 import edu.colorado.phet.simsharing.teacher.SessionList;

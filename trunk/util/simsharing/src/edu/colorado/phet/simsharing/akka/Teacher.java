@@ -1,16 +1,15 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.teacher;
+package edu.colorado.phet.simsharing.akka;
 
 import akka.actor.ActorRef;
 import akka.actor.Actors;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.io.IOException;
 
-import javax.swing.*;
-
-import edu.colorado.phet.simsharing.Server;
-import edu.colorado.phet.simsharing.SimSharing;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWindowOnScreen;
 
