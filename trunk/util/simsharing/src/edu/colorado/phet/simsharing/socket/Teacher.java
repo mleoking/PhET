@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.socket;
 
+import testjavasockets.Client;
+
 import java.awt.BorderLayout;
 import java.io.IOException;
 
@@ -23,7 +25,7 @@ public class Teacher {
     }
 
     private void start() throws IOException, ClassNotFoundException {
-        final IActor server = IActor.ServerActor.getServer();
+        final IActor server = new Client();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame( "Students" ) {{
