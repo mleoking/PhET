@@ -72,7 +72,7 @@ public class MoleculeShapesControlPanel extends PNode {
                     public void run() {
                         updateState();
                     }
-                } ) );
+                } ), false );
 
                 // TODO: note that it looks weird adding a pair when it is invisible. this is the spot to make the change (override isEnabled)
             }};

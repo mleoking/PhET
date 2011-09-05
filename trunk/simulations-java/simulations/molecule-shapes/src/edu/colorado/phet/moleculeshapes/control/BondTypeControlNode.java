@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * Displays a graphic showing a bonding type (single/double/triple/lone pair) where dragging the graphic
  * creates the real bond in 3D. Also has a button to remove a bond of that same type from play.
  */
-class BondTypeControlNode extends PNode {
+public class BondTypeControlNode extends PNode {
     private final MoleculeJMEApplication app;
     private final PNode graphic;
     private final int bondOrder;
