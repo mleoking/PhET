@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.akka;
+package akka;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorTimeoutException;
