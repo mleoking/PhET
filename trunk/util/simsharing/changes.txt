@@ -1,3 +1,4 @@
+# 00.00.38 (56166) Sep 5, 2011
 # 00.00.37 (56164) Sep 5, 2011
 Rewrote prototype to use java.net and use one thread per client
 Added logout command
