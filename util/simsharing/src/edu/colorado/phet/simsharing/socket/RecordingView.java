@@ -101,6 +101,6 @@ public class RecordingView extends JPanel {
 
     private void showRecording( SessionStarted sessionID ) {
         System.out.println( "recording = " + sessionID );
-        new SimView( new String[0], sessionID.getSessionID(), new SimView.SampleSource.RemoteActor( server, sessionID.getSessionID() ), true ).start();
+        new SimView( new String[0], sessionID.getSessionID(), new RemoteActor( server, sessionID.getSessionID() ), true ).start();
     }
 }

@@ -15,11 +15,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.simsharing.GAOHelper;
-import edu.colorado.phet.simsharing.GetStudentData;
 import edu.colorado.phet.simsharing.Sample;
 import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.TimeControlFrame;
-import edu.colorado.phet.simsharing.socketutil.IActor;
 
 /**
  * @author Sam Reid
@@ -32,24 +30,6 @@ public class SimView {
     private final SampleSource sampleSource;
     private final boolean autoplay;
     private final ObjectMapper mapper = new ObjectMapper();
-
-    public static interface SampleSource {
-        Pair<Sample, Integer> getSample( int index ) throws IOException, ClassNotFoundException;
-
-        public static class RemoteActor implements SampleSource {
-            private final SessionID sessionID;
-            private IActor server;
-
-            public RemoteActor( IActor server, SessionID sessionID ) {
-                this.server = server;
-                this.sessionID = sessionID;
-            }
-
-            public Pair<Sample, Integer> getSample( int index ) throws IOException, ClassNotFoundException {
-                return (Pair<Sample, Integer>) server.ask( new GetStudentData( sessionID, index ) );
-            }
-        }
-    }
 
     public SimView( final String[] args, final SessionID sessionID, SampleSource sampleSource, boolean playbackMode ) {
         this.args = args;
