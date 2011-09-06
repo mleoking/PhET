@@ -1,8 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Shaker;
@@ -20,8 +22,8 @@ public class SaltShakerNode<T extends SugarAndSaltSolutionModel> extends Dispens
     public SaltShakerNode( final ModelViewTransform transform, final Shaker<T> model, double beakerHeight,
 
                            //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
-                           boolean micro ) {
-        super( transform, model, beakerHeight );
+                           boolean micro, Function1<Point2D, Point2D> constraint ) {
+        super( transform, model, beakerHeight, constraint );
 
         //Create images to use in each scenario
         final BufferedImage fullImage = multiScaleToHeight( micro ? SALT_MICRO : SALT_1, 200 );

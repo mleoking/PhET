@@ -1,9 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
@@ -31,8 +33,10 @@ public class SugarDispenserNode<T extends SugarAndSaltSolutionModel> extends Dis
     public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser<T> model, double beakerHeight,
 
                                //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
-                               final boolean micro ) {
-        super( transform, model, beakerHeight );
+                               final boolean micro,
+
+                               Function1<Point2D, Point2D> dragConstraint ) {
+        super( transform, model, beakerHeight, dragConstraint );
 
         //Hide the sugar dispenser if it is not enabled (selected by the user)
         model.enabled.addObserver( new VoidFunction1<Boolean>() {

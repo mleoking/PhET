@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarDispenserNode;
 import edu.umd.cs.piccolo.PNode;
@@ -110,8 +112,8 @@ public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extend
     protected abstract void addSugarToModel( final ImmutableVector2D outputPoint );
 
     //Create the sugar dispenser node which the user can use to add sugar to the model
-    @Override public PNode createNode( ModelViewTransform transform, double beakerHeight, boolean micro ) {
-        return new SugarDispenserNode( transform, this, beakerHeight, micro );
+    @Override public PNode createNode( ModelViewTransform transform, double beakerHeight, boolean micro, Function1<Point2D, Point2D> constraint ) {
+        return new SugarDispenserNode<T>( transform, this, beakerHeight, micro, constraint );
     }
 
     @Override public void reset() {

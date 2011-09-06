@@ -66,6 +66,9 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //Store a reference to the EvaporationSlider for layout purposes
     protected final EvaporationSlider evaporationSlider;
 
+    //Flag to indicate debugging of the model visible bounding region, used for layouts
+    private boolean debugVisibleBounds = false;
+
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform,
 
                                         //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
@@ -134,7 +137,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
         //add the salt and sugar dispenser nodes, which should always be in front of everything
         for ( Dispenser dispenser : model.dispensers ) {
-            submergedInWaterNode.addChild( dispenser.createNode( transform, model.beaker.getHeight(), micro ) );
+            submergedInWaterNode.addChild( dispenser.createNode( transform, model.beaker.getHeight(), micro, model.dragConstraint ) );
         }
 
         //Add beaker node that shows border of the beaker and tick marks
@@ -172,6 +175,12 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
         //Add a graphic to show where particles will flow out the drain
         addChild( new DrainFaucetNodeLocationDebugger( transform, model ) );
+
+        if ( debugVisibleBounds ) {
+            addChild( new PhetPPath( new BasicStroke( 1 ), Color.red ) {{
+                setPathTo( transform.modelToView( model.visibleRegion ).toShape() );
+            }} );
+        }
     }
 
     public void addChild( PNode node ) {
