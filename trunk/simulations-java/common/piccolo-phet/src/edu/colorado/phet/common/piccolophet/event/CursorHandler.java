@@ -32,7 +32,7 @@ public class CursorHandler extends PBasicInputEventHandler {
     private static final CursorManager manager = new CursorManager();
 
     //Keep track of which component the user has moused over in case the cursor needs to change during dragging, see #3061
-    private PComponent entered;
+    private PComponent enteredComponent;
 
     //todo: should make 1 manager per JComponent?
     //the current implementation assumes state is global across all JPanels, may not work properly when moving from one JComponent to another
@@ -130,8 +130,8 @@ public class CursorHandler extends PBasicInputEventHandler {
         this.cursor = cursor;
 
         //If the user is currently in a component for which the cursor is being shown, then signify to the manager the new cursor and set the cursor on the component
-        if ( entered != null ) {
-            final JComponent component = (JComponent) entered;
+        if ( enteredComponent != null ) {
+            final JComponent component = (JComponent) enteredComponent;
             manager.mouseEntered( component, cursor );
             component.setCursor( cursor );
         }
@@ -145,7 +145,7 @@ public class CursorHandler extends PBasicInputEventHandler {
         manager.mouseEntered( (JComponent) event.getComponent(), cursor );
 
         //Keep track of the component the mouse has entered for potentially changing the cursor while inside the component, see #3061
-        entered = event.getComponent();
+        enteredComponent = event.getComponent();
     }
 
     public void mousePressed( PInputEvent event ) {
@@ -160,7 +160,7 @@ public class CursorHandler extends PBasicInputEventHandler {
         manager.mouseExited( (JComponent) event.getComponent() );
 
         //Set the entered component to null so it won't be updated incorrectly, see #3061
-        entered = null;
+        enteredComponent = null;
     }
 
     //----------------------------------------------------------------------------
