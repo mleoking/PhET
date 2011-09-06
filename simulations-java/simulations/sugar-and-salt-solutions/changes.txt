@@ -1,3 +1,4 @@
+# 0.00.98 (56197) Sep 6, 2011
 Prevent the shakers from being dragged offscreen
 Improved error handling and docs
 Moved sugar-and-salt-solutions faucet to piccolo-phet
