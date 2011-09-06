@@ -56,6 +56,13 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_P
 
 /**
  * Use jme3 to show a rotating molecule
+ * TODO: More molecules
+ * TODO: Shut off auto-rotation after 1st drag
+ * TODO: make a version where I can change the toolbar background, and the font color?
+ * TODO: tweak angle visibility for different numbers of bonds
+ * TODO: fix SOF4 (trigonal bipiramidal). also check SF4?
+ * TODO: molecules A few more examples we could use include PF5 (trigonal bipyramid), CH3Cl or CH3Br (tetrahedral), HCl (diatomic??)
+ * <p/>
  * TODO: better MVC (especially C) to deal with all of these threading issues
  * TODO: clearer separation of JME / Swing thread code (basically, a lot of cleanup and documentation)
  * TODO: reset doesn't get event to "un-press" when real molecules view is expanded (it contracts)
