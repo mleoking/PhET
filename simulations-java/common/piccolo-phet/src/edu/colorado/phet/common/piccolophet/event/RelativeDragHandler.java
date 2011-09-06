@@ -64,7 +64,14 @@ public class RelativeDragHandler extends PBasicInputEventHandler {
 
         //Find the constrained point for the targeted model point and apply it
         Point2D constrained = constraint.apply( modelPt );
-        this.modelLocation.set( new ImmutableVector2D( constrained ) );
+        setModelPosition( constrained );
+    }
+
+    //Set the model position.  This is overrideable for cases that need to apply application logic (such as detecting translations for emitting crystals)
+    //This might be rewritten so that clients observer the change in position to detect translations, but right now fluid-pressure-and-flow relies on explicit calls to setTranslating(boolean)
+    //To keep track of crystal emission state
+    protected void setModelPosition( Point2D constrained ) {
+        modelLocation.set( new ImmutableVector2D( constrained ) );
     }
 
     //Forget the relative grab point to reset for next drag sequence
