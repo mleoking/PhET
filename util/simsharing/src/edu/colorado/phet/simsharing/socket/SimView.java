@@ -17,16 +17,14 @@ import edu.colorado.phet.simsharing.messages.SessionID;
 /**
  * @author Sam Reid
  */
-public class SimView<T extends SimsharingApplication, U extends SimsharingApplicationState<T>> {
+public class SimView<U extends SimsharingApplicationState, T extends SimsharingApplication<U>> {
     private final Thread thread;
     private final TimeControlFrame timeControl;
     private T application;
-    private final String[] args;
     private final RemoteActor<U> sampleSource;
     private boolean running = true;
 
     public SimView( final String[] args, final SessionID sessionID, RemoteActor<U> sampleSource, boolean playbackMode, T application ) {
-        this.args = args;
         this.sampleSource = sampleSource;
         this.application = application;
         timeControl = new TimeControlFrame( sessionID );
@@ -79,7 +77,7 @@ public class SimView<T extends SimsharingApplication, U extends SimsharingApplic
             try {
                 SwingUtilities.invokeAndWait( new Runnable() {
                     public void run() {
-                        sample.apply( application );
+                        application.setState( sample );
 
                         //TODO: we used to pass back the sample index so that we could handle live
                         if ( sampleIndex > 0 ) {

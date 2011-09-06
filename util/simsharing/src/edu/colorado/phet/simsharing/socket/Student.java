@@ -12,11 +12,10 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
+import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
-import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
-import edu.colorado.phet.gravityandorbits.simsharing.ImageFactory;
 import edu.colorado.phet.simsharing.GAOHelper;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
@@ -29,16 +28,15 @@ import edu.colorado.phet.simsharing.socketutil.ThreadedActor;
 /**
  * @author Sam Reid
  */
-public class Student {
-    private final String[] args;
+public class Student<U extends SimsharingApplicationState, T extends SimsharingApplication<U>> {
     protected SessionID sessionID;
-    private final ImageFactory imageFactory = new ImageFactory();
 
     //Flag to indicate whether the state should saved to the disk for analysis, such as checking frame size
     private static final boolean analyze = false;
+    private Function0<T> launchApplication;
 
-    public Student( String[] args ) {
-        this.args = args;
+    public Student( Function0<T> launchApplication ) {
+        this.launchApplication = launchApplication;
     }
 
     public void start() throws IOException, ClassNotFoundException {
@@ -47,7 +45,7 @@ public class Student {
         final Client client = new Client();
         final IActor server = new ThreadedActor( client );
 
-        final GravityAndOrbitsApplication application = GAOHelper.launchApplication();
+        final T application = launchApplication.apply();
         application.setExitStrategy( new VoidFunction0() {
             public void apply() {
 
@@ -73,11 +71,11 @@ public class Student {
             public boolean startedMessage = false;
             public boolean finishedMessage = false;
 
-            ArrayList<GravityAndOrbitsApplicationState> stateCache = new ArrayList<GravityAndOrbitsApplicationState>();
+            ArrayList<U> stateCache = new ArrayList<U>();
 
             public void apply() {
 
-                GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application, imageFactory );
+                U state = application.getState();
 
                 if ( analyze ) {
                     writeExampleForAnalysis( state );
@@ -101,7 +99,7 @@ public class Student {
                     if ( stateCache.size() >= batchSize ) {
                         try {
                             //Copy the state cache because it is cleared in the next step
-                            server.tell( new AddSamples<GravityAndOrbitsApplicationState>( sessionID, new ArrayList<GravityAndOrbitsApplicationState>( stateCache ) ) );
+                            server.tell( new AddSamples<U>( sessionID, new ArrayList<U>( stateCache ) ) );
                         }
                         catch ( IOException e ) {
                             e.printStackTrace();
@@ -111,14 +109,11 @@ public class Student {
                 }
             }
         };
-        application.getIntro().addModelSteppedListener( new SimpleObserver() {
-            public void update() {
-                updateSharing.apply();
-            }
-        } );
+        application.addModelSteppedListener( updateSharing );
+
         new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( application.getIntro().modeProperty.get().getModel().getClock().isPaused() ) {
+                if ( application.isPaused() ) {
                     updateSharing.apply();
                 }
             }
@@ -143,10 +138,11 @@ public class Student {
                 } );
             }
         } ).start();
-        application.getIntro().playButtonPressed.set( true );
+
+        application.setPlayButtonPressed( true );
     }
 
-    private void writeExampleForAnalysis( GravityAndOrbitsApplicationState state ) {
+    private void writeExampleForAnalysis( U state ) {
 
         try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream( new FileOutputStream( "C:/Users/Sam/Desktop/saved.ser" ) );
@@ -160,6 +156,6 @@ public class Student {
 
     public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
         Server.parseArgs( args );
-        new Student( args ).start();
+        new Student( GAOHelper.createLauncher() ).start();
     }
 }

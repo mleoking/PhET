@@ -8,7 +8,9 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -17,6 +19,8 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.colorado.phet.gravityandorbits.module.ModeListParameterList;
 import edu.colorado.phet.gravityandorbits.module.RealModeList;
+import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
+import edu.colorado.phet.gravityandorbits.simsharing.ImageFactory;
 
 import static edu.colorado.phet.gravityandorbits.GAOStrings.CARTOON;
 import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;
@@ -27,13 +31,16 @@ import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;
  * @author Sam Reid
  * @see GravityAndOrbitsModule
  */
-public class GravityAndOrbitsApplication extends PiccoloPhetApplication implements SimsharingApplication {
+public class GravityAndOrbitsApplication extends PiccoloPhetApplication implements SimsharingApplication<GravityAndOrbitsApplicationState> {
     public static final String PROJECT_NAME = "gravity-and-orbits";
     public static final PhetResources RESOURCES = new PhetResources( GravityAndOrbitsApplication.PROJECT_NAME );
 
     private final GravityAndOrbitsModule intro;
     private final GravityAndOrbitsModule toScale;
     private final Property<Boolean> whiteBackgroundProperty = new Property<Boolean>( false );
+
+    //For simsharing
+    private final ImageFactory imageFactory = new ImageFactory();
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
@@ -50,6 +57,36 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication implemen
     public void setTeacherMode( boolean b ) {
         intro.setTeacherMode( b );
         toScale.setTeacherMode( b );
+    }
+
+    public GravityAndOrbitsApplicationState getState() {
+        return new GravityAndOrbitsApplicationState( this, imageFactory );
+    }
+
+    public void setState( GravityAndOrbitsApplicationState state ) {
+        state.apply( this );
+    }
+
+    public void addModelSteppedListener( final VoidFunction0 updateSharing ) {
+
+        getIntro().addModelSteppedListener( new SimpleObserver() {
+            public void update() {
+                updateSharing.apply();
+            }
+        } );
+        getToScale().addModelSteppedListener( new SimpleObserver() {
+            public void update() {
+                updateSharing.apply();
+            }
+        } );
+    }
+
+    public boolean isPaused() {
+        return getIntro().modeProperty.get().getModel().getClock().isPaused();
+    }
+
+    public void setPlayButtonPressed( boolean b ) {
+        getIntro().playButtonPressed.set( true );
     }
 
     public static class IntroModule extends GravityAndOrbitsModule {

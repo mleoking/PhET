@@ -4,6 +4,8 @@ package edu.colorado.phet.simsharing.socket;
 import java.awt.AWTException;
 import java.io.IOException;
 
+import edu.colorado.phet.simsharing.GAOHelper;
+
 /**
  * Launch lots of students for load-testing.
  *
@@ -15,7 +17,7 @@ public class Classroom {
             new Thread( new Runnable() {
                 public void run() {
                     try {
-                        new Student( args ).start();
+                        new Student( GAOHelper.createLauncher() ).start();
                     }
                     catch ( IOException e ) {
                         e.printStackTrace();
