@@ -27,10 +27,6 @@ public class Session<T extends HasTimeAndImage> {
         endTime = System.currentTimeMillis();
     }
 
-    public int getLastIndex() {
-        return entries.size() - 1;
-    }
-
     public StudentSummary getStudentSummary() {
         SerializableBufferedImage image = entries.size() == 0 ? new SerializableBufferedImage() : entries.get( entries.size() - 1 ).getImage();
         long time = entries.size() == 0 ? -1 : System.currentTimeMillis() - entries.get( entries.size() - 1 ).getTime();

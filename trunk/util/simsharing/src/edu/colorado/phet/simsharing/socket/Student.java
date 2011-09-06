@@ -15,7 +15,6 @@ import javax.swing.Timer;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
@@ -34,7 +33,6 @@ import edu.colorado.phet.simsharing.socketutil.ThreadedActor;
  */
 public class Student {
     private final String[] args;
-    private int count = 0;//Only send messages every count%N frames
     protected SessionID sessionID;
     private final ImageFactory imageFactory = new ImageFactory();
     private final ObjectMapper mapper = new ObjectMapper();
@@ -71,7 +69,7 @@ public class Student {
             }
         } );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Student Edition" );
-        final int N = 1;
+        final int numberInBatch = 30;
 
         final VoidFunction0 updateSharing = new VoidFunction0() {
             public boolean startedMessage = false;
@@ -80,7 +78,7 @@ public class Student {
             ArrayList<GravityAndOrbitsApplicationState> stateCache = new ArrayList<GravityAndOrbitsApplicationState>();
 
             public void apply() {
-                if ( count % N == 0 ) {
+                if ( stateCache.size() >= numberInBatch ) {
                     GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application, imageFactory );
 
                     if ( analyze ) {
@@ -114,7 +112,6 @@ public class Student {
                         }
                     }
                 }
-                count++;
             }
         };
         application.getIntro().addModelSteppedListener( new SimpleObserver() {
@@ -162,14 +159,6 @@ public class Student {
         catch ( IOException e ) {
             e.printStackTrace();
         }
-    }
-
-    public static <T, U> ArrayList<U> yield( final ArrayList<T> list, final Function1<T, U> map ) {
-        final ArrayList<U> arrayList = new ArrayList<U>();
-        for ( T t : list ) {
-            arrayList.add( map.apply( t ) );
-        }
-        return arrayList;
     }
 
     public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {

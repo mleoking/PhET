@@ -8,8 +8,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
@@ -26,13 +24,11 @@ public class SimView {
     private GravityAndOrbitsApplication application;
     private final String[] args;
     private final RemoteActor<GravityAndOrbitsApplicationState> sampleSource;
-    private final boolean autoplay;
-    private final ObjectMapper mapper = new ObjectMapper();
+    private boolean running = true;
 
     public SimView( final String[] args, final SessionID sessionID, RemoteActor<GravityAndOrbitsApplicationState> sampleSource, boolean playbackMode ) {
         this.args = args;
         this.sampleSource = sampleSource;
-        this.autoplay = playbackMode;
         timeControl = new TimeControlFrame( sessionID );
         timeControl.setVisible( true );
         thread = new Thread( new Runnable() {
@@ -98,8 +94,6 @@ public class SimView {
         timeControl.setSize( application.getPhetFrame().getWidth(), timeControl.getPreferredSize().height );
     }
 
-    boolean running = true;
-
     public void start() {
         //Have to launch from non-swing-thread otherwise receive:
         //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
@@ -127,5 +121,4 @@ public class SimView {
         application.getToScale().setTeacherMode( true );
         thread.start();
     }
-
 }
