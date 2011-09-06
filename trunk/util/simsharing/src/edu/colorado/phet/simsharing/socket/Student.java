@@ -69,7 +69,7 @@ public class Student {
             }
         } );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Student Edition" );
-        final int numberInBatch = 30;
+        final int batchSize = 1;
 
         final VoidFunction0 updateSharing = new VoidFunction0() {
             public boolean startedMessage = false;
@@ -78,38 +78,37 @@ public class Student {
             ArrayList<GravityAndOrbitsApplicationState> stateCache = new ArrayList<GravityAndOrbitsApplicationState>();
 
             public void apply() {
-                if ( stateCache.size() >= numberInBatch ) {
-                    GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application, imageFactory );
 
-                    if ( analyze ) {
-                        writeExampleForAnalysis( state );
-                    }
+                GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application, imageFactory );
 
-                    stateCache.add( state );
-                    if ( sessionID == null ) {
-                        if ( !startedMessage ) {
-                            System.out.print( "Awaiting ID" );
-                            startedMessage = true;
-                        }
-                        else {
-                            System.out.print( "." );
-                        }
+                if ( analyze ) {
+                    writeExampleForAnalysis( state );
+                }
+
+                stateCache.add( state );
+                if ( sessionID == null ) {
+                    if ( !startedMessage ) {
+                        System.out.print( "Awaiting ID" );
+                        startedMessage = true;
                     }
                     else {
-                        if ( !finishedMessage ) {
-                            System.out.println( "\nReceived ID: " + sessionID );
-                            finishedMessage = true;
+                        System.out.print( "." );
+                    }
+                }
+                else {
+                    if ( !finishedMessage ) {
+                        System.out.println( "\nReceived ID: " + sessionID );
+                        finishedMessage = true;
+                    }
+                    if ( stateCache.size() >= batchSize ) {
+                        try {
+                            //Copy the state cache because it is cleared in the next step
+                            server.tell( new AddSamples<GravityAndOrbitsApplicationState>( sessionID, new ArrayList<GravityAndOrbitsApplicationState>( stateCache ) ) );
                         }
-                        if ( stateCache.size() >= 1 ) {
-                            try {
-                                //Copy the state cache because it is cleared in the next step
-                                server.tell( new AddSamples<GravityAndOrbitsApplicationState>( sessionID, new ArrayList<GravityAndOrbitsApplicationState>( stateCache ) ) );
-                            }
-                            catch ( IOException e ) {
-                                e.printStackTrace();
-                            }
-                            stateCache.clear();
+                        catch ( IOException e ) {
+                            e.printStackTrace();
                         }
+                        stateCache.clear();
                     }
                 }
             }
