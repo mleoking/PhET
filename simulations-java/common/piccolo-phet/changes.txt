@@ -1,4 +1,4 @@
-9/5/2011 Added support for changing the cursor in CursorHandler
+9/5/2011 Added support for changing the cursor in CursorHandler, see #3061
 9/1/2011 Made RulerNode.createTickMark non-static and protected for sim-specific overrides, resolves #3052
 8/31/2011 Moved sugar-and-salt-solutions faucet to piccolo-phet
 8/9/2011 Improved support for title in KitSelectionNode
