@@ -3,14 +3,18 @@ package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -27,6 +31,8 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.NOZZLE;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_MITER;
+import static java.awt.Cursor.*;
+import static java.lang.Math.PI;
 
 /**
  * Piccolo node that shows the hose and allows the user to change the angle that water is sprayed out
@@ -57,11 +63,49 @@ public class HoseNode extends PNode {
                     final ImmutableVector2D origin = new ImmutableVector2D( transform.modelToView( hose.outputPoint.get().toPoint2D() ) );
                     setTransform( new AffineTransform() );
                     setOffset( origin.toPoint2D().getX() - getFullBounds().getWidth() / 2, origin.toPoint2D().getY() );
-                    rotateAboutPoint( Math.PI / 2 - hose.angle.get(), getFullBounds().getWidth() / 2, 0 );
+                    rotateAboutPoint( PI / 2 - hose.angle.get(), getFullBounds().getWidth() / 2, 0 );
                 }
             }.observe( hose.angle, hose.outputPoint );
 
-            addInputEventListener( new CursorHandler() );
+            //Show the cursor for rotating the nozzle.  Initially it is an East-West resize cursor, but as the angle changes the cursor will also change to indicate the direction the mouse can be dragged
+            addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( W_RESIZE_CURSOR ) ) {
+
+                //Component the mouse has entered most recently, will have its cursor changed while dragging
+                public JComponent component;
+
+                //When the mouse enters the component, keep track of it so the cursor can be changed while dragging
+                @Override public void mouseEntered( PInputEvent event ) {
+                    super.mouseEntered( event );
+                    this.component = ( (JComponent) event.getComponent() );
+                }
+
+                {
+
+                    //When the angle changes, change the cursor
+                    hose.angle.addObserver( new VoidFunction1<Double>() {
+                        public void apply( Double angle ) {
+
+                            //Use a function to simulate matching in java
+                            int cursor = new Function1<Double, Integer>() {
+                                public Integer apply( Double angle ) {
+                                    if ( angle >= PI / 2.0 * 2.0 / 3.0 ) { return W_RESIZE_CURSOR; }
+                                    else if ( angle >= PI / 2.0 * 1.0 / 3.0 ) { return NW_RESIZE_CURSOR; }
+                                    else if ( angle >= PI / 2.0 * 0.0 / 3.0 ) { return N_RESIZE_CURSOR; }
+                                    else { return DEFAULT_CURSOR; }
+                                }
+                            }.apply( angle );
+
+                            //Set the cursor to the CursorHandler for subsequent events
+                            setCursor( Cursor.getPredefinedCursor( cursor ) );
+
+                            //Set the cursor on the component (but not on initialization)
+                            if ( component != null ) {
+                                component.setCursor( Cursor.getPredefinedCursor( cursor ) );
+                            }
+                        }
+                    } );
+                }
+            } );
 
             //Make it possible to drag the angle of the hose
             //Copied from PrismNode
@@ -86,11 +130,11 @@ public class HoseNode extends PNode {
                     double desiredAngle = hose.angle.get() + delta;
 
                     //If the user drags the nozzle clockwise, it can jump to >2PI or Less than -1, which causes problems, so filter out this bogus data
-                    while ( desiredAngle > 6 ) { desiredAngle = desiredAngle - Math.PI * 2; }
-                    while ( desiredAngle < -1 ) { desiredAngle = desiredAngle + Math.PI * 2; }
+                    while ( desiredAngle > 6 ) { desiredAngle = desiredAngle - PI * 2; }
+                    while ( desiredAngle < -1 ) { desiredAngle = desiredAngle + PI * 2; }
 
                     //Then ensure the angle is between 0 and 90 degrees
-                    final double newAngle = MathUtil.clamp( 0, desiredAngle, Math.PI / 2 );
+                    final double newAngle = MathUtil.clamp( 0, desiredAngle, PI / 2 );
                     hose.angle.set( newAngle );
                     previousAngle = angle;
                 }
@@ -176,7 +220,7 @@ public class HoseNode extends PNode {
             }.observe( hose.attachmentPoint, hose.angle, hose.y );
 
             //Make it possible to drag hose itself to change the elevation
-            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( N_RESIZE_CURSOR ) ) );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     double modelDelta = transform.viewToModelDeltaY( event.getDeltaRelativeTo( getParent() ).getHeight() );
@@ -199,7 +243,7 @@ public class HoseNode extends PNode {
         ImmutableVector2D controlPointA1 = hose.attachmentPoint.get().plus( 5, 0 );
         ImmutableVector2D controlPointA2 = controlPointA1.plus( -1, 0 );
 
-        double delta = Math.cos( hose.angle.get() - Math.PI / 2 );
+        double delta = Math.cos( hose.angle.get() - PI / 2 );
         return new ImmutableVector2D( ( hose.getNozzleInputPoint().getX() + controlPointA2.getX() ) / 2 + delta, -3 + hose.getNozzleInputPoint().getY() / 2 - delta );
     }
 }
