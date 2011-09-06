@@ -165,13 +165,33 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
         //Check to make sure there weren't too many at the specified location.  If so, this was an error during crystal growth.
         if ( atLocation.size() > 1 ) {
-            throw new RuntimeException( "Too many particles at the same location" );
+
+            //It has been difficult to identify the cause of this case, so we also overrode addConstituent to check for errors during the build process
+            new RuntimeException( "Too many particles at the same location, getting one of them randomly" ).printStackTrace();
+            int index = random.nextInt( atLocation.size() );
+            return new Option.Some<Constituent<T>>( atLocation.get( index ) );
         }
         else if ( atLocation.size() == 0 ) {
             return new Option.None<Constituent<T>>();
         }
         else {
             return new Option.Some<Constituent<T>>( atLocation.get( 0 ) );
+        }
+    }
+
+    //Overriden to check for errors during the assembly process
+    @Override public void addConstituent( Constituent<T> constituent ) {
+        super.addConstituent( constituent );
+
+        //Make sure the constituent at the location is the one and only one we just added, otherwise it will cause an error by putting two constituents at the same lattice site
+        Option<Constituent<T>> atLocation = getConstituentAtLocation( constituent.relativePosition );
+        if ( atLocation.isSome() && atLocation.get() == constituent ) {
+            //All is well
+        }
+        else {
+
+            //Error during the build process, print an exception with the stack trace so we can find out which step in crystal constriction caused the problem
+            new RuntimeException( "Wrong constituent during add process" ).printStackTrace();
         }
     }
 
