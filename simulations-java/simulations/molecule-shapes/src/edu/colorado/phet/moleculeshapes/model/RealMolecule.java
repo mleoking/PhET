@@ -88,6 +88,12 @@ public class RealMolecule extends Molecule {
         centerOnCentroid();
     }};
 
+    public static final RealMolecule HYDROGEN_CHLORIDE = new RealMolecule( "HCl", 0 ) {{
+        addCentralAtom( new Atom3D( Cl, new ImmutableVector3D( -0.967000, 0.227000, 0.000000 ) ) );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.246000, 0.620000, 0.000000 ) ), 1 );
+        centerOnCentroid();
+    }};
+
     public static final RealMolecule CARBON_DIOXIDE = new RealMolecule( "CO2", 0 ) {{
         addCentralAtom( new Atom3D( C, new ImmutableVector3D() ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.19700, 0, 0 ) ), 2 );
@@ -348,6 +354,14 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
+    public static final RealMolecule METHYL_CHLORIDE = new RealMolecule( "CH3Cl", 0 ) {{
+        addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.178000, -0.689000, 0.000000 ) ) );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -0.178000, 1.052000, -0.000000 ) ), 1 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.878000, -1.038000, -0.000000 ) ), 1 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.705000, -1.038000, 0.914000 ) ), 1 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.705000, -1.038000, -0.914000 ) ), 1 );
+    }};
+
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
             CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE,
             FORMALDEHYDE, AMMONIA, METHANE, DICHLORODIFLUOROMETHANE, HYDROGEN_CYANIDE,
@@ -357,7 +371,7 @@ public class RealMolecule extends Molecule {
             CHLORINE_TRIFLUORIDE, XENON_DIFLUORIDE, TRIIODIDE, SULFUR_HEXAFLUORIDE,
             BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
             CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, PERCHLORATE,
-            MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE
+            MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE, METHYL_CHLORIDE, HYDROGEN_CHLORIDE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
