@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--plinko-probability-strings_el.xml created Thu Dec 02 16:45:51 EET 2010 using: plinko-probability 2.01.00 (37320), translation-utility 2.09.00 (44031) Σεπ 14, 2010-->
+<!--plinko-probability-strings_el.xml created Mon Sep 05 14:44:11 EEST 2011 using: plinko-probability 2.02.00 (53818), translation-utility 2.11.00 (55119) Αυγ 13, 2011-->
 <SimStrings>
 <string key="none" value="κανένα"/>
 <string key="number" value="αριθμός"/>
@@ -11,13 +11,14 @@
 <string key="rows" value="γραμμή"/>
 <string key="sEquals" value="s ="/>
 <string key="sound" value="Ήχος"/>
-<string key="oneBall" value="1 μπάλα"/>
+<string key="oneBall" value="μία μπάλα"/>
 <string key="path" value="διαδρομή"/>
 <string key="histogramDisplay" value="Ιστόγραμμα \nεμφάνιση:"/>
 <string key="p" value="p"/>
 <string key="stop" value="Διακοπή"/>
 <string key="ball" value="μπάλα"/>
 <string key="help" value="Βοήθεια"/>
+<string key="translation.credits" value="Γιάννης Κασκαμανίδης"/>
 <string key="reset" value="Επαναφορά"/>
 <string key="show" value="Εμφάνιση:"/>
 <string key="autoScale" value="αυτόματη κλίμακα"/>
