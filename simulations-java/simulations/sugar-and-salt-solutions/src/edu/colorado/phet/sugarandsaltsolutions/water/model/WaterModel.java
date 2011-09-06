@@ -123,7 +123,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> pow = new Property<Double>( 2.0 );
     public final Property<Integer> randomness = new Property<Integer>( 5 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
-    public final Property<Double> timeScale = new Property<Double>( 0.04 );
+    public final Property<Double> timeScale = new Property<Double>( 0.06 );
     public final Property<Integer> iterations = new Property<Integer>( 100 );
 
     //if the particles are too close, the coulomb force gets too big--a good way to limit the coulomb force is to limit the inter-particle distance used in the coulomb calculation

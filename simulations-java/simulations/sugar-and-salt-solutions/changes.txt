@@ -1,3 +1,4 @@
+Changed the time scale to 0.06 instead of 0.04
 # 0.00.98 (56197) Sep 6, 2011
 Prevent the shakers from being dragged offscreen
 Improved error handling and docs
