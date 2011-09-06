@@ -1,3 +1,4 @@
+# 0.00.18 (56228) Sep 6, 2011
 9/6/11 fix sign on partial charges
 8/24/11 remove bad code from MPCanvas.updateLayout that was interfering with CenteredStage transform strategy
 8/24/11 add stage bounds node, for layout debugging
