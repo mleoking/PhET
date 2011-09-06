@@ -52,10 +52,10 @@ public abstract class PartialChargeNode extends PComposite {
 
                     // d+ or d-
                     if ( partialCharge > 0 ) {
-                        textNode.setText( MPStrings.DELTA + "-" );
+                        textNode.setText( MPStrings.DELTA + "+" );
                     }
                     else {
-                        textNode.setText( MPStrings.DELTA + "+" );
+                        textNode.setText( MPStrings.DELTA + "-" );
                     }
 
                     // size proportional to bond dipole magnitude
