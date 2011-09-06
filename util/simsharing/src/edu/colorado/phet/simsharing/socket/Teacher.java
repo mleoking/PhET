@@ -20,11 +20,6 @@ public class Teacher {
         this.args = args;
     }
 
-    public static void main( String[] args ) throws IOException, ClassNotFoundException {
-        Server.parseArgs( args );
-        new Teacher( args ).start();
-    }
-
     private void start() throws IOException, ClassNotFoundException {
         final IActor server = new Client();
         SwingUtilities.invokeLater( new Runnable() {
@@ -40,5 +35,10 @@ public class Teacher {
                 }}.setVisible( true );
             }
         } );
+    }
+
+    public static void main( String[] args ) throws IOException, ClassNotFoundException {
+        Server.parseArgs( args );
+        new Teacher( args ).start();
     }
 }

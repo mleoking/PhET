@@ -105,10 +105,6 @@ public class Server implements MessageHandler {
         System.out.println( "Using host: " + HOST_IP_ADDRESS );
     }
 
-    private int getLastIndex( SessionID sessionID ) {
-        return sessions.get( sessionID ).getLastIndex();
-    }
-
     public static void main( String[] args ) throws IOException {
         Server.parseArgs( args );
         new Server().start();
