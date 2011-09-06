@@ -16,6 +16,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * This class represents an ImageMass with a label on it.  It was originally
+ * created in order to place translatable labels on the "mystery objects", but
+ * it may have other applications.
+ *
  * @author John Blanco
  */
 public class LabeledImageMassNode extends ImageMassNode {
@@ -33,7 +37,7 @@ public class LabeledImageMassNode extends ImageMassNode {
         // Position the label on the image.  TWEAK WARNING - These labels are
         // positioned a little below the center because it looked better on the
         // initial set of mystery objects.  May require adjustment if the
-        // artwork for the mystery objects change.
+        // artwork for the mystery objects changes.
         label.centerFullBoundsOnPoint( imageNode.getFullBoundsReference().getCenterX(),
                                        imageNode.getFullBoundsReference().getCenterY() + imageNode.getFullBoundsReference().height * 0.1 );
         // Add the label as a child.
