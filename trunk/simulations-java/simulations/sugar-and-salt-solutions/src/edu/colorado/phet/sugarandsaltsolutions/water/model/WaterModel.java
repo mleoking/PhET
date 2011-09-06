@@ -129,6 +129,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
     public final Property<Double> timeScale = new Property<Double>( 0.06 );
     public final Property<Integer> iterations = new Property<Integer>( 100 );
+    public final Property<Integer> overlaps = new Property<Integer>( 10 );
 
     //if the particles are too close, the coulomb force gets too big--a good way to limit the coulomb force is to limit the inter-particle distance used in the coulomb calculation
     public final double MIN_COULOMB_DISTANCE = new WaterMolecule.Hydrogen().radius * 2;
@@ -588,7 +589,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
             //Only remove water molecules that intersected several sucrose atoms, so that the density of water remains about the same
             for ( WaterMolecule waterMolecule : counts.keySet() ) {
-                if ( counts.get( waterMolecule ) >= 5 ) {
+                if ( counts.get( waterMolecule ) >= overlaps.get() ) {
                     add( waterMolecule );
                 }
             }
