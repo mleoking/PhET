@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -83,6 +84,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private static final double SALT_ION_DISTANCE_THRESHOLD = new SaltIon.ChlorideIon().getShape().getBounds2D().getWidth() * 1.3;
     private static final double SUCROSE_DISTANCE_THRESHOLD = new Sucrose().getShape().getBounds2D().getWidth();
     public final double COULOMB_FORCE_SCALE_FACTOR = 5E-36 / 10 * 2;
+
+    //Flag to indicate debugging of removal of water when sucrose added, to keep water density constant
+    private final boolean debugWaterRemoval = false;
 
     //Expand a rectangle by the specified size in all 4 directions
     private static ImmutableRectangle2D expand( ImmutableRectangle2D r, double size ) {
@@ -559,6 +563,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Find which water molecules overlap with the specified crystal so they can be removed before the crystal is added, to prevent box2d body overlaps
     private HashSet<WaterMolecule> getOverlappingWaterMolecules( final Compound<SphericalParticle> compound ) {
         return new HashSet<WaterMolecule>() {{
+            IdentityHashMap<WaterMolecule, Integer> counts = new IdentityHashMap<WaterMolecule, Integer>();
 
             //Iterate over all water atoms
             for ( WaterMolecule waterMolecule : waterList ) {
@@ -574,11 +579,30 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
                             //add if they are overlapping
                             if ( waterAtom.getPosition().getDistance( atom.getPosition() ) < waterAtom.radius + atom.radius ) {
-                                add( waterMolecule );
+                                counts.put( waterMolecule, counts.get( waterMolecule ) == null ? 1 : counts.get( waterMolecule ) + 1 );
                             }
                         }
                     }
                 }
+            }
+
+            //Only remove water molecules that intersected several sucrose atoms, so that the density of water remains about the same
+            for ( WaterMolecule waterMolecule : counts.keySet() ) {
+                if ( counts.get( waterMolecule ) >= 5 ) {
+                    add( waterMolecule );
+                }
+            }
+
+            //Diagnostic for determining how many waters would have been removed with our previous algorithm of intersecting only one particle
+            if ( debugWaterRemoval ) {
+                HashSet<WaterMolecule> oneSet = new HashSet<WaterMolecule>();
+                for ( WaterMolecule waterMolecule : counts.keySet() ) {
+                    if ( counts.get( waterMolecule ) >= 1 ) {
+                        oneSet.add( waterMolecule );
+                    }
+                }
+
+                System.out.println( "waterList.size = " + waterList.size() + ", oneSet.size() = " + oneSet.size() + ", useSet.size = " + size() );
             }
         }};
     }
