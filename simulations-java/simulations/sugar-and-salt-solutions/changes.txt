@@ -1,3 +1,4 @@
+Prevent the shakers from being dragged offscreen
 Improved error handling and docs
 Moved sugar-and-salt-solutions faucet to piccolo-phet
 Internal changes to separate code from first two tabs

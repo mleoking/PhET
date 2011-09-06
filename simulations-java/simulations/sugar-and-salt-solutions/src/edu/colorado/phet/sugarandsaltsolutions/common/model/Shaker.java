@@ -2,11 +2,13 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltShakerNode;
@@ -107,8 +109,8 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
     protected abstract void addSalt( T model, final ImmutableVector2D outputPoint, double volumePerSolidMole, final ImmutableVector2D crystalVelocity );
 
     //Create a SaltShakerNode for display and interaction with this model element
-    @Override public PNode createNode( ModelViewTransform transform, double beakerHeight, boolean micro ) {
-        return new SaltShakerNode<T>( transform, this, beakerHeight, micro );
+    @Override public PNode createNode( ModelViewTransform transform, double beakerHeight, boolean micro, Function1<Point2D, Point2D> constraint ) {
+        return new SaltShakerNode<T>( transform, this, beakerHeight, micro, constraint );
     }
 
     @Override public void reset() {

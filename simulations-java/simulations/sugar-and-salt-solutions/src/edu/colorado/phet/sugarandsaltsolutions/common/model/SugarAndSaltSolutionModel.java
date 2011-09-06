@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -12,11 +13,13 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.FaucetMetrics;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.canvasSize;
 
@@ -77,6 +80,17 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     //The shape of the input and output water.  The Shape of the water draining out the output faucet is also needed for purposes of determining whether there is an electrical connection for the conductivity tester
     public final Property<Shape> inputWater = new Property<Shape>( new Area() );
     public final Property<Shape> outputWater = new Property<Shape>( new Area() );
+
+    //The dragging constraint so that the user cannot drag the shakers outside of the visible region
+    public Function1<Point2D, Point2D> dragConstraint = new Function1<Point2D, Point2D>() {
+        public Point2D apply( Point2D point2D ) {
+
+            //Use the visible region for constraining the X-value, and a fraction past the beaker value.
+            //These values were determined experimentally since we are constraining the center of the shaker (and shakers have different sizes and different angles)
+            return new Point2D.Double( visibleRegion.getClosestPoint( point2D ).getX(),
+                                       clamp( beaker.getTopY() * 1.3, point2D.getY(), beaker.getTopY() * 2 ) );
+        }
+    };
 
     //True if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public abstract ObservableProperty<Boolean> getAnySolutes();

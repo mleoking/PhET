@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -18,7 +19,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -36,7 +36,7 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
     private final T model;
     private PNode textLabel;
 
-    public DispenserNode( final ModelViewTransform transform, final T model, final double beakerHeight ) {
+    public DispenserNode( final ModelViewTransform transform, final T model, final double beakerHeight, Function1<Point2D, Point2D> dragConstraint ) {
         this.transform = transform;
         this.model = model;
         //Show the image of the shaker, with the text label on the side of the dispenser
@@ -71,14 +71,21 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
         }
 
         //Translate the shaker when dragged
-        addInputEventListener( new PBasicInputEventHandler() {
+        addInputEventListener( new RelativeDragHandler( this, transform, model.center, dragConstraint ) {
             @Override public void mouseDragged( PInputEvent event ) {
-
                 //Set the model height of the dispenser so the model will be able to emit crystals in the right location (at the output part of the image)
                 model.setDispenserHeight( transform.viewToModelDeltaY( imageNode.getFullBounds().getHeight() ) );
 
-                //Translate the model
-                model.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( DispenserNode.this.getParent() ) ) );
+                //Handle super drag after setting the dispenser height in case crystals are emitted
+                super.mouseDragged( event );
+            }
+
+            //Override the setModelPosition to use a call to translate, since that is the call used to shake out crystals
+            @Override protected void setModelPosition( Point2D constrained ) {
+                ImmutableVector2D initialPoint = model.center.get();
+                ImmutableVector2D finalPoint = new ImmutableVector2D( constrained );
+                ImmutableVector2D delta = finalPoint.minus( initialPoint );
+                model.translate( delta.toDimension() );
             }
         } );
 
