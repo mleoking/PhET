@@ -23,12 +23,10 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @author Sam Reid
  */
 public class ClassroomView extends PSwingCanvas {
-    private final String[] args;
     private final PNode studentThumbnailNode;
     private PNode summaryNode;
 
     public ClassroomView( final IActor server, final String[] args ) {
-        this.args = args;
         summaryNode = new PNode() {
             @Override public void addChild( PNode child ) {
                 child.setOffset( child.getOffset().getX(), getFullBounds().getMaxY() + 2 );

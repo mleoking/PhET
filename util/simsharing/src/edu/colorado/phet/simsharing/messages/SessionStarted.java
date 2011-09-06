@@ -19,9 +19,6 @@ public class SessionStarted implements Serializable {
         this.time = time;
     }
 
-    public SessionStarted() {
-    }
-
     public long getTime() {
         return time;
     }
