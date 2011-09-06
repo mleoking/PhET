@@ -1,3 +1,4 @@
+9/6/11 Added classes to support simsharing
 9/6/11 Added ImmutableVector2D.toDimension
 8/30/11 Added convenience ImmutableVector2D methods to DoubleGeneralPath
 8/24/11 added PhetPCanvas.addBoundsNode(Dimension2D) for debugging transform strategies, especially useful with CenteredStage
