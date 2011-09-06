@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.simsharing.GAOHelper;
+import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionStarted;
 import edu.colorado.phet.simsharing.socketutil.IActor;
@@ -102,6 +102,6 @@ public class RecordingView extends JPanel {
 
     private void showRecording( SessionStarted sessionID ) {
         System.out.println( "recording = " + sessionID );
-        new SimView( new String[0], sessionID.getSessionID(), new RemoteActor( server, sessionID.getSessionID() ), true, GAOHelper.createLauncher().apply() ).start();
+        new SimView( sessionID.getSessionID(), new RemoteActor( server, sessionID.getSessionID() ), true, SimHelper.createLauncher().apply() ).start();
     }
 }

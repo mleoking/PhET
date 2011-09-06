@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.simsharing.GAOHelper;
+import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.SessionID;
@@ -156,6 +156,6 @@ public class Student<U extends SimsharingApplicationState, T extends SimsharingA
 
     public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
         Server.parseArgs( args );
-        new Student( GAOHelper.createLauncher() ).start();
+        new Student( SimHelper.createLauncher() ).start();
     }
 }

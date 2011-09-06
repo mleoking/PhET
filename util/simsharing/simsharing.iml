@@ -260,6 +260,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="simsharing-test-sim" />
   </component>
 </module>
 

@@ -24,7 +24,7 @@ public class SimView<U extends SimsharingApplicationState, T extends SimsharingA
     private final RemoteActor<U> sampleSource;
     private boolean running = true;
 
-    public SimView( final String[] args, final SessionID sessionID, RemoteActor<U> sampleSource, boolean playbackMode, T application ) {
+    public SimView( final SessionID sessionID, RemoteActor<U> sampleSource, boolean playbackMode, T application ) {
         this.sampleSource = sampleSource;
         this.application = application;
         timeControl = new TimeControlFrame( sessionID );
