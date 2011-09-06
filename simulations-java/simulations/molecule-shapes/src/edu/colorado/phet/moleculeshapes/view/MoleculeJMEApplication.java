@@ -234,7 +234,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                                     updateQuaternion.apply( rotation, ROTATION_MOUSE_SENSITIVITY );
                                     break;
                                 case REAL_MOLECULE_ROTATE:
-                                    realMoleculeOverlayNode.updateRotation( updateQuaternion );
+                                    realMoleculeOverlayNode.dragRotation( updateQuaternion );
                                     break;
                                 case PAIR_FRESH_PLANAR:
                                     // put the particle on the z=0 plane
