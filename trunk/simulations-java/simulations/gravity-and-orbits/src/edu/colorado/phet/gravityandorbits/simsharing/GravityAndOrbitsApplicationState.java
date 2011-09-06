@@ -4,6 +4,8 @@ package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.awt.Dimension;
 
+import edu.colorado.phet.common.phetcommon.simsharing.HasTimeAndImage;
+import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;

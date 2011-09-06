@@ -4,8 +4,8 @@ package edu.colorado.phet.simsharing.socket;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import edu.colorado.phet.gravityandorbits.simsharing.HasTimeAndImage;
-import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+import edu.colorado.phet.common.phetcommon.simsharing.HasTimeAndImage;
+import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
