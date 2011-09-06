@@ -1,3 +1,4 @@
+Fixed SOF4
 Don't auto-rotate the real example molecule after dragging
 # 0.00.29 (56162) Sep 5, 2011
 Deadlock, synchronization and threading improvements. Ditched SwingUtilities.invokeAndWait due to issues.
