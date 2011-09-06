@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.socket;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.gravityandorbits.simsharing.HasTimeAndImage;
@@ -28,7 +29,7 @@ public class Session<T extends HasTimeAndImage> {
     }
 
     public StudentSummary getStudentSummary() {
-        SerializableBufferedImage image = entries.size() == 0 ? new SerializableBufferedImage() : entries.get( entries.size() - 1 ).getImage();
+        SerializableBufferedImage image = entries.size() == 0 ? new SerializableBufferedImage( new BufferedImage( 0, 0, BufferedImage.TYPE_INT_RGB ) ) : entries.get( entries.size() - 1 ).getImage();
         long time = entries.size() == 0 ? -1 : System.currentTimeMillis() - entries.get( entries.size() - 1 ).getTime();
         return new StudentSummary( sessionID, image, System.currentTimeMillis() - startTime, time );
     }

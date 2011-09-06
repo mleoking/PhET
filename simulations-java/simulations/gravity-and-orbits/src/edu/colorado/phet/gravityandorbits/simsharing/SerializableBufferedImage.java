@@ -11,63 +11,40 @@ import javax.imageio.ImageIO;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
- * Serializable state for simsharing, allows transmission of a bufferedimage for thumbnail
- * Copied verbatim from http://www.ni-c.de/2008/10/serializable-bufferedimage/ which is ditsributed under Creative Commons license
+ * Serializable state for simsharing, allows transmission of a BufferedImage for thumbnail
+ * Inspired by http://www.ni-c.de/2008/10/serializable-bufferedimage/ which is ditsributed under Creative Commons license
  */
 public class SerializableBufferedImage implements IProguardKeepClass {
 
-    private byte[] byteImage = null;
-
-    //for persistence
-    public SerializableBufferedImage() {
-    }
-
-    public SerializableBufferedImage( byte[] byteImage ) {
-        this.byteImage = byteImage;
-    }
+    private final byte[] byteArray;
 
     public SerializableBufferedImage( BufferedImage bufferedImage ) {
-        this.byteImage = toByteArray( bufferedImage, "JPG" );
-//        byte[] png = toByteArray( bufferedImage, "PNG" );
-//        System.out.println( "jpg.length = " + byteImage.length + ", png.length = " + png.length );
-        //        ARGB: jpg.length = 10907, png.length = 16049
-        //        RGB: jpg.length = 9014, png.length = 14667
+        this( bufferedImage, "JPG" );
     }
 
-    public byte[] getByteImage() {
-        return byteImage;
+    public SerializableBufferedImage( BufferedImage bufferedImage, String format ) {
+        this.byteArray = toByteArray( bufferedImage, format );
     }
 
     public BufferedImage toBufferedImage() {
-        return fromByteArray( byteImage );
+        return fromByteArray( byteArray );
     }
 
-    public static BufferedImage fromByteArray( byte[] imagebytes ) {
+    public static BufferedImage fromByteArray( byte[] byteArray ) {
         try {
-            if ( imagebytes != null && ( imagebytes.length > 0 ) ) {
-                BufferedImage im = ImageIO.read( new ByteArrayInputStream( imagebytes ) );
-                return im;
-            }
-            return null;
+            return ImageIO.read( new ByteArrayInputStream( byteArray ) );
         }
         catch ( IOException e ) {
-            throw new IllegalArgumentException( e.toString() );
+            throw new RuntimeException( e );
         }
     }
 
-    private static byte[] toByteArray( BufferedImage bufferedImage, String format ) {
-        if ( bufferedImage != null ) {
-            BufferedImage image = bufferedImage;
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            try {
-                ImageIO.write( image, format, baos );
-            }
-            catch ( IOException e ) {
-                throw new IllegalStateException( e.toString() );
-            }
-            byte[] b = baos.toByteArray();
-            return b;
+    private static byte[] toByteArray( final BufferedImage bufferedImage, final String format ) {
+        try {
+            return new ByteArrayOutputStream() {{ ImageIO.write( bufferedImage, format, this ); }}.toByteArray();
         }
-        return new byte[0];
+        catch ( IOException e ) {
+            throw new RuntimeException( e );
+        }
     }
 }
