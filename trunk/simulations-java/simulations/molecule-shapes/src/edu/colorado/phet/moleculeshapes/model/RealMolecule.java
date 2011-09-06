@@ -208,10 +208,11 @@ public class RealMolecule extends Molecule {
 
     public static final RealMolecule SULFUR_OXIDE_TETRAFLUORIDE = new RealMolecule( "SOF4", 0 ) {{
         addCentralAtom( new Atom3D( S, new ImmutableVector3D( -0.091000, -0.017700, -0.350800 ) ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.000000, 1.740000, 0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.507000, -0.870000, 0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.000000, 0.000000, 1.740000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.000000, 0.000000, -1.740000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.028900, 1.873900, -0.093300 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.153000, -1.909200, -0.608300 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.492500, 0.210200, -2.165700 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.956100, -0.012500, 0.060500 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.193800, -0.249600, 1.043400 ) ), 1 );
 
         centerOnCentralAtom();
     }};
