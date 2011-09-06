@@ -13,6 +13,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -29,7 +30,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class PlankNode extends ModelObjectNode {
     private static final Stroke NORMAL_TICK_MARK_STROKE = new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+    private static final Stroke NORMAL_HIGHLIGHT_STROKE = new BasicStroke( 11, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
     private static final Stroke BOLD_TICK_MARK_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+    private static final Stroke BOLD_HIGHLIGHT_STROKE = new BasicStroke( 11, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+    //    private static final Color HIGHLIGHT_COLOR = new Color( 127, 255, 0 );
+//    private static final Color HIGHLIGHT_COLOR = Color.BLACK;
+    private static final Color HIGHLIGHT_COLOR = PhetColorScheme.RED_COLORBLIND;
 
     public PlankNode( final ModelViewTransform mvt, final Plank plank, PhetPCanvas canvas ) {
         super( mvt, plank, new Color( 243, 203, 127 ) );
@@ -99,18 +105,19 @@ public class PlankNode extends ModelObjectNode {
         // Update the tick marks by removing them and redrawing them.
         tickMarkLayer.removeAllChildren();
         for ( int i = 0; i < plank.getTickMarks().size(); i++ ) {
-            Color tickMarkColor = Color.BLACK;
             Stroke tickMarkStroke = NORMAL_TICK_MARK_STROKE;
+            Stroke highlightStroke = NORMAL_HIGHLIGHT_STROKE;
             if ( i % 4 == 0 ) {
                 // Make some marks bold for easier placement of masses.
                 // The 'if' clause can be tweaked to put marks in
                 // different places.
                 tickMarkStroke = BOLD_TICK_MARK_STROKE;
+                highlightStroke = BOLD_HIGHLIGHT_STROKE;
             }
             if ( plank.isTickMarkOccupied( plank.getTickMarks().get( i ) ) ) {
-                tickMarkColor = Color.RED;
+                tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), highlightStroke, HIGHLIGHT_COLOR ) );
             }
-            tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), tickMarkStroke, tickMarkColor ) );
+            tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), tickMarkStroke, Color.BLACK ) );
         }
     }
 
