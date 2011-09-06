@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.dialogs.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
@@ -43,6 +44,13 @@ public class PhetApplication
     private ModuleManager moduleManager;
     private PhetAboutDialog aboutDialog; // not null only when About dialog is shown for the first time
     private boolean applicationStarted = false;//flag to make sure we don't start the application more than once
+
+    //The exit strategy, to be applied when the user closes the application.  By default it calls PhetExit.exit
+    private VoidFunction0 exitStrategy = new VoidFunction0() {
+        public void apply() {
+            PhetExit.exit();
+        }
+    };
 
     //----------------------------------------------------------------
     // Constructors
@@ -405,8 +413,20 @@ public class PhetApplication
     public void load() {
     }
 
+    /**
+     * Sets a new exit strategy, which will be applied when the user closes the application.  This is used in simsharing features since closing a view should not exit the VM.
+     *
+     * @param exitStrategy the new exit strategy to be applied on sim exit
+     */
+    public void setExitStrategy( VoidFunction0 exitStrategy ) {
+        this.exitStrategy = exitStrategy;
+    }
+
+    /**
+     * Exit the application, applying the current exit strategy
+     */
     public void exit() {
-        PhetExit.exit();
+        exitStrategy.apply();
     }
 
     /**

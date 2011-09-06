@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
@@ -26,7 +27,7 @@ import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;
  * @author Sam Reid
  * @see GravityAndOrbitsModule
  */
-public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
+public class GravityAndOrbitsApplication extends PiccoloPhetApplication implements SimsharingApplication {
     public static final String PROJECT_NAME = "gravity-and-orbits";
     public static final PhetResources RESOURCES = new PhetResources( GravityAndOrbitsApplication.PROJECT_NAME );
 
@@ -44,6 +45,11 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         addModule( toScale );
 
         getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( whiteBackgroundProperty );}} );
+    }
+
+    public void setTeacherMode( boolean b ) {
+        intro.setTeacherMode( b );
+        toScale.setTeacherMode( b );
     }
 
     public static class IntroModule extends GravityAndOrbitsModule {

@@ -8,27 +8,27 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
+import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
-import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
-import edu.colorado.phet.simsharing.GAOHelper;
 import edu.colorado.phet.simsharing.TimeControlFrame;
 import edu.colorado.phet.simsharing.messages.SessionID;
 
 /**
  * @author Sam Reid
  */
-public class SimView {
+public class SimView<T extends SimsharingApplication, U extends SimsharingApplicationState<T>> {
     private final Thread thread;
     private final TimeControlFrame timeControl;
-    private GravityAndOrbitsApplication application;
+    private T application;
     private final String[] args;
-    private final RemoteActor<GravityAndOrbitsApplicationState> sampleSource;
+    private final RemoteActor<U> sampleSource;
     private boolean running = true;
 
-    public SimView( final String[] args, final SessionID sessionID, RemoteActor<GravityAndOrbitsApplicationState> sampleSource, boolean playbackMode ) {
+    public SimView( final String[] args, final SessionID sessionID, RemoteActor<U> sampleSource, boolean playbackMode, T application ) {
         this.args = args;
         this.sampleSource = sampleSource;
+        this.application = application;
         timeControl = new TimeControlFrame( sessionID );
         timeControl.setVisible( true );
         thread = new Thread( new Runnable() {
@@ -46,6 +46,14 @@ public class SimView {
         } );
         timeControl.live.set( !playbackMode );
         if ( playbackMode ) { timeControl.playing.set( true ); }
+
+        application.setExitStrategy( new VoidFunction0() {
+            public void apply() {
+                //Just let the window close but do not system.exit the whole VM
+                running = false;
+                timeControl.setVisible( false );//TODO: detach listeners
+            }
+        } );
     }
 
     private void doRun() throws ClassNotFoundException, IOException {
@@ -67,7 +75,7 @@ public class SimView {
             }
 
             final int sampleIndex = timeControl.live.get() ? -1 : timeControl.frameToDisplay.get();
-            final GravityAndOrbitsApplicationState sample = sampleSource.getSample( sampleIndex );
+            final U sample = sampleSource.getSample( sampleIndex );
             try {
                 SwingUtilities.invokeAndWait( new Runnable() {
                     public void run() {
@@ -95,15 +103,6 @@ public class SimView {
     }
 
     public void start() {
-        //Have to launch from non-swing-thread otherwise receive:
-        //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
-        application = GAOHelper.launchApplication( args, new VoidFunction0() {
-            public void apply() {
-                //Just let the window close but do not system.exit the whole VM
-                running = false;
-                timeControl.setVisible( false );//TODO: detach listeners
-            }
-        } );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" );
         application.getPhetFrame().addComponentListener( new ComponentAdapter() {
             @Override
@@ -117,8 +116,7 @@ public class SimView {
             }
         } );
         alignControls();
-        application.getIntro().setTeacherMode( true );
-        application.getToScale().setTeacherMode( true );
+        application.setTeacherMode( true );
         thread.start();
     }
 }
