@@ -1,10 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
-import java.util.logging.Logger;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.umd.cs.piccolo.PNode;
@@ -16,8 +12,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MPCanvas extends PhetPCanvas {
 
-    private static final Logger LOGGER = LoggingUtils.getLogger( MPCanvas.class.getCanonicalName() );
-    private static final boolean SHOW_STAGE_BOUNDS = true && PhetApplication.getInstance().isDeveloperControlsEnabled();
+    private static final boolean SHOW_STAGE_BOUNDS = false;
 
     private final PNode rootNode;
 
