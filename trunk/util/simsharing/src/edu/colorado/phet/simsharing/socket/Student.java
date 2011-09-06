@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
@@ -35,7 +33,6 @@ public class Student {
     private final String[] args;
     protected SessionID sessionID;
     private final ImageFactory imageFactory = new ImageFactory();
-    private final ObjectMapper mapper = new ObjectMapper();
 
     //Flag to indicate whether the state should saved to the disk for analysis, such as checking frame size
     private static final boolean analyze = false;
