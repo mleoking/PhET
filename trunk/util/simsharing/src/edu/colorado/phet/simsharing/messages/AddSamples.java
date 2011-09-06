@@ -5,13 +5,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
+ * This class is used to send samples to the server, they can be batched up or sent one at a time.
+ *
  * @author Sam Reid
  */
-public class AddMultiSample implements Serializable {
+public class AddSamples<T> implements Serializable {
     private SessionID sessionID;
-    private ArrayList<String> data;
+    private ArrayList<T> data;
 
-    public AddMultiSample( SessionID sessionID, ArrayList<String> data ) {
+    public AddSamples( SessionID sessionID, ArrayList<T> data ) {
         this.sessionID = sessionID;
         this.data = data;
     }
@@ -20,7 +22,7 @@ public class AddMultiSample implements Serializable {
         return sessionID;
     }
 
-    public ArrayList<String> getData() {
+    public ArrayList<T> getData() {
         return data;
     }
 }

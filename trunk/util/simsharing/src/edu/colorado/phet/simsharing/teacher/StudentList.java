@@ -14,7 +14,9 @@ public class StudentList implements Serializable {
     private final ArrayList<StudentSummary> students;
 
     public StudentList( ArrayList<StudentSummary> students ) {
-        this.students = students;
+
+        //Copy is made to support DBI on input parameter
+        this.students = new ArrayList<StudentSummary>( students );
     }
 
     public boolean containsStudent( SessionID sessionID ) {

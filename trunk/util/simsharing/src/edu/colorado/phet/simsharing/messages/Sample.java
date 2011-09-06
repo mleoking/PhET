@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import org.bson.types.ObjectId;
 
+import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 
@@ -18,16 +20,19 @@ public class Sample implements Serializable {
     private String json;
     private @Indexed long index;
     private int totalSampleCount;
+    private SerializableBufferedImage image;
 
-    public Sample( long time, SessionID sessionID, String json, long index, int totalSampleCount ) {
+    public Sample( long time, SessionID sessionID, String json, long index, int totalSampleCount, SerializableBufferedImage image ) {
         this.time = time;
         this.sessionID = sessionID;
         this.json = json;
         this.index = index;
         this.totalSampleCount = totalSampleCount;
+        this.image = image;
     }
 
-    public Sample() {
+    public Sample( SerializableBufferedImage image ) {
+        this.image = image;
     }
 
     public String getJson() {
@@ -48,5 +53,9 @@ public class Sample implements Serializable {
 
     public long getIndex() {
         return index;
+    }
+
+    public SerializableBufferedImage getImage() {
+        return image;
     }
 }

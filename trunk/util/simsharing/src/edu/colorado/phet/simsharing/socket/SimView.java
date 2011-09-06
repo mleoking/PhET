@@ -10,13 +10,11 @@ import javax.swing.SwingUtilities;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.simsharing.GAOHelper;
 import edu.colorado.phet.simsharing.TimeControlFrame;
-import edu.colorado.phet.simsharing.messages.Sample;
 import edu.colorado.phet.simsharing.messages.SessionID;
 
 /**
@@ -27,11 +25,11 @@ public class SimView {
     private final TimeControlFrame timeControl;
     private GravityAndOrbitsApplication application;
     private final String[] args;
-    private final SampleSource sampleSource;
+    private final RemoteActor<GravityAndOrbitsApplicationState> sampleSource;
     private final boolean autoplay;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public SimView( final String[] args, final SessionID sessionID, SampleSource sampleSource, boolean playbackMode ) {
+    public SimView( final String[] args, final SessionID sessionID, RemoteActor<GravityAndOrbitsApplicationState> sampleSource, boolean playbackMode ) {
         this.args = args;
         this.sampleSource = sampleSource;
         this.autoplay = playbackMode;
@@ -72,33 +70,25 @@ public class SimView {
                 e.printStackTrace();
             }
 
-            final Pair<Sample, Integer> sample = sampleSource.getSample( timeControl.live.get() ? -1 : timeControl.frameToDisplay.get() );
-            if ( sample != null ) {
-                GravityAndOrbitsApplicationState state = null;
-                try {
-                    state = mapper.readValue( sample._1.getJson(), GravityAndOrbitsApplicationState.class );
-                    if ( state != null ) {
-                        try {
-                            final GravityAndOrbitsApplicationState finalState = state;
-                            SwingUtilities.invokeAndWait( new Runnable() {
-                                public void run() {
-                                    finalState.apply( application );
-                                    timeControl.maxFrames.set( sample._2 );
-                                }
-                            } );
-                        }
-                        catch ( InterruptedException e ) {
-                            e.printStackTrace();
-                        }
-                        catch ( InvocationTargetException e ) {
-                            e.printStackTrace();
+            final int sampleIndex = timeControl.live.get() ? -1 : timeControl.frameToDisplay.get();
+            final GravityAndOrbitsApplicationState sample = sampleSource.getSample( sampleIndex );
+            try {
+                SwingUtilities.invokeAndWait( new Runnable() {
+                    public void run() {
+                        sample.apply( application );
+
+                        //TODO: we used to pass back the sample index so that we could handle live
+                        if ( sampleIndex > 0 ) {
+                            timeControl.maxFrames.set( sampleIndex );
                         }
                     }
-                }
-                catch ( IOException e ) {
-                    e.printStackTrace();
-                }
-
+                } );
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+            catch ( InvocationTargetException e ) {
+                e.printStackTrace();
             }
         }
     }

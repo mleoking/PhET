@@ -22,6 +22,10 @@ public class SerializableBufferedImage implements IProguardKeepClass {
     public SerializableBufferedImage() {
     }
 
+    public SerializableBufferedImage( byte[] byteImage ) {
+        this.byteImage = byteImage;
+    }
+
     public SerializableBufferedImage( BufferedImage bufferedImage ) {
         this.byteImage = toByteArray( bufferedImage, "JPG" );
 //        byte[] png = toByteArray( bufferedImage, "PNG" );

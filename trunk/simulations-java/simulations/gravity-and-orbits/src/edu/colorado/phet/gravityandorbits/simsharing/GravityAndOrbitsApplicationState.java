@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.gravityandorbits.simsharing;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -15,7 +15,7 @@ import static java.lang.System.currentTimeMillis;
  *
  * @author Sam Reid
  */
-public class GravityAndOrbitsApplicationState implements IProguardKeepClass {
+public class GravityAndOrbitsApplicationState implements IProguardKeepClass, HasTimeAndImage {
     private GravityAndOrbitsModuleState introState;
     private GravityAndOrbitsModuleState toScaleState;
     private long timestamp;
@@ -114,5 +114,13 @@ public class GravityAndOrbitsApplicationState implements IProguardKeepClass {
 
     public void setActiveModule( int activeModule ) {
         this.activeModule = activeModule;
+    }
+
+    public long getTime() {
+        return timestamp;
+    }
+
+    public SerializableBufferedImage getImage() {
+        return new SerializableBufferedImage( thumbnail );
     }
 }

@@ -21,7 +21,7 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.ImageFactory;
 import edu.colorado.phet.simsharing.GAOHelper;
-import edu.colorado.phet.simsharing.messages.AddMultiSample;
+import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StartSession;
@@ -104,17 +104,8 @@ public class Student {
                         }
                         if ( stateCache.size() >= 1 ) {
                             try {
-                                server.tell( new AddMultiSample( sessionID, yield( stateCache, new Function1<GravityAndOrbitsApplicationState, String>() {
-                                    public String apply( GravityAndOrbitsApplicationState state ) {
-                                        try {
-                                            return mapper.writeValueAsString( state );
-                                        }
-                                        catch ( IOException e ) {
-                                            e.printStackTrace();
-                                            return "no string error";
-                                        }
-                                    }
-                                } ) ) );
+                                //Copy the state cache because it is cleared in the next step
+                                server.tell( new AddSamples<GravityAndOrbitsApplicationState>( sessionID, new ArrayList<GravityAndOrbitsApplicationState>( stateCache ) ) );
                             }
                             catch ( IOException e ) {
                                 e.printStackTrace();

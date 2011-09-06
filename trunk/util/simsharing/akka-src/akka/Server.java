@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
-import edu.colorado.phet.simsharing.messages.AddMultiSample;
+import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.EventReceived;
 import edu.colorado.phet.simsharing.messages.GetStudentData;
@@ -164,14 +164,14 @@ public class Server {
 //                        else if ( o instanceof AddStudentDataSample ) {
 //                            addSample( (AddStudentDataSample) o );
 //                        }
-                        else if ( o instanceof AddMultiSample ) {
+                        else if ( o instanceof AddSamples ) {
                             long s = System.currentTimeMillis();
-                            AddMultiSample request = (AddMultiSample) o;
+                            AddSamples request = (AddSamples) o;
                             int newIndex = getLastIndex( request.getSessionID() ) + 1;
 
                             for ( int i = 0; i < request.getData().size(); i++ ) {
                                 final String data = request.getData().get( i );
-                                final Sample sampleInstance = new Sample( System.currentTimeMillis(), request.getSessionID(), data, newIndex, newIndex );
+                                final Sample sampleInstance = new Sample( System.currentTimeMillis(), request.getSessionID(), data, newIndex, newIndex, image );
                                 ds.save( sampleInstance );
                                 newIndex++;
                             }
