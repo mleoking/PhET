@@ -5,6 +5,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+
 /**
  * ImmutableVector2D represents an (x,y) offset in Cartesian coordinates.
  * This class is immutable, which means that it cannot be modified.
@@ -244,5 +246,10 @@ public class ImmutableVector2D implements Serializable {
 
     public ImmutableVector2D negate() {
         return getScaledInstance( -1 );
+    }
+
+    //Transform this ImmutableVector2D into a Dimension2D
+    public Dimension2D toDimension() {
+        return new Dimension2DDouble( x, y );
     }
 }
