@@ -74,7 +74,7 @@ public class Plank extends ShapeModelElement {
     private double maxTiltAngle;
 
     // List of the masses that are resting on the surface of this plank.
-    private final List<Mass> massesOnSurface = new ArrayList<Mass>();
+    public final ObservableList<Mass> massesOnSurface = new ObservableList<Mass>();
 
     // Map of masses to distance from the center of the plank.
     private final Map<Mass, Double> mapMassToDistFromCenter = new HashMap<Mass, Double>();
@@ -186,7 +186,6 @@ public class Plank extends ShapeModelElement {
         boolean massAdded = false;
         Point2D closestOpenLocation = getOpenMassDroppedLocation( mass.getPosition() );
         if ( isPointAbovePlank( mass.getMiddlePoint() ) && closestOpenLocation != null ) {
-            massesOnSurface.add( mass );
             mass.setOnPlank( true );
             mass.setPosition( closestOpenLocation );
             double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) *
@@ -203,6 +202,7 @@ public class Plank extends ShapeModelElement {
                     }
                 }
             } );
+            massesOnSurface.add( mass );
             updateMassPositions();
             updateNetTorque();
             massAdded = true;
@@ -212,8 +212,8 @@ public class Plank extends ShapeModelElement {
     }
 
     private void removeMassFromSurface( Mass mass ) {
-        massesOnSurface.remove( mass );
         mapMassToDistFromCenter.remove( mass );
+        massesOnSurface.remove( mass );
         mass.setRotationAngle( 0 );
         mass.setOnPlank( false );
         // Remove the force vector associated with this mass.

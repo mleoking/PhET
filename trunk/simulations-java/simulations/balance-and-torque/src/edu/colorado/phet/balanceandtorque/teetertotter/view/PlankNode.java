@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -39,22 +40,17 @@ public class PlankNode extends ModelObjectNode {
         addChild( tickMarkLayer );
         plank.addShapeObserver( new VoidFunction1<Shape>() {
             public void apply( Shape rotatedPlankShape ) {
-                // Update the tick marks by removing them and redrawing them.
-                tickMarkLayer.removeAllChildren();
-                for ( int i = 0; i < plank.getTickMarks().size(); i++ ) {
-                    Color tickMarkColor = Color.BLACK;
-                    Stroke tickMarkStroke = NORMAL_TICK_MARK_STROKE;
-                    if ( i % 4 == 0 ) {
-                        // Make some marks bold for easier placement of masses.
-                        // The 'if' clause can be tweaked to put marks in
-                        // different places.
-                        tickMarkStroke = BOLD_TICK_MARK_STROKE;
-                    }
-                    if ( plank.isTickMarkOccupied( plank.getTickMarks().get( i ) ) ) {
-                        tickMarkColor = Color.RED;
-                    }
-                    tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), tickMarkStroke, tickMarkColor ) );
-                }
+                updateTickMarks( tickMarkLayer, plank, mvt );
+            }
+        } );
+        plank.massesOnSurface.addElementAddedObserver( new VoidFunction1<Mass>() {
+            public void apply( Mass mass ) {
+                updateTickMarks( tickMarkLayer, plank, mvt );
+            }
+        } );
+        plank.massesOnSurface.addElementRemovedObserver( new VoidFunction1<Mass>() {
+            public void apply( Mass mass ) {
+                updateTickMarks( tickMarkLayer, plank, mvt );
             }
         } );
 
@@ -97,6 +93,25 @@ public class PlankNode extends ModelObjectNode {
 
         rightHandle.addInputEventListener( new TiltHandleDragHandler( plank, canvas, mvt ) );
         leftHandle.addInputEventListener( new TiltHandleDragHandler( plank, canvas, mvt ) );
+    }
+
+    private void updateTickMarks( PNode tickMarkLayer, Plank plank, ModelViewTransform mvt ) {
+        // Update the tick marks by removing them and redrawing them.
+        tickMarkLayer.removeAllChildren();
+        for ( int i = 0; i < plank.getTickMarks().size(); i++ ) {
+            Color tickMarkColor = Color.BLACK;
+            Stroke tickMarkStroke = NORMAL_TICK_MARK_STROKE;
+            if ( i % 4 == 0 ) {
+                // Make some marks bold for easier placement of masses.
+                // The 'if' clause can be tweaked to put marks in
+                // different places.
+                tickMarkStroke = BOLD_TICK_MARK_STROKE;
+            }
+            if ( plank.isTickMarkOccupied( plank.getTickMarks().get( i ) ) ) {
+                tickMarkColor = Color.RED;
+            }
+            tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), tickMarkStroke, tickMarkColor ) );
+        }
     }
 
     /**
