@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 
 /**
@@ -15,17 +14,12 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
  * @author Sam Reid
  */
 public class GAOHelper {
-    public static GravityAndOrbitsApplication launchApplication( final String[] args, final VoidFunction0 exitAction ) {
+    public static GravityAndOrbitsApplication launchApplication() {
         //TODO: this skips splash screen, statistics, etc.
         final GravityAndOrbitsApplication[] myapp = new GravityAndOrbitsApplication[1];
         Runnable runnable = new Runnable() {
             public void run() {
-                GravityAndOrbitsApplication app = new GravityAndOrbitsApplication( new PhetApplicationConfig( args, GravityAndOrbitsApplication.PROJECT_NAME ) ) {
-                    @Override
-                    public void exit() {
-                        exitAction.apply();
-                    }
-                };
+                GravityAndOrbitsApplication app = new GravityAndOrbitsApplication( new PhetApplicationConfig( new String[0], GravityAndOrbitsApplication.PROJECT_NAME ) );
                 app.startApplication();
                 myapp[0] = app;
             }

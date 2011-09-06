@@ -47,9 +47,10 @@ public class Student {
         final Client client = new Client();
         final IActor server = new ThreadedActor( client );
 
-        final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
-            //TODO: could move exit listeners here instead of in PhetExit
+        final GravityAndOrbitsApplication application = GAOHelper.launchApplication();
+        application.setExitStrategy( new VoidFunction0() {
             public void apply() {
+
                 if ( sessionID != null ) {
                     try {
                         //Record the session end
