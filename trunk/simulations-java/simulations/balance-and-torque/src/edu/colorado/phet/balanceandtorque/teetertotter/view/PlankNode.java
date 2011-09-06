@@ -41,21 +41,19 @@ public class PlankNode extends ModelObjectNode {
             public void apply( Shape rotatedPlankShape ) {
                 // Update the tick marks by removing them and redrawing them.
                 tickMarkLayer.removeAllChildren();
-                // Add the tick marks.  The spacing should match that of the
-                // plank's "snap to" locations.  The marks are created based
-                // on the unrotated plank, and then rotated to match the
-                // current orientation.
                 for ( int i = 0; i < plank.getTickMarks().size(); i++ ) {
+                    Color tickMarkColor = Color.BLACK;
+                    Stroke tickMarkStroke = NORMAL_TICK_MARK_STROKE;
                     if ( i % 4 == 0 ) {
                         // Make some marks bold for easier placement of masses.
                         // The 'if' clause can be tweaked to put marks in
                         // different places.
-                        tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), BOLD_TICK_MARK_STROKE, Color.BLACK ) );
+                        tickMarkStroke = BOLD_TICK_MARK_STROKE;
                     }
-                    else {
-                        // Use the normal stroke.
-                        tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), NORMAL_TICK_MARK_STROKE, Color.BLACK ) );
+                    if ( plank.isTickMarkOccupied( plank.getTickMarks().get( i ) ) ) {
+                        tickMarkColor = Color.RED;
                     }
+                    tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), tickMarkStroke, tickMarkColor ) );
                 }
             }
         } );

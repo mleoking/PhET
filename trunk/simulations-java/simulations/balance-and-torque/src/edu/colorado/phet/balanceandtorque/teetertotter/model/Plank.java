@@ -213,6 +213,7 @@ public class Plank extends ShapeModelElement {
 
     private void removeMassFromSurface( Mass mass ) {
         massesOnSurface.remove( mass );
+        mapMassToDistFromCenter.remove( mass );
         mass.setRotationAngle( 0 );
         mass.setOnPlank( false );
         // Remove the force vector associated with this mass.
@@ -234,10 +235,6 @@ public class Plank extends ShapeModelElement {
         return new Point2D.Double( pivotPoint.getX(), pivotPoint.getY() );
     }
 
-    public Shape getUnrotatedShape() {
-        return unrotatedShape;
-    }
-
     public double getTiltAngle() {
         return tiltAngle;
     }
@@ -256,6 +253,34 @@ public class Plank extends ShapeModelElement {
 
     public List<Shape> getTickMarks() {
         return tickMarks;
+    }
+
+    /**
+     * Get a boolean value that indicates whether the specified tick mark is
+     * occupied by a mass.
+     *
+     * @param tickMark
+     * @return
+     */
+    public boolean isTickMarkOccupied( Shape tickMark ) {
+        Point2D tickMarkCenter = new Point2D.Double( tickMark.getBounds2D().getCenterX(), tickMark.getBounds2D().getCenterY() );
+        double tickMarkDistanceFromCenter = getCenterSurfacePoint().distance( tickMarkCenter );
+        if ( tickMarkCenter.getX() < getCenterSurfacePoint().getX() ) {
+            tickMarkDistanceFromCenter = -tickMarkDistanceFromCenter;
+        }
+        // Since the distance is from the center of the plank to the center of
+        // the tick mark, there needs to be some tolerance built in to
+        // recognizing whether masses are at the same distance.
+        double detectionTolerance = THICKNESS;
+        boolean massAtThisTickMark = false;
+        for ( Mass mass : mapMassToDistFromCenter.keySet() ) {
+            double massDistanceFromCenter = mapMassToDistFromCenter.get( mass );
+            if ( massDistanceFromCenter > tickMarkDistanceFromCenter - detectionTolerance && massDistanceFromCenter < tickMarkDistanceFromCenter + detectionTolerance ) {
+                massAtThisTickMark = true;
+                break;
+            }
+        }
+        return massAtThisTickMark;
     }
 
     // Generate the original shape, which is assumed to be level.  This also
