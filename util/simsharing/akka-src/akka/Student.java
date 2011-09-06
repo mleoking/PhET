@@ -22,7 +22,7 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.ImageFactory;
 import edu.colorado.phet.simsharing.GAOHelper;
-import edu.colorado.phet.simsharing.messages.AddMultiSample;
+import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StartSession;
@@ -87,7 +87,7 @@ public class Student {
 
 //                        server.sendOneWay( new AddStudentDataSample( sessionID, state ) );
                         if ( stateCache.size() >= 1 ) {
-                            server.sendOneWay( new AddMultiSample( sessionID, yield( stateCache, new Function1<GravityAndOrbitsApplicationState, String>() {
+                            server.sendOneWay( new AddSamples( sessionID, yield( stateCache, new Function1<GravityAndOrbitsApplicationState, String>() {
                                 public String apply( GravityAndOrbitsApplicationState state ) {
                                     return mapper.writeValueAsString( state );
                                 }

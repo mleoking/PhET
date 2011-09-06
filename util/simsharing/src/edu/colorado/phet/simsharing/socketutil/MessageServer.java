@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.StringTokenizer;
 
 public class MessageServer {
@@ -58,25 +59,35 @@ public class MessageServer {
                         while ( threadAlive ) {
 
                             //Read the object from the client
-                            Object fromClient = readFromClient.readObject();
+                            try {
+                                Object fromClient = readFromClient.readObject();
 
-                            //allow any custom handling
-                            messageHandler.handle( fromClient, writeToClient, readFromClient );
+                                //allow any custom handling
+                                messageHandler.handle( fromClient, writeToClient, readFromClient );
 
-                            //Process the command and respond
-                            if ( fromClient instanceof String && fromClient.toString().startsWith( "Add" ) ) {
-                                StringTokenizer st = new StringTokenizer( fromClient.toString().substring( fromClient.toString().indexOf( ":" ) + 1 ), ", " );
-                                int x = Integer.parseInt( st.nextToken() );
-                                int y = Integer.parseInt( st.nextToken() );
-                                writeToClient.writeObject( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );
+                                //Process the command and respond
+                                if ( fromClient instanceof String && fromClient.toString().startsWith( "Add" ) ) {
+                                    StringTokenizer st = new StringTokenizer( fromClient.toString().substring( fromClient.toString().indexOf( ":" ) + 1 ), ", " );
+                                    int x = Integer.parseInt( st.nextToken() );
+                                    int y = Integer.parseInt( st.nextToken() );
+                                    writeToClient.writeObject( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );
+                                }
+
+                                //Handle logout commands.
+                                if ( fromClient.equals( "logout" ) ) {
+                                    System.out.println( "Received logout command, exiting thread" );
+                                    threadAlive = false;
+                                }
                             }
-
-                            //Handle logout commands.
-                            if ( fromClient.equals( "logout" ) ) {
-                                System.out.println( "Received logout command, exiting thread" );
-                                threadAlive = false;
+                            catch ( SocketException socketException ) {
+                                if ( socketException.getMessage().indexOf( "Connection reset" ) >= 0 ) {
+                                    System.out.println( "Lost connection to client, exiting thread" );
+                                    threadAlive = false;
+                                }
+                                else {
+                                    throw socketException;
+                                }
                             }
-
                         }
 
                         //The thread has been killed

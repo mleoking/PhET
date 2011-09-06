@@ -9,11 +9,8 @@ import java.io.Serializable;
  * @author Sam Reid
  */
 public class SessionID implements Serializable {
-    private int index;
-    private String name;
-
-    public SessionID() {
-    }
+    private final int index;
+    private final String name;
 
     public SessionID( int index, String name ) {
         this.index = index;
