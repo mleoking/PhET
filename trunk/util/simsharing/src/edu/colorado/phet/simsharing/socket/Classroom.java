@@ -10,9 +10,21 @@ import java.io.IOException;
  * @author Sam Reid
  */
 public class Classroom {
-    public static void main( String[] args ) throws IOException, AWTException, ClassNotFoundException {
+    public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
         for ( int i = 0; i < 30; i++ ) {
-            new Student( args ).start();
+            new Thread( new Runnable() {
+                public void run() {
+                    try {
+                        new Student( args ).start();
+                    }
+                    catch ( IOException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( ClassNotFoundException e ) {
+                        e.printStackTrace();
+                    }
+                }
+            } ).start();
         }
     }
 }
