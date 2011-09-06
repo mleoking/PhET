@@ -28,6 +28,8 @@ public class RealMoleculeOverlayNode extends Node {
     private Quaternion rotation = new Quaternion();
     private float lastScale = 1;
 
+    private Property<Boolean> draggedLastMolecule = new Property<Boolean>( false );
+
     public Property<DisplayMode> displayMode = new Property<DisplayMode>( DisplayMode.BALL_AND_STICK );
 
     public RealMoleculeOverlayNode( final MoleculeJMEApplication app, Camera camera ) {
@@ -40,7 +42,7 @@ public class RealMoleculeOverlayNode extends Node {
             @Override public void update( final float tpf ) {
 
                 // auto-rotate the molecule if we can
-                if ( moleculeNode != null && app.canAutoRotateRealMolecule() ) {
+                if ( moleculeNode != null && app.canAutoRotateRealMolecule() && !draggedLastMolecule.get() ) {
                     updateRotation( new VoidFunction2<Quaternion, Float>() {
                         public void apply( Quaternion quaternion, Float aFloat ) {
                             quaternion.set( new Quaternion().fromAngles( 0, tpf / 2, 0 ).mult( quaternion ) );
@@ -57,6 +59,7 @@ public class RealMoleculeOverlayNode extends Node {
         app.resetNotifier.addTarget( new SimpleTarget() {
             public void update() {
                 displayMode.reset();
+                draggedLastMolecule.reset();
             }
         } );
 
@@ -78,6 +81,8 @@ public class RealMoleculeOverlayNode extends Node {
      */
     public void showMolecule( RealMolecule molecule ) {
         showMolecule( molecule, false );
+
+        draggedLastMolecule.set( false );
     }
 
     private void showMolecule( RealMolecule molecule, boolean keepRotation ) {
@@ -100,9 +105,18 @@ public class RealMoleculeOverlayNode extends Node {
                 float scale = MoleculeShapesConstants.MOLECULE_SCALE / getBoundingRadius();
                 scale( scale );
                 lastScale = scale;
+                setLocalRotation( rotation );
+                updateView();
             }};
             attachChild( moleculeNode );
         }
+    }
+
+    public void dragRotation( VoidFunction2<Quaternion, Float> callback ) {
+        updateRotation( callback );
+
+        // remember that we dragged the molecule, so we don't auto-rotate it
+        draggedLastMolecule.set( true );
     }
 
     /**
@@ -110,7 +124,7 @@ public class RealMoleculeOverlayNode extends Node {
      *
      * @param callback Function that modifies the Quaternion that is passed in. The Float argument is the mouse scale that should be used
      */
-    public void updateRotation( VoidFunction2<Quaternion, Float> callback ) {
+    private void updateRotation( VoidFunction2<Quaternion, Float> callback ) {
         callback.apply( rotation, 3 * lastScale );
         moleculeNode.setLocalRotation( rotation );
         moleculeNode.updateView();
