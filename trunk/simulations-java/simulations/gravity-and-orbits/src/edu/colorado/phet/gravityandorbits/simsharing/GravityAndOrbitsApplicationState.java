@@ -21,8 +21,8 @@ public class GravityAndOrbitsApplicationState implements IProguardKeepClass, Has
     private long timestamp;
     private int frameWidth;
     private int frameHeight;
-    private byte[] thumbnail;
     private int activeModule;
+    private SerializableBufferedImage thumbnail;
 
     public GravityAndOrbitsApplicationState( GravityAndOrbitsApplication app, ImageFactory imageFactory ) {
         final PhetFrame frame = app.getPhetFrame();
@@ -31,15 +31,15 @@ public class GravityAndOrbitsApplicationState implements IProguardKeepClass, Has
         timestamp = currentTimeMillis();
         frameWidth = frame.getWidth();
         frameHeight = frame.getHeight();
-        thumbnail = new SerializableBufferedImage( imageFactory.getThumbnail( frame, 200 ) ).getByteImage();
+        thumbnail = new SerializableBufferedImage( imageFactory.getThumbnail( frame, 200 ) );
         activeModule = app.indexOf( app.getActiveModule() );
     }
 
-    public byte[] getThumbnail() {
+    public SerializableBufferedImage getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail( byte[] thumbnail ) {
+    public void setThumbnail( SerializableBufferedImage thumbnail ) {
         this.thumbnail = thumbnail;
     }
 
@@ -121,6 +121,6 @@ public class GravityAndOrbitsApplicationState implements IProguardKeepClass, Has
     }
 
     public SerializableBufferedImage getImage() {
-        return new SerializableBufferedImage( thumbnail );
+        return thumbnail;
     }
 }
