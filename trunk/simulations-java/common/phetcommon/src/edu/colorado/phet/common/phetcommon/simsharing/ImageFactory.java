@@ -1,16 +1,20 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.gravityandorbits.simsharing;
+package edu.colorado.phet.common.phetcommon.simsharing;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 /**
  * Encapsulates thumbnail creation, reusing BufferedImages as necessary for performance reasons.
+ * Creating a new instance each time an image is required is too costly, the ImageFactory should be created once per application
  *
  * @author Sam Reid
  */

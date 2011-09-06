@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.simsharing.ImageFactory;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -20,7 +21,6 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.colorado.phet.gravityandorbits.module.ModeListParameterList;
 import edu.colorado.phet.gravityandorbits.module.RealModeList;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
-import edu.colorado.phet.gravityandorbits.simsharing.ImageFactory;
 
 import static edu.colorado.phet.gravityandorbits.GAOStrings.CARTOON;
 import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;

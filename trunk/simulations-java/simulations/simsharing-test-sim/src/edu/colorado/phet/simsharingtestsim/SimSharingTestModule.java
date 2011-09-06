@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class SimSharingTestModule extends Module {
-    private final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    public final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
     public SimSharingTestModule() {
         super( "Test", new ConstantDtClock( 30 ) );
