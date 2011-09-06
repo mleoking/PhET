@@ -18,7 +18,7 @@ import static java.lang.System.currentTimeMillis;
  *
  * @author Sam Reid
  */
-public class GravityAndOrbitsApplicationState implements IProguardKeepClass, HasTimeAndImage, SimsharingApplicationState<GravityAndOrbitsApplication> {
+public class GravityAndOrbitsApplicationState implements IProguardKeepClass, HasTimeAndImage, SimsharingApplicationState {
     private GravityAndOrbitsModuleState introState;
     private GravityAndOrbitsModuleState toScaleState;
     private long timestamp;
@@ -38,23 +38,7 @@ public class GravityAndOrbitsApplicationState implements IProguardKeepClass, Has
         activeModule = app.indexOf( app.getActiveModule() );
     }
 
-    public SerializableBufferedImage getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail( SerializableBufferedImage thumbnail ) {
-        this.thumbnail = thumbnail;
-    }
-
-    public GravityAndOrbitsApplicationState() {
-    }
-
-//    public SerializableBufferedImage getThumbnail() {
-//        return null;
-//    }
-
     public void apply( GravityAndOrbitsApplication application ) {
-//        System.out.println( "round trip time: " + ( System.currentTimeMillis() - timestamp ) );
         application.setActiveModule( activeModule );
         introState.apply( application.getIntro() );
         toScaleState.apply( application.getToScale() );
@@ -69,54 +53,6 @@ public class GravityAndOrbitsApplicationState implements IProguardKeepClass, Has
 //               "moduleState=" + introState +
                ", timestamp=" + timestamp +
                '}';
-    }
-
-    public GravityAndOrbitsModuleState getIntroState() {
-        return introState;
-    }
-
-    public void setIntroState( GravityAndOrbitsModuleState introState ) {
-        this.introState = introState;
-    }
-
-    public GravityAndOrbitsModuleState getToScaleState() {
-        return toScaleState;
-    }
-
-    public void setToScaleState( GravityAndOrbitsModuleState toScaleState ) {
-        this.toScaleState = toScaleState;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp( long timestamp ) {
-        this.timestamp = timestamp;
-    }
-
-    public int getFrameWidth() {
-        return frameWidth;
-    }
-
-    public void setFrameWidth( int frameWidth ) {
-        this.frameWidth = frameWidth;
-    }
-
-    public int getFrameHeight() {
-        return frameHeight;
-    }
-
-    public void setFrameHeight( int frameHeight ) {
-        this.frameHeight = frameHeight;
-    }
-
-    public int getActiveModule() {
-        return activeModule;
-    }
-
-    public void setActiveModule( int activeModule ) {
-        this.activeModule = activeModule;
     }
 
     public long getTime() {
