@@ -6,5 +6,5 @@ import java.io.Serializable;
 /**
  * @author Sam Reid
  */
-public class ClearDatabase implements Serializable{
+public class ClearDatabase implements Serializable {
 }

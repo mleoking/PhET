@@ -3,7 +3,7 @@ package edu.colorado.phet.simsharing;
 
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;

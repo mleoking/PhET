@@ -4,7 +4,11 @@ package edu.colorado.phet.simsharing.tests;
 import java.net.UnknownHostException;
 import java.util.Set;
 
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
 
 /**
  * @author Sam Reid
