@@ -82,6 +82,12 @@ public class DeveloperControl extends JPanel {
                 add( new IntLabel( waterModel.iterations ) );
             }} );
 
+            add( new JLabel( "Overlaps" ) );
+            add( new JPanel() {{
+                add( new PropertySlider( 0, 20, waterModel.overlaps ) );
+                add( new IntLabel( waterModel.overlaps ) );
+            }} );
+
             add( new PropertyRadioButton<Boolean>( "Coulomb forces between all particles", waterModel.coulombForceOnAllMolecules, true ) );
             add( new PropertyRadioButton<Boolean>( "Coulomb forces only on water", waterModel.coulombForceOnAllMolecules, false ) );
             setBorder( new LineBorder( Color.black ) );
