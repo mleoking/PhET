@@ -78,30 +78,36 @@ public class DiatomicElectronDensityNode extends PComposite {
         pathNode.setPathTo( ShapeUtils.add( getCircle( molecule.atomA ), getCircle( molecule.atomB ) ) );
     }
 
-    // Updates the gradient used to paint the isosurface. Width of the gradient expands as the different in EN approaches zero.
+    // Updates the gradient used to paint the isosurface. Width of the gradient expands as the difference in EN approaches zero.
     private void updatePaint() {
 
         // scale varies from 1 to 0, approaches zero as EN difference approaches zero.
-        double deltaEN = molecule.atomB.electronegativity.get() - molecule.atomA.electronegativity.get();
-        double scale = Math.abs( deltaEN / electronegativityRange.getLength() );
+        final double deltaEN = molecule.atomB.electronegativity.get() - molecule.atomA.electronegativity.get();
+        final double scale = Math.abs( deltaEN / electronegativityRange.getLength() );
 
         // width of the surface
-        double distance = molecule.atomB.location.get().getDistance( molecule.atomB.location.get() );
-        double minX = molecule.getLocation().getX() - ( distance / 2 ) - ( DIAMETER_SCALE * molecule.atomA.getDiameter() ) / 2;
-        double maxX = molecule.getLocation().getX() + ( distance / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() ) / 2;
-        double surfaceWidth = maxX - minX;
+        final double distance = molecule.atomB.location.get().getDistance( molecule.atomB.location.get() );
+        final double minX = -( distance / 2 ) - ( DIAMETER_SCALE * molecule.atomA.getDiameter() ) / 2;
+        final double maxX = ( distance / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() ) / 2;
+        final double surfaceWidth = maxX - minX;
 
         // compute the gradient width
-        LinearFunction f = new LinearFunction( 1, 0, surfaceWidth, 5 * surfaceWidth );
-        double gradientWidth = f.evaluate( scale );
-        double deltaX = ( gradientWidth - surfaceWidth ) / 2;
+        final double minGradientWidth = surfaceWidth;
+        final double maxGradientWidth = 5 * surfaceWidth;
+        LinearFunction f = new LinearFunction( 1, 0, minGradientWidth, maxGradientWidth );
+        final double gradientWidth = f.evaluate( scale );
+        final double deltaX = ( gradientWidth - surfaceWidth ) / 2;
 
-        // gradient endpoints prior to accounting for molecule translation and rotation
+        // gradient endpoints prior to accounting for molecule transform
         Point2D pointA = new Point2D.Double( minX - deltaX, 0 );
         Point2D pointB = new Point2D.Double( maxX + deltaX, 0 );
 
-        //TODO transform gradient endpoints to account for molecule rotation
-        AffineTransform transform = AffineTransform.getRotateInstance( molecule.getAngle() );
+        // transform gradient endpoints to account for molecule transform
+        AffineTransform transform = new AffineTransform();
+        transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
+        transform.rotate( molecule.getAngle() );
+        transform.transform( pointA, pointA );
+        transform.transform( pointB, pointB );
 
         // choose colors based on polarity
         Color colorA = ( deltaEN > 0 ) ? colors[1] : colors[0];
