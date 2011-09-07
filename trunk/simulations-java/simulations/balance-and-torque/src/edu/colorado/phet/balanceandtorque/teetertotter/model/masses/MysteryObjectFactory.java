@@ -26,10 +26,10 @@ public class MysteryObjectFactory {
         add( new MysteryObjectConfig( 8.0, Images.MYSTERY_OBJECT_02, 0.30, "B" ) );
         add( new MysteryObjectConfig( 30.0, Images.MYSTERY_OBJECT_03, 0.35, "C" ) );
         add( new MysteryObjectConfig( 10.0, Images.MYSTERY_OBJECT_04, 0.40, "D" ) );
-        add( new MysteryObjectConfig( 2.5, Images.MYSTERY_OBJECT_05, 0.40, "E" ) );
-        add( new MysteryObjectConfig( 25.0, Images.MYSTERY_OBJECT_06, 0.40, "F" ) );
+        add( new MysteryObjectConfig( 2.5, Images.MYSTERY_OBJECT_05, 0.25, "E" ) );
+        add( new MysteryObjectConfig( 25.0, Images.MYSTERY_OBJECT_06, 0.35, "F" ) );
         add( new MysteryObjectConfig( 7.5, Images.MYSTERY_OBJECT_07, 0.40, "G" ) );
-        add( new MysteryObjectConfig( 17.0, Images.MYSTERY_OBJECT_08, 0.40, "H" ) );
+        add( new MysteryObjectConfig( 17.0, Images.MYSTERY_OBJECT_08, 0.30, "H" ) );
     }};
 
     /**
