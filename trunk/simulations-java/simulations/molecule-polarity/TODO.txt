@@ -5,6 +5,11 @@ DESIGN
 - location of molecular dipoles relative to molecules
 - better label for "Electron Density"
 - decide on final set of real molecules
+- Jack: change initial orientation of diatomic molecule, so that it rotates when E-field is turned on
+- Jack: concern about showing ball-and-stick representation at all times?
+- Jack: partial charges are sometimes very small, will students see them?
+- Jack: will user know they can rotate "Real Molecules"?
+- Melanie: visualizations are getting pretty hard to make sense of in "Real Molecules"
 
 HIGH
 - implement 2D isosurface for diatomic molecule, with mep and electron density color schemes
