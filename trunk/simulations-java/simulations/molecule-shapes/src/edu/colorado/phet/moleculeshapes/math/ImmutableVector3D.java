@@ -1,5 +1,7 @@
 package edu.colorado.phet.moleculeshapes.math;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+
 /**
  * 3D version of ImmutableVector2D.
  * <p/>
@@ -70,7 +72,7 @@ public class ImmutableVector3D {
     }
 
     public double angleBetween( ImmutableVector3D v ) {
-        return Math.acos( normalized().dot( v.normalized() ) );
+        return Math.acos( MathUtil.clamp( -1, normalized().dot( v.normalized() ), 1 ) );
     }
 
     public double angleBetweenInDegrees( ImmutableVector3D v ) {
