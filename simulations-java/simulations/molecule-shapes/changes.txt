@@ -1,3 +1,4 @@
+# 0.00.30 (56236) Sep 6, 2011
 180-degree bond angle support (and stabilization)
 Bond angle visibility improvements
 Adding CH3Cl, HCl
