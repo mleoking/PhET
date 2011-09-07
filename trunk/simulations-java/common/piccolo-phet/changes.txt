@@ -1,3 +1,4 @@
+9/7/2011 Reverted changes to CursorHandler, resolves #3061
 9/6/2011 Factored out RelativeDragHandler.setModelPosition to improve support for fluid-pressure-and-flow
 9/5/2011 Added support for changing the cursor in CursorHandler, see #3061
 9/1/2011 Made RulerNode.createTickMark non-static and protected for sim-specific overrides, resolves #3052

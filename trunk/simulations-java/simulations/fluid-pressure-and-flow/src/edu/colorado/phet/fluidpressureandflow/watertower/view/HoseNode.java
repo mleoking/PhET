@@ -10,13 +10,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
-import javax.swing.JComponent;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -34,7 +31,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.ROTATE_CURSOR;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_MITER;
-import static java.awt.Cursor.*;
+import static java.awt.Cursor.N_RESIZE_CURSOR;
 import static java.lang.Math.PI;
 
 /**
@@ -49,9 +46,6 @@ public class HoseNode extends PNode {
     final BooleanProperty showDragHandles = new BooleanProperty( true );
     final BooleanProperty showRotationHandles = new BooleanProperty( true );
     private boolean debugModelPosition = false;
-
-    //Flag to choose between a static and dynamic cursor.  Once the team decides, we should remove this feature
-    private static final boolean staticCursor = true;
 
     public HoseNode( final ModelViewTransform transform, final Hose hose ) {
         this.transform = transform;
@@ -73,52 +67,7 @@ public class HoseNode extends PNode {
                 }
             }.observe( hose.angle, hose.outputPoint );
 
-            //Test using a static arrow cursor
-            if ( staticCursor ) {
-                addInputEventListener( new CursorHandler( Toolkit.getDefaultToolkit().createCustomCursor( ROTATE_CURSOR, new Point( 5, 0 ), "rotate-cursor" ) ) );
-            }
-
-            else {
-                //Show the cursor for rotating the nozzle.  Initially it is an East-West resize cursor, but as the angle changes the cursor will also change to indicate the direction the mouse can be dragged
-                addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( W_RESIZE_CURSOR ) ) {
-
-                    //Component the mouse has entered most recently, will have its cursor changed while dragging
-                    public JComponent component;
-
-                    //When the mouse enters the component, keep track of it so the cursor can be changed while dragging
-                    @Override public void mouseEntered( PInputEvent event ) {
-                        super.mouseEntered( event );
-                        this.component = ( (JComponent) event.getComponent() );
-                    }
-
-                    {
-
-                        //When the angle changes, change the cursor
-                        hose.angle.addObserver( new VoidFunction1<Double>() {
-                            public void apply( Double angle ) {
-
-                                //Use a function to simulate matching in java
-                                int cursor = new Function1<Double, Integer>() {
-                                    public Integer apply( Double angle ) {
-                                        if ( angle >= PI / 2.0 * 2.0 / 3.0 ) { return W_RESIZE_CURSOR; }
-                                        else if ( angle >= PI / 2.0 * 1.0 / 3.0 ) { return NW_RESIZE_CURSOR; }
-                                        else if ( angle >= PI / 2.0 * 0.0 / 3.0 ) { return N_RESIZE_CURSOR; }
-                                        else { return DEFAULT_CURSOR; }
-                                    }
-                                }.apply( angle );
-
-                                //Set the cursor to the CursorHandler for subsequent events
-                                setCursor( Cursor.getPredefinedCursor( cursor ) );
-
-                                //Set the cursor on the component (but not on initialization)
-                                if ( component != null ) {
-                                    component.setCursor( Cursor.getPredefinedCursor( cursor ) );
-                                }
-                            }
-                        } );
-                    }
-                } );
-            }
+            addInputEventListener( new CursorHandler( Toolkit.getDefaultToolkit().createCustomCursor( ROTATE_CURSOR, new Point( 5, 0 ), "rotate-cursor" ) ) );
 
             //Make it possible to drag the angle of the hose
             //Copied from PrismNode
