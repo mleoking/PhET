@@ -16,7 +16,7 @@ public class Classroom {
             new Thread( new Runnable() {
                 public void run() {
                     try {
-                        new Student( SimHelper.createLauncher() ).start();
+                        new Student( SimHelper.LAUNCHER ).start();
                     }
                     catch ( IOException e ) {
                         e.printStackTrace();
