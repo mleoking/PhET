@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MPCanvas extends PhetPCanvas {
 
-    private static final boolean SHOW_STAGE_BOUNDS = false;
+    private static final boolean SHOW_STAGE_BOUNDS = true;
 
     private final PNode rootNode;
 
