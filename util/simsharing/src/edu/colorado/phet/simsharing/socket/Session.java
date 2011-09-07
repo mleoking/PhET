@@ -64,7 +64,11 @@ public class Session<T extends SimState> {
         return startTime;
     }
 
-    public Integer getNumSamples() {
+    public int getNumSamples() {
         return samples.size();
+    }
+
+    public ArrayList<T> getSamples() {
+        return new ArrayList<T>( samples );
     }
 }

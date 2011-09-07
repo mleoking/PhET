@@ -1,17 +1,23 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.teacher;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.GetSample;
+import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.RegisterPushConnection;
+import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.socket.Sample;
 import edu.colorado.phet.simsharing.socketutil.Client;
@@ -24,13 +30,23 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
     private final TimeControlFrame timeControl;
     private final T application;
     private final SessionID sessionID;
-    private final Client client;
+    private Client client;
     private boolean running = true;
     private boolean allowPushNotifications = false;
+    private ArrayList<U> states = new ArrayList<U>();
+    private int index = 0;
+    private U lastPlayedState = null;
 
-    public SimView( final SessionID sessionID, final Client client, boolean playbackMode, final T application ) {
+    public SimView( final SessionID sessionID, boolean playbackMode, final T application ) {
         this.sessionID = sessionID;
-        this.client = client;
+
+        //Create a new Client (including a new thread on the server) to avoid synchronization problems with other client
+        try {
+            this.client = new Client();
+        }
+        catch ( Exception e ) {
+            e.printStackTrace();
+        }
         this.application = application;
         timeControl = new TimeControlFrame( sessionID );
         timeControl.setVisible( true );
@@ -92,6 +108,52 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                 }
             } ).start();
         }
+
+        //Timer that shows the loaded states in order
+        new Timer( 33, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( index < states.size() ) {
+                    final U state = states.get( index );
+                    long t = System.currentTimeMillis();
+                    application.setState( state );
+                    long t2 = System.currentTimeMillis();
+                    SimView.this.lastPlayedState = state;
+                    index++;
+                    System.out.println( "elapsed: " + ( t2 - t ) );
+                }
+            }
+        } ).start();
+
+        //Acquire new states from the server
+        new Thread( new Runnable() {
+            public void run() {
+                while ( running ) {
+                    try {
+                        long time = -1;
+                        if ( lastPlayedState != null ) {
+                            time = lastPlayedState.getTime();
+                        }
+                        if ( states.size() > 0 ) {
+                            time = states.get( states.size() - 1 ).getTime();
+                        }
+                        final SampleBatch<U> sample = (SampleBatch<U>) client.ask( new GetSamplesAfter( sessionID, time ) );
+                        int sizeBeforeAdd = states.size();
+                        for ( U u : sample ) {
+                            if ( !states.contains( u ) ) {
+                                states.add( u );
+                            }
+                        }
+//                        System.out.println( "original size = " + sizeBeforeAdd + ", received = " + sample.states.size() + ", total = " + states.size() );
+
+                        //Download a batch of states this often
+                        Thread.sleep( 1000 );
+                    }
+                    catch ( Exception e ) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } ).start();
     }
 
     private void step() {

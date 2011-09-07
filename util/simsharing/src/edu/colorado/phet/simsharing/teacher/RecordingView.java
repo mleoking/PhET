@@ -83,6 +83,6 @@ public class RecordingView extends JPanel {
     }
 
     private void showRecording( SessionRecord sessionID ) {
-        new SimView( sessionID.getSessionID(), client, true, SimHelper.LAUNCHER.apply() ).start();
+        new SimView( sessionID.getSessionID(), true, SimHelper.LAUNCHER.apply() ).start();
     }
 }
