@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class TranslationDragHandle extends PNode {
 
-    public TranslationDragHandle( final ImmutableVector2D tail, final double dx, final double dy, final BooleanProperty showDragHandles ) {
+    public TranslationDragHandle( final ImmutableVector2D tail, final double dx, final double dy, final ObservableProperty<Boolean> showDragHandles ) {
         showDragHandles.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( showDragHandles.get() );

@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
@@ -17,7 +18,7 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
 public class Hose {
 
     //Angle in radians where 0 radians is to the right and PI/2 is straight up, should be between 0 and PI/2
-    public final Property<Double> angle = new Property<Double>( Math.PI / 2 );
+    public final DoubleProperty angle = new DoubleProperty( Math.PI / 2 );
 
     public final Property<Double> y = new Property<Double>( 0.0 );
 
