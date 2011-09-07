@@ -75,5 +75,5 @@ public class SimHelper {
         }
     };
 
-    public static Function0<SimSharingTestSim> LAUNCHER = TEST_SIM_LAUNCHER;
+    public static Function0<GravityAndOrbitsApplication> LAUNCHER = GRAVITY_AND_ORBITS_LAUNCHER;
 }

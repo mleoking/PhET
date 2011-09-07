@@ -27,6 +27,7 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
     private final SessionID sessionID;
     private final Client client;
     private boolean running = true;
+    private boolean allowPushNotifications = false;
 
     public SimView( final SessionID sessionID, final Client client, boolean playbackMode, final T application ) {
         this.sessionID = sessionID;
@@ -54,54 +55,55 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
             }
         } );
 
-        new Thread( new Runnable() {
-            public void run() {
+        if ( allowPushNotifications ) {
+            new Thread( new Runnable() {
+                public void run() {
 
-                //Create a new client and dedicated thread on the server so that we don't accidentally intercept messages like StudentList
-                Client client = null;
-                try {
-                    client = new Client();
-                }
-                catch ( Exception e ) {
-                    e.printStackTrace();
-                }
-                try {
-                    client.tell( new RegisterPushConnection( sessionID ) );
-                }
-                catch ( IOException e ) {
-                    e.printStackTrace();
-                }
-
-                //Whenever we get a new sample, show it on the screen
-                while ( running ) {
+                    //Create a new client and dedicated thread on the server so that we don't accidentally intercept messages like StudentList
+                    Client client = null;
                     try {
-                        synchronized ( client.readFromServer ) {
-                            AddSamples<U> s = (AddSamples<U>) client.readFromServer.readObject();
-                            if ( s.getData().size() > 0 ) {
-                                final U lastSample = s.getData().get( s.getData().size() - 1 );
-
-                                //Rendering is delayed unless you set state in the swing thread
-                                SwingUtilities.invokeAndWait( new Runnable() {
-                                    public void run() {
-                                        application.setState( lastSample );
-                                    }
-                                } );
-                            }
-                        }
+                        client = new Client();
                     }
                     catch ( Exception e ) {
                         e.printStackTrace();
                     }
+                    try {
+                        client.tell( new RegisterPushConnection( sessionID ) );
+                    }
+                    catch ( IOException e ) {
+                        e.printStackTrace();
+                    }
+
+                    //Whenever we get a new sample, show it on the screen
+                    while ( running ) {
+                        try {
+                            synchronized ( client.readFromServer ) {
+                                AddSamples<U> s = (AddSamples<U>) client.readFromServer.readObject();
+                                if ( s.getData().size() > 0 ) {
+                                    final U lastSample = s.getData().get( s.getData().size() - 1 );
+
+                                    //Rendering is delayed unless you set state in the swing thread
+                                    SwingUtilities.invokeAndWait( new Runnable() {
+                                        public void run() {
+                                            application.setState( lastSample );
+                                        }
+                                    } );
+                                }
+                            }
+                        }
+                        catch ( Exception e ) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-            }
-        } ).start();
+            } ).start();
+        }
     }
 
-    //TODO: rewrite to account for push
     private void step() {
 
         //Read samples when not live.  When live, data is pushed to the SimView
-        if ( !timeControl.live.get() ) {
+        if ( !timeControl.live.get() || !allowPushNotifications ) {
             try {
                 SwingUtilities.invokeAndWait( new Runnable() {
                     public void run() {
@@ -110,9 +112,7 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                                 timeControl.frameToDisplay.set( Math.min( timeControl.frameToDisplay.get() + 1, timeControl.maxFrames.get() ) );
                             }
                             final int sampleIndex = timeControl.live.get() ? -1 : timeControl.frameToDisplay.get();
-                            final Sample<U> sample;
-
-                            sample = (Sample<U>) client.ask( new GetSample( sessionID, sampleIndex ) );
+                            final Sample<U> sample = (Sample<U>) client.ask( new GetSample( sessionID, sampleIndex ) );
 
                             application.setState( sample.state );
                             timeControl.maxFrames.set( sample.totalSampleCount );
