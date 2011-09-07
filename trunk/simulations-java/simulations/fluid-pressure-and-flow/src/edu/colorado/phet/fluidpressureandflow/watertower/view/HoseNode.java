@@ -4,6 +4,8 @@ package edu.colorado.phet.fluidpressureandflow.watertower.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
@@ -29,6 +31,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.NOZZLE;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.ROTATE_CURSOR;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_MITER;
 import static java.awt.Cursor.*;
@@ -46,6 +49,9 @@ public class HoseNode extends PNode {
     final BooleanProperty showDragHandles = new BooleanProperty( true );
     final BooleanProperty showRotationHandles = new BooleanProperty( true );
     private boolean debugModelPosition = false;
+
+    //Flag to choose between a static and dynamic cursor.  Once the team decides, we should remove this feature
+    private static final boolean staticCursor = true;
 
     public HoseNode( final ModelViewTransform transform, final Hose hose ) {
         this.transform = transform;
@@ -67,45 +73,52 @@ public class HoseNode extends PNode {
                 }
             }.observe( hose.angle, hose.outputPoint );
 
-            //Show the cursor for rotating the nozzle.  Initially it is an East-West resize cursor, but as the angle changes the cursor will also change to indicate the direction the mouse can be dragged
-            addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( W_RESIZE_CURSOR ) ) {
+            //Test using a static arrow cursor
+            if ( staticCursor ) {
+                addInputEventListener( new CursorHandler( Toolkit.getDefaultToolkit().createCustomCursor( ROTATE_CURSOR, new Point( 5, 0 ), "rotate-cursor" ) ) );
+            }
 
-                //Component the mouse has entered most recently, will have its cursor changed while dragging
-                public JComponent component;
+            else {
+                //Show the cursor for rotating the nozzle.  Initially it is an East-West resize cursor, but as the angle changes the cursor will also change to indicate the direction the mouse can be dragged
+                addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( W_RESIZE_CURSOR ) ) {
 
-                //When the mouse enters the component, keep track of it so the cursor can be changed while dragging
-                @Override public void mouseEntered( PInputEvent event ) {
-                    super.mouseEntered( event );
-                    this.component = ( (JComponent) event.getComponent() );
-                }
+                    //Component the mouse has entered most recently, will have its cursor changed while dragging
+                    public JComponent component;
 
-                {
+                    //When the mouse enters the component, keep track of it so the cursor can be changed while dragging
+                    @Override public void mouseEntered( PInputEvent event ) {
+                        super.mouseEntered( event );
+                        this.component = ( (JComponent) event.getComponent() );
+                    }
 
-                    //When the angle changes, change the cursor
-                    hose.angle.addObserver( new VoidFunction1<Double>() {
-                        public void apply( Double angle ) {
+                    {
 
-                            //Use a function to simulate matching in java
-                            int cursor = new Function1<Double, Integer>() {
-                                public Integer apply( Double angle ) {
-                                    if ( angle >= PI / 2.0 * 2.0 / 3.0 ) { return W_RESIZE_CURSOR; }
-                                    else if ( angle >= PI / 2.0 * 1.0 / 3.0 ) { return NW_RESIZE_CURSOR; }
-                                    else if ( angle >= PI / 2.0 * 0.0 / 3.0 ) { return N_RESIZE_CURSOR; }
-                                    else { return DEFAULT_CURSOR; }
+                        //When the angle changes, change the cursor
+                        hose.angle.addObserver( new VoidFunction1<Double>() {
+                            public void apply( Double angle ) {
+
+                                //Use a function to simulate matching in java
+                                int cursor = new Function1<Double, Integer>() {
+                                    public Integer apply( Double angle ) {
+                                        if ( angle >= PI / 2.0 * 2.0 / 3.0 ) { return W_RESIZE_CURSOR; }
+                                        else if ( angle >= PI / 2.0 * 1.0 / 3.0 ) { return NW_RESIZE_CURSOR; }
+                                        else if ( angle >= PI / 2.0 * 0.0 / 3.0 ) { return N_RESIZE_CURSOR; }
+                                        else { return DEFAULT_CURSOR; }
+                                    }
+                                }.apply( angle );
+
+                                //Set the cursor to the CursorHandler for subsequent events
+                                setCursor( Cursor.getPredefinedCursor( cursor ) );
+
+                                //Set the cursor on the component (but not on initialization)
+                                if ( component != null ) {
+                                    component.setCursor( Cursor.getPredefinedCursor( cursor ) );
                                 }
-                            }.apply( angle );
-
-                            //Set the cursor to the CursorHandler for subsequent events
-                            setCursor( Cursor.getPredefinedCursor( cursor ) );
-
-                            //Set the cursor on the component (but not on initialization)
-                            if ( component != null ) {
-                                component.setCursor( Cursor.getPredefinedCursor( cursor ) );
                             }
-                        }
-                    } );
-                }
-            } );
+                        } );
+                    }
+                } );
+            }
 
             //Make it possible to drag the angle of the hose
             //Copied from PrismNode

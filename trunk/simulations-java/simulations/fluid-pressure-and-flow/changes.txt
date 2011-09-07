@@ -1,3 +1,4 @@
+Water tower: Added a static cursor for the hose nozzle rotation
 # 0.00.17 (56189) Sep 5, 2011
 Water tower: show arrow cursors for dragging the hose and rotating the nozzle, see #3061
 # 0.00.16 (56082) Sep 2, 2011
