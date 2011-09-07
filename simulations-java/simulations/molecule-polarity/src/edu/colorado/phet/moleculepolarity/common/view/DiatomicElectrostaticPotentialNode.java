@@ -22,6 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DiatomicElectrostaticPotentialNode extends PComposite {
 
     private static final double DIAMETER_SCALE = 2; // multiply atom diameters by this scale when computing surface size
+    private static final int ALPHA = 100; // the alpha channel, for transparency
 
     private final DiatomicMolecule molecule;
     private final DoubleRange electronegativityRange;
@@ -43,13 +44,12 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
 
         this.pathNodeA = new PPath() {{
             setStroke( null );
-            setPaint( new Color( 100, 100, 100, 100 ) );
         }};
         addChild( pathNodeA );
 
         this.pathNodeB = new PPath() {{
             setStroke( null );
-            setPaint( new Color( 100, 100, 100, 100 ) );
+
         }};
         addChild( pathNodeB );
 
@@ -60,6 +60,7 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
         };
         for ( Atom atom : molecule.getAtoms() ) {
             atom.location.addObserver( observer );
+            atom.electronegativity.addObserver( observer );
         }
 
         addInputEventListener( new CursorHandler() );
@@ -67,9 +68,14 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
     }
 
     private void updateNode() {
+
         //TODO using circles doesn't really cut it, need to smooth out the places where the circles overlap.
         pathNodeA.setPathTo( getCircle( molecule.atomA ) );
         pathNodeB.setPathTo( getCircle( molecule.atomB ) );
+
+        //TODO create GradientPaints based on EN
+        pathNodeA.setPaint( new Color( 100, 100, 100, ALPHA ) );
+        pathNodeB.setPaint( new Color( 100, 100, 100, ALPHA ) );
     }
 
     private Ellipse2D getCircle( Atom atom ) {
