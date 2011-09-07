@@ -18,7 +18,9 @@ import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.GetSample;
+import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.RegisterPushConnection;
+import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
 import edu.colorado.phet.simsharing.messages.StartSession;
@@ -121,6 +123,33 @@ public class Server implements MessageHandler {
             final SessionID id = registerPushConnection.getSessionID();
             ImmutableList<ObjectOutputStream> listeners = pushConnections.containsKey( id ) ? pushConnections.get( id ) : new ImmutableList<ObjectOutputStream>();
             pushConnections.put( id, listeners.append( writeToClient ) );
+        }
+
+        //Handle request for many data points
+        else if ( message instanceof GetSamplesAfter ) {
+            final GetSamplesAfter request = (GetSamplesAfter) message;
+            final SessionID id = request.id;
+
+            final ArrayList<? extends SimState> session = sessions.get( id ).getSamples();
+            final ArrayList<SimState> states = new ArrayList<SimState>();
+            for ( int i = session.size() - 1; i >= 0; i-- ) {
+                SimState sample = session.get( i );
+                if ( sample.getTime() > request.time ) {
+                    states.add( sample );
+                }
+                else {
+                    break;
+                }
+
+                //Not sure why they need to be sorted, but if they aren't then the sim playback skips and runs backwards
+                Collections.sort( states, new Comparator<SimState>() {
+                    public int compare( SimState o1, SimState o2 ) {
+                        return Double.compare( o1.getTime(), o2.getTime() );
+                    }
+                } );
+//                    System.out.println( "Server has " + session.getNumSamples() + " states, sending " + size() );
+            }
+            writeToClient.writeObject( new SampleBatch( states ) );
         }
     }
 
