@@ -1,3 +1,4 @@
+9/7/11 prepare separate classes for 2D representations of electrostatic potential and electron density
 # 0.00.18 (56228) Sep 6, 2011
 9/6/11 fix sign on partial charges
 8/24/11 remove bad code from MPCanvas.updateLayout that was interfering with CenteredStage transform strategy

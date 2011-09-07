@@ -6,6 +6,7 @@ import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
@@ -14,43 +15,38 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * 2D isosurface for a diatomic molecule.
- * Jmol's method of computing isosurface is documented at http://people.reed.edu/~alan/ACS97/elpot.html
+ * 2D isosurface that represents electron density for a diatomic molecule.
+ * Electron density uses a 2-color gradient, so we can use a single PPath.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DiatomicIsosurfaceNode extends PComposite {
+public class DiatomicElectronDensityNode extends PComposite {
 
     private static final double DIAMETER_SCALE = 2; // multiply atom diameters by this scale when computing surface size
 
     private final DiatomicMolecule molecule;
     private final DoubleRange electronegativityRange;
     private final Color[] colors;
-    private final PPath pathNodeA, pathNodeB;
+    private final PPath pathNode;
 
     /**
      * Constructor
      *
      * @param molecule
-     * @param colors   color scheme for the surface, ordered from negative to positive
+     * @param colors   color scheme for the surface, ordered from more to less density
      */
-    public DiatomicIsosurfaceNode( final DiatomicMolecule molecule, DoubleRange electronegativityRange, Color[] colors ) {
+    public DiatomicElectronDensityNode( final DiatomicMolecule molecule, DoubleRange electronegativityRange, Color[] colors ) {
+        assert ( colors.length == 2 ); // this implementation only works for 2 colors
 
         this.molecule = molecule;
         this.electronegativityRange = electronegativityRange;
         this.colors = colors;
 
-        this.pathNodeA = new PPath() {{
+        this.pathNode = new PPath() {{
             setStroke( null );
             setPaint( new Color( 100, 100, 100, 100 ) );
         }};
-        addChild( pathNodeA );
-
-        this.pathNodeB = new PPath() {{
-            setStroke( null );
-            setPaint( new Color( 100, 100, 100, 100 ) );
-        }};
-        addChild( pathNodeB );
+        addChild( pathNode );
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
@@ -67,8 +63,7 @@ public class DiatomicIsosurfaceNode extends PComposite {
 
     private void updateNode() {
         //TODO using circles doesn't really cut it, need to smooth out the places where the circles overlap.
-        pathNodeA.setPathTo( getCircle( molecule.atomA ) );
-        pathNodeB.setPathTo( getCircle( molecule.atomB ) );
+        pathNode.setPathTo( ShapeUtils.add( getCircle( molecule.atomA ), getCircle( molecule.atomB ) ) );
     }
 
     private Ellipse2D getCircle( Atom atom ) {
