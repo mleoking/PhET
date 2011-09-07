@@ -27,7 +27,7 @@ public class ImageMassNode extends PNode {
     private final ImageMass mass;
     private final ModelViewTransform mvt;
     protected final PImage imageNode = new PImage();
-    private PText massIndicator;
+    private PText massLabel;
 
     public ImageMassNode( final ModelViewTransform mvt, final ImageMass mass, PhetPCanvas canvas, BooleanProperty massLabelVisibilityProperty ) {
         this.mass = mass;
@@ -35,15 +35,15 @@ public class ImageMassNode extends PNode {
 
         // Add the mass indicator label.  Note that it is positioned elsewhere.
         // TODO: i18n, including order and units!
-        massIndicator = new PText( new DecimalFormat( "##" ).format( mass.getMass() ) + " kg" ) {{
+        massLabel = new PText( new DecimalFormat( "##" ).format( mass.getMass() ) + " kg" ) {{
             setFont( new PhetFont( 14 ) );
         }};
-        addChild( massIndicator );
+        addChild( massLabel );
 
         // Observe changes to mass indicator visibility.
         massLabelVisibilityProperty.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean showMassIndicator ) {
-                massIndicator.setVisible( showMassIndicator );
+                massLabel.setVisible( showMassIndicator );
             }
         } );
 
@@ -99,8 +99,8 @@ public class ImageMassNode extends PNode {
         setRotation( 0 );
         // Position the label to be centered above the center of mass, as
         // opposed to the center of the image node.
-        massIndicator.setOffset( imageNode.getFullBoundsReference().getCenterX() + mvt.modelToViewDeltaX( mass.getCenterOfMassXOffset() ) - massIndicator.getFullBoundsReference().width / 2,
-                                 -( massIndicator.getFullBoundsReference().height * 1.2 ) );
+        massLabel.setOffset( imageNode.getFullBoundsReference().getCenterX() + mvt.modelToViewDeltaX( mass.getCenterOfMassXOffset() ) - massLabel.getFullBoundsReference().width / 2,
+                             -( massLabel.getFullBoundsReference().height * 1.2 ) );
         // Set the position and rotation of the entire node.
         setOffset( mvt.modelToViewX( mass.getPosition().getX() - mass.getCenterOfMassXOffset() ) - imageNode.getFullBoundsReference().width / 2,
                    mvt.modelToViewY( mass.getPosition().getY() ) - imageNode.getFullBoundsReference().height );
