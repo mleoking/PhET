@@ -29,6 +29,7 @@ public class ThreadedActor implements IActor {
                     synchronized ( tell ) {
                         tell.removeAll( toProcess );
                     }
+                    Thread.yield();
                 }
             }
         } ).start();

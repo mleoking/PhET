@@ -14,8 +14,8 @@ import edu.colorado.phet.simsharing.messages.GetStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
 import edu.colorado.phet.simsharing.socketutil.IActor;
-import edu.colorado.phet.simsharing.teacher.StudentComponent;
 import edu.colorado.phet.simsharing.teacher.StudentList;
+import edu.colorado.phet.simsharing.teacher.StudentNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -68,9 +68,9 @@ public class ClassroomView extends PSwingCanvas {
                                 for ( int i = 0; i < list.size(); i++ ) {
                                     StudentSummary student = list.get( i );
                                     final SessionID sessionID = student.getSessionID();
-                                    StudentComponent component = getComponent( sessionID );
-                                    if ( component == null ) {
-                                        component = new StudentComponent( sessionID, new VoidFunction0() {
+                                    StudentNode node = getComponent( sessionID );
+                                    if ( node == null ) {
+                                        node = new StudentNode( sessionID, new VoidFunction0() {
                                             public void apply() {
 
                                                 //Have to launch from non-swing-thread otherwise receive:
@@ -78,20 +78,21 @@ public class ClassroomView extends PSwingCanvas {
                                                 new SimView( sessionID, new RemoteActor( server, sessionID ), false, SimHelper.createLauncher().apply() ).start();
                                             }
                                         } );
-                                        studentThumbnailNode.addChild( component );
+                                        studentThumbnailNode.addChild( node );
                                     }
-                                    component.setThumbnail( student.getBufferedImage() );
-                                    component.setUpTime( student.getUpTime() );
-                                    component.setTimeSinceLastEvent( student.getTimeSinceLastEvent() );
-                                    component.setOffset( 0, y + 2 );
-                                    y = component.getFullBounds().getMaxY();
+                                    node.setThumbnail( student.getBufferedImage() );
+                                    node.setUpTime( student.getUpTime() );
+                                    node.setTimeSinceLastEvent( student.getTimeSinceLastEvent() );
+                                    node.setNumSamples( student.getNumSamples() );
+                                    node.setOffset( 0, y + 2 );
+                                    y = node.getFullBounds().getMaxY();
                                 }
 
                                 //Remove components for students that have exited
                                 ArrayList<PNode> toRemove = new ArrayList<PNode>();
                                 for ( int i = 0; i < studentThumbnailNode.getChildrenCount(); i++ ) {
                                     PNode child = studentThumbnailNode.getChild( i );
-                                    if ( child instanceof StudentComponent && !list.containsStudent( ( (StudentComponent) child ).getSessionID() ) ) {
+                                    if ( child instanceof StudentNode && !list.containsStudent( ( (StudentNode) child ).getSessionID() ) ) {
                                         toRemove.add( child );
                                     }
                                 }
@@ -113,11 +114,11 @@ public class ClassroomView extends PSwingCanvas {
         } ).start();
     }
 
-    private StudentComponent getComponent( SessionID sessionID ) {
+    private StudentNode getComponent( SessionID sessionID ) {
         for ( int i = 0; i < studentThumbnailNode.getChildrenCount(); i++ ) {
             PNode child = studentThumbnailNode.getChild( i );
-            if ( child instanceof StudentComponent && ( (StudentComponent) child ).sessionID.equals( sessionID ) ) {
-                return (StudentComponent) child;
+            if ( child instanceof StudentNode && ( (StudentNode) child ).sessionID.equals( sessionID ) ) {
+                return (StudentNode) child;
             }
         }
         return null;

@@ -19,13 +19,14 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * @author Sam Reid
  */
-public class StudentComponent extends PNode {
+public class StudentNode extends PNode {
     public final SessionID sessionID;
     private final PImage thumbnail;
     private PText text;
     private PText text2;
+    private PText text3;
 
-    public StudentComponent( final SessionID sessionID, final VoidFunction0 watch ) {
+    public StudentNode( final SessionID sessionID, final VoidFunction0 watch ) {
         this.sessionID = sessionID;
         final PText namePText = new PText( sessionID.getName() );
         addChild( namePText );
@@ -51,12 +52,15 @@ public class StudentComponent extends PNode {
         }};
         addChild( thumbnail );
         text = new PText( "-" );
-        text.setOffset( 0, 50 );
+        text.setOffset( 0, namePText.getFullBounds().getMaxY() );
 
         text2 = new PText( "-" );
-        text2.setOffset( 0, 100 );
+        text2.setOffset( 0, text.getFullBounds().getMaxY() );
+        text3 = new PText( "-" );
+        text3.setOffset( 0, text2.getFullBounds().getMaxY() );
         addChild( text );
         addChild( text2 );
+        addChild( text3 );
     }
 
     public void setThumbnail( BufferedImage thumbnail ) {
@@ -78,5 +82,9 @@ public class StudentComponent extends PNode {
     public void setTimeSinceLastEvent( long timeSinceLastEvent ) {
 //        text2.setText( "last event " + toSeconds( timeSinceLastEvent ) + " sec ago" );
         text2.setText( "last event " + timeSinceLastEvent + " ms ago" );
+    }
+
+    public void setNumSamples( int numSamples ) {
+        text3.setText( "Samples: " + numSamples );
     }
 }

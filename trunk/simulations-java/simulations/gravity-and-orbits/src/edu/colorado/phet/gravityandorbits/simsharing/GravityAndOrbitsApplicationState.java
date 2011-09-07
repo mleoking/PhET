@@ -4,7 +4,6 @@ package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.awt.Dimension;
 
-import edu.colorado.phet.common.phetcommon.simsharing.HasTimeAndImage;
 import edu.colorado.phet.common.phetcommon.simsharing.ImageFactory;
 import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
@@ -19,7 +18,7 @@ import static java.lang.System.currentTimeMillis;
  *
  * @author Sam Reid
  */
-public class GravityAndOrbitsApplicationState implements IProguardKeepClass, HasTimeAndImage, SimsharingApplicationState {
+public class GravityAndOrbitsApplicationState implements IProguardKeepClass, SimsharingApplicationState {
     private GravityAndOrbitsModuleState introState;
     private GravityAndOrbitsModuleState toScaleState;
     private long timestamp;

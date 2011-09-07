@@ -40,7 +40,7 @@ public class Server implements MessageHandler {
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
 
     //Careful, used in many threads, so must threadlock
-    private Map<SessionID, Session> sessions = Collections.synchronizedMap( new HashMap<SessionID, Session>() );
+    private Map<SessionID, Session<?>> sessions = Collections.synchronizedMap( new HashMap<SessionID, Session<?>>() );
 
     private void start() throws IOException {
         new MessageServer( PORT, this ).start();

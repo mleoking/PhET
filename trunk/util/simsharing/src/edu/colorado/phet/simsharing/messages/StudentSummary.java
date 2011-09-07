@@ -14,12 +14,14 @@ public class StudentSummary implements Serializable {
     private final SerializableBufferedImage image;
     private final long upTime;
     private final long timeSinceLastEvent;
+    private int numSamples;
 
-    public StudentSummary( SessionID sessionID, SerializableBufferedImage image, long upTime, long timeSinceLastEvent ) {
+    public StudentSummary( SessionID sessionID, SerializableBufferedImage image, long upTime, long timeSinceLastEvent, int numSamples ) {
         this.sessionID = sessionID;
         this.image = image;
         this.upTime = upTime;
         this.timeSinceLastEvent = timeSinceLastEvent;
+        this.numSamples = numSamples;
     }
 
     public SessionID getSessionID() {
@@ -36,5 +38,9 @@ public class StudentSummary implements Serializable {
 
     public long getTimeSinceLastEvent() {
         return timeSinceLastEvent;
+    }
+
+    public int getNumSamples() {
+        return numSamples;
     }
 }
