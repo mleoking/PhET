@@ -9,11 +9,11 @@ import java.util.Date;
 /**
  * @author Sam Reid
  */
-public class SessionStarted implements Serializable {
+public class SessionRecord implements Serializable {
     private SessionID sessionID;
     private long time;
 
-    public SessionStarted( SessionID sessionID, long time ) {
+    public SessionRecord( SessionID sessionID, long time ) {
         this.sessionID = sessionID;
         this.time = time;
     }
@@ -24,5 +24,9 @@ public class SessionStarted implements Serializable {
 
     public SessionID getSessionID() {
         return sessionID;
+    }
+
+    public long getTime() {
+        return time;
     }
 }

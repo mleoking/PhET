@@ -18,10 +18,10 @@ import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.SessionID;
-import edu.colorado.phet.simsharing.messages.SessionStarted;
+import edu.colorado.phet.simsharing.messages.SessionRecord;
 import edu.colorado.phet.simsharing.socketutil.IActor;
 import edu.colorado.phet.simsharing.teacher.ClearDatabase;
-import edu.colorado.phet.simsharing.teacher.GetSessionList;
+import edu.colorado.phet.simsharing.teacher.ListAllSessions;
 import edu.colorado.phet.simsharing.teacher.SessionList;
 
 /**
@@ -29,7 +29,7 @@ import edu.colorado.phet.simsharing.teacher.SessionList;
  */
 public class RecordingView extends JPanel {
     public JList recordingList;
-    private SessionStarted lastShownRecording = new SessionStarted( new SessionID( -1, "hello" ), 0 );//dummy data so comparisons don't need to use null checks
+    private SessionRecord lastShownRecording = new SessionRecord( new SessionID( -1, "hello" ), 0 );//dummy data so comparisons don't need to use null checks
     private IActor server;
 
     public RecordingView( final IActor server ) {
@@ -39,7 +39,7 @@ public class RecordingView extends JPanel {
         recordingList = new JList() {{
             addListSelectionListener( new ListSelectionListener() {
                 public void valueChanged( ListSelectionEvent e ) {
-                    final SessionStarted selectedValue = (SessionStarted) recordingList.getSelectedValue();
+                    final SessionRecord selectedValue = (SessionRecord) recordingList.getSelectedValue();
                     System.out.println( selectedValue );
                     if ( selectedValue != null && !lastShownRecording.equals( selectedValue ) ) {
                         showRecording( selectedValue );
@@ -70,7 +70,7 @@ public class RecordingView extends JPanel {
                         Thread.sleep( 1000 );
                         final SessionList[] list = new SessionList[1];
                         try {
-                            list[0] = (SessionList) server.ask( new GetSessionList() );
+                            list[0] = (SessionList) server.ask( new ListAllSessions() );
                         }
                         catch ( IOException e ) {
                             e.printStackTrace();
@@ -100,7 +100,7 @@ public class RecordingView extends JPanel {
         } ).start();
     }
 
-    private void showRecording( SessionStarted sessionID ) {
+    private void showRecording( SessionRecord sessionID ) {
         System.out.println( "recording = " + sessionID );
         new SimView( sessionID.getSessionID(), new RemoteActor( server, sessionID.getSessionID() ), true, SimHelper.createLauncher().apply() ).start();
     }

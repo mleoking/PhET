@@ -4,27 +4,23 @@ package edu.colorado.phet.simsharing.teacher;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import edu.colorado.phet.simsharing.messages.SessionStarted;
+import edu.colorado.phet.simsharing.messages.SessionRecord;
 
 /**
  * @author Sam Reid
  */
 public class SessionList implements Serializable {
-    private ArrayList<SessionStarted> list = new ArrayList<SessionStarted>();
+    private final ArrayList<SessionRecord> list;
 
-    public void add( SessionStarted sessionStarted ) {
-        list.add( sessionStarted );
+    public SessionList( ArrayList<SessionRecord> list ) {
+        this.list = new ArrayList<SessionRecord>( list );
     }
 
     public int size() {
         return list.size();
     }
 
-    public SessionStarted get( int i ) {
-        return list.get( i );
-    }
-
     public Object[] toArray() {
-        return list.toArray( new SessionStarted[0] );
+        return list.toArray( new SessionRecord[list.size()] );
     }
 }

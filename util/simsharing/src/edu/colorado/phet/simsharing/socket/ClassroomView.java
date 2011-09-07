@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.SimHelper;
-import edu.colorado.phet.simsharing.messages.GetStudentList;
+import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
 import edu.colorado.phet.simsharing.socketutil.IActor;
@@ -45,7 +45,7 @@ public class ClassroomView extends PSwingCanvas {
                 while ( true ) {
                     try {
                         Thread.sleep( 1000 );
-                        final StudentList list = (StudentList) server.ask( new GetStudentList() );
+                        final StudentList list = (StudentList) server.ask( new GetActiveStudentList() );
                         SwingUtilities.invokeLater( new Runnable() {
                             public void run() {
                                 summaryNode.removeAllChildren();

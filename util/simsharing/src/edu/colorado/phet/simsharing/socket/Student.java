@@ -43,7 +43,7 @@ public class Student<U extends SimsharingApplicationState, T extends SimsharingA
 
         //Communicate with the server in a separate thread
         final Client client = new Client();
-        final IActor server = new ThreadedActor( client );
+        final IActor nonBlockingClient = new ThreadedActor( client );
 
         final T application = launchApplication.apply();
         application.setExitStrategy( new VoidFunction0() {
@@ -52,7 +52,7 @@ public class Student<U extends SimsharingApplicationState, T extends SimsharingA
                 if ( sessionID != null ) {
                     try {
                         //Record the session end
-                        server.tell( new EndSession( sessionID ) );
+                        client.tell( new EndSession( sessionID ) );
 
                         //Allow the server thread to exit gracefully.  Blocks to ensure it happens before we exit
                         client.tell( "logout" );
@@ -99,7 +99,7 @@ public class Student<U extends SimsharingApplicationState, T extends SimsharingA
                     if ( stateCache.size() >= batchSize ) {
                         try {
                             //Copy the state cache because it is cleared in the next step
-                            server.tell( new AddSamples<U>( sessionID, new ArrayList<U>( stateCache ) ) );
+                            nonBlockingClient.tell( new AddSamples<U>( sessionID, new ArrayList<U>( stateCache ) ) );
                         }
                         catch ( IOException e ) {
                             e.printStackTrace();
@@ -123,7 +123,7 @@ public class Student<U extends SimsharingApplicationState, T extends SimsharingA
             public void run() {
                 //be careful, this part blocks:
                 try {
-                    sessionID = (SessionID) server.ask( new StartSession() );
+                    sessionID = (SessionID) nonBlockingClient.ask( new StartSession() );
                 }
                 catch ( IOException e ) {
                     e.printStackTrace();
