@@ -28,7 +28,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DiatomicElectronDensityNode extends PComposite {
 
     private static final double DIAMETER_SCALE = 2.5; // multiply atom diameters by this scale when computing surface size
-    private static final int ALPHA = 200; // the alpha channel, for transparency
+    private static final int ALPHA = 185; // the alpha channel, for transparency
+    private static final int GRADIENT_WIDTH_MULTIPLIER = 5; // smaller values result in a more noticeable change as the EN sliders are dragged
 
     private final DiatomicMolecule molecule;
     private final DoubleRange electronegativityRange;
@@ -85,38 +86,44 @@ public class DiatomicElectronDensityNode extends PComposite {
 
         // scale varies from 1 to 0, approaches zero as EN difference approaches zero.
         final double deltaEN = molecule.atomB.electronegativity.get() - molecule.atomA.electronegativity.get();
-        final double scale = Math.abs( deltaEN / electronegativityRange.getLength() );
+        if ( deltaEN == 0 ) {
+            // no difference, use neutral color that's halfway between "more" and "less" colors
+            pathNode.setPaint( ColorUtils.interpolateRBGA( ColorUtils.createColor( colors[0], ALPHA ), ColorUtils.createColor( colors[1], ALPHA ), 0.5 ) );
+        }
+        else {
+            final double scale = Math.abs( deltaEN / electronegativityRange.getLength() );
 
-        // width of the isosurface
-        final double distance = molecule.atomB.location.get().getDistance( molecule.atomB.location.get() );
-        final double surfaceWidth = distance + ( DIAMETER_SCALE * molecule.atomA.getDiameter() / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() / 2 );
+            // width of the isosurface
+            final double distance = molecule.atomB.location.get().getDistance( molecule.atomB.location.get() );
+            final double surfaceWidth = distance + ( DIAMETER_SCALE * molecule.atomA.getDiameter() / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() / 2 );
 
-        // compute the gradient width
-        final double minGradientWidth = surfaceWidth;
-        final double maxGradientWidth = 5 * surfaceWidth;
-        LinearFunction f = new LinearFunction( 1, 0, minGradientWidth, maxGradientWidth );
-        final double gradientWidth = f.evaluate( scale );
+            // compute the gradient width
+            final double minGradientWidth = surfaceWidth;
+            final double maxGradientWidth = surfaceWidth * GRADIENT_WIDTH_MULTIPLIER;
+            LinearFunction f = new LinearFunction( 1, 0, minGradientWidth, maxGradientWidth );
+            final double gradientWidth = f.evaluate( scale );
 
-        // gradient endpoints prior to accounting for molecule transform
-        final double xOffset = ( surfaceWidth / 2 ) + ( ( gradientWidth - surfaceWidth ) / 2 );
-        Point2D pointA = new Point2D.Double( -xOffset, 0 );
-        Point2D pointB = new Point2D.Double( xOffset, 0 );
+            // gradient endpoints prior to accounting for molecule transform
+            final double xOffset = ( surfaceWidth / 2 ) + ( ( gradientWidth - surfaceWidth ) / 2 );
+            Point2D pointA = new Point2D.Double( -xOffset, 0 );
+            Point2D pointB = new Point2D.Double( xOffset, 0 );
 
-        // transform gradient endpoints to account for molecule transform
-        AffineTransform transform = new AffineTransform();
-        transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
-        transform.rotate( molecule.getAngle() );
-        transform.transform( pointA, pointA );
-        transform.transform( pointB, pointB );
+            // transform gradient endpoints to account for molecule transform
+            AffineTransform transform = new AffineTransform();
+            transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
+            transform.rotate( molecule.getAngle() );
+            transform.transform( pointA, pointA );
+            transform.transform( pointB, pointB );
 
-        // choose colors based on polarity
-        Color colorA = ( deltaEN > 0 ) ? colors[1] : colors[0];
-        Color colorB = ( deltaEN > 0 ) ? colors[0] : colors[1];
+            // choose colors based on polarity
+            Color colorA = ( deltaEN > 0 ) ? colors[1] : colors[0];
+            Color colorB = ( deltaEN > 0 ) ? colors[0] : colors[1];
 
-        // create the gradient
-        GradientPaint paint = new GradientPaint( (float) pointA.getX(), (float) pointA.getY(), ColorUtils.createColor( colorA, ALPHA ),
-                                                 (float) pointB.getX(), (float) pointB.getY(), ColorUtils.createColor( colorB, ALPHA ) );
-        pathNode.setPaint( paint );
+            // create the gradient
+            GradientPaint paint = new GradientPaint( (float) pointA.getX(), (float) pointA.getY(), ColorUtils.createColor( colorA, ALPHA ),
+                                                     (float) pointB.getX(), (float) pointB.getY(), ColorUtils.createColor( colorB, ALPHA ) );
+            pathNode.setPaint( paint );
+        }
     }
 
     private Ellipse2D getCircle( Atom atom ) {

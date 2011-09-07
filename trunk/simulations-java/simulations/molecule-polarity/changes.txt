@@ -1,3 +1,4 @@
+9/7/11 handle neutral polarity specially in electron density gradient, tweak alpha
 9/7/11 account for molecule transform when creating electron density gradient
 9/7/11 first pass at 2D electron density isosurface, does not account for molecule rotation
 9/7/11 prepare separate classes for 2D representations of electrostatic potential and electron density
