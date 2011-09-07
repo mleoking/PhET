@@ -81,7 +81,7 @@ public class DiatomicElectronDensityNode extends PComposite {
         pathNode.setPathTo( ShapeUtils.add( getCircle( molecule.atomA ), getCircle( molecule.atomB ) ) );
     }
 
-    // Updates the gradient used to paint the isosurface. Width of the gradient expands as the difference in EN approaches zero.
+    // Updates the Paint used to color the isosurface. Width of the gradient expands as the difference in EN approaches zero.
     private void updatePaint() {
 
         // scale varies from 1 to 0, approaches zero as EN difference approaches zero.
