@@ -2,7 +2,7 @@ Fixed an issue where mystery objects were not positioned well under the mouse wh
 Fixed an issue where a model element would be added and animated forever if the user just did one quick click on the item in the tool box.
 Added highlights for the occupied tick marks on the plank.
 Made the mass labels appear over the center of mass for the images, instead of just the image center.
-Fixed a bug where some of the control checkboxes where not cleared upon a Reset All.
+Fixed a bug where some of the control checkboxes were not cleared upon a Reset All.
 # 0.00.07 (55747) Aug 24, 2011
 8/24/11 Deploying for review by design team and possibly externally
 Removed, at least for now, the 2nd tab.
