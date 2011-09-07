@@ -13,7 +13,7 @@ import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
-import edu.colorado.phet.simsharing.socketutil.IActor;
+import edu.colorado.phet.simsharing.socketutil.Client;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -25,7 +25,7 @@ public class ClassroomView extends PSwingCanvas {
     private final PNode studentThumbnailNode;
     private PNode summaryNode;
 
-    public ClassroomView( final IActor server ) {
+    public ClassroomView( final Client client ) {
         summaryNode = new PNode() {
             @Override public void addChild( PNode child ) {
                 child.setOffset( child.getOffset().getX(), getFullBounds().getMaxY() + 2 );
@@ -38,12 +38,13 @@ public class ClassroomView extends PSwingCanvas {
         getLayer().addChild( studentThumbnailNode );
 
         //Look for new students and update thumbnails this often
+        //TODO: kill this thread when view closed
         new Thread( new Runnable() {
             public void run() {
                 while ( true ) {
                     try {
                         Thread.sleep( 1000 );
-                        final StudentList list = (StudentList) server.ask( new GetActiveStudentList() );
+                        final StudentList list = (StudentList) client.ask( new GetActiveStudentList() );
                         SwingUtilities.invokeLater( new Runnable() {
                             public void run() {
                                 summaryNode.removeAllChildren();
@@ -73,7 +74,7 @@ public class ClassroomView extends PSwingCanvas {
 
                                                 //Have to launch from non-swing-thread otherwise receive:
                                                 //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
-                                                new SimView( sessionID, server, false, SimHelper.createLauncher().apply() ).start();
+                                                new SimView( sessionID, client, false, SimHelper.createLauncher().apply() ).start();
                                             }
                                         } );
                                         studentThumbnailNode.addChild( node );

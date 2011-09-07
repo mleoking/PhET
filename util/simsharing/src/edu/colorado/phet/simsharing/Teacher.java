@@ -9,28 +9,21 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.simsharing.socketutil.Client;
-import edu.colorado.phet.simsharing.socketutil.IActor;
 import edu.colorado.phet.simsharing.teacher.ClassroomView;
 import edu.colorado.phet.simsharing.teacher.RecordingView;
 
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWindowOnScreen;
 
 public class Teacher {
-    private final String[] args;
-
-    public Teacher( String[] args ) {
-        this.args = args;
-    }
-
     private void start() throws IOException, ClassNotFoundException {
-        final IActor server = new Client();
+        final Client client = new Client();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame( "Students" ) {{
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
                     setContentPane( new JPanel( new BorderLayout() ) {{
-                        add( new ClassroomView( server ), BorderLayout.CENTER );
-                        add( new RecordingView( server ), BorderLayout.EAST );
+                        add( new ClassroomView( client ), BorderLayout.CENTER );
+                        add( new RecordingView( client ), BorderLayout.EAST );
                     }} );
                     setSize( 800, 600 );
                     centerWindowOnScreen( this );
@@ -41,6 +34,6 @@ public class Teacher {
 
     public static void main( String[] args ) throws IOException, ClassNotFoundException {
         Server.parseArgs( args );
-        new Teacher( args ).start();
+        new Teacher().start();
     }
 }

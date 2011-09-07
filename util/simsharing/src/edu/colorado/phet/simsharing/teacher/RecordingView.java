@@ -18,7 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
-import edu.colorado.phet.simsharing.socketutil.IActor;
+import edu.colorado.phet.simsharing.socketutil.Client;
 
 /**
  * @author Sam Reid
@@ -26,11 +26,11 @@ import edu.colorado.phet.simsharing.socketutil.IActor;
 public class RecordingView extends JPanel {
     public JList recordingList;
     private SessionRecord lastShownRecording = new SessionRecord( new SessionID( -1, "hello" ), 0 );//dummy data so comparisons don't need to use null checks
-    private IActor server;
+    private Client client;
 
-    public RecordingView( final IActor server ) {
+    public RecordingView( final Client client ) {
         super( new BorderLayout() );
-        this.server = server;
+        this.client = client;
         add( new JLabel( "All Sessions" ), BorderLayout.NORTH );
         recordingList = new JList() {{
             addListSelectionListener( new ListSelectionListener() {
@@ -49,7 +49,7 @@ public class RecordingView extends JPanel {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     try {
-                        server.tell( new ClearSessions() );
+                        client.tell( new ClearSessions() );
                     }
                     catch ( IOException e1 ) {
                         e1.printStackTrace();
@@ -60,12 +60,14 @@ public class RecordingView extends JPanel {
 
         new Thread( new Runnable() {
             public void run() {
+
+                //TODO: Kill this thread after view is closed
                 while ( true ) {
                     try {
-                        //Allow a long timeout here since it may take a long time to deliver a large recorded file.
+                        //Allow a long timeout here since it may take a long time to deliver a large list of recordings
                         Thread.sleep( 1000 );
                         final SessionList[] list = new SessionList[1];
-                        list[0] = (SessionList) server.ask( new ListAllSessions() );
+                        list[0] = (SessionList) client.ask( new ListAllSessions() );
                         SwingUtilities.invokeAndWait( new Runnable() {
                             public void run() {
                                 recordingList.setListData( list[0].toArray() );//TODO: remember user selection when list is refreshed
@@ -81,6 +83,6 @@ public class RecordingView extends JPanel {
     }
 
     private void showRecording( SessionRecord sessionID ) {
-        new SimView( sessionID.getSessionID(), server, true, SimHelper.createLauncher().apply() ).start();
+        new SimView( sessionID.getSessionID(), client, true, SimHelper.createLauncher().apply() ).start();
     }
 }
