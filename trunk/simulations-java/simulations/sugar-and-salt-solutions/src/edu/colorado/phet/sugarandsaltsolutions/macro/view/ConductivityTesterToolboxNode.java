@@ -63,10 +63,6 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
                 //Override addChild so that the created node will go behind the salt shaker, since the salt shaker should always be in front
                 @Override protected void addChild( SugarAndSaltSolutionsCanvas canvas, ToolNode node ) {
                     canvas.submergedInWaterNode.addChild( node );
-
-                    //Make sure the conductivity node shows as submerged in the water, but still goes behind the shaker
-                    node.moveToBack();
-
                     shortCircuitTextNode = new ShortCircuitTextNode( model.conductivityTester, ( (ConductivityTesterToolNode) node ).node.getLightBulbNode() );
                     canvas.addChild( shortCircuitTextNode );
                 }
