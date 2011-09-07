@@ -170,7 +170,6 @@ public class HoseNode extends PNode {
         }};
         addChild( rotationHandles );
 
-
         //Utility for experimentally finding good model positions for the drag handles
         if ( debugModelPosition ) {
             addInputEventListener( new PBasicInputEventHandler() {
