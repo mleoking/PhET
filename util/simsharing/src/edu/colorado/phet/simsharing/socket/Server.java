@@ -56,7 +56,7 @@ public class Server implements MessageHandler {
             final Session<?> session = sessions.get( request.getSessionID() );
             final int requestedIndex = request.getIndex();
             final SimsharingApplicationState sample = session.getSample( requestedIndex );
-            writeToClient.writeObject( new Pair<Object, Integer>( sample, requestedIndex == -1 ? session.getNumSamples() : requestedIndex ) );
+            writeToClient.writeObject( new Pair<Object, Integer>( sample, session.getNumSamples() ) );
         }
         else if ( message instanceof StartSession ) {
             int sessionCount = sessions.size();

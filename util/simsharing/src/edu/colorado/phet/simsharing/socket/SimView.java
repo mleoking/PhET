@@ -4,7 +4,6 @@ package edu.colorado.phet.simsharing.socket;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
@@ -12,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.simsharing.TimeControlFrame;
 import edu.colorado.phet.simsharing.messages.SessionID;
+import edu.colorado.phet.simsharing.teacher.TimeControlFrame;
 
 /**
  * @author Sam Reid
@@ -66,10 +65,7 @@ public class SimView<U extends SimsharingApplicationState, T extends SimsharingA
                     }
                 } );
             }
-            catch ( InterruptedException e ) {
-                e.printStackTrace();
-            }
-            catch ( InvocationTargetException e ) {
+            catch ( Exception e ) {
                 e.printStackTrace();
             }
 
@@ -79,17 +75,11 @@ public class SimView<U extends SimsharingApplicationState, T extends SimsharingA
                 SwingUtilities.invokeAndWait( new Runnable() {
                     public void run() {
                         application.setState( sample._1 );
-
-                        if ( timeControl.live.get() ) {
-                            timeControl.maxFrames.set( sample._2 );
-                        }
+                        timeControl.maxFrames.set( sample._2 );
                     }
                 } );
             }
-            catch ( InterruptedException e ) {
-                e.printStackTrace();
-            }
-            catch ( InvocationTargetException e ) {
+            catch ( Exception e ) {
                 e.printStackTrace();
             }
         }
