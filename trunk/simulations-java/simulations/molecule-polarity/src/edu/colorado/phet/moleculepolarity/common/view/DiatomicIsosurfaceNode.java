@@ -2,7 +2,6 @@
 package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.Color;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -27,7 +26,7 @@ public class DiatomicIsosurfaceNode extends PComposite {
     private final DiatomicMolecule molecule;
     private final DoubleRange electronegativityRange;
     private final Color[] colors;
-    private final PPath pathNode;
+    private final PPath pathNodeA, pathNodeB;
 
     /**
      * Constructor
@@ -41,11 +40,17 @@ public class DiatomicIsosurfaceNode extends PComposite {
         this.electronegativityRange = electronegativityRange;
         this.colors = colors;
 
-        this.pathNode = new PPath() {{
+        this.pathNodeA = new PPath() {{
             setStroke( null );
             setPaint( new Color( 100, 100, 100, 100 ) );
         }};
-        addChild( pathNode );
+        addChild( pathNodeA );
+
+        this.pathNodeB = new PPath() {{
+            setStroke( null );
+            setPaint( new Color( 100, 100, 100, 100 ) );
+        }};
+        addChild( pathNodeB );
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
@@ -62,11 +67,8 @@ public class DiatomicIsosurfaceNode extends PComposite {
 
     private void updateNode() {
         //TODO using circles doesn't really cut it, need to smooth out the places where the circles overlap.
-        Area area = new Area();
-        for ( Atom atom : molecule.getAtoms() ) {
-            area.add( new Area( getCircle( atom ) ) );
-        }
-        pathNode.setPathTo( area );
+        pathNodeA.setPathTo( getCircle( molecule.atomA ) );
+        pathNodeB.setPathTo( getCircle( molecule.atomB ) );
     }
 
     private Ellipse2D getCircle( Atom atom ) {
