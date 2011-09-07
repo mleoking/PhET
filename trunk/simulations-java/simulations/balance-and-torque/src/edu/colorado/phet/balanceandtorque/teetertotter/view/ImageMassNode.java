@@ -61,12 +61,6 @@ public class ImageMassNode extends PNode {
                 }
                 imageNode.setScale( scalingFactor );
                 updatePositionAndAngle();
-//                massIndicator.setOffset( mvt.modelToViewX( mass.getPosition().getX() + mass.getCenterOfMassXOffset() ) - massIndicator.getFullBoundsReference().width / 2,
-//                                         imageNode.getFullBoundsReference().getMinY() - massIndicator.getFullBoundsReference().height );
-//                massIndicator.setOffset( imageNode.getFullBoundsReference().getCenterX() - massIndicator.getFullBoundsReference().width / 2,
-//                                         imageNode.getFullBoundsReference().getMinY() - massIndicator.getFullBoundsReference().height );
-//                massIndicator.setOffset( mvt.modelToViewX( mass.getPosition().getX() ) - massIndicator.getFullBoundsReference().width / 2,
-//                                         imageNode.getFullBoundsReference().getMinY() - massIndicator.getFullBoundsReference().height );
             }
         } );
 
