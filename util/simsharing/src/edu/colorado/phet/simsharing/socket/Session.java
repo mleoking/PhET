@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
-import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
+import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.SessionID;
@@ -14,7 +14,7 @@ import edu.colorado.phet.simsharing.messages.StudentSummary;
 /**
  * @author Sam Reid
  */
-public class Session<T extends SimsharingApplicationState> {
+public class Session<T extends SimState> {
     private long startTime;
     private Option<Long> endTime = new Option.None<Long>();
     private final ArrayList<T> samples = new ArrayList();

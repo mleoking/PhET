@@ -6,12 +6,12 @@ import java.io.Serializable;
 /**
  * @author Sam Reid
  */
-public class GetStudentData implements Serializable {
+public class GetSample implements Serializable {
 
     private final SessionID sessionID;
     private int index;
 
-    public GetStudentData( SessionID sessionID, int index ) {
+    public GetSample( SessionID sessionID, int index ) {
         this.sessionID = sessionID;
         this.index = index;
     }

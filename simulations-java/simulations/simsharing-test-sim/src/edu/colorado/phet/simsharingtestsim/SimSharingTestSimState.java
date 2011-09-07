@@ -3,12 +3,12 @@ package edu.colorado.phet.simsharingtestsim;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
-import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
+import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 
 /**
  * @author Sam Reid
  */
-public class SimSharingTestSimState implements SimsharingApplicationState {
+public class SimSharingTestSimState implements SimState {
     private long time;
     //    private SerializableBufferedImage image;
     public final ImmutableVector2D position;

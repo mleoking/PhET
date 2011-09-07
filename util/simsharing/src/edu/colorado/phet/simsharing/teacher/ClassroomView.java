@@ -13,7 +13,6 @@ import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
-import edu.colorado.phet.simsharing.socket.RemoteActor;
 import edu.colorado.phet.simsharing.socketutil.IActor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -26,7 +25,7 @@ public class ClassroomView extends PSwingCanvas {
     private final PNode studentThumbnailNode;
     private PNode summaryNode;
 
-    public ClassroomView( final IActor server, final String[] args ) {
+    public ClassroomView( final IActor server ) {
         summaryNode = new PNode() {
             @Override public void addChild( PNode child ) {
                 child.setOffset( child.getOffset().getX(), getFullBounds().getMaxY() + 2 );
@@ -74,7 +73,7 @@ public class ClassroomView extends PSwingCanvas {
 
                                                 //Have to launch from non-swing-thread otherwise receive:
                                                 //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
-                                                new SimView( sessionID, new RemoteActor( server, sessionID ), false, SimHelper.createLauncher().apply() ).start();
+                                                new SimView( sessionID, server, false, SimHelper.createLauncher().apply() ).start();
                                             }
                                         } );
                                         studentThumbnailNode.addChild( node );

@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.simsharing.ImmutableList;
-import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
-import edu.colorado.phet.common.phetcommon.util.Pair;
+import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
-import edu.colorado.phet.simsharing.messages.GetStudentData;
+import edu.colorado.phet.simsharing.messages.GetSample;
 import edu.colorado.phet.simsharing.messages.RegisterPushConnection;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
 import edu.colorado.phet.simsharing.messages.StartSession;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
+import edu.colorado.phet.simsharing.socket.Sample;
 import edu.colorado.phet.simsharing.socket.Session;
 import edu.colorado.phet.simsharing.socketutil.MessageHandler;
 import edu.colorado.phet.simsharing.socketutil.MessageServer;
@@ -55,12 +55,12 @@ public class Server implements MessageHandler {
     }
 
     public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) throws IOException {
-        if ( message instanceof GetStudentData ) {
-            GetStudentData request = (GetStudentData) message;
+        if ( message instanceof GetSample ) {
+            GetSample request = (GetSample) message;
             final Session<?> session = sessions.get( request.getSessionID() );
             final int requestedIndex = request.getIndex();
-            final SimsharingApplicationState sample = session.getSample( requestedIndex );
-            writeToClient.writeObject( new Pair<Object, Integer>( sample, session.getNumSamples() ) );
+            final SimState sample = session.getSample( requestedIndex );
+            writeToClient.writeObject( new Sample<SimState>( sample, session.getNumSamples() ) );
         }
         else if ( message instanceof StartSession ) {
             int sessionCount = sessions.size();

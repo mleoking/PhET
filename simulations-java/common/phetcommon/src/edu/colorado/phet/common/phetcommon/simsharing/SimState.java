@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 /**
  * @author Sam Reid
  */
-public interface SimsharingApplicationState extends Serializable, IProguardKeepClass {
+public interface SimState extends Serializable, IProguardKeepClass {
     long getTime();
 
     SerializableBufferedImage getImage();

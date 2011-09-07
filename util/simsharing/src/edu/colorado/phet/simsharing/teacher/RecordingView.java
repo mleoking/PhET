@@ -18,7 +18,6 @@ import javax.swing.event.ListSelectionListener;
 import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
-import edu.colorado.phet.simsharing.socket.RemoteActor;
 import edu.colorado.phet.simsharing.socketutil.IActor;
 
 /**
@@ -82,6 +81,6 @@ public class RecordingView extends JPanel {
     }
 
     private void showRecording( SessionRecord sessionID ) {
-        new SimView( sessionID.getSessionID(), new RemoteActor( server, sessionID.getSessionID() ), true, SimHelper.createLauncher().apply() ).start();
+        new SimView( sessionID.getSessionID(), server, true, SimHelper.createLauncher().apply() ).start();
     }
 }
