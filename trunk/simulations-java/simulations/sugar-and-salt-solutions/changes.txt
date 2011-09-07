@@ -1,3 +1,4 @@
+Macro tab: Fixed: The conductivity tester can go behind the evaporation control box
 # 0.00.101 (56282) Sep 7, 2011
 Macro tab: Show the solute control panel node behind the shaker node so the conductivity tester will also go in front
 Macro tab: Fixed: Conductivity meter appears behind its control box

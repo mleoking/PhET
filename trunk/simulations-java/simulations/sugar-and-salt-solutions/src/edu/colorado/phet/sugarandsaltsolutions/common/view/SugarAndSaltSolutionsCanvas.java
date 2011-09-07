@@ -171,7 +171,9 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
             Point2D point = SugarAndSaltSolutionsCanvas.this.transform.modelToView( 0, -model.beaker.getWallThickness() / 2 );
             setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }};
-        addChild( evaporationSlider );
+
+        //Add it behind the shaker node so the conductivity tester will also go in front
+        behindShakerNode.addChild( evaporationSlider );
 
         //Add a graphic to show where particles will flow out the drain
         addChild( new DrainFaucetNodeLocationDebugger( transform, model ) );
