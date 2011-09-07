@@ -24,7 +24,7 @@ import edu.colorado.phet.simsharing.messages.StartSession;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
 import edu.colorado.phet.simsharing.socketutil.MessageHandler;
 import edu.colorado.phet.simsharing.socketutil.MessageServer;
-import edu.colorado.phet.simsharing.teacher.ClearDatabase;
+import edu.colorado.phet.simsharing.teacher.ClearSessions;
 import edu.colorado.phet.simsharing.teacher.ListAllSessions;
 import edu.colorado.phet.simsharing.teacher.SessionList;
 import edu.colorado.phet.simsharing.teacher.StudentList;
@@ -99,7 +99,7 @@ public class Server implements MessageHandler {
                 }
             }} ) );
         }
-        else if ( message instanceof ClearDatabase ) {
+        else if ( message instanceof ClearSessions ) {
             sessions.clear();
         }
     }
