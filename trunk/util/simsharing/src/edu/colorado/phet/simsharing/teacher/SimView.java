@@ -3,7 +3,6 @@ package edu.colorado.phet.simsharing.teacher;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.IOException;
 
 import javax.swing.SwingUtilities;
 
@@ -63,14 +62,9 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                     Client client = null;
                     try {
                         client = new Client();
-                    }
-                    catch ( Exception e ) {
-                        e.printStackTrace();
-                    }
-                    try {
                         client.tell( new RegisterPushConnection( sessionID ) );
                     }
-                    catch ( IOException e ) {
+                    catch ( Exception e ) {
                         e.printStackTrace();
                     }
 
