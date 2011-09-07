@@ -28,10 +28,9 @@ public class AdolescentHumanCreatorNode extends ImageMassCreatorNode {
         super( model, mvt, canvas );
         ImageMass adolescentHuman = new AdolescentHuman();
         setSelectionNode( new ImageMassNode( SCALING_MVT, adolescentHuman, canvas, new BooleanProperty( false ) ) );
-        setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
+        setPositioningOffset( 0, -mvt.modelToViewDeltaY( adolescentHuman.getHeight() / 2 ) );
         // TODO: i18n (units too)
         setCaption( adolescentHuman.getMass() + " kg" );
-        // TODO: Line below is for debug, remove at some point.
     }
 
     @Override protected ImageMass createImageMassInstance() {
