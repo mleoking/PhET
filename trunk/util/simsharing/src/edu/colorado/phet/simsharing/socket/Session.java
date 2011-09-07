@@ -44,7 +44,7 @@ public class Session<T extends SimsharingApplicationState> {
     public T getSample( int index ) {
 
         //Handle flag for request for latest data point
-        if ( index == -1 ) {
+        if ( index == -1 || index >= samples.size() ) {
             return samples.get( samples.size() - 1 );
         }
         else {

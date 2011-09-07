@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -69,30 +68,14 @@ public class RecordingView extends JPanel {
                         //Allow a long timeout here since it may take a long time to deliver a large recorded file.
                         Thread.sleep( 1000 );
                         final SessionList[] list = new SessionList[1];
-                        try {
-                            list[0] = (SessionList) server.ask( new ListAllSessions() );
-                        }
-                        catch ( IOException e ) {
-                            e.printStackTrace();
-                        }
-                        catch ( ClassNotFoundException e ) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            SwingUtilities.invokeAndWait( new Runnable() {
-                                public void run() {
-                                    recordingList.setListData( list[0].toArray() );//TODO: remember user selection when list is refreshed
-                                }
-                            } );
-                        }
-                        catch ( InterruptedException e ) {
-                            e.printStackTrace();
-                        }
-                        catch ( InvocationTargetException e ) {
-                            e.printStackTrace();
-                        }
+                        list[0] = (SessionList) server.ask( new ListAllSessions() );
+                        SwingUtilities.invokeAndWait( new Runnable() {
+                            public void run() {
+                                recordingList.setListData( list[0].toArray() );//TODO: remember user selection when list is refreshed
+                            }
+                        } );
                     }
-                    catch ( InterruptedException e ) {
+                    catch ( Exception e ) {
                         e.printStackTrace();
                     }
                 }
@@ -101,7 +84,6 @@ public class RecordingView extends JPanel {
     }
 
     private void showRecording( SessionRecord sessionID ) {
-        System.out.println( "recording = " + sessionID );
         new SimView( sessionID.getSessionID(), new RemoteActor( server, sessionID.getSessionID() ), true, SimHelper.createLauncher().apply() ).start();
     }
 }
