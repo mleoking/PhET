@@ -6,6 +6,7 @@ import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
@@ -68,14 +69,33 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
     }
 
     private void updateNode() {
+        updateShape();
+        updatePaint();
+    }
 
+    // Updates the shape of the isosurface.
+    private void updateShape() {
         //TODO using circles doesn't really cut it, need to smooth out the places where the circles overlap.
         pathNodeA.setPathTo( getCircle( molecule.atomA ) );
         pathNodeB.setPathTo( getCircle( molecule.atomB ) );
+    }
 
-        //TODO create GradientPaints based on EN
-        pathNodeA.setPaint( new Color( 100, 100, 100, ALPHA ) );
-        pathNodeB.setPaint( new Color( 100, 100, 100, ALPHA ) );
+    // Updates the Paints uses to color the isosurface. Width of the gradients expands as the difference in EN approaches zero.
+    private void updatePaint() {
+        final double deltaEN = molecule.atomB.electronegativity.get() - molecule.atomA.electronegativity.get();
+        if ( deltaEN == 0 ) {
+            Color neutralColor = ColorUtils.createColor( colors[1], ALPHA );
+            pathNodeA.setPaint( neutralColor );
+            pathNodeB.setPaint( neutralColor );
+        }
+        else {
+            //TODO create GradientPaints based on EN
+            // choose colors based on polarity
+            Color colorA = ( deltaEN > 0 ) ? colors[2] : colors[0];
+            Color colorB = ( deltaEN > 0 ) ? colors[0] : colors[2];
+            pathNodeA.setPaint( ColorUtils.createColor( colorA, ALPHA ) );
+            pathNodeB.setPaint( ColorUtils.createColor( colorB, ALPHA ) );
+        }
     }
 
     private Ellipse2D getCircle( Atom atom ) {
