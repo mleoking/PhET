@@ -16,7 +16,7 @@ public class AdultFemaleHuman extends ImageMass {
 
     private static final double MASS = 50; // in kg
     private static final double STANDING_HEIGHT = 1.5; // In meters.
-    private static final double SITTING_HEIGHT = 0.8; // In meters.
+    private static final double SITTING_HEIGHT = 0.9; // In meters.
     private static final double SITTING_CENTER_OF_MASS_X_OFFSET = 0.1; // In meters, determined visually.  Update if image changes.
 
     public AdultFemaleHuman() {

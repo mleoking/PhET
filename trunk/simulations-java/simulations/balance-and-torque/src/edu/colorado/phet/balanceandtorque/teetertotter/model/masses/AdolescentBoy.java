@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 public class AdolescentBoy extends ImageMass {
 
     private static final double MASS = 20; // in kg
-    private static final double STANDING_HEIGHT = 1.2; // In meters.
+    private static final double STANDING_HEIGHT = 1.1; // In meters.
     private static final double SITTING_HEIGHT = 0.7; // In meters.
     private static final double SITTING_CENTER_OF_MASS_X_OFFSET = 0.07; // In meters, determined visually.  Update if image changes.
 
