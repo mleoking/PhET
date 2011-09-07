@@ -126,14 +126,14 @@ public class ResourceGenerator {
 
         //Filter the template to create the .java source file
         String resourceFileString = filter( new HashMap<String, String>() {{
-                                                put( "packagename", packagename );
-                                                put( "classname", className );
-                                                put( "simname", simDir.getName() );
-                                                put( "generator", ResourceGenerator.class.getName() );
-                                                put( "strings", strings );
-                                                put( "fullclassname", fullClassName );
-                                                put( "images", images );
-                                            }}, template ).trim();
+            put( "packagename", packagename );
+            put( "classname", className );
+            put( "simname", simDir.getName() );
+            put( "generator", ResourceGenerator.class.getName() );
+            put( "strings", strings );
+            put( "fullclassname", fullClassName );
+            put( "images", images );
+        }}, template ).trim();
 
         //Store the filtered strings in the java source directory for usage at compile time
         final File destination = new File( simDir, "src/edu/colorado/phet/" + packagename + "/" + fullClassName + ".java" );
