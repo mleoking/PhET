@@ -25,17 +25,14 @@ public class MysteryObjectCreatorNode extends ImageMassCreatorNode {
     // Model-view transform for scaling the node used in the tool box.  This
     // may scale the node differently than what is used in the model.
     protected static final ModelViewTransform SCALING_MVT =
-            ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 100 );
+            ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 200 );
 
     public MysteryObjectCreatorNode( int mysteryObjectID, final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         this.mysteryObjectID = mysteryObjectID;
         LabeledImageMass mysteryObject = MysteryObjectFactory.createMysteryObject( mysteryObjectID );
         setSelectionNode( new LabeledImageMassNode( SCALING_MVT, mysteryObject, canvas, new BooleanProperty( false ) ) );
-        // Orig
-//        setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
-        // Experiment
-        setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 4 );
+        setPositioningOffset( 0, -mvt.modelToViewDeltaY( mysteryObject.getHeight() / 2 ) );
     }
 
     @Override protected ImageMass createImageMassInstance() {
