@@ -14,9 +14,9 @@ import edu.colorado.phet.simsharing.Server;
  * @author Sam Reid
  */
 public class Client implements IActor {
-    private Socket socket;
-    public ObjectOutputStream writeToServer;
-    public ObjectInputStream readFromServer;
+    private final Socket socket;
+    public final ObjectOutputStream writeToServer;
+    public final ObjectInputStream readFromServer;
 
     public Client() throws ClassNotFoundException, IOException {
         this( Server.HOST_IP_ADDRESS, Server.PORT );
@@ -40,8 +40,12 @@ public class Client implements IActor {
     public synchronized Object ask( Object question ) throws IOException, ClassNotFoundException {
         writeToServer.writeObject( question );
         writeToServer.flush();
-        Object result = readFromServer.readObject();
-        return result;
+
+        //Prevent multiple threads from using the read object simultaneously.  This was a problem before we created a new Client for that thread in SimView
+        synchronized ( readFromServer ) {
+            Object result = readFromServer.readObject();
+            return result;
+        }
     }
 
     //Must be synchronized because multiple threads may use this client to communicate with the server

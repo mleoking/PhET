@@ -25,4 +25,8 @@ public class AddSamples<T> implements Serializable {
     public ArrayList<T> getData() {
         return data;
     }
+
+    @Override public String toString() {
+        return "id = " + sessionID + ", data = " + data;
+    }
 }
