@@ -17,7 +17,7 @@ import edu.colorado.phet.simsharingtestsim.SimSharingTestSim;
  */
 public class SimHelper {
 
-    public static final Function0<GravityAndOrbitsApplication> GAOLauncher = new Function0<GravityAndOrbitsApplication>() {
+    public static final Function0<GravityAndOrbitsApplication> GRAVITY_AND_ORBITS_LAUNCHER = new Function0<GravityAndOrbitsApplication>() {
         public GravityAndOrbitsApplication apply() {
             //TODO: this skips splash screen, statistics, etc.
             final GravityAndOrbitsApplication[] myapp = new GravityAndOrbitsApplication[1];
@@ -46,7 +46,7 @@ public class SimHelper {
         }
     };
 
-    static final Function0<SimSharingTestSim> SimsharingSimTestLauncher = new Function0<SimSharingTestSim>() {
+    static final Function0<SimSharingTestSim> TEST_SIM_LAUNCHER = new Function0<SimSharingTestSim>() {
         public SimSharingTestSim apply() {
             //TODO: this skips splash screen, statistics, etc.
             final SimSharingTestSim[] myapp = new SimSharingTestSim[1];
@@ -75,7 +75,5 @@ public class SimHelper {
         }
     };
 
-    public static Function0<SimSharingTestSim> createLauncher() {
-        return SimsharingSimTestLauncher;
-    }
+    public static Function0<SimSharingTestSim> LAUNCHER = TEST_SIM_LAUNCHER;
 }

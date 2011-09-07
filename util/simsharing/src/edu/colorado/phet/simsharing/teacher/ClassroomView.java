@@ -74,7 +74,7 @@ public class ClassroomView extends PSwingCanvas {
 
                                                 //Have to launch from non-swing-thread otherwise receive:
                                                 //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
-                                                new SimView( sessionID, client, false, SimHelper.createLauncher().apply() ).start();
+                                                new SimView( sessionID, client, false, SimHelper.LAUNCHER.apply() ).start();
                                             }
                                         } );
                                         studentThumbnailNode.addChild( node );

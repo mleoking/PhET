@@ -155,6 +155,6 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
 
     public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
         Server.parseArgs( args );
-        new Student( SimHelper.createLauncher() ).start();
+        new Student( SimHelper.LAUNCHER ).start();
     }
 }
