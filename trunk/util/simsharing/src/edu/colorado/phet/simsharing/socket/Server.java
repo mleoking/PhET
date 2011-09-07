@@ -33,14 +33,13 @@ import edu.colorado.phet.simsharing.teacher.StudentList;
  * @author Sam Reid
  */
 public class Server implements MessageHandler {
-    //Remote settings
-//    public static int PORT = 44101;
-//    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
+    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
+//    public static String HOST_IP_ADDRESS = "localhost";//Settings for running locally
 
-    //Settings for running locally
-    public static String HOST_IP_ADDRESS = "localhost";
-    public static int PORT = 1234;
+    //On phet-server, port must be in a specific range of allowed ports, see Unfuddle ticket
+    public static int PORT = 44101;
 
+    //Names to assign to students for testing
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
 
     //Careful, used in many threads, so must threadlock
