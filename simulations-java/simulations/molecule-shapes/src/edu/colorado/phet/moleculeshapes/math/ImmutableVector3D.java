@@ -70,7 +70,7 @@ public class ImmutableVector3D {
     }
 
     public double angleBetween( ImmutableVector3D v ) {
-        return Math.acos( dot( v ) );
+        return Math.acos( normalized().dot( v.normalized() ) );
     }
 
     public double angleBetweenInDegrees( ImmutableVector3D v ) {
