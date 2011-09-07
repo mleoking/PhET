@@ -58,7 +58,7 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_P
  * Use jme3 to show a rotating molecule
  * TODO: More molecules
  * TODO: make a version where I can change the toolbar background, and the font color?
- * TODO: tweak angle visibility for different numbers of bonds
+ * TODO: flickers on bond-angle readout text
  * <p/>
  * TODO: better MVC (especially C) to deal with all of these threading issues
  * TODO: clearer separation of JME / Swing thread code (basically, a lot of cleanup and documentation)
