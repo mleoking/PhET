@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import static java.util.Collections.addAll;
 
 /**
- * List whose elements cannot be changed.
- * No longer used in Sugar and Salt Solutions, but looks potentially useful for common code base.
+ * List whose element references cannot be changed (note that if the elements themselves are mutable they can be changed, but the references in the list cannot).
+ * TODO: Consider switching to functionaljava
  *
  * @author Sam Reid
  */
