@@ -1,3 +1,4 @@
+# 00.00.40 (56240) Sep 6, 2011
 Fixed indices of playback
 Fixed exiting and student list
 Improvements to support multiple sim types
