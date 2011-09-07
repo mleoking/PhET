@@ -34,12 +34,12 @@ import edu.colorado.phet.simsharing.teacher.StudentList;
  */
 public class Server implements MessageHandler {
     //Remote settings
-//    public static int PORT = 44101;
-//    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
+    public static int PORT = 44101;
+    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
 
     //Settings for running locally
-    public static String HOST_IP_ADDRESS = "localhost";
-    public static int PORT = 1234;
+//    public static String HOST_IP_ADDRESS = "localhost";
+//    public static int PORT = 1234;
 
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
 
