@@ -351,13 +351,10 @@ public class RulerNode extends PhetPNode {
         }
     }
 
-    //----------------------------------------------------------------------------
-    // Static utility methods
-    //----------------------------------------------------------------------------
-
     /*
      * Creates a tick mark at a specific x location.
      * Each tick is marked at the top and bottom of the ruler.
+     * If you desire a different style of tick mark, override this method in a subclass.
      */
     protected DoubleGeneralPath createTickMark( double xPosition, double rulerHeight, double tickHeight ) {
         DoubleGeneralPath tickPath = new DoubleGeneralPath( xPosition, 0 );
