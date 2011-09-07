@@ -117,7 +117,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
     /**
      * Set an offset to use when adding the initial model element.  This is
      * useful in making sure that the newly created model object is positioned
-     * well beneath the mouse.
+     * well beneath the mouse.  The offset is in screen coordinates.
      */
     protected void setPositioningOffset( double x, double y ) {
         positioningOffset.setComponents( x, y );
@@ -130,6 +130,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
         Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
         canvas.getPhetRootNode().screenToWorld( worldPos );
         worldPos = new Vector2D( worldPos ).add( positioningOffset ).toPoint2D();
+        System.out.println( "positioningOffset = " + positioningOffset );
         Point2D modelPos = mvt.viewToModel( worldPos );
         return modelPos;
     }
