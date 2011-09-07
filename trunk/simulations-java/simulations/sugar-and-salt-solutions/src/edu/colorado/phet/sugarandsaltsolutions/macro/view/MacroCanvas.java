@@ -62,9 +62,8 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
             }
         } ) );
 
-//Show the precipitate as the sum of salt and sugar
+        //Show the precipitate as the sum of salt and sugar
         submergedInWaterNode.addChild( new PrecipitateNode( transform, model.salt.solidVolume.plus( model.sugar.solidVolume ), model.beaker ) );
-
 
         //Readout function for the exact volume readout on the solution when the user selects "show values.
         //Read out more precisely than the fine-grained tick marks on the side
@@ -88,10 +87,12 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
         }};
         behindShakerNode.addChild( concentrationBarChart );
 
-        //Create the control panel for choosing sugar vs salt, use a radio-button-based selector for solutes
+        //Create the control panel for choosing sugar vs salt, use a radio-button-based selector for solutes.
         soluteControlPanelNode = new SoluteControlPanelNode( new DispenserRadioButtonSet( model.dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.SUGAR, SUGAR ) ) );
         soluteControlPanelNode.setOffset( stageSize.getWidth() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, 150 );
-        addChild( soluteControlPanelNode );
+
+        //Show the solute control panel node behind the shaker node so the conductivity tester will also go in front
+        behindShakerNode.addChild( soluteControlPanelNode );
 
         soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
 
