@@ -2,10 +2,15 @@
 package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
@@ -22,8 +27,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class DiatomicElectronDensityNode extends PComposite {
 
-    private static final double DIAMETER_SCALE = 2; // multiply atom diameters by this scale when computing surface size
-    private static final int ALPHA = 100; // the alpha channel, for transparency
+    private static final double DIAMETER_SCALE = 2.5; // multiply atom diameters by this scale when computing surface size
+    private static final int ALPHA = 200; // the alpha channel, for transparency
 
     private final DiatomicMolecule molecule;
     private final DoubleRange electronegativityRange;
@@ -63,12 +68,49 @@ public class DiatomicElectronDensityNode extends PComposite {
     }
 
     private void updateNode() {
+        updateShape();
+        updatePaint();
+    }
 
-        //TODO using circles doesn't really cut it, need to smooth out the places where the circles overlap.
+    // Updates the shape of the isosurface.
+    private void updateShape() {
+        //TODO circles provide a rough approximation, need to smooth out the places where the circles overlap.
         pathNode.setPathTo( ShapeUtils.add( getCircle( molecule.atomA ), getCircle( molecule.atomB ) ) );
+    }
 
-        //TODO create a GradientPaint based on EN
-        pathNode.setPaint( new Color( 100, 100, 100, ALPHA ) );
+    // Updates the gradient used to paint the isosurface. Width of the gradient expands as the different in EN approaches zero.
+    private void updatePaint() {
+
+        // scale varies from 1 to 0, approaches zero as EN difference approaches zero.
+        double deltaEN = molecule.atomB.electronegativity.get() - molecule.atomA.electronegativity.get();
+        double scale = Math.abs( deltaEN / electronegativityRange.getLength() );
+
+        // width of the surface
+        double distance = molecule.atomB.location.get().getDistance( molecule.atomB.location.get() );
+        double minX = molecule.getLocation().getX() - ( distance / 2 ) - ( DIAMETER_SCALE * molecule.atomA.getDiameter() ) / 2;
+        double maxX = molecule.getLocation().getX() + ( distance / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() ) / 2;
+        double surfaceWidth = maxX - minX;
+
+        // compute the gradient width
+        LinearFunction f = new LinearFunction( 1, 0, surfaceWidth, 5 * surfaceWidth );
+        double gradientWidth = f.evaluate( scale );
+        double deltaX = ( gradientWidth - surfaceWidth ) / 2;
+
+        // gradient endpoints prior to accounting for molecule translation and rotation
+        Point2D pointA = new Point2D.Double( minX - deltaX, 0 );
+        Point2D pointB = new Point2D.Double( maxX + deltaX, 0 );
+
+        //TODO transform gradient endpoints to account for molecule rotation
+        AffineTransform transform = AffineTransform.getRotateInstance( molecule.getAngle() );
+
+        // choose colors based on polarity
+        Color colorA = ( deltaEN > 0 ) ? colors[1] : colors[0];
+        Color colorB = ( deltaEN > 0 ) ? colors[0] : colors[1];
+
+        // create the gradient
+        GradientPaint paint = new GradientPaint( (float) pointA.getX(), (float) pointA.getY(), ColorUtils.createColor( colorA, ALPHA ),
+                                                 (float) pointB.getX(), (float) pointB.getY(), ColorUtils.createColor( colorB, ALPHA ) );
+        pathNode.setPaint( paint );
     }
 
     private Ellipse2D getCircle( Atom atom ) {
