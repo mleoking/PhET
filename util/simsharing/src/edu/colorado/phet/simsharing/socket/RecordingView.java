@@ -19,7 +19,7 @@ import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
 import edu.colorado.phet.simsharing.socketutil.IActor;
-import edu.colorado.phet.simsharing.teacher.ClearDatabase;
+import edu.colorado.phet.simsharing.teacher.ClearSessions;
 import edu.colorado.phet.simsharing.teacher.ListAllSessions;
 import edu.colorado.phet.simsharing.teacher.SessionList;
 
@@ -52,7 +52,7 @@ public class RecordingView extends JPanel {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     try {
-                        server.tell( new ClearDatabase() );
+                        server.tell( new ClearSessions() );
                     }
                     catch ( IOException e1 ) {
                         e1.printStackTrace();
