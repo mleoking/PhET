@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.socket;
+package edu.colorado.phet.simsharing.teacher;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -13,9 +13,8 @@ import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
+import edu.colorado.phet.simsharing.socket.RemoteActor;
 import edu.colorado.phet.simsharing.socketutil.IActor;
-import edu.colorado.phet.simsharing.teacher.StudentList;
-import edu.colorado.phet.simsharing.teacher.StudentNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;

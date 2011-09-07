@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.socket;
+package edu.colorado.phet.simsharing.teacher;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -18,10 +18,8 @@ import javax.swing.event.ListSelectionListener;
 import edu.colorado.phet.simsharing.SimHelper;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
+import edu.colorado.phet.simsharing.socket.RemoteActor;
 import edu.colorado.phet.simsharing.socketutil.IActor;
-import edu.colorado.phet.simsharing.teacher.ClearSessions;
-import edu.colorado.phet.simsharing.teacher.ListAllSessions;
-import edu.colorado.phet.simsharing.teacher.SessionList;
 
 /**
  * @author Sam Reid

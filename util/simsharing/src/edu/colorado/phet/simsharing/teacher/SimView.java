@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.socket;
+package edu.colorado.phet.simsharing.teacher;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.messages.SessionID;
-import edu.colorado.phet.simsharing.teacher.TimeControlFrame;
+import edu.colorado.phet.simsharing.socket.RemoteActor;
 
 /**
  * @author Sam Reid
