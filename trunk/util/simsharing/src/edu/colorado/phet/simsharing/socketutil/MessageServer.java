@@ -73,8 +73,8 @@ public class MessageServer {
                                     writeToClient.writeObject( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );
                                 }
 
-                                //Handle logout commands.
-                                if ( fromClient.equals( "logout" ) ) {
+                                //Handle logout commands.  Sometimes null for unknown reason, so have to check for null here
+                                if ( fromClient != null && fromClient.equals( "logout" ) ) {
                                     System.out.println( "Received logout command, exiting thread" );
                                     threadAlive = false;
                                 }
