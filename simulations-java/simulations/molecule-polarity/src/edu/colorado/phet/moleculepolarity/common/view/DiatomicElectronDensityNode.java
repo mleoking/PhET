@@ -42,7 +42,9 @@ public class DiatomicElectronDensityNode extends PComposite {
      * @param colors   color scheme for the surface, ordered from more to less density
      */
     public DiatomicElectronDensityNode( final DiatomicMolecule molecule, DoubleRange electronegativityRange, Color[] colors ) {
+
         assert ( colors.length == 2 ); // this implementation only works for 2 colors
+        assert ( molecule.atomA.getDiameter() == molecule.atomB.getDiameter() ); // creation of gradient assumes that both atoms have the same diameter
 
         this.molecule = molecule;
         this.electronegativityRange = electronegativityRange;
@@ -85,22 +87,20 @@ public class DiatomicElectronDensityNode extends PComposite {
         final double deltaEN = molecule.atomB.electronegativity.get() - molecule.atomA.electronegativity.get();
         final double scale = Math.abs( deltaEN / electronegativityRange.getLength() );
 
-        // width of the surface
+        // width of the isosurface
         final double distance = molecule.atomB.location.get().getDistance( molecule.atomB.location.get() );
-        final double minX = -( distance / 2 ) - ( DIAMETER_SCALE * molecule.atomA.getDiameter() ) / 2;
-        final double maxX = ( distance / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() ) / 2;
-        final double surfaceWidth = maxX - minX;
+        final double surfaceWidth = distance + ( DIAMETER_SCALE * molecule.atomA.getDiameter() / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() / 2 );
 
         // compute the gradient width
         final double minGradientWidth = surfaceWidth;
         final double maxGradientWidth = 5 * surfaceWidth;
         LinearFunction f = new LinearFunction( 1, 0, minGradientWidth, maxGradientWidth );
         final double gradientWidth = f.evaluate( scale );
-        final double deltaX = ( gradientWidth - surfaceWidth ) / 2;
 
         // gradient endpoints prior to accounting for molecule transform
-        Point2D pointA = new Point2D.Double( minX - deltaX, 0 );
-        Point2D pointB = new Point2D.Double( maxX + deltaX, 0 );
+        final double xOffset = ( surfaceWidth / 2 ) + ( ( gradientWidth - surfaceWidth ) / 2 );
+        Point2D pointA = new Point2D.Double( -xOffset, 0 );
+        Point2D pointB = new Point2D.Double( xOffset, 0 );
 
         // transform gradient endpoints to account for molecule transform
         AffineTransform transform = new AffineTransform();
