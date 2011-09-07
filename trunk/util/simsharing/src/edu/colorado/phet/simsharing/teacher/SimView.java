@@ -6,24 +6,27 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
-import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
-import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.simsharing.messages.GetSample;
 import edu.colorado.phet.simsharing.messages.SessionID;
-import edu.colorado.phet.simsharing.socket.RemoteActor;
+import edu.colorado.phet.simsharing.socket.Sample;
+import edu.colorado.phet.simsharing.socketutil.IActor;
 
 /**
  * @author Sam Reid
  */
-public class SimView<U extends SimsharingApplicationState, T extends SimsharingApplication<U>> {
+public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
     private final Thread thread;
     private final TimeControlFrame timeControl;
     private T application;
-    private final RemoteActor<U> sampleSource;
+    private SessionID sessionID;
+    private final IActor sampleSource;
     private boolean running = true;
 
-    public SimView( final SessionID sessionID, final RemoteActor<U> sampleSource, boolean playbackMode, final T application ) {
+    public SimView( final SessionID sessionID, IActor sampleSource, boolean playbackMode, final T application ) {
+        this.sessionID = sessionID;
         this.sampleSource = sampleSource;
         this.application = application;
         timeControl = new TimeControlFrame( sessionID );
@@ -59,11 +62,11 @@ public class SimView<U extends SimsharingApplicationState, T extends SimsharingA
             } );
 
             final int sampleIndex = timeControl.live.get() ? -1 : timeControl.frameToDisplay.get();
-            final Pair<U, Integer> sample = sampleSource.getSample( sampleIndex );
+            final Sample<U> sample = (Sample<U>) sampleSource.ask( new GetSample( sessionID, sampleIndex ) );
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
-                    application.setState( sample._1 );
-                    timeControl.maxFrames.set( sample._2 );
+                    application.setState( sample.state );
+                    timeControl.maxFrames.set( sample.totalSampleCount );
                 }
             } );
         }
