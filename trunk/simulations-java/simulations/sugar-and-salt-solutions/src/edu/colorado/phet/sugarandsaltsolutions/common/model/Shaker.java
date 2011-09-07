@@ -110,7 +110,7 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
 
     //Create a SaltShakerNode for display and interaction with this model element
     @Override public PNode createNode( ModelViewTransform transform, double beakerHeight, boolean micro, Function1<Point2D, Point2D> constraint ) {
-        return new SaltShakerNode<T>( transform, this, beakerHeight, micro, constraint );
+        return new SaltShakerNode<T>( transform, this, micro, constraint );
     }
 
     @Override public void reset() {

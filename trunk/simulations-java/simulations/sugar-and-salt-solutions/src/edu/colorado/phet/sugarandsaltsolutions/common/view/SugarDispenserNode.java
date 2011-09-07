@@ -36,7 +36,7 @@ public class SugarDispenserNode<T extends SugarAndSaltSolutionModel> extends Dis
                                final boolean micro,
 
                                Function1<Point2D, Point2D> dragConstraint ) {
-        super( transform, model, beakerHeight, dragConstraint );
+        super( transform, model, dragConstraint );
 
         //Hide the sugar dispenser if it is not enabled (selected by the user)
         model.enabled.addObserver( new VoidFunction1<Boolean>() {

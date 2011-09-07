@@ -19,11 +19,11 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  * @author Sam Reid
  */
 public class SaltShakerNode<T extends SugarAndSaltSolutionModel> extends DispenserNode<T, Shaker<T>> {
-    public SaltShakerNode( final ModelViewTransform transform, final Shaker<T> model, double beakerHeight,
+    public SaltShakerNode( final ModelViewTransform transform, final Shaker<T> model,
 
                            //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
                            boolean micro, Function1<Point2D, Point2D> constraint ) {
-        super( transform, model, beakerHeight, constraint );
+        super( transform, model, constraint );
 
         //Create images to use in each scenario
         final BufferedImage fullImage = multiScaleToHeight( micro ? SALT_MICRO : SALT_1, 200 );

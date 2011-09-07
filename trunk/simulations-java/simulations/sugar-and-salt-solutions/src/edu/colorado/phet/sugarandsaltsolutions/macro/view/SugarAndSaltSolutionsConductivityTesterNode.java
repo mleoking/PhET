@@ -98,6 +98,7 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
 
     //Used to create a thumbnail icon for use in the toolbox.
     public Image createImage() {
+
         //Generate a thumbnail of the conductivity tester node.  This is done by making it visible, calling toImage() and then making it invisible
         boolean visible = conductivityTester.visible.get();
         conductivityTester.visible.set( true );
@@ -118,6 +119,9 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
                                                      conductivityTester.getNegativeProbeLocationReference().getY() + modelDelta.getHeight() );
         conductivityTester.setPositiveProbeLocation( conductivityTester.getPositiveProbeLocationReference().getX() + modelDelta.getWidth(),
                                                      conductivityTester.getPositiveProbeLocationReference().getY() + modelDelta.getHeight() );
+
+        //The thing you are dragging should always go in front.  Have to move the parent in front since it is the child in the canvas.submergedInWaterNode
+        getParent().moveToFront();
     }
 
     //Only the bulb can be dropped back in the toolbox since it is the only part that translates the unit
