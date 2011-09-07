@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.teacher;
+package edu.colorado.phet.simsharing.teacher.table;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
