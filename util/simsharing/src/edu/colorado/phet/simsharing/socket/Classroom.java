@@ -13,6 +13,7 @@ import edu.colorado.phet.simsharing.SimHelper;
  */
 public class Classroom {
     public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
+        Server.parseArgs( args );
         for ( int i = 0; i < 8; i++ ) {
             new Thread( new Runnable() {
                 public void run() {
