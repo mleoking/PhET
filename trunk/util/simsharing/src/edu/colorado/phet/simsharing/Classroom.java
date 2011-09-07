@@ -1,10 +1,8 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.socket;
+package edu.colorado.phet.simsharing;
 
 import java.awt.AWTException;
 import java.io.IOException;
-
-import edu.colorado.phet.simsharing.SimHelper;
 
 /**
  * Launch lots of students for load-testing.

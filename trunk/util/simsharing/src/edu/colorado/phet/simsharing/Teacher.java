@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.socket;
+package edu.colorado.phet.simsharing;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
@@ -10,6 +10,8 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.simsharing.socketutil.Client;
 import edu.colorado.phet.simsharing.socketutil.IActor;
+import edu.colorado.phet.simsharing.teacher.ClassroomView;
+import edu.colorado.phet.simsharing.teacher.RecordingView;
 
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWindowOnScreen;
 

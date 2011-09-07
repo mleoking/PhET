@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.common.util;
+package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -87,5 +87,9 @@ public class ImmutableList<T> implements Iterable<T> {
             immutableList.elements.add( map.apply( t ) );
         }
         return immutableList;
+    }
+
+    public ImmutableList<T> append( T element ) {
+        return new ImmutableList<T>( this, element );
     }
 }

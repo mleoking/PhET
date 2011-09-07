@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.socket;
+package edu.colorado.phet.simsharing;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,16 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.colorado.phet.common.phetcommon.simsharing.ImmutableList;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.GetStudentData;
+import edu.colorado.phet.simsharing.messages.RegisterPushConnection;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
 import edu.colorado.phet.simsharing.messages.StartSession;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
+import edu.colorado.phet.simsharing.socket.Session;
 import edu.colorado.phet.simsharing.socketutil.MessageHandler;
 import edu.colorado.phet.simsharing.socketutil.MessageServer;
 import edu.colorado.phet.simsharing.teacher.ClearSessions;
@@ -44,6 +47,8 @@ public class Server implements MessageHandler {
 
     //Careful, used in many threads, so must threadlock
     private Map<SessionID, Session<?>> sessions = Collections.synchronizedMap( new HashMap<SessionID, Session<?>>() );
+
+    private Map<SessionID, ImmutableList<ObjectOutputStream>> pushConnections = Collections.synchronizedMap( new HashMap<SessionID, ImmutableList<ObjectOutputStream>>() );
 
     private void start() throws IOException {
         new MessageServer( PORT, this ).start();
@@ -83,8 +88,18 @@ public class Server implements MessageHandler {
             writeToClient.writeObject( studentList );
         }
         else if ( message instanceof AddSamples ) {
+
+            //Store the samples
             AddSamples request = (AddSamples) message;
             sessions.get( request.getSessionID() ).addSamples( request );
+
+            //Forward them to any teachers that are watching this student
+            if ( pushConnections.containsKey( request.getSessionID() ) ) {
+                ImmutableList<ObjectOutputStream> listeners = pushConnections.get( request.getSessionID() );
+                for ( ObjectOutputStream listener : listeners ) {
+                    listener.writeObject( request );
+                }
+            }
         }
         else if ( message instanceof ListAllSessions ) {
             writeToClient.writeObject( new SessionList( new ArrayList<SessionRecord>() {{
@@ -100,6 +115,12 @@ public class Server implements MessageHandler {
         }
         else if ( message instanceof ClearSessions ) {
             sessions.clear();
+        }
+        else if ( message instanceof RegisterPushConnection ) {
+            RegisterPushConnection registerPushConnection = (RegisterPushConnection) message;
+            final SessionID id = registerPushConnection.getSessionID();
+            ImmutableList<ObjectOutputStream> listeners = pushConnections.containsKey( id ) ? pushConnections.get( id ) : new ImmutableList<ObjectOutputStream>();
+            pushConnections.put( id, listeners.append( writeToClient ) );
         }
     }
 
