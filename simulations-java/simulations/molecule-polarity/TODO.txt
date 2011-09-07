@@ -18,6 +18,7 @@ HIGH
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 
 MEDIUM
+- play area visibly resizes at startup
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3 (wait to see whether these are cut)
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 - DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
