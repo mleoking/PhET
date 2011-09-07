@@ -38,7 +38,7 @@ public class MoleculeModel {
         double error = AttractorModel.applyAttractorForces( this, tpf );
 
         // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
-        double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.sqrt( error ) ) );
+        double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
 
         // repulsion forces
         for ( PairGroup group : groups ) {
