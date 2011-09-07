@@ -3,7 +3,6 @@ package edu.colorado.phet.simsharing.teacher;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.IOException;
 
 import javax.swing.SwingUtilities;
 
@@ -24,21 +23,15 @@ public class SimView<U extends SimsharingApplicationState, T extends SimsharingA
     private final RemoteActor<U> sampleSource;
     private boolean running = true;
 
-    public SimView( final SessionID sessionID, RemoteActor<U> sampleSource, boolean playbackMode, T application ) {
+    public SimView( final SessionID sessionID, final RemoteActor<U> sampleSource, boolean playbackMode, final T application ) {
         this.sampleSource = sampleSource;
         this.application = application;
         timeControl = new TimeControlFrame( sessionID );
         timeControl.setVisible( true );
         thread = new Thread( new Runnable() {
             public void run() {
-                try {
-                    doRun();
-                }
-                catch ( ClassNotFoundException e ) {
-                    e.printStackTrace();
-                }
-                catch ( IOException e ) {
-                    e.printStackTrace();
+                while ( running ) {
+                    step();
                 }
             }
         } );
@@ -54,34 +47,28 @@ public class SimView<U extends SimsharingApplicationState, T extends SimsharingA
         } );
     }
 
-    private void doRun() throws ClassNotFoundException, IOException {
-        while ( running ) {
-            try {
-                SwingUtilities.invokeAndWait( new Runnable() {
-                    public void run() {
-                        if ( timeControl.playing.get() ) {//TODO: may need a sleep
-                            timeControl.frameToDisplay.set( Math.min( timeControl.frameToDisplay.get() + 1, timeControl.maxFrames.get() ) );
-                        }
+    //TODO: rewrite to account for push
+    private void step() {
+        try {
+            SwingUtilities.invokeAndWait( new Runnable() {
+                public void run() {
+                    if ( timeControl.playing.get() ) {//TODO: may need a sleep
+                        timeControl.frameToDisplay.set( Math.min( timeControl.frameToDisplay.get() + 1, timeControl.maxFrames.get() ) );
                     }
-                } );
-            }
-            catch ( Exception e ) {
-                e.printStackTrace();
-            }
+                }
+            } );
 
             final int sampleIndex = timeControl.live.get() ? -1 : timeControl.frameToDisplay.get();
             final Pair<U, Integer> sample = sampleSource.getSample( sampleIndex );
-            try {
-                SwingUtilities.invokeAndWait( new Runnable() {
-                    public void run() {
-                        application.setState( sample._1 );
-                        timeControl.maxFrames.set( sample._2 );
-                    }
-                } );
-            }
-            catch ( Exception e ) {
-                e.printStackTrace();
-            }
+            SwingUtilities.invokeAndWait( new Runnable() {
+                public void run() {
+                    application.setState( sample._1 );
+                    timeControl.maxFrames.set( sample._2 );
+                }
+            } );
+        }
+        catch ( Exception e ) {
+            e.printStackTrace();
         }
     }
 
