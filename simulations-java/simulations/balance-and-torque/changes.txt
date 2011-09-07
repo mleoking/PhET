@@ -1,3 +1,4 @@
+Fixed an issue where a model element would be added and animated forever if the user just did one quick click on the item in the tool box.
 Added highlights for the occupied tick marks on the plank.
 Made the mass labels appear over the center of mass for the images, instead of just the image center.
 Fixed a bug where some of the control checkboxes where not cleared upon a Reset All.
