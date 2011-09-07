@@ -1,3 +1,4 @@
+Fixed indices of playback
 Fixed exiting and student list
 Improvements to support multiple sim types
 Switched to use java serialization + in-memory storage instead of morphia disk-based storage

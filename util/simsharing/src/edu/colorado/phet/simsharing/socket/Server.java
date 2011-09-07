@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
@@ -51,7 +53,10 @@ public class Server implements MessageHandler {
     public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) throws IOException {
         if ( message instanceof GetStudentData ) {
             GetStudentData request = (GetStudentData) message;
-            writeToClient.writeObject( sessions.get( request.getSessionID() ).getSample( request.getIndex() ) );
+            final Session<?> session = sessions.get( request.getSessionID() );
+            final int requestedIndex = request.getIndex();
+            final SimsharingApplicationState sample = session.getSample( requestedIndex );
+            writeToClient.writeObject( new Pair<Object, Integer>( sample, requestedIndex == -1 ? session.getNumSamples() : requestedIndex ) );
         }
         else if ( message instanceof StartSession ) {
             int sessionCount = sessions.size();

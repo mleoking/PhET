@@ -17,7 +17,7 @@ import edu.colorado.phet.simsharing.messages.StudentSummary;
 public class Session<T extends SimsharingApplicationState> {
     private long startTime;
     private Option<Long> endTime = new Option.None<Long>();
-    private final ArrayList<T> entries = new ArrayList();
+    private final ArrayList<T> samples = new ArrayList();
     private final SessionID sessionID;
 
     public Session( SessionID sessionID ) {
@@ -30,14 +30,14 @@ public class Session<T extends SimsharingApplicationState> {
     }
 
     public StudentSummary getStudentSummary() {
-        SerializableBufferedImage image = entries.size() == 0 ? new SerializableBufferedImage( new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB ) ) : entries.get( entries.size() - 1 ).getImage();
-        long time = entries.size() == 0 ? -1 : System.currentTimeMillis() - entries.get( entries.size() - 1 ).getTime();
-        return new StudentSummary( sessionID, image, System.currentTimeMillis() - startTime, time, entries.size() );
+        SerializableBufferedImage image = samples.size() == 0 ? new SerializableBufferedImage( new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB ) ) : samples.get( samples.size() - 1 ).getImage();
+        long time = samples.size() == 0 ? -1 : System.currentTimeMillis() - samples.get( samples.size() - 1 ).getTime();
+        return new StudentSummary( sessionID, image, System.currentTimeMillis() - startTime, time, samples.size() );
     }
 
     public void addSamples( AddSamples<T> sampleSet ) {
         for ( T sample : sampleSet.getData() ) {
-            entries.add( sample );
+            samples.add( sample );
         }
     }
 
@@ -45,10 +45,10 @@ public class Session<T extends SimsharingApplicationState> {
 
         //Handle flag for request for latest data point
         if ( index == -1 ) {
-            return entries.get( entries.size() - 1 );
+            return samples.get( samples.size() - 1 );
         }
         else {
-            return entries.get( index );
+            return samples.get( index );
         }
     }
 
@@ -62,5 +62,9 @@ public class Session<T extends SimsharingApplicationState> {
 
     public long getStartTime() {
         return startTime;
+    }
+
+    public Integer getNumSamples() {
+        return samples.size();
     }
 }
