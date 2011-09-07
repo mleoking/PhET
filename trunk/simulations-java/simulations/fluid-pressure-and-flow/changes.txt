@@ -1,3 +1,4 @@
+# 0.00.19 (56286) Sep 7, 2011
 Water tower: Changed to cursor hand with indicator arrows for hose nozzle rotation
 # 0.00.18 (56265) Sep 7, 2011
 Water tower: Added a static cursor for the hose nozzle rotation
