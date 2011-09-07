@@ -3,6 +3,7 @@ package edu.colorado.phet.simsharing.socket;
 
 import java.io.IOException;
 
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.simsharing.messages.GetStudentData;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.socketutil.IActor;
@@ -19,7 +20,7 @@ public class RemoteActor<T> {
         this.sessionID = sessionID;
     }
 
-    public T getSample( int index ) throws IOException, ClassNotFoundException {
-        return (T) server.ask( new GetStudentData( sessionID, index ) );
+    public Pair<T, Integer> getSample( int index ) throws IOException, ClassNotFoundException {
+        return (Pair<T, Integer>) server.ask( new GetStudentData( sessionID, index ) );
     }
 }

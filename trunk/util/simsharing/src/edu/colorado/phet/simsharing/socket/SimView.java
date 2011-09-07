@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.TimeControlFrame;
 import edu.colorado.phet.simsharing.messages.SessionID;
@@ -73,15 +74,14 @@ public class SimView<U extends SimsharingApplicationState, T extends SimsharingA
             }
 
             final int sampleIndex = timeControl.live.get() ? -1 : timeControl.frameToDisplay.get();
-            final U sample = sampleSource.getSample( sampleIndex );
+            final Pair<U, Integer> sample = sampleSource.getSample( sampleIndex );
             try {
                 SwingUtilities.invokeAndWait( new Runnable() {
                     public void run() {
-                        application.setState( sample );
+                        application.setState( sample._1 );
 
-                        //TODO: we used to pass back the sample index so that we could handle live
-                        if ( sampleIndex > 0 ) {
-                            timeControl.maxFrames.set( sampleIndex );
+                        if ( timeControl.live.get() ) {
+                            timeControl.maxFrames.set( sample._2 );
                         }
                     }
                 } );
