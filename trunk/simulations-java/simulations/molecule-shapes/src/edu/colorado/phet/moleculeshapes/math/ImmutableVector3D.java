@@ -69,6 +69,14 @@ public class ImmutableVector3D {
         return x * v.x + y * v.y + z * v.z;
     }
 
+    public double angleBetween( ImmutableVector3D v ) {
+        return Math.acos( dot( v ) );
+    }
+
+    public double angleBetweenInDegrees( ImmutableVector3D v ) {
+        return angleBetween( v ) * 180 / Math.PI;
+    }
+
     @Override public String toString() {
         return "ImmutableVector3d[" + x + "," + y + "," + z + "]";
     }

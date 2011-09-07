@@ -26,6 +26,8 @@ public class SwingJMENode extends Node {
 
     public final VoidNotifier onResize = new VoidNotifier(); // notifier that fires when this node is resized
 
+    private boolean ignoreInput = false;
+
     /**
      * Basically whether this node should be antialiased. If it is set up in a position where the texture (image)
      * pixels are not 1-to-1 with the screen pixels (say, translated by fractions of a pixel, or any rotation),
@@ -85,10 +87,21 @@ public class SwingJMENode extends Node {
                     hudNode = newHudNode;
                     attachChild( newHudNode );
 
+                    if ( ignoreInput ) {
+                        hudNode.ignoreInput();
+                    }
+
                     // notify that we resized
                     onResize.fire();
                 }
             } );
+        }
+    }
+
+    public void ignoreInput() {
+        this.ignoreInput = true;
+        if ( hudNode != null ) {
+            hudNode.ignoreInput();
         }
     }
 

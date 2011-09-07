@@ -61,6 +61,14 @@ public class PerformanceFrame extends JFrame {
         );
         container.add( new PropertyIntegerSlider( 3, 50, MoleculeShapesProperties.cylinderSamples ), new GridBagConstraints() {{gridy = 3;}} );
 
+//        container.add( new JLabel( "Minimum bond angle threshold" ), new GridBagConstraints() {{gridy = 4;}} );
+//        container.add( new DoublePropertySlider( MoleculeShapesProperties.minimumBrightnessFade ), new GridBagConstraints() {{gridy = 4;}} );
+//        container.add( new PropertyLabel(MoleculeShapesProperties.minimumBrightnessFade), new GridBagConstraints() {{gridy = 4;}} );
+//
+//        container.add( new JLabel( "Maximum bond angle threshold" ), new GridBagConstraints() {{gridy = 5;}} );
+//        container.add( new DoublePropertySlider( MoleculeShapesProperties.maximumBrightnessFade ), new GridBagConstraints() {{gridy = 5;}} );
+//        container.add( new PropertyLabel(MoleculeShapesProperties.maximumBrightnessFade), new GridBagConstraints() {{gridy = 5;}} );
+
         pack();
         setVisible( true );
     }
@@ -84,6 +92,33 @@ public class PerformanceFrame extends JFrame {
             addActionListener( new JmeActionListener( new Runnable() {
                 public void run() {
                     JmeUtils.antiAliasingSamples.set( samples );
+                }
+            } ) );
+        }
+    }
+
+    private static class DoublePropertySlider extends JSlider {
+        private static final double scale = 100;
+
+        private DoublePropertySlider( final Property<Double> property ) {
+            super( 0, (int) ( 1 * scale ), (int) ( property.get() * scale ) );
+            addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    JmeUtils.invoke( new Runnable() {
+                        public void run() {
+                            property.set( ( (double) getValue() ) / scale );
+                        }
+                    } );
+                }
+            } );
+        }
+    }
+
+    private static class PropertyLabel extends JLabel {
+        public PropertyLabel( final Property<?> property ) {
+            property.addObserver( JmeUtils.swingObserver( new Runnable() {
+                public void run() {
+                    setText( property.get().toString() );
                 }
             } ) );
         }
