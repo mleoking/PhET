@@ -4,14 +4,13 @@ package edu.colorado.phet.fluidpressureandflow.watertower.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -28,7 +27,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.NOZZLE;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.ROTATE_CURSOR;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_MITER;
 import static java.awt.Cursor.N_RESIZE_CURSOR;
@@ -40,16 +38,24 @@ import static java.lang.Math.PI;
  * @author Sam Reid
  */
 public class HoseNode extends PNode {
-    private ModelViewTransform transform;
     private Hose hose;
     public final PImage nozzleImageNode;
-    final BooleanProperty showDragHandles = new BooleanProperty( true );
-    final BooleanProperty showRotationHandles = new BooleanProperty( true );
+    private final BooleanProperty showDragHandles = new BooleanProperty( true );
+
+    //Rotation handles should only be shown if the user is moused over (or dragging) the nozzle, or if the user hasn't dragged it yet
+    private final BooleanProperty showRotationHandles = new BooleanProperty( true );
+    private final BooleanProperty mouseOverNozzle = new BooleanProperty( false );
+    private final And showCounterClockwiseArrow;
+    private final And showClockwiseArrow;
+
     private boolean debugModelPosition = false;
 
     public HoseNode( final ModelViewTransform transform, final Hose hose ) {
-        this.transform = transform;
         this.hose = hose;
+
+        //Rotation handles should only be shown if the user is moused over (or dragging) the nozzle, or if the user hasn't dragged it yet
+        showCounterClockwiseArrow = ( showRotationHandles.or( mouseOverNozzle ) ).and( hose.angle.lessThan( Math.PI / 2 ) );
+        showClockwiseArrow = ( showRotationHandles.or( mouseOverNozzle ) ).and( hose.angle.greaterThan( 0.0 ) );
 
         //Width of the hose in stage coordinates
         final double hoseWidth = (float) Math.abs( transform.modelToViewDeltaY( hose.holeSize ) ) * 1.5;
@@ -67,7 +73,32 @@ public class HoseNode extends PNode {
                 }
             }.observe( hose.angle, hose.outputPoint );
 
-            addInputEventListener( new CursorHandler( Toolkit.getDefaultToolkit().createCustomCursor( ROTATE_CURSOR, new Point( 5, 0 ), "rotate-cursor" ) ) );
+            //Listen for whether the user is interacting with the nozzle.  This is true if the user moused over the nozzle or if they are dragging it.
+            addInputEventListener( new PBasicInputEventHandler() {
+                boolean entered = false;
+                boolean pressed = false;
+
+                @Override public void mouseEntered( PInputEvent event ) {
+                    entered = true;
+                    mouseOverNozzle.set( entered || pressed );
+                }
+
+                @Override public void mouseExited( PInputEvent event ) {
+                    entered = false;
+                    mouseOverNozzle.set( entered || pressed );
+                }
+
+                @Override public void mousePressed( PInputEvent event ) {
+                    pressed = true;
+                    mouseOverNozzle.set( entered || pressed );
+                }
+
+                @Override public void mouseReleased( PInputEvent event ) {
+                    pressed = false;
+                    mouseOverNozzle.set( entered || pressed );
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
 
             //Make it possible to drag the angle of the hose
             //Copied from PrismNode
@@ -131,8 +162,9 @@ public class HoseNode extends PNode {
                 @Override public void update() {
                     removeAllChildren();
                     final ImmutableVector2D rotateArrowTail = transform.modelToView( hose.getNozzleInputPoint().plus( 0, hose.nozzleHeight * 0.13 ) );
-                    addChild( new TranslationDragHandle( rotateArrowTail, dragArrowLength, 0, showRotationHandles ) );
-                    addChild( new TranslationDragHandle( rotateArrowTail, -dragArrowLength, 0, showRotationHandles ) );
+                    ImmutableVector2D directionVector = parseAngleAndMagnitude( dragArrowLength, -hose.angle.get() + Math.PI / 2 );
+                    addChild( new TranslationDragHandle( rotateArrowTail, directionVector.getX(), directionVector.getY(), showCounterClockwiseArrow ) );
+                    addChild( new TranslationDragHandle( rotateArrowTail, -directionVector.getX(), -directionVector.getY(), showClockwiseArrow ) );
                 }
             }.observe( hose.angle, hose.outputPoint, hose.y );
         }};
