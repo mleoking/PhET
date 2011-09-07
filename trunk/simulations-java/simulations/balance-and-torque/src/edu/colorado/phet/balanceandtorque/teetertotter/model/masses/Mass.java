@@ -64,7 +64,7 @@ public abstract class Mass implements UserMovableModelElement {
     // Vector that describes the amount of linear motion for one time step.
     final protected Vector2D animationMotionVector = new Vector2D( 0, 0 );
     // Scale factor, used primarily during animation.
-    protected double scale = 1;
+    protected double animationScale = 1;
     // Expected duration of an in-progress animation.
     protected double expectedAnimationTime = 0;
 

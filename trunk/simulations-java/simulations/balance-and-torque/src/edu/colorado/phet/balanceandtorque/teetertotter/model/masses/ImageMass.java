@@ -104,15 +104,17 @@ public class ImageMass extends Mass {
 
     @Override public void stepInTime( double dt ) {
         if ( animatingProperty.get() ) {
-            // Do a step of the linear animation towards the destination.
-            translate( animationMotionVector.getScaledInstance( dt ) );
-            scale = Math.max( scale - ( dt / expectedAnimationTime ) * 0.5, 0.1 );
-            heightProperty.set( scale * animationStartHeight );
             if ( getPosition().distance( animationDestination ) < animationMotionVector.getMagnitude() * dt ) {
                 // Close enough - animation is complete.
                 setPosition( animationDestination );
                 animatingProperty.set( false );
-                scale = 1;
+                animationScale = 1;
+            }
+            else {
+                // Do a step of the linear animation towards the destination.
+                translate( animationMotionVector.getScaledInstance( dt ) );
+                animationScale = Math.max( animationScale - ( dt / expectedAnimationTime ) * 0.5, 0.1 );
+                heightProperty.set( animationScale * animationStartHeight );
             }
         }
     }
