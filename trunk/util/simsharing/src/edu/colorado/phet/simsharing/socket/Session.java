@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplicationState;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
@@ -15,7 +16,7 @@ import edu.colorado.phet.simsharing.messages.StudentSummary;
  */
 public class Session<T extends SimsharingApplicationState> {
     private long startTime;
-    private long endTime;
+    private Option<Long> endTime = new Option.None<Long>();
     private final ArrayList<T> entries = new ArrayList();
     private final SessionID sessionID;
 
@@ -25,7 +26,7 @@ public class Session<T extends SimsharingApplicationState> {
     }
 
     public void endSession() {
-        endTime = System.currentTimeMillis();
+        endTime = new Option.Some<Long>( System.currentTimeMillis() );
     }
 
     public StudentSummary getStudentSummary() {
@@ -49,5 +50,17 @@ public class Session<T extends SimsharingApplicationState> {
         else {
             return entries.get( index );
         }
+    }
+
+    public boolean isActive() {
+        return endTime.isNone();
+    }
+
+    public SessionID getSessionID() {
+        return sessionID;
+    }
+
+    public long getStartTime() {
+        return startTime;
     }
 }

@@ -7,21 +7,23 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
+import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.GetStudentData;
-import edu.colorado.phet.simsharing.messages.GetStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
+import edu.colorado.phet.simsharing.messages.SessionRecord;
 import edu.colorado.phet.simsharing.messages.StartSession;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
 import edu.colorado.phet.simsharing.socketutil.MessageHandler;
 import edu.colorado.phet.simsharing.socketutil.MessageServer;
 import edu.colorado.phet.simsharing.teacher.ClearDatabase;
-import edu.colorado.phet.simsharing.teacher.GetSessionList;
+import edu.colorado.phet.simsharing.teacher.ListAllSessions;
 import edu.colorado.phet.simsharing.teacher.SessionList;
 import edu.colorado.phet.simsharing.teacher.StudentList;
 
@@ -65,10 +67,13 @@ public class Server implements MessageHandler {
             System.out.println( "session exited: " + sessionID );
             sessions.get( sessionID ).endSession();
         }
-        else if ( message instanceof GetStudentList ) {
+        else if ( message instanceof GetActiveStudentList ) {
             final StudentList studentList = new StudentList( new ArrayList<StudentSummary>() {{
                 for ( SessionID sessionID : new ArrayList<SessionID>( sessions.keySet() ) ) {
-                    add( sessions.get( sessionID ).getStudentSummary() );
+                    final Session<?> session = sessions.get( sessionID );
+                    if ( session.isActive() ) {
+                        add( session.getStudentSummary() );
+                    }
                 }
             }} );
             writeToClient.writeObject( studentList );
@@ -77,19 +82,17 @@ public class Server implements MessageHandler {
             AddSamples request = (AddSamples) message;
             sessions.get( request.getSessionID() ).addSamples( request );
         }
-        else if ( message instanceof GetSessionList ) {
-            final SessionList sessionList = new SessionList();
-            //TODO: implement
-//            final List<SessionStarted> sessionStarted = ds.find( SessionStarted.class ).asList();
-//            Collections.sort( sessionStarted, new Comparator<SessionStarted>() {
-//                public int compare( SessionStarted o1, SessionStarted o2 ) {
-//                    return Double.compare( o1.getTime(), o2.getTime() );
-//                }
-//            } );
-//            for ( SessionStarted started : sessionStarted ) {
-//                sessionList.add( started );
-//            }
-            writeToClient.writeObject( sessionList );
+        else if ( message instanceof ListAllSessions ) {
+            writeToClient.writeObject( new SessionList( new ArrayList<SessionRecord>() {{
+                for ( Session<?> session : sessions.values() ) {
+                    add( new SessionRecord( session.getSessionID(), session.getStartTime() ) );
+                    Collections.sort( this, new Comparator<SessionRecord>() {
+                        public int compare( SessionRecord o1, SessionRecord o2 ) {
+                            return Double.compare( o1.getTime(), o2.getTime() );
+                        }
+                    } );
+                }
+            }} ) );
         }
         else if ( message instanceof ClearDatabase ) {
             sessions.clear();

@@ -1,3 +1,4 @@
+Fixed exiting and student list
 Improvements to support multiple sim types
 Switched to use java serialization + in-memory storage instead of morphia disk-based storage
 # 00.00.39 (56172) Sep 5, 2011
