@@ -72,6 +72,7 @@ public class FluidPressureAndFlowResources {
         public static final BufferedImage PRESSURE_METER_CENTER = RESOURCES.getImage( "pressure_meter_center.png" );
         public static final BufferedImage PRESSURE_METER_LEFT = RESOURCES.getImage( "pressure_meter_left.png" );
         public static final BufferedImage PRESSURE_METER_RIGHT = RESOURCES.getImage( "pressure_meter_right.png" );
+        public static final BufferedImage ROTATE_CURSOR = RESOURCES.getImage( "rotate-cursor.gif" );
         public static final BufferedImage SQUEEZER_BACKGROUND = RESOURCES.getImage( "squeezer_background.png" );
     }
 }
