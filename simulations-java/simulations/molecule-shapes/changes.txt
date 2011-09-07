@@ -1,3 +1,5 @@
+180-degree bond angle support (and stabilization)
+Bond angle visibility improvements
 Adding CH3Cl, HCl
 Fixed SOF4
 Don't auto-rotate the real example molecule after dragging

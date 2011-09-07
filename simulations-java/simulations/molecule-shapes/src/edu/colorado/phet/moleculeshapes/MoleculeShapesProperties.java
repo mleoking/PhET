@@ -27,4 +27,8 @@ public class MoleculeShapesProperties {
 
     // number of samples taken radially on the cylinders (bonds)
     public static final Property<Integer> cylinderSamples = new Property<Integer>( 16 );
+
+    // FOR DEV, not enabled: controls the threshold of brightness (0 to 1) where the bond angle's visibility will fade from visible to invisible
+    public static final Property<Double> minimumBrightnessFade = new Property<Double>( 0.5 );
+    public static final Property<Double> maximumBrightnessFade = new Property<Double>( 0.7 );
 }

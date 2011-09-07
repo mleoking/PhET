@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
@@ -150,6 +152,8 @@ public class MoleculeModelNode extends Node {
 
     private DecimalFormat angleFormat = new DecimalFormat( "##0.0" );
 
+    private Vector3f lastMidpoint = null; // used to keep the bond angle of 180 degrees stable for 2-bond molecules
+
     private void rebuildAngles() {
         // TODO: docs and cleanup
         Vector3f dir = camera.getLocation();
@@ -165,9 +169,16 @@ public class MoleculeModelNode extends Node {
 
         final boolean showAnglesBetweenLonePairs = MoleculeShapesProperties.allowAnglesBetweenLonePairs.get();
 
-
         // TODO: separate out bond angle feature
         if ( MoleculeShapesProperties.showBondAngles.get() ) {
+
+            // we need to handle the 2-atom case separately for proper support of 180-degree bonds
+            boolean hasTwoBonds = molecule.getBondedGroups().size() == 2;
+            if ( !hasTwoBonds ) {
+                // if we don't have two bonds, just ignore the last midpoint
+                lastMidpoint = null;
+            }
+
             // iterate over all combinations of two pair groups
             for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
                 PairGroup a = molecule.getGroups().get( i );
@@ -189,16 +200,21 @@ public class MoleculeModelNode extends Node {
 
                     final ImmutableVector3D bDir = b.position.get().normalized();
 
-                    final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, transformedDirection );
+                    final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, transformedDirection, molecule.getBondedGroups().size() );
                     if ( brightness == 0 ) {
                         continue;
                     }
 
-                    final BondAngleNode bondAngleNode = new BondAngleNode( app, aDir, bDir, transformedDirection );
+                    final BondAngleNode bondAngleNode = new BondAngleNode( app, molecule, aDir, bDir, transformedDirection, lastMidpoint );
                     attachChild( bondAngleNode );
                     angleNodes.add( bondAngleNode );
 
-                    // TODO: integrate the labels with the BondAngleNode
+                    // if we have two bonds, store the last midpoint so we can keep the bond midpoint stable
+                    if ( hasTwoBonds ) {
+                        lastMidpoint = bondAngleNode.getMidpoint().normalize();
+                    }
+
+                    // TODO: integrate the labels with the BondAngleNode?
 
                     Vector3f globalCenter = getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
                     Vector3f globalMidpoint = getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
@@ -209,8 +225,7 @@ public class MoleculeModelNode extends Node {
                     float extensionFactor = 1.3f;
                     final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
 
-                    // TODO: i18n?
-                    String labelText = angleFormat.format( Math.acos( aDir.dot( bDir ) ) * 180 / Math.PI ) + "°";
+                    String labelText = MessageFormat.format( Strings.ANGLE__DEGREES, angleFormat.format( aDir.angleBetweenInDegrees( bDir ) ) );
                     showAngleLabel( labelText, brightness, displayPoint );
                 }
             }
@@ -252,6 +267,9 @@ public class MoleculeModelNode extends Node {
             text.setFont( new PhetFont( 16 ) );
 
             antialiased.set( true );
+
+            // don't listen to any user input, for performance
+            ignoreInput();
         }
 
         public void attach( final String string, final float brightness, final Vector3f displayPoint ) {

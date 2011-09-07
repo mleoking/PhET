@@ -15,6 +15,7 @@ public class MoleculeShapesResources {
 
     //Strings
     public static class Strings {
+        public static final String ANGLE__DEGREES = RESOURCES.getLocalizedString( "angle.degrees" );
         public static final String CONTROL__HIDE_LONE_PAIRS = RESOURCES.getLocalizedString( "control.hideLonePairs" );
         public static final String CONTROL__SHOW_BOND_ANGLES = RESOURCES.getLocalizedString( "control.showBondAngles" );
         public static final String CONTROL__SHOW_LONE_PAIRS = RESOURCES.getLocalizedString( "control.showLonePairs" );

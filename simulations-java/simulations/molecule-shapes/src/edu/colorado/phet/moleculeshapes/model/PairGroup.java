@@ -164,7 +164,7 @@ public class PairGroup {
         velocity.set( velocity.get().times( damping ) );
 
         // add in a small randomization into position, so we jitter away from unstable positions
-        position.set( position.get().plus( new ImmutableVector3D( JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ) ) ) );
+//        position.set( position.get().plus( new ImmutableVector3D( JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ) ) ) );
     }
 
     public ColorRGBA getColor() {
