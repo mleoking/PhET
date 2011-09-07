@@ -49,12 +49,20 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                                        new AdultFemaleHumanCreatorNode( model, mvt, canvas )
                                )
                ),
-               new Kit<PNode>( new TitleNode( "Mystery Objects" ),
+               new Kit<PNode>( new TitleNode( "Mystery Objects 1" ),
                                new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
                                    addChild( new MysteryObjectCreatorNode( 0, model, mvt, canvas ) );
                                    addChild( new MysteryObjectCreatorNode( 1, model, mvt, canvas ) );
                                    addChild( new MysteryObjectCreatorNode( 2, model, mvt, canvas ) );
                                    addChild( new MysteryObjectCreatorNode( 3, model, mvt, canvas ) );
+                               }}
+               ),
+               new Kit<PNode>( new TitleNode( "Mystery Objects 2" ),
+                               new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
+                                   addChild( new MysteryObjectCreatorNode( 4, model, mvt, canvas ) );
+                                   addChild( new MysteryObjectCreatorNode( 5, model, mvt, canvas ) );
+                                   addChild( new MysteryObjectCreatorNode( 6, model, mvt, canvas ) );
+                                   addChild( new MysteryObjectCreatorNode( 7, model, mvt, canvas ) );
                                }}
                )
         );

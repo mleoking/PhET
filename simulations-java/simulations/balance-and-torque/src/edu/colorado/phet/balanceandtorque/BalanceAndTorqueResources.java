@@ -32,6 +32,10 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage MYSTERY_OBJECT_02 = RESOURCES.getImage( "mystery-object-02.png" );
         public static final BufferedImage MYSTERY_OBJECT_03 = RESOURCES.getImage( "mystery-object-03.png" );
         public static final BufferedImage MYSTERY_OBJECT_04 = RESOURCES.getImage( "mystery-object-04.png" );
+        public static final BufferedImage MYSTERY_OBJECT_05 = RESOURCES.getImage( "mystery-object-05.png" );
+        public static final BufferedImage MYSTERY_OBJECT_06 = RESOURCES.getImage( "mystery-object-06.png" );
+        public static final BufferedImage MYSTERY_OBJECT_07 = RESOURCES.getImage( "mystery-object-07.png" );
+        public static final BufferedImage MYSTERY_OBJECT_08 = RESOURCES.getImage( "mystery-object-08.png" );
         public static final BufferedImage YOUNG_GIRL_SITTING = RESOURCES.getImage( "young-girl-sitting-01.png" );
         public static final BufferedImage YOUNG_GIRL_STANDING = RESOURCES.getImage( "young-girl-standing-01.png" );
     }
