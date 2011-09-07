@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -22,8 +21,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static java.lang.Double.POSITIVE_INFINITY;
-
 /**
  * Base class for Piccolo nodes for sugar or salt shakers.
  *
@@ -36,7 +33,7 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
     private final T model;
     private PNode textLabel;
 
-    public DispenserNode( final ModelViewTransform transform, final T model, final double beakerHeight, Function1<Point2D, Point2D> dragConstraint ) {
+    public DispenserNode( final ModelViewTransform transform, final T model, Function1<Point2D, Point2D> dragConstraint ) {
         this.transform = transform;
         this.model = model;
         //Show the image of the shaker, with the text label on the side of the dispenser
@@ -78,6 +75,9 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
 
                 //Handle super drag after setting the dispenser height in case crystals are emitted
                 super.mouseDragged( event );
+
+                //The thing you are dragging should always go in front.
+                moveToFront();
             }
 
             //Override the setModelPosition to use a call to translate, since that is the call used to shake out crystals
@@ -88,14 +88,6 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
                 model.translate( delta.toDimension() );
             }
         } );
-
-        //Allow dragging the shaker, making sure the cursor hand doesn't get away from the node
-        // but don't let the shaker be dragged underwater
-        addInputEventListener( new RelativeDragHandler( this, transform, model.center, new Function1<Point2D, Point2D>() {
-            public Point2D apply( Point2D modelPoint ) {
-                return new Point2D.Double( modelPoint.getX(), MathUtil.clamp( beakerHeight * 1.3, modelPoint.getY(), POSITIVE_INFINITY ) );
-            }
-        } ) );
 
         //Show a hand cursor when over the dispenser
         addInputEventListener( new CursorHandler() );
