@@ -37,10 +37,16 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                                    addChild( new BrickStackCreatorNode( 4, model, mvt, canvas ) );
                                }}
                ),
-               new Kit<PNode>( new TitleNode( "People" ),
+               new Kit<PNode>( new TitleNode( "People 1" ),
                                new HBox(
-                                       new AdolescentHumanCreatorNode( model, mvt, canvas ),
+                                       new AdolescentBoyCreatorNode( model, mvt, canvas ),
                                        new AdultMaleHumanCreatorNode( model, mvt, canvas )
+                               )
+               ),
+               new Kit<PNode>( new TitleNode( "People 2" ),
+                               new HBox(
+                                       new YoungGirlCreatorNode( model, mvt, canvas ),
+                                       new AdultFemaleHumanCreatorNode( model, mvt, canvas )
                                )
                ),
                new Kit<PNode>( new TitleNode( "Mystery Objects" ),
@@ -53,5 +59,4 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                )
         );
     }
-
 }
