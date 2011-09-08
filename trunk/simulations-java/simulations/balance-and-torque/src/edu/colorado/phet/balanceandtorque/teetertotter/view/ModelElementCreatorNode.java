@@ -130,7 +130,6 @@ public abstract class ModelElementCreatorNode extends PComposite {
         Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
         canvas.getPhetRootNode().screenToWorld( worldPos );
         worldPos = new Vector2D( worldPos ).add( positioningOffset ).toPoint2D();
-        System.out.println( "positioningOffset = " + positioningOffset );
         Point2D modelPos = mvt.viewToModel( worldPos );
         return modelPos;
     }
