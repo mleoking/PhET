@@ -120,51 +120,33 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
             LinearFunction f = new LinearFunction( 1, 0, minGradientWidth, maxGradientWidth );
             final double gradientWidth = f.evaluate( scale );
 
-            // gradient for atom A
-            {
-                // gradient endpoints prior to accounting for molecule transform
-                Point2D pointCenter = new Point2D.Double( 0, 0 );
-                Point2D pointA = new Point2D.Double( -gradientWidth / 2, 0 );
+            // gradient endpoints prior to accounting for molecule transform
+            Point2D pointCenter = new Point2D.Double( 0, 0 );
+            Point2D pointA = new Point2D.Double( -gradientWidth / 2, 0 );
+            Point2D pointB = new Point2D.Double( gradientWidth / 2, 0 );
 
-                // transform gradient endpoints to account for molecule transform
-                AffineTransform transform = new AffineTransform();
-                transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
-                transform.rotate( molecule.getAngle() );
-                transform.transform( pointCenter, pointCenter );
-                transform.transform( pointA, pointA );
+            // transform gradient endpoints to account for molecule transform
+            AffineTransform transform = new AffineTransform();
+            transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
+            transform.rotate( molecule.getAngle() );
+            transform.transform( pointCenter, pointCenter );
+            transform.transform( pointA, pointA );
+            transform.transform( pointB, pointB );
 
-                // choose colors based on polarity
-                Color colorA = ( deltaEN > 0 ) ? colors[2] : colors[0];
-                Color colorCenter = colors[1];
+            // choose colors based on polarity
+            Color colorCenter = colors[1];
+            Color colorA = ( deltaEN > 0 ) ? colors[2] : colors[0];
+            Color colorB = ( deltaEN > 0 ) ? colors[0] : colors[2];
 
-                // create the gradient
-                GradientPaint paint = new GradientPaint( (float) pointA.getX(), (float) pointA.getY(), ColorUtils.createColor( colorA, ALPHA ),
-                                                         (float) pointCenter.getX(), (float) pointCenter.getY(), ColorUtils.createColor( colorCenter, ALPHA ) );
-                pathNodeA.setPaint( paint );
-            }
+            // create the gradient from center to atom A
+            GradientPaint paintA = new GradientPaint( (float) pointA.getX(), (float) pointA.getY(), ColorUtils.createColor( colorA, ALPHA ),
+                                                      (float) pointCenter.getX(), (float) pointCenter.getY(), ColorUtils.createColor( colorCenter, ALPHA ) );
+            pathNodeA.setPaint( paintA );
 
-            // gradient for atom B
-            {
-                // gradient endpoints prior to accounting for molecule transform
-                Point2D pointCenter = new Point2D.Double( 0, 0 );
-                Point2D pointB = new Point2D.Double( gradientWidth / 2, 0 );
-
-                // transform gradient endpoints to account for molecule transform
-                AffineTransform transform = new AffineTransform();
-                transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
-                transform.rotate( molecule.getAngle() );
-                transform.transform( pointCenter, pointCenter );
-                transform.transform( pointB, pointB );
-
-                // choose colors based on polarity
-                Color colorCenter = colors[1];
-                Color colorB = ( deltaEN > 0 ) ? colors[0] : colors[2];
-
-                // create the gradient
-                GradientPaint paint = new GradientPaint( (float) pointCenter.getX(), (float) pointCenter.getY(), ColorUtils.createColor( colorCenter, ALPHA ),
-                                                         (float) pointB.getX(), (float) pointB.getY(), ColorUtils.createColor( colorB, ALPHA ) );
-                pathNodeB.setPaint( paint );
-            }
+            // create the gradient from center to atom B
+            GradientPaint paintB = new GradientPaint( (float) pointCenter.getX(), (float) pointCenter.getY(), ColorUtils.createColor( colorCenter, ALPHA ),
+                                                      (float) pointB.getX(), (float) pointB.getY(), ColorUtils.createColor( colorB, ALPHA ) );
+            pathNodeB.setPaint( paintB );
         }
     }
 
