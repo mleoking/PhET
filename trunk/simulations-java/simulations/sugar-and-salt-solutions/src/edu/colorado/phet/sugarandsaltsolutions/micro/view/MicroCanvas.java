@@ -73,7 +73,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }} );
 
         //Show the kit control node that allows the user to scroll through different kits
-        PNode microKitControlNode = new ZeroOffsetNode( new MicroKitControlNode( model.selectedKit, model.dispenserType ) {{
+        final PNode microKitControlNode = new ZeroOffsetNode( new MicroKitControlNode( model.selectedKit, model.dispenserType ) {{
             model.addResetListener( new VoidFunction0() {
                 public void apply() {
                     kitSelectionNode.selectedKit.set( 0 );
@@ -99,10 +99,11 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                     periodicTableDialog.setVisible( true );
                 }
             } );
-            //Put the button near the other controls, on the right side of the screen
-            setOffset( stageSize.getWidth() - getFullBounds().getWidth(), stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+
+            //Put the button near the solute selection node, since it controls what is highlighted in the periodic table
+            setOffset( microKitControlNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, microKitControlNode.getFullBounds().getMaxY() + INSET );
         }};
-        addChild( periodicTableButton );
+        behindShakerNode.addChild( periodicTableButton );
 
         //Hide the periodic table on reset, and set it to null so it will come up in the default location next time
         model.addResetListener( new VoidFunction0() {
