@@ -360,6 +360,17 @@ public class RealMolecule extends Molecule {
         addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.878000, -1.038000, -0.000000 ) ), 1 );
         addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.705000, -1.038000, 0.914000 ) ), 1 );
         addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.705000, -1.038000, -0.914000 ) ), 1 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule XENON_OXYTETRAFLUORIDE = new RealMolecule( "XeOF4", 1 ) {{
+        addCentralAtom( new Atom3D( Xe, new ImmutableVector3D( -0.198000, 0.086000, -0.422000 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.218000, 0.026000, -2.070000 ) ), 2 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.919000, 0.746000, -0.881000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.854000, -1.694000, -0.523000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.458000, 1.866000, -0.321000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.524000, -0.575000, 0.036000 ) ), 1 );
+        centerOnCentralAtom();
     }};
 
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
@@ -371,7 +382,8 @@ public class RealMolecule extends Molecule {
             CHLORINE_TRIFLUORIDE, XENON_DIFLUORIDE, TRIIODIDE, SULFUR_HEXAFLUORIDE,
             BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
             CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, PERCHLORATE,
-            MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE, METHYL_CHLORIDE, HYDROGEN_CHLORIDE
+            MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE, METHYL_CHLORIDE, HYDROGEN_CHLORIDE,
+            XENON_OXYTETRAFLUORIDE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
