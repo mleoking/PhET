@@ -171,7 +171,7 @@ public class RealMoleculePanelNode extends PNode {
 
             public void updateView() {
                 if ( selectedMolecule.get() != null ) {
-                    setHTML( ChemUtils.toIonSuperscript( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) ) );
+                    setHTML( ChemUtils.toSubscript( selectedMolecule.get().getDisplayName() ) );
                 }
                 else {
                     setHTML( "(none)" );

@@ -155,11 +155,4 @@ public class ChemUtils {
         }
         return outString;
     }
-
-    /**
-     * Like toSubscript, but superscripts for "+" and "-" for ions
-     */
-    public static String toIonSuperscript( String molecularFormula ) {
-        return molecularFormula.replace( "+", "<sup>+</sup>" ).replace( "-", "<sup>-</sup>" );
-    }
 }
