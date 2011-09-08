@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * The wrapped type T should be immutable, or at least protected from external modification.
  * Notifications are sent to observers when they register with addObserver, and when the value changes.
  * Listeners can alternative register for callbacks that provide the new value with addObserver(VoidFunction1<T>).
+ * <p/>
+ * This class is thread-safe, and runs observers outside of the monitor lock to prevent deadlock.
  *
  * @author Sam Reid
  * @author Chris Malley
@@ -29,14 +31,28 @@ public class Property<T> extends SettableProperty<T> {
 
     @Override
     public synchronized T get() {
+        // synchronized the get value for visibility and atomicity guarantees
         return value;
     }
 
     public void set( T value ) {
+        Runnable notifier;
+
+        /*
+         * Set the value and get the old/new value change notifier while synchronized, so this will be atomic.
+         * Otherwise if setting the value and getting the notification values were not atomic, our notifications
+         * could present with incorrect values due to race conditions involving other threads.
+         */
         synchronized ( this ) {
             this.value = value;
+            notifier = getChangeNotifier();
         }
-        notifyIfChanged();
+
+        /*
+        * Actually send the notifications AFTER the synchronized block. This prevents the form of deadlock described
+        * in getChangeNotifier(), since otherwise observers could run actions that would block permanently.
+        */
+        notifier.run();
     }
 
     /**
