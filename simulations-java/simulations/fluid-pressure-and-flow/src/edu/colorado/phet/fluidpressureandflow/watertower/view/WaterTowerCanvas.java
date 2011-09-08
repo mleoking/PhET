@@ -40,15 +40,16 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
 
         addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
 
-        addChild( new WaterTowerNode( transform, module.model.getWaterTower(), module.model.liquidDensity ) );
-        addChild( waterDropLayer );
-
-        //Show the ground in front of the water tower so we don't have to clip the legs of the water tower--this will make them look flat
+        //Show the ground before the hose will go in front
         addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5 ) );
 
         //Show the optional hose that takes the water from the water tower
         HoseNode hoseNode = new HoseNode( transform, module.model.hose );
         addChild( hoseNode );
+
+        //Show the water tower node, should be after the hose so that the red door will go in front of the hose
+        addChild( new WaterTowerNode( transform, module.model.getWaterTower(), module.model.liquidDensity ) );
+        addChild( waterDropLayer );
 
         //Add the faucet
         addChild( new FPAFFaucetNode( module.model.getFaucetFlowRate() ) );
