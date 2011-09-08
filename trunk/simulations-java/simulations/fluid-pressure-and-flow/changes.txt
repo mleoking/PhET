@@ -1,3 +1,4 @@
+Water tower: Extended the handle to make it more visible
 Water tower: Fixed: Arrows on the hose nozzle change length as a function of angle
 # 0.00.19 (56286) Sep 7, 2011
 Water tower: Changed to cursor hand with indicator arrows for hose nozzle rotation
