@@ -112,10 +112,11 @@ public class Server implements MessageHandler {
             final GetSamplesAfter request = (GetSamplesAfter) message;
             final SessionID id = request.id;
 
-            final ArrayList<? extends SimState> session = sessions.get( id ).getSamples();
+            final Session<?> session = sessions.get( id );
+            final ArrayList<? extends SimState> samples = session.getSamples();
             final ArrayList<SimState> states = new ArrayList<SimState>();
-            for ( int i = session.size() - 1; i >= 0; i-- ) {
-                SimState sample = session.get( i );
+            for ( int i = samples.size() - 1; i >= 0; i-- ) {
+                SimState sample = samples.get( i );
                 if ( sample.getTime() > request.time ) {
                     states.add( sample );
                 }
@@ -131,7 +132,7 @@ public class Server implements MessageHandler {
                 } );
 //                    System.out.println( "Server has " + session.getNumSamples() + " states, sending " + size() );
             }
-            writeToClient.writeObject( new SampleBatch( states ) );
+            writeToClient.writeObject( new SampleBatch( states, session.getNumSamples() ) );
         }
     }
 

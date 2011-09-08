@@ -1,3 +1,4 @@
+Improved SimView playback
 Removed push notifications
 Added smoothing for playback
 Added support for push notifications
