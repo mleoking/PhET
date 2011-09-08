@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -22,11 +21,9 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutions
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_CHARGE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_IN_PERIODIC_TABLE;
 
 /**
@@ -116,15 +113,6 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                 }
             }
         } );
-
-        //Checkbox to toggle whether the color shown is based on charge or atom identity
-        addChild( new PSwing( new PropertyCheckBox( SHOW_CHARGE, model.showChargeColor ) {{
-            setBackground( new Color( 0, 0, 0, 0 ) );
-            setFont( CONTROL_FONT );
-            setForeground( Color.white );
-        }} ) {{
-            setOffset( periodicTableButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, periodicTableButton.getFullBounds().getMaxY() + INSET );
-        }} );
 
         //When any spherical particle is added in the model, add graphics for them in the view
         model.sphericalParticles.addElementAddedObserver( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
