@@ -12,7 +12,7 @@ import java.io.IOException;
 public class Classroom {
     public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
         Server.parseArgs( args );
-        for ( int i = 0; i < 8; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             new Thread( new Runnable() {
                 public void run() {
                     try {

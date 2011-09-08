@@ -35,7 +35,7 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
     private boolean allowPushNotifications = false;
     private ArrayList<U> states = new ArrayList<U>();
     private int index = 0;
-    private U lastPlayedState = null;
+    private boolean debugElapsedTime = false;
 
     public SimView( final SessionID sessionID, boolean playbackMode, final T application ) {
         this.sessionID = sessionID;
@@ -117,9 +117,10 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                     long t = System.currentTimeMillis();
                     application.setState( state );
                     long t2 = System.currentTimeMillis();
-                    SimView.this.lastPlayedState = state;
                     index++;
-                    System.out.println( "elapsed: " + ( t2 - t ) );
+                    if ( debugElapsedTime ) {
+                        System.out.println( "elapsed: " + ( t2 - t ) );
+                    }
                 }
             }
         } ).start();
@@ -130,14 +131,10 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                 while ( running ) {
                     try {
                         long time = -1;
-                        if ( lastPlayedState != null ) {
-                            time = lastPlayedState.getTime();
-                        }
                         if ( states.size() > 0 ) {
                             time = states.get( states.size() - 1 ).getTime();
                         }
                         final SampleBatch<U> sample = (SampleBatch<U>) client.ask( new GetSamplesAfter( sessionID, time ) );
-                        int sizeBeforeAdd = states.size();
                         for ( U u : sample ) {
                             if ( !states.contains( u ) ) {
                                 states.add( u );
