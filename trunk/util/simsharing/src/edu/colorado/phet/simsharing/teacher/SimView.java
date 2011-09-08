@@ -7,57 +7,34 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.simsharing.messages.GetSample;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
-import edu.colorado.phet.simsharing.socket.Sample;
 import edu.colorado.phet.simsharing.socketutil.Client;
 
 /**
  * @author Sam Reid
  */
 public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
-    private final Thread thread;
     private final TimeControlFrame timeControl;
     private final T application;
-    private final SessionID sessionID;
-    private Client client;
     private boolean running = true;
     private ArrayList<U> states = new ArrayList<U>();
-    private int index = 0;
     private boolean debugElapsedTime = false;
+    private final Timer timer;
+    private final Thread thread;
 
-    public SimView( final SessionID sessionID, boolean playbackMode, final T application ) {
-        this.sessionID = sessionID;
+    public SimView( final SessionID sessionID, final T application ) {
 
-        //Create a new Client (including a new thread on the server) to avoid synchronization problems with other client
-        try {
-            this.client = new Client();
-        }
-        catch ( Exception e ) {
-            e.printStackTrace();
-        }
         this.application = application;
         timeControl = new TimeControlFrame( sessionID );
         timeControl.setVisible( true );
-        thread = new Thread( new Runnable() {
-            public void run() {
-                while ( running ) {
-                    step();
-                }
-            }
-        } );
-        timeControl.live.set( !playbackMode );
-        if ( playbackMode ) {
-            timeControl.playing.set( true );
-        }
 
         application.setExitStrategy( new VoidFunction0() {
             public void apply() {
@@ -67,25 +44,40 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
             }
         } );
 
-        //Timer that shows the loaded states in order
-        new Timer( 33, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if ( index < states.size() ) {
-                    final U state = states.get( index );
+        timeControl.frame.addObserver( new VoidFunction1<Integer>() {
+            public void apply( final Integer frame ) {
+                if ( frame >= 0 && frame < states.size() ) {
                     long t = System.currentTimeMillis();
-                    application.setState( state );
+                    application.setState( states.get( frame ) );
                     long t2 = System.currentTimeMillis();
-                    index++;
                     if ( debugElapsedTime ) {
                         System.out.println( "elapsed: " + ( t2 - t ) );
                     }
                 }
             }
-        } ).start();
+        } );
+
+        //Timer that shows the loaded states in order
+        timer = new Timer( 33, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( timeControl.playing.get() && timeControl.frame.get() < states.size() ) {
+                    timeControl.frame.set( timeControl.frame.get() + 1 );
+                }
+            }
+        } );
 
         //Acquire new states from the server
-        new Thread( new Runnable() {
+        thread = new Thread( new Runnable() {
             public void run() {
+                //Create a new Client (including a new thread on the server) to avoid synchronization problems with other client
+                Client client = null;
+                try {
+                    client = new Client();
+                }
+                catch ( Exception e ) {
+                    e.printStackTrace();
+                }
+
                 while ( running ) {
                     try {
                         long time = -1;
@@ -93,12 +85,14 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                             time = states.get( states.size() - 1 ).getTime();
                         }
                         final SampleBatch<U> sample = (SampleBatch<U>) client.ask( new GetSamplesAfter( sessionID, time ) );
+
+                        timeControl.numFrames.set( sample.totalNumberStates );
+
                         for ( U u : sample ) {
                             if ( !states.contains( u ) ) {
                                 states.add( u );
                             }
                         }
-//                        System.out.println( "original size = " + sizeBeforeAdd + ", received = " + sample.states.size() + ", total = " + states.size() );
 
                         //Download a batch of states this often
                         Thread.sleep( 1000 );
@@ -108,36 +102,7 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                     }
                 }
             }
-        } ).start();
-    }
-
-    private void step() {
-
-        //Read samples when not live.  When live, data is pushed to the SimView
-        if ( !timeControl.live.get() ) {
-            try {
-                SwingUtilities.invokeAndWait( new Runnable() {
-                    public void run() {
-                        try {
-                            if ( timeControl.playing.get() ) {//TODO: may need a sleep
-                                timeControl.frameToDisplay.set( Math.min( timeControl.frameToDisplay.get() + 1, timeControl.maxFrames.get() ) );
-                            }
-                            final int sampleIndex = timeControl.live.get() ? -1 : timeControl.frameToDisplay.get();
-                            final Sample<U> sample = (Sample<U>) client.ask( new GetSample( sessionID, sampleIndex ) );
-
-                            application.setState( sample.state );
-                            timeControl.maxFrames.set( sample.totalSampleCount );
-                        }
-                        catch ( Exception e ) {
-                            e.printStackTrace();
-                        }
-                    }
-                } );
-            }
-            catch ( Exception e ) {
-                e.printStackTrace();
-            }
-        }
+        } );
     }
 
     private void alignControls() {
@@ -160,6 +125,7 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
         } );
         alignControls();
         application.setTeacherMode( true );
+        timer.start();
         thread.start();
     }
 }

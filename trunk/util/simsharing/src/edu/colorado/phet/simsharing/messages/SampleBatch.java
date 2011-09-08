@@ -14,8 +14,10 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimState;
  */
 public class SampleBatch<T extends SimState> implements Serializable, Iterable<T> {
     public final ArrayList<T> states;
+    public final int totalNumberStates;
 
-    public SampleBatch( ArrayList<T> states ) {
+    public SampleBatch( ArrayList<T> states, int totalNumberStates ) {
+        this.totalNumberStates = totalNumberStates;
         this.states = new ArrayList<T>( states );
     }
 
