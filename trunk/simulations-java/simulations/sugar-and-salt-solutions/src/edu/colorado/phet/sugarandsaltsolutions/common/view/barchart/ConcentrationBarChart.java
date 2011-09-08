@@ -37,7 +37,7 @@ public class ConcentrationBarChart extends PNode {
     protected final double abscissaY;
     protected final PNode background;
 
-    public ConcentrationBarChart( final SettableProperty<Boolean> showValues, final SettableProperty<Boolean> visible, int verticalSpacingForCaptions ) {
+    public ConcentrationBarChart( final SettableProperty<Boolean> showValues, final SettableProperty<Boolean> visible, int verticalSpacingForCaptions, boolean showShowValuesCheckbox ) {
         final int INSET = 5;
 
         //Background for the bar chart
@@ -74,12 +74,15 @@ public class ConcentrationBarChart extends PNode {
 
         //Add a checkbox that lets the user toggle on and off whether actual values are shown
         //This is in a VBox in case we need to add other controls later
-        addChild( new VBox() {{
-            addChild( new PSwing( new PropertyCheckBox( SHOW_VALUES, showValues ) {{
-                setFont( CONTROL_FONT );
-                setBackgroundDeep( this, WATER_COLOR );
-            }} ) );
-            setOffset( background.getFullBounds().getWidth() / 2 - getFullBoundsReference().width / 2, background.getHeight() - getFullBounds().getHeight() - INSET );
-        }} );
+        //It is only shown in the first tab, since values are suppressed in the Micro tab
+        if ( showShowValuesCheckbox ) {
+            addChild( new VBox() {{
+                addChild( new PSwing( new PropertyCheckBox( SHOW_VALUES, showValues ) {{
+                    setFont( CONTROL_FONT );
+                    setBackgroundDeep( this, WATER_COLOR );
+                }} ) );
+                setOffset( background.getFullBounds().getWidth() / 2 - getFullBoundsReference().width / 2, background.getHeight() - getFullBounds().getHeight() - INSET );
+            }} );
+        }
     }
 }

@@ -22,7 +22,8 @@ public class ExpandableConcentrationBarChartNode extends PNode {
                                                 BarItem... bars ) {
 
         //The bar chart itself (when toggled to be visible)
-        addChild( microConcentrationBarChart = new MicroConcentrationBarChart( showConcentrationBarChart, showConcentrationValues, bars ) );
+        microConcentrationBarChart = new MicroConcentrationBarChart( showConcentrationBarChart, showConcentrationValues, bars );
+        addChild( microConcentrationBarChart );
 
         //Panel that says "concentration" and has a "+" button to expand the concentration bar chart
         addChild( new MinimizedConcentrationBarChart( showConcentrationBarChart ) );

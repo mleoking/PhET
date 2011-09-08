@@ -25,7 +25,7 @@ public class MicroConcentrationBarChart extends ConcentrationBarChart {
 
                //Leave enough space for the captions.  This is hard coded since the value is difficult to compute dynamically: largest of all (insets + text + insets + caption + insets)
                //It is also okay that this is hard-coded since translations typically expand horizontally instead of vertically
-               35 );
+               0, false );
         addChild( barLayer );
         this.showValues = showValues;
         setBars( bars );
