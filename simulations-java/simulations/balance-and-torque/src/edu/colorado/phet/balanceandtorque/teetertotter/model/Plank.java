@@ -94,8 +94,7 @@ public class Plank extends ShapeModelElement {
     private final List<Shape> tickMarks = new ArrayList<Shape>();
 
     // Observable list of the force vectors due to the masses on the surface.
-    public final ObservableList<MassForceVector> forceVectorList =
-            new ObservableList<MassForceVector>();
+    public final ObservableList<MassForceVector> forceVectorList = new ObservableList<MassForceVector>();
 
     // Property that indicates whether the plank is being manually moved by
     // the user.
@@ -191,7 +190,12 @@ public class Plank extends ShapeModelElement {
             double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) *
                                         ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
             mapMassToDistFromCenter.put( mass, distanceFromCenter );
+
+            // Add the force vector for this mass.
             forceVectorList.add( new MassForceVector( mass ) );
+
+            // Add an observer that will remove this mass when the user picks
+            // it up.
             mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean userControlled ) {
                     if ( userControlled ) {
@@ -548,6 +552,10 @@ public class Plank extends ShapeModelElement {
 
         public void update() {
             forceVectorProperty.set( generateVector( mass ) );
+        }
+
+        public boolean isObfuscated() {
+            return mass.isMystery();
         }
 
         private PositionedVector generateVector( Mass mass ) {
