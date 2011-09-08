@@ -28,7 +28,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DiatomicElectrostaticPotentialNode extends PComposite {
 
     private static final double DIAMETER_SCALE = 2.5; // multiply atom diameters by this scale when computing surface size
-    private static final int ALPHA = 200; // the alpha channel, for transparency
+    private static final int ALPHA = 185; // the alpha channel, for transparency
     private static final int GRADIENT_WIDTH_MULTIPLIER = 5; // smaller values result in a more noticeable change as the EN sliders are dragged
 
     private final DiatomicMolecule molecule;
