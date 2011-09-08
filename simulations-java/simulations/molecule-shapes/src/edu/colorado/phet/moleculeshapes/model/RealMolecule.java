@@ -108,7 +108,7 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
-    public static final RealMolecule NITRATE = new RealMolecule( "NO3-", 0 ) {{
+    public static final RealMolecule NITRATE = new RealMolecule( "NO3<sup>-</sup>", 0 ) {{
         addCentralAtom( new Atom3D( N, new ImmutableVector3D() ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.227900, 0.187600, 0 ) ), 1 );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.451500, -1.157200, 0 ) ), 1 );
@@ -320,7 +320,7 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
-    public static final RealMolecule CHLORITE = new RealMolecule( "ClO2-", 2 ) {{
+    public static final RealMolecule CHLORITE = new RealMolecule( "ClO2<sup>-</sup>", 2 ) {{
         addCentralAtom( new Atom3D( Cl, new ImmutableVector3D( 2.866, -0.25, 0 ) ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 2, 0.25, 0 ) ), 1 );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 3.732, 0.25, 0 ) ), 2 );
@@ -345,7 +345,7 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
-    public static final RealMolecule PERCHLORATE = new RealMolecule( "ClO4-", 0 ) {{
+    public static final RealMolecule PERCHLORATE = new RealMolecule( "ClO4<sup>-</sup>", 0 ) {{
         addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.023000, 0.014000, 0.171000 ) ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.023000, -1.334000, -0.305000 ) ), 2 );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.191000, 0.688000, -0.306000 ) ), 2 );
