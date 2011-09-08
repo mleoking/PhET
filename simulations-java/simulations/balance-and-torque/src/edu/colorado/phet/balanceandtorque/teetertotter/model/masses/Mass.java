@@ -68,12 +68,21 @@ public abstract class Mass implements UserMovableModelElement {
     // Expected duration of an in-progress animation.
     protected double expectedAnimationTime = 0;
 
+    // Flag that indicates whether this mass should be a "mystery", meaning
+    // that certain visual indications should be hidden from the user.
+    private final boolean isMystery;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
     public Mass( double mass ) {
+        this( mass, false );
+    }
+
+    public Mass( double mass, boolean isMystery ) {
         this.mass = mass;
+        this.isMystery = isMystery;
     }
 
     //-------------------------------------------------------------------------
