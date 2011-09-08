@@ -1,3 +1,4 @@
+Micro tab: Moved the "Periodic table" button underneath the solute selection panel
 Micro tab: Removed checkbox to toggle whether the color shown is based on charge or atom identity
 Micro tab: Removed tick mark readouts from the beaker
 Micro tab: Removed "Show values" checkbox from the bar chart
