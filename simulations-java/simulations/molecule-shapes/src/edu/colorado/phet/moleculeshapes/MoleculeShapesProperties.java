@@ -31,4 +31,7 @@ public class MoleculeShapesProperties {
     // FOR DEV, not enabled: controls the threshold of brightness (0 to 1) where the bond angle's visibility will fade from visible to invisible
     public static final Property<Double> minimumBrightnessFade = new Property<Double>( 0.5 );
     public static final Property<Double> maximumBrightnessFade = new Property<Double>( 0.7 );
+
+    // whether to disable showing the bond angles when it is not applicable
+    public static final Property<Boolean> disableNAShowBondAngles = new Property<Boolean>( false );
 }
