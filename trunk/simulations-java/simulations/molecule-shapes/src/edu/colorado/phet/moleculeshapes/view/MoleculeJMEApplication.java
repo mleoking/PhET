@@ -617,7 +617,10 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
                 namePanel.setLocalTranslation( OUTSIDE_PADDING, OUTSIDE_PADDING, 0 );
 
-                resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 40, 0 ) ) );
+                resetAllNode.setLocalTranslation(
+                        lastCanvasSize.width - ( controlPanel.getWidth() + resetAllNode.getWidth() ) / 2 - OUTSIDE_PADDING,
+                        OUTSIDE_PADDING,
+                        0 );
 
                 /*---------------------------------------------------------------------------*
                 * calculate real molecule overlay bounds
