@@ -72,7 +72,10 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform,
 
                                         //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
-                                        boolean micro ) {
+                                        boolean micro,
+
+                                        //Ticks are shown in Macro and Micro tab, but values are omitted from Micro tab
+                                        boolean showBeakerTickLabels ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
         stageSize = new PDimension( canvasSize.width, (int) ( canvasSize.width / model.visibleRegion.width * model.visibleRegion.height ) );
@@ -141,7 +144,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         }
 
         //Add beaker node that shows border of the beaker and tick marks
-        final BeakerNode node = new BeakerNodeWithTicks( transform, model.beaker );
+        final BeakerNode node = new BeakerNodeWithTicks( transform, model.beaker, showBeakerTickLabels );
         addChild( node );
 
         //Debug for showing stage

@@ -26,7 +26,7 @@ import static java.awt.Color.white;
  * @author Sam Reid
  */
 public class BeakerNodeWithTicks extends BeakerNode {
-    public BeakerNodeWithTicks( ModelViewTransform transform, Beaker beaker ) {
+    public BeakerNodeWithTicks( ModelViewTransform transform, Beaker beaker, boolean showTickLabels ) {
         super( transform, beaker );
 
         //Add Tick marks and labels
@@ -66,10 +66,12 @@ public class BeakerNodeWithTicks extends BeakerNode {
             final PhetPPath tickMark = new PhetPPath( new Line2D.Double( viewX - lineWidth, viewY, viewX, viewY ), new BasicStroke( 4 ), white );
             addChild( tickMark );
 
-            //Create and add a tick mark label to the left of the tick mark, like "0.5L"
-            final PNode labelNode = createLabelNode( tick );
-            labelNode.setOffset( tickMark.getFullBounds().getX() - labelNode.getFullBounds().getWidth(), tickMark.getFullBounds().getCenterY() - labelNode.getFullBounds().getHeight() / 2 );
-            addChild( labelNode );
+            if ( showTickLabels ) {
+                //Create and add a tick mark label to the left of the tick mark, like "0.5L"
+                final PNode labelNode = createLabelNode( tick );
+                labelNode.setOffset( tickMark.getFullBounds().getX() - labelNode.getFullBounds().getWidth(), tickMark.getFullBounds().getCenterY() - labelNode.getFullBounds().getHeight() / 2 );
+                addChild( labelNode );
+            }
         }
     }
 

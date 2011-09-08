@@ -49,7 +49,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
     };
 
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
-        super( model, globalState, createMicroTransform( model ), true );
+        super( model, globalState, createMicroTransform( model ), true, false );
 
         //List of the kits the user can choose from, for showing the appropriate bar charts + controls
         final KitList kitList = new KitList( model, transform );

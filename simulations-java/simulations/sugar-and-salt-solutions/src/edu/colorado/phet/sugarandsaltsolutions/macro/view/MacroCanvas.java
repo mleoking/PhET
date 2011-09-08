@@ -43,7 +43,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
     private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
 
     public MacroCanvas( final MacroModel model, final GlobalState globalState ) {
-        super( model, globalState, createMacroTransform( model ), false );
+        super( model, globalState, createMacroTransform( model ), false, true );
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         submergedInWaterNode.addChild( crystalLayer );
