@@ -58,7 +58,9 @@ public class DiatomicElectronDensityNode extends PComposite {
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
-                updateNode();
+                if ( getVisible() ) {
+                    updateNode();
+                }
             }
         };
         for ( Atom atom : molecule.getAtoms() ) {
@@ -68,6 +70,13 @@ public class DiatomicElectronDensityNode extends PComposite {
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
+    }
+
+    @Override public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        if ( visible ) {
+            updateNode();
+        }
     }
 
     private void updateNode() {

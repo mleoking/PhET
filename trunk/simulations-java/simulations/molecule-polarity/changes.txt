@@ -1,3 +1,4 @@
+9/8/11 update 2D isosurfaces only when they're visible
 9/7/11 implement simple color change for electrostatic potential, based on polarity
 9/7/11 handle neutral polarity specially in electron density gradient, tweak alpha
 9/7/11 account for molecule transform when creating electron density gradient
