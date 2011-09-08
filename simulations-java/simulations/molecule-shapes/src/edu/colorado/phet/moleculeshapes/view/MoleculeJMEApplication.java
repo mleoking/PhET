@@ -433,6 +433,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     public void resetAll() {
         removeAllAtoms();
         showLonePairs.reset();
+        MoleculeShapesProperties.showBondAngles.reset();
 
         resetNotifier.fire();
     }
