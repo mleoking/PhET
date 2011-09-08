@@ -373,6 +373,15 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
+    public static final RealMolecule PHOSPHATE = new RealMolecule( "PO4<sup>3-</sup>", 0 ) {{
+        addCentralAtom( new Atom3D( P, new ImmutableVector3D( 0.000000, -0.000100, 0.000000 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.523400, -0.068800, -0.197700 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.640600, 0.718000, -1.199100 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.567900, -1.424800, 0.107300 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.314900, 0.775700, 1.289500 ) ), 2 );
+        centerOnCentralAtom();
+    }};
+
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
             CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE,
             FORMALDEHYDE, AMMONIA, METHANE, DICHLORODIFLUOROMETHANE, HYDROGEN_CYANIDE,
@@ -383,7 +392,7 @@ public class RealMolecule extends Molecule {
             BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
             CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, PERCHLORATE,
             MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE, METHYL_CHLORIDE, HYDROGEN_CHLORIDE,
-            XENON_OXYTETRAFLUORIDE
+            XENON_OXYTETRAFLUORIDE, PHOSPHATE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
