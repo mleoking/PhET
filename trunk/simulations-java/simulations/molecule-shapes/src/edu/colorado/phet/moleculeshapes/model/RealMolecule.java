@@ -390,6 +390,14 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
+    public static final RealMolecule CHLORATE = new RealMolecule( "ClO3<sup>-</sup>", 1 ) {{
+        addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.633000, 0.293000, -2.002000 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.671000, -1.192000, -2.119000 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.796000, 0.702000, -2.104000 ) ), 2 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.330000, 0.842000, -3.199000 ) ), 2 );
+        centerOnCentralAtom();
+    }};
+
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
             CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE,
             FORMALDEHYDE, AMMONIA, METHANE, DICHLORODIFLUOROMETHANE, HYDROGEN_CYANIDE,
@@ -400,7 +408,7 @@ public class RealMolecule extends Molecule {
             BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
             CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, PERCHLORATE,
             MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE, METHYL_CHLORIDE, HYDROGEN_CHLORIDE,
-            XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE
+            XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE, CHLORATE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
