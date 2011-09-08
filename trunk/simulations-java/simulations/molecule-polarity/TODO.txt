@@ -18,6 +18,8 @@ HIGH
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 
 MEDIUM
+- factor out duplicate code in DiatomicElectrostaticPotentialNode.updatePaint
+- create a base class for DiatomicElectronDensityNode and DiatomicElectrostaticPotentialNode
 - play area visibly resizes at startup
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3 (wait to see whether these are cut)
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
