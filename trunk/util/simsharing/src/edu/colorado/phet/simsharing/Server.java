@@ -12,14 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.colorado.phet.common.phetcommon.simsharing.ImmutableList;
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.GetSample;
 import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
-import edu.colorado.phet.simsharing.messages.RegisterPushConnection;
 import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
@@ -49,8 +47,6 @@ public class Server implements MessageHandler {
 
     //Careful, used in many threads, so must threadlock
     private Map<SessionID, Session<?>> sessions = Collections.synchronizedMap( new HashMap<SessionID, Session<?>>() );
-
-    private Map<SessionID, ImmutableList<ObjectOutputStream>> pushConnections = Collections.synchronizedMap( new HashMap<SessionID, ImmutableList<ObjectOutputStream>>() );
 
     private void start() throws IOException {
         new MessageServer( PORT, this ).start();
@@ -94,14 +90,6 @@ public class Server implements MessageHandler {
             //Store the samples
             AddSamples request = (AddSamples) message;
             sessions.get( request.getSessionID() ).addSamples( request );
-
-            //Forward them to any teachers that are watching this student
-            if ( pushConnections.containsKey( request.getSessionID() ) ) {
-                ImmutableList<ObjectOutputStream> listeners = pushConnections.get( request.getSessionID() );
-                for ( ObjectOutputStream listener : listeners ) {
-                    listener.writeObject( request );
-                }
-            }
         }
         else if ( message instanceof ListAllSessions ) {
             writeToClient.writeObject( new SessionList( new ArrayList<SessionRecord>() {{
@@ -117,12 +105,6 @@ public class Server implements MessageHandler {
         }
         else if ( message instanceof ClearSessions ) {
             sessions.clear();
-        }
-        else if ( message instanceof RegisterPushConnection ) {
-            RegisterPushConnection registerPushConnection = (RegisterPushConnection) message;
-            final SessionID id = registerPushConnection.getSessionID();
-            ImmutableList<ObjectOutputStream> listeners = pushConnections.containsKey( id ) ? pushConnections.get( id ) : new ImmutableList<ObjectOutputStream>();
-            pushConnections.put( id, listeners.append( writeToClient ) );
         }
 
         //Handle request for many data points
