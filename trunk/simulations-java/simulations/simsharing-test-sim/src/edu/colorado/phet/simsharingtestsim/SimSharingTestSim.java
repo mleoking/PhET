@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.simsharing.ImageFactory;
+import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -33,7 +34,7 @@ public class SimSharingTestSim extends PiccoloPhetApplication implements Simshar
 
     public SimSharingTestSimState getState() {
         return new SimSharingTestSimState( System.currentTimeMillis(),
-//                                           new SerializableBufferedImage( imageFactory.getThumbnail( getPhetFrame(), 2 ) ),
+                                           new SerializableBufferedImage( imageFactory.getThumbnail( getPhetFrame(), 200 ) ),
                                            module.position.get() );
     }
 

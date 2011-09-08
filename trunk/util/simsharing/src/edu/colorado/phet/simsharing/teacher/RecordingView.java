@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.simsharing.SimHelper;
+import edu.colorado.phet.simsharing.Sim;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
 import edu.colorado.phet.simsharing.socketutil.Client;
@@ -25,7 +25,7 @@ import edu.colorado.phet.simsharing.socketutil.Client;
  */
 public class RecordingView extends JPanel {
     public JList recordingList;
-    private SessionRecord lastShownRecording = new SessionRecord( new SessionID( -1, "hello" ), 0 );//dummy data so comparisons don't need to use null checks
+    private SessionRecord lastShownRecording = new SessionRecord( new SessionID( -1, "hello", "test" ), 0 );//dummy data so comparisons don't need to use null checks
     private Client client;
 
     public RecordingView( final Client client ) {
@@ -83,6 +83,6 @@ public class RecordingView extends JPanel {
     }
 
     private void showRecording( SessionRecord sessionID ) {
-        new SimView( sessionID.getSessionID(), SimHelper.LAUNCHER.apply() ).start();
+        new SimView( sessionID.getSessionID(), Sim.simMap.get( sessionID.getSessionID().sim ).launcher.apply() ).start();
     }
 }

@@ -106,7 +106,7 @@ public class TimeControlFrame extends JFrame {
     }
 
     public static void main( String[] args ) {
-        new TimeControlFrame( new SessionID( 0, "Tester" ) ) {{
+        new TimeControlFrame( new SessionID( 0, "Tester", "test" ) ) {{
             pack();
             setDefaultCloseOperation( EXIT_ON_CLOSE );
         }}.setVisible( true );

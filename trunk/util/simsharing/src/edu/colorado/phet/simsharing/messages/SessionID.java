@@ -11,10 +11,12 @@ import java.io.Serializable;
 public class SessionID implements Serializable {
     private final int index;
     private final String name;
+    public final String sim;
 
-    public SessionID( int index, String name ) {
+    public SessionID( int index, String name, String sim ) {
         this.index = index;
         this.name = name;
+        this.sim = sim;
     }
 
     public int getIndex() {
@@ -38,7 +40,8 @@ public class SessionID implements Serializable {
         SessionID sessionID = (SessionID) o;
 
         if ( index != sessionID.index ) { return false; }
-        if ( name != null ? !name.equals( sessionID.name ) : sessionID.name != null ) { return false; }
+        if ( !name.equals( sessionID.name ) ) { return false; }
+        if ( !sim.equals( sessionID.sim ) ) { return false; }
 
         return true;
     }
@@ -46,7 +49,8 @@ public class SessionID implements Serializable {
     @Override
     public int hashCode() {
         int result = index;
-        result = 31 * result + ( name != null ? name.hashCode() : 0 );
+        result = 31 * result + name.hashCode();
+        result = 31 * result + sim.hashCode();
         return result;
     }
 }

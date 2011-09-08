@@ -61,12 +61,13 @@ public class Server implements MessageHandler {
             writeToClient.writeObject( new Sample<SimState>( sample, session.getNumSamples() ) );
         }
         else if ( message instanceof StartSession ) {
+            StartSession request = (StartSession) message;
             int sessionCount = sessions.size();
-            final SessionID sessionID = new SessionID( sessionCount, names[sessionCount % names.length] );
+            final SessionID sessionID = new SessionID( sessionCount, request.studentID + "*" + sessionCount, request.simName );
             writeToClient.writeObject( sessionID );
-            System.out.println( "session started: " + sessionID );
-
             sessions.put( sessionID, new Session( sessionID ) );
+
+            System.out.println( "session started: " + sessionID );
         }
         else if ( message instanceof EndSession ) {
             //Save the student info to disk and remove from system memory

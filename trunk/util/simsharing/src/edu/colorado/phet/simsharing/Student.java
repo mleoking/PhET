@@ -14,7 +14,6 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
@@ -32,19 +31,25 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
 
     //Flag to indicate whether the state should saved to the disk for analysis, such as checking frame size
     private static final boolean analyze = false;
-    private Function0<T> launchApplication;
+    private Sim<U, T> sim;
+    private String host;
+    private int port;
+    private String studentID;
 
-    public Student( Function0<T> launchApplication ) {
-        this.launchApplication = launchApplication;
+    public Student( Sim<U, T> sim, String host, int port, String studentID ) {
+        this.sim = sim;
+        this.host = host;
+        this.port = port;
+        this.studentID = studentID;
     }
 
     public void start() throws IOException, ClassNotFoundException {
 
         //Communicate with the server in a separate thread
-        final Client client = new Client();
+        final Client client = new Client( host, port );
         final IActor nonBlockingClient = new ThreadedActor( client );
 
-        final T application = launchApplication.apply();
+        final T application = sim.launcher.apply();
         application.setExitStrategy( new VoidFunction0() {
             public void apply() {
 
@@ -122,7 +127,7 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
             public void run() {
                 //be careful, this part blocks:
                 try {
-                    sessionID = (SessionID) nonBlockingClient.ask( new StartSession() );
+                    sessionID = (SessionID) nonBlockingClient.ask( new StartSession( sim.name, sim.project, sim.flavor, studentID ) );
                 }
                 catch ( IOException e ) {
                     e.printStackTrace();
@@ -155,6 +160,10 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
 
     public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
         Server.parseArgs( args );
-        new Student( SimHelper.LAUNCHER ).start();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new StudentConfigFrame().setVisible( true );
+            }
+        } );
     }
 }

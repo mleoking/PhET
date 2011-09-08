@@ -10,14 +10,14 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimState;
  */
 public class SimSharingTestSimState implements SimState {
     private long time;
-    //    private SerializableBufferedImage image;
+    private SerializableBufferedImage image;
     public final ImmutableVector2D position;
 
     public SimSharingTestSimState( long time,
-//                                   SerializableBufferedImage image,
+                                   SerializableBufferedImage image,
                                    ImmutableVector2D position ) {
         this.time = time;
-//        this.image = image;
+        this.image = image;
         this.position = position;
     }
 
@@ -26,6 +26,6 @@ public class SimSharingTestSimState implements SimState {
     }
 
     public SerializableBufferedImage getImage() {
-        return null;
+        return image;
     }
 }
