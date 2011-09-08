@@ -82,13 +82,13 @@ public class RealMolecule extends Molecule {
         centerOnCentroid();
     }};
 
-    public static final RealMolecule HYDROGEN_FLUORIDE = new RealMolecule( "HF", 0 ) {{
+    public static final RealMolecule HYDROGEN_FLUORIDE = new RealMolecule( "HF", 3 ) {{
         addCentralAtom( new Atom3D( F, new ImmutableVector3D( 0.325, 0, 0 ) ) );
         addRadialAtom( new Atom3D( H, new ImmutableVector3D( 1.242, 0, 0 ) ), 1 );
         centerOnCentroid();
     }};
 
-    public static final RealMolecule HYDROGEN_CHLORIDE = new RealMolecule( "HCl", 0 ) {{
+    public static final RealMolecule HYDROGEN_CHLORIDE = new RealMolecule( "HCl", 3 ) {{
         addCentralAtom( new Atom3D( Cl, new ImmutableVector3D( -0.967000, 0.227000, 0.000000 ) ) );
         addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.246000, 0.620000, 0.000000 ) ), 1 );
         centerOnCentroid();
