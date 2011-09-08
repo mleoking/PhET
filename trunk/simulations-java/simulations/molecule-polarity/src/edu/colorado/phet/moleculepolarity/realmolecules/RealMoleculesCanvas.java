@@ -59,13 +59,13 @@ public class RealMoleculesCanvas extends MPCanvas {
         // rendering order
         {
             // plates
-            addChild( negativePlateNode );
-            addChild( positivePlateNode );
+//            addChild( negativePlateNode );
+//            addChild( positivePlateNode );
 
             // controls
             addChild( viewControlsNode );
             addChild( isosurfaceControlsNode );
-            addChild( eFieldControlsNode );
+//            addChild( eFieldControlsNode );
             addChild( resetAllButtonNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( scriptNode );
