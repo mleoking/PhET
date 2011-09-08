@@ -1,3 +1,4 @@
+9/8/11 join clipped cloud shapes at center of bond in 2D electrostatic potential
 9/8/11 temporarily hide E-field features in "Real Molecules" tab, for interview version
 9/8/11 factor out duplicate code in DiatomicElectrostaticPotentialNode.updatePaint
 9/8/11 set correct endpoints for gradient in 2D electrostatic potential

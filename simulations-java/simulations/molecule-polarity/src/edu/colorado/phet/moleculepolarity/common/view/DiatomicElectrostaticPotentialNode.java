@@ -3,9 +3,11 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -93,11 +95,20 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
     // Updates the shape of the isosurface.
     private void updateShape() {
 
+        // surround each atom with a circular cloud
         Ellipse2D circleA = getCircle( molecule.atomA );
         Ellipse2D circleB = getCircle( molecule.atomB );
 
-        pathNodeA.setPathTo( ShapeUtils.subtract( circleA, circleB ) );
-        pathNodeB.setPathTo( ShapeUtils.subtract( circleB, circleA ) );
+        // rectangles for clipping where the clouds join at the center of the bond, with overlap so we don't see seam
+        final double bondLength = molecule.bond.getLength();
+        Shape clipA = new Rectangle2D.Double( 0.25, DIAMETER_SCALE * -molecule.atomA.getDiameter() / 2, DIAMETER_SCALE * bondLength / 2, DIAMETER_SCALE * molecule.atomA.getDiameter() );
+        Shape clipB = new Rectangle2D.Double( DIAMETER_SCALE * -bondLength / 2, DIAMETER_SCALE * -molecule.atomA.getDiameter() / 2, DIAMETER_SCALE * bondLength / 2, DIAMETER_SCALE * molecule.atomA.getDiameter() );
+        AffineTransform transform = getMoleculeTransform();
+        clipA = transform.createTransformedShape( clipA );
+        clipB = transform.createTransformedShape( clipB );
+
+        pathNodeA.setPathTo( ShapeUtils.subtract( circleA, clipA ) );
+        pathNodeB.setPathTo( ShapeUtils.subtract( circleB, clipB ) );
     }
 
     // Updates the Paints uses to color the isosurface. Width of the gradients expands as the difference in EN approaches zero.
@@ -126,9 +137,7 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
             Point2D pointB = new Point2D.Double( gradientWidth / 2, 0 );
 
             // transform gradient endpoints to account for molecule transform
-            AffineTransform transform = new AffineTransform();
-            transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
-            transform.rotate( molecule.getAngle() );
+            AffineTransform transform = getMoleculeTransform();
             transform.transform( pointCenter, pointCenter );
             transform.transform( pointA, pointA );
             transform.transform( pointB, pointB );
@@ -155,5 +164,12 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
         double x = atom.location.get().getX() - ( diameter / 2 );
         double y = atom.location.get().getY() - ( diameter / 2 );
         return new Ellipse2D.Double( x, y, diameter, diameter );
+    }
+
+    private AffineTransform getMoleculeTransform() {
+        AffineTransform transform = new AffineTransform();
+        transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
+        transform.rotate( molecule.getAngle() );
+        return transform;
     }
 }
