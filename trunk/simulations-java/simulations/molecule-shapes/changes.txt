@@ -1,3 +1,4 @@
+# 0.00.31 (56306) Sep 7, 2011
 Added developer control to toggle whether the "show bond angles" checkbox is disabled when there are less than 2 bonds
 Adding XeOF4, phosphate ion, sulfite ion, chlorate ion
 Keep Reset button at the bottom
