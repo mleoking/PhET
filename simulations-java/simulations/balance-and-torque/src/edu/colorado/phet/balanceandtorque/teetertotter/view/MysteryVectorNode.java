@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.PNode;
 public class MysteryVectorNode extends PNode {
 
     private static final int FONT_SIZE = 36;
-    private static final double Y_DIST_FROM_POSITION = 10;
+    private static final double Y_DIST_FROM_POSITION = 5;
 
     /**
      * Constructor.
