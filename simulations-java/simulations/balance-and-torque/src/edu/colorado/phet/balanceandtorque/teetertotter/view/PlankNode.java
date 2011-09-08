@@ -13,7 +13,6 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -33,9 +32,7 @@ public class PlankNode extends ModelObjectNode {
     private static final Stroke NORMAL_HIGHLIGHT_STROKE = new BasicStroke( 11, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
     private static final Stroke BOLD_TICK_MARK_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
     private static final Stroke BOLD_HIGHLIGHT_STROKE = new BasicStroke( 11, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
-    //    private static final Color HIGHLIGHT_COLOR = new Color( 127, 255, 0 );
-//    private static final Color HIGHLIGHT_COLOR = Color.BLACK;
-    private static final Color HIGHLIGHT_COLOR = PhetColorScheme.RED_COLORBLIND;
+    private static final Color HIGHLIGHT_COLOR = Color.WHITE;
 
     public PlankNode( final ModelViewTransform mvt, final Plank plank, PhetPCanvas canvas ) {
         super( mvt, plank, new Color( 243, 203, 127 ) );
