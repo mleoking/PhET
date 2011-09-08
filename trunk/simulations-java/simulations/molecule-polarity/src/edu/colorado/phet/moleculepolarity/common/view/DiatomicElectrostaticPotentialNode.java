@@ -112,8 +112,7 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
             final double scale = Math.abs( deltaEN / electronegativityRange.getLength() );
 
             // width of the isosurface
-            final double distance = molecule.atomB.location.get().getDistance( molecule.atomB.location.get() );
-            final double surfaceWidth = distance + ( DIAMETER_SCALE * molecule.atomA.getDiameter() / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() / 2 );
+            final double surfaceWidth = molecule.bond.getLength() + ( DIAMETER_SCALE * molecule.atomA.getDiameter() / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() / 2 );
 
             // compute the gradient width
             final double minGradientWidth = surfaceWidth / 2;
@@ -122,7 +121,7 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
             final double gradientWidth = f.evaluate( scale );
 
             //TODO this is wrong
-            final double xOffset = ( surfaceWidth / 4 ) + ( ( gradientWidth - ( surfaceWidth / 2 ) ) / 2 );
+            final double xOffset = gradientWidth / 2;
 
             // gradient for atom A
             {
