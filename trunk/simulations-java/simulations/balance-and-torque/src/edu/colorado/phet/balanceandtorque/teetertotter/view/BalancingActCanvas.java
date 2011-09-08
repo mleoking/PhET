@@ -169,18 +169,24 @@ public class BalancingActCanvas extends PhetPCanvas {
         model.getPlank().forceVectorList.addElementAddedObserver( new VoidFunction1<MassForceVector>() {
             public void apply( final MassForceVector addedMassForceVector ) {
                 // Add a representation for the new vector.
-                final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedMassForceVector.forceVectorProperty,
-                                                                                            0.002,  // Scaling factor, chosen to make size reasonable.
-                                                                                            forceVectorsFromObjectsVisibleProperty,
-                                                                                            Color.WHITE,
-                                                                                            mvt );
-                rootNode.addChild( positionedVectorNode );
+                final PNode forceVectorNode;
+                if ( addedMassForceVector.isObfuscated() ) {
+                    forceVectorNode = new MysteryVectorNode( addedMassForceVector.forceVectorProperty, forceVectorsFromObjectsVisibleProperty, Color.WHITE, mvt );
+                }
+                else {
+                    forceVectorNode = new PositionedVectorNode( addedMassForceVector.forceVectorProperty,
+                                                                0.002,  // Scaling factor, chosen to make size reasonable.
+                                                                forceVectorsFromObjectsVisibleProperty,
+                                                                Color.WHITE,
+                                                                mvt );
+                }
+                rootNode.addChild( forceVectorNode );
                 // Listen for removal of this vector and, if and when it is
                 // removed, remove the corresponding representation.
                 model.getPlank().forceVectorList.addElementRemovedObserver( new VoidFunction1<MassForceVector>() {
                     public void apply( MassForceVector removedMassForceVector ) {
                         if ( removedMassForceVector == addedMassForceVector ) {
-                            rootNode.removeChild( positionedVectorNode );
+                            rootNode.removeChild( forceVectorNode );
                         }
                     }
                 } );

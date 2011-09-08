@@ -52,7 +52,7 @@ public class MysteryObjectFactory {
     public static LabeledImageMass createMysteryObject( int mysteryObjectID, Point2D initialLocation ) {
         assert ( mysteryObjectID < MYSTERY_OBJECT_CONFIGURATIONS.size() );
         MysteryObjectConfig config = MYSTERY_OBJECT_CONFIGURATIONS.get( mysteryObjectID );
-        return new LabeledImageMass( config.mass, config.image, config.height, initialLocation, config.labelText );
+        return new LabeledImageMass( config.mass, config.image, config.height, initialLocation, config.labelText, true );
     }
 
     // Collection of information needed to define a particular configuration

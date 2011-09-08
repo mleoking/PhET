@@ -108,19 +108,13 @@ public abstract class Mass implements UserMovableModelElement {
         return new Point2D.Double( positionProperty.get().getX(), positionProperty.get().getY() );
     }
 
-    ;
-
     public void translate( double x, double y ) {
         positionProperty.set( new Point2D.Double( positionProperty.get().getX() + x, positionProperty.get().getY() + y ) );
     }
 
-    ;
-
     public void translate( ImmutableVector2D delta ) {
         translate( delta.getX(), delta.getY() );
     }
-
-    ;
 
     public void addPositionChangeObserver( VoidFunction1<Point2D> changeObserver ) {
         positionProperty.addObserver( changeObserver );
@@ -138,6 +132,10 @@ public abstract class Mass implements UserMovableModelElement {
 
     public void setCenterOfMassXOffset( double centerOfMassXOffset ) {
         this.centerOfMassXOffset = centerOfMassXOffset;
+    }
+
+    public boolean isMystery() {
+        return isMystery;
     }
 
     /**

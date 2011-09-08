@@ -40,7 +40,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
     // Debug variable for turning on the visibility of the motion bounds.
-    private static final boolean SHOW_MOTION_BOUNDS = true;
+    private static final boolean SHOW_MOTION_BOUNDS = false;
 
     private final ModelViewTransform mvt;
     private PTransformActivity activity;

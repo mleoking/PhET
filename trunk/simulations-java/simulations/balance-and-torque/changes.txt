@@ -1,3 +1,4 @@
+Added "mystery vectors" that are shown instead of normal force vectors for mystery objects.
 Added a 2nd set of mystery objects.
 Fixed an issue where mystery objects were not positioned well under the mouse when created from the tool box.
 Fixed an issue where a model element would be added and animated forever if the user just did one quick click on the item in the tool box.
