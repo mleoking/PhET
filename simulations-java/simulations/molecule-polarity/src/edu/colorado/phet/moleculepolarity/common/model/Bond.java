@@ -56,4 +56,9 @@ public class Bond {
         ImmutableVector2D center = getCenter();
         return PolarCartesianConverter.getAngle( endpoint2.get().getX() - center.getX(), endpoint2.get().getY() - center.getY() );
     }
+
+    // Gets the bond length, the distance between the centers of the 2 atoms.
+    public double getLength() {
+        return endpoint1.get().getDistance( endpoint2.get() );
+    }
 }

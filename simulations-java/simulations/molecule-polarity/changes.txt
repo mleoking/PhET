@@ -1,3 +1,4 @@
+9/8/11 add Bond.getLength, useful in 2D isosurface computations
 9/8/11 first pass at gradient paints for 2D electrostatic potential (path clipping is incorrect, gradient endpoints are a little off)
 9/8/11 update 2D isosurfaces only when they're visible
 9/7/11 implement simple color change for electrostatic potential, based on polarity
