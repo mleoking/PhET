@@ -1,4 +1,4 @@
-Adding XeOF4, [PO4]3-
+Adding XeOF4, phosphate ion, sulfite ion
 Keep Reset button at the bottom
 HF, HCl changed to 3 lone pairs (assuming F and Cl as the central atoms)
 # 0.00.30 (56236) Sep 6, 2011

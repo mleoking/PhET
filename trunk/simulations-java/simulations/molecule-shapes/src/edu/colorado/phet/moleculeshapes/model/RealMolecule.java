@@ -382,6 +382,14 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
+    public static final RealMolecule SULFITE = new RealMolecule( "SO3<sup>2-</sup>", 1 ) {{
+        addCentralAtom( new Atom3D( S, new ImmutableVector3D( -0.341000, 0.348000, 0.302000 ) ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.303000, -1.160000, 0.237000 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.096000, 0.804000, 0.234000 ) ), 1 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.984000, 0.804000, -0.986000 ) ), 2 );
+        centerOnCentralAtom();
+    }};
+
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
             CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE,
             FORMALDEHYDE, AMMONIA, METHANE, DICHLORODIFLUOROMETHANE, HYDROGEN_CYANIDE,
@@ -392,7 +400,7 @@ public class RealMolecule extends Molecule {
             BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
             CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, PERCHLORATE,
             MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE, METHYL_CHLORIDE, HYDROGEN_CHLORIDE,
-            XENON_OXYTETRAFLUORIDE, PHOSPHATE
+            XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
