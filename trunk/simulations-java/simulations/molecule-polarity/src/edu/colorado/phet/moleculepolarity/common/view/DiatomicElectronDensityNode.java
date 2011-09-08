@@ -75,9 +75,8 @@ public class DiatomicElectronDensityNode extends PComposite {
         updatePaint();
     }
 
-    // Updates the shape of the isosurface.
+    // Updates the shape of the isosurface, 2 circles combined using constructive area geometry.
     private void updateShape() {
-        //TODO circles provide a rough approximation, need to smooth out the places where the circles overlap.
         pathNode.setPathTo( ShapeUtils.add( getCircle( molecule.atomA ), getCircle( molecule.atomB ) ) );
     }
 
