@@ -106,7 +106,19 @@ public class MoleculeShapesControlPanel extends PNode {
             /*---------------------------------------------------------------------------*
             * show bond angles
             *----------------------------------------------------------------------------*/
-            addChild( new PSwing( new MoleculeShapesPropertyCheckBox( Strings.CONTROL__SHOW_BOND_ANGLES, MoleculeShapesProperties.showBondAngles ) ) {{
+            addChild( new PSwing( new MoleculeShapesPropertyCheckBox( Strings.CONTROL__SHOW_BOND_ANGLES, MoleculeShapesProperties.showBondAngles ) {{
+                Runnable updateEnabled = new Runnable() {
+                    public void run() {
+                        boolean enabled = !MoleculeShapesProperties.disableNAShowBondAngles.get()
+                                          || app.getMolecule().getBondedGroups().size() >= 2;
+                        setEnabled( enabled );
+                        setTransparency( enabled ? 1 : 0.6f );
+                        repaint();
+                    }
+                };
+                app.getMolecule().onGroupChanged.addTarget( JmeUtils.swingTarget( updateEnabled ) );
+                MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JmeUtils.swingObserver( updateEnabled ) );
+            }} ) {{
                 setOffset( 0, ( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - getFullBounds().getWidth() ) / 2 );
             }} );
         }}, "Options" ) {{
