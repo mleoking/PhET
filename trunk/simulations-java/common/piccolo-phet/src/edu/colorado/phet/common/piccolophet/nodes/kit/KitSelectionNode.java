@@ -104,7 +104,8 @@ public class KitSelectionNode<T extends PNode> extends PNode {
 
         //The bounds of the smallest possible KitControlNode, used to ensure the rest of the control is at least this big
         //TODO: This value is hard coded, could have a better layout
-        double controlWidth = new KitControlNode( getKitCount(), selectedKit, titleNode, 3 ).getFullBounds().getWidth();
+        //Larger inset is necessary when using HTMLButtonImageNode since with a small inset the button will be touching the title
+        double controlWidth = new KitControlNode( getKitCount(), selectedKit, titleNode, 13 ).getFullBounds().getWidth();
 
         //Construct and add the background.  Make it big enough to hold the largest kit, and set it to look like ControlPanelNode by default
         RoundRectangle2D.Double kitBounds = new RoundRectangle2D.Double( 0, 0, max( max( contentBounds.getWidth(), titleBounds.getWidth() ), controlWidth ), contentBounds.getHeight() + titleBounds.getHeight(), DEFAULT_ARC, DEFAULT_ARC );
@@ -158,7 +159,8 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         double extraSpace = width - controlWidth;
         double extraInsetSpace = extraSpace / 2;
 
-        addChild( new ZeroOffsetNode( new KitControlNode( getKitCount(), selectedKit, titleNode, extraInsetSpace ) ) {{
+        //Larger inset is necessary when using HTMLButtonImageNode since with a small inset the button will be touching the title
+        addChild( new ZeroOffsetNode( new KitControlNode( getKitCount(), selectedKit, titleNode, extraInsetSpace + 10 ) ) {{
             setOffset( background.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, background.getFullBounds().getMinY() - getFullBounds().getHeight() );
         }} );
     }
