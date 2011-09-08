@@ -13,10 +13,8 @@ import javax.swing.Timer;
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.GetSample;
 import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
-import edu.colorado.phet.simsharing.messages.RegisterPushConnection;
 import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.socket.Sample;
@@ -32,7 +30,6 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
     private final SessionID sessionID;
     private Client client;
     private boolean running = true;
-    private boolean allowPushNotifications = false;
     private ArrayList<U> states = new ArrayList<U>();
     private int index = 0;
     private boolean debugElapsedTime = false;
@@ -69,45 +66,6 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                 timeControl.setVisible( false );//TODO: detach listeners
             }
         } );
-
-        if ( allowPushNotifications ) {
-            new Thread( new Runnable() {
-                public void run() {
-
-                    //Create a new client and dedicated thread on the server so that we don't accidentally intercept messages like StudentList
-                    Client client = null;
-                    try {
-                        client = new Client();
-                        client.tell( new RegisterPushConnection( sessionID ) );
-                    }
-                    catch ( Exception e ) {
-                        e.printStackTrace();
-                    }
-
-                    //Whenever we get a new sample, show it on the screen
-                    while ( running ) {
-                        try {
-                            synchronized ( client.readFromServer ) {
-                                AddSamples<U> s = (AddSamples<U>) client.readFromServer.readObject();
-                                if ( s.getData().size() > 0 ) {
-                                    final U lastSample = s.getData().get( s.getData().size() - 1 );
-
-                                    //Rendering is delayed unless you set state in the swing thread
-                                    SwingUtilities.invokeAndWait( new Runnable() {
-                                        public void run() {
-                                            application.setState( lastSample );
-                                        }
-                                    } );
-                                }
-                            }
-                        }
-                        catch ( Exception e ) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            } ).start();
-        }
 
         //Timer that shows the loaded states in order
         new Timer( 33, new ActionListener() {
@@ -156,7 +114,7 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
     private void step() {
 
         //Read samples when not live.  When live, data is pushed to the SimView
-        if ( !timeControl.live.get() || !allowPushNotifications ) {
+        if ( !timeControl.live.get() ) {
             try {
                 SwingUtilities.invokeAndWait( new Runnable() {
                     public void run() {
