@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -77,14 +78,14 @@ public abstract class BodyRenderer extends PNode {
 
         public SphereRenderer( final Color color, final Color highlight, double viewDiameter ) {
             this( new IBodyColors() {
-                      public Color getHighlight() {
-                          return highlight;
-                      }
+                public Color getHighlight() {
+                    return highlight;
+                }
 
-                      public Color getColor() {
-                          return color;
-                      }
-                  }, viewDiameter );
+                public Color getColor() {
+                    return color;
+                }
+            }, viewDiameter );
         }
 
         public SphereRenderer( IBodyColors body, double viewDiameter ) {
@@ -94,10 +95,13 @@ public abstract class BodyRenderer extends PNode {
             addChild( sphereNode );
         }
 
-        @Override
-        public void setDiameter( double viewDiameter ) {
-            sphereNode.setDiameter( viewDiameter );
-            sphereNode.setPaint( createPaint( viewDiameter ) );
+        @Override public void setDiameter( double viewDiameter ) {
+            //Allowing setDiameter calls in teacher mode costs 200+ ms per update, so it is disabled until that can be resolved
+            //TODO: figure out how to speed this up or ignore irrelevant calls
+            if ( !GravityAndOrbitsApplication.teacherMode ) {
+                sphereNode.setDiameter( viewDiameter );
+                sphereNode.setPaint( createPaint( viewDiameter ) );
+            }
         }
 
         //The sim runs out of memory on Mac OS X 10.4 if you use a gradient here, see #2913

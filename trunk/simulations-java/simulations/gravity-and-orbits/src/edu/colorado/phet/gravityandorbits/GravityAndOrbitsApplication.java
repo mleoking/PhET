@@ -42,6 +42,9 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication implemen
     //For simsharing
     private final ImageFactory imageFactory = new ImageFactory();
 
+    //Some features are disabled in teacher mode, such as showing the diameter of spherical bodies, since it is too expensive
+    public static boolean teacherMode = false;
+
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
         //Modules are stored so the data can be read and set for simsharing
@@ -55,6 +58,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication implemen
     }
 
     public void setTeacherMode( boolean b ) {
+        teacherMode = b;
         intro.setTeacherMode( b );
         toScale.setTeacherMode( b );
     }
