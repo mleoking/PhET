@@ -71,7 +71,7 @@ public class SliderControl extends PNode {
 
         //Create the top component which has: title text field units
         final HBox topComponent = new HBox( new PText( title ) {{setFont( FluidPressureCanvas.CONTROL_FONT );}},
-                                            new PSwing( new DoubleTextField( new DecimalFormat( "0.00" ), property, min, max ) {{
+                                            new PSwing( new DoubleTextField( new DecimalFormat( "0" ), property, min, max ) {{
                                                 setColumns( 6 );
                                                 setFont( FluidPressureCanvas.CONTROL_FONT );
                                             }} ),
