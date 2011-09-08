@@ -112,7 +112,7 @@ public class DiatomicElectronDensityNode extends PComposite {
             final double gradientWidth = f.evaluate( scale );
 
             // gradient endpoints prior to accounting for molecule transform
-            final double xOffset = ( surfaceWidth / 2 ) + ( ( gradientWidth - surfaceWidth ) / 2 );
+            final double xOffset = gradientWidth / 2;
             Point2D pointA = new Point2D.Double( -xOffset, 0 );
             Point2D pointB = new Point2D.Double( xOffset, 0 );
 
