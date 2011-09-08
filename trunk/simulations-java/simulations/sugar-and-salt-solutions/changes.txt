@@ -1,3 +1,4 @@
+# 0.00.103 (56315) Sep 8, 2011
 # 0.00.102 (56290) Sep 7, 2011
 Macro tab: Fixed: Dragging conductivity tester node moves it in front of the shakers and vice-versa
 Macro tab: Fixed: The conductivity tester can go behind the evaporation control box
