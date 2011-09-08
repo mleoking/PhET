@@ -1,3 +1,5 @@
+Added StudentConfigFrame
+Allow different sim types
 Improved SimView playback
 Removed push notifications
 Added smoothing for playback

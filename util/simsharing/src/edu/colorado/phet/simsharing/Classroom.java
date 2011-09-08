@@ -13,10 +13,11 @@ public class Classroom {
     public static void main( final String[] args ) throws IOException, AWTException, ClassNotFoundException {
         Server.parseArgs( args );
         for ( int i = 0; i < 5; i++ ) {
+            final int finalI = i;
             new Thread( new Runnable() {
                 public void run() {
                     try {
-                        new Student( SimHelper.LAUNCHER ).start();
+                        new Student( Sim.sims[0], Server.HOST_IP_ADDRESS, Server.PORT, Server.names[finalI % ( Server.names.length )] + "*" + finalI ).start();
                     }
                     catch ( IOException e ) {
                         e.printStackTrace();

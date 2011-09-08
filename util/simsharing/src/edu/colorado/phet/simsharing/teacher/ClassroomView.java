@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.simsharing.SimHelper;
+import edu.colorado.phet.simsharing.Sim;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
@@ -74,7 +74,7 @@ public class ClassroomView extends PSwingCanvas {
 
                                                 //Have to launch from non-swing-thread otherwise receive:
                                                 //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
-                                                new SimView( sessionID, SimHelper.LAUNCHER.apply() ).start();
+                                                new SimView( sessionID, Sim.simMap.get( sessionID.sim ).launcher.apply() ).start();
                                             }
                                         } );
                                         studentThumbnailNode.addChild( node );
