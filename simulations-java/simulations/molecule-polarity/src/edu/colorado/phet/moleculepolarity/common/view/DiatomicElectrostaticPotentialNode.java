@@ -37,7 +37,9 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
      * @param colors   color scheme for the surface, ordered from negative to positive
      */
     public DiatomicElectrostaticPotentialNode( final DiatomicMolecule molecule, DoubleRange electronegativityRange, Color[] colors ) {
+
         assert ( colors.length == 3 ); // this implementation only works for 3 colors
+        assert ( molecule.atomA.getDiameter() == molecule.atomB.getDiameter() ); // creation of gradient assumes that both atoms have the same diameter
 
         this.molecule = molecule;
         this.electronegativityRange = electronegativityRange;
@@ -75,7 +77,6 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
 
     // Updates the shape of the isosurface.
     private void updateShape() {
-        //TODO using circles doesn't really cut it, need to smooth out the places where the circles overlap.
         pathNodeA.setPathTo( getCircle( molecule.atomA ) );
         pathNodeB.setPathTo( getCircle( molecule.atomB ) );
     }
