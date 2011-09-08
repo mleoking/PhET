@@ -55,4 +55,9 @@ public class Hose {
     public ImmutableVector2D getNozzleInputPoint() {
         return parseAngleAndMagnitude( nozzleHeight, angle.get() + Math.PI ).plus( outputPoint.get() );
     }
+
+    //Gets a unit vector pointing from the nozzle input point to the output point, used to place the arrow drag handles
+    public ImmutableVector2D getUnitDirectionVector() {
+        return outputPoint.get().minus( getNozzleInputPoint() ).getNormalizedInstance();
+    }
 }

@@ -150,7 +150,7 @@ public class HoseNode extends PNode {
                     double offsetY = 10;
 
                     //Make it longer when the nozzle rotates since the hose would hide the arrow when the nozzle points right
-                    addChild( new TranslationDragHandle( dragArrowTail.plus( offsetX, offsetY ), 0, -dragArrowLength * 1.2 - dragArrowLength * Math.cos( hose.angle.get() ) * 0.8, showDragHandles ) );
+                    addChild( new TranslationDragHandle( dragArrowTail.plus( offsetX, offsetY ), new ImmutableVector2D( 0, -dragArrowLength * 1.2 - dragArrowLength * Math.cos( hose.angle.get() ) * 0.8 ), showDragHandles ) );
                 }
             }.observe( hose.angle );
         }};
@@ -161,10 +161,11 @@ public class HoseNode extends PNode {
             new RichSimpleObserver() {
                 @Override public void update() {
                     removeAllChildren();
-                    final ImmutableVector2D rotateArrowTail = transform.modelToView( hose.getNozzleInputPoint().plus( 0, hose.nozzleHeight * 0.13 ) );
-                    ImmutableVector2D directionVector = parseAngleAndMagnitude( dragArrowLength, -hose.angle.get() + Math.PI / 2 );
-                    addChild( new TranslationDragHandle( rotateArrowTail, directionVector.getX(), directionVector.getY(), showCounterClockwiseArrow ) );
-                    addChild( new TranslationDragHandle( rotateArrowTail, -directionVector.getX(), -directionVector.getY(), showClockwiseArrow ) );
+
+                    final ImmutableVector2D tail = transform.modelToView( hose.getNozzleInputPoint().plus( hose.getUnitDirectionVector().times( 0.13 * hose.nozzleHeight ) ) );
+                    ImmutableVector2D direction = parseAngleAndMagnitude( dragArrowLength, -hose.angle.get() + Math.PI / 2 );
+                    addChild( new TranslationDragHandle( tail, direction, showCounterClockwiseArrow ) );
+                    addChild( new TranslationDragHandle( tail, direction.times( -1 ), showClockwiseArrow ) );
                 }
             }.observe( hose.angle, hose.outputPoint, hose.y );
         }};

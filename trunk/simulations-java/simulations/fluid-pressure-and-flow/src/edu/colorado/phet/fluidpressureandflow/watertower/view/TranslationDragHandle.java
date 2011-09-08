@@ -19,16 +19,16 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class TranslationDragHandle extends PNode {
 
-    public TranslationDragHandle( final ImmutableVector2D tail, final double dx, final double dy, final ObservableProperty<Boolean> showDragHandles ) {
+    public TranslationDragHandle( final ImmutableVector2D tail, final ImmutableVector2D direction, final ObservableProperty<Boolean> showDragHandles ) {
         showDragHandles.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( showDragHandles.get() );
             }
         } );
 
-        //Update the location when laser pivot or emission point change
+        //Update the location when pivot or emission point change
         addChild( new PNode() {{
-            addChild( new PhetPPath( new Arrow( tail.toPoint2D(), new Point2D.Double( tail.getX() + dx, tail.getY() + dy ), 14, 14, 8 ).getShape(), Color.red, new BasicStroke( 1 ), Color.black ) );
+            addChild( new PhetPPath( new Arrow( tail.toPoint2D(), new Point2D.Double( tail.getX() + direction.getX(), tail.getY() + direction.getY() ), 14, 14, 8 ).getShape(), Color.red, new BasicStroke( 1 ), Color.black ) );
 
             //Don't intercept mouse events
             setPickable( false );
