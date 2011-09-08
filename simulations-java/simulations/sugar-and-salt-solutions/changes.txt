@@ -1,3 +1,4 @@
+Micro tab: Removed "Show values" checkbox from the bar chart
 # 0.00.103 (56315) Sep 8, 2011
 Micro tab: Made kit selection buttons look more button-like, resolves #3064
 # 0.00.102 (56290) Sep 7, 2011
