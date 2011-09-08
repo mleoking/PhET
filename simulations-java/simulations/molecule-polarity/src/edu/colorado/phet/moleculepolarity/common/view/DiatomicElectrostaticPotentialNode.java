@@ -28,7 +28,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DiatomicElectrostaticPotentialNode extends PComposite {
 
     private static final double DIAMETER_SCALE = 2.5; // multiply atom diameters by this scale when computing surface size
-    private static final int ALPHA = 185; // the alpha channel, for transparency
+    private static final int ALPHA = 200; // the alpha channel, for transparency
     private static final int GRADIENT_WIDTH_MULTIPLIER = 5; // smaller values result in a more noticeable change as the EN sliders are dragged
 
     private final DiatomicMolecule molecule;
@@ -115,7 +115,7 @@ public class DiatomicElectrostaticPotentialNode extends PComposite {
             final double surfaceWidth = molecule.bond.getLength() + ( DIAMETER_SCALE * molecule.atomA.getDiameter() / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() / 2 );
 
             // compute the gradient width
-            final double minGradientWidth = surfaceWidth; // make the min gradient as wide as the entire surface, so that just the outer edge will be saturated
+            final double minGradientWidth = surfaceWidth / 2;
             final double maxGradientWidth = minGradientWidth * GRADIENT_WIDTH_MULTIPLIER;
             LinearFunction f = new LinearFunction( 1, 0, minGradientWidth, maxGradientWidth );
             final double gradientWidth = f.evaluate( scale );
