@@ -52,7 +52,7 @@ public class BalanceGameModel {
     private final ConstantDtClock clock = new ConstantDtClock( BalanceAndTorqueSharedConstants.FRAME_RATE );
 
     // Game settings information.
-    private final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, MAX_LEVELS, 1 ), true, true );
+    public final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, MAX_LEVELS, 1 ), true, true );
 
     // Track the best times on a per-level basis.
     private final HashMap<Integer, Double> mapLevelToBestTime = new HashMap<Integer, Double>();
@@ -251,5 +251,9 @@ public class BalanceGameModel {
 
     public void newGame() {
         System.out.println( getClass().getName() + " - Warning: newGame is stubbed!" );
+    }
+
+    public void startGame() {
+        System.out.println( getClass().getName() + " - Warning: startGame is stubbed!" );
     }
 }
