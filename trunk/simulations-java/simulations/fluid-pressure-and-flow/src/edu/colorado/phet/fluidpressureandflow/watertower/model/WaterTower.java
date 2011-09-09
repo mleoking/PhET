@@ -15,16 +15,21 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
+ * Model for the water tower and the water it contains.
+ *
  * @author Sam Reid
  */
 public class WaterTower {
     public static final int MAX_Y = 18;
+
+    //Don't start the tank at the maximum height so the user can drag it up and down
+    public static final int INITIAL_Y = 15;
     public static final double TANK_RADIUS = 5;
     public static final double PANEL_OFFSET = TANK_RADIUS + 0.25;
     public static final double TANK_HEIGHT = 10;
     private static final int LEG_EXTENSION = 3;
     public static final double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
-    public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, MAX_Y ) );
+    public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, INITIAL_Y ) );
     public final DoubleProperty fluidVolume = new DoubleProperty( tankVolume );//meters cubed
     public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( PANEL_OFFSET, 0 ) );//The movable panel that can cover the hole.
 
