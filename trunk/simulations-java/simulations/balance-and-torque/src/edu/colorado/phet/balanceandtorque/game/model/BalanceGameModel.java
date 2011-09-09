@@ -66,6 +66,8 @@ public class BalanceGameModel {
     // Count of challenges encountered so far at the current level.
     private int challengeCount = 0;
 
+    private int incorrectGuessesOnCurrentChallenge = 0;
+
     // A list of all the masses in the model
     public final ObservableList<Mass> massList = new ObservableList<Mass>();
 
@@ -271,7 +273,14 @@ public class BalanceGameModel {
 
     // TODO: This is for prototype purposes only, should be removed later.
     public void checkIncorrectGuess() {
-        gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK );
+        incorrectGuessesOnCurrentChallenge++;
+        if ( incorrectGuessesOnCurrentChallenge < 2 ) {
+            gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK );
+        }
+        else {
+            // Exceeded max guesses.
+            gameStateProperty.set( GameState.DISPLAYING_CORRECT_ANSWER );
+        }
     }
 
     public void nextChallenge() {
