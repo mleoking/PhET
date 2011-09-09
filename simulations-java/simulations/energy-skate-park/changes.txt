@@ -1,3 +1,4 @@
+Basics: Moved tracks to the right since they were going offscreen
 # 2.08.01 (56115) Sep 2, 2011
 Improved friction and stickiness controls
 Added bar graphs
