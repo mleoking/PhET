@@ -126,6 +126,7 @@ public class Server implements MessageHandler {
                 }
 
                 //Not sure why they need to be sorted, but if they aren't then the sim playback skips and runs backwards
+                //Maybe they are not in order when received on the server
                 Collections.sort( states, new Comparator<SimState>() {
                     public int compare( SimState o1, SimState o2 ) {
                         return Double.compare( o1.getTime(), o2.getTime() );
