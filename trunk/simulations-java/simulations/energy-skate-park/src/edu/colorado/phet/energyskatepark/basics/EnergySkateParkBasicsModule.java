@@ -4,6 +4,7 @@ package edu.colorado.phet.energyskatepark.basics;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
 
@@ -42,6 +43,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     //Flag to indicate whether the skater should stick to the track
     public final SettableProperty<Boolean> stickToTrack = new BooleanProperty( true );
 
+    private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
+
     public EnergySkateParkBasicsModule( String name, final PhetFrame phetFrame ) {
         super( name, phetFrame, new EnergySkateParkOptions() );
 
@@ -71,6 +74,11 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             setPieChartVisible( isSelected() );
+                        }
+                    } );
+                    addResetListener( new VoidFunction0() {
+                        public void apply() {
+                            setSelected( isPieChartVisible() );
                         }
                     } );
                 }} ),
@@ -107,6 +115,10 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         } );
     }
 
+    private void addResetListener( VoidFunction0 resetListener ) {
+        resetListeners.add( resetListener );
+    }
+
     //Load the specified track and set its roller coaster mode, used when the user presses different track selection buttons
     public void load( String location, boolean rollerCoasterMode ) {
         EnergySkateParkIO.open( location, this );
@@ -124,6 +136,12 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
             energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
                 public void apply() {
                     setOffset( energyGraphControlPanel.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, parent.getFullBounds().getMaxY() + INSET * 2 );
+                }
+            } );
+
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    reset();
                 }
             } );
         }} );
@@ -145,5 +163,13 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
             } );
         }};
         energySkateParkSimulationPanel.getRootNode().addChild( trackSelectionNode );
+    }
+
+    @Override public void reset() {
+        super.reset();
+
+        for ( VoidFunction0 resetListener : resetListeners ) {
+            resetListener.apply();
+        }
     }
 }
