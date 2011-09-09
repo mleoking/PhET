@@ -63,6 +63,9 @@ public class BalanceGameModel {
     // Property that tracks the current game state.
     public final Property<GameState> gameStateProperty = new Property<GameState>( GameState.OBTAINING_GAME_SETUP );
 
+    // Count of challenges encountered so far at the current level.
+    private int challengeCount = 0;
+
     // A list of all the masses in the model
     public final ObservableList<Mass> massList = new ObservableList<Mass>();
 
@@ -253,11 +256,36 @@ public class BalanceGameModel {
     }
 
     public void newGame() {
-        System.out.println( getClass().getName() + " - Warning: newGame is stubbed!" );
+        gameStateProperty.set( GameState.OBTAINING_GAME_SETUP );
     }
 
     public void startGame() {
-        System.out.println( getClass().getName() + " - Warning: startGame is stubbed!" );
+        gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
+    }
+
+    public void checkGuess() {
+        // TODO: Always assumed correct for now.
+        gameStateProperty.set( GameState.SHOWING_CORRECT_ANSWER_FEEDBACK );
+        scoreProperty.set( scoreProperty.get() + 2 );
+    }
+
+    // TODO: This is for prototype purposes only, should be removed later.
+    public void checkIncorrectGuess() {
+        gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK );
+    }
+
+    public void nextChallenge() {
+        challengeCount++;
+        if ( challengeCount < PROBLEMS_PER_SET ) {
+            gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
+        }
+        else {
+            gameStateProperty.set( GameState.SHOWING_GAME_RESULTS );
+        }
+    }
+
+    public void tryAgain() {
+        gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
     //-------------------------------------------------------------------------
