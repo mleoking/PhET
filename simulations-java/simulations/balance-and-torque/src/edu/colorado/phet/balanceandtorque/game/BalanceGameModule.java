@@ -8,15 +8,15 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 /**
  * @author John Blanco
  */
-public class TorqueGameModule extends Module {
+public class BalanceGameModule extends Module {
 
-    public TorqueGameModule() {
+    public BalanceGameModule() {
         this( new BalancingActModel() );
 
         setClockControlPanel( null );
     }
 
-    private TorqueGameModule( BalancingActModel model ) {
+    private BalanceGameModule( BalancingActModel model ) {
         // TODO: i18n
         super( "Game", model.getClock() );
         setSimulationPanel( new GameCanvas() );
