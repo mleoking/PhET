@@ -24,6 +24,7 @@ public class FluidPressureAndFlowResources {
         public static final String DENSITY_UNITS_METRIC = RESOURCES.getLocalizedString( "densityUnitsMetric" );
         public static final String DOTS = RESOURCES.getLocalizedString( "dots" );
         public static final String ENGLISH = RESOURCES.getLocalizedString( "english" );
+        public static final String FILL = RESOURCES.getLocalizedString( "fill" );
         public static final String FLOW = RESOURCES.getLocalizedString( "flow" );
         public static final String FLOW_RATE = RESOURCES.getLocalizedString( "flowRate" );
         public static final String FLUID_DENSITY = RESOURCES.getLocalizedString( "fluidDensity" );

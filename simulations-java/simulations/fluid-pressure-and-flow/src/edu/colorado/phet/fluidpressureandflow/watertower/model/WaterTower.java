@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -31,6 +32,13 @@ public class WaterTower {
 
     //Size of the hole in meters
     public final double holeSize = 1;
+
+    //Function to fill up the water tank
+    public final VoidFunction0 fill = new VoidFunction0() {
+        public void apply() {
+            setFluidVolume( tankVolume );
+        }
+    };
 
     public Rectangle2D.Double getTankShape() {
         return new Rectangle2D.Double( tankBottomCenter.get().getX() - TANK_RADIUS, tankBottomCenter.get().getY(), TANK_RADIUS * 2, TANK_HEIGHT );

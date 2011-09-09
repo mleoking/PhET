@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -51,6 +52,19 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         //Show the water tower node, should be after the hose so that the red door will go in front of the hose
         addChild( new WaterTowerNode( transform, module.model.getWaterTower(), module.model.liquidDensity ) );
         addChild( waterDropLayer );
+
+        //Add a button that will fill the tank
+        addChild( new FillTankButton( module.model.getWaterTower().full, module.model.getWaterTower().fill ) {{
+            module.model.getWaterTower().tankBottomCenter.addObserver( new VoidFunction1<ImmutableVector2D>() {
+                public void apply( ImmutableVector2D bottomCenter ) {
+
+                    //Show the button to the left center of the tank, and move when the tank moves
+                    final Point2D leftCenterOfWaterTower = transform.modelToView( module.model.getWaterTower().getTankShape().getX(),
+                                                                                  bottomCenter.getY() + module.model.getWaterTower().getTankShape().getHeight() / 2 );
+                    setOffset( leftCenterOfWaterTower.getX() - getFullBounds().getWidth() - INSET, leftCenterOfWaterTower.getY() - getFullBounds().getHeight() / 2 );
+                }
+            } );
+        }} );
 
         //Add the faucet
         addChild( new FPAFFaucetNode( module.model.getFaucetFlowRate(), new Not( module.model.getWaterTower().full ) ) );
