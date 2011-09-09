@@ -17,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.spline.CubicSpline2D;
 
+import static java.util.Collections.min;
+
 /**
  * This is not a pipe.
  *
@@ -189,15 +191,14 @@ public class Pipe {
                 }
             }
         }};
-        Collections.sort( list, new Comparator<CrossSection>() {
+        if ( list.size() == 0 ) {
+            throw new RuntimeException( "No pipe segments before x= " + x );
+        }
+        return min( list, new Comparator<CrossSection>() {
             public int compare( CrossSection o1, CrossSection o2 ) {
                 return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
             }
         } );
-        if ( list.size() == 0 ) {
-            throw new RuntimeException( "No pipe segments before x= " + x );
-        }
-        return list.get( 0 );
     }
 
     private Iterable<? extends CrossSection> getCrossSections() {
@@ -212,12 +213,11 @@ public class Pipe {
                 }
             }
         }};
-        Collections.sort( list, new Comparator<CrossSection>() {
+        return Collections.min( list, new Comparator<CrossSection>() {
             public int compare( CrossSection o1, CrossSection o2 ) {
                 return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
             }
         } );
-        return list.get( 0 );
     }
 
     public double getMaxX() {

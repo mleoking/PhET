@@ -1,3 +1,4 @@
+Flow tab: Improved performance by about 30% by using Collections.min instead of Collections.sort
 Water tower: Don't start the tank at the maximum height so the user can drag it up and down
 Water tower: Added a button to fill up the water tank
 Water tower: Made faucets remain on instead of snapping to zero when the user lets go
