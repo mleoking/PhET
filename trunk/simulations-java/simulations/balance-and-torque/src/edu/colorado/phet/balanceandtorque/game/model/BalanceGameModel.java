@@ -3,6 +3,7 @@ package edu.colorado.phet.balanceandtorque.game.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.BalanceAndTorqueSharedConstants;
@@ -12,13 +13,17 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
+import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+
 
 /**
  * Main model class for the balance game.
@@ -30,6 +35,12 @@ public class BalanceGameModel {
     // Class Data
     //------------------------------------------------------------------------
 
+    // Constants that define some of the attributes of the game.
+    public static final int MAX_LEVELS = 4;
+    private static final int PROBLEMS_PER_SET = 5;
+    private static final int MAX_POINTS_PER_PROBLEM = 2;
+
+    // Information about the relationship between the plank and fulcrum.
     private static final double FULCRUM_HEIGHT = 0.85; // In meters.
     private static final double PLANK_HEIGHT = 0.75; // In meters.
 
@@ -39,6 +50,15 @@ public class BalanceGameModel {
 
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( BalanceAndTorqueSharedConstants.FRAME_RATE );
+
+    // Game settings information.
+    private final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, MAX_LEVELS, 1 ), true, true );
+
+    // Track the best times on a per-level basis.
+    private final HashMap<Integer, Double> mapLevelToBestTime = new HashMap<Integer, Double>();
+
+    // Property that tracks the current score.
+    private final Property<Integer> scoreProperty = new Property<Integer>( 0 );
 
     // A list of all the masses in the model
     public final ObservableList<Mass> massList = new ObservableList<Mass>();
@@ -170,5 +190,66 @@ public class BalanceGameModel {
 
         // Set the support columns to their initial state.
         supportColumnsActive.reset();
+    }
+
+    public int getMaximumPossibleScore() {
+        System.out.println( getClass().getName() + " - Warning: Max score is faked!" );
+        // TODO
+        return 100;
+    }
+
+    public GameSettings getGameSettings() {
+        return gameSettings;
+    }
+
+    public int getLevel() {
+        return gameSettings.level.get();
+    }
+
+    public boolean isTimerEnabled() {
+        return gameSettings.timerEnabled.get();
+    }
+
+    public boolean isSoundEnabled() {
+        return gameSettings.soundEnabled.get();
+    }
+
+    public long getTime() {
+        return (long) clock.getSimulationTime();
+    }
+
+    /**
+     * Get the best time for the specified level.  Note that levels start at 1
+     * and not 0, so there is some offsetting here.
+     *
+     * @param level
+     * @return
+     */
+    public long getBestTime( int level ) {
+        assert level > 0 && level <= MAX_LEVELS;
+        return (long) ( mapLevelToBestTime.containsKey( level ) ? mapLevelToBestTime.get( level ).doubleValue() : Long.MAX_VALUE );
+    }
+
+    public boolean isNewBestTime() {
+        return getTime() == getBestTime( getLevel() ) && isTimerEnabled();
+    }
+
+    /**
+     * Returns true if at least one best time has been recorded for the
+     * specified level, false otherwise.  Note that levels start at 1 and not
+     * 0.
+     *
+     * @return
+     */
+    public boolean isBestTimeRecorded( int level ) {
+        return mapLevelToBestTime.containsKey( level );
+    }
+
+    public Property<Integer> getScoreProperty() {
+        return scoreProperty;
+    }
+
+    public void newGame() {
+        System.out.println( getClass().getName() + " - Warning: newGame is stubbed!" );
     }
 }
