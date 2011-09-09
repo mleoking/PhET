@@ -21,6 +21,12 @@ public class IntroModule extends EnergySkateParkBasicsModule {
         //Show buttons that allows the user to choose different tracks
         addTrackSelectionControlPanel();
 
+        reset();
+    }
+
+    @Override public void reset() {
+        super.reset();
+
         //Load the initial track
         load( PARABOLA, true );
     }
