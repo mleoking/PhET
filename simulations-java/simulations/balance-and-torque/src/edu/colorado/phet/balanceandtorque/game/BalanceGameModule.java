@@ -20,6 +20,6 @@ public class BalanceGameModule extends Module {
     private BalanceGameModule( BalanceGameModel model ) {
         // TODO: i18n
         super( "Game", model.getClock() );
-        setSimulationPanel( new BalanceGameCanvas() );
+        setSimulationPanel( new BalanceGameCanvas( model ) );
     }
 }
