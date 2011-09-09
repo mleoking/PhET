@@ -8,14 +8,17 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.common.games.GameScoreboardNode;
+import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the balance game.
@@ -38,6 +41,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private final GameScoreboardNode scoreboard;
 
     private PNode rootNode;
+    private PNode gameSettingsNode;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -52,10 +56,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
-        // Set up the model-canvas transform.  The multiplier factors for the 2nd point can be
-        // adjusted to shift the center right or left, and the scale factor
-        // can be adjusted to zoom in or out (smaller numbers zoom out, larger
-        // ones zoom in).
+        // Set up the model-canvas transform.  The multiplier factors for the
+        // 2nd point can be adjusted to shift the center right or left, and the
+        // scale factor can be adjusted to zoom in or out (smaller numbers zoom
+        // out, larger ones zoom in).
         ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
@@ -64,6 +68,22 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
+
+        // Add the background that consists of the ground and sky.
+        rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
+
+        // Game settings
+        VoidFunction0 startFunction = new VoidFunction0() {
+            public void apply() {
+                model.startGame();
+            }
+        };
+        gameSettingsNode = new PSwing( new GameSettingsPanel( model.gameSettings, startFunction ) ) {{
+            scale( 1.5 );
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
+                       STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
+        }};
+        rootNode.addChild( gameSettingsNode );
 
         // Set up the game scoreboard.
         scoreboard = new GameScoreboardNode( BalanceGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
@@ -103,9 +123,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 model.newGame();
             }
         } );
-
-        // Add the background that consists of the ground and sky.
-        rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
         // Add the scoreboard.
         scoreboard.setOffset( STAGE_SIZE.getWidth() / 2 - scoreboard.getFullBoundsReference().width / 2,
