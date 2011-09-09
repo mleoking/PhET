@@ -109,7 +109,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( new WaterNode( transform, model.outputWater ) );
 
         //Add the faucets, the first faucet should have the water stop at the base of the beaker.  This faucet should extend very far in case the user makes the sim short and fat, so the faucet pipe will always be visible
-        FaucetNode inputFaucetNode = new FaucetNode( model.inputFlowRate, not( model.beakerFull ), 10000 ) {{
+        FaucetNode inputFaucetNode = new FaucetNode( model.inputFlowRate, not( model.beakerFull ), 10000, true ) {{
             setOffset( 50, 10 );
         }};
         addChild( inputFaucetNode );
@@ -118,7 +118,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         //Add a faucet that drains the beaker; there is no input pipe for this since it attaches directly to the beaker
         //Move it far enough from the beaker that the slider isn't touching it, but not so far that the flowing water would overlap the reset all button
         final double distanceFromBeaker = 12;
-        drainFaucetNode = new FaucetNode( model.outputFlowRate, model.lowerFaucetCanDrain, distanceFromBeaker ) {{
+        drainFaucetNode = new FaucetNode( model.outputFlowRate, model.lowerFaucetCanDrain, distanceFromBeaker, true ) {{
 
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
             //x-value hand tuned so it doesn't overlap the reset button in English

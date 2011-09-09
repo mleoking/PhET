@@ -132,7 +132,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                                   origFluidVolume - newVolume :
                                   faucetFlowLevel.flow.get();
 
-        if ( faucetDropVolume > 0 && !waterTower.isFull() ) {
+        if ( faucetDropVolume > 0 && !waterTower.full.get() ) {
 
             //Randomly spread out the water in x and y so it doesn't look so discrete when it falls a long way and separates
             double spreadX = 0.02;

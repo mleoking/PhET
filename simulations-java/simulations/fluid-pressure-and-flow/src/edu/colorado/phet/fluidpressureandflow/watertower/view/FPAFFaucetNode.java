@@ -3,7 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.Insets;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
@@ -22,8 +22,8 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class FPAFFaucetNode extends FaucetNode {
-    public FPAFFaucetNode( final FaucetFlowRate faucetFlowRate ) {
-        super( faucetFlowRate.flow, new Property<Boolean>( true ), 10000 );
+    public FPAFFaucetNode( final FaucetFlowRate faucetFlowRate, ObservableProperty<Boolean> allowed ) {
+        super( faucetFlowRate.flow, allowed, 10000, false );
 
         //Manually tuned to fit nicely in the scene
         setScale( 0.7 );

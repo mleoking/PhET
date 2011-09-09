@@ -48,10 +48,13 @@ public class FaucetNode extends PNode {
             final ObservableProperty<Boolean> allowed,
 
             //Length of the faucet input pipe in pixels
-            final double faucetLength ) {
+            final double faucetLength,
+
+            //flag to indicate whether the user has to hold down the knob to maintain a flow rate, and if the knob will snap back to zero if the user lets go
+            boolean userHasToHoldTheSliderKnob ) {
 
         //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
-        faucetSliderNode = new FaucetSliderNode( allowed, flowRate );
+        faucetSliderNode = new FaucetSliderNode( allowed, flowRate, userHasToHoldTheSliderKnob );
 
         //Create the image and slider node used to display and control the faucet
         faucetImageNode = new PImage( FAUCET_FRONT ) {{

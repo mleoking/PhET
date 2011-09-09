@@ -1,3 +1,4 @@
+Water tower: Made faucets remain on instead of snapping to zero when the user lets go
 Moved the red door in front of the hose
 Removed decimals from flow rate and fluid density sliders
 Water tower: Extended the handle to make it more visible

@@ -8,7 +8,9 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -22,8 +24,10 @@ public class WaterTower {
     private static final int LEG_EXTENSION = 3;
     public static final double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
     public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, MAX_Y ) );
-    public final Property<Double> fluidVolume = new Property<Double>( tankVolume );//meters cubed
+    public final DoubleProperty fluidVolume = new DoubleProperty( tankVolume );//meters cubed
     public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( PANEL_OFFSET, 0 ) );//The movable panel that can cover the hole.
+
+    public final ObservableProperty<Boolean> full = fluidVolume.greaterThanOrEqualTo( tankVolume );
 
     //Size of the hole in meters
     public final double holeSize = 1;
@@ -94,9 +98,5 @@ public class WaterTower {
         tankBottomCenter.reset();
         fluidVolume.reset();
         panelOffset.reset();
-    }
-
-    public boolean isFull() {
-        return fluidVolume.get() >= tankVolume;
     }
 }

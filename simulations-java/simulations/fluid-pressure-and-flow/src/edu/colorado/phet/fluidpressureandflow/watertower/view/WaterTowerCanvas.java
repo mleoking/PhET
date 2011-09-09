@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -52,7 +53,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         addChild( waterDropLayer );
 
         //Add the faucet
-        addChild( new FPAFFaucetNode( module.model.getFaucetFlowRate() ) );
+        addChild( new FPAFFaucetNode( module.model.getFaucetFlowRate(), new Not( module.model.getWaterTower().full ) ) );
 
         module.model.addDropAddedListener( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop waterDrop ) {
