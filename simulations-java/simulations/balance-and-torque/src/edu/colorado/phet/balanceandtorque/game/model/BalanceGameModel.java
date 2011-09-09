@@ -24,13 +24,13 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
-
 /**
  * Main model class for the balance game.
  *
  * @author John Blanco
  */
 public class BalanceGameModel {
+
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
@@ -59,6 +59,9 @@ public class BalanceGameModel {
 
     // Property that tracks the current score.
     private final Property<Integer> scoreProperty = new Property<Integer>( 0 );
+
+    // Property that tracks the current game state.
+    public final Property<GameState> gameStateProperty = new Property<GameState>( GameState.OBTAINING_GAME_SETUP );
 
     // A list of all the masses in the model
     public final ObservableList<Mass> massList = new ObservableList<Mass>();
@@ -255,5 +258,21 @@ public class BalanceGameModel {
 
     public void startGame() {
         System.out.println( getClass().getName() + " - Warning: startGame is stubbed!" );
+    }
+
+    //-------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //-------------------------------------------------------------------------
+
+    /**
+     * The set of game states.
+     */
+    public static enum GameState {
+        OBTAINING_GAME_SETUP,               // Getting the game setup information from the user, i.e. level, sound on/off, etc.
+        PRESENTING_INTERACTIVE_CHALLENGE,   // Presenting the challenge that the user must interact with and then test their answer.
+        SHOWING_CORRECT_ANSWER_FEEDBACK,    // Showing the feedback that indicates a correct answer (e.g. a simley face).
+        SHOWING_INCORRECT_ANSWER_FEEDBACK,  // Showing the feedback that indicates an incorrect answer (e.g. a frowny face).
+        DISPLAYING_CORRECT_ANSWER,          // Displaying the correct answer.
+        SHOWING_GAME_RESULTS                // Showing the overall results, i.e. score, best time, etc.
     }
 }
