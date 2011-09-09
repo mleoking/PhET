@@ -251,8 +251,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 break;
 
             case DISPLAYING_CORRECT_ANSWER:
-                gameSettingsNode.setVisible( true );
-                scoreboard.setVisible( true );
+                checkAnswerButton.setVisible( false );
+                checkAnswerWrongButton.setVisible( false );
                 nextChallengeButton.setVisible( true );
                 break;
 
