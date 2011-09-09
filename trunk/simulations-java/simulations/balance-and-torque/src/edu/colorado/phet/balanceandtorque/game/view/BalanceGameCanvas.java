@@ -4,6 +4,8 @@ package edu.colorado.phet.balanceandtorque.game.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
@@ -17,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -166,22 +169,47 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Lay out and add the buttons.
         checkAnswerButton.setOffset( titleNode.getFullBoundsReference().getX(), titleNode.getFullBoundsReference().getMaxY() + 30 );
+        checkAnswerButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.checkGuess();
+            }
+        } );
         rootNode.addChild( checkAnswerButton );
         checkAnswerWrongButton.setOffset( checkAnswerButton.getFullBoundsReference().getMaxX(), checkAnswerButton.getFullBoundsReference().getY() );
+        checkAnswerWrongButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.checkIncorrectGuess();
+            }
+        } );
         rootNode.addChild( checkAnswerWrongButton );
         tryAgainButton.setOffset( checkAnswerButton.getFullBoundsReference().getX(), checkAnswerButton.getFullBoundsReference().getMaxY() + 5 );
+        tryAgainButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.tryAgain();
+            }
+        } );
         rootNode.addChild( tryAgainButton );
         nextChallengeButton.setOffset( checkAnswerButton.getFullBoundsReference().getX(), checkAnswerButton.getFullBoundsReference().getMaxY() + 5 );
+        nextChallengeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.nextChallenge();
+            }
+        } );
         rootNode.addChild( nextChallengeButton );
 
-
+        // Register for changes to the game state and update accordingly.
+        model.gameStateProperty.addObserver( new VoidFunction1<BalanceGameModel.GameState>() {
+            public void apply( BalanceGameModel.GameState gameState ) {
+                handleGameStateChange( gameState );
+            }
+        } );
     }
 
     //-------------------------------------------------------------------------
     // Methods
     //-------------------------------------------------------------------------
 
-    private void handleGameStateChange( BalanceGameModel.GameState oldState, BalanceGameModel.GameState newState ) {
+    private void handleGameStateChange( BalanceGameModel.GameState newState ) {
         switch( newState ) {
 
             case OBTAINING_GAME_SETUP:
@@ -192,33 +220,45 @@ public class BalanceGameCanvas extends PhetPCanvas {
                     gameOverNode = null;
                 }
                 titleNode.setVisible( false );
+                checkAnswerButton.setVisible( false );
+                checkAnswerWrongButton.setVisible( false );
+                tryAgainButton.setVisible( false );
+                nextChallengeButton.setVisible( false );
                 break;
 
             case PRESENTING_INTERACTIVE_CHALLENGE:
-                gameSettingsNode.setVisible( true );
+                gameSettingsNode.setVisible( false );
                 scoreboard.setVisible( true );
                 titleNode.setVisible( true );
+                checkAnswerButton.setVisible( true );
+                checkAnswerWrongButton.setVisible( true );
+                nextChallengeButton.setVisible( false );
+                tryAgainButton.setVisible( false );
                 break;
 
             case SHOWING_CORRECT_ANSWER_FEEDBACK:
-                gameSettingsNode.setVisible( true );
-                scoreboard.setVisible( true );
                 titleNode.setVisible( false );
+                checkAnswerButton.setVisible( false );
+                checkAnswerWrongButton.setVisible( false );
+                nextChallengeButton.setVisible( true );
                 break;
 
             case SHOWING_INCORRECT_ANSWER_FEEDBACK:
-                gameSettingsNode.setVisible( true );
-                scoreboard.setVisible( true );
+                titleNode.setVisible( false );
+                checkAnswerButton.setVisible( false );
+                tryAgainButton.setVisible( true );
+                checkAnswerWrongButton.setVisible( false );
                 break;
 
             case DISPLAYING_CORRECT_ANSWER:
                 gameSettingsNode.setVisible( true );
                 scoreboard.setVisible( true );
+                nextChallengeButton.setVisible( true );
                 break;
 
             case SHOWING_GAME_RESULTS:
-                gameSettingsNode.setVisible( true );
                 scoreboard.setVisible( false );
+                nextChallengeButton.setVisible( false );
                 showGameOverNode();
                 break;
         }
@@ -231,7 +271,16 @@ public class BalanceGameCanvas extends PhetPCanvas {
         gameOverNode = new GameOverNode( model.getLevel(), model.getScoreProperty().get(),
                                          model.getMaximumPossibleScore(), new DecimalFormat( "##" ), model.getTime(),
                                          model.getBestTime( model.getLevel() ), model.isNewBestTime(),
-                                         model.gameSettings.timerEnabled.get() );
+                                         model.gameSettings.timerEnabled.get() ) {{
+            scale( 1.5 );
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
+                       STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
+            addGameOverListener( new GameOverListener() {
+                public void newGamePressed() {
+                    model.newGame();
+                }
+            } );
+        }};
 
         // Add the node.
         rootNode.addChild( gameOverNode );
