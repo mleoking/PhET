@@ -1,11 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.game.view;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
@@ -15,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -60,12 +58,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // ones zoom in).
         ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.5 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
                 150 ); // "Zoom factor" - smaller zooms out, larger zooms in.
-
-
-        setBackground( Color.BLACK );
-        addWorldChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.PINK ) );
 
         // Root of our scene graph
         rootNode = new PNode();
@@ -110,6 +104,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
         } );
 
+        // Add the background that consists of the ground and sky.
+        rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
+
+        // Add the scoreboard.
         scoreboard.setOffset( STAGE_SIZE.getWidth() / 2 - scoreboard.getFullBoundsReference().width / 2,
                               STAGE_SIZE.getHeight() - scoreboard.getFullBoundsReference().height - 20 );
         rootNode.addChild( scoreboard );
