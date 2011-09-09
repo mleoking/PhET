@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -44,7 +45,7 @@ public class OutlinePText extends PNode {
         PPath textPPath = new PhetPPath( fillColor, new BasicStroke( (float) outlineStrokeWidth ), outlineColor );
         TextLayout textLayout = new TextLayout( text, font, SWING_FRC );
         textPPath.setPathTo( textLayout.getOutline( new AffineTransform() ) );
-        addChild( textPPath );
+        addChild( new ZeroOffsetNode( textPPath ) );
     }
 
     /**

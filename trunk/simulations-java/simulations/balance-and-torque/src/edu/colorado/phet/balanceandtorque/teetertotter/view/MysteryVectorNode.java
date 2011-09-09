@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.OutlineHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -22,7 +21,7 @@ import edu.umd.cs.piccolo.PNode;
 public class MysteryVectorNode extends PNode {
 
     private static final int FONT_SIZE = 36;
-    private static final double Y_DIST_FROM_POSITION = 5;
+    private static final double Y_DIST_FROM_POSITION = 15; // In screen units.
 
     /**
      * Constructor.
@@ -35,10 +34,7 @@ public class MysteryVectorNode extends PNode {
                               BooleanProperty visibilityProperty, final Color fillColor, final ModelViewTransform mvt ) {
         // Create the label and add it as a child.
         // TODO: i18n
-//        final PText mysterySymbolNode = new PText( "?" ) {{
-//            setFont( new PhetFont( FONT_SIZE, true ) );
-//        }};
-        final OutlineHTMLNode mysterySymbolNode = new OutlineHTMLNode( "?", new PhetFont( FONT_SIZE ), Color.WHITE, Color.BLACK );
+        final OutlinePText mysterySymbolNode = new OutlinePText( "?", new PhetFont( FONT_SIZE, true ), Color.WHITE, Color.BLACK, 1 );
         addChild( mysterySymbolNode );
         // Listen to the vector and update the node when changes occur.
         positionedVectorProperty.addObserver( new VoidFunction1<PositionedVector>() {
