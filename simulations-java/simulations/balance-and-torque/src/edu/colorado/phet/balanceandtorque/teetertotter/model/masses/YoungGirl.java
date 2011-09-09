@@ -20,24 +20,24 @@ public class YoungGirl extends ImageMass {
     private static final double SITTING_CENTER_OF_MASS_X_OFFSET = 0.07; // In meters, determined visually.  Update if image changes.
 
     public YoungGirl() {
-        super( MASS, Images.YOUNG_GIRL_STANDING, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
+        super( MASS, Images.YOUNG_GIRL_STANDING_01, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
     }
 
     @Override public void setOnPlank( boolean onPlank ) {
         if ( onPlank ) {
             heightProperty.set( SITTING_HEIGHT );
             if ( getPosition().getX() > 0 ) {
-                imageProperty.set( Images.YOUNG_GIRL_SITTING );
+                imageProperty.set( Images.YOUNG_GIRL_SITTING_01 );
                 setCenterOfMassXOffset( SITTING_CENTER_OF_MASS_X_OFFSET );
             }
             else {
-                imageProperty.set( BufferedImageUtils.flipX( Images.YOUNG_GIRL_SITTING ) );
+                imageProperty.set( BufferedImageUtils.flipX( Images.YOUNG_GIRL_SITTING_01 ) );
                 setCenterOfMassXOffset( -SITTING_CENTER_OF_MASS_X_OFFSET );
             }
         }
         else {
             heightProperty.set( STANDING_HEIGHT );
-            imageProperty.set( Images.YOUNG_GIRL_STANDING );
+            imageProperty.set( Images.YOUNG_GIRL_STANDING_01 );
         }
     }
 }
