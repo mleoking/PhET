@@ -1,3 +1,5 @@
+# 0.00.08 (56347) Sep 9, 2011
+9/9/11 Snapshot for review and some initial testing.
 Added some random shaping to the mRNA to make it be a bit curvy.
 Got hints for transcription factors and polymerase working.
 Added ability for polymerase to produce mRNA
