@@ -8,6 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="module" module-name="games" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
