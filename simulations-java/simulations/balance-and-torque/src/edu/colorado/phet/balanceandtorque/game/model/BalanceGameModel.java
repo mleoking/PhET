@@ -297,6 +297,10 @@ public class BalanceGameModel {
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
+    public void displayCorrectAnswer() {
+        gameStateProperty.set( GameState.DISPLAYING_CORRECT_ANSWER );
+    }
+
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------

@@ -66,6 +66,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private TextButtonNode checkAnswerButton = new TextButtonNode( "Check Answer (correct)", BUTTON_FONT, Color.YELLOW );
     private TextButtonNode tryAgainButton = new TextButtonNode( "Try Again", BUTTON_FONT, Color.YELLOW );
     private TextButtonNode nextChallengeButton = new TextButtonNode( "Next Challenge", BUTTON_FONT, Color.YELLOW );
+    private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( "Display Correct Answer", BUTTON_FONT, Color.YELLOW );
 
     // TODO: This is for prototyping and should go eventually.  Soon even.
     private TextButtonNode checkAnswerWrongButton = new TextButtonNode( "Check Answer (wrong)", BUTTON_FONT, Color.YELLOW );
@@ -196,6 +197,13 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
         } );
         rootNode.addChild( nextChallengeButton );
+        displayCorrectAnswerButton.setOffset( checkAnswerButton.getFullBoundsReference().getX(), checkAnswerButton.getFullBoundsReference().getMaxY() + 5 );
+        displayCorrectAnswerButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.displayCorrectAnswer();
+            }
+        } );
+        rootNode.addChild( displayCorrectAnswerButton );
 
         // Register for changes to the game state and update accordingly.
         model.gameStateProperty.addObserver( new VoidFunction1<BalanceGameModel.GameState>() {
@@ -224,6 +232,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 checkAnswerWrongButton.setVisible( false );
                 tryAgainButton.setVisible( false );
                 nextChallengeButton.setVisible( false );
+                displayCorrectAnswerButton.setVisible( false );
                 break;
 
             case PRESENTING_INTERACTIVE_CHALLENGE:
