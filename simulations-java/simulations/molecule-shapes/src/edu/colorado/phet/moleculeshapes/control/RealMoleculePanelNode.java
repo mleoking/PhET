@@ -16,8 +16,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.kit.BackButton;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ForwardButton;
+import edu.colorado.phet.common.piccolophet.nodes.kit.old.OldBackButton;
+import edu.colorado.phet.common.piccolophet.nodes.kit.old.OldForwardButton;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
@@ -99,7 +99,7 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * back button
         *----------------------------------------------------------------------------*/
-        containerNode.addChild( new BackButton() {{
+        containerNode.addChild( new OldBackButton() {{
             final Function0<Boolean> visibilityCondition = new Function0<Boolean>() {
                 public Boolean apply() {
                     return kitIndex > 0 && !molecules.isEmpty();
@@ -129,7 +129,7 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * forward button
         *----------------------------------------------------------------------------*/
-        containerNode.addChild( new ForwardButton() {{
+        containerNode.addChild( new OldForwardButton() {{
             final Function0<Boolean> visibilityCondition = new Function0<Boolean>() {
                 public Boolean apply() {
                     return kitIndex < molecules.size() - 1 && !molecules.isEmpty();
