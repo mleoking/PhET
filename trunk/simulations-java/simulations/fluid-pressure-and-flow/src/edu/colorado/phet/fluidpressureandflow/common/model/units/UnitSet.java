@@ -13,6 +13,7 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.units.Units.PS
  * @author Sam Reid
  */
 public class UnitSet {
+
     //Common units for density
     private static final Unit FLUID_DENSITY_METRIC = new LinearUnit( DENSITY_UNITS_METRIC, 1, new DecimalFormat( "0.00" ) );
     private static final Unit FLUID_DENSITY_ENGLISH = new LinearUnit( DENSITY_UNITS_ENGLISH, 16.0184634, new DecimalFormat( "0.00" ) );
@@ -31,7 +32,7 @@ public class UnitSet {
     //Same as ft/s -> m/s, same as converting feet to meters
 
     //Common unit sets
-    public static final UnitSet ATMOSPHERES = new UnitSet( ATMOSPHERE, FEET_PER_SECOND, FEET, FLUID_DENSITY_ENGLISH, FLUX_ENGLISH, AREA_ENGLISH, RATE_ENGLISH );//English units but with atmospheres for pressure instead of psi
+    public static final UnitSet ATMOSPHERES = new UnitSet( ATMOSPHERE, METERS_PER_SECOND, FEET, FLUID_DENSITY_METRIC, FLUX_METRIC, AREA_METRIC, RATE_METRIC );//Metric units but with atmospheres for pressure instead of psi
     public static final UnitSet ENGLISH = new UnitSet( PSI, FEET_PER_SECOND, FEET, FLUID_DENSITY_ENGLISH, FLUX_ENGLISH, AREA_ENGLISH, RATE_ENGLISH );
     public static final UnitSet METRIC = new UnitSet( PASCAL, METERS_PER_SECOND, METERS, FLUID_DENSITY_METRIC, FLUX_METRIC, AREA_METRIC, RATE_METRIC );
 
