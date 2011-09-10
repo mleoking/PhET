@@ -91,6 +91,8 @@ public class Server implements MessageHandler {
             //Store the samples
             AddSamples request = (AddSamples) message;
             sessions.get( request.getSessionID() ).addSamples( request );
+
+//            debugSampleCount();
         }
         else if ( message instanceof ListAllSessions ) {
             writeToClient.writeObject( new SessionList( new ArrayList<SessionRecord>() {{
@@ -136,6 +138,14 @@ public class Server implements MessageHandler {
             }
             writeToClient.writeObject( new SampleBatch( states, session.getNumSamples() ) );
         }
+    }
+
+    private void debugSampleCount() {
+        int sum = 0;
+        for ( Session<?> session : sessions.values() ) {
+            sum += session.getNumSamples();
+        }
+        System.out.println( "sum = " + sum );
     }
 
     //Use phet-server for deployments, but localhost for local testing.
