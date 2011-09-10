@@ -3,7 +3,6 @@ package edu.colorado.phet.moleculeshapes.control;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
@@ -15,7 +14,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * The main Molecule Shapes control panel on the right hand side. It is composed of multiple sub-panels,
@@ -66,31 +64,24 @@ public class MoleculeShapesControlPanel extends PNode {
             /*---------------------------------------------------------------------------*
             * lone pair control
             *----------------------------------------------------------------------------*/
-            final BondTypeControlNode lonePairNode = new BondTypeControlNode( app, new PImage( Images.LONE_PAIR_SMALL ), 0 ) {{
-                setOffset( 0, 10 );
-                MoleculeJMEApplication.showLonePairs.addObserver( JmeUtils.swingObserver( new Runnable() {
-                    public void run() {
-                        updateState();
-                    }
-                } ), false );
+            final BondTypeControlNode lonePairNode = new BondTypeControlNode( app, new PImage( Images.LONE_PAIR_SMALL ), 0 ) {
+                {
+                    setOffset( 0, 10 );
 
-                // TODO: note that it looks weird adding a pair when it is invisible. this is the spot to make the change (override isEnabled)
-            }};
+                    // make sure to update our state when "show lone pairs" changes
+                    MoleculeJMEApplication.showLonePairs.addObserver( JmeUtils.swingObserver( new Runnable() {
+                        public void run() {
+                            updateState();
+                        }
+                    } ), false );
+                }
+
+                @Override protected boolean isEnabled() {
+                    // add the extra constraint on visibility
+                    return super.isEnabled() && MoleculeJMEApplication.showLonePairs.get();
+                }
+            };
             addChild( lonePairNode );
-
-            /*---------------------------------------------------------------------------*
-            * show/hide toggle
-            *----------------------------------------------------------------------------*/
-            final TextButtonNode toggleLonePairsButton = new ToggleLonePairsButton( app.getMolecule() );
-            // set Y offset
-            toggleLonePairsButton.setOffset( toggleLonePairsButton.getOffset().getX(), lonePairNode.getFullBounds().getMaxY() + 10 );
-            addChild( toggleLonePairsButton );
-
-            // extra padding below since the TextButtonNode changes size on press. without this, the panel size changes mid-click
-            addChild( new PNode() {{
-                setOffset( 0, toggleLonePairsButton.getFullBounds().getMaxY() + 3 );
-                addChild( new Spacer( 0, 0, 10, 0.1f ) );
-            }} );
         }}, "Lone Pair" ) {{
             setOffset( 0, bondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
@@ -103,24 +94,41 @@ public class MoleculeShapesControlPanel extends PNode {
             // enforce the width constraint
             addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
 
+            PNode checkboxContainer = new PNode();
+
+            /*---------------------------------------------------------------------------*
+            * show lone pairs
+            *----------------------------------------------------------------------------*/
+            final PNode showLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_LONE_PAIRS, MoleculeJMEApplication.showLonePairs ) {{
+                // enabled when there are lone pairs on the molecule
+                app.getMolecule().onGroupChanged.addTargetAndUpdate( JmeUtils.swingTarget( new Runnable() {
+                    public void run() {
+                        setEnabled( !app.getMolecule().getLonePairs().isEmpty() );
+                    }
+                } ) );
+            }};
+            checkboxContainer.addChild( showLonePairsNode );
+
             /*---------------------------------------------------------------------------*
             * show bond angles
             *----------------------------------------------------------------------------*/
-            addChild( new PSwing( new MoleculeShapesPropertyCheckBox( Strings.CONTROL__SHOW_BOND_ANGLES, MoleculeShapesProperties.showBondAngles ) {{
+            checkboxContainer.addChild( new PropertyCheckBoxNode( Strings.CONTROL__SHOW_BOND_ANGLES, MoleculeShapesProperties.showBondAngles ) {{
+                // enabled when there are 2 or more bonds (or always)
                 Runnable updateEnabled = new Runnable() {
                     public void run() {
-                        boolean enabled = !MoleculeShapesProperties.disableNAShowBondAngles.get()
-                                          || app.getMolecule().getBondedGroups().size() >= 2;
-                        setEnabled( enabled );
-                        setTransparency( enabled ? 1 : 0.6f );
-                        repaint();
+                        setEnabled( !MoleculeShapesProperties.disableNAShowBondAngles.get()
+                                    || app.getMolecule().getBondedGroups().size() >= 2 );
                     }
                 };
                 app.getMolecule().onGroupChanged.addTarget( JmeUtils.swingTarget( updateEnabled ) );
                 MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JmeUtils.swingObserver( updateEnabled ) );
-            }} ) {{
-                setOffset( 0, ( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - getFullBounds().getWidth() ) / 2 );
+
+                setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );
             }} );
+
+            checkboxContainer.setOffset( ( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - checkboxContainer.getFullBounds().getWidth() ) / 2, 0 );
+            addChild( checkboxContainer );
+
         }}, "Options" ) {{
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};

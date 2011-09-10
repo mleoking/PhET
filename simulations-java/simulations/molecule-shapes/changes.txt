@@ -1,3 +1,5 @@
+Added better visibility handling for the "draggable" lone pair icon and show lone pairs checkbox. (Switches to visible when all lone pairs are removed)
+Changed the show/hide lone pairs button into a checkbox in the "Options" area
 Fixed "Reset" for bond angles
 # 0.00.31 (56306) Sep 7, 2011
 Added developer control to toggle whether the "show bond angles" checkbox is disabled when there are less than 2 bonds

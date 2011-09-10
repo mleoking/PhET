@@ -18,6 +18,11 @@ public class Notifier<T> implements Fireable<T> {
         targets.add( listener );
     }
 
+    public void addTargetAndUpdate( SimpleTarget target ) {
+        addTarget( target );
+        target.update();
+    }
+
     public void removeTarget( Fireable<? super T> listener ) {
         targets.remove( listener );
     }
