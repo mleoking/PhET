@@ -1,3 +1,4 @@
+Pressure tab: When in "atmospheres" units, use metric for fluid density
 Water tower: Made the "fill" button match size, font and color of the "reset all" button
 # 0.00.20 (56353) Sep 9, 2011
 Flow tab: Improved performance by about 30% by using Collections.min instead of Collections.sort

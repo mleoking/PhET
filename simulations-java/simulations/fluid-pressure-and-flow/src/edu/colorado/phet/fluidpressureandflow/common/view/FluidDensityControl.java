@@ -6,8 +6,8 @@ import java.util.HashMap;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.property.Or;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
@@ -15,13 +15,13 @@ import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
-import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode.BUTTON_LEFT;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel.*;
+import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ATMOSPHERES;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 import static java.awt.Color.black;
@@ -37,8 +37,9 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
     private final UnitFluidDensityControl<T> englishControl;//Control when in English units
 
     public FluidDensityControl( final FluidPressureAndFlowModule<T> module ) {
-        //This Property indicates whether units are in metric or not.
-        final ValueEquals<UnitSet> metricUnits = new ValueEquals<UnitSet>( module.model.units, METRIC );
+
+        //This Property indicates whether units to be shown for the fluid density control should be in metric
+        final Or metricUnits = module.model.units.valueEquals( METRIC ).or( module.model.units.valueEquals( ATMOSPHERES ) );
 
         //Create and add the metric control, but only show it if the units are in metric
         metricControl = new UnitFluidDensityControl<T>( module, METRIC.density ) {{
