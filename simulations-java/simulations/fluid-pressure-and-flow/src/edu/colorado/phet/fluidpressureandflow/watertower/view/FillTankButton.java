@@ -7,10 +7,12 @@ import java.awt.event.ActionListener;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.FILL;
-import static edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas.CONTROL_FONT;
+import static edu.colorado.phet.fluidpressureandflow.watertower.view.WaterTowerCanvas.FLOATING_BUTTON_FONT_SIZE;
 
 /**
  * Button to fill the water tank, enabled if the tank is not already full.
@@ -19,7 +21,7 @@ import static edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAn
  */
 public class FillTankButton extends TextButtonNode {
     public FillTankButton( ObservableProperty<Boolean> full, final VoidFunction0 fill ) {
-        super( FILL, CONTROL_FONT );
+        super( FILL, new PhetFont( FLOATING_BUTTON_FONT_SIZE ), FluidPressureControlPanel.BACKGROUND );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 fill.apply();

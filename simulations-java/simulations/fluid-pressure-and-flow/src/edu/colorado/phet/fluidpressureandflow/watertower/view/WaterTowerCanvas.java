@@ -28,6 +28,8 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
 
 /**
+ * Canvas for the water tower tab.
+ *
  * @author Sam Reid
  */
 public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel> {
@@ -36,6 +38,9 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
     private final PNode waterDropLayer = new PNode();
     private final FPAFMeasuringTape measuringTape;
     final static Color TRANSPARENT = new Color( 0, 0, 0, 0 );
+
+    //Font size to use for "reset all" button and "fill" button
+    public static int FLOATING_BUTTON_FONT_SIZE = (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 );
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
         super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.225, STAGE_SIZE.height * 0.75 ), scale ) );
@@ -88,7 +93,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, INSET );
         }};
         addChild( controlPanelNode );
-        addChild( new ResetAllButtonNode( module, this, (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
+        addChild( new ResetAllButtonNode( module, this, FLOATING_BUTTON_FONT_SIZE, FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
             setConfirmationEnabled( false );
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + INSET * 2 );
         }} );
