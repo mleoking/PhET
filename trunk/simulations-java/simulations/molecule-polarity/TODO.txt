@@ -10,9 +10,9 @@ DESIGN
 - Jack: partial charges are sometimes very small, will students see them?
 - Jack: will user know they can rotate "Real Molecules"?
 - Melanie: visualizations are getting pretty hard to make sense of in "Real Molecules"
+- is E-field feature necessary in "Real Molecules" tab?
 
 HIGH
-- Jmol: how to align molecular dipole with E-field?
 - clean up canvas layout code in all tabs, base layout on molecule location
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 

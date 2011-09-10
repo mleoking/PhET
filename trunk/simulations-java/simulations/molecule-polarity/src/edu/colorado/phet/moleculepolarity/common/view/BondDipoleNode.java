@@ -13,7 +13,7 @@ import edu.colorado.phet.moleculepolarity.common.model.Bond;
  */
 public class BondDipoleNode extends DipoleNode {
 
-    private static final double PERPENDICULAR_OFFSET = 75; // offset perpendicular to the axis of the endpoints
+    private static final double PERPENDICULAR_OFFSET = 55; // offset perpendicular to the axis of the endpoints
 
     public BondDipoleNode( final Bond bond, final double scale ) {
         super( MPColors.BOND_DIPOLE );
