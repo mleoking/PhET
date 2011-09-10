@@ -35,6 +35,7 @@ public class SimSharingTestSim extends PiccoloPhetApplication implements Simshar
     public SimSharingTestSimState getState() {
         return new SimSharingTestSimState( System.currentTimeMillis(),
                                            new SerializableBufferedImage( imageFactory.getThumbnail( getPhetFrame(), 200 ) ),
+//                                           new SerializableBufferedImage( new BufferedImage( 200,200,BufferedImage.TYPE_INT_RGB ) ),
                                            module.position.get() );
     }
 
