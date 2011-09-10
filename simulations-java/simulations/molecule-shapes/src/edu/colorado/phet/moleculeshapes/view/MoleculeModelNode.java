@@ -157,7 +157,7 @@ public class MoleculeModelNode extends Node {
     private void rebuildAngles() {
         // TODO: docs and cleanup
         Vector3f dir = camera.getLocation();
-        final Vector3f transformedDirection = getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
+        final Vector3f localCameraPosition = getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
 
         for ( Spatial node : angleNodes ) {
             node.getParent().detachChild( node );
@@ -200,12 +200,12 @@ public class MoleculeModelNode extends Node {
 
                     final ImmutableVector3D bDir = b.position.get().normalized();
 
-                    final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, transformedDirection, molecule.getBondedGroups().size() );
+                    final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, localCameraPosition, molecule.getBondedGroups().size() );
                     if ( brightness == 0 ) {
                         continue;
                     }
 
-                    final BondAngleNode bondAngleNode = new BondAngleNode( app, molecule, aDir, bDir, transformedDirection, lastMidpoint );
+                    final BondAngleNode bondAngleNode = new BondAngleNode( app, molecule, aDir, bDir, localCameraPosition, lastMidpoint );
                     attachChild( bondAngleNode );
                     angleNodes.add( bondAngleNode );
 
