@@ -86,7 +86,8 @@ public class Property<T> extends SettableProperty<T> {
         enabled.set( !enabled.get() );
     }
 
-    public ObservableProperty<Boolean> valueEquals( T salt ) {
+    //Return a new observable property to indicate whether this value equals the specified value
+    public ValueEquals<T> valueEquals( T salt ) {
         return new ValueEquals<T>( this, salt );
     }
 

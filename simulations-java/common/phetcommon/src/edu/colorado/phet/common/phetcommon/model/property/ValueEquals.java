@@ -20,4 +20,9 @@ public class ValueEquals<T> extends CompositeBooleanProperty {
             }
         }, property );
     }
+
+    //Return an observable boolean or conjunction between this and the specified argument
+    public Or or( ObservableProperty<Boolean> b ) {
+        return new Or( this, b );
+    }
 }
