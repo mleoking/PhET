@@ -25,6 +25,7 @@ import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
+import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 import edu.colorado.phet.moleculeshapes.util.VoidNotifier;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -248,6 +249,15 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         // for much of the rest, it is helpful to run in the Swing thread while the JME thread is waiting. (constructing Swing components)
         JmeUtils.swingLock( new Runnable() {
             public void run() {
+
+                // when the molecule is made empty, make sure to show lone pairs again (will allow us to drag out new ones)
+                molecule.onGroupChanged.addTarget( new SimpleTarget() {
+                    public void update() {
+                        if ( molecule.getLonePairs().isEmpty() ) {
+                            showLonePairs.set( true );
+                        }
+                    }
+                } );
 
                 moleculeNode = new MoleculeModelNode( molecule, MoleculeJMEApplication.this, cam );
                 getSceneNode().attachChild( moleculeNode );

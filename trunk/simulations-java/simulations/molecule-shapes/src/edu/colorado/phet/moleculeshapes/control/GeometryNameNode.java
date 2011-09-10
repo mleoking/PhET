@@ -91,12 +91,12 @@ public class GeometryNameNode extends PNode {
         * visibility checkboxes
         *----------------------------------------------------------------------------*/
 
-        final PSwing molecularCheckbox = new PSwing( new MoleculeShapesPropertyCheckBox( "Molecule Geometry", showMolecularShapeName ) ) {{
+        final PSwing molecularCheckbox = new PropertyCheckBoxNode( "Molecule Geometry", showMolecularShapeName ) {{
             // center within it's "column"
             setOffset( ( MAX_SHAPE_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
         }};
 
-        PSwing electronCheckbox = new PSwing( new MoleculeShapesPropertyCheckBox( "Electron Geometry", showElectronShapeName ) ) {{
+        PSwing electronCheckbox = new PropertyCheckBoxNode( "Electron Geometry", showElectronShapeName ) {{
             // center within it's "column"
             setOffset( MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS + ( MAX_GEOMETRY_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
         }};
