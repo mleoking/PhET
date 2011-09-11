@@ -76,7 +76,7 @@ public class RealMolecule extends Molecule {
         centerOnCentroid();
     }};
 
-    public static final RealMolecule MOLECULAR_OXYGEN = new RealMolecule( "O2", 0 ) {{
+    public static final RealMolecule MOLECULAR_OXYGEN = new RealMolecule( "O2", 1 ) {{
         addCentralAtom( new Atom3D( O, new ImmutableVector3D( -0.864000, 0.116000, 0.000000 ) ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.292000, 0.477000, 0.000000 ) ), 2 );
         centerOnCentroid();
