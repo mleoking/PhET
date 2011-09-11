@@ -12,8 +12,6 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.old.OldBackButton;
@@ -26,13 +24,10 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
-import edu.colorado.phet.moleculeshapes.view.MoleculeNode.DisplayMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * The panel and controls for the Real Molecule (real examples) 3D view. It does not include the actual
@@ -158,7 +153,7 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * molecular formula label
         *----------------------------------------------------------------------------*/
-        containerNode.addChild( new HTMLNode( "", MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR, new PhetFont( 14, true ) ) {
+        containerNode.addChild( new HTMLNode( "", MoleculeShapesConstants.REAL_EXAMPLE_FORMULA_COLOR, MoleculeShapesConstants.EXAMPLE_MOLECULAR_FORMULA_FONT ) {
             {
                 selectedMolecule.addObserver( JmeUtils.swingObserver( new Runnable() {
                     public void run() {
@@ -194,7 +189,7 @@ public class RealMoleculePanelNode extends PNode {
         final float overlayBorderWidth = 1;
         overlayTarget = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE - overlayBorderWidth, SIZE - overlayBorderWidth ), new Color( 0f, 0f, 0f, 0f ) ) {{
             setStroke( new BasicStroke( overlayBorderWidth ) );
-            setStrokePaint( new Color( 60, 60, 60 ) );
+            setStrokePaint( MoleculeShapesConstants.REAL_EXAMPLE_BORDER_COLOR );
 
             // make room for the buttons and labels above
             setOffset( 0, CONTROL_OFFSET );
@@ -212,8 +207,6 @@ public class RealMoleculePanelNode extends PNode {
         }};
         containerNode.addChild( overlayTarget );
 
-        //addDisplayTypeSelection( overlayNode );
-
         onModelChange();
 
         // when the VSEPR molecule changes, update our possible molecules
@@ -229,53 +222,6 @@ public class RealMoleculePanelNode extends PNode {
                 overlayNode.showMolecule( selectedMolecule.get() );
             }
         } );
-    }
-
-    private void addDisplayTypeSelection( final RealMoleculeOverlayNode overlayNode ) {
-        /*---------------------------------------------------------------------------*
-        * display type selection
-        *----------------------------------------------------------------------------*/
-        final ButtonGroup group = new ButtonGroup();
-        final PSwing ballAndStickPSwing = new PSwing( new JRadioButton( "Ball and Stick", false ) {{
-            group.add( this );
-            setFont( MoleculeShapesConstants.CHECKBOX_FONT_SIZE );
-            setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
-            setOpaque( false );
-            addActionListener( new JmeActionListener( new Runnable() {
-                public void run() {
-                    overlayNode.displayMode.set( DisplayMode.BALL_AND_STICK );
-                }
-            } ) );
-
-            // keep this checkbox up-to-date with the property
-            Runnable updateView = new Runnable() {
-                public void run() { // TODO: synchronization needed here?
-                    boolean shouldBeSelected = overlayNode.displayMode.get() == DisplayMode.BALL_AND_STICK;
-                    if ( isSelected() != shouldBeSelected ) {
-                        setSelected( shouldBeSelected );
-                    }
-                }
-            };
-            overlayNode.displayMode.addObserver( JmeUtils.swingObserver( updateView ), false );
-            updateView.run();
-        }} ) {{
-            setOffset( 0, SIZE + CONTROL_OFFSET );
-        }};
-        containerNode.addChild( ballAndStickPSwing );
-        final PSwing spaceFillPSwing = new PSwing( new JRadioButton( "Space Filling", true ) {{
-            group.add( this );
-            setFont( MoleculeShapesConstants.CHECKBOX_FONT_SIZE );
-            setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
-            setOpaque( false );
-            addActionListener( new JmeActionListener( new Runnable() {
-                public void run() {
-                    overlayNode.displayMode.set( DisplayMode.SPACE_FILL );
-                }
-            } ) );
-        }} ) {{
-            setOffset( 0, ballAndStickPSwing.getFullBounds().getMaxY() );
-        }};
-        containerNode.addChild( spaceFillPSwing );
     }
 
     public boolean isOverlayVisible() {
@@ -300,7 +246,7 @@ public class RealMoleculePanelNode extends PNode {
             selectedMolecule.set( null );
         }
 
-        // TODO: allow the collapse-on-no-model changes
+        // TODO: allow the collapse-on-no-model changes?
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 // TODO: are we going to hit synchronization issues here again? YES
@@ -316,21 +262,5 @@ public class RealMoleculePanelNode extends PNode {
                 repaint();
             }
         } );
-    }
-
-    private static <A, B> List<B> map( List<A> list, Function1<A, B> map ) {
-        // TODO: move to somewhere more convenient
-        List<B> result = new ArrayList<B>();
-        for ( A element : list ) {
-            result.add( map.apply( element ) );
-        }
-        return result;
-    }
-
-    private PText labelText( String str ) {
-        return new PText( str ) {{
-            setFont( new PhetFont( 14 ) );
-            setTextPaint( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
-        }};
     }
 }

@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
@@ -264,7 +263,7 @@ public class MoleculeModelNode extends Node {
             super( text, app );
             this.text = text;
 
-            text.setFont( new PhetFont( 16 ) );
+            text.setFont( MoleculeShapesConstants.BOND_ANGLE_READOUT_FONT );
 
             antialiased.set( true );
 
@@ -278,7 +277,8 @@ public class MoleculeModelNode extends Node {
                     if ( !text.getText().equals( string ) ) {
                         text.setText( string );
                     }
-                    text.setTextPaint( new Color( 1f, 1f, 1f, brightness ) );
+                    float[] colors = MoleculeShapesConstants.BOND_ANGLE_READOUT_COLOR.getRGBColorComponents( null );
+                    text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
                     text.repaint();
 
                     JmeUtils.invokeLater( new Runnable() {

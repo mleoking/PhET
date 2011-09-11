@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.control;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,8 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -106,10 +103,9 @@ public class GeometryNameNode extends PNode {
         readoutHeight = Math.max( molecularCheckbox.getFullBounds().getHeight(), electronCheckbox.getFullBounds().getHeight() ) + VERTICAL_PADDING;
 
         // create a spacer, so that our control panel will never shrink below this amount of room
-        final PNode spacer = new PhetPPath( new Rectangle2D.Double(
-                0, 0,
-                MAX_GEOMETRY_WIDTH + MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS,
-                readoutHeight + MAX_TEXT_HEIGHT ), new Color( 0f, 0, 0, 0f ) );
+        final PNode spacer = new Spacer( 0, 0,
+                                         MAX_GEOMETRY_WIDTH + MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS,
+                                         readoutHeight + MAX_TEXT_HEIGHT );
 
         addChild( spacer );
         addChild( molecularCheckbox );
@@ -185,8 +181,8 @@ public class GeometryNameNode extends PNode {
 
     private static PText getTextLabel( final String label ) {
         return new PText( label ) {{
-            setFont( new PhetFont( 16 ) );
-            setTextPaint( Color.WHITE );
+            setFont( MoleculeShapesConstants.GEOMETRY_NAME_FONT );
+            setTextPaint( MoleculeShapesConstants.GEOMETRY_NAME_COLOR );
         }};
     }
 

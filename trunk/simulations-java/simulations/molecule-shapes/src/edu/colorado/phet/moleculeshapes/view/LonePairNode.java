@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -10,7 +11,6 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
@@ -52,7 +52,7 @@ public class LonePairNode extends Node {
         model.setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );
 
-            setColor( "Diffuse", new ColorRGBA( 1, 1, 1, 0.7f ) );
+            setColor( "Diffuse", MoleculeShapesConstants.LONE_PAIR_SHELL_COLOR );
             setFloat( "Shininess", 1f ); // [0,128]
 
             // allow transparency
@@ -97,7 +97,7 @@ public class LonePairNode extends Node {
             setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
                 setBoolean( "UseMaterialColors", true );
 
-                setColor( "Diffuse", new ColorRGBA( 1.0f, 1.0f, 0.0f, 0.8f ) );
+                setColor( "Diffuse", MoleculeShapesConstants.LONE_PAIR_ELECTRON_COLOR );
                 setFloat( "Shininess", 1f ); // [0,128]
 
                 getAdditionalRenderState().setBlendMode( BlendMode.Alpha );

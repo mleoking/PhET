@@ -6,7 +6,6 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
-import com.jme3.scene.VertexBuffer.Type;
 
 /**
  * Displays an arc between two directions at a specific radius. Used JME3 Curve code as a template.

@@ -4,8 +4,6 @@ package edu.colorado.phet.moleculeshapes.model;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
-import com.jme3.math.ColorRGBA;
-
 /**
  * A group of electron pairs. The pairs may be part of a bond, or may be a lone electron pair.
  */
@@ -114,22 +112,6 @@ public class PairGroup {
         // apply a nonphysical reduction on coulomb's law when the frame-rate is low, so we can avoid oscillation
         double coulombDowngrade = Math.sqrt( ( timeElapsed > 0.017 ) ? 0.017 / timeElapsed : 1 ); // TODO: isolate the "standard" tpf?
         addVelocity( coulombVelocityDelta.times( coulombDowngrade ) );
-
-        /*---------------------------------------------------------------------------*
-        * angle-based repulsion
-        *----------------------------------------------------------------------------*/
-
-        /* kept for possible future tweaks
-        double angle = Math.acos( position.get().normalized().dot( other.position.get().normalized() ) );
-
-        ImmutableVector3D pushDirection = getTangentDirection( position.get(), delta ).normalized();
-
-        double anglePushEstimate = estimatePush( angle ) - estimatePush( 2 * Math.PI - angle ); // push from the close direction (minus push from the LONG direction)
-
-        double pushFactor = getPushFactor() * other.getPushFactor();
-        ImmutableVector3D angleVelocityDelta = pushDirection.times( anglePushEstimate * pushFactor );
-        addVelocity( angleVelocityDelta.times( 0 ) );
-        */
     }
 
     public void addVelocity( ImmutableVector3D velocityChange ) {
@@ -162,22 +144,6 @@ public class PairGroup {
         double damping = 1 - DAMPING_FACTOR;
         damping = Math.pow( damping, timeElapsed / 0.017 ); // based so that we have no modification at 0.017
         velocity.set( velocity.get().times( damping ) );
-
-        // add in a small randomization into position, so we jitter away from unstable positions
-//        position.set( position.get().plus( new ImmutableVector3D( JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ) ) ) );
-    }
-
-    public ColorRGBA getColor() {
-        // TODO: improve bad back to identify origin atom
-        if ( position.get().equals( new ImmutableVector3D() ) ) {
-            return new ColorRGBA( 1f, 0f, 0f, 1f );
-        }
-        else if ( isLonePair ) {
-            return new ColorRGBA( 1f, 0.5f, 0f, 1f );
-        }
-        else {
-            return new ColorRGBA( 1f, 1f, 1f, 1f );
-        }
     }
 
     public double getIdealDistanceFromCenter() {
