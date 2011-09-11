@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
@@ -301,7 +302,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 /*---------------------------------------------------------------------------*
                 * "geometry name" panel
                 *----------------------------------------------------------------------------*/
-                namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule, MoleculeJMEApplication.this ), "Geometry Name" ) {{
+                namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule, MoleculeJMEApplication.this ), Strings.CONTROL__GEOMETRY_NAME ) {{
                     // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
                     setOffset( 0, 10 );
                 }}, MoleculeJMEApplication.this );

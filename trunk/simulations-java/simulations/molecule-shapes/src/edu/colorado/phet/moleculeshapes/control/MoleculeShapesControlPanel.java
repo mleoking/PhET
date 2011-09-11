@@ -50,7 +50,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
             }};
             addChild( tripleNode );
-        }}, "Bonding" );
+        }}, Strings.CONTROL__BONDING );
         addChild( bondingPanel );
 
         // put it on 0 vertically
@@ -84,7 +84,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 }
             };
             addChild( lonePairNode );
-        }}, "Lone Pair" ) {{
+        }}, Strings.CONTROL__LONE_PAIR ) {{
             setOffset( 0, bondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
         addChild( nonBondingPanel );
@@ -167,7 +167,7 @@ public class MoleculeShapesControlPanel extends PNode {
             checkboxContainer.setOffset( ( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - checkboxContainer.getFullBounds().getWidth() ) / 2, 0 );
             addChild( checkboxContainer );
 
-        }}, "Options" ) {{
+        }}, Strings.CONTROL__OPTIONS ) {{
             setOffset( 0, removeAllButtonNode.getFullBounds().getMaxY() + PANEL_SPACER * 1.5 );
         }};
         addChild( optionsPanel );
