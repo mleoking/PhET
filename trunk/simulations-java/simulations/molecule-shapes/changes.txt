@@ -1,3 +1,4 @@
+Added developer option to change the color of "Remove All" button
 Changed "Reset" to "Remove All", moved to under the lone pair control panel
 Added H2
 Control panel color tweaks

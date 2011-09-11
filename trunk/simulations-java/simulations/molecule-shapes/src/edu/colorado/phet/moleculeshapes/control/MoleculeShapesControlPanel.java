@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculeshapes.control;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
@@ -90,12 +91,27 @@ public class MoleculeShapesControlPanel extends PNode {
 
         final PNode removeAllButtonNode = new TextButtonNode( Strings.CONTROL__REMOVE_ALL,
                                                               MoleculeShapesConstants.REMOVE_BUTTON_FONT,
-                                                              MoleculeShapesConstants.REMOVE_BUTTON_COLOR ) {{
+                                                              MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR.get() ) {{
             addActionListener( new JmeActionListener( new Runnable() {
                 public void run() {
                     app.removeAllAtoms();
                 }
             } ) );
+
+            MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR.addObserver(
+                    new SimpleObserver() {
+                        public void update() {
+                            setBackground( MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR.get() );
+                            repaint();
+                        }
+                    }, false );
+
+            MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR.addObserver( new SimpleObserver() {
+                public void update() {
+                    setEnabledTextColor( MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR.get() );
+                    repaint(); // TODO: repaint shouldn't be necessary?
+                }
+            } );
 
             setOffset( ( nonBondingPanel.getFullBounds().getWidth() - getFullBounds().getWidth() ) / 2,
                        nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER - 4 );

@@ -22,6 +22,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.dev.PerformanceFrame;
 import edu.colorado.phet.moleculeshapes.jme.ColorRGBAPropertyControl;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.util.ColorPropertyControl;
 
 /**
  * The main application for Molecule Shapes
@@ -110,6 +111,8 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
                             add( new ColorRGBAPropertyControl( frame, "Background color: ", module.getApp().backgroundColor ) );
                             add( new ColorRGBAPropertyControl( frame, "Central atom color: ", MoleculeShapesConstants.COLOR_ATOM_CENTER ) );
                             add( new ColorRGBAPropertyControl( frame, "Radial atom color: ", MoleculeShapesConstants.COLOR_ATOM ) );
+                            add( new ColorPropertyControl( frame, "Remove all foreground color: ", MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR ) );
+                            add( new ColorPropertyControl( frame, "Remove all background color: ", MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR ) );
                         }} );
                         pack();
                         SwingUtils.centerInParent( this );
