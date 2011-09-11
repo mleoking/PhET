@@ -1,3 +1,4 @@
+Added 1 lone pair to O2
 Reduced the padding between bond icons
 Added better visibility handling for the "draggable" lone pair icon and show lone pairs checkbox. (Switches to visible when all lone pairs are removed)
 Changed the show/hide lone pairs button into a checkbox in the "Options" area
