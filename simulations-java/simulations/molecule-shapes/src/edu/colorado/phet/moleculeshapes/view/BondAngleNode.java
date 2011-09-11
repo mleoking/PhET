@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculeshapes.view;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.jme.PointArc;
 import edu.colorado.phet.moleculeshapes.jme.Sector;
@@ -16,7 +17,7 @@ import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
-import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.ANGLE_PRECISION;
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.BOND_ANGLE_SAMPLES;
 
 public class BondAngleNode extends Node {
     private PointArc arc;
@@ -30,13 +31,14 @@ public class BondAngleNode extends Node {
         Vector3f a = JmeUtils.convertVector( aDir );
         Vector3f b = JmeUtils.convertVector( bDir );
 
-        arc = new PointArc( a, b, radius, ANGLE_PRECISION, lastMidpoint ) {{
+        arc = new PointArc( a, b, radius, BOND_ANGLE_SAMPLES, lastMidpoint ) {{
             setLineWidth( 2 );
         }};
 
         attachChild( new Geometry( "Bond Arc", arc ) {{
             setMaterial( new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-                setColor( "Color", new ColorRGBA( 1, 0, 0, alpha ) );
+                float[] colors = MoleculeShapesConstants.BOND_ANGLE_ARC_COLOR.getRGBColorComponents( null );
+                setColor( "Color", new ColorRGBA( colors[0], colors[1], colors[2], alpha ) );
 
                 getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
                 setTransparent( true );
@@ -44,7 +46,8 @@ public class BondAngleNode extends Node {
         }} );
 
         final Material sectorMaterial = new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-            setColor( "Color", new ColorRGBA( 0.5f, 0.5f, 0.5f, alpha / 2 ) );
+            float[] colors = MoleculeShapesConstants.BOND_ANGLE_SWEEP_COLOR.getRGBColorComponents( null );
+            setColor( "Color", new ColorRGBA( colors[0], colors[1], colors[2], alpha / 2 ) );
 
             getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
             setTransparent( true );

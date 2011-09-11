@@ -3,9 +3,9 @@ package edu.colorado.phet.moleculeshapes.control;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -18,10 +18,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class TitledControlPanelNode extends ControlPanelNode {
 
     public TitledControlPanelNode( final PNode content, final String title, final Color backgroundColor, final BasicStroke borderStroke, final Color borderColor ) {
-        this( content, new PText( title ) {{
-                  setFont( new PhetFont( 14, true ) );
-                  setTextPaint( borderColor );
-              }}, backgroundColor, borderStroke, borderColor );
+        this( content, new TitleNode( title ), backgroundColor, borderStroke, borderColor );
     }
 
     public TitledControlPanelNode( final PNode content, final PNode titleNode, final Color backgroundColor, final BasicStroke borderStroke, final Color borderColor ) {
@@ -37,6 +34,15 @@ public class TitledControlPanelNode extends ControlPanelNode {
             setOffset( ( controlPanelNode.getFullBounds().getWidth() - titleNode.getFullBounds().getWidth() ) / 2,
                        -titleNode.getFullBounds().getHeight() / 2 );
         }} );
+    }
+
+    public static class TitleNode extends PText {
+        public TitleNode( String title ) {
+            super( title );
+
+            setFont( MoleculeShapesConstants.CONTROL_PANEL_TITLE_FONT );
+            setTextPaint( MoleculeShapesConstants.CONTROL_PANEL_TITLE_COLOR );
+        }
     }
 
     private static PBounds padBoundsHorizontally( PBounds bounds, double amount ) {

@@ -5,11 +5,10 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.jme.JmeCursorHandler;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -19,15 +18,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * Displays a toggle-button that shows either a green + when minimized or a red - when maximized,
  * depending on the property value.
  */
-class MinimizeMaximizeButtonNode extends PhetPPath {
+public class MinimizeMaximizeButtonNode extends PhetPPath {
     private static final double SIZE = 16; // vertical and horizontal
 
     private static final double SYMBOL_PADDING = 3; // padding from button edge to +/- extent
     private static final double SYMBOL_WIDTH = 2; // width of +/-
-
-    // colors
-    private static final Color MAXIMIZE_GREEN = new Color( 30, 220, 30 );
-    private static final Color MINIMIZE_RED = new Color( 220, 30, 30 );
 
     private boolean mouseDown = false;
 
@@ -68,7 +63,7 @@ class MinimizeMaximizeButtonNode extends PhetPPath {
         // keep the color updated
         final Runnable update = new Runnable() {
             public void run() {
-                Color color = minimized.get() ? MAXIMIZE_GREEN : MINIMIZE_RED;
+                Color color = minimized.get() ? MoleculeShapesConstants.MAXIMIZE_GREEN : MoleculeShapesConstants.MINIMIZE_RED;
                 Color baseColor = mouseDown ? color.darker() : color;
                 Color highlightColor = mouseDown ? baseColor.brighter() : toHighlight( baseColor );
                 setPaint( new GradientPaint( 0, 0, highlightColor, 0, (float) SIZE / 2, baseColor, false ) );

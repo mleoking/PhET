@@ -38,8 +38,8 @@ public class PropertyCheckBoxNode extends PSwing {
             super( text, property );
 
             // default styling
-            setFont( MoleculeShapesConstants.CHECKBOX_FONT_SIZE );
-            setForeground( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
+            setFont( MoleculeShapesConstants.CHECKBOX_FONT );
+            setForeground( MoleculeShapesConstants.CONTROL_PANEL_TEXT_COLOR );
             setOpaque( false );
         }
     }

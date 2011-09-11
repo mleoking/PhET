@@ -8,9 +8,9 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
@@ -38,7 +38,6 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;
@@ -295,7 +294,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 *----------------------------------------------------------------------------*/
 
                 // TODO: i18n (and reset behavior)
-                resetAllNode = new PiccoloJMENode( new TextButtonNode( "Reset", new PhetFont( 16 ), Color.ORANGE ) {{
+                resetAllNode = new PiccoloJMENode( new TextButtonNode( "Reset", MoleculeShapesConstants.RESET_BUTTON_FONT, MoleculeShapesConstants.RESET_BUTTON_COLOR ) {{
                     addActionListener( new JmeActionListener( new Runnable() {
                         public void run() {
                             resetAll();
@@ -400,12 +399,12 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private static void addLighting( Node node ) {
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
-        sun.setColor( new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f ) );
+        sun.setColor( MoleculeShapesConstants.SUN_COLOR );
         node.addLight( sun );
 
         DirectionalLight moon = new DirectionalLight();
         moon.setDirection( new Vector3f( -2, 1, -1 ).normalizeLocal() );
-        moon.setColor( new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f ) );
+        moon.setColor( MoleculeShapesConstants.MOON_COLOR );
         node.addLight( moon );
     }
 

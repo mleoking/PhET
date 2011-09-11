@@ -2,7 +2,6 @@
 package edu.colorado.phet.moleculeshapes.control;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
@@ -155,10 +154,7 @@ public class MoleculeShapesControlPanel extends PNode {
 
         realMoleculeNode = new RealMoleculePanelNode( app.getMolecule(), app, overlayNode, minimized );
         realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, new PNode() {{
-            final PText title = new PText( "Real Examples" ) {{
-                setFont( new PhetFont( 14, true ) );
-                setTextPaint( MoleculeShapesConstants.CONTROL_PANEL_BORDER_COLOR );
-            }};
+            final PText title = new TitledControlPanelNode.TitleNode( Strings.REAL_EXAMPLES__TITLE );
             addChild( title );
 
             final double TEXT_PADDING = 4;
