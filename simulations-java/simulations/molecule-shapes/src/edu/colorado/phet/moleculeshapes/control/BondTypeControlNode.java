@@ -1,15 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.control;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.swing.*;
-
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
+import edu.colorado.phet.moleculeshapes.jme.JmeCursorHandler;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
@@ -71,27 +69,15 @@ public class BondTypeControlNode extends PNode {
         updateState();
 
         // custom cursor handler for only showing hand when it is enabled
-        graphic.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseEntered( PInputEvent event ) {
-                if ( enabled ) {
-                    ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-                }
-            }
-
-            @Override public void mouseExited( PInputEvent event ) {
-                ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+        graphic.addInputEventListener( new JmeCursorHandler() {
+            @Override public boolean isEnabled() {
+                return enabled;
             }
         } );
 
-        removeButton.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseEntered( PInputEvent event ) {
-                if ( showingRemoveButton ) {
-                    ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-                }
-            }
-
-            @Override public void mouseExited( PInputEvent event ) {
-                ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+        removeButton.addInputEventListener( new JmeCursorHandler() {
+            @Override public boolean isEnabled() {
+                return showingRemoveButton;
             }
         } );
 
