@@ -266,8 +266,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 cam.setLocation( new Vector3f( 0, 0, 40 ) );
 
                 // start with two single bonds
-                molecule.addPair( new PairGroup( new ImmutableVector3D( 10, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-                molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 10, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+                molecule.addPair( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+                molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 8, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
 
                 /*---------------------------------------------------------------------------*
                 * real molecule overlay
