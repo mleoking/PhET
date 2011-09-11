@@ -43,14 +43,14 @@ public class VseprConfiguration {
             name = Strings.SHAPE__DIATOMIC;
         }
         else if ( x == 2 ) {
-            if ( e == 0 || e == 3 ) {
+            if ( e == 0 || e == 3 || e == 4 ) {
                 name = Strings.SHAPE__LINEAR;
             }
             else if ( e == 1 || e == 2 ) {
                 name = Strings.SHAPE__BENT;
             }
             else {
-                name = null; // not standard
+                throw new RuntimeException( "invalid x: " + x + ", e: " + e );
             }
         }
         else if ( x == 3 ) {
@@ -60,11 +60,11 @@ public class VseprConfiguration {
             else if ( e == 1 ) {
                 name = Strings.SHAPE__TRIGONAL_PYRAMIDAL;
             }
-            else if ( e == 2 ) {
+            else if ( e == 2 || e == 3 ) {
                 name = Strings.SHAPE__T_SHAPED;
             }
             else {
-                name = null;
+                throw new RuntimeException( "invalid x: " + x + ", e: " + e );
             }
         }
         else if ( x == 4 ) {
@@ -78,7 +78,7 @@ public class VseprConfiguration {
                 name = Strings.SHAPE__SQUARE_PLANAR;
             }
             else {
-                name = null;
+                throw new RuntimeException( "invalid x: " + x + ", e: " + e );
             }
         }
         else if ( x == 5 ) {
@@ -89,7 +89,7 @@ public class VseprConfiguration {
                 name = Strings.SHAPE__SQUARE_PYRAMIDAL;
             }
             else {
-                name = null;
+                throw new RuntimeException( "invalid x: " + x + ", e: " + e );
             }
         }
         else if ( x == 6 ) {
@@ -97,7 +97,7 @@ public class VseprConfiguration {
                 name = Strings.SHAPE__OCTAHEDRAL;
             }
             else {
-                name = null;
+                throw new RuntimeException( "invalid x: " + x + ", e: " + e );
             }
         }
         else {
