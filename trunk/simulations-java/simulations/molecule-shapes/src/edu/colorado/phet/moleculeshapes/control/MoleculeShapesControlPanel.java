@@ -101,11 +101,18 @@ public class MoleculeShapesControlPanel extends PNode {
             *----------------------------------------------------------------------------*/
             final PNode showLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_LONE_PAIRS, MoleculeJMEApplication.showLonePairs ) {{
                 // enabled when there are lone pairs on the molecule
-                app.getMolecule().onGroupChanged.addTargetAndUpdate( JmeUtils.swingTarget( new Runnable() {
+                Runnable updateEnabled = new Runnable() {
                     public void run() {
                         setEnabled( !app.getMolecule().getLonePairs().isEmpty() );
                     }
-                } ) );
+                };
+                app.getMolecule().onGroupChanged.addTarget( JmeUtils.swingTarget( updateEnabled ) );
+
+                /*
+                 * Run this in the current thread. should be in EDT for construction. Needed since the other call
+                 * is fired off to run in the next JME frame, so we have a flickering initial effect otherwise.
+                 */
+                updateEnabled.run();
             }};
             checkboxContainer.addChild( showLonePairsNode );
 

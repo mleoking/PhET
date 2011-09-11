@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.moleculeshapes.jme.JmeCursorHandler;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -88,15 +89,8 @@ class MinimizeMaximizeButtonNode extends PhetPPath {
         update.run();
 
         // mouse handling
+        addInputEventListener( new JmeCursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseEntered( PInputEvent event ) {
-                ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-            }
-
-            @Override public void mouseExited( PInputEvent event ) {
-                ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-            }
-
             @Override public void mousePressed( PInputEvent event ) {
                 mouseDown = true;
                 update.run();
