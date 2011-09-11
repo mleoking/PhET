@@ -81,5 +81,5 @@ public class MoleculeShapesConstants {
     public static final float CONTROL_PANEL_BORDER_WIDTH = 2; // width of the control panel line border
     public static final float OUTSIDE_PADDING = 10; // padding between the outside of the sim and the control panels
 
-    public static final double CONTROL_PANEL_INNER_WIDTH = 160; // width of the inner parts of the main control panel
+    public static final double RIGHT_MIN_WIDTH = 160; // width of the inner parts of the main control panel
 }

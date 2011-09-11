@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.jme.JmeCursorHandler;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
@@ -40,11 +39,11 @@ public class BondTypeControlNode extends PNode {
         graphic.addChild( 0, new Spacer( graphic.getFullBounds() ) );
 
         removeButton = new PImage( Images.REMOVE );
-        removeButton.setOffset( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - removeButton.getFullBounds().getWidth(),
+        removeButton.setOffset( MoleculeShapesControlPanel.INNER_WIDTH - removeButton.getFullBounds().getWidth(),
                                 ( graphic.getFullBounds().getHeight() - removeButton.getFullBounds().getHeight() ) / 2 );
         addChild( removeButton );
 
-        graphic.setOffset( ( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - removeButton.getFullBounds().getWidth() - graphic.getFullBounds().getWidth() ) / 2, 0 );
+        graphic.setOffset( ( MoleculeShapesControlPanel.INNER_WIDTH - removeButton.getFullBounds().getWidth() - graphic.getFullBounds().getWidth() ) / 2, 0 );
 
         removeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseClicked( PInputEvent event ) {

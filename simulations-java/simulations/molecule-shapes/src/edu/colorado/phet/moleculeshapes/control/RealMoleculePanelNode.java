@@ -42,7 +42,7 @@ public class RealMoleculePanelNode extends PNode {
     private final Property<Boolean> minimized;
 
     // size of our 3D view itself (square)
-    private final double SIZE = MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH;
+    private final double SIZE = MoleculeShapesConstants.RIGHT_MIN_WIDTH;
 
     // offset of the 3D view from the top of the panel interior
     private final double CONTROL_OFFSET = 40;
@@ -88,7 +88,9 @@ public class RealMoleculePanelNode extends PNode {
         }
 
         // make sure we have something at the very top so the panel doesn't shrink in
-        addChild( new Spacer( 0, 0, SIZE, 10 ) );
+        addChild( new Spacer( 0, 0, MoleculeShapesControlPanel.INNER_WIDTH, 10 ) );
+
+        final double horizontalPadding = ( MoleculeShapesControlPanel.INNER_WIDTH - SIZE ) / 2;
 
         /*---------------------------------------------------------------------------*
         * back button
@@ -117,7 +119,7 @@ public class RealMoleculePanelNode extends PNode {
                     }
                 }
             } ) );
-            setOffset( 0, ARROW_Y_OFFSET );
+            setOffset( horizontalPadding, ARROW_Y_OFFSET );
         }} );
 
         /*---------------------------------------------------------------------------*
@@ -147,7 +149,7 @@ public class RealMoleculePanelNode extends PNode {
                     }
                 }
             } ) );
-            setOffset( SIZE - getFullBounds().getWidth(), ARROW_Y_OFFSET );
+            setOffset( MoleculeShapesControlPanel.INNER_WIDTH - getFullBounds().getWidth() - horizontalPadding, ARROW_Y_OFFSET );
         }} );
 
         /*---------------------------------------------------------------------------*
@@ -172,7 +174,7 @@ public class RealMoleculePanelNode extends PNode {
                 }
 
                 // center vertically and horizontally
-                setOffset( ( SIZE - getFullBounds().getWidth() ) / 2, ( CONTROL_OFFSET - getFullBounds().getHeight() ) / 2 );
+                setOffset( ( MoleculeShapesControlPanel.INNER_WIDTH - getFullBounds().getWidth() ) / 2, ( CONTROL_OFFSET - getFullBounds().getHeight() ) / 2 );
 
                 // if it goes past 0, push it down
                 if ( getFullBounds().getMinY() < 0 ) {
@@ -192,7 +194,7 @@ public class RealMoleculePanelNode extends PNode {
             setStrokePaint( MoleculeShapesConstants.REAL_EXAMPLE_BORDER_COLOR );
 
             // make room for the buttons and labels above
-            setOffset( 0, CONTROL_OFFSET );
+            setOffset( ( MoleculeShapesControlPanel.INNER_WIDTH - SIZE ) / 2, CONTROL_OFFSET );
 
             // if the user presses the mouse here, start dragging the molecule
             addInputEventListener( new PBasicInputEventHandler() {

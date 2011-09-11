@@ -8,6 +8,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
 import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
@@ -27,6 +28,19 @@ public class MoleculeShapesControlPanel extends PNode {
     private final MoleculeShapesPanelNode realMoleculePanel;
     private RealMoleculePanelNode realMoleculeNode;
 
+    /*---------------------------------------------------------------------------*
+    * information for width computations
+    *----------------------------------------------------------------------------*/
+
+    private static final double TITLE_PADDING = 5;
+    private static final String[] TITLE_STRINGS = new String[] {
+            Strings.CONTROL__BONDING, Strings.CONTROL__LONE_PAIR, Strings.CONTROL__OPTIONS, Strings.REAL_EXAMPLES__TITLE
+    };
+    private static final String[] CHECKBOX_STRINGS = new String[] {
+            Strings.CONTROL__SHOW_BOND_ANGLES, Strings.CONTROL__SHOW_LONE_PAIRS
+    };
+    public static final double INNER_WIDTH = Math.ceil( getRequiredInnerWidth() );
+
     public MoleculeShapesControlPanel( final MoleculeJMEApplication app, RealMoleculeOverlayNode overlayNode ) {
 
         /*---------------------------------------------------------------------------*
@@ -34,7 +48,7 @@ public class MoleculeShapesControlPanel extends PNode {
         *----------------------------------------------------------------------------*/
         final MoleculeShapesPanelNode bondingPanel = new MoleculeShapesPanelNode( new PNode() {{
             // padding, and make sure we have the width
-            addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
+            addChild( new Spacer( 0, 0, INNER_WIDTH, 10 ) );
 
             final double spaceBetweenTypes = 8;
 
@@ -61,7 +75,7 @@ public class MoleculeShapesControlPanel extends PNode {
         *----------------------------------------------------------------------------*/
         final MoleculeShapesPanelNode nonBondingPanel = new MoleculeShapesPanelNode( new PNode() {{
             // padding, and make sure we have the width
-            addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
+            addChild( new Spacer( 0, 0, INNER_WIDTH, 10 ) );
 
             /*---------------------------------------------------------------------------*
             * lone pair control
@@ -123,7 +137,7 @@ public class MoleculeShapesControlPanel extends PNode {
         *----------------------------------------------------------------------------*/
         final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new PNode() {{
             // enforce the width constraint
-            addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
+            addChild( new Spacer( 0, 0, INNER_WIDTH, 10 ) );
 
             PNode checkboxContainer = new PNode();
 
@@ -164,7 +178,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );
             }} );
 
-            checkboxContainer.setOffset( ( MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH - checkboxContainer.getFullBounds().getWidth() ) / 2, 0 );
+            checkboxContainer.setOffset( ( INNER_WIDTH - checkboxContainer.getFullBounds().getWidth() ) / 2, 0 );
             addChild( checkboxContainer );
 
         }}, Strings.CONTROL__OPTIONS ) {{
@@ -208,6 +222,29 @@ public class MoleculeShapesControlPanel extends PNode {
      */
     public PBounds getOverlayBounds() {
         return realMoleculeNode.getOverlayBounds();
+    }
+
+    /*---------------------------------------------------------------------------*
+    * computation of required width
+    *----------------------------------------------------------------------------*/
+
+    public static double getRequiredInnerWidth() {
+        double maxWidth = MoleculeShapesConstants.RIGHT_MIN_WIDTH;
+        for ( String titleString : TITLE_STRINGS ) {
+            double width = new TitleNode( titleString ).getFullBounds().getWidth();
+            if ( titleString.equals( Strings.REAL_EXAMPLES__TITLE ) ) {
+                width += 45;
+            }
+            else {
+                width += 25;
+            }
+            maxWidth = Math.max( maxWidth, width );
+        }
+        for ( String checkboxString : CHECKBOX_STRINGS ) {
+            maxWidth = Math.max( maxWidth, new PropertyCheckBoxNode( checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
+        }
+        System.out.println( "max width: " + maxWidth );
+        return maxWidth;
     }
 
 }
