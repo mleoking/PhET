@@ -34,7 +34,7 @@ public class MoleculeShapesControlPanel extends PNode {
             // padding, and make sure we have the width
             addChild( new Spacer( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ) );
 
-            final double spaceBetweenTypes = 15;
+            final double spaceBetweenTypes = 8;
 
             final PNode singleNode = new BondTypeControlNode( app, new PImage( Images.SINGLE_BOND_SMALL ), 1 ) {{
                 setOffset( 0, 10 );
