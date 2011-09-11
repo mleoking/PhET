@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 import com.jme3.asset.AssetManager;
@@ -76,8 +76,8 @@ public class BondNode extends Node {
         Vector3f cameraPosition = getWorldTransform().transformInverseVector( click3d, new Vector3f() );
 
         // extract our start and end
-        final Vector3f start = JmeUtils.convertVector( a.get() );
-        final Vector3f end = JmeUtils.convertVector( b.get() );
+        final Vector3f start = JMEUtils.convertVector( a.get() );
+        final Vector3f end = JMEUtils.convertVector( b.get() );
 
         // unit vector point in the direction of the end from the start
         final Vector3f towardsEnd = end.subtract( start ).normalize();
@@ -133,14 +133,14 @@ public class BondNode extends Node {
             aBonds[i].setLocalScale( bondRadius, bondRadius, length / 2 );
 
             // point the cylinder in the direction of the bond. Cylinder is symmetric, so sign doesn't matter
-            aBonds[i].setLocalRotation( JmeUtils.getRotationQuaternion( Vector3f.UNIT_Z, towardsEnd ) );
+            aBonds[i].setLocalRotation( JMEUtils.getRotationQuaternion( Vector3f.UNIT_Z, towardsEnd ) );
 
             // add in the necessary offsets
             aBonds[i].setLocalTranslation( bondCenter.add( offsets[i] ).subtract( colorOffset ) );
 
             // similarly as above
             bBonds[i].setLocalScale( bondRadius, bondRadius, length / 2 );
-            bBonds[i].setLocalRotation( JmeUtils.getRotationQuaternion( Vector3f.UNIT_Z, towardsEnd ) );
+            bBonds[i].setLocalRotation( JMEUtils.getRotationQuaternion( Vector3f.UNIT_Z, towardsEnd ) );
             bBonds[i].setLocalTranslation( bondCenter.add( offsets[i] ).add( colorOffset ) );
         }
     }

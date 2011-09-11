@@ -8,7 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 
 /**
  * Color control for Color properties
@@ -18,7 +18,7 @@ public class ColorPropertyControl extends ColorControl {
         super( parentFrame, labelString, color.get() );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                JmeUtils.invoke( new Runnable() {
+                JMEUtils.invoke( new Runnable() {
                     public void run() {
                         color.set( getColor() );
                     }

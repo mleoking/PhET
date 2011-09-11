@@ -34,7 +34,7 @@ public abstract class PaintableImage extends Image {
         g.dispose();
 
         // then transfer the image data during the JME thread
-        JmeUtils.invoke( new Runnable() {
+        JMEUtils.invoke( new Runnable() {
             public void run() {
                 /* get the image data */
                 byte data[] = (byte[]) backImg.getRaster().getDataElements( 0, 0, backImg.getWidth(), backImg.getHeight(), null );

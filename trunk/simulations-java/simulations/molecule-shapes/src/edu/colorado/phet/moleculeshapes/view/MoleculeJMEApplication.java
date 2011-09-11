@@ -17,7 +17,7 @@ import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
 import edu.colorado.phet.moleculeshapes.jme.HUDNode;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
@@ -233,10 +233,10 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                                     break;
                                 case PAIR_FRESH_PLANAR:
                                     // put the particle on the z=0 plane
-                                    draggedParticle.dragToPosition( JmeUtils.convertVector( getPlanarMoleculeCursorPosition() ) );
+                                    draggedParticle.dragToPosition( JMEUtils.convertVector( getPlanarMoleculeCursorPosition() ) );
                                     break;
                                 case PAIR_EXISTING_SPHERICAL:
-                                    draggedParticle.dragToPosition( JmeUtils.convertVector( getSphericalMoleculeCursorPosition( JmeUtils.convertVector( draggedParticle.position.get() ) ) ) );
+                                    draggedParticle.dragToPosition( JMEUtils.convertVector( getSphericalMoleculeCursorPosition( JMEUtils.convertVector( draggedParticle.position.get() ) ) ) );
                                     break;
                             }
                         }
@@ -244,7 +244,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_LMB );
 
         // for much of the rest, it is helpful to run in the Swing thread while the JME thread is waiting. (constructing Swing components)
-        JmeUtils.swingLock( new Runnable() {
+        JMEUtils.swingLock( new Runnable() {
             public void run() {
 
                 // when the molecule is made empty, make sure to show lone pairs again (will allow us to drag out new ones)
@@ -322,7 +322,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
             public void apply( final Component componentUnderPointer ) {
                 boolean mouseOverInterface = componentUnderPointer != null;
                 if ( !mouseOverInterface ) {
-                    JmeUtils.invoke( new Runnable() {
+                    JMEUtils.invoke( new Runnable() {
                         public void run() {
                             dragging = true;
 
@@ -363,7 +363,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
         Vector3f localPosition = getPlanarMoleculeCursorPosition();
 
-        PairGroup pair = new PairGroup( JmeUtils.convertVector( localPosition ), bondOrder, true );
+        PairGroup pair = new PairGroup( JMEUtils.convertVector( localPosition ), bondOrder, true );
         molecule.addPair( pair );
 
         // set up dragging information

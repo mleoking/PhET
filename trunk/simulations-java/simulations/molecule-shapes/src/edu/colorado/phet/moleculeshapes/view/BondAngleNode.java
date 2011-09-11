@@ -3,7 +3,7 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.jme.PointArc;
 import edu.colorado.phet.moleculeshapes.jme.Sector;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
@@ -28,8 +28,8 @@ public class BondAngleNode extends Node {
         float radius = 5;
         final float alpha = calculateBrightness( aDir, bDir, localCameraPosition, molecule.getBondedGroups().size() );
 
-        Vector3f a = JmeUtils.convertVector( aDir );
-        Vector3f b = JmeUtils.convertVector( bDir );
+        Vector3f a = JMEUtils.convertVector( aDir );
+        Vector3f b = JMEUtils.convertVector( bDir );
 
         arc = new PointArc( a, b, radius, BOND_ANGLE_SAMPLES, lastMidpoint ) {{
             setLineWidth( 2 );
@@ -75,7 +75,7 @@ public class BondAngleNode extends Node {
         }
 
         // a combined measure of how close the angles are AND how orthogonal they are to the camera
-        float brightness = (float) Math.abs( aDir.cross( bDir ).dot( JmeUtils.convertVector( localCameraPosition ) ) );
+        float brightness = (float) Math.abs( aDir.cross( bDir ).dot( JMEUtils.convertVector( localCameraPosition ) ) );
 
         // DEV version for finding good-looking constants
 //        float lowThreshold = MoleculeShapesProperties.minimumBrightnessFade.get().floatValue();

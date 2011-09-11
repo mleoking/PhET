@@ -17,8 +17,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.old.OldBackButton;
 import edu.colorado.phet.common.piccolophet.nodes.kit.old.OldForwardButton;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEActionListener;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
@@ -70,7 +70,7 @@ public class RealMoleculePanelNode extends PNode {
         this.minimized = minimized;
 
         // when minimization changes, update our visual state
-        minimized.addObserver( JmeUtils.swingObserver( new Runnable() {
+        minimized.addObserver( JMEUtils.swingObserver( new Runnable() {
             public void run() {
                 // since event ordering can be weird between the threads, double-check before adding or removing the container node
                 if ( minimized.get() && containerNode.getParent() != null ) {
@@ -103,14 +103,14 @@ public class RealMoleculePanelNode extends PNode {
             };
 
             // when the selected molecule changes, update our view in the EDT
-            selectedMolecule.addObserver( JmeUtils.swingObserver( new Runnable() {
+            selectedMolecule.addObserver( JMEUtils.swingObserver( new Runnable() {
                 public void run() {
                     setVisible( visibilityCondition.apply() );
                 }
             } ), false );
             setVisible( visibilityCondition.apply() );
 
-            addActionListener( new JmeActionListener( new Runnable() {
+            addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
                     // sanity check for visibility
                     if ( visibilityCondition.apply() ) {
@@ -133,14 +133,14 @@ public class RealMoleculePanelNode extends PNode {
             };
 
             // when the selected molecule changes, update our view in the EDT
-            selectedMolecule.addObserver( JmeUtils.swingObserver( new Runnable() {
+            selectedMolecule.addObserver( JMEUtils.swingObserver( new Runnable() {
                 public void run() {
                     setVisible( visibilityCondition.apply() );
                 }
             } ), false );
             setVisible( visibilityCondition.apply() );
 
-            addActionListener( new JmeActionListener( new Runnable() {
+            addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
                     // sanity check for visibility
                     if ( visibilityCondition.apply() ) {
@@ -157,7 +157,7 @@ public class RealMoleculePanelNode extends PNode {
         *----------------------------------------------------------------------------*/
         containerNode.addChild( new HTMLNode( "", MoleculeShapesConstants.REAL_EXAMPLE_FORMULA_COLOR, MoleculeShapesConstants.EXAMPLE_MOLECULAR_FORMULA_FONT ) {
             {
-                selectedMolecule.addObserver( JmeUtils.swingObserver( new Runnable() {
+                selectedMolecule.addObserver( JMEUtils.swingObserver( new Runnable() {
                     public void run() {
                         updateView();
                     }
@@ -199,7 +199,7 @@ public class RealMoleculePanelNode extends PNode {
             // if the user presses the mouse here, start dragging the molecule
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( PInputEvent event ) {
-                    JmeUtils.invoke( new Runnable() {
+                    JMEUtils.invoke( new Runnable() {
                         public void run() {
                             app.startOverlayMoleculeDrag();
                         }

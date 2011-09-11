@@ -16,12 +16,12 @@ import com.jme3.math.ColorRGBA;
  */
 public class ColorRGBAPropertyControl extends ColorControl {
     public ColorRGBAPropertyControl( Frame parentFrame, String labelString, final Property<ColorRGBA> color ) {
-        super( parentFrame, labelString, JmeUtils.convertColor( color.get() ) );
+        super( parentFrame, labelString, JMEUtils.convertColor( color.get() ) );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                JmeUtils.invoke( new Runnable() {
+                JMEUtils.invoke( new Runnable() {
                     public void run() {
-                        color.set( JmeUtils.convertColor( getColor() ) );
+                        color.set( JMEUtils.convertColor( getColor() ) );
                     }
                 } );
             }

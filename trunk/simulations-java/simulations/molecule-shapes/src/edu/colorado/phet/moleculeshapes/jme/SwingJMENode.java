@@ -75,7 +75,7 @@ public class SwingJMENode extends Node {
             final HUDNode newHudNode = new HUDNode( component, size.width, size.height, app, antialiased );
 
             // do the rest of the work in the JME thread
-            JmeUtils.invoke( new Runnable() {
+            JMEUtils.invoke( new Runnable() {
                 public void run() {
                     // ditch the old HUD node
                     if ( hudNode != null ) {

@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
@@ -281,7 +281,7 @@ public class MoleculeModelNode extends Node {
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
                     text.repaint();
 
-                    JmeUtils.invokeLater( new Runnable() {
+                    JMEUtils.invokeLater( new Runnable() {
                         public void run() {
                             setLocalTranslation( displayPoint.subtract( getWidth() / 2, getHeight() / 2, 0 ) );
 
@@ -296,7 +296,7 @@ public class MoleculeModelNode extends Node {
         }
 
         public void detach() {
-            JmeUtils.invokeLater( new Runnable() {
+            JMEUtils.invokeLater( new Runnable() {
                 public void run() {
                     if ( attached ) {
                         attached = false;

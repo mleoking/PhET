@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
-import edu.colorado.phet.moleculeshapes.jme.JmeCursorHandler;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMECursorHandler;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
@@ -47,7 +47,7 @@ public class BondTypeControlNode extends PNode {
 
         removeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseClicked( PInputEvent event ) {
-                JmeUtils.invoke( new Runnable() {
+                JMEUtils.invoke( new Runnable() {
                     public void run() {
                         PairGroup candidate = getLastMatchingGroup();
 
@@ -68,13 +68,13 @@ public class BondTypeControlNode extends PNode {
         updateState();
 
         // custom cursor handler for only showing hand when it is enabled
-        graphic.addInputEventListener( new JmeCursorHandler() {
+        graphic.addInputEventListener( new JMECursorHandler() {
             @Override public boolean isEnabled() {
                 return enabled;
             }
         } );
 
-        removeButton.addInputEventListener( new JmeCursorHandler() {
+        removeButton.addInputEventListener( new JMECursorHandler() {
             @Override public boolean isEnabled() {
                 return showingRemoveButton;
             }
@@ -97,7 +97,7 @@ public class BondTypeControlNode extends PNode {
         graphic.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
                 if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
-                    JmeUtils.invoke( runnable );
+                    JMEUtils.invoke( runnable );
                 }
             }
         } );

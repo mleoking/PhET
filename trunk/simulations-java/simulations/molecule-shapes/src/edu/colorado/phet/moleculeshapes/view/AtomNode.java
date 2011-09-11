@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.Atom3D;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -57,7 +57,7 @@ public class AtomNode extends Geometry {
         this(
                 atom.position,
                 new None<PairGroup>(),
-                JmeUtils.convertColor( atom.getColor() ),
+                JMEUtils.convertColor( atom.getColor() ),
 
                 // use either a fixed radius, or the atomic radius
                 fixedRadius ? MoleculeShapesConstants.MOLECULE_ATOM_RADIUS : (float) ( 0.8 * 2 * atom.getRadius() / 100 ), // 100x is picometer=>angstrom

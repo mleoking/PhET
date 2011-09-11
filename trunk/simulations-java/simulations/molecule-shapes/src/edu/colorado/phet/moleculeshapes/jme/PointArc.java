@@ -69,7 +69,7 @@ public class PointArc extends Mesh {
         }
         else {
             // figure out the quaternion rotation from start to end
-            Quaternion startToEnd = JmeUtils.getRotationQuaternion( startDir, endDir );
+            Quaternion startToEnd = JMEUtils.getRotationQuaternion( startDir, endDir );
 
             for ( int i = 0; i < vertices.length; i += 3 ) {
                 float ratio = ( (float) i ) / ( vertices.length - 3 ); // zero to 1
@@ -82,7 +82,7 @@ public class PointArc extends Mesh {
                 vertices[i + 2] = position.z;
             }
 
-            midpoint = JmeUtils.slerp( startDir, endDir, 0.5f ).mult( radius );
+            midpoint = JMEUtils.slerp( startDir, endDir, 0.5f ).mult( radius );
         }
 
         for ( int i = 0; i < indices.length; i++ ) {
