@@ -2,10 +2,12 @@
 package edu.colorado.phet.moleculeshapes.control;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
@@ -86,6 +88,20 @@ public class MoleculeShapesControlPanel extends PNode {
         }};
         addChild( nonBondingPanel );
 
+        final PNode removeAllButtonNode = new TextButtonNode( Strings.CONTROL__REMOVE_ALL,
+                                                              MoleculeShapesConstants.REMOVE_BUTTON_FONT,
+                                                              MoleculeShapesConstants.REMOVE_BUTTON_COLOR ) {{
+            addActionListener( new JmeActionListener( new Runnable() {
+                public void run() {
+                    app.removeAllAtoms();
+                }
+            } ) );
+
+            setOffset( ( nonBondingPanel.getFullBounds().getWidth() - getFullBounds().getWidth() ) / 2,
+                       nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER - 4 );
+        }};
+        addChild( removeAllButtonNode );
+
         /*---------------------------------------------------------------------------*
         * options
         *----------------------------------------------------------------------------*/
@@ -136,7 +152,7 @@ public class MoleculeShapesControlPanel extends PNode {
             addChild( checkboxContainer );
 
         }}, "Options" ) {{
-            setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
+            setOffset( 0, removeAllButtonNode.getFullBounds().getMaxY() + PANEL_SPACER * 1.5 );
         }};
         addChild( optionsPanel );
 
