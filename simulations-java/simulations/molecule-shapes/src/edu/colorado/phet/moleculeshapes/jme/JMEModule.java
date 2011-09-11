@@ -2,6 +2,8 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
@@ -88,6 +90,13 @@ public abstract class JMEModule extends Module {
         setSimulationPanel( new JPanel( new BorderLayout() ) {{
             add( canvas, BorderLayout.CENTER );
         }} );
+
+        // listen to resize events on our canvas, so that we can update our layout
+        getCanvas().addComponentListener( new ComponentAdapter() {
+            @Override public void componentResized( ComponentEvent e ) {
+                ( (PhetJMEApplication) app ).onResize( getCanvas().getSize() );
+            }
+        } );
     }
 
     public abstract Application createApplication( Frame parentFrame );

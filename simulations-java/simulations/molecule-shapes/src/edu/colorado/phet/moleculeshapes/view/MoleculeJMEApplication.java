@@ -18,6 +18,9 @@ import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
 import edu.colorado.phet.moleculeshapes.jme.HUDNode;
 import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEView;
+import edu.colorado.phet.moleculeshapes.jme.PhetCamera;
+import edu.colorado.phet.moleculeshapes.jme.PhetCamera.CenteredStageCameraStrategy;
 import edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
@@ -44,7 +47,6 @@ import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -120,8 +122,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     * positioning
     *----------------------------------------------------------------------------*/
 
-    private Dimension lastCanvasSize;
-    private boolean resizeDirty = false;
+    private volatile Dimension lastCanvasSize;
+    private volatile boolean resizeDirty = false;
 
     private Quaternion rotation = new Quaternion(); // The angle about which the molecule should be rotated, changes as a function of time
 
@@ -133,12 +135,15 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private PiccoloJMENode namePanel;
 
     private final Frame parentFrame;
-    private Camera overlayCamera;
 
-    private MoleculeShapesControlPanel controlPanelNode;
-    private RealMoleculeOverlayNode realMoleculeOverlayNode;
-
+    private JMEView moleculeView;
+    private Camera moleculeCamera;
     private MoleculeModelNode moleculeNode; // The molecule to display and rotate
+
+    private JMEView overlay;
+    private MoleculeShapesControlPanel controlPanelNode;
+
+    private RealMoleculeOverlayNode realMoleculeOverlayNode;
 
     private static final Random random = new Random( System.currentTimeMillis() );
 
@@ -149,9 +154,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         super.initialize();
 
         initializeResources();
-
-        // add an offset to the left, since we have a control panel on the right
-        getSceneNode().setLocalTranslation( new Vector3f( -4.5f, 1.5f, 0 ) );
 
         // hook up mouse-move handlers
         inputManager.addMapping( MoleculeJMEApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
@@ -247,6 +249,19 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         JMEUtils.swingLock( new Runnable() {
             public void run() {
 
+                moleculeCamera = new PhetCamera( getInitialSize(), new CenteredStageCameraStrategy( 45, 1, 1000 ) );
+                moleculeCamera.setLocation( new Vector3f( 0, 0, 40 ) );
+                moleculeCamera.lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+
+                moleculeView = createView( "Main", moleculeCamera );
+
+                // add an offset to the left, since we have a control panel on the right
+                // TODO: make the offset dependent on the control panel width?
+                moleculeView.getScene().setLocalTranslation( new Vector3f( -4.5f, 1.5f, 0 ) );
+
+                // add lighting to the main scene
+                addLighting( moleculeView.getScene() );
+
                 // when the molecule is made empty, make sure to show lone pairs again (will allow us to drag out new ones)
                 molecule.onGroupChanged.addTarget( new SimpleTarget() {
                     public void update() {
@@ -256,15 +271,12 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                     }
                 } );
 
-                moleculeNode = new MoleculeModelNode( molecule, MoleculeJMEApplication.this, cam );
-                getSceneNode().attachChild( moleculeNode );
+                moleculeNode = new MoleculeModelNode( molecule, MoleculeJMEApplication.this, moleculeCamera );
+                moleculeView.getScene().attachChild( moleculeNode );
 
                 /*---------------------------------------------------------------------------*
-                * scene setup
+                * molecule setup
                 *----------------------------------------------------------------------------*/
-
-                addLighting( getSceneNode() );
-                cam.setLocation( new Vector3f( 0, 0, 40 ) );
 
                 // start with two single bonds
                 molecule.addPair( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
@@ -274,25 +286,19 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 * real molecule overlay
                 *----------------------------------------------------------------------------*/
 
-                Node overlayNode = new Node( "Overlay" );
+                overlay = createView( "Overlay" );
 
-                overlayCamera = new Camera( settings.getWidth(), settings.getHeight() );
+                realMoleculeOverlayNode = new RealMoleculeOverlayNode( MoleculeJMEApplication.this, overlay.getCamera() );
+                overlay.getScene().attachChild( realMoleculeOverlayNode );
 
-                final ViewPort overlayViewport = renderManager.createMainView( "Overlay Viewport", overlayCamera );
-                overlayViewport.attachScene( overlayNode );
-                addLiveNode( overlayNode );
-
-                realMoleculeOverlayNode = new RealMoleculeOverlayNode( MoleculeJMEApplication.this, overlayCamera );
-                overlayNode.attachChild( realMoleculeOverlayNode );
-
-                addLighting( overlayNode );
+                addLighting( overlay.getScene() );
 
                 /*---------------------------------------------------------------------------*
                 * main control panel
                 *----------------------------------------------------------------------------*/
                 controlPanelNode = new MoleculeShapesControlPanel( MoleculeJMEApplication.this, realMoleculeOverlayNode );
                 controlPanel = new PiccoloJMENode( controlPanelNode, MoleculeJMEApplication.this );
-                getBackgroundGuiNode().attachChild( controlPanel );
+                getBackgroundGui().getScene().attachChild( controlPanel );
                 controlPanel.onResize.addTarget( new Fireable<Void>() {
                     public void fire( Void param ) {
                         resizeDirty = true;
@@ -306,7 +312,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                     // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
                     setOffset( 0, 10 );
                 }}, MoleculeJMEApplication.this );
-                getBackgroundGuiNode().attachChild( namePanel );
+                getBackgroundGui().getScene().attachChild( namePanel );
             }
         } );
     }
@@ -433,8 +439,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     public Vector3f getPlanarMoleculeCursorPosition() {
         Vector2f click2d = inputManager.getCursorPosition();
-        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
-        Vector3f dir = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
+        Vector3f click3d = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
+        Vector3f dir = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
 
         float t = -click3d.getZ() / dir.getZ(); // solve for below equation at z=0. assumes camera isn't z=0, which should be safe here
 
@@ -456,8 +462,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         // set up intersection stuff
         CollisionResults results = new CollisionResults();
         Vector2f click2d = inputManager.getCursorPosition();
-        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
-        Vector3f dir = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
+        Vector3f click3d = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
+        Vector3f dir = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
 
         // transform our position and direction into the local coordinate frame. we will do our computations there
         Vector3f transformedPosition = moleculeNode.getWorldTransform().transformInverseVector( click3d, new Vector3f() );
@@ -520,10 +526,10 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     public PairGroup getElectronPairUnderPointer() {
         CollisionResults results = new CollisionResults();
         Vector2f click2d = inputManager.getCursorPosition();
-        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
-        Vector3f dir = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
+        Vector3f click3d = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
+        Vector3f dir = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
         Ray ray = new Ray( click3d, dir );
-        getSceneNode().collideWith( ray, results );
+        moleculeView.getScene().collideWith( ray, results );
         for ( CollisionResult result : results ) {
             PairGroup pair = getElectronPairForTarget( result.getGeometry() );
             if ( pair != null ) {
@@ -537,7 +543,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         // TODO: inspect, verify and doc
         CollisionResults results = new CollisionResults();
         Vector2f click2d = inputManager.getCursorPosition();
-        getBackgroundGuiNode().collideWith( new Ray( new Vector3f( click2d.x, click2d.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
+        getBackgroundGui().getScene().collideWith( new Ray( new Vector3f( click2d.x, click2d.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
         for ( CollisionResult result : results ) {
 
             Geometry geometry = result.getGeometry();
@@ -643,16 +649,16 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                     float finalTop = (float) ( localTop / lastCanvasSize.height );
 
                     // position the overlay viewport over this region
-                    overlayCamera.setViewPort( finalLeft, finalRight, finalBottom, finalTop );
+                    overlay.getCamera().setViewPort( finalLeft, finalRight, finalBottom, finalTop );
 
                     /*---------------------------------------------------------------------------*
                     * position overlay camera
                     *----------------------------------------------------------------------------*/
-                    overlayCamera.setFrustumPerspective( 45f, 1, 1f, 1000f );
-                    overlayCamera.setLocation( new Vector3f( 0, 0, 40 ) );
-                    overlayCamera.lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+                    overlay.getCamera().setFrustumPerspective( 45f, 1, 1f, 1000f );
+                    overlay.getCamera().setLocation( new Vector3f( 0, 0, 40 ) );
+                    overlay.getCamera().lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
 
-                    overlayCamera.update();
+                    overlay.getCamera().update();
                 }
             }
         }
@@ -666,7 +672,9 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         }
     }
 
-    public void onResize( Dimension canvasSize ) {
+    @Override public void onResize( Dimension canvasSize ) {
+        super.onResize( canvasSize );
+        // TODO: threading here!!!
         lastCanvasSize = canvasSize;
         resizeDirty = true;
     }

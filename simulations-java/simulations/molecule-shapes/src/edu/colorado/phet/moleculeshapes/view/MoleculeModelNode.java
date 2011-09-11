@@ -287,7 +287,7 @@ public class MoleculeModelNode extends Node {
 
                             if ( !attached ) {
                                 attached = true;
-                                app.getGuiNode().attachChild( ReadoutNode.this );
+                                app.getGui().getScene().attachChild( ReadoutNode.this );
                             }
                         }
                     } );
@@ -300,7 +300,7 @@ public class MoleculeModelNode extends Node {
                 public void run() {
                     if ( attached ) {
                         attached = false;
-                        app.getGuiNode().detachChild( ReadoutNode.this );
+                        app.getGui().getScene().detachChild( ReadoutNode.this );
                     }
                 }
             } );

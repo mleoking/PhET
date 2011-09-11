@@ -63,12 +63,12 @@ public class HUDNode extends Geometry {
 
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
-    public HUDNode( final JComponent component, final int width, final int height, final Application app ) {
-        this( component, width, height, app, new Property<Boolean>( false ) );
+    public HUDNode( final JComponent component, final int width, final int height, final double graphicsScale, final Application app ) {
+        this( component, width, height, graphicsScale, app, new Property<Boolean>( false ) );
     }
 
     // initialize from the EDT
-    public HUDNode( final JComponent component, final int width, final int height, final Application app, final Property<Boolean> antialiasing ) {
+    public HUDNode( final JComponent component, final int width, final int height, final double graphicsScale, final Application app, final Property<Boolean> antialiasing ) {
         super( "HUD", new Quad( width, height, true ) ); // "true" flips it so our components are shown in the correct Y direction
         this.component = component;
         this.width = width;
@@ -76,7 +76,7 @@ public class HUDNode extends Geometry {
         this.app = app;
         this.antialiasing = antialiasing;
 
-        image = new PaintableImage( width, height, true ) {
+        image = new PaintableImage( width, height, true, graphicsScale ) {
             {
                 component.setDoubleBuffered( false ); // not necessary. we are already essentially double-buffering it
                 refreshImage(); // update it on construction

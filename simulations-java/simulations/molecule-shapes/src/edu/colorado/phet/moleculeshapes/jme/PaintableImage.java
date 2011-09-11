@@ -17,8 +17,15 @@ public abstract class PaintableImage extends Image {
     private BufferedImage backImg;
     private ByteBuffer scratch;
 
+    private final double graphicsScale;
+
     public PaintableImage( int width, int height, boolean hasAlpha ) {
+        this( width, height, hasAlpha, 1.0 );
+    }
+
+    public PaintableImage( int width, int height, boolean hasAlpha, double graphicsScale ) {
         super( hasAlpha ? Format.RGBA8 : Format.BGR8, width, height, ByteBuffer.allocateDirect( 4 * width * height ) );
+        this.graphicsScale = graphicsScale;
         scratch = data.get( 0 );
         backImg = new BufferedImage( width, height, hasAlpha ? BufferedImage.TYPE_4BYTE_ABGR : BufferedImage.TYPE_3BYTE_BGR );
 
@@ -30,6 +37,11 @@ public abstract class PaintableImage extends Image {
     public void refreshImage() {
         // paint within the EDT thread
         Graphics2D g = backImg.createGraphics();
+
+        // scale up the subsequent graphics calls by the X amount
+        g.scale( graphicsScale, graphicsScale );
+
+        // paint onto the graphics (on the BufferedImage)
         paint( g );
         g.dispose();
 

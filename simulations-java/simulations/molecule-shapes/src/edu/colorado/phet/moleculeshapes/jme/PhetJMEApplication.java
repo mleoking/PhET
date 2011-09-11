@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.jme;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import com.jme3.system.Timer;
  * PhET-specific behavior needed instead of the generic SimpleApplication JME3 class.
  * <p/>
  * Has a "background" GUI in the back, a scene in the middle, and the main GUI in front.
+ * TODO: further cleanup on the exported interface
  */
 public abstract class PhetJMEApplication extends Application {
 
@@ -37,8 +39,13 @@ public abstract class PhetJMEApplication extends Application {
     private Node guiNode = new Node( "Gui Node" );
     private Node backgroundGuiNode = new Node( "Background Gui Node" );
 
+    private JMEView gui; // in front of the main viewports
+    private JMEView backgroundGui; // behind the main viewports
+
     // nodes that will get updated every frame
     private List<Node> liveNodes = new ArrayList<Node>();
+
+    private volatile Dimension initialSize = null;
 
     public PhetJMEApplication() {
         super();
@@ -76,22 +83,38 @@ public abstract class PhetJMEApplication extends Application {
             }
         } );
         liveNodes.add( backgroundGuiNode );
+        backgroundGui = new JMEView( backgroundGuiViewPort, backgroundGuiCam, backgroundGuiNode );
 
         // make the "main" viewport not clear what is behind it
         viewPort.setClearFlags( false, true, true );
         viewPort.attachScene( sceneNode );
         liveNodes.add( sceneNode );
 
+        // hook up the main "gui"
         guiNode.setQueueBucket( Bucket.Gui );
         guiNode.setCullHint( CullHint.Never );
         guiViewPort.attachScene( guiNode );
         liveNodes.add( guiNode );
+        gui = new JMEView( guiViewPort, guiViewPort.getCamera(), guiNode );
 
         statistics.initialize( this, guiNode );
 
         if ( inputManager != null ) {
             inputManager.setCursorVisible( true );
         }
+    }
+
+    public JMEView createView( String name ) {
+        return createView( name, new Camera( settings.getWidth(), settings.getHeight() ) );
+    }
+
+    public JMEView createView( String name, Camera camera ) {
+        Node scene = new Node( name + " Scene Node" );
+
+        final ViewPort viewport = renderManager.createMainView( name + " Viewport", camera );
+        viewport.attachScene( scene );
+        addLiveNode( scene );
+        return new JMEView( viewport, camera, scene );
     }
 
     public Timer getTimer() {
@@ -134,16 +157,12 @@ public abstract class PhetJMEApplication extends Application {
         stateManager.postRender();
     }
 
-    public Node getSceneNode() {
-        return sceneNode;
+    public JMEView getGui() {
+        return gui;
     }
 
-    public Node getGuiNode() {
-        return guiNode;
-    }
-
-    public Node getBackgroundGuiNode() {
-        return backgroundGuiNode;
+    public JMEView getBackgroundGui() {
+        return backgroundGui;
     }
 
     public void addLiveNode( Node node ) {
@@ -166,5 +185,15 @@ public abstract class PhetJMEApplication extends Application {
     }
 
     public void simpleRender( RenderManager rm ) {
+    }
+
+    public void onResize( Dimension canvasSize ) {
+        if ( initialSize == null ) {
+            initialSize = canvasSize;
+        }
+    }
+
+    public Dimension getInitialSize() {
+        return initialSize;
     }
 }

@@ -2,8 +2,6 @@
 package edu.colorado.phet.moleculeshapes;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.moleculeshapes.jme.JMEModule;
@@ -20,13 +18,6 @@ public class MoleculeShapesModule extends JMEModule {
 
     public MoleculeShapesModule( Frame parentFrame, String name ) {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
-
-        // listen to resize events on our canvas, so that we can update our layout
-        getCanvas().addComponentListener( new ComponentAdapter() {
-            @Override public void componentResized( ComponentEvent e ) {
-                app.onResize( getCanvas().getSize() );
-            }
-        } );
     }
 
     public MoleculeJMEApplication getApp() {
