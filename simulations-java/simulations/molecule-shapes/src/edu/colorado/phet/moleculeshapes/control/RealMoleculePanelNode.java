@@ -26,7 +26,6 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
-import edu.colorado.phet.moleculeshapes.view.MoleculeNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeNode.DisplayMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -213,6 +212,26 @@ public class RealMoleculePanelNode extends PNode {
         }};
         containerNode.addChild( overlayTarget );
 
+        //addDisplayTypeSelection( overlayNode );
+
+        onModelChange();
+
+        // when the VSEPR molecule changes, update our possible molecules
+        molecule.onGroupChanged.addTarget( new Fireable<PairGroup>() {
+            public void fire( PairGroup param ) {
+                onModelChange();
+            }
+        } );
+
+        // update the overlay (3D molecule view) when our selected molecule changes
+        selectedMolecule.addObserver( new SimpleObserver() {
+            public void update() {
+                overlayNode.showMolecule( selectedMolecule.get() );
+            }
+        } );
+    }
+
+    private void addDisplayTypeSelection( final RealMoleculeOverlayNode overlayNode ) {
         /*---------------------------------------------------------------------------*
         * display type selection
         *----------------------------------------------------------------------------*/
@@ -250,29 +269,13 @@ public class RealMoleculePanelNode extends PNode {
             setOpaque( false );
             addActionListener( new JmeActionListener( new Runnable() {
                 public void run() {
-                    overlayNode.displayMode.set( MoleculeNode.DisplayMode.SPACE_FILL );
+                    overlayNode.displayMode.set( DisplayMode.SPACE_FILL );
                 }
             } ) );
         }} ) {{
             setOffset( 0, ballAndStickPSwing.getFullBounds().getMaxY() );
         }};
         containerNode.addChild( spaceFillPSwing );
-
-        onModelChange();
-
-        // when the VSEPR molecule changes, update our possible molecules
-        molecule.onGroupChanged.addTarget( new Fireable<PairGroup>() {
-            public void fire( PairGroup param ) {
-                onModelChange();
-            }
-        } );
-
-        // update the overlay (3D molecule view) when our selected molecule changes
-        selectedMolecule.addObserver( new SimpleObserver() {
-            public void update() {
-                overlayNode.showMolecule( selectedMolecule.get() );
-            }
-        } );
     }
 
     public boolean isOverlayVisible() {
