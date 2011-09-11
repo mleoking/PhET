@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
@@ -17,7 +16,6 @@ import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
 import edu.colorado.phet.moleculeshapes.jme.HUDNode;
-import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
@@ -131,7 +129,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     *----------------------------------------------------------------------------*/
 
     private PiccoloJMENode controlPanel;
-    private PiccoloJMENode resetAllNode;
     private PiccoloJMENode namePanel;
 
     private final Frame parentFrame;
@@ -288,20 +285,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 overlayNode.attachChild( realMoleculeOverlayNode );
 
                 addLighting( overlayNode );
-
-                /*---------------------------------------------------------------------------*
-                * reset button
-                *----------------------------------------------------------------------------*/
-
-                // TODO: i18n (and reset behavior)
-                resetAllNode = new PiccoloJMENode( new TextButtonNode( "Reset", MoleculeShapesConstants.RESET_BUTTON_FONT, MoleculeShapesConstants.RESET_BUTTON_COLOR ) {{
-                    addActionListener( new JmeActionListener( new Runnable() {
-                        public void run() {
-                            resetAll();
-                        }
-                    } ) );
-                }}, MoleculeJMEApplication.this );
-                getBackgroundGuiNode().attachChild( resetAllNode );
 
                 /*---------------------------------------------------------------------------*
                 * main control panel
@@ -626,11 +609,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                                                   0 );
 
                 namePanel.setLocalTranslation( OUTSIDE_PADDING, OUTSIDE_PADDING, 0 );
-
-                resetAllNode.setLocalTranslation(
-                        lastCanvasSize.width - ( controlPanel.getWidth() + resetAllNode.getWidth() ) / 2 - OUTSIDE_PADDING,
-                        OUTSIDE_PADDING,
-                        0 );
 
                 /*---------------------------------------------------------------------------*
                 * calculate real molecule overlay bounds
