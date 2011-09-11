@@ -81,6 +81,12 @@ public class RealMolecule extends Molecule {
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.292000, 0.477000, 0.000000 ) ), 2 );
         centerOnCentroid();
     }};
+    public static final RealMolecule MOLECULAR_HYDROGEN = new RealMolecule( "H2", 0 ) {{
+        addCentralAtom( new Atom3D( H, new ImmutableVector3D( -0.390000, 0.178000, -0.444000 ) ) );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.014000, 0.318000, 0.160000 ) ), 1 );
+
+        centerOnCentroid();
+    }};
 
     public static final RealMolecule HYDROGEN_FLUORIDE = new RealMolecule( "HF", 3 ) {{
         addCentralAtom( new Atom3D( F, new ImmutableVector3D( 0.325, 0, 0 ) ) );
@@ -408,7 +414,7 @@ public class RealMolecule extends Molecule {
             BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
             CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, PERCHLORATE,
             MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE, METHYL_CHLORIDE, HYDROGEN_CHLORIDE,
-            XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE, CHLORATE
+            XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE, CHLORATE, MOLECULAR_HYDROGEN
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {

@@ -1,3 +1,4 @@
+Added H2
 Control panel color tweaks
 Removed ball-and-stick / spacefill options
 Added 1 lone pair to O2
