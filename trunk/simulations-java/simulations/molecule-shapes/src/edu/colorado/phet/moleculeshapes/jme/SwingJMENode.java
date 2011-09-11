@@ -72,7 +72,8 @@ public class SwingJMENode extends Node {
             size = preferredSize;
 
             // create the new HUD node within the EDT
-            final HUDNode newHudNode = new HUDNode( component, size.width, size.height, app, antialiased );
+            // TODO: move the graphics scale to higher up
+            final HUDNode newHudNode = new HUDNode( component, size.width, size.height, 1.0, app, antialiased );
 
             // do the rest of the work in the JME thread
             JMEUtils.invoke( new Runnable() {
