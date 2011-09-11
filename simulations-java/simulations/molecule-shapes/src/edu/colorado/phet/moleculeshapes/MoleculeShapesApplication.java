@@ -21,7 +21,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.dev.PerformanceFrame;
 import edu.colorado.phet.moleculeshapes.jme.ColorRGBAPropertyControl;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.util.ColorPropertyControl;
 
 /**
@@ -134,7 +134,7 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        JmeUtils.initializeJME( args );
+        JMEUtils.initializeJME( args );
 
         /*
         * If you want to customize your application (look-&-feel, window size, etc)

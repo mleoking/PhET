@@ -10,8 +10,8 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
-import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEActionListener;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 
 public class PerformanceFrame extends JFrame {
@@ -31,13 +31,13 @@ public class PerformanceFrame extends JFrame {
 
         container.add( new JLabel( "Antialiasing Samples (not working?)" ), new GridBagConstraints() {{gridy = 1;}} );
         container.add( new AntiAliasingButton( 0 ), new GridBagConstraints() {{gridy = 1;}} );
-        if ( JmeUtils.maxAllowedSamples > 0 && JmeUtils.maxAllowedSamples < 4 ) {
-            container.add( new AntiAliasingButton( JmeUtils.maxAllowedSamples ), new GridBagConstraints() {{gridy = 1;}} );
+        if ( JMEUtils.maxAllowedSamples > 0 && JMEUtils.maxAllowedSamples < 4 ) {
+            container.add( new AntiAliasingButton( JMEUtils.maxAllowedSamples ), new GridBagConstraints() {{gridy = 1;}} );
         }
         else {
             container.add( new AntiAliasingButton( 4 ), new GridBagConstraints() {{gridy = 1;}} );
-            if ( JmeUtils.maxAllowedSamples > 4 ) {
-                container.add( new AntiAliasingButton( JmeUtils.maxAllowedSamples ), new GridBagConstraints() {{gridy = 1;}} );
+            if ( JMEUtils.maxAllowedSamples > 4 ) {
+                container.add( new AntiAliasingButton( JMEUtils.maxAllowedSamples ), new GridBagConstraints() {{gridy = 1;}} );
             }
         }
 
@@ -77,9 +77,9 @@ public class PerformanceFrame extends JFrame {
         public FrameRateButton( final int frameRate ) {
             super( frameRate + "" );
 
-            addActionListener( new JmeActionListener( new Runnable() {
+            addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
-                    JmeUtils.frameRate.set( frameRate );
+                    JMEUtils.frameRate.set( frameRate );
                 }
             } ) );
         }
@@ -89,9 +89,9 @@ public class PerformanceFrame extends JFrame {
         public AntiAliasingButton( final int samples ) {
             super( samples + "" );
 
-            addActionListener( new JmeActionListener( new Runnable() {
+            addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
-                    JmeUtils.antiAliasingSamples.set( samples );
+                    JMEUtils.antiAliasingSamples.set( samples );
                 }
             } ) );
         }
@@ -104,7 +104,7 @@ public class PerformanceFrame extends JFrame {
             super( 0, (int) ( 1 * scale ), (int) ( property.get() * scale ) );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    JmeUtils.invoke( new Runnable() {
+                    JMEUtils.invoke( new Runnable() {
                         public void run() {
                             property.set( ( (double) getValue() ) / scale );
                         }
@@ -116,7 +116,7 @@ public class PerformanceFrame extends JFrame {
 
     private static class PropertyLabel extends JLabel {
         public PropertyLabel( final Property<?> property ) {
-            property.addObserver( JmeUtils.swingObserver( new Runnable() {
+            property.addObserver( JMEUtils.swingObserver( new Runnable() {
                 public void run() {
                     setText( property.get().toString() );
                 }
@@ -137,7 +137,7 @@ public class PerformanceFrame extends JFrame {
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     final int value = getValue();
-                    JmeUtils.invoke( new Runnable() {
+                    JMEUtils.invoke( new Runnable() {
                         public void run() {
                             property.set( value );
                         }

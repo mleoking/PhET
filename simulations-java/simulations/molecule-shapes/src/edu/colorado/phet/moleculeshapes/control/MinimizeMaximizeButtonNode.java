@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.jme.JmeCursorHandler;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMECursorHandler;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -80,11 +80,11 @@ public class MinimizeMaximizeButtonNode extends PhetPPath {
         };
 
         // when minimization changes, update our view
-        minimized.addObserver( JmeUtils.swingObserver( update ), false );
+        minimized.addObserver( JMEUtils.swingObserver( update ), false );
         update.run();
 
         // mouse handling
-        addInputEventListener( new JmeCursorHandler() );
+        addInputEventListener( new JMECursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 mouseDown = true;
@@ -98,7 +98,7 @@ public class MinimizeMaximizeButtonNode extends PhetPPath {
 
             @Override public void mouseClicked( PInputEvent event ) {
                 // toggle it in JME thread
-                JmeUtils.invoke( new Runnable() {
+                JMEUtils.invoke( new Runnable() {
                     public void run() {
                         minimized.set( !minimized.get() );
                     }

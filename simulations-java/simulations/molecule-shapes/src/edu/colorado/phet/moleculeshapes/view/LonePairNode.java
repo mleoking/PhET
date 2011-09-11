@@ -4,7 +4,7 @@ package edu.colorado.phet.moleculeshapes.view;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
@@ -68,11 +68,11 @@ public class LonePairNode extends Node {
                 ImmutableVector3D lonePairOrientation = new ImmutableVector3D( 0, 1, 0 );
                 ImmutableVector3D normalizedPosition = position.get().normalized();
                 Matrix3f matrix = new Matrix3f();
-                JmeUtils.fromStartEndVectors( matrix, lonePairOrientation, normalizedPosition );
+                JMEUtils.fromStartEndVectors( matrix, lonePairOrientation, normalizedPosition );
                 setLocalRotation( matrix );
 
                 if ( position.get().magnitude() > PairGroup.LONE_PAIR_DISTANCE ) {
-                    setLocalTranslation( JmeUtils.convertVector( position.get().minus( position.get().normalized().times( PairGroup.LONE_PAIR_DISTANCE ) ) ) );
+                    setLocalTranslation( JMEUtils.convertVector( position.get().minus( position.get().normalized().times( PairGroup.LONE_PAIR_DISTANCE ) ) ) );
                 }
                 else {
                     setLocalTranslation( 0, 0, 0 );

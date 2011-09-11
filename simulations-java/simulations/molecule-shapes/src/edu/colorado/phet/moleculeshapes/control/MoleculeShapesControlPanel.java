@@ -9,8 +9,8 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
-import edu.colorado.phet.moleculeshapes.jme.JmeActionListener;
-import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.JMEActionListener;
+import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
@@ -85,7 +85,7 @@ public class MoleculeShapesControlPanel extends PNode {
                     setOffset( 0, 10 );
 
                     // make sure to update our state when "show lone pairs" changes
-                    MoleculeJMEApplication.showLonePairs.addObserver( JmeUtils.swingObserver( new Runnable() {
+                    MoleculeJMEApplication.showLonePairs.addObserver( JMEUtils.swingObserver( new Runnable() {
                         public void run() {
                             updateState();
                         }
@@ -106,7 +106,7 @@ public class MoleculeShapesControlPanel extends PNode {
         final PNode removeAllButtonNode = new TextButtonNode( Strings.CONTROL__REMOVE_ALL,
                                                               MoleculeShapesConstants.REMOVE_BUTTON_FONT,
                                                               MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR.get() ) {{
-            addActionListener( new JmeActionListener( new Runnable() {
+            addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
                     app.removeAllAtoms();
                 }
@@ -151,7 +151,7 @@ public class MoleculeShapesControlPanel extends PNode {
                         setEnabled( !app.getMolecule().getLonePairs().isEmpty() );
                     }
                 };
-                app.getMolecule().onGroupChanged.addTarget( JmeUtils.swingTarget( updateEnabled ) );
+                app.getMolecule().onGroupChanged.addTarget( JMEUtils.swingTarget( updateEnabled ) );
 
                 /*
                  * Run this in the current thread. should be in EDT for construction. Needed since the other call
@@ -172,8 +172,8 @@ public class MoleculeShapesControlPanel extends PNode {
                                     || app.getMolecule().getBondedGroups().size() >= 2 );
                     }
                 };
-                app.getMolecule().onGroupChanged.addTarget( JmeUtils.swingTarget( updateEnabled ) );
-                MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JmeUtils.swingObserver( updateEnabled ) );
+                app.getMolecule().onGroupChanged.addTarget( JMEUtils.swingTarget( updateEnabled ) );
+                MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JMEUtils.swingObserver( updateEnabled ) );
 
                 setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );
             }} );

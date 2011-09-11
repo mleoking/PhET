@@ -197,7 +197,7 @@ public class HUDNode extends Geometry {
             }
         };
 
-        JmeUtils.invoke( new Runnable() {
+        JMEUtils.invoke( new Runnable() {
             public void run() {
                 app.getInputManager().addRawInputListener( inputListener );
                 listenerAttached = true;

@@ -29,20 +29,20 @@ public abstract class JMEModule extends Module {
 
         final AppSettings settings = new AppSettings( true );
 
-        JmeUtils.initializeLibraries( settings );
+        JMEUtils.initializeLibraries( settings );
 
         // antialiasing (use at most 4 anti-aliasing samples. more makes the UI look blurry)
-        int maxSamples = JmeUtils.getMaximumAntialiasingSamples();
+        int maxSamples = JMEUtils.getMaximumAntialiasingSamples();
         settings.setSamples( Math.min( 4, maxSamples ) );
 
         // store settings within the properties
-        JmeUtils.maxAllowedSamples = maxSamples;
-        if ( JmeUtils.antiAliasingSamples.get() == null ) {
-            JmeUtils.antiAliasingSamples.set( settings.getSamples() );
+        JMEUtils.maxAllowedSamples = maxSamples;
+        if ( JMEUtils.antiAliasingSamples.get() == null ) {
+            JMEUtils.antiAliasingSamples.set( settings.getSamples() );
         }
 
         // limit the framerate
-        settings.setFrameRate( JmeUtils.frameRate.get() );
+        settings.setFrameRate( JMEUtils.frameRate.get() );
 
         final Application app = createApplication( parentFrame );
 
@@ -50,19 +50,19 @@ public abstract class JMEModule extends Module {
         app.setSettings( settings );
         app.createCanvas();
 
-        JmeUtils.frameRate.addObserver( new SimpleObserver() {
+        JMEUtils.frameRate.addObserver( new SimpleObserver() {
             public void update() {
                 AppSettings s = settings;
-                s.setFrameRate( JmeUtils.frameRate.get() );
+                s.setFrameRate( JMEUtils.frameRate.get() );
                 app.setSettings( s );
                 app.restart();
             }
         } );
 
-        JmeUtils.antiAliasingSamples.addObserver( new SimpleObserver() {
+        JMEUtils.antiAliasingSamples.addObserver( new SimpleObserver() {
             public void update() {
                 AppSettings s = settings;
-                s.setSamples( JmeUtils.antiAliasingSamples.get() );
+                s.setSamples( JMEUtils.antiAliasingSamples.get() );
                 app.setSettings( s );
                 app.restart();
             }

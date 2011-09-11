@@ -20,7 +20,7 @@ public class JMEPropertyCheckBox extends JCheckBox {
         // update the model when the check box changes
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                JmeUtils.invoke( new Runnable() {
+                JMEUtils.invoke( new Runnable() {
                     public void run() {
                         property.set( isSelected() );
                     }
