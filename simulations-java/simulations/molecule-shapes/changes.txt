@@ -1,3 +1,4 @@
+Added colors to the geometry names, added developer control to modify them
 Added proper control panel resizing for i18n
 Filled in many-lone-pair geometry configuration names
 Slightly changed startup bond positions to yield a good 180-degree bond spread

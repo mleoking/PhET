@@ -36,9 +36,11 @@ public class MoleculeShapesConstants {
     public static final Color CONTROL_PANEL_BORDER_COLOR = new Color( 210, 210, 210 );
     public static final Color CONTROL_PANEL_TITLE_COLOR = new Color( 240, 240, 240 );
     public static final Color CONTROL_PANEL_TEXT_COLOR = new Color( 230, 230, 230 );
-    public static final Color GEOMETRY_NAME_COLOR = Color.WHITE;
     public static final Property<Color> REMOVE_BUTTON_TEXT_COLOR = new Property<Color>( Color.BLACK );
     public static final Property<Color> REMOVE_BUTTON_BACKGROUND_COLOR = new Property<Color>( Color.ORANGE );
+
+    public static final Property<Color> MOLECULAR_GEOMETRY_NAME_COLOR = new Property<Color>( new Color( 255, 255, 153 ) );
+    public static final Property<Color> ELECTRON_GEOMETRY_NAME_COLOR = new Property<Color>( new Color( 255, 204, 102 ) );
 
     public static final Color REAL_EXAMPLE_FORMULA_COLOR = new Color( 230, 230, 230 );
     public static final Color REAL_EXAMPLE_BORDER_COLOR = new Color( 60, 60, 60 );

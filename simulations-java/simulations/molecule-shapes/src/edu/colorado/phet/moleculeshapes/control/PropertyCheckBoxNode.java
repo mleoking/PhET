@@ -26,7 +26,7 @@ public class PropertyCheckBoxNode extends PSwing {
         repaint();
     }
 
-    private MoleculeShapesPropertyCheckBox getCheckBox() {
+    public MoleculeShapesPropertyCheckBox getCheckBox() {
         return (MoleculeShapesPropertyCheckBox) getComponent();
     }
 
