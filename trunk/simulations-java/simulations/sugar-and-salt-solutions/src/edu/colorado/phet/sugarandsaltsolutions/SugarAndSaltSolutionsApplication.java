@@ -19,6 +19,9 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule.SIZE_SCA
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
+
+    //Global property for setting the size for atoms and molecules, since they are supposed to be look and act smaller in the Micro tab than in real life
+    //This was designed as a global property since propagating the scale through the object graphs on initialization was much more complex and confusing
     public static Property<Double> sizeScale = new Property<Double>( 1.0 );
 
     public SugarAndSaltSolutionsApplication( PhetApplicationConfig config ) {
