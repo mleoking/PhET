@@ -23,11 +23,14 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.*;
 
 /**
  * Canvas for the balance game.
@@ -60,6 +63,20 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // Game nodes.
     private PNode gameSettingsNode;
     private PNode gameOverNode = null;
+
+    // Size of the smiling and frowning faces
+    private double FACE_DIAMETER = STAGE_SIZE.getWidth() / 6;
+
+    //Create the smiling and frowning faces and center them on the screen
+    private final PNode smilingFace = new FaceNode( FACE_DIAMETER ) {{
+        setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2,
+                   STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+    }};
+    private final PNode frowningFace = new FaceNode( FACE_DIAMETER ) {{
+        frown();
+        setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2,
+                   STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+    }};
 
     // Buttons.
     // TODO: i18n of all buttons
@@ -168,6 +185,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }};
         rootNode.addChild( titleNode );
 
+        // Add the smiley and frowny faces.
+        rootNode.addChild( smilingFace );
+        rootNode.addChild( frowningFace );
+
         // Lay out and add the buttons.
         checkAnswerButton.setOffset( titleNode.getFullBoundsReference().getX(), titleNode.getFullBoundsReference().getMaxY() + 30 );
         checkAnswerButton.addActionListener( new ActionListener() {
@@ -217,68 +238,50 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // Methods
     //-------------------------------------------------------------------------
 
+    // Utility method for showing/hiding several PNodes, used in handleGameStateChange
+    public static void setVisible( boolean visible, PNode... nodes ) {
+        for ( PNode node : nodes ) {
+            node.setVisible( visible );
+        }
+    }
+
+    // Utility method for showing several PNodes, used in handleGameStateChange
+    public static void show( PNode... nodes ) {
+        setVisible( true, nodes );
+    }
+
+    //When the game state changes, update the view with the appropriate buttons and readouts
     private void handleGameStateChange( BalanceGameModel.GameState newState ) {
-        switch( newState ) {
 
-            case OBTAINING_GAME_SETUP:
-                gameSettingsNode.setVisible( true );
-                scoreboard.setVisible( false );
-                if ( gameOverNode != null ) {
-                    rootNode.removeChild( gameOverNode );
-                    gameOverNode = null;
-                }
-                titleNode.setVisible( false );
-                checkAnswerButton.setVisible( false );
-                checkAnswerWrongButton.setVisible( false );
-                tryAgainButton.setVisible( false );
-                nextChallengeButton.setVisible( false );
-                displayCorrectAnswerButton.setVisible( false );
-                break;
+        //Hide all nodes, then show the nodes relevant to each state.
+        setVisible( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, titleNode, checkAnswerButton, checkAnswerWrongButton, tryAgainButton,
+                    nextChallengeButton, displayCorrectAnswerButton );
 
-            case PRESENTING_INTERACTIVE_CHALLENGE:
-                gameSettingsNode.setVisible( false );
-                scoreboard.setVisible( true );
-                titleNode.setVisible( true );
-                checkAnswerButton.setVisible( true );
-                checkAnswerWrongButton.setVisible( true );
-                nextChallengeButton.setVisible( false );
-                tryAgainButton.setVisible( false );
-                break;
-
-            case SHOWING_CORRECT_ANSWER_FEEDBACK:
-                titleNode.setVisible( false );
-                checkAnswerButton.setVisible( false );
-                checkAnswerWrongButton.setVisible( false );
-                nextChallengeButton.setVisible( true );
-                break;
-
-            case SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN:
-                titleNode.setVisible( false );
-                checkAnswerButton.setVisible( false );
-                tryAgainButton.setVisible( true );
-                checkAnswerWrongButton.setVisible( false );
-                break;
-
-            case SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON:
-                titleNode.setVisible( false );
-                checkAnswerButton.setVisible( false );
-                tryAgainButton.setVisible( false );
-                checkAnswerWrongButton.setVisible( false );
-                displayCorrectAnswerButton.setVisible( true );
-                break;
-
-            case DISPLAYING_CORRECT_ANSWER:
-                checkAnswerButton.setVisible( false );
-                checkAnswerWrongButton.setVisible( false );
-                nextChallengeButton.setVisible( true );
-                displayCorrectAnswerButton.setVisible( false );
-                break;
-
-            case SHOWING_GAME_RESULTS:
-                scoreboard.setVisible( false );
-                nextChallengeButton.setVisible( false );
-                showGameOverNode();
-                break;
+        //Show the nodes appropriate to the state
+        if ( newState == OBTAINING_GAME_SETUP ) {
+            show( gameSettingsNode );
+            if ( gameOverNode != null ) {
+                rootNode.removeChild( gameOverNode );
+                gameOverNode = null;
+            }
+        }
+        else if ( newState == PRESENTING_INTERACTIVE_CHALLENGE ) {
+            show( scoreboard, titleNode, checkAnswerWrongButton, checkAnswerButton );
+        }
+        else if ( newState == SHOWING_CORRECT_ANSWER_FEEDBACK ) {
+            show( scoreboard, nextChallengeButton, smilingFace );
+        }
+        else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN ) {
+            show( scoreboard, tryAgainButton, frowningFace );
+        }
+        else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON ) {
+            show( scoreboard, displayCorrectAnswerButton, frowningFace );
+        }
+        else if ( newState == DISPLAYING_CORRECT_ANSWER ) {
+            show( scoreboard, nextChallengeButton );
+        }
+        else if ( newState == SHOWING_GAME_RESULTS ) {
+            showGameOverNode();
         }
     }
 
