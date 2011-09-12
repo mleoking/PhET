@@ -253,18 +253,6 @@ public class BalanceGameModel {
         }
     }
 
-    // TODO: This is for prototype purposes only, should be removed later.
-    public void checkIncorrectAnswer() {
-        incorrectGuessesOnCurrentChallenge++;
-        if ( incorrectGuessesOnCurrentChallenge < 2 ) {
-            gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN );
-        }
-        else {
-            // Exceeded max guesses.
-            gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON );
-        }
-    }
-
     public void nextChallenge() {
         challengeCount++;
         incorrectGuessesOnCurrentChallenge = 0;
