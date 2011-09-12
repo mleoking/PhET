@@ -241,7 +241,6 @@ public class Plank extends ShapeModelElement {
         addMassToSurface( mass );
     }
 
-
     private void removeMassFromSurface( Mass mass ) {
         mapMassToDistFromCenter.remove( mass );
         massesOnSurface.remove( mass );
