@@ -10,9 +10,17 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.balanceandtorque.game.model.BalanceChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.AttachmentBarNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.BrickStackNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.FulcrumAbovePlankNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.ImageMassNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.LabeledImageMassNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.OutlinePText;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.TiltedSupportColumnNode;
@@ -21,6 +29,7 @@ import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -127,6 +136,44 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
+
+        // Add the fulcrum, the columns, etc.
+        challengeLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
+        challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getSupportColumn(), model.columnState ) );
+        challengeLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) {{
+            //Disable interactivity since the user should only be able to move the free block
+            setPickable( false );
+            setChildrenPickable( false );
+        }} );
+        challengeLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
+
+        // Watch the model and add/remove visual representations of masses.
+        model.movableMasses.addElementAddedObserver( new VoidFunction1<Mass>() {
+            public void apply( Mass mass ) {
+                // Create and add the view representation for this mass.
+                final PNode massNode = createMassNode( mass );
+                challengeLayer.addChild( massNode );
+                // Add the removal listener for if and when this mass is removed from the model.
+                model.movableMasses.addElementRemovedObserver( mass, new VoidFunction0() {
+                    public void apply() {
+                        challengeLayer.removeChild( massNode );
+                    }
+                } );
+            }
+        } );
+        model.massesToBeBalanced.addElementAddedObserver( new VoidFunction1<BalanceChallenge.MassDistancePair>() {
+            public void apply( BalanceChallenge.MassDistancePair massDistancePair ) {
+                // Create and add the view representation for this mass.
+                final PNode massNode = createMassNode( massDistancePair.mass );
+                challengeLayer.addChild( massNode );
+                // Add the removal listener for if and when this mass is removed from the model.
+                model.massesToBeBalanced.addElementRemovedObserver( massDistancePair, new VoidFunction0() {
+                    public void apply() {
+                        challengeLayer.removeChild( massNode );
+                    }
+                } );
+            }
+        } );
 
         // Create and add the game settings node.
         VoidFunction0 startFunction = new VoidFunction0() {
@@ -305,11 +352,18 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }
 
     private void hideChallenge() {
-        challengeLayer.removeAllChildren();
+        for ( Object pNode : challengeLayer.getAllNodes() ) {
+            ( (PNode) pNode ).setVisible( false );
+        }
     }
 
     //Add graphics for the next challenge, assumes that the model state already reflects the challenge to be shown
     private void showChallenge() {
+        for ( Object pNode : challengeLayer.getAllNodes() ) {
+            ( (PNode) pNode ).setVisible( true );
+        }
+
+        /*
         challengeLayer.removeAllChildren();
         challengeLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
         challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getSupportColumn(), model.columnState ) );
@@ -320,6 +374,35 @@ public class BalanceGameCanvas extends PhetPCanvas {
             setChildrenPickable( false );
         }} );
         challengeLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
+        // Watch the model and add/remove visual representations of masses.
+        model.movableMasses.addElementAddedObserver( new VoidFunction1<Mass>() {
+            public void apply( Mass mass ) {
+                // Create and add the view representation for this mass.
+                final PNode massNode = createMassNode( mass );
+                challengeLayer.addChild( massNode );
+                rootNode.addChild( massNode );
+                // Add the removal listener for if and when this mass is removed from the model.
+                model.movableMasses.addElementRemovedObserver( mass, new VoidFunction0() {
+                    public void apply() {
+                        challengeLayer.removeChild( massNode );
+                    }
+                } );
+            }
+        } );
+        model.massesToBeBalanced.addElementAddedObserver( new VoidFunction1<BalanceChallenge.MassDistancePair>() {
+            public void apply( BalanceChallenge.MassDistancePair massDistancePair ) {
+                // Create and add the view representation for this mass.
+                final PNode massNode = createMassNode( massDistancePair.mass );
+                challengeLayer.addChild( massNode );
+                // Add the removal listener for if and when this mass is removed from the model.
+                model.massesToBeBalanced.addElementRemovedObserver( massDistancePair, new VoidFunction0() {
+                    public void apply() {
+                        challengeLayer.removeChild( massNode );
+                    }
+                } );
+            }
+        } );
+        */
     }
 
     private void showGameOverNode() {
@@ -341,6 +424,26 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add the node.
         rootNode.addChild( gameOverNode );
+    }
+
+    private PNode createMassNode( Mass mass ) {
+        PNode massNode = null;
+        if ( mass instanceof ShapeMass ) {
+            // TODO: Always bricks right now, may have to change in the future.
+            massNode = new BrickStackNode( (ShapeMass) mass, mvt, BalanceGameCanvas.this, new BooleanProperty( mass.isMystery() ) );
+        }
+        else if ( mass instanceof LabeledImageMass ) {
+            // These are mystery objects.  Don't allow their mass to be shown.
+            massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalanceGameCanvas.this, new BooleanProperty( false ) );
+        }
+        else if ( mass instanceof ImageMass ) {
+            massNode = new ImageMassNode( mvt, (ImageMass) mass, BalanceGameCanvas.this, new BooleanProperty( mass.isMystery() ) );
+        }
+        else {
+            System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
+            assert false;
+        }
+        return massNode;
     }
 
     // Utility method for converting seconds to milliseconds, which is needed

@@ -222,6 +222,25 @@ public class Plank extends ShapeModelElement {
         return massAdded;
     }
 
+    /**
+     * Add the given mass to the plank at the given distance from the center
+     * of the plank, regardless of the current location of the mass.
+     *
+     * @param mass
+     * @param distanceFromCenter
+     */
+    public void addMassToSurface( Mass mass, double distanceFromCenter ) {
+        assert distanceFromCenter <= LENGTH / 2;
+        if ( distanceFromCenter > LENGTH / 2 ) {
+            System.out.println( getClass().getName() + " - Warning: Attempt to add mass at invalid distance from center, ignoring." );
+            return;
+        }
+        ImmutableVector2D vectorToLocation = getPlankSurfaceCenter().getAddedInstance( new ImmutableVector2D( 0, distanceFromCenter ).getRotatedInstance( tiltAngle ) );
+        mass.setPosition( vectorToLocation.getX(), vectorToLocation.getY() );
+        addMassToSurface( mass );
+    }
+
+
     private void removeMassFromSurface( Mass mass ) {
         mapMassToDistFromCenter.remove( mass );
         massesOnSurface.remove( mass );
@@ -273,8 +292,8 @@ public class Plank extends ShapeModelElement {
      */
     public boolean isTickMarkOccupied( Shape tickMark ) {
         Point2D tickMarkCenter = new Point2D.Double( tickMark.getBounds2D().getCenterX(), tickMark.getBounds2D().getCenterY() );
-        double tickMarkDistanceFromCenter = getCenterSurfacePoint().distance( tickMarkCenter );
-        if ( tickMarkCenter.getX() < getCenterSurfacePoint().getX() ) {
+        double tickMarkDistanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( tickMarkCenter );
+        if ( tickMarkCenter.getX() < getPlankSurfaceCenter().getX() ) {
             tickMarkDistanceFromCenter = -tickMarkDistanceFromCenter;
         }
         // Since the distance is from the center of the plank to the center of
@@ -461,19 +480,15 @@ public class Plank extends ShapeModelElement {
         }
     }
 
-    //Determine the absolute position (in meters) of the surface (top) of the plank
-    private ImmutableVector2D getPlankSurfaceCenter() {
-
+    //Determine the absolute position (in meters) of the center surface (top)
+    // of the plank
+    public ImmutableVector2D getPlankSurfaceCenter() {
         //Start at the absolute location of the attachment point, and add the relative location of the top of the plank, accounting for its rotation angle
         return new ImmutableVector2D( bottomCenterPoint.get() ).plus( new ImmutableVector2D( 0, THICKNESS ).getRotatedInstance( tiltAngle ) );
     }
 
     private ImmutableVector2D getPivotPointVector() {
         return new ImmutableVector2D( pivotPoint );
-    }
-
-    public Point2D getCenterSurfacePoint() {
-        return new Vector2D( bottomCenterPoint.get() ).add( new Vector2D( 0, THICKNESS ).rotate( tiltAngle ) ).toPoint2D();
     }
 
     /**
@@ -486,9 +501,8 @@ public class Plank extends ShapeModelElement {
     public double getSurfaceYValue( double xValue ) {
         // Solve the linear equation for the line that represents the surface
         // of the plank.
-        Point2D surfacePointAboveBalancePoint = getCenterSurfacePoint();
         double m = Math.atan( tiltAngle );
-        double b = surfacePointAboveBalancePoint.getY() - m * surfacePointAboveBalancePoint.getX();
+        double b = getPlankSurfaceCenter().getY() - m * getPlankSurfaceCenter().getX();
         // Does NOT check if the xValue range is valid.
         return m * xValue + b;
     }
