@@ -124,10 +124,10 @@ public class BalancingActCanvas extends PhetPCanvas {
         rootNode.addChild( new RotatingRulerNode( model.getPlank(), mvt, distancesVisibleProperty ) );
 
         // Add the level indicator.
-        final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getCenterSurfacePoint().getX() - Plank.LENGTH / 2,
-                                                                             model.getPlank().getCenterSurfacePoint().getY() ) );
-        final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getCenterSurfacePoint().getX() + Plank.LENGTH / 2,
-                                                                              model.getPlank().getCenterSurfacePoint().getY() ) );
+        final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getPlankSurfaceCenter().getX() - Plank.LENGTH / 2,
+                                                                             model.getPlank().getPlankSurfaceCenter().getY() ) );
+        final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getPlankSurfaceCenter().getX() + Plank.LENGTH / 2,
+                                                                              model.getPlank().getPlankSurfaceCenter().getY() ) );
 
         Shape leftIndicatorShape = new DoubleGeneralPath() {{
             // Draw a sort of arrow head shape.

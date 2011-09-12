@@ -4,6 +4,7 @@ package edu.colorado.phet.balanceandtorque.game.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.AttachmentBar;
@@ -65,11 +66,15 @@ public class BalanceGameModel {
     private int challengeCount = 0;
     private int incorrectGuessesOnCurrentChallenge = 0;
 
+    // Current set of challenges, which collectively comprise a single game, on
+    // which the user is currently working.
+    private List<BalanceChallenge> currentChallengeList;
+
     // Fixed masses that sit on the plank and that the user must attempt to balance.
-    private ObservableList<BalanceChallenge.MassDistancePair> massesToBeBalanced = new ObservableList<BalanceChallenge.MassDistancePair>();
+    public ObservableList<BalanceChallenge.MassDistancePair> massesToBeBalanced = new ObservableList<BalanceChallenge.MassDistancePair>();
 
     // Masses that the user moves on to the plank to counterbalance the fixed masses.
-    private ObservableList<Mass> movableMasses = new ObservableList<Mass>();
+    public ObservableList<Mass> movableMasses = new ObservableList<Mass>();
 
     // Support column.  In this model, there is only one.
     private final ShapeModelElement supportColumn;
@@ -204,13 +209,17 @@ public class BalanceGameModel {
     }
 
     public void startGame() {
+        // Initialize the game timers, counters, etc.
         scoreProperty.set( 0 );
         challengeCount = 0;
         clock.resetSimulationTime();
         clock.start();
 
+        // Set up the challenges.
+        currentChallengeList = BalanceChallengeSetFactory.getChallengeSet( getLevel(), PROBLEMS_PER_SET );
+
         //Set up the model for the next challenge
-        setChallenge( null );
+        setChallenge( currentChallengeList.get( 0 ) );
 
         //Switch to the new state, will create graphics for the challenge
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
@@ -246,7 +255,7 @@ public class BalanceGameModel {
         incorrectGuessesOnCurrentChallenge = 0;
         if ( challengeCount < PROBLEMS_PER_SET ) {
             gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
-            setChallenge( null );
+            setChallenge( currentChallengeList.get( challengeCount ) );
         }
         else {
             // See if this is a new best time and, if so, record it.
@@ -264,7 +273,17 @@ public class BalanceGameModel {
     }
 
     private void setChallenge( BalanceChallenge balanceChallenge ) {
-
+        massesToBeBalanced.clear();
+        movableMasses.clear();
+        for ( BalanceChallenge.MassDistancePair massDistancePair : balanceChallenge.massesToBeBalanced ) {
+            massesToBeBalanced.add( massDistancePair );
+            plank.addMassToSurface( massDistancePair.mass, massDistancePair.distance );
+        }
+        // TODO: Put movable masses on the right side until tool box is in place.
+        for ( Mass mass : balanceChallenge.movableMasses ) {
+            mass.setPosition( 3, 0 );
+            movableMasses.add( mass );
+        }
     }
 
     public void tryAgain() {

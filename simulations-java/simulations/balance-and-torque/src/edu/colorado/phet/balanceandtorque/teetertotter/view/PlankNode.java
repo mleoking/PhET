@@ -176,8 +176,8 @@ public class PlankNode extends ModelObjectNode {
 
         double getMouseToPlankCenterAngle( Point2D mouseCanvasPosition ) {
             Point2D modelStartDragPosition = getModelPosition( mouseCanvasPosition );
-            Vector2D vectorToMouseLocation = new Vector2D( modelStartDragPosition.getX() - plank.getCenterSurfacePoint().getX(),
-                                                           modelStartDragPosition.getY() - plank.getCenterSurfacePoint().getY() );
+            Vector2D vectorToMouseLocation = new Vector2D( modelStartDragPosition.getX() - plank.getPlankSurfaceCenter().getX(),
+                                                           modelStartDragPosition.getY() - plank.getPlankSurfaceCenter().getY() );
             if ( Math.abs( vectorToMouseLocation.getAngle() ) > Math.PI / 2 ) {
                 // Do a 180 on the vector to avoid problems with getting the
                 // angle from the left side of the rotation point.
