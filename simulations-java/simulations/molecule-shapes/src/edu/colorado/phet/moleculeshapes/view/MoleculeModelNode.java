@@ -277,6 +277,7 @@ public class MoleculeModelNode extends Node {
                     if ( !text.getText().equals( string ) ) {
                         text.setText( string );
                     }
+                    text.setScale( app.getApproximateScale() ); // change the font size based on the sim scale
                     float[] colors = MoleculeShapesConstants.BOND_ANGLE_READOUT_COLOR.getRGBColorComponents( null );
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
                     text.repaint();
