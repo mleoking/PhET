@@ -99,7 +99,8 @@ public class VelocitySensorNode extends ToolNode {
         addChild( velocityPointNode );
 
         //Add an arrow that points in the direction of the velocity, with a magnitude proportional to the speed
-        addChild( new ArrowNode( new Point2D.Double(), new Point2D.Double( 100, 100 ), 20, 20, 10 ) {{
+        //Set the fractionalHeadHeight to 0.75 so that when the arrow gets small (so that the arrowhead is 75% of the arrow itself), the head will start to shrink and so will the tail
+        addChild( new ArrowNode( new Point2D.Double(), new Point2D.Double( 100, 100 ), 20, 20, 10, 0.75, true ) {{
             setPaint( Color.blue );
             setStrokePaint( Color.black );
             setStroke( new BasicStroke( 1 ) );
