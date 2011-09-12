@@ -113,6 +113,8 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
                             add( new ColorRGBAPropertyControl( frame, "Radial atom color: ", MoleculeShapesConstants.COLOR_ATOM ) );
                             add( new ColorPropertyControl( frame, "Remove all foreground color: ", MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR ) );
                             add( new ColorPropertyControl( frame, "Remove all background color: ", MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR ) );
+                            add( new ColorPropertyControl( frame, "Molecular geometry color: ", MoleculeShapesConstants.MOLECULAR_GEOMETRY_NAME_COLOR ) );
+                            add( new ColorPropertyControl( frame, "Electron geometry color: ", MoleculeShapesConstants.ELECTRON_GEOMETRY_NAME_COLOR ) );
                         }} );
                         pack();
                         SwingUtils.centerInParent( this );

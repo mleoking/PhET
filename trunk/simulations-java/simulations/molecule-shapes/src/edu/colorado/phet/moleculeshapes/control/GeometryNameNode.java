@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.control;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,11 +84,23 @@ public class GeometryNameNode extends PNode {
         final PSwing molecularCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__MOLECULE_GEOMETRY, showMolecularShapeName ) {{
             // center within it's "column"
             setOffset( ( MAX_SHAPE_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
+            MoleculeShapesConstants.MOLECULAR_GEOMETRY_NAME_COLOR.addObserver( new SimpleObserver() {
+                public void update() {
+                    getCheckBox().setForeground( MoleculeShapesConstants.MOLECULAR_GEOMETRY_NAME_COLOR.get() );
+                    repaint();
+                }
+            } );
         }};
 
         PSwing electronCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__ELECTRON_GEOMETRY, showElectronShapeName ) {{
             // center within it's "column"
             setOffset( MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS + ( MAX_GEOMETRY_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
+            MoleculeShapesConstants.ELECTRON_GEOMETRY_NAME_COLOR.addObserver( new SimpleObserver() {
+                public void update() {
+                    getCheckBox().setForeground( MoleculeShapesConstants.ELECTRON_GEOMETRY_NAME_COLOR.get() );
+                    repaint();
+                }
+            } );
         }};
 
 
@@ -142,7 +155,8 @@ public class GeometryNameNode extends PNode {
                     removeChild( molecularText );
                 }
 
-                molecularText = getTextLabel( ( name == null ? Strings.SHAPE__EMPTY : name ) ); // replace the unknown value
+                molecularText = getTextLabel( ( name == null ? Strings.SHAPE__EMPTY : name ),
+                                              MoleculeShapesConstants.MOLECULAR_GEOMETRY_NAME_COLOR ); // replace the unknown value
                 molecularText.setOffset( ( MAX_SHAPE_WIDTH - molecularText.getFullBounds().getWidth() ) / 2, readoutHeight );
                 molecularText.setVisible( visible );
 
@@ -162,7 +176,8 @@ public class GeometryNameNode extends PNode {
                 }
                 double columnOffset = MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS; // compensate for the extra needed room
 
-                electronText = getTextLabel( ( name == null ? Strings.GEOMETRY__EMPTY : name ) ); // replace the unknown value
+                electronText = getTextLabel( ( name == null ? Strings.GEOMETRY__EMPTY : name ),
+                                             MoleculeShapesConstants.ELECTRON_GEOMETRY_NAME_COLOR ); // replace the unknown value
                 electronText.setOffset( columnOffset + ( MAX_SHAPE_WIDTH - electronText.getFullBounds().getWidth() ) / 2, readoutHeight );
                 electronText.setVisible( visible );
 
@@ -171,17 +186,23 @@ public class GeometryNameNode extends PNode {
         } );
     }
 
-    private static PText getTextLabel( final String label ) {
+    private static PText getTextLabel( final String label, final Property<Color> color ) {
         return new PText( label ) {{
             setFont( MoleculeShapesConstants.GEOMETRY_NAME_FONT );
-            setTextPaint( MoleculeShapesConstants.GEOMETRY_NAME_COLOR );
+
+            color.addObserver( new SimpleObserver() {
+                public void update() {
+                    setTextPaint( color.get() );
+                    repaint();
+                }
+            } );
         }};
     }
 
     private static double getMaximumTextWidth( List<String> strings ) {
         double maxWidth = 0;
         for ( String string : strings ) {
-            maxWidth = Math.max( maxWidth, getTextLabel( string ).getFullBounds().getWidth() );
+            maxWidth = Math.max( maxWidth, getTextLabel( string, new Property<Color>( Color.WHITE ) ).getFullBounds().getWidth() );
         }
         return maxWidth;
     }
@@ -189,7 +210,7 @@ public class GeometryNameNode extends PNode {
     private static double getMaximumTextHeight( List<String> strings ) {
         double maxHeight = 0;
         for ( String string : strings ) {
-            maxHeight = Math.max( maxHeight, getTextLabel( string ).getFullBounds().getHeight() );
+            maxHeight = Math.max( maxHeight, getTextLabel( string, new Property<Color>( Color.WHITE ) ).getFullBounds().getHeight() );
         }
         return maxHeight;
     }
