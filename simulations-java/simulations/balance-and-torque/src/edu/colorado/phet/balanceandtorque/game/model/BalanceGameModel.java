@@ -255,8 +255,8 @@ public class BalanceGameModel {
         challengeCount++;
         incorrectGuessesOnCurrentChallenge = 0;
         if ( challengeCount < PROBLEMS_PER_SET ) {
-            gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
             setChallenge( currentChallengeList.get( challengeCount ) );
+            gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
         }
         else {
             // See if this is a new best time and, if so, record it.
@@ -276,6 +276,7 @@ public class BalanceGameModel {
     private void setChallenge( BalanceChallenge balanceChallenge ) {
 
         // Clear out the previous challenge (if there was one).
+        plank.removeAllMasses();
         massesToBeBalanced.clear();
         movableMasses.clear();
 
