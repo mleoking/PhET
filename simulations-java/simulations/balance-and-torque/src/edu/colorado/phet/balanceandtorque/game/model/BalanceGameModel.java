@@ -39,6 +39,7 @@ public class BalanceGameModel {
     public static final int MAX_LEVELS = 4;
     private static final int PROBLEMS_PER_SET = 5;
     private static final int MAX_POINTS_PER_PROBLEM = 2;
+    private static final int MAX_SCORE_PER_GAME = PROBLEMS_PER_SET * MAX_POINTS_PER_PROBLEM;
 
     // Information about the relationship between the plank and fulcrum.
     private static final double FULCRUM_HEIGHT = 0.85; // In meters.
@@ -201,9 +202,7 @@ public class BalanceGameModel {
     }
 
     public int getMaximumPossibleScore() {
-        System.out.println( getClass().getName() + " - Warning: Max score is faked!" );
-        // TODO
-        return 100;
+        return MAX_SCORE_PER_GAME;
     }
 
     public GameSettings getGameSettings() {
@@ -270,7 +269,14 @@ public class BalanceGameModel {
     public void checkGuess() {
         // TODO: Always assumed correct for now.
         gameStateProperty.set( GameState.SHOWING_CORRECT_ANSWER_FEEDBACK );
-        scoreProperty.set( scoreProperty.get() + 2 );
+        if ( incorrectGuessesOnCurrentChallenge == 0 ) {
+            // User got it right the first time.
+            scoreProperty.set( scoreProperty.get() + MAX_POINTS_PER_PROBLEM );
+        }
+        else {
+            // User got it wrong at first, but got it right now.
+            scoreProperty.set( scoreProperty.get() + MAX_POINTS_PER_PROBLEM - incorrectGuessesOnCurrentChallenge );
+        }
     }
 
     // TODO: This is for prototype purposes only, should be removed later.
