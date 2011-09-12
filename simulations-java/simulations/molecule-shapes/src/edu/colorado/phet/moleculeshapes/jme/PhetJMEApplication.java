@@ -29,6 +29,8 @@ public abstract class PhetJMEApplication extends Application {
 
     public final Property<ColorRGBA> backgroundColor = new Property<ColorRGBA>( ColorRGBA.Black );
 
+    public final Property<Dimension> canvasSize = new Property<Dimension>( null ); // updated on the Swing EDT
+
     private List<SimpleObserver> updateObservers = new ArrayList<SimpleObserver>();
 
     // statistics that can be shown on the screen
@@ -45,7 +47,7 @@ public abstract class PhetJMEApplication extends Application {
     // nodes that will get updated every frame
     private List<Node> liveNodes = new ArrayList<Node>();
 
-    private volatile Dimension initialSize = null;
+    private volatile Dimension stageSize = null;
 
     public PhetJMEApplication() {
         super();
@@ -188,12 +190,14 @@ public abstract class PhetJMEApplication extends Application {
     }
 
     public void onResize( Dimension canvasSize ) {
-        if ( initialSize == null ) {
-            initialSize = canvasSize;
+        if ( stageSize == null ) {
+            stageSize = canvasSize;
         }
+
+        this.canvasSize.set( canvasSize );
     }
 
-    public Dimension getInitialSize() {
-        return initialSize;
+    public Dimension getStageSize() {
+        return stageSize;
     }
 }

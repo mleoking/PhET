@@ -4,6 +4,9 @@ package edu.colorado.phet.moleculeshapes.jme;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.util.concurrent.Callable;
 
 import javax.swing.*;
@@ -42,6 +45,7 @@ public class HUDNode extends Geometry {
 
     private final JComponent component; // our component that we render in our HUD
     private final PaintableImage image; // the image (JME3 texture) to which we render our component
+    private final AffineTransform imageTransform;
     private final Application app; // reference to the application. needed for input and asset managers
 
     // the size of our canvas. this does not change
@@ -63,20 +67,21 @@ public class HUDNode extends Geometry {
 
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
-    public HUDNode( final JComponent component, final int width, final int height, final double graphicsScale, final Application app ) {
-        this( component, width, height, graphicsScale, app, new Property<Boolean>( false ) );
+    public HUDNode( final JComponent component, final int width, final int height, final Application app ) {
+        this( component, width, height, new AffineTransform(), app, new Property<Boolean>( false ) );
     }
 
     // initialize from the EDT
-    public HUDNode( final JComponent component, final int width, final int height, final double graphicsScale, final Application app, final Property<Boolean> antialiasing ) {
+    public HUDNode( final JComponent component, final int width, final int height, final AffineTransform imageTransform, final Application app, final Property<Boolean> antialiasing ) {
         super( "HUD", new Quad( width, height, true ) ); // "true" flips it so our components are shown in the correct Y direction
         this.component = component;
         this.width = width;
         this.height = height;
+        this.imageTransform = imageTransform;
         this.app = app;
         this.antialiasing = antialiasing;
 
-        image = new PaintableImage( width, height, true, graphicsScale ) {
+        image = new PaintableImage( width, height, true, imageTransform ) {
             {
                 component.setDoubleBuffered( false ); // not necessary. we are already essentially double-buffering it
                 refreshImage(); // update it on construction
@@ -248,6 +253,15 @@ public class HUDNode extends Geometry {
 
         // invert our Y
         transformed.setY( height - transformed.getY() );
+
+        // handle our custom transformation
+        try {
+            Point2D pt = imageTransform.inverseTransform( new Point2D.Float( transformed.getX(), transformed.getY() ), new Point2D.Float() );
+            transformed.set( (float) pt.getX(), (float) pt.getY(), transformed.getZ() );
+        }
+        catch ( NoninvertibleTransformException e ) {
+            throw new RuntimeException( e );
+        }
 
         return transformed;
     }

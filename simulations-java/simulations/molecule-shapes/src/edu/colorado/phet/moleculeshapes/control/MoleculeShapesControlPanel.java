@@ -243,7 +243,6 @@ public class MoleculeShapesControlPanel extends PNode {
         for ( String checkboxString : CHECKBOX_STRINGS ) {
             maxWidth = Math.max( maxWidth, new PropertyCheckBoxNode( checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
         }
-        System.out.println( "max width: " + maxWidth );
         return maxWidth;
     }
 

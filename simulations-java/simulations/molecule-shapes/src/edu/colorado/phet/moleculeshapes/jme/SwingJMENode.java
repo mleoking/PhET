@@ -4,13 +4,18 @@ package edu.colorado.phet.moleculeshapes.jme;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.moleculeshapes.jme.CanvasTransform.IdentityCanvasTransform;
 import edu.colorado.phet.moleculeshapes.util.VoidNotifier;
+import edu.umd.cs.piccolo.util.PBounds;
 
-import com.jme3.app.Application;
 import com.jme3.scene.Node;
 
 /**
@@ -18,13 +23,19 @@ import com.jme3.scene.Node;
  * can resize its underlying 3D representation when the component resizes
  */
 public class SwingJMENode extends Node {
+
+    // position property (offset from the lower-left, x to the right, y up. Modify on the Swing EDT!!!
+    public final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+
+    // TODO: remove this?
+    public final VoidNotifier onResize = new VoidNotifier(); // notifier that fires when this node is resized
+
     private final JComponent component;
-    private final Application app;
+    private final PhetJMEApplication app;
+    private final CanvasTransform canvasTransform;
 
     private volatile Dimension size = new Dimension(); // our current size
     private volatile HUDNode hudNode; // the current node displaying our component
-
-    public final VoidNotifier onResize = new VoidNotifier(); // notifier that fires when this node is resized
 
     private boolean ignoreInput = false;
 
@@ -35,9 +46,16 @@ public class SwingJMENode extends Node {
      */
     public final Property<Boolean> antialiased = new Property<Boolean>( false );
 
-    public SwingJMENode( final JComponent component, final Application app ) {
+    public SwingJMENode( final JComponent component, final PhetJMEApplication app ) {
+        this( component, app, new IdentityCanvasTransform() );
+    }
+
+    public SwingJMENode( final JComponent component, final PhetJMEApplication app, CanvasTransform canvasTransform ) {
         this.component = component;
         this.app = app;
+        this.canvasTransform = canvasTransform;
+
+        size = component.getPreferredSize();
 
         // ensure that we have it at its preferred size before sizing and painting
         component.setSize( component.getPreferredSize() );
@@ -50,10 +68,33 @@ public class SwingJMENode extends Node {
         // when our component resizes, we need to handle it!
         component.addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
-                onResize();
+                final Dimension componentSize = component.getPreferredSize();
+                if ( !componentSize.equals( size ) ) {
+                    // update the size if it changed
+                    size = componentSize;
+
+                    rebuildHUD();
+
+                    // run notifications in the JME thread
+                    JMEUtils.invoke( new Runnable() {
+                        public void run() {
+                            // notify that we resized
+                            onResize.fire();
+                        }
+                    } );
+                }
             }
         } );
-        onResize();
+        position.addObserver( new SimpleObserver() {
+                                  public void update() {
+                                      rebuildHUD();
+                                  }
+                              }, false );
+        canvasTransform.transform.addObserver( new SimpleObserver() {
+            public void update() {
+                rebuildHUD();
+            }
+        } );
     }
 
     // flags the HUD node as needing a full repaint
@@ -64,39 +105,81 @@ public class SwingJMENode extends Node {
     }
 
     // if necessary, creates a new HUD node of a different size to display our component
-    public synchronized void onResize() {
-        final Dimension preferredSize = component.getPreferredSize();
+    public synchronized void rebuildHUD() {
+        /*
+         * Here, we basically take our integral component coordinates and find out where (after our projection
+         * transformation) we should actually place the component. Usually it ends up with fractional coordinates.
+         * Since we want to keep the HUD node's offset as an integral number so that the HUD pixels map exactly to
+         * the screen pixels, we need to essentially compute the rectangle with integral coordinates that contains
+         * all of our non-integral transformed component (IE, offsetX, offsetY, hudWidth, hudHeight). We then
+         * position the HUD at those coordinates, and pass in the scale and slight offset so that our Graphics2D
+         * calls paint it at the precise sub-pixel location.
+         */
 
-        // verify that it is actually a size change. don't do the extra work!
-        if ( !preferredSize.equals( size ) ) {
-            size = preferredSize;
+        // these are our stage bounds, relative to the SwingJMENode's location
+        PBounds localBounds = new PBounds( position.get().getX(), position.get().getY(), size.width, size.height );
 
-            // create the new HUD node within the EDT
-            // TODO: move the graphics scale to higher up
-            final HUDNode newHudNode = new HUDNode( component, size.width, size.height, 1.0, app, antialiased );
+        // here we calculate our actual JME bounds
+        Rectangle2D transformedBounds = canvasTransform.getTransformedBounds( localBounds );
 
-            // do the rest of the work in the JME thread
-            JMEUtils.invoke( new Runnable() {
-                public void run() {
-                    // ditch the old HUD node
-                    if ( hudNode != null ) {
-                        detachChild( hudNode );
-                        hudNode.dispose();
-                    }
+        // for rendering the image, we need to know how much to scale it by
+        final double scaleX = transformedBounds.getWidth() / localBounds.getWidth();
+        final double scaleY = transformedBounds.getHeight() / localBounds.getHeight();
 
-                    // hook up new HUD node.
-                    hudNode = newHudNode;
-                    attachChild( newHudNode );
+        // find the largest integer offsets that allow us to cover the entire renderable area
+        final int offsetX = (int) Math.floor( transformedBounds.getMinX() ); // int truncation isn't good for the negatives here
+        final int offsetY = (int) Math.floor( transformedBounds.getMinY() );
 
-                    if ( ignoreInput ) {
-                        hudNode.ignoreInput();
-                    }
+        // get how much we need to offset our rendered image by for sub-pixel accuracy (since we translate by offsetX/Y, we need to render at the difference)
+        final double imageOffsetX = transformedBounds.getMinX() - offsetX;
+        final double imageOffsetY = Math.ceil( transformedBounds.getMaxY() ) - transformedBounds.getMaxY(); // reversed Y handling
 
-                    // notify that we resized
-                    onResize.fire();
+        // how large our HUD node needs to be as a raster to render all of our content
+        final int hudWidth = ( (int) Math.ceil( transformedBounds.getMaxX() ) ) - offsetX;
+        final int hudHeight = ( (int) Math.ceil( transformedBounds.getMaxY() ) ) - offsetY;
+
+        // debugging for the translation image-offset issues
+//        if ( this instanceof PiccoloJMENode ) {
+//            PiccoloJMENode pthis = (PiccoloJMENode) this;
+//            PNode node = pthis.getNode();
+//            if ( node != null && node.getClass().getName().equals( "edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel" ) ) {
+//                System.out.println( "----" );
+//                System.out.println( "canvas: " + app.canvasSize.get() );
+//                System.out.println( "position: " + position.get() );
+//                System.out.println( "localBounds: " + localBounds );
+//                System.out.println( "transformedBounds: " + transformedBounds );
+//                System.out.println( "scales: " + scaleX + ", " + scaleY );
+//                System.out.println( "offsets: " + offsetX + ", " + offsetY );
+//                System.out.println( "image offsets: " + imageOffsetX + ", " + imageOffsetY );
+//                System.out.println( "hud dimension: " + hudWidth + ", " + hudHeight );
+//            }
+//        }
+
+        // create the new HUD node within the EDT
+        final HUDNode newHudNode = new HUDNode( component, hudWidth, hudHeight, new AffineTransform() {{
+            translate( imageOffsetX, imageOffsetY );
+            scale( scaleX, scaleY );
+        }}, app, antialiased );
+        newHudNode.setLocalTranslation( offsetX, offsetY, 0 );
+
+        // do the rest of the work in the JME thread
+        JMEUtils.invoke( new Runnable() {
+            public void run() {
+                // ditch the old HUD node
+                if ( hudNode != null ) {
+                    detachChild( hudNode );
+                    hudNode.dispose();
                 }
-            } );
-        }
+
+                // hook up new HUD node.
+                hudNode = newHudNode;
+                attachChild( newHudNode );
+
+                if ( ignoreInput ) {
+                    hudNode.ignoreInput();
+                }
+            }
+        } );
     }
 
     public void ignoreInput() {
@@ -104,6 +187,14 @@ public class SwingJMENode extends Node {
         if ( hudNode != null ) {
             hudNode.ignoreInput();
         }
+    }
+
+    public int getComponentWidth() {
+        return size.width;
+    }
+
+    public int getComponentHeight() {
+        return size.height;
     }
 
     public int getWidth() {

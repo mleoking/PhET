@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
@@ -16,16 +17,15 @@ import com.jme3.texture.Image;
 public abstract class PaintableImage extends Image {
     private BufferedImage backImg;
     private ByteBuffer scratch;
-
-    private final double graphicsScale;
+    private final AffineTransform imageTransform;
 
     public PaintableImage( int width, int height, boolean hasAlpha ) {
-        this( width, height, hasAlpha, 1.0 );
+        this( width, height, hasAlpha, new AffineTransform() );
     }
 
-    public PaintableImage( int width, int height, boolean hasAlpha, double graphicsScale ) {
+    public PaintableImage( int width, int height, boolean hasAlpha, AffineTransform imageTransform ) {
         super( hasAlpha ? Format.RGBA8 : Format.BGR8, width, height, ByteBuffer.allocateDirect( 4 * width * height ) );
-        this.graphicsScale = graphicsScale;
+        this.imageTransform = imageTransform;
         scratch = data.get( 0 );
         backImg = new BufferedImage( width, height, hasAlpha ? BufferedImage.TYPE_4BYTE_ABGR : BufferedImage.TYPE_3BYTE_BGR );
 
@@ -38,8 +38,8 @@ public abstract class PaintableImage extends Image {
         // paint within the EDT thread
         Graphics2D g = backImg.createGraphics();
 
-        // scale up the subsequent graphics calls by the X amount
-        g.scale( graphicsScale, graphicsScale );
+        // transform the subsequent calls
+        g.transform( imageTransform );
 
         // paint onto the graphics (on the BufferedImage)
         paint( g );
