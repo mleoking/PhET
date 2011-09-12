@@ -252,17 +252,26 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 nextChallengeButton.setVisible( true );
                 break;
 
-            case SHOWING_INCORRECT_ANSWER_FEEDBACK:
+            case SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN:
                 titleNode.setVisible( false );
                 checkAnswerButton.setVisible( false );
                 tryAgainButton.setVisible( true );
                 checkAnswerWrongButton.setVisible( false );
                 break;
 
+            case SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON:
+                titleNode.setVisible( false );
+                checkAnswerButton.setVisible( false );
+                tryAgainButton.setVisible( false );
+                checkAnswerWrongButton.setVisible( false );
+                displayCorrectAnswerButton.setVisible( true );
+                break;
+
             case DISPLAYING_CORRECT_ANSWER:
                 checkAnswerButton.setVisible( false );
                 checkAnswerWrongButton.setVisible( false );
                 nextChallengeButton.setVisible( true );
+                displayCorrectAnswerButton.setVisible( false );
                 break;
 
             case SHOWING_GAME_RESULTS:

@@ -275,16 +275,17 @@ public class BalanceGameModel {
     public void checkIncorrectGuess() {
         incorrectGuessesOnCurrentChallenge++;
         if ( incorrectGuessesOnCurrentChallenge < 2 ) {
-            gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK );
+            gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN );
         }
         else {
             // Exceeded max guesses.
-            gameStateProperty.set( GameState.DISPLAYING_CORRECT_ANSWER );
+            gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON );
         }
     }
 
     public void nextChallenge() {
         challengeCount++;
+        incorrectGuessesOnCurrentChallenge = 0;
         if ( challengeCount < PROBLEMS_PER_SET ) {
             gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
         }
@@ -309,11 +310,12 @@ public class BalanceGameModel {
      * The set of game states.
      */
     public static enum GameState {
-        OBTAINING_GAME_SETUP,               // Getting the game setup information from the user, i.e. level, sound on/off, etc.
-        PRESENTING_INTERACTIVE_CHALLENGE,   // Presenting the challenge that the user must interact with and then test their answer.
-        SHOWING_CORRECT_ANSWER_FEEDBACK,    // Showing the feedback that indicates a correct answer (e.g. a simley face).
-        SHOWING_INCORRECT_ANSWER_FEEDBACK,  // Showing the feedback that indicates an incorrect answer (e.g. a frowny face).
-        DISPLAYING_CORRECT_ANSWER,          // Displaying the correct answer.
-        SHOWING_GAME_RESULTS                // Showing the overall results, i.e. score, best time, etc.
+        OBTAINING_GAME_SETUP,                        // Getting the game setup information from the user, i.e. level, sound on/off, etc.
+        PRESENTING_INTERACTIVE_CHALLENGE,            // Presenting the challenge that the user must interact with and then test their answer.
+        SHOWING_CORRECT_ANSWER_FEEDBACK,             // Showing the feedback that indicates a correct answer (e.g. a simley face).
+        SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN, // Showing the feedback that indicates an incorrect answer (e.g. a frowny face) w opportunity to try again.
+        SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON,   // Showing the feedback that indicates an incorrect answer (e.g. a frowny face), w opportunity to see correct answer.
+        DISPLAYING_CORRECT_ANSWER,                   // Displaying the correct answer.
+        SHOWING_GAME_RESULTS                         // Showing the overall results, i.e. score, best time, etc.
     }
 }
