@@ -38,8 +38,8 @@ public class BalanceChallenge {
      * of the balancing apparatus.
      */
     public static class MassDistancePair {
-        public final Mass mass;
-        public final double distance;
+        public final Mass mass;       // In kg.
+        public final double distance; // In meters.
 
         public MassDistancePair( Mass mass, double distance ) {
             this.mass = mass;
