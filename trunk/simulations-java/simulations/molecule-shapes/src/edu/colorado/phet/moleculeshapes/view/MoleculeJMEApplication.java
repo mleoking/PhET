@@ -196,17 +196,20 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                             // function that updates a quaternion in-place, by adding the necessary rotation in, multiplied by the scale
                             final VoidFunction2<Quaternion, Float> updateQuaternion = new VoidFunction2<Quaternion, Float>() {
                                 public void apply( Quaternion quaternion, Float scale ) {
+                                    // if our window is smaller, rotate more
+                                    float correctedScale = scale / getApproximateScale();
+
                                     if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
-                                        quaternion.set( new Quaternion().fromAngles( 0, -value * scale, 0 ).mult( quaternion ) );
+                                        quaternion.set( new Quaternion().fromAngles( 0, -value * correctedScale, 0 ).mult( quaternion ) );
                                     }
                                     if ( name.equals( MoleculeJMEApplication.MAP_RIGHT ) ) {
-                                        quaternion.set( new Quaternion().fromAngles( 0, value * scale, 0 ).mult( quaternion ) );
+                                        quaternion.set( new Quaternion().fromAngles( 0, value * correctedScale, 0 ).mult( quaternion ) );
                                     }
                                     if ( name.equals( MoleculeJMEApplication.MAP_UP ) ) {
-                                        quaternion.set( new Quaternion().fromAngles( -value * scale, 0, 0 ).mult( quaternion ) );
+                                        quaternion.set( new Quaternion().fromAngles( -value * correctedScale, 0, 0 ).mult( quaternion ) );
                                     }
                                     if ( name.equals( MoleculeJMEApplication.MAP_DOWN ) ) {
-                                        quaternion.set( new Quaternion().fromAngles( value * scale, 0, 0 ).mult( quaternion ) );
+                                        quaternion.set( new Quaternion().fromAngles( value * correctedScale, 0, 0 ).mult( quaternion ) );
                                     }
                                 }
                             };
@@ -682,5 +685,18 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     public boolean canAutoRotateRealMolecule() {
         return !( dragging && dragMode == DragMode.REAL_MOLECULE_ROTATE );
+    }
+
+    /**
+     * @return Our relative screen display scale compared to the stage scale
+     */
+    public ImmutableVector2D getScale() {
+        return new ImmutableVector2D( canvasSize.get().getWidth() / getStageSize().getWidth(),
+                                      canvasSize.get().getHeight() / getStageSize().getHeight() );
+    }
+
+    public float getApproximateScale() {
+        ImmutableVector2D scale = getScale();
+        return (float) ( ( scale.getX() + scale.getY() ) / 2 );
     }
 }
