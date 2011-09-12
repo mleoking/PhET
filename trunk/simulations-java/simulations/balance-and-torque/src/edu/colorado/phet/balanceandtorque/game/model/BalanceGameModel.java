@@ -39,6 +39,7 @@ public class BalanceGameModel {
     private static final int PROBLEMS_PER_SET = 5;
     private static final int MAX_POINTS_PER_PROBLEM = 2;
     private static final int MAX_SCORE_PER_GAME = PROBLEMS_PER_SET * MAX_POINTS_PER_PROBLEM;
+    private static final int MAX_ATTEMPTS_TO_ANSWER = 2;
 
     // Information about the relationship between the plank and fulcrum.
     private static final double FULCRUM_HEIGHT = 0.85; // In meters.
@@ -228,20 +229,32 @@ public class BalanceGameModel {
 
     public void checkAnswer() {
         supportColumnState.set( ColumnState.NONE );
-        // TODO: Always assumed correct for now.
-        gameStateProperty.set( GameState.SHOWING_CORRECT_ANSWER_FEEDBACK );
-        if ( incorrectGuessesOnCurrentChallenge == 0 ) {
-            // User got it right the first time.
-            scoreProperty.set( scoreProperty.get() + MAX_POINTS_PER_PROBLEM );
+        if ( plank.isBalanced() ) {
+            // The user answered the challenge correctly.
+            gameStateProperty.set( GameState.SHOWING_CORRECT_ANSWER_FEEDBACK );
+            if ( incorrectGuessesOnCurrentChallenge == 0 ) {
+                // User got it right the first time.
+                scoreProperty.set( scoreProperty.get() + MAX_POINTS_PER_PROBLEM );
+            }
+            else {
+                // User got it wrong at first, but got it right now.
+                scoreProperty.set( scoreProperty.get() + MAX_POINTS_PER_PROBLEM - incorrectGuessesOnCurrentChallenge );
+            }
         }
         else {
-            // User got it wrong at first, but got it right now.
-            scoreProperty.set( scoreProperty.get() + MAX_POINTS_PER_PROBLEM - incorrectGuessesOnCurrentChallenge );
+            // The user got it wrong.
+            incorrectGuessesOnCurrentChallenge++;
+            if ( incorrectGuessesOnCurrentChallenge < MAX_ATTEMPTS_TO_ANSWER ) {
+                gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN );
+            }
+            else {
+                gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON );
+            }
         }
     }
 
     // TODO: This is for prototype purposes only, should be removed later.
-    public void checkIncorrectGuess() {
+    public void checkIncorrectAnswer() {
         incorrectGuessesOnCurrentChallenge++;
         if ( incorrectGuessesOnCurrentChallenge < 2 ) {
             gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN );
@@ -310,6 +323,7 @@ public class BalanceGameModel {
     }
 
     public void tryAgain() {
+        setChallenge( currentChallengeList.get( challengeCount ) );
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 

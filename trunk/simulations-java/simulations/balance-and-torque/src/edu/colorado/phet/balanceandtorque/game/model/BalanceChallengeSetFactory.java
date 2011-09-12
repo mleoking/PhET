@@ -28,7 +28,7 @@ public class BalanceChallengeSetFactory {
 
         // Create the list of fixed masses.
         List<BalanceChallenge.MassDistancePair> fixedMassesList = new ArrayList<BalanceChallenge.MassDistancePair>();
-        fixedMassesList.add( new BalanceChallenge.MassDistancePair( new BrickStack( 2 ), 0.5 ) );
+        fixedMassesList.add( new BalanceChallenge.MassDistancePair( new BrickStack( 2 ), -1 ) );
 
         // Create the list of user-movable masses.
         List<Mass> movableMassesList = new ArrayList<Mass>();

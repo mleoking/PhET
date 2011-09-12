@@ -263,7 +263,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         checkAnswerWrongButton.setOffset( checkAnswerButton.getFullBoundsReference().getMaxX(), checkAnswerButton.getFullBoundsReference().getY() );
         checkAnswerWrongButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.checkIncorrectGuess();
+                model.checkIncorrectAnswer();
             }
         } );
         rootNode.addChild( checkAnswerWrongButton );

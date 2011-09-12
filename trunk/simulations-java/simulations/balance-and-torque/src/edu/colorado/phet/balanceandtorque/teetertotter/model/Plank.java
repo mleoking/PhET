@@ -227,7 +227,8 @@ public class Plank extends ShapeModelElement {
      * of the plank, regardless of the current location of the mass.
      *
      * @param mass
-     * @param distanceFromCenter
+     * @param distanceFromCenter - Distance from the center, positive indicates
+     *                           right of center, negative indicates left of center.
      */
     public void addMassToSurface( Mass mass, double distanceFromCenter ) {
         assert distanceFromCenter <= LENGTH / 2;
@@ -235,7 +236,7 @@ public class Plank extends ShapeModelElement {
             System.out.println( getClass().getName() + " - Warning: Attempt to add mass at invalid distance from center, ignoring." );
             return;
         }
-        ImmutableVector2D vectorToLocation = getPlankSurfaceCenter().getAddedInstance( new ImmutableVector2D( 0, distanceFromCenter ).getRotatedInstance( tiltAngle ) );
+        ImmutableVector2D vectorToLocation = getPlankSurfaceCenter().getAddedInstance( new ImmutableVector2D( distanceFromCenter, 0 ).getRotatedInstance( tiltAngle ) );
         mass.setPosition( vectorToLocation.getX(), vectorToLocation.getY() );
         addMassToSurface( mass );
     }
@@ -515,6 +516,22 @@ public class Plank extends ShapeModelElement {
         else {
             return false;
         }
+    }
+
+    /**
+     * Returns true if the masses and distances on the plank work out such
+     * that the plank is balanced, even if it is not yet in the level position.
+     * This does NOT pay attention to support columns.
+     *
+     * @return
+     */
+    public boolean isBalanced() {
+        double unCompensatedTorque = 0;
+        for ( Mass mass : massesOnSurface ) {
+            assert mapMassToDistFromCenter.containsKey( mass ); // Should never have a mass on the surface with no corresponding distance.
+            unCompensatedTorque += mass.getMass() * mapMassToDistFromCenter.get( mass );
+        }
+        return unCompensatedTorque == 0;
     }
 
     private void updateNetTorque() {
