@@ -10,13 +10,15 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
+ * A node that can be used to add an image-based mass element to the model by
+ * clicking on it.
+ *
  * @author John Blanco
  */
 public abstract class ImageMassCreatorNode extends ModelElementCreatorNode {
     public ImageMassCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
     }
-
 
     @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
         ImageMass imageMassModelElement = createImageMassInstance();
