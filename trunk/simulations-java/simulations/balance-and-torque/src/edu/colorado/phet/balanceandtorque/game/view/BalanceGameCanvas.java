@@ -272,6 +272,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         //Show the nodes appropriate to the state
         if ( newState == OBTAINING_GAME_SETUP ) {
             show( gameSettingsNode );
+            hideChallenge();
             if ( gameOverNode != null ) {
                 rootNode.removeChild( gameOverNode );
                 gameOverNode = null;
@@ -283,19 +284,19 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
         else if ( newState == SHOWING_CORRECT_ANSWER_FEEDBACK ) {
             show( scoreboard, nextChallengeButton, smilingFace );
-            hideChallenge();
+            showChallenge();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN ) {
             show( scoreboard, tryAgainButton, frowningFace );
-            hideChallenge();
+            showChallenge();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON ) {
             show( scoreboard, displayCorrectAnswerButton, frowningFace );
-            hideChallenge();
+            showChallenge();
         }
         else if ( newState == DISPLAYING_CORRECT_ANSWER ) {
             show( scoreboard, nextChallengeButton );
-            hideChallenge();
+            showChallenge();
         }
         else if ( newState == SHOWING_GAME_RESULTS ) {
             showGameOverNode();
