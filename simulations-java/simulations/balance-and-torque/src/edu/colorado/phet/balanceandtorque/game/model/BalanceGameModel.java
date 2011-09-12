@@ -300,6 +300,16 @@ public class BalanceGameModel {
             gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
         }
         else {
+            // See if this is a new best time and, if so, record it.
+            if ( scoreProperty.get() == MAX_SCORE_PER_GAME ) {
+                // Perfect game.  See if new best time.
+                double timeForChallenge = clock.getSimulationTime();
+                if ( timeForChallenge < getBestTime( getLevel() ) ) {
+                    // New best.
+                    mapLevelToBestTime.put( getLevel(), timeForChallenge );
+                }
+            }
+            // Done with this game, show the results.
             gameStateProperty.set( GameState.SHOWING_GAME_RESULTS );
         }
     }
