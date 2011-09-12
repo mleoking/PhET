@@ -137,6 +137,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
+        // Add the layer where the challenges will be shown.
+        rootNode.addChild( challengeLayer );
+
         // Add the fulcrum, the columns, etc.
         challengeLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
         challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getSupportColumn(), model.columnState ) );
@@ -292,9 +295,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 handleGameStateChange( gameState );
             }
         } );
-
-        //Attach the layer where the challenges will be shown
-        rootNode.addChild( challengeLayer );
     }
 
     //-------------------------------------------------------------------------
