@@ -65,7 +65,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // TODO: i18n of all buttons
     private TextButtonNode checkAnswerButton = new TextButtonNode( "Check Answer (correct)", BUTTON_FONT, Color.YELLOW );
     private TextButtonNode tryAgainButton = new TextButtonNode( "Try Again", BUTTON_FONT, Color.YELLOW );
-    private TextButtonNode nextChallengeButton = new TextButtonNode( "Next Challenge", BUTTON_FONT, Color.YELLOW );
+    private TextButtonNode nextChallengeButton = new TextButtonNode( "Next", BUTTON_FONT, Color.YELLOW );
     private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( "Display Correct Answer", BUTTON_FONT, Color.YELLOW );
 
     // TODO: This is for prototyping and should go eventually.  Soon even.
