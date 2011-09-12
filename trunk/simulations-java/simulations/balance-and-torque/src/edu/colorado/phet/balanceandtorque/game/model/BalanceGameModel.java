@@ -221,8 +221,8 @@ public class BalanceGameModel {
         return gameSettings.soundEnabled.get();
     }
 
-    public long getTime() {
-        return (long) clock.getSimulationTime();
+    public double getTime() {
+        return clock.getSimulationTime();
     }
 
     /**
@@ -230,11 +230,11 @@ public class BalanceGameModel {
      * and not 0, so there is some offsetting here.
      *
      * @param level
-     * @return
+     * @return time in seconds
      */
-    public long getBestTime( int level ) {
+    public double getBestTime( int level ) {
         assert level > 0 && level <= MAX_LEVELS;
-        return (long) ( mapLevelToBestTime.containsKey( level ) ? mapLevelToBestTime.get( level ).doubleValue() : Long.MAX_VALUE );
+        return ( mapLevelToBestTime.containsKey( level ) ? mapLevelToBestTime.get( level ).doubleValue() : Double.POSITIVE_INFINITY );
     }
 
     public boolean isNewBestTime() {
@@ -256,13 +256,15 @@ public class BalanceGameModel {
         return scoreProperty;
     }
 
-    public void newGame() {
-        scoreProperty.set( 0 );
-        challengeCount = 0;
+    public void showGameInitDialog() {
         gameStateProperty.set( GameState.OBTAINING_GAME_SETUP );
     }
 
     public void startGame() {
+        scoreProperty.set( 0 );
+        challengeCount = 0;
+        clock.resetSimulationTime();
+        clock.start();
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
