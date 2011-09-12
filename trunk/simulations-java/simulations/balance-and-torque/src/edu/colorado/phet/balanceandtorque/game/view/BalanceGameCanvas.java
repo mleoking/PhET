@@ -58,7 +58,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
-    private static Font BUTTON_FONT = new PhetFont( 18, false );
+    private static Font BUTTON_FONT = new PhetFont( 24, false );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -96,14 +96,13 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     // Buttons.
     // TODO: i18n of all buttons
-    private TextButtonNode checkAnswerButton = new TextButtonNode( "Check Answer (correct)", BUTTON_FONT, Color.YELLOW );
+    private TextButtonNode checkAnswerButton = new TextButtonNode( "Check Answer", BUTTON_FONT, Color.YELLOW );
     private TextButtonNode tryAgainButton = new TextButtonNode( "Try Again", BUTTON_FONT, Color.YELLOW );
     private TextButtonNode nextChallengeButton = new TextButtonNode( "Next", BUTTON_FONT, Color.YELLOW );
     private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( "Display Correct Answer", BUTTON_FONT, Color.YELLOW );
 
-    // TODO: This is for prototyping and should go eventually.  Soon even.
-    private TextButtonNode checkAnswerWrongButton = new TextButtonNode( "Check Answer (wrong)", BUTTON_FONT, Color.YELLOW );
     private PNode titleNode;
+
     private ModelViewTransform mvt;
 
     //-------------------------------------------------------------------------
@@ -253,35 +252,28 @@ public class BalanceGameCanvas extends PhetPCanvas {
         rootNode.addChild( frowningFace );
 
         // Lay out and add the buttons.
-        checkAnswerButton.setOffset( titleNode.getFullBoundsReference().getX(), titleNode.getFullBoundsReference().getMaxY() + 30 );
+        checkAnswerButton.centerFullBoundsOnPoint( mvt.modelToViewX( 0 ), mvt.modelToViewY( 0 ) + 40 );
         checkAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.checkAnswer();
             }
         } );
         rootNode.addChild( checkAnswerButton );
-        checkAnswerWrongButton.setOffset( checkAnswerButton.getFullBoundsReference().getMaxX(), checkAnswerButton.getFullBoundsReference().getY() );
-        checkAnswerWrongButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.checkIncorrectAnswer();
-            }
-        } );
-        rootNode.addChild( checkAnswerWrongButton );
-        tryAgainButton.setOffset( checkAnswerButton.getFullBoundsReference().getX(), checkAnswerButton.getFullBoundsReference().getMaxY() + 5 );
+        tryAgainButton.centerFullBoundsOnPoint( mvt.modelToViewX( 0 ), mvt.modelToViewY( 0 ) + 40 );
         tryAgainButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.tryAgain();
             }
         } );
         rootNode.addChild( tryAgainButton );
-        nextChallengeButton.setOffset( checkAnswerButton.getFullBoundsReference().getX(), checkAnswerButton.getFullBoundsReference().getMaxY() + 5 );
+        nextChallengeButton.centerFullBoundsOnPoint( mvt.modelToViewX( 0 ), mvt.modelToViewY( 0 ) + 40 );
         nextChallengeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.nextChallenge();
             }
         } );
         rootNode.addChild( nextChallengeButton );
-        displayCorrectAnswerButton.setOffset( checkAnswerButton.getFullBoundsReference().getX(), checkAnswerButton.getFullBoundsReference().getMaxY() + 5 );
+        displayCorrectAnswerButton.centerFullBoundsOnPoint( mvt.modelToViewX( 0 ), mvt.modelToViewY( 0 ) + 40 );
         displayCorrectAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.displayCorrectAnswer();
@@ -317,7 +309,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private void handleGameStateChange( BalanceGameModel.GameState newState ) {
 
         //Hide all nodes, then show the nodes relevant to each state.
-        setVisible( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, titleNode, checkAnswerButton, checkAnswerWrongButton, tryAgainButton,
+        setVisible( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, titleNode, checkAnswerButton, tryAgainButton,
                     nextChallengeButton, displayCorrectAnswerButton );
 
         //Show the nodes appropriate to the state
@@ -330,7 +322,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
         }
         else if ( newState == PRESENTING_INTERACTIVE_CHALLENGE ) {
-            show( scoreboard, titleNode, checkAnswerWrongButton, checkAnswerButton );
+            show( scoreboard, titleNode, checkAnswerButton );
             showChallenge();
         }
         else if ( newState == SHOWING_CORRECT_ANSWER_FEEDBACK ) {
