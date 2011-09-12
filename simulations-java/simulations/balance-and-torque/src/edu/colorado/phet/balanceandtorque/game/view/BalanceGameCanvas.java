@@ -140,10 +140,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
                     if ( model.isTimerEnabled() && model.isBestTimeRecorded( model.getLevel() ) ) {
-                        setTime( model.getTime(), model.getBestTime( model.getLevel() ) );
+                        setTime( (long) ( model.getTime() * 1000 ), (long) ( model.getBestTime( model.getLevel() ) * 1000 ) );
                     }
                     else {
-                        setTime( model.getTime() );
+                        setTime( (long) ( model.getTime() * 1000 ) );
                     }
                 }
             } );
@@ -168,7 +168,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // a new game is desired.
         scoreboard.addGameScoreboardListener( new GameScoreboardNode.GameScoreboardListener() {
             public void newGamePressed() {
-                model.newGame();
+                model.showGameInitDialog();
             }
         } );
 
@@ -289,22 +289,27 @@ public class BalanceGameCanvas extends PhetPCanvas {
         assert gameOverNode == null; // Test that any previous ones were cleaned up.
 
         // Create the "game over" node based on the results.
-        gameOverNode = new GameOverNode( model.getLevel(), model.getScoreProperty().get(),
-                                         model.getMaximumPossibleScore(), new DecimalFormat( "##" ), model.getTime(),
-                                         model.getBestTime( model.getLevel() ), model.isNewBestTime(),
-                                         model.gameSettings.timerEnabled.get() ) {{
+        gameOverNode = new GameOverNode( model.getLevel(), model.getScoreProperty().get(), model.getMaximumPossibleScore(), new DecimalFormat( "##" ),
+                                         convertSecondsToMilliseconds( model.getTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ),
+                                         model.isNewBestTime(), model.gameSettings.timerEnabled.get() ) {{
             scale( 1.5 );
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
                        STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
-            addGameOverListener( new GameOverListener() {
+            addGameOverListener( new GameOverNode.GameOverListener() {
                 public void newGamePressed() {
-                    model.newGame();
+                    model.showGameInitDialog();
                 }
             } );
         }};
 
         // Add the node.
         rootNode.addChild( gameOverNode );
+    }
+
+    // Utility method for converting secons to milliseconds, which is needed
+    // because the model things in seconds and the scoreboard uses ms.
+    static long convertSecondsToMilliseconds( double seconds ) {
+        return (long) ( seconds * 1000 );
     }
 
     //-------------------------------------------------------------------------
