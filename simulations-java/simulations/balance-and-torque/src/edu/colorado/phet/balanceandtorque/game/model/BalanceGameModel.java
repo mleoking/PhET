@@ -11,17 +11,14 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.FulcrumAbovePlank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ShapeModelElement;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -64,18 +61,17 @@ public class BalanceGameModel {
     // Property that tracks the current game state.
     public final Property<GameState> gameStateProperty = new Property<GameState>( GameState.OBTAINING_GAME_SETUP );
 
-    // Count of challenges encountered so far at the current level.
+    // Counters used to track progress on the game.
     private int challengeCount = 0;
-
     private int incorrectGuessesOnCurrentChallenge = 0;
 
-    // A list of all the masses in the model
-    public final ObservableList<Mass> massList = new ObservableList<Mass>();
+    // Fixed masses that sit on the plank and that the user must attempt to balance.
+    private ObservableList<BalanceChallenge.MassDistancePair> massesToBeBalanced = new ObservableList<BalanceChallenge.MassDistancePair>();
 
-    // Fulcrum on which the plank pivots
-    private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, FULCRUM_HEIGHT );
+    // Masses that the user moves on to the plank to counterbalance the fixed masses.
+    private ObservableList<Mass> movableMasses = new ObservableList<Mass>();
 
-    // Support columns
+    // Support column.  In this model, there is only one.
     private final ShapeModelElement supportColumn;
 
     // Property that controls whether two, one or zero columns are supporting the plank.
@@ -89,6 +85,9 @@ public class BalanceGameModel {
 
     // Bar that attaches the fulcrum to the pivot point.
     private final AttachmentBar attachmentBar = new AttachmentBar( plank );
+
+    // Fulcrum on which the plank pivots
+    private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, FULCRUM_HEIGHT );
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -125,57 +124,12 @@ public class BalanceGameModel {
     }
 
     private void stepInTime( double dt ) {
-        for ( Mass mass : new ArrayList<Mass>( massList ) ) {
+        for ( Mass mass : new ArrayList<Mass>( movableMasses ) ) {
             mass.stepInTime( dt );
         }
-    }
-
-    // Adds a mass to the model.
-    public UserMovableModelElement addMass( final Mass mass ) {
-        mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean userControlled ) {
-                if ( !userControlled ) {
-                    // The user has dropped this mass.
-                    if ( !plank.addMassToSurface( mass ) ) {
-                        // The attempt to add mass to surface of plank failed,
-                        // probably because the area below the mass is full,
-                        // or because the mass wasn't over the plank.
-                        removeMassAnimated( mass );
-                    }
-                }
-            }
-        } );
-        massList.add( mass );
-        return mass;
-    }
-
-    /**
-     * Remove the mass from the model and animate its removal.
-     *
-     * @param mass
-     */
-    private void removeMassAnimated( final Mass mass ) {
-        // Register a listener for the completion of the removal animation sequence.
-        mass.addAnimationStateObserver( new ChangeObserver<Boolean>() {
-            public void update( Boolean isAnimating, Boolean wasAnimating ) {
-                if ( wasAnimating && !isAnimating ) {
-                    // Animation sequence has completed.
-                    mass.removeAnimationStateObserver( this );
-                    massList.remove( mass );
-                }
-            }
-        } );
-        // Kick off the animation back to the tool box.
-        mass.initiateAnimation();
-    }
-
-    /**
-     * Removes a mass right away, with no animation.
-     *
-     * @param mass
-     */
-    private void removeMass( final Mass mass ) {
-        massList.remove( mass );
+        for ( BalanceChallenge.MassDistancePair massDistancePair : massesToBeBalanced ) {
+            massDistancePair.mass.stepInTime( dt );
+        }
     }
 
     public FulcrumAbovePlank getFulcrum() {
@@ -188,21 +142,6 @@ public class BalanceGameModel {
 
     public AttachmentBar getAttachmentBar() {
         return attachmentBar;
-    }
-
-    public void reset() {
-        getClock().resetSimulationTime();
-
-        // Remove masses from the plank.
-        plank.removeAllMasses();
-
-        // Remove this model's references to the masses.
-        for ( Mass mass : new ArrayList<Mass>( massList ) ) {
-            removeMass( mass );
-        }
-
-        // Set the support columns to their initial state.
-        columnState.reset();
     }
 
     public int getMaximumPossibleScore() {
@@ -324,8 +263,8 @@ public class BalanceGameModel {
         }
     }
 
-    private void setChallenge( Object o ) {
-//        plank.setTiltAngle( plank.getMaxTiltAngle() );
+    private void setChallenge( BalanceChallenge balanceChallenge ) {
+
     }
 
     public void tryAgain() {
