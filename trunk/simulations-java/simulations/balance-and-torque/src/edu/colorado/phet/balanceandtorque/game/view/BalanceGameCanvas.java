@@ -140,10 +140,11 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
                     if ( model.isTimerEnabled() && model.isBestTimeRecorded( model.getLevel() ) ) {
-                        setTime( (long) ( model.getTime() * 1000 ), (long) ( model.getBestTime( model.getLevel() ) * 1000 ) );
+                        setTime( convertSecondsToMilliseconds( model.getTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ) );
                     }
                     else {
-                        setTime( (long) ( model.getTime() * 1000 ) );
+                        // TODO: Should we even be setting the time here?  Can we get rid of this?
+                        setTime( convertSecondsToMilliseconds( model.getTime() ) );
                     }
                 }
             } );
@@ -306,7 +307,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         rootNode.addChild( gameOverNode );
     }
 
-    // Utility method for converting secons to milliseconds, which is needed
+    // Utility method for converting seconds to milliseconds, which is needed
     // because the model things in seconds and the scoreboard uses ms.
     static long convertSecondsToMilliseconds( double seconds ) {
         return (long) ( seconds * 1000 );
