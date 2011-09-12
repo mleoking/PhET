@@ -29,6 +29,26 @@ public class PhetCamera extends Camera {
         public void resize( int width, int height );
     }
 
+    public static class IdentityCameraStrategy implements CameraStrategy {
+        private final float fovY;
+        private final float near;
+        private final float far;
+
+        public IdentityCameraStrategy( float fovY, float near, float far ) {
+            this.fovY = fovY;
+            this.near = near;
+            this.far = far;
+        }
+
+        public void initialize( PhetCamera camera, Dimension initialSize ) {
+            camera.setFrustumPerspective( fovY, (float) initialSize.width / initialSize.height, near, far );
+        }
+
+        public void resize( int width, int height ) {
+            // don't do anything!
+        }
+    }
+
     public static class CenteredStageCameraStrategy implements CameraStrategy {
         private final float fovY;
         private final float near;

@@ -6,11 +6,14 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 
 public class JMEView {
+    private final PhetJMEApplication app;
     private final ViewPort viewport;
     private final Camera camera;
     private final Node scene;
 
-    public JMEView( ViewPort viewport, Camera camera, Node scene ) {
+    public JMEView( PhetJMEApplication app, ViewPort viewport, Camera camera, Node scene ) {
+        // TODO: instead of handling creation here, make hooks in app and handle it mainly from here
+        this.app = app;
         this.viewport = viewport;
         this.camera = camera;
         this.scene = scene;
