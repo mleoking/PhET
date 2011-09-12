@@ -165,6 +165,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
             public void apply( BalanceChallenge.MassDistancePair massDistancePair ) {
                 // Create and add the view representation for this mass.
                 final PNode massNode = createMassNode( massDistancePair.mass );
+                // Don't allow the user to move this mass around.
+                massNode.setPickable( false );
+                massNode.setChildrenPickable( false );
+                // Add it to the correct layer.
                 challengeLayer.addChild( massNode );
                 // Add the removal listener for if and when this mass is removed from the model.
                 model.massesToBeBalanced.addElementRemovedObserver( massDistancePair, new VoidFunction0() {
