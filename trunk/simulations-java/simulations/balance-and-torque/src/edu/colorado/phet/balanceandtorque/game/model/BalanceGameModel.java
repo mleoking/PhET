@@ -258,6 +258,8 @@ public class BalanceGameModel {
     }
 
     public void newGame() {
+        scoreProperty.set( 0 );
+        challengeCount = 0;
         gameStateProperty.set( GameState.OBTAINING_GAME_SETUP );
     }
 
