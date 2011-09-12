@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -16,17 +17,16 @@ import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
+import edu.colorado.phet.moleculeshapes.jme.CanvasTransform.CenteredStageCanvasTransform;
 import edu.colorado.phet.moleculeshapes.jme.HUDNode;
 import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.jme.JMEView;
 import edu.colorado.phet.moleculeshapes.jme.PhetCamera;
-import edu.colorado.phet.moleculeshapes.jme.PhetCamera.CenteredStageCameraStrategy;
 import edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 import edu.colorado.phet.moleculeshapes.util.VoidNotifier;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -122,7 +122,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     * positioning
     *----------------------------------------------------------------------------*/
 
-    private volatile Dimension lastCanvasSize;
     private volatile boolean resizeDirty = false;
 
     private Quaternion rotation = new Quaternion(); // The angle about which the molecule should be rotated, changes as a function of time
@@ -131,6 +130,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     * graphics/control
     *----------------------------------------------------------------------------*/
 
+    private CenteredStageCanvasTransform canvasTransform;
     private PiccoloJMENode controlPanel;
     private PiccoloJMENode namePanel;
 
@@ -249,7 +249,9 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         JMEUtils.swingLock( new Runnable() {
             public void run() {
 
-                moleculeCamera = new PhetCamera( getInitialSize(), new CenteredStageCameraStrategy( 45, 1, 1000 ) );
+                canvasTransform = new CenteredStageCanvasTransform( MoleculeJMEApplication.this );
+
+                moleculeCamera = new PhetCamera( getStageSize(), canvasTransform.getCameraStrategy( 45, 1, 1000 ) );
                 moleculeCamera.setLocation( new Vector3f( 0, 0, 40 ) );
                 moleculeCamera.lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
 
@@ -297,13 +299,16 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 * main control panel
                 *----------------------------------------------------------------------------*/
                 controlPanelNode = new MoleculeShapesControlPanel( MoleculeJMEApplication.this, realMoleculeOverlayNode );
-                controlPanel = new PiccoloJMENode( controlPanelNode, MoleculeJMEApplication.this );
+                controlPanel = new PiccoloJMENode( controlPanelNode, MoleculeJMEApplication.this, canvasTransform );
                 getBackgroundGui().getScene().attachChild( controlPanel );
-                controlPanel.onResize.addTarget( new Fireable<Void>() {
-                    public void fire( Void param ) {
-                        resizeDirty = true;
+                controlPanel.onResize.addTargetAndUpdate( new SimpleTarget() {
+                    public void update() {
+                        controlPanel.position.set( new ImmutableVector2D(
+                                getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
+                                getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
                     }
                 } );
+
 
                 /*---------------------------------------------------------------------------*
                 * "geometry name" panel
@@ -311,8 +316,9 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule, MoleculeJMEApplication.this ), Strings.CONTROL__GEOMETRY_NAME ) {{
                     // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
                     setOffset( 0, 10 );
-                }}, MoleculeJMEApplication.this );
+                }}, MoleculeJMEApplication.this, canvasTransform );
                 getBackgroundGui().getScene().attachChild( namePanel );
+                namePanel.position.set( new ImmutableVector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
             }
         } );
     }
@@ -611,11 +617,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
             if ( controlPanel != null ) {
                 resizeDirty = false;
-                controlPanel.setLocalTranslation( lastCanvasSize.width - controlPanel.getWidth() - OUTSIDE_PADDING,
-                                                  lastCanvasSize.height - controlPanel.getHeight() - OUTSIDE_PADDING,
-                                                  0 );
 
-                namePanel.setLocalTranslation( OUTSIDE_PADDING, OUTSIDE_PADDING, 0 );
+                Dimension lastCanvasSize = canvasSize.get();
 
                 /*---------------------------------------------------------------------------*
                 * calculate real molecule overlay bounds
@@ -626,6 +629,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 * the Piccolo background target
                 */
 
+                // TODO: fix
                 boolean showOverlay = controlPanelNode.isOverlayVisible();
                 realMoleculeOverlayNode.setCullHint( showOverlay ? CullHint.Never : CullHint.Always );
                 if ( showOverlay ) {
@@ -674,8 +678,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     @Override public void onResize( Dimension canvasSize ) {
         super.onResize( canvasSize );
-        // TODO: threading here!!!
-        lastCanvasSize = canvasSize;
         resizeDirty = true;
     }
 
