@@ -1,3 +1,4 @@
+# 1.03.03 (56411) Sep 12, 2011
 # 1.03.02 (53318) Jun 20, 2011
 Fixed: Height is quantized to be 1 or 2 meters in countries that use comma for decimal place, resolves #2644
 # 1.03.01 (49348) Mar 1, 2011
@@ -177,8 +178,8 @@ Fixed: If I set a height and weight and adjust body fat, the muscles get smaller
 Added activity level combo box to control panel.
 
 New in 0.00.50
-Changed starving message to “Starving!”
-Changed game over OK button to “Restart”
+Changed starving message to ï¿½Starving!ï¿½
+Changed game over OK button to ï¿½Restartï¿½
 Changed heart attack message to "Increased risk of heart attack."
 Fixed: Chart seems to skip from half values to integral values
 Inverted y-values for health indicator (so that y=0 is at the bottom)
