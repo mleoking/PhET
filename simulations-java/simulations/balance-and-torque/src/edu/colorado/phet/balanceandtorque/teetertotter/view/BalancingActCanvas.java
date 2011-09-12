@@ -13,6 +13,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.MassForceVector;
@@ -116,7 +117,7 @@ public class BalancingActCanvas extends PhetPCanvas {
         rootNode.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
         rootNode.addChild( new PlankNode( mvt, model.getPlank(), this ) );
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
-            rootNode.addChild( new SupportColumnNode( mvt, supportColumn, model.supportColumnsActive ) );
+            rootNode.addChild( new LevelSupportColumnNode( mvt, supportColumn, model.columnState ) );
         }
 
         // Add the ruler.
@@ -199,15 +200,15 @@ public class BalancingActCanvas extends PhetPCanvas {
             setBackground( Color.YELLOW );
             addInputEventListener( new ButtonEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
-                    model.supportColumnsActive.set( !model.supportColumnsActive.get() );
+                    model.columnState.set( model.columnState.get() == ColumnState.NONE ? ColumnState.DOUBLE_COLUMNS : ColumnState.NONE );
                 }
             } );
             // Change the button back and forth from one that removes the
             // supports to one that restores the supports.
             final Point2D columnControlButtonLocation = new Point2D.Double( mvt.modelToViewX( 2.55 ), mvt.modelToViewY( -0.3 ) );
-            model.supportColumnsActive.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean supportColumnsActive ) {
-                    if ( supportColumnsActive ) {
+            model.columnState.addObserver( new VoidFunction1<ColumnState>() {
+                public void apply( ColumnState columnState ) {
+                    if ( columnState == ColumnState.DOUBLE_COLUMNS ) {
                         // TODO: i18n
                         setText( "Remove Supports" );
                     }

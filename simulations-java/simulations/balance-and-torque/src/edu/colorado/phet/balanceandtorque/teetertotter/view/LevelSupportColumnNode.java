@@ -4,8 +4,9 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.Color;
 import java.awt.GradientPaint;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.StandardIconButton.CloseButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -21,10 +22,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author John Blanco
  */
-public class SupportColumnNode extends ModelObjectNode {
+public class LevelSupportColumnNode extends ModelObjectNode {
     private static final Color BASE_COLOR = new Color( 153, 102, 204 );
 
-    public SupportColumnNode( final ModelViewTransform mvt, final SupportColumn supportColumn, final BooleanProperty supportColumnsActive ) {
+    public LevelSupportColumnNode( final ModelViewTransform mvt, final SupportColumn supportColumn, final Property<ColumnState> columnState ) {
         super( mvt, supportColumn, new GradientPaint(
                 (float) mvt.modelToViewX( supportColumn.getShape().getBounds2D().getMinX() ),
                 0f,
@@ -35,9 +36,9 @@ public class SupportColumnNode extends ModelObjectNode {
 
         // The visibility of the column is controlled by the boolean property
         // that indicates whether or not it is active.
-        supportColumnsActive.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean supportColumnActive ) {
-                setVisible( supportColumnActive );
+        columnState.addObserver( new VoidFunction1<ColumnState>() {
+            public void apply( ColumnState columnState ) {
+                setVisible( columnState == ColumnState.SINGLE_COLUMN );
             }
         } );
 
@@ -55,7 +56,7 @@ public class SupportColumnNode extends ModelObjectNode {
             // closed button is pressed.
             addInputEventListener( new ButtonEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
-                    supportColumnsActive.set( false );
+                    columnState.set( ColumnState.NONE );
                 }
             } );
         }};

@@ -87,8 +87,8 @@ public class Property<T> extends SettableProperty<T> {
     }
 
     //Return a new observable property to indicate whether this value equals the specified value
-    public ValueEquals<T> valueEquals( T salt ) {
-        return new ValueEquals<T>( this, salt );
+    public ValueEquals<T> valueEquals( T value ) {
+        return new ValueEquals<T>( this, value );
     }
 
     /**

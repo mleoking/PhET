@@ -33,9 +33,15 @@ public class PlankNode extends ModelObjectNode {
     private static final Stroke BOLD_TICK_MARK_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
     private static final Stroke BOLD_HIGHLIGHT_STROKE = new BasicStroke( 11, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
     private static final Color HIGHLIGHT_COLOR = Color.WHITE;
+    private ModelViewTransform mvt;
+    private Plank plank;
+    private PhetPCanvas canvas;
 
     public PlankNode( final ModelViewTransform mvt, final Plank plank, PhetPCanvas canvas ) {
         super( mvt, plank, new Color( 243, 203, 127 ) );
+        this.mvt = mvt;
+        this.plank = plank;
+        this.canvas = canvas;
 
         // Create a layer for the tick marks and add the code to create and
         // update them.
@@ -59,7 +65,12 @@ public class PlankNode extends ModelObjectNode {
 
         // Create a layer for some grabbable "handles" that will allow the
         // user to manually change the angle of the plank.
-        assert plank.getTiltAngle() == 0; // Tilt angle be zero for this to work.
+        if ( plank.getTiltAngle() == 0 ) {// Tilt angle be zero for this to work.
+            addTiltHandles();
+        }
+    }
+
+    private void addTiltHandles() {
         final PNode handleLayer = new PNode();
         addChild( handleLayer );
         // Use a fully transparent color to make the handles invisible.  This

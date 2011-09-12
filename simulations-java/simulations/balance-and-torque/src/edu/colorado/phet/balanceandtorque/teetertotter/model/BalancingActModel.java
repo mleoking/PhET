@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -52,14 +52,14 @@ public class BalancingActModel implements Resettable {
         add( new SupportColumn( PLANK_HEIGHT, 1.625 ) );
     }};
 
-    // Property that controls whether the columns are supporting the plank.
-    public final BooleanProperty supportColumnsActive = new BooleanProperty( true );
+    // Property that controls whether two, one or zero columns are supporting the plank.
+    public final Property<ColumnState> columnState = new Property<ColumnState>( ColumnState.DOUBLE_COLUMNS );
 
     // Plank upon which the various masses can be placed.
     private final Plank plank = new Plank( clock,
                                            new Point2D.Double( 0, PLANK_HEIGHT ),
                                            new Point2D.Double( 0, FULCRUM_HEIGHT ),
-                                           supportColumnsActive );
+                                           columnState );
 
     // Bar that attaches the fulcrum to the pivot point.
     private final AttachmentBar attachmentBar = new AttachmentBar( plank );
@@ -166,6 +166,6 @@ public class BalancingActModel implements Resettable {
         }
 
         // Set the support columns to their initial state.
-        supportColumnsActive.reset();
+        columnState.reset();
     }
 }

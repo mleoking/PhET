@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * @author John Blanco
  * @author Sam Reid
  */
-public abstract class ShapeModelElement {
+public class ShapeModelElement {
     private final Property<Shape> shapeProperty;
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
