@@ -33,5 +33,5 @@ public class MoleculeShapesProperties {
     public static final Property<Double> maximumBrightnessFade = new Property<Double>( 0.7 );
 
     // whether to disable showing the bond angles when it is not applicable
-    public static final Property<Boolean> disableNAShowBondAngles = new Property<Boolean>( false );
+    public static final Property<Boolean> disableNAShowBondAngles = new Property<Boolean>( true );
 }
