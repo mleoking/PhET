@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -273,15 +274,34 @@ public class BalanceGameModel {
     }
 
     private void setChallenge( BalanceChallenge balanceChallenge ) {
+
+        // Clear out the previous challenge (if there was one).
         massesToBeBalanced.clear();
         movableMasses.clear();
+
+        // Set up the new challenge.
         for ( BalanceChallenge.MassDistancePair massDistancePair : balanceChallenge.massesToBeBalanced ) {
             massesToBeBalanced.add( massDistancePair );
             plank.addMassToSurface( massDistancePair.mass, massDistancePair.distance );
         }
         // TODO: Put movable masses on the right side until tool box is in place.
-        for ( Mass mass : balanceChallenge.movableMasses ) {
-            mass.setPosition( 3, 0 );
+        for ( final Mass mass : balanceChallenge.movableMasses ) {
+            final Point2D initialPosition = new Point2D.Double( 3, 0 );
+            mass.setPosition( initialPosition );
+            mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean userControlled ) {
+                    if ( !userControlled ) {
+                        // The user has dropped this mass.
+                        if ( !plank.addMassToSurface( mass ) ) {
+                            // The attempt to add mass to surface of plank failed,
+                            // probably because the area below the mass is full,
+                            // or because the mass wasn't over the plank.
+                            mass.setPosition( initialPosition );
+                        }
+                    }
+                }
+            } );
+
             movableMasses.add( mass );
         }
     }
