@@ -38,7 +38,7 @@ public class LevelSupportColumnNode extends ModelObjectNode {
         // that indicates whether or not it is active.
         columnState.addObserver( new VoidFunction1<ColumnState>() {
             public void apply( ColumnState columnState ) {
-                setVisible( columnState == ColumnState.SINGLE_COLUMN );
+                setVisible( columnState == ColumnState.DOUBLE_COLUMNS );
             }
         } );
 
