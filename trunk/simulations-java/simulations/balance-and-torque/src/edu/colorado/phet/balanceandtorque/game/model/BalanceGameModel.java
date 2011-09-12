@@ -280,6 +280,9 @@ public class BalanceGameModel {
         // Clear out the previous challenge (if there was one).
         plank.removeAllMasses();
         massesToBeBalanced.clear();
+        for ( Mass mass : movableMasses ) {
+            mass.userControlled.removeAllObservers();
+        }
         movableMasses.clear();
         supportColumnState.set( ColumnState.SINGLE_COLUMN );
 
@@ -288,8 +291,8 @@ public class BalanceGameModel {
             massesToBeBalanced.add( massDistancePair );
             plank.addMassToSurface( massDistancePair.mass, massDistancePair.distance );
         }
-        // TODO: Put movable masses on the right side until tool box is in place.
         for ( final Mass mass : balanceChallenge.movableMasses ) {
+            // TODO: Put movable masses on the right side until tool box is in place.
             final Point2D initialPosition = new Point2D.Double( 3, 0 );
             mass.setPosition( initialPosition );
             mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
