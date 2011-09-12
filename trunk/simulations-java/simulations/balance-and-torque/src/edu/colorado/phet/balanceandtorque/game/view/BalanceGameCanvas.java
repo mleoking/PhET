@@ -11,7 +11,11 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.AttachmentBarNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.FulcrumAbovePlankNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.OutlinePText;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.PlankNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.TiltedSupportColumnNode;
 import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameSettingsPanel;
@@ -64,6 +68,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private PNode gameSettingsNode;
     private PNode gameOverNode = null;
 
+    //Layer to show the challenge-specific nodes such as the plank, etc.
+    private final PNode challengeLayer = new PNode();
+
     // Size of the smiling and frowning faces
     private double FACE_DIAMETER = STAGE_SIZE.getWidth() / 6;
 
@@ -88,6 +95,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // TODO: This is for prototyping and should go eventually.  Soon even.
     private TextButtonNode checkAnswerWrongButton = new TextButtonNode( "Check Answer (wrong)", BUTTON_FONT, Color.YELLOW );
     private PNode titleNode;
+    private ModelViewTransform mvt;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -108,10 +116,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // 2nd point can be adjusted to shift the center right or left, and the
         // scale factor can be adjusted to zoom in or out (smaller numbers zoom
         // out, larger ones zoom in).
-        ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
+        mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
-                150 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                150 );
 
         // Root of our scene graph
         rootNode = new PNode();
@@ -233,6 +241,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 handleGameStateChange( gameState );
             }
         } );
+
+        //Attach the layer where the challenges will be shown
+        rootNode.addChild( challengeLayer );
     }
 
     //-------------------------------------------------------------------------
@@ -268,22 +279,46 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
         else if ( newState == PRESENTING_INTERACTIVE_CHALLENGE ) {
             show( scoreboard, titleNode, checkAnswerWrongButton, checkAnswerButton );
+            showChallenge();
         }
         else if ( newState == SHOWING_CORRECT_ANSWER_FEEDBACK ) {
             show( scoreboard, nextChallengeButton, smilingFace );
+            hideChallenge();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN ) {
             show( scoreboard, tryAgainButton, frowningFace );
+            hideChallenge();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON ) {
             show( scoreboard, displayCorrectAnswerButton, frowningFace );
+            hideChallenge();
         }
         else if ( newState == DISPLAYING_CORRECT_ANSWER ) {
             show( scoreboard, nextChallengeButton );
+            hideChallenge();
         }
         else if ( newState == SHOWING_GAME_RESULTS ) {
             showGameOverNode();
+            hideChallenge();
         }
+    }
+
+    private void hideChallenge() {
+        challengeLayer.removeAllChildren();
+    }
+
+    //Add graphics for the next challenge, assumes that the model state already reflects the challenge to be shown
+    private void showChallenge() {
+        challengeLayer.removeAllChildren();
+        challengeLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
+        challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getSupportColumn(), model.columnState ) );
+        challengeLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) {{
+
+            //Disable interactivity since the user should only be able to move the free block
+            setPickable( false );
+            setChildrenPickable( false );
+        }} );
+        challengeLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
     }
 
     private void showGameOverNode() {

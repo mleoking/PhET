@@ -4,25 +4,25 @@ package edu.colorado.phet.balanceandtorque.game.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.AttachmentBar;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.FulcrumAbovePlank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.ShapeModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * Main model class for the balance game.
@@ -76,22 +76,16 @@ public class BalanceGameModel {
     private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, FULCRUM_HEIGHT );
 
     // Support columns
-    private final List<SupportColumn> supportColumns = new ArrayList<SupportColumn>() {{
-        // Note: These are positioned so that the closing window that is
-        // placed on them (the red x) is between two snap-to points on the
-        // plank that the they don't get blocked by force vectors.
-        add( new SupportColumn( PLANK_HEIGHT, -1.625 ) );
-        add( new SupportColumn( PLANK_HEIGHT, 1.625 ) );
-    }};
+    private final ShapeModelElement supportColumn;
 
-    // Property that controls whether the columns are supporting the plank.
-    public final BooleanProperty supportColumnsActive = new BooleanProperty( true );
+    // Property that controls whether two, one or zero columns are supporting the plank.
+    public final Property<ColumnState> columnState = new Property<ColumnState>( ColumnState.SINGLE_COLUMN );
 
     // Plank upon which the various masses can be placed.
     private final Plank plank = new Plank( clock,
                                            new Point2D.Double( 0, PLANK_HEIGHT ),
                                            new Point2D.Double( 0, FULCRUM_HEIGHT ),
-                                           supportColumnsActive );
+                                           columnState );
 
     // Bar that attaches the fulcrum to the pivot point.
     private final AttachmentBar attachmentBar = new AttachmentBar( plank );
@@ -106,6 +100,20 @@ public class BalanceGameModel {
                 stepInTime( clock.getDt() );
             }
         } );
+
+        // Note: These are positioned so that the closing window that is
+        // placed on them (the red x) is between two snap-to points on the
+        // plank that the they don't get blocked by force vectors.
+        final double plankX = 1.8;
+
+        final double WIDTH = 0.35;
+        final DoubleGeneralPath path = new DoubleGeneralPath( plankX - WIDTH / 2, 0 ) {{
+            lineTo( plankX + WIDTH / 2, 0 );
+            lineTo( plankX + WIDTH / 2, plank.getSurfaceYValue( plankX + WIDTH / 2 ) );
+            lineTo( plankX - WIDTH / 2, plank.getSurfaceYValue( plankX - WIDTH / 2 ) );
+            closePath();
+        }};
+        supportColumn = new ShapeModelElement( path.getGeneralPath() );
     }
 
     //------------------------------------------------------------------------
@@ -182,10 +190,6 @@ public class BalanceGameModel {
         return attachmentBar;
     }
 
-    public List<SupportColumn> getSupportColumns() {
-        return supportColumns;
-    }
-
     public void reset() {
         getClock().resetSimulationTime();
 
@@ -198,7 +202,7 @@ public class BalanceGameModel {
         }
 
         // Set the support columns to their initial state.
-        supportColumnsActive.reset();
+        columnState.reset();
     }
 
     public int getMaximumPossibleScore() {
@@ -265,6 +269,11 @@ public class BalanceGameModel {
         challengeCount = 0;
         clock.resetSimulationTime();
         clock.start();
+
+        //Set up the model for the next challenge
+        setChallenge( null );
+
+        //Switch to the new state, will create graphics for the challenge
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
@@ -298,6 +307,7 @@ public class BalanceGameModel {
         incorrectGuessesOnCurrentChallenge = 0;
         if ( challengeCount < PROBLEMS_PER_SET ) {
             gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
+            setChallenge( null );
         }
         else {
             // See if this is a new best time and, if so, record it.
@@ -314,12 +324,20 @@ public class BalanceGameModel {
         }
     }
 
+    private void setChallenge( Object o ) {
+//        plank.setTiltAngle( plank.getMaxTiltAngle() );
+    }
+
     public void tryAgain() {
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
     public void displayCorrectAnswer() {
         gameStateProperty.set( GameState.DISPLAYING_CORRECT_ANSWER );
+    }
+
+    public ShapeModelElement getSupportColumn() {
+        return supportColumn;
     }
 
     //-------------------------------------------------------------------------

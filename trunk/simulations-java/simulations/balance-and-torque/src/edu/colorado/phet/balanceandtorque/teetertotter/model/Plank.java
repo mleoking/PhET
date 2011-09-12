@@ -79,10 +79,10 @@ public class Plank extends ShapeModelElement {
     // Map of masses to distance from the center of the plank.
     private final Map<Mass, Double> mapMassToDistFromCenter = new HashMap<Mass, Double>();
 
-    // Property that indicates whether the support columns are currently
-    // active.  When the columns are active, the plank is forced into a level
-    // position regardless of any masses on its surface.
-    private final BooleanProperty supportColumnsActive;
+    //Property indicating whether there are 2, 1 or zero support pillars holding up the plank
+    //When two columns are active, the plank is forced into a level position regardless of any masses on its surface.
+    //When only one column is active, the plank is forced to its maximum tilt
+    private final Property<ColumnState> columnState;
 
     // The original, unrotated shape, which is needed for a number of operations.
     private final Shape unrotatedShape;
@@ -109,18 +109,20 @@ public class Plank extends ShapeModelElement {
      * the plank is initially flat and that the pivot point is under the center
      * of the plank.
      *
-     * @param clock                - The model clock used to drive
-     *                             time-dependent behavior.
-     * @param initialLocation      - Initial location of the plank.  This is the
-     *                             location of the horizontal center, vertical
-     *                             bottom of the plank.
+     * @param clock             - The model clock used to drive
+     *                          time-dependent behavior.
+     * @param initialLocation   - Initial location of the plank.  This is the
+     *                          location of the horizontal center, vertical
+     *                          bottom of the plank.
      * @param initialPivotPoint
-     * @param supportColumnsActive - Boolean property that can be monitored
+     * @param columnState       - Property indicating whether there are 2, 1 or zero support pillars holding up the plank
      */
-    public Plank( final ConstantDtClock clock, Point2D initialLocation, Point2D initialPivotPoint, BooleanProperty supportColumnsActive ) {
+    public Plank( final ConstantDtClock clock, Point2D initialLocation, Point2D initialPivotPoint, Property<ColumnState> columnState ) {
         super( generateOriginalShape( initialLocation ) );
+
+        this.columnState = columnState;
+
         pivotPoint.setLocation( initialPivotPoint );
-        this.supportColumnsActive = supportColumnsActive;
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
@@ -152,9 +154,14 @@ public class Plank extends ShapeModelElement {
 
         // Listen to the support column property.  The plank goes back to the
         // level position whenever the supports become active.
-        supportColumnsActive.addObserver( new SimpleObserver() {
+        columnState.valueEquals( ColumnState.DOUBLE_COLUMNS ).addObserver( new SimpleObserver() {
             public void update() {
                 forceToLevelAndStill();
+            }
+        } );
+        columnState.valueEquals( ColumnState.SINGLE_COLUMN ).addObserver( new SimpleObserver() {
+            public void update() {
+                forceToMaxAndStill();
             }
         } );
     }
@@ -244,11 +251,9 @@ public class Plank extends ShapeModelElement {
     }
 
     public void setTiltAngle( double tiltAngle ) {
-        assert userControlled.get();  // Should be user controlled when this occurs.
         // Clamp the tilt angle.
         tiltAngle = MathUtil.clamp( -maxTiltAngle, tiltAngle, maxTiltAngle );
-        if ( !supportColumnsActive.get() &&
-             Math.abs( tiltAngle ) <= maxTiltAngle ) {
+        if ( columnState.get() == ColumnState.NONE && Math.abs( tiltAngle ) <= maxTiltAngle ) {
             this.tiltAngle = tiltAngle;
             updatePlankPosition();
             updateMassPositions();
@@ -375,8 +380,20 @@ public class Plank extends ShapeModelElement {
      * some sort of support column has been put into place.
      */
     private void forceToLevelAndStill() {
+        forceAngle( 0.0 );
+    }
+
+    /**
+     * Force the plank back to the level position.  This is generally done when
+     * some sort of support column has been put into place.
+     */
+    private void forceToMaxAndStill() {
+        forceAngle( getMaxTiltAngle() );
+    }
+
+    private void forceAngle( double angle ) {
         angularVelocity = 0;
-        tiltAngle = 0;
+        tiltAngle = angle;
         updatePlankPosition();
         updateMassPositions();
     }
@@ -466,7 +483,7 @@ public class Plank extends ShapeModelElement {
      * @param xValue
      * @return
      */
-    private double getSurfaceYValue( double xValue ) {
+    public double getSurfaceYValue( double xValue ) {
         // Solve the linear equation for the line that represents the surface
         // of the plank.
         Point2D surfacePointAboveBalancePoint = getCenterSurfacePoint();
@@ -488,7 +505,7 @@ public class Plank extends ShapeModelElement {
 
     private void updateNetTorque() {
         currentNetTorque = 0;
-        if ( !supportColumnsActive.get() ) {
+        if ( columnState.get() == ColumnState.NONE ) {
             // Calculate torque due to masses.
             for ( Mass mass : massesOnSurface ) {
                 currentNetTorque += pivotPoint.getX() - mass.getPosition().getX() * mass.getMass();
@@ -592,5 +609,9 @@ public class Plank extends ShapeModelElement {
                                                               new ImmutableVector2D( mass.getPosition().getX() - origin.getX(),
                                                                                      mass.getPosition().getY() - origin.getY() ) ) );
         }
+    }
+
+    public double getMaxTiltAngle() {
+        return maxTiltAngle;
     }
 }
