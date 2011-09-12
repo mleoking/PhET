@@ -34,6 +34,10 @@ public class BrickStack extends ShapeMass {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
+    public BrickStack( int numBricks ) {
+        this( numBricks, new Point2D.Double( 0, 0 ) );
+    }
+
     public BrickStack( int numBricks, Point2D initialCenterBottom ) {
         super( numBricks * BRICK_MASS, generateShape( numBricks, 1 ) );
         setPosition( initialCenterBottom );
