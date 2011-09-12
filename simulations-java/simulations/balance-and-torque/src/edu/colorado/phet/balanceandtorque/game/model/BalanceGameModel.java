@@ -81,13 +81,13 @@ public class BalanceGameModel {
     private final ShapeModelElement supportColumn;
 
     // Property that controls whether two, one or zero columns are supporting the plank.
-    public final Property<ColumnState> columnState = new Property<ColumnState>( ColumnState.SINGLE_COLUMN );
+    public final Property<ColumnState> supportColumnState = new Property<ColumnState>( ColumnState.SINGLE_COLUMN );
 
     // Plank upon which the various masses can be placed.
     private final Plank plank = new Plank( clock,
                                            new Point2D.Double( 0, PLANK_HEIGHT ),
                                            new Point2D.Double( 0, FULCRUM_HEIGHT ),
-                                           columnState );
+                                           supportColumnState );
 
     // Bar that attaches the fulcrum to the pivot point.
     private final AttachmentBar attachmentBar = new AttachmentBar( plank );
@@ -226,7 +226,8 @@ public class BalanceGameModel {
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
-    public void checkGuess() {
+    public void checkAnswer() {
+        supportColumnState.set( ColumnState.NONE );
         // TODO: Always assumed correct for now.
         gameStateProperty.set( GameState.SHOWING_CORRECT_ANSWER_FEEDBACK );
         if ( incorrectGuessesOnCurrentChallenge == 0 ) {
@@ -279,6 +280,7 @@ public class BalanceGameModel {
         plank.removeAllMasses();
         massesToBeBalanced.clear();
         movableMasses.clear();
+        supportColumnState.set( ColumnState.SINGLE_COLUMN );
 
         // Set up the new challenge.
         for ( BalanceChallenge.MassDistancePair massDistancePair : balanceChallenge.massesToBeBalanced ) {

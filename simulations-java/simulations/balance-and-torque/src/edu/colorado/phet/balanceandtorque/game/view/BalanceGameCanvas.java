@@ -142,7 +142,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add the fulcrum, the columns, etc.
         challengeLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
-        challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getSupportColumn(), model.columnState ) );
+        challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getSupportColumn(), model.supportColumnState ) );
         challengeLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) {{
             //Disable interactivity since the user should only be able to move the free block
             setPickable( false );
@@ -256,7 +256,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         checkAnswerButton.setOffset( titleNode.getFullBoundsReference().getX(), titleNode.getFullBoundsReference().getMaxY() + 30 );
         checkAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.checkGuess();
+                model.checkAnswer();
             }
         } );
         rootNode.addChild( checkAnswerButton );
@@ -356,57 +356,12 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }
 
     private void hideChallenge() {
-        for ( Object pNode : challengeLayer.getAllNodes() ) {
-            ( (PNode) pNode ).setVisible( false );
-        }
+        challengeLayer.setVisible( false );
     }
 
     //Add graphics for the next challenge, assumes that the model state already reflects the challenge to be shown
     private void showChallenge() {
-        for ( Object pNode : challengeLayer.getAllNodes() ) {
-            ( (PNode) pNode ).setVisible( true );
-        }
-
-        /*
-        challengeLayer.removeAllChildren();
-        challengeLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
-        challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getSupportColumn(), model.columnState ) );
-        challengeLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) {{
-
-            //Disable interactivity since the user should only be able to move the free block
-            setPickable( false );
-            setChildrenPickable( false );
-        }} );
-        challengeLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
-        // Watch the model and add/remove visual representations of masses.
-        model.movableMasses.addElementAddedObserver( new VoidFunction1<Mass>() {
-            public void apply( Mass mass ) {
-                // Create and add the view representation for this mass.
-                final PNode massNode = createMassNode( mass );
-                challengeLayer.addChild( massNode );
-                rootNode.addChild( massNode );
-                // Add the removal listener for if and when this mass is removed from the model.
-                model.movableMasses.addElementRemovedObserver( mass, new VoidFunction0() {
-                    public void apply() {
-                        challengeLayer.removeChild( massNode );
-                    }
-                } );
-            }
-        } );
-        model.massesToBeBalanced.addElementAddedObserver( new VoidFunction1<BalanceChallenge.MassDistancePair>() {
-            public void apply( BalanceChallenge.MassDistancePair massDistancePair ) {
-                // Create and add the view representation for this mass.
-                final PNode massNode = createMassNode( massDistancePair.mass );
-                challengeLayer.addChild( massNode );
-                // Add the removal listener for if and when this mass is removed from the model.
-                model.massesToBeBalanced.addElementRemovedObserver( massDistancePair, new VoidFunction0() {
-                    public void apply() {
-                        challengeLayer.removeChild( massNode );
-                    }
-                } );
-            }
-        } );
-        */
+        challengeLayer.setVisible( true );
     }
 
     private void showGameOverNode() {
