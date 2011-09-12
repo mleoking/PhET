@@ -85,7 +85,7 @@ public abstract class PhetJMEApplication extends Application {
             }
         } );
         liveNodes.add( backgroundGuiNode );
-        backgroundGui = new JMEView( backgroundGuiViewPort, backgroundGuiCam, backgroundGuiNode );
+        backgroundGui = new JMEView( this, backgroundGuiViewPort, backgroundGuiCam, backgroundGuiNode );
 
         // make the "main" viewport not clear what is behind it
         viewPort.setClearFlags( false, true, true );
@@ -97,7 +97,7 @@ public abstract class PhetJMEApplication extends Application {
         guiNode.setCullHint( CullHint.Never );
         guiViewPort.attachScene( guiNode );
         liveNodes.add( guiNode );
-        gui = new JMEView( guiViewPort, guiViewPort.getCamera(), guiNode );
+        gui = new JMEView( this, guiViewPort, guiViewPort.getCamera(), guiNode );
 
         statistics.initialize( this, guiNode );
 
@@ -116,7 +116,7 @@ public abstract class PhetJMEApplication extends Application {
         final ViewPort viewport = renderManager.createMainView( name + " Viewport", camera );
         viewport.attachScene( scene );
         addLiveNode( scene );
-        return new JMEView( viewport, camera, scene );
+        return new JMEView( this, viewport, camera, scene );
     }
 
     public Timer getTimer() {

@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
-import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.colorado.phet.moleculeshapes.view.MoleculeNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeNode.DisplayMode;
@@ -52,14 +51,6 @@ public class RealMoleculeOverlayNode extends Node {
                     // update the bonds
                     moleculeNode.updateView();
                 }
-            }
-        } );
-
-        // on reset, reset the display mode
-        app.resetNotifier.addTarget( new SimpleTarget() {
-            public void update() {
-                displayMode.reset();
-                draggedLastMolecule.reset();
             }
         } );
 

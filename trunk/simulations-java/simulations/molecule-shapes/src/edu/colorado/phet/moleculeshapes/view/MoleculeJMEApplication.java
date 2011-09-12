@@ -1,6 +1,7 @@
 package edu.colorado.phet.moleculeshapes.view;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import javax.swing.*;
@@ -28,7 +29,6 @@ import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
-import edu.colorado.phet.moleculeshapes.util.VoidNotifier;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import com.jme3.bounding.BoundingSphere;
@@ -57,23 +57,9 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_P
 
 /**
  * Use jme3 to show a rotating molecule
- * TODO: More molecules
- * TODO: make a version where I can change the toolbar background, and the font color?
  * TODO: deadlock on exit
- * <p/>
  * TODO: better MVC (especially C) to deal with all of these threading issues
  * TODO: clearer separation of JME / Swing thread code (basically, a lot of cleanup and documentation)
- * TODO: reset doesn't get event to "un-press" when real molecules view is expanded (it contracts)
- * <p/>
- * NOTES:
- * TODO: recommend change to "option" panel for showing/hiding lone pairs?
- * <p/>
- * TODO: it's weird to drag out an invisible lone pair
- * TODO: consider color-coding the molecular / electron readouts?
- * TODO: Reset: how many bonds (0 or 2) should it reset to?
- * TODO: double-check naming with double/triple bonds
- * TODO: test startup crash failure dialog
- * TODO: looks weird to not see 180-degree angles? how even to handle?!?
  */
 public class MoleculeJMEApplication extends PhetJMEApplication {
 
@@ -96,7 +82,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private MoleculeModel molecule = new MoleculeModel();
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
-    public final VoidNotifier resetNotifier = new VoidNotifier();
 
     public MoleculeJMEApplication( Frame parentFrame ) {
         this.parentFrame = parentFrame;
@@ -288,7 +273,14 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 * real molecule overlay
                 *----------------------------------------------------------------------------*/
 
-                overlay = createView( "Overlay" );
+                overlay = createView( "Overlay", new Camera( (int) ( getStageSize().getWidth() ), (int) ( getStageSize().getHeight() ) ) {
+                    @Override public void resize( int width, int height, boolean fixAspect ) {
+                        super.resize( width, height, fixAspect );
+
+                        // called from the JME render thread, so we can do this
+                        updateOverlayViewport();
+                    }
+                } );
 
                 realMoleculeOverlayNode = new RealMoleculeOverlayNode( MoleculeJMEApplication.this, overlay.getCamera() );
                 overlay.getScene().attachChild( realMoleculeOverlayNode );
@@ -298,14 +290,16 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 /*---------------------------------------------------------------------------*
                 * main control panel
                 *----------------------------------------------------------------------------*/
+                Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
                 controlPanelNode = new MoleculeShapesControlPanel( MoleculeJMEApplication.this, realMoleculeOverlayNode );
-                controlPanel = new PiccoloJMENode( controlPanelNode, MoleculeJMEApplication.this, canvasTransform );
+                controlPanel = new PiccoloJMENode( controlPanelNode, MoleculeJMEApplication.this, canvasTransform, controlPanelPosition );
                 getBackgroundGui().getScene().attachChild( controlPanel );
                 controlPanel.onResize.addTargetAndUpdate( new SimpleTarget() {
                     public void update() {
                         controlPanel.position.set( new ImmutableVector2D(
                                 getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
                                 getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
+                        resizeDirty = true; // TODO: better way of getting this dependency?
                     }
                 } );
 
@@ -392,7 +386,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         }
     }
 
-    private static void addLighting( Node node ) {
+    public static void addLighting( Node node ) {
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
         sun.setColor( MoleculeShapesConstants.SUN_COLOR );
@@ -433,14 +427,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 }
             }
         } );
-    }
-
-    public void resetAll() {
-        removeAllAtoms();
-        showLonePairs.reset();
-        MoleculeShapesProperties.showBondAngles.reset();
-
-        resetNotifier.fire();
     }
 
     public Vector3f getPlanarMoleculeCursorPosition() {
@@ -613,58 +599,51 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         molecule.update( tpf );
         moleculeNode.setLocalRotation( rotation );
 
-        if ( resizeDirty ) {
+        // update the overlay viewport
+        if ( resizeDirty && controlPanel != null ) {
+            // TODO: refactoring here into generic viewport handling? (just tell it to be at X/Y for stage and it sticks there?)
+            resizeDirty = false;
+            updateOverlayViewport();
+        }
+    }
 
-            if ( controlPanel != null ) {
-                resizeDirty = false;
+    private void updateOverlayViewport() {
+        boolean showOverlay = controlPanelNode.isOverlayVisible();
+        realMoleculeOverlayNode.setCullHint( showOverlay ? CullHint.Never : CullHint.Always );
+        if ( showOverlay ) {
+            // get the bounds, relative to the Piccolo origin (which is 0,0 in the component as well)
+            Rectangle2D localOverlayBounds = controlPanelNode.getOverlayBounds();
 
-                Dimension lastCanvasSize = canvasSize.get();
+            // get the translation of the control panel
+            float offsetX = (float) controlPanel.position.get().getX();
+            float offsetY = (float) controlPanel.position.get().getY();
 
-                /*---------------------------------------------------------------------------*
-                * calculate real molecule overlay bounds
-                *----------------------------------------------------------------------------*/
+            // convert these to stage-offset from the lower-left, since the control panel itself is translated
+            double localLeft = localOverlayBounds.getMinX() + offsetX;
+            double localRight = localOverlayBounds.getMaxX() + offsetX;
+            double localTop = controlPanel.getComponentHeight() - localOverlayBounds.getMinY() + offsetY; // remember, Y is flipped here
+            double localBottom = controlPanel.getComponentHeight() - localOverlayBounds.getMaxY() + offsetY; // remember, Y is flipped here
 
-                /*
-                * We need to position the molecule overlay over the portion of the screen taken up by
-                * the Piccolo background target
-                */
+            PBounds stageBounds = new PBounds( localLeft, localBottom, localRight - localLeft, localTop - localBottom );
+            Rectangle2D screenBounds = canvasTransform.getTransformedBounds( stageBounds );
 
-                // TODO: fix
-                boolean showOverlay = controlPanelNode.isOverlayVisible();
-                realMoleculeOverlayNode.setCullHint( showOverlay ? CullHint.Never : CullHint.Always );
-                if ( showOverlay ) {
-                    // get the bounds, relative to the Piccolo origin (which is 0,0 in the component as well)
-                    PBounds localOverlayBounds = controlPanelNode.getOverlayBounds();
+            // rescale these numbers to between 0 and 1 (for the entire JME3 canvas size)
+            float finalLeft = (float) ( screenBounds.getMinX() / canvasSize.get().width );
+            float finalRight = (float) ( screenBounds.getMaxX() / canvasSize.get().width );
+            float finalBottom = (float) ( screenBounds.getMinY() / canvasSize.get().height );
+            float finalTop = (float) ( screenBounds.getMaxY() / canvasSize.get().height );
 
-                    // get the translation of the control panel
-                    float offsetX = controlPanel.getLocalTranslation().getX();
-                    float offsetY = controlPanel.getLocalTranslation().getY();
+            // position the overlay viewport over this region
+            overlay.getCamera().setViewPort( finalLeft, finalRight, finalBottom, finalTop );
 
-                    // convert these to screen-offset from the lower-left, since the control panel itself is translated
-                    double localLeft = localOverlayBounds.getMinX() + offsetX;
-                    double localRight = localOverlayBounds.getMaxX() + offsetX;
-                    double localTop = controlPanel.getHeight() - localOverlayBounds.getMinY() + offsetY; // remember, Y is flipped here
-                    double localBottom = controlPanel.getHeight() - localOverlayBounds.getMaxY() + offsetY; // remember, Y is flipped here
+            /*---------------------------------------------------------------------------*
+            * position overlay camera
+            *----------------------------------------------------------------------------*/
+            overlay.getCamera().setFrustumPerspective( 45f, 1, 1f, 1000f );
+            overlay.getCamera().setLocation( new Vector3f( 0, 0, 40 ) );
+            overlay.getCamera().lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
 
-                    // rescale these numbers to between 0 and 1 (for the entire JME3 canvas size)
-                    float finalLeft = (float) ( localLeft / lastCanvasSize.width );
-                    float finalRight = (float) ( localRight / lastCanvasSize.width );
-                    float finalBottom = (float) ( localBottom / lastCanvasSize.height );
-                    float finalTop = (float) ( localTop / lastCanvasSize.height );
-
-                    // position the overlay viewport over this region
-                    overlay.getCamera().setViewPort( finalLeft, finalRight, finalBottom, finalTop );
-
-                    /*---------------------------------------------------------------------------*
-                    * position overlay camera
-                    *----------------------------------------------------------------------------*/
-                    overlay.getCamera().setFrustumPerspective( 45f, 1, 1f, 1000f );
-                    overlay.getCamera().setLocation( new Vector3f( 0, 0, 40 ) );
-                    overlay.getCamera().lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-
-                    overlay.getCamera().update();
-                }
-            }
+            overlay.getCamera().update();
         }
     }
 

@@ -13,7 +13,6 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.Fireable;
-import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -76,13 +75,6 @@ public class GeometryNameNode extends PNode {
 
     public GeometryNameNode( MoleculeModel molecule, MoleculeJMEApplication app ) {
         this.molecule = molecule;
-
-        app.resetNotifier.addTarget( new SimpleTarget() {
-            public void update() {
-                showMolecularShapeName.reset();
-                showElectronShapeName.reset();
-            }
-        } );
 
         /*---------------------------------------------------------------------------*
         * visibility checkboxes

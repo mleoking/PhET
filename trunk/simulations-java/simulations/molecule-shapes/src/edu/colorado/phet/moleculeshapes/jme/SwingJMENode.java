@@ -25,7 +25,7 @@ import com.jme3.scene.Node;
 public class SwingJMENode extends Node {
 
     // position property (offset from the lower-left, x to the right, y up. Modify on the Swing EDT!!!
-    public final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    public final Property<ImmutableVector2D> position;
 
     // TODO: remove this?
     public final VoidNotifier onResize = new VoidNotifier(); // notifier that fires when this node is resized
@@ -47,13 +47,18 @@ public class SwingJMENode extends Node {
     public final Property<Boolean> antialiased = new Property<Boolean>( false );
 
     public SwingJMENode( final JComponent component, final PhetJMEApplication app ) {
-        this( component, app, new IdentityCanvasTransform() );
+        this( component, app, getDefaultTransform() );
     }
 
     public SwingJMENode( final JComponent component, final PhetJMEApplication app, CanvasTransform canvasTransform ) {
+        this( component, app, canvasTransform, getDefaultPosition() );
+    }
+
+    public SwingJMENode( final JComponent component, final PhetJMEApplication app, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
         this.component = component;
         this.app = app;
         this.canvasTransform = canvasTransform;
+        this.position = position;
 
         size = component.getPreferredSize();
 
@@ -95,6 +100,18 @@ public class SwingJMENode extends Node {
                 rebuildHUD();
             }
         } );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * defaults
+    *----------------------------------------------------------------------------*/
+
+    public static CanvasTransform getDefaultTransform() {
+        return new IdentityCanvasTransform();
+    }
+
+    public static Property<ImmutableVector2D> getDefaultPosition() {
+        return new Property<ImmutableVector2D>( new ImmutableVector2D() );
     }
 
     // flags the HUD node as needing a full repaint
