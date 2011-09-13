@@ -1,3 +1,4 @@
+9/13/11 change request: make all floating control panels the same width, looks better
 9/13/11 turn off all mouse features except "rotate" in the Jmol viewer
 9/13/11 scale Jmol dipoles by 0.8, so the molecular dipole isn't clipped by the Jmol viewer
 9/13/11 swap EN values for atoms in diatomic molecule, so that turning on E-field is more likely to result in animation
