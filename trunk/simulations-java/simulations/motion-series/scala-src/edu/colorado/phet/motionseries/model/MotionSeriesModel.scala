@@ -43,7 +43,9 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def _wallRange = edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length + wall.width / 2, rightRampSegment.length - wall.width / 2)
 
-  def updateWallRange() = wallRange.set(_wallRange)
+  def updateWallRange() {
+    wallRange.set(_wallRange)
+  }
 
   leftRampSegment.addListener(updateWallRange)
   rightRampSegment.addListener(updateWallRange)
@@ -77,7 +79,9 @@ class MotionSeriesModel(defaultPosition: Double,
 
   //Update vectors using the motion strategy
 
-  def stepRecord(): Unit = stepRecord(DT_DEFAULT)
+  def stepRecord() {
+    stepRecord(DT_DEFAULT)
+  }
 
   def step(simulationTimeChange: Double) = {
     stepRecord()
@@ -87,7 +91,7 @@ class MotionSeriesModel(defaultPosition: Double,
   }
 
   //Resume activity in the sim, starting it up when the user drags the object or the position slider or the FBD
-  def resume() = {
+  def resume() {
     if ( isPlayback ) {
       clearHistoryRemainder()
       setRecord(true)
@@ -106,14 +110,14 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def motionSeriesObjectInModelViewportRange = motionSeriesObject.position2D.x < MIN_X || motionSeriesObject.position2D.x > MAX_X
 
-  def returnMotionSeriesObject() = {
+  def returnMotionSeriesObject() {
     motionSeriesObject.attach()
     motionSeriesObject.position = defaultPosition
     motionSeriesObject.parallelAppliedForce = 0
     motionSeriesObject.velocity = 0
   }
 
-  def resetObject() = {
+  def resetObject() {
     returnMotionSeriesObject()
     motionSeriesObject.crashEnergy = 0.0
     motionSeriesObject.thermalEnergy = 0.0
@@ -121,7 +125,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def addResetListener(listener: () => Unit) = resetListeners += listener
 
-  override def resetAll() = {
+  override def resetAll() {
     super.resetAll()
     if ( resetListeners != null ) {
       //resetAll() is called from super's constructor, so have to make sure our data is inited before proceeding
@@ -139,7 +143,7 @@ class MotionSeriesModel(defaultPosition: Double,
     }
   }
 
-  def setPlaybackState(state: RecordedState) = {
+  def setPlaybackState(state: RecordedState) {
     rampAngle = state.rampState.angle
     frictionless = state.frictionless
 
@@ -157,14 +161,14 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def selectedObject = _objectType
 
-  def selectedObject_=(obj: MotionSeriesObjectType) = {
+  def selectedObject_=(obj: MotionSeriesObjectType) {
     if ( _objectType != obj ) {
       _objectType = obj
       updateDueToObjectTypeChange()
     }
   }
 
-  private def updateDueToObjectTypeChange() = {
+  private def updateDueToObjectTypeChange() {
     motionSeriesObject.mass = _objectType.mass
     motionSeriesObject.width = _objectType.width
     motionSeriesObject.height = _objectType.height
@@ -269,14 +273,14 @@ class MotionSeriesModel(defaultPosition: Double,
     rightRampSegment
   }
 
-  def stepRecord(dt: Double) = {
+  def stepRecord(dt: Double) {
     motionSeriesObject.stepInTime(dt)
 
     notifyListeners() //signify to the Timeline that more data has been added
     recordListeners.foreach(_())
   }
 
-  override def stepMode(dt: Double) = {
+  override def stepMode(dt: Double) {
     super.stepMode(dt)
     if ( !isPlayback ) {
       //for playback mode, the stepListeners are already notified
