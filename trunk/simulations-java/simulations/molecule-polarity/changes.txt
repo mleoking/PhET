@@ -1,3 +1,4 @@
+9/13/11 move bond angle indicator to front on mouse over
 9/13/11 merge MoveToFrontHandler into BondAngleHandler
 9/13/11 bug fix in BondAngleHandler
 9/13/11 first pass at bond angle drag indicators (visibility behavior is correct, shape is wrong)
