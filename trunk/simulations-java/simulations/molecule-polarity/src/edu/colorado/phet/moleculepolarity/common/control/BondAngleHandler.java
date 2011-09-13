@@ -25,7 +25,7 @@ public class BondAngleHandler extends PBasicInputEventHandler {
      *
      * @param molecule  angle is relative to this molecule's location, and we pause any animation of this molecule while dragging
      * @param bondAngle property that this handler modifies
-     * @param dragNode  node the is being dragged
+     * @param dragNode  node that is being dragged
      */
     public BondAngleHandler( IMolecule molecule, Property<Double> bondAngle, PNode dragNode ) {
         this.molecule = molecule;
