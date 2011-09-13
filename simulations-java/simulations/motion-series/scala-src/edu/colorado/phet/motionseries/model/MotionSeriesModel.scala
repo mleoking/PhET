@@ -20,7 +20,7 @@ class MotionSeriesModel(defaultPosition: Double,
   private val _walls = new ScalaMutableBoolean(true)
   private val _frictionless = new ScalaMutableBoolean(false) //FRICTIONLESS_DEFAULT
   private val _wallsBounce = new ScalaMutableBoolean(false) //BOUNCE_DEFAULT 
-  private var _objectType = objectTypes(0)
+  private var _objectType: MotionSeriesObjectType = objectTypes(0)
   private val resetListeners = new ArrayBuffer[() => Unit]
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     def getTotalFriction(objectFriction: Double) = objectFriction
@@ -198,7 +198,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def wallsBounce = _wallsBounce
 
-  def wallsBounce_=(b: Boolean) = {
+  def wallsBounce_=(b: Boolean) {
     _wallsBounce.set(b)
     notifyListeners()
   }
@@ -206,14 +206,14 @@ class MotionSeriesModel(defaultPosition: Double,
   //Determines whether the ramp is frictionless.  Object friction is handled elsewhere
   def frictionless = _frictionless.booleanValue
 
-  def frictionless_=(b: Boolean) = {
+  def frictionless_=(b: Boolean) {
     _frictionless.set(b)
     notifyListeners()
   }
 
   def walls = _walls
 
-  def walls_=(b: Boolean) = {
+  def walls_=(b: Boolean) {
     if ( b != _walls.booleanValue ) {
       _walls.set(b)
       updateSegmentLengths()
@@ -222,7 +222,7 @@ class MotionSeriesModel(defaultPosition: Double,
   }
 
   //TODO: duplicates some work with wallrange
-  def updateSegmentLengths() = {
+  def updateSegmentLengths() {
     val seg0Length = if ( leftRampSegment.angle > 0 || _walls.get.booleanValue ) {
       DEFAULT_RAMP_LENGTH
     }
@@ -238,7 +238,7 @@ class MotionSeriesModel(defaultPosition: Double,
     setSegmentLengths(seg0Length, seg1Length)
   }
 
-  def setSegmentLengths(seg0Length: Double, seg1Length: Double) = {
+  def setSegmentLengths(seg0Length: Double, seg1Length: Double) {
     leftRampSegment.startPoint = new Vector2D(leftRampSegment.angle) * -seg0Length
     leftRampSegment.endPoint = new Vector2D(0, 0)
 
@@ -246,7 +246,9 @@ class MotionSeriesModel(defaultPosition: Double,
     rightRampSegment.endPoint = new Vector2D(rightRampSegment.angle) * seg1Length
   }
 
-  def rampAngle_=(angle: Double) = rightRampSegment.setAngle(angle)
+  def rampAngle_=(angle: Double) {
+    rightRampSegment.setAngle(angle)
+  }
 
   def rampAngle = rightRampSegment.angle
 
