@@ -11,8 +11,6 @@ DESIGN
 - should we get rid of Bond Type indicator?
 
 HIGH
-- swap EN values in Two Atoms tab
-- make Jmol viewer bigger
 - turn off more mouse bindings in Jmol viewer
 - add arrows ala Bending Light (with some differences) to atoms A and C in triatomic molecule
 - clean up canvas layout code in all tabs, base layout on molecule location

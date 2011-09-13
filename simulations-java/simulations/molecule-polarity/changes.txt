@@ -1,3 +1,4 @@
+9/13/11 swap EN values for atoms in diatomic molecule, so that turning on E-field is more likely to result in animation
 9/13/11 make Jmol viewer as large as possible
 9/13/11 adjust layout of "Real Molecules" play area
 9/13/11 permanently remove E-field features from "Real Molecules" tab
