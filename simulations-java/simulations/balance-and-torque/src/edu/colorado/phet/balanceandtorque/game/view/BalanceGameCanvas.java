@@ -313,7 +313,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         //Show the level indicator to help the student see if the plank is perfectly balanced,
         //But only show when the support column has been removed
-        rootNode.addChild( new LevelIndicatorNode( mvt, model.getPlank() ) {{
+        challengeLayer.addChild( new LevelIndicatorNode( mvt, model.getPlank() ) {{
             model.supportColumnState.addObserver( new VoidFunction1<ColumnState>() {
                 public void apply( ColumnState columnState ) {
                     setVisible( columnState == ColumnState.NONE );
