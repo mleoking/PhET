@@ -1,21 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
@@ -23,23 +19,19 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -123,48 +115,14 @@ public class BalancingActCanvas extends PhetPCanvas {
         // Add the ruler.
         rootNode.addChild( new RotatingRulerNode( model.getPlank(), mvt, distancesVisibleProperty ) );
 
-        // Add the level indicator.
-        final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getPlankSurfaceCenter().getX() - Plank.LENGTH / 2,
-                                                                             model.getPlank().getPlankSurfaceCenter().getY() ) );
-        final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getPlankSurfaceCenter().getX() + Plank.LENGTH / 2,
-                                                                              model.getPlank().getPlankSurfaceCenter().getY() ) );
-
-        Shape leftIndicatorShape = new DoubleGeneralPath() {{
-            // Draw a sort of arrow head shape.
-            moveTo( 0, 0 );
-            lineTo( -40, -15 );
-            lineTo( -30, 0 );
-            lineTo( -40, 15 );
-            closePath();
-        }}.getGeneralPath();
-        final PPath leftLevelIndicatorNode = new PhetPPath( leftIndicatorShape, new BasicStroke( 1f ), Color.BLACK );
-        leftLevelIndicatorNode.setOffset( leftEdgeOfPlank.getX() - 5, leftEdgeOfPlank.getY() );
-        rootNode.addChild( leftLevelIndicatorNode );
-
-        Shape rightIndicatorShape = AffineTransform.getScaleInstance( -1, 1 ).createTransformedShape( leftIndicatorShape );
-        final PPath rightLevelIndicatorNode = new PhetPPath( rightIndicatorShape, new BasicStroke( 1f ), Color.BLACK );
-        rightLevelIndicatorNode.setOffset( rightEdgeOfPlank.getX() + 5, rightEdgeOfPlank.getY() );
-        rootNode.addChild( rightLevelIndicatorNode );
-
-        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean showLevelIndicator ) {
-                leftLevelIndicatorNode.setVisible( showLevelIndicator );
-                rightLevelIndicatorNode.setVisible( showLevelIndicator );
-            }
-        } );
-
-        model.getPlank().addShapeObserver( new SimpleObserver() {
-            public void update() {
-                if ( Math.abs( model.getPlank().getTiltAngle() ) < Math.PI / 1000 ) {
-                    leftLevelIndicatorNode.setPaint( new Color( 173, 255, 47 ) );
-                    rightLevelIndicatorNode.setPaint( new Color( 173, 255, 47 ) );
+        // Add the level indicator node which will show whether the plank is balanced or not
+        rootNode.addChild( new LevelIndicatorNode( mvt, model.getPlank() ) {{
+            levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    setVisible( visible );
                 }
-                else {
-                    leftLevelIndicatorNode.setPaint( Color.LIGHT_GRAY );
-                    rightLevelIndicatorNode.setPaint( Color.LIGHT_GRAY );
-                }
-            }
-        } );
+            } );
+        }} );
 
         // Listen to the list of various vectors and manage their representations.
         model.getPlank().forceVectorList.addElementAddedObserver( new VoidFunction1<MassForceVector>() {
