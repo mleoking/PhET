@@ -214,6 +214,7 @@ public class BalanceGameModel {
         // Initialize the game timers, counters, etc.
         scoreProperty.set( 0 );
         challengeCount = 0;
+        incorrectGuessesOnCurrentChallenge = 0;
         clock.resetSimulationTime();
         clock.start();
 
