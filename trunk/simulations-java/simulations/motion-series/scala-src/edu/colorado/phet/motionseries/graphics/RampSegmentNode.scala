@@ -31,15 +31,22 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
 
   def updateAll() = {
     //Update base color
-    paintColor = if (frictionless) iceColor else woodColor
+    paintColor = if ( frictionless ) {
+      iceColor
+    }
+    else {
+      woodColor
+    }
 
     //Update images
-    if (frictionless && !getChildrenReference.contains(icicleImageNode))
+    if ( frictionless && !getChildrenReference.contains(icicleImageNode) ) {
       addChild(icicleImageNode)
-    else if (!frictionless && getChildrenReference.contains(icicleImageNode))
+    }
+    else if ( !frictionless && getChildrenReference.contains(icicleImageNode) ) {
       removeChild(icicleImageNode)
-    if (getChildrenReference.contains(icicleImageNode)) {
-      val delta = (rampSegment.endPoint - rampSegment.startPoint).normalize
+    }
+    if ( getChildrenReference.contains(icicleImageNode) ) {
+      val delta = ( rampSegment.endPoint - rampSegment.startPoint ).normalize
       val iceX = 0.4
       val alpha = iceX * rampSegment.length
       val pt = rampSegment.startPoint + delta * alpha
@@ -54,8 +61,8 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   def frictionless = rampSurfaceModel.frictionless || motionSeriesObject.frictionless
 
   defineInvokeAndPass(rampSegment.addListenerByName) {
-    pathNode.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
-  }
+                                                       pathNode.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
+                                                     }
   rampSegment addListener updateAll
   updateAll()
 

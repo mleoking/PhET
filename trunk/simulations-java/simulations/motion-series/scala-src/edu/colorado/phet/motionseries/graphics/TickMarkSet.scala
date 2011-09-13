@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.Color
-import java.awt.geom.{Rectangle2D, Point2D}
+import java.awt.geom.Rectangle2D
 import java.text.DecimalFormat
 import edu.umd.cs.piccolo.nodes.PText
 import edu.umd.cs.piccolo.PNode
@@ -13,8 +13,8 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import edu.colorado.phet.motionseries.model.PositionMapper
 
-class TickMarkSet(transform: ModelViewTransform2D, positionMapper: PositionMapper, addListener: (() => Unit) => Unit) extends PNode {
-  val tickLabels = for (x <- -10 to 10 by 2 if x != 0) yield {
+class TickMarkSet(transform: ModelViewTransform2D, positionMapper: PositionMapper, addListener: ( () => Unit ) => Unit) extends PNode {
+  val tickLabels = for ( x <- -10 to 10 by 2 if x != 0 ) yield {
     addTickLabel(x)
   }
   val zeroLabel = addTickLabel(0)
@@ -33,6 +33,7 @@ class TickMarkSet(transform: ModelViewTransform2D, positionMapper: PositionMappe
 
   setPickable(false)
   setChildrenPickable(false)
+
   def addTickLabel(x: Double) = {
     val path = new PhetPPath(Color.black)
     val label = new PText(new DecimalFormat("0".literal).format(x)) {

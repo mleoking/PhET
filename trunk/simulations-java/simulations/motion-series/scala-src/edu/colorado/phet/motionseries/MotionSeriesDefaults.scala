@@ -68,8 +68,8 @@ object MotionSeriesDefaults {
 
   val worldDefaultScale = 1.0
 
-  val worldWidth = (1024 * worldDefaultScale).toInt
-  val worldHeight = (768 * worldDefaultScale).toInt
+  val worldWidth = ( 1024 * worldDefaultScale ).toInt
+  val worldHeight = ( 768 * worldDefaultScale ).toInt
 
   val MAX_APPLIED_FORCE = 500.0 * 2
 
@@ -106,8 +106,8 @@ object MotionSeriesDefaults {
   val custom = new MutableMotionSeriesObjectType("object.custom-crate".translate, 100.0, 0.3, 0.5, -1.0, "crate.gif".literal, "crate_crashed.gif".literal, 300, "crate_custom.gif".literal, true) //height is determined dynamically in MutableRampObject
 
   val objectTypes = crate :: cabinet :: ollie :: fridge ::
-          book :: mystery ::
-          Nil
+                    book :: mystery ::
+                    Nil
   val iconsPerRow = 4
 
   val objectsForForce1DGame = cabinet :: ollie :: book :: Nil

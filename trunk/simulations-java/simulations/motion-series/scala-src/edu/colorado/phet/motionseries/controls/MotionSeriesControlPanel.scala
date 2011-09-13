@@ -40,7 +40,7 @@ class MotionSeriesControlPanel(model: MotionSeriesModel,
                                audioEnabled: ScalaMutableBoolean)
         extends ControlPanel {
   val body = new RampControlPanelBody(model, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
-    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl, subControlPanelTitle)
+                                      coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl, subControlPanelTitle)
 
   addControl(body)
   addControl(new AudioEnabledCheckBox(audioEnabled))
@@ -65,6 +65,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
                            subControlPanelTitle: String) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
+
   override def add(comp: Component) = {
     addControl(comp)
     comp
@@ -81,12 +82,13 @@ class RampControlPanelBody(model: MotionSeriesModel,
     add(boxLayout(
       new MyRadioButton("controls.show".translate, freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer,
       new MyRadioButton("controls.hide".translate, freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer
-      ))
+    ))
   }
   add(fbdPanel)
 
   class IconPanel(component: JComponent, icon: Icon) extends JPanel {
     def this(component: JComponent, iconFilename: String) = this (component, new ImageIcon(MotionSeriesResources.getImage(iconFilename)))
+
     setLayout(new BorderLayout)
     add(component, BorderLayout.WEST)
     add(new JLabel(icon), BorderLayout.EAST)
@@ -111,7 +113,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
     }
   }
 
-  if (showFrictionControl) {
+  if ( showFrictionControl ) {
     val frictionPanel = new SubControlPanel("controls.friction".translate)
 
     def getSegmentIcon(_frictionless: Boolean) = {
@@ -121,7 +123,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
       val segment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(3, 0))
       val node = new RampSegmentNode(segment, new ModelViewTransform2D(dummyModelBounds, dummyViewBounds, false), surfaceModel, model.motionSeriesObject)
-      node.toImage(75, (75.0 / node.getFullBounds.getWidth * node.getFullBounds.getHeight).toInt, new Color(255, 255, 255, 0))
+      node.toImage(75, ( 75.0 / node.getFullBounds.getWidth * node.getFullBounds.getHeight ).toInt, new Color(255, 255, 255, 0))
     }
 
     val gridPanel = new JPanel {
@@ -129,17 +131,18 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
       def woodIcon = getSegmentIcon(false)
 
-      val iceButton = (new MyRadioButton("surface.ice-no-friction".translate, model.frictionless = true, model.frictionless, model.addListener).peer)
-      val iceLabel = (new JLabel(new ImageIcon(iceIcon)))
+      val iceButton = ( new MyRadioButton("surface.ice-no-friction".translate, model.frictionless = true, model.frictionless, model.addListener).peer )
+      val iceLabel = ( new JLabel(new ImageIcon(iceIcon)) )
 
-      val woodButton = (new MyRadioButton("surface.wood".translate, model.frictionless = false, !model.frictionless, model.addListener).peer)
-      val woodLabel = (new JLabel(new ImageIcon(woodIcon)))
+      val woodButton = ( new MyRadioButton("surface.wood".translate, model.frictionless = false, !model.frictionless, model.addListener).peer )
+      val woodLabel = ( new JLabel(new ImageIcon(woodIcon)) )
 
       val constraints = new GridBagConstraints {
         anchor = GridBagConstraints.WEST
       }
 
       def addElement(c: Component) = add(c, constraints)
+
       setLayout(new GridBagLayout)
       constraints.gridy = 0
       addElement(iceButton)
@@ -155,14 +158,14 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   add(vectorPanel)
 
-  if (showBounceControl) {
+  if ( showBounceControl ) {
     add(new SubControlPanel("walls.type".translate) {
       val brickButton = new MyRadioButton("walls.brick".translate, model.wallsBounce = false, !model.wallsBounce.booleanValue, model.wallsBounce.addListener)
       val bouncyButton = new MyRadioButton("walls.bouncy".translate, model.wallsBounce = true, model.wallsBounce.booleanValue, model.wallsBounce.addListener)
       defineInvokeAndPass(model.addListenerByName) {
-        brickButton.peer.setEnabled(model.walls.booleanValue)
-        bouncyButton.peer.setEnabled(model.walls.booleanValue)
-      }
+                                                     brickButton.peer.setEnabled(model.walls.booleanValue)
+                                                     bouncyButton.peer.setEnabled(model.walls.booleanValue)
+                                                   }
       add(new JPanel {
         add(brickButton.peer)
         add(bouncyButton.peer)
@@ -171,31 +174,42 @@ class RampControlPanelBody(model: MotionSeriesModel,
   }
 
   val moreControlsPanel = new SubControlPanel(subControlPanelTitle)
+
   import MotionSeriesDefaults.MIN_X
   import MotionSeriesDefaults.MAX_X
+
   //The slider can only go from MIN_X to MAX_X even though if the walls are disabled the object might go further
   val positionSlider: ScalaValueControl = new ScalaValueControl(MIN_X, MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
-    () => model.motionSeriesObject.position,
-    x => {
-      //Use the wallRange() for determining the max location of the object, which accounts for whether walls are enabled or disabled
-      val clampedValue = if (model.walls.booleanValue) MathUtil.clamp(
-        model.wallRange().min + model.motionSeriesObject.width / 2,
-        x,
-        model.wallRange().max - model.motionSeriesObject.width / 2)
-      else x //only clamp if there are walls
-      model.motionSeriesObject.position = clampedValue
-      if (clampedValue != x) positionSlider.setValue(clampedValue) //Have to make sure the readout indicates the model value, not the requested user value
-    },
-    model.motionSeriesObject.positionProperty.addListener)
+                                                                () => model.motionSeriesObject.position,
+                                                                x => {
+                                                                  //Use the wallRange() for determining the max location of the object, which accounts for whether walls are enabled or disabled
+                                                                  val clampedValue = if ( model.walls.booleanValue ) {
+                                                                    MathUtil.clamp(
+                                                                      model.wallRange().min + model.motionSeriesObject.width / 2,
+                                                                      x,
+                                                                      model.wallRange().max - model.motionSeriesObject.width / 2)
+                                                                  }
+                                                                  else {
+                                                                    x
+                                                                  } //only clamp if there are walls
+                                                                  model.motionSeriesObject.position = clampedValue
+                                                                  if ( clampedValue != x ) {
+                                                                    positionSlider.setValue(clampedValue)
+                                                                  } //Have to make sure the readout indicates the model value, not the requested user value
+                                                                },
+                                                                model.motionSeriesObject.positionProperty.addListener)
   positionSlider.getSlider.addMouseListener(new MouseAdapter() {
     def setPosition(): Unit = {
       val obj = model.motionSeriesObject
-      val x: Double = if (obj.position > MotionSeriesDefaults.MAX_X)
+      val x: Double = if ( obj.position > MotionSeriesDefaults.MAX_X ) {
         MotionSeriesDefaults.MAX_X
-      else if (obj.position < MotionSeriesDefaults.MIN_X)
+      }
+      else if ( obj.position < MotionSeriesDefaults.MIN_X ) {
         MotionSeriesDefaults.MIN_X
-      else
+      }
+      else {
         obj.position
+      }
       obj.position = x
       obj.attach()
       obj.velocity = 0
@@ -212,9 +226,9 @@ class RampControlPanelBody(model: MotionSeriesModel,
   })
   moreControlsPanel.add(positionSlider)
 
-  if (showAngleSlider) {
+  if ( showAngleSlider ) {
     val angleSlider = new ScalaValueControl(0, MotionSeriesDefaults.MAX_ANGLE.toDegrees, "property.ramp-angle".translate, "0.0".literal, "units.degrees".translate,
-      () => model.rightRampSegment.unitVector.angle.toDegrees, value => model.rampAngle = value.toRadians, model.rightRampSegment.addListener)
+                                            () => model.rightRampSegment.unitVector.angle.toDegrees, value => model.rampAngle = value.toRadians, model.rightRampSegment.addListener)
     moreControlsPanel.add(angleSlider)
   }
 
@@ -229,9 +243,11 @@ class RampControlPanelBody(model: MotionSeriesModel,
     setBorder(null) //get rid of black outline
   }
 
-  if (useObjectComboBox) add(new SubControlPanel("controls.choose-object".translate) {
-    add(new EmbeddedObjectSelectionPanel)
-  })
+  if ( useObjectComboBox ) {
+    add(new SubControlPanel("controls.choose-object".translate) {
+      add(new EmbeddedObjectSelectionPanel)
+    })
+  }
 
   getContentPanel.setFillNone()
   getContentPanel.setAnchor(GridBagConstraints.CENTER)
@@ -239,14 +255,14 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
 class ObjectSelectionComboBoxNode(objectModel: ObjectSelectionModel, canvas: PSwingCanvas, showTitle: Boolean = true) extends PNode {
   var text: PNode = null
-  if (showTitle) {
+  if ( showTitle ) {
     val text = new PSwing(new TitleLabel("controls.choose-object".translate))
     addChild(text)
   }
 
   val boxPanel = new ObjectSelectionComboBox(objectModel)
   val pswing = new PSwing(boxPanel)
-  if (text != null) {
+  if ( text != null ) {
     pswing.setOffset(0, text.getFullBounds.getHeight)
   }
   boxPanel.setEnvironment(pswing, canvas)

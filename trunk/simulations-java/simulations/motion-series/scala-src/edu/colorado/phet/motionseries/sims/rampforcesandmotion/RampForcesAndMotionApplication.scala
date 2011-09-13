@@ -37,7 +37,8 @@ class BasicRampModule(frame: PhetFrame,
   def this(frame: PhetFrame, name: String, coordinateSystemEnabled: Boolean, playAreaObjectComboBox: Boolean,
            showAppliedForceSlider: Boolean, initialPosition: Double, initialAngle: Double,
            rampLayoutArea: Rectangle2D, stageContainerArea: StageContainerArea, freeBodyDiagramPopupOnly: Boolean) = this (frame, name, coordinateSystemEnabled, playAreaObjectComboBox, showAppliedForceSlider, initialPosition,
-    initialAngle, rampLayoutArea, stageContainerArea, freeBodyDiagramPopupOnly, !playAreaObjectComboBox)
+                                                                                                                           initialAngle, rampLayoutArea, stageContainerArea, freeBodyDiagramPopupOnly, !playAreaObjectComboBox)
+
   //Create a default Ramp Canvas and set it as the simulation panel
   val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, playAreaObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea, stageContainerArea)
   setSimulationPanel(rampCanvas)
@@ -54,21 +55,21 @@ class BasicRampModule(frame: PhetFrame,
  * The introductory module, removed much functionality so the user can focus on the motion behavior.
  */
 class IntroRampModule(frame: PhetFrame) extends BasicRampModule(frame, "ramp-forces-and-motion.module.introduction".translate,
-  coordinateSystemEnabled = false,
-  playAreaObjectComboBox = true,
-  showAppliedForceSlider = true,
-  initialPosition = -6.0,
-  initialAngle = MotionSeriesDefaults.defaultRampAngle,
-  rampLayoutArea = MotionSeriesDefaults.rampIntroViewport,
-  stageContainerArea = MotionSeriesDefaults.fullScreenArea,
-  freeBodyDiagramPopupOnly = false)
+                                                                coordinateSystemEnabled = false,
+                                                                playAreaObjectComboBox = true,
+                                                                showAppliedForceSlider = true,
+                                                                initialPosition = -6.0,
+                                                                initialAngle = MotionSeriesDefaults.defaultRampAngle,
+                                                                rampLayoutArea = MotionSeriesDefaults.rampIntroViewport,
+                                                                stageContainerArea = MotionSeriesDefaults.fullScreenArea,
+                                                                freeBodyDiagramPopupOnly = false)
 
 /**
  * The module that focuses on coordinate frames.
  */
 class CoordinatesRampModule(frame: PhetFrame)
         extends BasicRampModule(frame, "ramp-forces-and-motion.module.coordinates".translate, true, true, true, -3,
-          MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false) {
+                                MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false) {
   coordinateSystemModel.adjustable = true //user is allowed to reorient the coordinate frames in this tab
 }
 
@@ -89,6 +90,7 @@ class GraphingModule(frame: PhetFrame,
  */
 class ForceGraphsModule(frame: PhetFrame) extends GraphingModule(frame, "ramp-forces-and-motion.module.force-graphs".translate, false, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
   rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, motionSeriesModel))
+
   def createRecordAndPlaybackPanel = new RecordAndPlaybackControlPanel(motionSeriesModel, rampCanvas, 20) {
     setTimelineNodeVisible(false)
   }
@@ -97,8 +99,9 @@ class ForceGraphsModule(frame: PhetFrame) extends GraphingModule(frame, "ramp-fo
 //Copied from Forces and Motion
 class RampFrictionModule(frame: PhetFrame)
         extends BasicRampModule(frame, "ramp-forces-and-motion.module.friction.title".translate, true, false, true,
-          -6, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false, false) {
-  motionSeriesModel.selectedObject = MotionSeriesDefaults.custom // so that it resizes
+                                -6, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false, false) {
+  motionSeriesModel.selectedObject = MotionSeriesDefaults.custom
+  // so that it resizes
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.motionSeriesObject))
   frictionPlayAreaControlPanel.scale(0.85) //so that the rest of the layout still fits without modification or overlap
   frictionPlayAreaControlPanel.setOffset(rampCanvas.stage.getWidth / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, rampCanvas.stage.getHeight - frictionPlayAreaControlPanel.getFullBounds.getHeight)

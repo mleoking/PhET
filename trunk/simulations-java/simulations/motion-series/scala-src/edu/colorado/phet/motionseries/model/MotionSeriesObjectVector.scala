@@ -13,8 +13,12 @@ class Vector(val color: Color,
              val painter: (Vector2D, Color) => Paint,
              val labelAngle: Double) {
   val visible = new ScalaMutableBoolean(true)
-  if (_vector2DModel == null) throw new RuntimeException("null vector2d model")
-  if (painter == null) throw new RuntimeException("null painter")
+  if ( _vector2DModel == null ) {
+    throw new RuntimeException("null vector2d model")
+  }
+  if ( painter == null ) {
+    throw new RuntimeException("null painter")
+  }
 
   def vector2DModel = _vector2DModel
 
@@ -37,7 +41,7 @@ class Vector2DModel(private var _value: Vector2D) extends Observable {
   def value = _value
 
   def value_=(_value: Vector2D) = {
-    if (_value != this._value) {
+    if ( _value != this._value ) {
       this._value = _value;
       notifyListeners()
     }
@@ -58,7 +62,12 @@ class MotionSeriesObjectVector(color: Color,
                                painter: (Vector2D, Color) => Paint,
                                labelAngle: Double)
         extends Vector(color, name, abbreviation, _vector2DModel, painter, labelAngle) {
-  def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
+  def getPointOfOriginOffset(defaultCenter: Double) = if ( bottomPO ) {
+    0.0
+  }
+  else {
+    defaultCenter
+  }
 }
 
 class VectorComponent(target: MotionSeriesObjectVector,
@@ -72,7 +81,7 @@ class VectorComponent(target: MotionSeriesObjectVector,
 
   val listener = () => {
     val d = componentUnitVector.value
-    componentVector.value = d * (super.vector2DModel() dot d)
+    componentVector.value = d * ( super.vector2DModel() dot d )
   }
   componentUnitVector.addListener(listener)
   super.vector2DModel.addListener(listener)

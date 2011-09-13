@@ -24,6 +24,7 @@ class RobotGraphics(transform: ModelViewTransform2D, gameModel: RobotMovingCompa
 
   gameModel.model.leftRampSegment.addListener(update)
   update()
+
   def update() = {
     val rampTopLeft = gameModel.model.positionMapper(-10)
     val rampTopLeftView = transform.modelToView(rampTopLeft.x, rampTopLeft.y)
@@ -55,16 +56,17 @@ class Struts extends PNode {
   }
 
   def getLeftSideBetween(bottom: PBounds, top: PBounds) = {
-    val x = (bottom.getMinX + top.getMinX) / 2
-    val y = (bottom.getMinY + top.getMaxY) / 2
+    val x = ( bottom.getMinX + top.getMinX ) / 2
+    val y = ( bottom.getMinY + top.getMaxY ) / 2
     new Point2D.Double(x, y)
   }
 
   def getRightSideBetween(bottom: PBounds, top: PBounds) = {
-    val x = (bottom.getMaxX + top.getMaxX) / 2
-    val y = (bottom.getMinY + top.getMaxY) / 2
+    val x = ( bottom.getMaxX + top.getMaxX ) / 2
+    val y = ( bottom.getMinY + top.getMaxY ) / 2
     new Point2D.Double(x, y)
   }
+
   addSegment(new Segment((wheel: PBounds, top: PBounds) => new Line2D.Double(getRightSide(wheel), getLeftSideBetween(wheel, top))))
   addSegment(new Segment((wheel: PBounds, top: PBounds) => new Line2D.Double(getLeftSide(wheel), getRightSideBetween(wheel, top))))
   addSegment(new Segment((wheel: PBounds, top: PBounds) => new Line2D.Double(getLeftSideBetween(wheel, top), getBottomRightWithInsets(top, 20, 20))))
@@ -84,4 +86,5 @@ class Struts extends PNode {
       setPathTo(map(wheelBounds, topBounds))
     }
   }
+
 }

@@ -15,6 +15,7 @@ object Predef {
     })
   }
 }
+
 import Predef._
 
 object MotionSeriesResources extends PhetResources("motion-series".literal) {

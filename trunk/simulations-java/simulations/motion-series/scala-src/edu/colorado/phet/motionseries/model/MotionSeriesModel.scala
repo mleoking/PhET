@@ -44,6 +44,7 @@ class MotionSeriesModel(defaultPosition: Double,
   def _wallRange = edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length + wall.width / 2, rightRampSegment.length - wall.width / 2)
 
   def updateWallRange() = wallRange.set(_wallRange)
+
   leftRampSegment.addListener(updateWallRange)
   rightRampSegment.addListener(updateWallRange)
   updateWallRange()
@@ -67,12 +68,14 @@ class MotionSeriesModel(defaultPosition: Double,
 
   //This is the main object that forces are applied to
   val motionSeriesObject = new MotionSeriesObject(new MutableDouble(defaultPosition), new MutableDouble, new MutableDouble,
-    new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction),
-    _objectType.height, _objectType.width, positionMapper,
-    rampSegmentAccessor, _wallsBounce, walls, wallRange, thermalEnergyStrategy, surfaceFriction, surfaceFrictionStrategy, true)
+                                                  new MutableDouble(_objectType.mass), new MutableDouble(_objectType.staticFriction), new MutableDouble(_objectType.kineticFriction),
+                                                  _objectType.height, _objectType.width, positionMapper,
+                                                  rampSegmentAccessor, _wallsBounce, walls, wallRange, thermalEnergyStrategy, surfaceFriction, surfaceFrictionStrategy, true)
 
   updateDueToObjectTypeChange()
-  motionSeriesObject.stepInTime(0.0) //Update vectors using the motion strategy
+  motionSeriesObject.stepInTime(0.0)
+
+  //Update vectors using the motion strategy
 
   def stepRecord(): Unit = stepRecord(DT_DEFAULT)
 
@@ -80,12 +83,12 @@ class MotionSeriesModel(defaultPosition: Double,
     stepRecord()
     val mode = motionSeriesObject.motionStrategy.getMemento
     new RecordedState(new RampState(rampAngle),
-      selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls.booleanValue, mode, getTime, frictionless)
+                      selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls.booleanValue, mode, getTime, frictionless)
   }
 
   //Resume activity in the sim, starting it up when the user drags the object or the position slider or the FBD
   def resume() = {
-    if (isPlayback) {
+    if ( isPlayback ) {
       clearHistoryRemainder()
       setRecord(true)
     }
@@ -96,7 +99,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   //Don't let the cursor drag past max time
   override def addRecordedPoint(point: DataPoint[RecordedState]) = {
-    if (point.getTime <= MAX_RECORD_TIME) {
+    if ( point.getTime <= MAX_RECORD_TIME ) {
       super.addRecordedPoint(point)
     }
   }
@@ -120,7 +123,8 @@ class MotionSeriesModel(defaultPosition: Double,
 
   override def resetAll() = {
     super.resetAll()
-    if (resetListeners != null) { //resetAll() is called from super's constructor, so have to make sure our data is inited before proceeding
+    if ( resetListeners != null ) {
+      //resetAll() is called from super's constructor, so have to make sure our data is inited before proceeding
       clearHistory()
       selectedObject = objectTypes(0)
       _frictionless.reset()
@@ -154,7 +158,7 @@ class MotionSeriesModel(defaultPosition: Double,
   def selectedObject = _objectType
 
   def selectedObject_=(obj: MotionSeriesObjectType) = {
-    if (_objectType != obj) {
+    if ( _objectType != obj ) {
       _objectType = obj
       updateDueToObjectTypeChange()
     }
@@ -171,21 +175,21 @@ class MotionSeriesModel(defaultPosition: Double,
     _objectType match {
       case o: MutableMotionSeriesObjectType => {
         o.addListenerByName {
-          motionSeriesObject.height = o.height
-          motionSeriesObject.mass = o.mass
-          motionSeriesObject.width = o.width
-          motionSeriesObject.staticFriction = o.staticFriction
-          motionSeriesObject.kineticFriction = o.kineticFriction
-        }
+                              motionSeriesObject.height = o.height
+                              motionSeriesObject.mass = o.mass
+                              motionSeriesObject.width = o.width
+                              motionSeriesObject.staticFriction = o.staticFriction
+                              motionSeriesObject.kineticFriction = o.kineticFriction
+                            }
       }
       case _ => {}
     }
 
     //resolve collisions with the wall when switching objects
     motionSeriesObject.position = MathUtil.clamp(MIN_X + motionSeriesObject.width / 2,
-      motionSeriesObject.position, MAX_X - motionSeriesObject.width / 2)
+                                                 motionSeriesObject.position, MAX_X - motionSeriesObject.width / 2)
 
-    if (motionSeriesObject.isCrashed) {
+    if ( motionSeriesObject.isCrashed ) {
       resetObject()
     }
 
@@ -210,7 +214,7 @@ class MotionSeriesModel(defaultPosition: Double,
   def walls = _walls
 
   def walls_=(b: Boolean) = {
-    if (b != _walls.booleanValue) {
+    if ( b != _walls.booleanValue ) {
       _walls.set(b)
       updateSegmentLengths()
       notifyListeners()
@@ -219,8 +223,18 @@ class MotionSeriesModel(defaultPosition: Double,
 
   //TODO: duplicates some work with wallrange
   def updateSegmentLengths() = {
-    val seg0Length = if (leftRampSegment.angle > 0 || _walls.get.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
-    val seg1Length = if (rightRampSegment.angle > 0 || _walls.get.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
+    val seg0Length = if ( leftRampSegment.angle > 0 || _walls.get.booleanValue ) {
+      DEFAULT_RAMP_LENGTH
+    }
+    else {
+      FAR_DISTANCE
+    }
+    val seg1Length = if ( rightRampSegment.angle > 0 || _walls.get.booleanValue ) {
+      DEFAULT_RAMP_LENGTH
+    }
+    else {
+      FAR_DISTANCE
+    }
     setSegmentLengths(seg0Length, seg1Length)
   }
 
@@ -238,13 +252,20 @@ class MotionSeriesModel(defaultPosition: Double,
 
   //Computes the 2D position for an object on the RampSegments, given its 1d scalar position.
   private def toPosition2D(particleLocation: Double) = {
-    if (particleLocation <= 0)
+    if ( particleLocation <= 0 ) {
       leftRampSegment.unitVector * -1 * particleLocation.abs + leftRampSegment.endPoint
-    else
+    }
+    else {
       rightRampSegment.unitVector * particleLocation.abs + rightRampSegment.startPoint
+    }
   }
 
-  def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) leftRampSegment else rightRampSegment
+  def rampSegmentAccessor(particleLocation: Double) = if ( particleLocation <= 0 ) {
+    leftRampSegment
+  }
+  else {
+    rightRampSegment
+  }
 
   def stepRecord(dt: Double) = {
     motionSeriesObject.stepInTime(dt)
@@ -255,7 +276,8 @@ class MotionSeriesModel(defaultPosition: Double,
 
   override def stepMode(dt: Double) = {
     super.stepMode(dt)
-    if (!isPlayback) { //for playback mode, the stepListeners are already notified
+    if ( !isPlayback ) {
+      //for playback mode, the stepListeners are already notified
       stepListeners.foreach(_())
     }
   }

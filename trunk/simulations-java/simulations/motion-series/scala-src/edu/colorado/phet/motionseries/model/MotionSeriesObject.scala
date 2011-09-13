@@ -25,15 +25,16 @@ class MotionSeriesObject(_position: MutableDouble,
                          thermalEnergyStrategy: Double => Double,
                          val surfaceFriction: () => Boolean,
                          private var _surfaceFrictionStrategy: SurfaceFrictionStrategy,
-                         private val doClampBounds: Boolean = false) { //bounds should be clamped for mobile objects only
+                         private val doClampBounds: Boolean = false) {
+  //bounds should be clamped for mobile objects only
   def this(model: MotionSeriesModel,
            x: Double,
            width: Double,
            height: Double,
            doClampBounds: Boolean) =
     this (new MutableDouble(x), new MutableDouble, new MutableDouble, new MutableDouble(10),
-      new MutableDouble, new MutableDouble, height, width, model.positionMapper, model.rampSegmentAccessor,
-      model.wallsBounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy, doClampBounds)
+          new MutableDouble, new MutableDouble, height, width, model.positionMapper, model.rampSegmentAccessor,
+          model.wallsBounce, model.walls, model.wallRange, model.thermalEnergyStrategy, model.surfaceFriction, model.surfaceFrictionStrategy, doClampBounds)
 
   def this(model: MotionSeriesModel,
            x: Double,
@@ -50,6 +51,7 @@ class MotionSeriesObject(_position: MutableDouble,
   private var _motionStrategy: MotionStrategy = new Grounded(this)
 
   def updatePosition2D() = _position2D.value = motionStrategy.mapPosition
+
   _position.addListener(updatePosition2D)
   updatePosition2D()
 
@@ -60,14 +62,21 @@ class MotionSeriesObject(_position: MutableDouble,
 
   //Resolves: When turning on walls while objects are out of bounds and bouncy is enabled, can bounce infinitely.
   def clampBounds() = {
-    if (doClampBounds) {
-      if (position < wallRange().min) position = wallRange().min + _width / 2
-      if (position > wallRange().max) position = wallRange().max - _width / 2
+    if ( doClampBounds ) {
+      if ( position < wallRange().min ) {
+        position = wallRange().min + _width / 2
+      }
+      if ( position > wallRange().max ) {
+        position = wallRange().max - _width / 2
+      }
     }
   }
+
   wallRange.addListener(clampBounds)
 
-  if (_surfaceFrictionStrategy == null) throw new RuntimeException("Null surface friction strategy")
+  if ( _surfaceFrictionStrategy == null ) {
+    throw new RuntimeException("Null surface friction strategy")
+  }
   private val _thermalEnergy = new MutableDouble
   private val _crashEnergy = new MutableDouble
   private val _time = new MutableDouble
@@ -100,6 +109,7 @@ class MotionSeriesObject(_position: MutableDouble,
     gravityForce.value = new Vector2D(0, gravity * mass)
     updateForces()
   }
+
   _gravity.addListener(updateGravityForce)
   _mass.addListener(updateGravityForce)
   updateGravityForce()
@@ -123,7 +133,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def state = {
     new MotionSeriesObjectState(position, velocity, acceleration, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time,
-      parallelAppliedForce, gravityForce.value, normalForce.value, totalForce.value, appliedForce.value, frictionForce.value, wallForce.value)
+                                parallelAppliedForce, gravityForce.value, normalForce.value, totalForce.value, appliedForce.value, frictionForce.value, wallForce.value)
   }
 
   def state_=(s: MotionSeriesObjectState) = {
@@ -155,7 +165,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def getVelocityVectorDirection: Double = getVelocityVectorDirection(velocity)
 
-  def getVelocityVectorDirection(v: Double): Double = (positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6)).angle
+  def getVelocityVectorDirection(v: Double): Double = ( positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6) ).angle
 
   def getVelocityVectorUnitVector: Vector2D = new Vector2D(getVelocityVectorDirection)
 
@@ -235,19 +245,21 @@ class MotionSeriesObject(_position: MutableDouble,
   def staticFriction_=(value: Double) {
     _staticFriction.value = value
 
-    if (kineticFriction > staticFriction)
+    if ( kineticFriction > staticFriction ) {
       kineticFriction = staticFriction
+    }
   }
 
   def kineticFriction_=(value: Double) {
     _kineticFriction.value = value
 
     //Increase static when you increase kinetic so that static >= kinetic.
-    if (staticFriction < kineticFriction)
+    if ( staticFriction < kineticFriction ) {
       staticFriction = kineticFriction
+    }
   }
 
-  def forceToParallelAcceleration(f: Vector2D) = (f dot rampUnitVector) / mass
+  def forceToParallelAcceleration(f: Vector2D) = ( f dot rampUnitVector ) / mass
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
@@ -270,19 +282,26 @@ class MotionSeriesObject(_position: MutableDouble,
   def getAngle = motionStrategy.getAngle
 
   def stepInTime(dt: Double) = {
-    if (!userSpecifiedPosition) { //If the user is holding the position slider, don't let the object move to another position
+    if ( !userSpecifiedPosition ) {
+      //If the user is holding the position slider, don't let the object move to another position
       motionStrategy.stepInTime(dt)
     }
-    for (listener <- stepListeners) listener()
+    for ( listener <- stepListeners ) {
+      listener()
+    }
   }
 
   def acceleration = forceToParallelAcceleration(totalForce())
 
   def isCrashed = motionStrategy.isCrashed
 
-  def notifyCollidedWithWall() = for (wallCrashListener <- wallCrashListeners) wallCrashListener()
+  def notifyCollidedWithWall() = for ( wallCrashListener <- wallCrashListeners ) {
+    wallCrashListener()
+  }
 
-  def notifyBounced() = for (bounceListener <- bounceListeners) bounceListener()
+  def notifyBounced() = for ( bounceListener <- bounceListeners ) {
+    bounceListener()
+  }
 
   def addWallCrashListener(listener: () => Unit) = wallCrashListeners += listener
 

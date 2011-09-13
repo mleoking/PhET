@@ -35,7 +35,7 @@ trait ObjectSelectionModel {
 class ObjectSelectionNode(model: ObjectSelectionModel) extends PNode {
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
-  val nodes = for (o <- MotionSeriesDefaults.objectTypes) yield {
+  val nodes = for ( o <- MotionSeriesDefaults.objectTypes ) yield {
     o match {
       case jc: MutableMotionSeriesObjectType => new CustomObjectSelectionIcon(jc)
       case m: MotionSeriesObjectType => new ObjectSelectionIcon(o)
@@ -45,7 +45,7 @@ class ObjectSelectionNode(model: ObjectSelectionModel) extends PNode {
 
   val modelCellDimPt = new Point2D.Double(cellDim.width, cellDim.height)
   //y is down, so modelCellDimPt.y is negative
-  for (i <- 0 until nodes.length) {
+  for ( i <- 0 until nodes.length ) {
     val row = i / MotionSeriesDefaults.iconsPerRow
     val column = i % MotionSeriesDefaults.iconsPerRow
 
@@ -56,7 +56,11 @@ class ObjectSelectionNode(model: ObjectSelectionModel) extends PNode {
   }
   val offX = -getFullBounds.getX
   val offY = -getFullBounds.getY
-  for (i <- 0 until getChildrenCount) getChild(i).translate(offX, offY) //so that our origin is (0,0) like a well-behaved pnode
+  for ( i <- 0 until getChildrenCount ) {
+    getChild(i).translate(offX, offY)
+  }
+
+  //so that our origin is (0,0) like a well-behaved pnode
 
   class ObjectSelectionIcon(o: MotionSeriesObjectType) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
@@ -66,11 +70,14 @@ class ObjectSelectionNode(model: ObjectSelectionModel) extends PNode {
     textNode.setFont(new PhetFont(18, true))
 
     object BLANK extends Color(0, 0, 0, 0)
+
     //to capture any input, not just directly on the image or text
     val backgroundNode = new PhetPPath(BLANK) {
       override def paint(paintContext: PPaintContext) = {
-        if (getPaint eq BLANK) {} //using null fails to allow mouse inputs over null paint region, thus we use blank instead
-        else super.paint(paintContext)
+        if ( getPaint eq BLANK ) {} //using null fails to allow mouse inputs over null paint region, thus we use blank instead
+        else {
+          super.paint(paintContext)
+        }
       }
     }
 
@@ -92,10 +99,18 @@ class ObjectSelectionNode(model: ObjectSelectionModel) extends PNode {
       val insetY = 5
       new PBounds(new Rectangle2D.Double(union.getX, union.getY, union.getWidth + insetX, union.getHeight + insetY))
     }
+
     defineInvokeAndPass(model.addListenerByName) {
-      update()
+                                                   update()
+                                                 }
+
+    def update() = backgroundNode.setPaint(if ( model.selectedObject == o ) {
+      new Color(160, 220, 255)
     }
-    def update() = backgroundNode.setPaint(if (model.selectedObject == o) new Color(160, 220, 255) else BLANK)
+                                           else {
+                                             BLANK
+                                           })
+
     addInputEventListener(new PBasicInputEventHandler {
       override def mousePressed(event: PInputEvent) = {
         model.selectedObject = o
@@ -104,12 +119,13 @@ class ObjectSelectionNode(model: ObjectSelectionModel) extends PNode {
 
     val getTooltipText = o.getTooltipText
 
-    if (o.displayTooltip) {
+    if ( o.displayTooltip ) {
       val tooltipNode = new ToolTipNode(getTooltipText, this, 333)
       tooltipNode.setFont(new PhetFont(18))
       addChild(tooltipNode)
     }
   }
+
   class CustomObjectSelectionIcon(o: MutableMotionSeriesObjectType) extends ObjectSelectionIcon(o) {
     private var expand = false
     private val timer = new Timer(20, () => {})
@@ -129,26 +145,38 @@ class ObjectSelectionNode(model: ObjectSelectionModel) extends PNode {
     clip.addChild(controlPanel)
 
     clip.setVisible(false)
+
     def setClipVisible(b: Boolean) {
       clip.setVisible(b)
       clip.setPickable(b)
       clip.setChildrenPickable(b)
     }
+
     timer.addActionListener(() => {
-      if (expand && !added) {
+      if ( expand && !added ) {
         addChild(0, clip) //so it skips initial layout code
         added = true
       }
 
-      val dst = if (expand) -controlPanel.getFullBounds.getHeight - 0.5 else 0.0
+      val dst = if ( expand ) {
+        -controlPanel.getFullBounds.getHeight - 0.5
+      }
+      else {
+        0.0
+      }
       val cur = clip.getOffset.getY
 
       val dy = dst - cur
       val speed = 500
-      clip.setOffset(0, cur + (if (dy > 0) speed else -speed))
+      clip.setOffset(0, cur + ( if ( dy > 0 ) {
+        speed
+      }
+      else {
+        -speed
+      } ))
       clip.setPathTo(new Rectangle2D.Double(0, 0, controlPanel.getFullBounds.getWidth, -clip.getOffset.getY))
 
-      if (abs(dy) <= speed * 2) {
+      if ( abs(dy) <= speed * 2 ) {
         clip.setOffset(0, dst)
         setClipVisible(expand)
         timer.stop()
@@ -157,18 +185,23 @@ class ObjectSelectionNode(model: ObjectSelectionModel) extends PNode {
 
     override def update() = {
       super.update()
-      if (model.selectedObject == o) {
+      if ( model.selectedObject == o ) {
         backgroundNode.setPaint(customControlPanel.getBackground)
-      } else {
+      }
+      else {
         backgroundNode.setPaint(BLANK)
       }
     }
+
     defineInvokeAndPass(model.addListenerByName) {
-      if (model.selectedObject == o)
-        expandControls()
-      else
-        collapseControls()
-    }
+                                                   if ( model.selectedObject == o ) {
+                                                     expandControls()
+                                                   }
+                                                   else {
+                                                     collapseControls()
+                                                   }
+                                                 }
+
     def expandControls() {
       expand = true
 

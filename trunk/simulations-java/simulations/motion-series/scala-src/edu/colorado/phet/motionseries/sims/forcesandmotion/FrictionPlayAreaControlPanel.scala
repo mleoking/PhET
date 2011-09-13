@@ -28,22 +28,24 @@ class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) exten
   private val customObject = MotionSeriesDefaults.custom
 
   val staticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.staticFriction, motionSeriesObject.staticFriction = _,
-    "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, motionSeriesObject.staticFrictionProperty)
+                                          "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, motionSeriesObject.staticFrictionProperty)
   val kineticFriction = new MyValueControl(0.0, 2.0, () => motionSeriesObject.kineticFriction, motionSeriesObject.kineticFriction = _,
-    "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, motionSeriesObject.kineticFrictionProperty)
+                                           "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, motionSeriesObject.kineticFrictionProperty)
   val objectMass = new MyValueControl(1, 200, () => motionSeriesObject.mass, motionSeriesObject.mass = _,
-    "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, motionSeriesObject.massProperty)
+                                      "property.object-mass".translate, "0.0".literal, "units.abbr.kg".translate, motionSeriesObject.massProperty)
   val gravity = new MyValueControl(0.1, sliderMaxGravity, () => motionSeriesObject.gravity.abs, x => motionSeriesObject.gravity = -x,
-    "forces.gravity".translate, "0.0".literal, "properties.acceleration.units".translate, motionSeriesObject.gravityProperty)
+                                   "forces.gravity".translate, "0.0".literal, "properties.acceleration.units".translate, motionSeriesObject.gravityProperty)
 
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
 
   val table = new Hashtable[Double, JComponent]
+
   class TickLabel(name: String) extends JLabel(name, SwingConstants.CENTER) {
     setIcon(new ImageIcon(new BufferedImage(2, 10, BufferedImage.TYPE_INT_RGB)))
     setVerticalTextPosition(SwingConstants.BOTTOM)
     setHorizontalTextPosition(SwingConstants.CENTER)
   }
+
   table.put(moonGravity, new TickLabel("bodies.moon".translate))
   table.put(earthGravity, new TickLabel("bodies.earth".translate))
   table.put(jupiterGravity, new TickLabel("bodies.jupiter".translate))
@@ -54,7 +56,7 @@ class FrictionPlayAreaControlPanel(motionSeriesObject: MotionSeriesObject) exten
   val constraints = new GridBagConstraints
   constraints.gridy = 0
   constraints.gridx = GridBagConstraints.RELATIVE
-  for (s <- sliderArray) {
+  for ( s <- sliderArray ) {
     //Right justify the slider label
     constraints.anchor = GridBagConstraints.LINE_END
     add(s.getValueLabel, constraints)

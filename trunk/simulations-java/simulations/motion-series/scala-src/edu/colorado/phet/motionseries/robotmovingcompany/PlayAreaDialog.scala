@@ -81,20 +81,26 @@ class ItemFinishedDialog(gameModel: RobotMovingCompanyGameModel,
   addChild(pText)
   pText.setOffset(background.getFullBounds.getCenterX - pText.getFullBounds.width / 2, 20)
 
-  val imageFilename = if (result.isInstanceOf[Cliff]) scalaRampObject.crashImageFilename else scalaRampObject.imageFilename
+  val imageFilename = if ( result.isInstanceOf[Cliff] ) {
+    scalaRampObject.crashImageFilename
+  }
+  else {
+    scalaRampObject.imageFilename
+  }
   val image = new PImage(BufferedImageUtils.rescaleYMaintainAspectRatio(MotionSeriesResources.getImage(imageFilename), 150))
   image.setOffset(background.getFullBounds.getCenterX - image.getFullBounds.width / 2, pText.getFullBounds.getMaxY + 20)
   addChild(image)
 
   val doneButton = Button(okButtonText) {
-    okPressed(ItemFinishedDialog.this)
-  }
+                                          okPressed(ItemFinishedDialog.this)
+                                        }
   val donePSwing = new PSwing(doneButton.peer)
   donePSwing.setOffset(background.getFullBounds.getCenterX - donePSwing.getFullBounds.width / 2, background.getFullBounds.getMaxY - donePSwing.getFullBounds.height - 20)
 
   val layoutNode = new SwingLayoutNode(new GridBagLayout)
 
   def constraints(gridX: Int, gridY: Int, gridWidth: Int) = new GridBagConstraints(gridX, gridY, gridWidth, 1, 0.5, 0.5, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 2, 2)
+
   class SummaryText(text: String) extends PText(text) {
     setFont(new PhetFont(14, true))
   }
@@ -127,11 +133,16 @@ class GameFinishedDialog(gameModel: RobotMovingCompanyGameModel) extends PlayAre
   resultList.addChild(new PText("game.score".translate) {setFont(new PhetFont(24))})
   resultList.addChild(new PText(""))
 
-  for (obj <- gameModel.objectList) {
+  for ( obj <- gameModel.objectList ) {
     val result = gameModel.resultMap(obj)
     resultList.addChild(new PText(obj.name) {setFont(new PhetFont(18))})
     resultList.addChild(new PText(result.score + "") {setFont(new PhetFont(18))})
-    val imageFilename = if (result.isInstanceOf[Cliff]) obj.crashImageFilename else obj.imageFilename
+    val imageFilename = if ( result.isInstanceOf[Cliff] ) {
+      obj.crashImageFilename
+    }
+    else {
+      obj.imageFilename
+    }
     val image = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(imageFilename), 40))
     resultList.addChild(image)
   }
@@ -173,7 +184,7 @@ object TestItemFinishedDialog {
   def main(args: Array[String]) {
     val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objectTypes)
     val itemFinishedDialog = new ItemFinishedDialog(robotMovingCompanyGameModel,
-      MotionSeriesDefaults.objectTypes(0), Cliff(64, 100), a => {
+                                                    MotionSeriesDefaults.objectTypes(0), Cliff(64, 100), a => {
         a.setVisible(false)
       }, "Ok".literal)
     TestDialog.test(itemFinishedDialog);
@@ -183,7 +194,7 @@ object TestItemFinishedDialog {
 object TestGameFinishedDialog {
   def main(args: Array[String]) {
     val robotMovingCompanyGameModel = new RobotMovingCompanyGameModel(new MotionSeriesModel(5, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0, MotionSeriesDefaults.objectTypes)
-    for (obj <- robotMovingCompanyGameModel.objectList) {
+    for ( obj <- robotMovingCompanyGameModel.objectList ) {
       robotMovingCompanyGameModel.resultMap(obj) = Cliff(123, 555)
     }
     val gameFinishedDialog = new GameFinishedDialog(robotMovingCompanyGameModel)

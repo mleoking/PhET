@@ -27,38 +27,41 @@ class FreeBodyDiagramDialog(frame: JFrame,
   dialog.setSize(FREE_BODY_DIAGRAM_DIALOG_WIDTH, FREE_BODY_DIAGRAM_DIALOG_HEIGHT)
 
   val freeBodyDiagramNode = new FreeBodyDiagramNode(freeBodyDiagramModel, FBD_DIALOG_NODE_WIDTH, FBD_DIALOG_NODE_HEIGHT,
-    fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal), rampAngle, modelResumeFunction)
+                                                    fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal), rampAngle, modelResumeFunction)
   freeBodyDiagramNode.addListener(fbdListener)
   val canvas = new PhetPCanvas
   canvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = updateNodeSize()
   })
   updateNodeSize()
+
   def updateNodeSize() = {
-    if (canvas.getWidth > 0 && canvas.getHeight > 0) {
+    if ( canvas.getWidth > 0 && canvas.getHeight > 0 ) {
       val w = Math.min(canvas.getWidth, canvas.getHeight)
       freeBodyDiagramNode.setSize(w - FBD_INSET * 2, w - FBD_INSET * 2)
       freeBodyDiagramNode.setOffset(FBD_INSET, FBD_INSET)
     }
   }
+
   canvas.addScreenChild(freeBodyDiagramNode)
   dialog.setContentPane(canvas)
 
   private var initted = false
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
-    val wasVisible = dialog.isVisible
-    dialog.setVisible(freeBodyDiagramModel.visible && freeBodyDiagramModel.windowed)
-    if (dialog.isVisible && !wasVisible && !initted) {
-      initted = true
-      SwingUtils.centerDialogInParent(dialog)
-    }
-    updateNodeSize()
-  }
+                                                                val wasVisible = dialog.isVisible
+                                                                dialog.setVisible(freeBodyDiagramModel.visible && freeBodyDiagramModel.windowed)
+                                                                if ( dialog.isVisible && !wasVisible && !initted ) {
+                                                                  initted = true
+                                                                  SwingUtils.centerDialogInParent(dialog)
+                                                                }
+                                                                updateNodeSize()
+                                                              }
   dialog.addWindowListener(new WindowAdapter {
     override def windowClosing(e: WindowEvent) = {
-      if (!freeBodyDiagramModel.closable) {
+      if ( !freeBodyDiagramModel.closable ) {
         freeBodyDiagramModel.windowed = false
-      } else {
+      }
+      else {
         freeBodyDiagramModel.visible = false
       }
     }

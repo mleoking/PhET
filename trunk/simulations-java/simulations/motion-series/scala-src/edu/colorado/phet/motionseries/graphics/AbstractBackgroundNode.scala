@@ -15,6 +15,7 @@ class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transf
     val viewPath = transform.createTransformedShape(getModelShape)
     node.setPathTo(viewPath)
   }
+
   updatePath()
 
   transform.addTransformListener(new TransformListener() {
@@ -24,7 +25,7 @@ class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transf
 
 class SkyNode(transform: ModelViewTransform2D)
         extends AbstractBackgroundNode(new GradientPaint(transform.modelToView(0, 0), MotionSeriesDefaults.SKY_GRADIENT_BOTTOM,
-          transform.modelToView(0, 10), new Color(202, 187, 255)), new Rectangle2D.Double(-100, 0, 200, 200), transform)
+                                                         transform.modelToView(0, 10), new Color(202, 187, 255)), new Rectangle2D.Double(-100, 0, 200, 200), transform)
 
 class AbstractEarthNode(transform: ModelViewTransform2D, extent: Shape)
         extends AbstractBackgroundNode(MotionSeriesDefaults.EARTH_COLOR, extent, transform)
@@ -39,5 +40,6 @@ object EarthNodeWithCliff {
     area
   }
 }
+
 class EarthNodeWithCliff(transform: ModelViewTransform2D, maxX: Double, lowerGroundY: Double)
         extends AbstractEarthNode(transform, EarthNodeWithCliff.getArea(maxX, lowerGroundY))
