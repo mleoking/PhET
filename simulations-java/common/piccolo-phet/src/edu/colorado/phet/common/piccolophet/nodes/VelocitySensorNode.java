@@ -38,14 +38,17 @@ public class VelocitySensorNode extends ToolNode {
     private final VelocitySensor velocitySensor;
 
     public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor, final double arrowScale, final Property<Function1<Double, String>> formatter ) {
-        this( transform, velocitySensor, arrowScale, formatter, new Function1.Identity<Point2D>() );
+        this( transform, velocitySensor, arrowScale, formatter, new Function1.Identity<Point2D>(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN );
     }
 
     public VelocitySensorNode( final ModelViewTransform transform,
                                final VelocitySensor velocitySensor,
                                final double arrowScale,//Scale to use for the vector--the length of the vector is the view value times this scale factor
                                final Property<Function1<Double, String>> formatter,
-                               final Function1<Point2D, Point2D> boundedConstraint ) {
+                               final Function1<Point2D, Point2D> boundedConstraint,
+
+                               //Text to display when the value is None
+                               final String unknownDisplayString ) {
         this.transform = transform;
         this.velocitySensor = velocitySensor;
         final int titleOffsetY = 7;
@@ -78,7 +81,7 @@ public class VelocitySensorNode extends ToolNode {
             new RichSimpleObserver() {
                 public void update() {
                     final Option<ImmutableVector2D> value = velocitySensor.value.get();
-                    setText( ( value.isNone() ) ? PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN : formatter.get().apply( value.get().getMagnitude() ) );
+                    setText( ( value.isNone() ) ? unknownDisplayString : formatter.get().apply( value.get().getMagnitude() ) );
                     imageNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
                     updateTextLocation.update();
                 }

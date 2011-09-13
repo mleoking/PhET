@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
@@ -105,8 +106,9 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
 
     @Override
     public double getPressure( double x, double y ) {
-        ImmutableVector2D velocity = getVelocity( x, y );
-        double vSquared = velocity.getMagnitudeSq();
+        Option<ImmutableVector2D> velocity = getVelocity( x, y );
+
+        double vSquared = velocity.isSome() ? velocity.get().getMagnitudeSq() : 0.0;
         double K = 101325;//choose a base value for pipe internal pressure, also ensure that pressure is never negative in the pipe in a narrow region
         if ( pipe.getShape().contains( x, y ) ) {
             double pressure = K - 0.5 * liquidDensity.get() * vSquared - liquidDensity.get() * gravity.get() * y;
@@ -144,12 +146,12 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         foodColoringObservers.add( listener );
     }
 
-    public ImmutableVector2D getVelocity( double x, double y ) {
+    public Option<ImmutableVector2D> getVelocity( double x, double y ) {
         if ( pipe.contains( x, y ) ) {
-            return pipe.getTweakedVelocity( x, y );//assumes velocity same at all y along a specified x
+            return new Option.Some<ImmutableVector2D>( pipe.getTweakedVelocity( x, y ) );//assumes velocity same at all y along a specified x
         }
         else {
-            return ImmutableVector2D.ZERO;
+            return new Option.None<ImmutableVector2D>();
         }
     }
 

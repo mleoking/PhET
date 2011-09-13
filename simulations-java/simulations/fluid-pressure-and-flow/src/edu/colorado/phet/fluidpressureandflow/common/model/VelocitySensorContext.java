@@ -2,13 +2,17 @@
 package edu.colorado.phet.fluidpressureandflow.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
+ * Context for observing the velocity at a certain point.
+ *
  * @author Sam Reid
  */
 public interface VelocitySensorContext {
-    public ImmutableVector2D getVelocity( double x, double y );
+    public Option<ImmutableVector2D> getVelocity( double x, double y );
 
+    //Add a listener for when the scene changes
     public void addVelocityUpdateListener( SimpleObserver observer );
 }
