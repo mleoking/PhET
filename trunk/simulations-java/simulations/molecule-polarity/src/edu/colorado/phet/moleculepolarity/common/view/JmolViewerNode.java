@@ -140,6 +140,7 @@ public class JmolViewerNode extends PhetPNode {
             doScript( "unbind \"SHIFT-LEFT\"" ); // disable zooming
             doScript( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
             doScript( "background " + toJmolColor( background ) );
+            doScript( "set dipoleScale 0.8" ); // so that molecular dipole isn't clipped by viewer
 
             setMolecule( molecule );
         }
