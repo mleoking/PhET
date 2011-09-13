@@ -68,61 +68,6 @@ class AdjustableCoordinateModel extends Observable {
   }
 }
 
-class VectorViewModel extends Observable {
-  private var _originalVectors = true
-  private var _parallelComponents = false
-  private var _xyComponentsVisible = false
-  private var _sumOfForcesVector = false
-
-  //In the "Basics" application, gravity and normal forces aren't shown by default, but there is a control to allow the user to show them
-  private var _gravityAndNormalForce = true
-
-  resetAll()
-
-  def resetAll() {
-    originalVectors = true
-    parallelComponents = false
-    xyComponentsVisible = false
-    sumOfForcesVector = false
-    gravityAndNormalForce = true
-  }
-
-  def originalVectors = _originalVectors
-
-  def gravityAndNormalForce = _gravityAndNormalForce
-
-  def parallelComponents = _parallelComponents
-
-  def xyComponentsVisible = _xyComponentsVisible
-
-  def sumOfForcesVector = _sumOfForcesVector
-
-  def originalVectors_=(b: Boolean) {
-    _originalVectors = b
-    notifyListeners()
-  }
-
-  def parallelComponents_=(b: Boolean) {
-    _parallelComponents = b
-    notifyListeners()
-  }
-
-  def xyComponentsVisible_=(b: Boolean) {
-    _xyComponentsVisible = b
-    notifyListeners()
-  }
-
-  def sumOfForcesVector_=(b: Boolean) {
-    _sumOfForcesVector = b
-    notifyListeners()
-  }
-
-  def gravityAndNormalForce_=(b: Boolean) {
-    _gravityAndNormalForce = b
-    notifyListeners()
-  }
-}
-
 class CoordinateFrameModel(rampSegment: RampSegment) extends Observable {
   //TODO: if snapped to the ramp, should rotate with ramp
   private var _proposedAngle = 0.0 //the angle the user has tried to drag the coordinate frame to, not including snapping
