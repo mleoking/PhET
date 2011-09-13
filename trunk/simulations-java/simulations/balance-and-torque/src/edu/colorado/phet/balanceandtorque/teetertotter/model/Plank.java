@@ -530,7 +530,9 @@ public class Plank extends ShapeModelElement {
             assert mapMassToDistFromCenter.containsKey( mass ); // Should never have a mass on the surface with no corresponding distance.
             unCompensatedTorque += mass.getMass() * mapMassToDistFromCenter.get( mass );
         }
-        return unCompensatedTorque == 0;
+
+        //Account for floating point error, just make sure it is close enough
+        return unCompensatedTorque < 1E-6;
     }
 
     private void updateNetTorque() {
