@@ -95,29 +95,35 @@ public class BalanceChallengeSetFactory {
      */
     private static BalanceChallenge generateChallengeSimpleRatioBricks() {
 
-        // Choose the number of bricks in the fixed stack.  Must be 1, 2, or 4
-        // in order to support the ratios used.
-        int numBricksInFixedStack = (int) Math.pow( 2, RAND.nextInt( 3 ) );
-
-        // Decide on number of bricks in movable stack.
-        int numBricksInMovableStack = (int) ( numBricksInFixedStack * SIMPLE_RATIO_LIST[RAND.nextInt( SIMPLE_RATIO_LIST.length )] );
-
-        // Create a list of the distances at which the fixed stack may be
-        // positioned that can be made to balance with the movable stack.
+        int numBricksInFixedStack = 1;
+        int numBricksInMovableStack = 1;
         List<Double> validFixedStackDistances = new ArrayList<Double>();
-        for ( double testDistance = Plank.INTER_SNAP_TO_MARKER_DISTANCE; testDistance < Plank.getLength() / 2; testDistance += Plank.INTER_SNAP_TO_MARKER_DISTANCE ) {
-            double possibleFixedStackDistance = testDistance * numBricksInMovableStack / numBricksInFixedStack;
-            if ( possibleFixedStackDistance < Plank.getLength() / 2 &&
-                 possibleFixedStackDistance >= Plank.INTER_SNAP_TO_MARKER_DISTANCE - 1E-6 &&
-                 possibleFixedStackDistance % Plank.INTER_SNAP_TO_MARKER_DISTANCE < 1E-6 ) {
-                // This is a valid distance.
-                validFixedStackDistances.add( possibleFixedStackDistance );
+
+        while ( validFixedStackDistances.size() == 0 ) {
+            // Choose the number of bricks in the fixed stack.  Must be 1, 2, or 4
+            // in order to support the ratios used.
+            numBricksInFixedStack = (int) Math.pow( 2, RAND.nextInt( 3 ) );
+
+            // Decide on number of bricks in movable stack.
+            numBricksInMovableStack = (int) ( numBricksInFixedStack * SIMPLE_RATIO_LIST[RAND.nextInt( SIMPLE_RATIO_LIST.length )] );
+
+            // Create a list of the distances at which the fixed stack may be
+            // positioned that can be made to balance with the movable stack.
+            for ( double testDistance = Plank.INTER_SNAP_TO_MARKER_DISTANCE; testDistance < Plank.getLength() / 2; testDistance += Plank.INTER_SNAP_TO_MARKER_DISTANCE ) {
+                double possibleFixedStackDistance = testDistance * numBricksInMovableStack / numBricksInFixedStack;
+                if ( possibleFixedStackDistance < Plank.getLength() / 2 &&
+                     possibleFixedStackDistance >= Plank.INTER_SNAP_TO_MARKER_DISTANCE - 1E-6 &&
+                     possibleFixedStackDistance % Plank.INTER_SNAP_TO_MARKER_DISTANCE < 1E-6 ) {
+                    // This is a valid distance.
+                    validFixedStackDistances.add( possibleFixedStackDistance );
+                }
+            }
+
+            // TODO: For debug.
+            if ( validFixedStackDistances.size() == 0 ) {
+                System.out.println( "Warning: No solutions for this configuration, numBricksInFixedStack = " + numBricksInFixedStack + ", " + "numBricksInMovableStack = " + numBricksInMovableStack );
             }
         }
-
-        // There is a problem with this algorithm if it ever churns out a
-        // combination with no solutions.
-        assert validFixedStackDistances.size() > 0;
 
         // Randomly choose a distance to use from the identified set.
         double fixedStackDistanceFromCenter = -validFixedStackDistances.get( RAND.nextInt( validFixedStackDistances.size() ) );
