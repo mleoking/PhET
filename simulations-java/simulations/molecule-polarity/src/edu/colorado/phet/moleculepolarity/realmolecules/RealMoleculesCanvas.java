@@ -53,15 +53,15 @@ public class RealMoleculesCanvas extends MPCanvas {
         int minWidth = (int) Math.max( viewControlPanel.getPreferredSize().getWidth(), surfaceControlPanel.getPreferredSize().getWidth() );
         viewControlPanel.setMinWidth( minWidth );
         surfaceControlPanel.setMinWidth( minWidth );
-        PNode viewControlsNode = new ControlPanelNode( viewControlPanel );
-        PNode isosurfaceControlsNode = new ControlPanelNode( surfaceControlPanel );
+        PNode viewControlNode = new ControlPanelNode( viewControlPanel );
+        PNode isosurfaceControlNode = new ControlPanelNode( surfaceControlPanel );
         PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
 
         // rendering order
         {
             // controls
-            addChild( viewControlsNode );
-            addChild( isosurfaceControlsNode );
+            addChild( viewControlNode );
+            addChild( isosurfaceControlNode );
             addChild( resetAllButtonNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( scriptNode );
@@ -93,9 +93,9 @@ public class RealMoleculesCanvas extends MPCanvas {
                                                   electrostaticPotentialColorKeyNode.getFullBoundsReference().getMaxY() + 20 );
             moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
                                         ySpacing );
-            viewControlsNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
-            isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            viewControlNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
+            isosurfaceControlNode.setOffset( viewControlNode.getXOffset(), viewControlNode.getFullBoundsReference().getMaxY() + ySpacing );
+            resetAllButtonNode.setOffset( isosurfaceControlNode.getXOffset(), isosurfaceControlNode.getFullBoundsReference().getMaxY() + ySpacing );
             scriptNode.setOffset( resetAllButtonNode.getXOffset(), resetAllButtonNode.getFullBoundsReference().getMaxY() + ySpacing );
 
         }
