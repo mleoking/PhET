@@ -117,8 +117,10 @@ public class RealMoleculeOverlayNode extends Node {
      */
     private void updateRotation( VoidFunction2<Quaternion, Float> callback ) {
         callback.apply( rotation, 3 * lastScale );
-        moleculeNode.setLocalRotation( rotation );
-        moleculeNode.updateView();
+        if ( moleculeNode != null ) {
+            moleculeNode.setLocalRotation( rotation );
+            moleculeNode.updateView();
+        }
     }
 
 }

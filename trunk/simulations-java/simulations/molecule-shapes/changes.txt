@@ -1,3 +1,4 @@
+Bugfix: don't crash on clicking "Real Example" area without any molecules
 Added H3O+ ion
 # 0.00.34 (56451) Sep 12, 2011
 Added test version of "forward/back" arrows for the "Real Examples" area.

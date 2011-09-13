@@ -204,7 +204,9 @@ public class RealMoleculePanelNode extends PNode {
                 @Override public void mousePressed( PInputEvent event ) {
                     JMEUtils.invoke( new Runnable() {
                         public void run() {
-                            app.startOverlayMoleculeDrag();
+                            if ( selectedMolecule.get() != null ) {
+                                app.startOverlayMoleculeDrag();
+                            }
                         }
                     } );
                 }
