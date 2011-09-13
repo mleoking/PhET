@@ -14,7 +14,6 @@ import edu.colorado.phet.recordandplayback.gui.RecordAndPlaybackControlPanel
 import edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompany.RobotMovingCompanyModule
 import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesModule, MotionSeriesDefaults}
 import edu.umd.cs.piccolo.PNode
-import edu.colorado.phet.motionseries.sims.forcesandmotion.FrictionPlayAreaControlPanel
 import edu.colorado.phet.motionseries.model._
 
 class ForcesAndMotionBasicsModule(frame: PhetFrame,
@@ -72,7 +71,7 @@ class FrictionModule(frame: PhetFrame) extends ForcesAndMotionBasicsModule(frame
 
   // so that it resizes
   motionSeriesModel.selectedObject = MotionSeriesDefaults.custom
-  val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.motionSeriesObject))
+  val frictionPlayAreaControlPanel = new PSwing(new BasicsFrictionPlayAreaControlPanel(motionSeriesModel.motionSeriesObject))
   frictionPlayAreaControlPanel.setOffset(canvas.stage.getWidth / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, canvas.stage.getHeight - frictionPlayAreaControlPanel.getFullBounds.getHeight - 2)
   canvas.addBehindVectorNodes(frictionPlayAreaControlPanel)
   motionSeriesModel.frictionless = false
