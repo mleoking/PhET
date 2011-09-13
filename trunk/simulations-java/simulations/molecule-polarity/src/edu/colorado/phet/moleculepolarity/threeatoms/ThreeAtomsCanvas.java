@@ -57,8 +57,8 @@ public class ThreeAtomsCanvas extends MPCanvas {
         int minWidth = (int) Math.max( viewControlPanel.getPreferredSize().getWidth(), eFieldControlPanel.getPreferredSize().getWidth() );
         viewControlPanel.setMinWidth( minWidth );
         eFieldControlPanel.setMinWidth( minWidth );
-        PNode viewControlsNode = new ControlPanelNode( viewControlPanel );
-        PNode eFieldControlsNode = new ControlPanelNode( eFieldControlPanel );
+        PNode viewControlNode = new ControlPanelNode( viewControlPanel );
+        PNode eFieldControlNode = new ControlPanelNode( eFieldControlPanel );
         PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
 
         // rendering order
@@ -71,8 +71,8 @@ public class ThreeAtomsCanvas extends MPCanvas {
             addChild( enControlA );
             addChild( enControlB );
             addChild( enControlC );
-            addChild( viewControlsNode );
-            addChild( eFieldControlsNode );
+            addChild( viewControlNode );
+            addChild( eFieldControlNode );
             addChild( resetAllButtonNode );
 
             // molecule
@@ -94,9 +94,9 @@ public class ThreeAtomsCanvas extends MPCanvas {
             enControlB.setOffset( enControlA.getFullBounds().getMaxX() + 10, enControlA.getYOffset() );
             enControlC.setOffset( enControlB.getFullBounds().getMaxX() + 10, enControlB.getYOffset() );
             positivePlateNode.setOffset( enControlC.getFullBounds().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
-            viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
-            eFieldControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            resetAllButtonNode.setOffset( viewControlsNode.getXOffset(), eFieldControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            viewControlNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
+            eFieldControlNode.setOffset( viewControlNode.getXOffset(), viewControlNode.getFullBoundsReference().getMaxY() + ySpacing );
+            resetAllButtonNode.setOffset( viewControlNode.getXOffset(), eFieldControlNode.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
         // synchronize with view properties
