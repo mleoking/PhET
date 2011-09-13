@@ -1,3 +1,4 @@
+Water tower: Fixed: Speed for water coming out of the faucet varies erratically
 # 0.00.21 (56380) Sep 9, 2011
 Pressure tab: When in "atmospheres" units, use metric for fluid density
 Water tower: Made the "fill" button match size, font and color of the "reset all" button
