@@ -134,13 +134,13 @@ public class JmolViewerNode extends PhetPNode {
             viewer = JmolViewer.allocateViewer( ViewerPanel.this, new SmarterJmolAdapter(), null, null, null, "-applet", null );
 
             // default settings of the viewer, independent of the molecule displayed
+            viewer.setColorBackground( toJmolColor( background ) );
+            viewer.setFrankOn( false ); // hide the "Jmol" watermark in the lower-right corner
             viewer.setBooleanProperty( "antialiasDisplay", true );
             viewer.setBooleanProperty( "autoBond", false );
-            doScript( "unbind \"_popupMenu\"" ); // disable popup menu
-            doScript( "unbind \"SHIFT-LEFT\"" ); // disable zooming
-            doScript( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
-            doScript( "background " + toJmolColor( background ) );
-            doScript( "set dipoleScale 0.8" ); // so that molecular dipole isn't clipped by viewer
+            viewer.setFloatProperty( "dipoleScale", 0.8f ); // so that molecular dipole isn't clipped by viewer
+
+            configureMouse();
 
             setMolecule( molecule );
         }
@@ -166,6 +166,47 @@ public class JmolViewerNode extends PhetPNode {
             if ( errorString != null ) {
                 LOGGER.log( Level.SEVERE, "Jmol says: " + errorString ); //TODO improve error handling
             }
+        }
+
+        /*
+         * Unbinds the mouse from all Jmol actions except "_rotate".
+         * Jmol does not provide a way to unbind all actions, or to specify only those actions
+         * to bind. So we're stuck with this brute-force method of unbinding each action separately.
+         */
+        private void configureMouse() {
+            doScript( "unbind \"_clickFrank\"" );
+            doScript( "unbind \"_depth\"" );
+            doScript( "unbind \"_dragDrawObject\"" );
+            doScript( "unbind \"_dragDrawPoint\"" );
+            doScript( "unbind \"_dragLabel\"" );
+            doScript( "unbind \"_dragSelected\"" );
+            doScript( "unbind \"_navTranslate\"" );
+            doScript( "unbind \"_pickAtom\"" );
+            doScript( "unbind \"_pickIsosurface\"" );
+            doScript( "unbind \"_pickMeasure\"" );
+            doScript( "unbind \"_pickLabel\"" );
+            doScript( "unbind \"_pickNavigate\"" );
+            doScript( "unbind \"_pickPoint\"" );
+            doScript( "unbind \"_popupMenu\"" );
+            doScript( "unbind \"_reset\"" );
+            doScript( "unbind \"_rotateSelected\"" );
+            doScript( "unbind \"_rotateZ\"" );
+            doScript( "unbind \"_rotateZorZoom\"" );
+            doScript( "unbind \"_select\"" );
+            doScript( "unbind \"_selectAndNot\"" );
+            doScript( "unbind \"_selectNone\"" );
+            doScript( "unbind \"_selectOr\"" );
+            doScript( "unbind \"_selectToggle\"" );
+            doScript( "unbind \"_selectToggleOr\"" );
+            doScript( "unbind \"_selectToggleOr\"" );
+            doScript( "unbind \"_slab\"" );
+            doScript( "unbind \"_slabAndDepth\"" );
+            doScript( "unbind \"_slideZoom\"" );
+            doScript( "unbind \"_spinDrawObjectCCW\"" );
+            doScript( "unbind \"_spinDrawObjectCW\"" );
+            doScript( "unbind \"_swipe\"" );
+            doScript( "unbind \"_translate\"" );
+            doScript( "unbind \"_wheelZoom\"" );
         }
     }
 
