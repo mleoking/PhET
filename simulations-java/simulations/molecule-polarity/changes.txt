@@ -1,3 +1,4 @@
+9/13/11 permanently remove E-field features from "Real Molecules" tab
 # 0.00.20 (56383) Sep 10, 2011
 9/8/11 decrease perpendicular offset of 2D bond dipoles
 # 0.00.19 (56333) Sep 8, 2011
