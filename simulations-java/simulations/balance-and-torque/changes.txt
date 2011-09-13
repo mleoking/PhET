@@ -1,3 +1,5 @@
+Incorporated new weights for mystery objects (1st tab) suggested by Trish L.
+Added initial game tab.
 # 0.00.08 (56363) Sep 9, 2011
 9/9/11 Deploying snapshot for testing prior to adding game tab
 Added two more people to the list of those that can be put on the teeter totter.
