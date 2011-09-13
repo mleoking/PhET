@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.game.model.BalanceChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
@@ -21,6 +22,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.view.BrickStackNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.FulcrumAbovePlankNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.ImageMassNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.LabeledImageMassNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.LevelIndicatorNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.OutlinePText;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.TiltedSupportColumnNode;
@@ -308,6 +310,16 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 handleGameStateChange( gameState );
             }
         } );
+
+        //Show the level indicator to help the student see if the plank is perfectly balanced,
+        //But only show when the support column has been removed
+        rootNode.addChild( new LevelIndicatorNode( mvt, model.getPlank() ) {{
+            model.supportColumnState.addObserver( new VoidFunction1<ColumnState>() {
+                public void apply( ColumnState columnState ) {
+                    setVisible( columnState == ColumnState.NONE );
+                }
+            } );
+        }} );
     }
 
     //-------------------------------------------------------------------------
