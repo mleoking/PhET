@@ -1,3 +1,4 @@
+# 2.02.02 (56500) Sep 13, 2011
 # 2.02.01 (53328) Jun 20, 2011
 > Moved the expression evaluator dialog to the bottom right of the parent window.  This gets it out of the way of other readouts and controls, and prevents a scenario that crashes the sim, resolves #2670
 Make the simulation go into position driven mode when the go button is pressed.  Otherwise, it could use constant velocity or constant acceleration instead of the expression
