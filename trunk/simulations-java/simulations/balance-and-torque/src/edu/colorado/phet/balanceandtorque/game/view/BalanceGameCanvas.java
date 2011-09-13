@@ -402,7 +402,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         PNode massNode = null;
         if ( mass instanceof ShapeMass ) {
             // TODO: Always bricks right now, may have to change in the future.
-            massNode = new BrickStackNode( (ShapeMass) mass, mvt, BalanceGameCanvas.this, new BooleanProperty( mass.isMystery() ) );
+            massNode = new BrickStackNode( (ShapeMass) mass, mvt, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
         }
         else if ( mass instanceof LabeledImageMass ) {
             // These are mystery objects.  Don't allow their mass to be shown.
