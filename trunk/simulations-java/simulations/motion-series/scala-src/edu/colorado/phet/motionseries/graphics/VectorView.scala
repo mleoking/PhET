@@ -8,23 +8,27 @@ import edu.colorado.phet.scalacommon.math.Vector2D
  * Class VectorView can inspect a MotionSeriesObject and add graphical representations of its vectors onto a specified VectorDisplay
  */
 class VectorView(motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel, coordinateFrameModel: CoordinateFrameModel, fbdWidth: Int) {
-  def addAllVectorsAllComponents(o: MotionSeriesObject, vectorDisplay: VectorDisplay) {
-    addVectorAllComponents(o, o.appliedForceVector, vectorDisplay)
-    addVectorAllComponents(o, o.gravityForceVector, vectorDisplay)
-    addVectorAllComponents(o, o.normalForceVector, vectorDisplay)
-    addVectorAllComponents(o, o.frictionForceVector, vectorDisplay)
-    addVectorAllComponents(o, o.wallForceVector, vectorDisplay)
-    addAllVectorsAllComponents(o, o.totalForceVector,
-                               new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2, //Needs a separate offset since it should be shown above other force arrows
-                               () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
+
+  //Adds all vectors (and all their components) from the specified MotionSeriesObject to the specified VectorDisplay
+  def addAllVectorsAllComponents(obj: MotionSeriesObject, vectorDisplay: VectorDisplay) {
+    addAll(obj, obj.appliedForceVector, vectorDisplay)
+    addAll(obj, obj.gravityForceVector, new Vector2DModel(), 0.0, () => vectorViewModel.gravityAndNormalForce, vectorDisplay)
+    addAll(obj, obj.normalForceVector, new Vector2DModel(), 0.0, () => vectorViewModel.gravityAndNormalForce, vectorDisplay)
+    addAll(obj, obj.frictionForceVector, vectorDisplay)
+    addAll(obj, obj.wallForceVector, vectorDisplay)
+
+    //Needs a separate offset since it should be shown above other force arrows
+    //no need to add a separate listener, since it is already contained in vectorviewmodel
+    addAll(obj, obj.totalForceVector, new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2, () => vectorViewModel.sumOfForcesVector, vectorDisplay)
   }
 
-  private def addVectorAllComponents(motionSeriesObject: MotionSeriesObject, vector: MotionSeriesObjectVector, vectorDisplay: VectorDisplay) {
-    addAllVectorsAllComponents(motionSeriesObject, vector, new Vector2DModel, 0, () => true, vectorDisplay)
+  //Add all components from the specified vector with a zero offset and always visible if vectors are visible
+  private def addAll(motionSeriesObject: MotionSeriesObject, vector: MotionSeriesObjectVector, vectorDisplay: VectorDisplay) {
+    addAll(motionSeriesObject, vector, new Vector2DModel, 0, () => true, vectorDisplay)
   }
 
-  private def addAllVectorsAllComponents(motionSeriesObject: MotionSeriesObject, vector: MotionSeriesObjectVector, freeBodyDiagramOffset: Vector2DModel,
-                                         playAreaOffset: Double, selectedVectorVisible: () => Boolean, vectorDisplay: VectorDisplay) = {
+  private def addAll(motionSeriesObject: MotionSeriesObject, vector: MotionSeriesObjectVector, freeBodyDiagramOffset: Vector2DModel,
+                     playAreaOffset: Double, selectedVectorVisible: () => Boolean, vectorDisplay: VectorDisplay) = {
     vectorViewModel.addListener(update)
     update()
 
