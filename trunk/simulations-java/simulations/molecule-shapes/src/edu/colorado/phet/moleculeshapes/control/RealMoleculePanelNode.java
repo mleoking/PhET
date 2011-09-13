@@ -14,9 +14,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.kit.old.OldBackButton;
-import edu.colorado.phet.common.piccolophet.nodes.kit.old.OldForwardButton;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.control.ArrowButtonNode.Orientation;
 import edu.colorado.phet.moleculeshapes.jme.JMEActionListener;
 import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
@@ -47,8 +46,11 @@ public class RealMoleculePanelNode extends PNode {
     // offset of the 3D view from the top of the panel interior
     private final double CONTROL_OFFSET = 40;
 
+    // extra X-padding for forward/back arrows
+    private final double ARROW_X_PADDING = 3;
+
     // Y offset of the forward/back arrows
-    private final double ARROW_Y_OFFSET = 5;
+    private final double ARROW_Y_OFFSET = 8;
 
     // our PNode where the viewport of the 3D overlay molecule should be shown
     private PhetPPath overlayTarget;
@@ -95,7 +97,7 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * back button
         *----------------------------------------------------------------------------*/
-        containerNode.addChild( new OldBackButton() {{
+        containerNode.addChild( new ArrowButtonNode( Orientation.LEFT ) {{
             final Function0<Boolean> visibilityCondition = new Function0<Boolean>() {
                 public Boolean apply() {
                     return kitIndex > 0 && !molecules.isEmpty();
@@ -106,6 +108,7 @@ public class RealMoleculePanelNode extends PNode {
             selectedMolecule.addObserver( JMEUtils.swingObserver( new Runnable() {
                 public void run() {
                     setVisible( visibilityCondition.apply() );
+                    repaint();
                 }
             } ), false );
             setVisible( visibilityCondition.apply() );
@@ -119,13 +122,13 @@ public class RealMoleculePanelNode extends PNode {
                     }
                 }
             } ) );
-            setOffset( horizontalPadding, ARROW_Y_OFFSET );
+            setOffset( horizontalPadding + ARROW_X_PADDING, ARROW_Y_OFFSET );
         }} );
 
         /*---------------------------------------------------------------------------*
         * forward button
         *----------------------------------------------------------------------------*/
-        containerNode.addChild( new OldForwardButton() {{
+        containerNode.addChild( new ArrowButtonNode( Orientation.RIGHT ) {{
             final Function0<Boolean> visibilityCondition = new Function0<Boolean>() {
                 public Boolean apply() {
                     return kitIndex < molecules.size() - 1 && !molecules.isEmpty();
@@ -149,7 +152,7 @@ public class RealMoleculePanelNode extends PNode {
                     }
                 }
             } ) );
-            setOffset( MoleculeShapesControlPanel.INNER_WIDTH - getFullBounds().getWidth() - horizontalPadding, ARROW_Y_OFFSET );
+            setOffset( MoleculeShapesControlPanel.INNER_WIDTH - getFullBounds().getWidth() - horizontalPadding - ARROW_X_PADDING, ARROW_Y_OFFSET );
         }} );
 
         /*---------------------------------------------------------------------------*
