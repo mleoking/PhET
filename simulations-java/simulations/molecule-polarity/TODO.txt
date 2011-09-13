@@ -5,25 +5,29 @@ DESIGN
 - location of molecular dipoles relative to molecules
 - better label for "Electron Density"
 - decide on final set of real molecules
-- Jack: change initial orientation of diatomic molecule, so that it rotates when E-field is turned on
-- Jack: concern about showing ball-and-stick representation at all times?
+- Jack: concern about showing ball-and-stick representation at all times? (address by dropping Bond Type indicator)
 - Jack: partial charges are sometimes very small, will students see them?
-- Jack: will user know they can rotate "Real Molecules"?
-- Melanie: visualizations are getting pretty hard to make sense of in "Real Molecules"
 - is E-field feature necessary in "Real Molecules" tab?
+- should we get rid of Bond Type indicator?
 
 HIGH
+- swap EN values in Two Atoms tab
+- make Jmol viewer bigger
+- turn off more mouse bindings in Jmol viewer
+- add arrows ala Bending Light (with some differences) to atoms A and C in triatomic molecule
 - clean up canvas layout code in all tabs, base layout on molecule location
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
+- Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 
 MEDIUM
+- investigate making all floating control panels the same width, for aesthestic
 - create a base class for DiatomicElectronDensityNode and DiatomicElectrostaticPotentialNode
 - play area visibly resizes at startup
-- Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3 (wait to see whether these are cut)
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 - DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
 - move duplicate code in IMolecule subclasses into a base class
 - locations of dipoles should be consistent between 2D and Jmol
+- horizontal spacing in EN table is a little off
 
 LOW
 - move duplicate ClockListener in 2D models to a base class
