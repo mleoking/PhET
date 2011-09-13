@@ -12,7 +12,7 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SurfaceControlPanel extends MPControlPanel {
+public class SurfaceControlPanel extends MPVerticalPanel {
 
     public SurfaceControlPanel( final Property<SurfaceType> isosurfaceType ) {
         super( MPStrings.SURFACE );

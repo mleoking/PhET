@@ -12,7 +12,7 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ViewControlPanel extends MPControlPanel {
+public class ViewControlPanel extends MPVerticalPanel {
 
     public ViewControlPanel( final ViewProperties properties, final boolean hasMolecularDipole, final boolean hasBondType,
                              final boolean hasElectronegativityTable, final boolean hasAtomLabels, final String bondDipolesLabel ) {

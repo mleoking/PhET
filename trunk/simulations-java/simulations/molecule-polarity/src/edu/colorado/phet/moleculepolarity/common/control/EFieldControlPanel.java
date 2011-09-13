@@ -11,7 +11,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EFieldControlPanel extends MPControlPanel {
+public class EFieldControlPanel extends MPVerticalPanel {
 
     public EFieldControlPanel( final Property<Boolean> eFieldEnabled ) {
         super( MPStrings.ELECTRIC_FIELD );

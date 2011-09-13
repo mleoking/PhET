@@ -6,8 +6,8 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.common.control.MPControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MPResetAllButtonNode;
+import edu.colorado.phet.moleculepolarity.common.control.MPVerticalPanel;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.model.MPModel;
@@ -24,8 +24,8 @@ public class RealMoleculesControlPanelNode extends PNode {
     public RealMoleculesControlPanelNode( MPModel model, final ViewProperties viewProperties, Frame parentFrame ) {
 
         // Swing panels
-        MPControlPanel viewControlPanel = new ViewControlPanel( viewProperties, true, false, true, true, MPStrings.BOND_DIPOLES );
-        MPControlPanel surfaceControlPanel = new SurfaceControlPanel( viewProperties.isosurfaceType );
+        MPVerticalPanel viewControlPanel = new ViewControlPanel( viewProperties, true, false, true, true, MPStrings.BOND_DIPOLES );
+        MPVerticalPanel surfaceControlPanel = new SurfaceControlPanel( viewProperties.isosurfaceType );
 
         // Uniform width
         int minWidth = (int) Math.max( viewControlPanel.getPreferredSize().getWidth(), surfaceControlPanel.getPreferredSize().getWidth() );
