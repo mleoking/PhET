@@ -1,5 +1,4 @@
 # 2.02.01 (56467) Sep 13, 2011
-# 2.02.01 (56464) Sep 13, 2011
 Forces and Motion Basics: Ensure static friction coefficient always equals kinetic friction coefficient
 Forces and Motion Basics: Don't show gravity and normal force arrows by default
 Forces and Motion Basics: Wired up control for gravity and normal force arrows
