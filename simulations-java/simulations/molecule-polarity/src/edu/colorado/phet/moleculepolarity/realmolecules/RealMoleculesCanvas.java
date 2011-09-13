@@ -73,7 +73,8 @@ public class RealMoleculesCanvas extends MPCanvas {
         {
             final double xSpacing = 50;
             final double ySpacing = 10;
-            viewerNode.setOffset( 0, moleculeComboBox.getFullBoundsReference().getHeight() + 2 * ySpacing );
+            viewerNode.setOffset( ( getStageSize().getWidth() - viewerNode.getFullBoundsReference().getWidth() - controlPanelNode.getFullBoundsReference().getWidth() - ( 2 * xSpacing ) ) / 2,
+                                  moleculeComboBox.getFullBoundsReference().getHeight() + 2 * ySpacing );
             electrostaticPotentialColorKeyNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( electrostaticPotentialColorKeyNode.getFullBoundsReference().getWidth() / 2 ),
                                                           viewerNode.getFullBoundsReference().getMaxY() + ySpacing );
             rainbowColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
@@ -82,7 +83,8 @@ public class RealMoleculesCanvas extends MPCanvas {
                                                   electrostaticPotentialColorKeyNode.getFullBoundsReference().getMaxY() + 20 );
             moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
                                         ySpacing );
-            controlPanelNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
+            controlPanelNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                        viewerNode.getFullBoundsReference().getCenterY() - ( controlPanelNode.getFullBoundsReference().getHeight() / 2 ) );
             scriptNode.setOffset( controlPanelNode.getXOffset(), controlPanelNode.getFullBoundsReference().getMaxY() + ySpacing );
         }
 

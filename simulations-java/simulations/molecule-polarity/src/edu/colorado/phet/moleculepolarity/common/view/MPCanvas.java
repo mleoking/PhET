@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
+import java.awt.geom.Dimension2D;
+
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.umd.cs.piccolo.PNode;
@@ -38,5 +40,9 @@ public class MPCanvas extends PhetPCanvas {
         if ( node != null && rootNode.indexOfChild( node ) != -1 ) {
             rootNode.removeChild( node );
         }
+    }
+
+    protected Dimension2D getStageSize() {
+        return MPConstants.STAGE_SIZE;
     }
 }
