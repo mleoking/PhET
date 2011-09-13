@@ -1,3 +1,4 @@
+9/13/11 bug fix in BondAngleHandler
 9/13/11 first pass at bond angle drag indicators (visibility behavior is correct, shape is wrong)
 9/13/11 center layout of stuff in "Real Molecules" tab
 9/13/11 fix horizontal spacing of cells in EN table

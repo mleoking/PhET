@@ -53,8 +53,8 @@ public class TriatomicMoleculeNode extends PhetPNode {
         // change bond angles by dragging atom A or C
         atomANode.addInputEventListener( new CursorHandler() );
         atomCNode.addInputEventListener( new CursorHandler() );
-        atomANode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleA, this ) );
-        atomCNode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleC, this ) );
+        atomANode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleA, atomANode ) );
+        atomCNode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleC, atomCNode ) );
         // move the atom being dragged to the front
         atomANode.addInputEventListener( new MoveToFrontHandler( atomANode ) );
         atomCNode.addInputEventListener( new MoveToFrontHandler( atomCNode ) );
