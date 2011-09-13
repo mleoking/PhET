@@ -33,12 +33,13 @@ class ForcesAndMotionModule(frame: PhetFrame,
                             fbdPopupOnly: Boolean)
         extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, defaultPosition, initialAngle, fbdPopupOnly) {
   val canvas = new ForcesAndMotionCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
-    showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
+                                         showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
   val controlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl, "position.controls.title".translate, audioEnabled)
+                                                  resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl, "position.controls.title".translate, audioEnabled)
   setControlPanel(controlPanel)
   setClockControlPanel(createRecordAndPlaybackPanel)
+
   def createRecordAndPlaybackPanel = new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, 20)
 }
 
@@ -53,21 +54,22 @@ class ForcesAndMotionCanvas(model: MotionSeriesModel,
                             modelViewport: Rectangle2D,
                             stageContainerArea: StageContainerArea)
         extends MotionSeriesCanvasDecorator(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
-          frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport, stageContainerArea) {
-  override def addHeightAndAngleIndicators() = {}
+                                            frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport, stageContainerArea) {
+  override def addHeightAndAngleIndicators() {}
 
   override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rightRampSegment, transform, model, model.motionSeriesObject)
 
-  def attachListenerToRightWall(node: PNode) = {} //cannot drag the wall to rotate the ramp in this sim
+  def attachListenerToRightWall(node: PNode) {} //cannot drag the wall to rotate the ramp in this sim
 }
 
 class IntroModule(frame: PhetFrame) extends ForcesAndMotionModule(frame, "forces-and-motion.module.intro.title".translate, false, true, false,
-  true, -6, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
+                                                                  true, -6, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
 
 class FrictionModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.friction.title".translate,
-          false, false, false, true, -6.0, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false) {
-  motionSeriesModel.selectedObject = MotionSeriesDefaults.custom // so that it resizes
+                                      false, false, false, true, -6.0, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false) {
+  motionSeriesModel.selectedObject = MotionSeriesDefaults.custom
+  // so that it resizes
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.motionSeriesObject))
   frictionPlayAreaControlPanel.setOffset(canvas.stage.getWidth / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, canvas.stage.getHeight - frictionPlayAreaControlPanel.getFullBounds.getHeight - 2)
   canvas.addBehindVectorNodes(frictionPlayAreaControlPanel)
@@ -76,7 +78,7 @@ class FrictionModule(frame: PhetFrame)
 
 class GraphingModule(frame: PhetFrame)
         extends ForcesAndMotionModule(frame, "forces-and-motion.module.graphing.title".translate,
-          false, false, true, false, -2, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
+                                      false, false, true, false, -2, 0.0, true, true, MotionSeriesDefaults.forceMotionGraphViewport, MotionSeriesDefaults.forceEnergyGraphArea, true) {
   motionSeriesModel.selectedObject = MotionSeriesDefaults.cabinet // so that force arrows don't go offscreen by default
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
@@ -88,7 +90,7 @@ class GraphingModule(frame: PhetFrame)
 
 object ForcesAndMotionApplication {
   def main(args: Array[String]) {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, Predef.classOf[ForcesAndMotionApplication])
   }
 }
 
@@ -117,14 +119,14 @@ class TestAllApplication(config: PhetApplicationConfig) extends PiccoloPhetAppli
 }
 
 object TestAllApp {
-  def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[TestAllApplication])
+  def main(args: Array[String]) {
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, Predef.classOf[TestAllApplication])
   }
 }
 
 object TestOneApp {
-  def main(args: Array[String]) = {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[TestOneApplication])
+  def main(args: Array[String]) {
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, Predef.classOf[TestOneApplication])
   }
 }
 
