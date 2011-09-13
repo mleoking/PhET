@@ -23,7 +23,6 @@ MEDIUM
 - DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
 - move duplicate code in IMolecule subclasses into a base class
 - locations of dipoles should be consistent between 2D and Jmol
-- horizontal spacing in EN table is a little off
 
 LOW
 - move duplicate ClockListener in 2D models to a base class

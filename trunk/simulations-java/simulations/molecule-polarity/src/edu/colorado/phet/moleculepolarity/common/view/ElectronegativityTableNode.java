@@ -58,7 +58,7 @@ public class ElectronegativityTableNode extends PComposite {
             Cell cell = cells.get( i );
             addChild( cell );
             cell.setOffset( x, y );
-            x = x + cell.getFullBoundsReference().getWidth();
+            x = cell.getFullBoundsReference().getMaxX();
         }
         x += xGap;
         Cell lastCell = cells.get( cells.size() - 1 );
