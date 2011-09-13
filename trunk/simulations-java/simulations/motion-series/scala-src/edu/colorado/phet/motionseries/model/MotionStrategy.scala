@@ -245,6 +245,9 @@ class Grounded(motionSeriesObject: MotionSeriesObject) extends MotionStrategy(mo
 
   override def stepInTime(dt: Double) = {
     this.dt = dt
+
+    //Debugging to make sure static = kinetic in "Basics" mode
+    //    println("static = "+motionSeriesObject.staticFriction+", kinetic = "+motionSeriesObject.kineticFriction)
     updateAppliedForce()
     val origEnergy = motionSeriesObject.getTotalEnergy
     val origState = motionSeriesObject.state
