@@ -404,6 +404,14 @@ public class RealMolecule extends Molecule {
         centerOnCentralAtom();
     }};
 
+    public static final RealMolecule HYDROXONIUM = new RealMolecule( "H3O<sup>+</sup>", 1 ) {{
+        addCentralAtom( new Atom3D( O, new ImmutableVector3D( -9.792000, 10.242000, 1.118000 ) ) );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -9.792000, 11.292000, 1.118000 ) ), 1 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -8.803000, 9.892000, 1.118000 ) ), 1 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -10.287000, 9.892000, 1.976000 ) ), 1 );
+        centerOnCentralAtom();
+    }};
+
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
             CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE,
             FORMALDEHYDE, AMMONIA, METHANE, DICHLORODIFLUOROMETHANE, HYDROGEN_CYANIDE,
@@ -414,7 +422,7 @@ public class RealMolecule extends Molecule {
             BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
             CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, PERCHLORATE,
             MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE, METHYL_CHLORIDE, HYDROGEN_CHLORIDE,
-            XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE, CHLORATE, MOLECULAR_HYDROGEN
+            XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE, CHLORATE, MOLECULAR_HYDROGEN, HYDROXONIUM
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
