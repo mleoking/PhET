@@ -1,3 +1,4 @@
+Forces and Motion Basics: Added a control for gravity and normal force arrows, not wired up yet
 Forces and Motion Basics: Removed the free body diagram on/off control box
 Forces and Motion Basics: Include only one friction slider in friction tab which sets both kinetic and static friction
 Forces and Motion Basics: Give object mass in kg only (take out friction information from drop down menu)

@@ -38,11 +38,14 @@ class MotionSeriesControlPanel(model: MotionSeriesModel,
                                audioEnabled: ScalaMutableBoolean,
 
                                //Flag to indicate whether the FBD on/off panel should be shown, disabled for "Basics" sim
-                               showFBDPanel: Boolean = true)
+                               showFBDPanel: Boolean = true,
+
+                               //Flag to indicate whether a control will be shown to enable/disable "show gravity and normal forces"
+                               showGravityNormalForceCheckBox: Boolean = false)
         extends ControlPanel {
   val body = new RampControlPanelBody(model, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
                                       coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider,
-                                      showFrictionControl, showBounceControl, subControlPanelTitle, showFBDPanel)
+                                      showFrictionControl, showBounceControl, subControlPanelTitle, showFBDPanel, showGravityNormalForceCheckBox)
 
   addControl(body)
   addControl(new AudioEnabledCheckBox(audioEnabled))
@@ -67,7 +70,10 @@ class RampControlPanelBody(model: MotionSeriesModel,
                            subControlPanelTitle: String,
 
                            //Flag to indicate whether the FBD on/off panel should be shown, disabled for "Basics" sim
-                           showFBDPanel: Boolean) extends ControlPanel {
+                           showFBDPanel: Boolean,
+
+                           //Flag to indicate whether a control will be shown to enable/disable "show gravity and normal forces"
+                           showGravityNormalForceCheckBox: Boolean) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
 
@@ -104,10 +110,17 @@ class RampControlPanelBody(model: MotionSeriesModel,
   }
 
   val vectorPanel = new SubControlPanel("vectors.title".translate) with IProguardKeepClass {
+
     //show a check box that allows you to turn off viewing the vectors
     add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
     add(Box.createRigidArea(new Dimension(10, 10)))
     addWithIcon(createSumForceIcon, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener).peer)
+
+    //In the "Basics" application, gravity and normal forces aren't shown by default, but there is a control to allow the user to show them
+    if ( showGravityNormalForceCheckBox ) {
+      add(Box.createRigidArea(new Dimension(10, 10)))
+      add(new MyCheckBox("Gravity and Normal Forces", vectorViewModel.gravityAndNormalForce_=, vectorViewModel.gravityAndNormalForce, vectorViewModel.addListener).peer)
+    }
 
     def addWithIcon(iconFilename: String, component: JComponent) = add(new IconPanel(component, iconFilename))
 
