@@ -20,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
@@ -152,16 +151,17 @@ public class Plank extends ShapeModelElement {
         // plank) which is the same as the initial location.
         bottomCenterPoint.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
 
-        // Listen to the support column property.  The plank goes back to the
-        // level position whenever the supports become active.
-        columnState.valueEquals( ColumnState.DOUBLE_COLUMNS ).addObserver( new SimpleObserver() {
-            public void update() {
-                forceToLevelAndStill();
-            }
-        } );
-        columnState.valueEquals( ColumnState.SINGLE_COLUMN ).addObserver( new SimpleObserver() {
-            public void update() {
-                forceToMaxAndStill();
+        // Listen to the support column property.  The plank goes to the level
+        // position whenever there are two columns present, and into a tilted
+        // position when only one is present.
+        columnState.addObserver( new VoidFunction1<ColumnState>() {
+            public void apply( ColumnState columnState ) {
+                if ( columnState == ColumnState.SINGLE_COLUMN ) {
+                    forceToMaxAndStill();
+                }
+                else if ( columnState == ColumnState.DOUBLE_COLUMNS ) {
+                    forceToLevelAndStill();
+                }
             }
         } );
     }
