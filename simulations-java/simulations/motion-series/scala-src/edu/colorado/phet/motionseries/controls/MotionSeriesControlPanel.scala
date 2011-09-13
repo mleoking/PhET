@@ -35,10 +35,14 @@ class MotionSeriesControlPanel(model: MotionSeriesModel,
                                showFrictionControl: Boolean,
                                showBounceControl: Boolean,
                                subControlPanelTitle: String,
-                               audioEnabled: ScalaMutableBoolean)
+                               audioEnabled: ScalaMutableBoolean,
+
+                               //Flag to indicate whether the FBD on/off panel should be shown, disabled for "Basics" sim
+                               showFBDPanel: Boolean = true)
         extends ControlPanel {
   val body = new RampControlPanelBody(model, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
-                                      coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl, subControlPanelTitle)
+                                      coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider,
+                                      showFrictionControl, showBounceControl, subControlPanelTitle, showFBDPanel)
 
   addControl(body)
   addControl(new AudioEnabledCheckBox(audioEnabled))
@@ -60,7 +64,10 @@ class RampControlPanelBody(model: MotionSeriesModel,
                            showAngleSlider: Boolean,
                            showFrictionControl: Boolean,
                            showBounceControl: Boolean,
-                           subControlPanelTitle: String) extends ControlPanel {
+                           subControlPanelTitle: String,
+
+                           //Flag to indicate whether the FBD on/off panel should be shown, disabled for "Basics" sim
+                           showFBDPanel: Boolean) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
 
@@ -82,7 +89,11 @@ class RampControlPanelBody(model: MotionSeriesModel,
       new MyRadioButton("controls.hide".translate, freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer
     ))
   }
-  add(fbdPanel)
+
+  //Show the FBD on/off panel, but not for the "Basics" sim
+  if ( showFBDPanel ) {
+    add(fbdPanel)
+  }
 
   class IconPanel(component: JComponent, icon: Icon) extends JPanel {
     def this(component: JComponent, iconFilename: String) = this (component, new ImageIcon(MotionSeriesResources.getImage(iconFilename)))
