@@ -250,8 +250,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         rootNode.addChild( titleNode );
 
         // Position and add the smiley and frowny faces.
-        Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
-                                                         mvt.modelToViewY( model.getPlank().getPivotPoint().getY() ) - smilingFace.getFullBoundsReference().height / 2 - 35 );
+        Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ), FACE_DIAMETER / 2 + 20 );
         smilingFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
         frowningFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
         rootNode.addChild( smilingFace );
