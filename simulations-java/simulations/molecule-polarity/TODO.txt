@@ -15,6 +15,7 @@ HIGH
 - clean up canvas layout code in all tabs, base layout on molecule location
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
+- move Jmol console to Developer menu
 
 MEDIUM
 - create a base class for DiatomicElectronDensityNode and DiatomicElectrostaticPotentialNode
