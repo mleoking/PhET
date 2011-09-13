@@ -56,8 +56,16 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // Class Data
     //-------------------------------------------------------------------------
 
+    // Overall size of the "stage", which is essentially the play area.
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
+    // Constants that control the appearance of the happy and sad faces, used
+    // to provide feedback to the user.
+    private static final double FACE_DIAMETER = STAGE_SIZE.getWidth() * 0.4;
+    private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
+    private static final Color EYE_AND_MOUTH_COLOR = new Color( 0, 0, 0, 100 ); // translucent gray
+
+    // Various other constants.
     private static Font BUTTON_FONT = new PhetFont( 24, false );
 
     //-------------------------------------------------------------------------
@@ -77,18 +85,15 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private PNode gameSettingsNode;
     private PNode gameOverNode = null;
 
-    //Layer to show the challenge-specific nodes such as the plank, etc.
+    // Layer to show the challenge-specific nodes such as the plank, etc.
     private final PNode challengeLayer = new PNode();
 
-    // Size of the smiling and frowning faces
-    private double FACE_DIAMETER = STAGE_SIZE.getWidth() / 6;
-
-    //Create the smiling and frowning faces and center them on the screen
-    private final PNode smilingFace = new FaceNode( FACE_DIAMETER ) {{
+    // Create the smiling and frowning faces and center them on the screen
+    private final PNode smilingFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
         setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2,
                    STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
     }};
-    private final PNode frowningFace = new FaceNode( FACE_DIAMETER ) {{
+    private final PNode frowningFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
         frown();
         setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2,
                    STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
