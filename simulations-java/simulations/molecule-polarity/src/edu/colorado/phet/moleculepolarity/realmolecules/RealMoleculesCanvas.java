@@ -55,9 +55,9 @@ public class RealMoleculesCanvas extends MPCanvas {
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( scriptNode );
             }
-            addChild( electronegativityTableNode );
 
             // indicators
+            addChild( electronegativityTableNode );
             addChild( electrostaticPotentialColorKeyNode );
             addChild( rainbowColorKeyNode );
             addChild( electronDensityColorKeyNode );
