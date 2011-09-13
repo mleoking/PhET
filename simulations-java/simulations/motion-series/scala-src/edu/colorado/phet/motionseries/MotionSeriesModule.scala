@@ -26,12 +26,12 @@ class MotionSeriesModule(frame: PhetFrame,
 
   val motionSeriesModel = createMotionSeriesModel(defaultObjectPosition, initialAngle)
 
-  private def updateCursorVisibility(model: MotionSeriesModel): Unit = {
+  private def updateCursorVisibility(model: MotionSeriesModel) {
     model.chartCursor.setVisible(motionSeriesModel.isPlayback && motionSeriesModel.getNumRecordedPoints > 0)
   }
 
   motionSeriesModel.addObserver(new SimpleObserver {
-    def update: Unit = {
+    def update {
       updateCursorVisibility(motionSeriesModel)
     }
   })
@@ -39,7 +39,7 @@ class MotionSeriesModule(frame: PhetFrame,
   updateCursorVisibility(motionSeriesModel)
 
   motionSeriesModel.chartCursor.addListener(new ChartCursor.Adapter {
-    override def positionChanged: Unit = {
+    override def positionChanged {
       motionSeriesModel.setTime(motionSeriesModel.chartCursor.getTime)
     }
   })
@@ -85,37 +85,7 @@ class MotionSeriesModule(frame: PhetFrame,
     clockTickIndex = clockTickIndex + 1
   })
 
-  //This was an investigation into active rendering
-  //    var lastTime = System.nanoTime
-  //    val t = new Thread(new Runnable() {
-  //      def run = {
-  //        while (true) {
-  //          val t = System.nanoTime
-  //          //        SwingUtilities.invokeAndWait(new Runnable(){
-  //          //          def run = {
-  //          val dt = (t - lastTime) / 1000
-  //  //        println(dt+"\t"+t+"\t"+motionSeriesModel.motionSeriesObject.position)
-  //          val measure1 = System.currentTimeMillis
-  //          SwingUtilities.invokeAndWait(new Runnable() {
-  //            def run = {
-  //              motionSeriesModel.stepInTime(MotionSeriesDefaults.DT_DEFAULT)
-  //              if (getSimulationPanel != null)
-  //                getSimulationPanel.asInstanceOf[MotionSeriesCanvas].doPaintImmediately()
-  //            }
-  //          })
-  //          val measure2 = System.currentTimeMillis
-  //          val diff = measure2 - measure1
-  //          val targetDT = 15
-  //          if (diff < targetDT) {
-  //            Thread.sleep(targetDT - diff)
-  //          }
-  //          lastTime=t
-  //        }
-  //      }
-  //    })
-  //    t.start()
-
-  def play(audioClip: PhetAudioClip) = {
+  def play(audioClip: PhetAudioClip) {
     if ( audioEnabled.booleanValue ) {
       audioClip.play()
     }
@@ -126,11 +96,13 @@ class MotionSeriesModule(frame: PhetFrame,
   motionSeriesModel.motionSeriesObject.crashListeners += ( () => play(MotionSeriesResources.crashSound) )
 
   //pause on start/reset, and unpause (and start recording) when the user applies a force
-  def resetPauseValue() = motionSeriesModel.setPaused(true)
+  def resetPauseValue() {
+    motionSeriesModel.setPaused(true)
+  }
 
   resetPauseValue()
 
-  def resetRampModule(): Unit = {
+  def resetRampModule() {
     audioEnabled.reset()
     motionSeriesModel.resetAll()
     fbdModel.resetAll()
@@ -140,9 +112,9 @@ class MotionSeriesModule(frame: PhetFrame,
     resetAll()
   }
 
-  def resetAll() = {}
+  def resetAll() {}
 
-  override def deactivate() = {
+  override def deactivate() {
     fbdModel.windowed = false //to ensure that fbd dialog doesn't show for this module while user is on a different module
     if ( fbdModel.popupDialogOnly ) {
       fbdModel.visible = false
