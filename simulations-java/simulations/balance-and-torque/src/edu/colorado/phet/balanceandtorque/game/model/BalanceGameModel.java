@@ -221,7 +221,7 @@ public class BalanceGameModel {
         currentChallengeList = BalanceChallengeSetFactory.getChallengeSet( getLevel(), PROBLEMS_PER_SET );
 
         //Set up the model for the next challenge
-        setChallenge( currentChallengeList.get( 0 ) );
+        setChallenge( currentChallengeList.get( 0 ), true );
 
         //Switch to the new state, will create graphics for the challenge
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
@@ -257,7 +257,7 @@ public class BalanceGameModel {
         challengeCount++;
         incorrectGuessesOnCurrentChallenge = 0;
         if ( challengeCount < PROBLEMS_PER_SET ) {
-            setChallenge( currentChallengeList.get( challengeCount ) );
+            setChallenge( currentChallengeList.get( challengeCount ), true );
             gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
         }
         else {
@@ -275,7 +275,7 @@ public class BalanceGameModel {
         }
     }
 
-    private void setChallenge( BalanceChallenge balanceChallenge ) {
+    private void setChallenge( BalanceChallenge balanceChallenge, boolean addColumn ) {
 
         // Clear out the previous challenge (if there was one).
         plank.removeAllMasses();
@@ -284,10 +284,9 @@ public class BalanceGameModel {
             mass.userControlled.removeAllObservers();
         }
         movableMasses.clear();
-        supportColumnState.set( ColumnState.SINGLE_COLUMN );
 
         // Set up the new challenge.
-        for ( BalanceChallenge.MassDistancePair massDistancePair : balanceChallenge.massesToBeBalanced ) {
+        for ( BalanceChallenge.MassDistancePair massDistancePair : balanceChallenge.fixedMasses ) {
             massesToBeBalanced.add( massDistancePair );
             plank.addMassToSurface( massDistancePair.mass, massDistancePair.distance );
         }
@@ -311,14 +310,32 @@ public class BalanceGameModel {
 
             movableMasses.add( mass );
         }
+
+        // Add the column if desired.
+        //
+        if ( addColumn ) {
+            supportColumnState.set( ColumnState.SINGLE_COLUMN );
+        }
     }
 
     public void tryAgain() {
-        setChallenge( currentChallengeList.get( challengeCount ) );
+        setChallenge( currentChallengeList.get( challengeCount ), true );
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
     public void displayCorrectAnswer() {
+        BalanceChallenge currentChallenge = currentChallengeList.get( challengeCount );
+
+        // Put the challenge in its initial state, with none of the movable
+        // masses on the plank.
+        setChallenge( currentChallenge, false );
+
+        // Display the solution.
+        for ( BalanceChallenge.MassDistancePair solutionMassDistancePair : currentChallenge.solutionToPresent ) {
+            plank.addMassToSurface( solutionMassDistancePair.mass, solutionMassDistancePair.distance );
+        }
+
+        supportColumnState.set( ColumnState.NONE );
         gameStateProperty.set( GameState.DISPLAYING_CORRECT_ANSWER );
     }
 

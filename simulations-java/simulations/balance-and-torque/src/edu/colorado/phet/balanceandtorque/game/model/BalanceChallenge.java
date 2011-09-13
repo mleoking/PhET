@@ -17,21 +17,35 @@ public class BalanceChallenge {
 
     // List of masses that will initially be sitting on the balance, and which
     // the user will not manipulate.
-    public final List<MassDistancePair> massesToBeBalanced = new ArrayList<MassDistancePair>();
+    public final List<MassDistancePair> fixedMasses = new ArrayList<MassDistancePair>();
 
     // List of masses that the user will move into the appropriate positions
     // in order to balance out the other masses.
     public final List<Mass> movableMasses = new ArrayList<Mass>();
 
+    // Solution to show to the user if they are unable to solve the challenge.
+    // Some challenges could potentially have multiple solutions, so this is
+    // only the one that we have chosen to present, and not necessarily the
+    // only correct one.
+    public final List<MassDistancePair> solutionToPresent = new ArrayList<MassDistancePair>();
+
     /**
      * Constructor.
      *
-     * @param massesToBeBalanced
+     * @param fixedMasses
      * @param movableMasses
      */
-    public BalanceChallenge( List<MassDistancePair> massesToBeBalanced, List<Mass> movableMasses ) {
-        this.massesToBeBalanced.addAll( massesToBeBalanced );
+    public BalanceChallenge( List<MassDistancePair> fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay ) {
+        this.fixedMasses.addAll( fixedMasses );
         this.movableMasses.addAll( movableMasses );
+        this.solutionToPresent.addAll( solutionToDisplay );
+        // Parameter checking: Verify that the mass or masses used in the
+        // solution are present on the list of movable masses.
+        for ( MassDistancePair massDistancePair : solutionToDisplay ) {
+            if ( !movableMasses.contains( massDistancePair.mass ) ) {
+                throw ( new IllegalArgumentException( "One or more of the masses in the solution are not on the list of movable masses." ) );
+            }
+        }
     }
 
     /**
@@ -39,7 +53,7 @@ public class BalanceChallenge {
      * of the balancing apparatus.
      */
     public static class MassDistancePair {
-        public final Mass mass;       // In kg.
+        public final Mass mass;       // Class containing mass info.
         public final double distance; // In meters.
 
         public MassDistancePair( Mass mass, double distance ) {
