@@ -36,7 +36,7 @@ public class Plank extends ShapeModelElement {
 
     public static final double LENGTH = 4.5;// meters
     public static final double THICKNESS = 0.05; // meters
-    private static final double MASS = 100; // kg
+    private static final double MASS = 75; // kg
 
     // The number of locations where masses may be placed on the plank.  Only
     // the locations defined be this are valid.
@@ -454,7 +454,7 @@ public class Plank extends ShapeModelElement {
             }
 
             // Simulate friction by slowing down the rotation a little.
-            angularVelocity *= 0.90;
+            angularVelocity *= 0.91;
         }
     }
 
