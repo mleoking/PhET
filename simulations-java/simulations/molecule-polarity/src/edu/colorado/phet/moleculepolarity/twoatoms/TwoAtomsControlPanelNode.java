@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.MPControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MPResetAllButtonNode;
+import edu.colorado.phet.moleculepolarity.common.control.MPVerticalPanel;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.model.MPModel;
@@ -25,9 +25,9 @@ public class TwoAtomsControlPanelNode extends PNode {
     public TwoAtomsControlPanelNode( MPModel model, final ViewProperties viewProperties, Frame parentFrame ) {
 
         // Swing panels
-        MPControlPanel viewControlPanel = new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE );
-        MPControlPanel surfaceControlPanel = new SurfaceControlPanel( viewProperties.isosurfaceType );
-        MPControlPanel eFieldControlPanel = new EFieldControlPanel( model.eField.enabled );
+        MPVerticalPanel viewControlPanel = new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE );
+        MPVerticalPanel surfaceControlPanel = new SurfaceControlPanel( viewProperties.isosurfaceType );
+        MPVerticalPanel eFieldControlPanel = new EFieldControlPanel( model.eField.enabled );
 
         // Uniform width
         int minWidth = (int) Math.max( viewControlPanel.getPreferredSize().getWidth(), Math.max( surfaceControlPanel.getPreferredSize().getWidth(), eFieldControlPanel.getPreferredSize().getWidth() ) );
