@@ -531,8 +531,8 @@ public class Plank extends ShapeModelElement {
             unCompensatedTorque += mass.getMass() * mapMassToDistFromCenter.get( mass );
         }
 
-        //Account for floating point error, just make sure it is close enough
-        return unCompensatedTorque < 1E-6;
+        // Account for floating point error, just make sure it is close enough.
+        return Math.abs( unCompensatedTorque ) < 1E-6;
     }
 
     private void updateNetTorque() {
