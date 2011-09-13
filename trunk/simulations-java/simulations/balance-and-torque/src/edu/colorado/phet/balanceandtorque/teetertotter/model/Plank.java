@@ -40,7 +40,7 @@ public class Plank extends ShapeModelElement {
 
     // The number of locations where masses may be placed on the plank.  Only
     // the locations defined be this are valid.
-    private static final double INTER_SNAP_TO_MARKER_DISTANCE = 0.25; // meters
+    public static final double INTER_SNAP_TO_MARKER_DISTANCE = 0.25; // meters
     public static final int NUM_SNAP_TO_LOCATIONS = (int) Math.floor( LENGTH / INTER_SNAP_TO_MARKER_DISTANCE - 1 );
 
     // Moment of inertia.
