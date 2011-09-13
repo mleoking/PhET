@@ -136,9 +136,11 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
             //Randomly spread out the water in x and y so it doesn't look so discrete when it falls a long way and separates
             double spreadX = 0.02;
-            double spreadY = 0.15;
-            double velocitySpreadX = 0.02;
-            double velocitySpreadY = 0.02;
+
+            //Setting the velocity and y-spread to zero ensures smooth velocity values when measuring the fluid coming out of the faucet
+            double spreadY = 0.0;
+            double velocitySpreadX = 0.00;
+            double velocitySpreadY = 0.00;
             WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( -3 + random.nextGaussian() * spreadX,//magic number picked based on graphics
                                                                          WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 + random.nextGaussian() * spreadY ),
                                                   new ImmutableVector2D( random.nextGaussian() * velocitySpreadX, random.nextGaussian() * velocitySpreadY ), faucetDropVolume, true );
