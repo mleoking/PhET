@@ -59,7 +59,7 @@ public class MoleculeShapesConstants {
     public static final Font CHECKBOX_FONT = new PhetFont( 14 );
     public static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( 16, true );
     public static final Font GEOMETRY_NAME_FONT = new PhetFont( 16 );
-    public static final Font EXAMPLE_MOLECULAR_FORMULA_FONT = new PhetFont( 14, true );
+    public static final Font EXAMPLE_MOLECULAR_FORMULA_FONT = new PhetFont( 16, true );
     public static final Font REMOVE_BUTTON_FONT = new PhetFont( 15 );
     public static final Font BOND_ANGLE_READOUT_FONT = new PhetFont( 16 );
 
