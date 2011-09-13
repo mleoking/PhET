@@ -61,7 +61,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     // Constants that control the appearance of the happy and sad faces, used
     // to provide feedback to the user.
-    private static final double FACE_DIAMETER = STAGE_SIZE.getWidth() * 0.4;
+    private static final double FACE_DIAMETER = STAGE_SIZE.getWidth() * 0.30;
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     private static final Color EYE_AND_MOUTH_COLOR = new Color( 0, 0, 0, 100 ); // translucent gray
 
@@ -89,14 +89,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private final PNode challengeLayer = new PNode();
 
     // Create the smiling and frowning faces and center them on the screen
-    private final PNode smilingFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
-        setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2,
-                   STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
-    }};
+    private final PNode smilingFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR );
     private final PNode frowningFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
         frown();
-        setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2,
-                   STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
     }};
 
     // Buttons.
@@ -247,16 +242,20 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add the big title.
         // TODO: i18n
         titleNode = new OutlinePText( "Balance Me!", new PhetFont( 64, true ), Color.WHITE, Color.BLACK, 1 ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
+            setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
                        STAGE_SIZE.getHeight() * 0.25 - getFullBoundsReference().height / 2 );
         }};
         rootNode.addChild( titleNode );
 
-        // Add the smiley and frowny faces.
+        // Position and add the smiley and frowny faces.
+        Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
+                                                         mvt.modelToViewY( model.getPlank().getPivotPoint().getY() ) - smilingFace.getFullBoundsReference().height / 2 - 35 );
+        smilingFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
+        frowningFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
         rootNode.addChild( smilingFace );
         rootNode.addChild( frowningFace );
 
-        // Lay out and add the buttons.
+        // Add and lay out the buttons.
         checkAnswerButton.centerFullBoundsOnPoint( mvt.modelToViewX( 0 ), mvt.modelToViewY( 0 ) + 40 );
         checkAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -285,6 +284,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
         } );
         rootNode.addChild( displayCorrectAnswerButton );
+
+        // Add a listener that prevents the "Check Answer" button from being
+        // enabled when there are no masses on the right side of the plank.
 
         // Register for changes to the game state and update accordingly.
         model.gameStateProperty.addObserver( new VoidFunction1<BalanceGameModel.GameState>() {
