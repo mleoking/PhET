@@ -1,3 +1,4 @@
+9/13/11 refactor control panel nodes into a base class
 9/13/11 create a class for each module's control panel, to simplify canvas code
 9/13/11 change request: make all floating control panels the same width, looks better
 9/13/11 turn off all mouse features except "rotate" in the Jmol viewer
