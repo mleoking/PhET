@@ -21,6 +21,10 @@ public class BondAngleDragIndicatorNode extends PComposite {
 
     public BondAngleDragIndicatorNode( final Atom atom ) {
 
+        // Indicator itself is not interactive.
+        setPickable( false );
+        setChildrenPickable( false );
+
         this.atom = atom;
 
         this.barNode = new PPath() {{
