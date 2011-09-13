@@ -34,7 +34,10 @@ class ForcesAndMotionBasicsModule(frame: PhetFrame,
                                                showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
   val controlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel,
-                                                  resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl, "position.controls.title".translate, audioEnabled)
+                                                  resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl, "position.controls.title".translate, audioEnabled,
+
+                                                  //No FBD on/off panel in the "Basics" sim
+                                                  showFBDPanel = false)
   setControlPanel(controlPanel)
   setClockControlPanel(createRecordAndPlaybackPanel)
 
