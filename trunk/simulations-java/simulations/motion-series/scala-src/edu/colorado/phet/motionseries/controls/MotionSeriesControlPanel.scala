@@ -234,7 +234,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   //Embed in its own PhetPCanvas so we can easily reuse the PComboBox code
   class EmbeddedObjectSelectionPanel extends PhetPCanvas {
-    val boxNode = new ObjectSelectionComboBoxNode(objectModel, this, false)
+    val boxNode = new ObjectSelectionComboBoxNode(objectModel, this, false, _.getDisplayTextHTML)
     addScreenChild(boxNode)
     setPreferredSize(new Dimension(boxNode.getFullBounds.getWidth.toInt, boxNode.getFullBounds.getHeight.toInt))
     setBackground(new TitleLabel("hello".literal).getBackground)

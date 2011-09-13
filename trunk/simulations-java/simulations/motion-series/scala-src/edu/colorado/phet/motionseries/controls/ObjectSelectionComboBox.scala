@@ -10,7 +10,10 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolox.pswing.PComboBox
 import java.awt.Color
 
-class ObjectSelectionComboBox(objectSelectionModel: ObjectSelectionModel, motionSeriesObjectTypeToString: MotionSeriesObjectType => String = _.getDisplayTextHTML)
+class ObjectSelectionComboBox(objectSelectionModel: ObjectSelectionModel,
+
+                              //Function used to generate display text for the MotionSeriesObjectType, usually shows HTML that includes mass and friction coefficients, but omits the friction coefficients in the Basics application
+                              motionSeriesObjectTypeToString: MotionSeriesObjectType => String)
         extends PComboBox {
   if ( objectSelectionModel == null ) {
     throw new RuntimeException("Null object model")

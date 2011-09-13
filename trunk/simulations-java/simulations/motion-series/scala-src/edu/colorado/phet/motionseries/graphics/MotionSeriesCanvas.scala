@@ -216,12 +216,15 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
   }
 
   if ( showObjectSelectionNode ) {
-    addStageNode(new ObjectSelectionComboBoxNode(model, this) {
+    addStageNode(new ObjectSelectionComboBoxNode(model, this, true, motionSeriesObjectTypeToString) {
       setOffset(stage.getWidth / 2 - getFullBounds.getWidth / 2, stage.getHeight - getFullBounds.getHeight - 2)
     })
   }
 
   override def getContainerBounds = stageContainerArea.getBounds(getWidth, getHeight)
+
+  //Function used to generate display text for the MotionSeriesObjectType, usually shows HTML that includes mass and friction coefficients, but omits the friction coefficients in the Basics application
+  def motionSeriesObjectTypeToString(m: MotionSeriesObjectType): String = m.getDisplayTextHTML
 }
 
 class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
