@@ -10,7 +10,8 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolox.pswing.PComboBox
 import java.awt.Color
 
-class ObjectSelectionComboBox(objectSelectionModel: ObjectSelectionModel) extends PComboBox {
+class ObjectSelectionComboBox(objectSelectionModel: ObjectSelectionModel, motionSeriesObjectTypeToString: MotionSeriesObjectType => String = _.getDisplayTextHTML)
+        extends PComboBox {
   if ( objectSelectionModel == null ) {
     throw new RuntimeException("Null object model")
   }
@@ -50,7 +51,7 @@ class ObjectSelectionComboBox(objectSelectionModel: ObjectSelectionModel) extend
     def getListCellRendererComponent(list: JList, value: Any, index: Int, isSelected: Boolean, cellHasFocus: Boolean) = {
       if ( value != null ) {
         setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].motionSeriesObjectType.iconImage, 30)))
-        setText(value.asInstanceOf[ObjectItem].motionSeriesObjectType.getDisplayTextHTML)
+        setText(motionSeriesObjectTypeToString(value.asInstanceOf[ObjectItem].motionSeriesObjectType))
         setBackground(if ( isSelected ) {
           list.getSelectionBackground
         }
