@@ -8,12 +8,14 @@ import java.lang.Math.PI
 import edu.colorado.phet.motionseries.charts.MutableDouble
 import edu.colorado.phet.motionseries.util.{MutableRange, ScalaMutableBoolean}
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty
+import edu.colorado.phet.motionseries.sims.forcesandmotionbasics.Settings
 
+//make the main constructor private so clients are forced to use auxiliary constructors
 class MotionSeriesObject(_position: MutableDouble,
                          _velocity: MutableDouble,
                          _acceleration: MutableDouble,
                          _mass: MutableDouble,
-                         _staticFriction: MutableDouble,
+                         private val _staticFriction: MutableDouble,
                          _kineticFriction: MutableDouble,
                          private var _height: Double,
                          private var _width: Double,
@@ -230,7 +232,15 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def surfaceFrictionStrategy_=(x: SurfaceFrictionStrategy) = _surfaceFrictionStrategy = x
 
-  def staticFriction = _staticFriction.value
+  //In "Basics" mode, the static friction should always equal the kinetic friction
+  def staticFriction = {
+    if ( Settings.basicsMode ) {
+      kineticFriction
+    }
+    else {
+      _staticFriction.value
+    }
+  }
 
   def staticFrictionProperty = _staticFriction
 

@@ -1,3 +1,4 @@
+Forces and Motion Basics: Ensure static friction coefficient always equals kinetic friction coefficient
 Forces and Motion Basics: Don't show gravity and normal force arrows by default
 Forces and Motion Basics: Wired up control for gravity and normal force arrows
 Forces and Motion Basics: Added a control for gravity and normal force arrows, not wired up yet
