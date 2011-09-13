@@ -105,7 +105,7 @@ public class BalanceChallengeSetFactory {
             numBricksInFixedStack = (int) Math.pow( 2, RAND.nextInt( 3 ) );
 
             // Decide on number of bricks in movable stack.
-            numBricksInMovableStack = (int) ( numBricksInFixedStack * SIMPLE_RATIO_LIST[RAND.nextInt( SIMPLE_RATIO_LIST.length )] );
+            numBricksInMovableStack = (int) Math.round( numBricksInFixedStack * SIMPLE_RATIO_LIST[RAND.nextInt( SIMPLE_RATIO_LIST.length )] );
 
             // Create a list of the distances at which the fixed stack may be
             // positioned that can be made to balance with the movable stack.
