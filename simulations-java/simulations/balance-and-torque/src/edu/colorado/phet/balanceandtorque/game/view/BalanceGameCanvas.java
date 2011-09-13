@@ -345,6 +345,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
         else if ( newState == PRESENTING_INTERACTIVE_CHALLENGE ) {
             show( scoreboard, titleNode, checkAnswerButton );
             showChallenge();
+
+            //By default the challenge is non-interactive, but in this state make it interactive so the user can manipulate the blocks
+            challengeLayer.setPickable( true );
+            challengeLayer.setChildrenPickable( true );
         }
         else if ( newState == SHOWING_CORRECT_ANSWER_FEEDBACK ) {
             show( scoreboard, nextChallengeButton, smilingFace );
@@ -375,6 +379,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
     //Add graphics for the next challenge, assumes that the model state already reflects the challenge to be shown
     private void showChallenge() {
         challengeLayer.setVisible( true );
+
+        //By default the challenge is non-interactive
+        challengeLayer.setPickable( false );
+        challengeLayer.setChildrenPickable( false );
     }
 
     private void showGameOverNode() {
