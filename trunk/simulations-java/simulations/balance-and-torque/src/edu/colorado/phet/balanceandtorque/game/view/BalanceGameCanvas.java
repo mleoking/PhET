@@ -287,6 +287,20 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add a listener that prevents the "Check Answer" button from being
         // enabled when there are no masses on the right side of the plank.
+        VoidFunction1<Mass> checkAnswerButtonEnabledController = new VoidFunction1<Mass>() {
+            public void apply( Mass addedMass ) {
+                boolean massesOnRightSide = false;
+                for ( Mass mass : model.getPlank().massesOnSurface ) {
+                    if ( mass.getPosition().getX() > model.getPlank().getPlankSurfaceCenter().getX() ) {
+                        massesOnRightSide = true;
+                        break;
+                    }
+                }
+                checkAnswerButton.setEnabled( massesOnRightSide );
+            }
+        };
+        model.getPlank().massesOnSurface.addElementAddedObserver( checkAnswerButtonEnabledController );
+        model.getPlank().massesOnSurface.addElementRemovedObserver( checkAnswerButtonEnabledController );
 
         // Register for changes to the game state and update accordingly.
         model.gameStateProperty.addObserver( new VoidFunction1<BalanceGameModel.GameState>() {
