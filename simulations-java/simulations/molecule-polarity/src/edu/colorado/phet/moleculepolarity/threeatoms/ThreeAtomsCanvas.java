@@ -3,17 +3,10 @@ package edu.colorado.phet.moleculepolarity.threeatoms;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
-import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
-import edu.colorado.phet.moleculepolarity.common.control.MPControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.MPResetAllButtonNode;
-import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.MolecularDipoleNode;
@@ -50,16 +43,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-
-        // Floating control panels, with uniform width
-        MPControlPanel viewControlPanel = new ViewControlPanel( viewProperties, true, false, false, false, MPStrings.BOND_DIPOLES );
-        MPControlPanel eFieldControlPanel = new EFieldControlPanel( model.eField.enabled );
-        int minWidth = (int) Math.max( viewControlPanel.getPreferredSize().getWidth(), eFieldControlPanel.getPreferredSize().getWidth() );
-        viewControlPanel.setMinWidth( minWidth );
-        eFieldControlPanel.setMinWidth( minWidth );
-        PNode viewControlNode = new ControlPanelNode( viewControlPanel );
-        PNode eFieldControlNode = new ControlPanelNode( eFieldControlPanel );
-        PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
+        PNode controlPanelNode = new ThreeAtomsControlPanelNode( model, viewProperties, parentFrame );
 
         // rendering order
         {
@@ -71,9 +55,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
             addChild( enControlA );
             addChild( enControlB );
             addChild( enControlC );
-            addChild( viewControlNode );
-            addChild( eFieldControlNode );
-            addChild( resetAllButtonNode );
+            addChild( controlPanelNode );
 
             // molecule
             addChild( moleculeNode );
@@ -94,9 +76,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
             enControlB.setOffset( enControlA.getFullBounds().getMaxX() + 10, enControlA.getYOffset() );
             enControlC.setOffset( enControlB.getFullBounds().getMaxX() + 10, enControlB.getYOffset() );
             positivePlateNode.setOffset( enControlC.getFullBounds().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
-            viewControlNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
-            eFieldControlNode.setOffset( viewControlNode.getXOffset(), viewControlNode.getFullBoundsReference().getMaxY() + ySpacing );
-            resetAllButtonNode.setOffset( viewControlNode.getXOffset(), eFieldControlNode.getFullBoundsReference().getMaxY() + ySpacing );
+            controlPanelNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
         }
 
         // synchronize with view properties
