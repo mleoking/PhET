@@ -320,7 +320,9 @@ public class BalanceGameModel {
     }
 
     public void tryAgain() {
-        setChallenge( currentChallengeList.get( challengeCount ), true );
+        // Restore the column but don't restart the challenge so that the user
+        // can better see why it is wrong.
+        supportColumnState.set( ColumnState.SINGLE_COLUMN );
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
