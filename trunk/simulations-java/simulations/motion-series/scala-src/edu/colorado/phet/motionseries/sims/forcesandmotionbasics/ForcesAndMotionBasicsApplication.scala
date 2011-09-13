@@ -48,6 +48,9 @@ class ForcesAndMotionBasicsModule(frame: PhetFrame,
   setClockControlPanel(createRecordAndPlaybackPanel)
 
   def createRecordAndPlaybackPanel = new RecordAndPlaybackControlPanel(motionSeriesModel, canvas, 20)
+
+  //In the "Basics" application, gravity and normal forces aren't shown by default, but there is a control to allow the user to show them
+  override def gravityAndNormalForceShownByDefault = false
 }
 
 class ForcesAndMotionBasicsCanvas(model: MotionSeriesModel,

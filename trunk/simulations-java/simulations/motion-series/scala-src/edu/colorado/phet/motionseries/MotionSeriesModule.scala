@@ -46,7 +46,7 @@ class MotionSeriesModule(frame: PhetFrame,
 
   val fbdModel = new FreeBodyDiagramModel(fbdPopupOnly)
   val coordinateSystemModel = new AdjustableCoordinateModel
-  val vectorViewModel = new VectorViewModel
+  val vectorViewModel = new VectorViewModel(gravityAndNormalForceShownByDefault)
   coordinateSystemModel.addListener(() => if ( coordinateSystemModel.fixed ) {
     motionSeriesModel.coordinateFrameModel.proposedAngle = 0
   })
@@ -149,4 +149,7 @@ class MotionSeriesModule(frame: PhetFrame,
     }
     super.deactivate()
   }
+
+  //In the "Basics" application, gravity and normal forces aren't shown by default, but there is a control to allow the user to show them
+  def gravityAndNormalForceShownByDefault = true
 }
