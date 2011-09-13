@@ -9,25 +9,21 @@ import edu.umd.cs.piccolo.PNode
 /**
  * Class VectorView can inspect a MotionSeriesObject and add graphical representations of its vectors onto a specified VectorDisplay
  */
-class VectorView(motionSeriesObject: MotionSeriesObject,
-                 vectorViewModel: VectorViewModel,
-                 coordinateFrameModel: CoordinateFrameModel,
-                 fbdWidth: Int) {
-  def addAllVectorsAllComponents(motionSeriesObject: MotionSeriesObject, vectorDisplay: VectorDisplay) {
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.gravityForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.normalForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.frictionForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.wallForceVector, vectorDisplay)
-    addAllVectorsAllComponents(motionSeriesObject, motionSeriesObject.totalForceVector,
+class VectorView(motionSeriesObject: MotionSeriesObject, vectorViewModel: VectorViewModel, coordinateFrameModel: CoordinateFrameModel, fbdWidth: Int) {
+  def addAllVectorsAllComponents(o: MotionSeriesObject, vectorDisplay: VectorDisplay) {
+    addVectorAllComponents(o, o.appliedForceVector, vectorDisplay)
+    addVectorAllComponents(o, o.gravityForceVector, vectorDisplay)
+    addVectorAllComponents(o, o.normalForceVector, vectorDisplay)
+    addVectorAllComponents(o, o.frictionForceVector, vectorDisplay)
+    addVectorAllComponents(o, o.wallForceVector, vectorDisplay)
+    addAllVectorsAllComponents(o, o.totalForceVector,
                                new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2, //Needs a separate offset since it should be shown above other force arrows
                                () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
 
-  def addVectorAllComponents(motionSeriesObject: MotionSeriesObject,
-                             vector: MotionSeriesObjectVector,
-                             vectorDisplay: VectorDisplay): Unit =
+  def addVectorAllComponents(motionSeriesObject: MotionSeriesObject, vector: MotionSeriesObjectVector, vectorDisplay: VectorDisplay) {
     addAllVectorsAllComponents(motionSeriesObject, vector, new Vector2DModel, 0, () => true, vectorDisplay)
+  }
 
   def addAllVectorsAllComponents(motionSeriesObject: MotionSeriesObject,
                                  vector: MotionSeriesObjectVector,
@@ -41,7 +37,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
     //    val perpComponent = new PerpendicularComponent(vector, motionSeriesObject)
     //    val xComponent = new XComponent(vector, motionSeriesObject, coordinateFrameModel, vector.labelAngle)
     //    val yComponent = new YComponent(vector, motionSeriesObject, coordinateFrameModel, vector.labelAngle)
-    def update() = {
+    def update() {
       //      parallelComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
       //      perpComponent.setVisible(vectorViewModel.parallelComponents && selectedVectorVisible())
       //      yComponent.setVisible(vectorViewModel.xyComponentsVisible && selectedVectorVisible())
@@ -65,13 +61,13 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
 }
 
 trait VectorDisplay {
-  def addVector(vector: Vector, offsetFBD: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double): Unit
+  def addVector(vector: Vector, offsetFBD: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double)
 
-  def removeVector(vector: Vector): Unit
+  def removeVector(vector: Vector)
 }
 
 class PlayAreaVectorDisplay(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject) extends PNode with VectorDisplay {
-  def addVector(vector: Vector, offset2D: Vector2DModel, maxOffset: Int, offset: Double): Unit = {
+  def addVector(vector: Vector, offset2D: Vector2DModel, maxOffset: Int, offset: Double) {
     val defaultCenter = motionSeriesObject.height / 2.0
     def getValue = motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) * ( offset + defaultCenter )
     val myoffset = new Vector2DModel(getValue)
