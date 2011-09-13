@@ -3,11 +3,17 @@ package edu.colorado.phet.moleculepolarity.twoatoms;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.MPStrings;
+import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode;
+import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
+import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.BondTypeNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicElectronDensityNode;
@@ -49,7 +55,10 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode bondTypeNode = new BondTypeNode( model.molecule );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
-        PNode controlPanelNode = new TwoAtomsControlPanelNode( model, viewProperties, parentFrame );
+        PNode controlPanelNode = new MPControlPanelNode( parentFrame, new Resettable[] { model, viewProperties },
+                                                         new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE ),
+                                                         new SurfaceControlPanel( viewProperties.isosurfaceType ),
+                                                         new EFieldControlPanel( model.eField.enabled ) );
 
         // rendering order
         {
