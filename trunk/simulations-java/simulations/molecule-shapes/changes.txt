@@ -1,3 +1,4 @@
+# 0.00.33 (56443) Sep 12, 2011
 Corrected O2 lone pairs
 Bond angle checkbox disabled (by default) now when there are less than 2 bonds
 Geometry name color tweaks (EM's recommendations)
