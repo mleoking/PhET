@@ -1,3 +1,4 @@
+Game: Made it impossible to drag blocks unless in interactive mode
 Incorporated new weights for mystery objects (1st tab) suggested by Trish L.
 Added initial game tab.
 # 0.00.08 (56363) Sep 9, 2011
