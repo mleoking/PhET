@@ -52,7 +52,9 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val doorBackground = new MotionSeriesObject(model, housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
   private var _motionSeriesObject: MotionSeriesObject = null
 
-  clock.addClockListener(dt => if (!model.isPaused && _motionSeriesObject != null) _motionSeriesObject.stepInTime(dt))
+  clock.addClockListener(dt => if ( !model.isPaused && _motionSeriesObject != null ) {
+    _motionSeriesObject.stepInTime(dt)
+  })
   resetAll()
 
   def motionSeriesObject = _motionSeriesObject
@@ -68,10 +70,12 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   val doorHandler = () => {
     val inFrontOfDoor = _inFrontOfDoor(motionSeriesObject)
-    if (inFrontOfDoor)
+    if ( inFrontOfDoor ) {
       _doorOpenAmount = _doorOpenAmount + 0.1
-    else
+    }
+    else {
       _doorOpenAmount = _doorOpenAmount - 0.1
+    }
     _doorOpenAmount = MathUtil.clamp(0, _doorOpenAmount, 1.0)
     doorListeners.foreach(_())
   }
@@ -90,7 +94,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
    * Switches to the specified object.
    */
   def setObjectIndex(newIndex: Int) = {
-    if (_motionSeriesObject != null) {
+    if ( _motionSeriesObject != null ) {
       //todo: use remove listener paradigm
       //todo: remove applied force listener
       _motionSeriesObject.remove()
@@ -110,7 +114,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     motionSeriesObject.kineticFriction = sel.kineticFriction
     motionSeriesObject.height = sel.height
     motionSeriesObject.airborneFloor = airborneFloor
-    motionSeriesObject.crashListeners += (() => itemLostOffCliff(sel))
+    motionSeriesObject.crashListeners += ( () => itemLostOffCliff(sel) )
 
     var lastPushTime = 0L //flag to indicate push + at rest hasn't started yet
 
@@ -121,7 +125,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
         val totalForce = motionSeriesObject.totalForce
         //        println("net force mag = "+netForce.magnitude)
-        if (pushing && totalForce.magnitude < 1E-8 && lastPushTime == 0) {
+        if ( pushing && totalForce.magnitude < 1E-8 && lastPushTime == 0 ) {
           lastPushTime = System.currentTimeMillis
           println("started timer")
         }
@@ -130,26 +134,27 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
         val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
         val crashed = atRest && motionSeriesObject.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
         def removeSelf() = motionSeriesObject.stepListeners -= this
-        if (stoppedAtHouse) {
+        if ( stoppedAtHouse ) {
           removeSelf() //remove listener first, in case itemDelivered causes any notifications (it currently doesn't)
           itemDelivered(sel, motionSeriesObject)
         }
         //TODO: need to make sure object is not about to start sliding back down the ramp
-        else if ((stoppedAndOutOfEnergy || crashed) &&
-                motionSeriesObject.acceleration <= 1E-6) { //make sure object isn't about to start sliding back down the ramp
+        else if ( ( stoppedAndOutOfEnergy || crashed ) &&
+                  motionSeriesObject.acceleration <= 1E-6 ) {
+          //make sure object isn't about to start sliding back down the ramp
           println("item lost, acceleration = " + motionSeriesObject.acceleration)
           removeSelf() //see note above on ordering
           itemLost(sel)
         }
         //if pushing for 1 sec and still have energy, then should be NotEnoughEnergyToPush
-        if (lastPushTime != 0 && System.currentTimeMillis - lastPushTime >= 1000 && objectStuck) {
+        if ( lastPushTime != 0 && System.currentTimeMillis - lastPushTime >= 1000 && objectStuck ) {
           removeSelf()
           itemStuck(sel)
         }
       }
     }
 
-    def objectStuck:Boolean = {
+    def objectStuck: Boolean = {
       //only stuck if it is the fridge and it's on the ground and not moving (not on the ramp)
       //doing this computation in general was difficult since the code for force computation in MotionSeriesObject's MotionStrategy wasn't sufficiently general-purpose
       //The problem is that the friction force depends on the applied force
@@ -158,21 +163,24 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
     motionSeriesObject.stepListeners += listener
 
-    _motionSeriesObject.workListeners += (work => {
+    _motionSeriesObject.workListeners += ( work => {
       _robotEnergy = _robotEnergy - abs(work)
-      if (_robotEnergy <= 0) {
+      if ( _robotEnergy <= 0 ) {
         _robotEnergy = 0
         _motionSeriesObject.parallelAppliedForce = 0
       }
       notifyListeners()
-    })
+    } )
 
     launched = false
     objectCreatedListeners.foreach(_(motionSeriesObject, sel))
     motionSeriesObject.parallelAppliedForce = 0 //make sure applied force slider sets to zero, have to do this after listeners are attached
   }
 
-  def launched_=(b: Boolean) = {_launched = b; notifyListeners()}
+  def launched_=(b: Boolean) = {
+    _launched = b;
+    notifyListeners()
+  }
 
   def launched = _launched
 
@@ -188,7 +196,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   def itemFinished(o: MotionSeriesObjectType, r: Result) = {
     resultMap += o -> r
     itemFinishedListeners.foreach(_(o, r))
-    if (resultMap.size == objectList.length) {
+    if ( resultMap.size == objectList.length ) {
       gameFinishListeners.foreach(_())
     }
     notifyListeners()
@@ -211,17 +219,23 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   def inputAllowed = _inputAllowed
 
   def itemDelivered(o: MotionSeriesObjectType, motionSeriesObjectRef: MotionSeriesObject) = {
-    if (!deliverList.contains(motionSeriesObjectRef)) {
+    if ( !deliverList.contains(motionSeriesObjectRef) ) {
       deliverList += motionSeriesObjectRef
-      object listener extends Function0[Unit] { //it's an object so we can refer to it as this below
+      object listener extends Function0[Unit] {
+        //it's an object so we can refer to it as this below
         def apply() = {
           _inputAllowed = false
           motionSeriesObjectRef.parallelAppliedForce = 0.0
           val x = motionSeriesObjectRef.position
           val xf = house.position
-          val vel = 0.2 * (if (xf - x > 0) 1 else -1)
+          val vel = 0.2 * ( if ( xf - x > 0 ) {
+            1
+          }
+          else {
+            -1
+          } )
           motionSeriesObjectRef.position = motionSeriesObjectRef.position + vel
-          if ((motionSeriesObjectRef.position - house.position).abs <= vel.abs) {
+          if ( ( motionSeriesObjectRef.position - house.position ).abs <= vel.abs ) {
             model.stepListeners -= this
             itemFinished(o, Success(o.points, robotEnergy.toInt))
             _inputAllowed = true
@@ -232,22 +246,33 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     }
   }
 
-  def count(b: Boolean) = if (b) 1 else 0
+  def count(b: Boolean) = if ( b ) {
+    1
+  }
+  else {
+    0
+  }
 
   def movedItems = {
-    val counts = for (v <- resultMap.values) yield count(v.success)
+    val counts = for ( v <- resultMap.values ) yield {
+      count(v.success)
+    }
     counts.foldLeft(0)(_ + _)
   }
 
   def selectedObject = objectList(_objectIndex)
 
   def lostItems = {
-    val counts = for (v <- resultMap.values) yield count(!v.success)
+    val counts = for ( v <- resultMap.values ) yield {
+      count(!v.success)
+    }
     counts.foldLeft(0)(_ + _)
   }
 
   def score = {
-    val scores = for (v <- resultMap.values) yield v.score
+    val scores = for ( v <- resultMap.values ) yield {
+      v.score
+    }
     scores.foldLeft(0)(_ + _)
   }
 }
@@ -258,20 +283,30 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 abstract class Result(val objectPoints: Int, val robotEnergy: Int) {
   val pointsPerJoule = scoreMultiplier * 0.1
   val totalObjectPoints = objectPoints * scoreMultiplier
-  val totalEnergyPoints = (robotEnergy * pointsPerJoule).toInt
+  val totalEnergyPoints = ( robotEnergy * pointsPerJoule ).toInt
 
   def score = totalObjectPoints + totalEnergyPoints
 
-  def scoreMultiplier = if (success) 1 else 0
+  def scoreMultiplier = if ( success ) {
+    1
+  }
+  else {
+    0
+  }
 
   def success: Boolean
 }
 
 case class Success(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = true}
+
 case class Cliff(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = false}
 
 //This case occurs when the object missed the door, but the robot is out of energy
-case class OutOfEnergy(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = false} //object can't be moved any further
+case class OutOfEnergy(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = false}
+
+//object can't be moved any further
 
 //This case occurs when the robot has some energy, but not enough to move the object
-case class NotEnoughEnergyToPush(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = false} //object can't be moved any further
+case class NotEnoughEnergyToPush(_objectPoints: Int, _robotEnergy: Int) extends Result(_objectPoints, _robotEnergy) {def success = false}
+
+//object can't be moved any further

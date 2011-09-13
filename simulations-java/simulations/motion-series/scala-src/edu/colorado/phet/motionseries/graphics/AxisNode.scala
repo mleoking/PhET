@@ -41,6 +41,7 @@ class AxisNode(val transform: ModelViewTransform2D,
   addChild(text)
 
   updateTextNodeLocation()
+
   def updateTextNodeLocation() = {
     val viewDst = axisNode.getTipLocation
     text.setOffset(viewDst.x - text.getFullBounds.getWidth * 1.5, viewDst.y)
@@ -57,27 +58,30 @@ class AxisNodeWithModel(transform: ModelViewTransform2D,
                         val axisModel: SynchronizedAxisModel,
                         adjustableCoordinateModel: AdjustableCoordinateModel)
         extends AxisNode(transform,
-          transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
-          transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
+                         transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
+                         transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
   def updateTipAndTailLocations() {
     setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
   }
+
   defineInvokeAndPass(axisModel.addListenerByName) {
-    updateTipAndTailLocations()
-    updateTextNodeLocation()
-  }
+                                                     updateTipAndTailLocations()
+                                                     updateTextNodeLocation()
+                                                   }
   defineInvokeAndPass(adjustableCoordinateModel.addListenerByName) {
-    setPickable(adjustableCoordinateModel.adjustable)
-    setChildrenPickable(adjustableCoordinateModel.adjustable)
-  }
+                                                                     setPickable(adjustableCoordinateModel.adjustable)
+                                                                     setChildrenPickable(adjustableCoordinateModel.adjustable)
+                                                                   }
+
   def attachListener(node: PNode) {
     node.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
     node.addInputEventListener(new ToggleListener(new AxisRotator(transform, node, axisModel.coordinateFrameModel, axisModel.pivot),
-      () => adjustableCoordinateModel.adjustable))
+                                                  () => adjustableCoordinateModel.adjustable))
     node.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
       override def mouseReleased(event: PInputEvent) = axisModel.dropped()
     }, () => adjustableCoordinateModel.adjustable))
   }
+
   attachListener(hitNode)
 }
 
@@ -97,13 +101,17 @@ class AxisRotator(transform: ModelViewTransform2D,
 
     val oldPtModel = modelPt - deltaModel
 
-    val oldAngle = (pivot - oldPtModel).angle
-    val newAngle = (pivot - modelPt).angle
+    val oldAngle = ( pivot - oldPtModel ).angle
+    val newAngle = ( pivot - modelPt ).angle
 
     //should be a small delta
     var deltaAngle = newAngle - oldAngle
-    while (deltaAngle > PI) deltaAngle = deltaAngle - PI * 2
-    while (deltaAngle < -PI) deltaAngle = deltaAngle + PI * 2
+    while ( deltaAngle > PI ) {
+      deltaAngle = deltaAngle - PI * 2
+    }
+    while ( deltaAngle < -PI ) {
+      deltaAngle = deltaAngle + PI * 2
+    }
     coordinateFrameModel.proposedAngle = coordinateFrameModel.proposedAngle + deltaAngle
   }
 

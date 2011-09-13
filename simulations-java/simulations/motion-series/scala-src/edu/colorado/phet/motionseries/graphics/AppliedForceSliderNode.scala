@@ -9,7 +9,7 @@ import edu.colorado.phet.common.motion.charts.{PlayAreaSliderControl, TextBox, M
 
 class AppliedForceSliderNode(motionSeriesObject: MotionSeriesObject, dragHandler: () => Unit) extends PNode {
   val slider = new PlayAreaSliderControl(-MotionSeriesDefaults.MAX_APPLIED_FORCE, MotionSeriesDefaults.MAX_APPLIED_FORCE,
-    motionSeriesObject.parallelAppliedForce, "controls.applied-force-x".translate, "units.abbr.newtons".translate, MotionSeriesDefaults.appliedForceColor, new TextBox(new PhetFont(18, true), 6) {
+                                         motionSeriesObject.parallelAppliedForce, "controls.applied-force-x".translate, "units.abbr.newtons".translate, MotionSeriesDefaults.appliedForceColor, new TextBox(new PhetFont(18, true), 6) {
       addListener(new TextBox.Listener() {
         def changed = {
           //have to replace comma with decimal otherwise we obtain problems like:

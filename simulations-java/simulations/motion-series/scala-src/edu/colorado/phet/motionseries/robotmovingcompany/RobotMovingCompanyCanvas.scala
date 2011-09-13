@@ -35,7 +35,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                stageContainerArea: StageContainerArea,
                                energyScale: Double)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
-          frame, false, false, true, MotionSeriesDefaults.robotMovingCompanyRampViewport, stageContainerArea) {
+                           frame, false, false, true, MotionSeriesDefaults.robotMovingCompanyRampViewport, stageContainerArea) {
 
   //Configure visibility and usability of different features for game mode
   motionSeriesObjectNode.setVisible(false)
@@ -49,25 +49,32 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   private var currentObjectNode: PNode = null //keep track of the current bead graphic for layering purposes
   freeBodyDiagramNode.removeCursorHand() //User is not allowed to create forces by clicking in the FBD area
 
-  gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObjectType, result: Result) => {
+  gameModel.itemFinishedListeners += ( (scalaRampObject: MotionSeriesObjectType, result: Result) => {
     val summaryScreen = new ItemFinishedDialog(gameModel, scalaRampObject, result, node => {
       removeStageNode(node)
       requestFocus()
-      if (gameModel.isLastObject(scalaRampObject))
+      if ( gameModel.isLastObject(scalaRampObject) ) {
         showGameSummary()
-      else
+      }
+      else {
         gameModel.nextObject()
-    }, if (gameModel.isLastObject(scalaRampObject)) "game.show-summary".translate else "game.ok".translate)
+      }
+    }, if ( gameModel.isLastObject(scalaRampObject) ) {
+      "game.show-summary".translate
+    }
+    else {
+      "game.ok".translate
+    })
     summaryScreen.centerWithin(stage.getWidth, stage.getHeight)
     addStageNode(summaryScreen)
     summaryScreen.requestFocus()
 
     //If successfully delivered to house, move the object into the house by putting it in between the back and front layers
-    if (result.success) {
+    if ( result.success ) {
       removeScreenNode(currentObjectNode)
       intermediateNode.addChild(new StageNode(stage, RobotMovingCompanyCanvas.this, currentObjectNode))
     }
-  })
+  } )
 
   updateFreeBodyDiagramLocation()
 
@@ -84,7 +91,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     val motionSeriesObject = new MotionSeriesObjectNode(gameModel.door, getModelStageTransform, MotionSeriesDefaults.door.imageFilename)
     addChild(motionSeriesObject)
 
-    gameModel.doorListeners += (() => {
+    gameModel.doorListeners += ( () => {
       val sx = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(0, 1, 1.0, 0.2).evaluate(gameModel.doorOpenAmount)
       val shx = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(0, 1, 0, 0.15).evaluate(gameModel.doorOpenAmount)
       val tx = AffineTransform.getScaleInstance(sx, 1.0)
@@ -96,7 +103,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
       getTransformReference(true).scale(sx, 1.0)
       getTransformReference(true).shear(0, shx)
       getTransformReference(true).translate(-point2D.getX, -point2D.getY)
-    })
+    } )
   }
   addStageNode(doorNode)
 
@@ -109,21 +116,21 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   addStageNode(new InstructionsNode {
     val helpButton = new PSwing(Button(PhetCommonResources.getString("Common.HelpMenu.Help")) {
-      val intro = new IntroDialog {
-        centerWithin(RobotMovingCompanyCanvas.this.getWidth, RobotMovingCompanyCanvas.this.getHeight)
-      }
-      addScreenNode(intro)
+                                                                                                val intro = new IntroDialog {
+                                                                                                  centerWithin(RobotMovingCompanyCanvas.this.getWidth, RobotMovingCompanyCanvas.this.getHeight)
+                                                                                                }
+                                                                                                addScreenNode(intro)
 
-      addKeyListener(new KeyAdapter {
-        override def keyPressed(e: KeyEvent) = {
-          removeKeyListener(this)
-          removeScreenNode(intro)
-        }
-      })
-      SwingUtilities.invokeLater(new Runnable() {
-        def run = requestFocus() //so the button doesn't have focus
-      })
-    }.peer) {
+                                                                                                addKeyListener(new KeyAdapter {
+                                                                                                  override def keyPressed(e: KeyEvent) = {
+                                                                                                    removeKeyListener(this)
+                                                                                                    removeScreenNode(intro)
+                                                                                                  }
+                                                                                                })
+                                                                                                SwingUtilities.invokeLater(new Runnable() {
+                                                                                                  def run = requestFocus() //so the button doesn't have focus
+                                                                                                })
+                                                                                              }.peer) {
       setOffset(textNode.getFullBounds.getCenterX - getFullBounds.getWidth / 2, textNode.getFullBounds.getMaxY)
     }
     addChild(helpButton)
@@ -151,7 +158,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     def pressed = _pressed
 
     def pressed_=(p: (String, Double)) = {
-      if (_pressed != p) {
+      if ( _pressed != p ) {
         _pressed = p
         notifyListeners()
       }
@@ -159,27 +166,38 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
     def appliedForce = _pressed._2
   }
+
   userInputModel.addListenerByName {
-    gameModel.launched = true
-    model.setPaused(false)
-  }
+                                     gameModel.launched = true
+                                     model.setPaused(false)
+                                   }
 
   userInputModel.addListener(() => {
     numClockTicksWithUserApplication = numClockTicksWithUserApplication + 1
-    gameModel.motionSeriesObject.parallelAppliedForce = if (gameModel.robotEnergy > 0) userInputModel.appliedForce else 0.0
-  }) //todo: when robot energy hits zero, applied force should disappear
+    gameModel.motionSeriesObject.parallelAppliedForce = if ( gameModel.robotEnergy > 0 ) {
+      userInputModel.appliedForce
+    }
+    else {
+      0.0
+    }
+  })
+
+  //todo: when robot energy hits zero, applied force should disappear
 
   def hasUserAppliedForce = numClockTicksWithUserApplication > 0
 
   addKeyListener(new KeyAdapter {
     override def keyPressed(e: KeyEvent) = {
-      if (gameModel.inputAllowed)
+      if ( gameModel.inputAllowed ) {
         e.getKeyCode match {
           case KeyEvent.VK_LEFT => userInputModel.pressed = LEFT
           case KeyEvent.VK_RIGHT => userInputModel.pressed = RIGHT
           case _ => userInputModel.pressed = NONE
         }
-      else NONE
+      }
+      else {
+        NONE
+      }
     }
 
     override def keyReleased(e: KeyEvent) = {
@@ -193,6 +211,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   SwingUtilities.invokeLater(new Runnable {
     def run = requestFocus()
   })
+
   class ObjectIcon(a: MotionSeriesObjectType) extends PNode {
     val nameLabel = new PText(a.name) {
       setFont(new PhetFont(24, true))
@@ -203,9 +222,11 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     pImage.setOffset(0, nameLabel.getFullBounds.getHeight)
 
     val textNode = new SwingLayoutNode(new GridLayout(3, 1))
+
     class ValueText(str: String) extends PText(str) {
       setFont(new PhetFont(18))
     }
+
     textNode.addChild(new ValueText("game.object.mass-equals.pattern.mass".messageformat(a.mass)))
     textNode.addChild(new ValueText("game.object.kinetic-friction-equals.pattern.kinetic-friction".messageformat(a.kineticFriction)))
     textNode.addChild(new ValueText("game.object.points-equals.pattern.points".messageformat(a.points)))
@@ -233,7 +254,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   }
 
   override def updateFreeBodyDiagramLocation() = {
-    if (freeBodyDiagramNode != null) {
+    if ( freeBodyDiagramNode != null ) {
       val pt = transform.modelToView(0, -1)
       freeBodyDiagramNode.setOffset(pt.x - freeBodyDiagramNode.getFullBounds.getWidth / 2, pt.y)
     }
@@ -256,16 +277,19 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     val pusherNode = new RobotPusherNode(transform, motionSeriesObject, robotObject)
     addStageNode(pusherNode)
 
-    motionSeriesObject.removalListeners += (() => {
+    motionSeriesObject.removalListeners += ( () => {
       removeStageNode(objectNode)
       removeStageNode(pusherNode)
       removeStageNode(icon)
-    })
+    } )
 
     freeBodyDiagramNode.clearVectors()
     freeBodyDiagramDialog.clearVectors()
 
-    def setter(x: Double) = if (gameModel.robotEnergy > 0) motionSeriesObject.parallelAppliedForce = x else {}
+    def setter(x: Double) = if ( gameModel.robotEnergy > 0 ) {
+      motionSeriesObject.parallelAppliedForce = x
+    }
+    else {}
 
     vectorView.addAllVectorsAllComponents(motionSeriesObject, freeBodyDiagramNode)
     vectorView.addAllVectorsAllComponents(motionSeriesObject, freeBodyDiagramDialog)
@@ -277,10 +301,12 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   def changeY(dy: Double) = {
     val result = model.leftRampSegment.startPoint + new Vector2D(0, dy)
-    if (result.y < 1E-8)
+    if ( result.y < 1E-8 ) {
       new Vector2D(result.x, 1E-8)
-    else
+    }
+    else {
       result
+    }
   }
 
   def updatePosition(dy: Double) = {
@@ -316,9 +342,11 @@ class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter:
   textNode.setFont(new PhetFont(18, true))
   addChild(textNode)
   gameModel.addListenerByName(update())
+
   def update() = {
     textNode.setText("game.item-readout-counter.pattern.name-count".messageformat(text, counter().toString))
   }
+
   update()
 }
 
@@ -330,12 +358,14 @@ class RobotEnergyMeter(transform: ModelViewTransform2D, gameModel: RobotMovingCo
   label.setFont(new PhetFont(24, true))
   addChild(label)
   addChild(barContainerNode)
+
   def energyToBarShape(e: Double) = new RoundRectangle2D.Double(label.getFullBounds.getWidth + 10, 0, e * energyScale, 25, 10, 10)
+
   barContainerNode.setPathTo(energyToBarShape(gameModel.DEFAULT_ROBOT_ENERGY))
 
   defineInvokeAndPass(gameModel.addListenerByName) {
-    barNode.setPathTo(energyToBarShape(gameModel.robotEnergy))
-  }
+                                                     barNode.setPathTo(energyToBarShape(gameModel.robotEnergy))
+                                                   }
 }
 
 class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel) extends PNode {
@@ -346,15 +376,18 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   val pText = new PText()
 
   def update = pText.setText("game.scoreboard.score.pattern.score".messageformat(gameModel.score))
+
   gameModel.addListenerByName(update)
   update
 
   pText.setFont(new PhetFont(32, true))
   layoutNode.addChild(new Spacer)
   layoutNode.addChild(pText)
+
   class Spacer extends PNode {
     setBounds(0, 0, 20, 20)
   }
+
   layoutNode.addChild(new Spacer)
   layoutNode.addChild(new Spacer)
   layoutNode.addChild(new ItemReadout("game.moved-items".translate, gameModel, () => gameModel.movedItems))
@@ -366,9 +399,11 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   val insetX = 5
   val insetY = 5
   updateBackground()
+
   def updateBackground() = {
     background.setPathTo(new RoundRectangle2D.Double(layoutNode.getFullBounds.x - insetX, layoutNode.getFullBounds.y - insetY, layoutNode.getFullBounds.width + insetX * 2, layoutNode.getFullBounds.height + insetY * 2, 20, 20))
   }
+
   gameModel.addListener(() => updateBackground())
 
   setOffset(transform.getViewBounds.getCenterX - getFullBounds.getWidth / 2, 0)

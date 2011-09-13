@@ -6,10 +6,11 @@ import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.motionseries.graphics.Rotatable
 
-case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
-  lazy val getUnitVector = (endPoint - startPoint).normalize
-  lazy val angle = (endPoint - startPoint).angle
-  lazy val length = (endPoint - startPoint).magnitude
+case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) {
+  //don't use Point2D since it's not immutable
+  lazy val getUnitVector = ( endPoint - startPoint ).normalize
+  lazy val angle = ( endPoint - startPoint ).angle
+  lazy val length = ( endPoint - startPoint ).magnitude
 
   def setStartPoint(newStartPoint: Vector2D) = copy(startPoint = newStartPoint)
 
@@ -30,14 +31,14 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   def endPoint = state.endPoint
 
   def startPoint_=(pt: Vector2D) = {
-    if (startPoint != pt) {
+    if ( startPoint != pt ) {
       state = state.setStartPoint(pt)
       notifyListeners()
     }
   }
 
   def endPoint_=(pt: Vector2D) = {
-    if (endPoint != pt) {
+    if ( endPoint != pt ) {
       state = state.setEndPoint(pt)
       notifyListeners()
     }
@@ -50,7 +51,7 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   def unitVector = state.getUnitVector
 
   def setAngle(angle: Double) = {
-    if (angle != this.angle) {
+    if ( angle != this.angle ) {
       state = state.setAngle(angle)
       notifyListeners()
     }

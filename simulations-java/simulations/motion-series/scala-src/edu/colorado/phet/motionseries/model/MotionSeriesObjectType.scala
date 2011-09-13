@@ -32,10 +32,10 @@ class MotionSeriesObjectType(_name: String,
   def crashImageFilename = _crashImageFilename
 
   def state = new MotionSeriesObjectTypeState(name, mass, kineticFriction, staticFriction, height,
-    imageFilename, crashImageFilename, iconFilename, customizable, points, createFactory)
+                                              imageFilename, crashImageFilename, iconFilename, customizable, points, createFactory)
 
   def createFactory(state: MotionSeriesObjectTypeState) = new MotionSeriesObjectType(state.name, state.mass, state.kinFric, state.statFric, state.height,
-    state.imageFilename, state.crashImageFilename, state.iconFilename, state.customizable, state.points)
+                                                                                     state.imageFilename, state.crashImageFilename, state.iconFilename, state.customizable, state.points)
 
   def kineticFriction = _kineticFriction
 
@@ -95,13 +95,17 @@ class MutableMotionSeriesObjectType(name: String, __mass: Double, kineticFrictio
 
   def kineticFriction_=(k: Double) = {
     _kineticFriction = k
-    if (_kineticFriction > _staticFriction) _staticFriction = _kineticFriction
+    if ( _kineticFriction > _staticFriction ) {
+      _staticFriction = _kineticFriction
+    }
     notifyListeners()
   }
 
   def staticFriction_=(s: Double) = {
     _staticFriction = s
-    if (_kineticFriction > _staticFriction) _kineticFriction = _staticFriction
+    if ( _kineticFriction > _staticFriction ) {
+      _kineticFriction = _staticFriction
+    }
     notifyListeners()
   }
 }

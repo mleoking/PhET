@@ -59,19 +59,28 @@ class MotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
 
   //This is to support showing crash images during game mode
   //todo: refactor game mode to use the motionSeriesObject.isCrashed model value
-  motionSeriesObject.crashListeners += (() => {
+  motionSeriesObject.crashListeners += ( () => {
     imageNode.setImage(crashImage)
-  })
+  } )
 
   //todo: images were specified in constructor; why can they be overidden like this?
   def setImages(im: BufferedImage, crashIm: BufferedImage) = {
     image = im
     crashImage = crashIm
-    val imageToSet = if (motionSeriesObject.isCrashed) crashImage else image
-    if (!(imageNode.getImage eq imageToSet)) //avoid redraw if possible
+    val imageToSet = if ( motionSeriesObject.isCrashed ) {
+      crashImage
+    }
+    else {
+      image
+    }
+
+    //avoid redraw if possible
+    if ( !( imageNode.getImage eq imageToSet ) ) {
       imageNode.setImage(imageToSet)
+    }
     update()
   }
+
   addChild(imageNode)
 
   def update() = {
@@ -87,18 +96,24 @@ class MotionSeriesObjectNode(motionSeriesObject: MotionSeriesObject,
     imageNode.translate(viewPosition.x - delta.x / 2 * scale, viewPosition.y - delta.y * scale)
     imageNode.scale(scale)
 
-    val angle = if (motionSeriesObject.isCrashed) 0.0 else motionSeriesObject.getAngle
+    val angle = if ( motionSeriesObject.isCrashed ) {
+      0.0
+    }
+    else {
+      motionSeriesObject.getAngle
+    }
     val vec = new Vector2D(angle)
     val flipY = new Vector2D(vec.x, -vec.y)
 
     imageNode.rotateAboutPoint(flipY.angle,
-      imageNode.getFullBounds.getCenter2D.getX - (viewPosition.x - delta.x / 2),
-      imageNode.getFullBounds.getMaxY - (viewPosition.y - delta.y))
+                               imageNode.getFullBounds.getCenter2D.getX - ( viewPosition.x - delta.x / 2 ),
+                               imageNode.getFullBounds.getMaxY - ( viewPosition.y - delta.y ))
 
-    if (imageNode.getImage == crashImage && !motionSeriesObject.isCrashed) {
+    if ( imageNode.getImage == crashImage && !motionSeriesObject.isCrashed ) {
       imageNode.setImage(image)
     }
   }
+
   motionSeriesObject.position2DProperty.addListener(update)
   update()
 }

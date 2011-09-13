@@ -14,6 +14,8 @@ import javax.swing.JButton
 
 class ScalaButton(text: String, actionListener: () => Unit) extends JButton(text) {
   addActionListener(new ActionListener {
-    def actionPerformed(e: ActionEvent) = {actionListener()}
+    def actionPerformed(e: ActionEvent) = {
+      actionListener()
+    }
   })
 }

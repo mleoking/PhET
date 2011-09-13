@@ -52,6 +52,7 @@ class VectorNode(val transform: ModelViewTransform2D,
   //Since there are 2 dependencies that this class listens for, we bunch up the notifications
   //so that update is only called when necessary.
   case class UpdateState(visible: Boolean, tip: Vector2D, tail: Vector2D)
+
   private var lastUpdateState = new UpdateState(true, new Vector2D, new Vector2D(123, 456)) //create with dummy data to ensure changed on first update()
 
   //Allocate these temporary variables here for performance reasons, this update call is called a lot and is expensive
@@ -66,23 +67,27 @@ class VectorNode(val transform: ModelViewTransform2D,
     val viewTail = transform.modelToViewDouble(tailLocation.value)
     val updateState = new UpdateState(vector.visible.booleanValue || alwaysVisible, viewTail, viewTip)
     val stayedInvisible = !updateState.visible && !lastUpdateState.visible
-    if (updateState != lastUpdateState && !stayedInvisible) { //skip expensive updates if no change
+    if ( updateState != lastUpdateState && !stayedInvisible ) {
+      //skip expensive updates if no change
       //      println("Updating " + vector.abbreviation)
       setVisible(vector.visible.booleanValue || alwaysVisible)
       //Update the arrow node itself
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
-      arrowNode.setVisible(viewTip.distanceSq(viewTail)>1E-6)//Trying to draw an arrow with the tail = tip can sometimes cause rendering artifacts
-//      println("Updating "+vector.abbreviation+": tip = "+viewTip+", tail = "+viewTail)
+      arrowNode.setVisible(viewTip.distanceSq(viewTail) > 1E-6) //Trying to draw an arrow with the tail = tip can sometimes cause rendering artifacts
+      //      println("Updating "+vector.abbreviation+": tip = "+viewTip+", tail = "+viewTail)
 
       //Update the location of the text label
       val textLocation = {
         val proposedLabelLocation = vector.vector2DModel() * labelDistance
-        val labelVector = if (proposedLabelLocation.magnitude > maxLabelDistance)
+        val labelVector = if ( proposedLabelLocation.magnitude > maxLabelDistance ) {
           new Vector2D(vector.angle) * maxLabelDistance
-        else if (proposedLabelLocation.magnitude < minLabelDistance && proposedLabelLocation.magnitude > 1E-2)
+        }
+        else if ( proposedLabelLocation.magnitude < minLabelDistance && proposedLabelLocation.magnitude > 1E-2 ) {
           new Vector2D(vector.angle) * minLabelDistance
-        else
+        }
+        else {
           proposedLabelLocation
+        }
 
         val viewPt = transform.modelToViewDouble(labelVector + tailLocation.value)
 
@@ -91,10 +96,16 @@ class VectorNode(val transform: ModelViewTransform2D,
         deltaArrow + viewPt
       }
       labelNode.setOffset(textLocation.x - labelBounds.width / 2, textLocation.y - labelBounds.height / 2 +
-              (if (vector.labelAngle == 0) -labelBounds.height / 2 else 0)) //Net force vector label should always be above, see MotionSeriesObject
+                                                                  ( if ( vector.labelAngle == 0 ) {
+                                                                    -labelBounds.height / 2
+                                                                  }
+                                                                  else {
+                                                                    0
+                                                                  } )) //Net force vector label should always be above, see MotionSeriesObject
       labelNode.setVisible(viewTail.distance(viewTip) > 1)
       lastUpdateState = updateState
-    } else {
+    }
+    else {
       //      println("Skipping " + vector.abbreviation)
     }
   }
@@ -125,7 +136,9 @@ class BodyVectorNode(transform: ModelViewTransform2D,
                      vectorLengthScale: Double)
         extends VectorNode(transform, vector, offset, BODY_LABEL_MAX_OFFSET, vectorLengthScale) {
   def doUpdate() = setOffset(motionSeriesObject.position2D)
+
   motionSeriesObject.positionProperty.addListener(doUpdate)
   doUpdate()
+
   override def alwaysVisible = false //allows the user to hide the vector nodes shown on the play area object (but not in the FBDs)
 }

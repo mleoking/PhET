@@ -6,9 +6,9 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver
 import edu.colorado.phet.common.motion.charts.{TemporalChart, ChartCursor}
-import edu.colorado.phet.motionseries.Predef._
 import util.ScalaMutableBoolean
 import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip
+
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: PhetFrame,
                          val clock: ScalaClock,
@@ -18,7 +18,9 @@ class MotionSeriesModule(frame: PhetFrame,
                          fbdPopupOnly: Boolean)
         extends Module(name, clock) {
   val audioEnabled = new ScalaMutableBoolean(true)
-  TemporalChart.SEC_TEXT = ""; //remove this label since this sim has its own time axis label under the chart, also see doc in SEC_TEXT
+  TemporalChart.SEC_TEXT = "";
+
+  //remove this label since this sim has its own time axis label under the chart, also see doc in SEC_TEXT
   def createMotionSeriesModel(defaultObjectPosition: Double, initialAngle: Double) =
     new MotionSeriesModel(defaultObjectPosition, initialAngle)
 
@@ -27,6 +29,7 @@ class MotionSeriesModule(frame: PhetFrame,
   private def updateCursorVisibility(model: MotionSeriesModel): Unit = {
     model.chartCursor.setVisible(motionSeriesModel.isPlayback && motionSeriesModel.getNumRecordedPoints > 0)
   }
+
   motionSeriesModel.addObserver(new SimpleObserver {
     def update: Unit = {
       updateCursorVisibility(motionSeriesModel)
@@ -44,7 +47,9 @@ class MotionSeriesModule(frame: PhetFrame,
   val fbdModel = new FreeBodyDiagramModel(fbdPopupOnly)
   val coordinateSystemModel = new AdjustableCoordinateModel
   val vectorViewModel = new VectorViewModel
-  coordinateSystemModel.addListener(() => if (coordinateSystemModel.fixed) motionSeriesModel.coordinateFrameModel.proposedAngle = 0)
+  coordinateSystemModel.addListener(() => if ( coordinateSystemModel.fixed ) {
+    motionSeriesModel.coordinateFrameModel.proposedAngle = 0
+  })
 
   private var lastTickTime = System.currentTimeMillis
   private var clockTickIndex = 0
@@ -79,6 +84,7 @@ class MotionSeriesModule(frame: PhetFrame,
     lastTickTime = t
     clockTickIndex = clockTickIndex + 1
   })
+
   //This was an investigation into active rendering
   //    var lastTime = System.nanoTime
   //    val t = new Thread(new Runnable() {
@@ -110,14 +116,18 @@ class MotionSeriesModule(frame: PhetFrame,
   //    t.start()
 
   def play(audioClip: PhetAudioClip) = {
-    if (audioEnabled.booleanValue) audioClip.play()
+    if ( audioEnabled.booleanValue ) {
+      audioClip.play()
+    }
   }
+
   motionSeriesModel.motionSeriesObject.addWallCrashListener(() => play(MotionSeriesResources.crashSound))
   motionSeriesModel.motionSeriesObject.addBounceListener(() => play(MotionSeriesResources.bounceSound))
-  motionSeriesModel.motionSeriesObject.crashListeners += (() => play(MotionSeriesResources.crashSound))
+  motionSeriesModel.motionSeriesObject.crashListeners += ( () => play(MotionSeriesResources.crashSound) )
 
   //pause on start/reset, and unpause (and start recording) when the user applies a force
   def resetPauseValue() = motionSeriesModel.setPaused(true)
+
   resetPauseValue()
 
   def resetRampModule(): Unit = {
@@ -134,7 +144,9 @@ class MotionSeriesModule(frame: PhetFrame,
 
   override def deactivate() = {
     fbdModel.windowed = false //to ensure that fbd dialog doesn't show for this module while user is on a different module
-    if (fbdModel.popupDialogOnly) fbdModel.visible = false
+    if ( fbdModel.popupDialogOnly ) {
+      fbdModel.visible = false
+    }
     super.deactivate()
   }
 }

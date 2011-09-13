@@ -24,6 +24,7 @@ class XComponent(target: MotionSeriesObjectVector,
         extends VectorComponent(target, motionSeriesObject, new Vector2DModel(new Vector2D(1, 0).rotate(coordinateFrame.angle)), Paints.horizontalStripes, "coordinates.x".translate, labelAngle) {
   //TODO: When the object changes its angle, we should notify our listeners, since they depend on the angle
 }
+
 class YComponent(target: MotionSeriesObjectVector,
                  motionSeriesObject: MotionSeriesObject,
                  coordinateFrame: CoordinateFrameModel,
@@ -43,11 +44,15 @@ class AngleBasedComponent(target: MotionSeriesObjectVector,
 
 class ParallelComponent(target: MotionSeriesObjectVector,
                         motionSeriesObject: MotionSeriesObject)
-        extends AngleBasedComponent(target, motionSeriesObject, new Vector2DModel(new Vector2D(motionSeriesObject.getAngle)), (a, b) => b, "symbols.parallel".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/2225/index.htm
+        extends AngleBasedComponent(target, motionSeriesObject, new Vector2DModel(new Vector2D(motionSeriesObject.getAngle)), (a, b) => b, "symbols.parallel".translate, target.labelAngle)
+
+//http://www.fileformat.info/info/unicode/char/2225/index.htm
 
 class PerpendicularComponent(target: MotionSeriesObjectVector,
                              motionSeriesObject: MotionSeriesObject)
-        extends AngleBasedComponent(target, motionSeriesObject, new Vector2DModel(new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2)), (a, b) => b, "symbols.perpendicular".translate, target.labelAngle) //http://www.fileformat.info/info/unicode/char/22a5/index.htm
+        extends AngleBasedComponent(target, motionSeriesObject, new Vector2DModel(new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2)), (a, b) => b, "symbols.perpendicular".translate, target.labelAngle)
+
+//http://www.fileformat.info/info/unicode/char/22a5/index.htm
 
 
 object Paints {

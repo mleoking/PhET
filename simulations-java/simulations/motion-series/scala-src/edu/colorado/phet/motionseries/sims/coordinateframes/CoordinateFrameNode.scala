@@ -24,7 +24,9 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
                           adjustableCoordinateModel: AdjustableCoordinateModel,
                           val transform: ModelViewTransform2D)
         extends PNode {
+
   import java.lang.Math.PI
+
   //see CoordinateFrameModel.proposedAngle_= for additional constraint on drag angle
   val xAxisModel = new SynchronizedAxisModel(0, 0.0, PI / 2, 7, false, model.coordinateFrameModel)
   val xAxis = new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel)
@@ -35,11 +37,11 @@ class CoordinateFrameNode(val model: MotionSeriesModel,
   addChild(yAxis)
 
   defineInvokeAndPass(adjustableCoordinateModel.addListenerByName) {
-    val v = adjustableCoordinateModel.adjustable
-    setVisible(v)
-    setPickable(v)
-    setChildrenPickable(v)
-  }
+                                                                     val v = adjustableCoordinateModel.adjustable
+                                                                     setVisible(v)
+                                                                     setPickable(v)
+                                                                     setChildrenPickable(v)
+                                                                   }
 }
 
 trait HandleNode extends AxisNodeWithModel {
@@ -47,9 +49,10 @@ trait HandleNode extends AxisNodeWithModel {
   val handleNode = new PImage(bufferedImage)
   addChild(handleNode)
   updateTipAndTailLocations()
+
   override def setTipAndTailLocations(tip: Point2D, tail: Point2D) = {
     super.setTipAndTailLocations(tip, tail)
-    if (handleNode != null) {
+    if ( handleNode != null ) {
       handleNode.setTransform(new AffineTransform)
       handleNode.setOffset(tip)
       handleNode.scale(1.6)
@@ -58,5 +61,6 @@ trait HandleNode extends AxisNodeWithModel {
       handleNode.translate(-50, -bufferedImage.getHeight)
     }
   }
+
   attachListener(handleNode)
 }

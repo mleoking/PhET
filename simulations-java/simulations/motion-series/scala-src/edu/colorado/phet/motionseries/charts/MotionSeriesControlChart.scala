@@ -31,10 +31,15 @@ object ChartDefaults {
 class ChartComponentListener(canvas: PhetPCanvas, chartProportionY: Double, node: PNode, labelNode: PNode = null) extends ComponentAdapter {
   val insetX = 0.6
   val insetY = insetX
-  val reservedLabelSpaceY = ChartDefaults.LABEL_OFFSET_DY + (if (labelNode != null) labelNode.getFullBounds.height else 0)
+  val reservedLabelSpaceY = ChartDefaults.LABEL_OFFSET_DY + ( if ( labelNode != null ) {
+    labelNode.getFullBounds.height
+  }
+  else {
+    0
+  } )
 
   override def componentResized(e: ComponentEvent) = {
-    node.setBounds(0 + insetX / 2, canvas.getHeight * (1 - chartProportionY) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY - reservedLabelSpaceY)
+    node.setBounds(0 + insetX / 2, canvas.getHeight * ( 1 - chartProportionY ) + insetY / 2, canvas.getWidth - insetX, canvas.getHeight * chartProportionY - insetY - reservedLabelSpaceY)
   }
 }
 
@@ -49,9 +54,11 @@ class MotionSeriesMultiControlChart(canvas: PhetPCanvas, model: MotionSeriesMode
   //Show the time axis label under the bottom-most maximized chart
   val updateLabelLocation = new PropertyChangeListener() {
     def propertyChange(evt: PropertyChangeEvent) = {
-      val maximizedCharts = for (c <- charts if c.getMaximized.get.booleanValue) yield c
+      val maximizedCharts = for ( c <- charts if c.getMaximized.get.booleanValue ) yield {
+        c
+      }
       labelNode.setVisible(!maximizedCharts.isEmpty) //only show the time axis label if some charts are showing
-      if (!maximizedCharts.isEmpty) {
+      if ( !maximizedCharts.isEmpty ) {
         val bottomChart = maximizedCharts.last
         val bounds = bottomChart.getChartNode.getFullBounds
         bottomChart.getChartNode.localToGlobal(bounds)
@@ -60,7 +67,7 @@ class MotionSeriesMultiControlChart(canvas: PhetPCanvas, model: MotionSeriesMode
       }
     }
   }
-  for (chart <- charts) {
+  for ( chart <- charts ) {
     chart.getChartNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, updateLabelLocation)
   }
 
@@ -81,11 +88,11 @@ class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) ex
   new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "properties.acceleration.units".translate, MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
   new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.velocity, 25, "properties.velocity.units".translate, MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
   new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false)),
-  0.7)
+                                                                                                                    0.7)
 
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
   val variable = new MutableDouble(_value()) {
-    motionSeriesModel.stepListeners += (() => {value = _value()})
+    motionSeriesModel.stepListeners += ( () => {value = _value()} )
   }
   val temporalChart = new TemporalChart(new Rectangle2D.Double(0, -maxY, 20, maxY * 2), new Rectangle2D.Double(0, -5, 2, 10), new Rectangle2D.Double(0, -10000, 20, 20000), motionSeriesModel.chartCursor)
   val chart = new ControlChart(new PNode() {
@@ -112,9 +119,10 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
       readoutTextNode setText "properties.format.value-units".messageformat(new DecimalFormat("0.00").format(variable()), units)
       val r = readoutTextNode.getFullBounds
       textBackgroundNode.setPathTo(new RoundRectangle2D.Double(r.x - inset, r.y - inset,
-        Math.max(textBackgroundNode.getPathReference.getBounds.width, r.width + inset * 2), //allow the background to grow but not shrink, it is too distracting to have it resize too much 
-        r.height + inset * 2, 8, 8))
+                                                               Math.max(textBackgroundNode.getPathReference.getBounds.width, r.width + inset * 2), //allow the background to grow but not shrink, it is too distracting to have it resize too much
+                                                               r.height + inset * 2, 8, 8))
     }
+
     updateReadout()
 
     variable.addListener(updateReadout)
@@ -132,6 +140,7 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
 }
 
 class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampControlChart(motionSeriesModel).chart)
+
 class ForcesAndMotionMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new ForcesAndMotionControlChart(motionSeriesModel).chart)
 
 class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel, "forces.sum-parallel".translate) {
@@ -146,6 +155,7 @@ class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSerie
 
   def additionalSerieses = frictionForceSeries :: gravityForceSeries :: wallForceSeries :: sumForceSeries :: Nil
 }
+
 class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel, "forces.sum".translate) {
   def addSerieses() = {
     temporalChart.addDataSeries(appliedForceSeries, appliedForceSeries.color)
@@ -162,6 +172,7 @@ class ForcesAndMotionControlChart(motionSeriesModel: MotionSeriesModel) extends 
 
 abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, forcesSum: String) {
   motionSeriesModel.addResetListener(resetAll)
+
   def addSerieses(): Unit
 
   val temporalChart = new TemporalChart(new java.awt.geom.Rectangle2D.Double(0, -2000, 20, 4000), new Rectangle2D.Double(0, -5, 2, 10), new Rectangle2D.Double(0, -10000, 20, 20000), motionSeriesModel.chartCursor)
@@ -179,16 +190,16 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
     addListener(() => {motionSeriesModel.motionSeriesObject.parallelAppliedForce = value})
   }
   val frictionVariable = new MutableDouble(parallelFriction) {
-    motionSeriesModel.stepListeners += (() => {value = parallelFriction})
+    motionSeriesModel.stepListeners += ( () => {value = parallelFriction} )
   }
   val gravityVariable = new MutableDouble(parallelGravity) {
-    motionSeriesModel.stepListeners += (() => {value = parallelGravity})
+    motionSeriesModel.stepListeners += ( () => {value = parallelGravity} )
   }
   val wallVariable = new MutableDouble(parallelWall) {
-    motionSeriesModel.stepListeners += (() => {value = parallelWall})
+    motionSeriesModel.stepListeners += ( () => {value = parallelWall} )
   }
   val sumForceVariable = new MutableDouble(parallelTotalForce) {
-    motionSeriesModel.stepListeners += (() => {value = parallelTotalForce})
+    motionSeriesModel.stepListeners += ( () => {value = parallelTotalForce} )
   }
 
   val N = "units.abbr.newtons".translate
@@ -206,6 +217,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
     wallForceSeries.reset()
     sumForceSeries.reset()
   }
+
   addSerieses();
 
   motionSeriesModel.addHistoryRemainderClearListener(new HistoryRemainderClearListener {
@@ -234,7 +246,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
   val sliderNode = createSliderNode(temporalChart)
   val controlPanel = new PNode {
     val goButtonVisible = new BooleanProperty(false) //go button should become visible when user specifies a force by dragging the slider or typing in the text field
-    motionSeriesModel.addResetListener(()=>goButtonVisible.reset())
+    motionSeriesModel.addResetListener(() => goButtonVisible.reset())
     addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, gridSize) {
       val editableLabel = new EditableLabel(appliedForceSeries) {
         override def setValueFromText() = {
@@ -243,7 +255,9 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
         }
       }
       addToGrid(appliedForceSeries, editableLabel)
-      for (s <- additionalSerieses) addToGrid(s)
+      for ( s <- additionalSerieses ) {
+        addToGrid(s)
+      }
     }))
     sliderNode.addInputEventListener(new PBasicInputEventHandler() {
       override def mouseDragged(event: PInputEvent) = {
@@ -261,7 +275,9 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
     new TemporalChartSliderNode(chart, appliedForceSeries.color) {
       val outer = this
       addListener(new MotionSliderNode.Adapter() {
-        override def sliderDragged(value: java.lang.Double) = {parallelAppliedForceVariable.value = value.doubleValue}
+        override def sliderDragged(value: java.lang.Double) = {
+          parallelAppliedForceVariable.value = value.doubleValue
+        }
       })
       parallelAppliedForceVariable.addListener(() => {setValue(parallelAppliedForceVariable.value)})
       val label = new ShadowHTMLNode("controls.applied-force-x".translate) {
@@ -293,7 +309,7 @@ class MutableDouble(private var _value: Double) extends Observable {
   def value = _value
 
   def value_=(x: Double) = {
-    if (_value != x) {
+    if ( _value != x ) {
       _value = x
       notifyListeners()
     }
@@ -304,8 +320,10 @@ class MutableDouble(private var _value: Double) extends Observable {
 
 class MotionSeriesDataSeries(_title: String, _color: Color, _units: String, value: MutableDouble, motionSeriesModel: MotionSeriesModel, val visible: Boolean) extends TemporalDataSeries {
   setVisible(visible)
+
   def title = _title
-  motionSeriesModel.recordListeners += (() => {addPoint(value(), motionSeriesModel.getTime)})
+
+  motionSeriesModel.recordListeners += ( () => {addPoint(value(), motionSeriesModel.getTime)} )
 
   def addValueChangeListener(listener: () => Unit) = value.addListener(listener)
 
@@ -320,7 +338,9 @@ class MotionSeriesDataSeries(_title: String, _color: Color, _units: String, valu
 
   def getValue = value()
 
-  def setValue(v: Double) = {value.value = v}
+  def setValue(v: Double) = {
+    value.value = v
+  }
 
   def units = _units
 

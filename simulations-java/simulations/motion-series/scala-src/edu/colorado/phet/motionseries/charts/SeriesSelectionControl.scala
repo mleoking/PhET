@@ -13,6 +13,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayoutPanel {
   def this(numRows: Int) = this ("".literal, numRows)
+
   setBackground(EARTH_COLOR)
   val titleLabel = new JLabel(title)
   titleLabel.setFont(new PhetFont(16, true))
@@ -70,11 +71,14 @@ class EditableLabel(series: MotionSeriesDataSeries) extends JPanel(new FlowLayou
       setValueFromText()
     }
   })
+
   def setValueFromText() = try {
     series.setValue(MotionSeriesDefaults.SERIES_SELECTION_CONTROL_FORMATTER.parse(textField.getText).doubleValue)
-  } catch {
+  }
+  catch {
     case re: Exception => {}
   }
+
   textField.addFocusListener(new FocusListener() {
     def focusGained(e: FocusEvent) = {}
 
@@ -84,6 +88,7 @@ class EditableLabel(series: MotionSeriesDataSeries) extends JPanel(new FlowLayou
   textField.setFont(Defaults.createFont)
   textField.setForeground(series.color)
   series.addValueChangeListener(() => {updateLabel()})
+
   def updateLabel() = textField.setText(MotionSeriesDefaults.SERIES_SELECTION_CONTROL_FORMATTER.format(series.getValue))
 
   updateLabel()

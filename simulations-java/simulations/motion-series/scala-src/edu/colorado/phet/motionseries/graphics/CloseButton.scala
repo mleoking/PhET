@@ -23,11 +23,12 @@ trait CloseButton extends MotionSeriesObjectNode {
 
   override def update() = {
     super.update()
-    if (closeButton != null) {
+    if ( closeButton != null ) {
       closeButton.setOffset(imageNode.getFullBounds.getX, imageNode.getFullBounds.getY)
       openButton.setOffset(imageNode.getFullBounds.getX, imageNode.getFullBounds.getY)
     }
   }
+
   closeButton.addInputEventListener(new PBasicInputEventHandler {
     override def mousePressed(event: PInputEvent) = model.walls = false
   })
@@ -35,16 +36,16 @@ trait CloseButton extends MotionSeriesObjectNode {
     override def mousePressed(event: PInputEvent) = model.walls = true
   })
   defineInvokeAndPass(model.addListenerByName) {
-    imageNode.setVisible(model.walls.booleanValue)
-    imageNode.setPickable(model.walls.booleanValue)
-    imageNode.setChildrenPickable(model.walls.booleanValue)
+                                                 imageNode.setVisible(model.walls.booleanValue)
+                                                 imageNode.setPickable(model.walls.booleanValue)
+                                                 imageNode.setChildrenPickable(model.walls.booleanValue)
 
-    closeButton.setVisible(model.walls.booleanValue)
-    closeButton.setPickable(model.walls.booleanValue)
-    closeButton.setChildrenPickable(model.walls.booleanValue)
+                                                 closeButton.setVisible(model.walls.booleanValue)
+                                                 closeButton.setPickable(model.walls.booleanValue)
+                                                 closeButton.setChildrenPickable(model.walls.booleanValue)
 
-    openButton.setVisible(!model.walls.booleanValue)
-    openButton.setPickable(!model.walls.booleanValue)
-    openButton.setChildrenPickable(!model.walls.booleanValue)
-  }
+                                                 openButton.setVisible(!model.walls.booleanValue)
+                                                 openButton.setPickable(!model.walls.booleanValue)
+                                                 openButton.setChildrenPickable(!model.walls.booleanValue)
+                                               }
 }
