@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class RealMoleculesCanvas extends MPCanvas {
 
-    private static final Dimension JMOL_VIEWER_SIZE = new Dimension( 475, 475 );
+    private static final Dimension JMOL_VIEWER_SIZE = new Dimension( 450, 450 );
 
     public RealMoleculesCanvas( RealMoleculesModel model, final ViewProperties viewProperties, Frame parentFrame ) {
         super();
