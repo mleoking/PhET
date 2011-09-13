@@ -5,16 +5,9 @@ import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.common.control.MPControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.MPResetAllButtonNode;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
-import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.ElectronegativityTableNode;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
@@ -46,23 +39,12 @@ public class RealMoleculesCanvas extends MPCanvas {
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode rainbowColorKeyNode = new RainbowElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
-
-        // Floating control panels, with uniform width
-        MPControlPanel viewControlPanel = new ViewControlPanel( viewProperties, true, false, true, true, MPStrings.BOND_DIPOLES );
-        MPControlPanel surfaceControlPanel = new SurfaceControlPanel( viewProperties.isosurfaceType );
-        int minWidth = (int) Math.max( viewControlPanel.getPreferredSize().getWidth(), surfaceControlPanel.getPreferredSize().getWidth() );
-        viewControlPanel.setMinWidth( minWidth );
-        surfaceControlPanel.setMinWidth( minWidth );
-        PNode viewControlNode = new ControlPanelNode( viewControlPanel );
-        PNode isosurfaceControlNode = new ControlPanelNode( surfaceControlPanel );
-        PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
+        RealMoleculesControlPanelNode controlPanelNode = new RealMoleculesControlPanelNode( model, viewProperties, parentFrame );
 
         // rendering order
         {
             // controls
-            addChild( viewControlNode );
-            addChild( isosurfaceControlNode );
-            addChild( resetAllButtonNode );
+            addChild( controlPanelNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( scriptNode );
             }
@@ -93,11 +75,8 @@ public class RealMoleculesCanvas extends MPCanvas {
                                                   electrostaticPotentialColorKeyNode.getFullBoundsReference().getMaxY() + 20 );
             moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
                                         ySpacing );
-            viewControlNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
-            isosurfaceControlNode.setOffset( viewControlNode.getXOffset(), viewControlNode.getFullBoundsReference().getMaxY() + ySpacing );
-            resetAllButtonNode.setOffset( isosurfaceControlNode.getXOffset(), isosurfaceControlNode.getFullBoundsReference().getMaxY() + ySpacing );
-            scriptNode.setOffset( resetAllButtonNode.getXOffset(), resetAllButtonNode.getFullBoundsReference().getMaxY() + ySpacing );
-
+            controlPanelNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
+            scriptNode.setOffset( controlPanelNode.getXOffset(), controlPanelNode.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
         // synchronize with view properties

@@ -3,19 +3,11 @@ package edu.colorado.phet.moleculepolarity.twoatoms;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
-import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
-import edu.colorado.phet.moleculepolarity.common.control.MPControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.MPResetAllButtonNode;
-import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.BondTypeNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicElectronDensityNode;
@@ -57,19 +49,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode bondTypeNode = new BondTypeNode( model.molecule );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
-
-        // Floating control panels, with uniform width
-        MPControlPanel viewControlPanel = new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE );
-        MPControlPanel surfaceControlPanel = new SurfaceControlPanel( viewProperties.isosurfaceType );
-        MPControlPanel eFieldControlPanel = new EFieldControlPanel( model.eField.enabled );
-        int minWidth = (int) Math.max( viewControlPanel.getPreferredSize().getWidth(), Math.max( surfaceControlPanel.getPreferredSize().getWidth(), eFieldControlPanel.getPreferredSize().getWidth() ) );
-        viewControlPanel.setMinWidth( minWidth );
-        surfaceControlPanel.setMinWidth( minWidth );
-        eFieldControlPanel.setMinWidth( minWidth );
-        PNode viewControlNode = new ControlPanelNode( viewControlPanel );
-        PNode isosurfaceControlNode = new ControlPanelNode( surfaceControlPanel );
-        PNode eFieldControlNode = new ControlPanelNode( eFieldControlPanel );
-        PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
+        PNode controlPanelNode = new TwoAtomsControlPanelNode( model, viewProperties, parentFrame );
 
         // rendering order
         {
@@ -80,10 +60,7 @@ public class TwoAtomsCanvas extends MPCanvas {
             // controls
             addChild( enControlA );
             addChild( enControlB );
-            addChild( viewControlNode );
-            addChild( isosurfaceControlNode );
-            addChild( eFieldControlNode );
-            addChild( resetAllButtonNode );
+            addChild( controlPanelNode );
 
             // indicators
             addChild( bondTypeNode );
@@ -112,10 +89,7 @@ public class TwoAtomsCanvas extends MPCanvas {
             electronDensityColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
             bondTypeNode.setOffset( model.molecule.getLocation().getX() - ( bondTypeNode.getFullBoundsReference().getWidth() / 2 ),
                                     enControlA.getFullBoundsReference().getMaxY() + ySpacing - PNodeLayoutUtils.getOriginYOffset( bondTypeNode ) );
-            viewControlNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
-            isosurfaceControlNode.setOffset( viewControlNode.getXOffset(), viewControlNode.getFullBoundsReference().getMaxY() + ySpacing );
-            eFieldControlNode.setOffset( isosurfaceControlNode.getXOffset(), isosurfaceControlNode.getFullBoundsReference().getMaxY() + ySpacing );
-            resetAllButtonNode.setOffset( isosurfaceControlNode.getXOffset(), eFieldControlNode.getFullBoundsReference().getMaxY() + ySpacing );
+            controlPanelNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
         }
 
         // synchronize with view properties
