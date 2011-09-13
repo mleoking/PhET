@@ -12,6 +12,7 @@ import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MPResetAllButtonNode;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
@@ -53,13 +54,22 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode electronDensityNode = new DiatomicElectronDensityNode( model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPColors.BW_GRADIENT );
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE ) );
-        PNode isosurfaceControlsNode = new ControlPanelNode( new SurfaceControlPanel( viewProperties.isosurfaceType ) );
-        PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
-        PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
         final PNode bondTypeNode = new BondTypeNode( model.molecule );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
+
+        // Floating control panels, with uniform width
+        MPControlPanel viewControlPanel = new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE );
+        MPControlPanel surfaceControlPanel = new SurfaceControlPanel( viewProperties.isosurfaceType );
+        MPControlPanel eFieldControlPanel = new EFieldControlPanel( model.eField.enabled );
+        int minWidth = (int) Math.max( viewControlPanel.getPreferredSize().getWidth(), Math.max( surfaceControlPanel.getPreferredSize().getWidth(), eFieldControlPanel.getPreferredSize().getWidth() ) );
+        viewControlPanel.setMinWidth( minWidth );
+        surfaceControlPanel.setMinWidth( minWidth );
+        eFieldControlPanel.setMinWidth( minWidth );
+        PNode viewControlsNode = new ControlPanelNode( viewControlPanel );
+        PNode isosurfaceControlsNode = new ControlPanelNode( surfaceControlPanel );
+        PNode eFieldControlsNode = new ControlPanelNode( eFieldControlPanel );
+        PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
 
         // rendering order
         {

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.moleculepolarity.MPStrings;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MPResetAllButtonNode;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
@@ -39,15 +40,22 @@ public class RealMoleculesCanvas extends MPCanvas {
 
         // nodes
         final JmolViewerNode viewerNode = new JmolViewerNode( model.currentMolecule, getBackground(), JMOL_VIEWER_SIZE );
-        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, true, true, MPStrings.BOND_DIPOLES ) );
-        PNode isosurfaceControlsNode = new ControlPanelNode( new SurfaceControlPanel( viewProperties.isosurfaceType ) );
-        PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
         PNode scriptNode = new JmolScriptNode( viewerNode );
         final ElectronegativityTableNode electronegativityTableNode = new ElectronegativityTableNode( viewerNode );
         PNode moleculeComboBox = new MoleculeControlNode( model.getMolecules(), model.currentMolecule );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode rainbowColorKeyNode = new RainbowElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
+
+        // Floating control panels, with uniform width
+        MPControlPanel viewControlPanel = new ViewControlPanel( viewProperties, true, false, true, true, MPStrings.BOND_DIPOLES );
+        MPControlPanel surfaceControlPanel = new SurfaceControlPanel( viewProperties.isosurfaceType );
+        int minWidth = (int) Math.max( viewControlPanel.getPreferredSize().getWidth(), surfaceControlPanel.getPreferredSize().getWidth() );
+        viewControlPanel.setMinWidth( minWidth );
+        surfaceControlPanel.setMinWidth( minWidth );
+        PNode viewControlsNode = new ControlPanelNode( viewControlPanel );
+        PNode isosurfaceControlsNode = new ControlPanelNode( surfaceControlPanel );
+        PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
 
         // rendering order
         {

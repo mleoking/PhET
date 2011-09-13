@@ -28,4 +28,8 @@ public abstract class MPControlPanel extends GridPanel {
         // space between title and controls below it
         add( Box.createVerticalStrut( 5 ) );
     }
+
+    public void setMinWidth( int minWidth ) {
+        add( Box.createHorizontalStrut( minWidth ) );
+    }
 }
