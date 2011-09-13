@@ -53,6 +53,7 @@ public class FluidPressureAndFlowResources {
         public static final String RESET = RESOURCES.getLocalizedString( "reset" );
         public static final String RULER = RESOURCES.getLocalizedString( "ruler" );
         public static final String UNITS = RESOURCES.getLocalizedString( "units" );
+        public static final String UNKNOWN_VELOCITY = RESOURCES.getLocalizedString( "unknownVelocity" );
         public static final String VALUE_WITH_UNITS_PATTERN = RESOURCES.getLocalizedString( "valueWithUnitsPattern" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
         public static final String WATER_TOWER = RESOURCES.getLocalizedString( "waterTower" );

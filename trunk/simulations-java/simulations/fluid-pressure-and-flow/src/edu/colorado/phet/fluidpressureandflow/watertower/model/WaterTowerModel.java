@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -184,18 +185,13 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         dropAddedListeners.add( dropAddedListener );
     }
 
-    public ImmutableVector2D getVelocity( double x, double y ) {
+    public Option<ImmutableVector2D> getVelocity( double x, double y ) {
         for ( WaterDrop waterTowerDrop : waterTowerDrops ) {
             if ( waterTowerDrop.contains( x, y ) ) {
-                return waterTowerDrop.velocity.get();
+                return new Option.Some<ImmutableVector2D>( waterTowerDrop.velocity.get() );
             }
         }
-        for ( WaterDrop waterTowerDrop : faucetDrops ) {
-            if ( waterTowerDrop.contains( x, y ) ) {
-                return waterTowerDrop.velocity.get();
-            }
-        }
-        return ImmutableVector2D.ZERO;
+        return new Option.None<ImmutableVector2D>();
     }
 
     public void addVelocityUpdateListener( SimpleObserver observer ) {

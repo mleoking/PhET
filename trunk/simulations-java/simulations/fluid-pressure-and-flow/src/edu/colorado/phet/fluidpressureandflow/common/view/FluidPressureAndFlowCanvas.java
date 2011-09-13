@@ -38,8 +38,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.RESET;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.VALUE_WITH_UNITS_PATTERN;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static edu.umd.cs.piccolo.PNode.PROPERTY_FULL_BOUNDS;
 
 /**
@@ -167,7 +166,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
                 public Point2D apply( Point2D point2D ) {
                     return visibleModelBounds.apply().getClosestPoint( point2D );
                 }
-            } ) {{
+            }, UNKNOWN_VELOCITY ) {{
 
                 //Make sure the node moves to front when dragged, and that it snaps back to the control panel when dropped
                 addInputEventListener( new MoveToFront( this ) );
