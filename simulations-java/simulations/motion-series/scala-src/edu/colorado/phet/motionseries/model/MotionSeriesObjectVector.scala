@@ -24,7 +24,9 @@ class Vector(val color: Color,
 
   def angle = vector2DModel.value.angle
 
-  def setVisible(vis: Boolean) = visible.set(vis)
+  def setVisible(vis: Boolean) {
+    visible.set(vis)
+  }
 
   def getPaint = painter(vector2DModel(), color)
 
@@ -33,6 +35,7 @@ class Vector(val color: Color,
 
 //Observable object in MVC pattern
 class Vector2DModel(private var _value: Vector2D) extends Observable {
+
   //Create a Vector2DModel with x=y=0
   def this(x: Double, y: Double) = this (new Vector2D(x, y))
 
