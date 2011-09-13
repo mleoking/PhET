@@ -3,14 +3,19 @@ package edu.colorado.phet.motionseries.model
 
 import edu.colorado.phet.scalacommon.util.Observable
 
-class VectorViewModel extends Observable {
+/**
+ * Observable model object for managing the visibility of different vectors
+ *
+ * @author Sam Reid
+ */
+class VectorViewModel(gravityAndNormalForceShownByDefault: Boolean) extends Observable {
   private var _originalVectors = true
   private var _parallelComponents = false
   private var _xyComponentsVisible = false
   private var _sumOfForcesVector = false
 
   //In the "Basics" application, gravity and normal forces aren't shown by default, but there is a control to allow the user to show them
-  private var _gravityAndNormalForce = true
+  private var _gravityAndNormalForce = gravityAndNormalForceShownByDefault
 
   resetAll()
 
@@ -19,7 +24,7 @@ class VectorViewModel extends Observable {
     parallelComponents = false
     xyComponentsVisible = false
     sumOfForcesVector = false
-    gravityAndNormalForce = true
+    gravityAndNormalForce = gravityAndNormalForceShownByDefault
   }
 
   def originalVectors = _originalVectors
