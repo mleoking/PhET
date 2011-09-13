@@ -15,7 +15,7 @@ class FreeBodyDiagramModel(val popupDialogOnly: Boolean) extends Observable {
 
   resetAll()
 
-  def resetAll() = {
+  def resetAll() {
     windowed = false
     visible = false
     closable = true
@@ -23,7 +23,7 @@ class FreeBodyDiagramModel(val popupDialogOnly: Boolean) extends Observable {
 
   def closable = _closable
 
-  def closable_=(b: Boolean) = {
+  def closable_=(b: Boolean) {
     _closable = b
     notifyListeners()
   }
@@ -32,12 +32,12 @@ class FreeBodyDiagramModel(val popupDialogOnly: Boolean) extends Observable {
 
   def windowed = _windowed || popupDialogOnly
 
-  def visible_=(value: Boolean) = {
+  def visible_=(value: Boolean) {
     _visible = value
     notifyListeners()
   }
 
-  def windowed_=(value: Boolean) = {
+  def windowed_=(value: Boolean) {
     _windowed = value
     notifyListeners()
   }
@@ -49,7 +49,7 @@ class AdjustableCoordinateModel extends Observable {
 
   resetAll()
 
-  def resetAll() = {
+  def resetAll() {
     fixed = true
   }
 
@@ -57,12 +57,12 @@ class AdjustableCoordinateModel extends Observable {
 
   def adjustable = !_fixed
 
-  def fixed_=(b: Boolean) = {
+  def fixed_=(b: Boolean) {
     _fixed = b
     notifyListeners()
   }
 
-  def adjustable_=(b: Boolean) = {
+  def adjustable_=(b: Boolean) {
     _fixed = !b
     notifyListeners()
   }
@@ -74,16 +74,22 @@ class VectorViewModel extends Observable {
   private var _xyComponentsVisible = false
   private var _sumOfForcesVector = false
 
+  //In the "Basics" application, gravity and normal forces aren't shown by default, but there is a control to allow the user to show them
+  private var _gravityAndNormalForce = true
+
   resetAll()
 
-  def resetAll() = {
+  def resetAll() {
     originalVectors = true
     parallelComponents = false
     xyComponentsVisible = false
     sumOfForcesVector = false
+    gravityAndNormalForce = true
   }
 
   def originalVectors = _originalVectors
+
+  def gravityAndNormalForce = _gravityAndNormalForce
 
   def parallelComponents = _parallelComponents
 
@@ -91,23 +97,28 @@ class VectorViewModel extends Observable {
 
   def sumOfForcesVector = _sumOfForcesVector
 
-  def originalVectors_=(b: Boolean) = {
+  def originalVectors_=(b: Boolean) {
     _originalVectors = b
     notifyListeners()
   }
 
-  def parallelComponents_=(b: Boolean) = {
+  def parallelComponents_=(b: Boolean) {
     _parallelComponents = b
     notifyListeners()
   }
 
-  def xyComponentsVisible_=(b: Boolean) = {
+  def xyComponentsVisible_=(b: Boolean) {
     _xyComponentsVisible = b
     notifyListeners()
   }
 
-  def sumOfForcesVector_=(b: Boolean) = {
+  def sumOfForcesVector_=(b: Boolean) {
     _sumOfForcesVector = b
+    notifyListeners()
+  }
+
+  def gravityAndNormalForce_=(b: Boolean) {
+    _gravityAndNormalForce = b
     notifyListeners()
   }
 }
@@ -137,7 +148,7 @@ class CoordinateFrameModel(rampSegment: RampSegment) extends Observable {
 
   def proposedAngle = _proposedAngle
 
-  def proposedAngle_=(d: Double) = {
+  def proposedAngle_=(d: Double) {
     _proposedAngle = MathUtil.clamp(0, d, MotionSeriesDefaults.MAX_ANGLE)
     notifyListeners()
   }

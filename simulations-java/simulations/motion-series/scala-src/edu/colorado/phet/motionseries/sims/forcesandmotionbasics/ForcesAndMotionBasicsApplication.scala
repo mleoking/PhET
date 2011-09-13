@@ -28,7 +28,10 @@ class ForcesAndMotionBasicsModule(frame: PhetFrame,
                                   showBounceControl: Boolean,
                                   modelViewport: Rectangle2D,
                                   stageContainerArea: StageContainerArea,
-                                  fbdPopupOnly: Boolean)
+                                  fbdPopupOnly: Boolean,
+
+                                  //Flag to indicate whether a control will be shown to enable/disable "show gravity and normal forces"
+                                  _showGravityNormalForceCheckBox: Boolean = false)
         extends MotionSeriesModule(frame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), name, defaultPosition, initialAngle, fbdPopupOnly) {
   val canvas = new ForcesAndMotionBasicsCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
                                                showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
@@ -37,7 +40,10 @@ class ForcesAndMotionBasicsModule(frame: PhetFrame,
                                                   resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl, showBounceControl, "position.controls.title".translate, audioEnabled,
 
                                                   //No FBD on/off panel in the "Basics" sim
-                                                  showFBDPanel = false)
+                                                  showFBDPanel = false,
+
+                                                  //In the "Basics" application, gravity and normal forces aren't shown by default, but there is a control to allow the user to show them
+                                                  showGravityNormalForceCheckBox = _showGravityNormalForceCheckBox)
   setControlPanel(controlPanel)
   setClockControlPanel(createRecordAndPlaybackPanel)
 
@@ -70,7 +76,8 @@ class IntroModule(frame: PhetFrame) extends ForcesAndMotionBasicsModule(frame, "
                                                                         true, -6, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea, false)
 
 class FrictionModule(frame: PhetFrame) extends ForcesAndMotionBasicsModule(frame, "forces-and-motion.module.friction.title".translate,
-                                                                           false, false, false, true, -6.0, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false) {
+                                                                           false, false, false, true, -6.0, 0.0, false, true, MotionSeriesDefaults.forceMotionFrictionViewport, MotionSeriesDefaults.forceMotionFrictionArea, false,
+                                                                           _showGravityNormalForceCheckBox = true) {
 
   // so that it resizes
   motionSeriesModel.selectedObject = MotionSeriesDefaults.custom
