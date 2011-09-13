@@ -16,8 +16,6 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import edu.umd.cs.piccolo.PNode
-import edu.umd.cs.piccolox.pswing.{PSwingCanvas, PSwing}
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import java.awt.event.{MouseEvent, MouseAdapter}
 import edu.colorado.phet.common.phetcommon.view.{PhetTitledBorder, ControlPanel, VerticalLayoutPanel}
@@ -251,22 +249,6 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   getContentPanel.setFillNone()
   getContentPanel.setAnchor(GridBagConstraints.CENTER)
-}
-
-class ObjectSelectionComboBoxNode(objectModel: ObjectSelectionModel, canvas: PSwingCanvas, showTitle: Boolean = true) extends PNode {
-  var text: PNode = null
-  if ( showTitle ) {
-    val text = new PSwing(new TitleLabel("controls.choose-object".translate))
-    addChild(text)
-  }
-
-  val boxPanel = new ObjectSelectionComboBox(objectModel)
-  val pswing = new PSwing(boxPanel)
-  if ( text != null ) {
-    pswing.setOffset(0, text.getFullBounds.getHeight)
-  }
-  boxPanel.setEnvironment(pswing, canvas)
-  addChild(pswing)
 }
 
 class SubControlPanel(title: String) extends VerticalLayoutPanel {
