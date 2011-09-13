@@ -28,12 +28,18 @@ public class BalanceChallengeSetFactory {
 
         // Create the list of fixed masses.
         List<BalanceChallenge.MassDistancePair> fixedMassesList = new ArrayList<BalanceChallenge.MassDistancePair>();
-        fixedMassesList.add( new BalanceChallenge.MassDistancePair( new BrickStack( 2 ), -1 ) );
+        BalanceChallenge.MassDistancePair fixedMass = new BalanceChallenge.MassDistancePair( new BrickStack( 2 ), -1 );
+        fixedMassesList.add( fixedMass );
 
         // Create the list of user-movable masses.
         List<Mass> movableMassesList = new ArrayList<Mass>();
-        movableMassesList.add( new BrickStack( 4 ) );
+        BrickStack movableMass = new BrickStack( 4 );
+        movableMassesList.add( movableMass );
 
-        return new BalanceChallenge( fixedMassesList, movableMassesList );
+        // Create a valid solution for the challenge.
+        List<BalanceChallenge.MassDistancePair> solution = new ArrayList<BalanceChallenge.MassDistancePair>();
+        solution.add( new BalanceChallenge.MassDistancePair( movableMass, -fixedMass.mass.getMass() * fixedMass.distance / movableMass.getMass() ) );
+
+        return new BalanceChallenge( fixedMassesList, movableMassesList, solution );
     }
 }
