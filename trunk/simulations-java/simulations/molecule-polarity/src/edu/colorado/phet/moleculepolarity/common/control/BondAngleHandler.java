@@ -36,6 +36,7 @@ public class BondAngleHandler extends PBasicInputEventHandler {
     @Override public void mousePressed( PInputEvent event ) {
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
+        dragNode.moveToFront();
     }
 
     @Override public void mouseReleased( PInputEvent event ) {

@@ -6,7 +6,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.BondAngleHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MouseOverVisibilityHandler;
-import edu.colorado.phet.moleculepolarity.common.control.MoveToFrontHandler;
 import edu.colorado.phet.moleculepolarity.common.control.RotateCursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
 import edu.umd.cs.piccolo.PNode;
@@ -55,9 +54,6 @@ public class TriatomicMoleculeNode extends PhetPNode {
         atomCNode.addInputEventListener( new CursorHandler() );
         atomANode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleA, atomANode ) );
         atomCNode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleC, atomCNode ) );
-        // move the atom being dragged to the front
-        atomANode.addInputEventListener( new MoveToFrontHandler( atomANode ) );
-        atomCNode.addInputEventListener( new MoveToFrontHandler( atomCNode ) );
 
         // make bond angle indicators visible only on mouseOver
         atomANode.addInputEventListener( new MouseOverVisibilityHandler( indicatorANode ) );
