@@ -21,7 +21,6 @@ public class BalanceChallengeSetFactory {
 
     // Lists of ratios to use when generating challenges.
     private static final double[] SIMPLE_RATIO_LIST = new double[] { 0.5, 1, 2 };
-    private static final double[] ADVANCED_RATIO_LIST = new double[] { ( 1 / 3 ), 0.5, ( 2 / 3 ), 1, 2, 1.5, 3 };
 
     // Max number of attempts to generate a workable or unique challenge.
     private static final int MAX_GEN_ATTEMPTS = 100;
@@ -84,26 +83,18 @@ public class BalanceChallengeSetFactory {
         return balanceChallengeList;
     }
 
+    /**
+     * Create a simple challenge where equal mass brick stacks appear on each
+     * side.
+     *
+     * @return
+     */
     private static BalanceChallenge generateChallengeEqualMassBricksEachSide() {
         int numBricks = 1 + RAND.nextInt( 3 );
         double distance = -generateRandomValidPlankDistance();
 
-        // Add the fixed brick stack.
-        List<BalanceChallenge.MassDistancePair> fixedMassesList = new ArrayList<BalanceChallenge.MassDistancePair>();
-        BalanceChallenge.MassDistancePair fixedMass = new BalanceChallenge.MassDistancePair( new BrickStack( numBricks ), distance );
-        fixedMassesList.add( fixedMass );
-
-        // Add the movable brick stack.
-        List<Mass> movableMassesList = new ArrayList<Mass>();
-        BrickStack movableMass = new BrickStack( numBricks );
-        movableMassesList.add( movableMass );
-
-        // Create a valid solution for the challenge.
-        List<BalanceChallenge.MassDistancePair> solution = new ArrayList<BalanceChallenge.MassDistancePair>();
-        solution.add( new BalanceChallenge.MassDistancePair( movableMass, -fixedMass.mass.getMass() * fixedMass.distance / movableMass.getMass() ) );
-
-        // And we're done.
-        return new BalanceChallenge( fixedMassesList, movableMassesList, solution );
+        // Create the challenge.
+        return createTwoBrickStackChallenge( numBricks, numBricks, distance );
     }
 
     /**
@@ -142,22 +133,8 @@ public class BalanceChallengeSetFactory {
         // Randomly choose a distance to use from the identified set.
         double fixedStackDistanceFromCenter = -validFixedStackDistances.get( RAND.nextInt( validFixedStackDistances.size() ) );
 
-        // Add the fixed brick stack.
-        List<BalanceChallenge.MassDistancePair> fixedMassesList = new ArrayList<BalanceChallenge.MassDistancePair>();
-        BalanceChallenge.MassDistancePair fixedMass = new BalanceChallenge.MassDistancePair( new BrickStack( numBricksInFixedStack ), fixedStackDistanceFromCenter );
-        fixedMassesList.add( fixedMass );
-
-        // Add the movable brick stack.
-        List<Mass> movableMassesList = new ArrayList<Mass>();
-        BrickStack movableMass = new BrickStack( numBricksInMovableStack );
-        movableMassesList.add( movableMass );
-
-        // Create a valid solution for the challenge.
-        List<BalanceChallenge.MassDistancePair> solution = new ArrayList<BalanceChallenge.MassDistancePair>();
-        solution.add( new BalanceChallenge.MassDistancePair( movableMass, -fixedMass.mass.getMass() * fixedMass.distance / movableMass.getMass() ) );
-
-        // And we're done.
-        return new BalanceChallenge( fixedMassesList, movableMassesList, solution );
+        // Create the challenge.
+        return createTwoBrickStackChallenge( numBricksInFixedStack, numBricksInMovableStack, fixedStackDistanceFromCenter );
     }
 
     private static BalanceChallenge generateChallengeAdvancedRatioBricks() {
@@ -188,6 +165,11 @@ public class BalanceChallengeSetFactory {
         // Randomly choose a distance to use from the identified set.
         double fixedStackDistanceFromCenter = -validFixedStackDistances.get( RAND.nextInt( validFixedStackDistances.size() ) );
 
+        // Create the challenge.
+        return createTwoBrickStackChallenge( numBricksInFixedStack, numBricksInMovableStack, fixedStackDistanceFromCenter );
+    }
+
+    private static BalanceChallenge createTwoBrickStackChallenge( int numBricksInFixedStack, int numBricksInMovableStack, double fixedStackDistanceFromCenter ) {
         // Add the fixed brick stack.
         List<BalanceChallenge.MassDistancePair> fixedMassesList = new ArrayList<BalanceChallenge.MassDistancePair>();
         BalanceChallenge.MassDistancePair fixedMass = new BalanceChallenge.MassDistancePair( new BrickStack( numBricksInFixedStack ), fixedStackDistanceFromCenter );
@@ -237,11 +219,5 @@ public class BalanceChallengeSetFactory {
         double increment = Plank.INTER_SNAP_TO_MARKER_DISTANCE;
         int maxIncrements = (int) Math.round( maxDistance / increment ) - 1;
         return ( RAND.nextInt( maxIncrements ) + 1 ) * increment;
-    }
-
-    public static void main( String[] args ) {
-        for ( int i = 0; i < 10; i++ ) {
-            System.out.println( generateRandomValidPlankDistance() );
-        }
     }
 }
