@@ -1,3 +1,4 @@
+Micro tab: Fixed: The + and - signs for the ions (and the 2+ in Ca2+) should be superscripts. This goes for the concentration labels in the 2nd tab, and the ion labels in the 3rd tab. The numbers in the chemical formulas (the 3 in NO3) should be subscripts
 Micro tab: Fixed: The formula for glucose should be C6H12O6 instead of C6H12O11
 # 0.00.104 (56339) Sep 8, 2011
 Micro tab: Moved the "Periodic table" button underneath the solute selection panel
