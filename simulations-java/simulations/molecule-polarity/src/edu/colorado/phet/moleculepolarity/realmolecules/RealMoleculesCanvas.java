@@ -71,21 +71,19 @@ public class RealMoleculesCanvas extends MPCanvas {
 
         // layout
         {
-            final double xSpacing = 50;
-            final double ySpacing = 10;
-            viewerNode.setOffset( ( getStageSize().getWidth() - viewerNode.getFullBoundsReference().getWidth() - controlPanelNode.getFullBoundsReference().getWidth() - ( 2 * xSpacing ) ) / 2,
-                                  moleculeComboBox.getFullBoundsReference().getHeight() + 2 * ySpacing );
+            final double viewerX = ( getStageSize().getWidth() - viewerNode.getFullBoundsReference().getWidth() - controlPanelNode.getFullBoundsReference().getWidth() ) / 2;
+            moleculeComboBox.setOffset( viewerX + ( viewerNode.getFullBoundsReference().getWidth() / 2 ) - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ), 25 );
+            viewerNode.setOffset( viewerX,
+                                  moleculeComboBox.getFullBoundsReference().getMaxY() + 10 );
             electrostaticPotentialColorKeyNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( electrostaticPotentialColorKeyNode.getFullBoundsReference().getWidth() / 2 ),
-                                                          viewerNode.getFullBoundsReference().getMaxY() + ySpacing );
+                                                          viewerNode.getFullBoundsReference().getMaxY() + 10 );
             rainbowColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
             electronDensityColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
             electronegativityTableNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( electronegativityTableNode.getFullBoundsReference().getWidth() / 2 ),
                                                   electrostaticPotentialColorKeyNode.getFullBoundsReference().getMaxY() + 20 );
-            moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
-                                        ySpacing );
-            controlPanelNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing,
+            controlPanelNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + 25,
                                         viewerNode.getFullBoundsReference().getCenterY() - ( controlPanelNode.getFullBoundsReference().getHeight() / 2 ) );
-            scriptNode.setOffset( controlPanelNode.getXOffset(), controlPanelNode.getFullBoundsReference().getMaxY() + ySpacing );
+            scriptNode.setOffset( controlPanelNode.getXOffset(), controlPanelNode.getFullBoundsReference().getMaxY() + 10 );
         }
 
         // synchronize with view properties
