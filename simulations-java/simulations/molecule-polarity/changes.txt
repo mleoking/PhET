@@ -1,3 +1,4 @@
+9/13/11 use double arrows to indicate dragging direction for changing bond angle
 9/13/11 transform the shape of the bond angle indicator to point in the correct direction
 9/13/11 move bond angle indicator to front on mouse over
 9/13/11 merge MoveToFrontHandler into BondAngleHandler
