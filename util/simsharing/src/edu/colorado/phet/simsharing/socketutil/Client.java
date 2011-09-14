@@ -6,7 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import edu.colorado.phet.simsharing.Server;
+import edu.colorado.phet.simsharing.server.Server;
 
 /**
  * Fairly general-purpose class for communicating with a server over sockets.

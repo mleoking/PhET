@@ -19,6 +19,7 @@ import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StartSession;
+import edu.colorado.phet.simsharing.server.Server;
 import edu.colorado.phet.simsharing.socketutil.Client;
 import edu.colorado.phet.simsharing.socketutil.IActor;
 import edu.colorado.phet.simsharing.socketutil.ThreadedActor;
