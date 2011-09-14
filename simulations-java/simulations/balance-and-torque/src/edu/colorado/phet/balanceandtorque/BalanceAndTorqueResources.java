@@ -38,5 +38,7 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage MYSTERY_OBJECT_08 = RESOURCES.getImage( "mystery-object-08.png" );
         public static final BufferedImage YOUNG_GIRL_SITTING_01 = RESOURCES.getImage( "young-girl-sitting-01.png" );
         public static final BufferedImage YOUNG_GIRL_STANDING_01 = RESOURCES.getImage( "young-girl-standing-01.png" );
+        public static final BufferedImage ROCK_4 = RESOURCES.getImage( "rock_4.png" );
+        public static final BufferedImage ROCK_6 = RESOURCES.getImage( "rock_6.png" );
     }
 }
