@@ -4,6 +4,8 @@ package edu.colorado.phet.simsharing;
 import java.awt.AWTException;
 import java.io.IOException;
 
+import edu.colorado.phet.simsharing.server.Server;
+
 /**
  * Launch lots of students for load-testing.
  *

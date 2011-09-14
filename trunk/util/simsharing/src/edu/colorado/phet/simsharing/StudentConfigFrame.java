@@ -25,6 +25,7 @@ import javax.swing.event.ListSelectionListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.simsharing.server.Server;
 
 import static java.awt.GridBagConstraints.CENTER;
 import static java.awt.GridBagConstraints.NONE;
