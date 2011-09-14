@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.simsharing.messages.AddSamples;
@@ -45,8 +43,7 @@ public class Server implements MessageHandler {
     //Names to assign to students for testing
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
 
-    //Careful, used in many threads, so must threadlock
-    private Map<SessionID, Session<?>> sessions = Collections.synchronizedMap( new HashMap<SessionID, Session<?>>() );
+    private SessionStorage sessions = new MemoryStorage();
 
     private void start() throws IOException {
         new MessageServer( PORT, this ).start();
