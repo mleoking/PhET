@@ -1,3 +1,4 @@
+# 0.00.106 (56553) Sep 14, 2011
 # 0.00.105 (56545) Sep 14, 2011
 Water tab: Made "Show water charges" the first option
 Water tab: Labeled the control box as "Show"
