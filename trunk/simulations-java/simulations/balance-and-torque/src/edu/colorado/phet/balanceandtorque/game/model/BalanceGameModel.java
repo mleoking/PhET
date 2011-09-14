@@ -319,6 +319,17 @@ public class BalanceGameModel {
         }
     }
 
+    /**
+     * Get the point value for the current challenge with any points for missed
+     * guesses already deducted.
+     *
+     * @return
+     */
+    public int getChallengeCurrentPointValue() {
+        assert MAX_POINTS_PER_PROBLEM > incorrectGuessesOnCurrentChallenge;
+        return MAX_POINTS_PER_PROBLEM - incorrectGuessesOnCurrentChallenge;
+    }
+
     public void tryAgain() {
         // Restore the column but don't restart the challenge so that the user
         // can better see why the plank is not balancing.

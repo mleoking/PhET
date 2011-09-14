@@ -43,6 +43,7 @@ import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -96,7 +97,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private final PNode challengeLayer = new PNode();
 
     // Create the smiling and frowning faces and center them on the screen
-    private final PNode smilingFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR );
+    private final SmileFaceWithScoreNode smilingFace = new SmileFaceWithScoreNode();
     private final PNode frowningFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
         frown();
     }};
@@ -375,6 +376,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
         else if ( newState == SHOWING_CORRECT_ANSWER_FEEDBACK ) {
             GAME_AUDIO_PLAYER.correctAnswer();
+            smilingFace.setScore( model.getChallengeCurrentPointValue() );
             show( scoreboard, nextChallengeButton, smilingFace );
             showChallenge();
         }
@@ -470,4 +472,35 @@ public class BalanceGameCanvas extends PhetPCanvas {
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
+
+    /**
+     * Node that represents a smiling face with the additional points gained
+     * for getting the answer correct shown immediately below it.
+     */
+    private static class SmileFaceWithScoreNode extends PNode {
+
+        private static final Font SCORE_FONT = new PhetFont( 20, true );
+        private PText scoreNode;
+        private FaceNode faceNode;
+
+        private SmileFaceWithScoreNode() {
+            faceNode = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR );
+            addChild( faceNode );
+            scoreNode = new PText();
+            scoreNode.setFont( SCORE_FONT );
+            addChild( scoreNode );
+        }
+
+        public void setScore( int score ) {
+            if ( score >= 0 ) {
+                scoreNode.setText( "+" + Integer.toString( score ) );
+                scoreNode.setOffset( faceNode.getFullBoundsReference().getCenterX() - scoreNode.getFullBoundsReference().width / 2,
+                                     faceNode.getFullBoundsReference().getMaxY() );
+            }
+            else {
+                System.out.println( getClass().getName() + " - Warning: Attempt to set zero or negative score." );
+                scoreNode.setText( "" );
+            }
+        }
+    }
 }
