@@ -33,7 +33,6 @@ public class ThreeAtomsCanvas extends MPCanvas {
     private static final double DIPOLE_SCALE = 1.0; // how much to scale the dipoles in the view
 
     public ThreeAtomsCanvas( ThreeAtomsModel model, ViewProperties viewProperties, Frame parentFrame ) {
-        super();
 
         // nodes
         PNode negativePlateNode = new NegativePlateNode( model.eField );

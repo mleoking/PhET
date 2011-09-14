@@ -34,7 +34,6 @@ public class RealMoleculesCanvas extends MPCanvas {
     private static final Dimension JMOL_VIEWER_SIZE = new Dimension( 450, 450 );
 
     public RealMoleculesCanvas( RealMoleculesModel model, final ViewProperties viewProperties, Frame parentFrame ) {
-        super();
 
         // nodes
         final JmolViewerNode viewerNode = new JmolViewerNode( model.currentMolecule, getBackground(), JMOL_VIEWER_SIZE );
