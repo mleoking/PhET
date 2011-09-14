@@ -48,17 +48,74 @@ public class BalanceChallenge {
         }
     }
 
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) { return true; }
+        if ( o == null || getClass() != o.getClass() ) { return false; }
+
+        BalanceChallenge that = (BalanceChallenge) o;
+
+        for ( MassDistancePair massDistancePair : fixedMasses ) {
+            if ( !that.fixedMasses.contains( massDistancePair ) ) {
+                return false;
+            }
+        }
+
+        if ( movableMasses.size() != that.movableMasses.size() ) {
+            return false;
+        }
+
+        List<Mass> copyOfThatMovableMasses = new ArrayList<Mass>( that.movableMasses );
+        for ( Mass thisMass : movableMasses ) {
+            for ( Mass thatMass : new ArrayList<Mass>( copyOfThatMovableMasses ) ) {
+                if ( thisMass.getMass() == thatMass.getMass() ) {
+                    if ( copyOfThatMovableMasses.contains( thatMass ) ) {
+                        copyOfThatMovableMasses.remove( thatMass );
+                        break;
+                    }
+                }
+            }
+        }
+
+        if ( copyOfThatMovableMasses.size() != 0 ) {
+            return false;
+        }
+
+        if ( !solutionToPresent.equals( that.solutionToPresent ) ) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Convenience class for pairing a mass with a distance from the center
      * of the balancing apparatus.
      */
     public static class MassDistancePair {
         public final Mass mass;       // Class containing mass info.
-        public final double distance; // In meters.
+        public final double distance; // Distance from plank center, in meters.
 
         public MassDistancePair( Mass mass, double distance ) {
             this.mass = mass;
             this.distance = distance;
+        }
+
+        @Override
+        public boolean equals( Object o ) {
+            if ( this == o ) { return true; }
+            if ( o == null || getClass() != o.getClass() ) { return false; }
+
+            MassDistancePair that = (MassDistancePair) o;
+
+            if ( that.distance != distance ) {
+                return false;
+            }
+            if ( mass.getMass() != that.mass.getMass() ) {
+                return false;
+            }
+
+            return true;
         }
     }
 }

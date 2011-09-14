@@ -1,3 +1,4 @@
+Game: Added algorithm to prevent the same problem from occurring twice in a challenge set.
 Game: Added an indication of the number of points gained to the smile face.
 Game: Added sound.
 Game: Fixed issue where, in some challenges, the brick stack would not get properly added to the plank and would float in space.

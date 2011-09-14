@@ -23,6 +23,9 @@ public class BalanceChallengeSetFactory {
     private static final double[] SIMPLE_RATIO_LIST = new double[] { 0.5, 1, 2 };
     private static final double[] ADVANCED_RATIO_LIST = new double[] { ( 1 / 3 ), 0.5, ( 2 / 3 ), 1, 2, 1.5, 3 };
 
+    // Max number of attempts to generate a workable or unique challenge.
+    private static final int MAX_GEN_ATTEMPTS = 100;
+
     /**
      * Get a set of challenges for the provided level.
      *
@@ -40,7 +43,16 @@ public class BalanceChallengeSetFactory {
                     balanceChallengeList.add( generateChallengeEqualMassBricksEachSide() );
                 }
                 else {
-                    balanceChallengeList.add( generateChallengeSimpleRatioBricks() );
+                    BalanceChallenge balanceChallenge = null;
+                    for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
+                        balanceChallenge = generateChallengeSimpleRatioBricks();
+                        if ( !balanceChallengeList.contains( balanceChallenge ) ) {
+                            // This is a unique one, so we're done.
+                            break;
+                        }
+                        assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
+                    }
+                    balanceChallengeList.add( balanceChallenge );
                 }
             }
         }
@@ -51,7 +63,16 @@ public class BalanceChallengeSetFactory {
                     balanceChallengeList.add( generateChallengeSimpleRatioBricks() );
                 }
                 else {
-                    balanceChallengeList.add( generateChallengeAdvancedRatioBricks() );
+                    BalanceChallenge balanceChallenge = null;
+                    for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
+                        balanceChallenge = generateChallengeAdvancedRatioBricks();
+                        if ( !balanceChallengeList.contains( balanceChallenge ) ) {
+                            // This is a unique one, so we're done.
+                            break;
+                        }
+                        assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
+                    }
+                    balanceChallengeList.add( balanceChallenge );
                 }
             }
         }
