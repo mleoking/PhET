@@ -25,6 +25,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.view.LabeledImageMassNode
 import edu.colorado.phet.balanceandtorque.teetertotter.view.LevelIndicatorNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.OutlinePText;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.PlankNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.RotatingRulerNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.TiltedSupportColumnNode;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
@@ -36,6 +37,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -88,13 +90,12 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     // Canvas layers.
     private PNode rootNode;
+    private final PNode challengeLayer = new PNode();
+    private final PNode controlLayer = new PNode();
 
     // Game nodes.
     private PNode gameSettingsNode;
     private PNode gameOverNode = null;
-
-    // Layer to show the challenge-specific nodes such as the plank, etc.
-    private final PNode challengeLayer = new PNode();
 
     // Create the smiling and frowning faces and center them on the screen
     private final SmileFaceWithScoreNode smilingFace = new SmileFaceWithScoreNode();
@@ -144,7 +145,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
-        // Add the layer where the challenges will be shown.
+        // Add the layers.
+        rootNode.addChild( controlLayer );
         rootNode.addChild( challengeLayer );
 
         // Add the fulcrum, the columns, etc.
@@ -332,6 +334,19 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 }
             } );
         }} );
+
+        // Add a check box for controlling whether the ruler is visible.
+        BooleanProperty rulerVisibilityProperty = new BooleanProperty( false );
+        // TODO: i18n
+        PropertyCheckBox rulerVisibilityCheckBox = new PropertyCheckBox( "Show Ruler", rulerVisibilityProperty );
+        rulerVisibilityCheckBox.setFont( new PhetFont( 16 ) );
+        rulerVisibilityCheckBox.setBackground( new Color( 0, 0, 0, 0 ) );
+        PNode rulerVisibilityCheckBoxNode = new PSwing( rulerVisibilityCheckBox );
+        rulerVisibilityCheckBoxNode.setOffset( mvt.modelToViewX( 2 ), mvt.modelToViewY( -0.25 ) );
+        controlLayer.addChild( rulerVisibilityCheckBoxNode );
+
+        // Add the ruler node.
+        challengeLayer.addChild( new RotatingRulerNode( model.getPlank(), mvt, rulerVisibilityProperty ) );
     }
 
     //-------------------------------------------------------------------------
@@ -411,13 +426,16 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     private void hideChallenge() {
         challengeLayer.setVisible( false );
+        controlLayer.setVisible( false );
     }
 
-    //Add graphics for the next challenge, assumes that the model state already reflects the challenge to be shown
+    // Add graphics for the next challenge, assumes that the model state
+    // already reflects the challenge to be shown.
     private void showChallenge() {
         challengeLayer.setVisible( true );
+        controlLayer.setVisible( true );
 
-        //By default the challenge is non-interactive
+        // By default the challenge is non-interactive
         challengeLayer.setPickable( false );
         challengeLayer.setChildrenPickable( false );
     }
