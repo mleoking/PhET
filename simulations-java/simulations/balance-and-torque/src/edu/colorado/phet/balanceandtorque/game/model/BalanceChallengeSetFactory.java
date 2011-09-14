@@ -58,22 +58,16 @@ public class BalanceChallengeSetFactory {
         }
         else if ( level == 2 ) {
             for ( int i = 0; i < numChallenges; i++ ) {
-                if ( i == 0 ) {
-                    // User a simpler ratio problem for the first on the list.
-                    balanceChallengeList.add( generateChallengeSimpleRatioBricks() );
-                }
-                else {
-                    BalanceChallenge balanceChallenge = null;
-                    for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                        balanceChallenge = generateChallengeAdvancedRatioBricks();
-                        if ( !balanceChallengeList.contains( balanceChallenge ) ) {
-                            // This is a unique one, so we're done.
-                            break;
-                        }
-                        assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
+                BalanceChallenge balanceChallenge = null;
+                for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
+                    balanceChallenge = generateChallengeAdvancedRatioBricks();
+                    if ( !balanceChallengeList.contains( balanceChallenge ) ) {
+                        // This is a unique one, so we're done.
+                        break;
                     }
-                    balanceChallengeList.add( balanceChallenge );
+                    assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
                 }
+                balanceChallengeList.add( balanceChallenge );
             }
         }
         else {
