@@ -338,12 +338,13 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add a check box for controlling whether the ruler is visible.
         BooleanProperty rulerVisibilityProperty = new BooleanProperty( false );
         // TODO: i18n
-        PropertyCheckBox rulerVisibilityCheckBox = new PropertyCheckBox( "Show Ruler", rulerVisibilityProperty );
-        rulerVisibilityCheckBox.setFont( new PhetFont( 16 ) );
-        rulerVisibilityCheckBox.setBackground( new Color( 0, 0, 0, 0 ) );
-        PNode rulerVisibilityCheckBoxNode = new PSwing( rulerVisibilityCheckBox );
-        rulerVisibilityCheckBoxNode.setOffset( mvt.modelToViewX( 2 ), mvt.modelToViewY( -0.25 ) );
-        controlLayer.addChild( rulerVisibilityCheckBoxNode );
+        PropertyCheckBox rulerVisibilityCheckBox = new PropertyCheckBox( "Show Ruler", rulerVisibilityProperty ) {{
+            setFont( new PhetFont( 16 ) );
+            setBackground( new Color( 0, 0, 0, 0 ) );
+        }};
+        controlLayer.addChild( new PSwing( rulerVisibilityCheckBox ) {{
+            setOffset( mvt.modelToViewX( 3 ) - getFullBoundsReference().width / 2, mvt.modelToViewY( -0.25 ) );
+        }} );
 
         // Add the ruler node.
         challengeLayer.addChild( new RotatingRulerNode( model.getPlank(), mvt, rulerVisibilityProperty ) );
