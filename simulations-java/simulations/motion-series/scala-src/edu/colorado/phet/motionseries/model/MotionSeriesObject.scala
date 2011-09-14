@@ -116,12 +116,19 @@ class MotionSeriesObject(_position: MutableDouble,
   _mass.addListener(updateGravityForce)
   updateGravityForce()
 
-  val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "gravityForce".translate, "force.abbrev.gravity".translate, false, gravityForce, (a, b) => b, PI / 2)
-  val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "normalForce".translate, "force.abbrev.normal".translate, true, normalForce, (a, b) => b, PI / 2)
-  val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "totalForce".translate, "force.abbrev.total".translate, false, totalForce, (a, b) => b, 0) ////Net force vector label should always be above
-  val appliedForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.appliedForceColor, "appliedForce".translate, "force.abbrev.applied".translate, false, appliedForce, (a, b) => b, PI / 2)
-  val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "frictionForce".translate, "force.abbrev.friction".translate, true, frictionForce, (a, b) => b, -PI / 2)
-  val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "wallForce".translate, "force.abbrev.wall".translate, false, wallForce, (a, b) => b, PI / 2)
+  //For "Basics" application, use complete words like Ffriction instead of abbreviations like Ff.  Basics application is not i18ized
+  val gravityString = if ( Settings.basicsMode ) "gravity" else "force.abbrev.gravity".translate
+  val normalString = if ( Settings.basicsMode ) "normal" else "force.abbrev.normal".translate
+  val totalForceString = if ( Settings.basicsMode ) "total" else "force.abbrev.total".translate
+  val appliedForceString = if ( Settings.basicsMode ) "push" else "force.abbrev.applied".translate
+  val frictionForceString = if ( Settings.basicsMode ) "friction" else "force.abbrev.friction".translate
+  val wallForceString = if ( Settings.basicsMode ) "wall" else "force.abbrev.wall".translate
+  val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "gravityForce".translate, gravityString, false, gravityForce, (a, b) => b, PI / 2)
+  val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "normalForce".translate, normalString, true, normalForce, (a, b) => b, PI / 2)
+  val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "totalForce".translate, totalForceString, false, totalForce, (a, b) => b, 0) ////Net force vector label should always be above
+  val appliedForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.appliedForceColor, "appliedForce".translate, appliedForceString, false, appliedForce, (a, b) => b, PI / 2)
+  val frictionForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.frictionForceColor, "frictionForce".translate, frictionForceString, true, frictionForce, (a, b) => b, -PI / 2)
+  val wallForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.wallForceColor, "wallForce".translate, wallForceString, false, wallForce, (a, b) => b, PI / 2)
 
   private val wallCrashListeners = new ArrayBuffer[() => Unit]
   private val bounceListeners = new ArrayBuffer[() => Unit]

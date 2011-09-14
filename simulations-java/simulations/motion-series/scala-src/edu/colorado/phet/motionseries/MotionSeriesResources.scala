@@ -7,9 +7,9 @@ import javax.swing.SwingUtilities
 object Predef {
   implicit def toMyRichString(s: String) = new TranslatableString(s)
 
-  def inSwingThread(runnable: => Unit) = {
+  def inSwingThread(runnable: => Unit) {
     SwingUtilities.invokeLater(new Runnable() {
-      def run = {
+      def run() {
         runnable
       }
     })

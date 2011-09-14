@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.{PhetTitledBorder, ControlPanel,
 import edu.colorado.phet.motionseries.graphics.{RampSegmentNode, RampSurfaceModel, VectorNode, ObjectSelectionModel}
 import edu.colorado.phet.motionseries.model._
 import edu.colorado.phet.motionseries.util.ScalaMutableBoolean
+import edu.colorado.phet.motionseries.sims.forcesandmotionbasics.Settings
 
 class MotionSeriesControlPanel(model: MotionSeriesModel,
                                freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -114,7 +115,10 @@ class RampControlPanelBody(model: MotionSeriesModel,
     //show a check box that allows you to turn off viewing the vectors
     add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
     add(Box.createRigidArea(new Dimension(10, 10)))
-    addWithIcon(createSumForceIcon, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener).peer)
+
+    //For "Basics" application, use the word "total" instead of "sum"
+    val string = if ( Settings.basicsMode ) "Total Force" else "vectors.sum-of-forces".translate
+    addWithIcon(createSumForceIcon, new MyCheckBox(string, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener).peer)
 
     //In the "Basics" application, gravity and normal forces aren't shown by default, but there is a control to allow the user to show them
     if ( showGravityNormalForceCheckBox ) {
@@ -128,7 +132,10 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
     def createSumForceIcon = {
       val rect = new Rectangle2D.Double(0, 0, 1, 1)
-      val vector = new Vector(MotionSeriesDefaults.sumForceColor, "totalForce".translate, "force.abbrev.total".translate, new Vector2DModel(42, 0), (v: Vector2D, c: Color) => {c}, 0.0)
+
+      //For "Basics" application, use the word "total" instead of "sum"
+      val string = if ( Settings.basicsMode ) "total" else "force.abbrev.total".translate
+      val vector = new Vector(MotionSeriesDefaults.sumForceColor, "totalForce".translate, string, new Vector2DModel(42, 0), (v: Vector2D, c: Color) => {c}, 0.0)
       val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new Vector2DModel(-42, 0), 75, 1)
       val bufIm = BufferedImageUtils.toBufferedImage(vectorNode.toImage)
       BufferedImageUtils.multiScaleToHeight(bufIm, 35)
