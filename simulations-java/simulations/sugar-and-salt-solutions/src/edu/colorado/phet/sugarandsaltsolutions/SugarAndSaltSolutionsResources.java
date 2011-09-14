@@ -39,12 +39,10 @@ public class SugarAndSaltSolutionsResources {
         public static final String PATTERN__MOLES_PER_LITER_MULTILINE = RESOURCES.getLocalizedString( "pattern.molesPerLiterMultiline" );
         public static final String SALT = RESOURCES.getLocalizedString( "salt" );
         public static final String SHORT_CIRCUIT = RESOURCES.getLocalizedString( "shortCircuit" );
+        public static final String SHOW = RESOURCES.getLocalizedString( "show" );
         public static final String SHOW_CHARGE = RESOURCES.getLocalizedString( "showCharge" );
         public static final String SHOW_IN_PERIODIC_TABLE = RESOURCES.getLocalizedString( "showInPeriodicTable" );
-        public static final String SHOW_SUGAR_ATOMS = RESOURCES.getLocalizedString( "showSugarAtoms" );
-        public static final String SHOW_SUGAR_IN_3_D = RESOURCES.getLocalizedString( "showSugarIn3D" );
         public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
-        public static final String SHOW_WATER_CHARGES = RESOURCES.getLocalizedString( "showWaterCharges" );
         public static final String SODIUM = RESOURCES.getLocalizedString( "sodium" );
         public static final String SODIUM_CHLORIDE = RESOURCES.getLocalizedString( "sodiumChloride" );
         public static final String SODIUM_CHLORIDE_NA_CL = RESOURCES.getLocalizedString( "sodiumChlorideNaCl" );
@@ -56,7 +54,10 @@ public class SugarAndSaltSolutionsResources {
         public static final String SUCROSE = RESOURCES.getLocalizedString( "sucrose" );
         public static final String SUCROSE_C_12_H_22_O_11 = RESOURCES.getLocalizedString( "sucroseC12H22O11" );
         public static final String SUGAR = RESOURCES.getLocalizedString( "sugar" );
+        public static final String SUGAR_ATOMS = RESOURCES.getLocalizedString( "sugarAtoms" );
+        public static final String SUGAR_IN_3_D = RESOURCES.getLocalizedString( "sugarIn3D" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
+        public static final String WATER_CHARGES = RESOURCES.getLocalizedString( "waterCharges" );
     }
 
     //Images
