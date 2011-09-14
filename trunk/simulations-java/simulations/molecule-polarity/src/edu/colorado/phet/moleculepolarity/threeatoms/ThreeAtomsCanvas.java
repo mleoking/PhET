@@ -76,8 +76,8 @@ public class ThreeAtomsCanvas extends MPCanvas {
 
         // layout, relative to molecule location
         {
-            final double plateXOffset = 300; // x offset from molecule
             final double moleculeX = model.molecule.getLocation().getX();
+            final double plateXOffset = 300; // x offset from molecule
             negativePlateNode.setOffset( moleculeX - plateXOffset - negativePlateNode.getFullBoundsReference().getWidth(),
                                          100 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
             positivePlateNode.setOffset( moleculeX + plateXOffset,
