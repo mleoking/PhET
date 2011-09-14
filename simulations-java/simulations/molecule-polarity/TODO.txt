@@ -1,5 +1,8 @@
 TODO list for molecule-polarity
 
+DEADLINES
+- Nov 7: ready for use in Susan's class
+
 DESIGN
 - location of bond dipoles relative to bonds
 - location of molecular dipoles relative to molecules
