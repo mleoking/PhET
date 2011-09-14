@@ -1,3 +1,4 @@
+Added (commented-out) example of using XStream
 # 00.00.41 (56308) Sep 8, 2011
 Added StudentConfigFrame
 Allow different sim types

@@ -92,7 +92,7 @@ public class Server implements MessageHandler {
             AddSamples request = (AddSamples) message;
             sessions.get( request.getSessionID() ).addSamples( request );
 
-//            debugSampleCount();
+            debugSampleCount();
         }
         else if ( message instanceof ListAllSessions ) {
             writeToClient.writeObject( new SessionList( new ArrayList<SessionRecord>() {{
@@ -146,6 +146,18 @@ public class Server implements MessageHandler {
             sum += session.getNumSamples();
         }
         System.out.println( "sum = " + sum );
+
+//        if ( sum == 150 ) {
+//            XStream xStream = new XStream();
+//            String xml = xStream.toXML( sessions );
+//            System.out.println( "xml = \n" + xml );
+//            try {
+//                FileUtils.writeString( new File( "C:/Users/Sam/Desktop/gravity-and-orbits-5-sec.xml" ), xml);
+//            }
+//            catch ( IOException e ) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     //Use phet-server for deployments, but localhost for local testing.
