@@ -1,7 +1,7 @@
+Game: Added sound.
+Game: Fixed issue where, in some challenges, the brick stack would not get properly added to the plank and would float in space.
 9/13/11 Deploying first version that includes game tab to dev for review
 # 0.00.09 (56524) Sep 13, 2011
-9/13/11 Deploying to dev with first version that includes the game tab for feedback and review.
-9/13/11 Deploying to dev with first version that includes balancing game, for review
 Game: Fixed: You could see level indicator when pressing "new game"
 Game: Fixed floating point error in correct solution detection
 Game: Added level indicators after the support column is removed

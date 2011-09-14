@@ -26,6 +26,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.view.LevelIndicatorNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.OutlinePText;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.TiltedSupportColumnNode;
+import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameSettingsPanel;
@@ -69,6 +70,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     // Various other constants.
     private static Font BUTTON_FONT = new PhetFont( 24, false );
+
+    private static final GameAudioPlayer GAME_AUDIO_PLAYER = new GameAudioPlayer( true ) {{
+        init();
+    }};
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -195,6 +200,13 @@ public class BalanceGameCanvas extends PhetPCanvas {
                        STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
         }};
         rootNode.addChild( gameSettingsNode );
+
+        // Hook up the audio player to the sound settings.
+        model.gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean soundEnabled ) {
+                GAME_AUDIO_PLAYER.setEnabled( soundEnabled );
+            }
+        } );
 
         // Create and add the game scoreboard.
         scoreboard = new GameScoreboardNode( BalanceGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
@@ -362,14 +374,17 @@ public class BalanceGameCanvas extends PhetPCanvas {
             challengeLayer.setChildrenPickable( true );
         }
         else if ( newState == SHOWING_CORRECT_ANSWER_FEEDBACK ) {
+            GAME_AUDIO_PLAYER.correctAnswer();
             show( scoreboard, nextChallengeButton, smilingFace );
             showChallenge();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN ) {
+            GAME_AUDIO_PLAYER.wrongAnswer();
             show( scoreboard, tryAgainButton, frowningFace );
             showChallenge();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON ) {
+            GAME_AUDIO_PLAYER.wrongAnswer();
             show( scoreboard, displayCorrectAnswerButton, frowningFace );
             showChallenge();
         }
@@ -378,6 +393,15 @@ public class BalanceGameCanvas extends PhetPCanvas {
             showChallenge();
         }
         else if ( newState == SHOWING_GAME_RESULTS ) {
+            if ( model.getScoreProperty().get() == model.getMaximumPossibleScore() ) {
+                GAME_AUDIO_PLAYER.gameOverPerfectScore();
+            }
+            else if ( model.getScoreProperty().get() == 0 ) {
+                GAME_AUDIO_PLAYER.gameOverZeroScore();
+            }
+            else {
+                GAME_AUDIO_PLAYER.gameOverImperfectScore();
+            }
             showGameOverNode();
             hideChallenge();
         }
