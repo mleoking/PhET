@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -38,10 +37,10 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public static final Font CONTROL_FONT = new PhetFont( 15 );
 
     //Flag to indicate that friction has been enabled
-    public final SettableProperty<Boolean> frictionEnabled = new BooleanProperty( false );
+    public final BooleanProperty frictionEnabled = new BooleanProperty( false );
 
     //Flag to indicate whether the skater should stick to the track
-    public final SettableProperty<Boolean> stickToTrack = new BooleanProperty( true );
+    public final BooleanProperty stickToTrack = new BooleanProperty( true );
 
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
@@ -167,6 +166,9 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
     @Override public void reset() {
         super.reset();
+
+        frictionEnabled.reset();
+        stickToTrack.reset();
 
         for ( VoidFunction0 resetListener : resetListeners ) {
             resetListener.apply();
