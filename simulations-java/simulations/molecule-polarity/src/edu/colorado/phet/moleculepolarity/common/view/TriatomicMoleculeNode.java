@@ -25,12 +25,8 @@ public class TriatomicMoleculeNode extends PhetPNode {
         AtomNode atomANode = new AtomNode( molecule.atomA );
         AtomNode atomBNode = new AtomNode( molecule.atomB );
         AtomNode atomCNode = new AtomNode( molecule.atomC );
-        final BondAngleDragIndicatorNode indicatorANode = new BondAngleDragIndicatorNode( molecule.atomA ) {{
-            setVisible( false );
-        }};
-        final BondAngleDragIndicatorNode indicatorCNode = new BondAngleDragIndicatorNode( molecule.atomC ) {{
-            setVisible( false );
-        }};
+        final BondAngleDragIndicatorNode indicatorANode = new BondAngleDragIndicatorNode( molecule.atomA );
+        final BondAngleDragIndicatorNode indicatorCNode = new BondAngleDragIndicatorNode( molecule.atomC );
 
         // rendering order, bonds behind atoms
         addChild( bondABNode );
@@ -58,5 +54,9 @@ public class TriatomicMoleculeNode extends PhetPNode {
         // make bond angle indicators visible only on mouseOver
         atomANode.addInputEventListener( new MouseOverVisibilityHandler( indicatorANode ) );
         atomCNode.addInputEventListener( new MouseOverVisibilityHandler( indicatorCNode ) );
+
+        // default state
+        indicatorANode.setVisible( false );
+        indicatorCNode.setVisible( false );
     }
 }
