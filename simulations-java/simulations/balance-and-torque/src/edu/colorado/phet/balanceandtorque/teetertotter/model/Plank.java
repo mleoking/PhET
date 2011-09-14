@@ -237,7 +237,9 @@ public class Plank extends ShapeModelElement {
             return;
         }
         ImmutableVector2D vectorToLocation = getPlankSurfaceCenter().getAddedInstance( new ImmutableVector2D( distanceFromCenter, 0 ).getRotatedInstance( tiltAngle ) );
-        mass.setPosition( vectorToLocation.getX(), vectorToLocation.getY() );
+        // Set the position of the mass to be just above the plank at the
+        // appropriate distance so that it will drop to the correct place.
+        mass.setPosition( vectorToLocation.getX(), vectorToLocation.getY() + 0.1 );
         addMassToSurface( mass );
     }
 
