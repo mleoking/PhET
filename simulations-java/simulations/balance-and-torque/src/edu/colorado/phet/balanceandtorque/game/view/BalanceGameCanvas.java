@@ -325,8 +325,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
         } );
 
-        //Show the level indicator to help the student see if the plank is perfectly balanced,
-        //But only show when the support column has been removed
+        // Show the level indicator to help the student see if the plank is
+        // perfectly balanced, but only show when the support column has been
+        // removed.
         challengeLayer.addChild( new LevelIndicatorNode( mvt, model.getPlank() ) {{
             model.supportColumnState.addObserver( new VoidFunction1<ColumnState>() {
                 public void apply( ColumnState columnState ) {
@@ -469,11 +470,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
             massNode = new BrickStackNode( (ShapeMass) mass, mvt, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
         }
         else if ( mass instanceof LabeledImageMass ) {
-            // These are mystery objects.  Don't allow their mass to be shown.
-            massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalanceGameCanvas.this, new BooleanProperty( false ) );
+            massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
         }
         else if ( mass instanceof ImageMass ) {
-            massNode = new ImageMassNode( mvt, (ImageMass) mass, BalanceGameCanvas.this, new BooleanProperty( mass.isMystery() ) );
+            massNode = new ImageMassNode( mvt, (ImageMass) mass, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
         }
         else {
             System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
