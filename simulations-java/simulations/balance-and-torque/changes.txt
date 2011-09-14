@@ -1,3 +1,5 @@
+# 0.00.10 (56568) Sep 14, 2011
+9/14/11 Depolying to dev for review and feedback.
 Game: Made the advanced brick challenges never have the same number of bricks on both sides.
 Game: Added the ruler for seeing distances on the plank along with a control to turn it on and off.
 Game: Added algorithm to prevent the same problem from occurring twice in a challenge set.
