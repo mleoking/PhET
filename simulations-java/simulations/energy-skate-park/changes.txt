@@ -1,3 +1,4 @@
+Energy Skate Park Basics: Fixed reset all for track friction value
 Energy Skate Park Basics: Fixed reset all for track friction on/off
 Energy Skate Park Basics: Fixed reset all for stick to track on/off
 Fixed reset all for pie chart
