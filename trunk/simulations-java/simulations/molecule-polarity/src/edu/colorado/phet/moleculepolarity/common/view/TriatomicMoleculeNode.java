@@ -25,8 +25,8 @@ public class TriatomicMoleculeNode extends PhetPNode {
         AtomNode atomANode = new AtomNode( molecule.atomA );
         AtomNode atomBNode = new AtomNode( molecule.atomB );
         AtomNode atomCNode = new AtomNode( molecule.atomC );
-        final BondAngleDragIndicatorNode indicatorANode = new BondAngleDragIndicatorNode( molecule.atomA );
-        final BondAngleDragIndicatorNode indicatorCNode = new BondAngleDragIndicatorNode( molecule.atomC );
+        final BondAngleDragIndicatorNode indicatorANode = new BondAngleDragIndicatorNode( molecule, molecule.atomA );
+        final BondAngleDragIndicatorNode indicatorCNode = new BondAngleDragIndicatorNode( molecule, molecule.atomC );
 
         // rendering order, bonds behind atoms
         addChild( bondABNode );
