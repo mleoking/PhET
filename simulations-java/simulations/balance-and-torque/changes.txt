@@ -1,3 +1,4 @@
+Game: Added the ruler for seeing distances on the plank along with a control to turn it on and off.
 Game: Added algorithm to prevent the same problem from occurring twice in a challenge set.
 Game: Added an indication of the number of points gained to the smile face.
 Game: Added sound.
