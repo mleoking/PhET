@@ -77,9 +77,10 @@ public class BalanceChallengeSetFactory {
             }
         }
         else {
-            // Not implemented yet.
-            assert false;
+            // This level is either out of range or not implemented yet.
+            throw new IllegalArgumentException( "Challenge level invalid, value = " + level );
         }
+
         return balanceChallengeList;
     }
 
@@ -130,15 +131,7 @@ public class BalanceChallengeSetFactory {
 
             // Create a list of the distances at which the fixed stack may be
             // positioned that can be made to balance with the movable stack.
-            for ( double testDistance = Plank.INTER_SNAP_TO_MARKER_DISTANCE; testDistance < Plank.getLength() / 2; testDistance += Plank.INTER_SNAP_TO_MARKER_DISTANCE ) {
-                double possibleFixedStackDistance = testDistance * numBricksInMovableStack / numBricksInFixedStack;
-                if ( possibleFixedStackDistance < Plank.getLength() / 2 &&
-                     possibleFixedStackDistance >= Plank.INTER_SNAP_TO_MARKER_DISTANCE - 1E-6 &&
-                     possibleFixedStackDistance % Plank.INTER_SNAP_TO_MARKER_DISTANCE < 1E-6 ) {
-                    // This is a valid distance.
-                    validFixedStackDistances.add( possibleFixedStackDistance );
-                }
-            }
+            validFixedStackDistances.addAll( getPossibleDistanceList( numBricksInFixedStack * BrickStack.BRICK_MASS, numBricksInMovableStack * BrickStack.BRICK_MASS ) );
 
             // TODO: For debug.
             if ( validFixedStackDistances.size() == 0 ) {
@@ -173,8 +166,8 @@ public class BalanceChallengeSetFactory {
         int numBricksInMovableStack = 1;
         List<Double> validFixedStackDistances = new ArrayList<Double>();
 
-        // Iterate through various combinations until one is found that can be
-        // solved.
+        // Iterate through various combinations of fixed and movable masses
+        // until a solvable combination is found.
         while ( validFixedStackDistances.size() == 0 ) {
             // Randomly choose the number of bricks in the fixed stack.
             numBricksInFixedStack = RAND.nextInt( 4 ) + 1;
@@ -184,17 +177,9 @@ public class BalanceChallengeSetFactory {
 
             // Create a list of the distances at which the fixed stack may be
             // positioned that can be made to balance with the movable stack.
-            for ( double testDistance = Plank.INTER_SNAP_TO_MARKER_DISTANCE; testDistance < Plank.getLength() / 2; testDistance += Plank.INTER_SNAP_TO_MARKER_DISTANCE ) {
-                double possibleFixedStackDistance = testDistance * numBricksInMovableStack / numBricksInFixedStack;
-                if ( possibleFixedStackDistance < Plank.getLength() / 2 &&
-                     possibleFixedStackDistance >= Plank.INTER_SNAP_TO_MARKER_DISTANCE - 1E-6 &&
-                     possibleFixedStackDistance % Plank.INTER_SNAP_TO_MARKER_DISTANCE < 1E-6 ) {
-                    // This is a valid distance.
-                    validFixedStackDistances.add( possibleFixedStackDistance );
-                }
-            }
+            validFixedStackDistances.addAll( getPossibleDistanceList( numBricksInFixedStack * BrickStack.BRICK_MASS, numBricksInMovableStack * BrickStack.BRICK_MASS ) );
 
-            // TODO: For debug.
+            // TODO: For debug.  I (jblanco) just want to see if this happens and, if so, how often.
             if ( validFixedStackDistances.size() == 0 ) {
                 System.out.println( "Warning: No solutions for this configuration, numBricksInFixedStack = " + numBricksInFixedStack + ", " + "numBricksInMovableStack = " + numBricksInMovableStack );
             }
@@ -219,6 +204,25 @@ public class BalanceChallengeSetFactory {
 
         // And we're done.
         return new BalanceChallenge( fixedMassesList, movableMassesList, solution );
+    }
+
+    /**
+     * Get a list of the distances at which the fixed mass could be positioned
+     * that would allow the movable mass to be positioned somewhere on the
+     * other side of the fulcrum and balance the fixed mass.
+     */
+    private static List<Double> getPossibleDistanceList( double massOfFixedItem, double massOfMovableItem ) {
+        List<Double> validFixedMassDistances = new ArrayList<Double>();
+        for ( double testDistance = Plank.INTER_SNAP_TO_MARKER_DISTANCE; testDistance < Plank.getLength() / 2; testDistance += Plank.INTER_SNAP_TO_MARKER_DISTANCE ) {
+            double possibleFixedMassDistance = testDistance * massOfMovableItem / massOfFixedItem;
+            if ( possibleFixedMassDistance < Plank.getLength() / 2 &&
+                 possibleFixedMassDistance >= Plank.INTER_SNAP_TO_MARKER_DISTANCE - 1E-6 &&
+                 possibleFixedMassDistance % Plank.INTER_SNAP_TO_MARKER_DISTANCE < 1E-6 ) {
+                // This is a valid distance.
+                validFixedMassDistances.add( possibleFixedMassDistance );
+            }
+        }
+        return validFixedMassDistances;
     }
 
     /**
