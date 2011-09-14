@@ -114,7 +114,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         } );
     }
 
-    private void addResetListener( VoidFunction0 resetListener ) {
+    public void addResetListener( VoidFunction0 resetListener ) {
         resetListeners.add( resetListener );
     }
 
