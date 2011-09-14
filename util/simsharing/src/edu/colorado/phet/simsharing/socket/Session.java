@@ -2,6 +2,7 @@
 package edu.colorado.phet.simsharing.socket;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
@@ -14,7 +15,7 @@ import edu.colorado.phet.simsharing.messages.StudentSummary;
 /**
  * @author Sam Reid
  */
-public class Session<T extends SimState> {
+public class Session<T extends SimState> implements Serializable {
     private long startTime;
     private Option<Long> endTime = new Option.None<Long>();
     private final ArrayList<T> samples = new ArrayList();
