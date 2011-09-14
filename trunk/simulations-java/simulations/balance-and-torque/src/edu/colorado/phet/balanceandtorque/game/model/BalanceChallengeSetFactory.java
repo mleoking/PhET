@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BigRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 
@@ -97,6 +98,25 @@ public class BalanceChallengeSetFactory {
         return createTwoBrickStackChallenge( numBricks, numBricks, distance );
     }
 
+    private static BalanceChallenge generateRockToBrickChallenge() {
+        // Add the fixed mass.
+        List<BalanceChallenge.MassDistancePair> fixedMassesList = new ArrayList<BalanceChallenge.MassDistancePair>();
+        BalanceChallenge.MassDistancePair fixedMass = new BalanceChallenge.MassDistancePair( new BigRock(), -1.5 );
+        fixedMassesList.add( fixedMass );
+
+        // Add the movable mass.
+        List<Mass> movableMassesList = new ArrayList<Mass>();
+        BrickStack movableMass = new BrickStack( 3 );
+        movableMassesList.add( movableMass );
+
+        // Create a valid solution for the challenge.
+        List<BalanceChallenge.MassDistancePair> solution = new ArrayList<BalanceChallenge.MassDistancePair>();
+        solution.add( new BalanceChallenge.MassDistancePair( movableMass, -fixedMass.mass.getMass() * fixedMass.distance / movableMass.getMass() ) );
+
+        // And we're done.
+        return new BalanceChallenge( fixedMassesList, movableMassesList, solution );
+    }
+
     /**
      * Generate a challenge that consists of brick stacks in simple ratios to
      * one another.  For instance, the fixed brick stack might be 2 bricks,
@@ -149,8 +169,12 @@ public class BalanceChallengeSetFactory {
             // Randomly choose the number of bricks in the fixed stack.
             numBricksInFixedStack = RAND.nextInt( 4 ) + 1;
 
-            // Randomly choose the number of bricks in the movable stack.
-            numBricksInMovableStack = RAND.nextInt( 4 ) + 1;
+            // Randomly choose the number of bricks in the movable stack, but
+            // avoid the same number.
+            numBricksInMovableStack = numBricksInFixedStack;
+            while ( numBricksInMovableStack == numBricksInFixedStack ) {
+                numBricksInMovableStack = RAND.nextInt( 4 ) + 1;
+            }
 
             // Create a list of the distances at which the fixed stack may be
             // positioned that can be made to balance with the movable stack.
