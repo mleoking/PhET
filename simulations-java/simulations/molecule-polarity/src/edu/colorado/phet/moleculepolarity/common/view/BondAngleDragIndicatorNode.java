@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
-import java.awt.BasicStroke;
-import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
-import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -17,7 +17,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BondAngleDragIndicatorNode extends PComposite {
 
     private final Atom atom;
-    private final PPath barNode;
+    private PNode arrowNode;
 
     public BondAngleDragIndicatorNode( final Atom atom ) {
 
@@ -27,12 +27,6 @@ public class BondAngleDragIndicatorNode extends PComposite {
 
         this.atom = atom;
 
-        this.barNode = new PPath() {{
-            setStroke( new BasicStroke( 12f ) );
-            setStrokePaint( atom.getColor() );
-        }};
-        addChild( barNode );
-
         atom.location.addObserver( new SimpleObserver() {
             public void update() {
                 updateNode();
@@ -41,9 +35,17 @@ public class BondAngleDragIndicatorNode extends PComposite {
     }
 
     private void updateNode() {
-        double length = atom.getDiameter() + 40;
+        if ( arrowNode != null ) {
+            removeChild( arrowNode );
+        }
+        double length = atom.getDiameter() + 60;
         double x = atom.location.get().getX() - ( length / 2 );
         double y = atom.location.get().getY();
-        barNode.setPathTo( new Line2D.Double( x, y, x + length, y ) );
+        Point2D pTail = new Point2D.Double( x, y );
+        Point2D pTip = new Point2D.Double( x + length, y );
+        arrowNode = new DoubleArrowNode( pTail, pTip, 20, 20, 10 ) {{
+            setPaint( atom.getColor() );
+        }};
+        addChild( arrowNode );
     }
 }
