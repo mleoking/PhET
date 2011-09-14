@@ -1,3 +1,4 @@
+Micro tab: Fixed: The formula for glucose should be C6H12O6 instead of C6H12O11
 # 0.00.104 (56339) Sep 8, 2011
 Micro tab: Moved the "Periodic table" button underneath the solute selection panel
 Micro tab: Removed checkbox to toggle whether the color shown is based on charge or atom identity

@@ -34,7 +34,7 @@ public class MicroKitControlNode extends PNode {
                 new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( SUCROSE_C_12_H_22_O_11, SUGAR ) ) ),
                 new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( CALCIUM_CHLORIDE_CA_CL_2, CALCIUM_CHLORIDE ) ) ),
                 new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( SODIUM_NITRATE_NA_NO_3, SODIUM_NITRATE ) ) ),
-                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SUCROSE_C_12_H_22_O_11, SUGAR ), new Item( GLUCOSE_C_6_H_12_O_11, GLUCOSE ) ) ) );
+                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SUCROSE_C_12_H_22_O_11, SUGAR ), new Item( GLUCOSE_C_6_H_12_O_6, GLUCOSE ) ) ) );
         addChild( new WhiteControlPanelNode( kitSelectionNode ) );
 
         //When switching to a new kit, switch to a dispenser that is in the set (if not already selecting it).  If switching from a set that contains NaCl to a new set that also contains NaCl, then keep the selection

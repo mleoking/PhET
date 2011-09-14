@@ -24,7 +24,7 @@ public class SugarAndSaltSolutionsResources {
         public static final String CONDUCTIVITY = RESOURCES.getLocalizedString( "conductivity" );
         public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
         public static final String GLUCOSE = RESOURCES.getLocalizedString( "glucose" );
-        public static final String GLUCOSE_C_6_H_12_O_11 = RESOURCES.getLocalizedString( "glucoseC6H12O11" );
+        public static final String GLUCOSE_C_6_H_12_O_6 = RESOURCES.getLocalizedString( "glucoseC6H12O6" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String MACRO = RESOURCES.getLocalizedString( "macro" );
         public static final String METAL = RESOURCES.getLocalizedString( "metal" );
