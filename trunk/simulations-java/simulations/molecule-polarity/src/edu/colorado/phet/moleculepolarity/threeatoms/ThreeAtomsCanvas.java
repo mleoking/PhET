@@ -74,15 +74,21 @@ public class ThreeAtomsCanvas extends MPCanvas {
             addChild( molecularDipoleNode );
         }
 
-        // layout
+        // layout, relative to molecule location
         {
-            final double xSpacing = 50;
-            negativePlateNode.setOffset( 30, 100 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
-            enControlA.setOffset( negativePlateNode.getFullBoundsReference().getMaxX() + xSpacing, 50 );
-            enControlB.setOffset( enControlA.getFullBounds().getMaxX() + 10, enControlA.getYOffset() );
-            enControlC.setOffset( enControlB.getFullBounds().getMaxX() + 10, enControlB.getYOffset() );
-            positivePlateNode.setOffset( enControlC.getFullBounds().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
-            controlPanelNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
+            final double plateXOffset = 300; // x offset from molecule
+            final double moleculeX = model.molecule.getLocation().getX();
+            negativePlateNode.setOffset( moleculeX - plateXOffset - negativePlateNode.getFullBoundsReference().getWidth(),
+                                         100 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
+            positivePlateNode.setOffset( moleculeX + plateXOffset,
+                                         negativePlateNode.getYOffset() );
+            enControlB.setOffset( moleculeX - ( enControlB.getFullBoundsReference().getWidth() / 2 ), 50 );
+            enControlA.setOffset( enControlB.getFullBounds().getMinX() - enControlA.getFullBoundsReference().getWidth() - 10,
+                                  enControlB.getYOffset() );
+            enControlC.setOffset( enControlB.getFullBounds().getMaxX() + 10,
+                                  enControlB.getYOffset() );
+            controlPanelNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + 25,
+                                        positivePlateNode.getYOffset() );
         }
 
         // synchronize with view properties
