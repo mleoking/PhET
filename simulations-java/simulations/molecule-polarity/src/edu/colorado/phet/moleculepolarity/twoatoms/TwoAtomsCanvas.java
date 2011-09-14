@@ -85,20 +85,22 @@ public class TwoAtomsCanvas extends MPCanvas {
             addChild( bondDipoleNode );
         }
 
-        // layout
+        // layout, based on molecule location
         {
-            final double xSpacing = 50;
-            final double ySpacing = 10;
-            negativePlateNode.setOffset( 30, 100 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
-            enControlA.setOffset( negativePlateNode.getFullBoundsReference().getMaxX() + xSpacing, 50 );
-            enControlB.setOffset( enControlA.getFullBounds().getMaxX() + xSpacing, enControlA.getYOffset() );
-            positivePlateNode.setOffset( enControlB.getFullBounds().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
-            electrostaticPotentialColorKeyNode.setOffset( model.molecule.getLocation().getX() - ( electrostaticPotentialColorKeyNode.getFullBoundsReference().getWidth() / 2 ),
-                                                          negativePlateNode.getFullBoundsReference().getMaxY() );
+            final double moleculeX = model.molecule.getLocation().getX();
+            final double plateXOffset = 250; // x offset from molecule
+            negativePlateNode.setOffset( moleculeX - plateXOffset - negativePlateNode.getFullBoundsReference().getWidth(),
+                                         100 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
+            positivePlateNode.setOffset( moleculeX + plateXOffset,
+                                         negativePlateNode.getYOffset() );
+            enControlA.setOffset( moleculeX - enControlA.getFullBoundsReference().getWidth() - 5, 50 );
+            enControlB.setOffset( moleculeX + 5, enControlA.getYOffset() );
+            electrostaticPotentialColorKeyNode.setOffset( moleculeX - ( electrostaticPotentialColorKeyNode.getFullBoundsReference().getWidth() / 2 ),
+                                                          negativePlateNode.getFullBoundsReference().getMaxY() + 5 );
             electronDensityColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
-            bondTypeNode.setOffset( model.molecule.getLocation().getX() - ( bondTypeNode.getFullBoundsReference().getWidth() / 2 ),
-                                    enControlA.getFullBoundsReference().getMaxY() + ySpacing - PNodeLayoutUtils.getOriginYOffset( bondTypeNode ) );
-            controlPanelNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
+            bondTypeNode.setOffset( moleculeX - ( bondTypeNode.getFullBoundsReference().getWidth() / 2 ),
+                                    enControlA.getFullBoundsReference().getMaxY() + 10 - PNodeLayoutUtils.getOriginYOffset( bondTypeNode ) );
+            controlPanelNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + 25, positivePlateNode.getYOffset() );
         }
 
         // synchronize with view properties
