@@ -14,7 +14,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__MOLES_PER_LITER;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__MOLES_PER_LITER_MULTILINE;
@@ -64,17 +63,17 @@ public class Bar extends PNode {
         } );
 
         // Create and add the caption.
-        final PText captionNode = new PText( caption ) {{
+        final PNode captionNode = new HTMLNode( caption ) {{
             setFont( CONTROL_FONT );
             // Position so that it is centered under the bar.
-            setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
+            setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 0 );
         }};
         addChild( captionNode );
 
         //If specified, show an icon below the caption (to save horizontal space)
         for ( PNode element : icon ) {
             addChild( new ZeroOffsetNode( element ) {{
-                setOffset( captionNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, captionNode.getFullBounds().getMaxY() + 2 );
+                setOffset( captionNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, captionNode.getFullBounds().getMaxY() );
             }} );
         }
 
