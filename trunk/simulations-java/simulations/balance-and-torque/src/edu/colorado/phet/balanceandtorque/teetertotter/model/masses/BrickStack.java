@@ -99,4 +99,17 @@ public class BrickStack extends ShapeMass {
             }
         }
     }
+
+    @Override protected Object clone() throws CloneNotSupportedException {
+        try {
+            BrickStack item = (BrickStack) super.clone();
+            item.numBricks = numBricks;
+            item.setPosition( getPosition() );
+            return item;
+        }
+        catch ( CloneNotSupportedException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+    }
 }
