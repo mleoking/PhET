@@ -1,3 +1,9 @@
+9/14/11 change initial orientation of CHCl3 (multi-step rotation: x=-90 -> y=+10 -> x=+25), relabel atoms
+9/14/11 change initial orientation of CH2F2 (multi-step rotation: x=-90 -> y=+40)
+9/14/11 change initial orientation of CHF3 (multi-step rotation: x=-90 -> y=+30 -> x=+15), relabel atoms
+9/14/11 change initial orientation of CH3F (multi-step rotation: x=+90 -> y=+30 -> x=+30), relabel atoms
+9/14/11 change initial orientation of NH3 (multi-step rotation: x=-90 -> y=+30 -> x=+20), relabel atoms
+9/14/11 utility program utilizing JME Transform to rotate molecules into desired initial orientations
 # 0.00.21 (56538) Sep 13, 2011
 9/13/11 adjust layout of "Real Molecules" play area
 9/13/11 adjust layout of "Two Atoms" play area, based on molecule location

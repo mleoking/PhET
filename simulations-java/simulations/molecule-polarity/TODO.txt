@@ -6,16 +6,15 @@ DEADLINES
 DESIGN
 - location of bond dipoles relative to bonds
 - location of molecular dipoles relative to molecules
+- should locations of dipoles be consistent between 2D and Jmol?
 - better label for "Electron Density"
-- decide on final set of real molecules
 - Jack: concern about showing ball-and-stick representation at all times? (address by dropping Bond Type indicator)
 - Jack: partial charges are sometimes very small, will students see them?
 - is E-field feature necessary in "Real Molecules" tab?
-- should we get rid of Bond Type indicator?
+- should we get rid of Bond Type indicator? (tangential, confusing in interviews, ball-and-stick concern)
 
 HIGH
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
-- Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - move Jmol console to Developer menu
 - when molecule rotates due to E-field, bond angle drag indicator remains visible
 
@@ -25,14 +24,14 @@ MEDIUM
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 - DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
 - move duplicate code in IMolecule subclasses into a base class
-- locations of dipoles should be consistent between 2D and Jmol
 
 LOW
 - move duplicate ClockListener in 2D models to a base class
 - look at duplicated code between BondAngleHandler and MoleculeRotationHandler
 - look for Property<T> fields that shouldn't be public
+- absorb MouseOverVisibilityHandler into BondAngleHandler
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
-- simplify implementation of TwoAtomsModel.updateMoleculeOrientation
+- simplify implementation of MPModel.updateMoleculeOrientation
 - delete TestMepCalculation
 - delete unneeded keep statements from molecule-polarity.pro
 
