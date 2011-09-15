@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
  *
  * @author John Blanco
  */
-public abstract class HumanMass extends ImageMass {
+public class HumanMass extends ImageMass {
 
     private final BufferedImage standingImage;
     private final double standingHeight;
@@ -21,6 +21,18 @@ public abstract class HumanMass extends ImageMass {
     private final double sittingHeight;
     private final double sittingCenterOfMassXOffset;
 
+    /**
+     * Constructor.
+     *
+     * @param mass
+     * @param standingImage
+     * @param standingHeight
+     * @param sittingImage
+     * @param sittingHeight
+     * @param initialPosition
+     * @param sittingCenterOfMassXOffset
+     * @param isMystery
+     */
     public HumanMass( double mass, BufferedImage standingImage, double standingHeight, BufferedImage sittingImage,
                       double sittingHeight, Point2D initialPosition, double sittingCenterOfMassXOffset, boolean isMystery ) {
         super( mass, standingImage, standingHeight, initialPosition, isMystery );
@@ -49,5 +61,10 @@ public abstract class HumanMass extends ImageMass {
             imageProperty.set( standingImage );
             setCenterOfMassXOffset( 0 );
         }
+    }
+
+    @Override public Mass clone() {
+        return new HumanMass( this.getMass(), this.standingImage, this.standingHeight, this.sittingImage,
+                              this.sittingHeight, this.getPosition(), this.sittingCenterOfMassXOffset, this.isMystery() );
     }
 }

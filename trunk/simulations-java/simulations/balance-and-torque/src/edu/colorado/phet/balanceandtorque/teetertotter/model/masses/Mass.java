@@ -212,4 +212,6 @@ public abstract class Mass implements UserMovableModelElement {
     public void stepInTime( double dt ) {
         // Default implementation does nothing.
     }
+
+    public abstract Mass clone();
 }
