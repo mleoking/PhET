@@ -78,8 +78,6 @@ public class BrickStack extends ShapeMass {
         animationMotionVector.setComponents( velocity, 0 );
         double animationAngle = Math.atan2( animationDestination.getY() - getPosition().getY(), animationDestination.getX() - getPosition().getX() );
         animationMotionVector.rotate( animationAngle );
-        // Calculate the scaling factor such that the object is about 10% of
-        // its usual size when it reaches the destination.
         // Update the property that tracks the animation state.
         animatingProperty.set( true );
     }
@@ -87,15 +85,16 @@ public class BrickStack extends ShapeMass {
     @Override public void stepInTime( double dt ) {
         if ( animatingProperty.get() ) {
             // Do a step of the linear animation towards the destination.
-            if ( getPosition().distance( animationDestination ) < animationMotionVector.getMagnitude() * dt ) {
+            if ( getPosition().distance( animationDestination ) >= animationMotionVector.getMagnitude() * dt ) {
+                // Perform next step of animation.
+                translate( animationMotionVector.getScaledInstance( dt ) );
+                animationScale = Math.max( animationScale - ( dt / expectedAnimationTime ) * 0.9, 0.1 );
+            }
+            else {
                 // Close enough - animation is complete.
                 setPosition( animationDestination );
                 animatingProperty.set( false );
                 animationScale = 1;
-            }
-            else {
-                translate( animationMotionVector.getScaledInstance( dt ) );
-                animationScale = Math.max( animationScale - ( dt / expectedAnimationTime ) * 0.9, 0.1 );
             }
         }
     }
