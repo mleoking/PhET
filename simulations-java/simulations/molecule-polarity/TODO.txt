@@ -35,6 +35,7 @@ LOW
 - simplify implementation of MPModel.updateMoleculeOrientation
 - delete TestMepCalculation
 - delete unneeded keep statements from molecule-polarity.pro
+- move RotatePoints3D someplace better
 
 BEFORE PUBLISHING
 - screenshot
