@@ -4,10 +4,7 @@ package edu.colorado.phet.simsharing.server;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
@@ -16,19 +13,13 @@ import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.GetSample;
 import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
-import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
-import edu.colorado.phet.simsharing.messages.SessionRecord;
 import edu.colorado.phet.simsharing.messages.StartSession;
-import edu.colorado.phet.simsharing.messages.StudentSummary;
 import edu.colorado.phet.simsharing.socket.Sample;
-import edu.colorado.phet.simsharing.socket.Session;
 import edu.colorado.phet.simsharing.socketutil.MessageHandler;
 import edu.colorado.phet.simsharing.socketutil.MessageServer;
 import edu.colorado.phet.simsharing.teacher.ClearSessions;
 import edu.colorado.phet.simsharing.teacher.ListAllSessions;
-import edu.colorado.phet.simsharing.teacher.SessionList;
-import edu.colorado.phet.simsharing.teacher.StudentList;
 
 /**
  * @author Sam Reid
@@ -43,26 +34,25 @@ public class Server implements MessageHandler {
     //Names to assign to students for testing
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
 
-    private SessionStorage sessions = new MemoryStorage();
+    private Storage storage = new RAMStorage();
 
     private void start() throws IOException {
+        storage.init();
         new MessageServer( PORT, this ).start();
     }
 
     public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) throws IOException {
         if ( message instanceof GetSample ) {
             GetSample request = (GetSample) message;
-            final Session<?> session = sessions.get( request.getSessionID() );
-            final int requestedIndex = request.getIndex();
-            final SimState sample = session.getSample( requestedIndex );
-            writeToClient.writeObject( new Sample<SimState>( sample, session.getNumSamples() ) );
+            SimState state = storage.getSample( request.getSessionID(), request.getIndex() );
+            writeToClient.writeObject( new Sample<SimState>( state, storage.getNumberSamples( request.getSessionID() ) ) );
         }
         else if ( message instanceof StartSession ) {
             StartSession request = (StartSession) message;
-            int sessionCount = sessions.size();
+            int sessionCount = storage.getNumberSessions();
             final SessionID sessionID = new SessionID( sessionCount, request.studentID + "*" + sessionCount, request.simName );
             writeToClient.writeObject( sessionID );
-            sessions.put( sessionID, new Session( sessionID ) );
+            storage.startSession( sessionID );
 
             System.out.println( "session started: " + sessionID );
         }
@@ -70,79 +60,40 @@ public class Server implements MessageHandler {
             //Save the student info to disk and remove from system memory
             final SessionID sessionID = ( (EndSession) message ).getSessionID();
             System.out.println( "session exited: " + sessionID );
-            sessions.get( sessionID ).endSession();
+            storage.endSession( sessionID );
         }
         else if ( message instanceof GetActiveStudentList ) {
-            final StudentList studentList = new StudentList( new ArrayList<StudentSummary>() {{
-                for ( SessionID sessionID : new ArrayList<SessionID>( sessions.keySet() ) ) {
-                    final Session<?> session = sessions.get( sessionID );
-                    if ( session.isActive() ) {
-                        add( session.getStudentSummary() );
-                    }
-                }
-            }} );
-            writeToClient.writeObject( studentList );
+            writeToClient.writeObject( storage.getActiveStudentList() );
         }
         else if ( message instanceof AddSamples ) {
 
             //Store the samples
             AddSamples request = (AddSamples) message;
-            sessions.get( request.getSessionID() ).addSamples( request );
+            storage.storeAll( request.getSessionID(), request );
 
             debugSampleCount();
         }
         else if ( message instanceof ListAllSessions ) {
-            writeToClient.writeObject( new SessionList( new ArrayList<SessionRecord>() {{
-                for ( Session<?> session : sessions.values() ) {
-                    add( new SessionRecord( session.getSessionID(), session.getStartTime() ) );
-                    Collections.sort( this, new Comparator<SessionRecord>() {
-                        public int compare( SessionRecord o1, SessionRecord o2 ) {
-                            return Double.compare( o1.getTime(), o2.getTime() );
-                        }
-                    } );
-                }
-            }} ) );
+            writeToClient.writeObject( storage.listAllSessions() );
         }
         else if ( message instanceof ClearSessions ) {
-            sessions.clear();
+            storage.clear();
         }
 
         //Handle request for many data points
         else if ( message instanceof GetSamplesAfter ) {
             final GetSamplesAfter request = (GetSamplesAfter) message;
-            final SessionID id = request.id;
-
-            final Session<?> session = sessions.get( id );
-            final ArrayList<? extends SimState> samples = session.getSamples();
-            final ArrayList<SimState> states = new ArrayList<SimState>();
-            for ( int i = samples.size() - 1; i >= 0; i-- ) {
-                SimState sample = samples.get( i );
-                if ( sample.getTime() > request.time ) {
-                    states.add( sample );
-                }
-                else {
-                    break;
-                }
-
-                //Not sure why they need to be sorted, but if they aren't then the sim playback skips and runs backwards
-                //Maybe they are not in order when received on the server
-                Collections.sort( states, new Comparator<SimState>() {
-                    public int compare( SimState o1, SimState o2 ) {
-                        return Double.compare( o1.getTime(), o2.getTime() );
-                    }
-                } );
-//                    System.out.println( "Server has " + session.getNumSamples() + " states, sending " + size() );
-            }
-            writeToClient.writeObject( new SampleBatch( states, session.getNumSamples() ) );
+            writeToClient.writeObject( storage.getSamplesAfter( request.id, request.time ) );
         }
     }
 
     private void debugSampleCount() {
-        int sum = 0;
-        for ( Session<?> session : sessions.values() ) {
-            sum += session.getNumSamples();
-        }
-        System.out.println( "sum = " + sum );
+//        int sum = 0;
+//        System.out.println( storage. );
+//        for ( Session<?> session : storage.values() ) {
+//            sum += session.getNumSamples();
+//        }
+//        System.out.println( "sum = " + sum );
 
 //        if ( sum == 150 ) {
 //            XStream xStream = new XStream();
