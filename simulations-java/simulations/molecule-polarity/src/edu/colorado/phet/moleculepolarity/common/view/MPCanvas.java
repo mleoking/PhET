@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.geom.Dimension2D;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.umd.cs.piccolo.PNode;
@@ -14,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MPCanvas extends PhetPCanvas {
 
-    private static final boolean SHOW_STAGE_BOUNDS = true;
+    private static final boolean SHOW_STAGE_BOUNDS = true && PhetApplication.getInstance().isDeveloperControlsEnabled();
 
     private final PNode rootNode;
 
