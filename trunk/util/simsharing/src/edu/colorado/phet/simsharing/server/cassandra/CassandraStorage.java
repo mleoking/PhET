@@ -29,6 +29,7 @@ import edu.colorado.phet.simsharing.server.Storage;
 import edu.colorado.phet.simsharing.teacher.SessionList;
 import edu.colorado.phet.simsharing.teacher.StudentList;
 
+import static edu.colorado.phet.simsharing.server.cassandra.Test.toByteArray;
 import static edu.colorado.phet.simsharing.server.cassandra.Test.toObject;
 
 /**
@@ -91,26 +92,10 @@ public class CassandraStorage implements Storage {
     public void startSession( SessionID sessionID ) {
         final ColumnFamilyUpdater<String, String> updater = globalUpdate();
         updater.setInteger( "sessionCount", getNumberSessions() + 1 );
+        updater.setByteArray( "sessionID_" + sessionID.getIndex(), toByteArray( sessionID ) );
+        updater.setLong( "sessionStartTime_" + sessionID.getIndex(), System.currentTimeMillis() );
         template.update( updater );
-
-        System.out.println( "getNumberSessions() = " + getNumberSessions() );
-        // <String, String> correspond to key and Column name.
-//        ColumnFamilyUpdater<String, String> updater = template.createUpdater( "global" );
-//        updater.setInteger( "sessionCount", 0 );
-//        updater.setLong( "time", System.currentTimeMillis() );
-//
-//        updater.setByteArray( "frame_" + i, state );
-//
-//        if ( i % 100 == 0 ) {
-//            System.out.println( "i = " + i );
-//        }
-//
-//        try {
-//            template.update( updater );
-//        }
-//        catch ( HectorException e ) {
-//            // do something ...
-//        }
+        System.out.println( "Started session: " + sessionID );
     }
 
     public void endSession( SessionID sessionID ) {
@@ -123,6 +108,7 @@ public class CassandraStorage implements Storage {
 
     public StudentList getActiveStudentList() {
         final StudentList studentList = new StudentList( new ArrayList<StudentSummary>() {{
+
 //            for ( SessionID sessionID : new ArrayList<SessionID>( storage.keySet() ) ) {
 //                final Session<?> session = storage.get( sessionID );
 //                if ( session.isActive() ) {
@@ -193,5 +179,4 @@ public class CassandraStorage implements Storage {
     private SessionID getSessionID( int i ) {
         return (SessionID) toObject( globalQuery().getByteArray( "sessionID_" + i ) );
     }
-
 }
