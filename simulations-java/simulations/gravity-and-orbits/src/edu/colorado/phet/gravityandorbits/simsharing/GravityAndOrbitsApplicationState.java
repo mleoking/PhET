@@ -26,8 +26,10 @@ public class GravityAndOrbitsApplicationState implements IProguardKeepClass, Sim
     private int frameHeight;
     private int activeModule;
     private SerializableBufferedImage thumbnail;
+    private int index;
 
-    public GravityAndOrbitsApplicationState( GravityAndOrbitsApplication app, ImageFactory imageFactory ) {
+    public GravityAndOrbitsApplicationState( GravityAndOrbitsApplication app, ImageFactory imageFactory, int index ) {
+        this.index = index;
         final PhetFrame frame = app.getPhetFrame();
         introState = new GravityAndOrbitsModuleState( app.getIntro() );
         toScaleState = new GravityAndOrbitsModuleState( app.getToScale() );
@@ -65,5 +67,9 @@ public class GravityAndOrbitsApplicationState implements IProguardKeepClass, Sim
 
     public SerializableBufferedImage getImage() {
         return thumbnail;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

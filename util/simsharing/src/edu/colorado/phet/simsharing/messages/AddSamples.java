@@ -10,20 +10,12 @@ import java.util.ArrayList;
  * @author Sam Reid
  */
 public class AddSamples<T> implements Serializable {
-    private SessionID sessionID;
-    private ArrayList<T> data;
+    public final SessionID sessionID;
+    public final ArrayList<T> data;
 
     public AddSamples( SessionID sessionID, ArrayList<T> data ) {
         this.sessionID = sessionID;
         this.data = data;
-    }
-
-    public SessionID getSessionID() {
-        return sessionID;
-    }
-
-    public ArrayList<T> getData() {
-        return data;
     }
 
     @Override public String toString() {

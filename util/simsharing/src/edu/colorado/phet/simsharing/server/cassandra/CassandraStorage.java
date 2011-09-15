@@ -14,13 +14,11 @@ import me.prettyprint.hector.api.ddl.ComparatorType;
 import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
 import me.prettyprint.hector.api.factory.HFactory;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.SampleBatch;
@@ -40,6 +38,7 @@ import static edu.colorado.phet.simsharing.server.cassandra.Test.toObject;
 public class CassandraStorage implements Storage {
     public static final String KEYSPACE_NAME = "testkeyspace" + System.currentTimeMillis();
     private ColumnFamilyTemplate<String, String> template;
+    private String COLUMN_SAMPLE_COUNT = "sampleCount";
 
     public CassandraStorage() {
         Cluster myCluster = HFactory.getOrCreateCluster( "test-cluster", "localhost:9160" );
@@ -75,7 +74,9 @@ public class CassandraStorage implements Storage {
     }
 
     public int getNumberSamples( SessionID sessionID ) {
-        return template.queryColumns( sessionID.toString() ).getInteger( "sampleCount" );
+        final Integer sampleCount = template.queryColumns( sessionID.toString() ).getInteger( COLUMN_SAMPLE_COUNT );
+        System.out.println( "Query for key=" + sessionID.toString() + ", column = " + COLUMN_SAMPLE_COUNT + " => " + sampleCount );
+        return sampleCount == null ? 0 : sampleCount;
     }
 
     public int getNumberSessions() {
@@ -84,11 +85,7 @@ public class CassandraStorage implements Storage {
             updater.setInteger( "sessionCount", 0 );
             template.update( updater );
         }
-        final ColumnFamilyResult<String, String> result = globalQuery();
-        System.out.println( "result = " + result );
-        final Integer count = result.getInteger( "sessionCount" );
-        System.out.println( "count = " + count );
-        return count;
+        return globalQuery().getInteger( "sessionCount" );
     }
 
     public void startSession( SessionID sessionID ) {
@@ -98,6 +95,10 @@ public class CassandraStorage implements Storage {
         updater.setLong( "sessionStartTime_" + sessionID.getIndex(), System.currentTimeMillis() );
         template.update( updater );
         System.out.println( "Started session: " + sessionID );
+
+        ColumnFamilyUpdater<String, String> sessionUpdater = template.createUpdater( sessionID.toString() );
+        sessionUpdater.setInteger( COLUMN_SAMPLE_COUNT, 0 );
+        template.update( sessionUpdater );
     }
 
     public void endSession( SessionID sessionID ) {
@@ -114,16 +115,35 @@ public class CassandraStorage implements Storage {
             for ( Object o : allSessions.toArray() ) {
                 SessionRecord sessionRecord = (SessionRecord) o;
 
-                //todo: make sure is active
-                StudentSummary studentSummary = new StudentSummary( sessionRecord.getSessionID(), new SerializableBufferedImage( new BufferedImage( 200, 200, BufferedImage.TYPE_INT_RGB ) ),
-                                                                    1000, 1000, 1000 );
-                add( studentSummary );
+                final int numberSamples = getNumberSamples( sessionRecord.getSessionID() );
+                if ( numberSamples > 0 ) {
+                    SimState lastSample = getSample( sessionRecord.getSessionID(), numberSamples - 1 );
+                    //todo: make sure is active
+                    StudentSummary studentSummary = new StudentSummary( sessionRecord.getSessionID(), lastSample.getImage(), 1000, 1000, 1000 );
+                    add( studentSummary );
+                }
             }
         }} );
         return studentList;
     }
 
     public void storeAll( SessionID sessionID, AddSamples data ) {
+        int maxIndex = -1;
+        for ( int i = 0; i < data.data.size(); i++ ) {
+            ColumnFamilyUpdater<String, String> sessionUpdater = template.createUpdater( sessionID.toString() );
+            SimState state = (SimState) data.data.get( i );
+            sessionUpdater.setByteArray( "frame_" + state.getIndex(), toByteArray( state ) );
+            template.update( sessionUpdater );
+            maxIndex = Math.max( maxIndex, state.getIndex() );
+        }
+        ColumnFamilyUpdater<String, String> sessionUpdater = template.createUpdater( sessionID.toString() );
+        sessionUpdater.setInteger( COLUMN_SAMPLE_COUNT, maxIndex + 1 );
+        template.update( sessionUpdater );
+
+        System.out.println( "Set integer for key = " + sessionID.toString() + ", column = " + COLUMN_SAMPLE_COUNT + ", value = " + ( maxIndex + 1 ) );
+
+        int samples = getNumberSamples( sessionID );
+        System.out.println( "samples = " + samples );
     }
 
     public SampleBatch getSamplesAfter( SessionID id, long time ) {

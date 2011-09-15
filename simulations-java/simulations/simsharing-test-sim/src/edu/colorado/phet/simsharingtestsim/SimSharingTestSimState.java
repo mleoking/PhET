@@ -12,13 +12,16 @@ public class SimSharingTestSimState implements SimState {
     private long time;
     private SerializableBufferedImage image;
     public final ImmutableVector2D position;
+    private int index;
 
     public SimSharingTestSimState( long time,
                                    SerializableBufferedImage image,
-                                   ImmutableVector2D position ) {
+                                   ImmutableVector2D position,
+                                   int index ) {
         this.time = time;
         this.image = image;
         this.position = position;
+        this.index = index;
     }
 
     public long getTime() {
@@ -27,5 +30,9 @@ public class SimSharingTestSimState implements SimState {
 
     public SerializableBufferedImage getImage() {
         return image;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }
