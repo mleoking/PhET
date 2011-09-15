@@ -15,6 +15,7 @@ import edu.colorado.phet.simsharing.messages.GetSample;
 import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StartSession;
+import edu.colorado.phet.simsharing.server.cassandra.CassandraStorage;
 import edu.colorado.phet.simsharing.socket.Sample;
 import edu.colorado.phet.simsharing.socketutil.MessageHandler;
 import edu.colorado.phet.simsharing.socketutil.MessageServer;
@@ -34,10 +35,9 @@ public class Server implements MessageHandler {
     //Names to assign to students for testing
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
 
-    private Storage storage = new RAMStorage();
+    private Storage storage = new CassandraStorage();
 
     private void start() throws IOException {
-        storage.init();
         new MessageServer( PORT, this ).start();
     }
 

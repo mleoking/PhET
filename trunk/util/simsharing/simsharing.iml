@@ -7,8 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="gravity-and-orbits" exported="" />
-    <orderEntry type="module" module-name="simsharing-test-sim" exported="" />
+    <orderEntry type="module" module-name="gravity-and-orbits" />
+    <orderEntry type="module" module-name="simsharing-test-sim" />
+    <orderEntry type="module" module-name="simsharing-cassandra" />
   </component>
 </module>
 

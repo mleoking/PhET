@@ -3,14 +3,15 @@ package edu.colorado.phet.simsharing.server;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.simsharing.messages.AddSamples;
+import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
+import edu.colorado.phet.simsharing.teacher.SessionList;
+import edu.colorado.phet.simsharing.teacher.StudentList;
 
 /**
  * @author Sam Reid
  */
 public interface Storage {
-    void init();
-
     SimState getSample( SessionID sessionID, int index );
 
     int getNumberSamples( SessionID sessionID );
@@ -21,13 +22,13 @@ public interface Storage {
 
     void endSession( SessionID sessionID );
 
-    Object getActiveStudentList();
+    StudentList getActiveStudentList();
 
     public void storeAll( SessionID sessionID, AddSamples data );
 
-    Object listAllSessions();
+    SessionList listAllSessions();
 
     void clear();
 
-    Object getSamplesAfter( SessionID id, long time );
+    SampleBatch getSamplesAfter( SessionID id, long time );
 }
