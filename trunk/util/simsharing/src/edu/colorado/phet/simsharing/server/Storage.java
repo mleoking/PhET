@@ -18,17 +18,17 @@ public interface Storage {
 
     int getNumberSessions();
 
+    StudentList getActiveStudentList();
+
+    SessionList listAllSessions();
+
     void startSession( SessionID sessionID );
 
     void endSession( SessionID sessionID );
 
-    StudentList getActiveStudentList();
+    SampleBatch getSamplesAfter( SessionID id, long time );
 
     public void storeAll( SessionID sessionID, AddSamples data );
 
-    SessionList listAllSessions();
-
     void clear();
-
-    SampleBatch getSamplesAfter( SessionID id, long time );
 }
