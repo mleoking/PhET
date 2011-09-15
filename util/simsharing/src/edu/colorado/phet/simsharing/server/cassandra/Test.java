@@ -1,16 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.cassandra;
+package edu.colorado.phet.simsharing.server.cassandra;
 
 import me.prettyprint.cassandra.serializers.StringSerializer;
-import me.prettyprint.cassandra.service.ThriftKsDef;
 import me.prettyprint.cassandra.service.template.ColumnFamilyResult;
 import me.prettyprint.cassandra.service.template.ColumnFamilyTemplate;
 import me.prettyprint.cassandra.service.template.ColumnFamilyUpdater;
 import me.prettyprint.cassandra.service.template.ThriftColumnFamilyTemplate;
 import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.Keyspace;
-import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
-import me.prettyprint.hector.api.ddl.ComparatorType;
 import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
 import me.prettyprint.hector.api.exceptions.HectorException;
 import me.prettyprint.hector.api.factory.HFactory;
@@ -20,7 +17,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Arrays;
 
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.simsharing.SimHelper;
@@ -32,26 +28,24 @@ import edu.colorado.phet.simsharing.SimHelper;
  */
 public class Test {
 
-    private static final String KEYSPACE_NAME = "testkeyspace" + System.currentTimeMillis();
-
     public static void main( String[] args ) {
         Cluster myCluster = HFactory.getOrCreateCluster( "test-cluster", "localhost:9160" );
         System.out.println( "myCluster = " + myCluster );
 
-        KeyspaceDefinition newKeyspace = createSchema();
+        KeyspaceDefinition newKeyspace = CassandraStorage.createSchema();
 
         // Add the schema to the cluster.
         // "true" as the second param means that Hector will block until all nodes see the change.
         myCluster.addKeyspace( newKeyspace, true );
 
-        KeyspaceDefinition keyspaceDef = myCluster.describeKeyspace( KEYSPACE_NAME );
+        KeyspaceDefinition keyspaceDef = myCluster.describeKeyspace( CassandraStorage.KEYSPACE_NAME );
 
 // If keyspace does not exist, the CFs don't exist either. => create them.
         if ( keyspaceDef == null ) {
-            createSchema();
+            CassandraStorage.createSchema();
         }
 
-        Keyspace ksp = HFactory.createKeyspace( KEYSPACE_NAME, myCluster );
+        Keyspace ksp = HFactory.createKeyspace( CassandraStorage.KEYSPACE_NAME, myCluster );
 
         System.out.println( "ksp = " + ksp );
 
@@ -101,11 +95,6 @@ public class Test {
         catch ( HectorException e ) {
             // do something
         }
-    }
-
-    private static KeyspaceDefinition createSchema() {
-        ColumnFamilyDefinition cfDef = HFactory.createColumnFamilyDefinition( KEYSPACE_NAME, "ColumnFamilyName", ComparatorType.BYTESTYPE );
-        return HFactory.createKeyspaceDefinition( KEYSPACE_NAME, ThriftKsDef.DEF_STRATEGY_CLASS, 1, Arrays.asList( cfDef ) );
     }
 
     public static byte[] toByteArray( Object obj ) {

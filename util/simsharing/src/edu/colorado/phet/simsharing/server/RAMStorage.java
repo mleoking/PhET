@@ -53,7 +53,7 @@ public class RAMStorage implements Storage {
         sessions.get( sessionID ).addSamples( data );
     }
 
-    public Object getActiveStudentList() {
+    public StudentList getActiveStudentList() {
 
         final StudentList studentList = new StudentList( new ArrayList<StudentSummary>() {{
             for ( SessionID sessionID : new ArrayList<SessionID>( sessions.keySet() ) ) {
@@ -66,7 +66,7 @@ public class RAMStorage implements Storage {
         return studentList;
     }
 
-    public Object getSamplesAfter( SessionID id, long time ) {
+    public SampleBatch getSamplesAfter( SessionID id, long time ) {
         final Session<?> session = sessions.get( id );
         final ArrayList<? extends SimState> samples = session.getSamples();
         final ArrayList<SimState> states = new ArrayList<SimState>();
@@ -92,7 +92,7 @@ public class RAMStorage implements Storage {
         return new SampleBatch( states, session.getNumSamples() );
     }
 
-    public Object listAllSessions() {
+    public SessionList listAllSessions() {
         return new SessionList( new ArrayList<SessionRecord>() {{
             for ( Session<?> session : sessions.values() ) {
                 add( new SessionRecord( session.getSessionID(), session.getStartTime() ) );
