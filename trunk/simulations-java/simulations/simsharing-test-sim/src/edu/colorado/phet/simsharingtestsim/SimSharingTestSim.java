@@ -18,6 +18,7 @@ public class SimSharingTestSim extends PiccoloPhetApplication implements Simshar
     public static final String PROJECT_NAME = "simsharing-test-sim";
     public SimSharingTestModule module;
     public ImageFactory imageFactory = new ImageFactory();
+    private int index = 0;
 
     public SimSharingTestSim( PhetApplicationConfig config ) {
         super( config );
@@ -37,7 +38,7 @@ public class SimSharingTestSim extends PiccoloPhetApplication implements Simshar
                                            new SerializableBufferedImage( imageFactory.getThumbnail( getPhetFrame(), 200 ) ),
 //                                           new SerializableBufferedImage( new BufferedImage( 200,200, BufferedImage.TYPE_INT_RGB ) ),
 //                                           new SerializableBufferedImage( new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB ) ),
-                                           module.position.get() );
+                                           module.position.get(), index++ );
     }
 
     public void setState( SimSharingTestSimState state ) {

@@ -37,7 +37,7 @@ public class Session<T extends SimState> implements Serializable {
     }
 
     public void addSamples( AddSamples<T> sampleSet ) {
-        for ( T sample : sampleSet.getData() ) {
+        for ( T sample : sampleSet.data ) {
             samples.add( sample );
         }
     }

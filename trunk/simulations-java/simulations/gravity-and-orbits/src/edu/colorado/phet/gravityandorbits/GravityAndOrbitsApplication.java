@@ -44,6 +44,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication implemen
 
     //Some features are disabled in teacher mode, such as showing the diameter of spherical bodies, since it is too expensive
     public static boolean teacherMode = false;
+    private int index = 0;
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
@@ -64,7 +65,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication implemen
     }
 
     public GravityAndOrbitsApplicationState getState() {
-        return new GravityAndOrbitsApplicationState( this, imageFactory );
+        return new GravityAndOrbitsApplicationState( this, imageFactory, index++ );
     }
 
     public void setState( GravityAndOrbitsApplicationState state ) {

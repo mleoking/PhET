@@ -69,7 +69,7 @@ public class Server implements MessageHandler {
 
             //Store the samples
             AddSamples request = (AddSamples) message;
-            storage.storeAll( request.getSessionID(), request );
+            storage.storeAll( request.sessionID, request );
 
             debugSampleCount();
         }
