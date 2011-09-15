@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -46,5 +47,11 @@ public class SerializableBufferedImage implements IProguardKeepClass {
         catch ( IOException e ) {
             throw new RuntimeException( e );
         }
+    }
+
+    @Override public String toString() {
+        return "SerializableBufferedImage{" +
+               "byteArray=" + Arrays.toString( byteArray ) +
+               '}';
     }
 }
