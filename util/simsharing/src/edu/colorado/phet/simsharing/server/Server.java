@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,7 +16,7 @@ import edu.colorado.phet.simsharing.messages.GetSample;
 import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StartSession;
-import edu.colorado.phet.simsharing.server.cassandra.CassandraStorage;
+import edu.colorado.phet.simsharing.server.file.FileStorage;
 import edu.colorado.phet.simsharing.socket.Sample;
 import edu.colorado.phet.simsharing.socketutil.MessageHandler;
 import edu.colorado.phet.simsharing.socketutil.MessageServer;
@@ -35,7 +36,8 @@ public class Server implements MessageHandler {
     //Names to assign to students for testing
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
 
-    private Storage storage = new CassandraStorage();
+    //    private Storage storage = new CassandraStorage();
+    private Storage storage = new FileStorage( new File( "C:/simsharing-data/" ) );
 
     private void start() throws IOException {
         new MessageServer( PORT, this ).start();
