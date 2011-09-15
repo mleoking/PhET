@@ -126,7 +126,7 @@ public class ImageMass extends Mass {
         }
     }
 
-    @Override protected Object clone() throws CloneNotSupportedException {
+    @Override public Mass clone() {
         return new ImageMass( this.getMass(), this.imageProperty.get(), this.getHeight(), this.getPosition(), this.isMystery() );
     }
 }

@@ -35,7 +35,7 @@ public class BalanceGameModel {
     //------------------------------------------------------------------------
 
     // Constants that define some of the attributes of the game.
-    public static final int MAX_LEVELS = 2;
+    public static final int MAX_LEVELS = 3;
     private static final int PROBLEMS_PER_SET = 5;
     private static final int MAX_POINTS_PER_PROBLEM = 2;
     private static final int MAX_SCORE_PER_GAME = PROBLEMS_PER_SET * MAX_POINTS_PER_PROBLEM;
