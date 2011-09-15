@@ -1,3 +1,4 @@
+# 0.00.22 (56575) Sep 14, 2011
 9/14/11 put red outline around stage bounds only for dev versions
 9/14/11 add additional horizontal space between Jmol viewer and control panel
 9/14/11 revert to original EN values for atoms in diatomic molecule
