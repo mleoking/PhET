@@ -47,11 +47,15 @@ public class GravityAndOrbitsApplicationState implements IProguardKeepClass, Sim
         }
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "GravityAndOrbitsApplicationState{" +
-//               "moduleState=" + introState +
+               "introState=" + introState +
+               ", toScaleState=" + toScaleState +
                ", timestamp=" + timestamp +
+               ", frameWidth=" + frameWidth +
+               ", frameHeight=" + frameHeight +
+               ", activeModule=" + activeModule +
+               ", thumbnail=" + thumbnail +
                '}';
     }
 

@@ -14,7 +14,6 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
  * @author Sam Reid
  */
 public class GravityAndOrbitsModuleState implements IProguardKeepClass {
-
     private boolean showGravityForce;
     private boolean showPaths;
     private boolean showVelocity;
@@ -24,9 +23,6 @@ public class GravityAndOrbitsModuleState implements IProguardKeepClass {
     private ArrayList<GravityAndOrbitsModeState> modeStates;
     private int selectedMode;
     private boolean showMeasuringTape;
-
-    public GravityAndOrbitsModuleState() {
-    }
 
     public GravityAndOrbitsModuleState( GravityAndOrbitsModule module ) {
         showGravityForce = module.showGravityForceProperty.get();
@@ -57,87 +53,17 @@ public class GravityAndOrbitsModuleState implements IProguardKeepClass {
         m.measuringTapeVisibleProperty.set( showMeasuringTape );
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "GravityAndOrbitsModuleState{" +
                "showGravityForce=" + showGravityForce +
                ", showPaths=" + showPaths +
                ", showVelocity=" + showVelocity +
                ", showMass=" + showMass +
+               ", showGrid=" + showGrid +
                ", gravityEnabled=" + gravityEnabled +
-               ", modelStates=" + modeStates +
+               ", modeStates=" + modeStates +
+               ", selectedMode=" + selectedMode +
+               ", showMeasuringTape=" + showMeasuringTape +
                '}';
-    }
-
-    public boolean isShowGravityForce() {
-        return showGravityForce;
-    }
-
-    public void setShowGravityForce( boolean showGravityForce ) {
-        this.showGravityForce = showGravityForce;
-    }
-
-    public boolean isShowPaths() {
-        return showPaths;
-    }
-
-    public void setShowPaths( boolean showPaths ) {
-        this.showPaths = showPaths;
-    }
-
-    public boolean isShowVelocity() {
-        return showVelocity;
-    }
-
-    public void setShowVelocity( boolean showVelocity ) {
-        this.showVelocity = showVelocity;
-    }
-
-    public boolean isShowMass() {
-        return showMass;
-    }
-
-    public void setShowMass( boolean showMass ) {
-        this.showMass = showMass;
-    }
-
-    public boolean isShowGrid() {
-        return showGrid;
-    }
-
-    public void setShowGrid( boolean showGrid ) {
-        this.showGrid = showGrid;
-    }
-
-    public boolean isGravityEnabled() {
-        return gravityEnabled;
-    }
-
-    public void setGravityEnabled( boolean gravityEnabled ) {
-        this.gravityEnabled = gravityEnabled;
-    }
-
-    public ArrayList<GravityAndOrbitsModeState> getModeStates() {
-        return modeStates;
-    }
-
-    public void setModeStates( ArrayList<GravityAndOrbitsModeState> modeStates ) {
-        this.modeStates = modeStates;
-    }
-
-    public int getSelectedMode() {
-        return selectedMode;
-    }
-
-    public void setSelectedMode( int selectedMode ) {
-        this.selectedMode = selectedMode;
-    }
-
-    public boolean isShowMeasuringTape() {
-        return showMeasuringTape;
-    }
-
-    public void setShowMeasuringTape( boolean showMeasuringTape ) {
-        this.showMeasuringTape = showMeasuringTape;
     }
 }
