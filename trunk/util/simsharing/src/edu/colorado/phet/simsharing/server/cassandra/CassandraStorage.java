@@ -14,11 +14,13 @@ import me.prettyprint.hector.api.ddl.ComparatorType;
 import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
 import me.prettyprint.hector.api.factory.HFactory;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.SampleBatch;
@@ -108,13 +110,15 @@ public class CassandraStorage implements Storage {
 
     public StudentList getActiveStudentList() {
         final StudentList studentList = new StudentList( new ArrayList<StudentSummary>() {{
+            SessionList allSessions = listAllSessions();
+            for ( Object o : allSessions.toArray() ) {
+                SessionRecord sessionRecord = (SessionRecord) o;
 
-//            for ( SessionID sessionID : new ArrayList<SessionID>( storage.keySet() ) ) {
-//                final Session<?> session = storage.get( sessionID );
-//                if ( session.isActive() ) {
-//                    add( session.getStudentSummary() );
-//                }
-//            }
+                //todo: make sure is active
+                StudentSummary studentSummary = new StudentSummary( sessionRecord.getSessionID(), new SerializableBufferedImage( new BufferedImage( 200, 200, BufferedImage.TYPE_INT_RGB ) ),
+                                                                    1000, 1000, 1000 );
+                add( studentSummary );
+            }
         }} );
         return studentList;
     }

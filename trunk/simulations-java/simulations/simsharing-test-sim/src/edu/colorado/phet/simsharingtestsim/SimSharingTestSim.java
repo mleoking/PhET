@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharingtestsim;
 
-import java.awt.image.BufferedImage;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -36,9 +34,9 @@ public class SimSharingTestSim extends PiccoloPhetApplication implements Simshar
 
     public SimSharingTestSimState getState() {
         return new SimSharingTestSimState( System.currentTimeMillis(),
-//                                           new SerializableBufferedImage( imageFactory.getThumbnail( getPhetFrame(), 200 ) ),
+                                           new SerializableBufferedImage( imageFactory.getThumbnail( getPhetFrame(), 200 ) ),
 //                                           new SerializableBufferedImage( new BufferedImage( 200,200, BufferedImage.TYPE_INT_RGB ) ),
-                                           new SerializableBufferedImage( new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB ) ),
+//                                           new SerializableBufferedImage( new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB ) ),
                                            module.position.get() );
     }
 
