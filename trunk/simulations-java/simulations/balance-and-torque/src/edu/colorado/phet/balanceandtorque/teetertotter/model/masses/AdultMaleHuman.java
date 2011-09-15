@@ -4,7 +4,6 @@ package edu.colorado.phet.balanceandtorque.teetertotter.model.masses;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 
 /**
@@ -12,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
  *
  * @author John Blanco
  */
-public class AdultMaleHuman extends ImageMass {
+public class AdultMaleHuman extends HumanMass {
 
     private static final double MASS = 80; // in kg
     private static final double STANDING_HEIGHT = 1.7; // In meters.
@@ -20,26 +19,7 @@ public class AdultMaleHuman extends ImageMass {
     private static final double SITTING_CENTER_OF_MASS_X_OFFSET = 0.1; // In meters, determined visually.  Update if image changes.
 
     public AdultMaleHuman() {
-        super( MASS, Images.ADULT_MAN_STANDING, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
-    }
-
-    @Override public void setOnPlank( boolean onPlank ) {
-        if ( onPlank ) {
-            heightProperty.set( SITTING_HEIGHT );
-            if ( getPosition().getX() > 0 ) {
-                imageProperty.set( Images.ADULT_MAN_SITTING );
-                setCenterOfMassXOffset( SITTING_CENTER_OF_MASS_X_OFFSET );
-            }
-            else {
-                // Reverse image if on other side of balance.
-                imageProperty.set( BufferedImageUtils.flipX( Images.ADULT_MAN_SITTING ) );
-                setCenterOfMassXOffset( -SITTING_CENTER_OF_MASS_X_OFFSET );
-            }
-        }
-        else {
-            heightProperty.set( STANDING_HEIGHT );
-            imageProperty.set( Images.ADULT_MAN_STANDING );
-            setCenterOfMassXOffset( 0 );
-        }
+        super( MASS, Images.ADULT_MAN_STANDING, STANDING_HEIGHT, Images.ADULT_MAN_SITTING, SITTING_HEIGHT,
+               new Point2D.Double( 0, 0 ), SITTING_CENTER_OF_MASS_X_OFFSET, false );
     }
 }
