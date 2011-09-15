@@ -14,6 +14,7 @@ DESIGN
 - should we get rid of Bond Type indicator? (tangential, confusing in interviews, ball-and-stick concern)
 
 HIGH
+- try different behavior for bond angle drag indicators
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 - move Jmol console to Developer menu
 - when molecule rotates due to E-field, bond angle drag indicator remains visible
