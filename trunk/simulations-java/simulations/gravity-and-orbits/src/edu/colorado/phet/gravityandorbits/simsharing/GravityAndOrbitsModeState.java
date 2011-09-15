@@ -14,9 +14,6 @@ public class GravityAndOrbitsModeState implements IProguardKeepClass {
     private VectorState measuringTapeStartPoint;
     private VectorState measuringTapeEndPoint;
 
-    public GravityAndOrbitsModeState() {
-    }
-
     public GravityAndOrbitsModeState( GravityAndOrbitsMode mode ) {
         modelState = new GravityAndOrbitsModelState( mode.getModel() );
         measuringTapeStartPoint = new VectorState( mode.measuringTapeStartPoint.get() );
@@ -29,27 +26,11 @@ public class GravityAndOrbitsModeState implements IProguardKeepClass {
         gravityAndOrbitsMode.measuringTapeEndPoint.set( measuringTapeEndPoint.toImmutableVector2D() );
     }
 
-    public GravityAndOrbitsModelState getModelState() {
-        return modelState;
-    }
-
-    public void setModelState( GravityAndOrbitsModelState modelState ) {
-        this.modelState = modelState;
-    }
-
-    public VectorState getMeasuringTapeStartPoint() {
-        return measuringTapeStartPoint;
-    }
-
-    public void setMeasuringTapeStartPoint( VectorState measuringTapeStartPoint ) {
-        this.measuringTapeStartPoint = measuringTapeStartPoint;
-    }
-
-    public VectorState getMeasuringTapeEndPoint() {
-        return measuringTapeEndPoint;
-    }
-
-    public void setMeasuringTapeEndPoint( VectorState measuringTapeEndPoint ) {
-        this.measuringTapeEndPoint = measuringTapeEndPoint;
+    @Override public String toString() {
+        return "GravityAndOrbitsModeState{" +
+               "modelState=" + modelState +
+               ", measuringTapeStartPoint=" + measuringTapeStartPoint +
+               ", measuringTapeEndPoint=" + measuringTapeEndPoint +
+               '}';
     }
 }

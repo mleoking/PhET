@@ -20,9 +20,6 @@ public class PersistentBodyState implements IProguardKeepClass {
     private boolean userControlled;
     private boolean collided;
 
-    public PersistentBodyState() {
-    }
-
     public PersistentBodyState( Body body ) {
         this.position = new VectorState( body.getPosition() );
         velocity = new VectorState( body.getVelocity() );
@@ -35,7 +32,7 @@ public class PersistentBodyState implements IProguardKeepClass {
     }
 
     public void apply( Body body ) {
-        body.setPosition( position.getX(), position.getY() );
+        body.setPosition( position.x, position.y );
         body.setVelocity( velocity.toImmutableVector2D() );
         body.setAcceleration( acceleration.toImmutableVector2D() );
         body.setForce( force.toImmutableVector2D() );
@@ -49,63 +46,16 @@ public class PersistentBodyState implements IProguardKeepClass {
         return position;
     }
 
-    public void setPosition( VectorState position ) {
-        this.position = position;
-    }
-
-    public VectorState getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity( VectorState velocity ) {
-        this.velocity = velocity;
-    }
-
-    public VectorState getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration( VectorState acceleration ) {
-        this.acceleration = acceleration;
-    }
-
-    public VectorState getForce() {
-        return force;
-    }
-
-    public void setForce( VectorState force ) {
-        this.force = force;
-    }
-
-    public double getMass() {
-        return mass;
-    }
-
-    public void setMass( double mass ) {
-        this.mass = mass;
-    }
-
-    public double getDiameter() {
-        return diameter;
-    }
-
-    public void setDiameter( double diameter ) {
-        this.diameter = diameter;
-    }
-
-    public boolean isUserControlled() {
-        return userControlled;
-    }
-
-    public void setUserControlled( boolean userControlled ) {
-        this.userControlled = userControlled;
-    }
-
-    public boolean isCollided() {
-        return collided;
-    }
-
-    public void setCollided( boolean collided ) {
-        this.collided = collided;
+    @Override public String toString() {
+        return "PersistentBodyState{" +
+               "position=" + position +
+               ", velocity=" + velocity +
+               ", acceleration=" + acceleration +
+               ", force=" + force +
+               ", mass=" + mass +
+               ", diameter=" + diameter +
+               ", userControlled=" + userControlled +
+               ", collided=" + collided +
+               '}';
     }
 }

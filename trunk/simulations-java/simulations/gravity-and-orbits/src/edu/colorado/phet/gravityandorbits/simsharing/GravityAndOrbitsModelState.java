@@ -18,9 +18,6 @@ public class GravityAndOrbitsModelState implements IProguardKeepClass {
     private double simulationTime;
     private ArrayList<PersistentBodyState> persistentBodyStates;
 
-    public GravityAndOrbitsModelState() {
-    }
-
     public GravityAndOrbitsModelState( GravityAndOrbitsModel gravityAndOrbitsModel ) {
         simulationTime = gravityAndOrbitsModel.getClock().getSimulationTime();
         paused = gravityAndOrbitsModel.getClock().isPaused();
@@ -38,27 +35,11 @@ public class GravityAndOrbitsModelState implements IProguardKeepClass {
         }
     }
 
-    public boolean isPaused() {
-        return paused;
-    }
-
-    public void setPaused( boolean paused ) {
-        this.paused = paused;
-    }
-
-    public double getSimulationTime() {
-        return simulationTime;
-    }
-
-    public void setSimulationTime( double simulationTime ) {
-        this.simulationTime = simulationTime;
-    }
-
-    public ArrayList<PersistentBodyState> getPersistentBodyStates() {
-        return persistentBodyStates;
-    }
-
-    public void setPersistentBodyStates( ArrayList<PersistentBodyState> persistentBodyStates ) {
-        this.persistentBodyStates = persistentBodyStates;
+    @Override public String toString() {
+        return "GravityAndOrbitsModelState{" +
+               "paused=" + paused +
+               ", simulationTime=" + simulationTime +
+               ", persistentBodyStates=" + persistentBodyStates +
+               '}';
     }
 }
