@@ -1,3 +1,4 @@
+9/14/11 revert to original EN values for atoms in diatomic molecule
 9/14/11 change initial orientation of CHCl3 (multi-step rotation: x=-90 -> y=+10 -> x=+25), relabel atoms
 9/14/11 change initial orientation of CH2F2 (multi-step rotation: x=-90 -> y=+40)
 9/14/11 change initial orientation of CHF3 (multi-step rotation: x=-90 -> y=+30 -> x=+15), relabel atoms
