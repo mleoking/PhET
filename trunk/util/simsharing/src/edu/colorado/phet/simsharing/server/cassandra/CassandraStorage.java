@@ -62,6 +62,20 @@ public class CassandraStorage implements Storage {
         System.out.println( "ksp = " + ksp );
 
         template = new ThriftColumnFamilyTemplate<String, String>( ksp, "ColumnFamilyName", StringSerializer.get(), StringSerializer.get() );
+
+//        System.out.println( "Testing server" );
+//        for ( int i = 0; i < 10000; i++ ) {
+//            ColumnFamilyUpdater<String, String> sessionUpdater = template.createUpdater( "hello" );
+//            sessionUpdater.setInteger( "test int", i );
+//            template.update( sessionUpdater );
+//
+//            Integer value = template.queryColumns( "hello" ).getInteger( "test int" );
+//            System.out.println( "value = " + value );
+//
+//            ColumnFamilyUpdater<String, String> sessionUpdater2 = template.createUpdater( "hello" );
+//            sessionUpdater.setInteger( "test int_" + i, i );
+//            template.update( sessionUpdater2 );
+//        }
     }
 
     public static KeyspaceDefinition createSchema() {
@@ -80,25 +94,17 @@ public class CassandraStorage implements Storage {
     }
 
     public int getNumberSessions() {
-        if ( globalQuery().getInteger( "sessionCount" ) == null ) {
-            final ColumnFamilyUpdater<String, String> updater = globalUpdate();
-            updater.setInteger( "sessionCount", 0 );
-            template.update( updater );
-        }
-        return globalQuery().getInteger( "sessionCount" );
+        final Integer sessionCount = globalQuery().getInteger( "sessionCount" );
+        return sessionCount == null ? 0 : sessionCount;
     }
 
-    public void startSession( SessionID sessionID ) {
+    public synchronized void startSession( SessionID sessionID ) {
         final ColumnFamilyUpdater<String, String> updater = globalUpdate();
         updater.setInteger( "sessionCount", getNumberSessions() + 1 );
         updater.setByteArray( "sessionID_" + sessionID.getIndex(), toByteArray( sessionID ) );
         updater.setLong( "sessionStartTime_" + sessionID.getIndex(), System.currentTimeMillis() );
         template.update( updater );
         System.out.println( "Started session: " + sessionID );
-
-        ColumnFamilyUpdater<String, String> sessionUpdater = template.createUpdater( sessionID.toString() );
-        sessionUpdater.setInteger( COLUMN_SAMPLE_COUNT, 0 );
-        template.update( sessionUpdater );
     }
 
     public void endSession( SessionID sessionID ) {
@@ -109,7 +115,7 @@ public class CassandraStorage implements Storage {
         System.out.println( "Clear not implemented" );
     }
 
-    public StudentList getActiveStudentList() {
+    public synchronized StudentList getActiveStudentList() {
         final StudentList studentList = new StudentList( new ArrayList<StudentSummary>() {{
             SessionList allSessions = listAllSessions();
             for ( Object o : allSessions.toArray() ) {
@@ -127,16 +133,15 @@ public class CassandraStorage implements Storage {
         return studentList;
     }
 
-    public void storeAll( SessionID sessionID, AddSamples data ) {
+    public synchronized void storeAll( SessionID sessionID, AddSamples data ) {
+        System.out.println( "Received " + data.data.size() + " frames" );
         int maxIndex = -1;
+        ColumnFamilyUpdater<String, String> sessionUpdater = template.createUpdater( sessionID.toString() );
         for ( int i = 0; i < data.data.size(); i++ ) {
-            ColumnFamilyUpdater<String, String> sessionUpdater = template.createUpdater( sessionID.toString() );
             SimState state = (SimState) data.data.get( i );
             sessionUpdater.setByteArray( "frame_" + state.getIndex(), toByteArray( state ) );
-            template.update( sessionUpdater );
             maxIndex = Math.max( maxIndex, state.getIndex() );
         }
-        ColumnFamilyUpdater<String, String> sessionUpdater = template.createUpdater( sessionID.toString() );
         sessionUpdater.setInteger( COLUMN_SAMPLE_COUNT, maxIndex + 1 );
         template.update( sessionUpdater );
 
@@ -196,7 +201,7 @@ public class CassandraStorage implements Storage {
         return template.queryColumns( "global" );
     }
 
-    private ColumnFamilyUpdater<String, String> globalUpdate() {
+    private synchronized ColumnFamilyUpdater<String, String> globalUpdate() {
         return template.createUpdater( "global" );
     }
 
