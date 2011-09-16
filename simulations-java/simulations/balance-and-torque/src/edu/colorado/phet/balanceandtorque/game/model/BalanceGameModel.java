@@ -357,6 +357,11 @@ public class BalanceGameModel {
         return supportColumn;
     }
 
+    public void checkAnswer( double mass ) {
+        // TODO: Stubbed for now.
+        assert false;
+    }
+
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
