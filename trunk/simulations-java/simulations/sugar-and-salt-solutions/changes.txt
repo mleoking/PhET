@@ -1,3 +1,4 @@
+Water tab: Increased the size of the mini-beaker
 Water tab: Changed JMol background color to light blue
 Water tab: Renamed "Water charges" to "Water partial charges"
 Water tab: Made "Sugar in 3D" have a yellow background
