@@ -42,7 +42,7 @@ public abstract class BalanceGameChallenge {
         if ( this == o ) { return true; }
         if ( o == null || getClass() != o.getClass() ) { return false; }
 
-        BalanceSingleMassChallenge that = (BalanceSingleMassChallenge) o;
+        BalanceMassesChallenge that = (BalanceMassesChallenge) o;
 
         for ( MassDistancePair massDistancePair : fixedMasses ) {
             if ( !that.fixedMasses.contains( massDistancePair ) ) {

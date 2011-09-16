@@ -14,7 +14,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
  *
  * @author John Blanco
  */
-public class BalanceSingleMassChallenge extends BalanceGameChallenge {
+public class BalanceMassesChallenge extends BalanceGameChallenge {
 
     /**
      * Constructor.
@@ -23,7 +23,7 @@ public class BalanceSingleMassChallenge extends BalanceGameChallenge {
      * @param movableMasses
      * @param initialColumnState
      */
-    public BalanceSingleMassChallenge( List<MassDistancePair> fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay, ColumnState initialColumnState ) {
+    public BalanceMassesChallenge( List<MassDistancePair> fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay, ColumnState initialColumnState ) {
         super( initialColumnState );
         this.fixedMasses.addAll( fixedMasses );
         this.movableMasses.addAll( movableMasses );
@@ -36,5 +36,4 @@ public class BalanceSingleMassChallenge extends BalanceGameChallenge {
             }
         }
     }
-
 }

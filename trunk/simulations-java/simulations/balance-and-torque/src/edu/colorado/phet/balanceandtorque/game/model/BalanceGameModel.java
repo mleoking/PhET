@@ -70,10 +70,10 @@ public class BalanceGameModel {
 
     // Current set of challenges, which collectively comprise a single game, on
     // which the user is currently working.
-    private List<BalanceSingleMassChallenge> currentChallengeList;
+    private List<BalanceMassesChallenge> currentChallengeList;
 
     // Fixed masses that sit on the plank and that the user must attempt to balance.
-    public ObservableList<BalanceSingleMassChallenge.MassDistancePair> massesToBeBalanced = new ObservableList<BalanceSingleMassChallenge.MassDistancePair>();
+    public ObservableList<BalanceMassesChallenge.MassDistancePair> massesToBeBalanced = new ObservableList<BalanceMassesChallenge.MassDistancePair>();
 
     // Masses that the user moves on to the plank to counterbalance the fixed masses.
     public ObservableList<Mass> movableMasses = new ObservableList<Mass>();
@@ -134,7 +134,7 @@ public class BalanceGameModel {
         for ( Mass mass : new ArrayList<Mass>( movableMasses ) ) {
             mass.stepInTime( dt );
         }
-        for ( BalanceSingleMassChallenge.MassDistancePair massDistancePair : massesToBeBalanced ) {
+        for ( BalanceMassesChallenge.MassDistancePair massDistancePair : massesToBeBalanced ) {
             massDistancePair.mass.stepInTime( dt );
         }
     }
@@ -276,7 +276,7 @@ public class BalanceGameModel {
         }
     }
 
-    private void setChallenge( BalanceSingleMassChallenge balanceChallenge, boolean addColumn ) {
+    private void setChallenge( BalanceMassesChallenge balanceChallenge, boolean addColumn ) {
 
         // Clear out the previous challenge (if there was one).
         plank.removeAllMasses();
@@ -287,7 +287,7 @@ public class BalanceGameModel {
         movableMasses.clear();
 
         // Set up the new challenge.
-        for ( BalanceSingleMassChallenge.MassDistancePair massDistancePair : balanceChallenge.fixedMasses ) {
+        for ( BalanceMassesChallenge.MassDistancePair massDistancePair : balanceChallenge.fixedMasses ) {
             massesToBeBalanced.add( massDistancePair );
             plank.addMassToSurface( massDistancePair.mass, massDistancePair.distance );
         }
@@ -338,14 +338,14 @@ public class BalanceGameModel {
     }
 
     public void displayCorrectAnswer() {
-        BalanceSingleMassChallenge currentChallenge = currentChallengeList.get( challengeCount );
+        BalanceMassesChallenge currentChallenge = currentChallengeList.get( challengeCount );
 
         // Put the challenge in its initial state, with none of the movable
         // masses on the plank.
         setChallenge( currentChallenge, false );
 
         // Display the solution.
-        for ( BalanceSingleMassChallenge.MassDistancePair solutionMassDistancePair : currentChallenge.solutionToPresent ) {
+        for ( BalanceMassesChallenge.MassDistancePair solutionMassDistancePair : currentChallenge.solutionToPresent ) {
             plank.addMassToSurface( solutionMassDistancePair.mass, solutionMassDistancePair.distance );
         }
 
