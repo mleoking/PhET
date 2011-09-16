@@ -1,3 +1,4 @@
+Micro tab: Decouple the bar charts from the true concentration.  Hold the display value constant while draining, and update according to a mix between the delta and the true value
 # 0.00.106 (56553) Sep 14, 2011
 # 0.00.105 (56545) Sep 14, 2011
 Water tab: Made "Show water charges" the first option

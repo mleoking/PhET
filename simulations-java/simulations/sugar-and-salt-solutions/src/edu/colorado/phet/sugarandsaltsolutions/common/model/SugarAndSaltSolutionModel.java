@@ -35,7 +35,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
     //Model for input and output flows
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker, between 0 and 1
-    public final Property<Double> outputFlowRate = new Property<Double>( 0.0 );//rate that water flows out of the beaker, between 0 and 1
+    public final DoubleProperty outputFlowRate = new DoubleProperty( 0.0 );//rate that water flows out of the beaker, between 0 and 1
 
     //Flow controls vary between 0 and 1, this scales it down to a good model value
     public final double faucetFlowRate;

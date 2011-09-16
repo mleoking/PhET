@@ -114,13 +114,16 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
     }, showChargeColor );
 
+    //Flag to indicate whether the fluid is draining, since the display concentrations are held steady while draining
+    private ObservableProperty<Boolean> isDraining = outputFlowRate.greaterThan( 0.0 );
+
     //Constituents of dissolved solutes, such as sodium, nitrate, sucrose, etc.
-    public final SoluteConstituent sodium = new SoluteConstituent( this, new IonColor( this, new Sodium() ), Sodium.class );
-    public final SoluteConstituent chloride = new SoluteConstituent( this, new IonColor( this, new Chloride() ), Chloride.class );
-    public final SoluteConstituent calcium = new SoluteConstituent( this, new IonColor( this, new Calcium() ), Calcium.class );
-    public final SoluteConstituent sucrose = new SoluteConstituent( this, sucroseColor, Sucrose.class );
-    public final SoluteConstituent glucose = new SoluteConstituent( this, glucoseColor, Glucose.class );
-    public final SoluteConstituent nitrate = new SoluteConstituent( this, nitrateColor, Nitrate.class );
+    public final SoluteConstituent sodium = new SoluteConstituent( this, new IonColor( this, new Sodium() ), Sodium.class, isDraining );
+    public final SoluteConstituent chloride = new SoluteConstituent( this, new IonColor( this, new Chloride() ), Chloride.class, isDraining );
+    public final SoluteConstituent calcium = new SoluteConstituent( this, new IonColor( this, new Calcium() ), Calcium.class, isDraining );
+    public final SoluteConstituent sucrose = new SoluteConstituent( this, sucroseColor, Sucrose.class, isDraining );
+    public final SoluteConstituent glucose = new SoluteConstituent( this, glucoseColor, Glucose.class, isDraining );
+    public final SoluteConstituent nitrate = new SoluteConstituent( this, nitrateColor, Nitrate.class, isDraining );
 
     //DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
     //There is one DrainData for each formula since they may flow at different rates and have different schedules
