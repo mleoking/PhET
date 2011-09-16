@@ -10,8 +10,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.balanceandtorque.game.model.BalanceChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorque.game.model.BalanceSingleMassChallenge;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
@@ -173,8 +173,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 } );
             }
         } );
-        model.massesToBeBalanced.addElementAddedObserver( new VoidFunction1<BalanceChallenge.MassDistancePair>() {
-            public void apply( BalanceChallenge.MassDistancePair massDistancePair ) {
+        model.massesToBeBalanced.addElementAddedObserver( new VoidFunction1<BalanceSingleMassChallenge.MassDistancePair>() {
+            public void apply( BalanceSingleMassChallenge.MassDistancePair massDistancePair ) {
                 // Create and add the view representation for this mass.
                 final PNode massNode = createMassNode( massDistancePair.mass );
                 // Don't allow the user to move this mass around.
