@@ -1,3 +1,4 @@
+Micro tab: Gray out the kit button nodes instead of making them invisible
 Micro tab: Made the kit selection buttons orange
 # 0.00.107 (56599) Sep 16, 2011
 Micro tab: Decouple the bar charts from the true concentration.  Hold the display value constant while draining, and update according to a mix between the delta and the true value

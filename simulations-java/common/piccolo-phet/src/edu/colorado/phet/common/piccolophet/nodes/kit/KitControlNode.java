@@ -44,7 +44,7 @@ public class KitControlNode extends PNode {
             } );
             selectedKit.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integer ) {
-                    setVisible( selectedKit.get() < numKits - 1 );
+                    setEnabled( selectedKit.get() < numKits - 1 );
                 }
             } );
         }};
@@ -63,7 +63,7 @@ public class KitControlNode extends PNode {
             } );
             selectedKit.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integer ) {
-                    setVisible( selectedKit.get() > 0 );
+                    setEnabled( selectedKit.get() > 0 );
                 }
             } );
         }};

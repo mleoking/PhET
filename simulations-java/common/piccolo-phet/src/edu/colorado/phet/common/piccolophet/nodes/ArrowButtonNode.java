@@ -13,18 +13,23 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 
+import javax.swing.JComponent;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.piccolophet.nodes.ArrowButtonNode.Orientation.*;
-import static java.awt.Color.WHITE;
 import static java.awt.event.ActionEvent.ACTION_PERFORMED;
 import static java.awt.geom.AffineTransform.getTranslateInstance;
 
@@ -33,6 +38,12 @@ import static java.awt.geom.AffineTransform.getTranslateInstance;
  * TODO: add an external shadow for use in non-black-background situations
  */
 public class ArrowButtonNode extends PNode {
+    private Property<Boolean> enabledProperty = new Property<Boolean>( false );
+
+    //Store the cursor handler and moused-over component so the cursor can be changed from a hand to an arrow when the ArrowButtonNode becomes disabled
+    private final CursorHandler cursorHandler = new CursorHandler();
+    private PComponent component;
+
     public static enum Orientation {
         LEFT, RIGHT, UP, DOWN
     }
@@ -53,6 +64,10 @@ public class ArrowButtonNode extends PNode {
         public final Color pressedMiddle;
         public final Color pressedOuter;
 
+        public final Color disabledInner;
+        public final Color disabledMiddle;
+        public final Color disabledOuter;
+
         /**
          * Convenience constructor that creates a ColorScheme based on a single central color
          *
@@ -61,7 +76,9 @@ public class ArrowButtonNode extends PNode {
         public ColorScheme( Color upMiddle ) {
             this( add( upMiddle, -20, -20, -20 ), upMiddle, add( upMiddle, 35, 35, 35 ),
                   add( upMiddle, -20, 20, 20 ), add( upMiddle, 0, 20, 20 ), add( upMiddle, 35, 35, 35 ),
-                  add( upMiddle, 35, 35, 35 ), add( upMiddle, 0, -20, -20 ), add( upMiddle, -20, -20, -20 ) );
+                  add( upMiddle, 35, 35, 35 ), add( upMiddle, 0, -20, -20 ), add( upMiddle, -20, -20, -20 ),
+                  Color.white, Color.lightGray, Color.white );
+            System.out.println( "upMiddle.getBlue() = " + upMiddle.getBlue() );
         }
 
         /**
@@ -80,12 +97,10 @@ public class ArrowButtonNode extends PNode {
         }
 
         /**
-         * The original gray color scheme, same as calling the convenience constructor with the arg: new Color( 220, 220, 220 )
+         * The original gray color scheme.
          */
         public ColorScheme() {
-            this( new Color( 200, 200, 200 ), new Color( 220, 220, 220 ), WHITE,
-                  new Color( 200, 240, 240 ), new Color( 220, 240, 240 ), WHITE,
-                  WHITE, new Color( 220, 220, 220 ), new Color( 200, 200, 200 ) );
+            this( new Color( 220, 220, 220 ) );
         }
 
         /**
@@ -100,8 +115,11 @@ public class ArrowButtonNode extends PNode {
          * @param pressedInner
          * @param pressedMiddle
          * @param pressedOuter
+         * @param disabledInner
+         * @param disabledMiddle
+         * @param disabledOuter
          */
-        public ColorScheme( Color upInner, Color upMiddle, Color upOuter, Color overInner, Color overMiddle, Color overOuter, Color pressedInner, Color pressedMiddle, Color pressedOuter ) {
+        public ColorScheme( Color upInner, Color upMiddle, Color upOuter, Color overInner, Color overMiddle, Color overOuter, Color pressedInner, Color pressedMiddle, Color pressedOuter, Color disabledInner, Color disabledMiddle, Color disabledOuter ) {
             this.upInner = upInner;
             this.upMiddle = upMiddle;
             this.upOuter = upOuter;
@@ -111,6 +129,9 @@ public class ArrowButtonNode extends PNode {
             this.pressedInner = pressedInner;
             this.pressedMiddle = pressedMiddle;
             this.pressedOuter = pressedOuter;
+            this.disabledInner = disabledInner;
+            this.disabledMiddle = disabledMiddle;
+            this.disabledOuter = disabledOuter;
         }
     }
 
@@ -197,6 +218,7 @@ public class ArrowButtonNode extends PNode {
         final TriColorRoundGradientPaint upGradient = createGradient.apply( colorScheme.upInner, colorScheme.upMiddle, colorScheme.upOuter );
         final TriColorRoundGradientPaint overGradient = createGradient.apply( colorScheme.overInner, colorScheme.overMiddle, colorScheme.overOuter );
         final TriColorRoundGradientPaint pressedGradient = createGradient.apply( colorScheme.pressedInner, colorScheme.pressedMiddle, colorScheme.pressedOuter );
+        final TriColorRoundGradientPaint disabledGradient = createGradient.apply( colorScheme.disabledInner, colorScheme.disabledMiddle, colorScheme.disabledOuter );
 
         /*---------------------------------------------------------------------------*
         * components
@@ -209,23 +231,39 @@ public class ArrowButtonNode extends PNode {
         final PhetPPath background = new PhetPPath( circle ) {{
             setPaint( upGradient );
             setStroke( new BasicStroke( 1 ) );
-            setStrokePaint( Color.gray );
+            enabledProperty.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean enabled ) {
+                    setStrokePaint( enabled ? Color.gray : Color.lightGray );
+                }
+            } );
         }};
         addChild( background );
 
         // add the main arrow color
         background.addChild( new PhetPPath( arrow ) {{
-            setPaint( new Color( 60, 60, 60 ) );
             setStroke( null );
+            enabledProperty.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean enabled ) {
+                    setPaint( enabled ? new Color( 60, 60, 60 ) : new Color( 160, 160, 160 ) );
+                }
+            } );
         }} );
 
         // add a few internal shadowing components, so it looks like the arrow is cut out of the button
         background.addChild( new PhetPPath( getInternalShadow( arrow, new Point2D.Double( 0, strokeRadius ) ) ) {{
-            setPaint( new Color( 30, 30, 30 ) );
+            enabledProperty.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean enabled ) {
+                    setPaint( enabled ? new Color( 30, 30, 30 ) : new Color( 130, 130, 130 ) );
+                }
+            } );
             setStroke( null );
         }} );
         background.addChild( new PhetPPath( getInternalShadow( arrow, new Point2D.Double( 0, strokeRadius * 3 / 4 ) ) ) {{
-            setPaint( new Color( 0, 0, 0 ) );
+            enabledProperty.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean enabled ) {
+                    setPaint( enabled ? new Color( 0, 0, 0 ) : new Color( 100, 100, 100 ) );
+                }
+            } );
             setStroke( null );
         }} );
 
@@ -234,7 +272,7 @@ public class ArrowButtonNode extends PNode {
         *----------------------------------------------------------------------------*/
 
         // handle JME cursors properly. (if pulling to non-JME code, use the CursorHandler)
-        addInputEventListener( new CursorHandler() );
+        addInputEventListener( cursorHandler );
 
         // properties for button state
         final Property<Boolean> focusedProperty = new Property<Boolean>( false );
@@ -243,12 +281,13 @@ public class ArrowButtonNode extends PNode {
         // when the button state changes, cause the repaint
         SimpleObserver updateObserver = new SimpleObserver() {
             public void update() {
-                background.setPaint( armedProperty.get() ? pressedGradient : ( focusedProperty.get() ? overGradient : upGradient ) );
+                background.setPaint( !enabledProperty.get() ? disabledGradient : ( armedProperty.get() ? pressedGradient : ( focusedProperty.get() ? overGradient : upGradient ) ) );
                 background.setOffset( armedProperty.get() ? new Point2D.Double( ARROW_PRESS_OFFSET, ARROW_PRESS_OFFSET ) : new Point2D.Double( 0, 0 ) );
                 repaint();
             }
         };
         focusedProperty.addObserver( updateObserver, false );
+        enabledProperty.addObserver( updateObserver, false );
         armedProperty.addObserver( updateObserver ); // call it once
 
         // hook our properties up to the button handler
@@ -267,6 +306,27 @@ public class ArrowButtonNode extends PNode {
                 }
             } );
         }} );
+
+        //Store the component so the mouse can be changed from hand to arrow when disabled
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseMoved( PInputEvent event ) {
+                component = event.getComponent();
+            }
+        } );
+    }
+
+    /**
+     * Sets whether the ArrowButtonNode is enabled.  Disabling grays it out and makes it ignore mouse interaction.
+     *
+     * @param enabled
+     */
+    public void setEnabled( boolean enabled ) {
+        enabledProperty.set( enabled );
+        setPickable( enabled );
+        setChildrenPickable( enabled );
+        if ( component != null && !enabled ) {
+            cursorHandler.mouseExited( (JComponent) component );
+        }
     }
 
     /*---------------------------------------------------------------------------*
