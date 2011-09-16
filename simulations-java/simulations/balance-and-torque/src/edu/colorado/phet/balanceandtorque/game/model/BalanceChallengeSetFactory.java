@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdolescentBoy;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdultFemaleHuman;
@@ -258,7 +257,7 @@ public class BalanceChallengeSetFactory {
         solution.add( new BalanceMassesChallenge.MassDistancePair( movableMass, -fixedMassDistancePair.mass.getMass() * fixedMassDistancePair.distance / movableMass.getMass() ) );
 
         // And we're done.
-        return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solution, ColumnState.SINGLE_COLUMN );
+        return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solution );
     }
 
     /**
