@@ -19,6 +19,6 @@ public class AdolescentBoy extends HumanMass {
     private static final double SITTING_CENTER_OF_MASS_X_OFFSET = 0.07; // In meters, determined visually.  Update if image changes.
 
     public AdolescentBoy() {
-        super( MASS, Images.ADOLESCENT_STANDING, STANDING_HEIGHT, Images.ADOLESCENT_SITTING, SITTING_HEIGHT, new Point2D.Double( 0, 0 ), SITTING_CENTER_OF_MASS_X_OFFSET, false );
+        super( MASS, Images.ADOLESCENT_STANDING, STANDING_HEIGHT, Images.COMPACT_ADOLESCENT_SITTING, SITTING_HEIGHT, new Point2D.Double( 0, 0 ), SITTING_CENTER_OF_MASS_X_OFFSET, false );
     }
 }
