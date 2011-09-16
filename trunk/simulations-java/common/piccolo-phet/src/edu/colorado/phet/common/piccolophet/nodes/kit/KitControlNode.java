@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.kit;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +17,12 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class KitControlNode extends PNode {
+
+    //Convenience constructor that uses orange for the buttons
+    public KitControlNode( final int numKits, final Property<Integer> selectedKit, Option<PNode> titleNode, double inset ) {
+        this( numKits, selectedKit, titleNode, inset, Color.orange );
+    }
+
     /**
      * Creates a node that contains back and forward buttons for use in a KitSelectionNode.
      *
@@ -24,11 +31,11 @@ public class KitControlNode extends PNode {
      * @param titleNode   optional title to be displayed between the buttons
      * @param inset       space between the arrows and the title (or 2x inset = distance between arrows if no title)
      */
-    public KitControlNode( final int numKits, final Property<Integer> selectedKit, Option<PNode> titleNode, double inset ) {
+    public KitControlNode( final int numKits, final Property<Integer> selectedKit, Option<PNode> titleNode, double inset, Color buttonColor ) {
 
         //Buttons for scrolling previous/next
         //Place the kit "previous" and "next" buttons above the kit to save horizontal space.  In Sugar and Salt Solution, they are moved up next to the title
-        final PNode nextButton = new ForwardButton() {{
+        final PNode nextButton = new ForwardButton( buttonColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     selectedKit.set( selectedKit.get() + 1 );
@@ -42,7 +49,7 @@ public class KitControlNode extends PNode {
         }};
         addChild( nextButton );
 
-        BackButton backButton = new BackButton() {{
+        BackButton backButton = new BackButton( buttonColor ) {{
 
             //Make sure the previous and next buttons don't overlap, useful to handle long i18n strings
             if ( getFullBounds().getMaxX() > nextButton.getFullBounds().getMinX() ) {

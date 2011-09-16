@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowButtonNode;
  * @author Sam Reid
  */
 public class BackButton extends ArrowButtonNode {
-    public BackButton() {
-        super( Orientation.LEFT, new ColorScheme( Color.orange ) );
+    public BackButton( Color buttonColor ) {
+        super( Orientation.LEFT, new ColorScheme( buttonColor ) );
     }
 }

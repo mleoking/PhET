@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowButtonNode;
  * @author Sam Reid
  */
 public class ForwardButton extends ArrowButtonNode {
-    public ForwardButton() {
-        super( Orientation.RIGHT, new ColorScheme( Color.orange ) );
+    public ForwardButton( Color buttonColor ) {
+        super( Orientation.RIGHT, new ColorScheme( buttonColor ) );
     }
 }
