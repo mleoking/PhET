@@ -23,11 +23,10 @@ public class ZoomIndicatorNode extends PNode {
         //Get the bounds of the relevant regions
         Rectangle2D miniBeakerBounds = miniBeakerNode.getFullBounds();
         Rectangle2D particleWindowBounds = particleWindowNode.getFullBounds();
-        double size = 5;
-        Rectangle2D zoomRect = new Rectangle2D.Double( miniBeakerBounds.getCenterX() - size / 2, ( miniBeakerBounds.getCenterY() + miniBeakerBounds.getMaxY() ) / 2 - size / 2, size, size );
 
-        //Show a small rectangle in the beaker of the zoomed-in region
-        addChild( new PhetPPath( zoomRect, new BasicStroke( 1 ), ParticleWindowNode.FRAME_COLOR ) );
+        //Invisible rectangle that the zoom lines will be pointing at
+        double size = 3;
+        Rectangle2D zoomRect = new Rectangle2D.Double( miniBeakerBounds.getCenterX() - size / 2, ( miniBeakerBounds.getCenterY() + miniBeakerBounds.getMaxY() ) / 2 - size / 2, size, size );
 
         //Draw lines from the zoomed in box to the particle box
         Stroke zoomLineStroke = new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 20, 10 }, 0 );
