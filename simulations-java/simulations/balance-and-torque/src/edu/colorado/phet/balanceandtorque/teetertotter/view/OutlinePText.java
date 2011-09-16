@@ -8,6 +8,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 
@@ -20,7 +21,12 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * PNode that represents outlined text.
+ * PNode that represents outlined text.  This is often useful for making text
+ * more visible when shown against a complex or gradient background.
+ * <p/>
+ * There has been some debate amongst the PhET developers as to whether or not
+ * it is wise to use this, since it may not look that great for other
+ * languages, so it is probably best to use it sparingly.
  *
  * @author John Blanco
  * @author Sam Reid
@@ -30,7 +36,7 @@ public class OutlinePText extends PNode {
     // Font render context used for outline text.  Honestly, I (jblanco) don't
     // know much about font render contexts, but I found a Piccolo node called
     // PStyledText that did this, so I tried it, and it seems to work okay.
-    // This should be tested in some other environments (e.g. Mac) too.
+    // It has been testing on Windows 7 and Mac and works well.
     private static FontRenderContext SWING_FRC = new FontRenderContext( null, true, false );
 
     /**
@@ -40,12 +46,13 @@ public class OutlinePText extends PNode {
      * @param font
      * @param fillColor
      * @param outlineColor
+     * @param outlineStrokeWidth
      */
     public OutlinePText( String text, Font font, Color fillColor, Color outlineColor, double outlineStrokeWidth ) {
         PPath textPPath = new PhetPPath( fillColor, new BasicStroke( (float) outlineStrokeWidth ), outlineColor );
         TextLayout textLayout = new TextLayout( text, font, SWING_FRC );
         textPPath.setPathTo( textLayout.getOutline( new AffineTransform() ) );
-        addChild( new ZeroOffsetNode( textPPath ) );
+        addChild( new ZeroOffsetNode( textPPath ) ); // Make sure that this node's origin is in the upper left corner.
     }
 
     /**
@@ -73,6 +80,12 @@ public class OutlinePText extends PNode {
         OutlinePText outlineTextNode4 = new OutlinePText( "72 point bold", new PhetFont( 72, true ), Color.MAGENTA, Color.BLACK, 2 );
         outlineTextNode4.setOffset( 50, 250 );
         canvas.addWorldChild( outlineTextNode4 );
+        OutlinePText outlineTextNode5 = new OutlinePText( "\uFE9D\u06B0\u06AA\uFEB5", PhetFont.getPreferredFont( new Locale( "ar" ), Font.BOLD, 64 ), Color.ORANGE, Color.BLACK, 2 );
+        outlineTextNode5.setOffset( 50, outlineTextNode4.getFullBoundsReference().getMaxY() );
+        canvas.addWorldChild( outlineTextNode5 );
+        OutlinePText outlineTextNode6 = new OutlinePText( "\u4e2d\u56fd\u8bdd\u4e0d", PhetFont.getPreferredFont( new Locale( "zh" ), Font.BOLD, 64 ), Color.CYAN, Color.BLACK, 2 );
+        outlineTextNode6.setOffset( 50, outlineTextNode5.getFullBoundsReference().getMaxY() + 20 );
+        canvas.addWorldChild( outlineTextNode6 );
 
         // Boiler plate Piccolo app stuff.
         JFrame frame = new JFrame( "Outline Text Test" );
