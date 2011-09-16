@@ -1,3 +1,4 @@
+Water tab: Made salt bucket orange instead of blue to make it more visible against the background
 Micro tab: Gray out the kit button nodes instead of making them invisible
 Micro tab: Made the kit selection buttons orange
 # 0.00.107 (56599) Sep 16, 2011

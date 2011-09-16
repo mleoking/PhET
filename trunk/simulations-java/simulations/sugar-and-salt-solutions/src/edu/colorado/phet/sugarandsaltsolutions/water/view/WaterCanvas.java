@@ -40,8 +40,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas.NO_READOUT;
-import static java.awt.Color.blue;
-import static java.awt.Color.green;
+import static java.awt.Color.*;
 
 /**
  * Canvas for the Water tab
@@ -149,7 +148,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         Dimension2DDouble bucketSize = new Dimension2DDouble( 205, 80 );
         final int bucketSeparation = 210;
         sugarBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 + bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, green, SUGAR ), bucketTransform );
-        saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, blue, SALT ), bucketTransform );
+        saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, orange, SALT ), bucketTransform );
 
         //Add the buckets to the view
         addChild( sugarBucket.getHoleNode() );
