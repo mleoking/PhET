@@ -4,6 +4,7 @@ package edu.colorado.phet.balanceandtorque.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 
 /**
@@ -29,16 +30,22 @@ public class BalanceChallenge {
     // only correct one.
     public final List<MassDistancePair> solutionToPresent = new ArrayList<MassDistancePair>();
 
+    // State of the support column or columns when the challenge is initially
+    // presented to the user.
+    public final ColumnState initialColumnState;
+
     /**
      * Constructor.
      *
      * @param fixedMasses
      * @param movableMasses
+     * @param initialColumnState
      */
-    public BalanceChallenge( List<MassDistancePair> fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay ) {
+    public BalanceChallenge( List<MassDistancePair> fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay, ColumnState initialColumnState ) {
         this.fixedMasses.addAll( fixedMasses );
         this.movableMasses.addAll( movableMasses );
         this.solutionToPresent.addAll( solutionToDisplay );
+        this.initialColumnState = initialColumnState;
         // Parameter checking: Verify that the mass or masses used in the
         // solution are present on the list of movable masses.
         for ( MassDistancePair massDistancePair : solutionToDisplay ) {

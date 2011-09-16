@@ -257,7 +257,7 @@ public class BalanceChallengeSetFactory {
         solution.add( new BalanceChallenge.MassDistancePair( movableMass, -fixedMassDistancePair.mass.getMass() * fixedMassDistancePair.distance / movableMass.getMass() ) );
 
         // And we're done.
-        return new BalanceChallenge( fixedMassesList, movableMassesList, solution );
+        return new BalanceChallenge( fixedMassesList, movableMassesList, solution, ColumnState.SINGLE_COLUMN );
     }
 
     /**
