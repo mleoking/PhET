@@ -1,3 +1,4 @@
+9/16/2011 ArrowButtonNode minor formatting changes
 9/14/2011 Copied ArrowButtonNode to piccolo-phet from molecule-shapes, added border to show up against white background and made default button for kits
 9/11/2011 Fixed exception caused by small arrows in VelocitySensorNode
 9/8/2011 Added FaucetNode flag to indicate whether the user has to hold down the knob to maintain a flow rate
