@@ -78,7 +78,6 @@ public class ArrowButtonNode extends PNode {
                   add( upMiddle, -20, 20, 20 ), add( upMiddle, 0, 20, 20 ), add( upMiddle, 35, 35, 35 ),
                   add( upMiddle, 35, 35, 35 ), add( upMiddle, 0, -20, -20 ), add( upMiddle, -20, -20, -20 ),
                   Color.white, Color.lightGray, Color.white );
-            System.out.println( "upMiddle.getBlue() = " + upMiddle.getBlue() );
         }
 
         /**
