@@ -30,6 +30,7 @@ public class KitControlNode extends PNode {
      * @param selectedKit model for which kit is selected, this control sets and observes the value
      * @param titleNode   optional title to be displayed between the buttons
      * @param inset       space between the arrows and the title (or 2x inset = distance between arrows if no title)
+     * @param buttonColor main color to use for creating button color scheme
      */
     public KitControlNode( final int numKits, final Property<Integer> selectedKit, Option<PNode> titleNode, double inset, Color buttonColor ) {
 
