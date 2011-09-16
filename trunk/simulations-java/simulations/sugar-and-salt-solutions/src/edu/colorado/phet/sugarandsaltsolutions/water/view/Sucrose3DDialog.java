@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -29,9 +30,11 @@ public class Sucrose3DDialog {
 
     //Parent for the dialog
     private JFrame parent;
+    private Color backgroundColor;
 
-    public Sucrose3DDialog( JFrame parent ) {
+    public Sucrose3DDialog( JFrame parent, Color backgroundColor ) {
         this.parent = parent;
+        this.backgroundColor = backgroundColor;
     }
 
     //Shows the 3d sucrose view in a dialog, creating the dialog lazily if necessary
@@ -47,6 +50,9 @@ public class Sucrose3DDialog {
                 }
 
                 public void fixJmolColors( JmolViewer viewer ) {
+
+                    //Use the specified background color for jmol.  In this case the background is water blue since the sucrose is in the water
+                    viewer.script( "color background [" + backgroundColor.getRed() + "," + backgroundColor.getGreen() + "," + backgroundColor.getBlue() + "]" );
                 }
             }, "Space fill", "Ball and stick", "Loading..." );
         }

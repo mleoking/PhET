@@ -39,6 +39,7 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.WATER_COLOR;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas.NO_READOUT;
 import static java.awt.Color.*;
 
@@ -77,7 +78,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
     public WaterCanvas( final WaterModel model, final GlobalState state ) {
         this.model = model;
-        sucrose3DDialog = new Sucrose3DDialog( state.frame );
+        sucrose3DDialog = new Sucrose3DDialog( state.frame, WATER_COLOR );
 
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
         state.colorScheme.backgroundColorSet.color.addObserver( new VoidFunction1<Color>() {
