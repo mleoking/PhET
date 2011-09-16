@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -36,6 +37,9 @@ public class ArrowButtonNode extends PNode {
         LEFT, RIGHT, UP, DOWN
     }
 
+    /**
+     * Color scheme for the ArrowButtonNode.  Tri-color gradients are used for each state.
+     */
     public static class ColorScheme {
         public final Color upInner;
         public final Color upMiddle;
@@ -49,12 +53,54 @@ public class ArrowButtonNode extends PNode {
         public final Color pressedMiddle;
         public final Color pressedOuter;
 
+        /**
+         * Convenience constructor that creates a ColorScheme based on a single central color
+         *
+         * @param upMiddle
+         */
+        public ColorScheme( Color upMiddle ) {
+            this( add( upMiddle, -20, -20, -20 ), upMiddle, add( upMiddle, 35, 35, 35 ),
+                  add( upMiddle, -20, 20, 20 ), add( upMiddle, 0, 20, 20 ), add( upMiddle, 35, 35, 35 ),
+                  add( upMiddle, 35, 35, 35 ), add( upMiddle, 0, -20, -20 ), add( upMiddle, -20, -20, -20 ) );
+        }
+
+        /**
+         * Utility method to create a new color based on an old color and delta values for red, green and blue.
+         *
+         * @param color
+         * @param red
+         * @param green
+         * @param blue
+         * @return
+         */
+        private static Color add( Color color, int red, int green, int blue ) {
+            return new Color( MathUtil.clamp( 0, color.getRed() + red, 255 ),
+                              MathUtil.clamp( 0, color.getGreen() + green, 255 ),
+                              MathUtil.clamp( 0, color.getBlue() + blue, 255 ) );
+        }
+
+        /**
+         * The original gray color scheme, same as calling the convenience constructor with the arg: new Color( 220, 220, 220 )
+         */
         public ColorScheme() {
             this( new Color( 200, 200, 200 ), new Color( 220, 220, 220 ), WHITE,
                   new Color( 200, 240, 240 ), new Color( 220, 240, 240 ), WHITE,
                   WHITE, new Color( 220, 220, 220 ), new Color( 200, 200, 200 ) );
         }
 
+        /**
+         * Fully explicit constructor for the ColorScheme
+         *
+         * @param upInner
+         * @param upMiddle
+         * @param upOuter
+         * @param overInner
+         * @param overMiddle
+         * @param overOuter
+         * @param pressedInner
+         * @param pressedMiddle
+         * @param pressedOuter
+         */
         public ColorScheme( Color upInner, Color upMiddle, Color upOuter, Color overInner, Color overMiddle, Color overOuter, Color pressedInner, Color pressedMiddle, Color pressedOuter ) {
             this.upInner = upInner;
             this.upMiddle = upMiddle;
@@ -74,6 +120,10 @@ public class ArrowButtonNode extends PNode {
 
     public ArrowButtonNode( Orientation orientation ) {
         this( orientation, DEFAULT_SIZE );
+    }
+
+    public ArrowButtonNode( Orientation orientation, ColorScheme colorScheme ) {
+        this( orientation, DEFAULT_SIZE, DEFAULT_SIZE / 10, colorScheme );
     }
 
     public ArrowButtonNode( Orientation orientation, final double size ) {

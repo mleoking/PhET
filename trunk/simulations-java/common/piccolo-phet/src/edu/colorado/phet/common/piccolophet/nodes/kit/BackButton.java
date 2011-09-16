@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.kit;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.piccolophet.nodes.ArrowButtonNode;
 
 /**
@@ -10,6 +12,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowButtonNode;
  */
 public class BackButton extends ArrowButtonNode {
     public BackButton() {
-        super( Orientation.LEFT );
+        super( Orientation.LEFT, new ColorScheme( Color.orange ) );
     }
 }
