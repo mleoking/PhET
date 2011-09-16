@@ -58,8 +58,8 @@ public class BalanceChallengeSetFactory {
      * @param numChallenges
      * @return
      */
-    public static List<BalanceChallenge> getChallengeSet( int level, int numChallenges ) {
-        List<BalanceChallenge> balanceChallengeList = new ArrayList<BalanceChallenge>();
+    public static List<BalanceSingleMassChallenge> getChallengeSet( int level, int numChallenges ) {
+        List<BalanceSingleMassChallenge> balanceChallengeList = new ArrayList<BalanceSingleMassChallenge>();
         if ( level == 1 ) {
             for ( int i = 0; i < numChallenges; i++ ) {
                 if ( i == 0 ) {
@@ -68,7 +68,7 @@ public class BalanceChallengeSetFactory {
                     balanceChallengeList.add( generateChallengeEqualMassBricksEachSide() );
                 }
                 else {
-                    BalanceChallenge balanceChallenge = null;
+                    BalanceSingleMassChallenge balanceChallenge = null;
                     for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
                         balanceChallenge = generateChallengeSimpleRatioBricks();
                         if ( !balanceChallengeList.contains( balanceChallenge ) ) {
@@ -83,7 +83,7 @@ public class BalanceChallengeSetFactory {
         }
         else if ( level == 2 ) {
             for ( int i = 0; i < numChallenges; i++ ) {
-                BalanceChallenge balanceChallenge = null;
+                BalanceSingleMassChallenge balanceChallenge = null;
                 for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
                     balanceChallenge = generateChallengeAdvancedRatioBricks();
                     if ( !balanceChallengeList.contains( balanceChallenge ) ) {
@@ -97,7 +97,7 @@ public class BalanceChallengeSetFactory {
         }
         else if ( level == 3 ) {
             for ( int i = 0; i < numChallenges; i++ ) {
-                BalanceChallenge balanceChallenge = null;
+                BalanceSingleMassChallenge balanceChallenge = null;
                 for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
                     balanceChallenge = generateChallengeRandomMasses();
                     if ( !balanceChallengeList.contains( balanceChallenge ) ) {
@@ -121,7 +121,7 @@ public class BalanceChallengeSetFactory {
      * Create a simple challenge where brick stacks of equal mass appear on
      * each side.
      */
-    private static BalanceChallenge generateChallengeEqualMassBricksEachSide() {
+    private static BalanceSingleMassChallenge generateChallengeEqualMassBricksEachSide() {
         int numBricks = 1 + RAND.nextInt( 3 );
         double distance = -generateRandomValidPlankDistance();
 
@@ -138,7 +138,7 @@ public class BalanceChallengeSetFactory {
      *
      * @return
      */
-    private static BalanceChallenge generateChallengeSimpleRatioBricks() {
+    private static BalanceSingleMassChallenge generateChallengeSimpleRatioBricks() {
 
         int numBricksInFixedStack = 1;
         int numBricksInMovableStack = 1;
@@ -173,7 +173,7 @@ public class BalanceChallengeSetFactory {
      * Create a challenge where random masses are chosen, one for the fixed
      * mass and one for the movable mass.
      */
-    private static BalanceChallenge generateChallengeRandomMasses() {
+    private static BalanceSingleMassChallenge generateChallengeRandomMasses() {
 
         Mass fixedMass;
         Mass movableMass;
@@ -199,7 +199,7 @@ public class BalanceChallengeSetFactory {
      *
      * @return
      */
-    private static BalanceChallenge generateChallengeAdvancedRatioBricks() {
+    private static BalanceSingleMassChallenge generateChallengeAdvancedRatioBricks() {
 
         int numBricksInFixedStack = 1;
         int numBricksInMovableStack = 1;
@@ -229,7 +229,7 @@ public class BalanceChallengeSetFactory {
         return createTwoBrickStackChallenge( numBricksInFixedStack, fixedStackDistanceFromCenter, numBricksInMovableStack );
     }
 
-    private static BalanceChallenge createTwoBrickStackChallenge( int numBricksInFixedStack, double fixedStackDistanceFromCenter, int numBricksInMovableStack ) {
+    private static BalanceSingleMassChallenge createTwoBrickStackChallenge( int numBricksInFixedStack, double fixedStackDistanceFromCenter, int numBricksInMovableStack ) {
         return createTwoMassChallenge( new BrickStack( numBricksInFixedStack ), fixedStackDistanceFromCenter, new BrickStack( numBricksInMovableStack ) );
     }
 
@@ -243,10 +243,10 @@ public class BalanceChallengeSetFactory {
     /**
      * Convenience method for assembling two masses into a balance challenge.
      */
-    private static BalanceChallenge createTwoMassChallenge( Mass fixedMass, double fixedStackDistanceFromCenter, Mass movableMass ) {
+    private static BalanceSingleMassChallenge createTwoMassChallenge( Mass fixedMass, double fixedStackDistanceFromCenter, Mass movableMass ) {
         // Add the fixed mass and its distance from the center of the balance.
-        List<BalanceChallenge.MassDistancePair> fixedMassesList = new ArrayList<BalanceChallenge.MassDistancePair>();
-        BalanceChallenge.MassDistancePair fixedMassDistancePair = new BalanceChallenge.MassDistancePair( fixedMass, fixedStackDistanceFromCenter );
+        List<BalanceSingleMassChallenge.MassDistancePair> fixedMassesList = new ArrayList<BalanceSingleMassChallenge.MassDistancePair>();
+        BalanceSingleMassChallenge.MassDistancePair fixedMassDistancePair = new BalanceSingleMassChallenge.MassDistancePair( fixedMass, fixedStackDistanceFromCenter );
         fixedMassesList.add( fixedMassDistancePair );
 
         // Add the movable mass.
@@ -254,11 +254,11 @@ public class BalanceChallengeSetFactory {
         movableMassesList.add( movableMass );
 
         // Create a valid solution for the challenge.
-        List<BalanceChallenge.MassDistancePair> solution = new ArrayList<BalanceChallenge.MassDistancePair>();
-        solution.add( new BalanceChallenge.MassDistancePair( movableMass, -fixedMassDistancePair.mass.getMass() * fixedMassDistancePair.distance / movableMass.getMass() ) );
+        List<BalanceSingleMassChallenge.MassDistancePair> solution = new ArrayList<BalanceSingleMassChallenge.MassDistancePair>();
+        solution.add( new BalanceSingleMassChallenge.MassDistancePair( movableMass, -fixedMassDistancePair.mass.getMass() * fixedMassDistancePair.distance / movableMass.getMass() ) );
 
         // And we're done.
-        return new BalanceChallenge( fixedMassesList, movableMassesList, solution, ColumnState.SINGLE_COLUMN );
+        return new BalanceSingleMassChallenge( fixedMassesList, movableMassesList, solution, ColumnState.SINGLE_COLUMN );
     }
 
     /**
