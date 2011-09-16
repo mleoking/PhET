@@ -22,7 +22,9 @@ import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.common.piccolophet.nodes.ArrowButtonNode.Orientation.*;
 import static java.awt.Color.WHITE;
+import static java.awt.event.ActionEvent.ACTION_PERFORMED;
 import static java.awt.geom.AffineTransform.getTranslateInstance;
 
 /**
@@ -92,10 +94,10 @@ public class ArrowButtonNode extends PNode {
         // change the orientation of the arrow if necessary
         final Shape arrow = new Function1<Orientation, Shape>() {
             public Shape apply( Orientation orientation ) {
-                if ( orientation == Orientation.LEFT ) { return leftArrow; }// already have the left arrow
-                else if ( orientation == Orientation.RIGHT ) { return new AffineTransform( -1, 0, 0, 1, size, 0 ).createTransformedShape( leftArrow ); }
-                else if ( orientation == Orientation.UP ) { return new AffineTransform( 0, 1, 1, 0, 0, 0 ).createTransformedShape( leftArrow ); }
-                else if ( orientation == Orientation.DOWN ) { return new AffineTransform( 0, -1, 1, 0, 0, size ).createTransformedShape( leftArrow ); }
+                if ( orientation == LEFT ) { return leftArrow; }// already have the left arrow
+                else if ( orientation == RIGHT ) { return new AffineTransform( -1, 0, 0, 1, size, 0 ).createTransformedShape( leftArrow ); }
+                else if ( orientation == UP ) { return new AffineTransform( 0, 1, 1, 0, 0, 0 ).createTransformedShape( leftArrow ); }
+                else if ( orientation == DOWN ) { return new AffineTransform( 0, -1, 1, 0, 0, size ).createTransformedShape( leftArrow ); }
                 else { throw new RuntimeException( "Bad Orientation: " + orientation ); }
             }
         }.apply( orientation );
@@ -198,7 +200,7 @@ public class ArrowButtonNode extends PNode {
     }
 
     private void notifyActionPerformed() {
-        ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, "" ); // use Swing convention from AbstractButton.fireActionPerformed
+        ActionEvent event = new ActionEvent( this, ACTION_PERFORMED, "" ); // use Swing convention from AbstractButton.fireActionPerformed
         for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {
             actionListener.actionPerformed( event );
         }
