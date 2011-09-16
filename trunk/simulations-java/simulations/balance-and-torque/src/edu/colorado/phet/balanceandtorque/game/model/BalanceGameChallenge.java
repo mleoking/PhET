@@ -107,4 +107,6 @@ public abstract class BalanceGameChallenge {
             return true;
         }
     }
+
+    public abstract ChallengeViewConfig getChallengeViewConfig();
 }

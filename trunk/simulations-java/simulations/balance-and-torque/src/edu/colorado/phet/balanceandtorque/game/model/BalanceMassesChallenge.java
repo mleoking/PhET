@@ -16,6 +16,9 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
  */
 public class BalanceMassesChallenge extends BalanceGameChallenge {
 
+    // TODO: i18n
+    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "Balance Me!", false );
+
     /**
      * Constructor.
      *
@@ -34,5 +37,9 @@ public class BalanceMassesChallenge extends BalanceGameChallenge {
                 throw ( new IllegalArgumentException( "One or more of the masses in the solution are not on the list of movable masses." ) );
             }
         }
+    }
+
+    @Override public ChallengeViewConfig getChallengeViewConfig() {
+        return VIEW_CONFIG;
     }
 }
