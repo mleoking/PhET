@@ -23,7 +23,9 @@ public class BarItem {
     public final Function0<Option<PNode>> icon;
 
     public BarItem( SoluteConstituent constituent, String caption, Function0<Option<PNode>> icon ) {
-        this.concentration = constituent.concentration;
+
+        //The concentration to show on the bar chart should be the the display concentration instead of the true concentration because the value must be held constant when draining out the drain
+        this.concentration = constituent.concentrationToDisplay;
         this.color = constituent.color;
         this.caption = caption;
         this.icon = icon;
