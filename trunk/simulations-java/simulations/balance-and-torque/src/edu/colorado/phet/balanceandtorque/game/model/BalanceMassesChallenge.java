@@ -9,7 +9,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 /**
  * A challenge, used in the balance game, in which the user must attempt to
  * place a movable mass in the correct so that when the support column is
- * removed, the movable mass will balance the fixed mass that is intially on
+ * removed, the movable mass will balance the fixed mass that is initially on
  * the plank.
  *
  * @author John Blanco
@@ -21,10 +21,9 @@ public class BalanceMassesChallenge extends BalanceGameChallenge {
      *
      * @param fixedMasses
      * @param movableMasses
-     * @param initialColumnState
      */
-    public BalanceMassesChallenge( List<MassDistancePair> fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay, ColumnState initialColumnState ) {
-        super( initialColumnState );
+    public BalanceMassesChallenge( List<MassDistancePair> fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay ) {
+        super( ColumnState.SINGLE_COLUMN );
         this.fixedMasses.addAll( fixedMasses );
         this.movableMasses.addAll( movableMasses );
         this.solutionToPresent.addAll( solutionToDisplay );
