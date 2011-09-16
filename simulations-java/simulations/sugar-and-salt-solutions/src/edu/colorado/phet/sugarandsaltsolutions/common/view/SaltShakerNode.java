@@ -26,7 +26,7 @@ public class SaltShakerNode<T extends SugarAndSaltSolutionModel> extends Dispens
         super( transform, model, constraint );
 
         //Create images to use in each scenario
-        final BufferedImage fullImage = multiScaleToHeight( micro ? SALT_MICRO : SALT_1, 200 );
+        final BufferedImage fullImage = multiScaleToHeight( micro ? SALT_MICRO : SALT_FULL, 200 );
         final BufferedImage emptyImage = multiScaleToHeight( micro ? SALT_MICRO : SALT_EMPTY, 200 );
 
         //Hide the sugar dispenser if it is not enabled (selected by the user)

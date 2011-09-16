@@ -16,7 +16,6 @@ public class SugarAndSaltSolutionsResources {
     //Strings
     public static class Strings {
         public static final String CALCIUM = RESOURCES.getLocalizedString( "calcium" );
-        public static final String CALCIUM_CHLORIDE = RESOURCES.getLocalizedString( "calciumChloride" );
         public static final String CALCIUM_CHLORIDE_CA_CL_2 = RESOURCES.getLocalizedString( "calciumChlorideCaCl2" );
         public static final String CALCIUM_CHLORIDE_NEW_LINE = RESOURCES.getLocalizedString( "calciumChlorideNewLine" );
         public static final String CHLORIDE = RESOURCES.getLocalizedString( "chloride" );
@@ -40,14 +39,11 @@ public class SugarAndSaltSolutionsResources {
         public static final String SALT = RESOURCES.getLocalizedString( "salt" );
         public static final String SHORT_CIRCUIT = RESOURCES.getLocalizedString( "shortCircuit" );
         public static final String SHOW = RESOURCES.getLocalizedString( "show" );
-        public static final String SHOW_CHARGE = RESOURCES.getLocalizedString( "showCharge" );
         public static final String SHOW_IN_PERIODIC_TABLE = RESOURCES.getLocalizedString( "showInPeriodicTable" );
         public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
         public static final String SODIUM = RESOURCES.getLocalizedString( "sodium" );
-        public static final String SODIUM_CHLORIDE = RESOURCES.getLocalizedString( "sodiumChloride" );
         public static final String SODIUM_CHLORIDE_NA_CL = RESOURCES.getLocalizedString( "sodiumChlorideNaCl" );
         public static final String SODIUM_CHLORIDE_NEW_LINE = RESOURCES.getLocalizedString( "sodiumChlorideNewLine" );
-        public static final String SODIUM_NITRATE = RESOURCES.getLocalizedString( "sodiumNitrate" );
         public static final String SODIUM_NITRATE_NA_NO_3 = RESOURCES.getLocalizedString( "sodiumNitrateNaNO3" );
         public static final String SODIUM_NITRATE_NEW_LINE = RESOURCES.getLocalizedString( "sodiumNitrateNewLine" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
@@ -57,13 +53,13 @@ public class SugarAndSaltSolutionsResources {
         public static final String SUGAR_ATOMS = RESOURCES.getLocalizedString( "sugarAtoms" );
         public static final String SUGAR_IN_3_D = RESOURCES.getLocalizedString( "sugarIn3D" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
-        public static final String WATER_CHARGES = RESOURCES.getLocalizedString( "waterCharges" );
+        public static final String WATER_PARTIAL_CHARGES = RESOURCES.getLocalizedString( "waterPartialCharges" );
     }
 
     //Images
     public static class Images {
-        public static final BufferedImage SALT_1 = RESOURCES.getImage( "salt_1.png" );
         public static final BufferedImage SALT_EMPTY = RESOURCES.getImage( "salt_empty.png" );
+        public static final BufferedImage SALT_FULL = RESOURCES.getImage( "salt_full.png" );
         public static final BufferedImage SALT_MICRO = RESOURCES.getImage( "salt_micro.png" );
         public static final BufferedImage SUGAR_CLOSED = RESOURCES.getImage( "sugar_closed.png" );
         public static final BufferedImage SUGAR_EMPTY_CLOSED = RESOURCES.getImage( "sugar_empty_closed.png" );

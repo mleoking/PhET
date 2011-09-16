@@ -39,7 +39,7 @@ public class WaterControlPanel extends ControlPanelNode {
                 new PhetPText( SHOW, TITLE_FONT ),
 
                 //Checkbox to show/hide water charges (showing partial charges)
-                new PSwing( new PropertyCheckBox( WATER_CHARGES, waterModel.showWaterCharges ) {{
+                new PSwing( new PropertyCheckBox( WATER_PARTIAL_CHARGES, waterModel.showWaterCharges ) {{
                     setFont( buttonFont );
                 }} ),
 
