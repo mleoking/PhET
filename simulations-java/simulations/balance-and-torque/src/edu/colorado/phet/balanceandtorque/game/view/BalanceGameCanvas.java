@@ -23,7 +23,6 @@ import edu.colorado.phet.balanceandtorque.teetertotter.view.FulcrumAbovePlankNod
 import edu.colorado.phet.balanceandtorque.teetertotter.view.ImageMassNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.LabeledImageMassNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.LevelIndicatorNode;
-import edu.colorado.phet.balanceandtorque.teetertotter.view.OutlinePText;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.RotatingRulerNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.TiltedSupportColumnNode;
@@ -42,6 +41,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
+import edu.colorado.phet.common.piccolophet.nodes.OutlinePText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
