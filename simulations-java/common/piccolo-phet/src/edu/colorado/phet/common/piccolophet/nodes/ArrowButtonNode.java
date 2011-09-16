@@ -15,11 +15,14 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
+
+import static java.awt.Color.WHITE;
+import static java.awt.geom.AffineTransform.getTranslateInstance;
 
 /**
  * Displays a button with a pointed arrow
@@ -109,20 +112,14 @@ public class ArrowButtonNode extends PNode {
         *----------------------------------------------------------------------------*/
 
         // gradient paints for different states
-        Function1<Color[], TriColorRoundGradientPaint> createGradient = new Function1<Color[], TriColorRoundGradientPaint>() {
-            public TriColorRoundGradientPaint apply( Color[] colors ) {
-                return new TriColorRoundGradientPaint(
-                        colors[0], colors[1], colors[2],
-                        size / 2, size * 3 / 4,
-                        size / 2.5, size / 3 );
+        Function3<Color, Color, Color, TriColorRoundGradientPaint> createGradient = new Function3<Color, Color, Color, TriColorRoundGradientPaint>() {
+            public TriColorRoundGradientPaint apply( Color colors0, Color color1, Color color2 ) {
+                return new TriColorRoundGradientPaint( colors0, color1, color2, size / 2, size * 3 / 4, size / 2.5, size / 3 );
             }
         };
-        final TriColorRoundGradientPaint upGradient = createGradient.apply(
-                new Color[] { new Color( 200, 200, 200 ), new Color( 220, 220, 220 ), Color.WHITE } );
-        final TriColorRoundGradientPaint overGradient = createGradient.apply(
-                new Color[] { new Color( 200, 240, 240 ), new Color( 220, 240, 240 ), Color.WHITE } );
-        final TriColorRoundGradientPaint pressedGradient = createGradient.apply(
-                new Color[] { Color.WHITE, new Color( 220, 220, 220 ), new Color( 200, 200, 200 ) } );
+        final TriColorRoundGradientPaint upGradient = createGradient.apply( new Color( 200, 200, 200 ), new Color( 220, 220, 220 ), WHITE );
+        final TriColorRoundGradientPaint overGradient = createGradient.apply( new Color( 200, 240, 240 ), new Color( 220, 240, 240 ), WHITE );
+        final TriColorRoundGradientPaint pressedGradient = createGradient.apply( WHITE, new Color( 220, 220, 220 ), new Color( 200, 200, 200 ) );
 
         /*---------------------------------------------------------------------------*
         * components
@@ -226,6 +223,6 @@ public class ArrowButtonNode extends PNode {
     }
 
     private static Shape getTranslatedShape( Shape shape, Point2D translation ) {
-        return AffineTransform.getTranslateInstance( translation.getX(), translation.getY() ).createTransformedShape( shape );
+        return getTranslateInstance( translation.getX(), translation.getY() ).createTransformedShape( shape );
     }
 }
