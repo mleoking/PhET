@@ -17,7 +17,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
+ * A node which allows the user to scroll through the various mass kits and
+ * select individual masses for putting on the balance.
+ *
  * @author Sam Reid
+ * @author John Blanco
  */
 public class MassKitSelectionNode extends KitSelectionNode<PNode> {
 
