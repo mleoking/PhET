@@ -1,3 +1,4 @@
+Micro tab: Changed "Show in Periodic Table" to have orange background and same font as other buttons
 Water tab: Made salt bucket orange instead of blue to make it more visible against the background
 Micro tab: Gray out the kit button nodes instead of making them invisible
 Micro tab: Made the kit selection buttons orange
