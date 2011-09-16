@@ -1,3 +1,4 @@
+# 0.00.108 (56620) Sep 16, 2011
 Water tab: Removed the square frame from the mini-beaker
 Water tab: Increased the size of the mini-beaker
 Water tab: Changed JMol background color to light blue
