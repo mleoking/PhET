@@ -85,7 +85,7 @@ public class Server implements MessageHandler {
         //Handle request for many data points
         else if ( message instanceof GetSamplesAfter ) {
             final GetSamplesAfter request = (GetSamplesAfter) message;
-            writeToClient.writeObject( storage.getSamplesAfter( request.id, request.time ) );
+            writeToClient.writeObject( storage.getSamplesAfter( request.id, request.index ) );
         }
     }
 

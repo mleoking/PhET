@@ -151,7 +151,7 @@ public class CassandraStorage implements Storage {
         System.out.println( "samples = " + samples );
     }
 
-    public SampleBatch getSamplesAfter( SessionID id, long time ) {
+    public SampleBatch getSamplesAfter( SessionID id, int index ) {
 
         final ArrayList<SimState> states = new ArrayList<SimState>();
 

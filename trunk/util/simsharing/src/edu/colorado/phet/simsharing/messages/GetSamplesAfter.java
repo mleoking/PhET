@@ -10,10 +10,10 @@ import java.io.Serializable;
  */
 public class GetSamplesAfter implements Serializable {
     public final SessionID id;
-    public final long time;
+    public final int index;
 
-    public GetSamplesAfter( SessionID id, long time ) {
+    public GetSamplesAfter( SessionID id, int index ) {
         this.id = id;
-        this.time = time;
+        this.index = index;
     }
 }
