@@ -36,6 +36,38 @@ public class ArrowButtonNode extends PNode {
         LEFT, RIGHT, UP, DOWN
     }
 
+    public static class ColorScheme {
+        public final Color upInner;
+        public final Color upMiddle;
+        public final Color upOuter;
+
+        public final Color overInner;
+        public final Color overMiddle;
+        public final Color overOuter;
+
+        public final Color pressedInner;
+        public final Color pressedMiddle;
+        public final Color pressedOuter;
+
+        public ColorScheme() {
+            this( new Color( 200, 200, 200 ), new Color( 220, 220, 220 ), WHITE,
+                  new Color( 200, 240, 240 ), new Color( 220, 240, 240 ), WHITE,
+                  WHITE, new Color( 220, 220, 220 ), new Color( 200, 200, 200 ) );
+        }
+
+        public ColorScheme( Color upInner, Color upMiddle, Color upOuter, Color overInner, Color overMiddle, Color overOuter, Color pressedInner, Color pressedMiddle, Color pressedOuter ) {
+            this.upInner = upInner;
+            this.upMiddle = upMiddle;
+            this.upOuter = upOuter;
+            this.overInner = overInner;
+            this.overMiddle = overMiddle;
+            this.overOuter = overOuter;
+            this.pressedInner = pressedInner;
+            this.pressedMiddle = pressedMiddle;
+            this.pressedOuter = pressedOuter;
+        }
+    }
+
     private static final double DEFAULT_SIZE = 20;
     private static final double ARROW_PRESS_OFFSET = 1;
     private final ArrayList<ActionListener> actionListeners = new ArrayList<ActionListener>();
@@ -45,7 +77,7 @@ public class ArrowButtonNode extends PNode {
     }
 
     public ArrowButtonNode( Orientation orientation, final double size ) {
-        this( orientation, size, size / 12 );
+        this( orientation, size, size / 12, new ColorScheme() );
     }
 
     /**
@@ -55,7 +87,7 @@ public class ArrowButtonNode extends PNode {
      * @param size         Width and Height of the button
      * @param strokeRadius Half-thickness of the arrow stroke
      */
-    public ArrowButtonNode( Orientation orientation, final double size, final double strokeRadius ) {
+    public ArrowButtonNode( Orientation orientation, final double size, final double strokeRadius, ColorScheme colorScheme ) {
         final double rootTwoLength = size * 0.2;
 
         /*---------------------------------------------------------------------------*
@@ -112,9 +144,9 @@ public class ArrowButtonNode extends PNode {
                 return new TriColorRoundGradientPaint( colors0, color1, color2, size / 2, size * 3 / 4, size / 2.5, size / 3 );
             }
         };
-        final TriColorRoundGradientPaint upGradient = createGradient.apply( new Color( 200, 200, 200 ), new Color( 220, 220, 220 ), WHITE );
-        final TriColorRoundGradientPaint overGradient = createGradient.apply( new Color( 200, 240, 240 ), new Color( 220, 240, 240 ), WHITE );
-        final TriColorRoundGradientPaint pressedGradient = createGradient.apply( WHITE, new Color( 220, 220, 220 ), new Color( 200, 200, 200 ) );
+        final TriColorRoundGradientPaint upGradient = createGradient.apply( colorScheme.upInner, colorScheme.upMiddle, colorScheme.upOuter );
+        final TriColorRoundGradientPaint overGradient = createGradient.apply( colorScheme.overInner, colorScheme.overMiddle, colorScheme.overOuter );
+        final TriColorRoundGradientPaint pressedGradient = createGradient.apply( colorScheme.pressedInner, colorScheme.pressedMiddle, colorScheme.pressedOuter );
 
         /*---------------------------------------------------------------------------*
         * components
