@@ -1,3 +1,4 @@
+Water tab: Removed the square frame from the mini-beaker
 Water tab: Increased the size of the mini-beaker
 Water tab: Changed JMol background color to light blue
 Water tab: Renamed "Water charges" to "Water partial charges"
