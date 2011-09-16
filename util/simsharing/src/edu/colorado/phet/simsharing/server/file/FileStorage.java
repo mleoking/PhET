@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.simsharing.messages.AddSamples;
@@ -107,8 +108,25 @@ public class FileStorage implements Storage {
     public void endSession( SessionID sessionID ) {
     }
 
-    public SampleBatch getSamplesAfter( SessionID id, long time ) {
-        return null;
+    public SampleBatch getSamplesAfter( SessionID id, final int index ) {
+        final File[] list = getSessionDir( id ).listFiles( new FilenameFilter() {
+            public boolean accept( File dir, String name ) {
+
+                final boolean b = name.startsWith( "sample_" + index + ".ser" );
+                if ( b ) {
+                    final StringTokenizer stringTokenizer = new StringTokenizer( name, "_." );
+                    stringTokenizer.nextToken();
+                    int i = Integer.parseInt( stringTokenizer.nextToken() );
+                    return i > index;
+                }
+                return false;
+            }
+        } );
+        return new SampleBatch<SimState>( new ArrayList<SimState>() {{
+            for ( File file : list ) {
+                add( (SimState) read( file ) );
+            }
+        }}, getNumberSamples( id ) );
     }
 
     public void storeAll( SessionID sessionID, AddSamples data ) {

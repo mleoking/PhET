@@ -66,13 +66,13 @@ public class RAMStorage implements Storage {
         return studentList;
     }
 
-    public SampleBatch getSamplesAfter( SessionID id, long time ) {
+    public SampleBatch getSamplesAfter( SessionID id, int index ) {
         final Session<?> session = sessions.get( id );
         final ArrayList<? extends SimState> samples = session.getSamples();
         final ArrayList<SimState> states = new ArrayList<SimState>();
         for ( int i = samples.size() - 1; i >= 0; i-- ) {
             SimState sample = samples.get( i );
-            if ( sample.getTime() > time ) {
+            if ( sample.getIndex() > index ) {
                 states.add( sample );
             }
             else {

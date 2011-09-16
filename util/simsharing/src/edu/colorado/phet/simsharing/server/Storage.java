@@ -26,7 +26,7 @@ public interface Storage {
 
     void endSession( SessionID sessionID );
 
-    SampleBatch getSamplesAfter( SessionID id, long time );
+    SampleBatch getSamplesAfter( SessionID id, int index );
 
     public void storeAll( SessionID sessionID, AddSamples data );
 

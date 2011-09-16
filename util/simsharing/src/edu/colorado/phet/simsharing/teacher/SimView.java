@@ -80,11 +80,11 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
 
                 while ( running ) {
                     try {
-                        long time = -1;
+                        int index = -1;
                         if ( states.size() > 0 ) {
-                            time = states.get( states.size() - 1 ).getTime();
+                            index = states.get( states.size() - 1 ).getIndex();
                         }
-                        final SampleBatch<U> sample = (SampleBatch<U>) client.ask( new GetSamplesAfter( sessionID, time ) );
+                        final SampleBatch<U> sample = (SampleBatch<U>) client.ask( new GetSamplesAfter( sessionID, index ) );
 
                         timeControl.numFrames.set( sample.totalNumberStates );
 
