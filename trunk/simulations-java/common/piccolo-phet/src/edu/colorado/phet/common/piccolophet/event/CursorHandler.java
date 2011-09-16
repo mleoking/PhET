@@ -133,7 +133,11 @@ public class CursorHandler extends PBasicInputEventHandler {
     }
 
     public void mouseExited( PInputEvent event ) {
-        manager.mouseExited( (JComponent) event.getComponent() );
+        mouseExited( (JComponent) event.getComponent() );
+    }
+
+    public void mouseExited( JComponent component ) {
+        manager.mouseExited( component );
     }
 
     //----------------------------------------------------------------------------
