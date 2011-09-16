@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
@@ -69,7 +70,7 @@ public class ArrowButtonNode extends PNode {
         Ellipse2D.Double circle = new Ellipse2D.Double( 0, 0, size, size );
 
         // shape of a left arrow centered inside the button. using area to combine shapes that can be used with CSG
-        Area leftArrow = new Area() {{
+        final Area leftArrow = new Area() {{
             // make the rounded parts for each point in the arrow
             Ellipse2D.Double pointCircle = new Ellipse2D.Double( -strokeRadius, -strokeRadius, strokeRadius * 2, strokeRadius * 2 );
             add( new Area( getTranslatedShape( pointCircle, point ) ) );
@@ -89,23 +90,15 @@ public class ArrowButtonNode extends PNode {
         }};
 
         // change the orientation of the arrow if necessary
-        final Shape arrow;
-        switch( orientation ) {
-            case LEFT:
-                arrow = leftArrow; // already have the left arrow
-                break;
-            case RIGHT:
-                arrow = new AffineTransform( -1, 0, 0, 1, size, 0 ).createTransformedShape( leftArrow );
-                break;
-            case UP:
-                arrow = new AffineTransform( 0, 1, 1, 0, 0, 0 ).createTransformedShape( leftArrow );
-                break;
-            case DOWN:
-                arrow = new AffineTransform( 0, -1, 1, 0, 0, size ).createTransformedShape( leftArrow );
-                break;
-            default:
-                throw new RuntimeException( "Bad orientation: " + orientation );
-        }
+        final Shape arrow = new Function1<Orientation, Shape>() {
+            public Shape apply( Orientation orientation ) {
+                if ( orientation == Orientation.LEFT ) { return leftArrow; }// already have the left arrow
+                else if ( orientation == Orientation.RIGHT ) { return new AffineTransform( -1, 0, 0, 1, size, 0 ).createTransformedShape( leftArrow ); }
+                else if ( orientation == Orientation.UP ) { return new AffineTransform( 0, 1, 1, 0, 0, 0 ).createTransformedShape( leftArrow ); }
+                else if ( orientation == Orientation.DOWN ) { return new AffineTransform( 0, -1, 1, 0, 0, size ).createTransformedShape( leftArrow ); }
+                else { throw new RuntimeException( "Bad Orientation: " + orientation ); }
+            }
+        }.apply( orientation );
 
         /*---------------------------------------------------------------------------*
         * paints
