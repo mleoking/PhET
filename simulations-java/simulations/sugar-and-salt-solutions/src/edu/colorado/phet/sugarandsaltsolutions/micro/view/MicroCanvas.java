@@ -85,7 +85,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         behindShakerNode.addChild( microKitControlNode );
 
         //Add a button that shows the periodic table when pressed
-        final TextButtonNode periodicTableButton = new TextButtonNode( SHOW_IN_PERIODIC_TABLE ) {{
+        final TextButtonNode periodicTableButton = new TextButtonNode( SHOW_IN_PERIODIC_TABLE, CONTROL_FONT, BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     //Only create the periodic table dialog once
