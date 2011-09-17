@@ -17,6 +17,9 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * A dialog that shows a 3D molecule structure, and allows the user to switch between representation modes
  */
 public class JmolDialog extends JDialog {
+
+    private final JmolPanel jmolPanel;
+
     public JmolDialog( Frame owner, Molecule molecule, final String spacefillString, final String ballAndStickString, String loadingString ) {
         super( owner );
 
@@ -26,7 +29,7 @@ public class JmolDialog extends JDialog {
         JPanel container = new JPanel( new BorderLayout() );
         setContentPane( container );
 
-        final JmolPanel jmolPanel = new JmolPanel( molecule, loadingString );
+        jmolPanel = new JmolPanel( molecule, loadingString );
         getContentPane().add( jmolPanel, BorderLayout.CENTER );
 
         getContentPane().add( new JPanel() {{
@@ -50,6 +53,10 @@ public class JmolDialog extends JDialog {
         }}, BorderLayout.SOUTH );
 
         setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
+    }
+
+    public JmolPanel getJmolPanel() {
+        return jmolPanel;
     }
 
     public static JmolDialog displayMolecule3D( Frame frame, Molecule completeMolecule, String spaceFillString, String ballAndStickString, String loadingString ) {

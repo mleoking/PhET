@@ -1,10 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.jmolphet;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
@@ -18,13 +26,14 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 public class JmolPanel extends JPanel {
 
     private JmolViewer viewer = null;
+    private final JLabel loadingText;
 
     //TODO standardize loadingString by calling PhetCommonResources.getString internally?
     public JmolPanel( final Molecule molecule, final String loadingString ) {
         super( new GridBagLayout() );
 
         // loading text, centered
-        final JLabel loadingText = new JLabel( loadingString ) {{
+        loadingText = new JLabel( loadingString ) {{
             setFont( new PhetFont( 20 ) );
             setForeground( Color.WHITE );
         }};
@@ -146,5 +155,9 @@ public class JmolPanel extends JPanel {
     //TODO calling this before viewer exists will cause an exception
     public void setBallAndStick() {
         doScript( "wireframe 0.2; spacefill 25%" );
+    }
+
+    public JLabel getLoadingText() {
+        return loadingText;
     }
 }
