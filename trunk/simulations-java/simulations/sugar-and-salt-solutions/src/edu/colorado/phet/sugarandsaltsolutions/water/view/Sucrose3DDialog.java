@@ -11,9 +11,9 @@ import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.common.jmolphet.JmolDialog;
 import edu.colorado.phet.common.jmolphet.Molecule;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
 
 /**
  * Creates and displays the JMolDialog, and minimizes and restores it when the user switches tabs
@@ -42,7 +42,7 @@ public class Sucrose3DDialog {
         if ( jmolDialog == null ) {
             jmolDialog = JmolDialog.displayMolecule3D( parent, new Molecule() {
                 public String getDisplayName() {
-                    return SugarAndSaltSolutionsResources.Strings.SUGAR;
+                    return SUGAR;
                 }
 
                 public String getData() {
@@ -55,12 +55,17 @@ public class Sucrose3DDialog {
                     viewer.script( "color background [" + backgroundColor.getRed() + "," + backgroundColor.getGreen() + "," + backgroundColor.getBlue() + "]" );
                 }
             }, "Space fill", "Ball and stick", "Loading..." );
+
+            //Show the loading screen background as light blue, like the final background when the molecule is loaded
+            jmolDialog.getJmolPanel().setBackground( backgroundColor );
+
+            //Since the loading background screen is light, show the "loading..." text in black
+            jmolDialog.getJmolPanel().getLoadingText().setForeground( Color.black );
         }
         else {
             jmolDialog.setVisible( true );
         }
     }
-
 
     //Called when the user switches to the water tab from another tab.  Remembers if the JMolDialog was showing and restores it if so
     public void moduleActivated() {

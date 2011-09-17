@@ -1,3 +1,4 @@
+Water tab: Fixed: when Jmol is "loading," the background is still black
 Water tab: Align the checkboxes in the "show" control panel
 Micro tab: Use the same font for "Show in Periodic Table" as used for "Sugar in 3D"
 # 0.00.108 (56620) Sep 16, 2011
