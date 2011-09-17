@@ -20,6 +20,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog;
+import edu.colorado.phet.sugarandsaltsolutions.water.view.WaterControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
@@ -85,7 +86,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         behindShakerNode.addChild( microKitControlNode );
 
         //Add a button that shows the periodic table when pressed
-        final TextButtonNode periodicTableButton = new TextButtonNode( SHOW_IN_PERIODIC_TABLE, CONTROL_FONT, BUTTON_COLOR ) {{
+        final TextButtonNode periodicTableButton = new TextButtonNode( SHOW_IN_PERIODIC_TABLE, WaterControlPanel.BUTTON_FONT, BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     //Only create the periodic table dialog once

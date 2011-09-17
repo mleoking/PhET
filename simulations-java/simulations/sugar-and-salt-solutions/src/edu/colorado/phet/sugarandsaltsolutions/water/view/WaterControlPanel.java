@@ -30,7 +30,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  */
 public class WaterControlPanel extends ControlPanelNode {
 
-    private static final PhetFont buttonFont = new PhetFont( 16 );
+    public static final PhetFont BUTTON_FONT = new PhetFont( 16 );
 
     public WaterControlPanel( final WaterModel waterModel, final GlobalState state, final WaterCanvas waterCanvas, final Sucrose3DDialog sucrose3DDialog ) {
         super( new VBox(
@@ -40,13 +40,13 @@ public class WaterControlPanel extends ControlPanelNode {
 
                 //Checkbox to show/hide water charges (showing partial charges)
                 new PSwing( new PropertyCheckBox( WATER_PARTIAL_CHARGES, waterModel.showWaterCharges ) {{
-                    setFont( buttonFont );
+                    setFont( BUTTON_FONT );
                 }} ),
 
                 //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
                 //Works for both the sugar in the bucket and any in the model
                 new PSwing( new PropertyCheckBox( SUGAR_ATOMS, waterModel.showSugarAtoms ) {{
-                    setFont( buttonFont );
+                    setFont( BUTTON_FONT );
                 }} ),
 
                 //If development version, show button to launch developer controls
@@ -65,7 +65,7 @@ public class WaterControlPanel extends ControlPanelNode {
                 }} : new PNode(),
 
                 //Add a button that allows the user to show the 3D water molecule
-                new TextButtonNode( SUGAR_IN_3_D, buttonFont, Color.yellow ) {{
+                new TextButtonNode( SUGAR_IN_3_D, BUTTON_FONT, Color.yellow ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             sucrose3DDialog.showDialog();
