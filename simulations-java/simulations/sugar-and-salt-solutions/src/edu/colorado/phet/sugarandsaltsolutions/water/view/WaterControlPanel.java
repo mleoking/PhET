@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -38,15 +39,20 @@ public class WaterControlPanel extends ControlPanelNode {
                 //Show the title "Show"
                 new PhetPText( SHOW, TITLE_FONT ),
 
-                //Checkbox to show/hide water charges (showing partial charges)
-                new PSwing( new PropertyCheckBox( WATER_PARTIAL_CHARGES, waterModel.showWaterCharges ) {{
-                    setFont( BUTTON_FONT );
-                }} ),
+                //Add checkboxes for showing partial charges or sugar atoms
+                //Put the checkboxes together in one VerticalLayoutPanel so they will be left-aligned
+                new PSwing( new VerticalLayoutPanel() {{
 
-                //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
-                //Works for both the sugar in the bucket and any in the model
-                new PSwing( new PropertyCheckBox( SUGAR_ATOMS, waterModel.showSugarAtoms ) {{
-                    setFont( BUTTON_FONT );
+                    //Checkbox to show/hide water charges (showing partial charges)
+                    add( new PropertyCheckBox( WATER_PARTIAL_CHARGES, waterModel.showWaterCharges ) {{
+                        setFont( BUTTON_FONT );
+                    }} );
+
+                    //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
+                    //Works for both the sugar in the bucket and any in the model
+                    add( new PropertyCheckBox( SUGAR_ATOMS, waterModel.showSugarAtoms ) {{
+                        setFont( BUTTON_FONT );
+                    }} );
                 }} ),
 
                 //If development version, show button to launch developer controls
