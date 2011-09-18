@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 /**
  * Provides physical locations (positions) of the atoms within a sucrose molecule.
  * Positions sampled from a 2d rasterized view of sucrose from JMol with ProjectorUtil
+ * Partial charges were determined afterwards from this picture: http://www.chemistryland.com/CHM130W/LabHelp/Experiment10/Exp10.html
  * <p/>
  * C12H22O11
  *
@@ -18,23 +19,23 @@ public class SucrosePositions extends ProjectedPositions {
                "H 470, 514\n" +
                "H 668, 516\n" +
                "H 264, 281\n" +
-               "O 770, 155\n" +
-               "H 848, 188\n" +
-               "C 755, 352\n" +
+               "O 770, 155 charge\n" +
+               "H 848, 188 charge\n" +
+               "C 755, 352 charge\n" +
                "C 667, 463\n" +
                "C 536, 432\n" +
                "O 490, 337\n" +
                "C 564, 231\n" +
-               "C 692, 257\n" +
-               "O 866, 379\n" +
-               "H 877, 474\n" +
+               "C 692, 257 charge\n" +
+               "O 866, 379 charge\n" +
+               "H 877, 474 charge\n" +
                "O 722, 555\n" +
                "C 415, 529\n" +
                "C 403, 404\n" +
                "C 372, 283\n" +
                "C 218, 321\n" +
                "O 294, 429\n" +
-               "C 291, 206\n" +
+               "C 291, 206 charge\n" +
                "C 177, 284\n" +
                "H 129, 205\n" +
                "H 127, 339\n" +
@@ -45,12 +46,12 @@ public class SucrosePositions extends ProjectedPositions {
                "C 503, 149\n" +
                "H 554, 75\n" +
                "H 416, 119\n" +
-               "O 201, 114\n" +
+               "O 201, 114 charge\n" +
                "H 232, 573\n" +
                "H 458, 619\n" +
                "H 496, 512\n" +
                "O 526, 385\n" +
-               "H 261, 62\n" +
+               "H 261, 62 charge\n" +
                "H 308, 302\n" +
                "H 563, 174\n" +
                "H 544, 211\n" +

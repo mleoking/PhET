@@ -31,7 +31,10 @@ public class SphericalParticleNodeWithText extends SphericalParticleNode {
         super( transform, particle, showChargeColor );
 
         //Add the text, which is shown if the user selected "show water charges"
-        addChild( new PText( particle.getCharge() > 0 ? DELTA + PLUS : DELTA + MINUS ) {{
+        final String text = particle.getPartialChargeDisplayValue() > 0 ? DELTA + PLUS :
+                            particle.getPartialChargeDisplayValue() < 0 ? DELTA + MINUS :
+                            "";
+        addChild( new PText( text ) {{
             showWaterCharge.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean showPartialCharge ) {
                     setVisible( showPartialCharge );

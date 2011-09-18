@@ -1,3 +1,4 @@
+Water tab: Added partial charge display for sucrose charges
 Water tab: Added a checkbox to show charges for all sucrose atoms
 Water tab: Internationalized sugar 3d view
 Fixed: Periodic table legend not visible against white background
