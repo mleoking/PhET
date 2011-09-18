@@ -8,6 +8,8 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -18,6 +20,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__BEAKER_TICK_LABEL;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
+import static java.awt.Color.black;
 import static java.awt.Color.white;
 
 /**
@@ -26,7 +29,7 @@ import static java.awt.Color.white;
  * @author Sam Reid
  */
 public class BeakerNodeWithTicks extends BeakerNode {
-    public BeakerNodeWithTicks( ModelViewTransform transform, Beaker beaker, boolean showTickLabels ) {
+    public BeakerNodeWithTicks( ModelViewTransform transform, Beaker beaker, boolean showTickLabels, final Property<Boolean> whiteBackground ) {
         super( transform, beaker );
 
         //Add Tick marks and labels
@@ -50,7 +53,15 @@ public class BeakerNodeWithTicks extends BeakerNode {
 
             //Add the tick mark
             final Line2D.Double line = new Line2D.Double( viewX - lineWidth, viewY, viewX, viewY );
-            addChild( new PhetPPath( line, new BasicStroke( 2 ), white ) );
+            addChild( new PhetPPath( line, new BasicStroke( 2 ), Color.white ) {{
+
+                //Show it in black against white background and white against blue background
+                whiteBackground.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( Boolean whiteBackground ) {
+                        setStrokePaint( whiteBackground ? black : white );
+                    }
+                } );
+            }} );
         }
 
         //Show the major tick marks, using formatting that suppresses the decimal point for round numbers, like 0.5L, 1L, etc.
@@ -63,12 +74,20 @@ public class BeakerNodeWithTicks extends BeakerNode {
             double viewY = transform.modelToViewY( beaker.getHeightForVolume( tick ) + beaker.getY() );
 
             //Create and add the tick mark
-            final PhetPPath tickMark = new PhetPPath( new Line2D.Double( viewX - lineWidth, viewY, viewX, viewY ), new BasicStroke( 4 ), white );
+            final PhetPPath tickMark = new PhetPPath( new Line2D.Double( viewX - lineWidth, viewY, viewX, viewY ), new BasicStroke( 4 ), white ) {{
+
+                //Show it in black against white background and white against blue background
+                whiteBackground.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( Boolean whiteBackground ) {
+                        setStrokePaint( whiteBackground ? black : white );
+                    }
+                } );
+            }};
             addChild( tickMark );
 
             if ( showTickLabels ) {
                 //Create and add a tick mark label to the left of the tick mark, like "0.5L"
-                final PNode labelNode = createLabelNode( tick );
+                final PNode labelNode = createLabelNode( tick, whiteBackground );
                 labelNode.setOffset( tickMark.getFullBounds().getX() - labelNode.getFullBounds().getWidth(), tickMark.getFullBounds().getCenterY() - labelNode.getFullBounds().getHeight() / 2 );
                 addChild( labelNode );
             }
@@ -76,9 +95,8 @@ public class BeakerNodeWithTicks extends BeakerNode {
     }
 
     //Create a text (PText or HTMLNode) node to show the value.  HTML is used for formatting exponentials
-    private PNode createLabelNode( double volume ) {
+    private PNode createLabelNode( double volume, final Property<Boolean> whiteBackground ) {
         final PhetFont font = new PhetFont( 20 );
-        final Color textPaint = white;
         if ( volume == 0 || volume > 1E-20 ) {
 
             final double liters = metersCubedToLiters( volume );
@@ -87,15 +105,27 @@ public class BeakerNodeWithTicks extends BeakerNode {
             String formatLiters = liters < 1E-6 && liters > 0 ? "" : new DecimalFormat( "0" ).format( liters );
 
             return new PText( MessageFormat.format( PATTERN__BEAKER_TICK_LABEL, formatLiters ) ) {{
-                setTextPaint( textPaint );
+
+                //Show it in black against white background and white against blue background
+                whiteBackground.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( Boolean whiteBackground ) {
+                        setTextPaint( whiteBackground ? black : white );
+                    }
+                } );
                 setFont( font );
             }};
         }
         else {
             final String value = volumeToHTMLString( volume, "0" );
             return new HTMLNode( MessageFormat.format( PATTERN__BEAKER_TICK_LABEL, value ) ) {{
+
+                //Show it in black against white background and white against blue background
+                whiteBackground.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( Boolean whiteBackground ) {
+                        setHTMLColor( whiteBackground ? black : white );
+                    }
+                } );
                 setFont( font );
-                setHTMLColor( textPaint );
             }};
         }
     }
