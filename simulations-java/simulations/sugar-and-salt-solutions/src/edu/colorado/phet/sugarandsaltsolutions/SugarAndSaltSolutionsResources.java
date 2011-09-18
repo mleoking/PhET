@@ -55,6 +55,7 @@ public class SugarAndSaltSolutionsResources {
         public static final String SUGAR = RESOURCES.getLocalizedString( "sugar" );
         public static final String SUGAR_ATOMS = RESOURCES.getLocalizedString( "sugarAtoms" );
         public static final String SUGAR_IN_3_D = RESOURCES.getLocalizedString( "sugarIn3D" );
+        public static final String SUGAR_PARTIAL_CHARGES = RESOURCES.getLocalizedString( "sugarPartialCharges" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
         public static final String WATER_PARTIAL_CHARGES = RESOURCES.getLocalizedString( "waterPartialCharges" );
     }

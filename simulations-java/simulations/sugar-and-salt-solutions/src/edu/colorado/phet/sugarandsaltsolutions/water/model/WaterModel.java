@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -114,8 +115,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private static final double k = 8.987E9;
 
     //User settings
-    public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
     public final Property<Boolean> showWaterCharges = new Property<Boolean>( false );
+    public final SettableProperty<Boolean> showSugarPartialCharge = new Property<Boolean>( false );
+    public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
 
     //Developer settings
     public final Property<Double> coulombStrengthMultiplier = new Property<Double>( 100.0 );
