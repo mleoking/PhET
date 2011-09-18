@@ -1,3 +1,4 @@
+Macro tab: Fixed: Mac: The left margin in the Concentration box is too small when "show values" is checked.  The text starts running into the side of the box for Salt.
 Water tab: Fixed: when Jmol is "loading," the background is still black
 Water tab: Align the checkboxes in the "show" control panel
 Micro tab: Use the same font for "Show in Periodic Table" as used for "Sugar in 3D"
