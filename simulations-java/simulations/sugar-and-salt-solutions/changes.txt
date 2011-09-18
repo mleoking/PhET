@@ -1,3 +1,4 @@
+# 0.00.110 (56649) Sep 18, 2011
 Water tab: Added partial charge display for sucrose charges
 Water tab: Added a checkbox to show charges for all sucrose atoms
 Water tab: Internationalized sugar 3d view
