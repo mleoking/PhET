@@ -54,6 +54,11 @@ public class SphericalParticle extends Particle {
         return charge;
     }
 
+    //Get the value to use for showing partial charge.  Necessary to support showing a subset of particle charges for sucrose: http://www.chemistryland.com/CHM130W/LabHelp/Experiment10/Exp10.html
+    public double getPartialChargeDisplayValue() {
+        return getCharge();
+    }
+
     //These classes contains state information for particulars particles and ions and permit matching in MicroModel for particle counting.
     public static class Hydrogen extends SphericalParticle {
         public static final double RADIUS_PICOMETERS = 37;

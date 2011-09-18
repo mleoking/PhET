@@ -65,12 +65,43 @@ public class ProjectedPositions {
         double x = Double.parseDouble( st.nextToken() );
         double y = Double.parseDouble( st.nextToken() );
 
-        //Add an atom instance based on the type and location
+        //For showing partial charges on sucrose, read from the file from certain atoms that have a charge
+        //http://www.chemistryland.com/CHM130W/LabHelp/Experiment10/Exp10.html
+        String charge = "";
+        if ( st.hasMoreTokens() ) {
+            charge = st.nextToken();
+        }
+
+        //Add an atom instance based on the type, location and partial charge (if any)
+        final String finalCharge = charge;
         return new AtomPosition( type, toModel( new ImmutableVector2D( x, y ) ) ) {
             @Override public SphericalParticle createConstituent() {
-                if ( type.equals( "H" ) ) { return new Hydrogen(); }
-                if ( type.equals( "C" ) ) { return new Carbon(); }
-                if ( type.equals( "O" ) ) { return new NeutralOxygen();}
+                if ( type.equals( "H" ) ) {
+                    return new Hydrogen() {
+                        @Override public double getPartialChargeDisplayValue() {
+                            if ( finalCharge.equals( "charge" ) ) { return super.getPartialChargeDisplayValue(); }
+                            else { return 0.0; }
+                        }
+                    };
+                }
+                if ( type.equals( "C" ) ) {
+                    return new Carbon() {
+                        @Override public double getPartialChargeDisplayValue() {
+
+                            //All the charged carbons have a partial positive charge, see http://www.chemistryland.com/CHM130W/LabHelp/Experiment10/Exp10.html
+                            if ( finalCharge.equals( "charge" ) ) { return 1.0; }
+                            else { return 0.0; }
+                        }
+                    };
+                }
+                if ( type.equals( "O" ) ) {
+                    return new NeutralOxygen() {
+                        @Override public double getPartialChargeDisplayValue() {
+                            if ( finalCharge.equals( "charge" ) ) { return super.getPartialChargeDisplayValue(); }
+                            else { return 0.0; }
+                        }
+                    };
+                }
                 throw new RuntimeException();
             }
         };
