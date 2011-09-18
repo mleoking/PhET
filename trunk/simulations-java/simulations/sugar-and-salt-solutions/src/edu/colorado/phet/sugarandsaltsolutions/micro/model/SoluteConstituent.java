@@ -45,6 +45,12 @@ public class SoluteConstituent {
                     double newValueToDisplay = fractionTrueValue * trueValue + ( 1 - fractionTrueValue ) * proposedDisplayValue;
                     concentrationToDisplay.set( newValueToDisplay );
                 }
+
+                //Even if the value is being held constant, jump directly to zero if the true concentration becomes zero,
+                //So that if all particles flow out the drain, the displayed concentration of that solute will read 0
+                else if ( concentration.get() == 0.0 ) {
+                    concentrationToDisplay.set( 0.0 );
+                }
             }
         } );
         this.color = color;
