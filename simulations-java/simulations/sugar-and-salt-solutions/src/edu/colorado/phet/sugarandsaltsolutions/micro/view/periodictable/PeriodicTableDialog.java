@@ -50,7 +50,7 @@ public class PeriodicTableDialog extends JDialog {
                         root.addChild( periodicTableNode );
 
                         //Show a legend below the periodic table to indicate the coloring scheme for metals vs nonmetals
-                        PeriodicTableLegend legend = new PeriodicTableLegend( periodicTableNode.getFullBounds().getWidth(), scale ) {{
+                        PeriodicTableLegend legend = new PeriodicTableLegend( periodicTableNode.getFullBounds().getWidth(), scale, colorScheme.whiteBackground ) {{
                             setOffset( inset, periodicTableNode.getFullBounds().getMaxY() + inset );
                         }};
                         root.addChild( legend );
