@@ -13,7 +13,7 @@ import edu.colorado.phet.common.jmolphet.JmolDialog;
 import edu.colorado.phet.common.jmolphet.Molecule;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
 /**
  * Creates and displays the JMolDialog, and minimizes and restores it when the user switches tabs
@@ -54,7 +54,9 @@ public class Sucrose3DDialog {
                     //Use the specified background color for jmol.  In this case the background is water blue since the sucrose is in the water
                     viewer.script( "color background [" + backgroundColor.getRed() + "," + backgroundColor.getGreen() + "," + backgroundColor.getBlue() + "]" );
                 }
-            }, "Space fill", "Ball and stick", "Loading..." );
+            },
+                                                       //These strings duplicated in Build a Molecule
+                                                       SPACE_FILL, BALL_AND_STICK, LOADING );
 
             //Show the loading screen background as light blue, like the final background when the molecule is loaded
             jmolDialog.getJmolPanel().setBackground( backgroundColor );
