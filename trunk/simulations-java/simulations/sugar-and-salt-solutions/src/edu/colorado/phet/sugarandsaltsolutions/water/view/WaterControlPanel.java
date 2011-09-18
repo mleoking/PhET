@@ -48,6 +48,11 @@ public class WaterControlPanel extends ControlPanelNode {
                         setFont( BUTTON_FONT );
                     }} );
 
+                    //Checkbox to show/hide sugar partial charges
+                    add( new PropertyCheckBox( SUGAR_PARTIAL_CHARGES, waterModel.showSugarPartialCharge ) {{
+                        setFont( BUTTON_FONT );
+                    }} );
+
                     //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
                     //Works for both the sugar in the bucket and any in the model
                     add( new PropertyCheckBox( SUGAR_ATOMS, waterModel.showSugarAtoms ) {{

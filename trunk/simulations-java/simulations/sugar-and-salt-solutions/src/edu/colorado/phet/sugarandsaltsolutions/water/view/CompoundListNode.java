@@ -18,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -73,6 +72,9 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
                              //Likewise, fully formed NaCl crystals can be dragged from the bucket to the bucket, since that wouldn't leave any lone ions.
                              final boolean canReturnToBucket,
 
+                             //Flag to indicate whether partial charge symbols should be shown.  In this sim, they are optional for sucrose
+                             final ObservableProperty<Boolean> showPartialCharges,
+
                              final T... compounds ) {
         this.transform = transform;
         this.bucketView = bucketView;
@@ -90,7 +92,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
         for ( T compound : compounds ) {
             final PNode compoundNode = new PNode();
             for ( SphericalParticle atom : compound ) {
-                compoundNode.addChild( new SphericalParticleNode( transform, atom, showChargeColor ) );
+                compoundNode.addChild( new SphericalParticleNodeWithText( transform, atom, showChargeColor, showPartialCharges ) );
             }
 
             //If a label was specified, create and add it centered on the compound
