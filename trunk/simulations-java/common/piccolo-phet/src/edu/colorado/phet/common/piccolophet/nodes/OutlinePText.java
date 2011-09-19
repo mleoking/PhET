@@ -37,6 +37,8 @@ public class OutlinePText extends PNode {
     // PStyledText that did this, so I tried it, and it seems to work okay.
     // It has been testing on Windows 7 and Mac and works well.
     private static FontRenderContext SWING_FRC = new FontRenderContext( null, true, false );
+    private PPath textPPath;
+    private Font font;
 
     /**
      * Constructor.
@@ -48,10 +50,16 @@ public class OutlinePText extends PNode {
      * @param outlineStrokeWidth
      */
     public OutlinePText( String text, Font font, Color fillColor, Color outlineColor, double outlineStrokeWidth ) {
-        PPath textPPath = new PhetPPath( fillColor, new BasicStroke( (float) outlineStrokeWidth ), outlineColor );
+        this.font = font;
+        textPPath = new PhetPPath( fillColor, new BasicStroke( (float) outlineStrokeWidth ), outlineColor );
         TextLayout textLayout = new TextLayout( text, font, SWING_FRC );
         textPPath.setPathTo( textLayout.getOutline( new AffineTransform() ) );
         addChild( new ZeroOffsetNode( textPPath ) ); // Make sure that this node's origin is in the upper left corner.
+    }
+
+    public void setText( String text ) {
+        TextLayout textLayout = new TextLayout( text, font, SWING_FRC );
+        textPPath.setPathTo( textLayout.getOutline( new AffineTransform() ) );
     }
 
     /**
@@ -85,6 +93,8 @@ public class OutlinePText extends PNode {
         OutlinePText outlineTextNode6 = new OutlinePText( "\u4e2d\u56fd\u8bdd\u4e0d", PhetFont.getPreferredFont( new Locale( "zh" ), Font.BOLD, 64 ), Color.CYAN, Color.BLACK, 2 );
         outlineTextNode6.setOffset( 50, outlineTextNode5.getFullBoundsReference().getMaxY() + 20 );
         canvas.addWorldChild( outlineTextNode6 );
+
+        outlineTextNode1.setText( "New thing." );
 
         // Boiler plate Piccolo app stuff.
         JFrame frame = new JFrame( "Outline Text Test" );

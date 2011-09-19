@@ -10,7 +10,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 /**
  * A challenge, used in the balance game, in which the user must attempt to
  * place a movable mass in the correct so that when the support column is
- * removed, the movable mass will balance the fixed mass that is intially on
+ * removed, the movable mass will balance the fixed mass that is initially on
  * the plank.
  *
  * @author John Blanco
@@ -18,7 +18,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 public class DeduceTheMassChallenge extends BalanceGameChallenge {
 
     // TODO: i18n
-    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "What is the Mass", true );
+    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "What is the Mass?", true );
 
     /**
      * Constructor.

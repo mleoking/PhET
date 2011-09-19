@@ -10,6 +10,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
@@ -114,7 +115,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private TextButtonNode nextChallengeButton = new TextButtonNode( "Next", BUTTON_FONT, Color.YELLOW );
     private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( "Display Correct Answer", BUTTON_FONT, Color.YELLOW );
 
-    private PNode titleNode;
+    private OutlinePText titleNode;
 
     private ModelViewTransform mvt;
 
@@ -262,15 +263,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add the title.  It is blank to start with, and is updated later at
         // the appropriate state change.
-        titleNode = new PNode();
+        titleNode = new OutlinePText( "Blank", new PhetFont( 64, true ), Color.WHITE, Color.BLACK, 1 );
+        updateTitle();
         rootNode.addChild( titleNode );
-
-        // Position and add the smiley and frowny faces.
-        Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ), FACE_DIAMETER / 2 + 20 );
-        smilingFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
-        frowningFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
-        rootNode.addChild( smilingFace );
-        rootNode.addChild( frowningFace );
 
         // Add the dialog node that is used in some challenges to enable the
         // user to submit specific mass values.
@@ -278,8 +273,19 @@ public class BalanceGameCanvas extends PhetPCanvas {
         rootNode.addChild( massValueEntryNode );
         massValueAnswerNode = new MassValueEntryNode.DisplayAnswerNode( model );
         rootNode.addChild( massValueAnswerNode );
-        massValueEntryNode.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
-        massValueAnswerNode.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
+        Point2D massEntryDialogCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
+                                                            titleNode.getFullBoundsReference().getMaxY() + massValueEntryNode.getFullBounds().height / 2 + 10 );
+//        Point2D massEntryDialogCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
+//                                                            titleNode.getFullBoundsReference().getMaxY() );
+        massValueEntryNode.centerFullBoundsOnPoint( massEntryDialogCenter.getX(), massEntryDialogCenter.getY() );
+        massValueAnswerNode.centerFullBoundsOnPoint( massEntryDialogCenter.getX(), massEntryDialogCenter.getY() );
+
+        // Position and add the smiley and frowny faces.
+        Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ), FACE_DIAMETER / 2 + 20 );
+        smilingFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
+        frowningFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
+        rootNode.addChild( smilingFace );
+        rootNode.addChild( frowningFace );
 
         // Add and lay out the buttons.
         checkAnswerButton.centerFullBoundsOnPoint( mvt.modelToViewX( 0 ), mvt.modelToViewY( 0 ) + 40 );
@@ -458,10 +464,17 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }
 
     private void updateTitle() {
-        titleNode = new OutlinePText( model.getCurrentChallenge().getChallengeViewConfig().title, new PhetFont( 64, true ), Color.WHITE, Color.BLACK, 1 ) {{
-            setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
-                       STAGE_SIZE.getHeight() * 0.25 - getFullBoundsReference().height / 2 );
-        }};
+        BalanceGameChallenge balanceGameChallenge = model.getCurrentChallenge();
+        if ( balanceGameChallenge != null ) {
+            titleNode.setText( model.getCurrentChallenge().getChallengeViewConfig().title );
+        }
+        else {
+            // Set the value to something so that layout can be done.  This
+            // string doesn't need to be translated - user should never see it.
+            titleNode.setText( "No challenge available." );
+        }
+        titleNode.setOffset( mvt.modelToViewX( 0 ) - titleNode.getFullBoundsReference().width / 2,
+                             STAGE_SIZE.getHeight() * 0.15 - titleNode.getFullBoundsReference().height / 2 );
     }
 
     private void hideChallenge() {
