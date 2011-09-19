@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.moleculepolarity.common.model.MPModel;
+import edu.colorado.phet.moleculepolarity.common.model.MPModel2D;
 import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
 
 /**
@@ -13,7 +13,7 @@ import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ThreeAtomsModel extends MPModel {
+public class ThreeAtomsModel extends MPModel2D {
 
     public final TriatomicMolecule molecule;
 

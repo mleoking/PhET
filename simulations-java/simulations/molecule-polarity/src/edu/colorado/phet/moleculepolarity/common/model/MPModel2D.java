@@ -6,11 +6,11 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 
 /**
- * Base class for models in this sim.
+ * Base class for 2D models in this sim.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class MPModel implements Resettable {
+public abstract class MPModel2D implements Resettable {
 
     public final EField eField = new EField();
 
