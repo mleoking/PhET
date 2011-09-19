@@ -1,3 +1,5 @@
+9/19/11 fix 2D model class hierarchy
+9/19/11 javadoc
 9/19/11 write development-notes.xt
 9/19/11 rename RotateMol2
 9/19/11 add rotate cursor to 2D surfaces

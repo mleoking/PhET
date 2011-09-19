@@ -4,9 +4,9 @@ package edu.colorado.phet.moleculepolarity.realmolecules;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.common.model.MPModel;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.ImportMolecule;
 
@@ -15,7 +15,7 @@ import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.ImportMolecule
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RealMoleculesModel extends MPModel {
+public class RealMoleculesModel implements Resettable {
 
     private final ArrayList<Molecule3D> molecules; // the supported set of real 3D molecules
     public final Property<Molecule3D> currentMolecule; // the molecule that is currently visible
@@ -57,7 +57,6 @@ public class RealMoleculesModel extends MPModel {
     }
 
     public void reset() {
-        super.reset();
         currentMolecule.reset();
     }
 
