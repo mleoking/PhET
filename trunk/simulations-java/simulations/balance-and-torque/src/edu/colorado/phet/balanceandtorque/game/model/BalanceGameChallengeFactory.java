@@ -8,10 +8,13 @@ import java.util.Random;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdolescentBoy;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdultFemaleHuman;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdultMaleHuman;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BigRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MysteryObjectFactory;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.YoungGirl;
 
 /**
  * This class is a factory pattern class that generates sets of challenges for
@@ -47,7 +50,9 @@ public class BalanceGameChallengeFactory {
         add( new SmallRock() );
         add( new BigRock() );
         add( new AdolescentBoy() );
+        add( new YoungGirl() );
         add( new AdultFemaleHuman() );
+        add( new AdultMaleHuman() );
     }};
 
     /**
@@ -57,8 +62,8 @@ public class BalanceGameChallengeFactory {
      * @param numChallenges
      * @return
      */
-    public static List<BalanceMassesChallenge> getChallengeSet( int level, int numChallenges ) {
-        List<BalanceMassesChallenge> balanceChallengeList = new ArrayList<BalanceMassesChallenge>();
+    public static List<BalanceGameChallenge> getChallengeSet( int level, int numChallenges ) {
+        List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
         if ( level == 1 ) {
             for ( int i = 0; i < numChallenges; i++ ) {
                 if ( i == 0 ) {
@@ -67,7 +72,7 @@ public class BalanceGameChallengeFactory {
                     balanceChallengeList.add( generateChallengeEqualMassBricksEachSide() );
                 }
                 else {
-                    BalanceMassesChallenge balanceChallenge = null;
+                    BalanceGameChallenge balanceChallenge = null;
                     for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
                         balanceChallenge = generateChallengeSimpleRatioBricks();
                         if ( !balanceChallengeList.contains( balanceChallenge ) ) {
@@ -82,7 +87,7 @@ public class BalanceGameChallengeFactory {
         }
         else if ( level == 2 ) {
             for ( int i = 0; i < numChallenges; i++ ) {
-                BalanceMassesChallenge balanceChallenge = null;
+                BalanceGameChallenge balanceChallenge = null;
                 for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
                     balanceChallenge = generateChallengeAdvancedRatioBricks();
                     if ( !balanceChallengeList.contains( balanceChallenge ) ) {
@@ -96,7 +101,7 @@ public class BalanceGameChallengeFactory {
         }
         else if ( level == 3 ) {
             for ( int i = 0; i < numChallenges; i++ ) {
-                BalanceMassesChallenge balanceChallenge = null;
+                BalanceGameChallenge balanceChallenge = null;
                 for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
                     balanceChallenge = generateChallengeRandomMasses();
                     if ( !balanceChallengeList.contains( balanceChallenge ) ) {
@@ -104,6 +109,20 @@ public class BalanceGameChallengeFactory {
                         break;
                     }
                     assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
+                }
+                balanceChallengeList.add( balanceChallenge );
+            }
+        }
+        else if ( level == 4 ) {
+            for ( int i = 0; i < numChallenges; i++ ) {
+                BalanceGameChallenge balanceChallenge = null;
+                for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
+                    balanceChallenge = generateChallengeSimpleDeduceMass();
+//                    if ( !balanceChallengeList.contains( balanceChallenge ) ) {
+//                        // This is a unique one, so we're done.
+//                        break;
+//                    }
+//                    assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
                 }
                 balanceChallengeList.add( balanceChallenge );
             }
@@ -244,8 +263,8 @@ public class BalanceGameChallengeFactory {
      */
     private static BalanceMassesChallenge createTwoMassChallenge( Mass fixedMass, double fixedStackDistanceFromCenter, Mass movableMass ) {
         // Add the fixed mass and its distance from the center of the balance.
-        List<BalanceMassesChallenge.MassDistancePair> fixedMassesList = new ArrayList<BalanceMassesChallenge.MassDistancePair>();
-        BalanceMassesChallenge.MassDistancePair fixedMassDistancePair = new BalanceMassesChallenge.MassDistancePair( fixedMass, fixedStackDistanceFromCenter );
+        List<MassDistancePair> fixedMassesList = new ArrayList<MassDistancePair>();
+        MassDistancePair fixedMassDistancePair = new MassDistancePair( fixedMass, fixedStackDistanceFromCenter );
         fixedMassesList.add( fixedMassDistancePair );
 
         // Add the movable mass.
@@ -253,8 +272,8 @@ public class BalanceGameChallengeFactory {
         movableMassesList.add( movableMass );
 
         // Create a valid solution for the challenge.
-        List<BalanceMassesChallenge.MassDistancePair> solution = new ArrayList<BalanceMassesChallenge.MassDistancePair>();
-        solution.add( new BalanceMassesChallenge.MassDistancePair( movableMass, -fixedMassDistancePair.mass.getMass() * fixedMassDistancePair.distance / movableMass.getMass() ) );
+        List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
+        solution.add( new MassDistancePair( movableMass, -fixedMassDistancePair.mass.getMass() * fixedMassDistancePair.distance / movableMass.getMass() ) );
 
         // And we're done.
         return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solution );
@@ -293,7 +312,7 @@ public class BalanceGameChallengeFactory {
         return ( RAND.nextInt( maxIncrements ) + 1 ) * increment;
     }
 
-    private static final Mass getRandomMass( double minMass, double maxMass ) {
+    private static Mass getRandomMass( double minMass, double maxMass ) {
         List<Mass> candidateMasses = new ArrayList<Mass>();
         for ( Mass mass : CHALLENGE_MASSES ) {
             if ( mass.getMass() >= minMass && mass.getMass() <= maxMass ) {
@@ -309,6 +328,19 @@ public class BalanceGameChallengeFactory {
 
         // No matching masses.
         return null;
+    }
+
+    private static DeduceTheMassChallenge generateChallengeSimpleDeduceMass() {
+        // Add the fixed mass and its distance from the center of the balance.
+        MassDistancePair fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 0 ), -1 );
+
+        // Add the movable mass.
+        List<Mass> movableMassesList = new ArrayList<Mass>();
+        Mass movableMass = new BrickStack( 2 );
+        movableMassesList.add( movableMass );
+
+        // Combine into challenge.
+        return new DeduceTheMassChallenge( fixedMassDistancePair, movableMassesList );
     }
 
     /**
@@ -334,6 +366,5 @@ public class BalanceGameChallengeFactory {
         System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 5, 10, 0.25, 2 ) );
         System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 10, 7, 0.25, 2 ) );
         System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 10, 100, 0.25, 2 ) );
-
     }
 }

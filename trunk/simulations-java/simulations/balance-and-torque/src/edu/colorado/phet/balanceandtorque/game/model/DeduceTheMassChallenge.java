@@ -26,21 +26,13 @@ public class DeduceTheMassChallenge extends BalanceGameChallenge {
      * @param fixedMasses
      * @param movableMasses
      */
-    public DeduceTheMassChallenge( final MassDistancePair fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay ) {
+    public DeduceTheMassChallenge( final MassDistancePair fixedMasses, List<Mass> movableMasses ) {
         super( ColumnState.NONE );
         List<MassDistancePair> fixedMassList = new ArrayList<MassDistancePair>() {{
             add( fixedMasses );
         }};
         this.fixedMasses.addAll( fixedMassList );
         this.movableMasses.addAll( movableMasses );
-        this.solutionToPresent.addAll( solutionToDisplay );
-        // Parameter checking: Verify that the mass or masses used in the
-        // solution are present on the list of movable masses.
-        for ( MassDistancePair massDistancePair : solutionToDisplay ) {
-            if ( !movableMasses.contains( massDistancePair.mass ) ) {
-                throw ( new IllegalArgumentException( "One or more of the masses in the solution are not on the list of movable masses." ) );
-            }
-        }
     }
 
     @Override public ChallengeViewConfig getChallengeViewConfig() {

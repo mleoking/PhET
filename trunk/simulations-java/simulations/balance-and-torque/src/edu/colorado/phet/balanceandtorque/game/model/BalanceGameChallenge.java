@@ -23,20 +23,23 @@ public abstract class BalanceGameChallenge {
     // in order to balance out the other masses.
     public final List<Mass> movableMasses = new ArrayList<Mass>();
 
-    // Solution to show to the user if they are unable to solve the challenge.
-    // Some challenges could potentially have multiple solutions, so this is
-    // only the one that we have chosen to present, and not necessarily the
-    // only correct one.
-    public final List<MassDistancePair> solutionToPresent = new ArrayList<MassDistancePair>();
+    // A configuration in which the movable masses balance the fixed masses.
+    // For some challenges, this is what will be displayed to the user if they
+    // ask to see a correct answer.
+    public final List<MassDistancePair> balancedConfiguration = new ArrayList<MassDistancePair>();
 
     // State of the support column or columns when the challenge is initially
     // presented to the user.
     public final ColumnState initialColumnState;
 
+    /**
+     * Constructor.
+     *
+     * @param initialColumnState
+     */
     public BalanceGameChallenge( ColumnState initialColumnState ) {
         this.initialColumnState = initialColumnState;
     }
-
 
     @Override public boolean equals( Object o ) {
         if ( this == o ) { return true; }
@@ -70,42 +73,11 @@ public abstract class BalanceGameChallenge {
             return false;
         }
 
-        if ( !solutionToPresent.equals( that.solutionToPresent ) ) {
+        if ( !balancedConfiguration.equals( that.balancedConfiguration ) ) {
             return false;
         }
 
         return true;
-    }
-
-    /**
-     * Convenience class for pairing a mass with a distance from the center
-     * of the balancing apparatus.
-     */
-    public static class MassDistancePair {
-        public final Mass mass;       // Class containing mass info.
-        public final double distance; // Distance from plank center, in meters.
-
-        public MassDistancePair( Mass mass, double distance ) {
-            this.mass = mass;
-            this.distance = distance;
-        }
-
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) { return true; }
-            if ( o == null || getClass() != o.getClass() ) { return false; }
-
-            MassDistancePair that = (MassDistancePair) o;
-
-            if ( that.distance != distance ) {
-                return false;
-            }
-            if ( mass.getMass() != that.mass.getMass() ) {
-                return false;
-            }
-
-            return true;
-        }
     }
 
     public abstract ChallengeViewConfig getChallengeViewConfig();

@@ -29,7 +29,7 @@ public class BalanceMassesChallenge extends BalanceGameChallenge {
         super( ColumnState.SINGLE_COLUMN );
         this.fixedMasses.addAll( fixedMasses );
         this.movableMasses.addAll( movableMasses );
-        this.solutionToPresent.addAll( solutionToDisplay );
+        this.balancedConfiguration.addAll( solutionToDisplay );
         // Parameter checking: Verify that the mass or masses used in the
         // solution are present on the list of movable masses.
         for ( MassDistancePair massDistancePair : solutionToDisplay ) {

@@ -38,8 +38,8 @@ public class MysteryObjectFactory {
      * @param mysteryObjectID
      * @return
      */
-    public static LabeledImageMass createMysteryObject( int mysteryObjectID ) {
-        return createMysteryObject( mysteryObjectID, new Point2D.Double( 0, 0 ) );
+    public static LabeledImageMass createLabeledMysteryObject( int mysteryObjectID ) {
+        return createLabeledMysteryObject( mysteryObjectID, new Point2D.Double( 0, 0 ) );
     }
 
     /**
@@ -49,10 +49,33 @@ public class MysteryObjectFactory {
      * @param initialLocation
      * @return
      */
-    public static LabeledImageMass createMysteryObject( int mysteryObjectID, Point2D initialLocation ) {
+    public static LabeledImageMass createLabeledMysteryObject( int mysteryObjectID, Point2D initialLocation ) {
         assert ( mysteryObjectID < MYSTERY_OBJECT_CONFIGURATIONS.size() );
         MysteryObjectConfig config = MYSTERY_OBJECT_CONFIGURATIONS.get( mysteryObjectID );
         return new LabeledImageMass( config.mass, config.image, config.height, initialLocation, config.labelText, true );
+    }
+
+    /**
+     * Create a mystery object with no label.
+     *
+     * @param mysteryObjectID
+     * @return
+     */
+    public static ImageMass createUnlabeledMysteryObject( int mysteryObjectID ) {
+        return createUnlabeledMysteryObject( mysteryObjectID, new Point2D.Double( 0, 0 ) );
+    }
+
+    /**
+     * Create a mystery object with no label.
+     *
+     * @param mysteryObjectID
+     * @param initialLocation
+     * @return
+     */
+    public static ImageMass createUnlabeledMysteryObject( int mysteryObjectID, Point2D initialLocation ) {
+        assert ( mysteryObjectID < MYSTERY_OBJECT_CONFIGURATIONS.size() );
+        MysteryObjectConfig config = MYSTERY_OBJECT_CONFIGURATIONS.get( mysteryObjectID );
+        return new ImageMass( config.mass, config.image, config.height, initialLocation, true );
     }
 
     // Collection of information needed to define a particular configuration
