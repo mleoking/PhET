@@ -1,4 +1,5 @@
-Game: Added the ability to create challenges using non-brick masses.
+Game: Added a new type of challenge where the user must work out the mass value.  This is now level 4.
+Game: Added the ability to create challenges using non-brick masses.  This is now level 3.
 # 0.00.10 (56568) Sep 14, 2011
 9/14/11 Deploying to dev for review and feedback.
 Game: Made the advanced brick challenges never have the same number of bricks on both sides.
