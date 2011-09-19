@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
@@ -25,7 +24,6 @@ public class TriatomicMolecule extends Molecule2D {
     public final Bond bondBC; // the bond connecting atoms B and C
     public final Property<Double> bondAngleA; // the bond angle of atom A relative to atom B, before applying molecule rotation
     public final Property<Double> bondAngleC; // the bond angle of atom C relative to atom B, before applying molecule rotation
-    public final Property<ImmutableVector2D> dipole; // the molecular dipole
 
     public TriatomicMolecule( ImmutableVector2D location, double angle ) {
         super( location, angle );
@@ -37,7 +35,6 @@ public class TriatomicMolecule extends Molecule2D {
         bondBC = new Bond( atomB, atomC );
         bondAngleA = new Property<Double>( 0.75 * Math.PI );
         bondAngleC = new Property<Double>( 0.25 * Math.PI );
-        dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
         // update atom locations
         RichSimpleObserver atomLocationUpdater = new RichSimpleObserver() {
@@ -75,17 +72,8 @@ public class TriatomicMolecule extends Molecule2D {
         atomA.reset();
         atomB.reset();
         atomC.reset();
-        angle.reset();
         bondAngleA.reset();
         bondAngleC.reset();
-    }
-
-    public ImmutableVector2D getDipole() {
-        return dipole.get();
-    }
-
-    public void addDipoleObserver( SimpleObserver observer ) {
-        dipole.addObserver( observer );
     }
 
     public Atom[] getAtoms() {

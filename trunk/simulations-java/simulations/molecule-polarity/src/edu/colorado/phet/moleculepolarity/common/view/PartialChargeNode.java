@@ -113,17 +113,17 @@ public abstract class PartialChargeNode extends PComposite {
             super( atom, new Function0<ImmutableVector2D>() {
                 public ImmutableVector2D apply() {
                     ImmutableVector2D normalVector;
-                    if ( molecule.getDipole().getMagnitude() > 0 ) {
-                        normalVector = molecule.getDipole().getRotatedInstance( Math.PI ).getNormalizedInstance();
+                    if ( molecule.dipole.get().getMagnitude() > 0 ) {
+                        normalVector = molecule.dipole.get().getRotatedInstance( Math.PI ).getNormalizedInstance();
                     }
                     else {
                         // can't normalize a zero-magnitude vector, so create our own with the proper angle
-                        normalVector = new ImmutableVector2D( 1, molecule.getDipole().getAngle() );
+                        normalVector = new ImmutableVector2D( 1, molecule.dipole.get().getAngle() );
                     }
                     return normalVector;
                 }
             } );
-            molecule.addDipoleObserver( observer );
+            molecule.dipole.addObserver( observer );
         }
     }
 }

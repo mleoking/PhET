@@ -22,10 +22,10 @@ public class MolecularDipoleNode extends DipoleNode {
         super( MPColors.MOLECULAR_DIPOLE );
 
         // align the dipole to be parallel with the bond, with some offset along the dipole's axis
-        SimpleObserver update = new SimpleObserver() {
+        SimpleObserver observer = new SimpleObserver() {
             public void update() {
 
-                ImmutableVector2D dipole = molecule.getDipole();
+                ImmutableVector2D dipole = molecule.dipole.get();
 
                 setComponentX( scale * dipole.getMagnitude() ); // for a dipole with angle=0
 
@@ -42,6 +42,6 @@ public class MolecularDipoleNode extends DipoleNode {
                 rotate( dipole.getAngle() );
             }
         };
-        molecule.addDipoleObserver( update );
+        molecule.dipole.addObserver( observer );
     }
 }
