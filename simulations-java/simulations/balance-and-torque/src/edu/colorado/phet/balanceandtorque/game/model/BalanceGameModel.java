@@ -373,9 +373,10 @@ public class BalanceGameModel {
     }
 
     public void tryAgain() {
-        // Restore the column but don't restart the challenge so that the user
-        // can better see why the plank is not balancing.
-        supportColumnState.set( ColumnState.SINGLE_COLUMN );
+        // Restore the column(s) to the original state but don't move the
+        // masses anywhere.  This makes it easier for the users to see why
+        // their answer was incorrect.
+        supportColumnState.set( getCurrentChallenge().initialColumnState );
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
