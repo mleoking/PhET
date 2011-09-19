@@ -95,7 +95,7 @@ public class JmolViewerNode extends PhetPNode {
     private final ViewerPanel viewerPanel; // container for the Jmol viewer
 
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
-    private SurfaceType isosurfaceType;
+    private SurfaceType surfaceType;
 
     public JmolViewerNode( Property<Molecule3D> currentMolecule, Color background, Dimension size ) {
 
@@ -114,7 +114,7 @@ public class JmolViewerNode extends PhetPNode {
 
         RAINBOW_MEP.addObserver( new SimpleObserver() {
             public void update() {
-                setIsosurfaceType( isosurfaceType );
+                setSurfaceType( surfaceType );
             }
         } );
     }
@@ -235,7 +235,7 @@ public class JmolViewerNode extends PhetPNode {
         setAtomLabelsVisible( atomLabelsVisible );
         setBondDipolesVisible( bondDipolesVisible );
         setMolecularDipoleVisible( molecularDipoleVisible );
-        setIsosurfaceType( isosurfaceType );
+        setSurfaceType( surfaceType );
         doScript( "hover off" ); // don't display labels when hovering over atoms
         updateAtomLabels();
         updateTranslucency();
@@ -314,10 +314,10 @@ public class JmolViewerNode extends PhetPNode {
         updateAtomLabels();
     }
 
-    // Sets the type of isosurface.
-    public void setIsosurfaceType( SurfaceType isosurfaceType ) {
-        this.isosurfaceType = isosurfaceType;
-        if ( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL ) {
+    // Sets the type of surface.
+    public void setSurfaceType( SurfaceType surfaceType ) {
+        this.surfaceType = surfaceType;
+        if ( surfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL ) {
             if ( isHomogeneousDiatomic() ) {
                 if ( RAINBOW_MEP.get() ) {
                     doScript( "isosurface VDW color " + toJmolColor( MPColors.NEUTRAL_GREEN ) + " translucent" );
@@ -335,7 +335,7 @@ public class JmolViewerNode extends PhetPNode {
                 }
             }
         }
-        else if ( isosurfaceType == SurfaceType.ELECTRON_DENSITY ) {
+        else if ( surfaceType == SurfaceType.ELECTRON_DENSITY ) {
             if ( isHomogeneousDiatomic() ) {
                 doScript( "isosurface VDW color white translucent" );
             }

@@ -14,14 +14,14 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType
  */
 public class SurfaceControlPanel extends MPVerticalPanel {
 
-    public SurfaceControlPanel( final Property<SurfaceType> isosurfaceType ) {
+    public SurfaceControlPanel( final Property<SurfaceType> surfaceType ) {
         super( MPStrings.SURFACE );
         add( new GridPanel() {{
             setGridX( 0 ); // vertical
             setAnchor( Anchor.WEST ); // left justified
-            add( new PropertyRadioButton<SurfaceType>( MPStrings.NONE, isosurfaceType, SurfaceType.NONE ) );
-            add( new PropertyRadioButton<SurfaceType>( MPStrings.ELECTROSTATIC_POTENTIAL, isosurfaceType, SurfaceType.ELECTROSTATIC_POTENTIAL ) );
-            add( new PropertyRadioButton<SurfaceType>( MPStrings.ELECTRON_DENSITY, isosurfaceType, SurfaceType.ELECTRON_DENSITY ) );
+            add( new PropertyRadioButton<SurfaceType>( MPStrings.NONE, surfaceType, SurfaceType.NONE ) );
+            add( new PropertyRadioButton<SurfaceType>( MPStrings.ELECTROSTATIC_POTENTIAL, surfaceType, SurfaceType.ELECTROSTATIC_POTENTIAL ) );
+            add( new PropertyRadioButton<SurfaceType>( MPStrings.ELECTRON_DENSITY, surfaceType, SurfaceType.ELECTRON_DENSITY ) );
         }} );
     }
 }
