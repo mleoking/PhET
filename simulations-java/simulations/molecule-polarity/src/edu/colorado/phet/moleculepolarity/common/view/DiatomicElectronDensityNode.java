@@ -4,28 +4,25 @@ package edu.colorado.phet.moleculepolarity.common.view;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
-import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * 2D isosurface that represents electron density for a diatomic molecule.
+ * 2D surface that represents electron density for a diatomic molecule.
  * Electron density uses a 2-color gradient, so we can use a single PPath.
+ * This node's look is similar to the corresponding Jmol isosurface.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DiatomicElectronDensityNode extends PComposite {
+public class DiatomicElectronDensityNode extends SurfaceNode {
 
     private static final double DIAMETER_SCALE = 2.5; // multiply atom diameters by this scale when computing surface size
     private static final int ALPHA = 185; // the alpha channel, for transparency
@@ -43,6 +40,7 @@ public class DiatomicElectronDensityNode extends PComposite {
      * @param colors   color scheme for the surface, ordered from more to less density
      */
     public DiatomicElectronDensityNode( final DiatomicMolecule molecule, DoubleRange electronegativityRange, Color[] colors ) {
+        super( molecule );
 
         assert ( colors.length == 2 ); // this implementation only works for 2 colors
         assert ( molecule.atomA.getDiameter() == molecule.atomB.getDiameter() ); // creation of gradient assumes that both atoms have the same diameter
@@ -56,37 +54,20 @@ public class DiatomicElectronDensityNode extends PComposite {
         }};
         addChild( pathNode );
 
-        SimpleObserver observer = new SimpleObserver() {
-            public void update() {
-                if ( getVisible() ) {
-                    updateNode();
-                }
-            }
-        };
-        for ( Atom atom : molecule.getAtoms() ) {
-            atom.location.addObserver( observer );
-            atom.electronegativity.addObserver( observer );
-        }
-
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
+
+        updateNode();
     }
 
-    @Override public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        if ( visible ) {
-            updateNode();
-        }
-    }
-
-    private void updateNode() {
+    protected void updateNode() {
         updateShape();
         updatePaint();
     }
 
     // Updates the shape of the isosurface, 2 circles combined using constructive area geometry.
     private void updateShape() {
-        pathNode.setPathTo( ShapeUtils.add( getCircle( molecule.atomA ), getCircle( molecule.atomB ) ) );
+        pathNode.setPathTo( ShapeUtils.add( createCloudShape( molecule.atomA, DIAMETER_SCALE ), createCloudShape( molecule.atomB, DIAMETER_SCALE ) ) );
     }
 
     // Updates the Paint used to color the isosurface. Width of the gradient expands as the difference in EN approaches zero.
@@ -115,9 +96,7 @@ public class DiatomicElectronDensityNode extends PComposite {
             Point2D pointB = new Point2D.Double( gradientWidth / 2, 0 );
 
             // transform gradient endpoints to account for molecule transform
-            AffineTransform transform = new AffineTransform();
-            transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
-            transform.rotate( molecule.getAngle() );
+            AffineTransform transform = createTransform( molecule );
             transform.transform( pointA, pointA );
             transform.transform( pointB, pointB );
 
@@ -130,12 +109,5 @@ public class DiatomicElectronDensityNode extends PComposite {
                                                      (float) pointB.getX(), (float) pointB.getY(), ColorUtils.createColor( colorB, ALPHA ) );
             pathNode.setPaint( paint );
         }
-    }
-
-    private Ellipse2D getCircle( Atom atom ) {
-        final double diameter = DIAMETER_SCALE * atom.getDiameter();
-        double x = atom.location.get().getX() - ( diameter / 2 );
-        double y = atom.location.get().getY() - ( diameter / 2 );
-        return new Ellipse2D.Double( x, y, diameter, diameter );
     }
 }
