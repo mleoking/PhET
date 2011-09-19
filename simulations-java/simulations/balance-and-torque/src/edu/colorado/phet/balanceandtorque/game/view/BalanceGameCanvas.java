@@ -97,6 +97,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private PNode gameSettingsNode;
     private PNode gameOverNode = null;
 
+    // Nodes for entering and displaying specific mass values.
+    private final MassValueEntryNode massValueEntryNode;
+    private final MassValueEntryNode.DisplayAnswerNode massValueAnswerNode;
+
     // Create the smiling and frowning faces and center them on the screen
     private final SmileFaceWithScoreNode smilingFace = new SmileFaceWithScoreNode();
     private final PNode frowningFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
@@ -173,7 +177,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 } );
             }
         } );
-        model.massesToBeBalanced.addElementAddedObserver( new VoidFunction1<MassDistancePair>() {
+        model.fixedMasses.addElementAddedObserver( new VoidFunction1<MassDistancePair>() {
             public void apply( MassDistancePair massDistancePair ) {
                 // Create and add the view representation for this mass.
                 final PNode massNode = createMassNode( massDistancePair.mass );
@@ -183,7 +187,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 // Add it to the correct layer.
                 challengeLayer.addChild( massNode );
                 // Add the removal listener for if and when this mass is removed from the model.
-                model.massesToBeBalanced.addElementRemovedObserver( massDistancePair, new VoidFunction0() {
+                model.fixedMasses.addElementRemovedObserver( massDistancePair, new VoidFunction0() {
                     public void apply() {
                         challengeLayer.removeChild( massNode );
                     }
@@ -256,13 +260,21 @@ public class BalanceGameCanvas extends PhetPCanvas {
                               STAGE_SIZE.getHeight() - scoreboard.getFullBoundsReference().height - 20 );
         rootNode.addChild( scoreboard );
 
-        // Add the big title.
-        // TODO: i18n
-        titleNode = new OutlinePText( "Balance Me!", new PhetFont( 64, true ), Color.WHITE, Color.BLACK, 1 ) {{
-            setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
-                       STAGE_SIZE.getHeight() * 0.25 - getFullBoundsReference().height / 2 );
-        }};
+        // Add the title.  It is blank to start with, and is updated later at
+        // the appropriate state change.
+        titleNode = new PNode();
         rootNode.addChild( titleNode );
+
+        // Add the dialog node that is used in some challenges to enable the
+        // user to submit specific mass values.
+        massValueEntryNode = new MassValueEntryNode( model );
+        rootNode.addChild( massValueEntryNode );
+        massValueAnswerNode = new MassValueEntryNode.DisplayAnswerNode( model );
+        rootNode.addChild( massValueEntryNode );
+        Point2D massDialogOffset = new Point2D.Double( mvt.modelToViewX( 0 ) - massValueEntryNode.getFullBoundsReference().width / 2,
+                                                       mvt.modelToViewY( model.getPlank().getPivotPoint().getY() ) - massValueEntryNode.getFullBounds().height - 20 );
+        massValueEntryNode.setOffset( massDialogOffset );
+        massValueAnswerNode.setOffset( massDialogOffset );
 
         // Position and add the smiley and frowny faces.
         Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ), FACE_DIAMETER / 2 + 20 );
@@ -356,25 +368,33 @@ public class BalanceGameCanvas extends PhetPCanvas {
     //-------------------------------------------------------------------------
 
     // Utility method for showing/hiding several PNodes, used in handleGameStateChange
-    public static void setVisible( boolean visible, PNode... nodes ) {
+    private void setVisible( boolean visible, PNode... nodes ) {
         for ( PNode node : nodes ) {
             node.setVisible( visible );
         }
     }
 
     // Utility method for showing several PNodes, used in handleGameStateChange
-    public static void show( PNode... nodes ) {
+    private void show( PNode... nodes ) {
         setVisible( true, nodes );
     }
 
-    //When the game state changes, update the view with the appropriate buttons and readouts
+    // Utility method for hiding all of the game nodes whose visibility changes
+    // during the course of a challenge.
+    private void hideAllGameNodes() {
+        setVisible( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, titleNode, checkAnswerButton, tryAgainButton,
+                    nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode );
+    }
+
+    // When the game state changes, update the view with the appropriate
+    // buttons and readouts.
     private void handleGameStateChange( BalanceGameModel.GameState newState ) {
 
-        //Hide all nodes, then show the nodes relevant to each state.
-        setVisible( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, titleNode, checkAnswerButton, tryAgainButton,
-                    nextChallengeButton, displayCorrectAnswerButton );
+        // Hide all nodes - the appropriate ones will be shown later based on
+        // the current state.
+        hideAllGameNodes();
 
-        //Show the nodes appropriate to the state
+        // Show the nodes appropriate to the state
         if ( newState == OBTAINING_GAME_SETUP ) {
             show( gameSettingsNode );
             hideChallenge();
@@ -384,10 +404,18 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
         }
         else if ( newState == PRESENTING_INTERACTIVE_CHALLENGE ) {
-            show( scoreboard, titleNode, checkAnswerButton );
+            updateTitle();
+            show( scoreboard, titleNode );
+            if ( model.getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog ) {
+                show( massValueEntryNode );
+            }
+            else {
+                show( checkAnswerButton );
+            }
             showChallenge();
 
-            //By default the challenge is non-interactive, but in this state make it interactive so the user can manipulate the blocks
+            // Set the challenge layer to be interactive so that the user can
+            // manipulate the masses.
             challengeLayer.setPickable( true );
             challengeLayer.setChildrenPickable( true );
         }
@@ -409,6 +437,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
         else if ( newState == DISPLAYING_CORRECT_ANSWER ) {
             show( scoreboard, nextChallengeButton );
+            if ( model.getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog ) {
+                show( massValueAnswerNode );
+            }
             showChallenge();
         }
         else if ( newState == SHOWING_GAME_RESULTS ) {
@@ -426,18 +457,26 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
     }
 
+    private void updateTitle() {
+        titleNode = new OutlinePText( model.getCurrentChallenge().getChallengeViewConfig().title, new PhetFont( 64, true ), Color.WHITE, Color.BLACK, 1 ) {{
+            setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
+                       STAGE_SIZE.getHeight() * 0.25 - getFullBoundsReference().height / 2 );
+        }};
+    }
+
     private void hideChallenge() {
         challengeLayer.setVisible( false );
         controlLayer.setVisible( false );
     }
 
-    // Add graphics for the next challenge, assumes that the model state
-    // already reflects the challenge to be shown.
+    /**
+     * Show the graphics for this challenge, i.e. the plank, fulcrum, etc.
+     */
     private void showChallenge() {
         challengeLayer.setVisible( true );
         controlLayer.setVisible( true );
 
-        // By default the challenge is non-interactive
+        // By default this is initially set up to be non-interactive.
         challengeLayer.setPickable( false );
         challengeLayer.setChildrenPickable( false );
     }

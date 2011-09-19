@@ -81,4 +81,17 @@ public abstract class BalanceGameChallenge {
     }
 
     public abstract ChallengeViewConfig getChallengeViewConfig();
+
+    /**
+     * Get the sum of the mass for all the fixed masses in this challenge.
+     *
+     * @return
+     */
+    public double getFixedMassValueTotal() {
+        double totalMass = 0;
+        for ( MassDistancePair massDistancePair : fixedMasses ) {
+            totalMass += massDistancePair.mass.getMass();
+        }
+        return totalMass;
+    }
 }

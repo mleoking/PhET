@@ -26,13 +26,14 @@ public class DeduceTheMassChallenge extends BalanceGameChallenge {
      * @param fixedMasses
      * @param movableMasses
      */
-    public DeduceTheMassChallenge( final MassDistancePair fixedMasses, List<Mass> movableMasses ) {
+    public DeduceTheMassChallenge( final MassDistancePair fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay ) {
         super( ColumnState.NONE );
         List<MassDistancePair> fixedMassList = new ArrayList<MassDistancePair>() {{
             add( fixedMasses );
         }};
         this.fixedMasses.addAll( fixedMassList );
         this.movableMasses.addAll( movableMasses );
+        this.balancedConfiguration.addAll( solutionToDisplay );
     }
 
     @Override public ChallengeViewConfig getChallengeViewConfig() {

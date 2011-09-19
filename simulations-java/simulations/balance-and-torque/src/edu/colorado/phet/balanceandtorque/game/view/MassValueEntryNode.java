@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
@@ -15,6 +16,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -90,6 +92,13 @@ public class MassValueEntryNode extends PNode {
     }
 
     /**
+     * Clear the entry field.
+     */
+    public void clear() {
+        numberEntryField.setText( "" );
+    }
+
+    /**
      * Submit the age guess by interpreting the value and notifying any
      * listeners.
      */
@@ -109,17 +118,31 @@ public class MassValueEntryNode extends PNode {
         model.checkAnswer( value );
     }
 
-    private static class DisplayAnswerNode extends PNode {
+    public static class DisplayAnswerNode extends PNode {
+
+        private static final NumberFormat FORMATTER = new DecimalFormat( "##.#" );
+
+        private final MassValueEntryNode massValueEntryNode;
 
         /**
          * Constructor.
          */
         public DisplayAnswerNode( final BalanceGameModel balanceGameModel ) {
-            MassValueEntryNode massValueEntryNode = new MassValueEntryNode( balanceGameModel );
+            massValueEntryNode = new MassValueEntryNode( balanceGameModel );
             addChild( massValueEntryNode );
             massValueEntryNode.checkAnswerButton.setEnabled( false );
-            massValueEntryNode.numberEntryField.setText( "Fix This - should display correct mass." );
             massValueEntryNode.numberEntryField.setEnabled( false );
+            update();
+        }
+
+        public void update() {
+            BalanceGameChallenge balanceGameChallenge = massValueEntryNode.model.getCurrentChallenge();
+            if ( balanceGameChallenge != null ) {
+                massValueEntryNode.numberEntryField.setText( FORMATTER.format( balanceGameChallenge.getFixedMassValueTotal() ) );
+            }
+            else {
+                massValueEntryNode.numberEntryField.setText( "" );
+            }
         }
     }
 

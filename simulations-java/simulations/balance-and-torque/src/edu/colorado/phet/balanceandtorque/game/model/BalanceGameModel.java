@@ -70,10 +70,10 @@ public class BalanceGameModel {
 
     // Current set of challenges, which collectively comprise a single game, on
     // which the user is currently working.
-    private List<BalanceGameChallenge> currentChallengeList;
+    private List<BalanceGameChallenge> challengeList;
 
     // Fixed masses that sit on the plank and that the user must attempt to balance.
-    public ObservableList<MassDistancePair> massesToBeBalanced = new ObservableList<MassDistancePair>();
+    public ObservableList<MassDistancePair> fixedMasses = new ObservableList<MassDistancePair>();
 
     // Masses that the user moves on to the plank to counterbalance the fixed masses.
     public ObservableList<Mass> movableMasses = new ObservableList<Mass>();
@@ -134,7 +134,7 @@ public class BalanceGameModel {
         for ( Mass mass : new ArrayList<Mass>( movableMasses ) ) {
             mass.stepInTime( dt );
         }
-        for ( MassDistancePair massDistancePair : massesToBeBalanced ) {
+        for ( MassDistancePair massDistancePair : fixedMasses ) {
             massDistancePair.mass.stepInTime( dt );
         }
     }
@@ -219,10 +219,10 @@ public class BalanceGameModel {
         clock.start();
 
         // Set up the challenges.
-        currentChallengeList = BalanceGameChallengeFactory.getChallengeSet( getLevel(), PROBLEMS_PER_SET );
+        challengeList = BalanceGameChallengeFactory.getChallengeSet( getLevel(), PROBLEMS_PER_SET );
 
         //Set up the model for the next challenge
-        setChallenge( currentChallengeList.get( 0 ), true );
+        setChallenge( getCurrentChallenge(), getCurrentChallenge().initialColumnState );
 
         //Switch to the new state, will create graphics for the challenge
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
@@ -234,7 +234,7 @@ public class BalanceGameModel {
      */
     public void checkAnswer() {
         // Verify that this method isn't being used inappropriately.
-        assert currentChallengeList.get( challengeCount ).getChallengeViewConfig().showMassEntryDialog == false;
+        assert getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog == false;
 
         // Turn off the column so that the plank can move.
         supportColumnState.set( ColumnState.NONE );
@@ -251,10 +251,22 @@ public class BalanceGameModel {
      */
     public void checkAnswer( double mass ) {
         // Verify that this method isn't being used inappropriately.
-        assert currentChallengeList.get( challengeCount ).getChallengeViewConfig().showMassEntryDialog == true;
+        assert getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog == true;
 
         // Handle the user's proposed answer.
         handleProposedAnswer( mass == getTotalFixedMassValue() );
+    }
+
+    /**
+     * Get the current challenge.
+     *
+     * @return The current challenge, null if there isn't one.
+     */
+    public BalanceGameChallenge getCurrentChallenge() {
+        if ( challengeList == null || challengeList.size() <= challengeCount ) {
+            return null;
+        }
+        return challengeList.get( challengeCount );
     }
 
     /**
@@ -291,7 +303,7 @@ public class BalanceGameModel {
         challengeCount++;
         incorrectGuessesOnCurrentChallenge = 0;
         if ( challengeCount < PROBLEMS_PER_SET ) {
-            setChallenge( currentChallengeList.get( challengeCount ), true );
+            setChallenge( getCurrentChallenge(), getCurrentChallenge().initialColumnState );
             gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
         }
         else {
@@ -309,11 +321,11 @@ public class BalanceGameModel {
         }
     }
 
-    private void setChallenge( BalanceGameChallenge balanceChallenge, boolean addColumn ) {
+    private void setChallenge( BalanceGameChallenge balanceChallenge, ColumnState columnState ) {
 
         // Clear out the previous challenge (if there was one).
         plank.removeAllMasses();
-        massesToBeBalanced.clear();
+        fixedMasses.clear();
         for ( Mass mass : movableMasses ) {
             mass.userControlled.removeAllObservers();
         }
@@ -321,7 +333,7 @@ public class BalanceGameModel {
 
         // Set up the new challenge.
         for ( MassDistancePair massDistancePair : balanceChallenge.fixedMasses ) {
-            massesToBeBalanced.add( massDistancePair );
+            fixedMasses.add( massDistancePair );
             plank.addMassToSurface( massDistancePair.mass, massDistancePair.distance );
         }
         for ( final Mass mass : balanceChallenge.movableMasses ) {
@@ -345,11 +357,8 @@ public class BalanceGameModel {
             movableMasses.add( mass );
         }
 
-        // Add the column if desired.
-        //
-        if ( addColumn ) {
-            supportColumnState.set( ColumnState.SINGLE_COLUMN );
-        }
+        // Set the column state.
+        supportColumnState.set( columnState );
     }
 
     /**
@@ -371,18 +380,18 @@ public class BalanceGameModel {
     }
 
     public void displayCorrectAnswer() {
-        BalanceGameChallenge currentChallenge = currentChallengeList.get( challengeCount );
+        BalanceGameChallenge currentChallenge = getCurrentChallenge();
 
         // Put the challenge in its initial state, with none of the movable
-        // masses on the plank.
-        setChallenge( currentChallenge, false );
+        // masses on the plank and the columns turned off.
+        setChallenge( currentChallenge, ColumnState.NONE );
 
-        // Display the solution.
+        // Add the movable mass or masses to the plank according to the solution.
         for ( MassDistancePair solutionMassDistancePair : currentChallenge.balancedConfiguration ) {
             plank.addMassToSurface( solutionMassDistancePair.mass, solutionMassDistancePair.distance );
         }
 
-        supportColumnState.set( ColumnState.NONE );
+        // Update the game state.
         gameStateProperty.set( GameState.DISPLAYING_CORRECT_ANSWER );
     }
 
@@ -396,7 +405,7 @@ public class BalanceGameModel {
      */
     private double getTotalFixedMassValue() {
         double totalMass = 0;
-        for ( MassDistancePair massDistancePair : currentChallengeList.get( challengeCount ).fixedMasses ) {
+        for ( MassDistancePair massDistancePair : getCurrentChallenge().fixedMasses ) {
             totalMass += massDistancePair.mass.getMass();
         }
         return totalMass;
