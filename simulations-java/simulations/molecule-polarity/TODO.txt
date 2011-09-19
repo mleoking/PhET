@@ -28,7 +28,6 @@ LOW
 - look for Property<T> fields that shouldn't be public
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
 - simplify implementation of MPModel.updateMoleculeOrientation
-- delete unneeded keep statements from molecule-polarity.pro
 - move RotatePoints3D someplace better
 
 BEFORE PUBLISHING
