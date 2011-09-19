@@ -23,3 +23,8 @@ Initial orientation of 3D molecules was tweaked using the RotateMol2 utility pro
 That program takes a set of xyz coordinates (copied from the mol2 files) and allows you to specify
 stepwise rotations, 1 axis at a time. Rotating 1 axis at a time makes it easier to verbally describe
 a transform that gets you from the original orientation to the desired orientation.
+
+The colors for the "rainbow" electrostatic potential surface were obtained by looking at the
+color gradient chart in the Jmol documentation at http://jmol.sourceforge.net/jscolors/#Gradients.
+The color chart shown therein is reproduced in doc/Jmol_color_gradients.png. Colors from this
+chart were manually sampled and entered into MPColors.ROYGB_GRADIENT.
