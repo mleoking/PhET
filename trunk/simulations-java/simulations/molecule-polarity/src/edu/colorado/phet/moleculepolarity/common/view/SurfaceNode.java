@@ -6,6 +6,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
+import edu.colorado.phet.moleculepolarity.common.control.RotateCursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -31,6 +33,9 @@ public abstract class SurfaceNode extends PComposite {
             atom.location.addObserver( observer, false );
             atom.electronegativity.addObserver( observer, false );
         }
+
+        addInputEventListener( new RotateCursorHandler() );
+        addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
     }
 
     protected abstract void updateNode();
