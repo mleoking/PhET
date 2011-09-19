@@ -46,12 +46,12 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
             NodeFactory conductivityNodeMaker = new NodeFactory() {
                 public ToolNode createNode( final ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
                     //Create and return the tool node, which reuses the same conductivityTesterNode
-                    return new ConductivityTesterToolNode( new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, transform, canvas.getRootNode(), getToolboxBounds, location ) );
+                    return new ConductivityTesterToolNode( new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, transform, canvas.getRootNode(), location ) );
                 }
             };
 
             //Create a thumbnail to be shown in the toolbox
-            Image thumbnail = new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, canvas.getModelViewTransform(), canvas.getRootNode(), getToolboxBounds, new Point2D.Double( 0, 0 ) ).createImage();
+            Image thumbnail = new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, canvas.getModelViewTransform(), canvas.getRootNode(), new Point2D.Double( 0, 0 ) ).createImage();
 
             //Add the tool icon node, which can be dragged out of the toolbox to create the full-sized conductivity tester node
             addChild( new ToolIconNode<SugarAndSaltSolutionsCanvas>(
