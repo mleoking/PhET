@@ -17,9 +17,9 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Table that shows electronegativity for a select of elements.
+ * Table that shows electronegativity for a set of elements.
  * By default, all cells in the table are the same color.
- * Colors for specific cells can be set, so that they match the colors of the molecule displayed by Jmol.
+ * Colors for specific cells can be set, so that they match the colors of the atoms displayed by Jmol.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -69,7 +69,7 @@ public class ElectronegativityTableNode extends PComposite {
         titleNode.setOffset( ( lastCell.getFullBoundsReference().getMaxX() - firstCell.getFullBoundsReference().getMinX() ) / 2 - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
                              lastCell.getFullBoundsReference().getMaxY() + Y_SPACING );
 
-        // when the current molecule changes, ask Jmol for the molecule's elements and colors
+        // when the current molecule changes, ask Jmol for the molecule's elements and colors, and highlight the corresponding cells
         viewerNode.molecule.addObserver( new SimpleObserver() {
             public void update() {
                 reset();

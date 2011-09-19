@@ -29,6 +29,7 @@ public abstract class MPVerticalPanel extends GridPanel {
         add( Box.createVerticalStrut( 5 ) );
     }
 
+    // provided so that we can set a uniform width for all panels
     public void setMinWidth( int minWidth ) {
         add( Box.createHorizontalStrut( minWidth ) );
     }

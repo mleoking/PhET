@@ -12,13 +12,13 @@ import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Drag handler for a horizontal slider's knob.
+ * Drag handler for a horizontal slider's thumb.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class HorizontalSliderDragHandler extends PDragSequenceEventHandler {
 
-    private final PNode relativeNode, trackNode, knobNode;
+    private final PNode relativeNode, trackNode, thumbNode;
     private final DoubleRange range;
     private final VoidFunction1<Double> updateFunction;
     private double globalClickXOffset; // x offset of mouse click from knob's origin, in global coordinates
@@ -28,14 +28,14 @@ public class HorizontalSliderDragHandler extends PDragSequenceEventHandler {
      *
      * @param relativeNode   dragging is relative to this node, typically the sliders' parent
      * @param trackNode      the track that the knob moves in
-     * @param knobNode       the knob (aka thumb) that the user drags
+     * @param thumbNode      the thumb (aka knob) that the user drags
      * @param range          range of model values
      * @param updateFunction called with model value while dragging
      */
-    public HorizontalSliderDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
+    public HorizontalSliderDragHandler( PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
         this.relativeNode = relativeNode;
         this.trackNode = trackNode;
-        this.knobNode = knobNode;
+        this.thumbNode = thumbNode;
         this.range = range;
         this.updateFunction = updateFunction;
     }
@@ -45,7 +45,7 @@ public class HorizontalSliderDragHandler extends PDragSequenceEventHandler {
         // note the offset between the mouse click and the knob's origin
         Point2D pMouseLocal = event.getPositionRelativeTo( relativeNode );
         Point2D pMouseGlobal = relativeNode.localToGlobal( pMouseLocal );
-        Point2D pKnobGlobal = relativeNode.localToGlobal( knobNode.getOffset() );
+        Point2D pKnobGlobal = relativeNode.localToGlobal( thumbNode.getOffset() );
         globalClickXOffset = pMouseGlobal.getX() - pKnobGlobal.getX() + trackNode.getXOffset();
     }
 

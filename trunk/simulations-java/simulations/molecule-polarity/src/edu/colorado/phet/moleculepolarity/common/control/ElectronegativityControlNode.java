@@ -42,7 +42,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Slider control for electronegativity.
  * Dragging the slider continuously updates an atom's electronegativity.
- * When the slider is released, it snaps to the closest tick mark.
+ * When the slider's thumb is released, it snaps to the closest tick mark.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -259,24 +259,24 @@ public class ElectronegativityControlNode extends PhetPNode {
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( this, THUMB_NORMAL_COLOR, THUMB_HIGHLIGHT_COLOR ) );
-            addInputEventListener( new KnobDragHandler( molecule, relativeNode, trackNode, this, range, snapInterval,
-                                                        new VoidFunction1<Double>() {
-                                                            public void apply( Double value ) {
-                                                                atom.electronegativity.set( value );
-                                                            }
-                                                        } ) );
+            addInputEventListener( new ThumbDragHandler( molecule, relativeNode, trackNode, this, range, snapInterval,
+                                                         new VoidFunction1<Double>() {
+                                                             public void apply( Double value ) {
+                                                                 atom.electronegativity.set( value );
+                                                             }
+                                                         } ) );
         }
     }
 
-    // Drag handler for the knob, snaps to closest tick mark.
-    private static class KnobDragHandler extends HorizontalSliderDragHandler {
+    // Drag handler for the thumb, snaps to closest tick mark.
+    private static class ThumbDragHandler extends HorizontalSliderDragHandler {
 
         private final Molecule2D molecule;
         private final double snapInterval; // slider snaps to closet model value in this interval
 
         // see superclass for constructor params
-        public KnobDragHandler( Molecule2D molecule, PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
-            super( relativeNode, trackNode, knobNode, range, updateFunction );
+        public ThumbDragHandler( Molecule2D molecule, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
+            super( relativeNode, trackNode, thumbNode, range, updateFunction );
             this.molecule = molecule;
             this.snapInterval = snapInterval;
         }
