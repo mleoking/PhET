@@ -25,7 +25,7 @@ LOW
 - play area visibly resizes at startup
 - look for Property<T> fields that shouldn't be public
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
-- move RotatePoints3D someplace better
+- move RotateMol2 someplace better
 
 BEFORE PUBLISHING
 - screenshot
