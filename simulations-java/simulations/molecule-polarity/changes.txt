@@ -1,4 +1,4 @@
-9/19/11 change behavior of bond angle arrows, visible on mouse enter, disappear on mouse exit or when drag starts
+9/19/11 change behavior of bond angle arrows (visible on mouse enter, disappear on mouse exit or when drag starts)
 # 0.00.22 (56575) Sep 14, 2011
 9/14/11 put red outline around stage bounds only for dev versions
 9/14/11 add additional horizontal space between Jmol viewer and control panel
