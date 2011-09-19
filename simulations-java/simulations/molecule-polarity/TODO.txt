@@ -14,15 +14,15 @@ DESIGN
 
 HIGH
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
-- move Jmol console to Developer menu
 
 MEDIUM
-- play area visibly resizes at startup
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 - move duplicate code in Molecule2D subclasses into base class
+- move duplicate ClockListener in 2D models to a base class
 
 LOW
-- move duplicate ClockListener in 2D models to a base class
+- move Jmol console to Developer menu
+- play area visibly resizes at startup
 - look for Property<T> fields that shouldn't be public
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
 - move RotatePoints3D someplace better
