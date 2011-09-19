@@ -31,7 +31,7 @@ import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
-import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -82,7 +82,7 @@ public class ElectronegativityControlNode extends PhetPNode {
      * @param range        range of electronegativity
      * @param snapInterval thumb will snap to this increment when released, also determines the tick mark spacing
      */
-    public ElectronegativityControlNode( final Atom atom, IMolecule molecule, DoubleRange range, double snapInterval ) {
+    public ElectronegativityControlNode( final Atom atom, Molecule2D molecule, DoubleRange range, double snapInterval ) {
 
         final PanelNode panelNode = new PanelNode( atom, molecule, range, snapInterval );
         String title = MessageFormat.format( MPStrings.PATTERN_0ATOM_NAME, atom.getName() );
@@ -155,7 +155,7 @@ public class ElectronegativityControlNode extends PhetPNode {
         private final ThumbNode thumbNode;
         private final DoubleRange range;
 
-        public PanelNode( final Atom atom, IMolecule molecule, DoubleRange range, double snapInterval ) {
+        public PanelNode( final Atom atom, Molecule2D molecule, DoubleRange range, double snapInterval ) {
 
             this.atom = atom;
             this.range = range;
@@ -240,7 +240,7 @@ public class ElectronegativityControlNode extends PhetPNode {
      */
     private static class ThumbNode extends PPath {
 
-        public ThumbNode( IMolecule molecule, PNode relativeNode, PNode trackNode, DoubleRange range, double snapInterval, final Atom atom ) {
+        public ThumbNode( Molecule2D molecule, PNode relativeNode, PNode trackNode, DoubleRange range, double snapInterval, final Atom atom ) {
 
             float w = (float) THUMB_SIZE.getWidth();
             float h = (float) THUMB_SIZE.getHeight();
@@ -271,11 +271,11 @@ public class ElectronegativityControlNode extends PhetPNode {
     // Drag handler for the knob, snaps to closest tick mark.
     private static class KnobDragHandler extends HorizontalSliderDragHandler {
 
-        private final IMolecule molecule;
+        private final Molecule2D molecule;
         private final double snapInterval; // slider snaps to closet model value in this interval
 
         // see superclass for constructor params
-        public KnobDragHandler( IMolecule molecule, PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
+        public KnobDragHandler( Molecule2D molecule, PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
             super( relativeNode, trackNode, knobNode, range, updateFunction );
             this.molecule = molecule;
             this.snapInterval = snapInterval;
@@ -345,7 +345,7 @@ public class ElectronegativityControlNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        DiatomicMolecule molecule = new DiatomicMolecule( new ImmutableVector2D() );
+        DiatomicMolecule molecule = new DiatomicMolecule( new ImmutableVector2D(), 0 );
         Atom atom = molecule.atomA;
         atom.electronegativity.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {

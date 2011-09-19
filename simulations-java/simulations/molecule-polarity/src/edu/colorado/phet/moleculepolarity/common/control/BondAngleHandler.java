@@ -5,7 +5,7 @@ import java.awt.event.InputEvent;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.colorado.phet.moleculepolarity.common.view.AtomNode;
 import edu.colorado.phet.moleculepolarity.common.view.BondAngleArrowsNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class BondAngleHandler extends PDragSequenceEventHandler {
 
-    private final IMolecule molecule;
+    private final Molecule2D molecule;
     private final Property<Double> bondAngle;
     private final AtomNode atomNode;
     private final BondAngleArrowsNode arrowsNode;
@@ -35,7 +35,7 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
      * @param atomNode   node that is being dragged
      * @param arrowsNode arrows that indicate direction of dragging
      */
-    public BondAngleHandler( IMolecule molecule, Property<Double> bondAngle, AtomNode atomNode, BondAngleArrowsNode arrowsNode ) {
+    public BondAngleHandler( Molecule2D molecule, Property<Double> bondAngle, AtomNode atomNode, BondAngleArrowsNode arrowsNode ) {
         this.molecule = molecule;
         this.bondAngle = bondAngle;
         this.atomNode = atomNode;
@@ -79,6 +79,6 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
 
     // Find the angle about the molecule's location.
     private double getAngle( PInputEvent event ) {
-        return new ImmutableVector2D( molecule.getLocation().toPoint2D(), event.getPositionRelativeTo( atomNode.getParent() ) ).getAngle();
+        return new ImmutableVector2D( molecule.location.toPoint2D(), event.getPositionRelativeTo( atomNode.getParent() ) ).getAngle();
     }
 }

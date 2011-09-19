@@ -15,7 +15,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TriatomicMolecule implements IMolecule {
+public class TriatomicMolecule extends Molecule2D {
 
     private static final double ATOM_DIAMETER = 100;
     private static final double BOND_LENGTH = 1.5 * ATOM_DIAMETER;
@@ -23,23 +23,18 @@ public class TriatomicMolecule implements IMolecule {
     public final Atom atomA, atomB, atomC; // the atoms labeled A, B, C
     public final Bond bondAB; // the bond connecting atoms A and B
     public final Bond bondBC; // the bond connecting atoms B and C
-    private final ImmutableVector2D location; // location is at the center of atom B
-    private final Property<Double> angle; // angle of rotation of the entire molecule about the location
     public final Property<Double> bondAngleA; // the bond angle of atom A relative to atom B, before applying molecule rotation
     public final Property<Double> bondAngleC; // the bond angle of atom C relative to atom B, before applying molecule rotation
     public final Property<ImmutableVector2D> dipole; // the molecular dipole
 
-    private boolean dragging; // true when the user is dragging the molecule
+    public TriatomicMolecule( ImmutableVector2D location, double angle ) {
+        super( location, angle );
 
-    public TriatomicMolecule( ImmutableVector2D location ) {
-
-        this.location = location;
         atomA = new Atom( MPStrings.A, ATOM_DIAMETER, MPColors.ATOM_A, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
         atomB = new Atom( MPStrings.B, ATOM_DIAMETER, MPColors.ATOM_B, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
         atomC = new Atom( MPStrings.C, ATOM_DIAMETER, MPColors.ATOM_C, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
         bondAB = new Bond( atomA, atomB );
         bondBC = new Bond( atomB, atomC );
-        angle = new Property<Double>( 0d );
         bondAngleA = new Property<Double>( 0.75 * Math.PI );
         bondAngleC = new Property<Double>( 0.25 * Math.PI );
         dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
@@ -50,7 +45,7 @@ public class TriatomicMolecule implements IMolecule {
                 updateAtomLocations();
             }
         };
-        atomLocationUpdater.observe( angle, bondAngleA, bondAngleC );
+        atomLocationUpdater.observe( this.angle, bondAngleA, bondAngleC );
 
         // update molecular dipole
         RichSimpleObserver molecularDipoleUpdater = new RichSimpleObserver() {
@@ -76,6 +71,7 @@ public class TriatomicMolecule implements IMolecule {
     }
 
     public void reset() {
+        super.reset();
         atomA.reset();
         atomB.reset();
         atomC.reset();
@@ -106,14 +102,6 @@ public class TriatomicMolecule implements IMolecule {
 
     public double getAngle() {
         return angle.get();
-    }
-
-    public boolean isDragging() {
-        return dragging;
-    }
-
-    public void setDragging( boolean dragging ) {
-        this.dragging = dragging;
     }
 
     // repositions the atoms

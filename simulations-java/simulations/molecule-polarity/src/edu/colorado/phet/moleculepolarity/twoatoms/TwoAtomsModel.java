@@ -19,7 +19,7 @@ public class TwoAtomsModel extends MPModel {
 
     public TwoAtomsModel( IClock clock ) {
 
-        molecule = new DiatomicMolecule( new ImmutableVector2D( 350, 390 ) );
+        molecule = new DiatomicMolecule( new ImmutableVector2D( 350, 390 ), 0 );
 
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {

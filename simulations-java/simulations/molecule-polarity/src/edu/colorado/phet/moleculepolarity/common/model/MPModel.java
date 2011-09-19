@@ -22,7 +22,7 @@ public abstract class MPModel implements Resettable {
      * Rotate the molecule one step towards alignment of the molecular dipole with the E-field.
      * Angular velocity is proportional to the dipole's magnitude.
      */
-    protected void updateMoleculeOrientation( IMolecule molecule ) {
+    protected void updateMoleculeOrientation( Molecule2D molecule ) {
 
         // magnitude of angular velocity is proportional to molecular dipole magnitude
         LinearFunction angularVelocityFunction = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, Math.toRadians( 10 ) );
@@ -55,7 +55,7 @@ public abstract class MPModel implements Resettable {
 
         // convert dipole rotation to molecule rotation
         double deltaMoleculeAngle = newDipoleAngle - dipoleAngle;
-        molecule.setAngle( molecule.getAngle() + deltaMoleculeAngle );
+        molecule.angle.set( molecule.angle.get() + deltaMoleculeAngle );
     }
 
     // converts an angle to range [0,2*PI) radians
