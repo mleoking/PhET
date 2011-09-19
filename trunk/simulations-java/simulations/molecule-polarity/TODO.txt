@@ -16,10 +16,8 @@ DESIGN
 - CH2F2 and CHCl3 have tiny bond dipoles, is this an issue?
 
 HIGH
-- change request: address tiny dipoles of CH2F2
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 - move Jmol console to Developer menu
-- when molecule rotates due to E-field, bond angle drag indicator remains visible
 
 MEDIUM
 - create a base class for DiatomicElectronDensityNode and DiatomicElectrostaticPotentialNode
