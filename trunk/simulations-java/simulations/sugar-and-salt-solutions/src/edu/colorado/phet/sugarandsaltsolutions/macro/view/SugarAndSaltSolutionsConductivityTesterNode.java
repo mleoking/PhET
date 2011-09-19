@@ -7,8 +7,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
@@ -29,8 +29,8 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
     private final ConductivityTester conductivityTester;
     private final ModelViewTransform transform;
 
-    public SugarAndSaltSolutionsConductivityTesterNode( final ConductivityTester conductivityTester, final ModelViewTransform transform, final PNode rootNode, final Function0<Rectangle2D> getToolboxBounds, Point2D location ) {
-        super( conductivityTester, transform, Color.lightGray, Color.lightGray, Color.lightGray, Color.red, Color.green, Color.black, Color.black, false );
+    public SugarAndSaltSolutionsConductivityTesterNode( final ConductivityTester conductivityTester, final ModelViewTransform transform, final PNode rootNode, Point2D location ) {
+        super( conductivityTester, transform, Color.lightGray, Color.lightGray, Color.lightGray, PhetColorScheme.RED_COLORBLIND, Color.green, Color.black, Color.black, false );
         this.conductivityTester = conductivityTester;
         this.transform = transform;
 
