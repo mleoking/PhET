@@ -1,8 +1,8 @@
 Development notes for molecule-polarity
 
 This sim has no model-view transform. There is a 1:1 correspondence between model and view locations.
-Having an explicit 1:1 transform might have provided a bit of future insurance. But since this
-sim is never likely to be quantitative wrt spatial relationships, so using and testing such a transform
+Having an explicit 1:1 transform might have provided a bit of future insurance. But this sim is
+never likely to be quantitative wrt spatial relationships, so using and testing such a transform
 seemed like an unnecessary expensive.
 
 Most of the view nodes create their shapes in global coordinates. For example, dipole nodes are
