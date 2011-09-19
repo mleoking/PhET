@@ -30,12 +30,12 @@ public class MysteryObjectCreatorNode extends ImageMassCreatorNode {
     public MysteryObjectCreatorNode( int mysteryObjectID, final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         this.mysteryObjectID = mysteryObjectID;
-        LabeledImageMass mysteryObject = MysteryObjectFactory.createMysteryObject( mysteryObjectID );
+        LabeledImageMass mysteryObject = MysteryObjectFactory.createLabeledMysteryObject( mysteryObjectID );
         setSelectionNode( new LabeledImageMassNode( SCALING_MVT, mysteryObject, canvas, new BooleanProperty( false ) ) );
         setPositioningOffset( 0, -mvt.modelToViewDeltaY( mysteryObject.getHeight() / 2 ) );
     }
 
     @Override protected ImageMass createImageMassInstance() {
-        return MysteryObjectFactory.createMysteryObject( mysteryObjectID );
+        return MysteryObjectFactory.createLabeledMysteryObject( mysteryObjectID );
     }
 }
