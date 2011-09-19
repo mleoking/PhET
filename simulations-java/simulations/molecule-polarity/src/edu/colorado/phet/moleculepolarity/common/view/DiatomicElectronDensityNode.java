@@ -10,8 +10,6 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -53,9 +51,6 @@ public class DiatomicElectronDensityNode extends SurfaceNode {
             setStroke( null );
         }};
         addChild( pathNode );
-
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
 
         updateNode();
     }
