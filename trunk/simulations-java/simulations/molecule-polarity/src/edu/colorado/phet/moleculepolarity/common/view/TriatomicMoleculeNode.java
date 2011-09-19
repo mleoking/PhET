@@ -7,7 +7,6 @@ import edu.colorado.phet.moleculepolarity.common.control.BondAngleHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
 import edu.colorado.phet.moleculepolarity.common.control.RotateCursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Visual representation of a triatomic molecule.
@@ -19,19 +18,19 @@ public class TriatomicMoleculeNode extends PhetPNode {
     public TriatomicMoleculeNode( TriatomicMolecule molecule ) {
 
         // nodes
-        PNode bondABNode = new BondNode( molecule.bondAB );
+        BondNode bondABNode = new BondNode( molecule.bondAB );
         BondNode bondBCNode = new BondNode( molecule.bondBC );
         AtomNode atomANode = new AtomNode( molecule.atomA );
         AtomNode atomBNode = new AtomNode( molecule.atomB );
         AtomNode atomCNode = new AtomNode( molecule.atomC );
-        final BondAngleDragIndicatorNode indicatorANode = new BondAngleDragIndicatorNode( molecule, molecule.atomA );
-        final BondAngleDragIndicatorNode indicatorCNode = new BondAngleDragIndicatorNode( molecule, molecule.atomC );
+        final BondAngleArrowsNode arrowsANode = new BondAngleArrowsNode( molecule, molecule.atomA );
+        final BondAngleArrowsNode arrowsCNode = new BondAngleArrowsNode( molecule, molecule.atomC );
 
         // rendering order, bonds behind atoms
         addChild( bondABNode );
         addChild( bondBCNode );
-        addChild( indicatorANode );
-        addChild( indicatorCNode );
+        addChild( arrowsANode );
+        addChild( arrowsCNode );
         addChild( atomANode );
         addChild( atomBNode );
         addChild( atomCNode );
@@ -47,11 +46,11 @@ public class TriatomicMoleculeNode extends PhetPNode {
         // change bond angles by dragging atom A or C
         atomANode.addInputEventListener( new CursorHandler() );
         atomCNode.addInputEventListener( new CursorHandler() );
-        atomANode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleA, atomANode, indicatorANode ) );
-        atomCNode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleC, atomCNode, indicatorCNode ) );
+        atomANode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleA, atomANode, arrowsANode ) );
+        atomCNode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleC, atomCNode, arrowsCNode ) );
 
         // default state
-        indicatorANode.setVisible( false );
-        indicatorCNode.setVisible( false );
+        arrowsANode.setVisible( false );
+        arrowsCNode.setVisible( false );
     }
 }
