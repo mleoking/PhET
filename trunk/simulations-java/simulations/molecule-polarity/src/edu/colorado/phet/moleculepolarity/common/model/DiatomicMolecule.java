@@ -77,18 +77,6 @@ public class DiatomicMolecule extends Molecule2D {
         return new Atom[] { atomA, atomB };
     }
 
-    public ImmutableVector2D getLocation() {
-        return location;
-    }
-
-    public void setAngle( double angle ) {
-        this.angle.set( angle );
-    }
-
-    public double getAngle() {
-        return angle.get();
-    }
-
     // repositions the atoms
     private void updateAtomLocations( double angle ) {
         final double radius = BOND_LENGTH / 2;

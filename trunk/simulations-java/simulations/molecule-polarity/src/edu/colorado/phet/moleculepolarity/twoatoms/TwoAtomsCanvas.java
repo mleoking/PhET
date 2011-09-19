@@ -86,7 +86,7 @@ public class TwoAtomsCanvas extends MPCanvas {
 
         // layout, based on molecule location
         {
-            final double moleculeX = model.molecule.getLocation().getX();
+            final double moleculeX = model.molecule.location.getX();
             final double plateXOffset = 250; // x offset from molecule
             negativePlateNode.setOffset( moleculeX - plateXOffset - negativePlateNode.getFullBoundsReference().getWidth(),
                                          100 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );

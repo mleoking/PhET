@@ -92,18 +92,6 @@ public class TriatomicMolecule extends Molecule2D {
         return new Atom[] { atomA, atomB, atomC };
     }
 
-    public ImmutableVector2D getLocation() {
-        return location;
-    }
-
-    public void setAngle( double angle ) {
-        this.angle.set( angle );
-    }
-
-    public double getAngle() {
-        return angle.get();
-    }
-
     // repositions the atoms
     private void updateAtomLocations() {
         final double radius = BOND_LENGTH;
