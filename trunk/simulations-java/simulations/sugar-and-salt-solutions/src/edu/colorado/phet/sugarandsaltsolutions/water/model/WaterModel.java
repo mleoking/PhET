@@ -25,7 +25,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -116,7 +115,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //User settings
     public final Property<Boolean> showWaterCharges = new Property<Boolean>( false );
-    public final SettableProperty<Boolean> showSugarPartialCharge = new Property<Boolean>( false );
+    public final Property<Boolean> showSugarPartialCharge = new Property<Boolean>( false );
     public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
 
     //Developer settings
@@ -510,6 +509,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         initModel();
         showSugarAtoms.reset();
         showWaterCharges.reset();
+        showSugarPartialCharge.reset();
     }
 
     //Set up the initial model state, used on init and after reset
