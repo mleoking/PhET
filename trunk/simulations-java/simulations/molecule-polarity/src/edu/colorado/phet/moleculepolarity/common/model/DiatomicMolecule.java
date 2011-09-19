@@ -16,7 +16,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DiatomicMolecule implements IMolecule {
+public class DiatomicMolecule extends Molecule2D {
 
     private static final double ATOM_DIAMETER = 100;
     private static final double BOND_LENGTH = 1.5 * ATOM_DIAMETER;
@@ -25,22 +25,16 @@ public class DiatomicMolecule implements IMolecule {
     public final Bond bond; // the bond connecting atoms A and B
     public final Property<ImmutableVector2D> dipole; // the molecular dipole
 
-    private final ImmutableVector2D location; // location is at the center of the bond
-    private final Property<Double> angle; // angle of rotation about the location (zero is bond horizontal, atom A left, atom B right)
+    public DiatomicMolecule( ImmutableVector2D location, double angle ) {
+        super( location, angle );
 
-    private boolean dragging; // true when the user is dragging the molecule
-
-    public DiatomicMolecule( ImmutableVector2D location ) {
-
-        this.location = location;
-        angle = new Property<Double>( 0d );
         atomA = new Atom( MPStrings.A, ATOM_DIAMETER, MPColors.ATOM_A, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
         atomB = new Atom( MPStrings.B, ATOM_DIAMETER, MPColors.ATOM_B, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
         bond = new Bond( atomA, atomB );
         dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
         // update atom locations
-        angle.addObserver( new VoidFunction1<Double>() {
+        this.angle.addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {
                 updateAtomLocations( angle );
             }
@@ -66,7 +60,7 @@ public class DiatomicMolecule implements IMolecule {
     }
 
     public void reset() {
-        angle.reset();
+        super.reset();
         atomA.reset();
         atomB.reset();
     }
@@ -93,14 +87,6 @@ public class DiatomicMolecule implements IMolecule {
 
     public double getAngle() {
         return angle.get();
-    }
-
-    public boolean isDragging() {
-        return dragging;
-    }
-
-    public void setDragging( boolean dragging ) {
-        this.dragging = dragging;
     }
 
     // repositions the atoms

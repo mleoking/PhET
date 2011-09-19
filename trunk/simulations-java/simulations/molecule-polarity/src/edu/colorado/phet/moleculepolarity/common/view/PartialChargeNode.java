@@ -11,7 +11,7 @@ import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;
-import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -109,7 +109,7 @@ public abstract class PartialChargeNode extends PComposite {
      * The charge is placed along the axis of the molecular dipole, on the opposite side of the atom from the dipole.
      */
     public static class CompositePartialChargeNode extends PartialChargeNode {
-        public CompositePartialChargeNode( final Atom atom, final IMolecule molecule ) {
+        public CompositePartialChargeNode( final Atom atom, final Molecule2D molecule ) {
             super( atom, new Function0<ImmutableVector2D>() {
                 public ImmutableVector2D apply() {
                     ImmutableVector2D normalVector;

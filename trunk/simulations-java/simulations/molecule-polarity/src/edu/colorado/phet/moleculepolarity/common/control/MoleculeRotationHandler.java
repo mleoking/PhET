@@ -2,7 +2,7 @@
 package edu.colorado.phet.moleculepolarity.common.control;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -15,11 +15,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class MoleculeRotationHandler extends PDragSequenceEventHandler {
 
-    private final IMolecule molecule;
+    private final Molecule2D molecule;
     private final PNode dragNode;
     double previousAngle;
 
-    public MoleculeRotationHandler( IMolecule molecule, PNode dragNode ) {
+    public MoleculeRotationHandler( Molecule2D molecule, PNode dragNode ) {
         this.molecule = molecule;
         this.dragNode = dragNode;
     }
@@ -39,12 +39,12 @@ public class MoleculeRotationHandler extends PDragSequenceEventHandler {
     @Override public void drag( PInputEvent event ) {
         super.drag( event );
         double angle = getAngle( event );
-        molecule.setAngle( molecule.getAngle() + angle - previousAngle );
+        molecule.angle.set( molecule.angle.get() + angle - previousAngle );
         previousAngle = angle;
     }
 
     // Find the angle about the molecule's location.
     private double getAngle( PInputEvent event ) {
-        return new ImmutableVector2D( molecule.getLocation().toPoint2D(), event.getPositionRelativeTo( dragNode.getParent() ) ).getAngle();
+        return new ImmutableVector2D( molecule.location.toPoint2D(), event.getPositionRelativeTo( dragNode.getParent() ) ).getAngle();
     }
 }

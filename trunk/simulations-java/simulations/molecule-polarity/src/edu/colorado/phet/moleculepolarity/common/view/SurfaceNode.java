@@ -7,7 +7,7 @@ import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
-import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -17,7 +17,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class SurfaceNode extends PComposite {
 
-    public SurfaceNode( IMolecule molecule ) {
+    public SurfaceNode( Molecule2D molecule ) {
 
         // Update the node when the atom's location or EN changes.
         SimpleObserver observer = new SimpleObserver() {
@@ -52,10 +52,10 @@ public abstract class SurfaceNode extends PComposite {
     }
 
     // Creates a transform that accounts for the molecule's location and orientation.
-    protected static AffineTransform createTransform( IMolecule molecule ) {
+    protected static AffineTransform createTransform( Molecule2D molecule ) {
         AffineTransform transform = new AffineTransform();
-        transform.translate( molecule.getLocation().getX(), molecule.getLocation().getY() );
-        transform.rotate( molecule.getAngle() );
+        transform.translate( molecule.location.getX(), molecule.location.getY() );
+        transform.rotate( molecule.angle.get() );
         return transform;
     }
 }

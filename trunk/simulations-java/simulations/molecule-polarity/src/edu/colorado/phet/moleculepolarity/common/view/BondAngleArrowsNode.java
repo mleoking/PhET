@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
-import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -23,11 +23,11 @@ public class BondAngleArrowsNode extends PComposite {
 
     private static final int ARROW_LENGTH = 25; // relatively short, so we don't need curved arrows
 
-    private final IMolecule molecule;
+    private final Molecule2D molecule;
     private final Atom atom;
     private final PPath leftArrowNode, rightArrowNode;
 
-    public BondAngleArrowsNode( final IMolecule molecule, final Atom atom ) {
+    public BondAngleArrowsNode( final Molecule2D molecule, final Atom atom ) {
 
         // Indicator itself is not interactive.
         setPickable( false );
@@ -64,7 +64,7 @@ public class BondAngleArrowsNode extends PComposite {
         IndicatorArrow rightArrow = new IndicatorArrow( new Point2D.Double( ( radius + spacing ), 0 ), new Point2D.Double( ( radius + spacing + ARROW_LENGTH ), 0 ) );
 
         // transform the shapes to account for atom location and relationship to molecule location
-        ImmutableVector2D v = new ImmutableVector2D( molecule.getLocation(), atom.location.get() );
+        ImmutableVector2D v = new ImmutableVector2D( molecule.location, atom.location.get() );
         double angle = v.getAngle() - ( Math.PI / 2 );
         AffineTransform transform = new AffineTransform();
         transform.translate( atom.location.get().getX(), atom.location.get().getY() );
