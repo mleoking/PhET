@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
 import edu.colorado.phet.moleculepolarity.common.view.AtomNode;
-import edu.colorado.phet.moleculepolarity.common.view.BondAngleDragIndicatorNode;
+import edu.colorado.phet.moleculepolarity.common.view.BondAngleArrowsNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -24,7 +24,7 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
     private final IMolecule molecule;
     private final Property<Double> bondAngle;
     private final AtomNode atomNode;
-    private final BondAngleDragIndicatorNode arrowsNode;
+    private final BondAngleArrowsNode arrowsNode;
     double previousAngle;
 
     /**
@@ -35,7 +35,7 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
      * @param atomNode   node that is being dragged
      * @param arrowsNode arrows that indicate direction of dragging
      */
-    public BondAngleHandler( IMolecule molecule, Property<Double> bondAngle, AtomNode atomNode, BondAngleDragIndicatorNode arrowsNode ) {
+    public BondAngleHandler( IMolecule molecule, Property<Double> bondAngle, AtomNode atomNode, BondAngleArrowsNode arrowsNode ) {
         this.molecule = molecule;
         this.bondAngle = bondAngle;
         this.atomNode = atomNode;

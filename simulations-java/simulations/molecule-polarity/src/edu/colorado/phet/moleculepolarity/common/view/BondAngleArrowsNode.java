@@ -15,21 +15,19 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Indicator that dragging an atom will change the bond angle.
- * This consists of a pair of arrows on either side of the atom,
- * rotated to indicate the drag direction that will result in a change to bond angle.
+ * A pair of arrows that are placed around an atom, indicating that dragging the atom will change the bond angle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BondAngleDragIndicatorNode extends PComposite {
+public class BondAngleArrowsNode extends PComposite {
 
     private static final int ARROW_LENGTH = 25; // relatively short, so we don't need curved arrows
 
     private final IMolecule molecule;
     private final Atom atom;
-    private final PPath leftNode, rightNode;
+    private final PPath leftArrowNode, rightArrowNode;
 
-    public BondAngleDragIndicatorNode( final IMolecule molecule, final Atom atom ) {
+    public BondAngleArrowsNode( final IMolecule molecule, final Atom atom ) {
 
         // Indicator itself is not interactive.
         setPickable( false );
@@ -38,17 +36,17 @@ public class BondAngleDragIndicatorNode extends PComposite {
         this.molecule = molecule;
         this.atom = atom;
 
-        leftNode = new PPath() {{
+        leftArrowNode = new PPath() {{
             setPaint( atom.getColor() );
             setStrokePaint( Color.GRAY );
         }};
-        addChild( leftNode );
+        addChild( leftArrowNode );
 
-        rightNode = new PPath() {{
+        rightArrowNode = new PPath() {{
             setPaint( atom.getColor() );
             setStrokePaint( Color.GRAY );
         }};
-        addChild( rightNode );
+        addChild( rightArrowNode );
 
         atom.location.addObserver( new SimpleObserver() {
             public void update() {
@@ -74,8 +72,8 @@ public class BondAngleDragIndicatorNode extends PComposite {
         Shape leftShape = transform.createTransformedShape( leftArrow.getShape() );
         Shape rightShape = transform.createTransformedShape( rightArrow.getShape() );
 
-        leftNode.setPathTo( leftShape );
-        rightNode.setPathTo( rightShape );
+        leftArrowNode.setPathTo( leftShape );
+        rightArrowNode.setPathTo( rightShape );
     }
 
     // Encapsulates the "look" of the arrows.

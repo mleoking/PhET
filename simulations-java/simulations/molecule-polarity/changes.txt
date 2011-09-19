@@ -1,3 +1,4 @@
+9/19/11 rename BondAngleDragIndicatorNode to BondAngleArrowsNode
 9/19/11 override correct drag methods in BondAngleHandler
 9/19/11 merge BondAngleVisibilityHandler into BondAngleHandler
 9/19/11 change behavior of bond angle arrows (visible on mouse enter, disappear on mouse exit or when drag starts)
