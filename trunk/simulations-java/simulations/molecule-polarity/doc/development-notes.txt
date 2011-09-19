@@ -14,7 +14,7 @@ and destabilizing to change.
 3D molecules are rendered using Jmol, which supports many chemical data file formats.
 Details of the file format selection process are described in Unfuddle #3018, and we settled on
 the mol2 format. Files were created by a colleague of Kelly Lancaster, using Spartan '08.
-The "@<TRIPOS>ATOM" section of these files describes the atoms that appear in the
+The "@<TRIPOS>ATOM" section of the mol2 files describes the atoms that appear in the
 molecule, and this section of the files was manually edited in the following ways:
 - labels (column 2) were edited to reflect the desired naming convention, since that convention was not supported by Jmol
 - xyz coordinates (columns 3,4,5) were edited to reflect the desired initial orientation
