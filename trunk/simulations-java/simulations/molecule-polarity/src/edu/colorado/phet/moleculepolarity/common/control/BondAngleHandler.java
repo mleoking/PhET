@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
 import edu.colorado.phet.moleculepolarity.common.view.AtomNode;
 import edu.colorado.phet.moleculepolarity.common.view.BondAngleDragIndicatorNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BondAngleHandler extends PBasicInputEventHandler {
+public class BondAngleHandler extends PDragSequenceEventHandler {
 
     private final IMolecule molecule;
     private final Property<Double> bondAngle;

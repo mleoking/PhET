@@ -6,17 +6,17 @@ import java.awt.Font;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of an atom.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AtomNode extends PhetPNode {
+public class AtomNode extends PComposite {
 
     public AtomNode( Atom atom ) {
 
