@@ -117,12 +117,12 @@ public class BalanceGameChallengeFactory {
             for ( int i = 0; i < numChallenges; i++ ) {
                 BalanceGameChallenge balanceChallenge = null;
                 for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                    balanceChallenge = generateChallengeSimpleDeduceMass();
-//                    if ( !balanceChallengeList.contains( balanceChallenge ) ) {
-//                        // This is a unique one, so we're done.
-//                        break;
-//                    }
-//                    assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
+                    balanceChallenge = generateChallengeSimpleDeduceMass( j );
+                    if ( !balanceChallengeList.contains( balanceChallenge ) ) {
+                        // This is a unique one, so we're done.
+                        break;
+                    }
+                    assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
                 }
                 balanceChallengeList.add( balanceChallenge );
             }
@@ -330,13 +330,40 @@ public class BalanceGameChallengeFactory {
         return null;
     }
 
-    private static DeduceTheMassChallenge generateChallengeSimpleDeduceMass() {
+    private static DeduceTheMassChallenge generateChallengeSimpleDeduceMass( int index ) {
+        // TODO: static generation for now, need to make random once approved.
+
         // Add the fixed mass and its distance from the center of the balance.
-        MassDistancePair fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 0 ), -1 );
+        MassDistancePair fixedMassDistancePair = null;
+        Mass movableMass = null;
+
+        switch( index ) {
+            case 0:
+                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 3 ), -1.5 );
+                movableMass = new BrickStack( 2 );
+                break;
+            case 1:
+                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 4 ), -2 );
+                movableMass = new BrickStack( 2 );
+                break;
+            case 2:
+                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 2 ), -0.5 );
+                movableMass = new BrickStack( 1 );
+                break;
+            case 3:
+                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 0 ), -1 );
+                movableMass = new BrickStack( 2 );
+                break;
+            case 4:
+                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 6 ), -.75 );
+                movableMass = new BrickStack( 3 );
+                break;
+            default:
+                assert false;
+        }
 
         // Add the movable mass.
         List<Mass> movableMassesList = new ArrayList<Mass>();
-        Mass movableMass = new BrickStack( 2 );
         movableMassesList.add( movableMass );
 
         // Create a valid solution for the challenge.
