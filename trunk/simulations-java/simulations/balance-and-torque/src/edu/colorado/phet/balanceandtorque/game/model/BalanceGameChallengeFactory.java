@@ -339,8 +339,12 @@ public class BalanceGameChallengeFactory {
         Mass movableMass = new BrickStack( 2 );
         movableMassesList.add( movableMass );
 
+        // Create a valid solution for the challenge.
+        List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
+        solution.add( new MassDistancePair( movableMass, -fixedMassDistancePair.mass.getMass() * fixedMassDistancePair.distance / movableMass.getMass() ) );
+
         // Combine into challenge.
-        return new DeduceTheMassChallenge( fixedMassDistancePair, movableMassesList );
+        return new DeduceTheMassChallenge( fixedMassDistancePair, movableMassesList, solution );
     }
 
     /**
