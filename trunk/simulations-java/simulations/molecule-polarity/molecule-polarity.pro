@@ -1,5 +1,3 @@
--keep class org.jmol.adapter.readers.quantum.SpartanSmolReader
--keep class org.jmol.adapter.readers.molxyz.MolReader
 -keep class org.jmol.adapter.readers.more.Mol2Reader
 -keep class org.jmol.shapespecial.Dipoles
 -keep class org.jmol.shapespecial.DipolesRenderer
