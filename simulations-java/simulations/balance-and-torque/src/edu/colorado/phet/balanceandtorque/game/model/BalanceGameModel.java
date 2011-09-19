@@ -219,7 +219,7 @@ public class BalanceGameModel {
         clock.start();
 
         // Set up the challenges.
-        currentChallengeList = BalanceChallengeSetFactory.getChallengeSet( getLevel(), PROBLEMS_PER_SET );
+        currentChallengeList = BalanceGameChallengeFactory.getChallengeSet( getLevel(), PROBLEMS_PER_SET );
 
         //Set up the model for the next challenge
         setChallenge( currentChallengeList.get( 0 ), true );
@@ -228,9 +228,42 @@ public class BalanceGameModel {
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
+    /**
+     * Check the answer for challenges in which the user must try to balance
+     * the plank.
+     */
     public void checkAnswer() {
+        // Verify that this method isn't being used inappropriately.
+        assert currentChallengeList.get( challengeCount ).getChallengeViewConfig().showMassEntryDialog == false;
+
+        // Turn off the column so that the plank can move.
         supportColumnState.set( ColumnState.NONE );
-        if ( plank.isBalanced() ) {
+
+        // Respond to the user's proposed answer.
+        handleProposedAnswer( plank.isBalanced() );
+    }
+
+    /**
+     * Check the answer for challenges in which the user must submit a value
+     * for the mass.
+     *
+     * @param mass
+     */
+    public void checkAnswer( double mass ) {
+        // Verify that this method isn't being used inappropriately.
+        assert currentChallengeList.get( challengeCount ).getChallengeViewConfig().showMassEntryDialog == true;
+
+        // Handle the user's proposed answer.
+        handleProposedAnswer( mass == getTotalFixedMassValue() );
+    }
+
+    /**
+     * Convenience method, avoids code duplication.
+     *
+     * @param answerIsCorrect
+     */
+    private void handleProposedAnswer( boolean answerIsCorrect ) {
+        if ( answerIsCorrect ) {
             // The user answered the challenge correctly.
             gameStateProperty.set( GameState.SHOWING_CORRECT_ANSWER_FEEDBACK );
             if ( incorrectGuessesOnCurrentChallenge == 0 ) {
@@ -357,9 +390,16 @@ public class BalanceGameModel {
         return supportColumn;
     }
 
-    public void checkAnswer( double mass ) {
-        // TODO: Stubbed for now.
-        assert false;
+    /**
+     * Get a value representing the total mass of the fixed masses that are
+     * part of the current challenge.
+     */
+    private double getTotalFixedMassValue() {
+        double totalMass = 0;
+        for ( BalanceGameChallenge.MassDistancePair massDistancePair : currentChallengeList.get( challengeCount ).fixedMasses ) {
+            totalMass += massDistancePair.mass.getMass();
+        }
+        return totalMass;
     }
 
     //-------------------------------------------------------------------------

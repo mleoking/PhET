@@ -19,7 +19,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
  *
  * @author John Blanco
  */
-public class BalanceChallengeSetFactory {
+public class BalanceGameChallengeFactory {
 
     private static final Random RAND = new Random();
 
@@ -330,10 +330,10 @@ public class BalanceChallengeSetFactory {
     }
 
     public static void main( String[] args ) {
-        System.out.println( BalanceChallengeSetFactory.isChallengeSolvable( 10, 5, 0.25, 2 ) );
-        System.out.println( BalanceChallengeSetFactory.isChallengeSolvable( 5, 10, 0.25, 2 ) );
-        System.out.println( BalanceChallengeSetFactory.isChallengeSolvable( 10, 7, 0.25, 2 ) );
-        System.out.println( BalanceChallengeSetFactory.isChallengeSolvable( 10, 100, 0.25, 2 ) );
+        System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 10, 5, 0.25, 2 ) );
+        System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 5, 10, 0.25, 2 ) );
+        System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 10, 7, 0.25, 2 ) );
+        System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 10, 100, 0.25, 2 ) );
 
     }
 }
