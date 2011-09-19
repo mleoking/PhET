@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.control;
 
+import java.awt.event.InputEvent;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
@@ -11,6 +13,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for manipulating a bond angle.
+ * A pair of arrows indicating the direction of drag are shown when the mouse enters the atom.
+ * When the drag begins, these arrows are made invisible.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -19,28 +23,43 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
     private final IMolecule molecule;
     private final Property<Double> bondAngle;
     private final AtomNode atomNode;
-    private final BondAngleDragIndicatorNode indicatorNode;
+    private final BondAngleDragIndicatorNode arrowsNode;
     double previousAngle;
 
     /**
      * Constructor.
      *
-     * @param molecule  angle is relative to this molecule's location, and we pause any animation of this molecule while dragging
-     * @param bondAngle property that this handler modifies
-     * @param atomNode  node that is being dragged
+     * @param molecule   angle is relative to this molecule's location, and we pause any animation of this molecule while dragging
+     * @param bondAngle  property that this handler modifies
+     * @param atomNode   node that is being dragged
+     * @param arrowsNode arrows that indicate direction of dragging
      */
-    public BondAngleHandler( IMolecule molecule, Property<Double> bondAngle, AtomNode atomNode, BondAngleDragIndicatorNode indicatorNode ) {
+    public BondAngleHandler( IMolecule molecule, Property<Double> bondAngle, AtomNode atomNode, BondAngleDragIndicatorNode arrowsNode ) {
         this.molecule = molecule;
         this.bondAngle = bondAngle;
         this.atomNode = atomNode;
-        this.indicatorNode = indicatorNode;
+        this.arrowsNode = arrowsNode;
+    }
+
+    // make arrows visible only on mouse enter if the button1 isn't pressed
+    @Override public void mouseEntered( PInputEvent event ) {
+        super.mouseEntered( event );
+        atomNode.moveToFront();
+        arrowsNode.moveInBackOf( atomNode );
+        if ( ( event.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK ) != InputEvent.BUTTON1_DOWN_MASK ) {
+            arrowsNode.setVisible( true );
+        }
+    }
+
+    // make arrows invisible on mouse exit
+    @Override public void mouseExited( PInputEvent event ) {
+        arrowsNode.setVisible( false );
     }
 
     @Override public void mousePressed( PInputEvent event ) {
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
-        atomNode.moveToFront();
-        indicatorNode.moveInBackOf( atomNode );
+        arrowsNode.setVisible( false );
     }
 
     @Override public void mouseReleased( PInputEvent event ) {
