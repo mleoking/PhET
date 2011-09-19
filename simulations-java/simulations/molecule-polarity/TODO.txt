@@ -18,7 +18,6 @@ DESIGN
 HIGH
 - change request: make CHF3 have same initial orientation as CHCl3
 - change request: address tiny dipoles of CH2F2
-- try different behavior for bond angle drag indicators
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 - move Jmol console to Developer menu
 - when molecule rotates due to E-field, bond angle drag indicator remains visible
@@ -34,7 +33,7 @@ LOW
 - move duplicate ClockListener in 2D models to a base class
 - look at duplicated code between BondAngleHandler and MoleculeRotationHandler
 - look for Property<T> fields that shouldn't be public
-- absorb MouseOverVisibilityHandler into BondAngleHandler
+- merge BondAngleVisibilityHandler into BondAngleHandler
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
 - simplify implementation of MPModel.updateMoleculeOrientation
 - delete TestMepCalculation
