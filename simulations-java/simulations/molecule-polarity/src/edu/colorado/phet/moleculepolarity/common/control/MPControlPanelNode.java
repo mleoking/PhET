@@ -8,7 +8,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Node that arranges control panels in a vertical stack, left justified.
+ * Node that arranges multiple "floating" control panels in a vertical stack, left justified.
  * Optional "Reset All" button is added.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

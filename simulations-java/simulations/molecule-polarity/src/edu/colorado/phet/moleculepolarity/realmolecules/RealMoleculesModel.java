@@ -17,9 +17,8 @@ import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.ImportMolecule
  */
 public class RealMoleculesModel extends MPModel {
 
-    public final Property<Molecule3D> currentMolecule;
-
-    private final ArrayList<Molecule3D> molecules;
+    private final ArrayList<Molecule3D> molecules; // the supported set of real 3D molecules
+    public final Property<Molecule3D> currentMolecule; // the molecule that is currently visible
 
     public RealMoleculesModel() {
 

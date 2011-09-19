@@ -35,7 +35,8 @@ public class DiatomicElectronDensityNode extends SurfaceNode {
      * Constructor
      *
      * @param molecule
-     * @param colors   color scheme for the surface, ordered from more to less density
+     * @param electronegativityRange
+     * @param colors                 color scheme for the surface, ordered from more to less density
      */
     public DiatomicElectronDensityNode( final DiatomicMolecule molecule, DoubleRange electronegativityRange, Color[] colors ) {
         super( molecule );

@@ -37,7 +37,8 @@ public class DiatomicElectrostaticPotentialNode extends SurfaceNode {
      * Constructor
      *
      * @param molecule
-     * @param colors   color scheme for the surface, ordered from negative to positive
+     * @param electronegativityRange
+     * @param colors                 color scheme for the surface, ordered from negative to positive
      */
     public DiatomicElectrostaticPotentialNode( final DiatomicMolecule molecule, DoubleRange electronegativityRange, Color[] colors ) {
         super( molecule );
