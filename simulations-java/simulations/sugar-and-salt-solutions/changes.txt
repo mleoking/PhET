@@ -1,3 +1,4 @@
+# 0.00.111 (56652) Sep 19, 2011
 Water tab: Fixed: Sugar partial charges checkbox does not reset
 # 0.00.110 (56649) Sep 18, 2011
 Water tab: Added partial charge display for sucrose charges
