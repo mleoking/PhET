@@ -16,7 +16,7 @@ HIGH
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 
 MEDIUM
-- delete Bond.deltaElectronegativity and rewrite BondDipoleNode
+- delete Bond.deltaElectronegativity and rewrite translation step in BondDipoleNode
 - move duplicate code in Molecule2D subclasses into base class
 - move duplicate ClockListener in 2D models to a base class
 
