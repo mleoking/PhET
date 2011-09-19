@@ -29,7 +29,7 @@ public class ScaledDoubleProperty extends Property<Double> {
         //This can cause looping notification cycles.  So we round the number to try to avoid this problem
         property.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                set( round( value ) );
+                set( round( value * scale ) );
             }
         } );
         addObserver( new VoidFunction1<Double>() {
