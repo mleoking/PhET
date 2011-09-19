@@ -13,6 +13,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for manipulating a bond angle.
+ * The atom being dragged is popped to the front.
  * A pair of arrows indicating the direction of drag are shown when the mouse enters the atom.
  * When the drag begins, these arrows are made invisible.
  *
@@ -56,21 +57,24 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
         arrowsNode.setVisible( false );
     }
 
-    @Override public void mousePressed( PInputEvent event ) {
+    @Override public void startDrag( PInputEvent event ) {
+        super.startDrag( event );
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
         arrowsNode.setVisible( false );
     }
 
-    @Override public void mouseReleased( PInputEvent event ) {
-        molecule.setDragging( false );
-    }
-
     // Drag to rotate the molecule.
-    @Override public void mouseDragged( PInputEvent event ) {
+    @Override public void drag( PInputEvent event ) {
+        super.drag( event );
         double angle = getAngle( event );
         bondAngle.set( bondAngle.get() + angle - previousAngle );
         previousAngle = angle;
+    }
+
+    @Override public void endDrag( PInputEvent event ) {
+        super.endDrag( event );
+        molecule.setDragging( false );
     }
 
     // Find the angle about the molecule's location.
