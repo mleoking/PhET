@@ -19,7 +19,6 @@ HIGH
 MEDIUM
 - play area visibly resizes at startup
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
-- DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
 - move duplicate code in Molecule2D subclasses into base class
 
 LOW
