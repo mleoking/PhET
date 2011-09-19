@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.game.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
@@ -25,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -38,23 +36,18 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class MassValueEntryNode extends PNode {
 
     private static final Font TEXT_FONT = new PhetFont( 18 );
-    private static final int BORDER_THICKNESS = 2;
     private static final int ANSWER_ENTRY_FIELD_COLUMNS = 12;
-    private static final Color BACKGROUND_COLOR = Color.YELLOW;
+    private static final Color BACKGROUND_COLOR = new Color( 234, 234, 174 );
 
     private final JFormattedTextField numberEntryField;
     private final BalanceGameModel model;
+    private TextButtonNode checkAnswerButton;
 
     /**
      * Constructor.
      */
     public MassValueEntryNode( final BalanceGameModel balanceGameModel ) {
         this.model = balanceGameModel;
-
-        // Create the background.
-        PPath background = new PPath();
-        background.setStroke( new BasicStroke( BORDER_THICKNESS ) );
-        background.setPaint( BACKGROUND_COLOR );
 
         // Add the textual prompt at the top.
         // TODO: i18n
@@ -80,11 +73,10 @@ public class MassValueEntryNode extends PNode {
 
         // Wrap the value entry panel in a PSwing.
         PSwing valueEntryPSwing = new PSwing( numericalValueEntryPanel );
-        background.addChild( valueEntryPSwing );
 
         // Create the button for checking the answer.
         // TODO: i18n
-        final TextButtonNode checkAnswerButton = new TextButtonNode( "Check Answer", new PhetFont( 20 ), Color.YELLOW );
+        checkAnswerButton = new TextButtonNode( "Check Answer", new PhetFont( 20 ), Color.YELLOW );
 
         // Register to send the user's guess when the button is pushed.
         checkAnswerButton.addActionListener( new ActionListener() {
@@ -94,7 +86,7 @@ public class MassValueEntryNode extends PNode {
         } );
 
         // Lay out the node.
-        addChild( new ControlPanelNode( new VBox( 10, new HBox( prompt, valueEntryPSwing ), checkAnswerButton ) ) );
+        addChild( new ControlPanelNode( new VBox( 10, new HBox( prompt, valueEntryPSwing ), checkAnswerButton ), BACKGROUND_COLOR ) );
     }
 
     /**
@@ -117,8 +109,22 @@ public class MassValueEntryNode extends PNode {
         model.checkAnswer( value );
     }
 
+    private static class DisplayAnswerNode extends PNode {
+
+        /**
+         * Constructor.
+         */
+        public DisplayAnswerNode( final BalanceGameModel balanceGameModel ) {
+            MassValueEntryNode massValueEntryNode = new MassValueEntryNode( balanceGameModel );
+            addChild( massValueEntryNode );
+            massValueEntryNode.checkAnswerButton.setEnabled( false );
+            massValueEntryNode.numberEntryField.setText( "Fix This - should display correct mass." );
+            massValueEntryNode.numberEntryField.setEnabled( false );
+        }
+    }
+
     /**
-     * Main routine that constructs a PhET Piccolo canvas in a window.
+     * Test harness.
      *
      * @param args
      */
@@ -135,7 +141,12 @@ public class MassValueEntryNode extends PNode {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new MassValueEntryNode( new BalanceGameModel() ) );
+        canvas.getLayer().addChild( new MassValueEntryNode( new BalanceGameModel() ) {{
+            setOffset( 10, 10 );
+        }} );
+        canvas.getLayer().addChild( new DisplayAnswerNode( new BalanceGameModel() ) {{
+            setOffset( 10, 150 );
+        }} );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
