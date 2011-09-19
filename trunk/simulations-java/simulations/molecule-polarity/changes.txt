@@ -1,3 +1,4 @@
+9/19/11 generalize algorithm for computing molecular dipole, move to base class
 9/19/11 move 2D molecular dipole to base class
 9/19/11 first pass at a base class for 2D molecules
 9/19/11 fix incorrect usages of "isosurface" terminology
