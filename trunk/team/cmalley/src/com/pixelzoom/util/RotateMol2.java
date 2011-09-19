@@ -8,7 +8,7 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 
 /**
- * Utility for rotating 3D points using a multi-step rotation.
+ * Utility for rotating 3D points from a mol2 file, using a multi-step rotation.
  * Rotation about one axis is performed at a time.
  * This makes it easier to visualize and describe the desired transform.
  * <p/>
@@ -16,7 +16,7 @@ import com.jme3.math.Vector3f;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RotatePoints3D {
+public class RotateMol2 {
 
     public static void main( String[] args ) {
 
@@ -36,8 +36,8 @@ public class RotatePoints3D {
                 new Transform( new Quaternion( new float[] { (float) Math.toRadians( 25 ), 0, 0 } ) ),
         };
 
-        // apply transforms and print new coordinates
-        DecimalFormat format = new DecimalFormat( "0.000000000" ); // ala Spartan mol2 files
+        // apply transforms and print new coordinates, ala mol2 format
+        DecimalFormat format = new DecimalFormat( "0.000000000" );
         for ( Vector3f vector : vectors ) {
             Vector3f result = new Vector3f( vector );
             for ( Transform transform : transforms ) {
