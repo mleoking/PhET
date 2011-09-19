@@ -1,3 +1,4 @@
+9/9/11 delete unused TestMepCalculation
 9/19/11 make MoleculeRotationHandler extend PDragSequenceEventHandler
 9/19/11 change request: make CHF3 have same initial orientation as CHCl3
 9/19/11 rename BondAngleDragIndicatorNode to BondAngleArrowsNode

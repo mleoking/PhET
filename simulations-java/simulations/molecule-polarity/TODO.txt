@@ -4,9 +4,6 @@ DEADLINES
 - Nov 7: ready for use in Susan's class
 
 DESIGN
-- location of bond dipoles relative to bonds
-- location of molecular dipoles relative to molecules
-- should locations of dipoles be consistent between 2D and Jmol?
 - better label for "Electron Density"
 - Jack: concern about showing ball-and-stick representation at all times? (address by dropping Bond Type indicator)
 - Jack: partial charges are sometimes very small, will students see them?
@@ -28,11 +25,9 @@ MEDIUM
 
 LOW
 - move duplicate ClockListener in 2D models to a base class
-- look at duplicated code between BondAngleHandler and MoleculeRotationHandler
 - look for Property<T> fields that shouldn't be public
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
 - simplify implementation of MPModel.updateMoleculeOrientation
-- delete TestMepCalculation
 - delete unneeded keep statements from molecule-polarity.pro
 - move RotatePoints3D someplace better
 
