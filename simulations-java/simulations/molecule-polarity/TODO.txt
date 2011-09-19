@@ -26,7 +26,6 @@ LOW
 - move duplicate ClockListener in 2D models to a base class
 - look for Property<T> fields that shouldn't be public
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
-- simplify implementation of MPModel.updateMoleculeOrientation
 - move RotatePoints3D someplace better
 
 BEFORE PUBLISHING
