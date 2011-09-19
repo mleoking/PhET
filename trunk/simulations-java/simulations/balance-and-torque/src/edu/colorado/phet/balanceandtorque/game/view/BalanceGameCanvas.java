@@ -277,7 +277,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         massValueEntryNode = new MassValueEntryNode( model );
         rootNode.addChild( massValueEntryNode );
         massValueAnswerNode = new MassValueEntryNode.DisplayAnswerNode( model );
-        rootNode.addChild( massValueEntryNode );
+        rootNode.addChild( massValueAnswerNode );
         massValueEntryNode.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
         massValueAnswerNode.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
 
@@ -410,7 +410,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
             else {
                 show( checkAnswerButton );
             }
-            showChallenge();
+            showChallengeGraphics();
 
             // Set the challenge layer to be interactive so that the user can
             // manipulate the masses.
@@ -421,24 +421,25 @@ public class BalanceGameCanvas extends PhetPCanvas {
             GAME_AUDIO_PLAYER.correctAnswer();
             smilingFace.setScore( model.getChallengeCurrentPointValue() );
             show( scoreboard, nextChallengeButton, smilingFace );
-            showChallenge();
+            showChallengeGraphics();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN ) {
             GAME_AUDIO_PLAYER.wrongAnswer();
             show( scoreboard, tryAgainButton, frowningFace );
-            showChallenge();
+            showChallengeGraphics();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON ) {
             GAME_AUDIO_PLAYER.wrongAnswer();
             show( scoreboard, displayCorrectAnswerButton, frowningFace );
-            showChallenge();
+            showChallengeGraphics();
         }
         else if ( newState == DISPLAYING_CORRECT_ANSWER ) {
             show( scoreboard, nextChallengeButton );
             if ( model.getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog ) {
+                massValueAnswerNode.update();
                 show( massValueAnswerNode );
             }
-            showChallenge();
+            showChallengeGraphics();
         }
         else if ( newState == SHOWING_GAME_RESULTS ) {
             if ( model.getScoreProperty().get() == model.getMaximumPossibleScore() ) {
@@ -468,9 +469,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }
 
     /**
-     * Show the graphics for this challenge, i.e. the plank, fulcrum, etc.
+     * Show the graphic model elements for this challenge, i.e. the plank,
+     * fulcrum, etc.
      */
-    private void showChallenge() {
+    private void showChallengeGraphics() {
         challengeLayer.setVisible( true );
         controlLayer.setVisible( true );
 
