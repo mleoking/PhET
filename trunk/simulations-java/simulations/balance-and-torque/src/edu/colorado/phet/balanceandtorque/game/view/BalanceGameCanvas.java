@@ -405,6 +405,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
             updateTitle();
             show( scoreboard, titleNode );
             if ( model.getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog ) {
+                massValueEntryNode.clear();
                 show( massValueEntryNode );
             }
             else {
