@@ -265,23 +265,21 @@ public class BalanceGameCanvas extends PhetPCanvas {
         titleNode = new PNode();
         rootNode.addChild( titleNode );
 
-        // Add the dialog node that is used in some challenges to enable the
-        // user to submit specific mass values.
-        massValueEntryNode = new MassValueEntryNode( model );
-        rootNode.addChild( massValueEntryNode );
-        massValueAnswerNode = new MassValueEntryNode.DisplayAnswerNode( model );
-        rootNode.addChild( massValueEntryNode );
-        Point2D massDialogOffset = new Point2D.Double( mvt.modelToViewX( 0 ) - massValueEntryNode.getFullBoundsReference().width / 2,
-                                                       mvt.modelToViewY( model.getPlank().getPivotPoint().getY() ) - massValueEntryNode.getFullBounds().height - 20 );
-        massValueEntryNode.setOffset( massDialogOffset );
-        massValueAnswerNode.setOffset( massDialogOffset );
-
         // Position and add the smiley and frowny faces.
         Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ), FACE_DIAMETER / 2 + 20 );
         smilingFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
         frowningFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
         rootNode.addChild( smilingFace );
         rootNode.addChild( frowningFace );
+
+        // Add the dialog node that is used in some challenges to enable the
+        // user to submit specific mass values.
+        massValueEntryNode = new MassValueEntryNode( model );
+        rootNode.addChild( massValueEntryNode );
+        massValueAnswerNode = new MassValueEntryNode.DisplayAnswerNode( model );
+        rootNode.addChild( massValueEntryNode );
+        massValueEntryNode.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
+        massValueAnswerNode.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
 
         // Add and lay out the buttons.
         checkAnswerButton.centerFullBoundsOnPoint( mvt.modelToViewX( 0 ), mvt.modelToViewY( 0 ) + 40 );
