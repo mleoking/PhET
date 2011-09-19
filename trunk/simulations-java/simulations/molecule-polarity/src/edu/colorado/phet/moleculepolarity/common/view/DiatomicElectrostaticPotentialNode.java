@@ -73,7 +73,7 @@ public class DiatomicElectrostaticPotentialNode extends SurfaceNode {
         updatePaint();
     }
 
-    // Updates the shape of the isosurface.
+    // Updates the shape of the surface.
     private void updateShape() {
 
         // surround each atom with a cloud
@@ -92,7 +92,7 @@ public class DiatomicElectrostaticPotentialNode extends SurfaceNode {
         pathNodeB.setPathTo( ShapeUtils.subtract( cloudB, clipB ) );
     }
 
-    // Updates the Paints uses to color the isosurface. Width of the gradients expands as the difference in EN approaches zero.
+    // Updates the Paints uses to color the surface. Width of the gradients expands as the difference in EN approaches zero.
     private void updatePaint() {
         final double deltaEN = molecule.atomB.electronegativity.get() - molecule.atomA.electronegativity.get();
         if ( deltaEN == 0 ) {
@@ -103,7 +103,7 @@ public class DiatomicElectrostaticPotentialNode extends SurfaceNode {
         else {
             final double scale = Math.abs( deltaEN / electronegativityRange.getLength() );
 
-            // width of the isosurface
+            // width of the surface
             final double surfaceWidth = molecule.bond.getLength() + ( DIAMETER_SCALE * molecule.atomA.getDiameter() / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() / 2 );
 
             // compute the gradient width

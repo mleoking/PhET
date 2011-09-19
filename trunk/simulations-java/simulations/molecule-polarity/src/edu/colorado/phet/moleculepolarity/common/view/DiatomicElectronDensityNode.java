@@ -65,12 +65,12 @@ public class DiatomicElectronDensityNode extends SurfaceNode {
         updatePaint();
     }
 
-    // Updates the shape of the isosurface, 2 circles combined using constructive area geometry.
+    // Updates the shape of the surface, 2 circles combined using constructive area geometry.
     private void updateShape() {
         pathNode.setPathTo( ShapeUtils.add( createCloudShape( molecule.atomA, DIAMETER_SCALE ), createCloudShape( molecule.atomB, DIAMETER_SCALE ) ) );
     }
 
-    // Updates the Paint used to color the isosurface. Width of the gradient expands as the difference in EN approaches zero.
+    // Updates the Paint used to color the surface. Width of the gradient expands as the difference in EN approaches zero.
     private void updatePaint() {
 
         // scale varies from 1 to 0, approaches zero as EN difference approaches zero.
@@ -82,7 +82,7 @@ public class DiatomicElectronDensityNode extends SurfaceNode {
         else {
             final double scale = Math.abs( deltaEN / electronegativityRange.getLength() );
 
-            // width of the isosurface
+            // width of the surface
             final double surfaceWidth = molecule.bond.getLength() + ( DIAMETER_SCALE * molecule.atomA.getDiameter() / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() / 2 );
 
             // compute the gradient width

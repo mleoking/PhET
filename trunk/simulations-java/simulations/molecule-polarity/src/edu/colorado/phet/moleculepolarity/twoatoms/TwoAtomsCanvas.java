@@ -56,7 +56,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
         PNode controlPanelNode = new MPControlPanelNode( parentFrame, new Resettable[] { model, viewProperties },
                                                          new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE ),
-                                                         new SurfaceControlPanel( viewProperties.isosurfaceType ),
+                                                         new SurfaceControlPanel( viewProperties.surfaceType ),
                                                          new EFieldControlPanel( model.eField.enabled ) );
 
         // rendering order
@@ -123,11 +123,11 @@ public class TwoAtomsCanvas extends MPCanvas {
                 }
             } );
 
-            viewProperties.isosurfaceType.addObserver( new VoidFunction1<SurfaceType>() {
-                public void apply( SurfaceType isosurfaceType ) {
-                    electrostaticPotentialNode.setVisible( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL );
+            viewProperties.surfaceType.addObserver( new VoidFunction1<SurfaceType>() {
+                public void apply( SurfaceType surfaceType ) {
+                    electrostaticPotentialNode.setVisible( surfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL );
                     electrostaticPotentialColorKeyNode.setVisible( electrostaticPotentialNode.getVisible() );
-                    electronDensityNode.setVisible( isosurfaceType == SurfaceType.ELECTRON_DENSITY );
+                    electronDensityNode.setVisible( surfaceType == SurfaceType.ELECTRON_DENSITY );
                     electronDensityColorKeyNode.setVisible( electronDensityNode.getVisible() );
                 }
             } );

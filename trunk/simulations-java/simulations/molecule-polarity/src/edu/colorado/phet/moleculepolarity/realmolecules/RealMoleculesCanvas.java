@@ -45,7 +45,7 @@ public class RealMoleculesCanvas extends MPCanvas {
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
         PNode controlPanelNode = new MPControlPanelNode( parentFrame, new Resettable[] { model, viewProperties },
                                                          new ViewControlPanel( viewProperties, true, false, true, true, MPStrings.BOND_DIPOLES ),
-                                                         new SurfaceControlPanel( viewProperties.isosurfaceType ) );
+                                                         new SurfaceControlPanel( viewProperties.surfaceType ) );
 
         // rendering order
         {
@@ -118,20 +118,20 @@ public class RealMoleculesCanvas extends MPCanvas {
                 }
             } );
 
-            viewProperties.isosurfaceType.addObserver( new VoidFunction1<SurfaceType>() {
-                public void apply( SurfaceType isosurfaceType ) {
-                    viewerNode.setIsosurfaceType( isosurfaceType );
+            viewProperties.surfaceType.addObserver( new VoidFunction1<SurfaceType>() {
+                public void apply( SurfaceType surfaceType ) {
+                    viewerNode.setSurfaceType( surfaceType );
                 }
             } );
 
             RichSimpleObserver colorKeyUpdater = new RichSimpleObserver() {
                 public void update() {
-                    electrostaticPotentialColorKeyNode.setVisible( viewProperties.isosurfaceType.get() == SurfaceType.ELECTROSTATIC_POTENTIAL && !JmolViewerNode.RAINBOW_MEP.get() );
-                    rainbowColorKeyNode.setVisible( viewProperties.isosurfaceType.get() == SurfaceType.ELECTROSTATIC_POTENTIAL && JmolViewerNode.RAINBOW_MEP.get() );
-                    electronDensityColorKeyNode.setVisible( viewProperties.isosurfaceType.get() == SurfaceType.ELECTRON_DENSITY );
+                    electrostaticPotentialColorKeyNode.setVisible( viewProperties.surfaceType.get() == SurfaceType.ELECTROSTATIC_POTENTIAL && !JmolViewerNode.RAINBOW_MEP.get() );
+                    rainbowColorKeyNode.setVisible( viewProperties.surfaceType.get() == SurfaceType.ELECTROSTATIC_POTENTIAL && JmolViewerNode.RAINBOW_MEP.get() );
+                    electronDensityColorKeyNode.setVisible( viewProperties.surfaceType.get() == SurfaceType.ELECTRON_DENSITY );
                 }
             };
-            colorKeyUpdater.observe( viewProperties.isosurfaceType, JmolViewerNode.RAINBOW_MEP );
+            colorKeyUpdater.observe( viewProperties.surfaceType, JmolViewerNode.RAINBOW_MEP );
         }
     }
 }

@@ -1,3 +1,4 @@
+9/19/11 fix incorrect usages of "isosurface" terminology
 9/19/11 create a base class for 2D surface nodes
 9/19/11 delete unneeded keep statements from molecule-polarity.pro (for file format readers that we're not using)
 9/19/11 delete unused TestMepCalculation

@@ -15,7 +15,7 @@ public class ViewProperties implements Resettable {
 
     public static enum SurfaceType {NONE, ELECTROSTATIC_POTENTIAL, ELECTRON_DENSITY}
 
-    public final Property<SurfaceType> isosurfaceType;
+    public final Property<SurfaceType> surfaceType;
     public final Property<Boolean> bondDipolesVisible;
     public final Property<Boolean> molecularDipoleVisible;
     public final Property<Boolean> partialChargesVisible;
@@ -23,10 +23,10 @@ public class ViewProperties implements Resettable {
     public final Property<Boolean> atomLabelsVisible;
     public final Property<Boolean> electronegativityTableVisible;
 
-    public ViewProperties( SurfaceType isosurfaceType, boolean bondDipolesVisible, boolean molecularDipoleVisible,
+    public ViewProperties( SurfaceType surfaceType, boolean bondDipolesVisible, boolean molecularDipoleVisible,
                            boolean partialChargesVisible, boolean bondTypeVisible, boolean atomLabelsVisible,
                            boolean electronegativityTableVisible ) {
-        this.isosurfaceType = new Property<SurfaceType>( isosurfaceType );
+        this.surfaceType = new Property<SurfaceType>( surfaceType );
         this.bondDipolesVisible = new Property<Boolean>( bondDipolesVisible );
         this.molecularDipoleVisible = new Property<Boolean>( molecularDipoleVisible );
         this.partialChargesVisible = new Property<Boolean>( partialChargesVisible );
@@ -36,7 +36,7 @@ public class ViewProperties implements Resettable {
     }
 
     public void reset() {
-        isosurfaceType.reset();
+        surfaceType.reset();
         bondDipolesVisible.reset();
         molecularDipoleVisible.reset();
         partialChargesVisible.reset();
