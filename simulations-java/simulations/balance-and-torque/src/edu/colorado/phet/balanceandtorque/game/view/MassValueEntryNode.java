@@ -66,10 +66,10 @@ public class MassValueEntryNode extends PNode {
         numberEntryField.setBorder( BorderFactory.createEtchedBorder() );
         numericalValueEntryPanel.add( numberEntryField );
 
-        // Add a handler to catch when the user hits the "Check Answer" key.
+        // Add a handler for the case where the user presses the Enter key.
         numberEntryField.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent arg0 ) {
-                balanceGameModel.checkAnswer( (Double) numberEntryField.getValue() );
+                submitProposedAnswer();
             }
         } );
 
@@ -130,7 +130,7 @@ public class MassValueEntryNode extends PNode {
         public DisplayAnswerNode( final BalanceGameModel balanceGameModel ) {
             massValueEntryNode = new MassValueEntryNode( balanceGameModel );
             addChild( massValueEntryNode );
-            massValueEntryNode.checkAnswerButton.setEnabled( false );
+            massValueEntryNode.checkAnswerButton.setVisible( false );
             massValueEntryNode.numberEntryField.setEnabled( false );
             update();
         }
