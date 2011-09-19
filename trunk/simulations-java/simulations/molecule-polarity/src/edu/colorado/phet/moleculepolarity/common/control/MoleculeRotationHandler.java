@@ -4,7 +4,7 @@ package edu.colorado.phet.moleculepolarity.common.control;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MoleculeRotationHandler extends PBasicInputEventHandler {
+public class MoleculeRotationHandler extends PDragSequenceEventHandler {
 
     private final IMolecule molecule;
     private final PNode dragNode;
@@ -24,17 +24,20 @@ public class MoleculeRotationHandler extends PBasicInputEventHandler {
         this.dragNode = dragNode;
     }
 
-    @Override public void mousePressed( PInputEvent event ) {
+    @Override public void startDrag( PInputEvent event ) {
+        super.startDrag( event );
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
     }
 
-    @Override public void mouseReleased( PInputEvent event ) {
+    @Override public void endDrag( PInputEvent event ) {
+        super.endDrag( event );
         molecule.setDragging( false );
     }
 
     // Drag to rotate the molecule.
-    @Override public void mouseDragged( PInputEvent event ) {
+    @Override public void drag( PInputEvent event ) {
+        super.drag( event );
         double angle = getAngle( event );
         molecule.setAngle( molecule.getAngle() + angle - previousAngle );
         previousAngle = angle;
