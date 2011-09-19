@@ -3,7 +3,6 @@ package edu.colorado.phet.moleculepolarity.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -23,7 +22,6 @@ public class DiatomicMolecule extends Molecule2D {
 
     public final Atom atomA, atomB; // the atoms labeled A and B
     public final Bond bond; // the bond connecting atoms A and B
-    public final Property<ImmutableVector2D> dipole; // the molecular dipole
 
     public DiatomicMolecule( ImmutableVector2D location, double angle ) {
         super( location, angle );
@@ -31,7 +29,6 @@ public class DiatomicMolecule extends Molecule2D {
         atomA = new Atom( MPStrings.A, ATOM_DIAMETER, MPColors.ATOM_A, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
         atomB = new Atom( MPStrings.B, ATOM_DIAMETER, MPColors.ATOM_B, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
         bond = new Bond( atomA, atomB );
-        dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
         // update atom locations
         this.angle.addObserver( new VoidFunction1<Double>() {
@@ -63,14 +60,6 @@ public class DiatomicMolecule extends Molecule2D {
         super.reset();
         atomA.reset();
         atomB.reset();
-    }
-
-    public ImmutableVector2D getDipole() {
-        return dipole.get();
-    }
-
-    public void addDipoleObserver( SimpleObserver observer ) {
-        dipole.addObserver( observer );
     }
 
     public Atom[] getAtoms() {

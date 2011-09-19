@@ -26,10 +26,10 @@ public abstract class MPModel implements Resettable {
 
         // magnitude of angular velocity is proportional to molecular dipole magnitude
         LinearFunction angularVelocityFunction = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, Math.toRadians( 10 ) );
-        final double deltaDipoleAngle = Math.abs( angularVelocityFunction.evaluate( molecule.getDipole().getMagnitude() ) );
+        final double deltaDipoleAngle = Math.abs( angularVelocityFunction.evaluate( molecule.dipole.get().getMagnitude() ) );
 
         // convert angle to range [0,2*PI)
-        final double dipoleAngle = normalizeAngle( molecule.getDipole().getAngle() );
+        final double dipoleAngle = normalizeAngle( molecule.dipole.get().getAngle() );
 
         // move the molecular dipole one step towards alignment with the E-field
         double newDipoleAngle = dipoleAngle;
