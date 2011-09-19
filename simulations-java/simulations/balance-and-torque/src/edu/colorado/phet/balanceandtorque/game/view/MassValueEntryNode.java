@@ -38,7 +38,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class MassValueEntryNode extends PNode {
 
     private static final Font TEXT_FONT = new PhetFont( 18 );
-    private static final int ANSWER_ENTRY_FIELD_COLUMNS = 12;
+    private static final int ANSWER_ENTRY_FIELD_COLUMNS = 8;
     private static final Color BACKGROUND_COLOR = new Color( 234, 234, 174 );
 
     private final JFormattedTextField numberEntryField;
@@ -51,7 +51,7 @@ public class MassValueEntryNode extends PNode {
     public MassValueEntryNode( final BalanceGameModel balanceGameModel ) {
         this.model = balanceGameModel;
 
-        // Add the textual prompt at the top.
+        // Add the textual prompt.
         // TODO: i18n
         PText prompt = new PText( "Mass = " );
         prompt.setFont( TEXT_FONT );
@@ -65,6 +65,11 @@ public class MassValueEntryNode extends PNode {
         numberEntryField.setFont( TEXT_FONT );
         numberEntryField.setBorder( BorderFactory.createEtchedBorder() );
         numericalValueEntryPanel.add( numberEntryField );
+
+        // Add the units label.
+        // TODO: i18n
+        PText unitsLabel = new PText( "kg" );
+        unitsLabel.setFont( TEXT_FONT );
 
         // Add a handler for the case where the user presses the Enter key.
         numberEntryField.addActionListener( new ActionListener() {
@@ -88,7 +93,7 @@ public class MassValueEntryNode extends PNode {
         } );
 
         // Lay out the node.
-        addChild( new ControlPanelNode( new VBox( 10, new HBox( prompt, valueEntryPSwing ), checkAnswerButton ), BACKGROUND_COLOR ) );
+        addChild( new ControlPanelNode( new VBox( 10, new HBox( 5, prompt, valueEntryPSwing, unitsLabel ), checkAnswerButton ), BACKGROUND_COLOR ) );
     }
 
     /**
