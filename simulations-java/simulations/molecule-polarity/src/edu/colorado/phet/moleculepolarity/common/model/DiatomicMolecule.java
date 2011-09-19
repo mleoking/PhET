@@ -56,14 +56,12 @@ public class DiatomicMolecule extends Molecule2D {
         enObserver.observe( atomA.electronegativity, atomB.electronegativity );
     }
 
-    public void reset() {
-        super.reset();
-        atomA.reset();
-        atomB.reset();
-    }
-
     public Atom[] getAtoms() {
         return new Atom[] { atomA, atomB };
+    }
+
+    public Bond[] getBonds() {
+        return new Bond[] { bond };
     }
 
     // repositions the atoms
@@ -77,10 +75,5 @@ public class DiatomicMolecule extends Molecule2D {
         double xB = PolarCartesianConverter.getX( radius, angle ) + location.getX();
         double yB = PolarCartesianConverter.getY( radius, angle ) + location.getY();
         atomB.location.set( new ImmutableVector2D( xB, yB ) );
-    }
-
-    // molecular dipole is identical to the bond dipole
-    private void updateMolecularDipole() {
-        dipole.set( bond.dipole.get() );
     }
 }

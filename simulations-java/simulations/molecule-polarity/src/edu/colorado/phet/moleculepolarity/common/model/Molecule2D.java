@@ -26,6 +26,9 @@ public abstract class Molecule2D {
 
     public void reset() {
         angle.reset();
+        for ( Atom atom : getAtoms() ) {
+            atom.reset();
+        }
     }
 
     // tells the atom whether it's being dragged
@@ -40,4 +43,16 @@ public abstract class Molecule2D {
 
     // gets an array of the molecule's atoms
     public abstract Atom[] getAtoms();
+
+    // gets and array of the molecule's bonds
+    public abstract Bond[] getBonds();
+
+    // molecular dipole is the vector sum of the bond dipoles
+    protected void updateMolecularDipole() {
+        ImmutableVector2D sum = new ImmutableVector2D();
+        for ( Bond bond : getBonds() ) {
+            sum = sum.plus( bond.dipole.get() );
+        }
+        dipole.set( sum );
+    }
 }

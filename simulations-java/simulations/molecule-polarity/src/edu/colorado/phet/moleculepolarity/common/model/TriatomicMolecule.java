@@ -69,15 +69,16 @@ public class TriatomicMolecule extends Molecule2D {
 
     public void reset() {
         super.reset();
-        atomA.reset();
-        atomB.reset();
-        atomC.reset();
         bondAngleA.reset();
         bondAngleC.reset();
     }
 
     public Atom[] getAtoms() {
         return new Atom[] { atomA, atomB, atomC };
+    }
+
+    public Bond[] getBonds() {
+        return new Bond[] { bondAB, bondBC };
     }
 
     // repositions the atoms
@@ -95,10 +96,5 @@ public class TriatomicMolecule extends Molecule2D {
         double xC = PolarCartesianConverter.getX( radius, thetaC ) + location.getX();
         double yC = PolarCartesianConverter.getY( radius, thetaC ) + location.getY();
         atomC.location.set( new ImmutableVector2D( xC, yC ) );
-    }
-
-    // molecular dipole is the sum of the bond dipoles
-    private void updateMolecularDipole() {
-        dipole.set( bondAB.dipole.get().plus( bondBC.dipole.get() ) );
     }
 }
