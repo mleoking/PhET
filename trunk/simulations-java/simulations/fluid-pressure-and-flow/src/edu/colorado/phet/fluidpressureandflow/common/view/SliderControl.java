@@ -19,6 +19,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
+
 /**
  * @author Sam Reid
  */
@@ -26,7 +28,7 @@ public class SliderControl extends PNode {
 
     public final HTMLNode unitsNode;
 
-    public SliderControl( String title, String units, double min, double max, final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
+    public SliderControl( String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
         //Even though we only use the slider component of this linear value control, it is easier to create the whole LinearValueControl so that
         //We can use its facilities for settings ticks.
         //A better design would have been to move tick mark functionality to LinearSlider so we could just us it directly, see #2837
@@ -51,7 +53,9 @@ public class SliderControl extends PNode {
                 } );
                 property.addObserver( new SimpleObserver() {
                     public void update() {
-                        setValue( property.get() );
+
+                        //Since ScaledDoubleProperty is rounded, values can get slightly outside min and max, so clamp here
+                        setValue( clamp( min, property.get(), max ) );
                     }
                 } );
             }
