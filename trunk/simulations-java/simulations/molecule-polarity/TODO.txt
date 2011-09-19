@@ -17,7 +17,6 @@ HIGH
 - move Jmol console to Developer menu
 
 MEDIUM
-- create a base class for DiatomicElectronDensityNode and DiatomicElectrostaticPotentialNode
 - play area visibly resizes at startup
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 - DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
@@ -40,6 +39,5 @@ BEFORE PUBLISHING
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
 - VerticalSliderDragHandler (from capacitor-lab, needs generalization?)
-- PolarImmutableVector2D
 - RotateCursorHandler and associated image
 - Molecule3D.toSubscript
