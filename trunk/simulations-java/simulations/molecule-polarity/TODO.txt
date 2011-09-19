@@ -16,7 +16,6 @@ DESIGN
 - CH2F2 and CHCl3 have tiny bond dipoles, is this an issue?
 
 HIGH
-- change request: make CHF3 have same initial orientation as CHCl3
 - change request: address tiny dipoles of CH2F2
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 - move Jmol console to Developer menu

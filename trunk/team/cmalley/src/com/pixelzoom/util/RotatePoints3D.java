@@ -22,11 +22,11 @@ public class RotatePoints3D {
 
         // put (x,y,z) coordinates of the points you want to rotate here
         Vector3f[] vectors = new Vector3f[] {
-                new Vector3f( 0.000000000f, 0.000000000f, 0.471084213f ),
-                new Vector3f( 1.705662780f, 0.000000000f, -0.067122716f ),
-                new Vector3f( -0.852831390f, -1.477147271f, -0.067122716f ),
-                new Vector3f( -0.852831390f, 1.477147271f, -0.067122716f ),
-                new Vector3f( 0.000000000f, 0.000000000f, 1.556696597f )
+                new Vector3f( 0.000000000f, 0.000000000f, 0.338383767f ),
+                new Vector3f( 1.257790333f, 0.000000000f, -0.129111197f ),
+                new Vector3f( -0.628895167f, -1.089278363f, -0.129111197f ),
+                new Vector3f( -0.628895167f, 1.089278363f, -0.129111197f ),
+                new Vector3f( 0.000000000f, 0.000000000f, 1.431213754f )
         };
 
         // describe the rotation steps here, one axis at a time
