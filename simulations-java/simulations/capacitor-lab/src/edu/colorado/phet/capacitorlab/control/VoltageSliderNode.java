@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
@@ -11,7 +14,6 @@ import java.text.NumberFormat;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.drag.VerticalSliderDragHandler;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -20,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.ImageHighlightHandler;
+import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -131,13 +134,13 @@ public class VoltageSliderNode extends PhetPNode {
     }
 
     // Drag handler for the knob, snaps to zero.
-    public static class KnobDragHandler extends VerticalSliderDragHandler {
+    public static class KnobDragHandler extends SliderThumbDragHandler {
 
         private final double snapThreshold; // slider snaps to zero when model value is <= this threshold
 
         // see superclass for constructor params
         public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
-            super( relativeNode, trackNode, knobNode, range, updateFunction );
+            super( Orientation.VERTICAL, relativeNode, trackNode, knobNode, range, updateFunction );
             this.snapThreshold = snapThreshold;
         }
 
