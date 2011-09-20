@@ -12,9 +12,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  */
 public class MPImages {
 
-    private MPImages() {
-    }
-
     private static final PhetResources RESOURCES = new PhetResources( MPConstants.PROJECT_NAME );
 
     public static final BufferedImage ROTATE_CURSOR = RESOURCES.getImage( "rotate_cursor.gif" );

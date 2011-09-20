@@ -15,10 +15,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MPConstants {
 
-    /* Not intended for instantiation. */
-    private MPConstants() {
-    }
-
     public static final String PROJECT_NAME = "molecule-polarity";
 
     // Model
