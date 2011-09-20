@@ -21,7 +21,11 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PeriodicTableDialog extends JDialog {
 
+    //Color for metals in the periodic table. darker light-gray.  Chosen to make visible on the projector and work well for colorblindness (deuteranope and protanope) and contrast with non-metals
     public static final Color METAL_COLOR = new Color( 160, 160, 160 );
+
+    //Color for nonmetals in the periodic table. Brighter pink.  Chosen to make visible on the projector and work well for colorblindness (deuteranope and protanope) and contrast with metals
+    public static final Color NON_METAL_COLOR = new Color( 255, 195, 195 );
 
     public PeriodicTableDialog( final Property<DispenserType> dispenser, final SugarAndSaltSolutionsColorScheme colorScheme, PhetFrame parentFrame ) {
         super( parentFrame );

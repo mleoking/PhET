@@ -18,8 +18,8 @@ import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.ElementCell;
 
 import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog.NON_METAL_COLOR;
 import static java.awt.Color.black;
-import static java.awt.Color.pink;
 
 /**
  * Rules for painting metal Elements in the periodic table differently than nonmetals since that is a major learning goal of this tab.
@@ -50,7 +50,7 @@ public class HighlightMetals implements CellFactory {
     //Create a cell based on metal vs nonmetal and selected vs unselected
     public ElementCell createCellForElement( final int atomicNumberOfCell, Color backgroundColor ) {
         final boolean selected = selectedAtomicMasses.contains( atomicNumberOfCell );
-        final Color background = nonmetals.contains( atomicNumberOfCell ) ? pink : backgroundColor;
+        final Color background = nonmetals.contains( atomicNumberOfCell ) ? NON_METAL_COLOR : backgroundColor;
         final PhetFont font = selected ? new PhetFont( PhetFont.getDefaultFontSize(), true ) : new PhetFont( 12 );
         final Stroke stroke = selected ? new BasicStroke( 3 ) : new BasicStroke( 1 );
         final Color strokeColor = selected ? RED_COLORBLIND : black;
