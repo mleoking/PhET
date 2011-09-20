@@ -19,7 +19,6 @@ MEDIUM
 - delete Bond.deltaElectronegativity, rewrite setComponentX and translate steps in BondDipoleNode
 
 LOW
-- move Jmol console to Developer menu
 - play area visibly resizes at startup
 - look for Property<T> fields that shouldn't be public
 - move RotateMol2 someplace better

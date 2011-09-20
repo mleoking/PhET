@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
+import edu.colorado.phet.moleculepolarity.developer.JmolConsoleMenuItem;
 import edu.colorado.phet.moleculepolarity.realmolecules.RealMoleculesModule;
 import edu.colorado.phet.moleculepolarity.threeatoms.ThreeAtomsModule;
 import edu.colorado.phet.moleculepolarity.twoatoms.TwoAtomsModule;
@@ -31,7 +32,8 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
         // modules
         addModule( new TwoAtomsModule( parentFrame ) );
         addModule( new ThreeAtomsModule( parentFrame ) );
-        addModule( new RealMoleculesModule( parentFrame ) );
+        final RealMoleculesModule realMoleculesModule = new RealMoleculesModule( parentFrame );
+        addModule( realMoleculesModule );
 
         // Options menu
         parentFrame.addMenu( new OptionsMenu() {{
@@ -43,6 +45,9 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
                 } );
             }} );
         }} );
+
+        // Developer menu
+        parentFrame.getDeveloperMenu().add( new JmolConsoleMenuItem( getPhetFrame(), realMoleculesModule.getJmolViewer() ) );
     }
 
     public static void main( final String[] args ) {

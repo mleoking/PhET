@@ -4,7 +4,8 @@ package edu.colorado.phet.moleculepolarity.realmolecules;
 import java.awt.Dimension;
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import org.jmol.api.JmolViewer;
+
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -21,7 +22,6 @@ import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.Electr
 import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.RainbowElectrostaticPotentialColorKeyNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
-import edu.colorado.phet.moleculepolarity.developer.JmolScriptNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -33,11 +33,12 @@ public class RealMoleculesCanvas extends MPCanvas {
 
     private static final Dimension JMOL_VIEWER_SIZE = new Dimension( 450, 450 );
 
+    private final JmolViewerNode viewerNode;
+
     public RealMoleculesCanvas( RealMoleculesModel model, final ViewProperties viewProperties, Frame parentFrame ) {
 
         // nodes
-        final JmolViewerNode viewerNode = new JmolViewerNode( model.currentMolecule, getBackground(), JMOL_VIEWER_SIZE );
-        PNode scriptNode = new JmolScriptNode( viewerNode );
+        viewerNode = new JmolViewerNode( model.currentMolecule, getBackground(), JMOL_VIEWER_SIZE );
         final ElectronegativityTableNode electronegativityTableNode = new ElectronegativityTableNode( viewerNode );
         PNode moleculeComboBox = new MoleculeControlNode( model.getMolecules(), model.currentMolecule );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
@@ -51,9 +52,6 @@ public class RealMoleculesCanvas extends MPCanvas {
         {
             // controls
             addChild( controlPanelNode );
-            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-                addChild( scriptNode );
-            }
 
             // indicators
             addChild( electronegativityTableNode );
@@ -83,7 +81,6 @@ public class RealMoleculesCanvas extends MPCanvas {
                                                   electrostaticPotentialColorKeyNode.getFullBoundsReference().getMaxY() + 20 );
             controlPanelNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing,
                                         viewerNode.getFullBoundsReference().getCenterY() - ( controlPanelNode.getFullBoundsReference().getHeight() / 2 ) );
-            scriptNode.setOffset( controlPanelNode.getXOffset(), controlPanelNode.getFullBoundsReference().getMaxY() + 10 );
         }
 
         // synchronize with view properties
@@ -133,5 +130,9 @@ public class RealMoleculesCanvas extends MPCanvas {
             };
             colorKeyUpdater.observe( viewProperties.surfaceType, JmolViewerNode.RAINBOW_MEP );
         }
+    }
+
+    public JmolViewer getJmolViewer() {
+        return viewerNode.getViewer();
     }
 }
