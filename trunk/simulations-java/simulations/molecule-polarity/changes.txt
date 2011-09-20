@@ -1,3 +1,4 @@
+9/19/11 first pass at a reusable Jmol console component
 9/19/11 move duplicate observer code into Molecule2D base class
 9/19/11 move duplicate ClockListener into MPModel2D base class
 9/19/11 fix 2D model class hierarchy
