@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -45,9 +47,14 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             return "";
         }
     };
+    private final PNode microKitControlNode;
+
+    //Keep track of the global state to access the PhetFrame to position the Periodic Table Dialog
+    private GlobalState globalState;
 
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
         super( model, globalState, createMicroTransform( model ), true, false );
+        this.globalState = globalState;
 
         //List of the kits the user can choose from, for showing the appropriate bar charts + controls
         final KitList kitList = new KitList( model, transform );
@@ -81,10 +88,10 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                     if ( periodicTableDialog == null ) {
                         periodicTableDialog = new PeriodicTableDialog( model.dispenserType, globalState.colorScheme, globalState.frame ) {{
 
-                            //Show the periodic table dialog at the bottom right so it doesn't obscure the "solute" control panel, and still allows the user to see many particles in the beaker
+                            //Show the periodic table dialog to the left side of the window and underneath the solute control
                             Rectangle parentBounds = globalState.frame.getBounds();
-                            Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + parentBounds.getWidth() - getWidth() ),
-                                                                    (int) ( parentBounds.getMinY() + parentBounds.getHeight() - getHeight() ),
+                            Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() ),
+                                                                    (int) ( parentBounds.getMinY() + getKitControlNodeY() + INSET * 2 ),
                                                                     getWidth(), getHeight() );
                             setLocation( dialogBounds.x, dialogBounds.y );
                         }};
@@ -97,7 +104,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }};
 
         //Show the kit control node that allows the user to scroll through different kits
-        final PNode microKitControlNode = new ZeroOffsetNode( new MicroKitControlNode( model.selectedKit, model.dispenserType, periodicTableButton ) {{
+        microKitControlNode = new ZeroOffsetNode( new MicroKitControlNode( model.selectedKit, model.dispenserType, periodicTableButton ) {{
             model.addResetListener( new VoidFunction0() {
                 public void apply() {
                     kitSelectionNode.selectedKit.set( 0 );
@@ -130,6 +137,11 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         if ( debugBindingSites ) {
             addChild( new BindingSiteDebugger( transform, model ) );
         }
+    }
+
+    //Get the bottom of solute kit control node for purposes of showing the periodic table beneath it
+    private double getKitControlNodeY() {
+        return microKitControlNode.getFullBounds().getMaxY() + SwingUtilities.convertPoint( this, 0, 0, globalState.frame ).getY();
     }
 
     //If the periodic table dialog was showing when the user switched away from this tab, restore it
