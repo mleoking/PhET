@@ -25,7 +25,7 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
     private final Property<Double> bondAngle;
     private final AtomNode atomNode;
     private final BondAngleArrowsNode arrowsNode;
-    double previousAngle;
+    private double previousAngle;
 
     /**
      * Constructor.

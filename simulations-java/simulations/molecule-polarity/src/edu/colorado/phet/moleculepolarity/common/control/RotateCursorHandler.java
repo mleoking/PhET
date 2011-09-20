@@ -19,7 +19,7 @@ public class RotateCursorHandler extends CursorHandler {
     private static final Point HOT_SPOT = new Point( MPImages.ROTATE_CURSOR.getWidth() / 2, MPImages.ROTATE_CURSOR.getHeight() / 2 );
 
     // the cursor, must be 32x32 for Windows
-    public static final Cursor CURSOR = Toolkit.getDefaultToolkit().createCustomCursor( MPImages.ROTATE_CURSOR, HOT_SPOT, "rotate" );
+    private static final Cursor CURSOR = Toolkit.getDefaultToolkit().createCustomCursor( MPImages.ROTATE_CURSOR, HOT_SPOT, "rotate" );
 
     public RotateCursorHandler() {
         super( CURSOR );
