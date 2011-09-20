@@ -1,3 +1,4 @@
+9/20/11 replace HorizontalSliderDragHandler with generalized SliderDragHandler
 9/20/11 cleanup of HorizontalSliderDragHandler
 9/20/11 add dependency on chemistry common project, to use ChemUtils.toSubscript
 9/20/11 #3077, move padPreferredWidthDeep to SwingUtils
