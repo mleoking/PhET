@@ -1,4 +1,4 @@
-Micro tab: Show the periodic table dialog at the bottom right so it doesn't obscure the "solute" control panel, and still allows the user to see many particles in the beaker
+Micro tab: Show the periodic table dialog at the bottom right so it doesn't obscure the "solute" control panel, and still allows the user to a large fraction of the beaker
 # 0.00.112 (56714) Sep 19, 2011
 Micro tab: Change periodic table colors to be more protanope-friendly
 Micro tab: Change periodic table metal color to be more colorblind friendly
