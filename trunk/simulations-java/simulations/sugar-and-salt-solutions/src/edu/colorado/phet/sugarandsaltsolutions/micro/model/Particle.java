@@ -84,7 +84,7 @@ public abstract class Particle {
         updateStrategy.stepInTime( this, dt );
     }
 
-    //Gets the distace between the particles
+    //Gets the distance between the particles
     public double getDistance( Particle b ) {
         return getPosition().getDistance( b.getPosition() );
     }

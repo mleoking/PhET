@@ -21,7 +21,7 @@ public class SodiumNitrateShaker extends MicroShaker {
         super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
 
-    @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
+    @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint ) {
 
         //Attempt 100 times to randomly create a crystal with a correct balance of components
         //If no success after 100 random tries, just take the last attempt

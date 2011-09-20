@@ -20,7 +20,7 @@ public class CalciumChlorideShaker extends MicroShaker {
         super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
 
-    @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
+    @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint ) {
         model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 6 ); }} );
     }
 

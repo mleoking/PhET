@@ -23,7 +23,7 @@ public class SphericalParticleNodeWithText extends SphericalParticleNode {
     //The default "-" sign on Windows is too short, the team requested to use a longer symbol, so I switched to the unicode figure dash
     //As described on this page: http://www.fileformat.info/info/unicode/char/2012/index.htm
     //The unicode figure dash also has the benefit that it looks further away from the delta symbol
-    //These symbols are not internationalizable
+    //These symbols are not translatable
     public static final String MINUS = "\u2012";
     public static final String PLUS = "+";
 

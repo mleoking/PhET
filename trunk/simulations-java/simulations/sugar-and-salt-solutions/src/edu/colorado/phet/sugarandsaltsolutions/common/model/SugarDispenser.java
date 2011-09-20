@@ -113,8 +113,8 @@ public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extend
     protected abstract void addSugarToModel( final ImmutableVector2D position );
 
     //Create the sugar dispenser node which the user can use to add sugar to the model
-    @Override public PNode createNode( ModelViewTransform transform, double beakerHeight, boolean micro, Function1<Point2D, Point2D> constraint ) {
-        return new SugarDispenserNode<T>( transform, this, beakerHeight, micro, constraint );
+    @Override public PNode createNode( ModelViewTransform transform, boolean micro, Function1<Point2D, Point2D> constraint ) {
+        return new SugarDispenserNode<T>( transform, this, micro, constraint );
     }
 
     @Override public void reset() {

@@ -7,7 +7,7 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteButtonNode
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 
 /**
- * Button that removes all solutes from the beaker.  Reads "remove solute" if one solute type, "remove solutes" if two solute tyes
+ * Button that removes all solutes from the beaker.  Reads "remove solute" if one solute type, "remove solutes" if two solute types
  *
  * @author Sam Reid
  */

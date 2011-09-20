@@ -71,7 +71,7 @@ public class Box2DAdapter {
             //Add the shape to the body
             Fixture f = body.createFixture( shape, 1 );
 
-            //Add a little bit of bouncieness to keep things moving randomly
+            //Add a little bit of bounciness to keep things moving randomly
             f.setRestitution( 0.1f );
         }
     }

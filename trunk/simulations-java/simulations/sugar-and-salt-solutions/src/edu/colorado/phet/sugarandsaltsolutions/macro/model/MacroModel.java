@@ -122,7 +122,7 @@ public class MacroModel extends SugarAndSaltSolutionModel {
             }
 
             public void locationChanged() {
-                //Have to callback here too since the battery or bulb could get sumberged and short the circuit
+                //Have to callback here too since the battery or bulb could get submerged and short the circuit
                 updateConductivityTesterBrightness();
             }
         } );

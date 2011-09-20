@@ -30,7 +30,7 @@ public class SugarDispenserNode<T extends SugarAndSaltSolutionModel> extends Dis
     private static final BufferedImage openMicro = multiScaleToHeight( SUGAR_MICRO_OPEN, 250 );
     private static final BufferedImage closedMicro = multiScaleToHeight( SUGAR_MICRO_CLOSED, 250 );
 
-    public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser<T> model, double beakerHeight,
+    public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser<T> model,
 
                                //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
                                final boolean micro,

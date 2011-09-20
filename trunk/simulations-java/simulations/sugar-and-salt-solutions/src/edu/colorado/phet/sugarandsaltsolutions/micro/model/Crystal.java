@@ -297,8 +297,6 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
             toVisit.remove( c );
             visited.add( c );
 
-            int numNeighbors = getNeighbors( c ).size();
-
             //Signify that we should visit each unvisited neighbor
             for ( Constituent<T> neighbor : getNeighbors( c ) ) {
                 if ( !toVisit.contains( neighbor ) && !visited.contains( neighbor ) ) {
