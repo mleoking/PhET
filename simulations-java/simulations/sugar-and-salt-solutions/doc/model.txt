@@ -32,6 +32,14 @@ While the solution is unsaturated, the crystal will dissolve, by dropping the ma
 
 Other crystals follow the same behavior according to the formula ratios.
 
+When draining:
+In order to convey the idea that concentration remains constant when draining solution with dissolved solutes, the concentration bar chart bars are held constant while draining.
+Then when any effect occurs that would change the concentration (water added, water evaporated, crystals added, crystals dissolving, etc), the concentration bar chart bars move according to this formula:
+
+//Mix the proposed and true values so it will step in the right direction but also toward the true value
+fractionTrueValue = 0.5;
+newValueToDisplay = fractionTrueValue * trueValue + ( 1 - fractionTrueValue ) * proposedDisplayValue;
+
 Water Tab:
 
 Water is modeled using the 3-site model described here: http://en.wikipedia.org/wiki/Water_model but ignoring the Lennard-Jones terms
