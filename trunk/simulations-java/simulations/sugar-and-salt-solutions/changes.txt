@@ -1,3 +1,4 @@
+Water tab: Made the sodium and chloride labels 50% bigger
 Water tab: Made the buckets gray
 Micro tab: Made the periodic table button yellow like the 3D sugar button
 Micro tab: Moved the periodic table button into the solute box
