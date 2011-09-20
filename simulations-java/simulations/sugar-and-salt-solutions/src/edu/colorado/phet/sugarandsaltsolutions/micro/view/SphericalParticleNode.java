@@ -24,13 +24,11 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.view.AtomImageCache.
  * @author Sam Reid
  */
 public class SphericalParticleNode extends PNode {
-    private final SphericalParticle particle;
 
     public SphericalParticleNode( final ModelViewTransform transform, final SphericalParticle particle,
 
                                   //Flag to show the color based on charge, or based on atom identity
                                   final ObservableProperty<Boolean> showChargeColor ) {
-        this.particle = particle;
 
         //Sphere node used by both charge color and atom identity color
         class SimpleSphereNode extends PImage {
