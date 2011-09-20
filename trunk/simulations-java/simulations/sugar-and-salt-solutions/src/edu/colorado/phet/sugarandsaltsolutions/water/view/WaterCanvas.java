@@ -41,7 +41,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.WATER_COLOR;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas.NO_READOUT;
-import static java.awt.Color.*;
+import static java.awt.Color.blue;
 
 /**
  * Canvas for the Water tab
@@ -75,6 +75,9 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
     //The water model
     private final WaterModel model;
+
+    //Color for the buckets
+    private static final Color BUCKET_COLOR = Color.gray;
 
     public WaterCanvas( final WaterModel model, final GlobalState state ) {
         this.model = model;
@@ -148,8 +151,8 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
         Dimension2DDouble bucketSize = new Dimension2DDouble( 205, 80 );
         final int bucketSeparation = 210;
-        sugarBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 + bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, green, SUGAR ), bucketTransform );
-        saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, orange, SALT ), bucketTransform );
+        sugarBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 + bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SUGAR ), bucketTransform );
+        saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SALT ), bucketTransform );
 
         //Add the buckets to the view
         addChild( sugarBucket.getHoleNode() );

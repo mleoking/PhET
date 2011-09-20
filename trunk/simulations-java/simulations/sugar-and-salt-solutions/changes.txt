@@ -1,3 +1,4 @@
+Water tab: Made the buckets gray
 Micro tab: Made the periodic table button yellow like the 3D sugar button
 Micro tab: Moved the periodic table button into the solute box
 Micro tab: Show the periodic table dialog at the bottom right so it doesn't obscure the "solute" control panel, and still allows the user to a large fraction of the beaker
