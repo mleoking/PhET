@@ -419,4 +419,14 @@ public class SwingUtils {
     public static void setPreferredHeight( JComponent component, int height ) {
         component.setPreferredSize( new Dimension( (int) component.getPreferredSize().getWidth(), height ) );
     }
+
+    // Adds horizontal padding to all components in a containment hierarchy.
+    public static void padPreferredWidthDeep( Component component, int padding ) {
+        if ( component instanceof Container ) {
+            for ( Component child : ( (Container) component ).getComponents() ) {
+                padPreferredWidthDeep( child, padding );
+            }
+        }
+        component.setPreferredSize( new Dimension( (int) component.getPreferredSize().getWidth() + padding, (int) component.getPreferredSize().getHeight() ) );
+    }
 }
