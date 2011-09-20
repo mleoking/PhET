@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.periodictable.BasicElementCell
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.ElementCell;
 
+import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
 import static java.awt.Color.black;
 import static java.awt.Color.pink;
 
@@ -52,7 +53,7 @@ public class HighlightMetals implements CellFactory {
         final Color background = nonmetals.contains( atomicNumberOfCell ) ? pink : backgroundColor;
         final PhetFont font = selected ? new PhetFont( PhetFont.getDefaultFontSize(), true ) : new PhetFont( 12 );
         final Stroke stroke = selected ? new BasicStroke( 3 ) : new BasicStroke( 1 );
-        final Color strokeColor = selected ? Color.red : black;
+        final Color strokeColor = selected ? RED_COLORBLIND : black;
 
         return new BasicElementCell( atomicNumberOfCell, background ) {
             {

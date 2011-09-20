@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
-import java.awt.Color;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -11,6 +10,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
 import static java.awt.Color.white;
 
 /**
@@ -71,7 +71,7 @@ public class WaterMolecule extends Compound<SphericalParticle> {
     public static class Oxygen extends SphericalParticle {
         public Oxygen() {
             //See this table for the charge, using TIP3P model: http://en.wikipedia.org/wiki/Water_model
-            super( SphericalParticle.Oxygen.RADIUS_PICOMETERS, NEUTRAL_COLOR, Color.red, -0.834 );
+            super( SphericalParticle.Oxygen.RADIUS_PICOMETERS, NEUTRAL_COLOR, RED_COLORBLIND, -0.834 );
         }
     }
 }

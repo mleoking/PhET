@@ -20,6 +20,9 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class PeriodicTableDialog extends JDialog {
+
+    public static final Color METAL_COLOR = new Color( 160, 160, 160 );
+
     public PeriodicTableDialog( final Property<DispenserType> dispenser, final SugarAndSaltSolutionsColorScheme colorScheme, PhetFrame parentFrame ) {
         super( parentFrame );
         setContentPane( new PhetPCanvas() {
@@ -42,7 +45,7 @@ public class PeriodicTableDialog extends JDialog {
                         //Kelly also requested the inset to be larger than the original value of 2: "I am not sure the idea that "salts are made of atoms on opposite sides of the PT" is clear. Can we add more space around the PT in the popup window?"
                         final int inset = 26;
                         final double scale = 1.5;
-                        final PeriodicTableNode periodicTableNode = new PeriodicTableNode( Color.lightGray, new HighlightMetals( dispenser.get().getElementAtomicMasses() ) ) {{
+                        final PeriodicTableNode periodicTableNode = new PeriodicTableNode( METAL_COLOR, new HighlightMetals( dispenser.get().getElementAtomicMasses() ) ) {{
                             scale( scale );
                             setOffset( inset, inset );
                         }};

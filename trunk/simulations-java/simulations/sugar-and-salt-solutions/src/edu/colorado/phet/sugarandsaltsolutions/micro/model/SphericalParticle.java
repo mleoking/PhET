@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.picometersToMeters;
 import static java.awt.Color.*;
 
@@ -30,7 +31,7 @@ public class SphericalParticle extends Particle {
 
     //Color to use for neutrally charged objects
     public static final Color NEUTRAL_COLOR = Color.yellow;
-    public static final Color POSITIVE_COLOR = Color.red;
+    public static final Color POSITIVE_COLOR = RED_COLORBLIND;
     public static final Color NEGATIVE_COLOR = Color.blue;
 
     //This constructor matches the table given in the design doc and to-do doc,
@@ -85,7 +86,7 @@ public class SphericalParticle extends Particle {
         public static final double RADIUS_PICOMETERS = 73;
 
         public Oxygen( Color chargeColor ) {
-            super( RADIUS_PICOMETERS, chargeColor, red, -2 );
+            super( RADIUS_PICOMETERS, chargeColor, RED_COLORBLIND, -2 );
         }
     }
 
