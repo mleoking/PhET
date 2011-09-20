@@ -23,8 +23,15 @@ Micro Tab:
 
 Salt:
 Definition of saturation:
-When either Na+ or Cl- is above the saturation point 6.14 mol/L the solution is considered saturated.
+When Na+ or Cl- is above the saturation point 6.14 mol/L the solution is considered saturated.
 When the water level drops below the threshold 0.03E-23 L, the solution is also considered saturated since this corresponds to just 10 molecules of H2O
+
+Here are the saturation points for all the solutes in the sim (in moles / Liter):
+    sodiumChloride: 6.14
+    calciumChloride: 6.71
+    sodiumNitrate: 10.8
+    sucrose: 5.84
+    glucose: 5.05
 
 When saturated:
 When saturated, an Na+ and Cl- ion will move toward each other at high speed and form a two particle crystal.
