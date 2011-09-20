@@ -67,7 +67,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     protected final EvaporationSlider evaporationSlider;
 
     //Debugging flag
-    private boolean debug = false;
+    private final boolean debug = false;
 
     //Flag to indicate debugging of the model visible bounding region, used for layouts
     private final boolean debugVisibleBounds = false;
@@ -143,7 +143,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
         //add the salt and sugar dispenser nodes, which should always be in front of everything
         for ( Dispenser dispenser : model.dispensers ) {
-            submergedInWaterNode.addChild( dispenser.createNode( transform, model.beaker.getHeight(), micro, model.dragConstraint ) );
+            submergedInWaterNode.addChild( dispenser.createNode( transform, micro, model.dragConstraint ) );
         }
 
         //Add beaker node that shows border of the beaker and tick marks

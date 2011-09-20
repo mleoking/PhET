@@ -35,7 +35,7 @@ public class CrystalMaker<T extends MacroCrystal> implements VoidFunction1<T> {
                 //Store a reference to the removalListener instance, for use in the anonymous inner class below
                 final VoidFunction0 removalListener = this;
 
-                //invoke later to avoid concurrentmodificationexception, since this is called during Crystal.remove()
+                //invoke later to avoid ConcurrentModificationException, since this is called during Crystal.remove()
                 //This code should be read with IntelliJ's closure folding
                 invokeLater( new Runnable() {
                     public void run() {

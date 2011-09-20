@@ -145,7 +145,7 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
                 return null;
             }
 
-            //Otherwise keep the match for its part of the formula unit and signify that the particle should not target another region, and that no other particle can take the same loction
+            //Otherwise keep the match for its part of the formula unit and signify that the particle should not target another region, and that no other particle can take the same location
             matches.add( match );
             usedParticles.add( match.particle );
             usedLocations.add( match.site.relativePosition );

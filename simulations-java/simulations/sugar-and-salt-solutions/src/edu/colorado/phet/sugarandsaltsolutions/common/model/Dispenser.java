@@ -94,7 +94,7 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
     public abstract void updateModel();
 
     //Method for creating a PNode such as a SugarDispenserNode or SaltShakerNode to display this Dispenser and allow the user to interact with it
-    public abstract PNode createNode( ModelViewTransform transform, double beakerHeight, boolean micro, Function1<Point2D, Point2D> constraint );
+    public abstract PNode createNode( ModelViewTransform transform, boolean micro, Function1<Point2D, Point2D> constraint );
 
     //Set the height of the dispenser, used to emit crystals in the right location relative to the image
     public void setDispenserHeight( double dispenserHeight ) {

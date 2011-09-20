@@ -26,10 +26,10 @@ public abstract class MicroShaker extends Shaker<MicroModel> {
         //Only add a crystal every N steps, otherwise there are too many
         stepsAdding.set( stepsAdding.get() + 1 );
         if ( stepsAdding.get() % 30 == 0 ) {
-            addCrystal( model, outputPoint, volumePerSolidMole, crystalVelocity );
+            addCrystal( model, outputPoint );
         }
     }
 
     //This method actually adds the crystal
-    protected abstract void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity );
+    protected abstract void addCrystal( MicroModel model, ImmutableVector2D outputPoint );
 }

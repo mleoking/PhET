@@ -135,9 +135,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //if the particles are too close, the coulomb force gets too big--a good way to limit the coulomb force is to limit the inter-particle distance used in the coulomb calculation
     public final double MIN_COULOMB_DISTANCE = new WaterMolecule.Hydrogen().radius * 2;
 
-    //Print debugging information to the console about how long the model computation takes
-    private static final boolean debugTime = false;
-
     //List of adapters that manage both the box2D and actual model data
     private final ItemList<Box2DAdapter> box2DAdapters = new ItemList<Box2DAdapter>();
 
@@ -235,13 +232,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     protected double updateModel( double dt ) {
-
-        long t = System.currentTimeMillis();
-
-        long t2 = System.currentTimeMillis();
-        if ( debugTime ) {
-            System.out.println( "delta = " + ( t2 - t ) );
-        }
 
         //Iterate over all pairs of particles and apply the coulomb force, but only consider particles from different molecules (no intramolecular forces)
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
@@ -530,7 +520,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                 //Make sure we aren't checking for the collisions with a water molecule itself
                 if ( waterMolecule != compound ) {
 
-                    //Check the hydrogens and oxygens in the water
+                    //Check the hydrogen atoms and oxygen atoms in the water
                     for ( SphericalParticle waterAtom : waterMolecule ) {
 
                         //Iterate over all sucrose atoms

@@ -58,7 +58,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
 
     public CompoundListNode( final ModelViewTransform transform, final WaterModel model, BucketView bucketView, final PNode sugarBucketParticleLayer, final WaterCanvas canvas,
 
-                             //Methods for adding or removing the molecule to/from the model, called when the user drops or grabs the pnode
+                             //Methods for adding or removing the molecule to/from the model, called when the user drops or grabs the PNode
                              final VoidFunction1<T> addToModel, final VoidFunction1<T> removeFromModel,
 
                              //Flag to indicate whether color is shown for charge or identity of the atom.  This is also used for the "show sugar atoms" feature

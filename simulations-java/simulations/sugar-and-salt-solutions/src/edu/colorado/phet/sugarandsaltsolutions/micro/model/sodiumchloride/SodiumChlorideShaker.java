@@ -22,7 +22,7 @@ public class SodiumChlorideShaker extends MicroShaker {
     }
 
     //Create a random salt crystal and add it to the model
-    @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
+    @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint ) {
 
         //Attempt 100 times to randomly create a crystal with a correct balance of components
         //If no success after 100 random tries, just take the last attempt
