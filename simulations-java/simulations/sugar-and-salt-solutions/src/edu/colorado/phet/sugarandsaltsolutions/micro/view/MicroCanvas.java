@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -24,7 +25,6 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.WaterControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
-import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_IN_PERIODIC_TABLE;
 
 /**
@@ -92,7 +92,13 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                     //Only create the periodic table dialog once
                     if ( periodicTableDialog == null ) {
                         periodicTableDialog = new PeriodicTableDialog( model.dispenserType, globalState.colorScheme, globalState.frame ) {{
-                            centerInParent( this );
+
+                            //Show the periodic table dialog at the bottom right so it doesn't obscure the "solute" control panel, and still allows the user to see many particles in the beaker
+                            Rectangle parentBounds = globalState.frame.getBounds();
+                            Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + parentBounds.getWidth() - getWidth() ),
+                                                                    (int) ( parentBounds.getMinY() + parentBounds.getHeight() - getHeight() ),
+                                                                    getWidth(), getHeight() );
+                            setLocation( dialogBounds.x, dialogBounds.y );
                         }};
                     }
 
