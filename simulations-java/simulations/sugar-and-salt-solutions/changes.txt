@@ -1,3 +1,4 @@
+Micro tab: Change periodic table colors to be more protanope-friendly
 Micro tab: Change periodic table metal color to be more colorblind friendly
 Changed reds to be more colorblind friendly
 Macro tab: Switched red conductivity probe color to be more colorblind friendly

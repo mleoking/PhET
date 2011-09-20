@@ -16,7 +16,9 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.NON_METAL;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog.METAL_COLOR;
-import static java.awt.Color.*;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog.NON_METAL_COLOR;
+import static java.awt.Color.black;
+import static java.awt.Color.white;
 
 /**
  * Legend for the periodic table to indicate coloring scheme for metals vs nonmetals.
@@ -43,7 +45,7 @@ public class PeriodicTableLegend extends PNode {
         addChild( metalBox );
 
         //Create a box in the bottom right for pink non-metals
-        addChild( new HBox( new PhetPPath( box, pink, new BasicStroke( 1 ), black ), new PText( NON_METAL ) {{
+        addChild( new HBox( new PhetPPath( box, NON_METAL_COLOR, new BasicStroke( 1 ), black ), new PText( NON_METAL ) {{
             setFont( CONTROL_FONT );
             whiteBackground.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean whiteBackground ) {
