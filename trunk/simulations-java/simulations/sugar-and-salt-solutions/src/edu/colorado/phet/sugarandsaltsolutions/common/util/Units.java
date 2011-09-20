@@ -6,10 +6,6 @@ package edu.colorado.phet.sugarandsaltsolutions.common.util;
  * @author Sam Reid
  */
 public class Units {
-    //Convert angstroms to meters (SI)
-    public static double angstromsToMeters( double angstroms ) {
-        return angstroms * 1E-10;
-    }
 
     //Convert picometers to meters (SI)
     public static double picometersToMeters( double picometers ) {
@@ -32,15 +28,7 @@ public class Units {
         return liters / 1000.0;
     }
 
-    public static double molesPerMeterCubedToMolesPerLiter( Double molesPerMeterCubed ) {
-        return molesPerMeterCubed / metersCubedToLiters( 1.0 );
-    }
-
     public static double molesPerLiterToMolesPerMeterCubed( double molesPerLiter ) {
         return molesPerLiter / litersToMetersCubed( 1.0 );
-    }
-
-    public static double metersToPicometers( double spacing ) {
-        return spacing / 1E-12;
     }
 }

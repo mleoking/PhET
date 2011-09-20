@@ -430,27 +430,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //        System.out.println( "totalMomentum = " + totalMomentum + ", after = " + getBox2DMomentum() );
     }
 
-    //Factor out center of mass motion so no large scale drifts can occur
-    private void limitVelocities() {
-//        Vec2 totalMomentum = getBox2DMomentum();
-        for ( Box2DAdapter molecule : box2DAdapters ) {
-            Vec2 v = molecule.body.getLinearVelocity();
-//            molecule.body.setLinearDamping( 50 );
-////            System.out.println( "molecule.body.getLinearVelocity().length() \t" + molecule.body.getLinearVelocity().length() );
-////            final Vec2 delta = totalMomentum.mul( (float) ( -1 / getBox2DMass() ) );
-////            molecule.body.setLinearVelocity( v.add( delta ) );
-//
-//
-            final float maxVelocity = 0.5f;
-            if ( v.length() > maxVelocity ) {
-                Vec2 b = new Vec2( v.x, v.y );
-                b.normalize();
-                molecule.body.setLinearVelocity( b.mul( maxVelocity ) );
-            }
-        }
-//        System.out.println( "totalMomentum = " + totalMomentum + ", after = " + getBox2DMomentum() );
-    }
-
     private Vec2 getBox2DMomentum() {
         Vec2 totalMomentum = new Vec2();
         for ( Box2DAdapter adapter : box2DAdapters ) {
