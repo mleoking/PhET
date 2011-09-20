@@ -33,6 +33,7 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
  */
 public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxCanvas {
     public static final Color WATER_COLOR = new Color( 179, 239, 243 );
+
     //Root node that shows the nodes in the stage coordinate frame
     private final PNode rootNode;
 

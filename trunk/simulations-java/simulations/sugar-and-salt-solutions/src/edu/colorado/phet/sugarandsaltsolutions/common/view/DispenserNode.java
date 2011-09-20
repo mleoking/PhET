@@ -36,6 +36,7 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
     public DispenserNode( final ModelViewTransform transform, final T model, Function1<Point2D, Point2D> dragConstraint ) {
         this.transform = transform;
         this.model = model;
+
         //Show the image of the shaker, with the text label on the side of the dispenser
         imageNode = new PImage();
         addChild( imageNode );
@@ -70,6 +71,7 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
         //Translate the shaker when dragged
         addInputEventListener( new RelativeDragHandler( this, transform, model.center, dragConstraint ) {
             @Override public void mouseDragged( PInputEvent event ) {
+
                 //Set the model height of the dispenser so the model will be able to emit crystals in the right location (at the output part of the image)
                 model.setDispenserHeight( transform.viewToModelDeltaY( imageNode.getFullBounds().getHeight() ) );
 
@@ -94,6 +96,7 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
     }
 
     protected void updateTransform() {
+
         //Clear the transform to start over
         imageNode.setTransform( new AffineTransform() );
 

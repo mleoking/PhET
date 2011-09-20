@@ -125,7 +125,9 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         this.drainPipeBottomY = drainPipeBottomY;
         this.drainPipeTopY = drainPipeTopY;
         this.distanceScale = distanceScale;
-        this.evaporationRateScale = faucetFlowRate / 300.0;//Scaled down since the evaporation control rate is 100 times bigger than flow scales
+
+        //Scaled down since the evaporation control rate is 100 times bigger than flow scales
+        this.evaporationRateScale = faucetFlowRate / 300.0;
 
         //Start the water halfway up the beaker
         waterVolume = new DoubleProperty( beakerDimension.getVolume() / 2 );

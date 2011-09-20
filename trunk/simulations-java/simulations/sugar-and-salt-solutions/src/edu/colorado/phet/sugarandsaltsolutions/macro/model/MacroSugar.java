@@ -9,8 +9,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author Sam Reid
  */
 public class MacroSugar extends MacroCrystal {
-    //Create a sugar crystal with the specified amount
-    public static double molarMass = 342.23134;// g/mol
+
+    //Create a sugar crystal with the specified amount in grams /mol
+    public static double molarMass = 342.23134;
 
     private static final double gramsPerGrain = 0.4;//Manually tuned to make it so that grains are small but it doesn't take too long to get the concentration bar to appear on the bar chart
 

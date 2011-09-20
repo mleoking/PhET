@@ -24,6 +24,7 @@ public class SolutionNode extends PNode {
                 }
             } );
         }} );
+
         //Make it so the mouse events pass through the front water layer so it is still possible to pick and move the conductivity tester probes
         setPickable( false );
         setChildrenPickable( false );

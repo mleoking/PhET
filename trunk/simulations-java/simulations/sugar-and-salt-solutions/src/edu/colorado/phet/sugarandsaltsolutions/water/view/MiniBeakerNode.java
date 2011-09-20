@@ -19,6 +19,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  */
 public class MiniBeakerNode extends PNode {
     public MiniBeakerNode() {
+
         //Create a whole model, but just for the purpose of making a beaker graphic.  Shouldn't be a memory leak since no listeners are wired up and this is done only once.
         final MacroModel model = new MacroModel();
         final ModelViewTransform transform = MacroCanvas.createMacroTransform( model );

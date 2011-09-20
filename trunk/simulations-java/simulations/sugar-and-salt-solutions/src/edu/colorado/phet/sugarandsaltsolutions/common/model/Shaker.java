@@ -72,7 +72,8 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
                 sum = sum.times( 1.0 / numIterations );
 
                 //But only take the component along the axis
-                double dist = Math.abs( sum.dot( parseAngleAndMagnitude( 1, angle.get() + Math.PI / 2 ) ) );//Have to rotate by 90 degrees since for positions 0 degrees is to the right, but for the shaker 0 degrees is up
+                //Have to rotate by 90 degrees since for positions 0 degrees is to the right, but for the shaker 0 degrees is up
+                double dist = Math.abs( sum.dot( parseAngleAndMagnitude( 1, angle.get() + Math.PI / 2 ) ) );
 
                 //Account for the distance scale so we produce the same amount for micro translations as for macro translations
                 dist = dist * distanceScale;
@@ -80,7 +81,6 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
                 //only add to the shake amount if it was vigorous enough
                 if ( dist > 1E-4 ) {
                     shakeAmount += dist;
-//                    System.out.println( "shakeAmount = " + shakeAmount );
                 }
             }
         }

@@ -22,6 +22,7 @@ public abstract class MicroShaker extends Shaker<MicroModel> {
     }
 
     @Override protected void addSalt( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
+
         //Only add a crystal every N steps, otherwise there are too many
         stepsAdding.set( stepsAdding.get() + 1 );
         if ( stepsAdding.get() % 30 == 0 ) {
