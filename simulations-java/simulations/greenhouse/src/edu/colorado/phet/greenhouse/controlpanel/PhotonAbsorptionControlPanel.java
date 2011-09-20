@@ -2,9 +2,11 @@
 
 package edu.colorado.phet.greenhouse.controlpanel;
 
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -22,7 +24,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -58,7 +59,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // This is basically a null transform except that it flips the Y axis so
     // that molecules are oriented the same as in the play area.
     private static final ModelViewTransform2D MVT =
-        new ModelViewTransform2D( new Point2D.Double(0, 0), new Point(0, 0), 1, true);
+            new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point( 0, 0 ), 1, true );
 
     // Image scaling factors, determined empirically.
     private static final double MOLECULE_SCALING_FACTOR = 0.13;
@@ -75,18 +76,17 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // The following data structure defines each of the gas selectors
     // that will exist on this control panel.
     private final ArrayList<MoleculeSelectorPanelWithToolTip> gasSelectors =
-        new ArrayList<MoleculeSelectorPanelWithToolTip>();
-
+            new ArrayList<MoleculeSelectorPanelWithToolTip>();
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public PhotonAbsorptionControlPanel (PiccoloModule module, final PhotonAbsorptionModel model){
+    public PhotonAbsorptionControlPanel( PiccoloModule module, final PhotonAbsorptionModel model ) {
 
         this.model = model;
 
-        model.addListener( new PhotonAbsorptionModel.Adapter(){
+        model.addListener( new PhotonAbsorptionModel.Adapter() {
             @Override
             public void photonTargetChanged() {
                 updateSliderEnabledState();
@@ -96,7 +96,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
             public void configurableAtmosphereCompositionChanged() {
                 updateSliderPositions();
             }
-        });
+        } );
 
         // Set the control panel's minimum width.
         int minimumWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 );
@@ -104,10 +104,10 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
 
         // Create and add a panel that will contain the buttons for selecting
         // the gas.
-        PhetTitledPanel atmosphericGasesPanel = new PhetTitledPanel(GreenhouseResources.getString("ControlPanel.AtmosphericGasesTitle"));
-        atmosphericGasesPanel.setLayout(new GridBagLayout());
-        GridBagConstraints constraints=new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        addControlFullWidth(atmosphericGasesPanel);
+        PhetTitledPanel atmosphericGasesPanel = new PhetTitledPanel( GreenhouseResources.getString( "ControlPanel.AtmosphericGasesTitle" ) );
+        atmosphericGasesPanel.setLayout( new GridBagLayout() );
+        GridBagConstraints constraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        addControlFullWidth( atmosphericGasesPanel );
 
         gasSelectors.add( new MoleculeSelectorPanelWithToolTip( GreenhouseResources.getString( "ControlPanel.CH4" ), GreenhouseResources.getString( "ControlPanel.Methane" ), createMoleculeImage( new CH4(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CH4_MOLECULE ) );
         gasSelectors.add( new MoleculeSelectorPanelWithToolTip( GreenhouseResources.getString( "ControlPanel.CO2" ), GreenhouseResources.getString( "ControlPanel.CarbonDioxide" ), createMoleculeImage( new CO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO2_MOLECULE ) );
@@ -119,39 +119,30 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // Add the molecule selection panels to the main panel.
         int interSelectorSpacing = 2;
         ButtonGroup buttonGroup = new ButtonGroup();
-        for ( MoleculeSelectorPanelWithToolTip moleculeSelector : gasSelectors ){
-            atmosphericGasesPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
-            atmosphericGasesPanel.add(  moleculeSelector, constraints );
+        for ( MoleculeSelectorPanelWithToolTip moleculeSelector : gasSelectors ) {
+            atmosphericGasesPanel.add( createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+            atmosphericGasesPanel.add( moleculeSelector, constraints );
             buttonGroup.add( moleculeSelector.getRadioButton() ); // This prevent toggling when clicking same button twice.
         }
 
-        atmosphericGasesPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+        atmosphericGasesPanel.add( createVerticalSpacingPanel( interSelectorSpacing ), constraints );
 
         // Create and add a panel that will contain the sliders for
         // configuring the atmosphere.
-        VerticalLayoutPanel atmosphereSliderPanel = new VerticalLayoutPanel();
+        JPanel atmosphereSliderPanel = new JPanel( new GridLayout( 5, 1, 0, 2 ) );
 
         // Add the molecule control sliders.
-        addSliderForMolecule(
-                GreenhouseResources.getString("ControlPanel.CH4"),
-                atmosphereSliderPanel, CH4.class );
-        addSliderForMolecule(
-                GreenhouseResources.getString("ControlPanel.CO2"),
-                atmosphereSliderPanel, CO2.class );
-        addSliderForMolecule(
-                GreenhouseResources.getString("ControlPanel.H2O"),
-                atmosphereSliderPanel, H2O.class );
-        addSliderForMolecule(
-                GreenhouseResources.getString("ControlPanel.N2"),
-                atmosphereSliderPanel, N2.class );
-        addSliderForMolecule(
-                GreenhouseResources.getString("ControlPanel.O2"),
-                atmosphereSliderPanel, O2.class );
+        atmosphereSliderPanel.add( new MoleculeQuantitySlider( "ControlPanel.CH4", CH4.class, model, moleculeToSliderMap ) );
+        atmosphereSliderPanel.add( new MoleculeQuantitySlider( "ControlPanel.CO2", CO2.class, model, moleculeToSliderMap ) );
+        atmosphereSliderPanel.add( new MoleculeQuantitySlider( "ControlPanel.H2O", H2O.class, model, moleculeToSliderMap ) );
+        atmosphereSliderPanel.add( new MoleculeQuantitySlider( "ControlPanel.N2", N2.class, model, moleculeToSliderMap ) );
+        atmosphereSliderPanel.add( new MoleculeQuantitySlider( "ControlPanel.O2", O2.class, model, moleculeToSliderMap ) );
 
-        atmosphericGasesPanel.add( atmosphereSliderPanel ,constraints);
+        // Add the panel that now contains all of the sliders.
+        atmosphericGasesPanel.add( atmosphereSliderPanel, constraints );
 
         // Add the reset all button.
-        addControlFullWidth(createVerticalSpacingPanel(5));
+        addControlFullWidth( createVerticalSpacingPanel( 5 ) );
         addResetAllButton( module );
 
         // Synchronize the controls with the model.
@@ -163,66 +154,20 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // Methods
     // ------------------------------------------------------------------------
 
-    private void updateSliderPositions(){
-        for ( Class<? extends Molecule> moleculeClass : moleculeToSliderMap.keySet() ){
+    private void updateSliderPositions() {
+        for ( Class<? extends Molecule> moleculeClass : moleculeToSliderMap.keySet() ) {
             moleculeToSliderMap.get( moleculeClass ).setValue( model.getConfigurableAtmosphereGasLevel( moleculeClass ) );
         }
     }
 
-    private void updateSliderEnabledState(){
+    private void updateSliderEnabledState() {
         boolean slidersEnabled = model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE;
-        for ( LinearValueControl linearValueControl : moleculeToSliderMap.values() ){
+        for ( LinearValueControl linearValueControl : moleculeToSliderMap.values() ) {
             linearValueControl.setEnabled( slidersEnabled );
         }
     }
 
-    /**
-     * Create and add the slider that controls the level of the specified
-     * molecule in the configurable atmosphere.  This is primarily a
-     * convenience method that prevents duplication of code.
-     *
-     * @param slider
-     * @param moleculeClass
-     */
-    private void addSliderForMolecule( String labelText, JPanel panel, final Class<? extends Molecule> moleculeClass){
-
-        // The overall width of the control that is created by this method
-        // needs to be a little less that the total control panel so that it
-        // can be enclosed in a border.  Also, it needs to be indented
-        // slightly to convey the idea that it is a sub-function of the "Build
-        // Atmosphere" selection.
-        int overallWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 ) - 8;
-        int indent = 20; // Arbitrary value, adjust as needed for optimal appearance.
-        JPanel sliderPanel = new JPanel();
-        JPanel spacerPanel = new JPanel();
-        spacerPanel.setLayout( new BoxLayout( spacerPanel, BoxLayout.X_AXIS ) );
-        spacerPanel.add( Box.createHorizontalStrut( indent ) );
-
-        final LinearValueControl slider = new LinearValueControl( 0,
-                model.getConfigurableAtmosphereMaxLevel( moleculeClass ), labelText, "###",
-                GreenhouseResources.getString("ControlPanel.Molecules"));
-        slider.setFont( LABEL_FONT );
-        slider.setUpDownArrowDelta( 1 );
-        slider.setTextFieldEditable( true );
-        slider.setMajorTicksVisible( false );
-        slider.setValue( model.getConfigurableAtmosphereGasLevel( moleculeClass ) );
-        slider.setSliderWidth( overallWidth - indent );
-        slider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                int currentLevel = model.getConfigurableAtmosphereGasLevel( moleculeClass );
-                int sliderValue = (int)Math.round( slider.getValue() );
-                if ( sliderValue != currentLevel ){
-                    model.setConfigurableAtmosphereGasLevel( moleculeClass, sliderValue );
-                }
-            }
-        });
-        moleculeToSliderMap.put(moleculeClass, slider);
-        sliderPanel.add( spacerPanel );
-        sliderPanel.add( slider );
-        panel.add( sliderPanel );
-    }
-
-    private JPanel createVerticalSpacingPanel(int space){
+    private JPanel createVerticalSpacingPanel( int space ) {
         JPanel spacePanel = new JPanel();
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
         spacePanel.add( Box.createVerticalStrut( space ) );
@@ -239,5 +184,52 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     private BufferedImage createMoleculeImage( Molecule molecule, double scaleFactor ) {
         BufferedImage unscaledMoleculeImage = new MoleculeNode( molecule, MVT ).getImage();
         return BufferedImageUtils.multiScale( unscaledMoleculeImage, scaleFactor );
+    }
+
+    /**
+     * Convenience class that assembles the things that are needed for the
+     * sliders that control the amount of a given gas in the atmosphere.
+     */
+    private static class MoleculeQuantitySlider extends JPanel {
+
+        private MoleculeQuantitySlider( String labelID, final Class<? extends Molecule> moleculeClass,
+                                        final PhotonAbsorptionModel model, Map<Class<? extends Molecule>, LinearValueControl> moleculeToSliderMap ) {
+            setLayout( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            // The overall width of this panel needs to be a little less that the
+            // total control panel so that it can be enclosed in a border.  Also,
+            // it needs to be indented slightly to convey the idea that it is a
+            // sub-function of the "Build Atmosphere" selection.
+            int overallWidth = GreenhouseResources.getInt( "int.minControlPanelWidth", 215 ) - 8;
+            int indent = 20; // Arbitrary value, adjust as needed for optimal appearance.
+            JPanel sliderPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            JPanel spacerPanel = new JPanel();
+            spacerPanel.setLayout( new BoxLayout( spacerPanel, BoxLayout.X_AXIS ) );
+            spacerPanel.add( Box.createHorizontalStrut( indent ) );
+
+            final LinearValueControl slider = new LinearValueControl( 0,
+                                                                      model.getConfigurableAtmosphereMaxLevel( moleculeClass ),
+                                                                      GreenhouseResources.getString( labelID ),
+                                                                      "###",
+                                                                      GreenhouseResources.getString( "ControlPanel.Molecules" ) );
+            slider.setFont( LABEL_FONT );
+            slider.setUpDownArrowDelta( 1 );
+            slider.setTextFieldEditable( true );
+            slider.setMajorTicksVisible( false );
+            slider.setValue( model.getConfigurableAtmosphereGasLevel( moleculeClass ) );
+            slider.setSliderWidth( overallWidth - indent );
+            slider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    int currentLevel = model.getConfigurableAtmosphereGasLevel( moleculeClass );
+                    int sliderValue = (int) Math.round( slider.getValue() );
+                    if ( sliderValue != currentLevel ) {
+                        model.setConfigurableAtmosphereGasLevel( moleculeClass, sliderValue );
+                    }
+                }
+            } );
+            moleculeToSliderMap.put( moleculeClass, slider );
+            sliderPanel.add( spacerPanel );
+            sliderPanel.add( slider );
+            add( sliderPanel );
+        }
     }
 }
