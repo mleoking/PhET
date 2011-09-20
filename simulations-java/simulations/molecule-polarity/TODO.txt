@@ -18,7 +18,6 @@ HIGH
 MEDIUM
 - delete Bond.deltaElectronegativity and rewrite setComponentX and translate steps in BondDipoleNode
 - move duplicate code in Molecule2D subclasses into base class
-- move duplicate ClockListener in 2D models to a base class
 
 LOW
 - move Jmol console to Developer menu
