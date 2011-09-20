@@ -21,6 +21,7 @@ public class HorizontalSliderDragHandler extends PDragSequenceEventHandler {
     private final PNode relativeNode, trackNode, thumbNode;
     private final DoubleRange range;
     private final VoidFunction1<Double> updateFunction;
+    private final LinearFunction valueFunction;
     private double globalClickXOffset; // x offset of mouse click from knob's origin, in global coordinates
 
     /**
@@ -38,6 +39,7 @@ public class HorizontalSliderDragHandler extends PDragSequenceEventHandler {
         this.thumbNode = thumbNode;
         this.range = range;
         this.updateFunction = updateFunction;
+        this.valueFunction = new LinearFunction( 0, trackNode.getFullBoundsReference().getWidth(), range.getMin(), range.getMax() );
     }
 
     @Override protected void startDrag( PInputEvent event ) {
@@ -82,9 +84,7 @@ public class HorizontalSliderDragHandler extends PDragSequenceEventHandler {
 
         // convert the offset to a value
         double xOffset = pKnobLocal.getX();
-        double trackLength = trackNode.getFullBoundsReference().getWidth();
-        LinearFunction f = new LinearFunction( 0, trackLength, range.getMin(), range.getMax() );
-        double value = f.evaluate( xOffset );
+        double value = valueFunction.evaluate( xOffset );
         value = MathUtil.clamp( value, range );
 
         // hook for adjusting value (for subclasses to implement snapping, etc.)
