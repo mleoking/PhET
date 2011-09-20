@@ -155,8 +155,13 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         }
     }
 
+    //Attach an observer that will be notified when the velocity might have changed
     public void addVelocityUpdateListener( SimpleObserver observer ) {
+
+        //When the pipe changes shape, flow rate or friction, the velocity at each position might change
         pipe.addShapeChangeListener( observer );
+        pipe.flowRate.addObserver( observer );
+        pipe.friction.addObserver( observer );
     }
 
     public void addFluidChangeObserver( SimpleObserver updatePressure ) {
