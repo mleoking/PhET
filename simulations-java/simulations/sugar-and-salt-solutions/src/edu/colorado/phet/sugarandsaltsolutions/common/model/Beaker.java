@@ -98,7 +98,9 @@ public class Beaker {
 
     //Determine how much water could this beaker hold in meters cubed
     public double getMaxFluidVolume() {
-        return width * height * depth;//Rectangular like a fish tank
+
+        //Rectangular like a fish tank
+        return width * height * depth;
     }
 
     //Get the center of the empty beaker

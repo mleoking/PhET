@@ -9,10 +9,12 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author Sam Reid
  */
 public class MacroSalt extends MacroCrystal {
-    //Create a salt crystal with the specified amount
-    public static double molarMass = 58.4425;// g/mol
 
-    private static final double gramsPerGrain = 0.2;//Manually tuned to make it so that grains are small but it doesn't take too long to get the concentration bar to appear on the bar chart
+    //Create a salt crystal with the specified amount in g/mol
+    public static double molarMass = 58.4425;
+
+    //Manually tuned to make it so that grains are small but it doesn't take too long to get the concentration bar to appear on the bar chart
+    private static final double gramsPerGrain = 0.2;
 
     private static double molesIn5Grams = gramsPerGrain / molarMass;
 

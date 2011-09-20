@@ -30,11 +30,8 @@ public class WaterMolecule extends Compound<SphericalParticle> {
     public WaterMolecule( ImmutableVector2D position, double angle ) {
         super( position, angle );
 
+        //Spacing should be given by the water model: http://en.wikipedia.org/wiki/Water_model, but we just pick one that looks good
         final double spacing = ( new SphericalParticle.FreeOxygen().radius + new SphericalParticle.Hydrogen().radius ) * 0.5;
-//        final double spacing = Units.picometersToMeters( SphericalParticle.FreeOxygen.RADIUS_PICOMETERS );
-
-        //Spacing given by the water model: http://en.wikipedia.org/wiki/Water_model
-//        final double spacing = Units.picometersToMeters( 95.84 ) * MicroModel.sizeScale;
 
         final double waterAngleRadians = Math.toRadians( 104.45 );
 

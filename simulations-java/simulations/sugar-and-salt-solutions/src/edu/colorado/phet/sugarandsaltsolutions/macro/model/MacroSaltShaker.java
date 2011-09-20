@@ -16,8 +16,10 @@ public class MacroSaltShaker extends Shaker<MacroModel> {
     }
 
     @Override protected void addSalt( MacroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, final ImmutableVector2D crystalVelocity ) {
+
         //Add the salt
         model.addMacroSalt( new MacroSalt( outputPoint, volumePerSolidMole ) {{
+
             //Give the salt an appropriate velocity when it comes out so it arcs
             velocity.set( crystalVelocity );
         }} );

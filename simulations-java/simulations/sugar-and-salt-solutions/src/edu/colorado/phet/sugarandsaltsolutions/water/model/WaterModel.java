@@ -178,26 +178,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //Create the Box2D world with no gravity
         world = new World( new Vec2( 0, 0 ), true );
 
-        //Code to make bodies ignore each other
-//        world.setContactFilter( new ContactFilter() {
-//            @Override public boolean shouldCollide( Fixture fixtureA, Fixture fixtureB ) {
-//                return true;
-//            }
-//        } );
-
         //Set up initial state, same as reset() method would do, such as adding water particles to the model
         initModel();
-
-        //Attempted using collision boundaries, but they make the system come to rest too quickly, we will probably use periodic boundary conditions instead
-//        Body body = world.createBody( new BodyDef() {{
-//            type = BodyType.STATIC;
-//        }} );
-//        final ImmutableRectangle2D boundary = modelToBox2D.modelToView( waterBoundary );
-////        final ImmutableRectangle2D boundary = getBoundary(  )
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) boundary.width / 2, (float) ( boundary.height / 2 ), new Vec2( 0, (float) ( boundary.height ) ), 0 ); }}, 1 );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) boundary.width / 2, (float) ( boundary.height / 2 ), new Vec2( 0, (float) ( -boundary.height ) ), 0 ); }}, 1 );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) boundary.width / 2, (float) ( boundary.height / 2 ), new Vec2( (float) ( boundary.width ), 0 ), 0 ); }}, 1 );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) boundary.width / 2, (float) ( boundary.height / 2 ), new Vec2( (float) ( -boundary.width ), 0 ), 0 ); }}, 1 );
 
         //Set up jbox2D debug draw so we can see the model and computations
         if ( useDebugDraw ) {
@@ -317,8 +299,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //Factor out center of mass motion so no large scale drifts can occur
         subtractOutCenterOfMomentum();
 
-//        limitVelocities();
-
         //Box2D will exception unless values are within its sweet spot range.
         //if DT gets too low, it is hard to recover from assertion errors in box2D
         //It is supposed to run at 60Hz, with velocities not getting too large (300m/s is too large): http://www.box2d.org/forum/viewtopic.php?f=4&t=1205
@@ -337,8 +317,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions();
-
-//        limitVelocities();
 
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
             box2DAdapter.worldStepped();
@@ -427,7 +405,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             final Vec2 delta = totalMomentum.mul( (float) ( -1 / getBox2DMass() ) );
             molecule.body.setLinearVelocity( v.add( delta ) );
         }
-//        System.out.println( "totalMomentum = " + totalMomentum + ", after = " + getBox2DMomentum() );
     }
 
     private Vec2 getBox2DMomentum() {
@@ -679,90 +656,4 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         ImmutableVector2D force = model.getCoulombForce( ZERO, new ImmutableVector2D( 1, 0 ), 1, 1 );
         System.out.println( "force = " + force );
     }
-
-    //Code taken from constructor
-
-
-    //Move to a stable state on startup
-    //Commented out because it takes too long
-//        long startTime = System.currentTimeMillis();
-//        for ( int i = 0; i < 10; i++ ) {
-//            world.step( (float) ( clock.getDt() * 10 ), 1 );
-//        }
-//        System.out.println( "stable start time: " + ( System.currentTimeMillis() - startTime ) );
-
-//Code taken from update
-//        //Apply a random force so the system doesn't settle down, setting random velocity looks funny
-//        for ( WaterMolecule waterMolecule : waterList ) {
-//            float rand1 = ( random.nextFloat() - 0.5f ) * 2;
-//            float rand2 = ( random.nextFloat() - 0.5f ) * 2;
-//            waterMolecule.body.applyForce( new Vec2( rand1 * randomness.get(), rand2 * randomness.get() ), waterMolecule.body.getPosition() );
-//        }
-
-//        //Apply coulomb forces between all pairs of particles
-//        for ( Molecule molecule : coulombForceOnAllMolecules.get() ? getAllMolecules() : waterList ) {
-//            for ( Atom atom : molecule.atoms ) {
-//                //Only apply the force in some interactions, to improve performance and increase randomness
-//                if ( Math.random() < probabilityOfInteraction.get() ) {
-//                    molecule.body.applyForce( getCoulombForce( atom.particle, false ), atom.particle.getBox2DPosition() );
-//                }
-//            }
-//        }
-//
-//        //Na+ and Cl- should repel each other so they disassociate quickly
-//        for ( Molecule molecule : new ArrayList<Molecule>() {{
-//            addAll( sodiumList );
-//            addAll( chlorineList );
-//        }} ) {
-//            for ( Atom atom : molecule.atoms ) {
-//                molecule.body.applyForce( getCoulombForce( atom.particle, true ), atom.particle.getBox2DPosition() );
-//            }
-//        }
-//
-
-//    //Get the contribution to the total coulomb force from a single source
-//    private Vec2 getCoulombForce( Particle source, Particle target, boolean repel ) {
-//        //Precompute for performance reasons
-//        final Vec2 sourceBox2DPosition = source.getBox2DPosition();
-//        final Vec2 targetBox2DPosition = target.getBox2DPosition();
-//
-//        if ( source == target ||
-//             ( sourceBox2DPosition.x == targetBox2DPosition.x && sourceBox2DPosition.y == targetBox2DPosition.y ) ) {
-//            return zero;
-//        }
-//        Vec2 r = sourceBox2DPosition.sub( targetBox2DPosition );
-//        double distance = r.length();
-////        System.out.println( distance );
-//
-//        //Limit the max force or objects will get accelerated too much
-//        //After particles get far enough apart, just ignore the force.  Otherwise Na+ and Cl- will seek each other out from far away.
-//        //Units are box2d units
-//        final double MIN = minInteractionDistance.get();
-//        final double MAX = maxInteractionDistance.get();
-//        if ( distance < MIN ) {
-//            distance = MIN;
-//        }
-//        else if ( distance > MAX ) {
-//            return zero;
-//        }
-//
-//        double q1 = source.getCharge();
-//        double q2 = target.getCharge();
-//
-//        double distanceFunction = 1 / Math.pow( distance, pow.get() );
-//        double magnitude = -k * q1 * q2 * distanceFunction;
-//        r.normalize();
-//        if ( repel ) {
-//            magnitude = Math.abs( magnitude ) * 2.5;//Overcome the true attractive force, and then some
-//
-//            //If the salt was just added, use full repulsive power, otherwise half the power
-//            if ( timeSinceSaltAdded > 0.75 ) {
-//                magnitude = magnitude / 2;
-//            }
-//        }
-//        return r.mul( (float) magnitude );
-//    }
-    //Turn down forces after salt disassociates
-//    private double timeSinceSaltAdded = 0;
-
 }

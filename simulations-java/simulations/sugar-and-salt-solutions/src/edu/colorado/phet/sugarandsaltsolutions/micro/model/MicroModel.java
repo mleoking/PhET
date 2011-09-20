@@ -367,16 +367,16 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         dissolveDisconnectedCrystals.apply( glucoseCrystals );
 
         if ( debugCrystalRatio ) {
-//            for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
-//                boolean matches = sodiumChlorideCrystal.matchesFormulaRatio();
-//                System.out.println( "matches = " + matches );
-//            }
-//
-//            int count = 0;
-//            for ( CalciumChlorideCrystal calciumChlorideCrystal : calciumChlorideCrystals ) {
-//                System.out.println( "calciumChlorideCrystal[" + count + ", match = " + calciumChlorideCrystal.matchesFormulaRatio() );
-//                count++;
-//            }
+            for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
+                boolean matches = sodiumChlorideCrystal.matchesFormulaRatio();
+                System.out.println( "matches = " + matches );
+            }
+
+            int count = 0;
+            for ( CalciumChlorideCrystal calciumChlorideCrystal : calciumChlorideCrystals ) {
+                System.out.println( "calciumChlorideCrystal[" + count + ", match = " + calciumChlorideCrystal.matchesFormulaRatio() );
+                count++;
+            }
 
             for ( Particle crystal : joinLists( sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals, glucoseCrystals ) ) {
                 Crystal c = (Crystal) crystal;

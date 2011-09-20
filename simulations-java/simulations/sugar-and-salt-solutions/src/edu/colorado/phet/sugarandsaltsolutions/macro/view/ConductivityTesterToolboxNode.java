@@ -39,6 +39,7 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
                     return getParent().getGlobalFullBounds();
                 }
             };
+
             //Add title and a spacer below it
             addChild( new PText( SugarAndSaltSolutionsResources.Strings.CONDUCTIVITY ) {{setFont( TITLE_FONT );}} );
 

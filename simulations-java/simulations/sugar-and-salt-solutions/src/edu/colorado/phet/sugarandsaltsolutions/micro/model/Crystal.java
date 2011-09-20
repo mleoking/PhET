@@ -90,7 +90,6 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         for ( int i = 0; i < numberFormulaRatios; i++ ) {
             growByOneFormulaUnit();
         }
-//            System.out.println("Grew by one formula unit, i = "+i+", match="+matchesFormulaRatio());
     }
 
     //Grow the crystal randomly at one of the open sites by adding a full formula (such as 1 Ca and 2Cl for CaCl2)

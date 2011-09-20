@@ -73,7 +73,6 @@ public class Box2DAdapter {
 
             //Add a little bit of bouncieness to keep things moving randomly
             f.setRestitution( 0.1f );
-            //            f.setRestitution( 0.02f );
         }
     }
 

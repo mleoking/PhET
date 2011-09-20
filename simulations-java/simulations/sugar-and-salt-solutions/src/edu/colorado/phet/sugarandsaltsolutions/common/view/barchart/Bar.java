@@ -82,8 +82,10 @@ public class Bar extends PNode {
             setFont( CONTROL_FONT );
             value.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double molesPerMeterCubed ) {
+
                     //Convert to Moles per Liter from SI
-                    double litersPerCubicMeter = 1000;//See: http://wiki.answers.com/Q/How_many_metres_cubed_are_in_a_litre
+                    //See: http://wiki.answers.com/Q/How_many_metres_cubed_are_in_a_litre
+                    double litersPerCubicMeter = 1000;
                     double molesPerLiter = molesPerMeterCubed / litersPerCubicMeter;
 
                     //Update the text

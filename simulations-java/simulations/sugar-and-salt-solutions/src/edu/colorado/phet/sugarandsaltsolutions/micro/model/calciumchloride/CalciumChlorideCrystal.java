@@ -32,6 +32,7 @@ public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
     }
 
     @Override public ImmutableVector2D[] getPossibleDirections( Constituent<SphericalParticle> constituent ) {
+
         //If there's something North/South, then do not allow going East/West and vice versa
         //This is to match the design doc spec and Soluble Salts sim to get a 2:1 lattice
         //This effectively makes it so that so that every other Ca2+ is omitted from the lattice in a regular way

@@ -21,6 +21,7 @@ import static java.awt.Color.white;
  */
 public class CrystalNode extends PNode {
     public CrystalNode( final ModelViewTransform transform, final MacroCrystal crystal, final ObservableProperty<Color> color, final double size ) {
+
         //Draw the shape of the salt crystal at its location
         addChild( new PhetPPath( white ) {{
             crystal.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -32,6 +33,7 @@ public class CrystalNode extends PNode {
                     setPathTo( new Rectangle2D.Double( viewPosition.getX() - cartoonSize / 2, viewPosition.getY() - cartoonSize / 2, cartoonSize, cartoonSize ) );
                 }
             } );
+
             //Synchronize the color with the specified color, which can be changed by the user in the color chooser dialog
             color.addObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {

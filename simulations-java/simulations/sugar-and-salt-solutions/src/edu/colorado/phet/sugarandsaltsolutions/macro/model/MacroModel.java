@@ -31,6 +31,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType
  * @author Sam Reid
  */
 public class MacroModel extends SugarAndSaltSolutionModel {
+
     //Model for the conductivity tester which is in the macro tab but not other tabs
     public final ConductivityTester conductivityTester;
 
@@ -143,7 +144,6 @@ public class MacroModel extends SugarAndSaltSolutionModel {
             sugar.moles.set( sugar.moles.get() + crystal.getMoles() );
         }
     }
-
 
     //Called when the user presses a button to clear the solutes, removes all solutes from the sim
     public void removeSaltAndSugar() {
@@ -305,5 +305,4 @@ public class MacroModel extends SugarAndSaltSolutionModel {
             crystalList.remove( crystal );
         }
     }
-
 }

@@ -28,6 +28,7 @@ public class Solution {
         this.volume = waterVolume;
         shape = new CompositeProperty<Shape>( new Function0<Shape>() {
             public Shape apply() {
+
                 //Assumes the beaker is rectangular
                 return beaker.getWaterShape( 0, waterVolume.get() );
             }

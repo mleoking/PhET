@@ -112,8 +112,11 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
 
     //Create the transform from model (SI) to view (stage) coordinates.  Public and static since it is also used to create the MiniBeakerNode in the Water tab
     public static ModelViewTransform createMacroTransform( SugarAndSaltSolutionModel model ) {
-        double modelScale = 0.75;//Scale the model down so there will be room for control panels.
+
+        //Scale the model down so there will be room for control panels.
+        double modelScale = 0.75;
         return createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
+
                                                 //Manually tuned so that the model part shows up in the left side of the canvas,
                                                 // leaving enough room for controls, labels, and positioning it so it appears near the bottom
                                                 new Rectangle2D.Double( 20,
