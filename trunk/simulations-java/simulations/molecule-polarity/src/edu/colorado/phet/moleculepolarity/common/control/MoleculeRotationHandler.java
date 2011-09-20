@@ -17,7 +17,7 @@ public class MoleculeRotationHandler extends PDragSequenceEventHandler {
 
     private final Molecule2D molecule;
     private final PNode dragNode;
-    double previousAngle;
+    private double previousAngle;
 
     public MoleculeRotationHandler( Molecule2D molecule, PNode dragNode ) {
         this.molecule = molecule;
