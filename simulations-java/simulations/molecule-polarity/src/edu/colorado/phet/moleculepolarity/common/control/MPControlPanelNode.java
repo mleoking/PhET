@@ -2,11 +2,10 @@
 package edu.colorado.phet.moleculepolarity.common.control;
 
 import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -22,10 +21,13 @@ public class MPControlPanelNode extends PNode {
 
     public MPControlPanelNode( Frame parentFrame, Resettable[] resettables, MPVerticalPanel... panels ) {
 
-        // workaround for #3077
+        /*
+         * Workaround for #3077 (PSwing clips labels in floating control panels)
+         * Traverse the containment hierarchy and add a small amount of horizontal padding to each component.
+         */
         for ( MPVerticalPanel panel : panels ) {
             for ( Component component : panel.getComponents() ) {
-                padComponentWidth( component );
+                SwingUtils.padPreferredWidthDeep( component, 5 );
             }
         }
 
@@ -58,19 +60,5 @@ public class MPControlPanelNode extends PNode {
             addChild( resetAllButtonNode );
             resetAllButtonNode.setOffset( previousNode.getXOffset(), previousNode.getFullBoundsReference().getMaxY() + Y_SPACING );
         }
-    }
-
-    /*
-     * Workaround for #3077 (PSwing clips labels in floating control panels)
-     * Traverse the containment hierarchy and add a small amount of horizontal padding to each component.
-     */
-    private void padComponentWidth( Component component ) {
-        final int padWidth = 5;
-        if ( component instanceof Container ) {
-            for ( Component child : ( (Container) component ).getComponents() ) {
-                padComponentWidth( child );
-            }
-        }
-        component.setPreferredSize( new Dimension( (int) component.getPreferredSize().getWidth() + padWidth, (int) component.getPreferredSize().getHeight() ) );
     }
 }

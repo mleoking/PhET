@@ -12,9 +12,6 @@ DESIGN
 - CH2F2 and CHCl3 have tiny bond dipoles, is this an issue?
 - what is the final set of molecules?
 
-HIGH
-- PSwing clips labels in floating control panels (Mac), see #3077
-
 MEDIUM
 - delete Bond.deltaElectronegativity, rewrite setComponentX and translate steps in BondDipoleNode
 
