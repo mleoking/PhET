@@ -55,7 +55,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
         PNode controlPanelNode = new MPControlPanelNode( parentFrame, new Resettable[] { model, viewProperties },
-                                                         new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE ),
+                                                         new ViewControlPanel( viewProperties, false, false, false, false, MPStrings.BOND_DIPOLE ),
                                                          new SurfaceControlPanel( viewProperties.surfaceType ),
                                                          new EFieldControlPanel( model.eField.enabled ) );
 

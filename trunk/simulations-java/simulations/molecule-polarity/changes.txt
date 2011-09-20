@@ -1,3 +1,4 @@
+9/20/11 temporarily hide Bond Type feature, for interviews
 # 0.00.23 (56723) Sep 19, 2011
 9/19/11 move Jmol console to Developer menu
 9/19/11 first pass at a reusable Jmol console component
