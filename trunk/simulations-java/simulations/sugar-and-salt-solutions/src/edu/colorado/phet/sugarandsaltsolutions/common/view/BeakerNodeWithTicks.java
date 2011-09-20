@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__BEAKER_TICK_LABEL;
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.Units.metersCubedToLiters;
 import static java.awt.Color.black;
 import static java.awt.Color.white;
 

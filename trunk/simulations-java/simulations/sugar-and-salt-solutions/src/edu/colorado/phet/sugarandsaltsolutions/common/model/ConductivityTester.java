@@ -143,7 +143,6 @@ public class ConductivityTester implements IConductivityTester {
         }
     }
 
-
     //Setters and getters for the battery region, set by the view since bulb and battery are primarily view components. Used to determine if the circuit should short out.
     public void setBatteryRegion( Shape shape ) {
         this.batteryRegion = shape;

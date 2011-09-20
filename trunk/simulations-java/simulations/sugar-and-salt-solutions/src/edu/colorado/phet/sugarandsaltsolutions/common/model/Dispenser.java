@@ -20,6 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
+
     //Start centered above the fluid
     public final Property<ImmutableVector2D> center;
 
@@ -76,6 +77,7 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
 
     //Reset the dispenser's position and orientation
     public void reset() {
+
         //Only need to set the primary properties, others (e.g., open/enabled) are derived and will auto-reset
         center.reset();
         angle.reset();

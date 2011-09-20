@@ -24,6 +24,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel.VO
  * @author Sam Reid
  */
 public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispenser<T> {
+
     //Some randomness in number of generated crystals when shaken
     private final Random random = new Random();
 

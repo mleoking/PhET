@@ -17,8 +17,10 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * @author Sam Reid
  */
 public class Beaker {
+
     //Left side of the inner part of the beaker
     private final double x;
+
     //the y-location of the inner part of the base of the beaker
     private final double y;
 
@@ -32,11 +34,7 @@ public class Beaker {
     //Width of the beaker
     public final double wallThickness;
 
-    //Move the top of the beaker sides up since with 2L of water and expanded volume from dissolved solutes, the beaker would overflow
-    //This value was sampled by trial and error at runtime
-//    private final double topExtension = 0.003;
-
-    //Since we decided not to have solutes take up volume, we have no extension
+    //Since we decided not to have solutes take up volume, we have no extension.  If dissolved solutes take up nonzero volume in the future, this could be increased to something like 0.003
     private final double topExtension = 0.0;
 
     private final double topDelta;

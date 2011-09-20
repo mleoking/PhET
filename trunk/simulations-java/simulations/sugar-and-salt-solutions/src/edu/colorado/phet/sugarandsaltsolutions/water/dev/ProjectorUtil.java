@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.common.util;
+package edu.colorado.phet.sugarandsaltsolutions.water.dev;
 
 import java.awt.Color;
 import java.awt.Dimension;

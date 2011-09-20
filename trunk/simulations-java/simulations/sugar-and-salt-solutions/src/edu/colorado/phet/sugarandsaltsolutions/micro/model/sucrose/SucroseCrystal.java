@@ -6,7 +6,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.Units.nanometersToMeters;
 
 /**
  * This crystal for sugar updates the positions of the molecules to ensure they move together
