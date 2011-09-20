@@ -2,17 +2,19 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.drag.VerticalSliderDragHandler;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -21,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
+import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -250,13 +253,13 @@ public class PlateChargeControlNode extends PhetPNode {
     }
 
     // Drag handler for the knob, snaps to zero.
-    private static class KnobDragHandler extends VerticalSliderDragHandler {
+    private static class KnobDragHandler extends SliderThumbDragHandler {
 
         private final double snapThreshold; // slider snaps to zero when model value is <= this threshold
 
         // see superclass for constructor params
         public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
-            super( relativeNode, trackNode, knobNode, range, updateFunction );
+            super( Orientation.VERTICAL, relativeNode, trackNode, knobNode, range, updateFunction );
             this.snapThreshold = snapThreshold;
         }
 

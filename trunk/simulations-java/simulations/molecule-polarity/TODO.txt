@@ -27,7 +27,5 @@ BEFORE PUBLISHING
 - design doc snapshot
 
 MIGRATE TO COMMON
-- HorizontalSliderDragHandler
-- VerticalSliderDragHandler (from capacitor-lab, needs generalization?)
 - RotateCursorHandler and associated image
 - JmolConsole

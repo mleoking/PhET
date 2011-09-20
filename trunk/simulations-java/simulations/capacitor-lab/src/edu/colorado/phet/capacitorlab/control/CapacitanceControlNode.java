@@ -2,17 +2,19 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.drag.VerticalSliderDragHandler;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.view.meters.TimesTenValueNode;
@@ -22,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
+import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -202,13 +205,13 @@ public class CapacitanceControlNode extends PhetPNode {
     }
 
     // Drag handler for the knob, snaps to closet value.
-    private static class KnobDragHandler extends VerticalSliderDragHandler {
+    private static class KnobDragHandler extends SliderThumbDragHandler {
 
         private final double snapInterval; // slider snaps to closet model value in this interval
 
         // see superclass for constructor params
         public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
-            super( relativeNode, trackNode, knobNode, range, updateFunction );
+            super( Orientation.VERTICAL, relativeNode, trackNode, knobNode, range, updateFunction );
             this.snapInterval = snapInterval;
         }
 
