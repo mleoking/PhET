@@ -13,7 +13,7 @@ DESIGN
 - what is the final set of molecules?
 
 HIGH
-- ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
+- PSwing clips labels in floating control panels (Mac), see #3077
 
 MEDIUM
 - delete Bond.deltaElectronegativity, rewrite setComponentX and translate steps in BondDipoleNode
