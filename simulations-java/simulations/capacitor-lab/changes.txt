@@ -1,3 +1,4 @@
+9/20/11 use LinearFunction in VerticalSliderDragHandler
 # 2.00.00 (53048) Jun 11, 2011
 # 1.00.14 (53028) Jun 10, 2011
 6/10/11 fix: when plate size changes, recompute occlusion of wire that connects to bottom of capacitor plate

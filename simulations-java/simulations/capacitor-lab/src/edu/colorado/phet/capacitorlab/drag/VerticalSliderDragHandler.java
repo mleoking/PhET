@@ -3,6 +3,7 @@ package edu.colorado.phet.capacitorlab.drag;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -20,6 +21,7 @@ public class VerticalSliderDragHandler extends PDragSequenceEventHandler {
     private final PNode relativeNode, trackNode, knobNode;
     private final DoubleRange range;
     private final VoidFunction1<Double> updateFunction;
+    private final LinearFunction valueFunction;
     private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
 
     /**
@@ -37,6 +39,7 @@ public class VerticalSliderDragHandler extends PDragSequenceEventHandler {
         this.knobNode = knobNode;
         this.range = range;
         this.updateFunction = updateFunction;
+        this.valueFunction = new LinearFunction( 0, trackNode.getFullBoundsReference().getHeight(), range.getMax(), range.getMin() );
     }
 
     @Override
@@ -82,10 +85,9 @@ public class VerticalSliderDragHandler extends PDragSequenceEventHandler {
         Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
         Point2D pKnobLocal = relativeNode.globalToLocal( pKnobGlobal );
 
-        // convert the offset to a charge value
+        // convert the offset to a value
         double yOffset = pKnobLocal.getY();
-        double trackLength = trackNode.getFullBoundsReference().getHeight();
-        double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
+        double value = valueFunction.evaluate( yOffset );
         value = MathUtil.clamp( value, range );
 
         // hook for adjusting value (for subclasses to implement snapping, etc.)
