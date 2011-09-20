@@ -73,19 +73,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             setOffset( evaporationSlider.getFullBounds().getMaxX() + INSET, evaporationSlider.getFullBounds().getY() );
         }} );
 
-        //Show the kit control node that allows the user to scroll through different kits
-        final PNode microKitControlNode = new ZeroOffsetNode( new MicroKitControlNode( model.selectedKit, model.dispenserType ) {{
-            model.addResetListener( new VoidFunction0() {
-                public void apply() {
-                    kitSelectionNode.selectedKit.set( 0 );
-                }
-            } );
-        }} );
-
-        microKitControlNode.setOffset( concentrationBarChart.getFullBounds().getX() - microKitControlNode.getFullBounds().getWidth() - INSET - 10, concentrationBarChart.getFullBounds().getY() );
-        behindShakerNode.addChild( microKitControlNode );
-
-        //Add a button that shows the periodic table when pressed
+        //A button that shows the periodic table when pressed, shown inside the kit selection node since the selected item controls what is highlighted in the periodic table
         final TextButtonNode periodicTableButton = new TextButtonNode( SHOW_IN_PERIODIC_TABLE, WaterControlPanel.BUTTON_FONT, BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -106,11 +94,19 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                     periodicTableDialog.setVisible( true );
                 }
             } );
-
-            //Put the button near the solute selection node, since it controls what is highlighted in the periodic table
-            setOffset( microKitControlNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, microKitControlNode.getFullBounds().getMaxY() + INSET );
         }};
-        behindShakerNode.addChild( periodicTableButton );
+
+        //Show the kit control node that allows the user to scroll through different kits
+        final PNode microKitControlNode = new ZeroOffsetNode( new MicroKitControlNode( model.selectedKit, model.dispenserType, periodicTableButton ) {{
+            model.addResetListener( new VoidFunction0() {
+                public void apply() {
+                    kitSelectionNode.selectedKit.set( 0 );
+                }
+            } );
+        }} );
+
+        microKitControlNode.setOffset( concentrationBarChart.getFullBounds().getX() - microKitControlNode.getFullBounds().getWidth() - INSET - 10, concentrationBarChart.getFullBounds().getY() );
+        behindShakerNode.addChild( microKitControlNode );
 
         //Hide the periodic table on reset, and set it to null so it will come up in the default location next time
         model.addResetListener( new VoidFunction0() {
