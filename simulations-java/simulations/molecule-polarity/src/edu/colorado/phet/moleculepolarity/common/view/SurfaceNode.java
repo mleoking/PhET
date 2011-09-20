@@ -38,6 +38,7 @@ public abstract class SurfaceNode extends PComposite {
         addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
     }
 
+    // implemented by subclasses, specific to the number of colors in the surface's gradient
     protected abstract void updateNode();
 
     // Update when the node becomes visible.
