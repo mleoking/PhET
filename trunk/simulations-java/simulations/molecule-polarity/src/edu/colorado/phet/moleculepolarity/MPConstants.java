@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity;
 
-import java.awt.Color;
-
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
@@ -18,9 +16,6 @@ public class MPConstants {
     // Model
     public static final DoubleRange ELECTRONEGATIVITY_RANGE = new DoubleRange( 2, 4, 2 );
     public static final double ELECTRONEGATIVITY_SNAP_INTERVAL = 0.2;
-
-    // Canvas
-    public static final Color CANVAS_COLOR = new Color( 180, 205, 255 ); // light blue
 
     // E-field plates, all values are related to 2D projection of the plates
     public static final double PLATE_WIDTH = 50;
