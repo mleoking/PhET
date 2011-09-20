@@ -10,7 +10,8 @@ import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 
 /**
- * Model of a make-believe triatomic (3 atoms) molecule.
+ * Model of a make-believe triatomic (3 atoms) molecule with a very specific topology.
+ * Variables are named based on the English labels applied to the atoms.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -36,35 +37,15 @@ public class TriatomicMolecule extends Molecule2D {
         bondAngleA = new Property<Double>( 0.75 * Math.PI );
         bondAngleC = new Property<Double>( 0.25 * Math.PI );
 
-        // update atom locations
-        RichSimpleObserver atomLocationUpdater = new RichSimpleObserver() {
+        initObservers();
+
+        // requires an additional observer, to update atom locations when bond angles change
+        RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
                 updateAtomLocations();
             }
         };
-        atomLocationUpdater.observe( this.angle, bondAngleA, bondAngleC );
-
-        // update molecular dipole
-        RichSimpleObserver molecularDipoleUpdater = new RichSimpleObserver() {
-            public void update() {
-                updateMolecularDipole();
-            }
-        };
-        molecularDipoleUpdater.observe( bondAB.dipole, bondBC.dipole );
-
-        // update partial charges
-        RichSimpleObserver enObserver = new RichSimpleObserver() {
-            @Override public void update() {
-                final double deltaAB = atomA.electronegativity.get() - atomB.electronegativity.get();
-                final double deltaCB = atomC.electronegativity.get() - atomB.electronegativity.get();
-                // in our simplified model, partial charge and deltaEN are equivalent. not so in the real world.
-                atomA.partialCharge.set( -deltaAB );
-                atomC.partialCharge.set( -deltaCB );
-                // atom B's participates in 2 bonds, so its partial charge is the sum
-                atomB.partialCharge.set( deltaAB + deltaCB );
-            }
-        };
-        enObserver.observe( atomA.electronegativity, atomB.electronegativity, atomC.electronegativity );
+        observer.observe( bondAngleA, bondAngleC );
     }
 
     public void reset() {
@@ -77,12 +58,12 @@ public class TriatomicMolecule extends Molecule2D {
         return new Atom[] { atomA, atomB, atomC };
     }
 
-    public Bond[] getBonds() {
+    protected Bond[] getBonds() {
         return new Bond[] { bondAB, bondBC };
     }
 
     // repositions the atoms
-    private void updateAtomLocations() {
+    protected void updateAtomLocations() {
         final double radius = BOND_LENGTH;
         // atom B remains at the molecule's location
         atomB.location.set( location );
@@ -96,5 +77,16 @@ public class TriatomicMolecule extends Molecule2D {
         double xC = PolarCartesianConverter.getX( radius, thetaC ) + location.getX();
         double yC = PolarCartesianConverter.getY( radius, thetaC ) + location.getY();
         atomC.location.set( new ImmutableVector2D( xC, yC ) );
+    }
+
+    // updates partial charges
+    protected void updatePartialCharges() {
+        final double deltaAB = atomA.electronegativity.get() - atomB.electronegativity.get();
+        final double deltaCB = atomC.electronegativity.get() - atomB.electronegativity.get();
+        // in our simplified model, partial charge and deltaEN are equivalent. not so in the real world.
+        atomA.partialCharge.set( -deltaAB );
+        atomC.partialCharge.set( -deltaCB );
+        // atom B's participates in 2 bonds, so its partial charge is the sum
+        atomB.partialCharge.set( deltaAB + deltaCB );
     }
 }

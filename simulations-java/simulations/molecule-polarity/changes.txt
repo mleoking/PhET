@@ -1,4 +1,5 @@
-9/19/11 move duplicate ClockListener in 2D models to the base class
+9/19/11 move duplicate observer code into Molecule2D base class
+9/19/11 move duplicate ClockListener into MPModel2D base class
 9/19/11 fix 2D model class hierarchy
 9/19/11 javadoc
 9/19/11 write development-notes.xt
