@@ -269,14 +269,14 @@ public class ElectronegativityControlNode extends PhetPNode {
     }
 
     // Drag handler for the thumb, snaps to closest tick mark.
-    private static class ThumbDragHandler extends HorizontalSliderDragHandler {
+    private static class ThumbDragHandler extends SliderDragHandler {
 
         private final Molecule2D molecule;
         private final double snapInterval; // slider snaps to closet model value in this interval
 
         // see superclass for constructor params
         public ThumbDragHandler( Molecule2D molecule, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
-            super( relativeNode, trackNode, thumbNode, range, updateFunction );
+            super( Orientation.HORIZONTAL, relativeNode, trackNode, thumbNode, range, updateFunction );
             this.molecule = molecule;
             this.snapInterval = snapInterval;
         }
