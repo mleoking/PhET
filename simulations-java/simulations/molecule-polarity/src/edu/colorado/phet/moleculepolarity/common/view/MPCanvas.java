@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Base class for all canvases.
@@ -15,6 +16,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MPCanvas extends PhetPCanvas {
 
+    private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private static final boolean SHOW_STAGE_BOUNDS = true && PhetApplication.getInstance().isDeveloperControlsEnabled();
 
     private final PNode rootNode;
@@ -22,9 +24,9 @@ public class MPCanvas extends PhetPCanvas {
     protected MPCanvas() {
 
         setBackground( MPConstants.CANVAS_COLOR );
-        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, MPConstants.STAGE_SIZE ) );
+        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
         if ( SHOW_STAGE_BOUNDS ) {
-            addBoundsNode( MPConstants.STAGE_SIZE );
+            addBoundsNode( STAGE_SIZE );
         }
 
         rootNode = new PNode();
@@ -44,6 +46,6 @@ public class MPCanvas extends PhetPCanvas {
     }
 
     protected Dimension2D getStageSize() {
-        return MPConstants.STAGE_SIZE;
+        return STAGE_SIZE;
     }
 }
