@@ -1,3 +1,4 @@
+9/20/11 vertically center 2D molecules between plates
 9/20/11 restore Bond Type feature
 # 0.00.24 (56733) Sep 20, 2011
 9/20/11 temporarily hide Bond Type feature, for interviews

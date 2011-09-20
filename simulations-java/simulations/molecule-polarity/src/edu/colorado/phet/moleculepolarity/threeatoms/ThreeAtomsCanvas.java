@@ -5,7 +5,6 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
@@ -76,9 +75,10 @@ public class ThreeAtomsCanvas extends MPCanvas {
         // layout, relative to molecule location
         {
             final double moleculeX = model.molecule.location.getX();
+            final double moleculeY = model.molecule.location.getY();
             final double plateXOffset = 300; // x offset from molecule
             negativePlateNode.setOffset( moleculeX - plateXOffset - negativePlateNode.getFullBoundsReference().getWidth(),
-                                         100 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
+                                         moleculeY - ( MPConstants.PLATE_HEIGHT / 2 ) );
             positivePlateNode.setOffset( moleculeX + plateXOffset,
                                          negativePlateNode.getYOffset() );
             enControlB.setOffset( moleculeX - ( enControlB.getFullBoundsReference().getWidth() / 2 ), 50 );
