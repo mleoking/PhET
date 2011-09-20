@@ -16,7 +16,7 @@ HIGH
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 
 MEDIUM
-- delete Bond.deltaElectronegativity and rewrite setComponentX and translate steps in BondDipoleNode
+- delete Bond.deltaElectronegativity, rewrite setComponentX and translate steps in BondDipoleNode
 
 LOW
 - move Jmol console to Developer menu
