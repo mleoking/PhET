@@ -17,7 +17,6 @@ MEDIUM
 
 LOW
 - play area visibly resizes at startup
-- look for Property<T> fields that shouldn't be public
 - move RotateMol2 someplace better
 
 BEFORE PUBLISHING
