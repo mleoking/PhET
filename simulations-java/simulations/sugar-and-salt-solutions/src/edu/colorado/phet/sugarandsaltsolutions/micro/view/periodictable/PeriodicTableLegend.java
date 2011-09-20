@@ -15,6 +15,7 @@ import static edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicT
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.METAL;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.NON_METAL;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog.METAL_COLOR;
 import static java.awt.Color.*;
 
 /**
@@ -31,7 +32,7 @@ public class PeriodicTableLegend extends PNode {
         Rectangle2D.Double box = new Rectangle2D.Double( 0, 0, CELL_DIMENSION * scale, CELL_DIMENSION * scale );
 
         //Create a box in the bottom left for gray metals
-        final HBox metalBox = new HBox( new PhetPPath( box, lightGray, new BasicStroke( 1 ), black ), new PText( METAL ) {{
+        final HBox metalBox = new HBox( new PhetPPath( box, METAL_COLOR, new BasicStroke( 1 ), black ), new PText( METAL ) {{
             setFont( CONTROL_FONT );
             whiteBackground.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean whiteBackground ) {

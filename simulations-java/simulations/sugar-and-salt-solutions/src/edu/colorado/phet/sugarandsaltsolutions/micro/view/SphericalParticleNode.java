@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.PFrame;
 
+import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.AtomImageCache.getAtomImage;
 
 /**
@@ -68,7 +69,7 @@ public class SphericalParticleNode extends PNode {
     //Test application that draws a particle
     public static void main( String[] args ) {
         new PFrame( SphericalParticleNode.class.getName(), false, new PCanvas() {{
-            SphericalParticle p = new SphericalParticle( 100.0, new ImmutableVector2D( 0, 0 ), Color.red, +1 );
+            SphericalParticle p = new SphericalParticle( 100.0, new ImmutableVector2D( 0, 0 ), RED_COLORBLIND, +1 );
             getLayer().addChild( new SphericalParticleNode( ModelViewTransform.createIdentity(), p, new BooleanProperty( false ) ) {{
                 setOffset( 100, 100 );
             }} );

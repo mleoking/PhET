@@ -52,6 +52,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrysta
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.GlucoseDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SucroseDispenser;
 
+import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
@@ -59,7 +60,6 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.molesPer
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.*;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
 import static java.awt.Color.blue;
-import static java.awt.Color.red;
 import static java.util.Arrays.asList;
 
 /**
@@ -100,12 +100,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Choose nitrate to be blue because the Nitrogen atom is blue, even though it is negative and therefore also blue under "show charge color" condition
     private final ObservableProperty<Color> sucroseColor = new CompositeProperty<Color>( new Function0<Color>() {
         public Color apply() {
-            return showChargeColor.get() ? NEUTRAL_COLOR : red;
+            return showChargeColor.get() ? NEUTRAL_COLOR : RED_COLORBLIND;
         }
     }, showChargeColor );
     private final ObservableProperty<Color> glucoseColor = new CompositeProperty<Color>( new Function0<Color>() {
         public Color apply() {
-            return showChargeColor.get() ? NEUTRAL_COLOR : red;
+            return showChargeColor.get() ? NEUTRAL_COLOR : RED_COLORBLIND;
         }
     }, showChargeColor );
     private final ObservableProperty<Color> nitrateColor = new CompositeProperty<Color>( new Function0<Color>() {
