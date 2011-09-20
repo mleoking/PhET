@@ -1,3 +1,4 @@
+# 0.00.23 (56723) Sep 19, 2011
 9/19/11 move Jmol console to Developer menu
 9/19/11 first pass at a reusable Jmol console component
 9/19/11 move duplicate observer code into Molecule2D base class
