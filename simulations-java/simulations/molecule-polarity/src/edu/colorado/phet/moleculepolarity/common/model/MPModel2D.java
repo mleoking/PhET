@@ -10,15 +10,22 @@ import edu.colorado.phet.moleculepolarity.MPConstants;
 
 /**
  * Base class for 2D models in this sim.
+ * Every 2D model has an E-field and a molecule.
+ * If the E-field is enabled, the molecule rotates until its molecular dipole is aligned with the E-field.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class MPModel2D implements Resettable {
 
-    public final EField eField = new EField();
+    // constants that control animation of E-field alignment
+    private static final double MAX_RADIANS_PER_STEP = Math.toRadians( 10 );
+    private static final LinearFunction ANGULAR_VELOCITY_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, MAX_RADIANS_PER_STEP );
+
+    public final EField eField;
     private final Molecule2D molecule;
 
     protected MPModel2D( IClock clock, final Molecule2D molecule ) {
+        this.eField = new EField();
         this.molecule = molecule;
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
@@ -46,8 +53,7 @@ public abstract class MPModel2D implements Resettable {
     protected void updateMoleculeOrientation( Molecule2D molecule ) {
 
         // magnitude of angular velocity is proportional to molecular dipole magnitude
-        LinearFunction angularVelocityFunction = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, Math.toRadians( 10 ) );
-        final double deltaDipoleAngle = Math.abs( angularVelocityFunction.evaluate( molecule.dipole.get().getMagnitude() ) );
+        final double deltaDipoleAngle = Math.abs( ANGULAR_VELOCITY_FUNCTION.evaluate( molecule.dipole.get().getMagnitude() ) );
 
         // convert angle to range [0,2*PI)
         final double dipoleAngle = normalizeAngle( molecule.dipole.get().getAngle() );
