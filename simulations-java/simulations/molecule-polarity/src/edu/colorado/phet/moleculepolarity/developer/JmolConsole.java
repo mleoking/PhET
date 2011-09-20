@@ -51,12 +51,10 @@ public class JmolConsole extends JPanel {
         runButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 String script = inputArea.getText();
-                System.out.println( "script: " + script );
                 Object status = viewer.scriptWaitStatus( script, null );
                 if ( status != null ) {
                     outputArea.append( "\n" );
                     outputArea.append( status.toString() );
-                    System.out.println( "status: " + status.toString() );
                 }
             }
         } );
