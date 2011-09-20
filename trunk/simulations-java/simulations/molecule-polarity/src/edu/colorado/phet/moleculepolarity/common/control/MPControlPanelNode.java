@@ -60,7 +60,10 @@ public class MPControlPanelNode extends PNode {
         }
     }
 
-    // workaround for #3077 (PSwing clips labels in floating control panels)
+    /*
+     * Workaround for #3077 (PSwing clips labels in floating control panels)
+     * Traverse the containment hierarchy and add a small amount of horizontal padding to each component.
+     */
     private void padComponentWidth( Component component ) {
         final int padWidth = 5;
         if ( component instanceof Container ) {
