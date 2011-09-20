@@ -39,19 +39,19 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNode {
 
     //Wrapped node that contains all the atoms
-    protected PNode atomLayer;
+    protected final PNode atomLayer;
 
     //Transform from model (meters) to view (stage) coordinates
-    private ModelViewTransform transform;
+    private final ModelViewTransform transform;
 
     //The bucket, so the node can be moved back to the bucket hole
-    private BucketView bucketView;
+    private final BucketView bucketView;
 
     //The canvas this node will be displayed on, for purposes of converting global coordinates to stage for centering on the bucket
-    private WaterCanvas canvas;
+    private final WaterCanvas canvas;
 
     //The list of compounds such as sucrose molecules or salt ions
-    private T[] compounds;
+    private final T[] compounds;
 
     //Flag to keep track of whether the node was dragged from the bucket; if so, model elements will be created when dropped into the particle window
     public final Property<Boolean> inBucket = new Property<Boolean>( true );

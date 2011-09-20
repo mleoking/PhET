@@ -29,8 +29,8 @@ public class Sucrose3DDialog {
     private boolean showJMolDialogOnActivate;
 
     //Parent for the dialog
-    private JFrame parent;
-    private Color backgroundColor;
+    private final JFrame parent;
+    private final Color backgroundColor;
 
     public Sucrose3DDialog( JFrame parent, Color backgroundColor ) {
         this.parent = parent;

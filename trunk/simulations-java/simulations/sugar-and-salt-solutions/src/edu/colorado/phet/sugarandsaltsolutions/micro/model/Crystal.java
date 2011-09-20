@@ -39,8 +39,8 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     public final Random random = new Random();
 
     //Flag for debugging the crystals
-    private boolean debugCrystalDissolve = false;
-    private boolean debugCrystalRatio = false;
+    private final boolean debugCrystalDissolve = false;
+    private final boolean debugCrystalRatio = false;
 
     //Construct the compound from the specified lattice
     public Crystal( Formula formula, ImmutableVector2D position, double spacing, double angle ) {

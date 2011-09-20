@@ -56,13 +56,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final ItemList<SaltIon> saltIonList = new ItemList<SaltIon>();
 
     //Listeners who are called back when the physics updates
-    private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
+    private final ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
 
     //Box2d world which updates the physics
     public final World world;
 
     //Randomness for laying out and propagating the particles
-    private Random random = new Random();
+    private final Random random = new Random();
 
     //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
     private final double particleWindowWidth = 2.3E-9 * 0.8;
@@ -105,7 +105,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //units for water molecules are in SI
     //Beaker floor should be about 40 angstroms, to accommodate about 20 water molecules side-to-side
     //But keep box2d within -10..10 (i.e. 20 boxes wide)
-    double scaleFactor = box2DWidth / particleWindow.width;
+    final double scaleFactor = box2DWidth / particleWindow.width;
     public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
     private static final int DEFAULT_NUM_WATERS = 130;
@@ -139,13 +139,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private static final boolean debugTime = false;
 
     //List of adapters that manage both the box2D and actual model data
-    private ItemList<Box2DAdapter> box2DAdapters = new ItemList<Box2DAdapter>();
+    private final ItemList<Box2DAdapter> box2DAdapters = new ItemList<Box2DAdapter>();
 
     //Panel that allows us to see jbox2d model and computations
     protected TestPanel testPanel;
 
     //Flag to enable/disable the jbox2D DebugDraw mode, which shows the box2d model and computations
-    private boolean useDebugDraw = false;
+    private final boolean useDebugDraw = false;
 
     //Keep track of how many waters get deleted when sucrose molecule is dropped so they can be added back when the user grabs the sucrose molecule
     private final HashMap<Compound<SphericalParticle>, Integer> deletedWaterCount = new HashMap<Compound<SphericalParticle>, Integer>();

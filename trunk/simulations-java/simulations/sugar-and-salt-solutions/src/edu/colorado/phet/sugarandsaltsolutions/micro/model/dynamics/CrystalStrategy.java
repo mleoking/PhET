@@ -18,8 +18,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 public class CrystalStrategy extends UpdateStrategy {
     //Strategy rule to use for dissolving the crystals
     public final CrystalDissolve crystalDissolve;
-    private ItemList<? extends Crystal> crystals;
-    private ObservableProperty<Boolean> saturated;
+    private final ItemList<? extends Crystal> crystals;
+    private final ObservableProperty<Boolean> saturated;
 
     public CrystalStrategy( MicroModel model, ItemList<? extends Crystal> crystals, ObservableProperty<Boolean> saturated ) {
         super( model );

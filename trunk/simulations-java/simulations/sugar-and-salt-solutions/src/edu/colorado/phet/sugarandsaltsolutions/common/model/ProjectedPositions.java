@@ -23,7 +23,7 @@ public class ProjectedPositions {
     private final String text;
 
     //Conversion factor from pixels to model units (meters)
-    private double scale;
+    private final double scale;
 
     public ProjectedPositions( String text, double scale ) {
         this.text = text;

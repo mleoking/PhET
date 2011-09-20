@@ -41,8 +41,8 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     public static final int INSET = 5;
 
     //Fonts
-    public static Font CONTROL_FONT = new PhetFont( 16, true );
-    public static Font TITLE_FONT = new PhetFont( 18, true );
+    public static final Font CONTROL_FONT = new PhetFont( 16, true );
+    public static final Font TITLE_FONT = new PhetFont( 18, true );
 
     protected final PDimension stageSize;
     protected final ModelViewTransform transform;
@@ -52,8 +52,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     public static final Dimension canvasSize = new Dimension( 1008, 676 );
 
     //Other content that should go behind the shakers
-    protected PNode behindShakerNode;
-    private boolean debug = false;
+    protected final PNode behindShakerNode;
 
     //For nodes that should look like they go into the water, such as the conductivity tester probes
     public final PNode submergedInWaterNode = new PNode();
@@ -67,8 +66,11 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //Store a reference to the EvaporationSlider for layout purposes
     protected final EvaporationSlider evaporationSlider;
 
+    //Debugging flag
+    private boolean debug = false;
+
     //Flag to indicate debugging of the model visible bounding region, used for layouts
-    private boolean debugVisibleBounds = false;
+    private final boolean debugVisibleBounds = false;
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform,
 

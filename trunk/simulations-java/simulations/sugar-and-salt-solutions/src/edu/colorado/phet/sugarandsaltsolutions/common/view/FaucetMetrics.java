@@ -23,7 +23,7 @@ public class FaucetMetrics {
     public final ImmutableVector2D outputPoint;
 
     //The main model is used to obtain the bounds for the solution
-    private SugarAndSaltSolutionModel model;
+    private final SugarAndSaltSolutionModel model;
 
     //The width of the opening of the faucet where the water comes out, used to create water rectangle of the right dimension
     public final double faucetWidth;

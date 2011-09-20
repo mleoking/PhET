@@ -32,7 +32,7 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
     private double shakeAmount;
 
     //Keep track of recorded positions when the shaker is translated so we can compute accelerations, which are responsible for shaking out the salt
-    private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
+    private final ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
     public Shaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, T model ) {
         super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, name, distanceScale, selectedType, type, model );

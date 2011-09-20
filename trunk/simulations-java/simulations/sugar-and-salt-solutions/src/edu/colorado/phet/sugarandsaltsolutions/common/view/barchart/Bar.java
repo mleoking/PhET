@@ -28,7 +28,7 @@ import static java.lang.Float.isNaN;
  */
 public class Bar extends PNode {
     public static final float WIDTH = 40;
-    protected PNode valueReadout;
+    protected final PNode valueReadout;
 
     public Bar( final ObservableProperty<Color> color,
                 final String caption,

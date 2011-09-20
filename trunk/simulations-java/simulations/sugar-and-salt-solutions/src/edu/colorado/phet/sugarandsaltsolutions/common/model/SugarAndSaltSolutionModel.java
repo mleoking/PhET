@@ -82,7 +82,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public final Property<Shape> outputWater = new Property<Shape>( new Area() );
 
     //The dragging constraint so that the user cannot drag the shakers outside of the visible region
-    public Function1<Point2D, Point2D> dragConstraint = new Function1<Point2D, Point2D>() {
+    public final Function1<Point2D, Point2D> dragConstraint = new Function1<Point2D, Point2D>() {
         public Point2D apply( Point2D point2D ) {
 
             //Use the visible region for constraining the X-value, and a fraction past the beaker value.

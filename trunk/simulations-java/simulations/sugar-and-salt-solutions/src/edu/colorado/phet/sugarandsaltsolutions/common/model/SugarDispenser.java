@@ -32,7 +32,7 @@ public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extend
     public final Random random = new Random();
 
     private boolean translating = false;
-    private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
+    private final ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
     public final T model;
 
     public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, T model ) {
