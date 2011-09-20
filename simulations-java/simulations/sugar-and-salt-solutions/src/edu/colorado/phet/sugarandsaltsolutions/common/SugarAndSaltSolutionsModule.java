@@ -13,6 +13,7 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
  */
 public abstract class SugarAndSaltSolutionsModule extends Module {
 
+    //Use the right size scale for creating particles, see docs in SugarAndSaltSolutionsApplication
     private final double sizeScale;
 
     public SugarAndSaltSolutionsModule( String name, Clock clock, BooleanProperty moduleActive, double sizeScale ) {
@@ -36,6 +37,8 @@ public abstract class SugarAndSaltSolutionsModule extends Module {
         addListener( new Listener() {
             public void activated() {
                 moduleActive.set( true );
+
+                //Use the right size scale for creating particles, see docs in SugarAndSaltSolutionsApplication
                 SugarAndSaltSolutionsApplication.sizeScale.set( sizeScale );
             }
 

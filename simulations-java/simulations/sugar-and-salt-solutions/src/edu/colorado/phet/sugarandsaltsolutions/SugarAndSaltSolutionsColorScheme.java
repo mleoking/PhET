@@ -13,6 +13,7 @@ import static java.awt.Color.white;
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionsColorScheme {
+
     //Background color for the sim when not set to white background.
     //Color recommendation from KL so that white sugar and salt will show against it.  Same color as geometric optics background
     private static final Color background = new Color( 0, 51, 153 );

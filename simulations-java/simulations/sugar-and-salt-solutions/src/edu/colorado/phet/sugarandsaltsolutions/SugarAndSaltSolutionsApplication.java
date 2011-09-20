@@ -14,7 +14,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.WaterModule;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule.SIZE_SCALE;
 
 /**
- * Main application for PhET's "Sugar and Salt Solutions" simulation
+ * Main application for the PhET "Sugar and Salt Solutions" simulation
  *
  * @author Sam Reid
  */

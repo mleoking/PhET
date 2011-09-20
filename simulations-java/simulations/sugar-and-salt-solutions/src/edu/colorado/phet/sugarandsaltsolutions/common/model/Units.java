@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.common.util;
+package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 /**
  * Utility class for converting units

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Composi
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.numberToMoles;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.Units.numberToMoles;
 
 /**
  * Observable property that gives the concentration in mol/m^3 for specific dissolved components (such as Na+ or sucrose)

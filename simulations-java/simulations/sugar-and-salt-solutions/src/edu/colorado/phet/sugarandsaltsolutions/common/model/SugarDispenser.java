@@ -24,6 +24,7 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
  * @author Sam Reid
  */
 public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extends Dispenser<T> {
+
     //True if the flap on the top of the dispenser is open and sugar can flow out
     public final Property<Boolean> open = new Property<Boolean>( false );
 
@@ -109,7 +110,7 @@ public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extend
         }
     }
 
-    protected abstract void addSugarToModel( final ImmutableVector2D outputPoint );
+    protected abstract void addSugarToModel( final ImmutableVector2D position );
 
     //Create the sugar dispenser node which the user can use to add sugar to the model
     @Override public PNode createNode( ModelViewTransform transform, double beakerHeight, boolean micro, Function1<Point2D, Point2D> constraint ) {

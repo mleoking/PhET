@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.Units.metersCubedToLiters;
 
 /**
  * Canvas for the introductory (macro) tab of sugar and salt solutions
