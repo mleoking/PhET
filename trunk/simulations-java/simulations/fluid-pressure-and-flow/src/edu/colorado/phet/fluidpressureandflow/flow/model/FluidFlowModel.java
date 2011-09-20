@@ -44,7 +44,6 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
             }
         } );
 
-        // TODO: handle creation of sensors when one is dragged off of the "pile"?  Or switch to more tool-box approach?
         addPressureSensor( new PressureSensor( this, 3, 1.1882302540898015 ) );
         addPressureSensor( new PressureSensor( this, 3, 1.1882302540898015 ) );
         addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.473501677688827 ) );

@@ -36,6 +36,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
@@ -170,7 +171,12 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
                 //Make sure the node moves to front when dragged, and that it snaps back to the control panel when dropped
                 addInputEventListener( new MoveToFront( this ) );
-                addInputEventListener( new SnapToToolbox( this, sensorToolBoxNode, velocitySensor.position, getModelLocationForVelocitySensor( velocitySensorNodeArea ) ) );
+                addInputEventListener( new SnapToToolbox( sensorToolBoxNode, velocitySensor.position,
+                                                          getModelLocationForVelocitySensor( velocitySensorNodeArea ), new Function0<PBounds>() {
+                    public PBounds apply() {
+                        return getBodyNode().getGlobalFullBounds();
+                    }
+                } ) );
             }} );
         }
     }
@@ -237,7 +243,11 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
                 //Make sure the node moves to front when dragged, and that it snaps back to the control panel when dropped
                 addInputEventListener( new MoveToFront( this ) );
-                addInputEventListener( new SnapToToolbox( this, sensorToolBoxNode, pressureSensor.location, getModelLocationForPressureSensor( pressureSensorArea ) ) );
+                addInputEventListener( new SnapToToolbox( sensorToolBoxNode, pressureSensor.location, getModelLocationForPressureSensor( pressureSensorArea ), new Function0<PBounds>() {
+                    public PBounds apply() {
+                        return getGlobalFullBounds();
+                    }
+                } ) );
             }} );
         }
     }

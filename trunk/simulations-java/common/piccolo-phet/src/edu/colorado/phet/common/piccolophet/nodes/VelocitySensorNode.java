@@ -36,6 +36,7 @@ import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOUR
 public class VelocitySensorNode extends ToolNode {
     private final ModelViewTransform transform;
     private final VelocitySensor velocitySensor;
+    private ThreeImageNode bodyNode;
 
     public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor, final double arrowScale, final Property<Function1<Double, String>> formatter ) {
         this( transform, velocitySensor, arrowScale, formatter, new Function1.Identity<Point2D>(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN );
@@ -55,15 +56,15 @@ public class VelocitySensorNode extends ToolNode {
         final int readoutOffsetY = 38;
 
         //Add the body of the sensor, which is composed of 3 images
-        final ThreeImageNode imageNode = new ThreeImageNode( RESOURCES.getImage( "velocity_left.png" ), RESOURCES.getImage( "velocity_center.png" ), RESOURCES.getImage( "velocity_right.png" ) );
-        addChild( imageNode );
+        bodyNode = new ThreeImageNode( RESOURCES.getImage( "velocity_left.png" ), RESOURCES.getImage( "velocity_center.png" ), RESOURCES.getImage( "velocity_right.png" ) );
+        addChild( bodyNode );
 
         //Add the title of the sensor, which remains centered in the top of the body
         final PText titleNode = new PText( PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED ) {{
             setFont( new PhetFont( 22 ) );
-            imageNode.addCenterWidthObserver( new SimpleObserver() {
+            bodyNode.addCenterWidthObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( imageNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, titleOffsetY );
+                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, titleOffsetY );
                 }
             } );
         }};
@@ -74,15 +75,15 @@ public class VelocitySensorNode extends ToolNode {
             setFont( new PhetFont( 26 ) );
             final SimpleObserver updateTextLocation = new SimpleObserver() {
                 public void update() {
-                    setOffset( imageNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutOffsetY );
+                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutOffsetY );
                 }
             };
-            imageNode.addCenterWidthObserver( updateTextLocation );
+            bodyNode.addCenterWidthObserver( updateTextLocation );
             new RichSimpleObserver() {
                 public void update() {
                     final Option<ImmutableVector2D> value = velocitySensor.value.get();
                     setText( ( value.isNone() ) ? unknownDisplayString : formatter.get().apply( value.get().getMagnitude() ) );
-                    imageNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
+                    bodyNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
                     updateTextLocation.update();
                 }
             }.observe( formatter, velocitySensor.value );
@@ -93,10 +94,10 @@ public class VelocitySensorNode extends ToolNode {
         final PImage velocityPointNode = new PImage( velocityPoint ) {{
             final PropertyChangeListener updatePosition = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
-                    setOffset( imageNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, imageNode.getFullBounds().getMaxY() );
+                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getMaxY() );
                 }
             };
-            imageNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updatePosition );
+            bodyNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updatePosition );
             updatePosition.propertyChange( null );
         }};
         addChild( velocityPointNode );
@@ -143,7 +144,7 @@ public class VelocitySensorNode extends ToolNode {
         velocitySensor.position.addObserver( new SimpleObserver() {
             public void update() {
                 final Point2D.Double viewPoint = transform.modelToView( velocitySensor.position.get() ).toPoint2D();
-                setOffset( viewPoint.getX() - imageNode.getFullBounds().getWidth() / 2, viewPoint.getY() - imageNode.getFullBounds().getHeight() - velocityPoint.getHeight() );
+                setOffset( viewPoint.getX() - bodyNode.getFullBounds().getWidth() / 2, viewPoint.getY() - bodyNode.getFullBounds().getHeight() - velocityPoint.getHeight() );
             }
         } );
     }
@@ -151,5 +152,10 @@ public class VelocitySensorNode extends ToolNode {
     //Drags all components of the velocity sensor--there is only one component, so it just translates the entire node
     @Override public void dragAll( PDimension delta ) {
         velocitySensor.translate( transform.viewToModelDelta( delta ) );
+    }
+
+    //Gets the PNode for the main body of the sensor, for intersection with the toolbox
+    public ThreeImageNode getBodyNode() {
+        return bodyNode;
     }
 }
