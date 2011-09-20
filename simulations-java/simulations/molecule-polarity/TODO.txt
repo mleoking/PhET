@@ -28,7 +28,6 @@ BEFORE PUBLISHING
 - model.txt
 - IntelliJ code analysis
 - design doc snapshot
-- implementation-notes.txt
 
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
