@@ -1,3 +1,5 @@
+# 3.03.02 (56764) Sep 20, 2011
+9/20/11 Deploying to dev for review and testing.
 Fixed an issue where the wider slider knobs on the 3rd tab were causing minor layout problems.
 # 3.03.01 (55294) Aug 16, 2011
 8/16/11 > Fixed an issue where the slider knobs could be quite narrow on Win 7 & Vista.
