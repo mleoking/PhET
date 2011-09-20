@@ -155,6 +155,10 @@ public class JmolViewerNode extends PhetPNode {
             viewer.renderScreenImage( g, currentSize, clipBounds );
         }
 
+        public JmolViewer getViewer() {
+            return viewer;
+        }
+
         // Runs a Jmol script synchronously and returns status.
         public Object doScript( String script ) {
             return viewer.scriptWaitStatus( script, null );
@@ -208,6 +212,10 @@ public class JmolViewerNode extends PhetPNode {
             doScript( "unbind \"_translate\"" );
             doScript( "unbind \"_wheelZoom\"" );
         }
+    }
+
+    public JmolViewer getViewer() {
+        return viewerPanel.getViewer();
     }
 
     // use custom colors for some atoms
@@ -403,7 +411,7 @@ public class JmolViewerNode extends PhetPNode {
         final PhetPCanvas canvas = new PhetPCanvas() {{
             setPreferredSize( new Dimension( 1024, 768 ) );
             setBackground( Color.LIGHT_GRAY );
-            Property<Molecule3D> currentMolecule = new Property<Molecule3D>( new Molecule3D( "NH3", "ammonia", "jmol/nh3.sdf" ) );
+            Property<Molecule3D> currentMolecule = new Property<Molecule3D>( new Molecule3D( "H2O", "water", "mol2/h2o.mol2" ) );
             JmolViewerNode viewerNode = new JmolViewerNode( currentMolecule, getBackground(), new Dimension( 400, 400 ) );
             getLayer().addChild( viewerNode );
             viewerNode.setOffset( 100, 100 );
