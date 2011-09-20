@@ -10,10 +10,9 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.WhiteControlPanelNode
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.CALCIUM_CHLORIDE;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.GLUCOSE;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SODIUM_NITRATE;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode.createTitle;
 

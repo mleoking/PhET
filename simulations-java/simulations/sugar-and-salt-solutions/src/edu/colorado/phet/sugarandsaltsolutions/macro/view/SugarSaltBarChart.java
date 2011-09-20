@@ -27,12 +27,12 @@ public class SugarSaltBarChart extends ConcentrationBarChart {
 
         //Add a Salt concentration bar
         addChild( new Bar( property( white ), SALT, new None<PNode>(), saltConcentration, showValues, verticalAxisScale, false ) {{
-            setOffset( background.getFullBounds().getWidth()*0.25 - WIDTH /2 , abscissaY );
+            setOffset( background.getFullBounds().getWidth() * 0.25 - WIDTH / 2, abscissaY );
         }} );
 
         //Add a Sugar concentration bar
         addChild( new Bar( property( white ), SUGAR, new None<PNode>(), sugarConcentration, showValues, verticalAxisScale, false ) {{
-            setOffset( background.getFullBounds().getWidth()*0.75 - WIDTH /2 , abscissaY );
+            setOffset( background.getFullBounds().getWidth() * 0.75 - WIDTH / 2, abscissaY );
         }} );
     }
 }
