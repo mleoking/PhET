@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Base class for all 2D molecules.
@@ -45,7 +46,13 @@ public abstract class Molecule2D {
     public abstract Atom[] getAtoms();
 
     // gets and array of the molecule's bonds
-    public abstract Bond[] getBonds();
+    protected abstract Bond[] getBonds();
+
+    // implemented by subclasses, differs depending on the topology of the molecule
+    protected abstract void updateAtomLocations();
+
+    // implemented by subclasses, differs depending on the topology of the molecule
+    protected abstract void updatePartialCharges();
 
     // molecular dipole is the vector sum of the bond dipoles
     protected void updateMolecularDipole() {
@@ -54,5 +61,36 @@ public abstract class Molecule2D {
             sum = sum.plus( bond.dipole.get() );
         }
         dipole.set( sum );
+    }
+
+    // must be called by subclasses when fully constructed
+    protected void initObservers() {
+
+        // update atom locations when molecule is rotated
+        this.angle.addObserver( new SimpleObserver() {
+            public void update() {
+                updateAtomLocations();
+            }
+        } );
+
+        // update molecular dipole when bond dipoles change
+        SimpleObserver dipoleUpdater = new SimpleObserver() {
+            public void update() {
+                updateMolecularDipole();
+            }
+        };
+        for ( Bond bond : getBonds() ) {
+            bond.dipole.addObserver( dipoleUpdater );
+        }
+
+        // update partial charges when atoms' EN changes
+        SimpleObserver partialChargesUpdater = new SimpleObserver() {
+            public void update() {
+                updatePartialCharges();
+            }
+        };
+        for ( Atom atom : getAtoms() ) {
+            atom.electronegativity.addObserver( partialChargesUpdater );
+        }
     }
 }
