@@ -16,7 +16,7 @@ Fixed an issue where the wider slider knobs on the 3rd tab were causing minor la
 2/4/11 Deploying to dev for review of M&L
 > molecules-and-light: Added a feature where the background can be changed to white.  This is done to support the creation of activities that need to be photocopied in black & white.
 > greenhouse: Fixed an issue where an incorrect image was shown for CH4 (Methane) on the control panel of the photon absorption tab, see #2712.
-> greenhouse: Fixed an issue where the control of O2 slider on the Build Atmoshere control on the Photon Absorption tab was not working correctly.
+> greenhouse: Fixed an issue where the control of O2 slider on the Build Atmosphere control on the Photon Absorption tab was not working correctly.
 molecules-and-light: Made the spectrum window disappear and go back to its original size and position when Reset All is pressed.
 molecules-and-light: Switch to exponential chirp
 molecules-and-light: Switch to exponential chirp
