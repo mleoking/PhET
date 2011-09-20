@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.control;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -18,6 +21,13 @@ public class MPControlPanelNode extends PNode {
     private static final int Y_SPACING = 10;
 
     public MPControlPanelNode( Frame parentFrame, Resettable[] resettables, MPVerticalPanel... panels ) {
+
+        // workaround for #3077
+        for ( MPVerticalPanel panel : panels ) {
+            for ( Component component : panel.getComponents() ) {
+                padComponentWidth( component );
+            }
+        }
 
         // Uniform width
         int minWidth = 0;
@@ -48,5 +58,16 @@ public class MPControlPanelNode extends PNode {
             addChild( resetAllButtonNode );
             resetAllButtonNode.setOffset( previousNode.getXOffset(), previousNode.getFullBoundsReference().getMaxY() + Y_SPACING );
         }
+    }
+
+    // workaround for #3077 (PSwing clips labels in floating control panels)
+    private void padComponentWidth( Component component ) {
+        final int padWidth = 5;
+        if ( component instanceof Container ) {
+            for ( Component child : ( (Container) component ).getComponents() ) {
+                padComponentWidth( child );
+            }
+        }
+        component.setPreferredSize( new Dimension( (int) component.getPreferredSize().getWidth() + padWidth, (int) component.getPreferredSize().getHeight() ) );
     }
 }
