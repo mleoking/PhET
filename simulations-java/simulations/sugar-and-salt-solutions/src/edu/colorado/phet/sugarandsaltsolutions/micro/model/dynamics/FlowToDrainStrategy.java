@@ -15,11 +15,11 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 public class FlowToDrainStrategy extends UpdateStrategy {
 
     //The velocity at which the particle should flow toward the drain
-    private ImmutableVector2D velocity;
+    private final ImmutableVector2D velocity;
 
     //Flag to indicate whether the particle should also use some randomness as it moves toward the drain.  Particles that are closest to the drain should move directly toward the drain
     //So they can reach it in the desired amount of time to keep the concentration as steady as possible
-    private boolean randomWalk;
+    private final boolean randomWalk;
 
     public FlowToDrainStrategy( MicroModel model, ImmutableVector2D velocity, boolean randomWalk ) {
         super( model );

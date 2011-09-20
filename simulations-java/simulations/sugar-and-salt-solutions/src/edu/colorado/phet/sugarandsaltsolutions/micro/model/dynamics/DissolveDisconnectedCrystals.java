@@ -14,7 +14,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
  * @author Sam Reid
  */
 public class DissolveDisconnectedCrystals {
-    private MicroModel model;
+    private final MicroModel model;
     public static final boolean debug = false;
 
     //Map that keeps track of the number of steps that a crystal has been identified as disconnected.  If it is disconnected too long, it will be completely dissolved.

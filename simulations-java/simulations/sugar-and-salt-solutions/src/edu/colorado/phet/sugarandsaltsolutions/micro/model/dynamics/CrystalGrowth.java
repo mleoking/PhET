@@ -41,7 +41,7 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
     private final Random random = new Random();
 
     //Flag to show debug information to the console about crystal formation
-    private boolean debug = false;
+    private final boolean debug = false;
 
     public CrystalGrowth( MicroModel model, ItemList<U> crystals ) {
         this.model = model;

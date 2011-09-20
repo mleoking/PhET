@@ -115,7 +115,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }, showChargeColor );
 
     //Flag to indicate whether the fluid is draining, since the display concentrations are held steady while draining
-    private ObservableProperty<Boolean> isDraining = outputFlowRate.greaterThan( 0.0 );
+    private final ObservableProperty<Boolean> isDraining = outputFlowRate.greaterThan( 0.0 );
 
     //Constituents of dissolved solutes, such as sodium, nitrate, sucrose, etc.
     public final SoluteConstituent sodium = new SoluteConstituent( this, new IonColor( this, new Sodium() ), Sodium.class, isDraining );
@@ -190,13 +190,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final Draining draining = new Draining( this );
 
     //Workaround for completely dissolving any crystals that have become disconnected as a result of partial dissolving
-    public DissolveDisconnectedCrystals dissolveDisconnectedCrystals = new DissolveDisconnectedCrystals( this );
+    public final DissolveDisconnectedCrystals dissolveDisconnectedCrystals = new DissolveDisconnectedCrystals( this );
 
     //Flag to help debug the crystal ratios
-    public static final boolean debugCrystalRatio = true;
+    public static final boolean debugCrystalRatio = false;
 
     //Amount to move back particles (in meters) to prevent them from going past the edge of the beaker
-    public double modelInset = 1E-12;
+    public final double modelInset = 1E-12;
 
     public MicroModel() {
 

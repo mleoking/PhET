@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
 
     //Listeners which are notified when the sim is reset.
-    private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
+    private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     //Model clock
     public final ConstantDtClock clock;

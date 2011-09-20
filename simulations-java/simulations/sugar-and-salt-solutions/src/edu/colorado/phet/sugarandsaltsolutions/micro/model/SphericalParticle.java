@@ -27,7 +27,7 @@ public class SphericalParticle extends Particle {
     public Color chargeColor;
 
     //The charge of the atom
-    private double charge;
+    private final double charge;
 
     //Color to use for neutrally charged objects
     public static final Color NEUTRAL_COLOR = Color.yellow;

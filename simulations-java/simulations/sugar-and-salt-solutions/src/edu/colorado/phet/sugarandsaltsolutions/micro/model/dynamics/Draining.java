@@ -19,11 +19,11 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
  */
 public class Draining {
 
-    private MicroModel model;
+    private final MicroModel model;
 
     //The Draining algorithm keeps track of which formula unit each particle is assigned to so that a particle is not double counted
     //It has to be cleared in each iteration since groupings are reassigned at each sim step
-    private ArrayList<Particle> usedParticles = new ArrayList<Particle>();
+    private final ArrayList<Particle> usedParticles = new ArrayList<Particle>();
 
     public Draining( MicroModel model ) {
         this.model = model;

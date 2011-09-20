@@ -15,12 +15,12 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
  */
 public class MacroCrystal {
     public final double mass = 1E-6;//kg
-    public Property<ImmutableVector2D> position;
-    public Property<ImmutableVector2D> velocity = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-    public Property<ImmutableVector2D> acceleration = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-    private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
+    public final Property<ImmutableVector2D> position;
+    public final Property<ImmutableVector2D> velocity = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
+    public final Property<ImmutableVector2D> acceleration = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
+    private final ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
 
-    private double moles;//The number of moles of the crystal.  We couldn't just count the number of atoms since it would overflow Long
+    private final double moles;//The number of moles of the crystal.  We couldn't just count the number of atoms since it would overflow Long
 
     //True of the salt has landed on the floor of the beaker.  In this case it won't move anymore and will dissolve when liquid hits
     private boolean landed = false;

@@ -13,7 +13,6 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
  * @author Sam Reid
  */
 public class MacroModule extends SugarAndSaltSolutionsModule {
-    private final MacroModel model;
 
     public MacroModule( GlobalState globalState ) {
         this( new MacroModel(), globalState );
@@ -21,8 +20,7 @@ public class MacroModule extends SugarAndSaltSolutionsModule {
 
     private MacroModule( final MacroModel model, GlobalState globalState ) {
         super( SugarAndSaltSolutionsResources.Strings.MACRO, model.clock, model.moduleActive, 1 );
-        this.model = model;
-        setSimulationPanel( new MacroCanvas( this.model, globalState ) );
+        setSimulationPanel( new MacroCanvas( model, globalState ) );
 
         //When the module becomes activated/deactivated, update the flag in the model for purposes of starting and stopping the clock
         listenForModuleActivated( model.moduleActive );

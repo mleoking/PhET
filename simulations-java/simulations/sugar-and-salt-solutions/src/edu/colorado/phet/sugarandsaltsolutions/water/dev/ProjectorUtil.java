@@ -24,7 +24,7 @@ import javax.swing.JFrame;
  */
 public class ProjectorUtil {
 
-    private JFrame frame;
+    private final JFrame frame;
 
     public ProjectorUtil( final BufferedImage image ) {
         frame = new JFrame( getClass().getName() ) {{

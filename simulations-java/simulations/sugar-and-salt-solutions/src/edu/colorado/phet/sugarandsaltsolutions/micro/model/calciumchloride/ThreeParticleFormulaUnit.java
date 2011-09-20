@@ -16,9 +16,9 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.Updat
  * @author Sam Reid
  */
 public class ThreeParticleFormulaUnit<T extends Particle> implements IFormulaUnit {
-    private T a;
-    private T b;
-    private T c;
+    private final T a;
+    private final T b;
+    private final T c;
 
     public ThreeParticleFormulaUnit( T a, T b, T c ) {
         this.a = a;

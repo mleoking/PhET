@@ -59,14 +59,14 @@ public class MacroModel extends SugarAndSaltSolutionModel {
     public final CompositeDoubleProperty sugarConcentration;
 
     //Amounts of sugar and salt in crystal form falling from the dispenser
-    protected CompositeDoubleProperty airborneSaltGrams;
-    protected CompositeDoubleProperty airborneSugarGrams;
+    protected final CompositeDoubleProperty airborneSaltGrams;
+    protected final CompositeDoubleProperty airborneSugarGrams;
 
     //Force due to gravity near the surface of the earth in m/s^2
     private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );
 
     //Flag to indicate if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
-    public ObservableProperty<Boolean> anySolutes;
+    public final ObservableProperty<Boolean> anySolutes;
 
     public MacroModel() {
         super( new ConstantDtClock( 30 ), new BeakerDimension( 0.2 ), 0.0005,

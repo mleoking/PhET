@@ -40,10 +40,11 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
     public final ExpandableConcentrationBarChartNode concentrationBarChart;
     private final PNode soluteControlPanelNode;
 
-    private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
-
     public MacroCanvas( final MacroModel model, final GlobalState globalState ) {
         super( model, globalState, createMacroTransform( model ), false, true );
+
+        //Layer that holds the sugar and salt crystals
+        final PNode crystalLayer = new PNode();
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         submergedInWaterNode.addChild( crystalLayer );
@@ -68,7 +69,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
         //Readout function for the exact volume readout on the solution when the user selects "show values.
         //Read out more precisely than the fine-grained tick marks on the side
         Function1<Double, String> beakerVolumeReadoutFormat = new Function1<Double, String>() {
-            DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+            final DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
 
             public String apply( Double volumeInMetersCubed ) {
                 return decimalFormat.format( metersCubedToLiters( volumeInMetersCubed ) );

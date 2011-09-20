@@ -20,7 +20,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  */
 public class SaltIon extends Compound<SphericalParticle> {
 
-    private String name;
+    private final String name;
 
     public SaltIon( SphericalParticle particle, String name ) {
         super( ZERO, 0 );

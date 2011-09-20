@@ -54,21 +54,21 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     public static final Dimension canvasSize = new Dimension( 1008, 676 );
 
     //Where the content is shown
-    private PNode rootNode = new PNode();
+    private final PNode rootNode = new PNode();
 
     //Separate layer for the particles so they are always behind the control panel
-    private ParticleWindowNode particleWindowNode;
+    private final ParticleWindowNode particleWindowNode;
 
     //Views for the salt and sugar bucket
-    private BucketView saltBucket;
-    private BucketView sugarBucket;
+    private final BucketView saltBucket;
+    private final BucketView sugarBucket;
 
     //Layers for salt and sugar buckets
-    private PNode saltBucketParticleLayer;
-    private PNode sugarBucketParticleLayer;
+    private final PNode saltBucketParticleLayer;
+    private final PNode sugarBucketParticleLayer;
 
     //Dialog in which to show the 3d JMol view of sucrose
-    private Sucrose3DDialog sucrose3DDialog;
+    private final Sucrose3DDialog sucrose3DDialog;
 
     //Model view transform from model to stage coordinates
     protected final ModelViewTransform transform;

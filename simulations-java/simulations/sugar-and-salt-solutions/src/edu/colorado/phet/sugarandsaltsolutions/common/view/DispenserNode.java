@@ -28,10 +28,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispenser<U>> extends PNode {
     private final boolean debug = false;
-    protected PImage imageNode;
+    protected final PImage imageNode;
     private final ModelViewTransform transform;
     private final T model;
-    private PNode textLabel;
+    private final PNode textLabel;
 
     public DispenserNode( final ModelViewTransform transform, final T model, Function1<Point2D, Point2D> dragConstraint ) {
         this.transform = transform;
