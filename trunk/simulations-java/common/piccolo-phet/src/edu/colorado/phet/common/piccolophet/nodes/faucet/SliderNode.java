@@ -28,9 +28,9 @@ import edu.umd.cs.piccolox.PFrame;
  */
 public class SliderNode extends PNode {
     public SliderNode( final double min, final SettableProperty<Double> value, final double max ) {
-        final int trackHeight = 3;
+        final int trackHeight = 5;
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, 200, trackHeight );
-        final PhetPPath trackNode = new PhetPPath( trackPath, new BasicStroke( 1 ), Color.black );
+        final PhetPPath trackNode = new PhetPPath( trackPath, Color.lightGray, new BasicStroke( 1 ), Color.black );
         addChild( trackNode );
         addChild( new KnobNode( new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
 //        addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 20, 20 ), Color.blue ) {{
