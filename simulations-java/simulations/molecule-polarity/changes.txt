@@ -1,3 +1,4 @@
+9/21/11 generalize DialogCheckBoxMenuItem and move to phetcommon
 9/20/11 move STAGE_SIZE constant to MPCanvas
 9/20/11 migrate SliderDragHandler to piccolo-phet, rename SliderThumbDragHandler, use in capacitor-lab
 9/20/11 replace HorizontalSliderDragHandler with generalized SliderDragHandler
