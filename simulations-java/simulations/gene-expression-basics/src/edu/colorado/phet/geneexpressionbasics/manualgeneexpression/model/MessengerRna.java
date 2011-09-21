@@ -7,7 +7,9 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -55,6 +57,7 @@ public class MessengerRna extends MobileBiomolecule {
     //-------------------------------------------------------------------------
 
     private final List<Point2D> shapeDefiningPoints = new ArrayList<Point2D>();
+    private final Map<Point2D, Double> distanceToPreviousPointMap = new HashMap<Point2D, Double>();
 
     // This vector controls the way in which the mRNA drifts as it grows.  Each
     // time growth occurs, the scaler that represents the amount of growth is
@@ -98,7 +101,76 @@ public class MessengerRna extends MobileBiomolecule {
      * point.  This is usually done in small amounts, and is likely to look
      * weird if an attempt is made to grow to a distant point.
      */
-    public void addLength( Point2D p ) {
+    public void addLength( Point2D newEndPoint ) {
+        double diagonalLength = 0;
+        double currentUnfurledLength = getLength();
+        if ( currentUnfurledLength < MIN_DISTANCE_BETWEEN_POINTS ) {
+            if ( shapeDefiningPoints.size() > 0 ) {
+                diagonalLength = shapeDefiningPoints.get( 0 ).distance( newEndPoint );
+            }
+        }
+        else {
+            // The diagonal length gets a little larger with added points, but
+            // the longer it gets the more slowly the overall size grows.
+            diagonalLength = MIN_DISTANCE_BETWEEN_POINTS * ( Math.log( currentUnfurledLength / MIN_DISTANCE_BETWEEN_POINTS ) + 1 );
+        }
+        if ( shapeDefiningPoints.size() >= 2 ) {
+            // If the current last point is less than the min distance from
+            // the 2nd to last point, remove the current last point.  This
+            // prevents having zillions of shape-defining points, which is
+            // harder to work with.
+            Point2D lastPoint = shapeDefiningPoints.get( shapeDefiningPoints.size() - 1 );
+            Point2D secondToLastPoint = shapeDefiningPoints.get( shapeDefiningPoints.size() - 2 );
+            if ( lastPoint.distance( secondToLastPoint ) < MIN_DISTANCE_BETWEEN_POINTS ) {
+                shapeDefiningPoints.remove( lastPoint );
+                distanceToPreviousPointMap.remove( lastPoint );
+            }
+        }
+
+        // Add the new point.
+        shapeDefiningPoints.add( newEndPoint );
+        if ( shapeDefiningPoints.size() > 1 ) {
+            // Retain the original distance between this new end point and
+            // the previous one.  This is used when twisting up the mRNA.
+            distanceToPreviousPointMap.put( newEndPoint, newEndPoint.distance( shapeDefiningPoints.get( shapeDefiningPoints.size() - 1 ) ) );
+        }
+
+        // Reposition the existing points such that the overall shape looks
+        // like a curled up line.
+        if ( shapeDefiningPoints.size() > 0 ) {
+            Point2D lastPoint = shapeDefiningPoints.get( shapeDefiningPoints.size() - 1 );
+            // Move the first point to be at the end of the diagonal from this
+            // newly added point.  This is up and to the left of the new point,
+            // so the mRNA will seem to grow in this direction.
+            ImmutableVector2D diagonalVector = new ImmutableVector2D( diagonalLength, 0 ).getRotatedInstance( Math.PI * 0.75 );
+            shapeDefiningPoints.get( 0 ).setLocation( newEndPoint.getX() + diagonalVector.getX(), newEndPoint.getY() + diagonalVector.getY() );
+            // TODO: Temp - randomize the position of all but the first and
+            // last points to be somewhere in the square defined by the diagonal.
+            double squareWidth = Math.abs( diagonalVector.getX() );
+            Rectangle2D enclosingSquare = new Rectangle2D.Double( newEndPoint.getX() + diagonalVector.getX(),
+                                                                  newEndPoint.getY(),
+                                                                  squareWidth,
+                                                                  squareWidth );
+            for ( int i = 1; i < shapeDefiningPoints.size() - 1; i++ ) {
+                shapeDefiningPoints.get( i ).setLocation( enclosingSquare.getMinX() + RAND.nextDouble() * squareWidth,
+                                                          enclosingSquare.getMinY() + RAND.nextDouble() * squareWidth );
+            }
+        }
+
+        // Update the shape to reflect the newly added point.
+        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( shapeDefiningPoints ) );
+    }
+
+    public void addLength( double x, double y ) {
+        addLength( new Point2D.Double( x, y ) );
+    }
+
+    /**
+     * Add a length to the mRNA from its current end point to the specified end
+     * point.  This is usually done in small amounts, and is likely to look
+     * weird if an attempt is made to grow to a distant point.
+     */
+    public void addLengthOld( Point2D p ) {
         if ( shapeDefiningPoints.size() > 0 ) {
             Point2D lastPoint = shapeDefiningPoints.get( shapeDefiningPoints.size() - 1 );
             double growthAmount = lastPoint.distance( p );
@@ -132,10 +204,6 @@ public class MessengerRna extends MobileBiomolecule {
         shapeDefiningPoints.add( p );
         // Update the shape to reflect the newly added point.
         shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( shapeDefiningPoints ) );
-    }
-
-    public void growTo( double x, double y ) {
-        addLength( new Point2D.Double( x, y ) );
     }
 
     public void release() {
