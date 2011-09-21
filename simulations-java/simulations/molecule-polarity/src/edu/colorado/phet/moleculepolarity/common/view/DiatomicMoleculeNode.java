@@ -15,7 +15,7 @@ public class DiatomicMoleculeNode extends PhetPNode {
 
     public DiatomicMoleculeNode( DiatomicMolecule molecule ) {
 
-        addChild( new BondNode( molecule.bond ) );
+        addChild( new BondNode( molecule.bond ) ); // bond behind atoms
         addChild( new AtomNode( molecule.atomA ) );
         addChild( new AtomNode( molecule.atomB ) );
 
