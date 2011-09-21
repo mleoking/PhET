@@ -25,12 +25,10 @@ public class AdolescentBoyCreatorNode extends ImageMassCreatorNode {
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 100 );
 
     public AdolescentBoyCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas );
+        super( model, mvt, canvas, AdolescentBoy.MASS );
         ImageMass adolescentHuman = new AdolescentBoy();
         setSelectionNode( new ImageMassNode( SCALING_MVT, adolescentHuman, canvas, new BooleanProperty( false ) ) );
         setPositioningOffset( 0, -mvt.modelToViewDeltaY( adolescentHuman.getHeight() / 2 ) );
-        // TODO: i18n (units too)
-        setCaption( adolescentHuman.getMass() + " kg" );
     }
 
     @Override protected ImageMass createImageMassInstance() {

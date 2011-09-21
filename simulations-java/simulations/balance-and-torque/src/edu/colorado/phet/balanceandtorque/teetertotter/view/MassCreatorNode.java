@@ -15,6 +15,26 @@ public abstract class MassCreatorNode extends ModelElementCreatorNode {
 
     private static Format MASS_FORMATTER = new DecimalFormat( "###" );
 
+    /**
+     * Constructor that creates a version that is unlabeled.
+     *
+     * @param model
+     * @param mvt
+     * @param canvas
+     * @param mass
+     */
+    public MassCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+        super( model, mvt, canvas );
+    }
+
+    /**
+     * Constructor that creates a version that is labeled with the mass.
+     *
+     * @param model
+     * @param mvt
+     * @param canvas
+     * @param mass
+     */
     public MassCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, double mass ) {
         super( model, mvt, canvas );
         // TODO: i18n - units.

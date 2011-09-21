@@ -15,9 +15,13 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  *
  * @author John Blanco
  */
-public abstract class ImageMassCreatorNode extends ModelElementCreatorNode {
+public abstract class ImageMassCreatorNode extends MassCreatorNode {
     public ImageMassCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
+    }
+
+    public ImageMassCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, double mass ) {
+        super( model, mvt, canvas, mass );
     }
 
     @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
