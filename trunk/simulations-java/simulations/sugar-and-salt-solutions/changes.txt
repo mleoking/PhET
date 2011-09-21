@@ -1,5 +1,4 @@
-Water tab: Changed bucket color from "gray" to "light gray"
-Water tab: Changed bucket label color from white to black
+Water tab: Changed bucket color from "gray" to "medium light gray"
 Water tab: Made "Show" control panel have a white background instead of light gray
 # 0.00.114 (56757) Sep 20, 2011
 Micro tab: Moved periodic table dialog to the left side of the window and underneath the solute control
