@@ -106,7 +106,7 @@ public class KnobNode extends PNode {
         }
     }
 
-    private static final double DEFAULT_SIZE = 20;
+    private static final double DEFAULT_SIZE = 22;
     private static final double ARROW_PRESS_OFFSET = 1;
 
     public KnobNode() {
@@ -129,7 +129,7 @@ public class KnobNode extends PNode {
     public KnobNode( final double width, ColorScheme colorScheme ) {
 
         // shape of the outer circle of the button
-        final double height = width * 1.1;
+        final double height = width * 1.2;
         Ellipse2D.Double circle = new Ellipse2D.Double( 0, 0, width, height );
 
         /*---------------------------------------------------------------------------*
@@ -169,10 +169,10 @@ public class KnobNode extends PNode {
         }};
         final PhetPPath background = new PhetPPath( knobShape ) {{
             setPaint( normalGradient );
-            setStroke( new BasicStroke( 0.3f ) );
+            setStroke( new BasicStroke( 1f ) );
             enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean enabled ) {
-                    setStrokePaint( enabled ? Color.gray : Color.lightGray );
+                    setStrokePaint( enabled ? Color.white : Color.gray );
                 }
             } );
         }};

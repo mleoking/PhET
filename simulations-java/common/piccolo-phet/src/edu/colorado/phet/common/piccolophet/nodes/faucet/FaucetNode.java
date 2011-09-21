@@ -54,7 +54,9 @@ public class FaucetNode extends PNode {
             boolean userHasToHoldTheSliderKnob ) {
 
         //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
-        faucetSliderNode = new FaucetSliderNode( allowed, flowRate, userHasToHoldTheSliderKnob );
+        faucetSliderNode = new FaucetSliderNode( allowed, flowRate, userHasToHoldTheSliderKnob ) {{
+            setOffset( 4, 8 );
+        }};
 
         //Create the image and slider node used to display and control the faucet
         faucetImageNode = new PImage( FAUCET_FRONT ) {{
