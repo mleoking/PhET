@@ -1,3 +1,5 @@
+# 3.04.00 (56778) Sep 21, 2011
+9/21/11 >Fixed an issue on the 3rd tab where the knobs that control the custom atmosphere are very small on Windows Vista and Windows 7.
 # 3.03.02 (56764) Sep 20, 2011
 9/20/11 Deploying to dev for review and testing.
 Fixed an issue where the wider slider knobs on the 3rd tab were causing minor layout problems.
