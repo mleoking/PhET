@@ -3,8 +3,10 @@ package edu.colorado.phet.common.piccolophet.nodes.faucet;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 import javax.swing.JComponent;
 
@@ -106,7 +108,7 @@ public class KnobNode extends PNode {
         }
     }
 
-    private static final double DEFAULT_SIZE = 22;
+    private static final double DEFAULT_SIZE = 26;
     private static final double ARROW_PRESS_OFFSET = 1;
 
     public KnobNode() {
@@ -169,10 +171,10 @@ public class KnobNode extends PNode {
         }};
         final PhetPPath background = new PhetPPath( knobShape ) {{
             setPaint( normalGradient );
-            setStroke( new BasicStroke( 1f ) );
+            setStroke( new BasicStroke( 2f ) );
             enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean enabled ) {
-                    setStrokePaint( enabled ? Color.white : Color.gray );
+                    setStrokePaint( enabled ? new GradientPaint( new Point2D.Double( 0, 0 ), Color.lightGray, new Point2D.Double( width, width ), Color.black ) : Color.gray );
                 }
             } );
         }};
@@ -207,7 +209,6 @@ public class KnobNode extends PNode {
 
         new RichSimpleObserver() {
             @Override public void update() {
-                System.out.println( "enabled.get = " + enabled.get() + "< focused = " + focused.get() );
                 background.setPaint( !enabled.get() ? disabledGradient : ( focused.get() ? focusGradient : normalGradient ) );
             }
         }.observe( focused, enabled );
