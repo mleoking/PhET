@@ -77,7 +77,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     private final WaterModel model;
 
     //Color for the buckets
-    private static final Color BUCKET_COLOR = Color.gray;
+    private static final Color BUCKET_COLOR = Color.lightGray;
 
     public WaterCanvas( final WaterModel model, final GlobalState state ) {
         this.model = model;
@@ -151,8 +151,8 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
         Dimension2DDouble bucketSize = new Dimension2DDouble( 205, 80 );
         final int bucketSeparation = 210;
-        sugarBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 + bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SUGAR ), bucketTransform );
-        saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SALT ), bucketTransform );
+        sugarBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 + bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SUGAR ), bucketTransform, Color.black );
+        saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SALT ), bucketTransform, Color.black );
 
         //Add the buckets to the view
         addChild( sugarBucket.getHoleNode() );
