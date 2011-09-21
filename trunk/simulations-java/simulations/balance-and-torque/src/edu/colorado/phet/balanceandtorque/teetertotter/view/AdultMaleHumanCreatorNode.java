@@ -25,14 +25,12 @@ public class AdultMaleHumanCreatorNode extends ImageMassCreatorNode {
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 100 );
 
     public AdultMaleHumanCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas );
+        super( model, mvt, canvas, AdultMaleHuman.MASS );
         ImageMass adultMaleHuman = new AdultMaleHuman();
         setSelectionNode( new ImageMassNode( SCALING_MVT, adultMaleHuman, canvas, new BooleanProperty( false ) ) );
         // Set the positioning offset slightly off center so users don't appear
         // to be holding him in a - well - sensitive area.
         setPositioningOffset( 0, -mvt.modelToViewDeltaY( adultMaleHuman.getHeight() * 0.6 ) );
-        // TODO: i18n (units)
-        setCaption( adultMaleHuman.getMass() + " kg" );
     }
 
     @Override protected ImageMass createImageMassInstance() {

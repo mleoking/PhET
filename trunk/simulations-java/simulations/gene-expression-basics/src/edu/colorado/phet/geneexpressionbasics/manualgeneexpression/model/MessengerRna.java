@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,6 +55,12 @@ public class MessengerRna extends MobileBiomolecule {
     // drifting while growing, but this could easily be made settable or into
     // a constructor param.
     private ImmutableVector2D driftWhileGrowingVector = new Vector2D( 0.15, 0.4 );
+
+    // Rectangle in which all the points that define the mRNA strand should be
+    // contained.  This is used to guide the algorithm that twists up the mRNA.
+    // Note that sometimes - such as when the mRNA is being translated - that
+    // this rectangle is ignored.
+    private Rectangle2D containingRect = new Rectangle2D.Double();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -125,5 +132,20 @@ public class MessengerRna extends MobileBiomolecule {
     public void release() {
         // Set the state to just be drifting around in the cytoplasm.
         behaviorState = new DetachingState( this, new ImmutableVector2D( 0, 1 ) );
+    }
+
+    /**
+     * Get the length of the strand.  The length is calculated by adding up
+     * the distances between the points, and does not account for curvature,
+     * so is somewhat inaccurate.
+     *
+     * @return
+     */
+    private double getLength() {
+        double length = 0;
+        for ( int i = 1; i < shapeDefiningPoints.size(); i++ ) {
+            length += shapeDefiningPoints.get( i ).distance( shapeDefiningPoints.get( i - 1 ) );
+        }
+        return length;
     }
 }
