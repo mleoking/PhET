@@ -9,8 +9,9 @@ DESIGN
 - Jack: concern about showing ball-and-stick representation at all times? (address by dropping Bond Type indicator?)
 - Jack: partial charges are sometimes very small, will students see them?
 - is E-field feature necessary in "Real Molecules" tab?
-- CH2F2 and CHCl3 have tiny bond dipoles, is this an issue?
-- what is the final set of molecules?
+- CH2F2 and CHCl3 have tiny bond dipoles
+- final set of molecules
+- layout change in "Real Molecules" to allow making Jmol viewer bigger
 
 MEDIUM
 - delete Bond.deltaElectronegativity, rewrite setComponentX and translate steps in BondDipoleNode
