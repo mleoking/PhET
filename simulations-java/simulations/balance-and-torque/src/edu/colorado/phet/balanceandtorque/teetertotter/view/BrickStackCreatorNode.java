@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  *
  * @author John Blanco
  */
-public class BrickStackCreatorNode extends ModelElementCreatorNode {
+public class BrickStackCreatorNode extends MassCreatorNode {
 
     // Model-view transform for scaling the node used in the tool box.  This
     // may scale the node differently than what is used in the model.
@@ -27,12 +27,10 @@ public class BrickStackCreatorNode extends ModelElementCreatorNode {
     private final int numBricks;
 
     public BrickStackCreatorNode( int numBricks, final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas );
+        super( model, mvt, canvas, numBricks * BrickStack.BRICK_MASS );
         this.numBricks = numBricks;
         setSelectionNode( new BrickStackNode( new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ), SCALING_MVT, canvas, new BooleanProperty( false ) ) );
         setPositioningOffset( 0, -mvt.modelToViewDeltaY( BrickStack.BRICK_HEIGHT * numBricks / 2 ) );
-        // TODO: i18n (units too)
-        setCaption( BrickStack.BRICK_MASS * numBricks + " kg" );
     }
 
     @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
