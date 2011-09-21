@@ -2,19 +2,28 @@
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JFrame;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.DetachingState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.IdleState;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that represents messenger ribonucleic acid, or mRNA, in the model.
@@ -85,11 +94,11 @@ public class MessengerRna extends MobileBiomolecule {
     //-------------------------------------------------------------------------
 
     /**
-     * Grow the mRNA to the provided location, which essentially means a length
-     * is being added.  This is usually done in small amounts, and is likely to
-     * look weird if an attempt is made to grow to a distant point.
+     * Add a length to the mRNA from its current end point to the specified end
+     * point.  This is usually done in small amounts, and is likely to look
+     * weird if an attempt is made to grow to a distant point.
      */
-    public void growTo( Point2D p ) {
+    public void addLength( Point2D p ) {
         if ( shapeDefiningPoints.size() > 0 ) {
             Point2D lastPoint = shapeDefiningPoints.get( shapeDefiningPoints.size() - 1 );
             double growthAmount = lastPoint.distance( p );
@@ -126,7 +135,7 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     public void growTo( double x, double y ) {
-        growTo( new Point2D.Double( x, y ) );
+        addLength( new Point2D.Double( x, y ) );
     }
 
     public void release() {
@@ -148,4 +157,52 @@ public class MessengerRna extends MobileBiomolecule {
         }
         return length;
     }
+
+    /**
+     * Main routine that constructs a PhET Piccolo canvas in a window.
+     *
+     * @param args
+     */
+    public static void main( String[] args ) {
+
+        Dimension2D stageSize = new PDimension( 500, 400 );
+
+        PhetPCanvas canvas = new PhetPCanvas();
+        // Set up the canvas-screen transform.
+        canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
+
+        ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
+                new Point2D.Double( 0, 0 ),
+                new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
+                0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+
+        canvas.getLayer().addChild( new PhetPPath( new Rectangle2D.Double( -5, -5, 10, 10 ), Color.PINK ) );
+
+        // Boiler plate app stuff.
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.setSize( (int) stageSize.getWidth(), (int) stageSize.getHeight() );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setLocationRelativeTo( null ); // Center.
+        frame.setVisible( true );
+
+//                canvas.addWorldChild( new PhetPPath( mvt.modelToView( new Rectangle2D.Double( -100, -100, 200, 200 ) ), Color.RED ) );
+        // Add the mRNA and then grow it a little at a time.
+//                RnaPolymerase rnaPolymerase = new RnaPolymerase( new ManualGeneExpressionModel(), new Point2D.Double( 0, 0 ) );
+//                canvas.addWorldChild( new MobileBiomoleculeNode( mvt, rnaPolymerase ) );
+        MessengerRna messengerRna = new MessengerRna( new ManualGeneExpressionModel(), new Point2D.Double( 0, 0 ) );
+        canvas.addWorldChild( new MobileBiomoleculeNode( mvt, messengerRna ) );
+        for ( int i = 0; i < 200; i++ ) {
+            messengerRna.addLength( mvt.modelToView( i * 50, 0 ) );
+            try {
+                Thread.sleep( 50 );
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+            canvas.repaint();
+        }
+    }
+
+
 }
