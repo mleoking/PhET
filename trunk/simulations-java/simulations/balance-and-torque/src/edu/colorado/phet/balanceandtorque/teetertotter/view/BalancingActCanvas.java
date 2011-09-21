@@ -198,7 +198,7 @@ public class BalancingActCanvas extends PhetPCanvas {
 
         // Add the control panel that will allow users to control the visibility
         // of the various indicators.
-        PNode vectorControlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 5, 1 ) ) {{
+        PNode controlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 5, 1 ) ) {{
             addChild( new PText( "Show" ) {{
                 setFont( new PhetFont( 18 ) );
             }} );
@@ -208,7 +208,7 @@ public class BalancingActCanvas extends PhetPCanvas {
             addChild( new PropertyCheckBoxNode( "Forces from Objects", forceVectorsFromObjectsVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( "Level", levelIndicatorVisibleProperty ) );
         }} );
-        rootNode.addChild( vectorControlPanel );
+        rootNode.addChild( controlPanel );
 
         // Add the mass kit, which is the place where the user will get the
         // objects that can be placed on the balance.
@@ -217,11 +217,11 @@ public class BalancingActCanvas extends PhetPCanvas {
 
         // Lay out the control panels.
         double controlPanelCenterX = Math.min( STAGE_SIZE.getWidth() - massKit.getFullBoundsReference().width / 2 - 10,
-                                               STAGE_SIZE.getWidth() - vectorControlPanel.getFullBoundsReference().width / 2 - 10 );
+                                               STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width / 2 - 10 );
         massKit.setOffset( controlPanelCenterX - massKit.getFullBoundsReference().width / 2,
                            mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().height - 10 );
-        vectorControlPanel.setOffset( controlPanelCenterX - vectorControlPanel.getFullBoundsReference().width / 2,
-                                      massKit.getFullBoundsReference().getMinY() - vectorControlPanel.getFullBoundsReference().height - 10 );
+        controlPanel.setOffset( controlPanelCenterX - controlPanel.getFullBoundsReference().width / 2,
+                                massKit.getFullBoundsReference().getMinY() - controlPanel.getFullBoundsReference().height - 10 );
     }
 
     // Convenience class for avoiding code duplication.
