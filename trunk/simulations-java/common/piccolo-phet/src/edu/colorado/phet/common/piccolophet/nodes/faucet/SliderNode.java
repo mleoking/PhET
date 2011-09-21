@@ -48,12 +48,12 @@ public class SliderNode extends PNode {
 
                 @Override public void mousePressed( PInputEvent event ) {
                     super.mousePressed( event );
-                    startPoint = event.getPositionRelativeTo( SliderNode.this.getParent() );
+                    startPoint = event.getPositionRelativeTo( SliderNode.this );
                     startValue = value.get();
                 }
 
                 @Override public void mouseDragged( PInputEvent event ) {
-                    Point2D point = event.getPositionRelativeTo( SliderNode.this.getParent() );
+                    Point2D point = event.getPositionRelativeTo( SliderNode.this );
                     final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
 
                     Point2D leftGlobal = trackNode.localToGlobal( new Point2D.Double( 0, 0 ) );
