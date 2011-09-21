@@ -3,6 +3,7 @@ package edu.colorado.phet.common.piccolophet.nodes.faucet;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
 import javax.swing.JComponent;
@@ -15,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
@@ -122,12 +124,13 @@ public class KnobNode extends PNode {
     /**
      * Creates an arrow button node with the arrow pointed in a particular direction
      *
-     * @param size Width and Height of the button
+     * @param width Width and Height of the button
      */
-    public KnobNode( final double size, ColorScheme colorScheme ) {
+    public KnobNode( final double width, ColorScheme colorScheme ) {
 
         // shape of the outer circle of the button
-        Ellipse2D.Double circle = new Ellipse2D.Double( 0, 0, size, size );
+        final double height = width * 1.1;
+        Ellipse2D.Double circle = new Ellipse2D.Double( 0, 0, width, height );
 
         /*---------------------------------------------------------------------------*
         * paints
@@ -136,7 +139,7 @@ public class KnobNode extends PNode {
         // gradient paints for different states
         Function3<Color, Color, Color, TriColorRoundGradientPaint> createGradient = new Function3<Color, Color, Color, TriColorRoundGradientPaint>() {
             public TriColorRoundGradientPaint apply( Color colors0, Color color1, Color color2 ) {
-                return new TriColorRoundGradientPaint( colors0, color1, color2, size / 2, size * 3 / 4, size / 2.5, size / 3 );
+                return new TriColorRoundGradientPaint( colors0, color1, color2, width / 2, width * 3 / 4, width / 2.5, width / 3 );
             }
         };
         final TriColorRoundGradientPaint normalGradient = createGradient.apply( colorScheme.upInner, colorScheme.upMiddle, colorScheme.upOuter );
@@ -148,10 +151,23 @@ public class KnobNode extends PNode {
         *----------------------------------------------------------------------------*/
 
         // add a spacer in the background so our full bounds don't change
-        addChild( new Spacer( 0, 0, size + ARROW_PRESS_OFFSET, size + ARROW_PRESS_OFFSET ) );
+        addChild( new Spacer( 0, 0, width + ARROW_PRESS_OFFSET, width + ARROW_PRESS_OFFSET ) );
 
         // make the background (circular) part of the button
-        final PhetPPath background = new PhetPPath( circle ) {{
+        final Area knobShape = new Area( circle ) {{
+
+            //Cut out a pointy part at the bottom
+            subtract( new Area( new DoubleGeneralPath( width / 2, height ) {{
+                lineToRelative( -width * 2, -width * 1.3 );
+                lineToRelative( 0, width * 4 );
+            }}.getGeneralPath() ) );
+
+            subtract( new Area( new DoubleGeneralPath( width / 2, height ) {{
+                lineToRelative( width * 2, -width * 1.3 );
+                lineToRelative( 0, width * 4 );
+            }}.getGeneralPath() ) );
+        }};
+        final PhetPPath background = new PhetPPath( knobShape ) {{
             setPaint( normalGradient );
             setStroke( new BasicStroke( 0.3f ) );
             enabled.addObserver( new VoidFunction1<Boolean>() {
