@@ -17,8 +17,6 @@ import com.jme3.system.JmeCanvasContext;
 
 /**
  * Support for creating a JME application, context and canvas
- * <p/>
- * TODO: support multiple modules in a single sim. right now this initialization looks to be more global, and would probably trounce other modules
  */
 public abstract class JMEModule extends Module {
 
@@ -91,28 +89,23 @@ public abstract class JMEModule extends Module {
                     ( (PhetJMEApplication) app ).onResize( getCanvas().getSize() );
                 }
             } );
+
+            // add the actual panel in, since we are the top module
+            setSimulationPanel( new JPanel( new BorderLayout() ) {{
+                add( canvas, BorderLayout.CENTER );
+            }} );
+        }
+        else {
+            // add a placeholder. since this will never show up, we don't need to handle anything
+            setSimulationPanel( new JPanel( new BorderLayout() ) {{
+                // placeholder. will never show up
+            }} );
         }
 
         // hide most of the default things
         setClockControlPanel( null );
         setControlPanel( null );
         setLogoPanelVisible( false );
-
-        final JPanel simulationPanel = new JPanel( new BorderLayout() ) {
-            @Override public void setVisible( boolean aFlag ) {
-            }
-        };
-        setSimulationPanel( simulationPanel );
-
-        addListener( new Listener() {
-            public void activated() {
-                simulationPanel.add( canvas, BorderLayout.CENTER );
-            }
-
-            public void deactivated() {
-                simulationPanel.remove( canvas );
-            }
-        } );
     }
 
     public abstract Application createApplication( Frame parentFrame );
