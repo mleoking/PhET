@@ -1,3 +1,4 @@
+Water tower: Added new handle image from NP
 Flow tab: Made the red stripe go all the way to the edges, since friction is accounted for elsewhere
 Pressure tab: Made pool gradient darker so it doesn't blend in with the air too much
 # 0.00.28 (56834) Sep 22, 2011
