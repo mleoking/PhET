@@ -1,7 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +44,7 @@ public class KitView {
         this.canvas = canvas;
 
         for ( Bucket bucket : kit.getBuckets() ) {
-            BucketView bucketView = new BucketView( bucket, MODEL_VIEW_TRANSFORM, Color.BLACK );
+            BucketView bucketView = new BucketView( bucket, MODEL_VIEW_TRANSFORM, Color.BLACK, BucketView.DEFAULT_LABEL_FONT );
 
             topLayer.addChild( bucketView.getFrontNode() );
             bottomLayer.addChild( bucketView.getHoleNode() );

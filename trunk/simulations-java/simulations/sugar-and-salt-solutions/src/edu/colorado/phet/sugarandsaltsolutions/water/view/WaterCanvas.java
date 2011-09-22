@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
@@ -77,7 +78,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     private final WaterModel model;
 
     //Color for the buckets
-    private static final Color BUCKET_COLOR = new Color( 160, 160, 160 );
+    private static final Color BUCKET_COLOR = Color.white;
 
     public WaterCanvas( final WaterModel model, final GlobalState state ) {
         this.model = model;
@@ -151,8 +152,8 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
         Dimension2DDouble bucketSize = new Dimension2DDouble( 205, 80 );
         final int bucketSeparation = 210;
-        sugarBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 + bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SUGAR ), bucketTransform, Color.white );
-        saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SALT ), bucketTransform, Color.white );
+        sugarBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 + bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SUGAR ), bucketTransform, Color.black, new PhetFont( 22, true ) );
+        saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, BUCKET_COLOR, SALT ), bucketTransform, Color.black, new PhetFont( 22, true ) );
 
         //Add the buckets to the view
         addChild( sugarBucket.getHoleNode() );
