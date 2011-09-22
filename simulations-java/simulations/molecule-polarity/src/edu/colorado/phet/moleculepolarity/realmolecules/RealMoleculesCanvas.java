@@ -1,14 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.realmolecules;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.image.BufferedImage;
 
 import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
@@ -47,6 +50,23 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode controlPanelNode = new MPControlPanelNode( parentFrame, new Resettable[] { model, viewProperties },
                                                          new ViewControlPanel( viewProperties, true, false, true, true, MPStrings.BOND_DIPOLES ),
                                                          new SurfaceControlPanel( viewProperties.surfaceType ) );
+
+        /*
+         * WORKAROUND:
+         * Above, we set the background color of the Jmol viewer to be the same as the canvas.
+         * But Jmol lightens the background color slightly, enough so that you can see the boundaries
+         * of the Jmol viewer. This workaround sets the canvas background to the actual RGB values
+         * rendered by the Jmol viewer. This canvas will be slightly lighter than canvases that
+         * don't use Jmol, but the user is unlikely to notice when switching between modules.
+         */
+        {
+            BufferedImage image = BufferedImageUtils.toBufferedImage( viewerNode.toImage() );
+            int pixel = image.getRGB( 0, 0 ); // upper-left pixel
+            int red = ( pixel & 0x00ff0000 ) >> 16;
+            int green = ( pixel & 0x0000ff00 ) >> 8;
+            int blue = pixel & 0x000000ff;
+            setBackground( new Color( red, green, blue ) );
+        }
 
         // rendering order
         {
