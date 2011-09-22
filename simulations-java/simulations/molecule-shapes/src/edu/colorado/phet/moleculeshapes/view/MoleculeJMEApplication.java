@@ -116,6 +116,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private PiccoloJMENode controlPanel;
     private PiccoloJMENode namePanel;
 
+    private JMEView guiView;
+
     private JMEView moleculeView;
     private Camera moleculeCamera;
     private MoleculeModelNode moleculeNode; // The molecule to display and rotate
@@ -242,7 +244,9 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 moleculeCamera.setLocation( new Vector3f( 0, 0, 40 ) );
                 moleculeCamera.lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
 
-                moleculeView = createView( "Main", moleculeCamera );
+                moleculeView = createMainView( "Main", moleculeCamera );
+                guiView = createBackGUIView( "Back GUI" );
+                JMEView readoutView = createFrontGUIView( "Readout" );
 
                 // add an offset to the left, since we have a control panel on the right
                 // TODO: make the offset dependent on the control panel width?
@@ -260,7 +264,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                     }
                 } );
 
-                moleculeNode = new MoleculeModelNode( molecule, inputHandler, MoleculeJMEApplication.this, moleculeCamera );
+                moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, MoleculeJMEApplication.this, moleculeCamera );
                 moleculeView.getScene().attachChild( moleculeNode );
 
                 /*---------------------------------------------------------------------------*
@@ -275,7 +279,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 * real molecule overlay
                 *----------------------------------------------------------------------------*/
 
-                overlay = createView( "Overlay", new Camera( (int) ( getStageSize().getWidth() ), (int) ( getStageSize().getHeight() ) ) {
+                overlay = createMainView( "Overlay", new Camera( (int) ( getStageSize().getWidth() ), (int) ( getStageSize().getHeight() ) ) {
                     @Override public void resize( int width, int height, boolean fixAspect ) {
                         super.resize( width, height, fixAspect );
 
@@ -295,7 +299,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
                 controlPanelNode = new MoleculeShapesControlPanel( MoleculeJMEApplication.this, realMoleculeOverlayNode );
                 controlPanel = new PiccoloJMENode( controlPanelNode, inputHandler, MoleculeJMEApplication.this, canvasTransform, controlPanelPosition );
-                getBackgroundGui().getScene().attachChild( controlPanel );
+                guiView.getScene().attachChild( controlPanel );
                 controlPanel.onResize.addUpdateListener(
                         new UpdateListener() {
                             public void update() {
@@ -313,7 +317,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                     // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
                     setOffset( 0, 10 );
                 }}, inputHandler, MoleculeJMEApplication.this, canvasTransform );
-                getBackgroundGui().getScene().attachChild( namePanel );
+                guiView.getScene().attachChild( namePanel );
                 namePanel.position.set( new ImmutableVector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
             }
         } );
@@ -326,7 +330,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     private void onLeftMouseDown() {
         // for dragging, ignore mouse presses over the HUD
-        HUDNode.withComponentUnderPointer( getBackgroundGui().getScene(), inputHandler, new VoidFunction1<Component>() {
+        HUDNode.withComponentUnderPointer( guiView.getScene(), inputHandler, new VoidFunction1<Component>() {
             public void apply( final Component componentUnderPointer ) {
                 boolean mouseOverInterface = componentUnderPointer != null;
                 if ( !mouseOverInterface ) {
@@ -409,7 +413,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
         final PairGroup pair = getElectronPairUnderPointer();
 
-        HUDNode.withComponentUnderPointer( getBackgroundGui().getScene(), inputHandler, new VoidFunction1<Component>() {
+        HUDNode.withComponentUnderPointer( guiView.getScene(), inputHandler, new VoidFunction1<Component>() {
             public void apply( Component component ) {
                 if ( dragging && ( dragMode == DragMode.MODEL_ROTATE || dragMode == DragMode.REAL_MOLECULE_ROTATE ) ) {
                     // rotating the molecule. for now, trying out the "move" cursor
