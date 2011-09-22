@@ -62,6 +62,7 @@ public class PlateTectonicsJMEApplication extends PhetJMEApplication {
     }
 
     @Override public void handleError( String errMsg, final Throwable t ) {
+        // TODO: move this into jme-phet
         super.handleError( errMsg, t );
         if ( errMsg.equals( "Failed to initialize OpenGL context" ) ) {
             SwingUtilities.invokeLater( new Runnable() {
