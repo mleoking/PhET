@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Or;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -65,7 +64,7 @@ public class KnobNode extends PNode {
          */
         public ColorScheme( Color upMiddle ) {
             this( add( upMiddle, -20, -20, -20 ), upMiddle, add( upMiddle, 35, 35, 35 ),
-                  add( upMiddle, -20, 20, 20 ), add( upMiddle, 0, 20, 20 ), add( upMiddle, 35, 35, 35 ),
+                  add( upMiddle, -10, 30, 30 ), add( upMiddle, 10, 30, 30 ), add( upMiddle, 45, 45, 45 ),
                   add( upMiddle, 35, 35, 35 ), add( upMiddle, 0, -20, -20 ), add( upMiddle, -20, -20, -20 ),
                   Color.white, Color.lightGray, Color.white );
         }
@@ -108,7 +107,7 @@ public class KnobNode extends PNode {
         }
     }
 
-    private static final double DEFAULT_SIZE = 26;
+    public static final double DEFAULT_SIZE = 26;
     private static final double ARROW_PRESS_OFFSET = 1;
 
     public KnobNode() {
@@ -172,11 +171,16 @@ public class KnobNode extends PNode {
         final PhetPPath background = new PhetPPath( knobShape ) {{
             setPaint( normalGradient );
             setStroke( new BasicStroke( 2f ) );
-            enabled.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean enabled ) {
-                    setStrokePaint( enabled ? new GradientPaint( new Point2D.Double( 0, 0 ), Color.lightGray, new Point2D.Double( width, width ), Color.black ) : Color.gray );
+
+            //When enabled/disabled or focused/unfocused, change the stroke
+            new RichSimpleObserver() {
+                @Override public void update() {
+                    setPaint( !enabled.get() ? disabledGradient : ( focused.get() ? focusGradient : normalGradient ) );
+                    setStrokePaint( !enabled.get() ? Color.gray : focused.get() ?
+                                                                  new GradientPaint( new Point2D.Double( 0, 0 ), new Color( 160, 160, 160 ), new Point2D.Double( width, width ), Color.black ) :
+                                                                  new GradientPaint( new Point2D.Double( 0, 0 ), Color.lightGray, new Point2D.Double( width, width ), Color.black ) );
                 }
-            } );
+            }.observe( enabled, focused );
         }};
         addChild( background );
 
@@ -204,14 +208,6 @@ public class KnobNode extends PNode {
                 entered.set( false );
             }
         } );
-
-        // when the button state changes, cause the repaint
-
-        new RichSimpleObserver() {
-            @Override public void update() {
-                background.setPaint( !enabled.get() ? disabledGradient : ( focused.get() ? focusGradient : normalGradient ) );
-            }
-        }.observe( focused, enabled );
 
         //Store the component so the mouse can be changed from hand to arrow when disabled
         addInputEventListener( new PBasicInputEventHandler() {
