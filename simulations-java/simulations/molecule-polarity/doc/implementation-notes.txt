@@ -1,4 +1,4 @@
-Development notes for molecule-polarity
+Implementation notes for molecule-polarity
 
 This sim has no model-view transform. There is a 1:1 correspondence between model and view locations.
 Having an explicit 1:1 transform might have provided a bit of future insurance. But this sim is
