@@ -17,9 +17,13 @@ import org.lwjgl.input.Mouse;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.collision.CollisionResult;
+import com.jme3.collision.CollisionResults;
+import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.JoyAxisEvent;
@@ -30,8 +34,11 @@ import com.jme3.input.event.MouseMotionEvent;
 import com.jme3.input.event.TouchEvent;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
+import com.jme3.math.Ray;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture2D;
 
@@ -209,6 +216,34 @@ public class HUDNode extends Geometry {
                 app.getStateManager().attach( state );
             }
         } );
+    }
+
+    public static void withComponentUnderPoint( Node scene, Vector2f point, final VoidFunction1<Component> callback ) {
+        CollisionResults results = new CollisionResults();
+        scene.collideWith( new Ray( new Vector3f( point.x, point.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
+        for ( CollisionResult result : results ) {
+
+            Geometry geometry = result.getGeometry();
+            if ( geometry instanceof HUDNode ) {
+                final HUDNode node = (HUDNode) geometry;
+                final Vector3f hitPoint = node.transformEventCoordinates( point.x, point.y );
+
+                // test for the component in the EDT thread, and run the callback there
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        callback.apply( node.componentAt( (int) hitPoint.x, (int) hitPoint.y ) );
+                    }
+                } );
+
+                // don't invoke the default (null) callback
+                return;
+            }
+        }
+        callback.apply( null );
+    }
+
+    public static void withComponentUnderPointer( Node scene, InputManager inputManager, final VoidFunction1<Component> callback ) {
+        withComponentUnderPoint( scene, inputManager.getCursorPosition(), callback );
     }
 
     public void repaint() {

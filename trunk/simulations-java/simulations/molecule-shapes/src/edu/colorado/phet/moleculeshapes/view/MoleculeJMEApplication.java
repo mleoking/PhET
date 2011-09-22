@@ -47,7 +47,6 @@ import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
@@ -327,7 +326,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     private void onLeftMouseDown() {
         // for dragging, ignore mouse presses over the HUD
-        getComponentUnderPointer( new VoidFunction1<Component>() {
+        HUDNode.withComponentUnderPointer( getBackgroundGui().getScene(), inputManager, new VoidFunction1<Component>() {
             public void apply( final Component componentUnderPointer ) {
                 boolean mouseOverInterface = componentUnderPointer != null;
                 if ( !mouseOverInterface ) {
@@ -410,7 +409,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
         final PairGroup pair = getElectronPairUnderPointer();
 
-        getComponentUnderPointer( new VoidFunction1<Component>() {
+        HUDNode.withComponentUnderPointer( getBackgroundGui().getScene(), inputManager, new VoidFunction1<Component>() {
             public void apply( Component component ) {
                 if ( dragging && ( dragMode == DragMode.MODEL_ROTATE || dragMode == DragMode.REAL_MOLECULE_ROTATE ) ) {
                     // rotating the molecule. for now, trying out the "move" cursor
@@ -533,33 +532,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         }
         return null;
     }
-
-    public void getComponentUnderPointer( final VoidFunction1<Component> callback ) {
-        // TODO: inspect, verify and doc
-        CollisionResults results = new CollisionResults();
-        Vector2f click2d = inputManager.getCursorPosition();
-        getBackgroundGui().getScene().collideWith( new Ray( new Vector3f( click2d.x, click2d.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
-        for ( CollisionResult result : results ) {
-
-            Geometry geometry = result.getGeometry();
-            if ( geometry instanceof HUDNode ) {
-                final HUDNode node = (HUDNode) geometry;
-                final Vector3f hitPoint = node.transformEventCoordinates( click2d.x, click2d.y );
-
-                // test for the component in the EDT thread, and run the callback there
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-                        callback.apply( node.componentAt( (int) hitPoint.x, (int) hitPoint.y ) );
-                    }
-                } );
-
-                // don't invoke the default (null) callback
-                return;
-            }
-        }
-        callback.apply( null );
-    }
-
 
     /**
      * Given a spatial target, return any associated electron pair, or null if there is none
