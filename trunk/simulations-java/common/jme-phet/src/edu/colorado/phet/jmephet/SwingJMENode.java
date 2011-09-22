@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.jme;
+package edu.colorado.phet.jmephet;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -10,10 +10,10 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.moleculeshapes.jme.CanvasTransform.IdentityCanvasTransform;
-import edu.colorado.phet.moleculeshapes.util.VoidNotifier;
+import edu.colorado.phet.jmephet.CanvasTransform.IdentityCanvasTransform;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import com.jme3.scene.Node;
@@ -84,7 +84,7 @@ public class SwingJMENode extends Node {
                     JMEUtils.invoke( new Runnable() {
                         public void run() {
                             // notify that we resized
-                            onResize.fire();
+                            onResize.updateListeners();
                         }
                     } );
                 }

@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
 import com.jme3.asset.AssetManager;
@@ -65,7 +65,7 @@ public class LonePairNode extends Node {
         // update based on electron pair position
         position.addObserver( new SimpleObserver() {
             public void update() {
-                ImmutableVector3D lonePairOrientation = new ImmutableVector3D( 0, 1, 0 );
+                ImmutableVector3D lonePairOrientation = ImmutableVector3D.Y_UNIT;
                 ImmutableVector3D normalizedPosition = position.get().normalized();
                 Matrix3f matrix = new Matrix3f();
                 JMEUtils.fromStartEndVectors( matrix, lonePairOrientation, normalizedPosition );

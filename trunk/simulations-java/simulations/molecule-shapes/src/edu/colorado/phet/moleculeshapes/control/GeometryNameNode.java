@@ -9,11 +9,11 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -136,8 +136,8 @@ public class GeometryNameNode extends PNode {
         * change listeners
         *----------------------------------------------------------------------------*/
 
-        molecule.onGroupChanged.addTarget( new Fireable<PairGroup>() {
-            public void fire( PairGroup pairGroup ) {
+        molecule.onGroupChanged.addListener( new VoidFunction1<PairGroup>() {
+            public void apply( PairGroup pairGroup ) {
                 updateMolecularText();
                 updateElectronText();
             }

@@ -12,16 +12,16 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.jmephet.JMEActionListener;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.control.ArrowButtonNode.Orientation;
-import edu.colorado.phet.moleculeshapes.jme.JMEActionListener;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
-import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -217,8 +217,8 @@ public class RealMoleculePanelNode extends PNode {
         onModelChange();
 
         // when the VSEPR molecule changes, update our possible molecules
-        molecule.onGroupChanged.addTarget( new Fireable<PairGroup>() {
-            public void fire( PairGroup param ) {
+        molecule.onGroupChanged.addListener( new VoidFunction1<PairGroup>() {
+            public void apply( PairGroup pairGroup ) {
                 onModelChange();
             }
         } );

@@ -9,19 +9,19 @@ import java.util.List;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.jmephet.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
-import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.math.Matrix4f;
@@ -53,13 +53,13 @@ public class MoleculeModelNode extends Node {
         this.camera = camera;
 
         // update the UI when the molecule changes electron pairs
-        molecule.onGroupAdded.addTarget( new Fireable<PairGroup>() {
-            public void fire( PairGroup group ) {
+        molecule.onGroupAdded.addListener( new VoidFunction1<PairGroup>() {
+            public void apply( PairGroup group ) {
                 addGroup( group );
             }
         } );
-        molecule.onGroupRemoved.addTarget( new Fireable<PairGroup>() {
-            public void fire( PairGroup group ) {
+        molecule.onGroupRemoved.addListener( new VoidFunction1<PairGroup>() {
+            public void apply( PairGroup group ) {
                 removeGroup( group );
             }
         } );

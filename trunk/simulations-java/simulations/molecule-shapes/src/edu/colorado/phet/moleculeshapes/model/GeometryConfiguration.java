@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 /**
  * Contains the "optimal" molecule structures (pair group directions stored as unit vectors),

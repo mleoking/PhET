@@ -9,9 +9,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.jmephet.JMEActionListener;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
-import edu.colorado.phet.moleculeshapes.jme.JMEActionListener;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 
 public class PerformanceFrame extends JFrame {

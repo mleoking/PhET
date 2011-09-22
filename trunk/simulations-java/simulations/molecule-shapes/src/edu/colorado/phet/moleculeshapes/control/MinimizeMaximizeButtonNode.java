@@ -8,9 +8,9 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.jmephet.JMECursorHandler;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.jme.JMECursorHandler;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 

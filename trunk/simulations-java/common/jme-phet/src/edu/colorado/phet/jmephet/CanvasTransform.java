@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.jme;
+package edu.colorado.phet.jmephet;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -8,8 +8,8 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.moleculeshapes.jme.PhetCamera.CameraStrategy;
-import edu.colorado.phet.moleculeshapes.jme.PhetCamera.CenteredStageCameraStrategy;
+import edu.colorado.phet.jmephet.PhetCamera.CameraStrategy;
+import edu.colorado.phet.jmephet.PhetCamera.CenteredStageCameraStrategy;
 
 public abstract class CanvasTransform {
 

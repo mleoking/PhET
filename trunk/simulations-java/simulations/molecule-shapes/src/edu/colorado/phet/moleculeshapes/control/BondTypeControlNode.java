@@ -5,11 +5,11 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.jmephet.JMECursorHandler;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
-import edu.colorado.phet.moleculeshapes.jme.JMECursorHandler;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.util.Fireable;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -60,12 +60,12 @@ public class BondTypeControlNode extends PNode {
             }
         } );
 
-        app.getMolecule().onGroupChanged.addTarget( new Fireable<PairGroup>() {
-            public void fire( PairGroup pairGroup ) {
-                updateState();
-            }
-        } );
-        updateState();
+        app.getMolecule().onGroupChanged.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        updateState();
+                    }
+                }, true );
 
         // custom cursor handler for only showing hand when it is enabled
         graphic.addInputEventListener( new JMECursorHandler() {

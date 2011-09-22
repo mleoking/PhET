@@ -1,16 +1,20 @@
-package edu.colorado.phet.moleculeshapes.math;
-
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
+package edu.colorado.phet.common.phetcommon.math;
 
 /**
- * 3D version of ImmutableVector2D.
- * <p/>
- * TODO: consider moving to phetcommon after documentation
+ * 3D vector, with similar functionality to ImmutableVector2D
+ *
+ * @author Jonathan Olson
  */
 public class ImmutableVector3D {
     private double x;
     private double y;
     private double z;
+
+    // public instances so we don't need to duplicate these
+    public static final ImmutableVector3D ZERO = new ImmutableVector3D();
+    public static final ImmutableVector3D X_UNIT = new ImmutableVector3D( 1, 0, 0 );
+    public static final ImmutableVector3D Y_UNIT = new ImmutableVector3D( 0, 1, 0 );
+    public static final ImmutableVector3D Z_UNIT = new ImmutableVector3D( 0, 0, 1 );
 
     public ImmutableVector3D() {
         this( 0, 0, 0 );
@@ -59,6 +63,7 @@ public class ImmutableVector3D {
         return new ImmutableVector3D( -x, -y, -z );
     }
 
+    // Cross product
     public ImmutableVector3D cross( ImmutableVector3D v ) {
         return new ImmutableVector3D(
                 y * v.z - z * v.y,
@@ -71,10 +76,12 @@ public class ImmutableVector3D {
         return x * v.x + y * v.y + z * v.z;
     }
 
+    // The angle between this vector and "v", in radians
     public double angleBetween( ImmutableVector3D v ) {
         return Math.acos( MathUtil.clamp( -1, normalized().dot( v.normalized() ), 1 ) );
     }
 
+    // The angle between this vector and "v", in degrees
     public double angleBetweenInDegrees( ImmutableVector3D v ) {
         return angleBetween( v ) * 180 / Math.PI;
     }
@@ -84,10 +91,11 @@ public class ImmutableVector3D {
     }
 
     @Override public int hashCode() {
-        return Double.toHexString( x ).hashCode() + Double.toHexString( y ).hashCode() + Double.toHexString( z ).hashCode();
+        return Double.toHexString( x ).hashCode() + 31 * ( Double.toHexString( y ).hashCode() + 31 * Double.toHexString( z ).hashCode() );
     }
 
     @Override public boolean equals( Object obj ) {
+        // equality broken if we decide to compare instances of this class with subclasses that override equals
         if ( obj instanceof ImmutableVector3D ) {
             ImmutableVector3D v = (ImmutableVector3D) obj;
             return x == v.x && y == v.y && z == v.z;

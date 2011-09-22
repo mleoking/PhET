@@ -7,9 +7,9 @@ import Jama.SingularValueDecomposition;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 /**
  * Contains the logic for applying an "attractor" force to a molecule that first:

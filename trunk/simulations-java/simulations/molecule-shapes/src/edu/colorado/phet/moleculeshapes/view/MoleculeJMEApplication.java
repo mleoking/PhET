@@ -7,10 +7,19 @@ import java.util.Random;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
+import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
+import edu.colorado.phet.jmephet.HUDNode;
+import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.jmephet.JMEView;
+import edu.colorado.phet.jmephet.PhetCamera;
+import edu.colorado.phet.jmephet.PhetJMEApplication;
+import edu.colorado.phet.jmephet.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
@@ -18,17 +27,8 @@ import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
-import edu.colorado.phet.moleculeshapes.jme.CanvasTransform.CenteredStageCanvasTransform;
-import edu.colorado.phet.moleculeshapes.jme.HUDNode;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
-import edu.colorado.phet.moleculeshapes.jme.JMEView;
-import edu.colorado.phet.moleculeshapes.jme.PhetCamera;
-import edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication;
-import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import com.jme3.bounding.BoundingSphere;
@@ -253,8 +253,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 addLighting( moleculeView.getScene() );
 
                 // when the molecule is made empty, make sure to show lone pairs again (will allow us to drag out new ones)
-                molecule.onGroupChanged.addTarget( new SimpleTarget() {
-                    public void update() {
+                molecule.onGroupChanged.addListener( new VoidFunction1<PairGroup>() {
+                    public void apply( PairGroup group ) {
                         if ( molecule.getLonePairs().isEmpty() ) {
                             showLonePairs.set( true );
                         }
@@ -297,15 +297,15 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 controlPanelNode = new MoleculeShapesControlPanel( MoleculeJMEApplication.this, realMoleculeOverlayNode );
                 controlPanel = new PiccoloJMENode( controlPanelNode, MoleculeJMEApplication.this, canvasTransform, controlPanelPosition );
                 getBackgroundGui().getScene().attachChild( controlPanel );
-                controlPanel.onResize.addTargetAndUpdate( new SimpleTarget() {
-                    public void update() {
-                        controlPanel.position.set( new ImmutableVector2D(
-                                getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
-                                getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
-                        resizeDirty = true; // TODO: better way of getting this dependency?
-                    }
-                } );
-
+                controlPanel.onResize.addUpdateListener(
+                        new UpdateListener() {
+                            public void update() {
+                                controlPanel.position.set( new ImmutableVector2D(
+                                        getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
+                                        getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
+                                resizeDirty = true; // TODO: better way of getting this dependency?
+                            }
+                        }, true );
 
                 /*---------------------------------------------------------------------------*
                 * "geometry name" panel

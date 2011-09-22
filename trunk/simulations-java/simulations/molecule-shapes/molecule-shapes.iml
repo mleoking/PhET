@@ -18,8 +18,8 @@
     </orderEntry>
     <orderEntry type="module" module-name="piccolo-phet" />
     <orderEntry type="module" module-name="chemistry" />
-    <orderEntry type="module" module-name="jme3" />
     <orderEntry type="module" module-name="Jama" />
+    <orderEntry type="module" module-name="jme-phet" />
   </component>
 </module>
 

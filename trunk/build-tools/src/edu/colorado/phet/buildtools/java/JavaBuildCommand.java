@@ -23,6 +23,7 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildToolsConstants;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetCleanCommand;
+import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
@@ -150,6 +151,17 @@ public class JavaBuildCommand {
 
         File[] src = project.getAllJavaSourceRoots();
         File[] classpath = project.getAllJarFiles();
+
+        // trace out all of the dependency information, since this can be very helpful in debugging the build process
+        for ( PhetProject dependency : project.getAllDependencies() ) {
+            System.out.println( "dependency: " + dependency.getName() );
+            for ( File sourceRoot : dependency.getSourceRoots() ) {
+                System.out.println( "\tsource path: " + sourceRoot.getAbsolutePath() );
+            }
+            for ( File jarFile : dependency.getJarFiles() ) {
+                System.out.println( "\tclass path: " + jarFile.getAbsolutePath() );
+            }
+        }
 
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
 

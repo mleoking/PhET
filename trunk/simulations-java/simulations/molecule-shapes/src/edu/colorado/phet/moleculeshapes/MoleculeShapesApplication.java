@@ -18,10 +18,10 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuIte
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.jmephet.ColorRGBAPropertyControl;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.dev.PerformanceFrame;
-import edu.colorado.phet.moleculeshapes.jme.ColorRGBAPropertyControl;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
 import edu.colorado.phet.moleculeshapes.util.ColorPropertyControl;
 
 /**

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 
 import static edu.colorado.phet.chemistry.model.Element.*;
 

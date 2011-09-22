@@ -1,28 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.control;
 
-import java.awt.geom.Rectangle2D;
-
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.jmephet.JMEActionListener;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
-import edu.colorado.phet.moleculeshapes.jme.JMEActionListener;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
-import edu.colorado.phet.moleculeshapes.jme.JMEView;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
-
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial.CullHint;
 
 /**
  * The main Molecule Shapes control panel on the right hand side. It is composed of multiple sub-panels,
@@ -157,7 +150,7 @@ public class MoleculeShapesControlPanel extends PNode {
                         setEnabled( !app.getMolecule().getLonePairs().isEmpty() );
                     }
                 };
-                app.getMolecule().onGroupChanged.addTarget( JMEUtils.swingTarget( updateEnabled ) );
+                app.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
 
                 /*
                  * Run this in the current thread. should be in EDT for construction. Needed since the other call
@@ -178,7 +171,7 @@ public class MoleculeShapesControlPanel extends PNode {
                                     || app.getMolecule().getBondedGroups().size() >= 2 );
                     }
                 };
-                app.getMolecule().onGroupChanged.addTarget( JMEUtils.swingTarget( updateEnabled ) );
+                app.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
                 MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JMEUtils.swingObserver( updateEnabled ) );
 
                 setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );

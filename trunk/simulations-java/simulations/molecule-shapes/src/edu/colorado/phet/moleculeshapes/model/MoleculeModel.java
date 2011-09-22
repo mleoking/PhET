@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.colorado.phet.moleculeshapes.util.CompositeNotifier;
-import edu.colorado.phet.moleculeshapes.util.Notifier;
+import edu.colorado.phet.common.phetcommon.model.event.CompositeNotifier;
+import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 
 /**
  * Model of a single-atom-centered molecule which has a certain number of pair groups
@@ -21,7 +21,7 @@ public class MoleculeModel {
 
     public final Notifier<PairGroup> onGroupAdded = new Notifier<PairGroup>();
     public final Notifier<PairGroup> onGroupRemoved = new Notifier<PairGroup>();
-    public final Notifier<PairGroup> onGroupChanged = new CompositeNotifier<PairGroup>( onGroupAdded, onGroupRemoved );
+    public final CompositeNotifier<PairGroup> onGroupChanged = new CompositeNotifier<PairGroup>( onGroupAdded, onGroupRemoved );
 
     public MoleculeModel() {
     }
@@ -96,7 +96,7 @@ public class MoleculeModel {
         } );
 
         // notify
-        onGroupAdded.fire( pair );
+        onGroupAdded.updateListeners( pair );
     }
 
     private int getSortingKey( PairGroup group ) {
@@ -108,7 +108,7 @@ public class MoleculeModel {
         groups.remove( pair );
 
         // notify
-        onGroupRemoved.fire( pair );
+        onGroupRemoved.updateListeners( pair );
     }
 
     public List<PairGroup> getGroups() {

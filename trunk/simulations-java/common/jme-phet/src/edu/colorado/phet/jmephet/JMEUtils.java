@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.jme;
+package edu.colorado.phet.jmephet;
 
 import java.awt.*;
 import java.io.File;
@@ -20,10 +20,10 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.Pbuffer;
 import org.lwjgl.opengl.PixelFormat;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
-import edu.colorado.phet.moleculeshapes.util.SimpleTarget;
 
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -431,8 +431,8 @@ public class JMEUtils {
         };
     }
 
-    public static SimpleTarget swingTarget( final Runnable runnable ) {
-        return new SimpleTarget() {
+    public static UpdateListener swingUpdateListener( final Runnable runnable ) {
+        return new UpdateListener() {
             public void update() {
                 SwingUtilities.invokeLater( runnable );
             }
