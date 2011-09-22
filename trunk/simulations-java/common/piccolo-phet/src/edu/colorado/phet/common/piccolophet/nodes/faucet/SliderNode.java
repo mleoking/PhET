@@ -15,8 +15,11 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -125,5 +128,27 @@ public class SliderNode extends PNode {
             setSize( 800, 600 );
             setDefaultCloseOperation( EXIT_ON_CLOSE );
         }}.setVisible( true );
+    }
+
+    public static class TestSliderForStatesOfMatter {
+        public static void main( String[] args ) {
+            new PFrame( "test", false, new PCanvas() {{
+
+                SliderNode sliderNode = new SliderNode( -1, new Property<Double>( 0.0 ), +1 );
+                sliderNode.addLabel( +1, new ZeroOffsetNode( new PhetPText( "Add", new PhetFont( 16 ) ) {{rotate( Math.PI / 2 );}} ) );
+                sliderNode.addLabel( 0.0, new ZeroOffsetNode( new PhetPText( "  0", new PhetFont( 16 ) ) {{rotate( Math.PI / 2 );}} ) );
+                sliderNode.addLabel( -1, new ZeroOffsetNode( new PhetPText( "Remove", new PhetFont( 16 ) ) {{rotate( Math.PI / 2 );}} ) );
+                sliderNode.setRotation( 2 * 3.0 / 4.0 * Math.PI );
+
+                getLayer().addChild( new ZeroOffsetNode( sliderNode ) {{
+                    setOffset( 200, 200 );
+                }} );
+
+                setPanEventHandler( null );
+            }} ) {{
+                setSize( 800, 600 );
+                setDefaultCloseOperation( EXIT_ON_CLOSE );
+            }}.setVisible( true );
+        }
     }
 }
