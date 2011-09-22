@@ -98,6 +98,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/photon-absorption/photon-absorption.iml" filepath="$PROJECT_DIR$/simulations-java/common/photon-absorption/photon-absorption.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/plate-tectonics/plate-tectonics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/plate-tectonics/plate-tectonics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" filepath="$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/quantum-tunneling/quantum-tunneling.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/quantum-tunneling/quantum-tunneling.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/quantum-wave-interference/quantum-wave-interference.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/quantum-wave-interference/quantum-wave-interference.iml" />
