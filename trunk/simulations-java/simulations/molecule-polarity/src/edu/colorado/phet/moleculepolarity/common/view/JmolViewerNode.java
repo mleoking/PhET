@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPStrings;
+import edu.colorado.phet.moleculepolarity.common.model.Element;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -79,17 +80,6 @@ public class JmolViewerNode extends PhetPNode {
             "    print {*}[i].elemno\n" +
             "    print {*}[i].color\n" +
             "}";
-
-    public static class ElementColor {
-
-        public final int elementNumber;
-        public final Color color;
-
-        public ElementColor( int elementNumber, Color color ) {
-            this.elementNumber = elementNumber;
-            this.color = color;
-        }
-    }
 
     public final Property<Molecule3D> molecule; // the molecule displayed by the viewer
     private final ViewerPanel viewerPanel; // container for the Jmol viewer
@@ -368,23 +358,23 @@ public class JmolViewerNode extends PhetPNode {
         }
     }
 
-    // Gets the element numbers and colors for the atoms in the current molecule.
-    public ArrayList<ElementColor> getElementNumbersAndColors() {
+    // Gets the elements for the atoms in the current molecule.
+    public ArrayList<Element> getElements() {
         Object status = doScript( SCRIPT_GET_ELEMENT_NUMBERS_AND_COLORS );
-//        LOGGER.info( "getElementNumbersAndColors status=[" + status.toString() + "]" );
+//        LOGGER.info( "getElements status=[" + status.toString() + "]" );
         if ( status == null ) {
             throw new RuntimeException( "Jmol script returned null status" );
         }
         else {
             // each set of 4 numbers is: elementNumber red green blue
             ArrayList<Integer> values = parseIntegers( status, " \n{}" );
-            ArrayList<ElementColor> elementColors = new ArrayList<ElementColor>();
+            ArrayList<Element> elements = new ArrayList<Element>();
             for ( int i = 0; i < values.size(); i += 4 ) {
                 int elementNumber = values.get( i ).intValue();
                 Color color = new Color( values.get( i + 1 ), values.get( i + 2 ), values.get( i + 3 ) );
-                elementColors.add( new ElementColor( elementNumber, color ) );
+                elements.add( new Element( elementNumber, color ) );
             }
-            return elementColors;
+            return elements;
         }
     }
 

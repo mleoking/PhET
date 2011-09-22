@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode.ElementColor;
+import edu.colorado.phet.moleculepolarity.common.model.Element;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -73,8 +73,8 @@ public class ElectronegativityTableNode extends PComposite {
         viewerNode.molecule.addObserver( new SimpleObserver() {
             public void update() {
                 reset();
-                ArrayList<ElementColor> elementColors = viewerNode.getElementNumbersAndColors();
-                for ( ElementColor elementColor : elementColors ) {
+                ArrayList<Element> element = viewerNode.getElements();
+                for ( Element elementColor : element ) {
                     setColor( elementColor.elementNumber, elementColor.color );
                 }
             }
