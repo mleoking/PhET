@@ -1,3 +1,4 @@
+Water tower: Fixed: Water drops go in front of the ground
 # 0.00.27 (56770) Sep 20, 2011
 Fluid flow: Fixed: Velocity sensor disappears if the blue velocity arrow overlaps the toolbox when dropped
 # 0.00.26 (56717) Sep 19, 2011
