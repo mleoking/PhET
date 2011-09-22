@@ -65,8 +65,10 @@ public class TriColorRoundGradientPaint implements Paint {
      */
     public PaintContext createContext( ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform xform, RenderingHints hints ) {
         Point2D transformedCenter = xform.transform( center, null );
-        double transformedInnerMiddleSpan = xform.deltaTransform( new Point2D.Double( innerMiddleSpan, 0 ), null ).getX();
-        double transformedMiddleOuterSpan = xform.deltaTransform( new Point2D.Double( middleOuterSpan, 0 ), null ).getX();
+
+        //Transform from user space to device space, and ensure spans remain positive, since they are distances
+        double transformedInnerMiddleSpan = Math.abs( xform.deltaTransform( new Point2D.Double( innerMiddleSpan, 0 ), null ).getX() );
+        double transformedMiddleOuterSpan = Math.abs( xform.deltaTransform( new Point2D.Double( middleOuterSpan, 0 ), null ).getX() );
         return new TriColorRoundGradientContext( innerColor, middleColor, outerColor, transformedCenter, transformedInnerMiddleSpan, transformedMiddleOuterSpan );
     }
 
@@ -99,6 +101,8 @@ public class TriColorRoundGradientPaint implements Paint {
          * @param middleOuterSpan the distance over which the gradient transitions from middleColor to outerColor
          */
         public TriColorRoundGradientContext( Color innerColor, Color middleColor, Color outerColor, Point2D center, double innerMiddleSpan, double middleOuterSpan ) {
+            assert ( innerMiddleSpan > 0 );
+            assert ( middleOuterSpan > 0 );
             this.innerColor = innerColor;
             this.middleColor = middleColor;
             this.outerColor = outerColor;
