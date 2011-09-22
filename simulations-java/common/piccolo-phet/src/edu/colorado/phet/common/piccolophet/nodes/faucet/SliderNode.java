@@ -3,12 +3,15 @@ package edu.colorado.phet.common.piccolophet.nodes.faucet;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -27,16 +30,36 @@ import edu.umd.cs.piccolox.PFrame;
  * @author Sam Reid
  */
 public class SliderNode extends PNode {
+    public final SettableProperty<Boolean> enabled = new Property<Boolean>( true );
+    private PhetPPath trackNode;
+    private double min;
+    private double max;
+    private KnobNode knobNode;
+
     public SliderNode( final double min, final SettableProperty<Double> value, final double max ) {
+        this( min, value, max, new BooleanProperty( true ) );
+    }
+
+    public SliderNode( final double min, final SettableProperty<Double> value, final double max, final ObservableProperty<Boolean> enabled ) {
+        this.min = min;
+        this.max = max;
         final int trackHeight = 5;
+
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, 200, trackHeight );
-        final PhetPPath trackNode = new PhetPPath( trackPath, Color.lightGray, new BasicStroke( 1 ), Color.black );
+
+        trackNode = new PhetPPath( trackPath, new GradientPaint( 0, trackHeight / 2, Color.white, 0, trackHeight, Color.gray, false ), new BasicStroke( 1 ), new GradientPaint( 0, 0, Color.gray, 0, trackHeight, Color.black, false ) );
         addChild( trackNode );
-        addChild( new KnobNode( new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
+        knobNode = new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
+
+            enabled.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean enabled ) {
+                    setEnabled( enabled );
+                }
+            } );
 //        addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 20, 20 ), Color.blue ) {{
             value.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double value ) {
-                    double viewX = new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinX(), trackNode.getFullBounds().getWidth() ).evaluate( value );
+                    double viewX = getViewX( value );
                     setOffset( viewX - getFullBounds().getWidth() / 2, trackNode.getFullBounds().getHeight() / 2 - getFullBounds().getHeight() / 2 );
                 }
             } );
@@ -65,7 +88,18 @@ public class SliderNode extends PNode {
                     value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
                 }
             } );
-        }} );
+        }};
+        addChild( knobNode );
+    }
+
+    private double getViewX( double value ) {
+        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinX(), trackNode.getFullBounds().getWidth() ).evaluate( value );
+    }
+
+    //Add a label to appear under the slider at the specified location
+    public void addLabel( double value, PNode label ) {
+        addChild( label );
+        label.setOffset( getViewX( value ) - label.getFullBounds().getWidth() / 2, knobNode.getFullBounds().getHeight() / 2 );
     }
 
     public static void main( String[] args ) {

@@ -99,7 +99,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public final ArrayList<Dispenser> dispensers;
 
     //Rate at which liquid (but no solutes) leaves the model
-    public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
+    public final SettableProperty<Double> evaporationRate = new Property<Double>( 0.0 );//Between 0 and 100
 
     //Rate at which liquid evaporates
     public final double evaporationRateScale;
@@ -277,7 +277,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
         //Turn off evaporation if beaker is empty of water
         if ( newVolume <= 0 ) {
-            evaporationRate.set( 0 );
+            evaporationRate.set( 0.0 );
         }
 
         //Update the water volume

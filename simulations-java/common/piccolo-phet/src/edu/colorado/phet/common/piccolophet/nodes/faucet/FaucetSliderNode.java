@@ -26,10 +26,24 @@ public class FaucetSliderNode extends PNode {
     public FaucetSliderNode( final ObservableProperty<Boolean> allowed, final Property<Double> flowRate, final boolean userHasToHoldTheSliderKnob ) {
 
         //Wire up 2-way communication with the Property
-        final Property<Double> sliderProperty = new Property<Double>( flowRate.get() );
+        final Property<Double> sliderProperty = new Property<Double>( flowRate.get() ) {
+            @Override public void set( Double value ) {
+                if ( allowed.get() ) {
+                    super.set( value );
+                }
+                else {
+                    super.set( 0.0 );
+                }
+            }
+        };
         sliderProperty.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                if ( allowed.get() ) { flowRate.set( value ); }
+                if ( allowed.get() ) {
+                    flowRate.set( value );
+                }
+                else {
+                    flowRate.set( 0.0 );
+                }
             }
         } );
         flowRate.addObserver( new VoidFunction1<Double>() {
@@ -37,10 +51,10 @@ public class FaucetSliderNode extends PNode {
                 sliderProperty.set( value );
             }
         } );
-        final SliderNode sliderNode = new SliderNode( 0, sliderProperty, 1 );
+        final SliderNode sliderNode = new SliderNode( 0, sliderProperty, 1, allowed );
 
         //Fix the size so it will fit into the specified image dimensions
-        double scale = 95.0 / sliderNode.getFullBounds().getWidth();
+        double scale = 85.0 / sliderNode.getFullBounds().getWidth();
         sliderNode.scale( scale );
 
         //The two styles for user input are
