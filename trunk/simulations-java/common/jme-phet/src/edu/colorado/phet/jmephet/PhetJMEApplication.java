@@ -10,6 +10,8 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
+import edu.colorado.phet.jmephet.input.JMEInputHandler;
+import edu.colorado.phet.jmephet.input.WrappedInputManager;
 
 import com.jme3.app.Application;
 import com.jme3.math.ColorRGBA;
@@ -53,6 +55,8 @@ public abstract class PhetJMEApplication extends Application {
     private volatile Dimension stageSize = null;
     private final Frame parentFrame;
 
+    private JMEInputHandler directInputHandler;
+
     public PhetJMEApplication( Frame parentFrame ) {
         super();
         this.parentFrame = parentFrame;
@@ -76,6 +80,8 @@ public abstract class PhetJMEApplication extends Application {
     @Override
     public void initialize() {
         super.initialize();
+
+        directInputHandler = new WrappedInputManager( inputManager );
 
         // setup a GUI behind the main scene
         backgroundGuiNode.setQueueBucket( Bucket.Gui );
@@ -220,5 +226,9 @@ public abstract class PhetJMEApplication extends Application {
 
     public Frame getParentFrame() {
         return parentFrame;
+    }
+
+    public JMEInputHandler getDirectInputHandler() {
+        return directInputHandler;
     }
 }

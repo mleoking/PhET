@@ -17,6 +17,7 @@ import edu.colorado.phet.jmephet.CanvasTransform;
 import edu.colorado.phet.jmephet.CanvasTransform.IdentityCanvasTransform;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
+import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import com.jme3.scene.Node;
@@ -34,6 +35,7 @@ public class SwingJMENode extends Node {
     public final VoidNotifier onResize = new VoidNotifier(); // notifier that fires when this node is resized
 
     private final JComponent component;
+    private final JMEInputHandler inputHandler;
     private final PhetJMEApplication app;
     private final CanvasTransform canvasTransform;
 
@@ -49,16 +51,17 @@ public class SwingJMENode extends Node {
      */
     public final Property<Boolean> antialiased = new Property<Boolean>( false );
 
-    public SwingJMENode( final JComponent component, final PhetJMEApplication app ) {
-        this( component, app, getDefaultTransform() );
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final PhetJMEApplication app ) {
+        this( component, inputHandler, app, getDefaultTransform() );
     }
 
-    public SwingJMENode( final JComponent component, final PhetJMEApplication app, CanvasTransform canvasTransform ) {
-        this( component, app, canvasTransform, getDefaultPosition() );
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, PhetJMEApplication app, CanvasTransform canvasTransform ) {
+        this( component, inputHandler, app, canvasTransform, getDefaultPosition() );
     }
 
-    public SwingJMENode( final JComponent component, final PhetJMEApplication app, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final PhetJMEApplication app, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
         this.component = component;
+        this.inputHandler = inputHandler;
         this.app = app;
         this.canvasTransform = canvasTransform;
         this.position = position;
@@ -179,7 +182,7 @@ public class SwingJMENode extends Node {
         final HUDNode newHudNode = new HUDNode( component, hudWidth, hudHeight, new AffineTransform() {{
             translate( imageOffsetX, imageOffsetY );
             scale( scaleX, scaleY );
-        }}, app, antialiased );
+        }}, inputHandler, app, antialiased );
         newHudNode.setLocalTranslation( offsetX, offsetY, 0 );
 
         // do the rest of the work in the JME thread

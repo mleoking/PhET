@@ -6,7 +6,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 /**

@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import com.jme3.app.Application;
-import com.jme3.input.InputManager;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeCanvasContext;
 

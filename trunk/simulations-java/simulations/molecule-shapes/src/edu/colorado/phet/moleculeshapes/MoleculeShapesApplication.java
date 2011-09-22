@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.jmephet.ColorRGBAPropertyControl;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
