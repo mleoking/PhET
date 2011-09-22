@@ -1,3 +1,4 @@
+# 2.08.02 (56801) Sep 21, 2011
 Energy Skate Park Basics: Fixed reset all for track friction value
 Energy Skate Park Basics: Fixed reset all for track friction on/off
 Energy Skate Park Basics: Fixed reset all for stick to track on/off
