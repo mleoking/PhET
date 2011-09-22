@@ -34,7 +34,7 @@ public class BucketView {
     // Class Data
     // ------------------------------------------------------------------------
 
-    private static final Font LABEL_FONT = new PhetFont( 18, true );
+    public static final Font DEFAULT_LABEL_FONT = new PhetFont( 18, true );
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -51,10 +51,10 @@ public class BucketView {
     // ------------------------------------------------------------------------
 
     public BucketView( Bucket bucket, ModelViewTransform mvt ) {
-        this( bucket, mvt, Color.WHITE );
+        this( bucket, mvt, Color.WHITE, DEFAULT_LABEL_FONT );
     }
 
-    public BucketView( Bucket bucket, ModelViewTransform mvt, Color captionColor ) {
+    public BucketView( Bucket bucket, ModelViewTransform mvt, Color captionColor, Font labelFont ) {
         // Create a scaling transform based on the provided MVT, since we only
         // want the scaling portion and we want to avoid any translation.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(),
@@ -85,7 +85,7 @@ public class BucketView {
         // Create and add the caption (if provided).
         if ( bucket.getCaptionText() != null ) {
             PText caption = new PText( bucket.getCaptionText() );
-            caption.setFont( LABEL_FONT );
+            caption.setFont( labelFont );
             caption.setTextPaint( captionColor );
             if ( caption.getFullBoundsReference().getWidth() > scaledContainerShape.getBounds().getWidth() * 0.8 ) {
                 // The caption must be scaled in order to fit on the container.
