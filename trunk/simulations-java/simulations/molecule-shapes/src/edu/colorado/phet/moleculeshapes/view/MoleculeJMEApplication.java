@@ -4,22 +4,19 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
-import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
-import edu.colorado.phet.jmephet.HUDNode;
+import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.PhetCamera;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
-import edu.colorado.phet.jmephet.PiccoloJMENode;
+import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;

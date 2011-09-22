@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.jmephet;
+package edu.colorado.phet.jmephet.hud;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
+
+import edu.colorado.phet.jmephet.JMEUtils;
 
 import com.jme3.texture.Image;
 

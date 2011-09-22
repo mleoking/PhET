@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
-import edu.colorado.phet.jmephet.PiccoloJMENode;
+import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.math.ColorRGBA;
