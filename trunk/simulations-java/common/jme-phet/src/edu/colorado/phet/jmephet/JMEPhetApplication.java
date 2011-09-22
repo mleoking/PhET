@@ -21,6 +21,8 @@ public class JMEPhetApplication extends PiccoloPhetApplication {
         this( config, new TabbedModulePanePiccolo() {
             private ModulePanel panel = null;
 
+            // TODO: get rid of this hack!
+
             // don't add anything after the initial module panel
             @Override public void add( Component comp, Object constraints ) {
                 if ( panel == null || !( comp instanceof ModulePanel ) ) {
