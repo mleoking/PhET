@@ -54,7 +54,17 @@ public class PoolNode extends PNode {
         Color bottomColor = getBottomColor( liquidDensity.get() );
         double yBottom = transform2D.modelToViewY( -pool.getHeight() );//fade color halfway down
         double yTop = transform2D.modelToViewY( 0 );
-        return new GradientPaint( 0, (float) yTop, topColor, 0, (float) yBottom, bottomColor );
+
+        //Make pool gradient darker so it doesn't blend in with the air too much
+        return new GradientPaint( 0, (float) yTop, darker( topColor ), 0, (float) yBottom, darker( bottomColor ) );
+    }
+
+    public static Color darker( Color color ) {
+        double FACTOR = 0.8;
+        return new Color( Math.max( (int) ( color.getRed() * FACTOR ), 0 ),
+                          Math.max( (int) ( color.getGreen() * FACTOR ), 0 ),
+                          Math.max( (int) ( color.getBlue() * FACTOR ), 0 ),
+                          color.getAlpha() );
     }
 
     /*
