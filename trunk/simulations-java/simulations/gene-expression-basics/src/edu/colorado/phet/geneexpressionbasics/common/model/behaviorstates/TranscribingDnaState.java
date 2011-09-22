@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates;
 
+import java.awt.geom.Point2D;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -56,7 +57,9 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         transcribedRegionLength = geneBeingTranscribed.getTranscribedRegionLength();
         // Create the mRNA molecule that will be grown during the transcription
         // process.
-        messengerRna = new MessengerRna( biomolecule.getModel(), biomolecule.getPosition() );
+
+        messengerRna = new MessengerRna( biomolecule.getModel(), new Point2D.Double( biomolecule.getPosition().getX() + messengerRnaEmergenceOffset.getX(),
+                                                                                     biomolecule.getPosition().getY() + messengerRnaEmergenceOffset.getY() ) );
         biomolecule.spawnMolecule( messengerRna );
     }
 
