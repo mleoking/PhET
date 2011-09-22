@@ -29,7 +29,8 @@ public class ZoomIndicatorNode extends PNode {
         Rectangle2D zoomRect = new Rectangle2D.Double( miniBeakerBounds.getCenterX() - size / 2, ( miniBeakerBounds.getCenterY() + miniBeakerBounds.getMaxY() ) / 2 - size / 2, size, size );
 
         //Draw lines from the zoomed in box to the particle box
-        Stroke zoomLineStroke = new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 20, 10 }, 0 );
+        //Make it wide enough to be seen on a projector in a lit classroom
+        Stroke zoomLineStroke = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 20, 10 }, 0 );
         addChild( new PhetPPath( new Line2D.Double( zoomRect.getCenterX(), zoomRect.getY(), particleWindowBounds.getMaxX(), particleWindowBounds.getY() ), zoomLineStroke, lineColor.get() ) {{
             lineColor.addObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
