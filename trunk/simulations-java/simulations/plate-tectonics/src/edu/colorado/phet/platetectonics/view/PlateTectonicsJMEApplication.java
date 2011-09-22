@@ -16,7 +16,7 @@ public class PlateTectonicsJMEApplication extends PhetJMEApplication {
 
     public PlateTectonicsJMEApplication( Frame parentFrame ) {
         this.parentFrame = parentFrame;
-        backgroundColor.set( new ColorRGBA( 0.0f, 0.2f, 0.2f, 1.0f ) );
+        backgroundColor.set( new ColorRGBA( 0.85f, 0.95f, 1f, 1.0f ) );
     }
 
     private volatile boolean resizeDirty = false;
