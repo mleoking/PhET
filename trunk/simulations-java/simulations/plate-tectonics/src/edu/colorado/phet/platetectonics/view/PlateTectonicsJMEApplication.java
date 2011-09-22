@@ -8,12 +8,15 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
 
+import com.jme3.math.ColorRGBA;
+
 public class PlateTectonicsJMEApplication extends PhetJMEApplication {
 
     private final Frame parentFrame;
 
     public PlateTectonicsJMEApplication( Frame parentFrame ) {
         this.parentFrame = parentFrame;
+        backgroundColor.set( new ColorRGBA( 0.0f, 0.2f, 0.2f, 1.0f ) );
     }
 
     private volatile boolean resizeDirty = false;
