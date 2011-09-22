@@ -19,9 +19,10 @@ public class FoodColoring {
     private final ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
 
     public FoodColoring( double x0, double width, Pipe pipe ) {
-        //Pull back the food coloring by 10 pixels or so.  It shouldn't be moving at the water/pipe interface, so we avoid the problem by not showing any dye there
-        double yMin = 0 + 0.05;
-        double yMax = 1 - 0.05;
+
+        //Okay to have the fluid go all the way to the sides of the pipe, since friction is accounted for elsewhere
+        double yMin = 0;
+        double yMax = 1;
         double dy = 0.1;
         //top
         for ( double x = x0; x <= x0 + width; x += 0.1 ) {
