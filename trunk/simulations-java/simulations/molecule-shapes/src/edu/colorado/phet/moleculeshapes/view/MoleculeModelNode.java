@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
@@ -37,6 +38,7 @@ import com.jme3.scene.Spatial;
 public class MoleculeModelNode extends Node {
     private MoleculeModel molecule;
     private final JMEInputHandler inputHandler;
+    private final JMEView readoutView;
     private final MoleculeJMEApplication app;
     private final Camera camera;
 
@@ -48,10 +50,11 @@ public class MoleculeModelNode extends Node {
     private int angleIndex = 0;
     private List<ReadoutNode> angleReadouts = new ArrayList<ReadoutNode>();
 
-    public MoleculeModelNode( final MoleculeModel molecule, final JMEInputHandler inputHandler, final MoleculeJMEApplication app, final Camera camera ) {
+    public MoleculeModelNode( final MoleculeModel molecule, final JMEInputHandler inputHandler, final JMEView readoutView, final MoleculeJMEApplication app, final Camera camera ) {
         super( "Molecule Model" );
         this.molecule = molecule;
         this.inputHandler = inputHandler;
+        this.readoutView = readoutView;
         this.app = app;
         this.camera = camera;
 
@@ -291,7 +294,7 @@ public class MoleculeModelNode extends Node {
 
                             if ( !attached ) {
                                 attached = true;
-                                app.getGui().getScene().attachChild( ReadoutNode.this );
+                                readoutView.getScene().attachChild( ReadoutNode.this );
                             }
                         }
                     } );
@@ -304,7 +307,7 @@ public class MoleculeModelNode extends Node {
                 public void run() {
                     if ( attached ) {
                         attached = false;
-                        app.getGui().getScene().detachChild( ReadoutNode.this );
+                        readoutView.getScene().detachChild( ReadoutNode.this );
                     }
                 }
             } );

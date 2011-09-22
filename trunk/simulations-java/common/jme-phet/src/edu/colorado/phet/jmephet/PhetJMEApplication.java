@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.jmephet.input.WrappedInputManager;
@@ -84,6 +85,7 @@ public abstract class PhetJMEApplication extends Application {
         directInputHandler = new WrappedInputManager( inputManager );
 
         // setup a GUI behind the main scene
+        // TODO: consider removing this and just adding a background-color layer!
         backgroundGuiNode.setQueueBucket( Bucket.Gui );
         backgroundGuiNode.setCullHint( CullHint.Never );
         Camera backgroundGuiCam = new Camera( settings.getWidth(), settings.getHeight() );
@@ -117,17 +119,50 @@ public abstract class PhetJMEApplication extends Application {
         }
     }
 
-    public JMEView createView( String name ) {
-        return createView( name, new Camera( settings.getWidth(), settings.getHeight() ) );
+    public Camera createDefaultCamera() {
+        return new Camera( settings.getWidth(), settings.getHeight() );
     }
 
-    public JMEView createView( String name, Camera camera ) {
-        Node scene = new Node( name + " Scene Node" );
+    public JMEView createMainView( final String name, Camera camera ) {
+        return createView( name, camera, new Function2<RenderManager, Camera, ViewPort>() {
+            public ViewPort apply( RenderManager renderManager, Camera camera ) {
+                return renderManager.createMainView( name + " Viewport", camera );
+            }
+        } );
+    }
 
-        final ViewPort viewport = renderManager.createMainView( name + " Viewport", camera );
+    public JMEView createBackGUIView( final String name ) {
+        return createGUIView( name, new Function2<RenderManager, Camera, ViewPort>() {
+            public ViewPort apply( RenderManager renderManager, Camera camera ) {
+                return renderManager.createPreView( name + " Viewport", camera );
+            }
+        } );
+    }
+
+    public JMEView createFrontGUIView( final String name ) {
+        return createGUIView( name, new Function2<RenderManager, Camera, ViewPort>() {
+            public ViewPort apply( RenderManager renderManager, Camera camera ) {
+                return renderManager.createPostView( name + " Viewport", camera );
+            }
+        } );
+    }
+
+    private JMEView createView( String name, Camera camera, Function2<RenderManager, Camera, ViewPort> viewportFactory ) {
+        Node scene = new Node( name + " Node" );
+
+        final ViewPort viewport = viewportFactory.apply( renderManager, camera );
         viewport.attachScene( scene );
         addLiveNode( scene );
         return new JMEView( this, viewport, camera, scene );
+    }
+
+    private JMEView createGUIView( String name, Function2<RenderManager, Camera, ViewPort> viewportFactory ) {
+        JMEView view = createView( name, createDefaultCamera(), viewportFactory );
+
+        view.getScene().setQueueBucket( Bucket.Gui );
+        view.getScene().setCullHint( CullHint.Never );
+
+        return view;
     }
 
     public Timer getTimer() {
@@ -168,14 +203,6 @@ public abstract class PhetJMEApplication extends Application {
         }
         simpleRender( renderManager );
         stateManager.postRender();
-    }
-
-    public JMEView getGui() {
-        return gui;
-    }
-
-    public JMEView getBackgroundGui() {
-        return backgroundGui;
     }
 
     public void addLiveNode( Node node ) {
