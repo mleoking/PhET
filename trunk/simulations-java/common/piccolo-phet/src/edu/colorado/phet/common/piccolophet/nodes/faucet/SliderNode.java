@@ -104,10 +104,22 @@ public class SliderNode extends PNode {
 
     public static void main( String[] args ) {
         new PFrame( "test", false, new PCanvas() {{
-            getLayer().addChild( new SliderNode( 0, new Property<Double>( 0.0 ), 100 ) {{
-                setOffset( 100, 100 );
-//                rotate( Math.PI / 6 );
-            }} );
+            final SliderNode slider1 = new SliderNode( 0, new Property<Double>( 0.0 ), 100 ) {{
+                setOffset( 150, 250 );
+            }};
+            getLayer().addChild( slider1 );
+
+            final SliderNode slider2 = new SliderNode( 0, new Property<Double>( 0.0 ) {{
+                addObserver( new VoidFunction1<Double>() {
+                    public void apply( Double angle ) {
+                        slider1.setRotation( angle );
+                    }
+                } );
+            }}, Math.PI * 2 ) {{
+                setOffset( 400, 250 );
+            }};
+            getLayer().addChild( slider2 );
+
             setPanEventHandler( null );
         }} ) {{
             setSize( 800, 600 );
