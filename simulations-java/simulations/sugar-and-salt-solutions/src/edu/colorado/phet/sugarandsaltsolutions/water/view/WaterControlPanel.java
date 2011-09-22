@@ -33,6 +33,9 @@ public class WaterControlPanel extends WhiteControlPanelNode {
 
     public static final PhetFont BUTTON_FONT = new PhetFont( 16 );
 
+    //Disabled at 9/22/2011 meeting, but may be re-enabled later
+    private static final boolean showShowSugarPartialChargeCheckBox = false;
+
     public WaterControlPanel( final WaterModel waterModel, final GlobalState state, final WaterCanvas waterCanvas, final Sucrose3DDialog sucrose3DDialog ) {
         super( new VBox(
 
@@ -49,10 +52,11 @@ public class WaterControlPanel extends WhiteControlPanelNode {
                     }} );
 
                     //Checkbox to show/hide sugar partial charges
-                    //Disabled at 9/22/2011 meeting, but may be re-enabled later
-//                    add( new PropertyCheckBox( SUGAR_PARTIAL_CHARGES, waterModel.showSugarPartialCharge ) {{
-//                        setFont( BUTTON_FONT );
-//                    }} );
+                    if ( showShowSugarPartialChargeCheckBox ) {
+                        add( new PropertyCheckBox( SUGAR_PARTIAL_CHARGES, waterModel.showSugarPartialCharge ) {{
+                            setFont( BUTTON_FONT );
+                        }} );
+                    }
 
                     //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
                     //Works for both the sugar in the bucket and any in the model
