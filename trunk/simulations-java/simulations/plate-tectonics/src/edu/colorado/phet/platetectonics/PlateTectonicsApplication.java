@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.platetectonics.modules.DoublePlateModule;
 import edu.colorado.phet.platetectonics.modules.SinglePlateModule;
@@ -27,7 +28,7 @@ public class PlateTectonicsApplication extends PiccoloPhetApplication {
      * @param config the configuration for this application
      */
     public PlateTectonicsApplication( PhetApplicationConfig config ) {
-        super( config );
+        super( config, new TabbedModulePanePiccolo(  ){} );
         initModules();
         initMenubar();
     }
