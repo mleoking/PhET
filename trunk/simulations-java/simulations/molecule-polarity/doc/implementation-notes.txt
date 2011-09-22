@@ -19,7 +19,7 @@ molecule, and this section of the files was manually edited in the following way
 - labels (column 2) were edited to reflect the desired naming convention, since that convention was not supported by Jmol
 - xyz coordinates (columns 3,4,5) were edited to reflect the desired initial orientation
 
-Initial orientation of 3D molecules was tweaked using the RotateMol2 utility program.
+Initial orientation of 3D molecules was tweaked using the RotateMol2 utility program (in jme-phet).
 That program takes a set of xyz coordinates (copied from the mol2 files) and allows you to specify
 stepwise rotations, 1 axis at a time. Rotating 1 axis at a time makes it easier to verbally describe
 a transform that gets you from the original orientation to the desired orientation.
