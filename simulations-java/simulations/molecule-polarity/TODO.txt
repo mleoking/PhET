@@ -12,6 +12,7 @@ DESIGN
 - CH2F2 and CHCl3 have tiny bond dipoles
 - final set of molecules
 - layout change in "Real Molecules" to allow making Jmol viewer bigger
+- larger font for controls
 
 MEDIUM
 - delete Bond.deltaElectronegativity, rewrite setComponentX and translate steps in BondDipoleNode
@@ -25,6 +26,3 @@ BEFORE PUBLISHING
 - model.txt
 - IntelliJ code analysis
 - design doc snapshot
-
-MIGRATE TO COMMON
-- RotateCursorHandler and associated image
