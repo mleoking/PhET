@@ -3,8 +3,8 @@ package edu.colorado.phet.moleculeshapes.model;
 
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 /**
  * An atom that includes additional 3D position

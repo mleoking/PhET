@@ -8,7 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
+import edu.colorado.phet.jmephet.JMEUtils;
 
 /**
  * Color control for Color properties

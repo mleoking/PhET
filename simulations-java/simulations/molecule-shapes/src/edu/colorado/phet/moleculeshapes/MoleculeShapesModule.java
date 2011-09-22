@@ -4,7 +4,7 @@ package edu.colorado.phet.moleculeshapes;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.moleculeshapes.jme.JMEModule;
+import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 
 import com.jme3.app.Application;

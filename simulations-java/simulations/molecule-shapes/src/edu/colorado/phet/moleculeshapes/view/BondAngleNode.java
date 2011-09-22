@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.jmephet.PointArc;
+import edu.colorado.phet.jmephet.Sector;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.jme.JMEUtils;
-import edu.colorado.phet.moleculeshapes.jme.PointArc;
-import edu.colorado.phet.moleculeshapes.jme.Sector;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 
 import com.jme3.material.Material;

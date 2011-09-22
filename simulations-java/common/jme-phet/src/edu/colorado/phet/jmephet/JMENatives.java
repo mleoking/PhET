@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.jme;
+package edu.colorado.phet.jmephet;
 
 /*
  * Copyright (c) 2009-2010 jMonkeyEngine

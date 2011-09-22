@@ -3,8 +3,8 @@ package edu.colorado.phet.moleculeshapes.control;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.jmephet.JMEPropertyCheckBox;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.jme.JMEPropertyCheckBox;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**

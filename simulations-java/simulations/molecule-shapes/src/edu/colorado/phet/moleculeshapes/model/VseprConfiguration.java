@@ -4,8 +4,8 @@ package edu.colorado.phet.moleculeshapes.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 public class VseprConfiguration {
     public final int x;
