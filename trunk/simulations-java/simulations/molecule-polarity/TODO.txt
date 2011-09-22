@@ -16,6 +16,7 @@ DESIGN
 
 MEDIUM
 - delete Bond.deltaElectronegativity, rewrite setComponentX and translate steps in BondDipoleNode
+- rewrite DipoleNode and its subclasses
 
 LOW
 - play area visibly resizes at startup
