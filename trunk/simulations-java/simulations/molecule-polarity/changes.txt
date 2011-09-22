@@ -1,3 +1,4 @@
+9/22/11 increase font size in all control panels (similar to Balancing Act)
 9/22/11 workaround for difference between background color of play area and Jmol viewer
 9/22/11 move RotateMol2 to jmephet.util (see javadoc for "why")
 9/21/11 promote Element to top-level model class

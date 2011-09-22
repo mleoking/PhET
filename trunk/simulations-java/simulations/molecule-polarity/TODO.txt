@@ -5,7 +5,6 @@ DEADLINES
 
 HIGH
 - icons for dipoles next to check boxes
-- make font slightly bigger on controls (see torque)
 - rewrite BondTypeNode: different indicator; change labels to "Bond Character", "covalent", "ionic"; change check box to "Bond Character"
 - delete Bond.deltaElectronegativity, rewrite setComponentX and translate steps in BondDipoleNode
 - rewrite DipoleNode and its subclasses
