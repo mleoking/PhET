@@ -383,14 +383,14 @@ public class JmolViewerNode extends PhetPNode {
         return status.toString().trim().equals( RESULT_TRUE );
     }
 
-    // Parses a string that contains integers.
+    // Parses a status that contains integers.
     private static ArrayList<Integer> parseIntegers( Object status, String delimiters ) {
         String statusString = status.toString().trim();
         ArrayList<Integer> values = new ArrayList<Integer>();
         StringTokenizer tokenizer = new StringTokenizer( statusString, delimiters );
         while ( tokenizer.hasMoreTokens() ) {
             String token = tokenizer.nextToken();
-            int value = (int) Double.parseDouble( token ); // Jmol format some ints as doubles
+            int value = (int) Double.parseDouble( token ); // Jmol formats some ints as doubles
             values.add( value );
         }
         return values;
