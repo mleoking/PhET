@@ -83,7 +83,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
 
     public MoleculeJMEApplication( Frame parentFrame ) {
-        this.parentFrame = parentFrame;
+        super(parentFrame );
     }
 
     /*---------------------------------------------------------------------------*
@@ -117,8 +117,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private CenteredStageCanvasTransform canvasTransform;
     private PiccoloJMENode controlPanel;
     private PiccoloJMENode namePanel;
-
-    private final Frame parentFrame;
 
     private JMEView moleculeView;
     private Camera moleculeCamera;
@@ -642,17 +640,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     public MoleculeModel getMolecule() {
         return molecule;
-    }
-
-    @Override public void handleError( String errMsg, final Throwable t ) {
-        super.handleError( errMsg, t );
-        if ( errMsg.equals( "Failed to initialize OpenGL context" ) ) {
-            SwingUtilities.invokeLater( new Runnable() {
-                public void run() {
-                    PhetOptionPane.showMessageDialog( parentFrame, "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem.\nError information:\n" + t.getMessage() );
-                }
-            } );
-        }
     }
 
     public boolean canAutoRotateRealMolecule() {
