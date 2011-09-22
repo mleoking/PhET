@@ -399,12 +399,12 @@ public class JmolViewerNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
         final PhetPCanvas canvas = new PhetPCanvas() {{
-            setPreferredSize( new Dimension( 1024, 768 ) );
+            setPreferredSize( new Dimension( 500, 500 ) );
             setBackground( Color.LIGHT_GRAY );
             Property<Molecule3D> currentMolecule = new Property<Molecule3D>( new Molecule3D( "H2O", "water", "mol2/h2o.mol2" ) );
             JmolViewerNode viewerNode = new JmolViewerNode( currentMolecule, getBackground(), new Dimension( 400, 400 ) );
             getLayer().addChild( viewerNode );
-            viewerNode.setOffset( 100, 100 );
+            viewerNode.setOffset( 50, 50 );
         }};
         JFrame frame = new JFrame() {{
             setContentPane( canvas );
