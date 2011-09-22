@@ -25,7 +25,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -117,14 +116,11 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Boolean> showWaterCharges = new Property<Boolean>( false );
     public final Property<Boolean> showSugarPartialCharge = new Property<Boolean>( false );
     public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
+    public final ObservableProperty<Boolean> showChargeColor = new Property<Boolean>( false );
 
     //Developer settings
     public final Property<Double> coulombStrengthMultiplier = new Property<Double>( 100.0 );
-    public final DoubleProperty oxygenCharge = new DoubleProperty( -0.8 );
-    public final DoubleProperty hydrogenCharge = new DoubleProperty( 0.4 );
-    public final DoubleProperty ionCharge = new DoubleProperty( 1.0 );
     public final BooleanProperty coulombForceOnAllMolecules = new BooleanProperty( true );
-    public final ObservableProperty<Boolean> showChargeColor = new Property<Boolean>( false );
     public final Property<Double> pow = new Property<Double>( 2.0 );
     public final Property<Integer> randomness = new Property<Integer>( 5 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
