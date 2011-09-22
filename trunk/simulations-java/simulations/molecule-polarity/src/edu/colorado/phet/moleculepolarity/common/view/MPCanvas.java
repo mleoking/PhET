@@ -39,13 +39,6 @@ public class MPCanvas extends PhetPCanvas {
         rootNode.addChild( node );
     }
 
-    // Removes a child node from the root node.
-    protected void removeChild( PNode node ) {
-        if ( node != null && rootNode.indexOfChild( node ) != -1 ) {
-            rootNode.removeChild( node );
-        }
-    }
-
     protected Dimension2D getStageSize() {
         return STAGE_SIZE;
     }
