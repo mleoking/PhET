@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package com.pixelzoom.util;
+package edu.colorado.phet.jmephet.util;
 
 import java.text.DecimalFormat;
 
@@ -12,7 +12,10 @@ import com.jme3.math.Vector3f;
  * Rotation about one axis is performed at a time.
  * This makes it easier to visualize and describe the desired transform.
  * <p/>
- * Used in molecule-polarity to change the initial orientation of atoms in mol2 files.
+ * This utility was used in molecule-polarity to change the initial orientation
+ * of atoms in mol2 files. It may be needed for future maintenance on that sim.
+ * It was not located under molecule-polarity/src because that sim has no other
+ * dependencies on JME.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -20,7 +23,8 @@ public class RotateMol2 {
 
     public static void main( String[] args ) {
 
-        // put (x,y,z) coordinates of the points you want to rotate here
+        // manually put (x,y,z) coordinates of the points you want to rotate here
+        //TODO would be nice to read the mol2 file, instead of having to copy-paste coordinates
         Vector3f[] vectors = new Vector3f[] {
                 new Vector3f( 0.000000000f, 0.000000000f, 0.338383767f ),
                 new Vector3f( 1.257790333f, 0.000000000f, -0.129111197f ),
@@ -36,7 +40,8 @@ public class RotateMol2 {
                 new Transform( new Quaternion( new float[] { (float) Math.toRadians( 25 ), 0, 0 } ) ),
         };
 
-        // apply transforms and print new coordinates, ala mol2 format
+        // apply transforms and print new coordinates, use these to modify mol2 file manually
+        //TODO would be nice to write out the modified mol2 file, instead of having to copy-paste this output
         DecimalFormat format = new DecimalFormat( "0.000000000" );
         for ( Vector3f vector : vectors ) {
             Vector3f result = new Vector3f( vector );

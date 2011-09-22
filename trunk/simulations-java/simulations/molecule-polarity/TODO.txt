@@ -19,7 +19,6 @@ MEDIUM
 
 LOW
 - play area visibly resizes at startup
-- move RotateMol2 someplace better
 
 BEFORE PUBLISHING
 - screenshot
