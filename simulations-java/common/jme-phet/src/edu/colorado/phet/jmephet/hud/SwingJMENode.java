@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.jmephet;
+package edu.colorado.phet.jmephet.hud;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -13,7 +13,10 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.jmephet.CanvasTransform;
 import edu.colorado.phet.jmephet.CanvasTransform.IdentityCanvasTransform;
+import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.jmephet.PhetJMEApplication;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import com.jme3.scene.Node;

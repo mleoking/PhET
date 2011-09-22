@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.jmephet;
+package edu.colorado.phet.jmephet.hud;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.jmephet.JMEUtils;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;

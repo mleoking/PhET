@@ -1,5 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.jmephet;
+package edu.colorado.phet.jmephet.shapes;
+
+import edu.colorado.phet.jmephet.JMEUtils;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;

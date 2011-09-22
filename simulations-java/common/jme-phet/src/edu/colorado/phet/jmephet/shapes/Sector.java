@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.jmephet;
+package edu.colorado.phet.jmephet.shapes;
 
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
