@@ -28,4 +28,3 @@ BEFORE PUBLISHING
 
 MIGRATE TO COMMON
 - RotateCursorHandler and associated image
-- JmolConsole
