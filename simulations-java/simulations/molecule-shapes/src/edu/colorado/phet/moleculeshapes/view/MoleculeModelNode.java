@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
+import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
@@ -35,6 +36,7 @@ import com.jme3.scene.Spatial;
  */
 public class MoleculeModelNode extends Node {
     private MoleculeModel molecule;
+    private final JMEInputHandler inputHandler;
     private final MoleculeJMEApplication app;
     private final Camera camera;
 
@@ -46,9 +48,10 @@ public class MoleculeModelNode extends Node {
     private int angleIndex = 0;
     private List<ReadoutNode> angleReadouts = new ArrayList<ReadoutNode>();
 
-    public MoleculeModelNode( final MoleculeModel molecule, final MoleculeJMEApplication app, final Camera camera ) {
+    public MoleculeModelNode( final MoleculeModel molecule, final JMEInputHandler inputHandler, final MoleculeJMEApplication app, final Camera camera ) {
         super( "Molecule Model" );
         this.molecule = molecule;
+        this.inputHandler = inputHandler;
         this.app = app;
         this.camera = camera;
 
@@ -260,7 +263,7 @@ public class MoleculeModelNode extends Node {
         private volatile boolean attached = false;
 
         private ReadoutNode( PText text ) {
-            super( text, app );
+            super( text, inputHandler, app );
             this.text = text;
 
             text.setFont( MoleculeShapesConstants.BOND_ANGLE_READOUT_FONT );

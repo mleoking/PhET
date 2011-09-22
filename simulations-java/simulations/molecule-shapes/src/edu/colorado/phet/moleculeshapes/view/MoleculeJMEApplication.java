@@ -11,12 +11,13 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
-import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.PhetCamera;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
+import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
+import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
@@ -80,7 +81,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
 
     public MoleculeJMEApplication( Frame parentFrame ) {
-        super(parentFrame );
+        super( parentFrame );
     }
 
     /*---------------------------------------------------------------------------*
@@ -124,6 +125,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     private RealMoleculeOverlayNode realMoleculeOverlayNode;
 
+    private JMEInputHandler inputHandler;
+
     private static final Random random = new Random( System.currentTimeMillis() );
 
     /**
@@ -134,20 +137,22 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
         initializeResources();
 
+        inputHandler = getDirectInputHandler();
+
         // hook up mouse-move handlers
-        inputManager.addMapping( MoleculeJMEApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
-        inputManager.addMapping( MoleculeJMEApplication.MAP_RIGHT, new MouseAxisTrigger( MouseInput.AXIS_X, false ) );
-        inputManager.addMapping( MoleculeJMEApplication.MAP_UP, new MouseAxisTrigger( MouseInput.AXIS_Y, false ) );
-        inputManager.addMapping( MoleculeJMEApplication.MAP_DOWN, new MouseAxisTrigger( MouseInput.AXIS_Y, true ) );
+        inputHandler.addMapping( MoleculeJMEApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
+        inputHandler.addMapping( MoleculeJMEApplication.MAP_RIGHT, new MouseAxisTrigger( MouseInput.AXIS_X, false ) );
+        inputHandler.addMapping( MoleculeJMEApplication.MAP_UP, new MouseAxisTrigger( MouseInput.AXIS_Y, false ) );
+        inputHandler.addMapping( MoleculeJMEApplication.MAP_DOWN, new MouseAxisTrigger( MouseInput.AXIS_Y, true ) );
 
         // hook up mouse-button handlers
-        inputManager.addMapping( MAP_LMB, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
-        inputManager.addMapping( MAP_MMB, new MouseButtonTrigger( MouseInput.BUTTON_MIDDLE ) );
+        inputHandler.addMapping( MAP_LMB, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
+        inputHandler.addMapping( MAP_MMB, new MouseButtonTrigger( MouseInput.BUTTON_MIDDLE ) );
 
         /*---------------------------------------------------------------------------*
         * mouse-button presses
         *----------------------------------------------------------------------------*/
-        inputManager.addListener(
+        inputHandler.addListener(
                 new ActionListener() {
                     public void onAction( String name, boolean isMouseDown, float tpf ) {
                         // record whether the mouse button is down
@@ -177,7 +182,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         /*---------------------------------------------------------------------------*
         * mouse motion
         *----------------------------------------------------------------------------*/
-        inputManager.addListener(
+        inputHandler.addListener(
                 new AnalogListener() {
                     public void onAnalog( final String name, final float value, float tpf ) {
 
@@ -255,7 +260,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                     }
                 } );
 
-                moleculeNode = new MoleculeModelNode( molecule, MoleculeJMEApplication.this, moleculeCamera );
+                moleculeNode = new MoleculeModelNode( molecule, inputHandler, MoleculeJMEApplication.this, moleculeCamera );
                 moleculeView.getScene().attachChild( moleculeNode );
 
                 /*---------------------------------------------------------------------------*
@@ -289,7 +294,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 *----------------------------------------------------------------------------*/
                 Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
                 controlPanelNode = new MoleculeShapesControlPanel( MoleculeJMEApplication.this, realMoleculeOverlayNode );
-                controlPanel = new PiccoloJMENode( controlPanelNode, MoleculeJMEApplication.this, canvasTransform, controlPanelPosition );
+                controlPanel = new PiccoloJMENode( controlPanelNode, inputHandler, MoleculeJMEApplication.this, canvasTransform, controlPanelPosition );
                 getBackgroundGui().getScene().attachChild( controlPanel );
                 controlPanel.onResize.addUpdateListener(
                         new UpdateListener() {
@@ -307,7 +312,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule, MoleculeJMEApplication.this ), Strings.CONTROL__GEOMETRY_NAME ) {{
                     // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
                     setOffset( 0, 10 );
-                }}, MoleculeJMEApplication.this, canvasTransform );
+                }}, inputHandler, MoleculeJMEApplication.this, canvasTransform );
                 getBackgroundGui().getScene().attachChild( namePanel );
                 namePanel.position.set( new ImmutableVector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
             }
@@ -321,7 +326,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     private void onLeftMouseDown() {
         // for dragging, ignore mouse presses over the HUD
-        HUDNode.withComponentUnderPointer( getBackgroundGui().getScene(), inputManager, new VoidFunction1<Component>() {
+        HUDNode.withComponentUnderPointer( getBackgroundGui().getScene(), inputHandler, new VoidFunction1<Component>() {
             public void apply( final Component componentUnderPointer ) {
                 boolean mouseOverInterface = componentUnderPointer != null;
                 if ( !mouseOverInterface ) {
@@ -404,7 +409,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
         final PairGroup pair = getElectronPairUnderPointer();
 
-        HUDNode.withComponentUnderPointer( getBackgroundGui().getScene(), inputManager, new VoidFunction1<Component>() {
+        HUDNode.withComponentUnderPointer( getBackgroundGui().getScene(), inputHandler, new VoidFunction1<Component>() {
             public void apply( Component component ) {
                 if ( dragging && ( dragMode == DragMode.MODEL_ROTATE || dragMode == DragMode.REAL_MOLECULE_ROTATE ) ) {
                     // rotating the molecule. for now, trying out the "move" cursor
@@ -427,7 +432,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     }
 
     public Vector3f getPlanarMoleculeCursorPosition() {
-        Vector2f click2d = inputManager.getCursorPosition();
+        Vector2f click2d = inputHandler.getCursorPosition();
         Vector3f click3d = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
         Vector3f dir = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
 
@@ -450,7 +455,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
         // set up intersection stuff
         CollisionResults results = new CollisionResults();
-        Vector2f click2d = inputManager.getCursorPosition();
+        Vector2f click2d = inputHandler.getCursorPosition();
         Vector3f click3d = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
         Vector3f dir = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
 
@@ -514,7 +519,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
      */
     public PairGroup getElectronPairUnderPointer() {
         CollisionResults results = new CollisionResults();
-        Vector2f click2d = inputManager.getCursorPosition();
+        Vector2f click2d = inputHandler.getCursorPosition();
         Vector3f click3d = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
         Vector3f dir = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
         Ray ray = new Ray( click3d, dir );

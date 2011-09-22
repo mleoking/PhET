@@ -40,7 +40,7 @@ public class PlateTectonicsJMEApplication extends PhetJMEApplication {
                 Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
                 getBackgroundGui().getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new PText( "Toolbox" ) {{
                     setFont( new PhetFont( 16, true ) );
-                }} ), PlateTectonicsJMEApplication.this, canvasTransform, position ) );
+                }} ), getDirectInputHandler(), PlateTectonicsJMEApplication.this, canvasTransform, position ) ); // TODO: use module input handler
             }
         } );
     }

@@ -19,12 +19,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.jmephet.input.JMEInputHandler;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
-import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.JoyAxisEvent;
@@ -54,6 +54,7 @@ public class HUDNode extends Geometry {
     private final JComponent component; // our component that we render in our HUD
     private final PaintableImage image; // the image (JME3 texture) to which we render our component
     private final AffineTransform imageTransform;
+    private final JMEInputHandler inputHandler;
     private final Application app; // reference to the application. needed for input and asset managers
 
     // the size of our canvas. this does not change
@@ -75,17 +76,20 @@ public class HUDNode extends Geometry {
 
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
-    public HUDNode( final JComponent component, final int width, final int height, final Application app ) {
-        this( component, width, height, new AffineTransform(), app, new Property<Boolean>( false ) );
+    public HUDNode( final JComponent component, final int width, final int height,
+                    final JMEInputHandler inputHandler, final Application app ) {
+        this( component, width, height, new AffineTransform(), inputHandler, app, new Property<Boolean>( false ) );
     }
 
     // initialize from the EDT
-    public HUDNode( final JComponent component, final int width, final int height, final AffineTransform imageTransform, final Application app, final Property<Boolean> antialiasing ) {
+    public HUDNode( final JComponent component, final int width, final int height, final AffineTransform imageTransform,
+                    final JMEInputHandler inputHandler, final Application app, final Property<Boolean> antialiasing ) {
         super( "HUD", new Quad( width, height, true ) ); // "true" flips it so our components are shown in the correct Y direction
         this.component = component;
         this.width = width;
         this.height = height;
         this.imageTransform = imageTransform;
+        this.inputHandler = inputHandler;
         this.app = app;
         this.antialiasing = antialiasing;
 
@@ -212,9 +216,9 @@ public class HUDNode extends Geometry {
 
         JMEUtils.invoke( new Runnable() {
             public void run() {
-                app.getInputManager().addRawInputListener( inputListener );
+                inputHandler.addRawInputListener( inputListener );
                 listenerAttached = true;
-                app.getStateManager().attach( state );
+                app.getStateManager().attach( state ); // TODO: make this module-specific!
             }
         } );
     }
@@ -243,8 +247,8 @@ public class HUDNode extends Geometry {
         callback.apply( null );
     }
 
-    public static void withComponentUnderPointer( Node scene, InputManager inputManager, final VoidFunction1<Component> callback ) {
-        withComponentUnderPoint( scene, inputManager.getCursorPosition(), callback );
+    public static void withComponentUnderPointer( Node scene, JMEInputHandler inputHandler, final VoidFunction1<Component> callback ) {
+        withComponentUnderPoint( scene, inputHandler.getCursorPosition(), callback );
     }
 
     public void repaint() {
@@ -260,7 +264,7 @@ public class HUDNode extends Geometry {
     public void ignoreInput() {
         if ( listenerAttached ) {
             listenerAttached = false;
-            app.getInputManager().removeRawInputListener( inputListener );
+            inputHandler.removeRawInputListener( inputListener );
         }
     }
 
