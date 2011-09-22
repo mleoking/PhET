@@ -27,7 +27,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.WaterControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_IN_PERIODIC_TABLE;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PERIODIC_TABLE;
 
 /**
  * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused.
@@ -81,7 +81,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }} );
 
         //A button that shows the periodic table when pressed, shown inside the kit selection node since the selected item controls what is highlighted in the periodic table
-        final TextButtonNode periodicTableButton = new TextButtonNode( SHOW_IN_PERIODIC_TABLE, WaterControlPanel.BUTTON_FONT, Color.yellow ) {{
+        final TextButtonNode periodicTableButton = new TextButtonNode( PERIODIC_TABLE, WaterControlPanel.BUTTON_FONT, Color.yellow ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     //Only create the periodic table dialog once
