@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculepolarity.developer;
+package edu.colorado.phet.common.jmolphet;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -83,6 +83,7 @@ public class JmolConsole extends JPanel {
         setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
     }
 
+    // test
     public static void main( String[] args ) {
 
         class ViewerPanel extends JPanel {
