@@ -32,7 +32,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     private final Random random = new Random();//source of randomness for creating drops
     private final FaucetFlowRate faucetFlowLevel = new FaucetFlowRate();
     private double g = 9.8;
-    private final ArrayList<VoidFunction1<WaterDrop>> dropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
+    private final ArrayList<VoidFunction1<WaterDrop>> waterTowerDropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
+    private final ArrayList<VoidFunction1<WaterDrop>> faucetDropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
     private final ArrayList<SimpleObserver> velocityUpdateListeners = new ArrayList<SimpleObserver>();
     public final Hose hose;
 
@@ -111,7 +112,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
                 //Add the drop to the list and notify listeners
                 waterTowerDrops.add( drop );
-                for ( VoidFunction1<WaterDrop> dropAddedListener : dropAddedListeners ) {
+                for ( VoidFunction1<WaterDrop> dropAddedListener : waterTowerDropAddedListeners ) {
                     dropAddedListener.apply( drop );
                 }
 
@@ -146,7 +147,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                                                                          WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 + random.nextGaussian() * spreadY ),
                                                   new ImmutableVector2D( random.nextGaussian() * velocitySpreadX, random.nextGaussian() * velocitySpreadY ), faucetDropVolume, true );
             faucetDrops.add( faucetDrop );
-            for ( VoidFunction1<WaterDrop> listener : dropAddedListeners ) {
+            for ( VoidFunction1<WaterDrop> listener : faucetDropAddedListeners ) {
                 listener.apply( faucetDrop );
             }
         }
@@ -181,8 +182,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         waterDrops.removeAll( toRemove );
     }
 
-    public void addDropAddedListener( VoidFunction1<WaterDrop> dropAddedListener ) {
-        dropAddedListeners.add( dropAddedListener );
+    public void addWaterTowerDropAddedListener( VoidFunction1<WaterDrop> dropAddedListener ) {
+        waterTowerDropAddedListeners.add( dropAddedListener );
+    }
+
+    public void addFaucetDropAddedListener( VoidFunction1<WaterDrop> dropAddedListener ) {
+        faucetDropAddedListeners.add( dropAddedListener );
     }
 
     public Option<ImmutableVector2D> getVelocity( double x, double y ) {

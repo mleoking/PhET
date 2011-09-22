@@ -35,7 +35,11 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel> {
     private static final double modelHeight = 50;
     private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
-    private final PNode waterDropLayer = new PNode();
+
+    //Use different layers for the water tower drops vs faucet drops since water tower drops must go behind the ground, but faucet drops must go in front of the tower
+    private final PNode waterTowerDropLayer = new PNode();
+    private final PNode faucetDropLayer = new PNode();
+
     private final FPAFMeasuringTape measuringTape;
     final static Color TRANSPARENT = new Color( 0, 0, 0, 0 );
 
@@ -47,6 +51,9 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
 
         addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
 
+        //Show the water drops behind the ground so it looks like they are soaked up in the ground
+        addChild( waterTowerDropLayer );
+
         //Show the ground before the hose will go in front
         addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5 ) );
 
@@ -56,7 +63,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
 
         //Show the water tower node, should be after the hose so that the red door will go in front of the hose
         addChild( new WaterTowerNode( transform, module.model.getWaterTower(), module.model.liquidDensity ) );
-        addChild( waterDropLayer );
+        addChild( faucetDropLayer );
 
         //Add a button that will fill the tank
         addChild( new FillTankButton( module.model.getWaterTower().full, module.model.getWaterTower().fill ) {{
@@ -74,13 +81,26 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         //Add the faucet
         addChild( new FPAFFaucetNode( module.model.getFaucetFlowRate(), new Not( module.model.getWaterTower().full ) ) );
 
-        module.model.addDropAddedListener( new VoidFunction1<WaterDrop>() {
+        module.model.addWaterTowerDropAddedListener( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop waterDrop ) {
-                waterDropLayer.addChild( new WaterDropNode( transform, waterDrop, module.model.liquidDensity ) {{
+                waterTowerDropLayer.addChild( new WaterDropNode( transform, waterDrop, module.model.liquidDensity ) {{
                     final WaterDropNode waterDropNode = this;
                     waterDrop.addRemovalListener( new SimpleObserver() {
                         public void update() {
-                            waterDropLayer.removeChild( waterDropNode );
+                            waterTowerDropLayer.removeChild( waterDropNode );
+                        }
+                    } );
+                }} );
+            }
+        } );
+
+        module.model.addFaucetDropAddedListener( new VoidFunction1<WaterDrop>() {
+            public void apply( final WaterDrop waterDrop ) {
+                faucetDropLayer.addChild( new WaterDropNode( transform, waterDrop, module.model.liquidDensity ) {{
+                    final WaterDropNode waterDropNode = this;
+                    waterDrop.addRemovalListener( new SimpleObserver() {
+                        public void update() {
+                            faucetDropLayer.removeChild( waterDropNode );
                         }
                     } );
                 }} );
