@@ -1,3 +1,4 @@
+9/21/11 fix rotate cursor, padding wasn't applied equally on all sides
 9/21/11 move JmolConsole to jmol-phet
 9/21/11 generalize DialogCheckBoxMenuItem and move to phetcommon
 9/20/11 move STAGE_SIZE constant to MPCanvas
