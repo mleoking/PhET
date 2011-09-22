@@ -56,7 +56,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
         module = new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__TITLE );
         addModule( module );
-        addModule( new MoleculeShapesModule( parentFrame, "Test Module" ) );
+//        addModule( new MoleculeShapesModule( parentFrame, "Test Module" ) );
     }
 
     /*

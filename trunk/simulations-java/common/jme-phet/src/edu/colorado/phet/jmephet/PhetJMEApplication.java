@@ -5,8 +5,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 import com.jme3.app.Application;
 import com.jme3.math.ColorRGBA;
@@ -48,9 +51,11 @@ public abstract class PhetJMEApplication extends Application {
     private List<Node> liveNodes = new ArrayList<Node>();
 
     private volatile Dimension stageSize = null;
+    private final Frame parentFrame;
 
-    public PhetJMEApplication() {
+    public PhetJMEApplication( Frame parentFrame ) {
         super();
+        this.parentFrame = parentFrame;
 
         // let everyone know that this is the one unique global instance
         JMEUtils.setApplication( this );
@@ -199,5 +204,21 @@ public abstract class PhetJMEApplication extends Application {
 
     public Dimension getStageSize() {
         return stageSize;
+    }
+
+    @Override public void handleError( String errMsg, final Throwable t ) {
+        super.handleError( errMsg, t );
+        if ( errMsg.equals( "Failed to initialize OpenGL context" ) ) {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    // TODO: i18n?
+                    PhetOptionPane.showMessageDialog( getParentFrame(), "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem.\nError information:\n" + t.getMessage() );
+                }
+            } );
+        }
+    }
+
+    public Frame getParentFrame() {
+        return parentFrame;
     }
 }
