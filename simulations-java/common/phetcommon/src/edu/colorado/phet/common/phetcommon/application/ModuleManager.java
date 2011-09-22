@@ -257,7 +257,7 @@ class ModuleManager {
         activeModule = module;
         if ( module != null ) {
             module.activate();
-            this.setActiveModule( module );
+            this.setActiveModule( module ); // TODO: audit this line. it looks like it does nothing
         }
     }
 
