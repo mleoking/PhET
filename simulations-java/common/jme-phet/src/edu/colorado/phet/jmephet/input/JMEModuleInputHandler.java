@@ -4,9 +4,11 @@ package edu.colorado.phet.jmephet.input;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.application.Module.Listener;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMEUtils;
 
 import com.jme3.input.InputManager;
 import com.jme3.input.RawInputListener;
@@ -29,6 +31,29 @@ public class JMEModuleInputHandler implements JMEInputHandler {
     public JMEModuleInputHandler( JMEModule module, InputManager inputManager ) {
         this.module = module;
         this.inputManager = inputManager;
+
+        // update our input listeners based on whether we are active or inactive
+        module.addListener( new Listener() {
+            public void activated() {
+                JMEUtils.invoke( new Runnable() {
+                    public void run() {
+                        for ( ListenerWrapper wrapper : wrappers ) {
+                            wrapper.activate();
+                        }
+                    }
+                } );
+            }
+
+            public void deactivated() {
+                JMEUtils.invoke( new Runnable() {
+                    public void run() {
+                        for ( ListenerWrapper wrapper : wrappers ) {
+                            wrapper.deactivate();
+                        }
+                    }
+                } );
+            }
+        } );
     }
 
     public void addListener( InputListener listener, String... mappingNames ) {
