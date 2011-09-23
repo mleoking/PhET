@@ -4,8 +4,8 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdultFemaleHuman;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Woman;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -25,8 +25,8 @@ public class AdultFemaleHumanCreatorNode extends ImageMassCreatorNode {
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 120 );
 
     public AdultFemaleHumanCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas, AdultFemaleHuman.MASS );
-        ImageMass adultFemaleHuman = new AdultFemaleHuman();
+        super( model, mvt, canvas, Woman.MASS );
+        ImageMass adultFemaleHuman = new Woman();
         setSelectionNode( new ImageMassNode( SCALING_MVT, adultFemaleHuman, canvas, new BooleanProperty( false ) ) );
         // Set the positioning offset slightly off center so users don't appear
         // to be holding him in a - well - sensitive area.
@@ -34,6 +34,6 @@ public class AdultFemaleHumanCreatorNode extends ImageMassCreatorNode {
     }
 
     @Override protected ImageMass createImageMassInstance() {
-        return new AdultFemaleHuman();
+        return new Woman();
     }
 }

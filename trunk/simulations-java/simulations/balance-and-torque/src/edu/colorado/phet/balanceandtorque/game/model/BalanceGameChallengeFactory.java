@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdolescentBoy;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdultFemaleHuman;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdultMaleHuman;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BigRock;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Boy;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Girl;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Man;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MysteryObjectFactory;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.YoungGirl;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Woman;
 
 /**
  * This class is a factory pattern class that generates sets of challenges for
@@ -49,10 +49,10 @@ public class BalanceGameChallengeFactory {
         add( new BrickStack( 4 ) );
         add( new SmallRock() );
         add( new BigRock() );
-        add( new AdolescentBoy() );
-        add( new YoungGirl() );
-        add( new AdultFemaleHuman() );
-        add( new AdultMaleHuman() );
+        add( new Boy() );
+        add( new Girl() );
+        add( new Woman() );
+        add( new Man() );
     }};
 
     /**
