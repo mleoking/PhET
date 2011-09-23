@@ -601,30 +601,11 @@ public class MoleculeShapesModule extends JMEModule {
         }
     }
 
-    public void removePairGroup( PairGroup group ) {
-        // synchronized removal, so we don't run over the display thread
-        molecule.removePair( group );
-    }
-
     private void updateOverlayViewport() {
         boolean showOverlay = controlPanelNode.isOverlayVisible();
         realMoleculeOverlayNode.setCullHint( showOverlay ? CullHint.Never : CullHint.Always );
         if ( showOverlay ) {
-            // get the bounds, relative to the Piccolo origin (which is 0,0 in the component as well)
-            Rectangle2D localOverlayBounds = controlPanelNode.getOverlayBounds();
-
-            // get the translation of the control panel
-            float offsetX = (float) controlPanel.position.get().getX();
-            float offsetY = (float) controlPanel.position.get().getY();
-
-            // convert these to stage-offset from the lower-left, since the control panel itself is translated
-            double localLeft = localOverlayBounds.getMinX() + offsetX;
-            double localRight = localOverlayBounds.getMaxX() + offsetX;
-            double localTop = controlPanel.getComponentHeight() - localOverlayBounds.getMinY() + offsetY; // remember, Y is flipped here
-            double localBottom = controlPanel.getComponentHeight() - localOverlayBounds.getMaxY() + offsetY; // remember, Y is flipped here
-
-            PBounds stageBounds = new PBounds( localLeft, localBottom, localRight - localLeft, localTop - localBottom );
-            Rectangle2D screenBounds = canvasTransform.getTransformedBounds( stageBounds );
+            Rectangle2D screenBounds = getOverlayScreenBounds();
 
             // rescale these numbers to between 0 and 1 (for the entire JME3 canvas size)
             float finalLeft = (float) ( screenBounds.getMinX() / getCanvasSize().width );
@@ -644,6 +625,24 @@ public class MoleculeShapesModule extends JMEModule {
 
             overlay.getCamera().update();
         }
+    }
+
+    private Rectangle2D getOverlayScreenBounds() {
+        // get the bounds, relative to the Piccolo origin (which is 0,0 in the component as well)
+        Rectangle2D localOverlayBounds = controlPanelNode.getOverlayBounds();
+
+        // get the translation of the control panel
+        float offsetX = (float) controlPanel.position.get().getX();
+        float offsetY = (float) controlPanel.position.get().getY();
+
+        // convert these to stage-offset from the lower-left, since the control panel itself is translated
+        double localLeft = localOverlayBounds.getMinX() + offsetX;
+        double localRight = localOverlayBounds.getMaxX() + offsetX;
+        double localTop = controlPanel.getComponentHeight() - localOverlayBounds.getMinY() + offsetY; // remember, Y is flipped here
+        double localBottom = controlPanel.getComponentHeight() - localOverlayBounds.getMaxY() + offsetY; // remember, Y is flipped here
+
+        PBounds stageBounds = new PBounds( localLeft, localBottom, localRight - localLeft, localTop - localBottom );
+        return canvasTransform.getTransformedBounds( stageBounds );
     }
 
     @Override public void updateLayout( Dimension canvasSize ) {
