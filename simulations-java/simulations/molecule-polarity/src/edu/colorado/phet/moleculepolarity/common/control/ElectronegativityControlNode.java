@@ -303,7 +303,7 @@ public class ElectronegativityControlNode extends PhetPNode {
      * A tick mark is a vertical line with optional label below it.
      * Origin is at the top center of line.
      */
-    private static class TickMarkNode extends PComposite {
+    private abstract static class TickMarkNode extends PComposite {
 
         public TickMarkNode( double length, final Stroke stroke, String label ) {
 
