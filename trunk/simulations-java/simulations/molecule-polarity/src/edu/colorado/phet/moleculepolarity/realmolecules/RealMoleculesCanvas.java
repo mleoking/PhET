@@ -110,7 +110,7 @@ public class RealMoleculesCanvas extends MPCanvas {
                                         viewerNode.getFullBoundsReference().getCenterY() - ( controlPanelNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
-        // synchronize with view properties
+        // synchronization with view properties
         {
             viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
@@ -159,6 +159,7 @@ public class RealMoleculesCanvas extends MPCanvas {
         }
     }
 
+    // Used by developer-only code to open a Jmol Console
     public JmolViewer getJmolViewer() {
         return viewerNode.getViewer();
     }

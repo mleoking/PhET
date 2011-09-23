@@ -6,7 +6,6 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
@@ -16,13 +15,9 @@ import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPCh
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPVerticalPanel;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondCharacterNode;
-import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
-import edu.colorado.phet.moleculepolarity.common.view.DiatomicElectronDensityNode;
-import edu.colorado.phet.moleculepolarity.common.view.DiatomicElectrostaticPotentialNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
-import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode.OppositePartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.ElectronDensityColorKeyNode;
 import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.ElectrostaticPotentialColorKeyNode;
@@ -42,12 +37,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         // nodes
         PNode negativePlateNode = new NegativePlateNode( model.eField );
         PNode positivePlateNode = new PositivePlateNode( model.eField );
-        PNode moleculeNode = new DiatomicMoleculeNode( model.molecule );
-        final PNode partialChargeNodeA = new OppositePartialChargeNode( model.molecule.atomA, model.molecule.bond );
-        final PNode partialChargeNodeB = new OppositePartialChargeNode( model.molecule.atomB, model.molecule.bond );
-        final PNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
-        final PNode electrostaticPotentialNode = new DiatomicElectrostaticPotentialNode( model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPColors.RWB_GRADIENT );
-        final PNode electronDensityNode = new DiatomicElectronDensityNode( model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPColors.BW_GRADIENT );
+        final DiatomicMoleculeNode moleculeNode = new DiatomicMoleculeNode( model.molecule );
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         final PNode bondTypeNode = new BondCharacterNode( model.molecule );
@@ -85,12 +75,7 @@ public class TwoAtomsCanvas extends MPCanvas {
             addChild( electronDensityColorKeyNode );
 
             // molecule
-            addChild( electrostaticPotentialNode );
-            addChild( electronDensityNode );
             addChild( moleculeNode );
-            addChild( partialChargeNodeA );
-            addChild( partialChargeNodeB );
-            addChild( bondDipoleNode );
         }
 
         // layout, based on molecule location
@@ -118,18 +103,17 @@ public class TwoAtomsCanvas extends MPCanvas {
             controlPanelNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + 25, positivePlateNode.getYOffset() );
         }
 
-        // synchronize with view properties
+        // synchronization with view properties
         {
             viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
-                    bondDipoleNode.setVisible( visible );
+                    moleculeNode.setBondDipoleVisible( visible );
                 }
             } );
 
             viewProperties.partialChargesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
-                    partialChargeNodeA.setVisible( visible );
-                    partialChargeNodeB.setVisible( visible );
+                    moleculeNode.setPartialChargesVisible( visible );
                 }
             } );
 
@@ -141,10 +125,9 @@ public class TwoAtomsCanvas extends MPCanvas {
 
             viewProperties.surfaceType.addObserver( new VoidFunction1<SurfaceType>() {
                 public void apply( SurfaceType surfaceType ) {
-                    electrostaticPotentialNode.setVisible( surfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL );
-                    electrostaticPotentialColorKeyNode.setVisible( electrostaticPotentialNode.getVisible() );
-                    electronDensityNode.setVisible( surfaceType == SurfaceType.ELECTRON_DENSITY );
-                    electronDensityColorKeyNode.setVisible( electronDensityNode.getVisible() );
+                    moleculeNode.setSurface( surfaceType );
+                    electrostaticPotentialColorKeyNode.setVisible( surfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL );
+                    electronDensityColorKeyNode.setVisible( surfaceType == SurfaceType.ELECTRON_DENSITY );
                 }
             } );
         }
