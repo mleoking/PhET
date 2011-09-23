@@ -37,9 +37,6 @@ public class MoleculeShapesConstants {
     public static final Property<Color> MOLECULAR_GEOMETRY_NAME_COLOR = new Property<Color>( new Color( 255, 255, 102 ) ); // original 255,255,153
     public static final Property<Color> ELECTRON_GEOMETRY_NAME_COLOR = new Property<Color>( new Color( 255, 102, 0 ) ); // original 255,204,102
 
-    public static final Color REAL_EXAMPLE_FORMULA_COLOR = new Color( 230, 230, 230 );
-    public static final Color REAL_EXAMPLE_BORDER_COLOR = new Color( 60, 60, 60 );
-
     public static final Color MAXIMIZE_GREEN = new Color( 30, 220, 30 );
     public static final Color MINIMIZE_RED = new Color( 220, 30, 30 );
 

@@ -9,11 +9,9 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -83,7 +81,7 @@ public class MoleculeShapesControlPanel extends PNode {
             /*---------------------------------------------------------------------------*
             * lone pair control
             *----------------------------------------------------------------------------*/
-            lonePairNode = new BondTypeControlNode( module, new PImage( Images.LONE_PAIR_SMALL ), 0, module.addLonePairEnabled ) {
+            lonePairNode = new BondTypeControlNode( module, new Spacer( 0, 0, 61, 42 ), 0, module.addLonePairEnabled ) {
                 {
                     setOffset( 0, 10 );
 
@@ -230,6 +228,10 @@ public class MoleculeShapesControlPanel extends PNode {
 
     public PBounds getTripleBondTargetBounds() {
         return tripleBondNode.getGraphic().getGlobalFullBounds();
+    }
+
+    public PBounds getLonePairTargetBounds() {
+        return lonePairNode.getGraphic().getGlobalFullBounds();
     }
 
     /*---------------------------------------------------------------------------*

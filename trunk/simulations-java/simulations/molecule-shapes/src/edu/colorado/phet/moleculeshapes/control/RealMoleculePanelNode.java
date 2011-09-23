@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.jmephet.JMEActionListener;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColors;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.control.ArrowButtonNode.Orientation;
@@ -158,8 +159,13 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * molecular formula label
         *----------------------------------------------------------------------------*/
-        containerNode.addChild( new HTMLNode( "", MoleculeShapesConstants.REAL_EXAMPLE_FORMULA_COLOR, MoleculeShapesConstants.EXAMPLE_MOLECULAR_FORMULA_FONT ) {
+        containerNode.addChild( new HTMLNode( "", MoleculeShapesColors.REAL_EXAMPLE_FORMULA.get(), MoleculeShapesConstants.EXAMPLE_MOLECULAR_FORMULA_FONT ) {
             {
+                MoleculeShapesColors.REAL_EXAMPLE_FORMULA.onColor( new VoidFunction1<Color>() {
+                    public void apply( Color color ) {
+                        setHTMLColor( color );
+                    }
+                } );
                 selectedMolecule.addObserver( JMEUtils.swingObserver( new Runnable() {
                     public void run() {
                         updateView();
@@ -194,7 +200,12 @@ public class RealMoleculePanelNode extends PNode {
         final float overlayBorderWidth = 1;
         overlayTarget = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE - overlayBorderWidth, SIZE - overlayBorderWidth ), new Color( 0f, 0f, 0f, 0f ) ) {{
             setStroke( new BasicStroke( overlayBorderWidth ) );
-            setStrokePaint( MoleculeShapesConstants.REAL_EXAMPLE_BORDER_COLOR );
+
+            MoleculeShapesColors.REAL_EXAMPLE_BORDER.onColor( new VoidFunction1<Color>() {
+                public void apply( Color color ) {
+                    setStrokePaint( color );
+                }
+            } );
 
             // make room for the buttons and labels above
             setOffset( ( MoleculeShapesControlPanel.INNER_WIDTH - SIZE ) / 2, CONTROL_OFFSET );

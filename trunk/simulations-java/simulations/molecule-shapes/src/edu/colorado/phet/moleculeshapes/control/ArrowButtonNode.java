@@ -62,7 +62,7 @@ public class ArrowButtonNode extends PNode {
         final double segmentLength = Math.sqrt( 2 * rootTwoLength * rootTwoLength );
 
         // shape of the outer circle of the button
-        Ellipse2D.Double circle = new Ellipse2D.Double( 0, 0, size, size );
+        Ellipse2D.Double circle = new Ellipse2D.Double( -0.5, -0.5, size + 1, size + 1 ); // allow a bit extra room for the border
 
         // shape of a left arrow centered inside the button. using area to combine shapes that can be used with CSG
         Area leftArrow = new Area() {{
@@ -133,7 +133,7 @@ public class ArrowButtonNode extends PNode {
         // make the background (circular) part of the button
         final PhetPPath background = new PhetPPath( circle ) {{
             setPaint( upGradient );
-            setStroke( null );
+            setStrokePaint( new Color( 0, 0, 0, 0.5f ) );
         }};
         addChild( background );
 

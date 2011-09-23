@@ -121,6 +121,7 @@ public class MoleculeShapesModule extends JMEModule {
     private Property<Rectangle2D> singleBondOverlayStageBounds;
     private Property<Rectangle2D> doubleBondOverlayStageBounds;
     private Property<Rectangle2D> tripleBondOverlayStageBounds;
+    private Property<Rectangle2D> lonePairOverlayStageBounds;
 
     /*---------------------------------------------------------------------------*
     * graphics/control
@@ -312,6 +313,7 @@ public class MoleculeShapesModule extends JMEModule {
         singleBondOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
         doubleBondOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
         tripleBondOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
+        lonePairOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
 
         Function2<String, Property<Rectangle2D>, JMEView> createBondOverlayView = new Function2<String, Property<Rectangle2D>, JMEView>() {
             public JMEView apply( String name, final Property<Rectangle2D> rectangle2DProperty ) {
@@ -346,6 +348,12 @@ public class MoleculeShapesModule extends JMEModule {
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 3, false ) );
         }}, tripleBondOverlay, inputHandler, this, addTripleBondEnabled ) );
         addLighting( tripleBondOverlay.getScene() );
+
+        JMEView lonePairOverlay = createBondOverlayView.apply( "Lone Pair", lonePairOverlayStageBounds );
+        lonePairOverlay.getScene().attachChild( new BondTypeOverlayNode( new MoleculeModel() {{
+            addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), 0, false ) );
+        }}, lonePairOverlay, inputHandler, this, addLonePairEnabled ) );
+        addLighting( lonePairOverlay.getScene() );
 
         /*---------------------------------------------------------------------------*
         * main control panel
@@ -400,6 +408,7 @@ public class MoleculeShapesModule extends JMEModule {
             Rectangle2D singleBondTargetStageBounds = controlPanel.transformBoundsToStage( controlPanelNode.getSingleBondTargetBounds() );
             Rectangle2D doubleBondTargetStageBounds = controlPanel.transformBoundsToStage( controlPanelNode.getDoubleBondTargetBounds() );
             Rectangle2D tripleBondTargetStageBounds = controlPanel.transformBoundsToStage( controlPanelNode.getTripleBondTargetBounds() );
+            Rectangle2D lonePairTargetStageBounds = controlPanel.transformBoundsToStage( controlPanelNode.getLonePairTargetBounds() );
             // TODO: refactor
             singleBondOverlayStageBounds.set(
                     new PBounds(
@@ -420,6 +429,13 @@ public class MoleculeShapesModule extends JMEModule {
                             // position the center of these bounds at the middle-left edge of the target bounds
                             tripleBondTargetStageBounds.getMinX() - bondScaledWidth / 2,
                             tripleBondTargetStageBounds.getCenterY() - bondScaledHeight / 2,
+                            bondScaledWidth,
+                            bondScaledHeight ) );
+            lonePairOverlayStageBounds.set(
+                    new PBounds(
+                            // position the center of these bounds at the middle-left edge of the target bounds
+                            lonePairTargetStageBounds.getMinX() - bondScaledWidth / 2,
+                            lonePairTargetStageBounds.getCenterY() - bondScaledHeight / 2,
                             bondScaledWidth,
                             bondScaledHeight ) );
 
