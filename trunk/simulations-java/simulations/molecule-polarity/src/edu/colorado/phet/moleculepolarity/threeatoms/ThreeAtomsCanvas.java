@@ -83,15 +83,19 @@ public class ThreeAtomsCanvas extends MPCanvas {
             final double moleculeX = model.molecule.location.getX();
             final double moleculeY = model.molecule.location.getY();
             final double plateXOffset = 300; // x offset from molecule
+            // to left of molecule, vertically centered
             negativePlateNode.setOffset( moleculeX - plateXOffset - negativePlateNode.getFullBoundsReference().getWidth(),
                                          moleculeY - ( MPConstants.PLATE_HEIGHT / 2 ) );
+            // to right of molecule, vertically centered
             positivePlateNode.setOffset( moleculeX + plateXOffset,
                                          negativePlateNode.getYOffset() );
+            // centered above molecule
             enControlB.setOffset( moleculeX - ( enControlB.getFullBoundsReference().getWidth() / 2 ), 50 );
             enControlA.setOffset( enControlB.getFullBounds().getMinX() - enControlA.getFullBoundsReference().getWidth() - 10,
                                   enControlB.getYOffset() );
             enControlC.setOffset( enControlB.getFullBounds().getMaxX() + 10,
                                   enControlB.getYOffset() );
+            // to right of positive plate, top aligned
             controlPanelNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + 25,
                                         positivePlateNode.getYOffset() );
         }

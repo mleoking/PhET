@@ -91,15 +91,19 @@ public class RealMoleculesCanvas extends MPCanvas {
         {
             final double xSpacing = 75;
             final double viewerX = ( getStageSize().getWidth() - viewerNode.getFullBoundsReference().getWidth() - controlPanelNode.getFullBoundsReference().getWidth() - xSpacing ) / 2;
+            // centered above viewer
             moleculeComboBox.setOffset( viewerX + ( viewerNode.getFullBoundsReference().getWidth() / 2 ) - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ), 25 );
-            viewerNode.setOffset( viewerX,
-                                  moleculeComboBox.getFullBoundsReference().getMaxY() + 10 );
+            // centered in the space to the left of the control panel
+            viewerNode.setOffset( viewerX, moleculeComboBox.getFullBoundsReference().getMaxY() + 10 );
+            // centered below the viewer
             electrostaticPotentialColorKeyNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( electrostaticPotentialColorKeyNode.getFullBoundsReference().getWidth() / 2 ),
                                                           viewerNode.getFullBoundsReference().getMaxY() + 10 );
             rainbowColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
             electronDensityColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
+            // centered below the color keys
             electronegativityTableNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( electronegativityTableNode.getFullBoundsReference().getWidth() / 2 ),
                                                   electrostaticPotentialColorKeyNode.getFullBoundsReference().getMaxY() + 20 );
+            // to the right of the viewer, vertically centered
             controlPanelNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing,
                                         viewerNode.getFullBoundsReference().getCenterY() - ( controlPanelNode.getFullBoundsReference().getHeight() / 2 ) );
         }
