@@ -38,7 +38,7 @@ public class MPColors {
     /*
      * Secondary gradient for mep, negative to positive.
      * This is Jmol's roybg gradient, documented at http://jmol.sourceforge.net/jscolors/#gradnt.
-     * A copy of the Jmol gradients image shown at this link is at doc/Jmol_color_gradiens.png.
+     * A copy of the Jmol gradients image shown at this link is at doc/Jmol_color_gradients.png.
      * The colors below were acquired from the roygb gradient shown in this image.
      */
     public static final Color[] ROYGB_GRADIENT = new Color[] {
