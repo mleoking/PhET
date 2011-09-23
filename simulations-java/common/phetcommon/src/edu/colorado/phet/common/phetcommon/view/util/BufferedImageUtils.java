@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.common.phetcommon.view.util;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -392,5 +393,19 @@ public class BufferedImageUtils {
         BufferedImage destImage = scaleOp.createCompatibleDestImage( srcImage, srcImage.getColorModel() );
         scaleOp.filter( srcImage, destImage );
         return destImage;
+    }
+
+    /**
+     * Gets the color of a specific pixel in an image.
+     *
+     * @param image
+     * @return
+     */
+    public static Color getPixelColor( BufferedImage image, int x, int y ) {
+        int pixel = image.getRGB( x, y );
+        int red = ( pixel & 0x00ff0000 ) >> 16;
+        int green = ( pixel & 0x0000ff00 ) >> 8;
+        int blue = pixel & 0x000000ff;
+        return new Color( red, green, blue );
     }
 }

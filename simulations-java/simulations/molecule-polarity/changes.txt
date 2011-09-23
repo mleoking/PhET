@@ -1,3 +1,4 @@
+9/22/11 move getPixelColor to BufferedImageUtils
 9/22/11 document the coordinate frame used by view components
 9/22/11 rewrite and simplify DipoleNode and its subclasses
 9/22/11 delete Bond.deltaElectronegativity property
