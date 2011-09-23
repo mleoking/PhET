@@ -128,7 +128,7 @@ public class Atom implements IDynamicAtom {
                                  animationCount % 2 == 0; // only jump away every other animation step
         if ( jumpAway ) {
             // Jump away from the current location.
-            unstableNucleusJitterVector = Vector2D.parseAngleAndMagnitude( RAND.nextDouble() * 5, RAND.nextDouble() * Math.PI * 2 );
+            unstableNucleusJitterVector = Vector2D.createPolar( RAND.nextDouble() * 5, RAND.nextDouble() * Math.PI * 2 );
             jumpAway();
         }
         else if ( ( animationCount % 2 == 0 && isAway ) || ( isStable() && isAway ) ) {

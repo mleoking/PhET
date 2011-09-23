@@ -78,14 +78,14 @@ public abstract class BodyRenderer extends PNode {
 
         public SphereRenderer( final Color color, final Color highlight, double viewDiameter ) {
             this( new IBodyColors() {
-                public Color getHighlight() {
-                    return highlight;
-                }
+                      public Color getHighlight() {
+                          return highlight;
+                      }
 
-                public Color getColor() {
-                    return color;
-                }
-            }, viewDiameter );
+                      public Color getColor() {
+                          return color;
+                      }
+                  }, viewDiameter );
         }
 
         public SphereRenderer( IBodyColors body, double viewDiameter ) {
@@ -144,7 +144,7 @@ public abstract class BodyRenderer extends PNode {
             path.moveTo( 0, 0 );
             for ( int i = 0; i < numSegments + 1; i++ ) {
                 double myRadius = i % 2 == 0 ? twinkleRadius.apply( radius ) : radius;
-                ImmutableVector2D target = ImmutableVector2D.parseAngleAndMagnitude( myRadius, angle );
+                ImmutableVector2D target = ImmutableVector2D.createPolar( myRadius, angle );
                 path.lineTo( target );
                 angle += deltaAngle;
             }

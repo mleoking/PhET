@@ -1,10 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.rotation.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -14,8 +20,8 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -23,8 +29,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearSlider;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.RotationDefaults;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PPanEventHandler;
@@ -339,7 +345,7 @@ public class PlatformNode2 extends PNode {
                 final LinearSlider slider = new LinearSlider( 0, Math.PI * 2, rotationPlatform.getPosition(), 1000 );
                 slider.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        rotationPlatform.setUpdateStrategy( new UpdateStrategy.PositionDriven( RotationDefaults.SMOOTH_XV,RotationDefaults.SMOOTH_XA,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY) );
+                        rotationPlatform.setUpdateStrategy( new UpdateStrategy.PositionDriven( RotationDefaults.SMOOTH_XV, RotationDefaults.SMOOTH_XA, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY ) );
                         final double value = slider.getModelValue();
                         System.out.println( "value = " + value );
                         rotationPlatform.setPosition( value );
@@ -399,8 +405,8 @@ public class PlatformNode2 extends PNode {
             innerRim.setPathTo( new Ellipse2D.Double( -platform.getInnerRadius(), -platform.getInnerRadius(), platform.getInnerRadius() * 2, platform.getInnerRadius() * 2 ) );
 
             double angle = platform.getPosition();
-            ImmutableVector2D a = Vector2D.parseAngleAndMagnitude( platform.getInnerRadius(), angle );
-            ImmutableVector2D b = Vector2D.parseAngleAndMagnitude( platform.getRadius(), angle );
+            ImmutableVector2D a = Vector2D.createPolar( platform.getInnerRadius(), angle );
+            ImmutableVector2D b = Vector2D.createPolar( platform.getRadius(), angle );
 
             angleZero.setPathTo( new Line2D.Double( a.toPoint2D(), b.toPoint2D() ) );
         }

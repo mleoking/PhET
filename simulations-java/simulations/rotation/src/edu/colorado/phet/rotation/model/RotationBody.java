@@ -19,9 +19,8 @@ import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.RotationDefaults;
+import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.tests.CircularRegression;
 
 /**
@@ -87,8 +86,8 @@ public class RotationBody {
                 platformOuterRadiusChanged();
             }
         };
-        xBody = new MotionBody( RotationDefaults.SMOOTH_XV,RotationDefaults.SMOOTH_XA,RotationDefaults.SMOOTH_VA,RotationModel.getTimeSeriesFactory() );
-        yBody = new MotionBody( RotationDefaults.SMOOTH_XV,RotationDefaults.SMOOTH_XA,RotationDefaults.SMOOTH_VA,RotationModel.getTimeSeriesFactory() );
+        xBody = new MotionBody( RotationDefaults.SMOOTH_XV, RotationDefaults.SMOOTH_XA, RotationDefaults.SMOOTH_VA, RotationModel.getTimeSeriesFactory() );
+        yBody = new MotionBody( RotationDefaults.SMOOTH_XV, RotationDefaults.SMOOTH_XA, RotationDefaults.SMOOTH_VA, RotationModel.getTimeSeriesFactory() );
 
         speed = new RotationTemporalVariable();
         accelMagnitude = new RotationTemporalVariable();
@@ -130,7 +129,7 @@ public class RotationBody {
             else {
                 ImmutableVector2D vec = new Vector2D( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
                 if ( vec.getMagnitudeSq() == 0 ) {
-                    vec = Vector2D.parseAngleAndMagnitude( 1.0, lastNonZeroRadiusAngle );
+                    vec = Vector2D.createPolar( 1.0, lastNonZeroRadiusAngle );
                 }
                 ImmutableVector2D m = vec.getInstanceOfMagnitude( f.getValue() );
                 setPosition( m.getX() + rotationPlatform.getCenter().getX(), m.getY() + rotationPlatform.getCenter().getY() );
@@ -140,26 +139,28 @@ public class RotationBody {
 
     private void platformInnerRadiusChanged() {
         platformDimensionChanged( new DoubleComparator() {
-            public boolean compare( double a, double b ) {
-                return a < b;
-            }
-        }, new DoubleNumber() {
+                                      public boolean compare( double a, double b ) {
+                                          return a < b;
+                                      }
+                                  }, new DoubleNumber() {
             public double getValue() {
                 return rotationPlatform.getInnerRadius();
             }
-        } );
+        }
+        );
     }
 
     private void platformOuterRadiusChanged() {
         platformDimensionChanged( new DoubleComparator() {
-            public boolean compare( double a, double b ) {
-                return a > b;
-            }
-        }, new DoubleNumber() {
+                                      public boolean compare( double a, double b ) {
+                                          return a > b;
+                                      }
+                                  }, new DoubleNumber() {
             public double getValue() {
                 return rotationPlatform.getRadius();
             }
-        } );
+        }
+        );
     }
 
     public void setOffPlatform() {
@@ -281,7 +282,7 @@ public class RotationBody {
 //        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
             if ( circleDiscriminant.isCircularMotion( circle, pointHistory ) ) {
                 ImmutableVector2D accelVector = new Vector2D( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
-                                                                    circle.getCenter2D() );
+                                                              circle.getCenter2D() );
                 double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
 
                 if ( accelVector.getMagnitude() < 0.1 ) {
@@ -341,7 +342,7 @@ public class RotationBody {
         double ang = getAngleNoWindingNumber();
         double lastAngle = getLastAngle();
         //ang * N should be close to lastAngle, unless the body crossed the origin
-        ImmutableVector2D vec = Vector2D.parseAngleAndMagnitude( 1.0, lastAngle );
+        ImmutableVector2D vec = Vector2D.createPolar( 1.0, lastAngle );
         lastAngle = vec.getAngle();
 
         double dt = ang - lastAngle;
@@ -434,7 +435,7 @@ public class RotationBody {
         double omega = rotationPlatform.getVelocity();
         double r = getPosition().distance( rotationPlatform.getCenter() );
 
-        Point2D newX = Vector2D.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
+        Point2D newX = Vector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D centripetalVector = new Vector2D( newX, rotationPlatform.getCenter() );
         ImmutableVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         ImmutableVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
@@ -451,7 +452,7 @@ public class RotationBody {
         double r = getPosition().distance( rotationPlatform.getCenter() );//in meters, see #2077
         boolean centered = rotationPlatform.getCenter().equals( getPosition() ) || r < 1E-6;
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
-                                : Vector2D.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
+                                : Vector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D centripetalVector = new Vector2D( newX, rotationPlatform.getCenter() );
         ImmutableVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         ImmutableVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
@@ -489,7 +490,7 @@ public class RotationBody {
 //            System.out.println( "flying off" );
             setUpdateStrategy( new FlyingOff( newV ) );
 //            RotationResources.getInstance().getAudioClip( "bug-flyoff.wav" );
-            String[] audio = new String[]{"whee5", "whoah-7", "words2"};
+            String[] audio = new String[] { "whee5", "whoah-7", "words2" };
             RotationResources.getInstance().getAudioClip( audio[random.nextInt( audio.length )] + ".wav" ).play();
         }
     }
@@ -671,7 +672,7 @@ public class RotationBody {
         }
 
         private void positionChanged( double dtheta ) {
-            Line2D segment = new Line2D.Double( getPosition(), Vector2D.parseAngleAndMagnitude( 0.01, getOrientation() ).getDestination( getPosition() ) );
+            Line2D segment = new Line2D.Double( getPosition(), Vector2D.createPolar( 0.01, getOrientation() ).getDestination( getPosition() ) );
             setPosition( rotate( getPosition(), rotationPlatform.getCenter(), dtheta ) );
             Line2D rot = rotate( segment, rotationPlatform.getCenter(), dtheta );
 

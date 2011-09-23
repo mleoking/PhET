@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltShakerNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel.VOLUME_PER_SOLID_MOLE_SALT;
 
 /**
@@ -73,7 +73,7 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
 
                 //But only take the component along the axis
                 //Have to rotate by 90 degrees since for positions 0 degrees is to the right, but for the shaker 0 degrees is up
-                double dist = Math.abs( sum.dot( parseAngleAndMagnitude( 1, angle.get() + Math.PI / 2 ) ) );
+                double dist = Math.abs( sum.dot( createPolar( 1, angle.get() + Math.PI / 2 ) ) );
 
                 //Account for the distance scale so we produce the same amount for micro translations as for macro translations
                 dist = dist * distanceScale;
@@ -96,7 +96,7 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
                 //Determine where the salt should come out
                 //Hand tuned to match up with the image, will need to be re-tuned if the image changes
                 double randUniform = ( random.nextDouble() - 0.5 ) * 2;
-                final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( dispenserHeight / 2 * 0.8, angle.get() - Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );
+                final ImmutableVector2D outputPoint = center.get().plus( createPolar( dispenserHeight / 2 * 0.8, angle.get() - Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );
 
                 //Add the salt to the model
                 addSalt( model, outputPoint, VOLUME_PER_SOLID_MOLE_SALT, getCrystalVelocity( outputPoint ) );

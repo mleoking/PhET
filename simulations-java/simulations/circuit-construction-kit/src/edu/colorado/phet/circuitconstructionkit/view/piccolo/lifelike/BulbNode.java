@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -225,8 +229,8 @@ public class BulbNode extends PhetPNode {
         double minStrokeWidth = .5;
         double strokeWidth = minStrokeWidth + intensity * maxStrokeWidth;
         for ( int i = 0; i < numBrighties; i++ ) {
-            ImmutableVector2D vec = ImmutableVector2D.parseAngleAndMagnitude( distance0, angle );
-            ImmutableVector2D vec1 = ImmutableVector2D.parseAngleAndMagnitude( distance + distance0, angle );
+            ImmutableVector2D vec = ImmutableVector2D.createPolar( distance0, angle );
+            ImmutableVector2D vec1 = ImmutableVector2D.createPolar( distance + distance0, angle );
 
             Point2D end = vec.getDestination( origin );
             Point2D end2 = vec1.getDestination( origin );

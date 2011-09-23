@@ -109,7 +109,7 @@ public class TestSplitRendering {
         double t = System.currentTimeMillis() / 1000.0 - startTime;
         double r = Math.cos( t / 6 );
         double theta = Math.cos( t / 5 ) * 2 * Math.PI;
-        ImmutableVector2D v = Vector2D.parseAngleAndMagnitude( r, theta );
+        ImmutableVector2D v = Vector2D.createPolar( r, theta );
         series.clear();
         series.add( v.getX(), v.getY() );
     }

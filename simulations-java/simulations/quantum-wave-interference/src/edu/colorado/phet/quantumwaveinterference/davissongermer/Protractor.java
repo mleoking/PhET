@@ -3,6 +3,16 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -15,14 +25,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import java.awt.*;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -61,15 +63,15 @@ public class Protractor extends PhetPNode {
     }
 
     private void notifyVisibilityChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.visibilityChanged( this );
         }
     }
 
     private void notifyAngleChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.angleChanged( this );
         }
     }
@@ -119,7 +121,7 @@ public class Protractor extends PhetPNode {
         public LegGraphic() {
             path = new PPath();
             path.setStrokePaint( Color.orange );
-            path.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{10, 10}, 0 ) );
+            path.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ) );
             addChild( path );
             addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
             addInputEventListener( new PDragEventHandler() {
@@ -138,7 +140,7 @@ public class Protractor extends PhetPNode {
         }
 
         private void update() {
-            Point2D pt = Vector2D.parseAngleAndMagnitude( LEG_LENGTH, angle ).getDestination( new Point2D.Double() );
+            Point2D pt = Vector2D.createPolar( LEG_LENGTH, angle ).getDestination( new Point2D.Double() );
             Line2D.Double line = new Line2D.Double( pt, new Point2D.Double() );
             path.setPathTo( line );
             protractorHandleGraphic.setOffset( pt );
@@ -198,10 +200,10 @@ public class Protractor extends PhetPNode {
 
     public double getDegreesSigned() {
         double degreeValue = 360 / Math.PI / 2.0 * getAngle();
-        if( degreeValue >= 180 && degreeValue <= 270 ) {
+        if ( degreeValue >= 180 && degreeValue <= 270 ) {
             degreeValue = -( 360 - degreeValue );
         }
-        else if( degreeValue < 0 ) {
+        else if ( degreeValue < 0 ) {
 //            degreeValue = Math.abs( degreeValue );
         }
         return degreeValue;
@@ -223,9 +225,9 @@ public class Protractor extends PhetPNode {
             double arcDist = 30;
             Arc2D.Double arc = new Arc2D.Double( -arcDist, -arcDist, arcDist * 2, arcDist * 2, toDegrees( 0 ), toDegrees( 0 ), Arc2D.Double.OPEN );
 
-            Point2D p1 = Vector2D.parseAngleAndMagnitude( 20, leftLeg.getAngle() ).getDestination( new Point2D.Double() );
-            Point2D p2 = Vector2D.parseAngleAndMagnitude( 20, rightLeg.getAngle() ).getDestination( new Point2D.Double() );
-            if( getDegreesSigned() >= 0 ) {
+            Point2D p1 = Vector2D.createPolar( 20, leftLeg.getAngle() ).getDestination( new Point2D.Double() );
+            Point2D p2 = Vector2D.createPolar( 20, rightLeg.getAngle() ).getDestination( new Point2D.Double() );
+            if ( getDegreesSigned() >= 0 ) {
                 arc.setAngles( p1, p2 );
             }
             else {

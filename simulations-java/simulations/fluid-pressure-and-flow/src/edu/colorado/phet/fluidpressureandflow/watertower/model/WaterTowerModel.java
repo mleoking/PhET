@@ -16,7 +16,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowM
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 import static java.lang.Math.sqrt;
 
@@ -108,7 +108,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 //Create a water drop either at the water tower opening or at the opening of the hose
                 final WaterDrop drop = !hose.enabled.get() ?
                                        new WaterDrop( new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterDropY ), new ImmutableVector2D( velocity, 0 ), dropVolume, true ) :
-                                       new WaterDrop( new ImmutableVector2D( hose.outputPoint.get().getX() + random.nextGaussian() * 0.04, hose.outputPoint.get().getY() ), parseAngleAndMagnitude( velocity, hose.angle.get() ), dropVolume, false );
+                                       new WaterDrop( new ImmutableVector2D( hose.outputPoint.get().getX() + random.nextGaussian() * 0.04, hose.outputPoint.get().getY() ), createPolar( velocity, hose.angle.get() ), dropVolume, false );
 
                 //Add the drop to the list and notify listeners
                 waterTowerDrops.add( drop );

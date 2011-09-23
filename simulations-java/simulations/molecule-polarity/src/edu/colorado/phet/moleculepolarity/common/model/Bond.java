@@ -36,7 +36,7 @@ public class Bond {
                 if ( deltaEN < 0 ) {
                     angle += Math.PI;
                 }
-                dipole.set( ImmutableVector2D.parseAngleAndMagnitude( magnitude, angle ) );
+                dipole.set( ImmutableVector2D.createPolar( magnitude, angle ) );
             }
         };
         observer.observe( atom1.location, atom2.location, atom1.electronegativity, atom2.electronegativity );

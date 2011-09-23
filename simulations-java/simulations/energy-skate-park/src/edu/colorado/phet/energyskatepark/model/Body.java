@@ -154,7 +154,7 @@ public class Body implements Serializable {
     private void updateStateFromParticle() {
         if ( getSpeed() > 0.01 ) {
             if ( !isFreeFallMode() && !isUserControlled() ) {
-                facingRight = getVelocity().dot( Vector2D.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
+                facingRight = getVelocity().dot( Vector2D.createPolar( 1, getAngle() ) ) > 0;
             }
         }
     }

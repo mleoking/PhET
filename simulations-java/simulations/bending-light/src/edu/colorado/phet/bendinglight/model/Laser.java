@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 
 /**
  * Model for the laser, which emits LightRays.
@@ -39,7 +39,7 @@ public class Laser {
         wave.addObserver( clampAngle );
 
         //Model the point where light comes out of the laser
-        emissionPoint = new Property<ImmutableVector2D>( parseAngleAndMagnitude( distanceFromPivot, angle ) );
+        emissionPoint = new Property<ImmutableVector2D>( createPolar( distanceFromPivot, angle ) );
         emissionPoint.addObserver( clampAngle );
     }
 
@@ -73,7 +73,7 @@ public class Laser {
     //Rotate about the fixed pivot
     public void setAngle( double angle ) {
         double distFromPivot = pivot.get().getDistance( emissionPoint.get() );
-        emissionPoint.set( ImmutableVector2D.parseAngleAndMagnitude( distFromPivot, angle ).plus( pivot.get() ) );
+        emissionPoint.set( ImmutableVector2D.createPolar( distFromPivot, angle ).plus( pivot.get() ) );
     }
 
     public double getAngle() {

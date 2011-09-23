@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -11,7 +13,11 @@ import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ModelBounds;
-import edu.colorado.phet.common.phetcommon.model.property.*;
+import edu.colorado.phet.common.phetcommon.model.property.And;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Not;
+import edu.colorado.phet.common.phetcommon.model.property.Or;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -164,7 +170,7 @@ public class LaserNode extends PNode {
         new RichSimpleObserver() {
             public void update() {
                 Point2D emissionPoint = transform.modelToView( laser.emissionPoint.get() ).toPoint2D();
-                final double angle = transform.modelToView( ImmutableVector2D.parseAngleAndMagnitude( 1, laser.getAngle() ) ).getAngle();
+                final double angle = transform.modelToView( ImmutableVector2D.createPolar( 1, laser.getAngle() ) ).getAngle();
 
                 final AffineTransform t = new AffineTransform();
                 t.translate( emissionPoint.getX(), emissionPoint.getY() );

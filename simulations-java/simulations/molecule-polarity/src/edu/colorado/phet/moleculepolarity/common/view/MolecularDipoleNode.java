@@ -23,7 +23,7 @@ public class MolecularDipoleNode extends DipoleNode {
         molecule.dipole.addObserver( new SimpleObserver() {
             public void update() {
                 // offset vector relative to molecule location
-                ImmutableVector2D v = ImmutableVector2D.parseAngleAndMagnitude( OFFSET, molecule.dipole.get().getAngle() );
+                ImmutableVector2D v = ImmutableVector2D.createPolar( OFFSET, molecule.dipole.get().getAngle() );
                 // offset in world coordinate frame
                 setOffset( molecule.location.getX() + v.getX(), molecule.location.getY() + v.getY() );
             }

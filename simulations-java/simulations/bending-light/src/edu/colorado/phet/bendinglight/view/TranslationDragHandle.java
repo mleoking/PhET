@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -40,7 +41,7 @@ public class TranslationDragHandle extends PNode {
                 removeAllChildren();
                 final PNode counterClockwiseDragArrow = new PNode() {{
                     Point2D laserEmissionViewPoint = transform.modelToView( laser.emissionPoint.get().toPoint2D() );
-                    ImmutableVector2D viewDelta = ImmutableVector2D.parseAngleAndMagnitude( image.getWidth() / 2, -laser.getAngle() );
+                    ImmutableVector2D viewDelta = ImmutableVector2D.createPolar( image.getWidth() / 2, -laser.getAngle() );
                     addChild( new PhetPPath( new Arrow( new Point2D.Double( laserEmissionViewPoint.getX() + viewDelta.getX(), laserEmissionViewPoint.getY() + viewDelta.getY() ),
                                                         new ImmutableVector2D( dx, dy ), 20, 20, 10, 2, true ).getShape(), Color.green, new BasicStroke( 1 ), Color.black ) );
                     setPickable( false );

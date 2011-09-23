@@ -9,7 +9,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
 import static java.awt.Color.white;
 
@@ -35,9 +35,9 @@ public class WaterMolecule extends Compound<SphericalParticle> {
 
         final double waterAngleRadians = Math.toRadians( 104.45 );
 
-        final Constituent<SphericalParticle> h1 = new Constituent<SphericalParticle>( new Hydrogen(), parseAngleAndMagnitude( spacing, waterAngleRadians / 2 ) );
+        final Constituent<SphericalParticle> h1 = new Constituent<SphericalParticle>( new Hydrogen(), createPolar( spacing, waterAngleRadians / 2 ) );
         final Constituent<SphericalParticle> o = new Constituent<SphericalParticle>( new Oxygen(), ZERO );
-        final Constituent<SphericalParticle> h2 = new Constituent<SphericalParticle>( new Hydrogen(), parseAngleAndMagnitude( spacing, -waterAngleRadians / 2 ) );
+        final Constituent<SphericalParticle> h2 = new Constituent<SphericalParticle>( new Hydrogen(), createPolar( spacing, -waterAngleRadians / 2 ) );
 
         //Use different z-orderings to give make the water look as if it is at different 3d orientations
         int style = random.nextInt( 3 );

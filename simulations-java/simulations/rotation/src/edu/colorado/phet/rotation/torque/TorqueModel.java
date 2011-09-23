@@ -187,7 +187,7 @@ public class TorqueModel extends RotationModel {
         else {
             overwhelmingBrake = false;
         }
-        return Vector2D.parseAngleAndMagnitude( magnitude, Math.PI / 4 + ( clockwise ? Math.PI : 0 ) );
+        return Vector2D.createPolar( magnitude, Math.PI / 4 + ( clockwise ? Math.PI : 0 ) );
     }
 
     private void updateBrakeForce() {

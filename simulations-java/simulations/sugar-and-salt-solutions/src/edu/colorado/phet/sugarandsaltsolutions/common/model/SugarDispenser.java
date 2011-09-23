@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarDispenserNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 
 /**
  * Model element for the sugar dispenser, which includes its position and rotation.  Sugar is emitted from the sugar dispenser only
@@ -103,7 +103,7 @@ public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extend
             int numCrystals = MathUtil.clamp( 1, (int) avgSpeed * 5, 5 );
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the sugar should come out
-                final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( dispenserHeight / 2 * 0.85, angle.get() + Math.PI / 2 * 1.23 + Math.PI ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
+                final ImmutableVector2D outputPoint = center.get().plus( createPolar( dispenserHeight / 2 * 0.85, angle.get() + Math.PI / 2 * 1.23 + Math.PI ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
                 addSugarToModel( outputPoint );
             }

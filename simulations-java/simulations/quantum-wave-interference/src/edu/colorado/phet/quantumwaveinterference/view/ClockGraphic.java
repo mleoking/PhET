@@ -3,6 +3,15 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+
+import javax.swing.JFrame;
+import javax.swing.Timer;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -10,12 +19,6 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -56,7 +59,7 @@ public class ClockGraphic extends PNode {
         }
 
         private void update() {
-            Arrow arrow = new Arrow( getTailLocation(), Vector2D.parseAngleAndMagnitude( length, angle ).getDestination( getTailLocation() ),
+            Arrow arrow = new Arrow( getTailLocation(), Vector2D.createPolar( length, angle ).getDestination( getTailLocation() ),
                                      headHeight, headWidth, tailWidth );
             shape.setPathTo( arrow.getShape() );
         }

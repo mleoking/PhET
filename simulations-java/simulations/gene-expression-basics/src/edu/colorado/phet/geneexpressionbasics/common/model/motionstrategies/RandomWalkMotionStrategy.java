@@ -39,7 +39,7 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
             // Time to change direction.
             double newVelocity = MIN_VELOCITY + RAND.nextDouble() * ( MAX_VELOCITY - MIN_VELOCITY );
             double newAngle = Math.PI * 2 * RAND.nextDouble();
-            currentMotionVector = ImmutableVector2D.parseAngleAndMagnitude( newVelocity, newAngle );
+            currentMotionVector = ImmutableVector2D.createPolar( newVelocity, newAngle );
             // Reset the countdown timer.
             directionChangeCountdown = generateDirectionChangeCountdownValue();
         }

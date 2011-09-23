@@ -184,7 +184,7 @@ public class ImmutableVector2D implements Serializable {
     }
 
     public ImmutableVector2D getRotatedInstance( double angle ) {
-        return parseAngleAndMagnitude( getMagnitude(), getAngle() + angle );
+        return createPolar( getMagnitude(), getAngle() + angle );
     }
 
     /**
@@ -204,9 +204,9 @@ public class ImmutableVector2D implements Serializable {
         return getSubtractedInstance( point.getX(), point.getY() ).getMagnitude();
     }
 
-    public static ImmutableVector2D parseAngleAndMagnitude( double r, double angle ) {
+    public static ImmutableVector2D createPolar( double radius, double angle ) {
         ImmutableVector2D vector = new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) );
-        return vector.getScaledInstance( r );
+        return vector.getScaledInstance( radius );
     }
 
     public ImmutableVector2D plus( double x, double y ) {

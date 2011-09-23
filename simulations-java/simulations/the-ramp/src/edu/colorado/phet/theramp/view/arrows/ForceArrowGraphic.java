@@ -3,7 +3,12 @@
 /*  */
 package edu.colorado.phet.theramp.view.arrows;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Point;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -142,7 +147,7 @@ public class ForceArrowGraphic extends PNode {
 
     private Point2D offsetTail( Point2D tail ) {
         double viewAngle = blockGraphic.getCurrentSurfaceGraphic().getViewAngle();
-        ImmutableVector2D v = Vector2D.parseAngleAndMagnitude( verticalOffset, viewAngle );
+        ImmutableVector2D v = Vector2D.createPolar( verticalOffset, viewAngle );
         v = v.getNormalVector();
         return v.getDestination( tail );
     }
