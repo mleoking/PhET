@@ -41,8 +41,8 @@ public class BondDipoleNode extends DipoleNode {
     }
 
     // True if the dipole points in the same direction as a vector from bond.endpoint1 to bond.endpoint2.
-    // Direction will never be precisely the same, so test with a coarse angle.
-    private boolean isInPhase( Bond bond, ImmutableVector2D dipole ) {
+    // Direction will never be precisely the same due to round-off error, so test with a coarse angle.
+    private static boolean isInPhase( Bond bond, ImmutableVector2D dipole ) {
         return Math.abs( bond.getAngle() - dipole.getAngle() ) < ( Math.PI / 4 );
     }
 }
