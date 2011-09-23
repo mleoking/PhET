@@ -53,7 +53,7 @@ public class BondTypeControlNode extends PNode {
 
                         // if it exists, remove it
                         if ( candidate != null ) {
-                            module.removePairGroup( candidate );
+                            module.getMolecule().removePair( candidate );
                         }
                     }
                 } );
