@@ -50,6 +50,7 @@ public class MoleculeModelNode extends Node {
 
     private int angleIndex = 0;
     private List<ReadoutNode> angleReadouts = new ArrayList<ReadoutNode>();
+    private AtomNode centerAtomNode;
 
     public MoleculeModelNode( final MoleculeModel molecule, final JMEInputHandler inputHandler, final JMEView readoutView, final MoleculeShapesModule module, final Camera camera ) {
         super( "Molecule Model" );
@@ -84,8 +85,8 @@ public class MoleculeModelNode extends Node {
         } );
 
         //Create the central atom
-        AtomNode center = new AtomNode( new None<PairGroup>(), module.getAssetManager() );
-        attachChild( center );
+        centerAtomNode = new AtomNode( new None<PairGroup>(), module.getAssetManager() );
+        attachChild( centerAtomNode );
     }
 
     private void addGroup( PairGroup group ) {
@@ -256,6 +257,10 @@ public class MoleculeModelNode extends Node {
         for ( int i = angleIndex; i < angleReadouts.size(); i++ ) {
             angleReadouts.get( i ).detach();
         }
+    }
+
+    public AtomNode getCenterAtomNode() {
+        return centerAtomNode;
     }
 
     /**

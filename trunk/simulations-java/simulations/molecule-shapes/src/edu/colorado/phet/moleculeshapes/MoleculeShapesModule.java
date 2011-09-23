@@ -86,6 +86,7 @@ public class MoleculeShapesModule extends JMEModule {
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
     private Property<Rectangle2D> realMoleculeOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, 1, 1 ) ); // initialized to technically valid state
+    private Property<Rectangle2D> singleBondOverlayStageBounds;
 
     /*---------------------------------------------------------------------------*
     * dragging
@@ -295,24 +296,26 @@ public class MoleculeShapesModule extends JMEModule {
         addLighting( realMoleculeOverlayView.getScene() );
 
         /*---------------------------------------------------------------------------*
-        * testing overlay
+        * single bond overlay
         *----------------------------------------------------------------------------*/
 
-        final Property<Rectangle2D> testOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
-        JMEView testOverlay = createMainView( "Test Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
-                                                                                 new CanvasTransformedBounds( canvasTransform,
-                                                                                                              testOverlayStageBounds ) ) {
+        singleBondOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
+        JMEView singleBondOverlay = createMainView( "Test Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
+                                                                                       new CanvasTransformedBounds( canvasTransform,
+                                                                                                                    singleBondOverlayStageBounds ) ) {
             @Override public void positionMe() {
-                setFrustumPerspective( 45f, (float) ( testOverlayStageBounds.get().getWidth() / testOverlayStageBounds.get().getHeight() ), 1f, 1000f );
-                setLocation( new Vector3f( 0, 0, 40 ) );
+                setFrustumPerspective( 45f, (float) ( singleBondOverlayStageBounds.get().getWidth() / singleBondOverlayStageBounds.get().getHeight() ), 1f, 1000f );
+                setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
                 lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
             }
         } );
-        testOverlay.getScene().attachChild( new MoleculeModelNode( new MoleculeModel() {{
+        singleBondOverlay.getScene().attachChild( new MoleculeModelNode( new MoleculeModel() {{
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-        }}, inputHandler, null, this, testOverlay.getCamera() ) );
+        }}, inputHandler, null, this, singleBondOverlay.getCamera() ) {{
+            getCenterAtomNode().setCullHint( CullHint.Always );
+        }} );
 
-        addLighting( testOverlay.getScene() );
+        addLighting( singleBondOverlay.getScene() );
 
         /*---------------------------------------------------------------------------*
         * main control panel
@@ -360,11 +363,25 @@ public class MoleculeShapesModule extends JMEModule {
             // TODO: refactoring here into generic viewport handling? (just tell it to be at X/Y for stage and it sticks there?)
             resizeDirty = false;
 
+            double bondScaledWidth = getStageSize().getWidth() / 2.3;
+            double bondScaledHeight = getStageSize().getHeight() / 2.3;
+
+            // single bond overlay
+            // TODO: handle transparency
+            Rectangle2D singleBondTargetStageBounds = controlPanel.transformBoundsToStage( controlPanelNode.getSingleBondTargetBounds() );
+            singleBondOverlayStageBounds.set(
+                    new PBounds(
+                            // position the center of these bounds at the middle-left edge of the target bounds
+                            singleBondTargetStageBounds.getMinX() - bondScaledWidth / 2,
+                            singleBondTargetStageBounds.getCenterY() - bondScaledHeight / 2,
+                            bondScaledWidth,
+                            bondScaledHeight ) );
+
             // handle the real molecule overlay
             boolean showOverlay = controlPanelNode.isOverlayVisible();
             realMoleculeOverlayNode.setCullHint( showOverlay ? CullHint.Never : CullHint.Always );
             if ( showOverlay ) {
-                realMoleculeOverlayStageBounds.set( getOverlayStageBounds() );
+                realMoleculeOverlayStageBounds.set( controlPanel.transformBoundsToStage( controlPanelNode.getRealMoleculeOverlayBounds() ) );
             }
         }
     }
@@ -627,23 +644,6 @@ public class MoleculeShapesModule extends JMEModule {
                 return null;
             }
         }
-    }
-
-    private Rectangle2D getOverlayStageBounds() {
-        // get the bounds, relative to the Piccolo origin (which is 0,0 in the component as well)
-        Rectangle2D localOverlayBounds = controlPanelNode.getRealMoleculeOverlayBounds();
-
-        // get the translation of the control panel
-        float offsetX = (float) controlPanel.position.get().getX();
-        float offsetY = (float) controlPanel.position.get().getY();
-
-        // convert these to stage-offset from the lower-left, since the control panel itself is translated
-        double localLeft = localOverlayBounds.getMinX() + offsetX;
-        double localRight = localOverlayBounds.getMaxX() + offsetX;
-        double localTop = controlPanel.getComponentHeight() - localOverlayBounds.getMinY() + offsetY; // remember, Y is flipped here
-        double localBottom = controlPanel.getComponentHeight() - localOverlayBounds.getMaxY() + offsetY; // remember, Y is flipped here
-
-        return new PBounds( localLeft, localBottom, localRight - localLeft, localTop - localBottom );
     }
 
     @Override public void updateLayout( Dimension canvasSize ) {

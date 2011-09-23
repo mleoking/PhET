@@ -108,6 +108,21 @@ public class SwingJMENode extends Node {
         } );
     }
 
+    // TODO: doc
+    public Rectangle2D transformBoundsToStage( Rectangle2D localBounds ) {
+        // get the translation of the control panel
+        float offsetX = (float) position.get().getX();
+        float offsetY = (float) position.get().getY();
+
+        // convert these to stage-offset from the lower-left, since the control panel itself is translated
+        double localLeft = localBounds.getMinX() + offsetX;
+        double localRight = localBounds.getMaxX() + offsetX;
+        double localTop = getComponentHeight() - localBounds.getMinY() + offsetY; // remember, Y is flipped here
+        double localBottom = getComponentHeight() - localBounds.getMaxY() + offsetY; // remember, Y is flipped here
+
+        return new PBounds( localLeft, localBottom, localRight - localLeft, localTop - localBottom );
+    }
+
     /*---------------------------------------------------------------------------*
     * defaults
     *----------------------------------------------------------------------------*/
