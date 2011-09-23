@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 

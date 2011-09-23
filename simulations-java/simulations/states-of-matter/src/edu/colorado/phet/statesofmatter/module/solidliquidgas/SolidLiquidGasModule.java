@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
-import java.awt.*;
+import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;

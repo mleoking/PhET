@@ -72,18 +72,18 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
         setModal( false );
 
         m_app = app;
-        
+
         // Get a reference to the model.
         Module activeModule = m_app.getActiveModule();
-        if (activeModule instanceof SolidLiquidGasModule){
-            m_model = ((SolidLiquidGasModule)activeModule).getMultiParticleModel();
+        if ( activeModule instanceof SolidLiquidGasModule ) {
+            m_model = ( (SolidLiquidGasModule) activeModule ).getMultiParticleModel();
         }
-        else if (activeModule instanceof PhaseChangesModule){
-            m_model = ((PhaseChangesModule)activeModule).getMultiParticleModel();
+        else if ( activeModule instanceof PhaseChangesModule ) {
+            m_model = ( (PhaseChangesModule) activeModule ).getMultiParticleModel();
         }
-        
+
         // Register with the application for module change events.
-        m_app.addModuleObserver( new ModuleObserver(){
+        m_app.addModuleObserver( new ModuleObserver() {
             public void moduleAdded( ModuleEvent event ) {
             }
 
@@ -96,23 +96,25 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
             public void moduleRemoved( ModuleEvent event ) {
             }
 
-        });
-        
+        } );
+
         // Register with the model for various events.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void temperatureChanged(){
+        m_model.addListener( new MultipleParticleModel.Adapter() {
+            public void temperatureChanged() {
                 m_temperatureControl.setValue( m_model.getTemperatureSetPoint() );
             }
-            public void resetOccurred(){
+
+            public void resetOccurred() {
                 updateAdditionalInfo();
             }
-            public void particleAdded(StatesOfMatterAtom particle){
+
+            public void particleAdded( StatesOfMatterAtom particle ) {
                 updateAdditionalInfo();
             }
-        });
+        } );
 
         // Create and add the input panel.
-        
+
         JPanel inputPanel = createInputPanel();
 
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
@@ -128,10 +130,10 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
 
         // Thermostat selection.
         ThermostatSelectionPanel thermostatSelectionPanel = new ThermostatSelectionPanel();
-        
+
         // Temperature control.
-        m_temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE, 
-                MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "#.###", "Control" );
+        m_temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE,
+                                                       MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "#.###", "Control" );
         m_temperatureControl.setUpDownArrowDelta( 0.05 );
         m_temperatureControl.setTextFieldEditable( true );
         m_temperatureControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
@@ -143,18 +145,18 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
         m_temperatureControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Module activeModule = m_app.getActiveModule();
-                if ( activeModule instanceof SolidLiquidGasModule ){
-                    ((SolidLiquidGasModule)activeModule).getMultiParticleModel().setTemperature( m_temperatureControl.getValue() );
+                if ( activeModule instanceof SolidLiquidGasModule ) {
+                    ( (SolidLiquidGasModule) activeModule ).getMultiParticleModel().setTemperature( m_temperatureControl.getValue() );
                 }
-                else if ( activeModule instanceof PhaseChangesModule ){
-                    ((PhaseChangesModule)activeModule).getMultiParticleModel().setTemperature( m_temperatureControl.getValue() );
+                else if ( activeModule instanceof PhaseChangesModule ) {
+                    ( (PhaseChangesModule) activeModule ).getMultiParticleModel().setTemperature( m_temperatureControl.getValue() );
                 }
             }
-        });
-        
+        } );
+
         // Gravity control.
         GravityControlPanel gravityControlPanel = new GravityControlPanel( m_model );
-        
+
         // Create the "Additional Information" panel.
         JPanel infoPanel = new JPanel();
         m_containterWidthInfo = new JLabel();
@@ -163,17 +165,17 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
         infoPanel.add( m_containterHeightInfo );
         m_numParticles = new JLabel();
         infoPanel.add( m_numParticles );
-        BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+        BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                "Additional Info",
-                TitledBorder.LEFT,
-                TitledBorder.TOP,
-                new PhetFont( Font.BOLD, 14 ),
-                Color.GRAY );
-        
+                                                                      "Additional Info",
+                                                                      TitledBorder.LEFT,
+                                                                      TitledBorder.TOP,
+                                                                      new PhetFont( Font.BOLD, 14 ),
+                                                                      Color.GRAY );
+
         infoPanel.setBorder( titledBorder );
         updateAdditionalInfo();
-        
+
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
@@ -189,30 +191,30 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
 
         return panel;
     }
-    
+
     /**
      * This class defines the selection panel that allows the user to choose
      * the type of thermostat being used in the model.
      */
     private class ThermostatSelectionPanel extends JPanel {
-        
+
         private JRadioButton m_noThermostatRadioButton;
         private JRadioButton m_isokineticThermostatRadioButton;
         private JRadioButton m_andersenThermostatRadioButton;
         private JRadioButton m_adaptiveThermostatRadioButton;
 
-        ThermostatSelectionPanel(){
-            
-            setLayout( new GridLayout(0, 1) );
-            
-            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+        ThermostatSelectionPanel() {
+
+            setLayout( new GridLayout( 0, 1 ) );
+
+            BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    "Thermostat Type",
-                    TitledBorder.LEFT,
-                    TitledBorder.TOP,
-                    new PhetFont( Font.BOLD, 14 ),
-                    Color.GRAY );
-            
+                                                                          "Thermostat Type",
+                                                                          TitledBorder.LEFT,
+                                                                          TitledBorder.TOP,
+                                                                          new PhetFont( Font.BOLD, 14 ),
+                                                                          Color.GRAY );
+
             setBorder( titledBorder );
 
             m_andersenThermostatRadioButton = new JRadioButton( "Andersen Thermostat" );
@@ -243,41 +245,41 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
                     m_model.setThermostatType( MultipleParticleModel.ADAPTIVE_THERMOSTAT );
                 }
             } );
-            
+
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( m_noThermostatRadioButton );
             buttonGroup.add( m_isokineticThermostatRadioButton );
             buttonGroup.add( m_andersenThermostatRadioButton );
             buttonGroup.add( m_adaptiveThermostatRadioButton );
-            
-            switch (m_model.getThermostatType()){
-            case MultipleParticleModel.NO_THERMOSTAT:
-                m_noThermostatRadioButton.setSelected( true );
-                break;
-            case MultipleParticleModel.ANDERSEN_THERMOSTAT:
-                m_andersenThermostatRadioButton.setSelected( true );
-                break;
-            case MultipleParticleModel.ISOKINETIC_THERMOSTAT:
-                m_isokineticThermostatRadioButton.setSelected( true );
-                break;
-            case MultipleParticleModel.ADAPTIVE_THERMOSTAT:
-                m_adaptiveThermostatRadioButton.setSelected( true );
-                break;
-            default:
-                assert false;
-                break;
+
+            switch( m_model.getThermostatType() ) {
+                case MultipleParticleModel.NO_THERMOSTAT:
+                    m_noThermostatRadioButton.setSelected( true );
+                    break;
+                case MultipleParticleModel.ANDERSEN_THERMOSTAT:
+                    m_andersenThermostatRadioButton.setSelected( true );
+                    break;
+                case MultipleParticleModel.ISOKINETIC_THERMOSTAT:
+                    m_isokineticThermostatRadioButton.setSelected( true );
+                    break;
+                case MultipleParticleModel.ADAPTIVE_THERMOSTAT:
+                    m_adaptiveThermostatRadioButton.setSelected( true );
+                    break;
+                default:
+                    assert false;
+                    break;
             }
-            
+
             add( m_noThermostatRadioButton );
             add( m_isokineticThermostatRadioButton );
             add( m_andersenThermostatRadioButton );
             add( m_adaptiveThermostatRadioButton );
         }
     }
-    
-    private void updateAdditionalInfo(){
+
+    private void updateAdditionalInfo() {
         m_containterWidthInfo.setText( "Lx = " + NUMBER_FORMATTER.format( m_model.getNormalizedContainerWidth() ) );
-        m_containterHeightInfo.setText( "Ly = " + NUMBER_FORMATTER.format(  m_model.getNormalizedContainerHeight() ) );
+        m_containterHeightInfo.setText( "Ly = " + NUMBER_FORMATTER.format( m_model.getNormalizedContainerHeight() ) );
         m_numParticles.setText( "N = " + m_model.getNumMolecules() );
     }
 }

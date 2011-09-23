@@ -9,10 +9,11 @@ package edu.colorado.phet.statesofmatter.defaults;
  * @author John Blanco
  */
 public class PhaseChangesDefaults {
-    
+
     /* Not intended for instantiation */
-    private PhaseChangesDefaults() {}
-    
+    private PhaseChangesDefaults() {
+    }
+
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
     public static final int CLOCK_FRAME_RATE = 30; // Frames per second.

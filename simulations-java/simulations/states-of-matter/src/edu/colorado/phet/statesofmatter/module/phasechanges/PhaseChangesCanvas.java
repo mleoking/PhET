@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.statesofmatter.module.phasechanges;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;

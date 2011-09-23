@@ -10,15 +10,14 @@ import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
  * is often necessary since the simulations will tend to operate on the
  * molecular velocity, location, and rotation, and the individual atoms must
  * be moved as a result.
- * 
- * @author John Blanco
  *
+ * @author John Blanco
  */
 public interface AtomPositionUpdater {
 
-	/**
-	 * Update the positions of the atoms.  It is assumed that the implementer
-	 * already has references to the needed data.
-	 */
-	public void updateAtomPositions( MoleculeForceAndMotionDataSet moleculeDataSet );
+    /**
+     * Update the positions of the atoms.  It is assumed that the implementer
+     * already has references to the needed data.
+     */
+    public void updateAtomPositions( MoleculeForceAndMotionDataSet moleculeDataSet );
 }

@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * StatesOfMatterResources is a wrapper around the PhET resource loader.
- * If we decide to use a different technique to load resources in the 
+ * If we decide to use a different technique to load resources in the
  * future, all changes will be encapsulated here.
  *
  * @author Chris Malley, John Blanco
@@ -20,14 +20,15 @@ public class StatesOfMatterResources {
     private static final PhetResources RESOURCES = new PhetResources( "states-of-matter" );
 
     /* Not intended for instantiation. */
-    private StatesOfMatterResources() {}
+    private StatesOfMatterResources() {
+    }
 
     public static final PhetResources getResourceLoader() {
         return RESOURCES;
     }
 
     public static final String getString( String name ) {
-        return RESOURCES.getLocalizedString( name  );
+        return RESOURCES.getLocalizedString( name );
     }
 
     public static final char getChar( String name, char defaultValue ) {
