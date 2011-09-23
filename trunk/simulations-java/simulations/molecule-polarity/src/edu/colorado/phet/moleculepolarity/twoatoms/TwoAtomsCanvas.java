@@ -57,12 +57,15 @@ public class TwoAtomsCanvas extends MPCanvas {
         // floating control panel
         PNode controlPanelNode = new MPControlPanelNode( parentFrame,
                                                          new Resettable[] { model, viewProperties },
+                                                         // View
                                                          new MPVerticalPanel( MPStrings.VIEW ) {{
                                                              add( new MPCheckBox( MPStrings.BOND_DIPOLE, viewProperties.bondDipolesVisible ) );
                                                              add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
                                                              add( new MPCheckBox( MPStrings.BOND_CHARACTER, viewProperties.bondCharacterVisible ) );
                                                          }},
+                                                         // Surface
                                                          new SurfaceControlPanel( viewProperties.surfaceType ),
+                                                         // Electric Field
                                                          new EFieldControlPanel( model.eField.enabled ) );
 
         // rendering order
