@@ -26,6 +26,8 @@ public class PhetCamera extends Camera {
     public static interface CameraStrategy {
         public void initialize( PhetCamera camera, Dimension initialSize );
 
+        public void resetFrustrum();
+
         public void resize( int width, int height );
     }
 
@@ -33,6 +35,8 @@ public class PhetCamera extends Camera {
         private final float fovY;
         private final float near;
         private final float far;
+        private PhetCamera camera;
+        private Dimension initialSize;
 
         public IdentityCameraStrategy( float fovY, float near, float far ) {
             this.fovY = fovY;
@@ -41,6 +45,12 @@ public class PhetCamera extends Camera {
         }
 
         public void initialize( PhetCamera camera, Dimension initialSize ) {
+            this.camera = camera;
+            this.initialSize = initialSize;
+            resetFrustrum();
+        }
+
+        public void resetFrustrum() {
             camera.setFrustumPerspective( fovY, (float) initialSize.width / initialSize.height, near, far );
         }
 
@@ -74,6 +84,10 @@ public class PhetCamera extends Camera {
 
             initialFrustumRight = camera.frustumRight;
             initialFrustumTop = camera.frustumTop;
+        }
+
+        public void resetFrustrum() {
+            camera.setFrustumPerspective( fovY, initialAspectRatio, near, far );
         }
 
         public void resize( int width, int height ) {

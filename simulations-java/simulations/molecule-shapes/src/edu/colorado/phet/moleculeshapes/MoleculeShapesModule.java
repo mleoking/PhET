@@ -283,7 +283,7 @@ public class MoleculeShapesModule extends JMEModule {
                 super.resize( width, height, fixAspect );
 
                 // called from the JME render thread, so we can do this
-                updateOverlayViewport();
+                updateOverlayViewport(); // TODO: overlay improvements so full recalculation isn't needed?
             }
         } );
 
@@ -291,6 +291,26 @@ public class MoleculeShapesModule extends JMEModule {
         overlay.getScene().attachChild( realMoleculeOverlayNode );
 
         addLighting( overlay.getScene() );
+
+        /*---------------------------------------------------------------------------*
+        * testing overlay
+        *----------------------------------------------------------------------------*/
+
+//        JMEView testOverlay = createMainView( "Test Overlay", new Camera( (int) ( getStageSize().getWidth() ), (int) ( getStageSize().getHeight() ) ) {
+//            @Override public void resize( int width, int height, boolean fixAspect ) {
+//                super.resize( width, height, fixAspect );
+//
+//                // TODO: update here?
+//            }
+//        } );
+//        testOverlay.getCamera().setFrustumPerspective( 45f, 1, 1f, 1000f );
+//        testOverlay.getCamera().setLocation( new Vector3f( 0, 0, 40 ) );
+//        testOverlay.getCamera().lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+//        testOverlay.getScene().attachChild( new MoleculeModelNode( new MoleculeModel(){{
+//            addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+//        }}, inputHandler, null, this, testOverlay.getCamera()) );
+//
+//        addLighting( testOverlay.getScene() );
 
         /*---------------------------------------------------------------------------*
         * main control panel
