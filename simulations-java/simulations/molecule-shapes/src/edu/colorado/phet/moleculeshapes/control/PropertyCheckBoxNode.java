@@ -1,9 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.control;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEPropertyCheckBox;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColors;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -39,7 +43,11 @@ public class PropertyCheckBoxNode extends PSwing {
 
             // default styling
             setFont( MoleculeShapesConstants.CHECKBOX_FONT );
-            setForeground( MoleculeShapesConstants.CONTROL_PANEL_TEXT_COLOR );
+            MoleculeShapesColors.CONTROL_PANEL_TEXT.onColor( new VoidFunction1<Color>() {
+                public void apply( Color color ) {
+                    setForeground( color );
+                }
+            } );
             setOpaque( false );
         }
     }

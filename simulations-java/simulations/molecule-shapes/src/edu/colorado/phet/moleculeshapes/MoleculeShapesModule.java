@@ -47,6 +47,7 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;
@@ -454,9 +455,9 @@ public class MoleculeShapesModule extends JMEModule {
 
     @Override public PhetJMEApplication createApplication( Frame parentFrame ) {
         final PhetJMEApplication application = new PhetJMEApplication( parentFrame );
-        MoleculeShapesColors.BACKGROUND.getRGBAProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                application.backgroundColor.set( MoleculeShapesColors.BACKGROUND.getRGBA() );
+        MoleculeShapesColors.BACKGROUND.onColorRGBA(new VoidFunction1<ColorRGBA>() {
+            public void apply( ColorRGBA colorRGBA ) {
+                application.backgroundColor.set( colorRGBA );
             }
         } );
         return application;

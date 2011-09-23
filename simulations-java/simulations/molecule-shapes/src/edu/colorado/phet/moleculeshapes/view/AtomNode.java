@@ -91,11 +91,11 @@ public class AtomNode extends Geometry {
         setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );
 
-            color.addObserver( new SimpleObserver() {
-                public void update() {
+            color.addObserver( JMEUtils.jmeObserver( new Runnable() {
+                public void run() {
                     setColor( "Diffuse", color.get() );
                 }
-            } );
+            } ) );
             setFloat( "Shininess", 1f ); // [0,128]
         }} );
 

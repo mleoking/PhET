@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculeshapes.control;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColors;
@@ -48,9 +49,8 @@ public class BondTypeOverlayNode extends MoleculeModelNode {
 
             // give it that semi-transparent color
             setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-                MoleculeShapesColors.BACKGROUND.getRGBAProperty().addObserver( new SimpleObserver() {
-                    public void update() {
-                        ColorRGBA rgba = MoleculeShapesColors.BACKGROUND.getRGBA();
+                MoleculeShapesColors.BACKGROUND.onColorRGBA( new VoidFunction1<ColorRGBA>() {
+                    public void apply( ColorRGBA rgba ) {
                         float alpha = 0.3f + ( rgba.r + rgba.g + rgba.b ) * 0.3f / 3;
                         setColor( "Color", new ColorRGBA( rgba.r, rgba.g, rgba.b, alpha ) );
                     }
