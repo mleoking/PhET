@@ -116,7 +116,7 @@ public class BondCharacterNode extends PComposite {
             addChild( atom2Node );
 
             bondNode.setOffset( atom1Node.getFullBoundsReference().getCenterX(),
-                                atom1Node.getFullBounds().getCenterY() );// - ( bondNode.getFullBoundsReference().getHeight() / 2 ) );
+                                atom1Node.getFullBounds().getCenterY() );
             atom2Node.setOffset( bondNode.getFullBoundsReference().getMaxX() - ( atom2Node.getFullBoundsReference().getWidth() / 2 ),
                                  atom1Node.getXOffset() );
         }
