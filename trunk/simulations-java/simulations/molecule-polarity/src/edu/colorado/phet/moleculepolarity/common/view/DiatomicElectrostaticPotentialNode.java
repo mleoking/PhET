@@ -58,7 +58,6 @@ public class DiatomicElectrostaticPotentialNode extends SurfaceNode {
 
         this.pathNodeB = new PPath() {{
             setStroke( null );
-
         }};
         addChild( pathNodeB );
 
