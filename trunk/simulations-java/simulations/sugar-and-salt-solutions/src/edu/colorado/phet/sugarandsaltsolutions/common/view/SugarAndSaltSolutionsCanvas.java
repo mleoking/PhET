@@ -147,7 +147,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         }
 
         //Add beaker node that shows border of the beaker and tick marks
-        addChild( new BeakerNodeWithTicks( transform, model.beaker, showBeakerTickLabels, globalState.colorScheme.whiteBackground ) );
+        addChild( new BeakerNodeWithTicks( transform, model.beaker, showBeakerTickLabels, globalState.colorScheme.projectorMode ) );
 
         //Debug for showing stage
         if ( debug ) {

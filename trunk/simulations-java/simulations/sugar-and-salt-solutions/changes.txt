@@ -1,3 +1,4 @@
+Added teacher menu with projector option, see #3087
 # 0.00.118 (56838) Sep 22, 2011
 Micro tab: Renamed "show in periodic table" to "periodic table"
 Water tab: Removed "sugar partial charges" button
