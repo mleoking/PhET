@@ -85,7 +85,7 @@ public class MoleculeShapesModule extends JMEModule {
     private MoleculeModel molecule = new MoleculeModel();
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
-    private Property<Rectangle2D> realMoleculeOverlayBounds = new Property<Rectangle2D>( new PBounds( 0, 0, 1, 1 ) ); // initialized to technically valid state
+    private Property<Rectangle2D> realMoleculeOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, 1, 1 ) ); // initialized to technically valid state
 
     /*---------------------------------------------------------------------------*
     * dragging
@@ -281,7 +281,8 @@ public class MoleculeShapesModule extends JMEModule {
         * real molecule overlay
         *----------------------------------------------------------------------------*/
 
-        overlay = createMainView( "Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize, realMoleculeOverlayBounds ) {
+        overlay = createMainView( "Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
+                                                                new CanvasTransformedBounds( canvasTransform, realMoleculeOverlayStageBounds ) ) {
             @Override public void positionMe() {
                 setFrustumPerspective( 45f, 1, 1f, 1000f );
                 setLocation( new Vector3f( 0, 0, 40 ) );
@@ -359,7 +360,13 @@ public class MoleculeShapesModule extends JMEModule {
         if ( resizeDirty && controlPanel != null ) {
             // TODO: refactoring here into generic viewport handling? (just tell it to be at X/Y for stage and it sticks there?)
             resizeDirty = false;
-            updateOverlayViewport();
+
+            // handle the real molecule overlay
+            boolean showOverlay = controlPanelNode.isOverlayVisible();
+            realMoleculeOverlayNode.setCullHint( showOverlay ? CullHint.Never : CullHint.Always );
+            if ( showOverlay ) {
+                realMoleculeOverlayStageBounds.set( getOverlayStageBounds() );
+            }
         }
     }
 
@@ -623,15 +630,7 @@ public class MoleculeShapesModule extends JMEModule {
         }
     }
 
-    private void updateOverlayViewport() {
-        boolean showOverlay = controlPanelNode.isOverlayVisible();
-        realMoleculeOverlayNode.setCullHint( showOverlay ? CullHint.Never : CullHint.Always );
-        if ( showOverlay ) {
-            realMoleculeOverlayBounds.set( getOverlayScreenBounds() );
-        }
-    }
-
-    private Rectangle2D getOverlayScreenBounds() {
+    private Rectangle2D getOverlayStageBounds() {
         // get the bounds, relative to the Piccolo origin (which is 0,0 in the component as well)
         Rectangle2D localOverlayBounds = controlPanelNode.getOverlayBounds();
 
@@ -645,8 +644,7 @@ public class MoleculeShapesModule extends JMEModule {
         double localTop = controlPanel.getComponentHeight() - localOverlayBounds.getMinY() + offsetY; // remember, Y is flipped here
         double localBottom = controlPanel.getComponentHeight() - localOverlayBounds.getMaxY() + offsetY; // remember, Y is flipped here
 
-        PBounds stageBounds = new PBounds( localLeft, localBottom, localRight - localLeft, localTop - localBottom );
-        return canvasTransform.getTransformedBounds( stageBounds );
+        return new PBounds( localLeft, localBottom, localRight - localLeft, localTop - localBottom );
     }
 
     @Override public void updateLayout( Dimension canvasSize ) {
