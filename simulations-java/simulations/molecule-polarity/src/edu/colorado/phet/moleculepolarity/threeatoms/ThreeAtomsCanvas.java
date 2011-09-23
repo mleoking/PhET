@@ -49,11 +49,13 @@ public class ThreeAtomsCanvas extends MPCanvas {
         // floating control panel
         PNode controlPanelNode = new MPControlPanelNode( parentFrame,
                                                          new Resettable[] { model, viewProperties },
+                                                         // View
                                                          new MPVerticalPanel( MPStrings.VIEW ) {{
                                                              add( new MPCheckBox( MPStrings.BOND_DIPOLES, viewProperties.bondDipolesVisible ) );
                                                              add( new MPCheckBox( MPStrings.MOLECULAR_DIPOLE, viewProperties.molecularDipoleVisible ) );
                                                              add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
                                                          }},
+                                                         // Electric Field
                                                          new EFieldControlPanel( model.eField.enabled ) );
 
         // rendering order
