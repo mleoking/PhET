@@ -10,21 +10,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * PushpinNode represents the pushpin used to "pin" an atom in one location.
- *
  */
 public class PushpinNode extends PComposite {
 
     public PushpinNode() {
         super();
-        
+
         setPickable( false );
         setChildrenPickable( false );
-        
+
         PImage imageNode = new PImage( StatesOfMatterResources.getImage( StatesOfMatterConstants.PUSH_PIN_IMAGE ) );
         // move origin to the point of the pin, at lower right
         PBounds b = imageNode.getFullBoundsReference();
         imageNode.setOffset( -b.getWidth(), -b.getHeight() );
-        
+
         addChild( imageNode );
     }
 }

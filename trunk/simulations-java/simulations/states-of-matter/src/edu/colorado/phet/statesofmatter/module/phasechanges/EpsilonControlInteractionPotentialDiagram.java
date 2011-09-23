@@ -38,8 +38,8 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     private static final Color RESIZE_HANDLE_HIGHLIGHTED_COLOR = Color.YELLOW;
     private static final float EPSILON_LINE_WIDTH = 1f;
     private static Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH );
-    private static final Color EPSILON_LINE_COLOR = RESIZE_HANDLE_NORMAL_COLOR; 
-    
+    private static final Color EPSILON_LINE_COLOR = RESIZE_HANDLE_NORMAL_COLOR;
+
     //-----------------------------------------------------------------------------
     // Instance Data
     //-----------------------------------------------------------------------------
@@ -61,34 +61,35 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
      * @param epsilon
      * @param wide    - True if the widescreen version of the graph is needed, false if not.
      */
-    public EpsilonControlInteractionPotentialDiagram(double sigma, double epsilon, boolean wide, 
-            final MultipleParticleModel model) {
-        
-        super(sigma, epsilon, wide, true);
-        
+    public EpsilonControlInteractionPotentialDiagram( double sigma, double epsilon, boolean wide,
+                                                      final MultipleParticleModel model ) {
+
+        super( sigma, epsilon, wide, true );
+
         this.m_model = model;
-        model.addListener(new MultipleParticleModel.Adapter(){
+        model.addListener( new MultipleParticleModel.Adapter() {
             public void interactionStrengthChanged() {
                 setLjPotentialParameters( m_model.getSigma(), m_model.getEpsilon() );
             }
+
             public void moleculeTypeChanged() {
                 updateInteractivityState();
                 drawPotentialCurve();
             }
-        });
-        
+        } );
+
         // Create the handler for events that indicate that the user is
         // changing the value of epsilon.
-        m_epsilonChangeHandler = new PBasicInputEventHandler(){
-            public void mouseDragged(PInputEvent event) {
+        m_epsilonChangeHandler = new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
                 PNode draggedNode = event.getPickedNode();
-                PDimension d = event.getDeltaRelativeTo(draggedNode);
-                draggedNode.localToParent(d);
-                double scaleFactor = StatesOfMatterConstants.MAX_EPSILON / (getGraphHeight() / 2);
+                PDimension d = event.getDeltaRelativeTo( draggedNode );
+                draggedNode.localToParent( d );
+                double scaleFactor = StatesOfMatterConstants.MAX_EPSILON / ( getGraphHeight() / 2 );
                 m_model.setEpsilon( m_model.getEpsilon() + d.getHeight() * scaleFactor );
             }
         };
-        
+
         // Add the line that will indicate the value of epsilon.
         double epsilonLineLength = EPSILON_HANDLE_OFFSET_PROPORTION * m_width * 2.2;
         m_epsilonLine = new PPath( new Line2D.Double( -epsilonLineLength / 3, 0, epsilonLineLength / 2, 0 ) );
@@ -97,14 +98,14 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         m_epsilonLine.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         m_epsilonLine.addInputEventListener( m_epsilonChangeHandler );
         m_ljPotentialGraph.addChild( m_epsilonLine );
-        
+
         // Add the arrow node that will allow the user to control the value of
         // the epsilon parameter.
-        m_epsilonResizeHandle = new ResizeArrowNode(RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI/2,
-        		RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR);
+        m_epsilonResizeHandle = new ResizeArrowNode( RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI / 2,
+                                                     RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR );
         m_ljPotentialGraph.addChild( m_epsilonResizeHandle );
         m_epsilonResizeHandle.addInputEventListener( m_epsilonChangeHandler );
-        
+
         // Update interactivity state.
         updateInteractivityState();
     }
@@ -123,19 +124,19 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
      * the user to interact with the graph.
      */
     protected void drawPotentialCurve() {
-        
+
         // The bulk of the drawing is done by the base class.
         super.drawPotentialCurve();
-        
+
         // Now position the control handles.
-        if (m_epsilonResizeHandle != null){
+        if ( m_epsilonResizeHandle != null ) {
             Point2D graphMin = getGraphMin();
-            m_epsilonResizeHandle.setOffset( graphMin.getX() + (m_width * EPSILON_HANDLE_OFFSET_PROPORTION), 
-                    graphMin.getY() );
+            m_epsilonResizeHandle.setOffset( graphMin.getX() + ( m_width * EPSILON_HANDLE_OFFSET_PROPORTION ),
+                                             graphMin.getY() );
             m_epsilonResizeHandle.setVisible( m_interactionEnabled );
             m_epsilonResizeHandle.setPickable( m_interactionEnabled );
             m_epsilonResizeHandle.setChildrenPickable( m_interactionEnabled );
-            
+
             m_epsilonLine.setOffset( graphMin.getX(), graphMin.getY() + EPSILON_LINE_WIDTH );
             m_epsilonLine.setVisible( m_interactionEnabled );
             m_epsilonLine.setPickable( m_interactionEnabled );
@@ -147,11 +148,11 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     //-----------------------------------------------------------------------------
 
     private void updateInteractivityState() {
-        if (m_model.getMoleculeType() != StatesOfMatterConstants.USER_DEFINED_MOLECULE){
+        if ( m_model.getMoleculeType() != StatesOfMatterConstants.USER_DEFINED_MOLECULE ) {
             m_interactionEnabled = false;
         }
-        else{
+        else {
             m_interactionEnabled = true;
         }
-    }    
+    }
 }

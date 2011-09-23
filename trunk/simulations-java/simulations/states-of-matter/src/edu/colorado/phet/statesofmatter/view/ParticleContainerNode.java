@@ -32,11 +32,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author John Blanco
  */
 public class ParticleContainerNode extends PhetPNode {
-    
-	//----------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-    
+
     // Constants that control whether the container is drawn using Java2D,
     // whether it is loaded as a single image, or whether it is loaded as
     // several image pieces.  TODO:  JPB TBD - This has been implemented to
@@ -52,10 +52,10 @@ public class ParticleContainerNode extends PhetPNode {
     // Constants that control the appearance of the drawn container.
     private static final Color CONTAINER_EDGE_COLOR = Color.YELLOW;
     private static final float CONTAINER_LINE_WIDTH = 100;
-    private static final Stroke CONTAINER_EDGE_STROKE = new BasicStroke(CONTAINER_LINE_WIDTH);
-    private static final Stroke HIDDEN_CONTAINER_EDGE_STROKE = new BasicStroke(CONTAINER_LINE_WIDTH / 4,
-            BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,0, new float[] {CONTAINER_LINE_WIDTH, CONTAINER_LINE_WIDTH}, 0);
-    
+    private static final Stroke CONTAINER_EDGE_STROKE = new BasicStroke( CONTAINER_LINE_WIDTH );
+    private static final Stroke HIDDEN_CONTAINER_EDGE_STROKE = new BasicStroke( CONTAINER_LINE_WIDTH / 4,
+                                                                                BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { CONTAINER_LINE_WIDTH, CONTAINER_LINE_WIDTH }, 0 );
+
     // Constants that control the appearance of the image.
     private static final String CONTAINER_FRONT_IMAGE_NAME = "cup_3D_front_70_split.png";
     private static final String CONTAINER_FRONT_LEFT_IMAGE_NAME = "cup_3D_front_70_split_left.png";
@@ -64,20 +64,20 @@ public class ParticleContainerNode extends PhetPNode {
     private static final String CONTAINER_FRONT_BOTTOM_IMAGE_NAME = "cup_3D_front_70_split_bottom.png";
     private static final String CONTAINER_BACK_TOP_IMAGE_NAME = "cup_3D_top_70_fragment.png";
     private static final String LID_IMAGE_NAME = "cup_3D_cap_70.png";
-//    private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_solid_light.png";
+    //    private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_solid_light.png";
     private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_light.jpg";
     private static final double LID_POSITION_TWEAK_FACTOR = 65; // Empirically determined value for aligning lid and container body.
     private static final double FRONT_TOP_IMAGE_OFFSET_TWEAK = 19; // Empirically determined value for position corresponding fragment.
     private static final double FRONT_BOTTOM_IMAGE_OFFSET_TWEAK = 17; // Empirically determined value for position corresponding fragment.
-    
+
     // Constant(s) that affect the appearance of both depictions of the container.
     private static final double ELLIPSE_HEIGHT_PROPORTION = 0.15;  // Height of ellipses as a function of overall height.
     private static final double PRESSURE_GAUGE_WIDTH_PROPORTION = 0.44;
-    
+
     // Constants the control the positioning of non-container portions of this node.
     private static final double PRESSURE_GAUGE_Y_OFFSET = -3000;
     private static final double PRESSURE_METER_X_OFFSET_PROPORTION = 0.80;
-    
+
     // Maximum value expected for pressure, in atmospheres.
     private final double MAX_PRESSURE = 200;
 
@@ -103,42 +103,45 @@ public class ParticleContainerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-    
-    public ParticleContainerNode(MultipleParticleModel model, ModelViewTransform mvt, 
-    		boolean volumeControlEnabled, boolean pressureGaugeEnabled) {
-        
+
+    public ParticleContainerNode( MultipleParticleModel model, ModelViewTransform mvt,
+                                  boolean volumeControlEnabled, boolean pressureGaugeEnabled ) {
+
         m_model = model;
         m_mvt = mvt;
-        m_containmentAreaWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
+        m_containmentAreaWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
         m_containmentAreaHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
         m_rand = new Random();
-        
+
         // Set ourself up as a listener to the model.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void particleAdded(StatesOfMatterAtom particle){
-                if (particle instanceof HydrogenAtom){
-                    m_lowerParticleLayer.addChild( new ParticleNode(particle, m_mvt));
+        m_model.addListener( new MultipleParticleModel.Adapter() {
+            public void particleAdded( StatesOfMatterAtom particle ) {
+                if ( particle instanceof HydrogenAtom ) {
+                    m_lowerParticleLayer.addChild( new ParticleNode( particle, m_mvt ) );
                 }
-                else{
-                    m_upperParticleLayer.addChild( new ParticleNode(particle, m_mvt));
+                else {
+                    m_upperParticleLayer.addChild( new ParticleNode( particle, m_mvt ) );
                 }
             }
-            public void containerSizeChanged(){
+
+            public void containerSizeChanged() {
                 handleContainerSizeChanged();
             }
-            public void pressureChanged(){
-            	if (m_pressureMeter != null){
-            		m_pressureMeter.setValue(m_model.getPressureInAtmospheres());
-            	}
+
+            public void pressureChanged() {
+                if ( m_pressureMeter != null ) {
+                    m_pressureMeter.setValue( m_model.getPressureInAtmospheres() );
+                }
             }
-            public void containerExploded(){
-            	m_containerHeightAtExplosion = m_model.getParticleContainerHeight();
-            	m_rotationAmount = Math.PI/100 + (m_rand.nextDouble() * Math.PI/50);
-            	if (m_rand.nextBoolean()){
-            		m_rotationAmount = -m_rotationAmount;
-            	}
+
+            public void containerExploded() {
+                m_containerHeightAtExplosion = m_model.getParticleContainerHeight();
+                m_rotationAmount = Math.PI / 100 + ( m_rand.nextDouble() * Math.PI / 50 );
+                if ( m_rand.nextBoolean() ) {
+                    m_rotationAmount = -m_rotationAmount;
+                }
             }
-        });
+        } );
 
         // Create the "layer" nodes in the appropriate order so that the
         // various components of this node can be added appropriately.
@@ -164,43 +167,43 @@ public class ParticleContainerNode extends PhetPNode {
         m_topContainerLayer.setPickable( false );
         m_topContainerLayer.setChildrenPickable( false );
         addChild( m_topContainerLayer );
-        
+
         // Create the visual representation of the container.
-        if (CONTAINER_TYPE == SINGLE_IMAGE_CONTAINER){
+        if ( CONTAINER_TYPE == SINGLE_IMAGE_CONTAINER ) {
             loadSingleContainerImage();
         }
-        else if ( CONTAINER_TYPE == MULTI_IMAGE_CONTAINER ){
+        else if ( CONTAINER_TYPE == MULTI_IMAGE_CONTAINER ) {
             loadMultipleContainerImages();
         }
-        else{
+        else {
             drawContainer();
         }
-        
-        if (volumeControlEnabled){
+
+        if ( volumeControlEnabled ) {
             // Add the finger for pressing down on the top of the container.
             PointingHandNode fingerNode = new PointingHandNode( m_model );
             // Note that this node will set its own offset, since it has to be
             // responsible for positioning itself later based on user interaction.
             m_middleContainerLayer.addChild( fingerNode );
-            
+
             // Add the handle to the lid.
-            HandleNode handleNode = new HandleNode(50, 100, Color.YELLOW);
+            HandleNode handleNode = new HandleNode( 50, 100, Color.YELLOW );
             handleNode.rotate( Math.PI / 2 );
-            handleNode.setOffset( (m_containerLid.getWidth() / 2) + (handleNode.getFullBoundsReference().width / 2), 0 );
+            handleNode.setOffset( ( m_containerLid.getWidth() / 2 ) + ( handleNode.getFullBoundsReference().width / 2 ), 0 );
             m_containerLid.addChild( handleNode );
         }
-        
-        if (pressureGaugeEnabled){
+
+        if ( pressureGaugeEnabled ) {
             // Add the pressure meter.
-            m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH_PROPORTION * m_containmentAreaWidth, 
-            		StatesOfMatterStrings.PRESSURE_GAUGE_TITLE, 0, MAX_PRESSURE, 
-            		StatesOfMatterStrings.PRESSURE_GAUGE_UNITS);
-            m_pressureMeter.setElbowEnabled(true);
+            m_pressureMeter = new DialGaugeNode( PRESSURE_GAUGE_WIDTH_PROPORTION * m_containmentAreaWidth,
+                                                 StatesOfMatterStrings.PRESSURE_GAUGE_TITLE, 0, MAX_PRESSURE,
+                                                 StatesOfMatterStrings.PRESSURE_GAUGE_UNITS );
+            m_pressureMeter.setElbowEnabled( true );
             m_middleContainerLayer.addChild( m_pressureMeter );
             updatePressureGauge();
-            m_pressureMeterElbowOffset =  m_pressureMeter.getFullBoundsReference().getCenterY();
+            m_pressureMeterElbowOffset = m_pressureMeter.getFullBoundsReference().getCenterY();
         }
-        
+
         // Position this node so that the origin of the canvas, i.e. position
         // x=0, y=0, is at the lower left corner of the container.
         double xPos = 0;
@@ -214,86 +217,86 @@ public class ParticleContainerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Public Methods
     //----------------------------------------------------------------------------
-    
-    public void reset(){
+
+    public void reset() {
         // Stubbed for now.
     }
-    
+
     //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Handle a notification that the container size has changed.
      */
-    private void handleContainerSizeChanged(){
+    private void handleContainerSizeChanged() {
         // IMPORTANT NOTE: This routine assumes that only the height of the
         // container can change, since this was true when this routine was
         // created and it isn't worth the effort to make it more general.  If
         // this assumption is ever invalidated, this routine will need to be
         // changed.
         double containerHeight = m_model.getParticleContainerHeight();
-        if (!m_model.getContainerExploded()){
-        	if (m_containerLid.getRotation() != 0){
-        		m_containerLid.setRotation(0);
-        	}
-        	m_containerLid.setOffset(( m_containmentAreaWidth - m_containerLid.getFullBoundsReference().width) / 2, 
-        			m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR);
+        if ( !m_model.getContainerExploded() ) {
+            if ( m_containerLid.getRotation() != 0 ) {
+                m_containerLid.setRotation( 0 );
+            }
+            m_containerLid.setOffset( ( m_containmentAreaWidth - m_containerLid.getFullBoundsReference().width ) / 2,
+                                      m_containmentAreaHeight - containerHeight - ( m_containerLid.getFullBoundsReference().height / 2 ) + LID_POSITION_TWEAK_FACTOR );
         }
         else {
-        	// Rotate the lid to create the visual appearance of it being
-        	// blown off the top of the container.
-        	m_containerLid.rotateAboutPoint(m_rotationAmount, (m_containmentAreaWidth / 2) / m_containerLid.getScale(), 0);
-        	double centerPosY = m_containmentAreaHeight - containerHeight - (m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR;
-        	double currentPosY = m_containerLid.getOffset().getY();
-        	double newPosX = m_containerLid.getOffset().getX();
-        	double newPosY;
-        	if ( currentPosY > centerPosY ){
-        		newPosY = centerPosY;
-        	}
-        	else{
-        		newPosY = currentPosY;
-        	}
-        	m_containerLid.setOffset(newPosX , newPosY);
+            // Rotate the lid to create the visual appearance of it being
+            // blown off the top of the container.
+            m_containerLid.rotateAboutPoint( m_rotationAmount, ( m_containmentAreaWidth / 2 ) / m_containerLid.getScale(), 0 );
+            double centerPosY = m_containmentAreaHeight - containerHeight - ( m_containerLid.getFullBoundsReference().height / 2 ) + LID_POSITION_TWEAK_FACTOR;
+            double currentPosY = m_containerLid.getOffset().getY();
+            double newPosX = m_containerLid.getOffset().getX();
+            double newPosY;
+            if ( currentPosY > centerPosY ) {
+                newPosY = centerPosY;
+            }
+            else {
+                newPosY = currentPosY;
+            }
+            m_containerLid.setOffset( newPosX, newPosY );
         }
-        
+
         updatePressureGauge();
     }
-    
+
     private void drawContainer() {
         // Create the bottom of the container, which will appear below (or
         // behind) the particles in the Z-order.
-        
+
         double ellipseHeight = m_containmentAreaHeight * ELLIPSE_HEIGHT_PROPORTION;
-        
+
         // Create the bottom of the container.
-        PPath hiddenContainerEdge = new PPath(new Ellipse2D.Double(0, 0, m_containmentAreaWidth, ellipseHeight));
+        PPath hiddenContainerEdge = new PPath( new Ellipse2D.Double( 0, 0, m_containmentAreaWidth, ellipseHeight ) );
         hiddenContainerEdge.setStroke( HIDDEN_CONTAINER_EDGE_STROKE );
         hiddenContainerEdge.setStrokePaint( CONTAINER_EDGE_COLOR );
         m_bottomContainerLayer.addChild( hiddenContainerEdge );
 
-        Ellipse2D outerEllipse = new Ellipse2D.Double( -CONTAINER_LINE_WIDTH / 2, -CONTAINER_LINE_WIDTH / 2, 
-                m_containmentAreaWidth + CONTAINER_LINE_WIDTH, ellipseHeight + CONTAINER_LINE_WIDTH );
-        Ellipse2D innerEllipse = new Ellipse2D.Double( CONTAINER_LINE_WIDTH / 2, CONTAINER_LINE_WIDTH / 2, 
-                m_containmentAreaWidth - CONTAINER_LINE_WIDTH, ellipseHeight - CONTAINER_LINE_WIDTH );
-        Rectangle2D topHalfRect = new Rectangle2D.Double(-CONTAINER_LINE_WIDTH / 2, -CONTAINER_LINE_WIDTH / 2,
-                m_containmentAreaWidth + CONTAINER_LINE_WIDTH, ellipseHeight / 2);
-        Area bottomEdgeArea = new Area(outerEllipse);
-        bottomEdgeArea.subtract( new Area(innerEllipse) );
-        bottomEdgeArea.subtract( new Area(topHalfRect) );
-        PPath bottomFrontContainerEdge = new PPath(bottomEdgeArea);
+        Ellipse2D outerEllipse = new Ellipse2D.Double( -CONTAINER_LINE_WIDTH / 2, -CONTAINER_LINE_WIDTH / 2,
+                                                       m_containmentAreaWidth + CONTAINER_LINE_WIDTH, ellipseHeight + CONTAINER_LINE_WIDTH );
+        Ellipse2D innerEllipse = new Ellipse2D.Double( CONTAINER_LINE_WIDTH / 2, CONTAINER_LINE_WIDTH / 2,
+                                                       m_containmentAreaWidth - CONTAINER_LINE_WIDTH, ellipseHeight - CONTAINER_LINE_WIDTH );
+        Rectangle2D topHalfRect = new Rectangle2D.Double( -CONTAINER_LINE_WIDTH / 2, -CONTAINER_LINE_WIDTH / 2,
+                                                          m_containmentAreaWidth + CONTAINER_LINE_WIDTH, ellipseHeight / 2 );
+        Area bottomEdgeArea = new Area( outerEllipse );
+        bottomEdgeArea.subtract( new Area( innerEllipse ) );
+        bottomEdgeArea.subtract( new Area( topHalfRect ) );
+        PPath bottomFrontContainerEdge = new PPath( bottomEdgeArea );
         bottomFrontContainerEdge.setPaint( CONTAINER_EDGE_COLOR );
         m_bottomContainerLayer.addChild( bottomFrontContainerEdge );
 
-        m_bottomContainerLayer.setOffset( 0, m_containmentAreaHeight - (ellipseHeight / 2) );
+        m_bottomContainerLayer.setOffset( 0, m_containmentAreaHeight - ( ellipseHeight / 2 ) );
 
         // Create the lid of the container, which will appear above the
         // particles in the Z-order.
 
-        PPath containerTop = new PPath( new Ellipse2D.Double(0, 0, m_containmentAreaWidth, ellipseHeight) );
+        PPath containerTop = new PPath( new Ellipse2D.Double( 0, 0, m_containmentAreaWidth, ellipseHeight ) );
         containerTop.setStroke( CONTAINER_EDGE_STROKE );
         containerTop.setStrokePaint( CONTAINER_EDGE_COLOR );
-        HandleNode containerTopHandle = new HandleNode(m_containmentAreaWidth * 0.18, m_containmentAreaHeight * 0.05, Color.RED);
+        HandleNode containerTopHandle = new HandleNode( m_containmentAreaWidth * 0.18, m_containmentAreaHeight * 0.05, Color.RED );
         m_containerLid = new PNode();
         m_containerLid.setPickable( false );
         m_containerLid.setChildrenPickable( false );
@@ -301,137 +304,137 @@ public class ParticleContainerNode extends PhetPNode {
         m_containerLid.addChild( containerTopHandle );
         m_middleContainerLayer.addChild( m_containerLid );
         m_containerLid.setOffset( 0, -ellipseHeight / 2 );
-        
+
         // Create the left and right edges of the container.
-        
-        PPath containerLeftSide = new PPath( new Line2D.Double(0, 0, 0, m_containmentAreaHeight) );
+
+        PPath containerLeftSide = new PPath( new Line2D.Double( 0, 0, 0, m_containmentAreaHeight ) );
         containerLeftSide.setStroke( CONTAINER_EDGE_STROKE );
         containerLeftSide.setStrokePaint( CONTAINER_EDGE_COLOR );
         m_topContainerLayer.addChild( containerLeftSide );
-        
-        PPath containerRightSide = 
-            new PPath( new Line2D.Double(m_containmentAreaWidth, 0, m_containmentAreaWidth, m_containmentAreaHeight) );
+
+        PPath containerRightSide =
+                new PPath( new Line2D.Double( m_containmentAreaWidth, 0, m_containmentAreaWidth, m_containmentAreaHeight ) );
         containerRightSide.setStroke( CONTAINER_EDGE_STROKE );
         containerRightSide.setStrokePaint( CONTAINER_EDGE_COLOR );
         m_topContainerLayer.addChild( containerRightSide );
     }
 
-    private void loadSingleContainerImage(){
-        
+    private void loadSingleContainerImage() {
+
         // Load the image that will be used for the front of the container.
-        PImage containerImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_IMAGE_NAME);
-        
+        PImage containerImageNode = StatesOfMatterResources.getImageNode( CONTAINER_FRONT_IMAGE_NAME );
+
         // Scale the container image based on the size of the container.
         containerImageNode.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
-        
+
         // Add the image to the top layer node.
-        m_topContainerLayer.addChild(containerImageNode);
+        m_topContainerLayer.addChild( containerImageNode );
         containerImageNode.setOffset( 0, 0 );
-        
+
         // Add the lid of the container.
-        m_containerLid = StatesOfMatterResources.getImageNode(LID_IMAGE_NAME);
+        m_containerLid = StatesOfMatterResources.getImageNode( LID_IMAGE_NAME );
         m_containerLid.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
         m_containerLid.setPickable( false );
         m_middleContainerLayer.addChild( m_containerLid );
-        m_containerLid.setOffset( 0, (-m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR );
+        m_containerLid.setOffset( 0, ( -m_containerLid.getFullBoundsReference().height / 2 ) + LID_POSITION_TWEAK_FACTOR );
 
-        if (LOAD_CONTAINER_BACKGROUND_IMAGE){
+        if ( LOAD_CONTAINER_BACKGROUND_IMAGE ) {
             // Load the image that will be used for the back of the container.
-            PImage containerBackImageNode = StatesOfMatterResources.getImageNode(CONTAINER_BACK_IMAGE_NAME);
-            
+            PImage containerBackImageNode = StatesOfMatterResources.getImageNode( CONTAINER_BACK_IMAGE_NAME );
+
             // Scale the container image based on the size of the container.
             containerBackImageNode.setScale( m_containmentAreaWidth / containerBackImageNode.getFullBoundsReference().width );
-            
+
             // Add the image to the bottom layer node.
-            m_bottomContainerLayer.addChild(containerBackImageNode);
-            containerBackImageNode.setOffset( 0, -(m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2) );
+            m_bottomContainerLayer.addChild( containerBackImageNode );
+            containerBackImageNode.setOffset( 0, -( m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2 ) );
         }
     }
-    
-    private void loadMultipleContainerImages(){
-        
+
+    private void loadMultipleContainerImages() {
+
         // Load the images that will make up the container.
-        PImage containerLeftSideImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_LEFT_IMAGE_NAME);
-        PImage containerRightSideImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_RIGHT_IMAGE_NAME);
-        PImage containerBottomImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_BOTTOM_IMAGE_NAME);
-        PImage containerTopImageNode = StatesOfMatterResources.getImageNode(CONTAINER_FRONT_TOP_IMAGE_NAME);
-        
+        PImage containerLeftSideImageNode = StatesOfMatterResources.getImageNode( CONTAINER_FRONT_LEFT_IMAGE_NAME );
+        PImage containerRightSideImageNode = StatesOfMatterResources.getImageNode( CONTAINER_FRONT_RIGHT_IMAGE_NAME );
+        PImage containerBottomImageNode = StatesOfMatterResources.getImageNode( CONTAINER_FRONT_BOTTOM_IMAGE_NAME );
+        PImage containerTopImageNode = StatesOfMatterResources.getImageNode( CONTAINER_FRONT_TOP_IMAGE_NAME );
+
         // Create a single PNode to contain these images, and add the images to it.
         PNode containerNode = new PNode();
         containerNode.addChild( containerLeftSideImageNode );
         containerNode.addChild( containerTopImageNode );
-        containerTopImageNode.setOffset( containerLeftSideImageNode.getFullBoundsReference().width, 
-                FRONT_TOP_IMAGE_OFFSET_TWEAK );
+        containerTopImageNode.setOffset( containerLeftSideImageNode.getFullBoundsReference().width,
+                                         FRONT_TOP_IMAGE_OFFSET_TWEAK );
         containerNode.addChild( containerBottomImageNode );
         containerBottomImageNode.setOffset( containerLeftSideImageNode.getFullBoundsReference().width,
-                containerLeftSideImageNode.getFullBoundsReference().height - 
-                containerBottomImageNode.getFullBoundsReference().height + FRONT_BOTTOM_IMAGE_OFFSET_TWEAK);
+                                            containerLeftSideImageNode.getFullBoundsReference().height -
+                                            containerBottomImageNode.getFullBoundsReference().height + FRONT_BOTTOM_IMAGE_OFFSET_TWEAK );
         containerNode.addChild( containerRightSideImageNode );
         containerRightSideImageNode.setOffset( containerBottomImageNode.getFullBoundsReference().getMaxX(), 0 );
-        
+
         // Scale the container node based on the size of the container.
         containerNode.setScale( m_containmentAreaWidth / containerNode.getFullBoundsReference().width );
-        
+
         // Add the image to the top layer node.
-        m_topContainerLayer.addChild(containerNode);
+        m_topContainerLayer.addChild( containerNode );
         containerNode.setOffset( 0, 0 );
-        
+
         // Add the lid of the container.
-        m_containerLid = StatesOfMatterResources.getImageNode(LID_IMAGE_NAME);
+        m_containerLid = StatesOfMatterResources.getImageNode( LID_IMAGE_NAME );
         m_containerLid.setScale( m_containmentAreaWidth / m_containerLid.getFullBoundsReference().width );
         m_containerLid.setPickable( false );
         m_middleContainerLayer.addChild( m_containerLid );
-        m_containerLid.setOffset( 0, (-m_containerLid.getFullBoundsReference().height / 2) + LID_POSITION_TWEAK_FACTOR );
+        m_containerLid.setOffset( 0, ( -m_containerLid.getFullBoundsReference().height / 2 ) + LID_POSITION_TWEAK_FACTOR );
 
-        if (LOAD_CONTAINER_BACKGROUND_IMAGE){
+        if ( LOAD_CONTAINER_BACKGROUND_IMAGE ) {
             // Load the image that will be used for the back of the container.
-            PImage containerBackImageNode = StatesOfMatterResources.getImageNode(CONTAINER_BACK_IMAGE_NAME);
-            
+            PImage containerBackImageNode = StatesOfMatterResources.getImageNode( CONTAINER_BACK_IMAGE_NAME );
+
             // Scale the container image based on the size of the container.
             containerBackImageNode.setScale( m_containmentAreaWidth / containerBackImageNode.getFullBoundsReference().width );
-            
+
             // Add the image to the bottom layer node.
-            m_bottomContainerLayer.addChild(containerBackImageNode);
-            containerBackImageNode.setOffset( 0, -(m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2) );
+            m_bottomContainerLayer.addChild( containerBackImageNode );
+            containerBackImageNode.setOffset( 0, -( m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2 ) );
         }
         else {
             // Just load an image for the back of the top.
-            PImage containerTopBackImageNode = StatesOfMatterResources.getImageNode(CONTAINER_BACK_TOP_IMAGE_NAME);
-            
+            PImage containerTopBackImageNode = StatesOfMatterResources.getImageNode( CONTAINER_BACK_TOP_IMAGE_NAME );
+
             // Scale the container image based on the size of the container.
             containerTopBackImageNode.setScale( m_containmentAreaWidth / containerTopBackImageNode.getFullBoundsReference().width );
-            
+
             // Add the image to the bottom layer node.
-            m_bottomContainerLayer.addChild(containerTopBackImageNode);
-            containerTopBackImageNode.setOffset( 0, -(m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2) );
+            m_bottomContainerLayer.addChild( containerTopBackImageNode );
+            containerTopBackImageNode.setOffset( 0, -( m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2 ) );
         }
     }
-    
+
     /**
      * Update the position and other aspects of the gauge so that it stays
      * connected to the lid or moves as it should when the container
      * explodes.
      */
-    private void updatePressureGauge(){
-    	
-    	if (m_pressureMeter != null){
-	        Rectangle2D containerRect = m_model.getParticleContainerRect();
-	
-	        if (!m_model.getContainerExploded()){
-	            if (m_pressureMeter.getRotation() != 0){
-	            	m_pressureMeter.setRotation(0);
-	            }
-	            m_pressureMeter.setOffset(-m_pressureMeter.getFullBoundsReference().width * PRESSURE_METER_X_OFFSET_PROPORTION,
-	            		PRESSURE_GAUGE_Y_OFFSET);
-	            m_pressureMeter.setElbowHeight(StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT - 
-	            		containerRect.getHeight() - m_pressureMeterElbowOffset);
-	        }
-	        else{
-	        	// The container is exploding, so spin and move the gauge.
-	        	m_pressureMeter.rotateInPlace(-Math.PI / 20);
-	            m_pressureMeter.setOffset(-m_pressureMeter.getFullBoundsReference().width * PRESSURE_METER_X_OFFSET_PROPORTION, 
-	            		PRESSURE_GAUGE_Y_OFFSET - m_model.getParticleContainerHeight() + m_containerHeightAtExplosion );
-	        }
-    	}
+    private void updatePressureGauge() {
+
+        if ( m_pressureMeter != null ) {
+            Rectangle2D containerRect = m_model.getParticleContainerRect();
+
+            if ( !m_model.getContainerExploded() ) {
+                if ( m_pressureMeter.getRotation() != 0 ) {
+                    m_pressureMeter.setRotation( 0 );
+                }
+                m_pressureMeter.setOffset( -m_pressureMeter.getFullBoundsReference().width * PRESSURE_METER_X_OFFSET_PROPORTION,
+                                           PRESSURE_GAUGE_Y_OFFSET );
+                m_pressureMeter.setElbowHeight( StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT -
+                                                containerRect.getHeight() - m_pressureMeterElbowOffset );
+            }
+            else {
+                // The container is exploding, so spin and move the gauge.
+                m_pressureMeter.rotateInPlace( -Math.PI / 20 );
+                m_pressureMeter.setOffset( -m_pressureMeter.getFullBoundsReference().width * PRESSURE_METER_X_OFFSET_PROPORTION,
+                                           PRESSURE_GAUGE_Y_OFFSET - m_model.getParticleContainerHeight() + m_containerHeightAtExplosion );
+            }
+        }
     }
 }

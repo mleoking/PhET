@@ -10,27 +10,27 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 /**
  * This class is used to create an instance of the desired type of atom.
- * 
+ *
  * @author John Blanco
  */
 public class AtomFactory {
 
-	public static StatesOfMatterAtom createAtom( AtomType atomType ){
-		StatesOfMatterAtom atom = null;
-		
-        if (atomType == AtomType.ADJUSTABLE){
-            atom = new ConfigurableStatesOfMatterAtom(0, 0);
+    public static StatesOfMatterAtom createAtom( AtomType atomType ) {
+        StatesOfMatterAtom atom = null;
+
+        if ( atomType == AtomType.ADJUSTABLE ) {
+            atom = new ConfigurableStatesOfMatterAtom( 0, 0 );
         }
-        else if (atomType == AtomType.ARGON){
-            atom = new ArgonAtom(0, 0);
+        else if ( atomType == AtomType.ARGON ) {
+            atom = new ArgonAtom( 0, 0 );
         }
-        else if (atomType == AtomType.NEON){
-            atom = new NeonAtom(0, 0);
+        else if ( atomType == AtomType.NEON ) {
+            atom = new NeonAtom( 0, 0 );
         }
-        else if (atomType == AtomType.OXYGEN){
-            atom = new OxygenAtom(0, 0);
+        else if ( atomType == AtomType.OXYGEN ) {
+            atom = new OxygenAtom( 0, 0 );
         }
-        
+
         return atom;
-	}
+    }
 }

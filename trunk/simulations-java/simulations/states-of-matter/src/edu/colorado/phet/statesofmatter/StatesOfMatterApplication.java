@@ -34,8 +34,8 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     //----------------------------------------------------------------------------
 
     private SolidLiquidGasModule m_solidLiquidGasModule;
-    private PhaseChangesModule   m_phaseChangesModule;
-    private AtomicInteractionsModule   m_interactionPotentialModule;
+    private PhaseChangesModule m_phaseChangesModule;
+    private AtomicInteractionsModule m_interactionPotentialModule;
 
     //----------------------------------------------------------------------------
     // Sole Constructor
@@ -95,7 +95,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         };
 
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, StatesOfMatterConstants.PROJECT_NAME,
-        		StatesOfMatterConstants.FLAVOR_STATES_OF_MATTER );
+                                                                     StatesOfMatterConstants.FLAVOR_STATES_OF_MATTER );
 
         PhetLookAndFeel p = new PhetLookAndFeel();
         p.setBackgroundColor( StatesOfMatterConstants.CONTROL_PANEL_COLOR );

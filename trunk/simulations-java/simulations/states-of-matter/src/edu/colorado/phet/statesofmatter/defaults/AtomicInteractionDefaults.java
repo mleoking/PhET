@@ -9,10 +9,11 @@ package edu.colorado.phet.statesofmatter.defaults;
  * @author John Blanco
  */
 public class AtomicInteractionDefaults {
-    
+
     /* Not intended for instantiation */
-    private AtomicInteractionDefaults() {}
-    
+    private AtomicInteractionDefaults() {
+    }
+
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
     public static final int CLOCK_FRAME_RATE = 25; // Frames per second.

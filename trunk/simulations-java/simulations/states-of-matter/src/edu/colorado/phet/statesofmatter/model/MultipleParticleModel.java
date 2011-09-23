@@ -4,18 +4,39 @@ package edu.colorado.phet.statesofmatter.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.model.engine.*;
+import edu.colorado.phet.statesofmatter.model.engine.AtomPositionUpdater;
+import edu.colorado.phet.statesofmatter.model.engine.DiatomicAtomPositionUpdater;
+import edu.colorado.phet.statesofmatter.model.engine.DiatomicPhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.DiatomicVerletAlgorithm;
+import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalculator;
+import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdater;
+import edu.colorado.phet.statesofmatter.model.engine.MonatomicPhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.MonatomicVerletAlgorithm;
+import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.WaterAtomPositionUpdater;
+import edu.colorado.phet.statesofmatter.model.engine.WaterPhaseStateChanger;
+import edu.colorado.phet.statesofmatter.model.engine.WaterVerletAlgorithm;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.AndersenThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.IsokineticThermostat;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.Thermostat;
-import edu.colorado.phet.statesofmatter.model.particle.*;
+import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom2;
+import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 /**
  * This is the main class for the model portion of the "States of Matter"

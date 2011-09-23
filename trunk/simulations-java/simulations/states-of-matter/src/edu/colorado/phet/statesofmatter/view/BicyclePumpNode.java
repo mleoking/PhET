@@ -78,7 +78,7 @@ public class BicyclePumpNode extends PNode {
         m_model = model;
         m_pumpingRequiredToInject = height * PUMPING_REQUIRED_TO_INJECT_PROPORTION;
         m_currentPumpingAmount = 0;
-        
+
         // Add the base of the pump.
         double pumpBaseWidth = width * PUMP_BASE_WIDTH_PROPORTION;
         double pumpBaseHeight = height * PUMP_BASE_HEIGHT_PROPORTION;
@@ -112,15 +112,15 @@ public class BicyclePumpNode extends PNode {
             public void drag( PInputEvent event ) {
                 PDimension d = event.getDeltaRelativeTo( m_pumpHandle );
                 m_pumpHandle.localToParent( d );
-                if ( ( m_currentHandleOffset + d.getHeight() >= m_maxHandleOffset ) && 
+                if ( ( m_currentHandleOffset + d.getHeight() >= m_maxHandleOffset ) &&
                      ( m_currentHandleOffset + d.getHeight() <= 0 ) ) {
                     m_pumpHandle.offset( 0, d.getHeight() );
                     m_pumpShaft.offset( 0, d.getHeight() );
                     m_currentHandleOffset += d.getHeight();
-                    if (d.getHeight() > 0){
+                    if ( d.getHeight() > 0 ) {
                         // This motion is in the pumping direction, so accumulate it.
                         m_currentPumpingAmount += d.getHeight();
-                        if (m_currentPumpingAmount >= m_pumpingRequiredToInject){
+                        if ( m_currentPumpingAmount >= m_pumpingRequiredToInject ) {
                             // Enough pumping has been done to inject a new particle.
                             m_model.injectMolecule();
                             m_currentPumpingAmount = 0;
@@ -164,9 +164,9 @@ public class BicyclePumpNode extends PNode {
         double pumpBodyWidth = width * PUMP_BODY_WIDTH_PROPORTION;
         double pumpBodyHeight = height * PUMP_BODY_HEIGHT_PROPORTION;
         PPath pumpBody = new PhetPPath( new Rectangle2D.Double( 0, 0, pumpBodyWidth, pumpBodyHeight ) );
-        GradientPaint pumpBodyPaint = new GradientPaint(0, (float)pumpBodyHeight/2, PUMP_BODY_COLOR, 
-        		(float)pumpBodyWidth, (float)pumpBodyHeight/2, Color.LIGHT_GRAY);
-        
+        GradientPaint pumpBodyPaint = new GradientPaint( 0, (float) pumpBodyHeight / 2, PUMP_BODY_COLOR,
+                                                         (float) pumpBodyWidth, (float) pumpBodyHeight / 2, Color.LIGHT_GRAY );
+
         pumpBody.setPaint( pumpBodyPaint );
         pumpBody.setOffset( width * PUMP_HORIZ_POSITION_PROPORTION - ( pumpBodyWidth / 2 ), height - pumpBodyHeight - pumpBaseHeight );
         pumpBody.setPickable( false );
