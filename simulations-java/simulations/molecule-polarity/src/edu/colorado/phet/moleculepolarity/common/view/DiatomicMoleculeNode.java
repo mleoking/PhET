@@ -8,7 +8,7 @@ import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 
 /**
  * Visual representation of a diatomic molecule.
- * Children are created in world coordinates, so this node's offset should be (0,0).
+ * Children position themselves in world coordinates, so this node's offset should be (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
