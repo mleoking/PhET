@@ -10,7 +10,8 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode;
-import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPCheckBox;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPVerticalPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.MolecularDipoleNode;
@@ -31,7 +32,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
 
     private static final double DIPOLE_SCALE = 1.0; // how much to scale the dipoles in the view
 
-    public ThreeAtomsCanvas( ThreeAtomsModel model, ViewProperties viewProperties, Frame parentFrame ) {
+    public ThreeAtomsCanvas( ThreeAtomsModel model, final ViewProperties viewProperties, Frame parentFrame ) {
 
         // nodes
         PNode negativePlateNode = new NegativePlateNode( model.eField );
@@ -46,8 +47,15 @@ public class ThreeAtomsCanvas extends MPCanvas {
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        PNode controlPanelNode = new MPControlPanelNode( parentFrame, new Resettable[] { model, viewProperties },
-                                                         new ViewControlPanel( viewProperties, true, false, false, false, MPStrings.BOND_DIPOLES ),
+
+        // floating control panel
+        PNode controlPanelNode = new MPControlPanelNode( parentFrame,
+                                                         new Resettable[] { model, viewProperties },
+                                                         new MPVerticalPanel( MPStrings.VIEW ) {{
+                                                             add( new MPCheckBox( MPStrings.BOND_DIPOLE, viewProperties.bondDipolesVisible ) );
+                                                             add( new MPCheckBox( MPStrings.MOLECULAR_DIPOLE, viewProperties.molecularDipoleVisible ) );
+                                                             add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
+                                                         }},
                                                          new EFieldControlPanel( model.eField.enabled ) );
 
         // rendering order

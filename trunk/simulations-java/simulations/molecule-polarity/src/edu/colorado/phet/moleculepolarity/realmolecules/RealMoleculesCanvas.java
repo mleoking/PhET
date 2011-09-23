@@ -12,9 +12,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPCheckBox;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPVerticalPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.ElectronegativityTableNode;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
@@ -45,8 +46,17 @@ public class RealMoleculesCanvas extends MPCanvas {
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode rainbowColorKeyNode = new RainbowElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
-        PNode controlPanelNode = new MPControlPanelNode( parentFrame, new Resettable[] { model, viewProperties },
-                                                         new ViewControlPanel( viewProperties, true, false, true, true, MPStrings.BOND_DIPOLES ),
+
+        // floating control panel
+        PNode controlPanelNode = new MPControlPanelNode( parentFrame,
+                                                         new Resettable[] { model, viewProperties },
+                                                         new MPVerticalPanel( MPStrings.VIEW ) {{
+                                                             add( new MPCheckBox( MPStrings.BOND_DIPOLE, viewProperties.bondDipolesVisible ) );
+                                                             add( new MPCheckBox( MPStrings.MOLECULAR_DIPOLE, viewProperties.molecularDipoleVisible ) );
+                                                             add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
+                                                             add( new MPCheckBox( MPStrings.ATOM_ELECTRONEGATIVITIES, viewProperties.electronegativityTableVisible ) );
+                                                             add( new MPCheckBox( MPStrings.ATOM_LABELS, viewProperties.atomLabelsVisible ) );
+                                                         }},
                                                          new SurfaceControlPanel( viewProperties.surfaceType ) );
 
         /*

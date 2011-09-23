@@ -12,8 +12,9 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPCheckBox;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPVerticalPanel;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondCharacterNode;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicElectronDensityNode;
@@ -38,7 +39,7 @@ public class TwoAtomsCanvas extends MPCanvas {
 
     private static final double DIPOLE_SCALE = 1.0; // how much to scale the dipoles in the view
 
-    public TwoAtomsCanvas( TwoAtomsModel model, ViewProperties viewProperties, Frame parentFrame ) {
+    public TwoAtomsCanvas( TwoAtomsModel model, final ViewProperties viewProperties, Frame parentFrame ) {
 
         // nodes
         PNode negativePlateNode = new NegativePlateNode( model.eField );
@@ -54,8 +55,15 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode bondTypeNode = new BondCharacterNode( model.molecule );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
-        PNode controlPanelNode = new MPControlPanelNode( parentFrame, new Resettable[] { model, viewProperties },
-                                                         new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE ),
+
+        // floating control panel
+        PNode controlPanelNode = new MPControlPanelNode( parentFrame,
+                                                         new Resettable[] { model, viewProperties },
+                                                         new MPVerticalPanel( MPStrings.VIEW ) {{
+                                                             add( new MPCheckBox( MPStrings.BOND_DIPOLE, viewProperties.bondDipolesVisible ) );
+                                                             add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
+                                                             add( new MPCheckBox( MPStrings.BOND_CHARACTER, viewProperties.bondCharacterVisible ) );
+                                                         }},
                                                          new SurfaceControlPanel( viewProperties.surfaceType ),
                                                          new EFieldControlPanel( model.eField.enabled ) );
 
