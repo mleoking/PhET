@@ -26,8 +26,9 @@ import com.jme3.system.JmeCanvasContext;
  */
 public abstract class JMEModule extends Module {
 
-    private final JMEModuleInputHandler inputHandler;
+    private JMEModuleInputHandler inputHandler;
     private List<AppState> states = new ArrayList<AppState>();
+    private List<JMEView> views = new ArrayList<JMEView>();
 
     private static PhetJMEApplication app = null;
     private static JmeCanvasContext context;
@@ -104,8 +105,6 @@ public abstract class JMEModule extends Module {
             } );
         }
 
-        inputHandler = new JMEModuleInputHandler( this, app.getInputManager() ); // TODO: we are passing so many partially-constructed objects...
-
         setSimulationPanel( new JPanel( new BorderLayout() ) {{
             if ( isFirstModule ) {
                 // add the actual panel in, since we are the top module
@@ -125,12 +124,20 @@ public abstract class JMEModule extends Module {
                 for ( AppState state : states ) {
                     app.getStateManager().attach( state );
                 }
+
+                for ( JMEView view : views ) {
+                    view.setVisible( true );
+                }
             }
 
             public void deactivated() {
                 // detach states from our application
                 for ( AppState state : states ) {
                     app.getStateManager().detach( state );
+                }
+
+                for ( JMEView view : views ) {
+                    view.setVisible( false );
                 }
             }
         } );
@@ -149,6 +156,7 @@ public abstract class JMEModule extends Module {
             // locking for the JME thread
             JMEUtils.invokeLater( new Runnable() {
                 public void run() {
+                    inputHandler = new JMEModuleInputHandler( JMEModule.this, app.getInputManager() ); // TODO: we are passing so many partially-constructed objects...
                     initialize();
 
                     if ( getCanvasSize() != null ) { // sanity check
@@ -187,20 +195,25 @@ public abstract class JMEModule extends Module {
 
     public JMEView createMainView( final String name, Camera camera ) {
         JMEView view = app.createMainView( name, camera );
-        // TODO: visibility toggling of the view depending on module active/inactive
+        addView( view );
         return view;
     }
 
     public JMEView createBackGUIView( final String name ) {
         JMEView view = app.createBackGUIView( name );
-        // TODO: visibility toggling of the view depending on module active/inactive
+        addView( view );
         return view;
     }
 
     public JMEView createFrontGUIView( final String name ) {
         JMEView view = app.createFrontGUIView( name );
-        // TODO: visibility toggling of the view depending on module active/inactive
+        addView( view );
         return view;
+    }
+
+    private void addView( JMEView view ) {
+        views.add( view );
+        view.setVisible( isActive() );
     }
 
     /*---------------------------------------------------------------------------*

@@ -30,4 +30,8 @@ public class JMEView {
     public Node getScene() {
         return scene;
     }
+
+    public void setVisible( boolean visible ) {
+        viewport.setEnabled( visible );
+    }
 }
