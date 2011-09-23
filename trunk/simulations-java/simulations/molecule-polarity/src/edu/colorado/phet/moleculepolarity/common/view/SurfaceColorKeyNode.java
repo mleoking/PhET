@@ -54,6 +54,7 @@ public abstract class SurfaceColorKeyNode extends PComposite {
      * Constructor
      *
      * @param colors     colors used for the gradient, in left-to-right order
+     * @param title
      * @param leftLabel
      * @param rightLabel
      */
