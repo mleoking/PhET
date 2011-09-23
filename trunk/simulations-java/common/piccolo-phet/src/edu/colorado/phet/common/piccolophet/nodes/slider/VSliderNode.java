@@ -4,6 +4,7 @@ package edu.colorado.phet.common.piccolophet.nodes.slider;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -35,15 +36,15 @@ public class VSliderNode extends SliderNode {
     private int trackWidth;
 
     public VSliderNode( final double min, final double max, final SettableProperty<Double> value ) {
-        this( min, max, value, new Property<Boolean>( true ) );
+        this( min, max, value, new Property<Boolean>( true ), 200 );
     }
 
-    public VSliderNode( final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+    public VSliderNode( final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled, int trackHeight ) {
         super( min, max, value, enabled );
 
         trackWidth = 6;
-        final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackWidth, 200 );
-        trackNode = new PhetPPath( trackPath, new GradientPaint( trackWidth / 2, 0, Color.white, trackWidth, 0, Color.gray, false ), new BasicStroke( 1 ), new GradientPaint( 0, 0, Color.gray, 0, trackWidth, Color.black, false ) );
+        final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackWidth, trackHeight );
+        trackNode = new PhetPPath( trackPath, getTrackFillPaint( trackWidth, trackHeight ), new BasicStroke( 1 ), getTrackStrokePaint( trackWidth, trackHeight ) );
         addChild( trackNode );
         knobNode = new ZeroOffsetNode( new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             rotate( Math.PI * 2 * 3.0 / 4.0 );
@@ -56,7 +57,6 @@ public class VSliderNode extends SliderNode {
         }} ) {{
             value.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double value ) {
-                    System.out.println( "value = " + value );
                     double viewY = getViewY( value );
                     setOffset( trackNode.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, viewY - getFullBounds().getHeight() / 2 );
                 }
@@ -82,7 +82,7 @@ public class VSliderNode extends SliderNode {
                     final ImmutableVector2D unitVector = new ImmutableVector2D( minGlobal, maxGlobal ).getNormalizedInstance();
                     double viewDelta = vector.dot( unitVector );
 
-                    double modelDelta = ( max - min ) / trackNode.getFullBounds().getHeight() * viewDelta;
+                    double modelDelta = ( min - max ) / trackNode.getFullBounds().getHeight() * viewDelta;
                     value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
                 }
             } );
@@ -90,8 +90,16 @@ public class VSliderNode extends SliderNode {
         addChild( knobNode );
     }
 
+    public Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
+        return new GradientPaint( 0, 0, Color.gray, 0, (float) trackWidth, Color.black, false );
+    }
+
+    public Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
+        return new GradientPaint( (float) ( trackWidth / 2.0 ), 0, Color.white, (float) trackWidth, 0, Color.gray, false );
+    }
+
     protected double getViewY( double value ) {
-        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinY(), trackNode.getFullBounds().getHeight() ).evaluate( value );
+        return new Function.LinearFunction( max, min, trackNode.getFullBounds().getMinY(), trackNode.getFullBounds().getHeight() ).evaluate( value );
     }
 
     //Add a label to appear under the slider at the specified location

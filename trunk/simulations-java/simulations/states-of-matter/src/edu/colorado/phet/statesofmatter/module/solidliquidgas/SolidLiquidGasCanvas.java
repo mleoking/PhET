@@ -40,7 +40,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     private final double HEIGHT_TRANSLATION_FACTOR = 0.72; // 0 to 1, 0 is up and 1 is down.
 
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
-    private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
+    private final double BURNER_NODE_HEIGHT = CANVAS_WIDTH * 0.18;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -100,8 +100,8 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
         final StoveNode stoveNode = new StoveNode( m_model, this.getBackground() );
-        stoveNode.setScale( BURNER_NODE_WIDTH / stoveNode.getFullBoundsReference().width );
-        stoveNode.setOffset( containerRect.getX() + containerRect.getWidth() * 0.3,
+        stoveNode.setScale( BURNER_NODE_HEIGHT / stoveNode.getFullBoundsReference().height );
+        stoveNode.setOffset( containerRect.getX() + containerRect.getWidth() * 0.25,
                              containerRect.getY() + containerRect.getHeight() * 0.1 );
         addWorldChild( stoveNode );
 

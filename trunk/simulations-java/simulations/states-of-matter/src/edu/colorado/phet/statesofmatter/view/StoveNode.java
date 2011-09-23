@@ -4,18 +4,23 @@ package edu.colorado.phet.statesofmatter.view;
 
 import java.awt.Color;
 import java.awt.Paint;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE;
 
 
 public class StoveNode extends PNode {
@@ -27,13 +32,14 @@ public class StoveNode extends PNode {
     // as needed.
     private static final double INITIAL_STOVE_SCALING = 1.5;
 
-    // Heat value, ranges from -1 to +1.
-    private double m_heat;
     private PImage m_fireImage;
     private PImage m_iceImage;
     private PImage m_stoveImage;
-    private StoveControlSlider m_stoveControlSlider;
     private MultipleParticleModel m_model;
+    private StoveControlSliderNode m_stoveControlSlider;
+
+    // Heat value, ranges from -1 to +1.
+    private Property<Double> m_heat = new Property<Double>( 0.0 );
 
     public StoveNode( MultipleParticleModel model, Paint backgroundPaint ) {
 
@@ -43,15 +49,15 @@ public class StoveNode extends PNode {
         if ( m_model != null ) {
             m_model.addListener( new MultipleParticleModel.Adapter() {
                 public void resetOccurred() {
-                    m_stoveControlSlider.setValue( 0 );
+                    m_heat.set( 0.0 );
                 }
 
                 public void moleculeTypeChanged() {
-                    m_stoveControlSlider.setValue( 0 );
+                    m_heat.set( 0.0 );
                 }
 
                 public void containerExploded() {
-                    m_stoveControlSlider.setValue( 0 );
+                    m_heat.set( 0.0 );
                 }
             } );
         }
@@ -83,49 +89,54 @@ public class StoveNode extends PNode {
         addChild( backgroundNode );
         addChild( m_stoveImage );
 
-        m_stoveControlSlider = new StoveControlSlider();
-        m_stoveControlSlider.setOpaque( true ); // Mac slider is transparent by default
-        m_stoveControlSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                m_heat = m_stoveControlSlider.getNormalizedValue();
+        m_heat.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double heat ) {
                 update();
                 if ( m_model != null ) {
-                    m_model.setHeatingCoolingAmount( m_heat );
+                    m_model.setHeatingCoolingAmount( heat );
                 }
             }
         } );
-        PSwing stoveControlPanelNode = new PSwing( m_stoveControlSlider );
-//        PNode stoveControlPanelNode = new StoveControlSliderNode( new Property<Double>( 0.0 ) );
-        addChild( stoveControlPanelNode );
-        stoveControlPanelNode.setOffset( m_stoveImage.getFullBoundsReference().getWidth() + 15, 0 );
+
+        //Create the slider, which has its own labels
+        m_stoveControlSlider = new StoveControlSliderNode( m_heat ) {{
+            setOffset( m_stoveImage.getFullBoundsReference().getWidth() + 15, 15 );
+        }};
+        addChild( m_stoveControlSlider );
+
+        //Create the title label above the slider
+        addChild( new PhetPText( STOVE_CONTROL_PANEL_TITLE, new PhetFont( 16, true ), Color.white ) {{
+            setOffset( m_stoveControlSlider.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, m_stoveControlSlider.getFullBounds().getY() - getFullBounds().getHeight() + 3 );
+        }} );
 
         update();
     }
 
     private void update() {
-
-        if ( m_heat > 0 ) {
+        if ( m_heat.get() > 0 ) {
             m_fireImage.setOffset( m_stoveImage.getFullBoundsReference().width / 2 - m_fireImage.getFullBoundsReference().width / 2,
-                                   -m_heat * m_stoveImage.getFullBoundsReference().height + BURNER_Y_OFFSET );
+                                   -m_heat.get() * m_stoveImage.getFullBoundsReference().height + BURNER_Y_OFFSET );
             m_iceImage.setOffset( m_stoveImage.getFullBoundsReference().width / 2 - m_iceImage.getFullBoundsReference().width / 2, 0 );
         }
-        else if ( m_heat <= 0 ) {
+        else if ( m_heat.get() <= 0 ) {
             m_iceImage.setOffset( m_stoveImage.getFullBoundsReference().width / 2 - m_iceImage.getFullBoundsReference().width / 2,
-                                  m_heat * m_stoveImage.getFullBoundsReference().height + BURNER_Y_OFFSET );
+                                  m_heat.get() * m_stoveImage.getFullBoundsReference().height + BURNER_Y_OFFSET );
             m_fireImage.setOffset( m_stoveImage.getFullBoundsReference().width / 2 - m_fireImage.getFullBoundsReference().width / 2, 0 );
         }
-        m_iceImage.setVisible( m_heat < 0 );
-        m_fireImage.setVisible( m_heat > 0 );
+        m_iceImage.setVisible( m_heat.get() < 0 );
+        m_fireImage.setVisible( m_heat.get() > 0 );
     }
 
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                PiccoloTestFrame testFrame = new PiccoloTestFrame( "Stove Node Test" );
-                StoveNode stoveNode = new StoveNode( null, Color.WHITE );
-                stoveNode.setOffset( 100, 200 );
-                testFrame.addNode( stoveNode );
-                testFrame.setVisible( true );
+                new PiccoloTestFrame( "Stove Node Test" ) {{
+                    addNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 1000, 1000 ), Color.black ) );
+                    addNode( new StoveNode( null, Color.WHITE ) {{
+                        setOffset( 100, 200 );
+                    }} );
+                    setBackground( Color.black );
+                }}.setVisible( true );
             }
         } );
     }
