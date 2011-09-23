@@ -13,6 +13,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of an atom.
+ * Controls its own offset in world coordinates, so clients should not call setOffset.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

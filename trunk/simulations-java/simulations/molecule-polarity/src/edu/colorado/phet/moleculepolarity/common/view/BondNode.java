@@ -12,8 +12,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Visual representation of a bond between 2 atoms.
- * Intended to be rendered before the 2 atoms, so that the atoms cover
- * the portion of the bond that overlaps the atoms.
+ * Intended to be rendered before the 2 atoms, so that the atoms cover the portion of the bond that overlaps the atoms.
+ * Shapes are created in world coordinates, so this node's offset should be (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

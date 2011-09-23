@@ -17,6 +17,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 2D surface that represents electron density for a diatomic molecule.
  * Electron density uses a 2-color gradient, so we can use a single PPath.
  * This node's look is similar to the corresponding Jmol isosurface.
+ * Shapes are created in world coordinates, so this node's offset should be (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

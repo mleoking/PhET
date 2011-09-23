@@ -10,6 +10,7 @@ import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
 
 /**
  * Visual representation of a triatomic molecule.
+ * Children are created in world coordinates, so this node's offset should be (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
