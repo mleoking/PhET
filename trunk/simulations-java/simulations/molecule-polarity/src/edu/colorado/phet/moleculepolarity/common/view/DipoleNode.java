@@ -9,11 +9,15 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -27,7 +31,7 @@ public abstract class DipoleNode extends PPath {
     // Note: heights are parallel to dipole axis, widths are perpendicular.
     private static final double REFERENCE_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength(); // model value
     private static final double REFERENCE_LENGTH = 135; // view size that corresponds to REFERENCE_MAGNITUDE
-    private static final Dimension HEAD_SIZE = new Dimension( 12, 25 ); // similar to Jmol
+    private static final Dimension HEAD_SIZE = new Dimension( 12, 20 ); // similar to Jmol
     private static final Dimension CROSS_SIZE = new Dimension( 10, 10 ); // similar to Jmol
     private static final double REFERENCE_CROSS_OFFSET = 20; // offset from the tail of the arrow when arrow length is REFERENCE_LENGTH
     private static final double TAIL_WIDTH = 4; // similar to Jmol
@@ -35,7 +39,7 @@ public abstract class DipoleNode extends PPath {
 
     private final Property<ImmutableVector2D> dipole;
 
-    public DipoleNode( Property<ImmutableVector2D> dipole, Color color ) {
+    protected DipoleNode( Property<ImmutableVector2D> dipole, Color color ) {
         super();
         setPaint( color );
         this.dipole = dipole;
@@ -97,5 +101,12 @@ public abstract class DipoleNode extends PPath {
     // Gets the length of the dipole in view coordinates
     protected double getDipoleViewLength() {
         return dipole.get().getMagnitude() * ( REFERENCE_LENGTH / REFERENCE_MAGNITUDE );
+    }
+
+    // Creates a dipole icon, with arrow pointing to the right.
+    public static Icon createIcon( Color color ) {
+        PNode node = new DipoleNode( new Property<ImmutableVector2D>( new ImmutableVector2D( 0.5, 0 ) ), color ) {
+        };
+        return new ImageIcon( node.toImage() );
     }
 }

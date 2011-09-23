@@ -1,3 +1,6 @@
+9/23/11 tweak "Three Atoms" play area layout to make sure we have room for control panel translations
+9/23/11 slight tweak to 2D dipole arrow heads to make them look more like Jmol dipoles
+9/23/11 add icons next to dipole check boxes
 9/23/11 change request: add bond to tiny molecule in Bond Character indicator
 9/23/11 reviewed and addressed results of IntelliJ "Locate Duplicates"
 9/23/11 reviewed and addressed results of IntelliJ "Inspect Code"
