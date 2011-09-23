@@ -71,7 +71,7 @@ public class DiatomicElectronDensityNode extends SurfaceNode {
     private void updatePaint() {
 
         // scale varies from 1 to 0, approaches zero as EN difference approaches zero.
-        final double deltaEN = molecule.atomB.electronegativity.get() - molecule.atomA.electronegativity.get();
+        final double deltaEN = molecule.getDeltaEN();
         if ( deltaEN == 0 ) {
             // no difference, use neutral color that's halfway between "more" and "less" colors
             pathNode.setPaint( ColorUtils.interpolateRBGA( ColorUtils.createColor( colors[0], ALPHA ), ColorUtils.createColor( colors[1], ALPHA ), 0.5 ) );

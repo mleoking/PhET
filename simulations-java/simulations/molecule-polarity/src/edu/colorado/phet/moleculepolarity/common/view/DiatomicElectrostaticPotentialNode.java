@@ -91,7 +91,7 @@ public class DiatomicElectrostaticPotentialNode extends SurfaceNode {
 
     // Updates the Paints uses to color the surface. Width of the gradients expands as the difference in EN approaches zero.
     private void updatePaint() {
-        final double deltaEN = molecule.atomB.electronegativity.get() - molecule.atomA.electronegativity.get();
+        final double deltaEN = molecule.getDeltaEN();
         if ( deltaEN == 0 ) {
             Color neutralColor = ColorUtils.createColor( colors[1], ALPHA );
             pathNodeA.setPaint( neutralColor );
