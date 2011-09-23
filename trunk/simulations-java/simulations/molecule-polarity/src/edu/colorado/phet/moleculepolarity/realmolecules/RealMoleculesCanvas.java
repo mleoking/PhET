@@ -1,10 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.realmolecules;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.image.BufferedImage;
 
 import org.jmol.api.JmolViewer;
 
@@ -59,14 +57,7 @@ public class RealMoleculesCanvas extends MPCanvas {
          * rendered by the Jmol viewer. This canvas will be slightly lighter than canvases that
          * don't use Jmol, but the user is unlikely to notice when switching between modules.
          */
-        {
-            BufferedImage image = BufferedImageUtils.toBufferedImage( viewerNode.toImage() );
-            int pixel = image.getRGB( 0, 0 ); // upper-left pixel
-            int red = ( pixel & 0x00ff0000 ) >> 16;
-            int green = ( pixel & 0x0000ff00 ) >> 8;
-            int blue = pixel & 0x000000ff;
-            setBackground( new Color( red, green, blue ) );
-        }
+        setBackground( BufferedImageUtils.getPixelColor( BufferedImageUtils.toBufferedImage( viewerNode.toImage() ), 0, 0 ) );
 
         // rendering order
         {
