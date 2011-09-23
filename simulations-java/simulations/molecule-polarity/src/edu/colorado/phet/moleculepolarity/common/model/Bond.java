@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
  */
 public class Bond {
 
-    public final Property<ImmutableVector2D> endpoint1, endpoint2; // ends of the bond at atom1 and atom2, respectively
+    public final Property<ImmutableVector2D> endpoint1, endpoint2; // ends of the bond at atom1 and atom2, respectively, in world coordinates
     public final Property<ImmutableVector2D> dipole; // the bond dipole
 
     public Bond( final Atom atom1, final Atom atom2 ) {
@@ -47,7 +47,7 @@ public class Bond {
         return new ImmutableVector2D( ( endpoint1.get().getX() + endpoint2.get().getX() ) / 2, ( endpoint1.get().getY() + endpoint2.get().getY() ) / 2 );
     }
 
-    // gets the angle of endpoint2 relative to the horizontal
+    // gets the angle of endpoint2 relative to the horizontal axis
     public double getAngle() {
         ImmutableVector2D center = getCenter();
         return PolarCartesianConverter.getAngle( endpoint2.get().getX() - center.getX(), endpoint2.get().getY() - center.getY() );

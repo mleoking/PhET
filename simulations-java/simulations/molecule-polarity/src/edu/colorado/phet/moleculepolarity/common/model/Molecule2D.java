@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class Molecule2D {
 
-    public final ImmutableVector2D location; // the point about which the molecule rotates
+    public final ImmutableVector2D location; // the point about which the molecule rotates, in world coordinates
     public final Property<Double> angle; // angle of rotation of the entire molecule about the location, in radians
     public final Property<ImmutableVector2D> dipole; // the molecular dipole
 

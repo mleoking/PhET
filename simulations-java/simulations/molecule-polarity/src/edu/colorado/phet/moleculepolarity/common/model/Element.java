@@ -10,7 +10,7 @@ import java.awt.Color;
  */
 public class Element {
 
-    public final int elementNumber;
+    public final int elementNumber; // element number in the periodic table
     public final Color color;
 
     public Element( int elementNumber, Color color ) {
