@@ -12,14 +12,20 @@ import edu.colorado.phet.moleculeshapes.util.JMEColorHandler;
 import com.jme3.math.ColorRGBA;
 
 public enum MoleculeShapesColors {
-    BACKGROUND;
+    BACKGROUND,
+    CONTROL_PANEL_BORDER,
+    CONTROL_PANEL_TITLE;
 
-    public static ColorProfile<MoleculeShapesColors> DEFAULT = new ColorProfile<MoleculeShapesColors>( "Default Colors" ) {{ // TODO: i18n
+    public static ColorProfile<MoleculeShapesColors> DEFAULT = new ColorProfile<MoleculeShapesColors>( "Screen Mode" ) {{ // TODO: i18n
         add( BACKGROUND, Color.BLACK );
+        add( CONTROL_PANEL_BORDER, new Color( 210, 210, 210 ) );
+        add( CONTROL_PANEL_TITLE, new Color( 240, 240, 240 ) );
     }};
 
-    public static ColorProfile<MoleculeShapesColors> PROJECTOR = new ColorProfile<MoleculeShapesColors>( "Projector Colors" ) {{ // TODO: i18n
+    public static ColorProfile<MoleculeShapesColors> PROJECTOR = new ColorProfile<MoleculeShapesColors>( "Projector Mode" ) {{ // TODO: i18n
         add( BACKGROUND, Color.WHITE );
+        add( CONTROL_PANEL_BORDER, new Color( 30, 30, 30 ) );
+        add( CONTROL_PANEL_TITLE, Color.BLACK );
     }};
 
     // TODO: add high-contrast?

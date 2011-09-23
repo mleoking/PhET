@@ -3,8 +3,10 @@ package edu.colorado.phet.moleculeshapes.control;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColors;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -16,6 +18,8 @@ import edu.umd.cs.piccolo.util.PBounds;
  * TODO: title fonts?
  */
 public class TitledControlPanelNode extends ControlPanelNode {
+
+    protected PhetPPath titleBackground;
 
     public TitledControlPanelNode( final PNode content, final String title, final Color backgroundColor, final BasicStroke borderStroke, final Color borderColor ) {
         this( content, new TitleNode( title ), backgroundColor, borderStroke, borderColor );
@@ -29,7 +33,8 @@ public class TitledControlPanelNode extends ControlPanelNode {
         // title
         background.addChild( 0, new PNode() {{
             // background to block out border
-            addChild( new PhetPPath( padBoundsHorizontally( titleNode.getFullBounds(), 10 ), backgroundColor ) );
+            titleBackground = new PhetPPath( padBoundsHorizontally( titleNode.getFullBounds(), 10 ), backgroundColor );
+            addChild( titleBackground );
             addChild( titleNode );
             setOffset( ( controlPanelNode.getFullBounds().getWidth() - titleNode.getFullBounds().getWidth() ) / 2,
                        -titleNode.getFullBounds().getHeight() / 2 );
@@ -41,7 +46,14 @@ public class TitledControlPanelNode extends ControlPanelNode {
             super( title );
 
             setFont( MoleculeShapesConstants.CONTROL_PANEL_TITLE_FONT );
-            setTextPaint( MoleculeShapesConstants.CONTROL_PANEL_TITLE_COLOR );
+
+            // TODO: better way of doing this?
+            MoleculeShapesColors.CONTROL_PANEL_TITLE.getProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setTextPaint( MoleculeShapesColors.CONTROL_PANEL_TITLE.get() );
+                    repaint();
+                }
+            } );
         }
     }
 

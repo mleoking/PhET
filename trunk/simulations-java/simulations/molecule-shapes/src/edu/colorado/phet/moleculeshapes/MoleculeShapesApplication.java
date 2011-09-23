@@ -129,7 +129,9 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
                         setContentPane( new JPanel() {{
                             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-                            add( new ColorPropertyControl( frame, "Background color: ", MoleculeShapesColors.BACKGROUND.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Background: ", MoleculeShapesColors.BACKGROUND.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Control panel borders: ", MoleculeShapesColors.CONTROL_PANEL_BORDER.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Control panel titles: ", MoleculeShapesColors.CONTROL_PANEL_TITLE.getProperty() ) );
                             add( new ColorRGBAPropertyControl( frame, "Central atom color: ", MoleculeShapesConstants.COLOR_ATOM_CENTER ) );
                             add( new ColorRGBAPropertyControl( frame, "Radial atom color: ", MoleculeShapesConstants.COLOR_ATOM ) );
                             add( new ColorPropertyControl( frame, "Remove all foreground color: ", MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR ) );
