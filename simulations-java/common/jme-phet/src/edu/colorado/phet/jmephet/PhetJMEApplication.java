@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.Module.Listener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -31,10 +32,20 @@ import com.jme3.system.Timer;
  * Has a "background" GUI in the back, a scene in the middle, and the main GUI in front.
  * TODO: further cleanup on the exported interface
  */
-public abstract class PhetJMEApplication extends Application {
+public class PhetJMEApplication extends Application {
+
+    /*---------------------------------------------------------------------------*
+    * modules
+    *----------------------------------------------------------------------------*/
+
+    private final List<JMEModule> modules = new ArrayList<JMEModule>();
+    public final Property<JMEModule> activeModule = new Property<JMEModule>( null );
+
+    /*---------------------------------------------------------------------------*
+    * global properties
+    *----------------------------------------------------------------------------*/
 
     public final Property<ColorRGBA> backgroundColor = new Property<ColorRGBA>( ColorRGBA.Black );
-
     public final Property<Dimension> canvasSize = new Property<Dimension>( null ); // updated on the Swing EDT
 
     private List<SimpleObserver> updateObservers = new ArrayList<SimpleObserver>();
@@ -47,9 +58,6 @@ public abstract class PhetJMEApplication extends Application {
     private Node guiNode = new Node( "Gui Node" );
     private Node backgroundGuiNode = new Node( "Background Gui Node" );
 
-    private JMEView gui; // in front of the main viewports
-    private JMEView backgroundGui; // behind the main viewports
-
     // nodes that will get updated every frame
     private List<Node> liveNodes = new ArrayList<Node>();
 
@@ -58,6 +66,10 @@ public abstract class PhetJMEApplication extends Application {
 
     private JMEInputHandler directInputHandler;
 
+    /*---------------------------------------------------------------------------*
+    * construction
+    *----------------------------------------------------------------------------*/
+
     public PhetJMEApplication( Frame parentFrame ) {
         super();
         this.parentFrame = parentFrame;
@@ -65,6 +77,28 @@ public abstract class PhetJMEApplication extends Application {
         // let everyone know that this is the one unique global instance
         JMEUtils.setApplication( this );
     }
+
+    /*---------------------------------------------------------------------------*
+    * modules
+    *----------------------------------------------------------------------------*/
+
+    public void addModule( final JMEModule module ) {
+        modules.add( module );
+
+        // when modules are made active, record that so we can update our active modules
+        module.addListener( new Listener() {
+            public void activated() {
+                activeModule.set( module );
+            }
+
+            public void deactivated() {
+            }
+        } );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * JMonkeyEngine overrides
+    *----------------------------------------------------------------------------*/
 
     @Override
     public void start() {
@@ -81,6 +115,10 @@ public abstract class PhetJMEApplication extends Application {
     @Override
     public void initialize() {
         super.initialize();
+//        guiViewPort.getCamera().resize( canvasSize.get().width, canvasSize.get().height, true );
+//        guiViewPort.getCamera().update();
+//        cam.resize( canvasSize.get().width, canvasSize.get().height, true );
+//        cam.update();
 
         directInputHandler = new WrappedInputManager( inputManager );
 
@@ -98,7 +136,7 @@ public abstract class PhetJMEApplication extends Application {
             }
         } );
         liveNodes.add( backgroundGuiNode );
-        backgroundGui = new JMEView( this, backgroundGuiViewPort, backgroundGuiCam, backgroundGuiNode );
+        JMEView backgroundGui = new JMEView( this, backgroundGuiViewPort, backgroundGuiCam, backgroundGuiNode );
 
         // make the "main" viewport not clear what is behind it
         viewPort.setClearFlags( false, true, true );
@@ -110,7 +148,7 @@ public abstract class PhetJMEApplication extends Application {
         guiNode.setCullHint( CullHint.Never );
         guiViewPort.attachScene( guiNode );
         liveNodes.add( guiNode );
-        gui = new JMEView( this, guiViewPort, guiViewPort.getCamera(), guiNode );
+        JMEView gui = new JMEView( this, guiViewPort, guiViewPort.getCamera(), guiNode );
 
         statistics.initialize( this, guiNode );
 
@@ -119,8 +157,48 @@ public abstract class PhetJMEApplication extends Application {
         }
     }
 
+    @Override
+    public void update() {
+        super.update(); // make sure to call this
+        if ( speed == 0 || paused ) {
+            return;
+        }
+
+        float tpf = timer.getTimePerFrame() * speed;
+
+        // update states
+        stateManager.update( tpf );
+
+        // simple update and root node
+        updateState( tpf );
+
+        for ( SimpleObserver observer : updateObservers ) {
+            observer.update();
+        }
+
+        for ( Node node : liveNodes ) {
+            node.updateLogicalState( tpf );
+        }
+
+        for ( Node node : liveNodes ) {
+            node.updateGeometricState();
+        }
+
+        // render states
+        stateManager.render( renderManager );
+        if ( context.isRenderable() ) {
+            renderManager.render( tpf );
+        }
+        simpleRender( renderManager );
+        stateManager.postRender();
+    }
+
+    /*---------------------------------------------------------------------------*
+    * view and node utilities
+    *----------------------------------------------------------------------------*/
+
     public Camera createDefaultCamera() {
-        return new Camera( settings.getWidth(), settings.getHeight() );
+        return new Camera( canvasSize.get().width, canvasSize.get().height );
     }
 
     public JMEView createMainView( final String name, Camera camera ) {
@@ -169,42 +247,6 @@ public abstract class PhetJMEApplication extends Application {
         return timer;
     }
 
-    @Override
-    public void update() {
-        super.update(); // make sure to call this
-        if ( speed == 0 || paused ) {
-            return;
-        }
-
-        float tpf = timer.getTimePerFrame() * speed;
-
-        // update states
-        stateManager.update( tpf );
-
-        // simple update and root node
-        updateState( tpf );
-
-        for ( SimpleObserver observer : updateObservers ) {
-            observer.update();
-        }
-
-        for ( Node node : liveNodes ) {
-            node.updateLogicalState( tpf );
-        }
-
-        for ( Node node : liveNodes ) {
-            node.updateGeometricState();
-        }
-
-        // render states
-        stateManager.render( renderManager );
-        if ( context.isRenderable() ) {
-            renderManager.render( tpf );
-        }
-        simpleRender( renderManager );
-        stateManager.postRender();
-    }
-
     public void addLiveNode( Node node ) {
         liveNodes.add( node );
     }
@@ -222,6 +264,9 @@ public abstract class PhetJMEApplication extends Application {
     }
 
     public void updateState( float tpf ) {
+        if ( activeModule.get() != null ) {
+            activeModule.get().updateState( tpf );
+        }
     }
 
     public void simpleRender( RenderManager rm ) {
@@ -233,6 +278,11 @@ public abstract class PhetJMEApplication extends Application {
         }
 
         this.canvasSize.set( canvasSize );
+
+        // notify all of our modules about the size change. they might even be hidden
+        for ( JMEModule module : modules ) {
+            module.updateLayout( canvasSize );
+        }
     }
 
     public Dimension getStageSize() {

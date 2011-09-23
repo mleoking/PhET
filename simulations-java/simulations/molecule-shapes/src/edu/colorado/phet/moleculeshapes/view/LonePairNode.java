@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
 import com.jme3.asset.AssetManager;
@@ -34,9 +35,9 @@ public class LonePairNode extends Node {
         this.pair = pair;
         this.position = pair.position;
 
-        MoleculeJMEApplication.showLonePairs.addObserver( new SimpleObserver() {
+        MoleculeShapesModule.showLonePairs.addObserver( new SimpleObserver() {
             public void update() {
-                setCullHint( MoleculeJMEApplication.showLonePairs.get() ? CullHint.Inherit : CullHint.Always );
+                setCullHint( MoleculeShapesModule.showLonePairs.get() ? CullHint.Inherit : CullHint.Always );
             }
         } );
 

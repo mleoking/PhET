@@ -18,11 +18,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.jmephet.JMEActionListener;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.control.ArrowButtonNode.Orientation;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
-import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -35,8 +35,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class RealMoleculePanelNode extends PNode {
 
     private final MoleculeModel molecule;
-    private final MoleculeJMEApplication app;
 
+    private final MoleculeShapesModule module;
     // whether the view is minimized or not
     private final Property<Boolean> minimized;
 
@@ -65,10 +65,10 @@ public class RealMoleculePanelNode extends PNode {
     // list of all of the real examples for the current VSEPR model. we only display at most 1 of these
     private List<RealMolecule> molecules = new ArrayList<RealMolecule>();
 
-    public RealMoleculePanelNode( MoleculeModel molecule, final MoleculeJMEApplication app, final RealMoleculeOverlayNode overlayNode,
+    public RealMoleculePanelNode( MoleculeModel molecule, final MoleculeShapesModule module, final RealMoleculeOverlayNode overlayNode,
                                   final Property<Boolean> minimized ) {
         this.molecule = molecule;
-        this.app = app;
+        this.module = module;
         this.minimized = minimized;
 
         // when minimization changes, update our visual state
@@ -205,7 +205,7 @@ public class RealMoleculePanelNode extends PNode {
                     JMEUtils.invoke( new Runnable() {
                         public void run() {
                             if ( selectedMolecule.get() != null ) {
-                                app.startOverlayMoleculeDrag();
+                                module.startOverlayMoleculeDrag();
                             }
                         }
                     } );

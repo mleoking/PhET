@@ -7,11 +7,11 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.jmephet.JMEActionListener;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
-import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -40,7 +40,7 @@ public class MoleculeShapesControlPanel extends PNode {
     };
     public static final double INNER_WIDTH = Math.ceil( getRequiredInnerWidth() );
 
-    public MoleculeShapesControlPanel( final MoleculeJMEApplication app, RealMoleculeOverlayNode overlayNode ) {
+    public MoleculeShapesControlPanel( final MoleculeShapesModule module, RealMoleculeOverlayNode overlayNode ) {
 
         /*---------------------------------------------------------------------------*
         * bonding panel
@@ -51,15 +51,15 @@ public class MoleculeShapesControlPanel extends PNode {
 
             final double spaceBetweenTypes = 8;
 
-            final PNode singleNode = new BondTypeControlNode( app, new PImage( Images.SINGLE_BOND_SMALL ), 1 ) {{
+            final PNode singleNode = new BondTypeControlNode( module, new PImage( Images.SINGLE_BOND_SMALL ), 1 ) {{
                 setOffset( 0, 10 );
             }};
             addChild( singleNode );
-            final PNode doubleNode = new BondTypeControlNode( app, new PImage( Images.DOUBLE_BOND_SMALL ), 2 ) {{
+            final PNode doubleNode = new BondTypeControlNode( module, new PImage( Images.DOUBLE_BOND_SMALL ), 2 ) {{
                 setOffset( 0, singleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
             }};
             addChild( doubleNode );
-            final PNode tripleNode = new BondTypeControlNode( app, new PImage( Images.TRIPLE_BOND_SMALL ), 3 ) {{
+            final PNode tripleNode = new BondTypeControlNode( module, new PImage( Images.TRIPLE_BOND_SMALL ), 3 ) {{
                 setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
             }};
             addChild( tripleNode );
@@ -79,12 +79,12 @@ public class MoleculeShapesControlPanel extends PNode {
             /*---------------------------------------------------------------------------*
             * lone pair control
             *----------------------------------------------------------------------------*/
-            final BondTypeControlNode lonePairNode = new BondTypeControlNode( app, new PImage( Images.LONE_PAIR_SMALL ), 0 ) {
+            final BondTypeControlNode lonePairNode = new BondTypeControlNode( module, new PImage( Images.LONE_PAIR_SMALL ), 0 ) {
                 {
                     setOffset( 0, 10 );
 
                     // make sure to update our state when "show lone pairs" changes
-                    MoleculeJMEApplication.showLonePairs.addObserver( JMEUtils.swingObserver( new Runnable() {
+                    MoleculeShapesModule.showLonePairs.addObserver( JMEUtils.swingObserver( new Runnable() {
                         public void run() {
                             updateState();
                         }
@@ -93,7 +93,7 @@ public class MoleculeShapesControlPanel extends PNode {
 
                 @Override protected boolean isEnabled() {
                     // add the extra constraint on visibility
-                    return super.isEnabled() && MoleculeJMEApplication.showLonePairs.get();
+                    return super.isEnabled() && MoleculeShapesModule.showLonePairs.get();
                 }
             };
             addChild( lonePairNode );
@@ -107,7 +107,7 @@ public class MoleculeShapesControlPanel extends PNode {
                                                               MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR.get() ) {{
             addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
-                    app.removeAllAtoms();
+                    module.removeAllAtoms();
                 }
             } ) );
 
@@ -143,14 +143,14 @@ public class MoleculeShapesControlPanel extends PNode {
             /*---------------------------------------------------------------------------*
             * show lone pairs
             *----------------------------------------------------------------------------*/
-            final PNode showLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_LONE_PAIRS, MoleculeJMEApplication.showLonePairs ) {{
+            final PNode showLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_LONE_PAIRS, MoleculeShapesModule.showLonePairs ) {{
                 // enabled when there are lone pairs on the molecule
                 Runnable updateEnabled = new Runnable() {
                     public void run() {
-                        setEnabled( !app.getMolecule().getLonePairs().isEmpty() );
+                        setEnabled( !module.getMolecule().getLonePairs().isEmpty() );
                     }
                 };
-                app.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
+                module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
 
                 /*
                  * Run this in the current thread. should be in EDT for construction. Needed since the other call
@@ -168,10 +168,10 @@ public class MoleculeShapesControlPanel extends PNode {
                 Runnable updateEnabled = new Runnable() {
                     public void run() {
                         setEnabled( !MoleculeShapesProperties.disableNAShowBondAngles.get()
-                                    || app.getMolecule().getBondedGroups().size() >= 2 );
+                                    || module.getMolecule().getBondedGroups().size() >= 2 );
                     }
                 };
-                app.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
+                module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
                 MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JMEUtils.swingObserver( updateEnabled ) );
 
                 setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );
@@ -190,7 +190,7 @@ public class MoleculeShapesControlPanel extends PNode {
         *----------------------------------------------------------------------------*/
         final Property<Boolean> minimized = new Property<Boolean>( true ); // TODO: move this to a better location
 
-        realMoleculeNode = new RealMoleculePanelNode( app.getMolecule(), app, overlayNode, minimized );
+        realMoleculeNode = new RealMoleculePanelNode( module.getMolecule(), module, overlayNode, minimized );
         realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, new PNode() {{
             final PText title = new TitledControlPanelNode.TitleNode( Strings.REAL_EXAMPLES__TITLE );
             addChild( title );

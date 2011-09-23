@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
-import java.util.concurrent.Callable;
 
 import javax.swing.*;
 
@@ -18,10 +17,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 
-import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
@@ -55,7 +54,6 @@ public class HUDNode extends Geometry {
     private final PaintableImage image; // the image (JME3 texture) to which we render our component
     private final AffineTransform imageTransform;
     private final JMEInputHandler inputHandler;
-    private final Application app; // reference to the application. needed for input and asset managers
 
     // the size of our canvas. this does not change
     private final int width;
@@ -67,6 +65,7 @@ public class HUDNode extends Geometry {
 
     private volatile boolean dirty = false; // whether the image needs to be repainted
 
+    private final JMEModule module;
     /**
      * Basically whether this node should be antialiased. If it is set up in a position where the texture (image)
      * pixels are not 1-to-1 with the screen pixels (say, translated by fractions of a pixel, or any rotation),
@@ -77,20 +76,20 @@ public class HUDNode extends Geometry {
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
     public HUDNode( final JComponent component, final int width, final int height,
-                    final JMEInputHandler inputHandler, final Application app ) {
-        this( component, width, height, new AffineTransform(), inputHandler, app, new Property<Boolean>( false ) );
+                    final JMEInputHandler inputHandler, final JMEModule module ) {
+        this( component, width, height, new AffineTransform(), inputHandler, module, new Property<Boolean>( false ) );
     }
 
     // initialize from the EDT
     public HUDNode( final JComponent component, final int width, final int height, final AffineTransform imageTransform,
-                    final JMEInputHandler inputHandler, final Application app, final Property<Boolean> antialiasing ) {
+                    final JMEInputHandler inputHandler, final JMEModule module, final Property<Boolean> antialiasing ) {
         super( "HUD", new Quad( width, height, true ) ); // "true" flips it so our components are shown in the correct Y direction
         this.component = component;
         this.width = width;
         this.height = height;
         this.imageTransform = imageTransform;
         this.inputHandler = inputHandler;
-        this.app = app;
+        this.module = module;
         this.antialiasing = antialiasing;
 
         image = new PaintableImage( width, height, true, imageTransform ) {
@@ -121,10 +120,9 @@ public class HUDNode extends Geometry {
         component.putClientProperty( ON_REPAINT_CALLBACK, new VoidFunction0() {
             public void apply() {
                 // mark as dirty from the render thread
-                app.enqueue( new Callable<Object>() {
-                    public Object call() throws Exception {
+                JMEUtils.invokeLater( new Runnable() {
+                    public void run() {
                         repaint();
-                        return null;
                     }
                 } );
             }
@@ -169,7 +167,7 @@ public class HUDNode extends Geometry {
             }
         };
 
-        setMaterial( new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+        setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             setTexture( "ColorMap", new Texture2D() {{
                 setImage( image );
 
@@ -218,7 +216,7 @@ public class HUDNode extends Geometry {
             public void run() {
                 inputHandler.addRawInputListener( inputListener );
                 listenerAttached = true;
-                app.getStateManager().attach( state ); // TODO: make this module-specific!
+                module.attachState( state );
             }
         } );
     }
@@ -258,7 +256,7 @@ public class HUDNode extends Geometry {
     // All necessary cleanup that we need to do to never use this HUDNode again (don't leak memory). Shouldn't conflict with JME calls
     public void dispose() {
         ignoreInput();
-        app.getStateManager().detach( state );
+        module.detachState( state );
     }
 
     public void ignoreInput() {
@@ -479,7 +477,6 @@ public class HUDNode extends Geometry {
             }
 
             final Point pos = convertPoint( component, x, y, comp );
-//            System.out.println( "sending mouseevent: " + pos.x + "," + pos.y );
             final MouseEvent event = new MouseEvent( comp,
                                                      eventType,
                                                      time, getCurrentModifiers( swingButton ), pos.x, pos.y, clickCount,

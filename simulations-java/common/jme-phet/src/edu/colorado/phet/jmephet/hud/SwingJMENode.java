@@ -15,8 +15,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.jmephet.CanvasTransform;
 import edu.colorado.phet.jmephet.CanvasTransform.IdentityCanvasTransform;
+import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
-import edu.colorado.phet.jmephet.PhetJMEApplication;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -36,7 +36,7 @@ public class SwingJMENode extends Node {
 
     private final JComponent component;
     private final JMEInputHandler inputHandler;
-    private final PhetJMEApplication app;
+    private final JMEModule module;
     private final CanvasTransform canvasTransform;
 
     private volatile Dimension size = new Dimension(); // our current size
@@ -51,18 +51,18 @@ public class SwingJMENode extends Node {
      */
     public final Property<Boolean> antialiased = new Property<Boolean>( false );
 
-    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final PhetJMEApplication app ) {
-        this( component, inputHandler, app, getDefaultTransform() );
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMEModule module ) {
+        this( component, inputHandler, module, getDefaultTransform() );
     }
 
-    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, PhetJMEApplication app, CanvasTransform canvasTransform ) {
-        this( component, inputHandler, app, canvasTransform, getDefaultPosition() );
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMEModule module, CanvasTransform canvasTransform ) {
+        this( component, inputHandler, module, canvasTransform, getDefaultPosition() );
     }
 
-    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final PhetJMEApplication app, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMEModule module, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
         this.component = component;
         this.inputHandler = inputHandler;
-        this.app = app;
+        this.module = module;
         this.canvasTransform = canvasTransform;
         this.position = position;
 
@@ -167,7 +167,8 @@ public class SwingJMENode extends Node {
 //            PNode node = pthis.getNode();
 //            if ( node != null && node.getClass().getName().equals( "edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel" ) ) {
 //                System.out.println( "----" );
-//                System.out.println( "canvas: " + app.canvasSize.get() );
+//                System.out.println( "hash: " + node.hashCode() );
+//                System.out.println( "canvas: " + module.getCanvasSize() );
 //                System.out.println( "position: " + position.get() );
 //                System.out.println( "localBounds: " + localBounds );
 //                System.out.println( "transformedBounds: " + transformedBounds );
@@ -175,6 +176,7 @@ public class SwingJMENode extends Node {
 //                System.out.println( "offsets: " + offsetX + ", " + offsetY );
 //                System.out.println( "image offsets: " + imageOffsetX + ", " + imageOffsetY );
 //                System.out.println( "hud dimension: " + hudWidth + ", " + hudHeight );
+//                System.out.println( "----" );
 //            }
 //        }
 
@@ -182,7 +184,7 @@ public class SwingJMENode extends Node {
         final HUDNode newHudNode = new HUDNode( component, hudWidth, hudHeight, new AffineTransform() {{
             translate( imageOffsetX, imageOffsetY );
             scale( scaleX, scaleY );
-        }}, inputHandler, app, antialiased );
+        }}, inputHandler, module, antialiased );
         newHudNode.setLocalTranslation( offsetX, offsetY, 0 );
 
         // do the rest of the work in the JME thread

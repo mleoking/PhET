@@ -8,9 +8,9 @@ import java.util.Collections;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.jmephet.JMECursorHandler;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -21,15 +21,15 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * creates the real bond in 3D. Also has a button to remove a bond of that same type from play.
  */
 public class BondTypeControlNode extends PNode {
-    private final MoleculeJMEApplication app;
+    private final MoleculeShapesModule module;
     private final PNode graphic;
     private final int bondOrder;
     private final PNode removeButton;
     protected boolean enabled = true;
     protected boolean showingRemoveButton = false;
 
-    public BondTypeControlNode( final MoleculeJMEApplication app, final PNode graphic, final int bondOrder ) {
-        this.app = app;
+    public BondTypeControlNode( final MoleculeShapesModule module, final PNode graphic, final int bondOrder ) {
+        this.module = module;
         this.graphic = graphic;
         this.bondOrder = bondOrder;
 
@@ -53,14 +53,14 @@ public class BondTypeControlNode extends PNode {
 
                         // if it exists, remove it
                         if ( candidate != null ) {
-                            app.removePairGroup( candidate );
+                            module.removePairGroup( candidate );
                         }
                     }
                 } );
             }
         } );
 
-        app.getMolecule().onGroupChanged.addUpdateListener(
+        module.getMolecule().onGroupChanged.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
                         updateState();
@@ -82,7 +82,7 @@ public class BondTypeControlNode extends PNode {
 
         addDragEvent( new Runnable() {
             public void run() {
-                app.startNewInstanceDrag( bondOrder );
+                module.startNewInstanceDrag( bondOrder );
             }
         } );
     }
@@ -109,7 +109,7 @@ public class BondTypeControlNode extends PNode {
 
     private PairGroup getLastMatchingGroup() {
         // find the last pair group that has the desired bond order
-        java.util.List<PairGroup> groups = new ArrayList<PairGroup>( app.getMolecule().getGroups() );
+        java.util.List<PairGroup> groups = new ArrayList<PairGroup>( module.getMolecule().getGroups() );
 
         Collections.reverse( groups ); // reverse it so we pick the last, not the 1st
 
@@ -122,7 +122,7 @@ public class BondTypeControlNode extends PNode {
     }
 
     protected boolean isEnabled() {
-        return app.getMolecule().wouldAllowBondOrder( bondOrder );
+        return module.getMolecule().wouldAllowBondOrder( bondOrder );
     }
 
     protected void updateState() {

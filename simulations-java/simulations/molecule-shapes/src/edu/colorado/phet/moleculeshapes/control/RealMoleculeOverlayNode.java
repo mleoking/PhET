@@ -5,8 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
-import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.colorado.phet.moleculeshapes.view.MoleculeNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeNode.DisplayMode;
 
@@ -20,7 +20,7 @@ import com.jme3.scene.Node;
  * not piccolo, and handles switching between different molecules and rotation handling.
  */
 public class RealMoleculeOverlayNode extends Node {
-    private final MoleculeJMEApplication app;
+    private final MoleculeShapesModule module;
     private final Camera camera; // track the camera so we can rotate the bonds accordingly
     private RealMolecule molecule;
     private MoleculeNode moleculeNode;
@@ -31,17 +31,17 @@ public class RealMoleculeOverlayNode extends Node {
 
     public Property<DisplayMode> displayMode = new Property<DisplayMode>( DisplayMode.BALL_AND_STICK );
 
-    public RealMoleculeOverlayNode( final MoleculeJMEApplication app, Camera camera ) {
+    public RealMoleculeOverlayNode( final MoleculeShapesModule module, Camera camera ) {
         super( "Real Molecule Overlay" );
-        this.app = app;
+        this.module = module;
         this.camera = camera;
 
         // before each frame
-        app.getStateManager().attach( new AbstractAppState() {
+        module.attachState( new AbstractAppState() {
             @Override public void update( final float tpf ) {
 
                 // auto-rotate the molecule if we can
-                if ( moleculeNode != null && app.canAutoRotateRealMolecule() && !draggedLastMolecule.get() ) {
+                if ( moleculeNode != null && module.canAutoRotateRealMolecule() && !draggedLastMolecule.get() ) {
                     updateRotation( new VoidFunction2<Quaternion, Float>() {
                         public void apply( Quaternion quaternion, Float aFloat ) {
                             quaternion.set( new Quaternion().fromAngles( 0, tpf / 2, 0 ).mult( quaternion ) );
@@ -91,7 +91,7 @@ public class RealMoleculeOverlayNode extends Node {
         }
 
         if ( molecule != null ) {
-            moleculeNode = new MoleculeNode( molecule, app, camera, displayMode.get() ) {{
+            moleculeNode = new MoleculeNode( molecule, module, camera, displayMode.get() ) {{
                 // scale the molecule node so it fits nicely within our viewport
                 float scale = MoleculeShapesConstants.MOLECULE_SCALE / getBoundingRadius();
                 scale( scale );

@@ -11,7 +11,9 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
-import com.jme3.app.Application;
+import com.jme3.app.state.AppState;
+import com.jme3.asset.AssetManager;
+import com.jme3.renderer.Camera;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeCanvasContext;
 
@@ -20,15 +22,19 @@ import com.jme3.system.JmeCanvasContext;
  */
 public abstract class JMEModule extends Module {
 
-    private static Application app = null;
+    private static PhetJMEApplication app = null;
     private static JmeCanvasContext context;
     private static Canvas canvas;
+
+    private boolean hasInitialized = false;
 
     public JMEModule( Frame parentFrame, String name, IClock clock ) {
         super( name, clock );
 
+        final boolean isFirstModule = app == null;
+
         // do the following only for the first initialization, since we can only create one application
-        if ( app == null ) {
+        if ( isFirstModule ) {
             final AppSettings settings = new AppSettings( true );
 
             JMEUtils.initializeLibraries( settings );
@@ -86,21 +92,32 @@ public abstract class JMEModule extends Module {
             // listen to resize events on our canvas, so that we can update our layout
             getCanvas().addComponentListener( new ComponentAdapter() {
                 @Override public void componentResized( ComponentEvent e ) {
-                    ( (PhetJMEApplication) app ).onResize( getCanvas().getSize() );
+                    app.onResize( getCanvas().getSize() );
                 }
             } );
+        }
 
-            // add the actual panel in, since we are the top module
-            setSimulationPanel( new JPanel( new BorderLayout() ) {{
+        setSimulationPanel( new JPanel( new BorderLayout() ) {{
+            if ( isFirstModule ) {
+                // add the actual panel in, since we are the top module
                 add( canvas, BorderLayout.CENTER );
-            }} );
-        }
-        else {
-            // add a placeholder. since this will never show up, we don't need to handle anything
-            setSimulationPanel( new JPanel( new BorderLayout() ) {{
-                // placeholder. will never show up
-            }} );
-        }
+            }
+            else {
+                // placeholder. since this will never show up, we don't need to handle anything
+            }
+        }} );
+
+        addListener( new Listener() {
+            public void activated() {
+                assureInitialized();
+            }
+
+            public void deactivated() {
+
+            }
+        } );
+
+        app.addModule( this );
 
         // hide most of the default things
         setClockControlPanel( null );
@@ -108,9 +125,73 @@ public abstract class JMEModule extends Module {
         setLogoPanelVisible( false );
     }
 
-    public abstract Application createApplication( Frame parentFrame );
+    private void assureInitialized() {
+        if ( !hasInitialized ) {
+            hasInitialized = true;
+            // locking for the JME thread
+            JMEUtils.invokeLater( new Runnable() {
+                public void run() {
+                    initialize();
+
+                    if ( getCanvasSize() != null ) { // sanity check
+                        updateLayout( getCanvasSize() );
+                    }
+                }
+            } );
+        }
+    }
+
+    public abstract void initialize();
+
+    public abstract PhetJMEApplication createApplication( Frame parentFrame );
+
+    // this gets called whenever the state should be updated TODO better docs
+    public void updateState( final float tpf ) {
+
+    }
+
+    public void updateLayout( Dimension canvasSize ) {
+    }
 
     public Canvas getCanvas() {
         return canvas;
+    }
+
+    public AssetManager getAssetManager() {
+        return app.getAssetManager();
+    }
+
+    public void attachState( AppState state ) {
+        app.getStateManager().attach( state ); // TODO: attach/detach these when the module is made active/inactive
+    }
+
+    public void detachState( AppState state ) {
+        app.getStateManager().detach( state ); // TODO: attach/detach these when the module is made active/inactive
+    }
+
+    public Dimension getStageSize() {
+        return app.getStageSize();
+    }
+
+    public Dimension getCanvasSize() {
+        return app.canvasSize.get();
+    }
+
+    public JMEView createMainView( final String name, Camera camera ) {
+        JMEView view = app.createMainView( name, camera );
+        // TODO: visibility toggling of the view depending on module active/inactive
+        return view;
+    }
+
+    public JMEView createBackGUIView( final String name ) {
+        JMEView view = app.createBackGUIView( name );
+        // TODO: visibility toggling of the view depending on module active/inactive
+        return view;
+    }
+
+    public JMEView createFrontGUIView( final String name ) {
+        JMEView view = app.createFrontGUIView( name );
+        // TODO: visibility toggling of the view depending on module active/inactive
+        return view;
     }
 }

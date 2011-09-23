@@ -307,7 +307,7 @@ public class JMEUtils {
             final File tempDir = new File( System.getProperty( "java.io.tmpdir" ), "phet-jme3-libs" );
             tempDir.mkdirs();
             final String path = tempDir.getAbsolutePath();
-            System.out.println( "Extracting native JME3 libraries to: " + path );
+            System.out.println( "Extracting native JME3 libraries to: " + path ); // TODO use common logging?
             Natives.setExtractionDir( path );
             tempDir.deleteOnExit();
         }
@@ -364,6 +364,9 @@ public class JMEUtils {
      * Like SwingUtilities.invokeAndWait, but for the JME3 thread. Will wait until the execution is done
      *
      * @param runnable Code to run
+     * @throws InterruptedException Probably on shutdown
+     * @throws java.util.concurrent.ExecutionException
+     *                              Probably on startup
      */
     public static void invokeAndWait( final Runnable runnable ) throws ExecutionException, InterruptedException {
         Future<Object> future = getApplication().enqueue( new Callable<Object>() {

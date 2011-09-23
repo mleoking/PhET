@@ -47,7 +47,6 @@ public abstract class CanvasTransform {
             app.canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
                     transform.set( getTransform() );
-//                    System.out.println( transform );
                 }
             } );
         }

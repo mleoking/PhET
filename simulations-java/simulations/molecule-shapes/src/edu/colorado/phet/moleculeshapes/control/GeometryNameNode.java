@@ -14,7 +14,6 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -74,7 +73,7 @@ public class GeometryNameNode extends PNode {
 
     private final MoleculeModel molecule;
 
-    public GeometryNameNode( MoleculeModel molecule, MoleculeJMEApplication app ) {
+    public GeometryNameNode( MoleculeModel molecule ) {
         this.molecule = molecule;
 
         /*---------------------------------------------------------------------------*
