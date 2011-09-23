@@ -3,7 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;
 
@@ -20,7 +20,7 @@ public class BondDipoleNode extends DipoleNode {
         super( bond.dipole, MPColors.BOND_DIPOLE, scale );
 
         // position the dipole to be parallel with the bond, with some perpendicular offset
-        RichSimpleObserver observer = new RichSimpleObserver() {
+        bond.dipole.addObserver( new SimpleObserver() {
             public void update() {
                 // location of tail in polar coordinates, relative to center of bond
                 double offsetX = isInPhase( bond, bond.dipole.get() ) ? ( getDipoleViewLength() / 2 ) : -( getDipoleViewLength() / 2 );
@@ -35,9 +35,7 @@ public class BondDipoleNode extends DipoleNode {
                 // location of tail in world coordinate frame
                 setOffset( bond.getCenter().getX() + tailX, bond.getCenter().getY() + tailY );
             }
-        };
-        observer.observe( bond.dipole );
-        observer.update();
+        } );
     }
 
     // True if the dipole points in the same direction as a vector from bond.endpoint1 to bond.endpoint2.
