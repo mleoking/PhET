@@ -4,7 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.SliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -26,7 +26,7 @@ public class EvaporationSlider extends WhiteControlPanelNode {
                 new PText( SugarAndSaltSolutionsResources.Strings.EVAPORATION ) {{setFont( CONTROL_FONT );}},
 
                 //Add the slider
-                new SliderNode( 0, evaporationRate, 100 ) {{
+                new HSliderNode( 0, 100, evaporationRate ) {{
                     addInputEventListener( new PBasicInputEventHandler() {
                         @Override public void mouseReleased( PInputEvent event ) {
                             evaporationRate.set( 0.0 );

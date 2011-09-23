@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.common.piccolophet.nodes.slider.SliderNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -52,7 +53,7 @@ public class FaucetSliderNode extends PNode {
                 sliderProperty.set( value );
             }
         } );
-        final SliderNode sliderNode = new SliderNode( 0, sliderProperty, 1, allowed );
+        final SliderNode sliderNode = new HSliderNode( 0, 1, sliderProperty, allowed );
 
         //Fix the size so it will fit into the specified image dimensions
         double scale = 85.0 / sliderNode.getFullBounds().getWidth();

@@ -11,6 +11,10 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class PhetPText extends PText {
+    public PhetPText( String text ) {
+        super( text );
+    }
+
     public PhetPText( String text, Font font ) {
         super( text );
         setFont( font );
