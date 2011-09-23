@@ -1,8 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;
 
@@ -16,43 +17,32 @@ public class BondDipoleNode extends DipoleNode {
     private static final double PERPENDICULAR_OFFSET = 55; // offset perpendicular to the axis of the bond
 
     public BondDipoleNode( final Bond bond, final double scale ) {
-        super( MPColors.BOND_DIPOLE );
+        super( bond.dipole, MPColors.BOND_DIPOLE, scale );
 
-        // align the dipole to be parallel with the bond, with some perpendicular offset
-        SimpleObserver update = new SimpleObserver() {
+        // position the dipole to be parallel with the bond, with some perpendicular offset
+        RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
+                // location of tail in polar coordinates, relative to center of bond
+                double offsetX = isInPhase( bond, bond.dipole.get() ) ? ( getDipoleViewLength() / 2 ) : -( getDipoleViewLength() / 2 );
+                double offsetAngle = Math.atan( offsetX / PERPENDICULAR_OFFSET );
+                double tailDistance = PERPENDICULAR_OFFSET / Math.cos( offsetAngle );
+                double tailAngle = bond.getAngle() - ( Math.PI / 2 ) - offsetAngle;
 
-                setComponentX( scale * bond.deltaElectronegativity.get() ); // for a dipole with angle=0
+                // location of tail in Cartesian coordinates, relative to center of bond
+                double tailX = PolarCartesianConverter.getX( tailDistance, tailAngle );
+                double tailY = PolarCartesianConverter.getY( tailDistance, tailAngle );
 
-                // compute location of dipole, with offset
-                final double angle = bond.getAngle() - Math.PI / 2; // above the bond
-                double dipoleX = PolarCartesianConverter.getX( PERPENDICULAR_OFFSET, angle );
-                double dipoleY = PolarCartesianConverter.getY( PERPENDICULAR_OFFSET, angle );
-
-                // clear the transform
-                setOffset( 0, 0 );
-                setRotation( 0 );
-
-                // compute length before transforming
-                final double length = getFullBoundsReference().getWidth();
-
-                // offset from bond
-                translate( bond.getCenter().getX() + dipoleX, bond.getCenter().getY() + dipoleY );
-
-                // parallel to bond
-                rotate( bond.getAngle() );
-
-                // center vector on bond
-                if ( bond.deltaElectronegativity.get() > 0 ) {
-                    translate( -length / 2, 0 );
-                }
-                else {
-                    translate( +length / 2, 0 );
-                }
+                // location of tail in world coordinate frame
+                setOffset( bond.getCenter().getX() + tailX, bond.getCenter().getY() + tailY );
             }
         };
-        bond.endpoint1.addObserver( update );
-        bond.endpoint2.addObserver( update );
-        bond.deltaElectronegativity.addObserver( update );
+        observer.observe( bond.dipole );
+        observer.update();
+    }
+
+    // True if the dipole points in the same direction as a vector from bond.endpoint1 to bond.endpoint2.
+    // Direction will never be precisely the same, so test with a coarse angle.
+    private boolean isInPhase( Bond bond, ImmutableVector2D dipole ) {
+        return Math.abs( bond.getAngle() - dipole.getAngle() ) < ( Math.PI / 4 );
     }
 }
