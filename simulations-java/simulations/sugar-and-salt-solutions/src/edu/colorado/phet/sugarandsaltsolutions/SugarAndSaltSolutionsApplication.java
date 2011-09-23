@@ -4,7 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
+import edu.colorado.phet.common.phetcommon.view.menu.TeacherMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
 import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
@@ -48,7 +48,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", globalState.colorScheme.saltColor.selectedColor ) );
 
         //Add an options menu with the option to change the background to white for use on projectors in bright classrooms
-        getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( globalState.colorScheme.whiteBackground );}} );
+        getPhetFrame().addMenu( new TeacherMenu() {{addProjectorMenuItem( globalState.colorScheme.projectorMode );}} );
     }
 
     public static void main( String[] args ) {

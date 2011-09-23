@@ -122,9 +122,9 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //Show a graphic that shows the particle frame to be a zoomed in part of the mini beaker
         addChild( new ZoomIndicatorNode( new CompositeProperty<Color>( new Function0<Color>() {
             public Color apply() {
-                return state.colorScheme.whiteBackground.get() ? blue : Color.yellow;
+                return state.colorScheme.projectorMode.get() ? blue : Color.yellow;
             }
-        }, state.colorScheme.whiteBackground ), miniBeakerNode, particleWindowNode ) );
+        }, state.colorScheme.projectorMode ), miniBeakerNode, particleWindowNode ) );
 
         //Add the reset all button
         final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( canvasSize.width, canvasSize.height, new VoidFunction0() {
