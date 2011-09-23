@@ -51,7 +51,7 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode controlPanelNode = new MPControlPanelNode( parentFrame,
                                                          new Resettable[] { model, viewProperties },
                                                          new MPVerticalPanel( MPStrings.VIEW ) {{
-                                                             add( new MPCheckBox( MPStrings.BOND_DIPOLE, viewProperties.bondDipolesVisible ) );
+                                                             add( new MPCheckBox( MPStrings.BOND_DIPOLES, viewProperties.bondDipolesVisible ) );
                                                              add( new MPCheckBox( MPStrings.MOLECULAR_DIPOLE, viewProperties.molecularDipoleVisible ) );
                                                              add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
                                                              add( new MPCheckBox( MPStrings.ATOM_ELECTRONEGATIVITIES, viewProperties.electronegativityTableVisible ) );
