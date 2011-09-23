@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.control;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
 
@@ -14,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.umd.cs.piccolo.PNode;
 
@@ -70,7 +72,7 @@ public class MPControlPanelNode extends PNode {
         }
     }
 
-    // Base class for all individual panels, vertical layout.
+    // Base class for individual panels, vertical layout.
     public static abstract class MPVerticalPanel extends GridPanel {
 
         public MPVerticalPanel( String title ) {
@@ -92,7 +94,7 @@ public class MPControlPanelNode extends PNode {
         }
     }
 
-    // Encapsulates the look of all check boxes
+    // Encapsulates the look of check boxes
     public static class MPCheckBox extends PropertyCheckBox {
         public MPCheckBox( String text, Property<Boolean> property ) {
             super( text, property );
@@ -100,11 +102,19 @@ public class MPControlPanelNode extends PNode {
         }
     }
 
-    // Encapsulates the look of all radio buttons
+    // Encapsulates the look of radio buttons
     public static class MPRadioButton<T> extends PropertyRadioButton<T> {
         public MPRadioButton( String text, Property<T> property, T value ) {
             super( text, property, value );
             super.setFont( MPConstants.CONTROL_FONT );
+        }
+    }
+
+    // Encapsulates the look of the Reset All button
+    public class MPResetAllButtonNode extends ResetAllButtonNode {
+        public MPResetAllButtonNode( Resettable[] resettables, Frame parentFrame ) {
+            super( resettables, parentFrame, 16, Color.BLACK, Color.WHITE );
+            setConfirmationEnabled( false );
         }
     }
 }
