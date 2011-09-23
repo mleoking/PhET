@@ -107,7 +107,7 @@ public class MoleculeShapesControlPanel extends PNode {
                                                               MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR.get() ) {{
             addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
-                    module.removeAllAtoms();
+                    module.getMolecule().removeAllPairs();
                 }
             } ) );
 
