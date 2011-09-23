@@ -59,12 +59,12 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, 10 );
             }};
             addChild( singleBondNode );
-            doubleBondNode = new BondTypeControlNode( module, new PImage( Images.DOUBLE_BOND_SMALL ), 2, module.addDoubleBondEnabled ) {{
+            doubleBondNode = new BondTypeControlNode( module, new Spacer( 0, 0, 100, 33 ), 2, module.addDoubleBondEnabled ) {{
                 setOffset( 0, singleBondNode.getFullBounds().getMaxY() + spaceBetweenTypes );
             }};
             addChild( doubleBondNode );
-            tripleBondNode = new BondTypeControlNode( module, new PImage( Images.TRIPLE_BOND_SMALL ), 3, module.addTripleBondEnabled ) {{
-                setOffset( 0, doubleBondNode.getFullBounds().getMaxY() + spaceBetweenTypes );
+            tripleBondNode = new BondTypeControlNode( module, new Spacer( 0, 0, 100, 33 ), 3, module.addTripleBondEnabled ) {{
+                setOffset( 0, doubleBondNode.getFullBounds().getMaxY() + spaceBetweenTypes );   // TODO: remove the images that used to be here
             }};
             addChild( tripleBondNode );
         }}, Strings.CONTROL__BONDING );
@@ -222,6 +222,14 @@ public class MoleculeShapesControlPanel extends PNode {
 
     public PBounds getSingleBondTargetBounds() {
         return singleBondNode.getGraphic().getGlobalFullBounds();
+    }
+
+    public PBounds getDoubleBondTargetBounds() {
+        return doubleBondNode.getGraphic().getGlobalFullBounds();
+    }
+
+    public PBounds getTripleBondTargetBounds() {
+        return tripleBondNode.getGraphic().getGlobalFullBounds();
     }
 
     /*---------------------------------------------------------------------------*
