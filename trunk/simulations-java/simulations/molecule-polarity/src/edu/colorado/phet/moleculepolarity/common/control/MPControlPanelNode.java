@@ -68,7 +68,9 @@ public class MPControlPanelNode extends PNode {
         if ( resettables != null ) {
             PNode resetAllButtonNode = new MPResetAllButtonNode( resettables, parentFrame );
             addChild( resetAllButtonNode );
-            resetAllButtonNode.setOffset( previousNode.getXOffset(), previousNode.getFullBoundsReference().getMaxY() + Y_SPACING );
+            if ( previousNode != null ) {
+                resetAllButtonNode.setOffset( previousNode.getXOffset(), previousNode.getFullBoundsReference().getMaxY() + Y_SPACING );
+            }
         }
     }
 
