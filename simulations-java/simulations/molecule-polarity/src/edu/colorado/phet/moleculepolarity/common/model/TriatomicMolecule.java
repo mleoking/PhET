@@ -65,18 +65,24 @@ public class TriatomicMolecule extends Molecule2D {
     // repositions the atoms
     protected void updateAtomLocations() {
         final double radius = BOND_LENGTH;
-        // atom B remains at the molecule's location
-        atomB.location.set( location );
-        // atom A
-        double thetaA = angle.get() + bondAngleA.get();
-        double xA = PolarCartesianConverter.getX( radius, thetaA ) + location.getX();
-        double yA = PolarCartesianConverter.getY( radius, thetaA ) + location.getY();
-        atomA.location.set( new ImmutableVector2D( xA, yA ) );
-        // atom C
-        double thetaC = angle.get() + bondAngleC.get();
-        double xC = PolarCartesianConverter.getX( radius, thetaC ) + location.getX();
-        double yC = PolarCartesianConverter.getY( radius, thetaC ) + location.getY();
-        atomC.location.set( new ImmutableVector2D( xC, yC ) );
+        atomB.location.set( location );  // atom B remains at the molecule's location
+        updateAtomLocation( atomA, bondAngleA.get(), location, angle.get() );
+        updateAtomLocation( atomC, bondAngleC.get(), location, angle.get() );
+    }
+
+    /*
+     * Repositions one atom.
+     *
+     * @param atom the atom to reposition
+     * @param bondAngle the angle of the bond that the atom participates in
+     * @param location location of the molecule
+     * @param angle orientation of the molecule
+     */
+    private static void updateAtomLocation( Atom atom, double bondAngle, ImmutableVector2D location, double angle ) {
+        double thetaA = angle + bondAngle;
+        double xA = PolarCartesianConverter.getX( BOND_LENGTH, thetaA ) + location.getX();
+        double yA = PolarCartesianConverter.getY( BOND_LENGTH, thetaA ) + location.getY();
+        atom.location.set( new ImmutableVector2D( xA, yA ) );
     }
 
     // updates partial charges
