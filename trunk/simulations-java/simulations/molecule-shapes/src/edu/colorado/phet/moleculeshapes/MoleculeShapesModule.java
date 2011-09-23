@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
@@ -345,7 +346,13 @@ public class MoleculeShapesModule extends JMEModule {
     }
 
     @Override public PhetJMEApplication createApplication( Frame parentFrame ) {
-        return new PhetJMEApplication( parentFrame );
+        final PhetJMEApplication application = new PhetJMEApplication( parentFrame );
+        MoleculeShapesColors.BACKGROUND.getRGBAProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                application.backgroundColor.set( MoleculeShapesColors.BACKGROUND.getRGBA() );
+            }
+        } );
+        return application;
     }
 
     public void startOverlayMoleculeDrag() {

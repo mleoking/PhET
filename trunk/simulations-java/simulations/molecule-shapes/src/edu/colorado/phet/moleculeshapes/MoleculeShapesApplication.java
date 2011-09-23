@@ -22,6 +22,7 @@ import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.dev.PerformanceFrame;
+import edu.colorado.phet.moleculeshapes.util.ColorProfile;
 import edu.colorado.phet.moleculeshapes.util.ColorPropertyControl;
 
 /**
@@ -74,6 +75,25 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
             frame.addMenu( optionsMenu );
         }
 
+        JMenu teachersMenu = new JMenu( "Teachers" ); // TODO: i18n, in common?
+
+        // color profiles
+        ButtonGroup colorProfileGroup = new ButtonGroup();
+        for ( final ColorProfile<MoleculeShapesColors> profile : MoleculeShapesColors.PROFILES ) {
+            JRadioButtonMenuItem item = new JRadioButtonMenuItem( profile.getName() ) {{
+                setSelected( profile == MoleculeShapesColors.DEFAULT );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        profile.apply( MoleculeShapesColors.handler );
+                    }
+                } );
+            }};
+            colorProfileGroup.add( item );
+            teachersMenu.add( item );
+        }
+
+        frame.addMenu( teachersMenu );
+
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
@@ -109,7 +129,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
                         setContentPane( new JPanel() {{
                             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-                            add( new ColorRGBAPropertyControl( frame, "Background color: ", module.getApp().backgroundColor ) );
+                            add( new ColorPropertyControl( frame, "Background color: ", MoleculeShapesColors.BACKGROUND.getProperty() ) );
                             add( new ColorRGBAPropertyControl( frame, "Central atom color: ", MoleculeShapesConstants.COLOR_ATOM_CENTER ) );
                             add( new ColorRGBAPropertyControl( frame, "Radial atom color: ", MoleculeShapesConstants.COLOR_ATOM ) );
                             add( new ColorPropertyControl( frame, "Remove all foreground color: ", MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR ) );
@@ -138,6 +158,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
     public static void main( final String[] args ) throws ClassNotFoundException {
         JMEUtils.initializeJME( args );
+
 
         /*
         * If you want to customize your application (look-&-feel, window size, etc)
