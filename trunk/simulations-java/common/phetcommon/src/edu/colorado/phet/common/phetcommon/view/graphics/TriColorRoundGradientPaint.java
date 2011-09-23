@@ -101,10 +101,11 @@ public class TriColorRoundGradientPaint implements Paint {
          * @param middleOuterSpan the distance over which the gradient transitions from middleColor to outerColor
          */
         public TriColorRoundGradientContext( Color innerColor, Color middleColor, Color outerColor, Point2D center, double innerMiddleSpan, double middleOuterSpan ) {
+            assert ( innerMiddleSpan >= 0 );
+            assert ( middleOuterSpan >= 0 );
 
-            //This is correcting a client error which should be corrected in the client code, but ensures that the distances used within the implementation are guaranteed to be positive.
-            this.innerMiddleSpan = Math.abs( innerMiddleSpan );
-            this.middleOuterSpan = Math.abs( middleOuterSpan );
+            this.innerMiddleSpan = innerMiddleSpan;
+            this.middleOuterSpan = middleOuterSpan;
 
             this.innerColor = innerColor;
             this.middleColor = middleColor;
