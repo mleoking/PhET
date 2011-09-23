@@ -19,24 +19,40 @@ import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Quad;
 
+/**
+ * Displays a molecule fragment that can be enabled or disabled
+ */
 public class BondTypeOverlayNode extends MoleculeModelNode {
     public BondTypeOverlayNode( final MoleculeModel molecule, final JMEView view, final JMEInputHandler inputHandler, final MoleculeShapesModule module, final Property<Boolean> enabled ) {
         super( molecule, inputHandler, null, module, view.getCamera() );
 
+        // don't show the center atom
         getCenterAtomNode().setCullHint( CullHint.Always );
 
-        // shadow used for the "disabled" view
-        final double shadowWidth = PairGroup.BONDED_PAIR_DISTANCE + MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * 5;
-        final float shadowHeight = MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * 10;
-        final Geometry shadowQuad = new Geometry( "Disable shadow",
-                                                  new Quad( (float) shadowWidth,
-                                                            shadowHeight ) ) {{
-            setLocalTranslation( 0, -shadowHeight / 2, MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * 5 );
+        /*---------------------------------------------------------------------------*
+        * Below is an ugly hackish way of making the molecule look disabled. specifically, it puts up a semi-transparent
+        * quad in front of the molecule. Its position and dimensions were unfortunately hand-tuned.
+        *
+        * Let me know if there is a better way to handle this!
+        *----------------------------------------------------------------------------*/
+
+        final boolean isLonePair = !molecule.getLonePairs().isEmpty();
+
+        // dimensions
+        final double shadowWidth = ( isLonePair ? PairGroup.LONE_PAIR_DISTANCE : PairGroup.BONDED_PAIR_DISTANCE ) + MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * 5;
+        final float shadowHeight = MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * ( isLonePair ? 13 : 10 );
+
+        final Geometry shadowQuad = new Geometry( "Disable shadow", new Quad( (float) shadowWidth, shadowHeight ) ) {{
+            // move it so it covers the molecule fragment
+            setLocalTranslation( 0, -shadowHeight / 2, MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * ( isLonePair ? 8 : 5 ) );
+
+            // give it that semi-transparent color
             setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
                 MoleculeShapesColors.BACKGROUND.getRGBAProperty().addObserver( new SimpleObserver() {
                     public void update() {
                         ColorRGBA rgba = MoleculeShapesColors.BACKGROUND.getRGBA();
-                        setColor( "Color", new ColorRGBA( rgba.r, rgba.g, rgba.b, 0.3f ) ); // TODO: improve alpha based on color? for projector, this doesn't look good
+                        float alpha = 0.3f + ( rgba.r + rgba.g + rgba.b ) * 0.3f / 3;
+                        setColor( "Color", new ColorRGBA( rgba.r, rgba.g, rgba.b, alpha ) );
                     }
                 } );
 
@@ -47,11 +63,12 @@ public class BondTypeOverlayNode extends MoleculeModelNode {
             setQueueBucket( Bucket.Transparent );
         }};
         attachChild( shadowQuad );
+
+        // ensure that when enabled, the shadow quad isn't visible
         enabled.addObserver( new SimpleObserver() {
             public void update() {
                 shadowQuad.setCullHint( enabled.get() ? CullHint.Always : CullHint.Never );
             }
         } );
-
     }
 }
