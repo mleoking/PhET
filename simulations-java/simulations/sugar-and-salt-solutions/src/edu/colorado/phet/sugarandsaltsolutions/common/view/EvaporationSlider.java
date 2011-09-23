@@ -3,8 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.common.piccolophet.nodes.faucet.SliderNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.slider.SliderNode;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
