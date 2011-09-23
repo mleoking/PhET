@@ -125,7 +125,6 @@ public class MoleculeShapesModule extends JMEModule {
     private Camera moleculeCamera;
     private MoleculeModelNode moleculeNode; // The molecule to display and rotate
 
-    private JMEView overlay;
     private MoleculeShapesControlPanel controlPanelNode;
 
     private RealMoleculeOverlayNode realMoleculeOverlayNode;
@@ -281,8 +280,8 @@ public class MoleculeShapesModule extends JMEModule {
         * real molecule overlay
         *----------------------------------------------------------------------------*/
 
-        overlay = createMainView( "Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
-                                                                new CanvasTransformedBounds( canvasTransform, realMoleculeOverlayStageBounds ) ) {
+        JMEView realMoleculeOverlayView = createMainView( "Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
+                                                                                        new CanvasTransformedBounds( canvasTransform, realMoleculeOverlayStageBounds ) ) {
             @Override public void positionMe() {
                 setFrustumPerspective( 45f, 1, 1f, 1000f );
                 setLocation( new Vector3f( 0, 0, 40 ) );
@@ -290,10 +289,10 @@ public class MoleculeShapesModule extends JMEModule {
             }
         } );
 
-        realMoleculeOverlayNode = new RealMoleculeOverlayNode( this, overlay.getCamera() );
-        overlay.getScene().attachChild( realMoleculeOverlayNode );
+        realMoleculeOverlayNode = new RealMoleculeOverlayNode( this, realMoleculeOverlayView.getCamera() );
+        realMoleculeOverlayView.getScene().attachChild( realMoleculeOverlayNode );
 
-        addLighting( overlay.getScene() );
+        addLighting( realMoleculeOverlayView.getScene() );
 
         /*---------------------------------------------------------------------------*
         * testing overlay
@@ -632,7 +631,7 @@ public class MoleculeShapesModule extends JMEModule {
 
     private Rectangle2D getOverlayStageBounds() {
         // get the bounds, relative to the Piccolo origin (which is 0,0 in the component as well)
-        Rectangle2D localOverlayBounds = controlPanelNode.getOverlayBounds();
+        Rectangle2D localOverlayBounds = controlPanelNode.getRealMoleculeOverlayBounds();
 
         // get the translation of the control panel
         float offsetX = (float) controlPanel.position.get().getX();

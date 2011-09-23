@@ -134,4 +134,8 @@ public class BondTypeControlNode extends PNode {
 
         repaint();
     }
+
+    public PNode getGraphic() {
+        return graphic;
+    }
 }
