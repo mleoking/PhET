@@ -11,7 +11,7 @@ import java.awt.Color;
 public class Element {
 
     public final int elementNumber; // element number in the periodic table
-    public final Color color;
+    public final Color color; // color used by Jmol
 
     public Element( int elementNumber, Color color ) {
         this.elementNumber = elementNumber;
