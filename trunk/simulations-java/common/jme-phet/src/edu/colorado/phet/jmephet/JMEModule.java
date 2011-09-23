@@ -4,12 +4,16 @@ package edu.colorado.phet.jmephet;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.jmephet.input.JMEInputHandler;
+import edu.colorado.phet.jmephet.input.JMEModuleInputHandler;
 
 import com.jme3.app.state.AppState;
 import com.jme3.asset.AssetManager;
@@ -21,6 +25,9 @@ import com.jme3.system.JmeCanvasContext;
  * Support for creating a JME application, context and canvas
  */
 public abstract class JMEModule extends Module {
+
+    private final JMEModuleInputHandler inputHandler;
+    private List<AppState> states = new ArrayList<AppState>();
 
     private static PhetJMEApplication app = null;
     private static JmeCanvasContext context;
@@ -97,6 +104,8 @@ public abstract class JMEModule extends Module {
             } );
         }
 
+        inputHandler = new JMEModuleInputHandler( this, app.getInputManager() ); // TODO: we are passing so many partially-constructed objects...
+
         setSimulationPanel( new JPanel( new BorderLayout() ) {{
             if ( isFirstModule ) {
                 // add the actual panel in, since we are the top module
@@ -109,11 +118,20 @@ public abstract class JMEModule extends Module {
 
         addListener( new Listener() {
             public void activated() {
+                // make sure we are initialized before anything else
                 assureInitialized();
+
+                // hook up states to our application
+                for ( AppState state : states ) {
+                    app.getStateManager().attach( state );
+                }
             }
 
             public void deactivated() {
-
+                // detach states from our application
+                for ( AppState state : states ) {
+                    app.getStateManager().detach( state );
+                }
             }
         } );
 
@@ -153,28 +171,18 @@ public abstract class JMEModule extends Module {
     public void updateLayout( Dimension canvasSize ) {
     }
 
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
-    public AssetManager getAssetManager() {
-        return app.getAssetManager();
-    }
-
     public void attachState( AppState state ) {
-        app.getStateManager().attach( state ); // TODO: attach/detach these when the module is made active/inactive
+        states.add( state );
+        if ( isActive() ) {
+            app.getStateManager().attach( state );
+        }
     }
 
     public void detachState( AppState state ) {
-        app.getStateManager().detach( state ); // TODO: attach/detach these when the module is made active/inactive
-    }
-
-    public Dimension getStageSize() {
-        return app.getStageSize();
-    }
-
-    public Dimension getCanvasSize() {
-        return app.canvasSize.get();
+        states.remove( state );
+        if ( isActive() ) {
+            app.getStateManager().detach( state );
+        }
     }
 
     public JMEView createMainView( final String name, Camera camera ) {
@@ -193,5 +201,29 @@ public abstract class JMEModule extends Module {
         JMEView view = app.createFrontGUIView( name );
         // TODO: visibility toggling of the view depending on module active/inactive
         return view;
+    }
+
+    /*---------------------------------------------------------------------------*
+    * getters
+    *----------------------------------------------------------------------------*/
+
+    public Dimension getStageSize() {
+        return app.getStageSize();
+    }
+
+    public Dimension getCanvasSize() {
+        return app.canvasSize.get();
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    public AssetManager getAssetManager() {
+        return app.getAssetManager();
+    }
+
+    public JMEInputHandler getInputHandler() {
+        return inputHandler;
     }
 }
