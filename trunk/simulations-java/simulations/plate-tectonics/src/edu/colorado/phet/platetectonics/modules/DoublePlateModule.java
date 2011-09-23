@@ -5,10 +5,9 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.PhetJMEApplication;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
-
-import com.jme3.app.Application;
 
 public class DoublePlateModule extends JMEModule {
 
@@ -22,7 +21,10 @@ public class DoublePlateModule extends JMEModule {
         return app;
     }
 
-    @Override public Application createApplication( Frame parentFrame ) {
+    @Override public void initialize() {
+    }
+
+    @Override public PhetJMEApplication createApplication( Frame parentFrame ) {
         app = new PlateTectonicsJMEApplication( parentFrame );
         return app;
     }

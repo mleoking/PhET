@@ -7,6 +7,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.model.Atom3D;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
@@ -23,11 +24,11 @@ public class MoleculeNode extends Node {
 
     private float boundingRadius = 0;
 
-    public MoleculeNode( Molecule molecule, MoleculeJMEApplication app, Camera camera, DisplayMode displayMode ) {
+    public MoleculeNode( Molecule molecule, MoleculeShapesModule module, Camera camera, DisplayMode displayMode ) {
         super( "Molecule" );
 
         for ( Atom3D atom : molecule.getAtoms() ) {
-            AtomNode atomNode = new AtomNode( atom, displayMode == DisplayMode.BALL_AND_STICK, app.getAssetManager() );
+            AtomNode atomNode = new AtomNode( atom, displayMode == DisplayMode.BALL_AND_STICK, module.getAssetManager() );
             atomNodes.add( atomNode );
             attachChild( atomNode );
 
@@ -42,7 +43,7 @@ public class MoleculeNode extends Node {
                     bond.order,
                     MoleculeShapesConstants.MOLECULE_BOND_RADIUS,
                     new None<Float>(),
-                    app,
+                    module,
                     camera,
                     JMEUtils.convertColor( bond.a.getColor() ),
                     JMEUtils.convertColor( bond.b.getColor() ) );

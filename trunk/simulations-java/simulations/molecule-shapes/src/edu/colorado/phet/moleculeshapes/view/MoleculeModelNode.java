@@ -13,19 +13,20 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import com.jme3.app.state.AbstractAppState;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -39,7 +40,7 @@ public class MoleculeModelNode extends Node {
     private MoleculeModel molecule;
     private final JMEInputHandler inputHandler;
     private final JMEView readoutView;
-    private final MoleculeJMEApplication app;
+    private final MoleculeShapesModule module;
     private final Camera camera;
 
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
@@ -50,12 +51,12 @@ public class MoleculeModelNode extends Node {
     private int angleIndex = 0;
     private List<ReadoutNode> angleReadouts = new ArrayList<ReadoutNode>();
 
-    public MoleculeModelNode( final MoleculeModel molecule, final JMEInputHandler inputHandler, final JMEView readoutView, final MoleculeJMEApplication app, final Camera camera ) {
+    public MoleculeModelNode( final MoleculeModel molecule, final JMEInputHandler inputHandler, final JMEView readoutView, final MoleculeShapesModule module, final Camera camera ) {
         super( "Molecule Model" );
         this.molecule = molecule;
         this.inputHandler = inputHandler;
         this.readoutView = readoutView;
-        this.app = app;
+        this.module = module;
         this.camera = camera;
 
         // update the UI when the molecule changes electron pairs
@@ -76,25 +77,25 @@ public class MoleculeModelNode extends Node {
         }
 
         // on each frame, update our view
-        app.addUpdateObserver( new SimpleObserver() {
-            public void update() {
+        module.attachState( new AbstractAppState() {
+            @Override public void update( float tpf ) {
                 updateView();
             }
         } );
 
         //Create the central atom
-        AtomNode center = new AtomNode( new None<PairGroup>(), app.getAssetManager() );
+        AtomNode center = new AtomNode( new None<PairGroup>(), module.getAssetManager() );
         attachChild( center );
     }
 
     private void addGroup( PairGroup group ) {
         if ( group.isLonePair ) {
-            LonePairNode lonePairNode = new LonePairNode( group, app.getAssetManager() );
+            LonePairNode lonePairNode = new LonePairNode( group, module.getAssetManager() );
             lonePairNodes.add( lonePairNode );
             attachChild( lonePairNode );
         }
         else {
-            AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), app.getAssetManager() );
+            AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), module.getAssetManager() );
             atomNodes.add( atomNode );
             attachChild( atomNode );
             rebuildBonds();
@@ -147,7 +148,7 @@ public class MoleculeModelNode extends Node {
                         pair.bondOrder,
                         MoleculeShapesConstants.MODEL_BOND_RADIUS, // bond radius
                         new Some<Float>( (float) PairGroup.BONDED_PAIR_DISTANCE ), // max length
-                        app,
+                        module,
                         camera );
                 attachChild( bondNode );
                 bondNodes.add( bondNode );
@@ -210,7 +211,7 @@ public class MoleculeModelNode extends Node {
                         continue;
                     }
 
-                    final BondAngleNode bondAngleNode = new BondAngleNode( app, molecule, aDir, bDir, localCameraPosition, lastMidpoint );
+                    final BondAngleNode bondAngleNode = new BondAngleNode( module, molecule, aDir, bDir, localCameraPosition, lastMidpoint );
                     attachChild( bondAngleNode );
                     angleNodes.add( bondAngleNode );
 
@@ -266,7 +267,7 @@ public class MoleculeModelNode extends Node {
         private volatile boolean attached = false;
 
         private ReadoutNode( PText text ) {
-            super( text, inputHandler, app );
+            super( text, inputHandler, module );
             this.text = text;
 
             text.setFont( MoleculeShapesConstants.BOND_ANGLE_READOUT_FONT );
@@ -283,7 +284,7 @@ public class MoleculeModelNode extends Node {
                     if ( !text.getText().equals( string ) ) {
                         text.setText( string );
                     }
-                    text.setScale( app.getApproximateScale() ); // change the font size based on the sim scale
+                    text.setScale( module.getApproximateScale() ); // change the font size based on the sim scale
                     float[] colors = MoleculeShapesConstants.BOND_ANGLE_READOUT_COLOR.getRGBColorComponents( null );
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
                     text.repaint();

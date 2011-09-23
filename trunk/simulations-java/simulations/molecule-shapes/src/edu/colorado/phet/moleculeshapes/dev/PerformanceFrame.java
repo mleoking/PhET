@@ -11,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.jmephet.JMEActionListener;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.jmephet.PhetJMEApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
-import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 
 public class PerformanceFrame extends JFrame {
-    private final MoleculeJMEApplication app;
+    private final PhetJMEApplication app;
 
-    public PerformanceFrame( MoleculeJMEApplication app ) throws HeadlessException {
+    public PerformanceFrame( PhetJMEApplication app ) throws HeadlessException {
         super( "Performance" );
         this.app = app;
 

@@ -7,6 +7,7 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.shapes.PointArc;
 import edu.colorado.phet.jmephet.shapes.Sector;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 
 import com.jme3.material.Material;
@@ -23,7 +24,7 @@ public class BondAngleNode extends Node {
     private PointArc arc;
 
     // TODO: docs and cleanup, and move out if kept
-    public BondAngleNode( final MoleculeJMEApplication app, MoleculeModel molecule, ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f localCameraPosition, Vector3f lastMidpoint ) {
+    public BondAngleNode( final MoleculeShapesModule module, MoleculeModel molecule, ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f localCameraPosition, Vector3f lastMidpoint ) {
         super( "Bond Angle" );
         float radius = 5;
         final float alpha = calculateBrightness( aDir, bDir, localCameraPosition, molecule.getBondedGroups().size() );
@@ -36,7 +37,7 @@ public class BondAngleNode extends Node {
         }};
 
         attachChild( new Geometry( "Bond Arc", arc ) {{
-            setMaterial( new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+            setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
                 float[] colors = MoleculeShapesConstants.BOND_ANGLE_ARC_COLOR.getRGBColorComponents( null );
                 setColor( "Color", new ColorRGBA( colors[0], colors[1], colors[2], alpha ) );
 
@@ -45,7 +46,7 @@ public class BondAngleNode extends Node {
             }} );
         }} );
 
-        final Material sectorMaterial = new Material( app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+        final Material sectorMaterial = new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             float[] colors = MoleculeShapesConstants.BOND_ANGLE_SWEEP_COLOR.getRGBColorComponents( null );
             setColor( "Color", new ColorRGBA( colors[0], colors[1], colors[2], alpha / 2 ) );
 
