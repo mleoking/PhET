@@ -115,7 +115,7 @@ public class PlankNode extends ModelObjectNode {
         for ( int i = 0; i < plank.getTickMarks().size(); i++ ) {
             Stroke tickMarkStroke = NORMAL_TICK_MARK_STROKE;
             Stroke highlightStroke = NORMAL_HIGHLIGHT_STROKE;
-            if ( i % 4 == 0 ) {
+            if ( i % 2 == 0 ) {
                 // Make some marks bold for easier placement of masses.
                 // The 'if' clause can be tweaked to put marks in
                 // different places.
