@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.jmephet.JMECursorHandler;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
@@ -24,14 +25,15 @@ public class BondTypeControlNode extends PNode {
     private final MoleculeShapesModule module;
     private final PNode graphic;
     private final int bondOrder;
+    private final Property<Boolean> enabled;
     private final PNode removeButton;
-    protected boolean enabled = true;
     protected boolean showingRemoveButton = false;
 
-    public BondTypeControlNode( final MoleculeShapesModule module, final PNode graphic, final int bondOrder ) {
+    public BondTypeControlNode( final MoleculeShapesModule module, final PNode graphic, final int bondOrder, final Property<Boolean> enabled ) {
         this.module = module;
         this.graphic = graphic;
         this.bondOrder = bondOrder;
+        this.enabled = enabled;
 
         addChild( graphic );
 
@@ -70,7 +72,7 @@ public class BondTypeControlNode extends PNode {
         // custom cursor handler for only showing hand when it is enabled
         graphic.addInputEventListener( new JMECursorHandler() {
             @Override public boolean isEnabled() {
-                return enabled;
+                return enabled.get();
             }
         } );
 
@@ -96,7 +98,7 @@ public class BondTypeControlNode extends PNode {
     public void addDragEvent( final Runnable runnable ) {
         graphic.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
-                if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
+                if ( enabled.get() && event.getButton() == MouseEvent.BUTTON1 ) {
                     JMEUtils.invoke( runnable );
                 }
             }
@@ -126,10 +128,10 @@ public class BondTypeControlNode extends PNode {
     }
 
     protected void updateState() {
-        enabled = isEnabled();
+        enabled.set( isEnabled() );
         showingRemoveButton = hasMatchingGroup();
 
-        graphic.setTransparency( enabled ? 1 : 0.7f );
+        graphic.setTransparency( enabled.get() ? 1 : 0.7f );
         removeButton.setVisible( showingRemoveButton );
 
         repaint();

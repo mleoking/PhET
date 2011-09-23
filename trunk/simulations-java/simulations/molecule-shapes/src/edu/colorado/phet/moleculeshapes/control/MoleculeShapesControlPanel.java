@@ -55,15 +55,15 @@ public class MoleculeShapesControlPanel extends PNode {
 
             final double spaceBetweenTypes = 8;
 
-            singleBondNode = new BondTypeControlNode( module, new Spacer( 0, 0, 100, 33 ), 1 ) {{
+            singleBondNode = new BondTypeControlNode( module, new Spacer( 0, 0, 100, 33 ), 1, module.addSingleBondEnabled ) {{
                 setOffset( 0, 10 );
             }};
             addChild( singleBondNode );
-            doubleBondNode = new BondTypeControlNode( module, new PImage( Images.DOUBLE_BOND_SMALL ), 2 ) {{
+            doubleBondNode = new BondTypeControlNode( module, new PImage( Images.DOUBLE_BOND_SMALL ), 2, module.addDoubleBondEnabled ) {{
                 setOffset( 0, singleBondNode.getFullBounds().getMaxY() + spaceBetweenTypes );
             }};
             addChild( doubleBondNode );
-            tripleBondNode = new BondTypeControlNode( module, new PImage( Images.TRIPLE_BOND_SMALL ), 3 ) {{
+            tripleBondNode = new BondTypeControlNode( module, new PImage( Images.TRIPLE_BOND_SMALL ), 3, module.addTripleBondEnabled ) {{
                 setOffset( 0, doubleBondNode.getFullBounds().getMaxY() + spaceBetweenTypes );
             }};
             addChild( tripleBondNode );
@@ -83,7 +83,7 @@ public class MoleculeShapesControlPanel extends PNode {
             /*---------------------------------------------------------------------------*
             * lone pair control
             *----------------------------------------------------------------------------*/
-            lonePairNode = new BondTypeControlNode( module, new PImage( Images.LONE_PAIR_SMALL ), 0 ) {
+            lonePairNode = new BondTypeControlNode( module, new PImage( Images.LONE_PAIR_SMALL ), 0, module.addLonePairEnabled ) {
                 {
                     setOffset( 0, 10 );
 

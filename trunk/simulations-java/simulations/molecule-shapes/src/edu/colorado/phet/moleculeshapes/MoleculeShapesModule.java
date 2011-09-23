@@ -45,6 +45,9 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;
@@ -52,9 +55,12 @@ import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
+import com.jme3.scene.shape.Quad;
 import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
@@ -84,9 +90,12 @@ public class MoleculeShapesModule extends JMEModule {
 
     private MoleculeModel molecule = new MoleculeModel();
 
-    public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
-    private Property<Rectangle2D> realMoleculeOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, 1, 1 ) ); // initialized to technically valid state
-    private Property<Rectangle2D> singleBondOverlayStageBounds;
+    public static final Property<Boolean> showLonePairs = new Property<Boolean>( true ); // TODO: convert to non-static?
+
+    public final Property<Boolean> addSingleBondEnabled = new Property<Boolean>( true );
+    public final Property<Boolean> addDoubleBondEnabled = new Property<Boolean>( true );
+    public final Property<Boolean> addTripleBondEnabled = new Property<Boolean>( true );
+    public final Property<Boolean> addLonePairEnabled = new Property<Boolean>( true );
 
     /*---------------------------------------------------------------------------*
     * dragging
@@ -111,6 +120,9 @@ public class MoleculeShapesModule extends JMEModule {
     private volatile boolean resizeDirty = false;
 
     private Quaternion rotation = new Quaternion(); // The angle about which the molecule should be rotated, changes as a function of time
+
+    private Property<Rectangle2D> realMoleculeOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, 1, 1 ) ); // initialized to technically valid state
+    private Property<Rectangle2D> singleBondOverlayStageBounds;
 
     /*---------------------------------------------------------------------------*
     * graphics/control
@@ -313,6 +325,34 @@ public class MoleculeShapesModule extends JMEModule {
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
         }}, inputHandler, null, this, singleBondOverlay.getCamera() ) {{
             getCenterAtomNode().setCullHint( CullHint.Always );
+
+            // shadow used for the "disabled" view
+            final double shadowWidth = PairGroup.BONDED_PAIR_DISTANCE + MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * 5;
+            final float shadowHeight = MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * 10;
+            final Geometry shadowQuad = new Geometry( "Disable shadow",
+                                                      new Quad( (float) shadowWidth,
+                                                                shadowHeight ) ) {{
+                setLocalTranslation( 0, -shadowHeight / 2, (float) ( MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * 5 ) );
+                setMaterial( new Material( getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+                    MoleculeShapesColors.BACKGROUND.getRGBAProperty().addObserver( new SimpleObserver() {
+                        public void update() {
+                            ColorRGBA rgba = MoleculeShapesColors.BACKGROUND.getRGBA();
+                            setColor( "Color", new ColorRGBA( rgba.r, rgba.g, rgba.b, 0.3f ) );
+                        }
+                    } );
+
+                    // allow transparency
+                    getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+                    setTransparent( true );
+                }} );
+                setQueueBucket( Bucket.Transparent );
+            }};
+            attachChild( shadowQuad );
+            addSingleBondEnabled.addObserver( new SimpleObserver() {
+                public void update() {
+                    shadowQuad.setCullHint( addSingleBondEnabled.get() ? CullHint.Always : CullHint.Never );
+                }
+            } );
         }} );
 
         addLighting( singleBondOverlay.getScene() );
