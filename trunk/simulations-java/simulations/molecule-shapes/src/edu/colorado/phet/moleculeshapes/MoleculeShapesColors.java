@@ -8,6 +8,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.util.ColorProfile;
 import edu.colorado.phet.moleculeshapes.util.JMEColorHandler;
 
@@ -17,6 +18,7 @@ public enum MoleculeShapesColors {
     BACKGROUND,
     CONTROL_PANEL_BORDER,
     CONTROL_PANEL_TITLE,
+    CONTROL_PANEL_TEXT,
     ATOM_CENTER,
     ATOM,
     REAL_EXAMPLE_FORMULA,
@@ -26,6 +28,7 @@ public enum MoleculeShapesColors {
         add( BACKGROUND, Color.BLACK );
         add( CONTROL_PANEL_BORDER, new Color( 210, 210, 210 ) );
         add( CONTROL_PANEL_TITLE, new Color( 240, 240, 240 ) );
+        add( CONTROL_PANEL_TEXT, new Color( 230, 230, 230 ) );
         add( ATOM_CENTER, Color.RED );
         add( ATOM, Color.WHITE );
         add( REAL_EXAMPLE_FORMULA, new Color( 230, 230, 230 ) );
@@ -37,6 +40,7 @@ public enum MoleculeShapesColors {
         add( BACKGROUND, Color.WHITE );
         add( CONTROL_PANEL_BORDER, new Color( 30, 30, 30 ) );
         add( CONTROL_PANEL_TITLE, Color.BLACK );
+        add( CONTROL_PANEL_TEXT, Color.BLACK );
         add( ATOM, Color.GRAY );
         add( REAL_EXAMPLE_BORDER, new Color( 230, 230, 230 ) );
         add( REAL_EXAMPLE_FORMULA, Color.BLACK );
@@ -78,11 +82,11 @@ public enum MoleculeShapesColors {
     }
 
     public void onColorRGBA( final VoidFunction1<ColorRGBA> callback ) {
-        getRGBAProperty().addObserver( new SimpleObserver() {
-            public void update() {
+        getRGBAProperty().addObserver( JMEUtils.jmeObserver( new Runnable() {
+            public void run() {
                 callback.apply( getRGBA() );
             }
-        } );
+        } ) );
     }
 
 }
