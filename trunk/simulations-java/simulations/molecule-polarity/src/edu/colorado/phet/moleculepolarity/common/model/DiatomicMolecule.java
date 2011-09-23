@@ -37,6 +37,11 @@ public class DiatomicMolecule extends Molecule2D {
         return new Bond[] { bond };
     }
 
+    // Gets the difference in electronegativity (EN), positive sign indicates atom B has higher EN.
+    public double getDeltaEN() {
+        return atomB.electronegativity.get() - atomA.electronegativity.get();
+    }
+
     // repositions the atoms
     protected void updateAtomLocations() {
         final double radius = BOND_LENGTH / 2;
