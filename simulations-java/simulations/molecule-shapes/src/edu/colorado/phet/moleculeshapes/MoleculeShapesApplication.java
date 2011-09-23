@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.jmephet.ColorRGBAPropertyControl;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
@@ -132,8 +131,8 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
                             add( new ColorPropertyControl( frame, "Background: ", MoleculeShapesColors.BACKGROUND.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Control panel borders: ", MoleculeShapesColors.CONTROL_PANEL_BORDER.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Control panel titles: ", MoleculeShapesColors.CONTROL_PANEL_TITLE.getProperty() ) );
-                            add( new ColorRGBAPropertyControl( frame, "Central atom color: ", MoleculeShapesConstants.COLOR_ATOM_CENTER ) );
-                            add( new ColorRGBAPropertyControl( frame, "Radial atom color: ", MoleculeShapesConstants.COLOR_ATOM ) );
+                            add( new ColorPropertyControl( frame, "Central atom color: ", MoleculeShapesColors.ATOM_CENTER.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Radial atom color: ", MoleculeShapesColors.ATOM.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Remove all foreground color: ", MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR ) );
                             add( new ColorPropertyControl( frame, "Remove all background color: ", MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR ) );
                             add( new ColorPropertyControl( frame, "Molecular geometry color: ", MoleculeShapesConstants.MOLECULAR_GEOMETRY_NAME_COLOR ) );
