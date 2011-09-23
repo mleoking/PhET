@@ -83,9 +83,7 @@ public class DiatomicElectronDensityNode extends SurfaceNode {
             final double surfaceWidth = molecule.bond.getLength() + ( DIAMETER_SCALE * molecule.atomA.getDiameter() / 2 ) + ( DIAMETER_SCALE * molecule.atomB.getDiameter() / 2 );
 
             // compute the gradient width
-            final double minGradientWidth = surfaceWidth;
-            final double maxGradientWidth = surfaceWidth * GRADIENT_WIDTH_MULTIPLIER;
-            LinearFunction f = new LinearFunction( 1, 0, minGradientWidth, maxGradientWidth );
+            LinearFunction f = new LinearFunction( 1, 0, surfaceWidth, surfaceWidth * GRADIENT_WIDTH_MULTIPLIER );
             final double gradientWidth = f.evaluate( scale );
 
             // gradient endpoints prior to accounting for molecule transform
