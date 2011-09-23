@@ -1,3 +1,4 @@
+9/23/2011 Changed heat control slider from swing to piccolo
 # 1.08.00 (51142) Apr 25, 2011
 4/25/11 > Added new translation credits features and fixed layout issues with some translations.
 # 1.07.06 (51131) Apr 25, 2011
