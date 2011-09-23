@@ -1,3 +1,4 @@
+9/23/11 more requested changes to credits.txt
 9/23/11 fix typos in credits.txt
 # 0.00.26 (56915) Sep 23, 2011
 9/23/11 tweak "Three Atoms" play area layout to make sure we have room for control panel translations
