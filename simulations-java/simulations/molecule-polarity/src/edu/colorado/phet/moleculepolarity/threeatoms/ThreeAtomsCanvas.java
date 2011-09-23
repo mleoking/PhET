@@ -29,9 +29,9 @@ public class ThreeAtomsCanvas extends MPCanvas {
     public ThreeAtomsCanvas( ThreeAtomsModel model, final ViewProperties viewProperties, Frame parentFrame ) {
 
         // nodes
+        final TriatomicMoleculeNode moleculeNode = new TriatomicMoleculeNode( model.molecule );
         PNode negativePlateNode = new NegativePlateNode( model.eField );
         PNode positivePlateNode = new PositivePlateNode( model.eField );
-        final TriatomicMoleculeNode moleculeNode = new TriatomicMoleculeNode( model.molecule );
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );

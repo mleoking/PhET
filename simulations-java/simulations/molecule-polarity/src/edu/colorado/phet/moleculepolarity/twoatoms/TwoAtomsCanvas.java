@@ -35,9 +35,9 @@ public class TwoAtomsCanvas extends MPCanvas {
     public TwoAtomsCanvas( TwoAtomsModel model, final ViewProperties viewProperties, Frame parentFrame ) {
 
         // nodes
+        final DiatomicMoleculeNode moleculeNode = new DiatomicMoleculeNode( model.molecule );
         PNode negativePlateNode = new NegativePlateNode( model.eField );
         PNode positivePlateNode = new PositivePlateNode( model.eField );
-        final DiatomicMoleculeNode moleculeNode = new DiatomicMoleculeNode( model.molecule );
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         final PNode bondTypeNode = new BondCharacterNode( model.molecule );
