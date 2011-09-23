@@ -14,7 +14,7 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
  */
 public class ViewControlPanel extends MPVerticalPanel {
 
-    public ViewControlPanel( final ViewProperties properties, final boolean hasMolecularDipole, final boolean hasBondType,
+    public ViewControlPanel( final ViewProperties properties, final boolean hasMolecularDipole, final boolean hasBondCharacter,
                              final boolean hasElectronegativityTable, final boolean hasAtomLabels, final String bondDipolesLabel ) {
         super( MPStrings.VIEW );
         add( new MPCheckBox( bondDipolesLabel, properties.bondDipolesVisible ) );
@@ -22,8 +22,8 @@ public class ViewControlPanel extends MPVerticalPanel {
             add( new MPCheckBox( MPStrings.MOLECULAR_DIPOLE, properties.molecularDipoleVisible ) );
         }
         add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, properties.partialChargesVisible ) );
-        if ( hasBondType ) {
-            add( new MPCheckBox( MPStrings.BOND_TYPE, properties.bondTypeVisible ) );
+        if ( hasBondCharacter ) {
+            add( new MPCheckBox( MPStrings.BOND_CHARACTER, properties.bondCharacterVisible ) );
         }
         if ( hasElectronegativityTable ) {
             add( new MPCheckBox( MPStrings.ATOM_ELECTRONEGATIVITIES, properties.electronegativityTableVisible ) );

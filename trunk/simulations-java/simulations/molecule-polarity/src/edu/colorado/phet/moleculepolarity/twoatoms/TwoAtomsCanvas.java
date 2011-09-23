@@ -14,8 +14,8 @@ import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityContro
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
+import edu.colorado.phet.moleculepolarity.common.view.BondCharacterNode;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
-import edu.colorado.phet.moleculepolarity.common.view.BondTypeNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicElectronDensityNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicElectrostaticPotentialNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicMoleculeNode;
@@ -51,7 +51,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode electronDensityNode = new DiatomicElectronDensityNode( model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPColors.BW_GRADIENT );
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        final PNode bondTypeNode = new BondTypeNode( model.molecule );
+        final PNode bondTypeNode = new BondCharacterNode( model.molecule );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
         PNode controlPanelNode = new MPControlPanelNode( parentFrame, new Resettable[] { model, viewProperties },
@@ -118,7 +118,7 @@ public class TwoAtomsCanvas extends MPCanvas {
                 }
             } );
 
-            viewProperties.bondTypeVisible.addObserver( new VoidFunction1<Boolean>() {
+            viewProperties.bondCharacterVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     bondTypeNode.setVisible( visible );
                 }
