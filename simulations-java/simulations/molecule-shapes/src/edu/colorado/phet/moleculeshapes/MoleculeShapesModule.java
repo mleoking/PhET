@@ -30,6 +30,7 @@ import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.util.CanvasTransformedBounds;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
@@ -297,18 +298,21 @@ public class MoleculeShapesModule extends JMEModule {
         * testing overlay
         *----------------------------------------------------------------------------*/
 
-//        JMEView testOverlay = createMainView( "Test Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,  ) {
-//            @Override public void positionMe() {
-//                setFrustumPerspective( 45f, 1, 1f, 1000f );
-//                setLocation( new Vector3f( 0, 0, 40 ) );
-//                lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-//            }
-//        } );
-//        testOverlay.getScene().attachChild( new MoleculeModelNode( new MoleculeModel() {{
-//            addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-//        }}, inputHandler, null, this, testOverlay.getCamera() ) );
-//
-//        addLighting( testOverlay.getScene() );
+        final Property<Rectangle2D> testOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
+        JMEView testOverlay = createMainView( "Test Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
+                                                                                 new CanvasTransformedBounds( canvasTransform,
+                                                                                                              testOverlayStageBounds ) ) {
+            @Override public void positionMe() {
+                setFrustumPerspective( 45f, (float) ( testOverlayStageBounds.get().getWidth() / testOverlayStageBounds.get().getHeight() ), 1f, 1000f );
+                setLocation( new Vector3f( 0, 0, 40 ) );
+                lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+            }
+        } );
+        testOverlay.getScene().attachChild( new MoleculeModelNode( new MoleculeModel() {{
+            addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+        }}, inputHandler, null, this, testOverlay.getCamera() ) );
+
+        addLighting( testOverlay.getScene() );
 
         /*---------------------------------------------------------------------------*
         * main control panel
