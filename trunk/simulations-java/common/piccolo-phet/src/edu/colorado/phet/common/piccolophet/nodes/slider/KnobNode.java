@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.piccolophet.nodes.faucet;
+package edu.colorado.phet.common.piccolophet.nodes.slider;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
