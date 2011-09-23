@@ -19,16 +19,13 @@ public class MolecularDipoleNode extends DipoleNode {
         super( molecule.dipole, MPColors.MOLECULAR_DIPOLE, scale );
 
         // position the dipole with some radial offset from the molecule's location
-        SimpleObserver observer = new SimpleObserver() {
+        molecule.dipole.addObserver( new SimpleObserver() {
             public void update() {
-
                 // offset vector relative to molecule location
                 ImmutableVector2D v = ImmutableVector2D.parseAngleAndMagnitude( OFFSET, molecule.dipole.get().getAngle() );
-
                 // offset in world coordinate frame
                 setOffset( molecule.location.getX() + v.getX(), molecule.location.getY() + v.getY() );
             }
-        };
-        molecule.dipole.addObserver( observer );
+        } );
     }
 }
