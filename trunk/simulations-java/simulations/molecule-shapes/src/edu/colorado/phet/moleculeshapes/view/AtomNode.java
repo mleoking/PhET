@@ -78,7 +78,7 @@ public class AtomNode extends Geometry {
         this.position = position;
 
         MoleculeShapesProperties.sphereSamples.addObserver(
-                new SimpleObserver() {// TODO: remove code duplication?
+                new SimpleObserver() {
                     public void update() {
                         setMesh( new Sphere( MoleculeShapesProperties.sphereSamples.get(), MoleculeShapesProperties.sphereSamples.get(), radius ) {{
                             setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres

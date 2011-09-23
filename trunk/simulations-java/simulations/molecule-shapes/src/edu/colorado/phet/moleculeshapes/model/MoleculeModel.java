@@ -111,6 +111,12 @@ public class MoleculeModel {
         onGroupRemoved.updateListeners( pair );
     }
 
+    public void removeAllPairs() {
+        while ( !getGroups().isEmpty() ) {
+            removePair( getGroups().get( 0 ) );
+        }
+    }
+
     public List<PairGroup> getGroups() {
         return groups;
     }

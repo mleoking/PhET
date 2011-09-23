@@ -639,15 +639,6 @@ public class MoleculeShapesModule extends JMEModule {
         }
     }
 
-    public void removeAllAtoms() {
-        // TODO: move these things to the model? then don't have as many things rely on the module
-        while ( !molecule.getGroups().isEmpty() ) {
-            if ( !molecule.getGroups().isEmpty() ) {
-                molecule.removePair( molecule.getGroups().get( random.nextInt( molecule.getGroups().size() ) ) );
-            }
-        }
-    }
-
     @Override public void updateLayout( Dimension canvasSize ) {
         super.updateLayout( canvasSize );
         resizeDirty = true;
