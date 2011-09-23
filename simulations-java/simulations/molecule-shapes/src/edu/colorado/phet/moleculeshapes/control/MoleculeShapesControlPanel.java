@@ -39,6 +39,10 @@ public class MoleculeShapesControlPanel extends PNode {
             Strings.CONTROL__SHOW_BOND_ANGLES, Strings.CONTROL__SHOW_LONE_PAIRS
     };
     public static final double INNER_WIDTH = Math.ceil( getRequiredInnerWidth() );
+    private BondTypeControlNode singleBondNode;
+    private BondTypeControlNode doubleBondNode;
+    private BondTypeControlNode tripleBondNode;
+    private BondTypeControlNode lonePairNode;
 
     public MoleculeShapesControlPanel( final MoleculeShapesModule module, RealMoleculeOverlayNode overlayNode ) {
 
@@ -51,18 +55,18 @@ public class MoleculeShapesControlPanel extends PNode {
 
             final double spaceBetweenTypes = 8;
 
-            final PNode singleNode = new BondTypeControlNode( module, new PImage( Images.SINGLE_BOND_SMALL ), 1 ) {{
+            singleBondNode = new BondTypeControlNode( module, new Spacer( 0, 0, 100, 33 ), 1 ) {{
                 setOffset( 0, 10 );
             }};
-            addChild( singleNode );
-            final PNode doubleNode = new BondTypeControlNode( module, new PImage( Images.DOUBLE_BOND_SMALL ), 2 ) {{
-                setOffset( 0, singleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
+            addChild( singleBondNode );
+            doubleBondNode = new BondTypeControlNode( module, new PImage( Images.DOUBLE_BOND_SMALL ), 2 ) {{
+                setOffset( 0, singleBondNode.getFullBounds().getMaxY() + spaceBetweenTypes );
             }};
-            addChild( doubleNode );
-            final PNode tripleNode = new BondTypeControlNode( module, new PImage( Images.TRIPLE_BOND_SMALL ), 3 ) {{
-                setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
+            addChild( doubleBondNode );
+            tripleBondNode = new BondTypeControlNode( module, new PImage( Images.TRIPLE_BOND_SMALL ), 3 ) {{
+                setOffset( 0, doubleBondNode.getFullBounds().getMaxY() + spaceBetweenTypes );
             }};
-            addChild( tripleNode );
+            addChild( tripleBondNode );
         }}, Strings.CONTROL__BONDING );
         addChild( bondingPanel );
 
@@ -79,7 +83,7 @@ public class MoleculeShapesControlPanel extends PNode {
             /*---------------------------------------------------------------------------*
             * lone pair control
             *----------------------------------------------------------------------------*/
-            final BondTypeControlNode lonePairNode = new BondTypeControlNode( module, new PImage( Images.LONE_PAIR_SMALL ), 0 ) {
+            lonePairNode = new BondTypeControlNode( module, new PImage( Images.LONE_PAIR_SMALL ), 0 ) {
                 {
                     setOffset( 0, 10 );
 
@@ -214,6 +218,10 @@ public class MoleculeShapesControlPanel extends PNode {
      */
     public PBounds getRealMoleculeOverlayBounds() {
         return realMoleculeNode.getRealMoleculeOverlayBounds();
+    }
+
+    public PBounds getSingleBondTargetBounds() {
+        return singleBondNode.getGraphic().getGlobalFullBounds();
     }
 
     /*---------------------------------------------------------------------------*
