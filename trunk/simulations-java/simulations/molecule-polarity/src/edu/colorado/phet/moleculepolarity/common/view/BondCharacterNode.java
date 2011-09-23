@@ -1,9 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
@@ -95,20 +97,28 @@ public class BondCharacterNode extends PComposite {
         } );
     }
 
-    // Pointer looks like a horizontally aligned diatomic molecule, with 2 atoms and no bond.
+    // Pointer looks like a horizontally aligned diatomic molecule.
     private static class PointerNode extends PComposite {
 
         private static final double ATOM_DIAMETER = 10;
 
         public PointerNode( final Atom atom1, final Atom atom2 ) {
 
+            PPath bondNode = new PPath( new Line2D.Double( 0, 0, ATOM_DIAMETER + 3, 0 ) ) {{
+                setStroke( new BasicStroke( 3f ) );
+                setStrokePaint( Color.GRAY );
+            }};
             PPath atom1Node = new TinyAtomNode( atom1, ATOM_DIAMETER );
             PPath atom2Node = new TinyAtomNode( atom2, ATOM_DIAMETER );
 
+            addChild( bondNode );
             addChild( atom1Node );
             addChild( atom2Node );
 
-            atom2Node.setOffset( atom1Node.getFullBoundsReference().getMaxX(), atom1Node.getXOffset() );
+            bondNode.setOffset( atom1Node.getFullBoundsReference().getCenterX(),
+                                atom1Node.getFullBounds().getCenterY() );// - ( bondNode.getFullBoundsReference().getHeight() / 2 ) );
+            atom2Node.setOffset( bondNode.getFullBoundsReference().getMaxX() - ( atom2Node.getFullBoundsReference().getWidth() / 2 ),
+                                 atom1Node.getXOffset() );
         }
     }
 

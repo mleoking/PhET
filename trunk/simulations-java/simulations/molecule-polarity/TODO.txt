@@ -12,5 +12,4 @@ LOW
 BEFORE PUBLISHING
 - screenshot
 - model.txt
-- IntelliJ code analysis
 - design doc snapshot
