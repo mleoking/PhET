@@ -17,6 +17,7 @@ import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
 import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
+import edu.colorado.phet.jmephet.OverlayCamera;
 import edu.colorado.phet.jmephet.PhetCamera;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
 import edu.colorado.phet.jmephet.hud.HUDNode;
@@ -83,6 +84,7 @@ public class MoleculeShapesModule extends JMEModule {
     private MoleculeModel molecule = new MoleculeModel();
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
+    private Property<Rectangle2D> realMoleculeOverlayBounds = new Property<Rectangle2D>( new PBounds( 0, 0, 1, 1 ) ); // initialized to technically valid state
 
     /*---------------------------------------------------------------------------*
     * dragging
@@ -278,12 +280,11 @@ public class MoleculeShapesModule extends JMEModule {
         * real molecule overlay
         *----------------------------------------------------------------------------*/
 
-        overlay = createMainView( "Overlay", new Camera( (int) ( getStageSize().getWidth() ), (int) ( getStageSize().getHeight() ) ) {
-            @Override public void resize( int width, int height, boolean fixAspect ) {
-                super.resize( width, height, fixAspect );
-
-                // called from the JME render thread, so we can do this
-                updateOverlayViewport(); // TODO: overlay improvements so full recalculation isn't needed?
+        overlay = createMainView( "Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize, realMoleculeOverlayBounds ) {
+            @Override public void positionMe() {
+                setFrustumPerspective( 45f, 1, 1f, 1000f );
+                setLocation( new Vector3f( 0, 0, 40 ) );
+                lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
             }
         } );
 
@@ -296,19 +297,16 @@ public class MoleculeShapesModule extends JMEModule {
         * testing overlay
         *----------------------------------------------------------------------------*/
 
-//        JMEView testOverlay = createMainView( "Test Overlay", new Camera( (int) ( getStageSize().getWidth() ), (int) ( getStageSize().getHeight() ) ) {
-//            @Override public void resize( int width, int height, boolean fixAspect ) {
-//                super.resize( width, height, fixAspect );
-//
-//                // TODO: update here?
+//        JMEView testOverlay = createMainView( "Test Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,  ) {
+//            @Override public void positionMe() {
+//                setFrustumPerspective( 45f, 1, 1f, 1000f );
+//                setLocation( new Vector3f( 0, 0, 40 ) );
+//                lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
 //            }
 //        } );
-//        testOverlay.getCamera().setFrustumPerspective( 45f, 1, 1f, 1000f );
-//        testOverlay.getCamera().setLocation( new Vector3f( 0, 0, 40 ) );
-//        testOverlay.getCamera().lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-//        testOverlay.getScene().attachChild( new MoleculeModelNode( new MoleculeModel(){{
+//        testOverlay.getScene().attachChild( new MoleculeModelNode( new MoleculeModel() {{
 //            addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-//        }}, inputHandler, null, this, testOverlay.getCamera()) );
+//        }}, inputHandler, null, this, testOverlay.getCamera() ) );
 //
 //        addLighting( testOverlay.getScene() );
 
@@ -625,25 +623,7 @@ public class MoleculeShapesModule extends JMEModule {
         boolean showOverlay = controlPanelNode.isOverlayVisible();
         realMoleculeOverlayNode.setCullHint( showOverlay ? CullHint.Never : CullHint.Always );
         if ( showOverlay ) {
-            Rectangle2D screenBounds = getOverlayScreenBounds();
-
-            // rescale these numbers to between 0 and 1 (for the entire JME3 canvas size)
-            float finalLeft = (float) ( screenBounds.getMinX() / getCanvasSize().width );
-            float finalRight = (float) ( screenBounds.getMaxX() / getCanvasSize().width );
-            float finalBottom = (float) ( screenBounds.getMinY() / getCanvasSize().height );
-            float finalTop = (float) ( screenBounds.getMaxY() / getCanvasSize().height );
-
-            // position the overlay viewport over this region
-            overlay.getCamera().setViewPort( finalLeft, finalRight, finalBottom, finalTop );
-
-            /*---------------------------------------------------------------------------*
-            * position overlay camera
-            *----------------------------------------------------------------------------*/
-            overlay.getCamera().setFrustumPerspective( 45f, 1, 1f, 1000f );
-            overlay.getCamera().setLocation( new Vector3f( 0, 0, 40 ) );
-            overlay.getCamera().lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-
-            overlay.getCamera().update();
+            realMoleculeOverlayBounds.set( getOverlayScreenBounds() );
         }
     }
 
