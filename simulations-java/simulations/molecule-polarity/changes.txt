@@ -1,4 +1,5 @@
-9/22/11 delete unnecessary scale factor from dipole nodes
+9/23/11 fix "Bond Dipoles" label (plural) that was messed up in yesterday's changes
+9/23/11 delete unnecessary scale factor from dipole nodes
 9/22/11 create View control panels inline, since they differ
 9/22/11 move getPixelColor to BufferedImageUtils
 9/22/11 document the coordinate frame used by view components
