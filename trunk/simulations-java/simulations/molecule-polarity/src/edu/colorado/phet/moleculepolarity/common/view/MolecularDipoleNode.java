@@ -16,8 +16,8 @@ public class MolecularDipoleNode extends DipoleNode {
 
     private static final double OFFSET = 55; // offset in the direction that the dipole points
 
-    public MolecularDipoleNode( final Molecule2D molecule, final double scale ) {
-        super( molecule.dipole, MPColors.MOLECULAR_DIPOLE, scale );
+    public MolecularDipoleNode( final Molecule2D molecule ) {
+        super( molecule.dipole, MPColors.MOLECULAR_DIPOLE );
 
         // position the dipole with some radial offset from the molecule's location
         molecule.dipole.addObserver( new SimpleObserver() {
