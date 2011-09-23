@@ -6,16 +6,19 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPCheckBox;
+import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPCheckBoxWithIcon;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPVerticalPanel;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondCharacterNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicMoleculeNode;
+import edu.colorado.phet.moleculepolarity.common.view.DipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
@@ -49,7 +52,7 @@ public class TwoAtomsCanvas extends MPCanvas {
                                                          new Resettable[] { model, viewProperties },
                                                          // View
                                                          new MPVerticalPanel( MPStrings.VIEW ) {{
-                                                             add( new MPCheckBox( MPStrings.BOND_DIPOLE, viewProperties.bondDipolesVisible ) );
+                                                             add( new MPCheckBoxWithIcon( MPStrings.BOND_DIPOLE, DipoleNode.createIcon( MPColors.BOND_DIPOLE ), viewProperties.bondDipolesVisible ) );
                                                              add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
                                                              add( new MPCheckBox( MPStrings.BOND_CHARACTER, viewProperties.bondCharacterVisible ) );
                                                          }},

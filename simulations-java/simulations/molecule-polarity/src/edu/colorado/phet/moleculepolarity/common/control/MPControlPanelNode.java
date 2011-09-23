@@ -4,8 +4,11 @@ package edu.colorado.phet.moleculepolarity.common.control;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -101,6 +104,24 @@ public class MPControlPanelNode extends PNode {
         public MPCheckBox( String text, Property<Boolean> property ) {
             super( text, property );
             setFont( MPConstants.CONTROL_FONT );
+        }
+    }
+
+    // Encapsulates the look of a check box with icon
+    public static class MPCheckBoxWithIcon extends GridPanel {
+        public MPCheckBoxWithIcon( String text, Icon icon, Property<Boolean> property ) {
+            setGridY( 0 ); // horizontal
+            final MPCheckBox checkBox = new MPCheckBox( text, property );
+            JLabel iconLabel = new JLabel( icon ) {{
+                // clicking the icon changes the check box
+                addMouseListener( new MouseAdapter() {
+                    @Override public void mousePressed( MouseEvent e ) {
+                        checkBox.setSelected( !checkBox.isSelected() );
+                    }
+                } );
+            }};
+            add( checkBox );
+            add( iconLabel );
         }
     }
 

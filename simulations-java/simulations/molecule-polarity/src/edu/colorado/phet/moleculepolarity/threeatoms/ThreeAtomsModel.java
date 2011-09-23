@@ -16,7 +16,7 @@ public class ThreeAtomsModel extends MPModel2D {
     public final TriatomicMolecule molecule;
 
     public ThreeAtomsModel( IClock clock ) {
-        super( clock, new TriatomicMolecule( new ImmutableVector2D( 400, 375 ), 0 ) );
+        super( clock, new TriatomicMolecule( new ImmutableVector2D( 380, 375 ), 0 ) );
         molecule = (TriatomicMolecule) getMolecule(); // hate to cast, but it facilitates moving shared code to base class
     }
 }
