@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.moretools;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
@@ -25,7 +25,11 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.*;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function3;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
@@ -34,6 +38,7 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.bendinglight.view.ToolboxNode.ICON_WIDTH;
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN;
 
 /**
  * Canvas for the "more tools" tab, which adds more tools to the toolbox, and a few more controls for the laser.
@@ -46,13 +51,13 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
 
     public MoreToolsCanvas( MoreToolsModel model, BooleanProperty moduleActive, Resettable resetAll ) {
         super( model, moduleActive, resetAll, new Function3<IntroModel, Double, Double, PNode>() {
-                   public PNode apply( IntroModel introModel, final Double x, final Double y ) {
-                       //Create the new wavelength control which is an additional laser control in the more tools tab
-                       return new BendingLightWavelengthControl( introModel.wavelengthProperty, introModel.getLaser().color ) {{
-                           setOffset( x, y );
-                       }};
-                   }
-               }, 0,
+            public PNode apply( IntroModel introModel, final Double x, final Double y ) {
+                //Create the new wavelength control which is an additional laser control in the more tools tab
+                return new BendingLightWavelengthControl( introModel.wavelengthProperty, introModel.getLaser().color ) {{
+                    setOffset( x, y );
+                }};
+            }
+        }, 0,
                //Only show the clock control if the laser view is WAVE or if the wave sensor is showing
                new Or( new ValueEquals<LaserView>( model.laserView, LaserView.WAVE ), model.waveSensor.visible ),
                model, "0.000", 6 );
@@ -128,7 +133,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         final NodeFactory velocityNodeFactory = new NodeFactory() {
             public VelocitySensorNode createNode( final ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                 model.velocitySensor.position.set( new ImmutableVector2D( modelPt ) );
-                return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<Double, String>>( formatter ), getBoundedConstraint() ) {{
+                return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<Double, String>>( formatter ), getBoundedConstraint(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN ) {{
                     showTool.addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean visible ) {
                             setVisible( visible );
