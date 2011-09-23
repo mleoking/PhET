@@ -29,6 +29,8 @@ public abstract class OverlayCamera extends Camera {
         } );
         canvasSize.addObserver( updateObserver, false );
         screenBounds.addObserver( updateObserver, false );
+
+        positionMe();
     }
 
     public abstract void positionMe();
