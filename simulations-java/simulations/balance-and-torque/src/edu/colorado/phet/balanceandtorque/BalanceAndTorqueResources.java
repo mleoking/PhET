@@ -20,14 +20,12 @@ public class BalanceAndTorqueResources {
 
     //Images
     public static class Images {
-        public static final BufferedImage ADOLESCENT_SITTING = RESOURCES.getImage( "adolescent-sitting.png" );
-        public static final BufferedImage ADOLESCENT_STANDING = RESOURCES.getImage( "adolescent-standing.png" );
-        public static final BufferedImage ADULT_MAN_SITTING = RESOURCES.getImage( "adult-man-sitting.png" );
-        public static final BufferedImage ADULT_MAN_STANDING = RESOURCES.getImage( "adult-man-standing.png" );
-        public static final BufferedImage ADULT_WOMAN_SITTING = RESOURCES.getImage( "adult-woman-sitting.png" );
-        public static final BufferedImage ADULT_WOMAN_STANDING = RESOURCES.getImage( "adult-woman-standing.png" );
-        public static final BufferedImage COMPACT_ADOLESCENT_SITTING = RESOURCES.getImage( "compact-adolescent-sitting.png" );
-        public static final BufferedImage LEVER_INTO_WHEELBARROW = RESOURCES.getImage( "lever-into-wheelbarrow.png" );
+        public static final BufferedImage BOY_SITTING = RESOURCES.getImage( "boy-sitting.png" );
+        public static final BufferedImage BOY_STANDING = RESOURCES.getImage( "boy-standing.png" );
+        public static final BufferedImage GIRL_SITTING = RESOURCES.getImage( "girl-sitting.png" );
+        public static final BufferedImage GIRL_STANDING = RESOURCES.getImage( "girl-standing.png" );
+        public static final BufferedImage MAN_SITTING = RESOURCES.getImage( "man-sitting.png" );
+        public static final BufferedImage MAN_STANDING = RESOURCES.getImage( "man-standing.png" );
         public static final BufferedImage MYSTERY_OBJECT_01 = RESOURCES.getImage( "mystery-object-01.png" );
         public static final BufferedImage MYSTERY_OBJECT_02 = RESOURCES.getImage( "mystery-object-02.png" );
         public static final BufferedImage MYSTERY_OBJECT_03 = RESOURCES.getImage( "mystery-object-03.png" );
@@ -38,7 +36,7 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage MYSTERY_OBJECT_08 = RESOURCES.getImage( "mystery-object-08.png" );
         public static final BufferedImage ROCK_4 = RESOURCES.getImage( "rock_4.png" );
         public static final BufferedImage ROCK_6 = RESOURCES.getImage( "rock_6.png" );
-        public static final BufferedImage YOUNG_GIRL_SITTING_01 = RESOURCES.getImage( "young-girl-sitting-01.png" );
-        public static final BufferedImage YOUNG_GIRL_STANDING_01 = RESOURCES.getImage( "young-girl-standing-01.png" );
+        public static final BufferedImage WOMAN_SITTING = RESOURCES.getImage( "woman-sitting.png" );
+        public static final BufferedImage WOMAN_STANDING = RESOURCES.getImage( "woman-standing.png" );
     }
 }
