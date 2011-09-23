@@ -1,3 +1,4 @@
+# 0.00.25 (56852) Sep 22, 2011
 9/22/11 change request: redesign of "Bond Character" indicator
 9/22/11 increase font size in all control panels (similar to Balancing Act)
 9/22/11 workaround for difference between background color of play area and Jmol viewer
