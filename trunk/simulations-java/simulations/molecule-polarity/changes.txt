@@ -1,3 +1,4 @@
+9/23/11 reviewed and addressed results of IntelliJ "Locate Duplicates"
 9/23/11 reviewed and addressed results of IntelliJ "Inspect Code"
 9/23/11 simplify 2D canvas code by moving surfaces and decorations into molecule nodes
 9/23/11 document layout of canvases
