@@ -9,13 +9,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 public class StoveNode extends PNode {
@@ -94,8 +94,8 @@ public class StoveNode extends PNode {
                 }
             }
         } );
-//        PSwing stoveControlPanelNode = new PSwing(m_stoveControlSlider);
-        PNode stoveControlPanelNode = new StoveControlSliderNode( new Property<Double>( 0.0 ) );
+        PSwing stoveControlPanelNode = new PSwing( m_stoveControlSlider );
+//        PNode stoveControlPanelNode = new StoveControlSliderNode( new Property<Double>( 0.0 ) );
         addChild( stoveControlPanelNode );
         stoveControlPanelNode.setOffset( m_stoveImage.getFullBoundsReference().getWidth() + 15, 0 );
 
