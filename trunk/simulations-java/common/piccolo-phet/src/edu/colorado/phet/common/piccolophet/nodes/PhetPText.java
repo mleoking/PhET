@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Font;
+import java.awt.Paint;
 
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -18,5 +19,11 @@ public class PhetPText extends PText {
     public PhetPText( String text, Font font ) {
         super( text );
         setFont( font );
+    }
+
+    public PhetPText( String text, Font font, Paint paint ) {
+        super( text );
+        setFont( font );
+        setTextPaint( paint );
     }
 }
