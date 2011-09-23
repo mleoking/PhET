@@ -16,6 +16,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * A pair of arrows that are placed around an atom, indicating that dragging the atom will change the bond angle.
+ * Shapes are created in world coordinates, so this node's offset should be (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

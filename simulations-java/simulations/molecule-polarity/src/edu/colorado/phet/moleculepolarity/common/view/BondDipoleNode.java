@@ -9,6 +9,7 @@ import edu.colorado.phet.moleculepolarity.common.model.Bond;
 
 /**
  * Visual representation of a bond dipole.
+ * Controls its own offset in world coordinates, so clients should not call setOffset.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

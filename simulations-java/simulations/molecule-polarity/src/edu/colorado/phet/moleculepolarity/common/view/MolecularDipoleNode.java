@@ -8,6 +8,7 @@ import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 
 /**
  * Visual representation of a molecular dipole.
+ * Controls its own offset in world coordinates, so clients should not call setOffset.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

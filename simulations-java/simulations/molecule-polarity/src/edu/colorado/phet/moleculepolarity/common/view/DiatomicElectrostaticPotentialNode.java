@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 2D surface that represents electrostatic potential for a diatomic molecule.
  * Electron density uses a 3-color gradient, so we use 2 PPath nodes that meet in the middle.
  * This node's look is similar to the corresponding Jmol isosurface.
+ * Shapes are created in world coordinates, so this node's offset should be (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -17,6 +17,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class for the visual representations of partial charge, a delta symbol followed by either + or -.
+ * Controls its own offset in world coordinates, so clients should not call setOffset.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
