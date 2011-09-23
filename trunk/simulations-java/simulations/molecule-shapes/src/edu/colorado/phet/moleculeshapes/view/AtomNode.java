@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColors;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.model.Atom3D;
@@ -41,7 +42,7 @@ public class AtomNode extends Geometry {
                 pairOption,
 
                 // change color based on whether we have an assocated pair group
-                pairOption.isSome() ? MoleculeShapesConstants.COLOR_ATOM : MoleculeShapesConstants.COLOR_ATOM_CENTER,
+                pairOption.isSome() ? MoleculeShapesColors.ATOM.getRGBAProperty() : MoleculeShapesColors.ATOM_CENTER.getRGBAProperty(),
                 MoleculeShapesConstants.MODEL_ATOM_RADIUS,
                 assetManager );
     }
