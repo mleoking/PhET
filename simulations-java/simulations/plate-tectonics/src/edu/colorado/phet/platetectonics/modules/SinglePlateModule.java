@@ -38,7 +38,7 @@ public class SinglePlateModule extends JMEModule {
         Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
         guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new PText( "Toolbox" ) {{
             setFont( new PhetFont( 16, true ) );
-        }} ), getApp().getDirectInputHandler(), this, canvasTransform, position ) ); // TODO: use module input handler
+        }} ), getInputHandler(), this, canvasTransform, position ) ); // TODO: use module input handler
     }
 
     @Override public PhetJMEApplication createApplication( Frame parentFrame ) {

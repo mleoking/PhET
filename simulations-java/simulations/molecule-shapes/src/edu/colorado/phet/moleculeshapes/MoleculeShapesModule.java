@@ -139,7 +139,9 @@ public class MoleculeShapesModule extends JMEModule {
     @Override public void initialize() {
         initializeResources();
 
-        inputHandler = app.getDirectInputHandler(); // TODO: use the module-specific input handler once we know this is working
+        app = JMEUtils.getApplication();
+
+        inputHandler = getInputHandler();
 
         // hook up mouse-move handlers
         inputHandler.addMapping( MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
@@ -343,8 +345,7 @@ public class MoleculeShapesModule extends JMEModule {
     }
 
     @Override public PhetJMEApplication createApplication( Frame parentFrame ) {
-        app = new PhetJMEApplication( parentFrame );
-        return app;
+        return new PhetJMEApplication( parentFrame );
     }
 
     public void startOverlayMoleculeDrag() {
