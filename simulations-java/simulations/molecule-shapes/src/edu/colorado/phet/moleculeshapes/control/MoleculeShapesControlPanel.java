@@ -212,8 +212,8 @@ public class MoleculeShapesControlPanel extends PNode {
     /**
      * @return Where to position the 3D molecule overlay
      */
-    public PBounds getOverlayBounds() {
-        return realMoleculeNode.getOverlayBounds();
+    public PBounds getRealMoleculeOverlayBounds() {
+        return realMoleculeNode.getRealMoleculeOverlayBounds();
     }
 
     /*---------------------------------------------------------------------------*

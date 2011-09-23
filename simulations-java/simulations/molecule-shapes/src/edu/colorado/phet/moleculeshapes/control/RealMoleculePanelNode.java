@@ -235,7 +235,7 @@ public class RealMoleculePanelNode extends PNode {
         return !minimized.get();
     }
 
-    public PBounds getOverlayBounds() {
+    public PBounds getRealMoleculeOverlayBounds() {
         return overlayTarget.getGlobalFullBounds();
     }
 
