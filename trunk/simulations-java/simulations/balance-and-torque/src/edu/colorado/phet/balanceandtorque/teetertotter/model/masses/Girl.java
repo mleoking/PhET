@@ -21,6 +21,6 @@ public class Girl extends HumanMass {
     private static final double SITTING_CENTER_OF_MASS_X_OFFSET = 0.07; // In meters, determined visually.  Update if image changes.
 
     public Girl() {
-        super( MASS, Images.YOUNG_GIRL_STANDING_01, STANDING_HEIGHT, Images.YOUNG_GIRL_SITTING_01, SITTING_HEIGHT, new Point2D.Double( 0, 0 ), SITTING_CENTER_OF_MASS_X_OFFSET, false );
+        super( MASS, Images.GIRL_STANDING, STANDING_HEIGHT, Images.GIRL_SITTING, SITTING_HEIGHT, new Point2D.Double( 0, 0 ), SITTING_CENTER_OF_MASS_X_OFFSET, false );
     }
 }
