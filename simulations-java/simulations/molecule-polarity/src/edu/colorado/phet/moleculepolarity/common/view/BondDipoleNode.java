@@ -17,8 +17,8 @@ public class BondDipoleNode extends DipoleNode {
 
     private static final double PERPENDICULAR_OFFSET = 55; // offset perpendicular to the axis of the bond
 
-    public BondDipoleNode( final Bond bond, final double scale ) {
-        super( bond.dipole, MPColors.BOND_DIPOLE, scale );
+    public BondDipoleNode( final Bond bond ) {
+        super( bond.dipole, MPColors.BOND_DIPOLE );
 
         // position the dipole to be parallel with the bond, with some perpendicular offset
         bond.dipole.addObserver( new SimpleObserver() {

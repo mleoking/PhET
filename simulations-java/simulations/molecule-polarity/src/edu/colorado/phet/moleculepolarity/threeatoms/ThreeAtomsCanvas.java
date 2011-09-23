@@ -30,8 +30,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ThreeAtomsCanvas extends MPCanvas {
 
-    private static final double DIPOLE_SCALE = 1.0; // how much to scale the dipoles in the view
-
     public ThreeAtomsCanvas( ThreeAtomsModel model, final ViewProperties viewProperties, Frame parentFrame ) {
 
         // nodes
@@ -41,9 +39,9 @@ public class ThreeAtomsCanvas extends MPCanvas {
         final PNode partialChargeNodeA = new OppositePartialChargeNode( model.molecule.atomA, model.molecule.bondAB );
         final PNode partialChargeNodeB = new CompositePartialChargeNode( model.molecule.atomB, model.molecule );
         final PNode partialChargeNodeC = new OppositePartialChargeNode( model.molecule.atomC, model.molecule.bondBC );
-        final PNode bondDipoleABNode = new BondDipoleNode( model.molecule.bondAB, DIPOLE_SCALE );
-        final PNode bondDipoleBCNode = new BondDipoleNode( model.molecule.bondBC, DIPOLE_SCALE );
-        final PNode molecularDipoleNode = new MolecularDipoleNode( model.molecule, DIPOLE_SCALE );
+        final PNode bondDipoleABNode = new BondDipoleNode( model.molecule.bondAB );
+        final PNode bondDipoleBCNode = new BondDipoleNode( model.molecule.bondBC );
+        final PNode molecularDipoleNode = new MolecularDipoleNode( model.molecule );
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );

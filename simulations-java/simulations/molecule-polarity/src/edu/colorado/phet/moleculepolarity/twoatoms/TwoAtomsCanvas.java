@@ -37,8 +37,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class TwoAtomsCanvas extends MPCanvas {
 
-    private static final double DIPOLE_SCALE = 1.0; // how much to scale the dipoles in the view
-
     public TwoAtomsCanvas( TwoAtomsModel model, final ViewProperties viewProperties, Frame parentFrame ) {
 
         // nodes
@@ -47,7 +45,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         PNode moleculeNode = new DiatomicMoleculeNode( model.molecule );
         final PNode partialChargeNodeA = new OppositePartialChargeNode( model.molecule.atomA, model.molecule.bond );
         final PNode partialChargeNodeB = new OppositePartialChargeNode( model.molecule.atomB, model.molecule.bond );
-        final PNode bondDipoleNode = new BondDipoleNode( model.molecule.bond, DIPOLE_SCALE );
+        final PNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
         final PNode electrostaticPotentialNode = new DiatomicElectrostaticPotentialNode( model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPColors.RWB_GRADIENT );
         final PNode electronDensityNode = new DiatomicElectronDensityNode( model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPColors.BW_GRADIENT );
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );

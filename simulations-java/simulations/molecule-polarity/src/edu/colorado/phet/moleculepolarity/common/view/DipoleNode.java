@@ -34,13 +34,11 @@ public abstract class DipoleNode extends PPath {
     private static final double FRACTIONAL_HEAD_HEIGHT = 0.5; // when the head size is less than fractionalHeadHeight * arrow length, the head will be scaled.
 
     private final Property<ImmutableVector2D> dipole;
-    private final double scale;
 
-    public DipoleNode( Property<ImmutableVector2D> dipole, Color color, double scale ) {
+    public DipoleNode( Property<ImmutableVector2D> dipole, Color color ) {
         super();
         setPaint( color );
         this.dipole = dipole;
-        this.scale = scale;
         dipole.addObserver( new SimpleObserver() {
             public void update() {
                 updateNode();
@@ -98,6 +96,6 @@ public abstract class DipoleNode extends PPath {
 
     // Gets the length of the dipole in view coordinates
     protected double getDipoleViewLength() {
-        return scale * dipole.get().getMagnitude() * ( REFERENCE_LENGTH / REFERENCE_MAGNITUDE );
+        return dipole.get().getMagnitude() * ( REFERENCE_LENGTH / REFERENCE_MAGNITUDE );
     }
 }
