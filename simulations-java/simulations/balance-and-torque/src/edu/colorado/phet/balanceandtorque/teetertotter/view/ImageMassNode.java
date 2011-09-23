@@ -60,7 +60,7 @@ public class ImageMassNode extends PNode {
                     System.out.println( getClass().getName() + " - Warning: Scaling factor is too large or small, drawing size should be adjusted.  Scaling factor = " + scalingFactor );
                 }
                 if ( scalingFactor > 1 ) {
-                    System.out.println( "Scaling up." );
+                    System.out.println( "Scaling up, factor = " + scalingFactor );
                 }
                 imageNode.setScale( scalingFactor );
                 updatePositionAndAngle();
