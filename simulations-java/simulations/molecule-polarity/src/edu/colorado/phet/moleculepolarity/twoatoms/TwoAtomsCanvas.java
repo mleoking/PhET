@@ -95,17 +95,23 @@ public class TwoAtomsCanvas extends MPCanvas {
             final double moleculeX = model.molecule.location.getX();
             final double moleculeY = model.molecule.location.getY();
             final double plateXOffset = 250; // x offset from molecule
+            // to left of molecule, vertically centered
             negativePlateNode.setOffset( moleculeX - plateXOffset - negativePlateNode.getFullBoundsReference().getWidth(),
                                          moleculeY - ( MPConstants.PLATE_HEIGHT / 2 ) );
+            // to right of molecule, vertically centered
             positivePlateNode.setOffset( moleculeX + plateXOffset,
                                          negativePlateNode.getYOffset() );
+            // centered above molecule
             enControlA.setOffset( moleculeX - enControlA.getFullBoundsReference().getWidth() - 5, 50 );
             enControlB.setOffset( moleculeX + 5, enControlA.getYOffset() );
+            // centered below molecule
             electrostaticPotentialColorKeyNode.setOffset( moleculeX - ( electrostaticPotentialColorKeyNode.getFullBoundsReference().getWidth() / 2 ),
                                                           negativePlateNode.getFullBoundsReference().getMaxY() - 10 );
             electronDensityColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
+            // centered below EN controls
             bondTypeNode.setOffset( moleculeX - ( bondTypeNode.getFullBoundsReference().getWidth() / 2 ),
                                     enControlA.getFullBoundsReference().getMaxY() + 10 - PNodeLayoutUtils.getOriginYOffset( bondTypeNode ) );
+            // to right of positive plate, top aligned
             controlPanelNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + 25, positivePlateNode.getYOffset() );
         }
 
