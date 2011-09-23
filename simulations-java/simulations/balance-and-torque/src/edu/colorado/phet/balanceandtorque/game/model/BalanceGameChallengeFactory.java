@@ -240,8 +240,8 @@ public class BalanceGameChallengeFactory {
 
         // Randomly choose a distance to use for the fixed mass position.  The
         // negative value indicates that the fixed mass in on the left side.
-        double fixedStackDistanceFromCenter = -chooseRandomValidFixedMassDistance( numBricksInFixedStack * BrickStack.BRICK_MASS,
-                                                                                   numBricksInMovableStack * BrickStack.BRICK_MASS );
+        double fixedStackDistanceFromCenter = chooseRandomValidFixedMassDistance( numBricksInFixedStack * BrickStack.BRICK_MASS,
+                                                                                  numBricksInMovableStack * BrickStack.BRICK_MASS );
 
         // Create the challenge.
         return createTwoBrickStackChallenge( numBricksInFixedStack, fixedStackDistanceFromCenter, numBricksInMovableStack );
