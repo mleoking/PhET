@@ -437,13 +437,13 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
         public double getParallelComponent() {
 //            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
-            ImmutableVector2D dir = Vector2D.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
+            ImmutableVector2D dir = Vector2D.createPolar( 1, -getSurface().getAngle() );
             return dir.dot( this );
         }
 
         public double getPerpendicularComponent() {
 //            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
-            ImmutableVector2D dir = Vector2D.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
+            ImmutableVector2D dir = Vector2D.createPolar( 1, -getSurface().getAngle() );
             dir = dir.getNormalVector();
             return dir.dot( this );
         }

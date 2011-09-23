@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 
 /**
  * Model of the hose which can be attached to the water tower so that the user can spray water from the ground
@@ -53,7 +53,7 @@ public class Hose {
     }
 
     public ImmutableVector2D getNozzleInputPoint() {
-        return parseAngleAndMagnitude( nozzleHeight, angle.get() + Math.PI ).plus( outputPoint.get() );
+        return createPolar( nozzleHeight, angle.get() + Math.PI ).plus( outputPoint.get() );
     }
 
     //Gets a unit vector pointing from the nozzle input point to the output point, used to place the arrow drag handles

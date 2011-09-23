@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.NOZZLE;
 import static java.awt.BasicStroke.CAP_BUTT;
 import static java.awt.BasicStroke.JOIN_MITER;
@@ -163,7 +163,7 @@ public class HoseNode extends PNode {
                     removeAllChildren();
 
                     final ImmutableVector2D tail = transform.modelToView( hose.getNozzleInputPoint().plus( hose.getUnitDirectionVector().times( 0.13 * hose.nozzleHeight ) ) );
-                    ImmutableVector2D direction = parseAngleAndMagnitude( dragArrowLength, -hose.angle.get() + Math.PI / 2 );
+                    ImmutableVector2D direction = createPolar( dragArrowLength, -hose.angle.get() + Math.PI / 2 );
                     addChild( new TranslationDragHandle( tail, direction, showCounterClockwiseArrow ) );
                     addChild( new TranslationDragHandle( tail, direction.times( -1 ), showClockwiseArrow ) );
                 }
@@ -204,7 +204,7 @@ public class HoseNode extends PNode {
                                  intermediateDestination.plus( 0, up / 2 ) );
 
                         //Curve up to the meet the nozzle.  Using a quad here ensures that this pipe takes a smooth and straight path into the nozzle
-                        ImmutableVector2D controlPointC1 = hose.getNozzleInputPoint().minus( parseAngleAndMagnitude( 2, hose.angle.get() ) );
+                        ImmutableVector2D controlPointC1 = hose.getNozzleInputPoint().minus( createPolar( 2, hose.angle.get() ) );
                         quadTo( controlPointC1, hose.getNozzleInputPoint() );
                     }};
 

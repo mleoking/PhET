@@ -304,6 +304,6 @@ public class ParticleModel {
     }
 
     private ImmutableVector2D getVelocity( Particle particle ) {
-        return Vector2D.parseAngleAndMagnitude( speed, particle.getAngle() );
+        return Vector2D.createPolar( speed, particle.getAngle() );
     }
 }

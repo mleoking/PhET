@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
@@ -122,7 +123,7 @@ public class BodyNode extends PNode {
     private PNode createArrowIndicator( final Body body, final double labelAngle ) {
         return new PNode() {{
             Point2D viewCenter = new Point2D.Double( 0, 0 );
-            ImmutableVector2D northEastVector = ImmutableVector2D.parseAngleAndMagnitude( 1, labelAngle );
+            ImmutableVector2D northEastVector = ImmutableVector2D.createPolar( 1, labelAngle );
             Point2D tip = northEastVector.getScaledInstance( 10 ).getDestination( viewCenter );
             final Point2D tail = northEastVector.getScaledInstance( 50 ).getDestination( viewCenter );
 

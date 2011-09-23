@@ -140,7 +140,7 @@ public class BiomoleculeShapeUtils {
         List<Point2D> pointList = new ArrayList<Point2D>();
         // Create a series of points that will enclose a space.
         for ( double angle = 0; angle < 1.9 * Math.PI; angle += Math.PI / 10 + rand.nextDouble() * Math.PI / 10 ) {
-            pointList.add( ImmutableVector2D.parseAngleAndMagnitude( 0.5 + rand.nextDouble(), angle ).toPoint2D() );
+            pointList.add( ImmutableVector2D.createPolar( 0.5 + rand.nextDouble(), angle ).toPoint2D() );
         }
 
         Shape unscaledShape = createRandomShapeFromPoints( pointList, seed );

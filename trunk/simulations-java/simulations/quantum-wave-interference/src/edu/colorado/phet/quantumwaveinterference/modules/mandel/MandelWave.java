@@ -19,12 +19,12 @@ public class MandelWave implements Wave {
     private MandelWaveDamp rightWave;
 
     public MandelWave( int leftWaveX, double momentumLeft, double momentumRight, double phase, double dPhase, double leftIntensity, double rightIntensity, int waveWidth ) {
-        PlaneWave2D leftWave = new PlaneWave2D( ImmutableVector2D.parseAngleAndMagnitude( momentumLeft, 0 ), 100 );
+        PlaneWave2D leftWave = new PlaneWave2D( ImmutableVector2D.createPolar( momentumLeft, 0 ), 100 );
         leftWave.setPhase( phase );
         leftWave.setPhaseOffset( 0 );
         this.leftWave = new MandelWaveDamp( leftWaveX, leftWave, leftIntensity, waveWidth );
 
-        PlaneWave2D rightWave = new PlaneWave2D( ImmutableVector2D.parseAngleAndMagnitude( momentumRight, 0 ), 100 );
+        PlaneWave2D rightWave = new PlaneWave2D( ImmutableVector2D.createPolar( momentumRight, 0 ), 100 );
         rightWave.setPhaseOffset( -dPhase );
         int rightWaveX = waveWidth - leftWaveX - 1;
         this.rightWave = new MandelWaveDamp( rightWaveX, rightWave, rightIntensity, waveWidth );

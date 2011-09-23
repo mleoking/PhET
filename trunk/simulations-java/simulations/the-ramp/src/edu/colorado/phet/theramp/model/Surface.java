@@ -45,7 +45,7 @@ public abstract class Surface extends SimpleObservable {
     }
 
     public Point2D getLocation( double distAlongRamp ) {
-        ImmutableVector2D vector = Vector2D.parseAngleAndMagnitude( distAlongRamp, angle );
+        ImmutableVector2D vector = Vector2D.createPolar( distAlongRamp, angle );
         return vector.getDestination( getOrigin() );
     }
 

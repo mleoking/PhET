@@ -1,11 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.bendinglight.model.*;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
+import edu.colorado.phet.bendinglight.model.IntensityMeter;
+import edu.colorado.phet.bendinglight.model.LightRay;
+import edu.colorado.phet.bendinglight.model.Medium;
+import edu.colorado.phet.bendinglight.model.MediumColorFactory;
+import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -13,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 
 import static edu.colorado.phet.bendinglight.model.IntensityMeter.Reading.MISS;
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.getLineCircleIntersection;
 import static java.lang.Math.*;
 
@@ -80,7 +86,7 @@ public class IntroModel extends BendingLightModel {
                     reflectedPowerRatio = 1.0;
                 }
                 double reflectedWaveWidth = sourceWaveWidth;
-                addAndAbsorb( new LightRay( new ImmutableVector2D(), parseAngleAndMagnitude( 1, Math.PI - laser.getAngle() ),
+                addAndAbsorb( new LightRay( new ImmutableVector2D(), createPolar( 1, Math.PI - laser.getAngle() ),
                                             n1, wavelengthInTopMedium, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, true, false ) );
 
                 // Fire a transmitted ray if there wasn't total internal reflection
@@ -99,7 +105,7 @@ public class IntroModel extends BendingLightModel {
                         double transmittedWaveWidth = transmittedBeamHalfWidth * 2;
 
                         final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
-                                                                      parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
+                                                                      createPolar( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
                                                                       transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, true, true );
                         addAndAbsorb( transmittedRay );
                     }

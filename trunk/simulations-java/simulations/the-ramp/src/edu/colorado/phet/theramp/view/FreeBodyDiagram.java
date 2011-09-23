@@ -3,11 +3,18 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -214,7 +221,7 @@ public class FreeBodyDiagram extends PNode {
             double viewAngle = surfaceGraphic.getViewAngle();
 
 //            origin = new Point2D.Double( origin.getX() + dx, origin.getY() + dy );
-            origin = Vector2D.parseAngleAndMagnitude( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
+            origin = Vector2D.createPolar( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 20, 20, 8, 0.5, true );
             Shape sh = arrow.getShape();
             if ( lastArrow == null || !lastArrow.equals( arrow ) ) {

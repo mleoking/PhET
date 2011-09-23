@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
@@ -21,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipY;
 import static java.lang.Math.toDegrees;
@@ -42,7 +44,7 @@ public class RotationDragHandle extends PNode {
             public Boolean apply() {
                 return notAtMax.apply( laser.getAngle() );
             }
-        } ,laser.emissionPoint,laser.pivot);
+        }, laser.emissionPoint, laser.pivot );
 
         //Show the drag handle if the "show drag handles" is true and if the laser isn't already at the max angle.
         final And showArrow = showDragHandles.and( notAtMaximum );
@@ -67,8 +69,8 @@ public class RotationDragHandle extends PNode {
 
                     //Curve to the tail and tip
                     double EPSILON = 0.1;
-                    ImmutableVector2D arrowTail = new ImmutableVector2D( viewOrigin ).plus( parseAngleAndMagnitude( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * ( 1 - EPSILON ) ) ) );
-                    ImmutableVector2D arrowTip = new ImmutableVector2D( viewOrigin ).plus( parseAngleAndMagnitude( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * 1.1 ) ) );
+                    ImmutableVector2D arrowTail = new ImmutableVector2D( viewOrigin ).plus( createPolar( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * ( 1 - EPSILON ) ) ) );
+                    ImmutableVector2D arrowTip = new ImmutableVector2D( viewOrigin ).plus( createPolar( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * 1.1 ) ) );
 
                     //Draw the arrowhead
                     final Shape arrowHead = new Arrow( arrowTail.toPoint2D(), arrowTip.toPoint2D(), 20, 20, 0, 1.0, false ).getShape();

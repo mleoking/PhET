@@ -78,7 +78,7 @@ public class MeanderToDestinationMotionStrategy extends MotionStrategy {
                 newVelocity = MIN_WANDERING_VELOCITY + RAND.nextDouble() * ( MAX_WANDERING_VELOCITY - MIN_WANDERING_VELOCITY );
                 newAngle = Math.PI * 2 * RAND.nextDouble();
             }
-            currentMotionVector = ImmutableVector2D.parseAngleAndMagnitude( newVelocity, newAngle );
+            currentMotionVector = ImmutableVector2D.createPolar( newVelocity, newAngle );
             // Reset the countdown timer.
             directionChangeCountdown = generateDirectionChangeCountdownValue();
         }

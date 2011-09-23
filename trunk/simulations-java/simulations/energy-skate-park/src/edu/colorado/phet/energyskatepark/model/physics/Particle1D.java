@@ -478,14 +478,14 @@ public class Particle1D implements Serializable {
             netForceRadial.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
             double normalForce = mass * velocity * velocity / Math.abs( radiusOfCurvature ) - netForceRadial.dot( getCurvatureDirection() );
 
-            return Vector2D.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
+            return Vector2D.createPolar( normalForce, getCurvatureDirection().getAngle() );
         }
         else {
             Vector2D netForceRadial = new Vector2D();
             netForceRadial.add( new Vector2D( 0, mass * g ) );//gravity
             netForceRadial.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
             double normalForce = mass * velocity * velocity / Math.abs( radiusOfCurvature ) - netForceRadial.dot( getCurvatureDirection() );
-            return Vector2D.parseAngleAndMagnitude( normalForce, getCurvatureDirection().getAngle() );
+            return Vector2D.createPolar( normalForce, getCurvatureDirection().getAngle() );
         }
     }
 

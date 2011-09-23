@@ -1,7 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -11,7 +16,16 @@ import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.model.components.ACVoltageSource;
+import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
+import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
+import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
+import edu.colorado.phet.circuitconstructionkit.model.components.Inductor;
+import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
+import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
+import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbNode;
@@ -265,7 +279,7 @@ public class ToolboxNode extends PhetPNode {
         private Bulb createBulb() {
             Bulb dummyBulb = new Bulb( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
             double tilt = BulbComponentNode.getTiltValue( dummyBulb );
-            Bulb bulb = new Bulb( new Point(), Vector2D.parseAngleAndMagnitude( 1, -tilt - Math.PI / 2 ), 0.43, 1, 1, model.getCircuitChangeListener() );
+            Bulb bulb = new Bulb( new Point(), Vector2D.createPolar( 1, -tilt - Math.PI / 2 ), 0.43, 1, 1, model.getCircuitChangeListener() );
             bulb.flip( null );
             return bulb;
         }

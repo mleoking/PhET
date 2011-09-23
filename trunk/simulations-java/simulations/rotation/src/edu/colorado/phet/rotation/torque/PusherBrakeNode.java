@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.rotation.torque;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
@@ -110,7 +111,7 @@ public class PusherBrakeNode extends PNode {
             i = BufferedImageUtils.flipY( i );
             im.setImage( i );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -120,7 +121,7 @@ public class PusherBrakeNode extends PNode {
 //        boolean awayFromPlatform = torqueModel.getBrakeForceMagnitude() == 0;
         boolean awayFromPlatform = torqueModel.getBrakePressure() == 0;
 
-        ImmutableVector2D vec = Vector2D.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( awayFromPlatform ? 0.08 : 0.00 ), angle );
+        ImmutableVector2D vec = Vector2D.createPolar( rotationPlatform.getRadius() + ( awayFromPlatform ? 0.08 : 0.00 ), angle );
         setOffset( vec.getDestination( rotationPlatform.getCenter() ) );
         setRotation( angle );
     }
