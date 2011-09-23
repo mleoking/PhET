@@ -180,22 +180,6 @@ public class BalancingActCanvas extends PhetPCanvas {
         }};
         rootNode.addChild( columnControlButton );
 
-        // Add the Reset All button.
-        rootNode.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
-            centerFullBoundsOnPoint( columnControlButton.getFullBoundsReference().getCenterX(),
-                                     columnControlButton.getFullBoundsReference().getMaxY() + 30 );
-            setConfirmationEnabled( false );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    // Reset properties that control vector visibility.
-                    distancesVisibleProperty.reset();
-                    forceVectorsFromObjectsVisibleProperty.reset();
-                    massLabelVisibilityProperty.reset();
-                    levelIndicatorVisibleProperty.reset();
-                }
-            } );
-        }} );
-
         // Add the control panel that will allow users to control the visibility
         // of the various indicators.
         PNode controlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 5, 1 ) ) {{
@@ -212,8 +196,26 @@ public class BalancingActCanvas extends PhetPCanvas {
 
         // Add the mass kit, which is the place where the user will get the
         // objects that can be placed on the balance.
-        ControlPanelNode massKit = new ControlPanelNode( new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this ) );
+        final MassKitSelectionNode massKitSelectionNode = new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this );
+        ControlPanelNode massKit = new ControlPanelNode( massKitSelectionNode );
         rootNode.addChild( massKit );
+
+        // Add the Reset All button.
+        rootNode.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+            centerFullBoundsOnPoint( columnControlButton.getFullBoundsReference().getCenterX(),
+                                     columnControlButton.getFullBoundsReference().getMaxY() + 30 );
+            setConfirmationEnabled( false );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    // Reset properties that control vector visibility.
+                    distancesVisibleProperty.reset();
+                    forceVectorsFromObjectsVisibleProperty.reset();
+                    massLabelVisibilityProperty.reset();
+                    levelIndicatorVisibleProperty.reset();
+                    massKitSelectionNode.reset();
+                }
+            } );
+        }} );
 
         // Lay out the control panels.
         double controlPanelCenterX = Math.min( STAGE_SIZE.getWidth() - massKit.getFullBoundsReference().width / 2 - 10,

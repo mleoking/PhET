@@ -72,4 +72,8 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                )
         );
     }
+
+    public void reset() {
+        selectedKit.reset();
+    }
 }
