@@ -33,7 +33,6 @@ public class MoleculeShapesConstants {
     public static final ColorRGBA SUN_COLOR = new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f );
     public static final ColorRGBA MOON_COLOR = new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f );
 
-    public static final Color CONTROL_PANEL_BORDER_COLOR = new Color( 210, 210, 210 );
     public static final Color CONTROL_PANEL_TITLE_COLOR = new Color( 240, 240, 240 );
     public static final Color CONTROL_PANEL_TEXT_COLOR = new Color( 230, 230, 230 );
     public static final Property<Color> REMOVE_BUTTON_TEXT_COLOR = new Property<Color>( Color.BLACK );

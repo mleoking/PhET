@@ -5,11 +5,12 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: make sure we either handle ALL of the colors, OR can set to defaults
 public class ColorProfile<ColorKey extends Enum> {
     private Map<ColorKey, Color> colorMap = new HashMap<ColorKey, Color>();
     private final String name;
 
-    public ColorProfile( String name) {
+    public ColorProfile( String name ) {
 
         this.name = name;
     }
