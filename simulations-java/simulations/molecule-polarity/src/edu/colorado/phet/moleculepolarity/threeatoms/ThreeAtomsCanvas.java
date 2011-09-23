@@ -12,12 +12,8 @@ import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityContro
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPCheckBox;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPVerticalPanel;
-import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
-import edu.colorado.phet.moleculepolarity.common.view.MolecularDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
-import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode.CompositePartialChargeNode;
-import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode.OppositePartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.TriatomicMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
@@ -35,13 +31,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
         // nodes
         PNode negativePlateNode = new NegativePlateNode( model.eField );
         PNode positivePlateNode = new PositivePlateNode( model.eField );
-        PNode moleculeNode = new TriatomicMoleculeNode( model.molecule );
-        final PNode partialChargeNodeA = new OppositePartialChargeNode( model.molecule.atomA, model.molecule.bondAB );
-        final PNode partialChargeNodeB = new CompositePartialChargeNode( model.molecule.atomB, model.molecule );
-        final PNode partialChargeNodeC = new OppositePartialChargeNode( model.molecule.atomC, model.molecule.bondBC );
-        final PNode bondDipoleABNode = new BondDipoleNode( model.molecule.bondAB );
-        final PNode bondDipoleBCNode = new BondDipoleNode( model.molecule.bondBC );
-        final PNode molecularDipoleNode = new MolecularDipoleNode( model.molecule );
+        final TriatomicMoleculeNode moleculeNode = new TriatomicMoleculeNode( model.molecule );
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
@@ -72,12 +62,6 @@ public class ThreeAtomsCanvas extends MPCanvas {
 
             // molecule
             addChild( moleculeNode );
-            addChild( partialChargeNodeA );
-            addChild( partialChargeNodeB );
-            addChild( partialChargeNodeC );
-            addChild( bondDipoleABNode );
-            addChild( bondDipoleBCNode );
-            addChild( molecularDipoleNode );
         }
 
         // layout, relative to molecule location
@@ -102,26 +86,23 @@ public class ThreeAtomsCanvas extends MPCanvas {
                                         positivePlateNode.getYOffset() );
         }
 
-        // synchronize with view properties
+        // synchronization with view properties
         {
             viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
-                    bondDipoleABNode.setVisible( visible );
-                    bondDipoleBCNode.setVisible( visible );
+                    moleculeNode.setBondDipolesVisible( visible );
                 }
             } );
 
             viewProperties.molecularDipoleVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
-                    molecularDipoleNode.setVisible( visible );
+                    moleculeNode.setMolecularDipoleVisible( visible );
                 }
             } );
 
             viewProperties.partialChargesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
-                    partialChargeNodeA.setVisible( visible );
-                    partialChargeNodeB.setVisible( visible );
-                    partialChargeNodeC.setVisible( visible );
+                    moleculeNode.setPartialChargesVisible( visible );
                 }
             } );
         }

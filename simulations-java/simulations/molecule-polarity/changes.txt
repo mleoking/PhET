@@ -1,3 +1,4 @@
+9/23/11 simplify 2D canvas code by moving surfaces and decorations into molecule nodes
 9/23/11 document layout of canvases
 9/23/11 fix "Bond Dipoles" label (plural) that was messed up in yesterday's changes
 9/23/11 delete unnecessary scale factor from dipole nodes
