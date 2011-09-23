@@ -13,14 +13,14 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
  *
  * @author John Blanco
  */
-public class YoungGirl extends HumanMass {
+public class Girl extends HumanMass {
 
     public static final double MASS = 30; // in kg
     private static final double STANDING_HEIGHT = 1.3; // In meters.
     private static final double SITTING_HEIGHT = 0.75; // In meters.
     private static final double SITTING_CENTER_OF_MASS_X_OFFSET = 0.07; // In meters, determined visually.  Update if image changes.
 
-    public YoungGirl() {
+    public Girl() {
         super( MASS, Images.YOUNG_GIRL_STANDING_01, STANDING_HEIGHT, Images.YOUNG_GIRL_SITTING_01, SITTING_HEIGHT, new Point2D.Double( 0, 0 ), SITTING_CENTER_OF_MASS_X_OFFSET, false );
     }
 }

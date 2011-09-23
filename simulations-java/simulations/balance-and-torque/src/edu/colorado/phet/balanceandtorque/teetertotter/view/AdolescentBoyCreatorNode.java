@@ -4,7 +4,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdolescentBoy;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Boy;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -25,13 +25,13 @@ public class AdolescentBoyCreatorNode extends ImageMassCreatorNode {
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 100 );
 
     public AdolescentBoyCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas, AdolescentBoy.MASS );
-        ImageMass adolescentHuman = new AdolescentBoy();
+        super( model, mvt, canvas, Boy.MASS );
+        ImageMass adolescentHuman = new Boy();
         setSelectionNode( new ImageMassNode( SCALING_MVT, adolescentHuman, canvas, new BooleanProperty( false ) ) );
         setPositioningOffset( 0, -mvt.modelToViewDeltaY( adolescentHuman.getHeight() / 2 ) );
     }
 
     @Override protected ImageMass createImageMassInstance() {
-        return new AdolescentBoy();
+        return new Boy();
     }
 }
