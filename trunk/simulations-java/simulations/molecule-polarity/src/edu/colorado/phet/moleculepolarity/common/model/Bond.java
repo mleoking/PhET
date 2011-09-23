@@ -13,13 +13,11 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
  */
 public class Bond {
 
-    public final Property<Double> deltaElectronegativity; // atom2.electronegativity - atom1.electronegativity   //TODO remove this
     public final Property<ImmutableVector2D> endpoint1, endpoint2; // ends of the bond at atom1 and atom2, respectively
     public final Property<ImmutableVector2D> dipole; // the bond dipole
 
     public Bond( final Atom atom1, final Atom atom2 ) {
 
-        this.deltaElectronegativity = new Property<Double>( 0d );
         this.endpoint1 = new Property<ImmutableVector2D>( atom1.location.get() );
         this.endpoint2 = new Property<ImmutableVector2D>( atom2.location.get() );
         this.dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() ); // proper initialization occurs when observer registers below
@@ -39,8 +37,6 @@ public class Bond {
                     angle += Math.PI;
                 }
                 dipole.set( ImmutableVector2D.parseAngleAndMagnitude( magnitude, angle ) );
-
-                deltaElectronegativity.set( deltaEN ); //TODO remove this
             }
         };
         observer.observe( atom1.location, atom2.location, atom1.electronegativity, atom2.electronegativity );

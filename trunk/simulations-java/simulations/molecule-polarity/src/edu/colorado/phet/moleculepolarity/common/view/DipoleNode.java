@@ -9,13 +9,16 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Base class for visual representation of dipoles.
+ * Base class for visual representation of 2D dipoles.
+ * The dipole is created at (0,0) with proper length and orientation, and it's up to subclasses to position the dipole.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -30,31 +33,30 @@ public abstract class DipoleNode extends PPath {
     private static final double TAIL_WIDTH = 4; // similar to Jmol
     private static final double FRACTIONAL_HEAD_HEIGHT = 0.5; // when the head size is less than fractionalHeadHeight * arrow length, the head will be scaled.
 
-    private double x;
+    private final Property<ImmutableVector2D> dipole;
+    private final double scale;
 
-    public DipoleNode( Color color ) {
+    public DipoleNode( Property<ImmutableVector2D> dipole, Color color, double scale ) {
         super();
         setPaint( color );
-        update();
+        this.dipole = dipole;
+        this.scale = scale;
+        dipole.addObserver( new SimpleObserver() {
+            public void update() {
+                updateNode();
+            }
+        } );
     }
 
-    protected void setComponentX( double x ) {
-        if ( x != this.x ) {
-            this.x = x;
-            update();
-        }
-    }
-
-    // Updates the arrow to match the node's state.
-    private void update() {
+    // Updates the arrow to match the dipole's length and orientation.
+    private void updateNode() {
         final double y = 0;
-        final double magnitude = PolarCartesianConverter.getRadius( x, y );
-        if ( magnitude == 0 ) {
+        if ( dipole.get().getMagnitude() == 0 ) {
             setPathTo( new Rectangle2D.Double() ); // because Arrow doesn't handle zero-length arrows
         }
         else {
-            // arrow
-            Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( x * ( REFERENCE_LENGTH / REFERENCE_MAGNITUDE ), y ),
+            // arrow, in angle=0 orientation (pointing right), so we can easily add cross
+            Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( getDipoleViewLength(), y ),
                                      HEAD_SIZE.height, HEAD_SIZE.width, TAIL_WIDTH, FRACTIONAL_HEAD_HEIGHT, true /* scaleTailToo */ );
             // cross
             Shape cross = createCross( arrow );
@@ -63,6 +65,9 @@ public abstract class DipoleNode extends PPath {
             Area area = new Area( arrow.getShape() );
             area.add( new Area( cross ) );
             setPathTo( area );
+
+            // rotate into dipole orientation
+            setRotation( dipole.get().getAngle() );
         }
     }
 
@@ -91,4 +96,8 @@ public abstract class DipoleNode extends PPath {
         return new Rectangle2D.Double( crossOffset, -crossWidth / 2, crossHeight, crossWidth );
     }
 
+    // Gets the length of the dipole in view coordinates
+    protected double getDipoleViewLength() {
+        return scale * dipole.get().getMagnitude() * ( REFERENCE_LENGTH / REFERENCE_MAGNITUDE );
+    }
 }

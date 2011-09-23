@@ -1,3 +1,5 @@
+9/22/11 rewrite and simplify DipoleNode and its subclasses
+9/22/11 delete Bond.deltaElectronegativity property
 # 0.00.25 (56852) Sep 22, 2011
 9/22/11 change request: redesign of "Bond Character" indicator
 9/22/11 increase font size in all control panels (similar to Balancing Act)
