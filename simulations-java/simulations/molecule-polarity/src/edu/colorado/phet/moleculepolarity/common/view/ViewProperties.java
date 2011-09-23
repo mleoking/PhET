@@ -19,18 +19,18 @@ public class ViewProperties implements Resettable {
     public final Property<Boolean> bondDipolesVisible;
     public final Property<Boolean> molecularDipoleVisible;
     public final Property<Boolean> partialChargesVisible;
-    public final Property<Boolean> bondTypeVisible;
+    public final Property<Boolean> bondCharacterVisible;
     public final Property<Boolean> atomLabelsVisible;
     public final Property<Boolean> electronegativityTableVisible;
 
     public ViewProperties( SurfaceType surfaceType, boolean bondDipolesVisible, boolean molecularDipoleVisible,
-                           boolean partialChargesVisible, boolean bondTypeVisible, boolean atomLabelsVisible,
+                           boolean partialChargesVisible, boolean bondCharacterVisible, boolean atomLabelsVisible,
                            boolean electronegativityTableVisible ) {
         this.surfaceType = new Property<SurfaceType>( surfaceType );
         this.bondDipolesVisible = new Property<Boolean>( bondDipolesVisible );
         this.molecularDipoleVisible = new Property<Boolean>( molecularDipoleVisible );
         this.partialChargesVisible = new Property<Boolean>( partialChargesVisible );
-        this.bondTypeVisible = new Property<Boolean>( bondTypeVisible );
+        this.bondCharacterVisible = new Property<Boolean>( bondCharacterVisible );
         this.atomLabelsVisible = new Property<Boolean>( atomLabelsVisible );
         this.electronegativityTableVisible = new Property<Boolean>( electronegativityTableVisible );
     }
@@ -40,7 +40,7 @@ public class ViewProperties implements Resettable {
         bondDipolesVisible.reset();
         molecularDipoleVisible.reset();
         partialChargesVisible.reset();
-        bondTypeVisible.reset();
+        bondCharacterVisible.reset();
         atomLabelsVisible.reset();
         electronegativityTableVisible.reset();
     }
