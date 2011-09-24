@@ -8,6 +8,6 @@ MEDIUM
 - check boxes with icons aren't horizontally aligned with other check boxes (because they're in a JPanel?)
 
 BEFORE PUBLISHING
-- screenshot
+- screenshot (Real Molecules tab, H2O, select "Atom Neg", "Atom Labels", "Electrostatic Potential")
 - model.txt
 - design doc snapshot
