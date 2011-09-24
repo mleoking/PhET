@@ -8,6 +8,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
+ * TODO: generalize interface to public MapProperty( final Property<T> parent, final Function1<T, U> map ) {
+ *
  * @author Sam Reid
  */
 public class MapProperty<T, U> extends CompositeProperty<U> {
