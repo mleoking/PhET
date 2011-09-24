@@ -25,7 +25,12 @@ public enum MoleculeShapesColor {
     LONE_PAIR_SHELL,
     LONE_PAIR_ELECTRON,
     MOLECULAR_GEOMETRY_NAME,
-    ELECTRON_GEOMETRY_NAME;
+    ELECTRON_GEOMETRY_NAME,
+    BOND_ANGLE_READOUT,
+    BOND_ANGLE_SWEEP,
+    BOND_ANGLE_ARC,
+    REMOVE_BUTTON_TEXT,
+    REMOVE_BUTTON_BACKGROUND;
 
     public static ColorProfile<MoleculeShapesColor> DEFAULT = new ColorProfile<MoleculeShapesColor>( "Screen Mode" ) {{ // TODO: i18n
         add( BACKGROUND, Color.BLACK );
@@ -40,6 +45,11 @@ public enum MoleculeShapesColor {
         add( LONE_PAIR_ELECTRON, new Color( 1, 1, 0, 0.8f ) );
         add( MOLECULAR_GEOMETRY_NAME, new Color( 255, 255, 140 ) );
         add( ELECTRON_GEOMETRY_NAME, new Color( 255, 204, 102 ) );
+        add( BOND_ANGLE_READOUT, Color.WHITE );
+        add( BOND_ANGLE_SWEEP, Color.GRAY );
+        add( BOND_ANGLE_ARC, Color.RED );
+        add( REMOVE_BUTTON_TEXT, Color.BLACK );
+        add( REMOVE_BUTTON_BACKGROUND, Color.ORANGE );
     }};
 
     // TODO: better handling of non-specified colors!
@@ -54,6 +64,9 @@ public enum MoleculeShapesColor {
         add( LONE_PAIR_SHELL, new Color( 0.7f, 0.7f, 0.7f, 0.7f ) );
         add( MOLECULAR_GEOMETRY_NAME, new Color( 50, 0, 150 ) );
         add( ELECTRON_GEOMETRY_NAME, new Color( 0, 100, 100 ) );
+        add( BOND_ANGLE_READOUT, Color.BLACK );
+        add( BOND_ANGLE_SWEEP, Color.GRAY.brighter() );
+        add( BOND_ANGLE_ARC, Color.RED );
     }};
 
     // TODO: add high-contrast?

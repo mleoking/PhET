@@ -18,6 +18,7 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
@@ -290,7 +291,7 @@ public class MoleculeModelNode extends Node {
                         text.setText( string );
                     }
                     text.setScale( module.getApproximateScale() ); // change the font size based on the sim scale
-                    float[] colors = MoleculeShapesConstants.BOND_ANGLE_READOUT_COLOR.getRGBColorComponents( null );
+                    float[] colors = MoleculeShapesColor.BOND_ANGLE_READOUT.get().getRGBColorComponents( null );
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
                     text.repaint();
 
