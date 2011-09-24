@@ -242,7 +242,11 @@ public class HUDNode extends Geometry {
                 return;
             }
         }
-        callback.apply( null );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                callback.apply( null );
+            }
+        } );
     }
 
     public static void withComponentUnderPointer( Node scene, JMEInputHandler inputHandler, final VoidFunction1<Component> callback ) {
