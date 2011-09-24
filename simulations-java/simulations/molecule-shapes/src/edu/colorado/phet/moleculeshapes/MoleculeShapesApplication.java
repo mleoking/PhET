@@ -140,6 +140,10 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
                             add( new ColorPropertyControl( frame, "Bond angle readout: ", MoleculeShapesColor.BOND_ANGLE_READOUT.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Bond angle sweep: ", MoleculeShapesColor.BOND_ANGLE_SWEEP.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Bond angle arc: ", MoleculeShapesColor.BOND_ANGLE_ARC.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Real example formula: ", MoleculeShapesColor.REAL_EXAMPLE_FORMULA.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Real example border: ", MoleculeShapesColor.REAL_EXAMPLE_BORDER.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Light 1 color: ", MoleculeShapesColor.SUN.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Light 2 color: ", MoleculeShapesColor.MOON.getProperty() ) );
                         }} );
                         pack();
                         SwingUtils.centerInParent( this );
