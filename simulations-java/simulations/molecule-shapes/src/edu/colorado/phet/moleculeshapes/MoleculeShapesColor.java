@@ -20,6 +20,7 @@ public enum MoleculeShapesColor {
     CONTROL_PANEL_TEXT,
     ATOM_CENTER,
     ATOM,
+    BOND,
     REAL_EXAMPLE_FORMULA,
     REAL_EXAMPLE_BORDER,
     LONE_PAIR_SHELL,
@@ -41,6 +42,7 @@ public enum MoleculeShapesColor {
         add( CONTROL_PANEL_TEXT, new Color( 230, 230, 230 ) );
         add( ATOM_CENTER, Color.RED );
         add( ATOM, Color.WHITE );
+        add( BOND, Color.WHITE );
         add( REAL_EXAMPLE_FORMULA, new Color( 230, 230, 230 ) );
         add( REAL_EXAMPLE_BORDER, new Color( 60, 60, 60 ) );
         add( LONE_PAIR_SHELL, new Color( 1, 1, 1, 0.7f ) );

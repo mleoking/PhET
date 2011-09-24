@@ -5,7 +5,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 
@@ -150,6 +152,7 @@ public class BondNode extends Node {
      * Basically, a glorified cylinder.
      */
     public static class SingleBondNode extends Geometry {
+        // NOTE: keep the ColorRGBA color here for the future, in case we want dual-colored bonds for another sim
         public SingleBondNode( final float length, final float bondRadius, AssetManager assetManager, final ColorRGBA color ) {
             super( "Bond" );
 
@@ -163,9 +166,9 @@ public class BondNode extends Node {
                 setBoolean( "UseMaterialColors", true );
 
                 // keep the color up-to-date (and initialize it)
-                MoleculeShapesProperties.useColoredBonds.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setColor( "Diffuse", MoleculeShapesProperties.useColoredBonds.get() ? color : ColorRGBA.White );
+                MoleculeShapesColor.BOND.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
+                    public void apply( ColorRGBA colorRGBA ) {
+                        setColor( "Diffuse", colorRGBA );
                     }
                 } );
             }} );

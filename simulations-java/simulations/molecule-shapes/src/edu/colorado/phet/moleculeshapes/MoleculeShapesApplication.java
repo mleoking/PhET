@@ -101,7 +101,6 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", MoleculeShapesProperties.allowDraggingBehind ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", MoleculeShapesProperties.useRotationCursor ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow bond angles between lone pairs", MoleculeShapesProperties.allowAnglesBetweenLonePairs ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Show colored bonds for real molecules", MoleculeShapesProperties.useColoredBonds ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Disable \"Show Bond Angles\" checkbox with less than 2 bonds", MoleculeShapesProperties.disableNAShowBondAngles ) );
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
@@ -133,6 +132,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
                             add( new ColorPropertyControl( frame, "Control panel titles: ", MoleculeShapesColor.CONTROL_PANEL_TITLE.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Central atom: ", MoleculeShapesColor.ATOM_CENTER.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Radial atom: ", MoleculeShapesColor.ATOM.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Bonds: ", MoleculeShapesColor.BOND.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Remove all foreground: ", MoleculeShapesColor.REMOVE_BUTTON_TEXT.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Remove all background: ", MoleculeShapesColor.REMOVE_BUTTON_BACKGROUND.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Molecular geometry: ", MoleculeShapesColor.MOLECULAR_GEOMETRY_NAME.getProperty() ) );
