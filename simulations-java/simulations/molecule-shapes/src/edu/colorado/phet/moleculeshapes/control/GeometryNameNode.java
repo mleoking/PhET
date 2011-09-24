@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
@@ -80,26 +81,14 @@ public class GeometryNameNode extends PNode {
         * visibility checkboxes
         *----------------------------------------------------------------------------*/
 
-        final PSwing molecularCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__MOLECULE_GEOMETRY, showMolecularShapeName ) {{
+        final PSwing molecularCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__MOLECULE_GEOMETRY, showMolecularShapeName, MoleculeShapesColor.MOLECULAR_GEOMETRY_NAME ) {{
             // center within it's "column"
             setOffset( ( MAX_SHAPE_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
-            MoleculeShapesConstants.MOLECULAR_GEOMETRY_NAME_COLOR.addObserver( new SimpleObserver() {
-                public void update() {
-                    getCheckBox().setForeground( MoleculeShapesConstants.MOLECULAR_GEOMETRY_NAME_COLOR.get() );
-                    repaint();
-                }
-            } );
         }};
 
-        PSwing electronCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__ELECTRON_GEOMETRY, showElectronShapeName ) {{
+        PSwing electronCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__ELECTRON_GEOMETRY, showElectronShapeName, MoleculeShapesColor.ELECTRON_GEOMETRY_NAME ) {{
             // center within it's "column"
             setOffset( MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS + ( MAX_GEOMETRY_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
-            MoleculeShapesConstants.ELECTRON_GEOMETRY_NAME_COLOR.addObserver( new SimpleObserver() {
-                public void update() {
-                    getCheckBox().setForeground( MoleculeShapesConstants.ELECTRON_GEOMETRY_NAME_COLOR.get() );
-                    repaint();
-                }
-            } );
         }};
 
 
@@ -155,7 +144,7 @@ public class GeometryNameNode extends PNode {
                 }
 
                 molecularText = getTextLabel( ( name == null ? Strings.SHAPE__EMPTY : name ),
-                                              MoleculeShapesConstants.MOLECULAR_GEOMETRY_NAME_COLOR ); // replace the unknown value
+                                              MoleculeShapesColor.MOLECULAR_GEOMETRY_NAME.getProperty() ); // replace the unknown value
                 molecularText.setOffset( ( MAX_SHAPE_WIDTH - molecularText.getFullBounds().getWidth() ) / 2, readoutHeight );
                 molecularText.setVisible( visible );
 
@@ -176,7 +165,7 @@ public class GeometryNameNode extends PNode {
                 double columnOffset = MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS; // compensate for the extra needed room
 
                 electronText = getTextLabel( ( name == null ? Strings.GEOMETRY__EMPTY : name ),
-                                             MoleculeShapesConstants.ELECTRON_GEOMETRY_NAME_COLOR ); // replace the unknown value
+                                             MoleculeShapesColor.ELECTRON_GEOMETRY_NAME.getProperty() ); // replace the unknown value
                 electronText.setOffset( columnOffset + ( MAX_SHAPE_WIDTH - electronText.getFullBounds().getWidth() ) / 2, readoutHeight );
                 electronText.setVisible( visible );
 

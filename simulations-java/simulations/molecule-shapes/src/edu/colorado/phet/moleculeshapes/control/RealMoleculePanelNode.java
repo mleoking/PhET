@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.jmephet.JMEActionListener;
 import edu.colorado.phet.jmephet.JMEUtils;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesColors;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.control.ArrowButtonNode.Orientation;
@@ -159,9 +159,9 @@ public class RealMoleculePanelNode extends PNode {
         /*---------------------------------------------------------------------------*
         * molecular formula label
         *----------------------------------------------------------------------------*/
-        containerNode.addChild( new HTMLNode( "", MoleculeShapesColors.REAL_EXAMPLE_FORMULA.get(), MoleculeShapesConstants.EXAMPLE_MOLECULAR_FORMULA_FONT ) {
+        containerNode.addChild( new HTMLNode( "", MoleculeShapesColor.REAL_EXAMPLE_FORMULA.get(), MoleculeShapesConstants.EXAMPLE_MOLECULAR_FORMULA_FONT ) {
             {
-                MoleculeShapesColors.REAL_EXAMPLE_FORMULA.onColor( new VoidFunction1<Color>() {
+                MoleculeShapesColor.REAL_EXAMPLE_FORMULA.addColorObserver( new VoidFunction1<Color>() {
                     public void apply( Color color ) {
                         setHTMLColor( color );
                     }
@@ -201,7 +201,7 @@ public class RealMoleculePanelNode extends PNode {
         overlayTarget = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE - overlayBorderWidth, SIZE - overlayBorderWidth ), new Color( 0f, 0f, 0f, 0f ) ) {{
             setStroke( new BasicStroke( overlayBorderWidth ) );
 
-            MoleculeShapesColors.REAL_EXAMPLE_BORDER.onColor( new VoidFunction1<Color>() {
+            MoleculeShapesColor.REAL_EXAMPLE_BORDER.addColorObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
                     setStrokePaint( color );
                 }

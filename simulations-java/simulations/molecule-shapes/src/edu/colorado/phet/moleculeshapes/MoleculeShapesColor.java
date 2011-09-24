@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.util.ColorProfile;
@@ -14,7 +13,7 @@ import edu.colorado.phet.moleculeshapes.util.JMEColorHandler;
 
 import com.jme3.math.ColorRGBA;
 
-public enum MoleculeShapesColors {
+public enum MoleculeShapesColor {
     BACKGROUND,
     CONTROL_PANEL_BORDER,
     CONTROL_PANEL_TITLE,
@@ -22,9 +21,13 @@ public enum MoleculeShapesColors {
     ATOM_CENTER,
     ATOM,
     REAL_EXAMPLE_FORMULA,
-    REAL_EXAMPLE_BORDER;
+    REAL_EXAMPLE_BORDER,
+    LONE_PAIR_SHELL,
+    LONE_PAIR_ELECTRON,
+    MOLECULAR_GEOMETRY_NAME,
+    ELECTRON_GEOMETRY_NAME;
 
-    public static ColorProfile<MoleculeShapesColors> DEFAULT = new ColorProfile<MoleculeShapesColors>( "Screen Mode" ) {{ // TODO: i18n
+    public static ColorProfile<MoleculeShapesColor> DEFAULT = new ColorProfile<MoleculeShapesColor>( "Screen Mode" ) {{ // TODO: i18n
         add( BACKGROUND, Color.BLACK );
         add( CONTROL_PANEL_BORDER, new Color( 210, 210, 210 ) );
         add( CONTROL_PANEL_TITLE, new Color( 240, 240, 240 ) );
@@ -33,10 +36,14 @@ public enum MoleculeShapesColors {
         add( ATOM, Color.WHITE );
         add( REAL_EXAMPLE_FORMULA, new Color( 230, 230, 230 ) );
         add( REAL_EXAMPLE_BORDER, new Color( 60, 60, 60 ) );
+        add( LONE_PAIR_SHELL, new Color( 1, 1, 1, 0.7f ) );
+        add( LONE_PAIR_ELECTRON, new Color( 1, 1, 0, 0.8f ) );
+        add( MOLECULAR_GEOMETRY_NAME, new Color( 255, 255, 140 ) );
+        add( ELECTRON_GEOMETRY_NAME, new Color( 255, 204, 102 ) );
     }};
 
     // TODO: better handling of non-specified colors!
-    public static ColorProfile<MoleculeShapesColors> PROJECTOR = new ColorProfile<MoleculeShapesColors>( "Projector Mode" ) {{ // TODO: i18n
+    public static ColorProfile<MoleculeShapesColor> PROJECTOR = new ColorProfile<MoleculeShapesColor>( "Projector Mode" ) {{ // TODO: i18n
         add( BACKGROUND, Color.WHITE );
         add( CONTROL_PANEL_BORDER, new Color( 30, 30, 30 ) );
         add( CONTROL_PANEL_TITLE, Color.BLACK );
@@ -44,16 +51,19 @@ public enum MoleculeShapesColors {
         add( ATOM, Color.GRAY );
         add( REAL_EXAMPLE_BORDER, new Color( 230, 230, 230 ) );
         add( REAL_EXAMPLE_FORMULA, Color.BLACK );
+        add( LONE_PAIR_SHELL, new Color( 0.7f, 0.7f, 0.7f, 0.7f ) );
+        add( MOLECULAR_GEOMETRY_NAME, new Color( 50, 0, 150 ) );
+        add( ELECTRON_GEOMETRY_NAME, new Color( 0, 100, 100 ) );
     }};
 
     // TODO: add high-contrast?
 
-    public static List<ColorProfile<MoleculeShapesColors>> PROFILES = new ArrayList<ColorProfile<MoleculeShapesColors>>() {{
+    public static List<ColorProfile<MoleculeShapesColor>> PROFILES = new ArrayList<ColorProfile<MoleculeShapesColor>>() {{
         add( DEFAULT );
         add( PROJECTOR );
     }};
 
-    public static JMEColorHandler<MoleculeShapesColors> handler = new JMEColorHandler<MoleculeShapesColors>() {{
+    public static JMEColorHandler<MoleculeShapesColor> handler = new JMEColorHandler<MoleculeShapesColor>() {{
         setProfile( DEFAULT );
     }};
 
@@ -73,15 +83,11 @@ public enum MoleculeShapesColors {
         return handler.getRGBAProperty( this );
     }
 
-    public void onColor( final VoidFunction1<Color> callback ) {
-        getProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                callback.apply( get() );
-            }
-        } );
+    public void addColorObserver( final VoidFunction1<Color> callback ) {
+        getProperty().addObserver( callback );
     }
 
-    public void onColorRGBA( final VoidFunction1<ColorRGBA> callback ) {
+    public void addColorRGBAObserver( final VoidFunction1<ColorRGBA> callback ) {
         getRGBAProperty().addObserver( JMEUtils.jmeObserver( new Runnable() {
             public void run() {
                 callback.apply( getRGBA() );

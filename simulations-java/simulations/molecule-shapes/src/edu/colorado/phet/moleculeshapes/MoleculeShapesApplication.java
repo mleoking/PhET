@@ -78,12 +78,12 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
         // color profiles
         ButtonGroup colorProfileGroup = new ButtonGroup();
-        for ( final ColorProfile<MoleculeShapesColors> profile : MoleculeShapesColors.PROFILES ) {
+        for ( final ColorProfile<MoleculeShapesColor> profile : MoleculeShapesColor.PROFILES ) {
             JRadioButtonMenuItem item = new JRadioButtonMenuItem( profile.getName() ) {{
-                setSelected( profile == MoleculeShapesColors.DEFAULT );
+                setSelected( profile == MoleculeShapesColor.DEFAULT );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        profile.apply( MoleculeShapesColors.handler );
+                        profile.apply( MoleculeShapesColor.handler );
                     }
                 } );
             }};
@@ -128,15 +128,15 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
                         setContentPane( new JPanel() {{
                             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-                            add( new ColorPropertyControl( frame, "Background: ", MoleculeShapesColors.BACKGROUND.getProperty() ) );
-                            add( new ColorPropertyControl( frame, "Control panel borders: ", MoleculeShapesColors.CONTROL_PANEL_BORDER.getProperty() ) );
-                            add( new ColorPropertyControl( frame, "Control panel titles: ", MoleculeShapesColors.CONTROL_PANEL_TITLE.getProperty() ) );
-                            add( new ColorPropertyControl( frame, "Central atom color: ", MoleculeShapesColors.ATOM_CENTER.getProperty() ) );
-                            add( new ColorPropertyControl( frame, "Radial atom color: ", MoleculeShapesColors.ATOM.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Background: ", MoleculeShapesColor.BACKGROUND.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Control panel borders: ", MoleculeShapesColor.CONTROL_PANEL_BORDER.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Control panel titles: ", MoleculeShapesColor.CONTROL_PANEL_TITLE.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Central atom color: ", MoleculeShapesColor.ATOM_CENTER.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Radial atom color: ", MoleculeShapesColor.ATOM.getProperty() ) );
                             add( new ColorPropertyControl( frame, "Remove all foreground color: ", MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR ) );
                             add( new ColorPropertyControl( frame, "Remove all background color: ", MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR ) );
-                            add( new ColorPropertyControl( frame, "Molecular geometry color: ", MoleculeShapesConstants.MOLECULAR_GEOMETRY_NAME_COLOR ) );
-                            add( new ColorPropertyControl( frame, "Electron geometry color: ", MoleculeShapesConstants.ELECTRON_GEOMETRY_NAME_COLOR ) );
+                            add( new ColorPropertyControl( frame, "Molecular geometry color: ", MoleculeShapesColor.MOLECULAR_GEOMETRY_NAME.getProperty() ) );
+                            add( new ColorPropertyControl( frame, "Electron geometry color: ", MoleculeShapesColor.ELECTRON_GEOMETRY_NAME.getProperty() ) );
                         }} );
                         pack();
                         SwingUtils.centerInParent( this );

@@ -24,17 +24,11 @@ public class MoleculeShapesConstants {
     * colors
     *----------------------------------------------------------------------------*/
 
-    public static final ColorRGBA LONE_PAIR_SHELL_COLOR = new ColorRGBA( 1, 1, 1, 0.7f );
-    public static final ColorRGBA LONE_PAIR_ELECTRON_COLOR = new ColorRGBA( 1.0f, 1.0f, 0.0f, 0.8f );
-
     public static final ColorRGBA SUN_COLOR = new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f );
     public static final ColorRGBA MOON_COLOR = new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f );
 
     public static final Property<Color> REMOVE_BUTTON_TEXT_COLOR = new Property<Color>( Color.BLACK );
     public static final Property<Color> REMOVE_BUTTON_BACKGROUND_COLOR = new Property<Color>( Color.ORANGE );
-
-    public static final Property<Color> MOLECULAR_GEOMETRY_NAME_COLOR = new Property<Color>( new Color( 255, 255, 102 ) ); // original 255,255,153
-    public static final Property<Color> ELECTRON_GEOMETRY_NAME_COLOR = new Property<Color>( new Color( 255, 102, 0 ) ); // original 255,204,102
 
     public static final Color MAXIMIZE_GREEN = new Color( 30, 220, 30 );
     public static final Color MINIMIZE_RED = new Color( 220, 30, 30 );
