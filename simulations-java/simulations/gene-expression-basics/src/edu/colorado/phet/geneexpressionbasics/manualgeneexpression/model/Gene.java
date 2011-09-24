@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
@@ -230,5 +231,14 @@ public class Gene {
             add( positiveTranscriptionFactorPlacementHint );
             add( negativeTranscriptionFactorPlacementHint );
         }};
+    }
+
+    /**
+     * Clear the attachment sites, generally only done as part of a reset
+     * operation.
+     */
+    public void clearAttachmentSites() {
+        transcriptionFactorAttachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        polymeraseAttachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
     }
 }
