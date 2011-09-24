@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -455,7 +454,7 @@ public class MoleculeShapesModule extends JMEModule {
 
     @Override public PhetJMEApplication createApplication( Frame parentFrame ) {
         final PhetJMEApplication application = new PhetJMEApplication( parentFrame );
-        MoleculeShapesColors.BACKGROUND.onColorRGBA(new VoidFunction1<ColorRGBA>() {
+        MoleculeShapesColor.BACKGROUND.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
             public void apply( ColorRGBA colorRGBA ) {
                 application.backgroundColor.set( colorRGBA );
             }

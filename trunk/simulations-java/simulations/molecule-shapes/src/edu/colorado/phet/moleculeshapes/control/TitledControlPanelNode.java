@@ -6,7 +6,7 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesColors;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -48,9 +48,9 @@ public class TitledControlPanelNode extends ControlPanelNode {
             setFont( MoleculeShapesConstants.CONTROL_PANEL_TITLE_FONT );
 
             // TODO: better way of doing this?
-            MoleculeShapesColors.CONTROL_PANEL_TITLE.getProperty().addObserver( new SimpleObserver() {
+            MoleculeShapesColor.CONTROL_PANEL_TITLE.getProperty().addObserver( new SimpleObserver() {
                 public void update() {
-                    setTextPaint( MoleculeShapesColors.CONTROL_PANEL_TITLE.get() );
+                    setTextPaint( MoleculeShapesColor.CONTROL_PANEL_TITLE.get() );
                     repaint();
                 }
             } );
