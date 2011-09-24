@@ -30,7 +30,9 @@ public enum MoleculeShapesColor {
     BOND_ANGLE_SWEEP,
     BOND_ANGLE_ARC,
     REMOVE_BUTTON_TEXT,
-    REMOVE_BUTTON_BACKGROUND;
+    REMOVE_BUTTON_BACKGROUND,
+    SUN,
+    MOON;
 
     public static ColorProfile<MoleculeShapesColor> DEFAULT = new ColorProfile<MoleculeShapesColor>( "Screen Mode" ) {{ // TODO: i18n
         add( BACKGROUND, Color.BLACK );
@@ -50,6 +52,8 @@ public enum MoleculeShapesColor {
         add( BOND_ANGLE_ARC, Color.RED );
         add( REMOVE_BUTTON_TEXT, Color.BLACK );
         add( REMOVE_BUTTON_BACKGROUND, Color.ORANGE );
+        add( SUN, new Color( 0.8f, 0.8f, 0.8f ) );
+        add( MOON, new Color( 0.6f, 0.6f, 0.6f ) );
     }};
 
     // TODO: better handling of non-specified colors!

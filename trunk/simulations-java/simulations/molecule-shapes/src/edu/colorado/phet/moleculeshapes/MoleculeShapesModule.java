@@ -336,13 +336,13 @@ public class MoleculeShapesModule extends JMEModule {
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
         }}, singleBondOverlay, inputHandler, this, addSingleBondEnabled ) );
         addLighting( singleBondOverlay.getScene() );
-        
+
         JMEView doubleBondOverlay = createBondOverlayView.apply( "Double Bond", doubleBondOverlayStageBounds );
         doubleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new MoleculeModel() {{
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 2, false ) );
         }}, doubleBondOverlay, inputHandler, this, addDoubleBondEnabled ) );
         addLighting( doubleBondOverlay.getScene() );
-        
+
         JMEView tripleBondOverlay = createBondOverlayView.apply( "Triple Bond", tripleBondOverlayStageBounds );
         tripleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new MoleculeModel() {{
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 3, false ) );
@@ -532,14 +532,24 @@ public class MoleculeShapesModule extends JMEModule {
     }
 
     public static void addLighting( Node node ) {
-        DirectionalLight sun = new DirectionalLight();
+        final DirectionalLight sun = new DirectionalLight();
         sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
-        sun.setColor( MoleculeShapesConstants.SUN_COLOR );
+        MoleculeShapesColor.SUN.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
+            public void apply( ColorRGBA colorRGBA ) {
+                sun.setColor( colorRGBA );
+            }
+        } );
+//        sun.setColor( MoleculeShapesConstants.SUN_COLOR );
         node.addLight( sun );
 
-        DirectionalLight moon = new DirectionalLight();
+        final DirectionalLight moon = new DirectionalLight();
         moon.setDirection( new Vector3f( -2, 1, -1 ).normalizeLocal() );
-        moon.setColor( MoleculeShapesConstants.MOON_COLOR );
+        MoleculeShapesColor.MOON.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
+            public void apply( ColorRGBA colorRGBA ) {
+                moon.setColor( colorRGBA );
+            }
+        } );
+//        moon.setColor( MoleculeShapesConstants.MOON_COLOR );
         node.addLight( moon );
     }
 

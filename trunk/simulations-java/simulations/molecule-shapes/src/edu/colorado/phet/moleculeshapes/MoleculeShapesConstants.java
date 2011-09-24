@@ -24,9 +24,6 @@ public class MoleculeShapesConstants {
     * colors
     *----------------------------------------------------------------------------*/
 
-    public static final ColorRGBA SUN_COLOR = new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f );
-    public static final ColorRGBA MOON_COLOR = new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f );
-
     public static final Color MAXIMIZE_GREEN = new Color( 30, 220, 30 );
     public static final Color MINIMIZE_RED = new Color( 220, 30, 30 );
 
