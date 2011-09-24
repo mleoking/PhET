@@ -64,12 +64,13 @@ public enum MoleculeShapesColor {
         add( CONTROL_PANEL_BORDER, new Color( 30, 30, 30 ) );
         add( CONTROL_PANEL_TITLE, Color.BLACK );
         add( CONTROL_PANEL_TEXT, Color.BLACK );
-        add( ATOM, Color.GRAY );
+        add( ATOM, new Color( 153, 153, 153 ) );
         add( REAL_EXAMPLE_BORDER, new Color( 230, 230, 230 ) );
         add( REAL_EXAMPLE_FORMULA, Color.BLACK );
         add( LONE_PAIR_SHELL, new Color( 0.7f, 0.7f, 0.7f, 0.7f ) );
-        add( MOLECULAR_GEOMETRY_NAME, new Color( 50, 0, 150 ) );
-        add( ELECTRON_GEOMETRY_NAME, new Color( 0, 100, 100 ) );
+        add( LONE_PAIR_ELECTRON, new Color( 0, 0, 0, 0.8f ) );
+        add( MOLECULAR_GEOMETRY_NAME, new Color( 102, 0, 204 ) );
+        add( ELECTRON_GEOMETRY_NAME, new Color( 0, 102, 102 ) );
         add( BOND_ANGLE_READOUT, Color.BLACK );
         add( BOND_ANGLE_SWEEP, Color.GRAY.brighter() );
         add( BOND_ANGLE_ARC, Color.RED );
