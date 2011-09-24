@@ -294,6 +294,12 @@ public class DnaMolecule {
         return geneAtLocation;
     }
 
+    public void reset() {
+        for ( Gene gene : genes ) {
+            gene.clearAttachmentSites();
+        }
+    }
+
     /**
      * This class defines a segment of the DNA strand.  It is needed because the
      * DNA molecule needs to look like it is 3D, but we are only modeling it as

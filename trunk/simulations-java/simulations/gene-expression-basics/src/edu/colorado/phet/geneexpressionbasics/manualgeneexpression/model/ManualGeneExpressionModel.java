@@ -50,7 +50,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    protected final DnaMolecule dnaStrand = new DnaMolecule();
+    protected final DnaMolecule dnaMolecule = new DnaMolecule();
 
     // List of mobile biomolecules in the model.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
@@ -60,12 +60,12 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     // The gene that the user is focusing on, other gene activity is
     // suspended.  Start with the 0th gene in the DNA (leftmost).
-    public final Property<Gene> activeGene = new Property<Gene>( dnaStrand.getGenes().get( 0 ) );
+    public final Property<Gene> activeGene = new Property<Gene>( dnaMolecule.getGenes().get( 0 ) );
 
     // Properties that keep track of whether the first or last gene is
     // currently active, which means that the user is viewing it.
-    public final ObservableProperty<Boolean> isFirstGeneActive = activeGene.valueEquals( dnaStrand.getGenes().get( 0 ) );
-    public final ObservableProperty<Boolean> isLastGeneActive = activeGene.valueEquals( dnaStrand.getLastGene() );
+    public final ObservableProperty<Boolean> isFirstGeneActive = activeGene.valueEquals( dnaMolecule.getGenes().get( 0 ) );
+    public final ObservableProperty<Boolean> isLastGeneActive = activeGene.valueEquals( dnaMolecule.getLastGene() );
 
     // List of areas where biomolecules should not be allowed.  These are
     // generally populated by the view in order to keep biomolecules from
@@ -93,7 +93,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     }
 
     public DnaMolecule getDnaMolecule() {
-        return dnaStrand;
+        return dnaMolecule;
     }
 
     public void previousGene() {
@@ -105,14 +105,14 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     }
 
     private void switchToGeneRelative( int i ) {
-        final ArrayList<Gene> genes = dnaStrand.getGenes();
+        final ArrayList<Gene> genes = dnaMolecule.getGenes();
         int index = clamp( 0, genes.indexOf( activeGene.get() ) + i, genes.size() - 1 );
         activeGene.set( genes.get( index ) );
     }
 
     private void activateGene( int i ) {
-        final ArrayList<Gene> genes = dnaStrand.getGenes();
-        activeGene.set( dnaStrand.getGenes().get( i ) );
+        final ArrayList<Gene> genes = dnaMolecule.getGenes();
+        activeGene.set( dnaMolecule.getGenes().get( i ) );
     }
 
     public List<MobileBiomolecule> getMobileBiomoleculeList() {
@@ -127,10 +127,10 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         mobileBiomolecule.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
-                    dnaStrand.activateHints( mobileBiomolecule );
+                    dnaMolecule.activateHints( mobileBiomolecule );
                 }
                 else {
-                    dnaStrand.deactivateAllHints();
+                    dnaMolecule.deactivateAllHints();
                 }
             }
         } );
@@ -144,6 +144,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
             removeMobileBiomolecule( mobileBiomolecule );
         }
+        dnaMolecule.reset();
         activateGene( 0 );
     }
 
