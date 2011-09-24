@@ -4,16 +4,18 @@ package edu.colorado.phet.simsharing.messages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimState;
+
 /**
  * This class is used to send samples to the server, they can be batched up or sent one at a time.
  *
  * @author Sam Reid
  */
-public class AddSamples<T> implements Serializable {
+public class AddSamples implements Serializable {
     public final SessionID sessionID;
-    public final ArrayList<T> data;
+    public final ArrayList<SimState> data;
 
-    public AddSamples( SessionID sessionID, ArrayList<T> data ) {
+    public AddSamples( SessionID sessionID, ArrayList<SimState> data ) {
         this.sessionID = sessionID;
         this.data = data;
     }

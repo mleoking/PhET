@@ -36,9 +36,9 @@ public class Session<T extends SimState> implements Serializable {
         return new StudentSummary( sessionID, image, System.currentTimeMillis() - startTime, time, samples.size() );
     }
 
-    public void addSamples( AddSamples<T> sampleSet ) {
-        for ( T sample : sampleSet.data ) {
-            samples.add( sample );
+    public void addSamples( AddSamples sampleSet ) {
+        for ( SimState sample : sampleSet.data ) {
+            samples.add( (T) sample );
         }
     }
 

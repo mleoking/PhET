@@ -1,23 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.server;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
-import edu.colorado.phet.simsharing.messages.GetSample;
 import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StartSession;
-import edu.colorado.phet.simsharing.server.file.FileStorage;
-import edu.colorado.phet.simsharing.socket.Sample;
+import edu.colorado.phet.simsharing.server.mongo.MongoStorage;
 import edu.colorado.phet.simsharing.socketutil.MessageHandler;
 import edu.colorado.phet.simsharing.socketutil.MessageServer;
 import edu.colorado.phet.simsharing.teacher.ClearSessions;
@@ -37,19 +33,16 @@ public class Server implements MessageHandler {
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
 
     //    private Storage storage = new CassandraStorage();
-    private Storage storage = new FileStorage( new File( "C:/simsharing-data/" ) );
+//    private Storage storage = new FileStorage( new File( "C:/simsharing-data/" ) );
+    private Storage storage = new MongoStorage();
+//    private Storage storage = new HibernateStorage();
 
     private void start() throws IOException {
         new MessageServer( PORT, this ).start();
     }
 
     public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) throws IOException {
-        if ( message instanceof GetSample ) {
-            GetSample request = (GetSample) message;
-            SimState state = storage.getSample( request.getSessionID(), request.getIndex() );
-            writeToClient.writeObject( new Sample<SimState>( state, storage.getNumberSamples( request.getSessionID() ) ) );
-        }
-        else if ( message instanceof StartSession ) {
+        if ( message instanceof StartSession ) {
             StartSession request = (StartSession) message;
             int sessionCount = storage.getNumberSessions();
             final SessionID sessionID = new SessionID( sessionCount, request.studentID + "*" + sessionCount, request.simName );
