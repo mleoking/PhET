@@ -104,7 +104,7 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
                     if ( stateCache.size() >= batchSize ) {
                         try {
                             //Copy the state cache because it is cleared in the next step
-                            nonBlockingClient.tell( new AddSamples<U>( sessionID, new ArrayList<U>( stateCache ) ) );
+                            nonBlockingClient.tell( new AddSamples( sessionID, new ArrayList<SimState>( stateCache ) ) );
                         }
                         catch ( IOException e ) {
                             e.printStackTrace();
