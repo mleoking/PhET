@@ -27,15 +27,8 @@ public class MoleculeShapesConstants {
     public static final ColorRGBA SUN_COLOR = new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f );
     public static final ColorRGBA MOON_COLOR = new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f );
 
-    public static final Property<Color> REMOVE_BUTTON_TEXT_COLOR = new Property<Color>( Color.BLACK );
-    public static final Property<Color> REMOVE_BUTTON_BACKGROUND_COLOR = new Property<Color>( Color.ORANGE );
-
     public static final Color MAXIMIZE_GREEN = new Color( 30, 220, 30 );
     public static final Color MINIMIZE_RED = new Color( 220, 30, 30 );
-
-    public static final Color BOND_ANGLE_ARC_COLOR = Color.RED;
-    public static final Color BOND_ANGLE_SWEEP_COLOR = Color.GRAY;
-    public static final Color BOND_ANGLE_READOUT_COLOR = Color.WHITE;
 
     /*---------------------------------------------------------------------------*
     * fonts

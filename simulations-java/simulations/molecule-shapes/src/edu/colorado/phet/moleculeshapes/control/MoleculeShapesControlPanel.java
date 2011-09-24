@@ -1,11 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.control;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.jmephet.JMEActionListener;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
@@ -106,24 +109,23 @@ public class MoleculeShapesControlPanel extends PNode {
 
         final PNode removeAllButtonNode = new TextButtonNode( Strings.CONTROL__REMOVE_ALL,
                                                               MoleculeShapesConstants.REMOVE_BUTTON_FONT,
-                                                              MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR.get() ) {{
+                                                              MoleculeShapesColor.REMOVE_BUTTON_BACKGROUND.get() ) {{
             addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
                     module.getMolecule().removeAllPairs();
                 }
             } ) );
 
-            MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR.addObserver(
-                    new SimpleObserver() {
-                        public void update() {
-                            setBackground( MoleculeShapesConstants.REMOVE_BUTTON_BACKGROUND_COLOR.get() );
-                            repaint();
-                        }
-                    }, false );
+            MoleculeShapesColor.REMOVE_BUTTON_BACKGROUND.addColorObserver( new VoidFunction1<Color>() {
+                public void apply( Color color ) {
+                    setBackground( color );
+                    repaint();
+                }
+            } );
 
-            MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR.addObserver( new SimpleObserver() {
-                public void update() {
-                    setEnabledTextColor( MoleculeShapesConstants.REMOVE_BUTTON_TEXT_COLOR.get() );
+            MoleculeShapesColor.REMOVE_BUTTON_TEXT.addColorObserver( new VoidFunction1<Color>() {
+                public void apply( Color color ) {
+                    setEnabledTextColor( color );
                     repaint(); // TODO: repaint shouldn't be necessary?
                 }
             } );
