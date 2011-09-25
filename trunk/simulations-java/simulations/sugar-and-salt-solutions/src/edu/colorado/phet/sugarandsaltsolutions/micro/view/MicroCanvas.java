@@ -50,7 +50,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
     private final PNode microKitControlNode;
 
     //Keep track of the global state to access the PhetFrame to position the Periodic Table Dialog
-    private GlobalState globalState;
+    private final GlobalState globalState;
 
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
         super( model, globalState, createMicroTransform( model ), true, false );

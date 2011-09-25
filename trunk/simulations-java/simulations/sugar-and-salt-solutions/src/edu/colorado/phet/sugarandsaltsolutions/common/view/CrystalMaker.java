@@ -36,7 +36,7 @@ public class CrystalMaker<T extends MacroCrystal> implements VoidFunction1<T> {
                 final VoidFunction0 removalListener = this;
 
                 //invoke later to avoid ConcurrentModificationException, since this is called during Crystal.remove()
-                //This code should be read with IntelliJ's closure folding
+                //This code should be read with IDEA's closure folding
                 invokeLater( new Runnable() {
                     public void run() {
                         salt.removeRemovalListener( removalListener );

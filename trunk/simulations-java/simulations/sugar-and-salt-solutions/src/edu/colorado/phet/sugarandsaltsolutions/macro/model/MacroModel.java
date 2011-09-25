@@ -285,7 +285,7 @@ public class MacroModel extends SugarAndSaltSolutionModel {
 
         double drainedWater = super.updateModel( dt );
 
-        //Notify listeners that some water (with solutes) exited the system, so they can decrease the amounts of solute (mols, not molarity) in the system
+        //Notify listeners that some water (with solutes) exited the system, so they can decrease the amounts of solute (moles, not molarity) in the system
         //Only call when draining, would have the wrong behavior for evaporation
         if ( drainedWater > 0 ) {
             waterDrained( drainedWater, initialSaltConcentration, initialSugarConcentration );
