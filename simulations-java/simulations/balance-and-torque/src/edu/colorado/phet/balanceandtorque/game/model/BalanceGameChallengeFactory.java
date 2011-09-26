@@ -79,67 +79,48 @@ public class BalanceGameChallengeFactory {
     public static List<BalanceGameChallenge> generateChallengeSet( int level, int numChallenges ) {
         List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
         if ( level == 1 ) {
-            for ( int i = 0; i < numChallenges; i++ ) {
-                if ( i == 0 ) {
-                    // It was requested by the design team that the first
-                    // problem of a level 1 set always be a simple 1:1 problem.
-                    balanceChallengeList.add( generateSimpleBalanceChallenge() );
-                }
-                else {
-                    BalanceGameChallenge balanceChallenge = null;
-                    for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                        balanceChallenge = generateEasyBalanceChallenge();
-                        if ( !balanceChallengeList.contains( balanceChallenge ) ) {
-                            // This is a unique one, so we're done.
-                            break;
-                        }
-                        assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
-                    }
+            balanceChallengeList.add( generateSimpleBalanceChallenge() );
+            balanceChallengeList.add( generateEasyBalanceChallenge() );
+            balanceChallengeList.add( generateSimpleDeduceTheMassChallenge() );
+            for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
+                BalanceGameChallenge balanceChallenge = generateEasyBalanceChallenge();
+                if ( !balanceChallengeList.contains( balanceChallenge ) ) {
+                    // This is a unique one, so we're done.
                     balanceChallengeList.add( balanceChallenge );
+                    break;
                 }
+                assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
+            }
+            for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
+                BalanceGameChallenge balanceChallenge = generateSimpleDeduceTheMassChallenge();
+                if ( !balanceChallengeList.contains( balanceChallenge ) ) {
+                    // This is a unique one, so we're done.
+                    balanceChallengeList.add( balanceChallenge );
+                    break;
+                }
+                assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
             }
         }
         else if ( level == 2 ) {
-            for ( int i = 0; i < numChallenges; i++ ) {
-                BalanceGameChallenge balanceChallenge = null;
-                for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                    balanceChallenge = generateModerateBalanceChallenge();
-                    if ( !balanceChallengeList.contains( balanceChallenge ) ) {
-                        // This is a unique one, so we're done.
-                        break;
-                    }
-                    assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
-                }
-                balanceChallengeList.add( balanceChallenge );
-            }
+            balanceChallengeList.add( generateEasyBalanceChallenge() );
+            balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
+            balanceChallengeList.add( generateEasyBalanceChallenge() );
+            balanceChallengeList.add( generateModerateBalanceChallenge() );
+            balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
         }
         else if ( level == 3 ) {
-            for ( int i = 0; i < numChallenges; i++ ) {
-                BalanceGameChallenge balanceChallenge = null;
-                for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                    balanceChallenge = generateChallengeRandomMasses();
-                    if ( !balanceChallengeList.contains( balanceChallenge ) ) {
-                        // This is a unique one, so we're done.
-                        break;
-                    }
-                    assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
-                }
-                balanceChallengeList.add( balanceChallenge );
-            }
+            balanceChallengeList.add( generateModerateBalanceChallenge() );
+            balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
+            balanceChallengeList.add( generateModerateBalanceChallenge() );
+            balanceChallengeList.add( generateModerateBalanceChallenge() );
+            balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
         }
         else if ( level == 4 ) {
-            for ( int i = 0; i < numChallenges; i++ ) {
-                BalanceGameChallenge balanceChallenge = null;
-                for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                    balanceChallenge = generateChallengeSimpleDeduceMass( j );
-                    if ( !balanceChallengeList.contains( balanceChallenge ) ) {
-                        // This is a unique one, so we're done.
-                        break;
-                    }
-                    assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
-                }
-                balanceChallengeList.add( balanceChallenge );
-            }
+            balanceChallengeList.add( generateModerateBalanceChallenge() );
+            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
+            balanceChallengeList.add( generateModerateBalanceChallenge() );
+            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
+            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
         }
         else {
             // This level is either out of range or not implemented yet.
@@ -390,6 +371,34 @@ public class BalanceGameChallengeFactory {
         for ( int i = 0; i < MYSTERY_MASSES.size() && knownMass == null; i++ ) {
             mysteryMassPrototype = MYSTERY_MASSES.get( ( i + indexOffset ) % MYSTERY_MASSES.size() );
             knownMass = createMassByRatio( mysteryMassPrototype.getMass(), 2, 0.5 );
+        }
+
+        // There must be at least one combination that works.  If not, it's a
+        // major problem in the code that must be fixed.
+        assert knownMass != null;
+
+        // Choose a distance for the mystery mass.
+        List<Double> possibleDistances = getPossibleDistanceList( mysteryMassPrototype.getMass(), knownMass.getMass() );
+        double mysteryMassDistanceFromCenter = -possibleDistances.get( RAND.nextInt( possibleDistances.size() ) );
+
+        // Create the challenge.
+        return createDeduceTheMassChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+    }
+
+    /**
+     * Generate a deduce-the-mass style challenge where the fixed mystery mass
+     * is either twice as heavy or half as heavy as the known mass.
+     *
+     * @return
+     */
+    private static DeduceTheMassChallenge generateModerateDeduceTheMassChallenge() {
+        int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
+        Mass knownMass = null;
+        Mass mysteryMassPrototype = null;
+
+        for ( int i = 0; i < MYSTERY_MASSES.size() && knownMass == null; i++ ) {
+            mysteryMassPrototype = MYSTERY_MASSES.get( ( i + indexOffset ) % MYSTERY_MASSES.size() );
+            knownMass = createMassByRatio( mysteryMassPrototype.getMass(), 1.5, 3, ( 1 / 3 ), ( 2 / 3 ), 6, 4, ( 1 / 4 ), ( 1 / 6 ) );
         }
 
         // There must be at least one combination that works.  If not, it's a
