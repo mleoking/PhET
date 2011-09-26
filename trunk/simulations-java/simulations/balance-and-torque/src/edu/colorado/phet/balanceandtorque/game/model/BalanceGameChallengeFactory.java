@@ -19,15 +19,23 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Woman;
 /**
  * This class is a factory pattern class that generates sets of challenges for
  * the balance game.
+ * <p/>
+ * Note: In this class, the terminology used to distinguish between the various
+ * levels of difficulty for the challenges are (in order of increasing
+ * difficulty)
+ * - Simple
+ * - Easy
+ * - Moderate
+ * - Hard
+ * This is not to be confused with the numerical game levels, since there is
+ * not necessarily a 1 to 1 correspondence between the numerical levels and
+ * the difficulty of a given challenge.
  *
  * @author John Blanco
  */
 public class BalanceGameChallengeFactory {
 
     private static final Random RAND = new Random();
-
-    // Lists of ratios to use when generating challenges.
-    private static final double[] SIMPLE_RATIO_LIST = new double[] { 0.5, 1, 2 };
 
     // Max number of attempts to generate a workable or unique challenge.
     private static final int MAX_GEN_ATTEMPTS = 100;
@@ -69,12 +77,12 @@ public class BalanceGameChallengeFactory {
                 if ( i == 0 ) {
                     // It was requested by the design team that the first
                     // problem of a level 1 set always be a simple 1:1 problem.
-                    balanceChallengeList.add( generateChallengeEqualMassBricksEachSide() );
+                    balanceChallengeList.add( generateSimpleBalanceChallenge() );
                 }
                 else {
                     BalanceGameChallenge balanceChallenge = null;
                     for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                        balanceChallenge = generateChallengeSimpleRatioBricks();
+                        balanceChallenge = generateEasyBalanceChallenge();
                         if ( !balanceChallengeList.contains( balanceChallenge ) ) {
                             // This is a unique one, so we're done.
                             break;
@@ -89,7 +97,7 @@ public class BalanceGameChallengeFactory {
             for ( int i = 0; i < numChallenges; i++ ) {
                 BalanceGameChallenge balanceChallenge = null;
                 for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                    balanceChallenge = generateChallengeAdvancedRatioBricks();
+                    balanceChallenge = generateModerateBalanceChallenge();
                     if ( !balanceChallengeList.contains( balanceChallenge ) ) {
                         // This is a unique one, so we're done.
                         break;
@@ -139,7 +147,7 @@ public class BalanceGameChallengeFactory {
      * Create a simple challenge where brick stacks of equal mass appear on
      * each side.
      */
-    private static BalanceMassesChallenge generateChallengeEqualMassBricksEachSide() {
+    private static BalanceMassesChallenge generateSimpleBalanceChallenge() {
         int numBricks = 1 + RAND.nextInt( 3 );
         double distance = -generateRandomValidPlankDistance();
 
@@ -152,11 +160,11 @@ public class BalanceGameChallengeFactory {
      * one another.  For instance, the fixed brick stack might be 2 bricks,
      * and the movable state be one brick.
      * <p/>
-     * Ratios used are 1:1, 2:1, or 1:2.
+     * Ratios used are 2:1 or 1:2.
      *
      * @return
      */
-    private static BalanceMassesChallenge generateChallengeSimpleRatioBricks() {
+    private static BalanceMassesChallenge generateEasyBalanceChallenge() {
 
         int numBricksInFixedStack = 1;
         int numBricksInMovableStack = 1;
@@ -168,13 +176,18 @@ public class BalanceGameChallengeFactory {
             numBricksInFixedStack = (int) Math.pow( 2, RAND.nextInt( 3 ) );
 
             // Decide on number of bricks in movable stack.
-            numBricksInMovableStack = (int) Math.round( numBricksInFixedStack * SIMPLE_RATIO_LIST[RAND.nextInt( SIMPLE_RATIO_LIST.length )] );
+            if ( numBricksInFixedStack == 1 || RAND.nextBoolean() ) {
+                numBricksInMovableStack = 2 * numBricksInFixedStack;
+            }
+            else {
+                numBricksInMovableStack = numBricksInFixedStack / 2;
+            }
 
             // Create a list of the distances at which the fixed stack may be
             // positioned that can be made to balance with the movable stack.
             validFixedStackDistances.addAll( getPossibleDistanceList( numBricksInFixedStack * BrickStack.BRICK_MASS, numBricksInMovableStack * BrickStack.BRICK_MASS ) );
 
-            // TODO: For debug.
+            // TODO: For debug, remove eventually.
             if ( validFixedStackDistances.size() == 0 ) {
                 System.out.println( "Warning: No solutions for this configuration, numBricksInFixedStack = " + numBricksInFixedStack + ", " + "numBricksInMovableStack = " + numBricksInMovableStack );
             }
@@ -217,7 +230,7 @@ public class BalanceGameChallengeFactory {
      *
      * @return
      */
-    private static BalanceMassesChallenge generateChallengeAdvancedRatioBricks() {
+    private static BalanceMassesChallenge generateModerateBalanceChallenge() {
 
         int numBricksInFixedStack = 1;
         int numBricksInMovableStack = 1;
@@ -238,8 +251,7 @@ public class BalanceGameChallengeFactory {
                                       Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                       MAX_DISTANCE_FROM_BALANCE_CENTER_TO_MASS ) );
 
-        // Randomly choose a distance to use for the fixed mass position.  The
-        // negative value indicates that the fixed mass in on the left side.
+        // Randomly choose a distance to use for the fixed mass position.
         double fixedStackDistanceFromCenter = chooseRandomValidFixedMassDistance( numBricksInFixedStack * BrickStack.BRICK_MASS,
                                                                                   numBricksInMovableStack * BrickStack.BRICK_MASS );
 
