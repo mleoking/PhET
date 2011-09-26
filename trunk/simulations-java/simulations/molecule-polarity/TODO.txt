@@ -7,5 +7,4 @@ MEDIUM
 - play area visibly resizes at startup
 
 BEFORE PUBLISHING
-- model.txt
 - code review, #3088 (JB)

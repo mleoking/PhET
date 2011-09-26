@@ -1,3 +1,4 @@
+9/26/11 first pass at model.txt
 9/26/11 design doc snapshot checked into SVN
 9/26/11 screenshot for website
 9/26/11 fix left justification of View check boxes
