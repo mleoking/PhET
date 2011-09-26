@@ -65,6 +65,7 @@ public class FluidPressureAndFlowResources {
         public static final BufferedImage BUTTON_UNPRESSED = RESOURCES.getImage( "button_unpressed.png" );
         public static final BufferedImage HANDLE = RESOURCES.getImage( "handle.png" );
         public static final BufferedImage HANDLE_T = RESOURCES.getImage( "handle_T.png" );
+        public static final BufferedImage KNOB = RESOURCES.getImage( "knob.png" );
         public static final BufferedImage NOZZLE = RESOURCES.getImage( "nozzle.png" );
         public static final BufferedImage PANEL = RESOURCES.getImage( "panel.png" );
         public static final BufferedImage PIPE_LEFT_BACK = RESOURCES.getImage( "pipe-left-back.png" );
