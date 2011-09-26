@@ -78,6 +78,10 @@ public class MysteryObjectFactory {
         return new ImageMass( config.mass, config.image, config.height, initialLocation, true );
     }
 
+    public static int getNumAvailableMysteryObjects() {
+        return MYSTERY_OBJECT_CONFIGURATIONS.size();
+    }
+
     // Collection of information needed to define a particular configuration
     // of mystery object.
     private static class MysteryObjectConfig {
