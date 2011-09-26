@@ -48,9 +48,9 @@ public class BalanceGameChallengeFactory {
     private static final double MIN_DISTANCE_FROM_BALANCE_CENTER_TO_MASS = Plank.INTER_SNAP_TO_MARKER_DISTANCE;
     private static final double MAX_DISTANCE_FROM_BALANCE_CENTER_TO_MASS = ( Math.round( Plank.getLength() / Plank.INTER_SNAP_TO_MARKER_DISTANCE / 2 ) - 1 ) * Plank.INTER_SNAP_TO_MARKER_DISTANCE;
 
-    // List of masses that can be used in challenges.  This list is not used
-    // for creating all challenges, just the more advanced ones.
-    private static final List<Mass> CHALLENGE_MASSES = new ArrayList<Mass>() {{
+    // List of masses that can be used in balance challenges.  This list is not
+    // used for creating all challenges, just the more advanced ones.
+    private static final List<Mass> BALANCE_CHALLENGE_MASSES = new ArrayList<Mass>() {{
         add( new BrickStack( 1 ) );
         add( new BrickStack( 2 ) );
         add( new BrickStack( 3 ) );
@@ -61,6 +61,12 @@ public class BalanceGameChallengeFactory {
         add( new Girl() );
         add( new Woman() );
         add( new Man() );
+    }};
+
+    private static final List<Mass> MYSTERY_MASSES = new ArrayList<Mass>() {{
+        for ( int i = 0; i < MysteryObjectFactory.getNumAvailableMysteryObjects(); i++ ) {
+            add( MysteryObjectFactory.createUnlabeledMysteryObject( i ) );
+        }
     }};
 
     /**
@@ -77,7 +83,8 @@ public class BalanceGameChallengeFactory {
                 if ( i == 0 ) {
                     // It was requested by the design team that the first
                     // problem of a level 1 set always be a simple 1:1 problem.
-                    balanceChallengeList.add( generateSimpleBalanceChallenge() );
+//                    balanceChallengeList.add( generateSimpleBalanceChallenge() );
+                    balanceChallengeList.add( generateSimpleDeduceTheMassChallenge() );
                 }
                 else {
                     BalanceGameChallenge balanceChallenge = null;
@@ -326,7 +333,7 @@ public class BalanceGameChallengeFactory {
 
     private static Mass getRandomMass( double minMass, double maxMass ) {
         List<Mass> candidateMasses = new ArrayList<Mass>();
-        for ( Mass mass : CHALLENGE_MASSES ) {
+        for ( Mass mass : BALANCE_CHALLENGE_MASSES ) {
             if ( mass.getMass() >= minMass && mass.getMass() <= maxMass ) {
                 // This mass meets the constraints, so add it to the list of candidates.
                 candidateMasses.add( mass );
@@ -342,32 +349,83 @@ public class BalanceGameChallengeFactory {
         return null;
     }
 
+    /**
+     * Generate a deduce-the-mass style challenge where the fixed mystery mass
+     * is the same value as the known mass.
+     *
+     * @return
+     */
+    private static DeduceTheMassChallenge generateSimpleDeduceTheMassChallenge() {
+        int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
+        Mass counterBalanceMass = null;
+        Mass mysteryMassPrototype = null;
+
+        for ( int i = 0; i < MYSTERY_MASSES.size() && counterBalanceMass == null; i++ ) {
+            mysteryMassPrototype = MYSTERY_MASSES.get( ( i + indexOffset ) % MYSTERY_MASSES.size() );
+            counterBalanceMass = createMassByRatio( mysteryMassPrototype.getMass(), 1 );
+        }
+
+        // There must be at least one combination that works.  If not, it's a
+        // major problem in the code that must be fixed.
+        assert counterBalanceMass != null;
+
+        // Since the masses are equal, any position for the mystery mass should
+        // create a solvable challenge.
+        double mysteryMassDistanceFromCenter = -generateRandomValidPlankDistance();
+
+        // Create the challenge.
+        return createDeduceTheMassChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, counterBalanceMass );
+    }
+
+    /**
+     * Create a mass from the list of available given an original mass value
+     * and a list of ratios.  The created mass will have a mass value that
+     * equals the original value multiplied by one of the given ratios.
+     *
+     * @param massValue
+     * @param ratio     (massValue / createdMassValue)
+     * @return
+     */
+    private static Mass createMassByRatio( double massValue, double ratio ) { // TODO: Not yet a list.
+        int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
+        for ( int i = 0; i < BALANCE_CHALLENGE_MASSES.size(); i++ ) {
+            Mass candidateMassPrototype = BALANCE_CHALLENGE_MASSES.get( ( i + indexOffset ) % BALANCE_CHALLENGE_MASSES.size() );
+            if ( candidateMassPrototype.getMass() * ratio == massValue ) {
+                // We have found a matching mass.  Clone it and return it.
+                return candidateMassPrototype.clone();
+            }
+        }
+        // If we made it to here, that means that there is no mass that
+        // matches the specified criterion.
+        return null;
+    }
+
     private static DeduceTheMassChallenge generateChallengeSimpleDeduceMass( int index ) {
         // TODO: static generation for now, need to make random once approved.
 
         // Add the fixed mass and its distance from the center of the balance.
-        MassDistancePair fixedMassDistancePair = null;
+        MassDistancePair mysteryMassDistancePair = null;
         Mass movableMass = null;
 
         switch( index ) {
             case 0:
-                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 3 ), -1.5 );
+                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 3 ), -1.5 );
                 movableMass = new BrickStack( 2 );
                 break;
             case 1:
-                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 4 ), -2 );
+                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 4 ), -2 );
                 movableMass = new BrickStack( 2 );
                 break;
             case 2:
-                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 2 ), -0.5 );
+                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 2 ), -0.5 );
                 movableMass = new BrickStack( 1 );
                 break;
             case 3:
-                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 0 ), -1 );
+                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 0 ), -1 );
                 movableMass = new BrickStack( 2 );
                 break;
             case 4:
-                fixedMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 6 ), -.75 );
+                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 6 ), -.75 );
                 movableMass = new BrickStack( 3 );
                 break;
             default:
@@ -380,10 +438,27 @@ public class BalanceGameChallengeFactory {
 
         // Create a valid solution for the challenge.
         List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
-        solution.add( new MassDistancePair( movableMass, -fixedMassDistancePair.mass.getMass() * fixedMassDistancePair.distance / movableMass.getMass() ) );
+        solution.add( new MassDistancePair( movableMass, -mysteryMassDistancePair.mass.getMass() * mysteryMassDistancePair.distance / movableMass.getMass() ) );
 
         // Combine into challenge.
-        return new DeduceTheMassChallenge( fixedMassDistancePair, movableMassesList, solution );
+        return new DeduceTheMassChallenge( mysteryMassDistancePair, movableMassesList, solution );
+    }
+
+    // TODO: If this is kept, move it into a constructor for the challenge.  Do for all similar convenience functions.
+    private static DeduceTheMassChallenge createDeduceTheMassChallengeFromParts( Mass mysteryMass, double mysteryMassDistanceFromCenter, Mass knownMass ) {
+        // Create the mass-distance pair for the mystery object.
+        MassDistancePair mysteryMassDistancePair = new MassDistancePair( mysteryMass, mysteryMassDistanceFromCenter );
+
+        // Put the known mass on to a list.
+        List<Mass> knownMassesList = new ArrayList<Mass>();
+        knownMassesList.add( knownMass );
+
+        // Create a valid solution for the challenge.
+        List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
+        solution.add( new MassDistancePair( knownMass, -mysteryMass.getMass() * mysteryMassDistanceFromCenter / knownMass.getMass() ) );
+
+        // Combine into challenge.
+        return new DeduceTheMassChallenge( mysteryMassDistancePair, knownMassesList, solution );
     }
 
     /**
