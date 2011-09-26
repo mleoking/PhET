@@ -219,7 +219,7 @@ public class BalanceGameModel {
         clock.start();
 
         // Set up the challenges.
-        challengeList = BalanceGameChallengeFactory.getChallengeSet( getLevel(), PROBLEMS_PER_SET );
+        challengeList = BalanceGameChallengeFactory.generateChallengeSet( getLevel(), PROBLEMS_PER_SET );
 
         //Set up the model for the next challenge
         setChallenge( getCurrentChallenge(), getCurrentChallenge().initialColumnState );

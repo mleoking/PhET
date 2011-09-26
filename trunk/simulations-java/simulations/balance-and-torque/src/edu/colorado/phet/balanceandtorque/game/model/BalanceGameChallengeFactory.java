@@ -76,15 +76,14 @@ public class BalanceGameChallengeFactory {
      * @param numChallenges
      * @return
      */
-    public static List<BalanceGameChallenge> getChallengeSet( int level, int numChallenges ) {
+    public static List<BalanceGameChallenge> generateChallengeSet( int level, int numChallenges ) {
         List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
         if ( level == 1 ) {
             for ( int i = 0; i < numChallenges; i++ ) {
                 if ( i == 0 ) {
                     // It was requested by the design team that the first
                     // problem of a level 1 set always be a simple 1:1 problem.
-//                    balanceChallengeList.add( generateSimpleBalanceChallenge() );
-                    balanceChallengeList.add( generateSimpleDeduceTheMassChallenge() );
+                    balanceChallengeList.add( generateSimpleBalanceChallenge() );
                 }
                 else {
                     BalanceGameChallenge balanceChallenge = null;
@@ -357,24 +356,52 @@ public class BalanceGameChallengeFactory {
      */
     private static DeduceTheMassChallenge generateSimpleDeduceTheMassChallenge() {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
-        Mass counterBalanceMass = null;
+        Mass knownMass = null;
         Mass mysteryMassPrototype = null;
 
-        for ( int i = 0; i < MYSTERY_MASSES.size() && counterBalanceMass == null; i++ ) {
+        for ( int i = 0; i < MYSTERY_MASSES.size() && knownMass == null; i++ ) {
             mysteryMassPrototype = MYSTERY_MASSES.get( ( i + indexOffset ) % MYSTERY_MASSES.size() );
-            counterBalanceMass = createMassByRatio( mysteryMassPrototype.getMass(), 1 );
+            knownMass = createMassByRatio( mysteryMassPrototype.getMass(), 1 );
         }
 
         // There must be at least one combination that works.  If not, it's a
         // major problem in the code that must be fixed.
-        assert counterBalanceMass != null;
+        assert knownMass != null;
 
         // Since the masses are equal, any position for the mystery mass should
         // create a solvable challenge.
         double mysteryMassDistanceFromCenter = -generateRandomValidPlankDistance();
 
         // Create the challenge.
-        return createDeduceTheMassChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, counterBalanceMass );
+        return createDeduceTheMassChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+    }
+
+    /**
+     * Generate a deduce-the-mass style challenge where the fixed mystery mass
+     * is either twice as heavy or half as heavy as the known mass.
+     *
+     * @return
+     */
+    private static DeduceTheMassChallenge generateEasyDeduceTheMassChallenge() {
+        int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
+        Mass knownMass = null;
+        Mass mysteryMassPrototype = null;
+
+        for ( int i = 0; i < MYSTERY_MASSES.size() && knownMass == null; i++ ) {
+            mysteryMassPrototype = MYSTERY_MASSES.get( ( i + indexOffset ) % MYSTERY_MASSES.size() );
+            knownMass = createMassByRatio( mysteryMassPrototype.getMass(), 2, 0.5 );
+        }
+
+        // There must be at least one combination that works.  If not, it's a
+        // major problem in the code that must be fixed.
+        assert knownMass != null;
+
+        // Choose a distance for the mystery mass.
+        List<Double> possibleDistances = getPossibleDistanceList( mysteryMassPrototype.getMass(), knownMass.getMass() );
+        double mysteryMassDistanceFromCenter = -possibleDistances.get( RAND.nextInt( possibleDistances.size() ) );
+
+        // Create the challenge.
+        return createDeduceTheMassChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
@@ -383,16 +410,19 @@ public class BalanceGameChallengeFactory {
      * equals the original value multiplied by one of the given ratios.
      *
      * @param massValue
-     * @param ratio     (massValue / createdMassValue)
+     * @param ratios    - List of ratios (massValue / createdMassValue) which are
+     *                  acceptable.
      * @return
      */
-    private static Mass createMassByRatio( double massValue, double ratio ) { // TODO: Not yet a list.
+    private static Mass createMassByRatio( double massValue, double... ratios ) { // TODO: Not yet a list.
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
         for ( int i = 0; i < BALANCE_CHALLENGE_MASSES.size(); i++ ) {
             Mass candidateMassPrototype = BALANCE_CHALLENGE_MASSES.get( ( i + indexOffset ) % BALANCE_CHALLENGE_MASSES.size() );
-            if ( candidateMassPrototype.getMass() * ratio == massValue ) {
-                // We have found a matching mass.  Clone it and return it.
-                return candidateMassPrototype.clone();
+            for ( Double ratio : ratios ) {
+                if ( candidateMassPrototype.getMass() * ratio == massValue ) {
+                    // We have found a matching mass.  Clone it and return it.
+                    return candidateMassPrototype.clone();
+                }
             }
         }
         // If we made it to here, that means that there is no mass that
