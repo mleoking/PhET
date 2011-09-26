@@ -1,3 +1,4 @@
+Water tower: Start the tank partly full so that the "fill" button and faucet slider are initially enabled
 # 0.00.29 (56846) Sep 22, 2011
 Water tower: Added new handle image from NP
 Flow tab: Made the red stripe go all the way to the edges, since friction is accounted for elsewhere
