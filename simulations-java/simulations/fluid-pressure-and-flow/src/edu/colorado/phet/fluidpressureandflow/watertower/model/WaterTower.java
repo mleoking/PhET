@@ -30,7 +30,10 @@ public class WaterTower {
     private static final int LEG_EXTENSION = 3;
     public static final double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
     public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, INITIAL_Y ) );
-    public final DoubleProperty fluidVolume = new DoubleProperty( tankVolume );//meters cubed
+
+    //Start the tank partly full so that the "fill" button and faucet slider are initially enabled
+    public final DoubleProperty fluidVolume = new DoubleProperty( tankVolume * 0.8 );//meters cubed
+
     public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( PANEL_OFFSET, 0 ) );//The movable panel that can cover the hole.
 
     public final ObservableProperty<Boolean> full = fluidVolume.greaterThanOrEqualTo( tankVolume );
