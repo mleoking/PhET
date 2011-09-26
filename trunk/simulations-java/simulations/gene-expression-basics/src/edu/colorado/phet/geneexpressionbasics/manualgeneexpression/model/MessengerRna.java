@@ -13,6 +13,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -58,7 +59,7 @@ public class MessengerRna extends MobileBiomolecule {
     // Max allowed inter-point-mass force, used to handle cases where the
     // points end up on top of each other, thus creating huge forces and
     // causing instabilities.  Empirically determined.
-    private static final double MAX_INTER_POINT_FORCE = 10; // In Newtons.
+    private static final double MAX_INTER_POINT_FORCE = 100; // In Newtons.
 
     // Constant that governs the amount of force that pushes points away from
     // the wall.
@@ -209,9 +210,8 @@ public class MessengerRna extends MobileBiomolecule {
 
         // Position the points in the "enclosed region" so that the mRNA looks
         // like it is wound up.
-        /*
-        if ( firstEnclosedPoint != null && firstEnclosedPoint.getNextPointMass() != null && firstEnclosedPoint.getNextPointMass().getNextPointMass() != null ){
-            for ( int i = 0; i < 100; i++ ) {
+        if ( firstEnclosedPoint != null && firstEnclosedPoint.getNextPointMass() != null && firstEnclosedPoint.getNextPointMass().getNextPointMass() != null ) {
+            for ( int i = 0; i < 20; i++ ) {
                 PointMass previousPoint = firstEnclosedPoint;
                 PointMass currentPoint = previousPoint.getNextPointMass();
                 PointMass nextPoint = currentPoint.getNextPointMass();
@@ -245,31 +245,31 @@ public class MessengerRna extends MobileBiomolecule {
 
                     // Determine the force exerted by the walls of the containment rectangle.
                     double forceXDueToWalls;
-                    if ( currentPoint.getPosition().getX() < containmentRect.getMinX() ){
+                    if ( currentPoint.getPosition().getX() < containmentRect.getMinX() ) {
                         forceXDueToWalls = MAX_WALL_FORCE;
                     }
-                    else if (currentPoint.getPosition().getX() < containmentRect.getMinX()){
+                    else if ( currentPoint.getPosition().getX() < containmentRect.getMinX() ) {
                         forceXDueToWalls = -MAX_WALL_FORCE;
                     }
-                    else{
+                    else {
                         forceXDueToWalls = WALL_FORCE_CONSTANT / Math.pow( currentPoint.getPosition().getX() - containmentRect.getX(), 2 ) -
-                                          WALL_FORCE_CONSTANT / Math.pow( containmentRect.getMaxX() - currentPoint.getPosition().getX(), 2 );
+                                           WALL_FORCE_CONSTANT / Math.pow( containmentRect.getMaxX() - currentPoint.getPosition().getX(), 2 );
                         forceXDueToWalls = MathUtil.clamp( -MAX_WALL_FORCE, forceXDueToWalls, MAX_WALL_FORCE );
                     }
                     double forceYDueToWalls;
-                    if ( currentPoint.getPosition().getY() < containmentRect.getMinY() ){
+                    if ( currentPoint.getPosition().getY() < containmentRect.getMinY() ) {
                         forceYDueToWalls = MAX_WALL_FORCE;
                     }
-                    else if (currentPoint.getPosition().getY() < containmentRect.getMinY()){
+                    else if ( currentPoint.getPosition().getY() < containmentRect.getMinY() ) {
                         forceYDueToWalls = -MAX_WALL_FORCE;
                     }
-                    else{
+                    else {
                         forceYDueToWalls = WALL_FORCE_CONSTANT / Math.pow( currentPoint.getPosition().getY() - containmentRect.getY(), 2 ) -
-                                          WALL_FORCE_CONSTANT / Math.pow( containmentRect.getMaxY() - currentPoint.getPosition().getY(), 2 );
+                                           WALL_FORCE_CONSTANT / Math.pow( containmentRect.getMaxY() - currentPoint.getPosition().getY(), 2 );
                         forceYDueToWalls = MathUtil.clamp( -MAX_WALL_FORCE, forceYDueToWalls, MAX_WALL_FORCE );
                     }
                     ImmutableVector2D forceVectorDueToWalls = new ImmutableVector2D( forceXDueToWalls, forceYDueToWalls );
-                    System.out.println( "forceVectorDueToWalls = " + forceVectorDueToWalls );
+//                    System.out.println( "forceVectorDueToWalls = " + forceVectorDueToWalls );
 
                     ImmutableVector2D totalForceVector = forceVectorDueToPreviousPoint.getAddedInstance( forceVectorDueToNextPoint ).getAddedInstance( forceVectorDueToWalls );
                     currentPoint.updateVelocity( totalForceVector, TIME_SLICE );
@@ -283,65 +283,8 @@ public class MessengerRna extends MobileBiomolecule {
             }
         }
 
-        // Reposition the middle shape-defining points to be "curled up"
-        // between the first and last point.  This is done by simulating a
-        // series of springs between the points.
-        /*
-        double maxForce = 0;
-        double maxForce2 = 0;
-        clearAllPointMassVelocities();
-        if ( getPointCount() >= 3 ) {
-            for ( int i = 0; i < 100; i++ ) {
-                PointMass previousPoint = firstShapeDefiningPoint;
-                PointMass currentPoint = firstShapeDefiningPoint.getNextPointMass();
-                PointMass nextPoint = currentPoint.getNextPointMass();
-                while ( previousPoint != null && currentPoint != null && nextPoint != null ) {
-                    double targetDistanceToPreviousPoint = currentPoint.getTargetDistanceToPreviousPoint();
-                    double targetDistanceToNextPoint = nextPoint.getTargetDistanceToPreviousPoint();
-
-                    // Determine the force exerted by the previous point mass.
-                    double forceDueToPreviousPoint = MathUtil.clamp( -MAX_INTER_POINT_FORCE,
-                                                                     SPRING_CONSTANT * ( currentPoint.distance( previousPoint ) - targetDistanceToPreviousPoint ),
-                                                                     MAX_INTER_POINT_FORCE );
-                    if ( forceDueToPreviousPoint > maxForce ) {
-                        maxForce = forceDueToPreviousPoint;
-                        System.out.println( "maxForce = " + maxForce );
-                    }
-                    ImmutableVector2D forceVectorDueToPreviousPoint = new Vector2D( previousPoint.getPosition().getX() - currentPoint.getPosition().getX(),
-                                                                                    previousPoint.getPosition().getY() - currentPoint.getPosition().getY() ).getNormalizedInstance().getScaledInstance( forceDueToPreviousPoint );
-                    // Determine the force exerted by the next point mass.
-                    double forceDueToNextPoint = MathUtil.clamp( -MAX_INTER_POINT_FORCE,
-                                                                 SPRING_CONSTANT * ( currentPoint.distance( nextPoint ) - targetDistanceToNextPoint ),
-                                                                 MAX_INTER_POINT_FORCE );
-                    if ( forceDueToNextPoint > maxForce2 ) {
-                        maxForce2 = forceDueToNextPoint;
-                        System.out.println( "maxForce2 = " + maxForce2 );
-                    }
-                    ImmutableVector2D forceVectorDueToNextPoint = new Vector2D( nextPoint.getPosition().getX() - currentPoint.getPosition().getX(),
-                                                                                nextPoint.getPosition().getY() - currentPoint.getPosition().getY() ).getNormalizedInstance().getScaledInstance( forceDueToNextPoint );
-
-                    // Determine the force due to "gravity", i.e. the force
-                    // that moves the points toward the center point between
-                    // the two end points.  This actually gets stronger as one
-                    // moves further away, so it isn't really quite like gravity.
-                    double forceDueToGravity = currentPoint.getPosition().distance( centerOfGravityPoint ) * FORCE_CONSTANT_FOR_MIDPOINT_ATTRACTION;
-                    ImmutableVector2D forceVectorDueToGravity = new Vector2D( centerOfGravityPoint.getX() - currentPoint.getPosition().getX(),
-                                                                              centerOfGravityPoint.getY() - currentPoint.getPosition().getY() ).getNormalizedInstance().getScaledInstance( forceDueToGravity );
-
-                    ImmutableVector2D totalForceVector = forceVectorDueToPreviousPoint.getAddedInstance( forceVectorDueToNextPoint ).getAddedInstance( forceVectorDueToGravity );
-                    currentPoint.updateVelocity( totalForceVector, TIME_SLICE );
-                    currentPoint.updatePosition( TIME_SLICE );
-                    // Move down the chain to the next shape-defining point.
-                    previousPoint = currentPoint;
-                    currentPoint = nextPoint;
-                    nextPoint = currentPoint.nextPointMass;
-                }
-            }
-        }
-        */
-
-        System.out.println( "Dumping points: " );
-        dumpPointMasses();
+//        System.out.println( "Dumping points: " );
+//        dumpPointMasses();
 
         // Update the shape to reflect the newly added point.
         shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( convertPointMassesToPointList() ) );
