@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.shapes.BoxShapeCreator;
@@ -13,7 +15,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Pseudo-3D representation of a box, using parallelograms.
- * Three sides are visible: top, front, right.
+ * Only the three visible faces are shown: top, front, right side.
  * The top and right-side faces are foreshortened to give the illusion of distance between front and back planes.
  * Origin is at the center of the top face.
  *
@@ -24,8 +26,8 @@ public abstract class BoxNode extends PhetPNode {
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
-    private final BoxShapeCreator shapeCreator; // creates shapes for the visible faces
-    private final PPath topNode, frontNode, sideNode; // the visible faces
+    private final BoxShapeCreator shapeCreator; // creates shapes for the faces
+    private final PPath topNode, frontNode, rightSideNode; // visible faces
     private Dimension3D size;
 
     /**
@@ -40,32 +42,42 @@ public abstract class BoxNode extends PhetPNode {
         this.shapeCreator = new BoxShapeCreator( mvt );
         this.size = new Dimension3D( size );
 
+        // front faces
         topNode = new PhetPPath( shapeCreator.createTopFace( size ), getTopColor( color ), STROKE, STROKE_COLOR );
         frontNode = new PhetPPath( shapeCreator.createFrontFace( size ), getFrontColor( color ), STROKE, STROKE_COLOR );
-        sideNode = new PhetPPath( shapeCreator.createSideFace( size ), getSideColor( color ), STROKE, STROKE_COLOR );
+        rightSideNode = new PhetPPath( shapeCreator.createRightSideFace( size ), getSideColor( color ), STROKE, STROKE_COLOR );
 
+        // rendering order
         addChild( topNode );
         addChild( frontNode );
-        addChild( sideNode );
+        addChild( rightSideNode );
     }
 
-    public void setSize( Dimension3D size ) {
+    protected BoxShapeCreator getShapeCreator() {
+        return shapeCreator;
+    }
+
+    public void setBoxSize( Dimension3D size ) {
         if ( !size.equals( this.size ) ) {
             this.size = new Dimension3D( size );
             updateShapes();
         }
     }
 
+    protected Dimension3D getBoxSize() {
+        return size;
+    }
+
     public void setColor( Color color ) {
         topNode.setPaint( getTopColor( color ) );
         frontNode.setPaint( getFrontColor( color ) );
-        sideNode.setPaint( getSideColor( color ) );
+        rightSideNode.setPaint( getSideColor( color ) );
     }
 
-    private void updateShapes() {
+    protected void updateShapes() {
         topNode.setPathTo( shapeCreator.createTopFace( size ) );
         frontNode.setPathTo( shapeCreator.createFrontFace( size ) );
-        sideNode.setPathTo( shapeCreator.createSideFace( size ) );
+        rightSideNode.setPathTo( shapeCreator.createRightSideFace( size ) );
     }
 
     // top color is the base color

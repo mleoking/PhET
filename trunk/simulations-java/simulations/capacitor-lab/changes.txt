@@ -1,3 +1,4 @@
+9/26/11 #3012, show outline of back faces for transparent dielectric
 9/20/11 replace VerticalSliderDragHandler with common SliderThumbDragHandler
 9/20/11 use LinearFunction in VerticalSliderDragHandler
 # 2.00.00 (53048) Jun 11, 2011

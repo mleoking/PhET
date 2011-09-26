@@ -26,7 +26,7 @@ public class BoxShapeCreator {
     }
 
     /**
-     * Top face is a parallelogram.
+     * Top faces is a parallelogram.
      * <code>
      * p0 -------------- p1
      * /                /
@@ -34,7 +34,7 @@ public class BoxShapeCreator {
      * p3 --------------p2
      * </code>
      */
-    public Shape createTopFace( double x, double y, double z, double width, double height, double depth ) {
+    private Shape createTopFace( double x, double y, double z, double width, double height, double depth ) {
         // points
         Point2D p0 = mvt.modelToView( x - ( width / 2 ), y, z + ( depth / 2 ) );
         Point2D p1 = mvt.modelToView( x + ( width / 2 ), y, z + ( depth / 2 ) );
@@ -48,6 +48,10 @@ public class BoxShapeCreator {
         return createTopFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
     }
 
+    public Shape createBottomFace( Dimension3D size ) {
+        return createTopFace( 0, size.getHeight(), 0, size.getWidth(), size.getHeight(), size.getDepth() ); // same as top face, translated down y
+    }
+
     /**
      * Front face is a rectangle.
      * <code>
@@ -57,7 +61,7 @@ public class BoxShapeCreator {
      * p3 --------------- p2
      * </code>
      */
-    public Shape createFrontFace( double x, double y, double z, double width, double height, double depth ) {
+    private Shape createFrontFace( double x, double y, double z, double width, double height, double depth ) {
         // points
         Point2D p0 = mvt.modelToView( x - ( width / 2 ), y, z - ( depth / 2 ) );
         Point2D p1 = mvt.modelToView( x + ( width / 2 ), y, z - ( depth / 2 ) );
@@ -71,9 +75,12 @@ public class BoxShapeCreator {
         return createFrontFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
     }
 
+    public Shape createBackFace( Dimension3D size ) {
+        return createFrontFace( 0, 0, size.getDepth(), size.getWidth(), size.getHeight(), size.getDepth() ); // same as front face, translated down z
+    }
 
     /**
-     * Side face is a parallelogram.
+     * Right-side face is a parallelogram.
      * <code>
      * p1
      * / |
@@ -87,7 +94,7 @@ public class BoxShapeCreator {
      * p3
      * </code>
      */
-    public Shape createSideFace( double x, double y, double z, double width, double height, double depth ) {
+    private Shape createRightSideFace( double x, double y, double z, double width, double height, double depth ) {
         // points
         Point2D p0 = mvt.modelToView( x + ( width / 2 ), y, z - ( depth / 2 ) );
         Point2D p1 = mvt.modelToView( x + ( width / 2 ), y, z + ( depth / 2 ) );
@@ -97,8 +104,12 @@ public class BoxShapeCreator {
         return createFace( p0, p1, p2, p3 );
     }
 
-    public Shape createSideFace( Dimension3D size ) {
-        return createSideFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
+    public Shape createRightSideFace( Dimension3D size ) {
+        return createRightSideFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
+    }
+
+    public Shape createLeftSideFace( Dimension3D size ) {
+        return createRightSideFace( -size.getWidth(), 0, 0, size.getWidth(), size.getHeight(), size.getDepth() ); // same as right-side face, translated down -x
     }
 
     /*
@@ -107,7 +118,7 @@ public class BoxShapeCreator {
     public Shape createBoxShape( double x, double y, double z, double width, double height, double depth ) {
         Shape topShape = createTopFace( x, y, z, width, height, depth );
         Shape frontShape = createFrontFace( x, y, z, width, height, depth );
-        Shape sideShape = createSideFace( x, y, z, width, height, depth );
+        Shape sideShape = createRightSideFace( x, y, z, width, height, depth );
         return ShapeUtils.add( topShape, frontShape, sideShape );
     }
 

@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.*;
+import java.awt.Cursor;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandler;
@@ -96,9 +96,9 @@ public class CapacitorNode extends PhetPNode {
     private void updateGeometry() {
 
         // geometry
-        topPlateNode.setSize( capacitor.getPlateSize() );
-        bottomPlateNode.setSize( capacitor.getPlateSize() );
-        dielectricNode.setSize( capacitor.getDielectricSize() );
+        topPlateNode.setBoxSize( capacitor.getPlateSize() );
+        bottomPlateNode.setBoxSize( capacitor.getPlateSize() );
+        dielectricNode.setBoxSize( capacitor.getDielectricSize() );
 
         // layout nodes with zero dielectric offset
         double x = 0;

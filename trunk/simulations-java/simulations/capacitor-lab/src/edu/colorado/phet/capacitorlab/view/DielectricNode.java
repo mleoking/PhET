@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DielectricNode extends BoxNode {
+public class DielectricNode extends TransparentBoxNode {
 
     private final static float TRANSPARENCY = 0.75f;
 
