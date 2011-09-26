@@ -1,3 +1,5 @@
+Fixed an issue where the fixed masses in the 2nd level challenges could end up on the right side.
+Made the bold tick marks on the plank be every other one rather than every fourth one.
 # 0.00.11 (56703) Sep 19, 2011
 9/19/11 Publishing version with additional challenge style for review.
 Game: Added a new type of challenge where the user must work out the mass value.  This is now level 4.
