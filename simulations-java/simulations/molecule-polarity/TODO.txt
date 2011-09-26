@@ -8,5 +8,4 @@ MEDIUM
 
 BEFORE PUBLISHING
 - model.txt
-- design doc snapshot
 - code review, #3088 (JB)
