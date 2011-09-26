@@ -1,4 +1,5 @@
-9/23/11 fix left justification of View check boxes
+9/26/11 screenshot for website
+9/26/11 fix left justification of View check boxes
 9/23/11 more requested changes to credits.txt
 9/23/11 fix typos in credits.txt
 # 0.00.26 (56915) Sep 23, 2011
