@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.shapes;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
@@ -27,11 +27,12 @@ public class BoxShapeCreator {
 
     /**
      * Top face is a parallelogram.
-     * <p/>
+     * <code>
      * p0 -------------- p1
      * /                /
      * /                /
      * p3 --------------p2
+     * </code>
      */
     public Shape createTopFace( double x, double y, double z, double width, double height, double depth ) {
         // points
@@ -49,11 +50,12 @@ public class BoxShapeCreator {
 
     /**
      * Front face is a rectangle.
-     * <p/>
+     * <code>
      * p0 --------------- p1
      * |                 |
      * |                 |
      * p3 --------------- p2
+     * </code>
      */
     public Shape createFrontFace( double x, double y, double z, double width, double height, double depth ) {
         // points
@@ -72,7 +74,7 @@ public class BoxShapeCreator {
 
     /**
      * Side face is a parallelogram.
-     * <p/>
+     * <code>
      * p1
      * / |
      * /  |
@@ -83,6 +85,7 @@ public class BoxShapeCreator {
      * |  /
      * | /
      * p3
+     * </code>
      */
     public Shape createSideFace( double x, double y, double z, double width, double height, double depth ) {
         // points
