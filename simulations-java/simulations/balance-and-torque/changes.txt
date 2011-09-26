@@ -1,3 +1,5 @@
+# 0.00.12 (56970) Sep 26, 2011
+9/26/11 Deploying to dev for testing and interviews.
 Made the mass deduction challenges start off in the balanced state rather than requiring the user to balance them.
 Interspersed the "Deduce the Mass" challenges in with the balance challenges at all levels of the game.
 Added more ratios for the "Deduce the Mass" challenges so that there are easier and harder versions of this challenge.
