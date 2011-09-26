@@ -22,11 +22,14 @@ public class RealMoleculesModule extends PiccoloModule {
 
     public RealMoleculesModule( Frame parentFrame ) {
         super( MPStrings.REAL_MOLECULES, new MPClock() );
+
         RealMoleculesModel model = new RealMoleculesModel();
         ViewProperties viewProperties = new ViewProperties( SurfaceType.NONE, false, false, false, false, true, false );
         canvas = new RealMoleculesCanvas( model, viewProperties, parentFrame );
         setSimulationPanel( canvas );
+
         setClockControlPanel( null );
+        setLogoPanel( null ); //WORKAROUND: if we don't do this, then scenegraph visibly resizes on Mac at startup, see #3092
     }
 
     public JmolViewer getJmolViewer() {
