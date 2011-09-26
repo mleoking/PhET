@@ -18,9 +18,12 @@ public class ThreeAtomsModule extends PiccoloModule {
 
     public ThreeAtomsModule( Frame parentFrame ) {
         super( MPStrings.THREE_ATOMS, new MPClock() );
+
         ThreeAtomsModel model = new ThreeAtomsModel( getClock() );
         ViewProperties viewProperties = new ViewProperties( SurfaceType.NONE, false, true, false, false, false, false );
         setSimulationPanel( new ThreeAtomsCanvas( model, viewProperties, parentFrame ) );
+
         setClockControlPanel( null );
+        setLogoPanel( null ); //WORKAROUND: if we don't do this, then scenegraph visibly resizes on Mac at startup, see #3092
     }
 }
