@@ -1,3 +1,6 @@
+Made the mass deduction challenges start off in the balanced state rather than requiring the user to balance them.
+Interspersed the "Deduce the Mass" challenges in with the balance challenges at all levels of the game.
+Added more ratios for the "Deduce the Mass" challenges so that there are easier and harder versions of this challenge.
 Fixed an issue where the fixed masses in the 2nd level challenges could end up on the right side.
 Made the bold tick marks on the plank be every other one rather than every fourth one.
 # 0.00.11 (56703) Sep 19, 2011
