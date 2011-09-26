@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.control;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,6 +11,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -108,9 +110,9 @@ public class MPControlPanelNode extends PNode {
     }
 
     // Encapsulates the look of a check box with icon
-    public static class MPCheckBoxWithIcon extends GridPanel {
+    public static class MPCheckBoxWithIcon extends JPanel {
         public MPCheckBoxWithIcon( String text, Icon icon, Property<Boolean> property ) {
-            setGridY( 0 ); // horizontal
+            super( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             final MPCheckBox checkBox = new MPCheckBox( text, property );
             JLabel iconLabel = new JLabel( icon ) {{
                 // clicking the icon changes the check box
