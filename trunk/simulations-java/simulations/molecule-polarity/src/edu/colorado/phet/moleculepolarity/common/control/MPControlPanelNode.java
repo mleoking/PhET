@@ -112,7 +112,7 @@ public class MPControlPanelNode extends PNode {
     // Encapsulates the look of a check box with icon
     public static class MPCheckBoxWithIcon extends JPanel {
         public MPCheckBoxWithIcon( String text, Icon icon, Property<Boolean> property ) {
-            super( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            super( new FlowLayout( FlowLayout.LEFT, 0, 0 ) ); // ensures proper alignment with other controls
             final MPCheckBox checkBox = new MPCheckBox( text, property );
             JLabel iconLabel = new JLabel( icon ) {{
                 // clicking the icon changes the check box
