@@ -16,6 +16,7 @@ public class ThreeAtomsModel extends MPModel2D {
     public final TriatomicMolecule molecule;
 
     public ThreeAtomsModel( IClock clock ) {
+        //REVIEW - Why the hard-coded non-zero location?  Where do these numbers come from? Should at least document.
         super( clock, new TriatomicMolecule( new ImmutableVector2D( 380, 375 ), 0 ) );
         molecule = (TriatomicMolecule) getMolecule(); // hate to cast, but it facilitates moving shared code to base class
     }
