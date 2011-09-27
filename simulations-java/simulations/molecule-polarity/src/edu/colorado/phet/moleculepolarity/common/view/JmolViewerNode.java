@@ -18,6 +18,7 @@ import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -118,8 +119,7 @@ public class JmolViewerNode extends PhetPNode {
             setPreferredSize( size );
 
             // configure Jmol's logging so we don't spew to the console
-            //REVIEW - Suggest setting this to higher level (LEVEL_FATAL) when running production version (versus dev version) to avoid JMOL printouts to console.
-            Logger.setLogLevel( Logger.LEVEL_WARN );
+            Logger.setLogLevel( PhetApplication.getInstance().isDeveloperControlsEnabled() ? Logger.LEVEL_WARN : Logger.LEVEL_FATAL );
 
             // create the 3D viewer
             viewer = JmolViewer.allocateViewer( ViewerPanel.this, new SmarterJmolAdapter(), null, null, null, "-applet", null );
