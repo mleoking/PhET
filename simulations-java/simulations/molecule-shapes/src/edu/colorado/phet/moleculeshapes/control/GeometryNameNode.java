@@ -181,7 +181,6 @@ public class GeometryNameNode extends PNode {
             color.addObserver( new SimpleObserver() {
                 public void update() {
                     setTextPaint( color.get() );
-                    repaint();
                 }
             } );
         }};

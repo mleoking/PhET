@@ -293,7 +293,7 @@ public class MoleculeModelNode extends Node {
                     text.setScale( module.getApproximateScale() ); // change the font size based on the sim scale
                     float[] colors = MoleculeShapesColor.BOND_ANGLE_READOUT.get().getRGBColorComponents( null );
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
-                    text.repaint();
+                    text.repaint(); // TODO: this should not be necessary, however it fixes the bond angle labels. JME-Piccolo repaint issue?
 
                     JMEUtils.invokeLater( new Runnable() {
                         public void run() {

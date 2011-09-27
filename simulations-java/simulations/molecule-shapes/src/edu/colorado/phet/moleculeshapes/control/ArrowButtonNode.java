@@ -169,7 +169,6 @@ public class ArrowButtonNode extends PNode {
             public void update() {
                 background.setPaint( armedProperty.get() ? pressedGradient : ( focusedProperty.get() ? overGradient : upGradient ) );
                 background.setOffset( armedProperty.get() ? new Point2D.Double( ARROW_PRESS_OFFSET, ARROW_PRESS_OFFSET ) : new Point2D.Double( 0, 0 ) );
-                repaint();
             }
         };
         focusedProperty.addObserver( updateObserver, false );

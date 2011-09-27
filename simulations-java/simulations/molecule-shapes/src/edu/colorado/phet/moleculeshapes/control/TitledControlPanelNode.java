@@ -51,7 +51,6 @@ public class TitledControlPanelNode extends ControlPanelNode {
             MoleculeShapesColor.CONTROL_PANEL_TITLE.getProperty().addObserver( new SimpleObserver() {
                 public void update() {
                     setTextPaint( MoleculeShapesColor.CONTROL_PANEL_TITLE.get() );
-                    repaint();
                 }
             } );
         }
