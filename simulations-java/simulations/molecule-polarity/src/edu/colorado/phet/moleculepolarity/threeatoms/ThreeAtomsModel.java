@@ -7,7 +7,7 @@ import edu.colorado.phet.moleculepolarity.common.model.MPModel2D;
 import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
 
 /**
- * Model for the "Two Atoms" module.
+ * Model for the "Three Atoms" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
