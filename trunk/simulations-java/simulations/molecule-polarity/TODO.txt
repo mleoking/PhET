@@ -1,7 +1,0 @@
-TODO list for molecule-polarity
-
-DEADLINES
-- Nov 7: ready for use in Susan's class
-
-BEFORE PUBLISHING
-- code review, #3088 (JB)
