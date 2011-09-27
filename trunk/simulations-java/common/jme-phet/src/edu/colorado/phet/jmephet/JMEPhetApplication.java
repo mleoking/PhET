@@ -54,7 +54,8 @@ public class JMEPhetApplication extends PiccoloPhetApplication {
         if ( PhetUtilities.isMacintosh() ) {
             try {
                 // Generate and register the OSXAdapter, passing it a hash of all the methods we wish to
-                // use as delegates for various com.apple.eawt.ApplicationListener methods
+                // use as delegates for various com.apple.eawt.ApplicationListener methods.
+                // NOTE: This uses reflection and requires security privileges, so use only in signed applications.
                 OSXAdapter.setQuitHandler( this, JMEPhetApplication.class.getDeclaredMethod( "macQuit", (Class[]) null ) );
             }
             catch ( Exception e ) {
