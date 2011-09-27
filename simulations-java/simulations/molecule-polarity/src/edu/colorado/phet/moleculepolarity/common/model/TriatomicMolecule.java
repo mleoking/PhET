@@ -64,8 +64,6 @@ public class TriatomicMolecule extends Molecule2D {
 
     // repositions the atoms
     protected void updateAtomLocations() {
-        //REVIEW radius is never used.  Can it be removed?
-        final double radius = BOND_LENGTH;
         atomB.location.set( location );  // atom B remains at the molecule's location
         updateAtomLocation( atomA, bondAngleA.get(), location, angle.get() );
         updateAtomLocation( atomC, bondAngleC.get(), location, angle.get() );

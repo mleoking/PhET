@@ -1,3 +1,4 @@
+9/17/11 #3088 code review: minor changes recommended by IntelliJ code analyzer
 9/17/11 #3088 code review: document why specific molecule locations were chosen
 9/17/11 #3088 code review: note the potential for Jmol maintenance issues in implementation notes
 9/17/11 #3088 code review: use Jmol log level=FATAL for production, level=WARN for dev

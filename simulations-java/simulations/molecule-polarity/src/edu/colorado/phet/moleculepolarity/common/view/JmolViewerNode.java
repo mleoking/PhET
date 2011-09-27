@@ -371,8 +371,7 @@ public class JmolViewerNode extends PhetPNode {
             ArrayList<Integer> values = parseIntegers( status, " \n{}" );
             ArrayList<Element> elements = new ArrayList<Element>();
             for ( int i = 0; i < values.size(); i += 4 ) {
-                //REVIEW - Intellij analyzer flagged this as "unnecessary unboxing".
-                int elementNumber = values.get( i ).intValue();
+                int elementNumber = values.get( i );
                 Color color = new Color( values.get( i + 1 ), values.get( i + 2 ), values.get( i + 3 ) );
                 elements.add( new Element( elementNumber, color ) );
             }
