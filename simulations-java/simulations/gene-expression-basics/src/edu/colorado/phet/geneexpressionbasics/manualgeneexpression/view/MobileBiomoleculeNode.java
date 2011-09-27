@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -24,14 +25,24 @@ import edu.umd.cs.piccolo.PNode;
 public class MobileBiomoleculeNode extends PNode {
 
     /**
-     * Constructor.
+     * Constructor that uses default stroke.
      *
      * @param mvt
      * @param mobileBiomolecule
      */
     public MobileBiomoleculeNode( final ModelViewTransform mvt, final MobileBiomolecule mobileBiomolecule ) {
+        this( mvt, mobileBiomolecule, new BasicStroke( 1 ) );
+    }
 
-        addChild( new PhetPPath( new BasicStroke( 1 ), Color.BLACK ) {{
+    /**
+     * Constructor.
+     *
+     * @param mvt
+     * @param mobileBiomolecule
+     */
+    public MobileBiomoleculeNode( final ModelViewTransform mvt, final MobileBiomolecule mobileBiomolecule, Stroke outlineStroke ) {
+
+        addChild( new PhetPPath( outlineStroke, Color.BLACK ) {{
             // Update the shape whenever it changes.
             mobileBiomolecule.addShapeChangeObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
@@ -52,7 +63,7 @@ public class MobileBiomoleculeNode extends PNode {
         }} );
     }
 
-    Paint createGradientPaint( ModelViewTransform mvt, MobileBiomolecule mobileBiomolecule ) {
+    private Paint createGradientPaint( ModelViewTransform mvt, MobileBiomolecule mobileBiomolecule ) {
         return new GradientPaint( mvt.modelToView( new Point2D.Double( mobileBiomolecule.getShape().getBounds2D().getMinX(),
                                                                        mobileBiomolecule.getShape().getBounds2D().getCenterY() ) ),
                                   ColorUtils.brighterColor( mobileBiomolecule.colorProperty.get(), 0.8 ),
