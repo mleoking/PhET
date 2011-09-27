@@ -34,7 +34,7 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Piccolo node that display a Jmol viewer.
+ * Piccolo node that displays a Jmol viewer.
  * Jmol scripting language is documented at http://chemapps.stolaf.edu/jmol/docs
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
