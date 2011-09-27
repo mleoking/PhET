@@ -9,6 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="piccolo-phet" exported="" />
     <orderEntry type="module" module-name="jme3" exported="" />
+    <orderEntry type="module" module-name="apple" />
   </component>
 </module>
 
