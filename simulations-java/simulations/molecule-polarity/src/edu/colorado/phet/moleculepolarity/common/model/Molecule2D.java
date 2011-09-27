@@ -45,7 +45,7 @@ public abstract class Molecule2D {
     // gets an array of the molecule's atoms
     public abstract Atom[] getAtoms();
 
-    // gets and array of the molecule's bonds
+    // gets an array of the molecule's bonds
     protected abstract Bond[] getBonds();
 
     // implemented by subclasses, differs depending on the topology of the molecule
