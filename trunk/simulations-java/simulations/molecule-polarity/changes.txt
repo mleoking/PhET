@@ -1,3 +1,4 @@
+9/17/11 #3088 code review: note the potential for Jmol maintenance issues in implementation notes
 9/17/11 #3088 code review: use Jmol log level=FATAL for production, level=WARN for dev
 # 1.00.00 (56978) Sep 27, 2011
 9/27/11 delete TODO.txt, all future work will be tracked via Unfuddle

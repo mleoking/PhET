@@ -19,6 +19,13 @@ molecule, and this section of the files was manually edited in the following way
 - labels (column 2) were edited to reflect the desired naming convention, since that convention was not supported by Jmol
 - xyz coordinates (columns 3,4,5) were edited to reflect the desired initial orientation
 
+One of the biggest potential maintenance issues with this sim is its use of Jmol. Interaction with Jmol
+relies heavily on its scripting language, which has evolved over time, but appears to maintain backward
+compatibility. Problems could arise if there is ever a need to upgrade to a newer version of this viewer.
+Initial development of this sim was done with Jmol 12.0, and all usage of Jmol is encapsulated in
+JmolViewerNode.  If Jmol is upgraded, you are encouraged to vigorously exercise the "Real Molecules" tab,
+and run in dev mode so that Jmol console logging is more verbose.
+
 Initial orientation of 3D molecules was tweaked using the RotateMol2 utility program (in jme-phet).
 That program takes a set of xyz coordinates (copied from the mol2 files) and allows you to specify
 the transform from original to desired xyz coordinates.
