@@ -29,9 +29,6 @@ public class PropertyCheckBoxNode extends PSwing {
 
         // make it somewhat transparent when disabled
         setTransparency( enabled ? 1 : 0.6f );
-
-        // sanity check to make sure we repaint TODO: can we remove this?
-        repaint();
     }
 
     public MoleculeShapesPropertyCheckBox getCheckBox() {
@@ -50,7 +47,6 @@ public class PropertyCheckBoxNode extends PSwing {
             msColor.addColorObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
                     setForeground( color );
-                    repaint();
                 }
             } );
             setOpaque( false );

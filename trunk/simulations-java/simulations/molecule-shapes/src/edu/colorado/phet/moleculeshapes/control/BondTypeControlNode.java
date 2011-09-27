@@ -133,8 +133,6 @@ public class BondTypeControlNode extends PNode {
 
         graphic.setTransparency( enabled.get() ? 1 : 0.7f );
         removeButton.setVisible( showingRemoveButton );
-
-        repaint();
     }
 
     public PNode getGraphic() {

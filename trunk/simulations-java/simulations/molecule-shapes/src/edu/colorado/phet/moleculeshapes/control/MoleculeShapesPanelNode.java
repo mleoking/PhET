@@ -31,13 +31,11 @@ public class MoleculeShapesPanelNode extends TitledControlPanelNode {
             public void update() {
                 background.setPaint( MoleculeShapesColor.BACKGROUND.get() );
                 titleBackground.setPaint( MoleculeShapesColor.BACKGROUND.get() );
-                repaint();
             }
         } );
         MoleculeShapesColor.CONTROL_PANEL_BORDER.getProperty().addObserver( new SimpleObserver() {
             public void update() {
                 background.setStrokePaint( MoleculeShapesColor.CONTROL_PANEL_BORDER.get() );
-                repaint(); // TODO: debug this repaint issue. really becoming an issue
             }
         } );
     }

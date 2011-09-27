@@ -67,7 +67,6 @@ public class MinimizeMaximizeButtonNode extends PhetPPath {
                 Color baseColor = mouseDown ? color.darker() : color;
                 Color highlightColor = mouseDown ? baseColor.brighter() : toHighlight( baseColor );
                 setPaint( new GradientPaint( 0, 0, highlightColor, 0, (float) SIZE / 2, baseColor, false ) );
-                repaint();
             }
 
             private Color toHighlight( Color color ) {

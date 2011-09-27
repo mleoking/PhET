@@ -109,7 +109,6 @@ public class RealMoleculePanelNode extends PNode {
             selectedMolecule.addObserver( JMEUtils.swingObserver( new Runnable() {
                 public void run() {
                     setVisible( visibilityCondition.apply() );
-                    repaint();
                 }
             } ), false );
             setVisible( visibilityCondition.apply() );
@@ -189,8 +188,6 @@ public class RealMoleculePanelNode extends PNode {
                 if ( getFullBounds().getMinY() < 0 ) {
                     setOffset( getOffset().getX(), getOffset().getY() - getFullBounds().getMinY() );
                 }
-
-                repaint();
             }
         } );
 
@@ -276,8 +273,6 @@ public class RealMoleculePanelNode extends PNode {
                         containerNode.removeChild( overlayTarget );
                     }
                 }
-
-                repaint();
             }
         } );
     }

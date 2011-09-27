@@ -119,14 +119,12 @@ public class MoleculeShapesControlPanel extends PNode {
             MoleculeShapesColor.REMOVE_BUTTON_BACKGROUND.addColorObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
                     setBackground( color );
-                    repaint();
                 }
             } );
 
             MoleculeShapesColor.REMOVE_BUTTON_TEXT.addColorObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
                     setEnabledTextColor( color );
-                    repaint(); // TODO: repaint shouldn't be necessary?
                 }
             } );
 
