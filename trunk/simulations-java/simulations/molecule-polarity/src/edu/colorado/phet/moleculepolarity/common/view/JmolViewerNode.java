@@ -118,6 +118,7 @@ public class JmolViewerNode extends PhetPNode {
             setPreferredSize( size );
 
             // configure Jmol's logging so we don't spew to the console
+            //REVIEW - Suggest setting this to higher level (LEVEL_FATAL) when running production version (versus dev version) to avoid JMOL printouts to console.
             Logger.setLogLevel( Logger.LEVEL_WARN );
 
             // create the 3D viewer
