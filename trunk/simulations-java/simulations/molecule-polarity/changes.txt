@@ -1,3 +1,4 @@
+# 1.00.00 (56978) Sep 27, 2011
 9/27/11 delete TODO.txt, all future work will be tracked via Unfuddle
 9/26/11 #3092, workaround for "play area visibly resizes at startup on Mac"
 # 0.00.27 (56960) Sep 26, 2011
