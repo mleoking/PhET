@@ -1,3 +1,4 @@
+Water tower: Control the hose with handles instead of dragging the hose itself
 Water tower: Start the tank partly full so that the "fill" button and faucet slider are initially enabled
 # 0.00.29 (56846) Sep 22, 2011
 Water tower: Added new handle image from NP
