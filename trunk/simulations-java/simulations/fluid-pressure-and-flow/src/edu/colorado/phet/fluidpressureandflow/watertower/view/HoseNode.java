@@ -46,7 +46,7 @@ public class HoseNode extends PNode {
         this.hose = hose;
 
         //Width of the hose in stage coordinates
-        final double hoseWidth = (float) Math.abs( transform.modelToViewDeltaY( hose.holeSize ) ) * 1.5;
+        final double hoseViewWidth = (float) Math.abs( transform.modelToViewDeltaY( hose.holeSize ) ) * 1.5;
 
         //Create the node that shows the nozzle and allows the user to rotate it
         nozzleImageNode = new PImage( BufferedImageUtils.rescaleYMaintainAspectRatio( NOZZLE, (int) transform.modelToViewDeltaY( -hose.nozzleHeight ) ) ) {{
@@ -60,6 +60,42 @@ public class HoseNode extends PNode {
                     rotateAboutPoint( PI / 2 - hose.angle.get(), getFullBounds().getWidth() / 2, 0 );
                 }
             }.observe( hose.angle, hose.outputPoint );
+
+        }};
+
+        PNode hoseUpHandle = new PNode() {{
+            addChild( new PImage( HANDLE_T ) );
+            setScale( 1.3 );
+            new RichSimpleObserver() {
+                @Override public void update() {
+                    final Point2D.Double viewPoint = transform.modelToView( new HoseGeometry( hose ).getHandlePoint() ).toPoint2D();
+                    setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() - hoseViewWidth / 2 );
+                }
+            }.observe( hose.angle, hose.y );
+
+            //Make it possible to T-shaped drag handle to change the elevation
+            addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( N_RESIZE_CURSOR ) ) );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent event ) {
+                    double modelDelta = transform.viewToModelDeltaY( event.getDeltaRelativeTo( getParent() ).getHeight() );
+                    hose.y.set( MathUtil.clamp( 0, hose.y.get() + modelDelta, 30 ) );
+                    showDragHandles.set( false );
+                }
+            } );
+        }};
+        addChild( hoseUpHandle );
+
+        PNode nozzleRotationKnob = new PNode() {{
+            addChild( new PImage( BufferedImageUtils.flipX( KNOB ) ) );
+            new RichSimpleObserver() {
+                @Override public void update() {
+                    final ImmutableVector2D tail = transform.modelToView( hose.getNozzleInputPoint().plus( hose.getUnitDirectionVector() ) );
+                    double angle = -hose.angle.get() + Math.PI / 2;
+                    setOffset( tail.getX(), tail.getY() );
+                    setRotation( angle );
+                    translate( hoseViewWidth / 2, -10 );
+                }
+            }.observe( hose.angle, hose.outputPoint, hose.y );
 
             //Listen for whether the user is interacting with the nozzle.  This is true if the user moused over the nozzle or if they are dragging it.
             addInputEventListener( new PBasicInputEventHandler() {
@@ -116,40 +152,6 @@ public class HoseNode extends PNode {
                 }
             } );
         }};
-
-        PNode hoseUpHandle = new PNode() {{
-            addChild( new PImage( HANDLE_T ) );
-            setScale( 1.3 );
-            new RichSimpleObserver() {
-                @Override public void update() {
-                    final Point2D.Double viewPoint = transform.modelToView( new HoseGeometry( hose ).getHandlePoint() ).toPoint2D();
-                    setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() - hoseWidth / 2 );
-                }
-            }.observe( hose.angle, hose.y );
-
-            //Make it possible to T-shaped drag handle to change the elevation
-            addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( N_RESIZE_CURSOR ) ) );
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent event ) {
-                    double modelDelta = transform.viewToModelDeltaY( event.getDeltaRelativeTo( getParent() ).getHeight() );
-                    hose.y.set( MathUtil.clamp( 0, hose.y.get() + modelDelta, 30 ) );
-                    showDragHandles.set( false );
-                }
-            } );
-        }};
-        addChild( hoseUpHandle );
-
-        PNode nozzleRotationKnob = new PNode() {{
-            addChild( new PImage( BufferedImageUtils.flipX( KNOB ) ) );
-            new RichSimpleObserver() {
-                @Override public void update() {
-                    final ImmutableVector2D tail = transform.modelToView( hose.getNozzleInputPoint().plus( hose.getUnitDirectionVector() ) );
-                    double angle = -hose.angle.get() + Math.PI / 2;
-                    setOffset( tail.getX(), tail.getY() );
-                    setRotation( angle );
-                }
-            }.observe( hose.angle, hose.outputPoint, hose.y );
-        }};
         addChild( nozzleRotationKnob );
 
         //Utility for experimentally finding good model positions for the drag handles
@@ -177,7 +179,7 @@ public class HoseNode extends PNode {
                     }};
 
                     //Wrapping in an area gets rid of a kink when the water tower is low
-                    setPathTo( new Area( new BasicStroke( (float) hoseWidth, CAP_BUTT, JOIN_MITER ).createStrokedShape( transform.modelToView( p.getGeneralPath() ) ) ) );
+                    setPathTo( new Area( new BasicStroke( (float) hoseViewWidth, CAP_BUTT, JOIN_MITER ).createStrokedShape( transform.modelToView( p.getGeneralPath() ) ) ) );
                 }
             }.observe( hose.attachmentPoint, hose.angle, hose.y, hose.attachmentPoint );
         }} );
