@@ -49,7 +49,7 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
             }} );
         }} );
 
-        // Developer menu item for Jmol Console
+        // Developer menu item for Jmol Console, i18n not required
         parentFrame.getDeveloperMenu().add( new DialogCheckBoxMenuItem( "Jmol Console...", "Jmol Console", getPhetFrame(), new Function0<Container>() {
             public Container apply() {
                 return new JmolConsole( realMoleculesModule.getJmolViewer() );
