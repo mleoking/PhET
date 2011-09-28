@@ -79,6 +79,6 @@ Electrostatic Potential / red-white-blue / yes / isosurface VDW color white tran
 Electrostatic Potential / rainbow / no / isosurface VDW map MEP translucent
 Electrostatic Potential / rainbow / yes / isosurface VDW color [31,247,0] translucent
 Electron Density / black-white / no / isosurface VDW map MEP colorscheme "BW" translucent
-Electron Density / black-white / yes / isosurface VDW color white translucent
+Electron Density / black-white / yes / isosurface VDW color [127,127,127] translucent
 
 
