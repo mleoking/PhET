@@ -159,7 +159,7 @@ public class JmolViewerNode extends PhetPNode {
             // load the molecule data
             String errorString = viewer.openStringInline( molecule.getData() );
             if ( errorString != null ) {
-                LOGGER.log( Level.SEVERE, "Jmol says: " + errorString ); //TODO improve error handling
+                LOGGER.log( Level.SEVERE, "Jmol says: " + errorString );
             }
         }
 
