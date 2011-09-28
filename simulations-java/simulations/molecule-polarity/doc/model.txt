@@ -14,14 +14,14 @@ solely by EN.
 
 o Molecular dipole is the vector sum of the bond dipoles. In the "Two Atoms" tab,
 the molecular dipole is not shown, as it is equivalent to the bond dipole.
-In the "Three Atoms" tab, manipulating EN results in an understand of summing
+In the "Three Atoms" tab, manipulating EN results in an understanding of summing
 vector magnitudes, while manipulating bond angles results in an understanding
 of summing vector angles.
 
 o An atom's partial charge is linearly proportional to the magnitude of its bond dipole,
-and we vary the size of the delta shown accordinly.  The partial charge's size is determined
+and we vary the size of the delta shown accordingly.  The partial charge's sign is determined
 by the direction of the bond dipole. If the dipole points away from the atom, then the sign
-is "+", otherwise the sign is "-". For atoms that participate in more than one bond
+is "+"; otherwise the sign is "-". For atoms that participate in more than one bond
 (e.g., atom B in the "Three Atoms" tab), net partial charge is the sum of the partial charges
 contributed by each bond.
 
@@ -59,9 +59,9 @@ wireframe 0.1
 spacefill 25%
 color bonds [64,64,64]
 
-o Jmol automatically handles all calculations for dipoles, based on values in the mol2 data files.
-Note that Jmol uses a more complicated dipole model than our 2D model, influenced
-by factors other than EN. This may result in student confusion, and is addressed in "Tips for Teachers".
+o Jmol automatically handles all calculations for dipoles, based on partial charges in
+the mol2 data files. Note that the is influenced by factors other than EN. This may result
+in student confusion, and is addressed in "Tips for Teachers".
 To improve visibility, we increased Jmols default dipole width using these script commands:
 
 dipole bonds on width 0.05
