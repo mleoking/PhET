@@ -2,14 +2,14 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.Polarity;
-import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
+import edu.colorado.phet.capacitorlab.view.IGridSizeStrategy.GridSizeStrategyFactory;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -31,7 +31,7 @@ public abstract class PlateChargeNode extends PhetPNode {
     private final CLModelViewTransform3D mvt;
     private final Polarity polarity;
     private final PNode parentNode; // parent node for charges
-    private final IPlateChargeGridSizeStrategy gridSizeStrategy;
+    private final IGridSizeStrategy gridSizeStrategy;
     private final double maxPlateCharge;
 
     public PlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {

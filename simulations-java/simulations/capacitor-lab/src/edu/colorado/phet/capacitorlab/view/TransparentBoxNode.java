@@ -47,4 +47,8 @@ public class TransparentBoxNode extends BoxNode {
         backNode.setPathTo( getShapeCreator().createBackFace( getBoxSize() ) );
         leftSideNode.setPathTo( getShapeCreator().createLeftSideFace( getBoxSize() ) );
     }
+
+    public void setTransparent( boolean transparent ) {
+        setTransparency( ( transparent ) ? 0.75f : 1f );
+    }
 }

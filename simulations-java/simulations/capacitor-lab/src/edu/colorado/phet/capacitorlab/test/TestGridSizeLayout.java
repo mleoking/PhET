@@ -2,16 +2,24 @@
 
 package edu.colorado.phet.capacitorlab.test;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy;
-import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
+import edu.colorado.phet.capacitorlab.view.IGridSizeStrategy;
+import edu.colorado.phet.capacitorlab.view.IGridSizeStrategy.GridSizeStrategyFactory;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -25,14 +33,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Test harness for plate charge layout in Capacitor Lab simulation.
- * The grid size strategy is determined by PlateChargeNode$GridSizeStrategyFactory.
+ * Test harness for charge layout in Capacitor Lab simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestPlateChargeLayout extends JFrame {
+public class TestGridSizeLayout extends JFrame {
 
-    private static final IPlateChargeGridSizeStrategy GRID_SIZE_STRATEGY = GridSizeStrategyFactory.createStrategy();
+    private static final IGridSizeStrategy GRID_SIZE_STRATEGY = GridSizeStrategyFactory.createStrategy();
 
     private static final Dimension CANVAS_SIZE = new Dimension( 800, 550 );
     private static final IntegerRange NUMBER_OF_CHARGES_RANGE = new IntegerRange( 0, 625, 0 );
@@ -197,8 +204,8 @@ public class TestPlateChargeLayout extends JFrame {
 
                 // debug output
                 debugNode.setHTML( "grid=" + rows + "x" + columns +
-                        "<br>computed charges=" + numberOfCharges +
-                        "<br>displayed charges=" + ( rows * columns ) );
+                                   "<br>computed charges=" + numberOfCharges +
+                                   "<br>displayed charges=" + ( rows * columns ) );
             }
         }
     }
@@ -221,7 +228,7 @@ public class TestPlateChargeLayout extends JFrame {
                 public void stateChanged( ChangeEvent e ) {
                     model.setNumberOfCharges( numberOfChargesControl.getValue() );
                 }
-            });
+            } );
 
             // plate width
             final IntegerValueControl plateWidthControl = new IntegerValueControl( "plate width:", PLATE_WIDTH_RANGE.getMin(), PLATE_WIDTH_RANGE.getMax(), model.getPlateWidth(), "mm" );
@@ -229,7 +236,7 @@ public class TestPlateChargeLayout extends JFrame {
                 public void stateChanged( ChangeEvent e ) {
                     model.setPlateWidth( plateWidthControl.getValue() );
                 }
-            });
+            } );
 
             // plate height
             final IntegerValueControl plateHeightControl = new IntegerValueControl( "plate height:", PLATE_HEIGHT_RANGE.getMin(), PLATE_HEIGHT_RANGE.getMax(), model.getPlateHeight(), "mm" );
@@ -237,7 +244,7 @@ public class TestPlateChargeLayout extends JFrame {
                 public void stateChanged( ChangeEvent e ) {
                     model.setPlateHeight( plateHeightControl.getValue() );
                 }
-            });
+            } );
 
             // layout
             int row = 0;
@@ -314,8 +321,8 @@ public class TestPlateChargeLayout extends JFrame {
     // Main frame
     //==============================================================================
 
-    public TestPlateChargeLayout() {
-        super( TestPlateChargeLayout.class.getName() );
+    public TestGridSizeLayout() {
+        super( TestGridSizeLayout.class.getName() );
 
         TestModel model = new TestModel();
         TestCanvas canvas = new TestCanvas( model );
@@ -331,7 +338,7 @@ public class TestPlateChargeLayout extends JFrame {
     }
 
     public static void main( String[] args ) {
-        JFrame frame = new TestPlateChargeLayout();
+        JFrame frame = new TestGridSizeLayout();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
