@@ -116,7 +116,8 @@ public class BalanceGameChallengeFactory {
             balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
         }
         else if ( level == 4 ) {
-            balanceChallengeList.add( generateModerateBalanceChallenge() );
+//            balanceChallengeList.add( generateModerateBalanceChallenge() );
+            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
             balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
             balanceChallengeList.add( generateModerateBalanceChallenge() );
             balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
@@ -244,6 +245,35 @@ public class BalanceGameChallengeFactory {
 
         // Create the challenge.
         return createTwoBrickStackChallenge( numBricksInFixedStack, fixedStackDistanceFromCenter, numBricksInMovableStack );
+    }
+
+    /**
+     * Generate a challenge where there are multiple fixed masses that must be
+     * balanced.
+     *
+     * @return
+     */
+    private static BalanceMassesChallenge generateMultiMassBalanceChallenge() {
+
+        // TODO: Stubbed for now, always produces the same challenge.
+        // Add the first fixed mass and its distance from the center of the balance.
+        List<MassDistancePair> fixedMassesList = new ArrayList<MassDistancePair>();
+        MassDistancePair fixedMassDistancePair1 = new MassDistancePair( new BrickStack( 1 ), -1 );
+        MassDistancePair fixedMassDistancePair2 = new MassDistancePair( new BrickStack( 2 ), -0.5 );
+        fixedMassesList.add( fixedMassDistancePair1 );
+        fixedMassesList.add( fixedMassDistancePair2 );
+
+        // Add the movable mass.
+        List<Mass> movableMassesList = new ArrayList<Mass>();
+        Mass movableMass = new Boy();
+        movableMassesList.add( movableMass );
+
+        // Create a valid solution for the challenge.
+        List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
+        solution.add( new MassDistancePair( movableMass, 0.5 ) );
+
+        // And we're done.
+        return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solution );
     }
 
     private static BalanceMassesChallenge createTwoBrickStackChallenge( int numBricksInFixedStack, double fixedStackDistanceFromCenter, int numBricksInMovableStack ) {
@@ -501,17 +531,17 @@ public class BalanceGameChallengeFactory {
     }
 
     /**
-     * Test the given mass values and balance information and determine whether
-     * a balance challenge with these constraints can be solved.
+     * Determine whether a challenge with the given values for the fixed and
+     * movable masses and the given constraints on the plank can be solved.
      */
-    private static boolean isChallengeSolvable( double massValue1, double massValue2, double distanceIncrement, double maxDistance ) {
+    private static boolean isChallengeSolvable( double fixedMassValue, double movableMassValue, double distanceIncrement, double maxDistance ) {
         double minDistance = distanceIncrement;
-        if ( massValue1 * minDistance > massValue2 * maxDistance || massValue1 * maxDistance < massValue2 * minDistance ) {
+        if ( fixedMassValue * minDistance > movableMassValue * maxDistance || fixedMassValue * maxDistance < movableMassValue * minDistance ) {
             // The balance is not long enough to allow these masses to be balanced.
             return false;
         }
 
-        if ( ( massValue1 / massValue2 ) % distanceIncrement > COMPARISON_TOLERANCE ) {
+        if ( ( fixedMassValue / movableMassValue ) % distanceIncrement > COMPARISON_TOLERANCE ) {
             return false;
         }
 
