@@ -53,7 +53,7 @@ web :
 
 DESCRIPTION OF FILES
 
-phet.iml:
+phet-svn-trunk.iml:
    IntelliJ IDEA module file for working with PhET
 
 
