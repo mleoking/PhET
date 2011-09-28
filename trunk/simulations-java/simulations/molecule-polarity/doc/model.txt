@@ -18,12 +18,12 @@ In the "Three Atoms" tab, manipulating EN results in an understanding of summing
 vector magnitudes, while manipulating bond angles results in an understanding
 of summing vector angles.
 
-o An atom's partial charge is linearly proportional to the magnitude of its bond dipole,
-and we vary the size of the delta shown accordingly.  The partial charge's sign is determined
-by the direction of the bond dipole. If the dipole points away from the atom, then the sign
-is "+"; otherwise the sign is "-". For atoms that participate in more than one bond
-(e.g., atom B in the "Three Atoms" tab), net partial charge is the sum of the partial charges
-contributed by each bond.
+o The magnitude of an atom's partial charge is linearly proportional to the absolute value
+of delta EN, and we vary the size of the delta shown accordingly. A partial charge's sign
+is determined by the sign of delta EN. If an atom has a higher EN than the atom at the other
+end of the bond, then the partial charge's sign is negative; otherwise it is positive.
+For atoms that participate in more than one bond (e.g., atom B in the "Three Atoms" tab),
+net partial charge is the sum of the partial charges contributed by each bond.
 
 o Electrostatic Potential and Electron Density are linearly proportional to delta EN.
 Larger delta EN corresponds to greater difference in potential (or electron density)
