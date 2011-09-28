@@ -83,8 +83,8 @@ public class BalancingActCanvas extends PhetPCanvas {
                     massNode = new BrickStackNode( (ShapeMass) mass, mvt, BalancingActCanvas.this, massLabelVisibilityProperty );
                 }
                 else if ( mass instanceof LabeledImageMass ) {
-                    // These are mystery objects.  Don't allow their mass to be shown.
-                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalancingActCanvas.this, new BooleanProperty( false ) );
+                    // These are mystery objects.
+                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalancingActCanvas.this, massLabelVisibilityProperty );
                 }
                 else if ( mass instanceof ImageMass ) {
                     massNode = new ImageMassNode( mvt, (ImageMass) mass, BalancingActCanvas.this, massLabelVisibilityProperty );

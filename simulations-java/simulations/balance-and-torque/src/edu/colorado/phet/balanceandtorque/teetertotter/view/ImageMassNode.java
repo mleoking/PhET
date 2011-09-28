@@ -34,9 +34,16 @@ public class ImageMassNode extends PNode {
         this.mvt = mvt;
 
         // Add the mass indicator label.  Note that it is positioned elsewhere.
-        // TODO: i18n, including order and units!
-        massLabel = new PText( new DecimalFormat( "##" ).format( mass.getMass() ) + " kg" ) {{
+        massLabel = new PText() {{
             setFont( new PhetFont( 14 ) );
+            if ( mass.isMystery() ) {
+                // TODO: i18n
+                setText( "?" );
+            }
+            else {
+                // TODO: i18n, including order and units!
+                setText( new DecimalFormat( "##" ).format( mass.getMass() ) + " kg" );
+            }
         }};
         addChild( massLabel );
 
