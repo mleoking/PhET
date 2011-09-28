@@ -169,13 +169,38 @@ public class HoseNode extends PNode {
             new RichSimpleObserver() {
                 @Override public void update() {
                     final DoubleGeneralPath p = new DoubleGeneralPath() {{
-                        HoseGeometry hoseGeometry = new HoseGeometry( hose );
+                        final HoseGeometry hoseGeometry = new HoseGeometry( hose );
+
+                        //Straight lines for debugging
+//                        moveTo( hoseGeometry.startPoint );
+//                        lineTo( hoseGeometry.rightOfTower );
+//                        lineTo( hoseGeometry.bottomLeft );
+//                        lineTo( hoseGeometry.prePoint );
+//                        lineTo( hoseGeometry.nozzleInput );
 
                         moveTo( hoseGeometry.startPoint );
-                        lineTo( hoseGeometry.rightOfTower );
-                        lineTo( hoseGeometry.bottomLeft );
-                        lineTo( hoseGeometry.prePoint );
-                        lineTo( hoseGeometry.nozzleInput );
+
+                        //Curve amount is the distance that control points are placed from the destinations, should be higher when there is more distance to cover, but clamped at 1 to not get too curvy
+                        double curveAmount = MathUtil.clamp( -1, hoseGeometry.bottomLeft.getY() - hoseGeometry.rightOfTower.getY(), 1 );
+
+                        //If the curve amount is small, just make a linear segment--otherwise there is an unusual looking kink in the geometry
+                        if ( Math.abs( curveAmount ) < 0.75 ) {
+//                            lineTo( hoseGeometry.rightOfTower );
+                            lineTo( hoseGeometry.bottomLeft );
+                        }
+                        else {
+                            //Curve to the right and down
+                            lineTo( hoseGeometry.rightOfTower.plus( -1, 0 ) );
+                            quadTo( hoseGeometry.rightOfTower, hoseGeometry.rightOfTower.plus( 0, curveAmount ) );
+
+                            //Curve down to the right
+                            lineTo( hoseGeometry.bottomLeft.plus( 0, -curveAmount ) );
+                            quadTo( hoseGeometry.bottomLeft, hoseGeometry.bottomLeft.plus( 1, 0 ) );
+                        }
+
+                        //line toward the prePoint (just before the nozzle), and continue to the nozzle input
+                        lineTo( hoseGeometry.prePoint.plus( -1, 0 ) );
+                        quadTo( hoseGeometry.prePoint, hoseGeometry.nozzleInput );
                     }};
 
                     //Wrapping in an area gets rid of a kink when the water tower is low
