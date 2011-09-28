@@ -1,3 +1,4 @@
+Made the mass labels for the mystery masses into a question mark instead of just leaving them blank.
 # 0.00.12 (56970) Sep 26, 2011
 9/26/11 Deploying to dev for testing and interviews.
 Made the mass deduction challenges start off in the balanced state rather than requiring the user to balance them.
