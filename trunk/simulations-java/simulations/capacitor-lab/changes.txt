@@ -1,3 +1,4 @@
+9/28/11 #3012, first pass at showing excess charges on top/bottom faces of transparent dielectric
 9/26/11 #3012, show outline of back faces for transparent dielectric
 9/20/11 replace VerticalSliderDragHandler with common SliderThumbDragHandler
 9/20/11 use LinearFunction in VerticalSliderDragHandler

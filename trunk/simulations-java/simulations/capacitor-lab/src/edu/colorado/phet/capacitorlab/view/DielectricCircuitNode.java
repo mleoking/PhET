@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.*;
+import java.awt.Cursor;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.control.BatteryConnectionButtonNode;
@@ -145,7 +145,7 @@ public class DielectricCircuitNode extends PhetPNode {
      * @param transparent
      */
     public void setDielectricTransparent( boolean transparent ) {
-        capacitorNode.getDielectricNode().setOpaque( !transparent );
+        capacitorNode.getDielectricNode().setTransparent( transparent );
     }
 
     // Updates the circuit components and controls to match the state of the battery connection.

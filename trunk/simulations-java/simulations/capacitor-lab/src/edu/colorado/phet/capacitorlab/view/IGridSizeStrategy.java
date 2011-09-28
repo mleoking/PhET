@@ -2,17 +2,17 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
- * Interface for all strategies used to determine the size of the grid used to represent plate charge.
+ * Interface for all strategies used to determine the size of the grid used to cover a 2D surface with objects.
  * <p/>
  * Only one of these strategies is used. The others are kept for historical purposes,
  * so that we know what we tried, why it didn't work, and how we arrived at the final solution.
  * <p/>
  * See TestPlateChargeLayout for a test application.
  */
-public interface IPlateChargeGridSizeStrategy {
+public interface IGridSizeStrategy {
 
     /**
      * Gets the size of the grid.
@@ -29,7 +29,7 @@ public interface IPlateChargeGridSizeStrategy {
      * This factory determines the strategy used throughout the application.
      */
     public static class GridSizeStrategyFactory {
-        public static IPlateChargeGridSizeStrategy createStrategy() {
+        public static IGridSizeStrategy createStrategy() {
             return new CCKStrategyWithRounding();
         }
     }
@@ -40,7 +40,7 @@ public interface IPlateChargeGridSizeStrategy {
      * as the plate becomes narrow. When the plate is narrow, this strategy creates
      * grid sizes where one of the dimensions is zero (eg, 8x0, 0x14).
      */
-    public static class CCKStrategy implements IPlateChargeGridSizeStrategy {
+    public static class CCKStrategy implements IGridSizeStrategy {
 
         public Dimension getGridSize( int numberOfObjects, double width, double height ) {
             double alpha = Math.sqrt( numberOfObjects / width / height );
@@ -85,7 +85,7 @@ public interface IPlateChargeGridSizeStrategy {
      *
      * @author Sam Reid
      */
-    public static class CCKStrategyWithRounding implements IPlateChargeGridSizeStrategy {
+    public static class CCKStrategyWithRounding implements IGridSizeStrategy {
 
         public Dimension getGridSize( int numberOfObjects, double width, double height ) {
             int columns = 0;
