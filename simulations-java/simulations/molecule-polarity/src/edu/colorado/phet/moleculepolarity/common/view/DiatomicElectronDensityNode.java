@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
+import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -74,7 +75,7 @@ public class DiatomicElectronDensityNode extends SurfaceNode {
         final double deltaEN = molecule.getDeltaEN();
         if ( deltaEN == 0 ) {
             // no difference, use neutral color that's halfway between "more" and "less" colors
-            pathNode.setPaint( ColorUtils.interpolateRBGA( ColorUtils.createColor( colors[0], ALPHA ), ColorUtils.createColor( colors[1], ALPHA ), 0.5 ) );
+            pathNode.setPaint( MPColors.NEUTRAL_GRAY );
         }
         else {
             final double scale = Math.abs( deltaEN / electronegativityRange.getLength() );

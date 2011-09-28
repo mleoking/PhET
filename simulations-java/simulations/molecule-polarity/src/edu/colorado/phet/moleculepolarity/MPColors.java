@@ -3,6 +3,8 @@ package edu.colorado.phet.moleculepolarity;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+
 /**
  * Colors that changed frequently during development of this sim,
  * located here so you don't have to search for them.
@@ -26,14 +28,16 @@ public class MPColors {
     public static final Color PLATE_NEGATIVE_COLOR = PLATE_DISABLED_COLOR;
     public static final Color PLATE_POSITIVE_COLOR = PLATE_NEGATIVE_COLOR;
 
-    // Color used for "neutral" (potential=0) by Jmol in roygb gradient, see http://jmol.sourceforge.net/jscolors/#gradnt
-    public static final Color NEUTRAL_GREEN = new Color( 31, 247, 0 );
-
     // Gradient used for electron density, more to less.
     public static final Color[] BW_GRADIENT = new Color[] { Color.BLACK, Color.WHITE };
 
+    public static final Color NEUTRAL_GRAY = ColorUtils.interpolateRBGA( Color.BLACK, Color.WHITE, 0.5 );
+
     // Primary gradient for molecular electrostatic polarity (mep), negative to positive.
     public static final Color[] RWB_GRADIENT = new Color[] { Color.RED, Color.WHITE, Color.BLUE };
+
+    // Color used for "neutral" (potential=0) by Jmol in roygb gradient, see http://jmol.sourceforge.net/jscolors/#gradnt
+    public static final Color NEUTRAL_GREEN = new Color( 31, 247, 0 );
 
     /*
      * Secondary gradient for mep, negative to positive.
