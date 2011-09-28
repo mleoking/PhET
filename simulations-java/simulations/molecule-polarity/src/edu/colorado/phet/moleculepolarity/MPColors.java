@@ -15,7 +15,7 @@ public class MPColors {
     public static final Color ATOM_A = Color.YELLOW;
     public static final Color ATOM_B = Color.GREEN;
     public static final Color ATOM_C = Color.PINK;
-    public static final Color BOND = Color.DARK_GRAY;
+    public static final Color BOND = Color.GRAY;
 
     // Dipoles
     public static final Color BOND_DIPOLE = Color.BLACK;
