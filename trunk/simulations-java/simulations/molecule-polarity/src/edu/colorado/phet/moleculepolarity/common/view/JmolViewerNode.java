@@ -336,7 +336,7 @@ public class JmolViewerNode extends PhetPNode {
         }
         else if ( surfaceType == SurfaceType.ELECTRON_DENSITY ) {
             if ( isHomogeneousDiatomic() ) {
-                doScript( "isosurface VDW color white translucent" );
+                doScript( "isosurface VDW color " + toJmolColor( MPColors.NEUTRAL_GRAY ) + " translucent" );
             }
             else {
                 doScript( "isosurface VDW map MEP colorscheme \"BW\" translucent" );

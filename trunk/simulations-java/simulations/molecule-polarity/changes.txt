@@ -1,3 +1,4 @@
+9/27/11 fix: homogenous diatomic molecules should be using gray (not white) for electron density surface color
 9/27/11 #3095, change bonds to Color.GRAY, so that overlapping partial charges are more visible
 9/27/11 integrate KL's model.txt changes
 9/27/11 #3088 code review: minor changes recommended by IntelliJ code analyzer
