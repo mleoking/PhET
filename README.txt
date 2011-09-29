@@ -27,7 +27,7 @@ ide:
    file for various IDEs (Eclipse, IntelliJ)
 
 simulations-common:
-   stuff that's common to all types of simulations
+   stuff common to all types of simulations such as software agreements
 
 simulations-flash :
    All Flash-based simulations live under here.
