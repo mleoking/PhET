@@ -1,3 +1,4 @@
+9/29/11 #3012, use one representation for excess charge, make dielectric transparent when excess charge is selected
 9/29/11 #3012, add transparency to plate charges that are under the dielectric
 9/29/11 #3012, make dielectric more transparent
 9/29/11 #3012, second pass that shows some design options, for discussion with NP

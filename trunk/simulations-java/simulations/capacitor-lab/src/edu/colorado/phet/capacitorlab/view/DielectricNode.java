@@ -15,13 +15,11 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class DielectricNode extends TransparentBoxNode {
 
-    private final static float TRANSPARENCY = 0.75f;
-
     private final Capacitor capacitor;
 
     public DielectricNode( final Capacitor capacitor, CLModelViewTransform3D mvt,
                            final Property<DielectricChargeView> dielectricChargeViewProperty,
-                           double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxDielectricEField ) {
+                           double maxExcessDielectricPlateCharge, double maxDielectricEField ) {
         super( mvt, capacitor.getDielectricMaterial().getColor(), capacitor.getDielectricSize() );
 
         this.capacitor = capacitor;
@@ -29,18 +27,14 @@ public class DielectricNode extends TransparentBoxNode {
         final DielectricTotalChargeNode totalChargeNode = new DielectricTotalChargeNode( capacitor, mvt, maxDielectricEField );
         addChild( totalChargeNode );
 
-        final DielectricExcessChargeNode excessChargeOnEdgesNode = new DielectricExcessChargeNode( capacitor, mvt, maxExcessDielectricPlateCharge, true );
-        addChild( excessChargeOnEdgesNode );
-
-        final DielectricExcessChargeNode excessChargeOnFacesNode = new DielectricExcessChargeNode( capacitor, mvt, maxExcessDielectricPlateCharge, false );
-        addChild( excessChargeOnFacesNode );
-        excessChargeOnFacesNode.moveToBack(); // so that non-edge charges look like they're inside the dielectric when it's transparent
+        final DielectricExcessChargeNode excessChargeNode = new DielectricExcessChargeNode( capacitor, mvt, maxExcessDielectricPlateCharge, false );
+        addChild( excessChargeNode );
+        excessChargeNode.moveToBack(); // so that non-edge charges look like they're inside the dielectric when it's transparent
 
         dielectricChargeViewProperty.addObserver( new SimpleObserver() {
             public void update() {
                 totalChargeNode.setVisible( dielectricChargeViewProperty.get() == DielectricChargeView.TOTAL );
-                excessChargeOnEdgesNode.setVisible( dielectricChargeViewProperty.get() == DielectricChargeView.EXCESS );
-                excessChargeOnFacesNode.setVisible( dielectricChargeViewProperty.get() == DielectricChargeView.EXCESS );
+                excessChargeNode.setVisible( dielectricChargeViewProperty.get() == DielectricChargeView.EXCESS );
             }
         } );
 

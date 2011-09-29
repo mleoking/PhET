@@ -7,6 +7,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
 import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.DielectricCircuitNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode;
@@ -75,11 +76,14 @@ public class DielectricCanvas extends CLCanvas {
         // watch things whose visibility causes the dielectric to become transparent
         RichSimpleObserver transparencyObserver = new RichSimpleObserver() {
             public void update() {
-                boolean transparent = getEFieldVisibleProperty().get() || model.voltmeter.isVisible() || model.eFieldDetector.visibleProperty.get();
+                boolean transparent = getEFieldVisibleProperty().get() ||
+                                      model.voltmeter.isVisible() ||
+                                      model.eFieldDetector.visibleProperty.get() ||
+                                      getDielectricChargeViewProperty().get() == DielectricChargeView.EXCESS;
                 circuitNode.setDielectricTransparent( transparent );
             }
         };
-        transparencyObserver.observe( getEFieldVisibleProperty(), model.voltmeter.visibleProperty, model.eFieldDetector.visibleProperty );
+        transparencyObserver.observe( getEFieldVisibleProperty(), model.voltmeter.visibleProperty, model.eFieldDetector.visibleProperty, getDielectricChargeViewProperty() );
 
         // change visibility of debug shapes
         RichSimpleObserver shapesVisibilityObserver = new RichSimpleObserver() {
