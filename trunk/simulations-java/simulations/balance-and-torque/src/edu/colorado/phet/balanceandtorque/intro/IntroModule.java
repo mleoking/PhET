@@ -3,9 +3,9 @@ package edu.colorado.phet.balanceandtorque.intro;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.intro.view.IntroCanvas;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
-import edu.colorado.phet.balanceandtorque.teetertotter.view.IntroCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
