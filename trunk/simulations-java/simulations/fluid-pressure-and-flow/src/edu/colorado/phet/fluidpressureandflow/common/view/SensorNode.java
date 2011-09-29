@@ -18,17 +18,17 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
 /**
  * @author Sam Reid
  */
-public abstract class SensorNode<T> extends PNode {
+public abstract class SensorNode extends PNode {
 
     protected final Property<String> text;
 
-    public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Unit> units ) {
+    public SensorNode( final ModelViewTransform transform, final Sensor<Double> sensor, final Property<Unit> units ) {
         final Function0<String> getString = new Function0<String>() {
             public String apply() {
                 String pattern = VALUE_WITH_UNITS_PATTERN;
                 String value = QUESTION_MARK;
-                if ( !Double.isNaN( sensor.getScalarValue() ) ) {
-                    value = units.get().getDecimalFormat().format( units.get().siToUnit( sensor.getScalarValue() ) );
+                if ( !Double.isNaN( sensor.getValue() ) ) {
+                    value = units.get().getDecimalFormat().format( units.get().siToUnit( sensor.getValue() ) );
                 }
                 return MessageFormat.format( pattern, value, units.get().getAbbreviation() );
             }

@@ -15,27 +15,29 @@ import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 
 /**
- * Main model class for FluidPressureAndFlow.  Units for this sim are by default in MKS, and conversions through class
+ * Main model base class for FluidPressureAndFlow.  Units for this sim are by default in MKS, and conversions through class
  * Units are used to convert to different units systems.
  *
  * @author Sam Reid
  */
 public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetModel {
-    private static final double EARTH_AIR_PRESSURE = 101325;//Pascals is MKS, see http://en.wikipedia.org/wiki/Atmospheric_pressure
-    private static final double EARTH_AIR_PRESSURE_AT_500_FT = 99490;
 
+    //Density of different substances in SI
     public static final double GASOLINE_DENSITY = 700;
     public static final double WATER_DENSITY = 1000;
     public static final double HONEY_DENSITY = 1420;
     public static final Double EARTH_GRAVITY = 9.8;
 
+    //Model values
     private final ConstantDtClock clock = new ConstantDtClock( 30 );
     private final ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
     private final ArrayList<VelocitySensor> velocitySensors = new ArrayList<VelocitySensor>();
     public final Property<Double> gravity = new Property<Double>( EARTH_GRAVITY );
     public final Property<Double> standardAirPressure = new Property<Double>( EARTH_AIR_PRESSURE );//air pressure at y=0
     public final Property<Double> liquidDensity = new Property<Double>( 1000.0 );//SI
-    public final Property<UnitSet> units;//Set of units for the sim (distance, velocity, pressure).
+
+    //Set of user-selectable units for the sim (distance, velocity, pressure, etc).
+    public final Property<UnitSet> units;
 
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.get(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
@@ -43,6 +45,10 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
 
     //Flag to indicate whether the clock should be running when the associated module is active
     public final BooleanProperty clockRunning = new BooleanProperty( true );
+
+    //Constants for air pressure in Pascals, Pascals is MKS, see http://en.wikipedia.org/wiki/Atmospheric_pressure
+    private static final double EARTH_AIR_PRESSURE = 101325;
+    private static final double EARTH_AIR_PRESSURE_AT_500_FT = 99490;
 
     //Construct a FluidPressureAndFlow model with the specified set of units (such as metric)
     public FluidPressureAndFlowModel( UnitSet unitSet ) {
@@ -110,6 +116,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
         return velocitySensors.toArray( new VelocitySensor[velocitySensors.size()] );
     }
 
+    //Reset the module for "reset all"
     public void reset() {
         gravity.reset();
         standardAirPressure.reset();

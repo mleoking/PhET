@@ -38,8 +38,6 @@ public abstract class Sensor<T> {
         this.value.set( value );
     }
 
-    public abstract double getScalarValue();
-
     public void addValueObserver( SimpleObserver observer ) {
         value.addObserver( observer );
     }

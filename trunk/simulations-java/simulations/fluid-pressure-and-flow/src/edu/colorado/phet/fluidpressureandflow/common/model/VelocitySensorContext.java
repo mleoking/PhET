@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  */
 public interface VelocitySensorContext {
+
+    //Get the velocity at the specified point
     public Option<ImmutableVector2D> getVelocity( double x, double y );
 
     //Add a listener for when the scene changes

@@ -28,7 +28,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  *
  * @author Sam Reid
  */
-public class PressureSensorNode extends SensorNode<Double> {
+public class PressureSensorNode extends SensorNode {
     public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<UnitSet> units, Function0<ImmutableRectangle2D> visibleModelRect ) {
         this( transform, sensor, units, null, visibleModelRect );
     }
