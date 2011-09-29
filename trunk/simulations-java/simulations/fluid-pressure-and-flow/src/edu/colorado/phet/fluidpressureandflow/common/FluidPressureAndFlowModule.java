@@ -16,6 +16,8 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
  */
 public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> extends Module {
     public final T model;
+
+    //User settings
     public final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
     public final Property<Boolean> gravityControlVisible = new Property<Boolean>( false );
     public final Property<Boolean> rulerVisible = new Property<Boolean>( false );

@@ -11,7 +11,7 @@ import java.awt.Stroke;
 import javax.swing.JLabel;
 
 /**
- * JSlider ticks have to be uniformly spaced AFAIK, so I wrote my own tick label class
+ * JSlider ticks have to be uniformly spaced, so I wrote my own tick label class to allow putting them at arbitrary locations for "honey" and "gasoline" tick labels.
  *
  * @author Sam Reid
  */
@@ -20,8 +20,7 @@ public class TickLabel extends JLabel {
         super( label );
     }
 
-    @Override
-    protected void paintComponent( Graphics g ) {
+    @Override protected void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D) g;
         super.paintComponent( g );
         Paint color = g2.getPaint();

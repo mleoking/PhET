@@ -23,6 +23,8 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureA
 import static java.awt.Color.black;
 
 /**
+ * Fluid density control that works with a certain unit
+ *
  * @author Sam Reid
  */
 public class UnitFluidDensityControl<T extends FluidPressureAndFlowModel> extends PNode {
@@ -30,6 +32,7 @@ public class UnitFluidDensityControl<T extends FluidPressureAndFlowModel> extend
 
     public UnitFluidDensityControl( final FluidPressureAndFlowModule<T> module, Unit density ) {
         fluidDensityControlVisible = module.fluidDensityControlVisible;
+
         //Compute the tick marks in the specified units
         final double gasDensity = density.siToUnit( GASOLINE_DENSITY );
         final double honeyDensity = density.siToUnit( HONEY_DENSITY );
