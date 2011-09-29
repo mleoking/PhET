@@ -22,6 +22,7 @@ public class WaterTowerModule extends FluidPressureAndFlowModule<WaterTowerModel
         setSimulationPanel( canvas );
     }
 
+    //Reset the module
     @Override public void reset() {
         super.reset();
         measuringTapeVisible.reset();
