@@ -13,7 +13,9 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
  * @author Sam Reid
  */
 public class Pool {
-    public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );//10 foot deep pool, a customary depth for the deep end
+
+    //10 foot deep pool, a customary depth for the deep end in the United States
+    public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );
     private final double height = DEFAULT_HEIGHT;
     private final double width = 4;
 
@@ -41,7 +43,7 @@ public class Pool {
     }
 
     public double getMinY() {
-        return -getHeight();   //TODO: why is this different than other implementations of getMin.()?
+        return -getHeight();
     }
 
     public Point2D getTopRight() {
