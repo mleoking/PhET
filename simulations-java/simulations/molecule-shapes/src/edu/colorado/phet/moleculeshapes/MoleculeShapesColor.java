@@ -40,7 +40,7 @@ public enum MoleculeShapesColor {
         add( CONTROL_PANEL_BORDER, new Color( 210, 210, 210 ) );
         add( CONTROL_PANEL_TITLE, new Color( 240, 240, 240 ) );
         add( CONTROL_PANEL_TEXT, new Color( 230, 230, 230 ) );
-        add( ATOM_CENTER, Color.RED );
+        add( ATOM_CENTER, new Color( 159, 102, 218 ) );
         add( ATOM, Color.WHITE );
         add( BOND, Color.WHITE );
         add( REAL_EXAMPLE_FORMULA, new Color( 230, 230, 230 ) );

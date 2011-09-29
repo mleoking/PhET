@@ -69,7 +69,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
             frame.addMenu( optionsMenu );
         }
 
-        JMenu teachersMenu = new JMenu( "Teachers" ); // TODO: i18n, in common?
+        JMenu teachersMenu = new JMenu( "Teacher" ); // TODO: i18n, in common?
 
         // color profiles
         ButtonGroup colorProfileGroup = new ButtonGroup();
