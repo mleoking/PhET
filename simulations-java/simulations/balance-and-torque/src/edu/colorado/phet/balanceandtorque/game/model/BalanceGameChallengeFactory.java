@@ -117,19 +117,15 @@ public class BalanceGameChallengeFactory {
             balanceChallengeList.add( generateModerateBalanceChallenge() );
             balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
             balanceChallengeList.add( generateModerateBalanceChallenge() );
-            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
+            balanceChallengeList.add( generateModerateBalanceChallenge() );
             balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
         }
         else if ( level == 4 ) {
             balanceChallengeList.add( generateMultiMassBalanceChallenge() );
+            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
             balanceChallengeList.add( generateMultiMassBalanceChallenge() );
+            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
             balanceChallengeList.add( generateMultiMassBalanceChallenge() );
-            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
-            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
-//            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
-//            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
-//            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
-//            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
         }
         else {
             // This level is either out of range or not implemented yet.
