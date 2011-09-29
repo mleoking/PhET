@@ -37,6 +37,5 @@ public class SimpleBalancingActModule extends Module {
         model.addMass( new BrickStack( 1, new Point2D.Double( 2.5, 0 ) ) );
         model.addMass( new BrickStack( 1, new Point2D.Double( 2.8, 0 ) ) );
         model.addMass( new BrickStack( 2, new Point2D.Double( 3.1, 0 ) ) );
-        model.addMass( new BrickStack( 2, new Point2D.Double( 3.4, 0 ) ) );
     }
 }
