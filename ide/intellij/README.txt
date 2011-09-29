@@ -1,4 +1,4 @@
-This directory contains files related to IntelliJ for PhET simulations and projects
+This directory contains files related to IntelliJ for PhET simulations and projects.
 
 To create an IntelliJ project for phet:
 1. Create a new empty IntelliJ project.
