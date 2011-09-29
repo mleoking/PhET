@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.common.view.modes.design_mapproperty;
+package org.reid.scenic.test.modes.design_mapproperty;
 
 /**
  * @author Sam Reid
