@@ -23,20 +23,20 @@ public abstract class PlateNode extends BoxNode {
 
     public static class TopPlateNode extends PlateNode {
         public TopPlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxPlateCharge ) {
-            super( capacitor, mvt, Polarity.POSITIVE, maxPlateCharge );
+            super( capacitor, mvt, Polarity.POSITIVE, maxPlateCharge, 1f /* dielectricPlateChargeTransparency */ );
         }
     }
 
     public static class BottomPlateNode extends PlateNode {
         public BottomPlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxPlateCharge ) {
-            super( capacitor, mvt, Polarity.NEGATIVE, maxPlateCharge );
+            super( capacitor, mvt, Polarity.NEGATIVE, maxPlateCharge, 0.25f /* dielectricPlateChargeTransparency */ );
         }
     }
 
-    public PlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
+    public PlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge, float dielectricPlateChargeTransparency ) {
         super( mvt, CLPaints.PLATE, capacitor.getPlateSize() );
 
-        this.dielectricPlateChargeNode = new DielectricPlateChargeNode( capacitor, mvt, polarity, maxPlateCharge );
+        this.dielectricPlateChargeNode = new DielectricPlateChargeNode( capacitor, mvt, polarity, maxPlateCharge, dielectricPlateChargeTransparency );
         addChild( dielectricPlateChargeNode );
 
         this.airPlateChargeNode = new AirPlateChargeNode( capacitor, mvt, polarity, maxPlateCharge );
