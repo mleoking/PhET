@@ -25,7 +25,7 @@ import edu.colorado.phet.faraday.view.BFieldOutsideGraphic;
 
 
 /**
- * TurbinePanel contains the controls for the turbine. 
+ * TurbinePanel contains the controls for the turbine.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -34,7 +34,7 @@ public class TurbinePanel extends FaradayPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     // Model & view components to be controlled.
     private Turbine _turbineModel;
     private Compass _compassModel;
@@ -47,27 +47,26 @@ public class TurbinePanel extends FaradayPanel {
     private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox;
     private EventListener _listener;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor
-     * 
+     *
      * @param turbineModel
      * @param compassModel
      * @param fieldMeterModel
      * @param bFieldOutsideGraphic
      */
-    public TurbinePanel( 
-            Turbine turbineModel, 
-            Compass compassModel, 
+    public TurbinePanel(
+            Turbine turbineModel,
+            Compass compassModel,
             FieldMeter fieldMeterModel,
-            BFieldOutsideGraphic bFieldOutsideGraphic )
-    {
+            BFieldOutsideGraphic bFieldOutsideGraphic ) {
         super();
-        
+
         assert ( turbineModel != null );
         assert ( compassModel != null );
         assert ( fieldMeterModel != null );
@@ -78,13 +77,13 @@ public class TurbinePanel extends FaradayPanel {
         _compassModel = compassModel;
         _fieldMeterModel = fieldMeterModel;
         _bFieldOutsideGraphic = bFieldOutsideGraphic;
-        
+
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, FaradayStrings.TITLE_TURBINE_PANEL );
+        TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, FaradayStrings.TITLE_BAR_MAGNET_PANEL );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
-        
+
         // Magnet strength
         {
             // Values are a percentage of the maximum.
@@ -104,10 +103,10 @@ public class TurbinePanel extends FaradayPanel {
 
         // B-field on/off
         _bFieldCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
-        
+
         // Field Meter on/off
         _fieldMeterCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
-        
+
         // Compass on/off
         _compassCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_COMPASS );
 
@@ -119,7 +118,7 @@ public class TurbinePanel extends FaradayPanel {
         layout.addComponent( _bFieldCheckBox, row++, 0 );
         layout.addComponent( _compassCheckBox, row++, 0 );
         layout.addComponent( _fieldMeterCheckBox, row++, 0 );
-        
+
         // Wire up event handling.
         _listener = new EventListener();
         _strengthControl.addChangeListener( _listener );
@@ -128,9 +127,9 @@ public class TurbinePanel extends FaradayPanel {
         _compassCheckBox.addActionListener( _listener );
 
         // Set the state of the controls.
-        update(); 
+        update();
     }
-    
+
     /**
      * Updates the control panel to match the state of the things that it's controlling.
      */
@@ -140,21 +139,21 @@ public class TurbinePanel extends FaradayPanel {
         _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
     }
-    
+
     //----------------------------------------------------------------------------
     // Feature controls
     //----------------------------------------------------------------------------
-    
+
     /**
      * Access to the "Show B-Field" control.
-     * 
+     *
      * @param visible true or false
      * @return
      */
     public void setBFieldControlVisible( boolean visible ) {
         _bFieldCheckBox.setVisible( visible );
     }
-    
+
     //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
@@ -168,8 +167,11 @@ public class TurbinePanel extends FaradayPanel {
      */
     private class EventListener implements ActionListener, ChangeListener {
 
-        /** Sole constructor */
-        public EventListener() {}
+        /**
+         * Sole constructor
+         */
+        public EventListener() {
+        }
 
         //----------------------------------------------------------------------------
         // ActionListener implementation
@@ -177,7 +179,7 @@ public class TurbinePanel extends FaradayPanel {
 
         /**
          * ActionEvent handler.
-         * 
+         *
          * @param e the event
          * @throws IllegalArgumentException if the event is unexpected
          */
@@ -205,7 +207,7 @@ public class TurbinePanel extends FaradayPanel {
 
         /**
          * ChangeEvent handler.
-         * 
+         *
          * @param e the event
          * @throws IllegalArgumentException if the event is unexpected
          */
@@ -214,7 +216,7 @@ public class TurbinePanel extends FaradayPanel {
                 // Read the value.
                 double percent = Math.floor( _strengthControl.getValue() );
                 // Update the model.
-                double strength = ( percent / 100.0 ) * FaradayConstants.TURBINE_STRENGTH_MAX ;
+                double strength = ( percent / 100.0 ) * FaradayConstants.TURBINE_STRENGTH_MAX;
                 _turbineModel.setStrength( strength );
                 /*
                  * We're displaying strength in integer precision, but the slider is in double precision.
