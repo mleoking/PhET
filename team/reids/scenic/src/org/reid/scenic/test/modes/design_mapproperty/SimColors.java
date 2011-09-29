@@ -1,14 +1,15 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.common.view.modes.design_mapproperty;
+package org.reid.scenic.test.modes.design_mapproperty;
 
 import java.awt.Color;
 import java.awt.Font;
+
+import org.reid.scenic.test.modes.MapProperty;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.fluidpressureandflow.common.view.modes.MapProperty;
 
 import static java.awt.Color.black;
 import static java.awt.Color.white;

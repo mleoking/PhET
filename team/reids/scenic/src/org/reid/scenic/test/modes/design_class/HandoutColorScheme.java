@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.common.view.modes.design_class;
+package org.reid.scenic.test.modes.design_class;
 
 import java.awt.Color;
 
