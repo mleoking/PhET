@@ -1,3 +1,6 @@
+Changed names of the first two tabs to "Intro" and "Balance Lab".
+Added a simple first tab where the user can only manipulate a limited set of masses.
+Added multiple mass balance challenges.  For now, these are on level 4 only.
 Made the mass deduction challenges back to being initially interactive, i.e. user must balance the plank.
 Made the mass labels for the mystery masses into a question mark instead of just leaving them blank.
 # 0.00.12 (56970) Sep 26, 2011
