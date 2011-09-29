@@ -26,25 +26,18 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class DielectricExcessChargeNode extends PhetPNode {
 
-    private static final boolean USE_GENERAL_APPROACH = true;
-
     private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
     private final double maxExcessDielectricPlateCharge;
     private final IGridSizeStrategy gridSizeStrategy;
 
-    // true=show only charges on the edges, because the dielectric is opaque
-    // false=show all charges, because the dielectric is transparent
-    private final boolean showEdgeChargesOnly;
-
-    public DielectricExcessChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxExcessDielectricPlateCharge, boolean showEdgeChargesOnly ) {
+    public DielectricExcessChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxExcessDielectricPlateCharge ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
         this.maxExcessDielectricPlateCharge = maxExcessDielectricPlateCharge;
         this.gridSizeStrategy = GridSizeStrategyFactory.createStrategy();
-        this.showEdgeChargesOnly = showEdgeChargesOnly;
 
         this.parentNode = new PComposite();
         addChild( parentNode );
@@ -94,12 +87,10 @@ public class DielectricExcessChargeNode extends PhetPNode {
             // compute the number excess charges
             final int numberOfExcessCharges = getNumberOfCharges( excessCharge );
 
-            // compute the size of the grid
+            // compute the grid size
             Dimension gridSize = gridSizeStrategy.getGridSize( numberOfExcessCharges, contactWidth, dielectricDepth );
-
-            // #2928, constrain number of charges to be <= number of charges displayed along edge of plate
-            int rows = gridSize.height;
-            int columns = gridSize.width;
+            final int rows = gridSize.height;
+            final int columns = gridSize.width;
 
             // distance between charges
             final double dx = contactWidth / columns;
@@ -111,123 +102,43 @@ public class DielectricExcessChargeNode extends PhetPNode {
 
             final double yMargin = mvt.viewToModelDelta( 0, new PositiveChargeNode().getFullBoundsReference().getHeight() + 1 ).getY();
 
-            if ( USE_GENERAL_APPROACH ) {
-                /*
-                 * This approach uses one algorithm to draw the grids, and leaves
-                 * out specific cells if we're only drawing charges at the edges.
-                 */
-                for ( int row = 0; row < rows; row++ ) {
-                    for ( int column = 0; column < columns; column++ ) {
+            // Draw a complete grid for the bottom face
+            for ( int row = 0; row < rows; row++ ) {
+                for ( int column = 0; column < columns; column++ ) {
 
-                        boolean isVisibleEdgeCell = ( row == 0 ) || ( ( column == columns - 1 ) && capacitor.getDielectricOffset() == 0 );
-                        if ( !showEdgeChargesOnly || ( showEdgeChargesOnly && isVisibleEdgeCell ) ) {
+                    // bottom charges
+                    PNode bottomChargeNode = getBottomChargeNode( excessCharge );
+                    parentNode.addChild( bottomChargeNode );
 
-                            // top and bottom charges
-                            PNode topChargeNode = getTopChargeNode( excessCharge );
-                            PNode bottomChargeNode = getBottomChargeNode( excessCharge );
-                            parentNode.addChild( topChargeNode );
-                            parentNode.addChild( bottomChargeNode );
-
-                            // position the charges in cells in the grid
-                            double x = ( -dielectricWidth / 2 ) + xOffset + ( column * dx );
-                            double y = yMargin;
-                            double z = -( dielectricDepth / 2 ) + zOffset + ( row * dz );
-                            topChargeNode.setOffset( mvt.modelToView( x, y, z ) );
-                            y = capacitor.getDielectricHeight() - yMargin;
-                            bottomChargeNode.setOffset( mvt.modelToView( x, y, z ) );
-                        }
-                    }
+                    // position the charge in a grid cell
+                    double x = ( -dielectricWidth / 2 ) + xOffset + ( column * dx );
+                    double y = capacitor.getDielectricHeight() - yMargin;
+                    double z = -( dielectricDepth / 2 ) + zOffset + ( row * dz );
+                    bottomChargeNode.setOffset( mvt.modelToView( x, y, z ) );
                 }
             }
-            else {
-                /*
-                 * This approach draws the edge charges separately, using the original 1.00 algorithm.
-                 * It's impossible to get these edge charges to line up with the edge charges in the grid.
-                 */
-                if ( showEdgeChargesOnly ) {
 
-                    // front edge of top and bottom
-                    for ( int i = 0; i < columns; i++ ) {
+            // Draw front edge for top face
+            double x = 0;
+            final double y = yMargin;
+            for ( int i = 0; i < columns; i++ ) {
+                PNode topChargeNode = getTopChargeNode( excessCharge );
+                parentNode.addChild( topChargeNode );
+                // position the charge
+                x = ( -dielectricWidth / 2 ) + xOffset + ( i * dx );
+                double z = -( dielectricDepth / 2 );
+                topChargeNode.setOffset( mvt.modelToView( x, y, z ) );
+            }
 
-                        // add a pair of charges
-                        PNode topChargeNode = getTopChargeNode( excessCharge );
-                        PNode bottomChargeNode = getBottomChargeNode( excessCharge );
-                        parentNode.addChild( topChargeNode );
-                        parentNode.addChild( bottomChargeNode );
-
-                        // position the charges at the top and bottom edges of the dielectric's front face
-                        double x = ( -dielectricWidth / 2 ) + xOffset + ( i * dx );
-                        double y = yMargin;
-                        double z = -( dielectricDepth / 2 );
-                        topChargeNode.setOffset( mvt.modelToView( x, y, z ) );
-                        y = capacitor.getDielectricHeight() - yMargin;
-                        bottomChargeNode.setOffset( mvt.modelToView( x, y, z ) );
-                    }
-
-                    // right-side edge top and bottom, charges only shown with dielectric fully inserted
-                    if ( capacitor.getDielectricOffset() == 0 ) {
-
-                        for ( int i = 0; i < rows; i++ ) {
-
-                            // add a pair of charges
-                            PNode topChargeNode = getTopChargeNode( excessCharge );
-                            PNode bottomChargeNode = getBottomChargeNode( excessCharge );
-                            parentNode.addChild( topChargeNode );
-                            parentNode.addChild( bottomChargeNode );
-
-                            // position the charges at the top and bottom edges of the dielectric's side face
-                            double x = dielectricWidth / 2;
-                            double y = yMargin;
-                            double z = ( -dielectricDepth / 2 ) + zOffset + ( i * dz );
-                            Point2D topOffset = mvt.modelToView( x, y, z );
-                            topChargeNode.setOffset( topOffset );
-                            y = capacitor.getDielectricHeight() - yMargin;
-                            Point2D bottomOffset = mvt.modelToView( x, y, z );
-                            bottomChargeNode.setOffset( bottomOffset );
-                        }
-                    }
-                }
-                else {
-                    // top
-                    {
-                        // front edge of top
-                        double x = 0;
-                        for ( int i = 0; i < columns; i++ ) {
-                            PNode topChargeNode = getTopChargeNode( excessCharge );
-                            parentNode.addChild( topChargeNode );
-                            // position the charge
-                            x = ( -dielectricWidth / 2 ) + xOffset + ( i * dx );
-                            double y = yMargin;
-                            double z = -( dielectricDepth / 2 );
-                            topChargeNode.setOffset( mvt.modelToView( x, y, z ) );
-                        }
-
-                        // right-side edge of top
-                        x += xOffset; // start from where we left off with the front edge
-                        for ( int i = 0; i < rows; i++ ) {
-                            PNode topChargeNode = getTopChargeNode( excessCharge );
-                            parentNode.addChild( topChargeNode );
-                            // position the charge
-                            double y = yMargin;
-                            double z = ( -dielectricDepth / 2 ) + zOffset + ( i * dz );
-                            Point2D topOffset = mvt.modelToView( x, y, z );
-                            topChargeNode.setOffset( topOffset );
-                        }
-                    }
-
-                    // complete surface of bottom
-                    final double y = capacitor.getDielectricHeight() - yMargin;
-                    for ( int row = 0; row < rows; row++ ) {
-                        for ( int column = 0; column < columns; column++ ) {
-                            PNode bottomChargeNode = getBottomChargeNode( excessCharge );
-                            parentNode.addChild( bottomChargeNode );
-                            // position the charge in cell in the grid
-                            double x = ( -dielectricWidth / 2 ) + xOffset + ( column * dx );
-                            double z = -( dielectricDepth / 2 ) + zOffset + ( row * dz );
-                            bottomChargeNode.setOffset( mvt.modelToView( x, y, z ) );
-                        }
-                    }
-                }
+            // Draw right-side edge for top face
+            x += xOffset; // start from where we left off with the front edge
+            for ( int i = 0; i < rows; i++ ) {
+                PNode topChargeNode = getTopChargeNode( excessCharge );
+                parentNode.addChild( topChargeNode );
+                // position the charge
+                double z = ( -dielectricDepth / 2 ) + zOffset + ( i * dz );
+                Point2D topOffset = mvt.modelToView( x, y, z );
+                topChargeNode.setOffset( topOffset );
             }
         }
     }

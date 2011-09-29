@@ -179,8 +179,8 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class DielectricPlateChargeNode extends PlateChargeNode {
 
-        public DielectricPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
-            super( capacitor, mvt, polarity, maxPlateCharge, 0.25f );
+        public DielectricPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge, float transparency ) {
+            super( capacitor, mvt, polarity, maxPlateCharge, transparency );
         }
 
         // Gets the portion of the plate charge due to the dielectric.

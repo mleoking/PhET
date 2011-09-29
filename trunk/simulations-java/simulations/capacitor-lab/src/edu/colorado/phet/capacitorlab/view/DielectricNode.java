@@ -27,7 +27,7 @@ public class DielectricNode extends TransparentBoxNode {
         final DielectricTotalChargeNode totalChargeNode = new DielectricTotalChargeNode( capacitor, mvt, maxDielectricEField );
         addChild( totalChargeNode );
 
-        final DielectricExcessChargeNode excessChargeNode = new DielectricExcessChargeNode( capacitor, mvt, maxExcessDielectricPlateCharge, false );
+        final DielectricExcessChargeNode excessChargeNode = new DielectricExcessChargeNode( capacitor, mvt, maxExcessDielectricPlateCharge );
         addChild( excessChargeNode );
         excessChargeNode.moveToBack(); // so that non-edge charges look like they're inside the dielectric when it's transparent
 
