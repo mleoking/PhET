@@ -18,12 +18,22 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.FPAFVelocitySensor;
 
 /**
+ * Model for the "Flow" tab
+ *
  * @author Sam Reid
  */
 public class FluidFlowModel extends FluidPressureAndFlowModel implements VelocitySensorContext {
+
+    //Source of randomness
+    private final Random random = new Random();
+
+    //Model elements
     public final Pipe pipe = new Pipe();
     private final ArrayList<Particle> particles = new ArrayList<Particle>();
-    private final Random random = new Random();
+    private final ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
+    public final FluxMeter fluxMeter = new FluxMeter( pipe );
+
+    //Observers
     private final ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
     private final ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
 
@@ -32,8 +42,6 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
 
     //true if the dropper is dropping in red dots
     public final Property<Boolean> dropperEnabled = new Property<Boolean>( true );
-    private final ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
-    public final FluxMeter fluxMeter = new FluxMeter( pipe );
 
     public FluidFlowModel() {
         super( UnitSet.METRIC );
@@ -44,12 +52,14 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
             }
         } );
 
-        addPressureSensor( new PressureSensor( this, 3, 1.1882302540898015 ) );
-        addPressureSensor( new PressureSensor( this, 3, 1.1882302540898015 ) );
-        addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.473501677688827 ) );
-        addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.473501677688827 ) );
+        //Add the sensors at positions that were determined empirically
+        addPressureSensor( new PressureSensor( this, 3, 1.188 ) );
+        addPressureSensor( new PressureSensor( this, 3, 1.188 ) );
+        addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.4735 ) );
+        addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.4735 ) );
     }
 
+    //When time passes, the circular particles and rectangular dye moves
     private void stepInTime( ClockEvent clockEvent ) {
         updateParticles( clockEvent.getSimulationTimeChange() );
         updateFoodColoring( clockEvent.getSimulationTimeChange() );
@@ -103,15 +113,14 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         particle.notifyRemoved();
     }
 
-    @Override
-    public double getPressure( double x, double y ) {
+    //Gets the pressure at the specified location
+    @Override public double getPressure( double x, double y ) {
         Option<ImmutableVector2D> velocity = getVelocity( x, y );
 
         double vSquared = velocity.isSome() ? velocity.get().getMagnitudeSq() : 0.0;
         double K = 101325;//choose a base value for pipe internal pressure, also ensure that pressure is never negative in the pipe in a narrow region
         if ( pipe.getShape().contains( x, y ) ) {
-            double pressure = K - 0.5 * liquidDensity.get() * vSquared - liquidDensity.get() * gravity.get() * y;
-            return pressure;
+            return K - 0.5 * liquidDensity.get() * vSquared - liquidDensity.get() * gravity.get() * y;
         }
         else if ( y < 0 ) {
             return Double.NaN;
@@ -176,8 +185,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         foodColorings.add( foodColoring );
     }
 
-    @Override
-    public void reset() {
+    //Reset the model for "reset all"
+    @Override public void reset() {
         while ( particles.size() > 0 ) {
             removeParticle( particles.get( 0 ) );
         }
@@ -189,11 +198,13 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         dropperRate.reset();
         dropperEnabled.reset();
         fluxMeter.reset();
-        //TODO: remove particle and food coloring
     }
 
+    //Add a drop at a random location
     public void addDrop() {
-        double min = 0.1;//Don't show any particles near the edges, since their velocity should be zero in physical reality (or a full-blown fluid dynamics simulation)
+
+        //Don't show any particles near the edges, since their velocity should be zero in physical reality (or a full-blown fluid dynamics simulation)
+        double min = 0.1;
         double max = 1 - min;
         double range = max - min;
         final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble() * range + min, pipe, 0.1 );

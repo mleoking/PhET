@@ -7,15 +7,27 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
+ * A single spherical particle that can travel with the flow in the pipe
+ *
  * @author Sam Reid
  */
 public class Particle {
+
+    //Distance traveled along the pipe's horizontal axis.
     private double x;
+
+    //How far up the pipe, 0=bottom, 1=top
     private final double fractionUpPipe;
+
+    //The pipe within which the particle travels
     private final Pipe container;
+
+    //Radius of the particle in meters
+    private final double radius;
+
+    //Listeners
     private final ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
     private final ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
-    private final double radius;
 
     public Particle( double x, double fractionUpPipe, Pipe container ) {
         this( x, fractionUpPipe, container, 0.1 );
