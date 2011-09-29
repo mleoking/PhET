@@ -30,6 +30,11 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Woman;
  * This is not to be confused with the numerical game levels, since there is
  * not necessarily a 1 to 1 correspondence between the numerical levels and
  * the difficulty of a given challenge.
+ * <p/>
+ * TODO: This class requires a lot of cleaning up, making the terminology
+ * consistent (e.g. create versus generate), and consolidating duplicated code.
+ * It's not worth the time now because the game is in such a state of flux, but
+ * don't forget about it.
  *
  * @author John Blanco
  */
@@ -112,16 +117,15 @@ public class BalanceGameChallengeFactory {
             balanceChallengeList.add( generateModerateBalanceChallenge() );
             balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
             balanceChallengeList.add( generateModerateBalanceChallenge() );
-            balanceChallengeList.add( generateModerateBalanceChallenge() );
-            balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
-        }
-        else if ( level == 4 ) {
-//            balanceChallengeList.add( generateModerateBalanceChallenge() );
             balanceChallengeList.add( generateMultiMassBalanceChallenge() );
             balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
-            balanceChallengeList.add( generateModerateBalanceChallenge() );
+        }
+        else if ( level == 4 ) {
+            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
             balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
+            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
             balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
+            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
         }
         else {
             // This level is either out of range or not implemented yet.
