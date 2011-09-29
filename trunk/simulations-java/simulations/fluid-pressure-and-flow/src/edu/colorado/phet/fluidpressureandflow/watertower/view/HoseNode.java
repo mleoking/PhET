@@ -36,14 +36,12 @@ import static java.lang.Math.PI;
  * @author Sam Reid
  */
 public class HoseNode extends PNode {
-    private Hose hose;
     public final PImage nozzleImageNode;
     private final BooleanProperty showDragHandles = new BooleanProperty( true );
 
-    private boolean debugModelPosition = false;
+    private static final boolean debugModelPosition = false;
 
     public HoseNode( final ModelViewTransform transform, final Hose hose ) {
-        this.hose = hose;
 
         //Width of the hose in stage coordinates
         final double hoseViewWidth = (float) Math.abs( transform.modelToViewDeltaY( hose.holeSize ) ) * 1.5;
@@ -85,6 +83,7 @@ public class HoseNode extends PNode {
         }};
         addChild( hoseUpHandle );
 
+        //Knob on the side of the nozzle for rotating it
         PNode nozzleRotationKnob = new PNode() {{
             addChild( new PImage( BufferedImageUtils.flipX( KNOB ) ) );
             new RichSimpleObserver() {
@@ -170,14 +169,6 @@ public class HoseNode extends PNode {
                 @Override public void update() {
                     final DoubleGeneralPath p = new DoubleGeneralPath() {{
                         final HoseGeometry hoseGeometry = new HoseGeometry( hose );
-
-                        //Straight lines for debugging
-//                        moveTo( hoseGeometry.startPoint );
-//                        lineTo( hoseGeometry.rightOfTower );
-//                        lineTo( hoseGeometry.bottomLeft );
-//                        lineTo( hoseGeometry.prePoint );
-//                        lineTo( hoseGeometry.nozzleInput );
-
                         moveTo( hoseGeometry.startPoint );
 
                         //Curve amount is the distance that control points are placed from the destinations, should be higher when there is more distance to cover, but clamped at 1 to not get too curvy
@@ -185,7 +176,6 @@ public class HoseNode extends PNode {
 
                         //If the curve amount is small, just make a linear segment--otherwise there is an unusual looking kink in the geometry
                         if ( Math.abs( curveAmount ) < 0.75 ) {
-//                            lineTo( hoseGeometry.rightOfTower );
                             lineTo( hoseGeometry.bottomLeft );
                         }
                         else {

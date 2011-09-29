@@ -5,10 +5,13 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.Hose;
 
 /**
+ * Values for the shape of the hose.  Computed all at once for convenience and reusability.
+ *
  * @author Sam Reid
  */
 public class HoseGeometry {
 
+    //See docs in HoseNode constructor
     public final ImmutableVector2D startPoint;
     public final ImmutableVector2D nozzleInput;
     public final ImmutableVector2D delta;
@@ -17,7 +20,6 @@ public class HoseGeometry {
     public final ImmutableVector2D bottomLeft;
 
     public HoseGeometry( Hose hose ) {
-
         startPoint = new ImmutableVector2D( hose.attachmentPoint.get().getX(), hose.attachmentPoint.get().getY() + hose.holeSize / 2 );
         nozzleInput = hose.getNozzleInputPoint();
         delta = hose.getNozzleInputPoint().minus( hose.outputPoint.get() );

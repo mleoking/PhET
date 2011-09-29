@@ -13,21 +13,25 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Measuring tape for use in the "water tower" tab.
+ *
  * @author Sam Reid
  */
 public class FPAFMeasuringTape extends PNode {
     public final MeasuringTape measuringTape;
 
     public FPAFMeasuringTape( ModelViewTransform transform, final ObservableProperty<Boolean> measuringTapeVisible, final Property<UnitSet> unit ) {
+        //Create a MVT compatible with the measuring tape
         final Point2D.Double zero = new Point2D.Double( 0, 0 );
         final Point2D.Double one = new Point2D.Double( 1, 1 );
-        final ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( zero, one,
-                                                                                    transform.modelToView( zero ), transform.modelToView( one ) );
+        final ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( zero, one, transform.modelToView( zero ), transform.modelToView( one ) );
         measuringTape = new MeasuringTape( modelViewTransform2D, zero, unit.get().distance.getAbbreviation() ) {
             protected double modelDistanceToReadoutDistance( double modelDistance ) {
                 return unit.get().distance.siToUnit( modelDistance );
             }
         };
+
+        //Show the right units
         unit.addObserver( new SimpleObserver() {
             public void update() {
                 measuringTape.setUnits( unit.get().distance.getAbbreviation() );
