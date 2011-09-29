@@ -4,8 +4,8 @@ package edu.colorado.phet.fluidpressureandflow.flow.view;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fluidpressureandflow.common.model.ScaledDoubleProperty;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
-import edu.colorado.phet.fluidpressureandflow.common.view.ScaledDoubleProperty;
 import edu.colorado.phet.fluidpressureandflow.common.view.SliderControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.TickLabel;
 import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;

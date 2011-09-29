@@ -15,7 +15,6 @@ import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
-import edu.colorado.phet.fluidpressureandflow.common.view.ParticleNode;
 import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluidFlowModel;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FoodColoring;

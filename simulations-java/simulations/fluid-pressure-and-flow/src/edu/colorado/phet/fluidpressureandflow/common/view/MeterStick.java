@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 
 /**
+ * Draggable metric ruler.
+ *
  * @author Sam Reid
  */
 public class MeterStick extends FluidPressureAndFlowRuler {

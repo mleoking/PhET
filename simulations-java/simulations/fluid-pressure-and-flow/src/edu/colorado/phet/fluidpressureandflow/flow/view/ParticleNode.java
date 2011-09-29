@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.common.view;
+package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
@@ -11,6 +11,8 @@ import edu.colorado.phet.fluidpressureandflow.flow.model.Particle;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Graphic that shows a circular particle.
+ *
  * @author Sam Reid
  */
 public class ParticleNode extends PNode {

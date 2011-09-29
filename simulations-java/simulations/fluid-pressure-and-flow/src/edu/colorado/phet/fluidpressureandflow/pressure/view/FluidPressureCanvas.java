@@ -13,7 +13,6 @@ import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
-import edu.colorado.phet.fluidpressureandflow.common.view.PoolNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;

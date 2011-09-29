@@ -19,12 +19,18 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Base class for draggable english/metric rules
+ *
  * @author Sam Reid
  */
 public class FluidPressureAndFlowRuler extends PNode {
     public FluidPressureAndFlowRuler( final ModelViewTransform transform,
-                                      final ObservableProperty<Boolean> visible,//getter
-                                      final Property<Boolean> setVisible, //setter, separate from getter since has to be and-ed with units property in FluidPressureCanvas
+
+                                      //getter
+                                      final ObservableProperty<Boolean> visible,
+
+                                      //setter, separate from getter since has to be and-ed with units property in FluidPressureCanvas
+                                      final Property<Boolean> setVisible,
                                       double length,
                                       String[] majorTicks,
                                       String units,
@@ -35,9 +41,13 @@ public class FluidPressureAndFlowRuler extends PNode {
                 setVisible( visible.get() );
             }
         } );
+
+        //Create the ruler node, and put 0 exactly at the edge so it can be placed at the bottom of the pool and give a good reading
         final RulerNode rulerNode = new RulerNode( length, 50, majorTicks, units, 4, 15 ) {{
-            setInsetWidth( 0 );//so 0 is exactly at edge of ruler
+            setInsetWidth( 0 );
         }};
+
+        //Make it vertical
         rulerNode.rotate( -Math.PI / 2 );
         rulerNode.setOffset( transform.modelToViewX( rulerModelOrigin.getX() ),
                              transform.modelToViewY( rulerModelOrigin.getY() ) + rulerNode.getInsetWidth() );
@@ -45,12 +55,13 @@ public class FluidPressureAndFlowRuler extends PNode {
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
-            @Override
-            public void mouseDragged( PInputEvent event ) {
+            @Override public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
                 translate( delta.width, delta.height );
             }
         } );
+
+        //Show a button that hides the ruler
         addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
@@ -59,10 +70,12 @@ public class FluidPressureAndFlowRuler extends PNode {
             } );
             setOffset( rulerNode.getFullBounds().getOrigin().getX(), rulerNode.getFullBounds().getOrigin().getY() - getFullBounds().getHeight() );
         }} );
+
+        //just undo the part modified by user translation of the ruler
         resetModel.addResetListener( new VoidFunction0() {
             public void apply() {
                 setOffset( 0, 0 );
             }
-        } );//just undo the part modified by user translation of the ruler
+        } );
     }
 }
