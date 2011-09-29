@@ -204,7 +204,7 @@ public class MoleculeShapesControlPanel extends PNode {
         }} ) {{
             setOffset( 0, optionsPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
-        addChild( realMoleculePanel );
+//        addChild( realMoleculePanel );
     }
 
     public boolean isOverlayVisible() {
