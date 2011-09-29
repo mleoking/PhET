@@ -1,33 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JCheckBox;
-
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
-import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
+
+import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel.FOREGROUND;
 
 /**
+ * Stylized property check box with colors and fonts used in Fluid Pressure and Flow sim.
+ *
  * @author Sam Reid
  */
-public class CheckBox extends JCheckBox {
+public class CheckBox extends PropertyCheckBox {
     public CheckBox( String label, final Property<Boolean> property ) {
-        super( label, property.get() );
-        setForeground( FluidPressureControlPanel.FOREGROUND );
+        super( label, property );
+        setForeground( FOREGROUND );
         setFont( FluidPressureCanvas.CONTROL_FONT );
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                property.set( isSelected() );
-            }
-        } );
-        property.addObserver( new SimpleObserver() {
-            public void update() {
-                setSelected( property.get() );
-            }
-        } );
     }
 }

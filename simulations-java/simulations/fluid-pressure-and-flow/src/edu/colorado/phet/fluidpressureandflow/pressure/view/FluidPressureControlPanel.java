@@ -29,9 +29,9 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
 
         //Units control panel that allows choice between atmospheres, english and metric
         final Property<UnitSet> units = module.model.units;
-        addControlFullWidth( new EnglishMetricControlPanel<FluidPressureModel>( new RadioButton<UnitSet>( ATMOSPHERES, units, UnitSet.ATMOSPHERES ),
-                                                                                new RadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ),
-                                                                                new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ) ) );
+        addControlFullWidth( new EnglishMetricControlPanel( new RadioButton<UnitSet>( ATMOSPHERES, units, UnitSet.ATMOSPHERES ),
+                                                            new RadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ),
+                                                            new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ) ) );
     }
 
     private void addControlFullWidth( JComponent component ) {

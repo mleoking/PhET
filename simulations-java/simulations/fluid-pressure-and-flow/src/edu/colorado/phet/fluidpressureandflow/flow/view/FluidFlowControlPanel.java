@@ -25,8 +25,8 @@ public class FluidFlowControlPanel extends VerticalLayoutPanel {
         addControlFullWidth( new CheckBox( RULER, module.rulerVisible ) );
 
         //Units control panel that allows choice between english and metric
-        addControlFullWidth( new EnglishMetricControlPanel<FluidFlowModel>( new RadioButton<UnitSet>( METRIC, module.model.units, UnitSet.METRIC ),
-                                                                            new RadioButton<UnitSet>( ENGLISH, module.model.units, UnitSet.ENGLISH ) ) );
+        addControlFullWidth( new EnglishMetricControlPanel( new RadioButton<UnitSet>( METRIC, module.model.units, UnitSet.METRIC ),
+                                                            new RadioButton<UnitSet>( ENGLISH, module.model.units, UnitSet.ENGLISH ) ) );
 
         //Add a control that lets the user toggle friction on and off
         addControlFullWidth( new CheckBox( FRICTION, module.model.pipe.friction ) );

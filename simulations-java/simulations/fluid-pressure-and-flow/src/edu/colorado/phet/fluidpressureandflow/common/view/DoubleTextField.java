@@ -24,6 +24,7 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 public class DoubleTextField extends JFormattedTextField {
     public DoubleTextField( Format format, final SettableProperty<Double> property, final double min, final double max ) {
         super( format );
+
         //When the property changes, set the value of the text field
         property.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
@@ -39,6 +40,7 @@ public class DoubleTextField extends JFormattedTextField {
                     property.set( clamp( min, ( (Number) getValue() ).doubleValue(), max ) );
                 }
                 catch ( ParseException e1 ) {
+
                     //If parse error, go back to the true value of the property.
                     setValue( property.get() );
                 }
