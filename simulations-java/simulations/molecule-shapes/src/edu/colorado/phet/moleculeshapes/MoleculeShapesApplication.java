@@ -11,13 +11,13 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
-import edu.colorado.phet.moleculeshapes.util.ColorProfile;
 
 /**
  * The main application for Molecule Shapes
@@ -69,22 +69,21 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
             frame.addMenu( optionsMenu );
         }
 
-        JMenu teachersMenu = new JMenu( "Teacher" ); // TODO: i18n, in common?
+        JMenu teachersMenu = new JMenu( PhetCommonResources.getString( "Common.TeacherMenu" ) );
 
-        // color profiles
-        ButtonGroup colorProfileGroup = new ButtonGroup();
-        for ( final ColorProfile<MoleculeShapesColor> profile : MoleculeShapesColor.PROFILES ) {
-            JRadioButtonMenuItem item = new JRadioButtonMenuItem( profile.getName() ) {{
-                setSelected( profile == MoleculeShapesColor.DEFAULT );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        profile.apply( MoleculeShapesColor.handler );
+        teachersMenu.add( new JCheckBoxMenuItem( PhetCommonResources.getString( "Common.ProjectorMode" ) ) {{
+            setSelected( false );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if ( isSelected() ) {
+                        MoleculeShapesColor.PROJECTOR.apply( MoleculeShapesColor.handler );
                     }
-                } );
-            }};
-            colorProfileGroup.add( item );
-            teachersMenu.add( item );
-        }
+                    else {
+                        MoleculeShapesColor.DEFAULT.apply( MoleculeShapesColor.handler );
+                    }
+                }
+            } );
+        }} );
 
         frame.addMenu( teachersMenu );
 
