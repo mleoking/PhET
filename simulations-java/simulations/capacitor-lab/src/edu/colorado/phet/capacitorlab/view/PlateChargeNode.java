@@ -118,17 +118,17 @@ public abstract class PlateChargeNode extends PhetPNode {
 
             final double zMargin = mvt.viewToModelDelta( new PositiveChargeNode().getFullBoundsReference().getWidth(), 0 ).getX();
 
-            final double contactWidth = getContactWidth(); // contact between plate and dielectric
-            final double plateDepth = getCapacitor().getPlateDepth() - ( 2 * zMargin );
+            final double gridWidth = getContactWidth(); // contact between plate and dielectric
+            final double gridDepth = getCapacitor().getPlateDepth() - ( 2 * zMargin );
 
             // grid dimensions
-            Dimension gridSize = gridSizeStrategy.getGridSize( numberOfCharges, contactWidth, plateDepth );
+            Dimension gridSize = gridSizeStrategy.getGridSize( numberOfCharges, gridWidth, gridDepth );
             final int rows = gridSize.height;
             final int columns = gridSize.width;
 
             // distance between cells
-            final double dx = contactWidth / columns;
-            final double dz = plateDepth / rows;
+            final double dx = gridWidth / columns;
+            final double dz = gridDepth / rows;
 
             // offset to move us to the center of cells
             final double xOffset = dx / 2;
@@ -145,7 +145,7 @@ public abstract class PlateChargeNode extends PhetPNode {
                     // position the charge in cell in the grid
                     double x = getContactXOrigin() + xOffset + ( column * dx );
                     double y = 0;
-                    double z = -( plateDepth / 2 ) + ( zMargin / 2 ) + zOffset + ( row * dz );
+                    double z = -( gridDepth / 2 ) + ( zMargin / 2 ) + zOffset + ( row * dz );
                     if ( numberOfCharges == 1 ) {
                         z -= dz / 6; //#2935, so that single charge is not obscured by wire connected to center of top plate
                     }
