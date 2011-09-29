@@ -87,20 +87,24 @@ public class DielectricExcessChargeNode extends PhetPNode {
             // compute the number excess charges
             final int numberOfExcessCharges = getNumberOfCharges( excessCharge );
 
+            // margins
+            final double yMargin = mvt.viewToModelDelta( 0, new PositiveChargeNode().getFullBoundsReference().getHeight() + 1 ).getY();
+            final double zMargin = mvt.viewToModelDelta( new PositiveChargeNode().getFullBoundsReference().getWidth(), 0 ).getX();
+
             // compute the grid size
-            Dimension gridSize = gridSizeStrategy.getGridSize( numberOfExcessCharges, contactWidth, dielectricDepth );
+            final double gridWidth = contactWidth;
+            final double gridDepth = dielectricDepth - ( 2 * zMargin );
+            Dimension gridSize = gridSizeStrategy.getGridSize( numberOfExcessCharges, gridWidth, gridDepth );
             final int rows = gridSize.height;
             final int columns = gridSize.width;
 
             // distance between charges
-            final double dx = contactWidth / columns;
-            final double dz = dielectricDepth / rows;
+            final double dx = gridWidth / columns;
+            final double dz = gridDepth / rows;
 
             // offset to move us to the center of columns
             final double xOffset = dx / 2;
             final double zOffset = dz / 2;
-
-            final double yMargin = mvt.viewToModelDelta( 0, new PositiveChargeNode().getFullBoundsReference().getHeight() + 1 ).getY();
 
             // Draw a complete grid for the bottom face
             for ( int row = 0; row < rows; row++ ) {
