@@ -40,7 +40,7 @@ public class CapacitorNode extends PhetPNode {
         // child nodes
         topPlateNode = new TopPlateNode( capacitor, mvt, maxPlateCharge );
         bottomPlateNode = new BottomPlateNode( capacitor, mvt, maxPlateCharge );
-        dielectricNode = new DielectricNode( capacitor, mvt, dielectricChargeViewProperty, maxPlateCharge, maxExcessDielectricPlateCharge, maxDielectricEField );
+        dielectricNode = new DielectricNode( capacitor, mvt, dielectricChargeViewProperty, maxExcessDielectricPlateCharge, maxDielectricEField );
         eFieldNode = new EFieldNode( capacitor, mvt, maxEffectiveEField );
 
         // rendering order
