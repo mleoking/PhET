@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 public class MapProperty<T, U> extends CompositeProperty<U> {
 
     public MapProperty( final Property<T> parent, final Pair<T, U>... map ) {
-        this( parent, new RuntimeExceptionFunction<T, U>(), map );
+        this( parent, new NoMatchFoundException<T, U>(), map );
     }
 
     public MapProperty( final Property<T> parent, final U defaultValue, final Pair<T, U>... map ) {
@@ -34,7 +34,15 @@ public class MapProperty<T, U> extends CompositeProperty<U> {
         }, parent );
     }
 
-    private static class RuntimeExceptionFunction<T, U> implements Function1<T, U> {
+    public MapProperty( final Property<T> parent, final Function1<T, U> map ) {
+        super( new Function0<U>() {
+            public U apply() {
+                return map.apply( parent.get() );
+            }
+        }, parent );
+    }
+
+    private static class NoMatchFoundException<T, U> implements Function1<T, U> {
         public U apply( T t ) {
             throw new RuntimeException( "No match found for value: " + t );
         }
