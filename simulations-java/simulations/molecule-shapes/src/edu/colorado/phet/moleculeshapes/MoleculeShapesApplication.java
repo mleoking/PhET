@@ -69,9 +69,11 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
             frame.addMenu( optionsMenu );
         }
 
-        JMenu teachersMenu = new JMenu( PhetCommonResources.getString( "Common.TeacherMenu" ) );
+        JMenu teachersMenu = new JMenu( PhetCommonResources.getString( "Common.TeacherMenu" ) ){{
+            setMnemonic( PhetCommonResources.getChar( "Common.TeacherMenu.mnemonic", 'T' ) );
+        }};
 
-        teachersMenu.add( new JCheckBoxMenuItem( PhetCommonResources.getString( "Common.ProjectorMode" ) ) {{
+        teachersMenu.add( new JCheckBoxMenuItem( PhetCommonResources.getString( "Common.WhiteBackground" ) ) {{
             setSelected( false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -83,6 +85,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
                     }
                 }
             } );
+            setMnemonic( PhetCommonResources.getChar( "Common.WhiteBackground.mnemonic", 'W' ) );
         }} );
 
         frame.addMenu( teachersMenu );
