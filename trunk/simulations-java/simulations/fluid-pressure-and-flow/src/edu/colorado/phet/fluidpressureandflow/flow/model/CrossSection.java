@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  */
 public class CrossSection {
+
+    //Top and bottom end points on the cross section
     public final Property<ImmutableVector2D> top;
     public final Property<ImmutableVector2D> bottom;
 

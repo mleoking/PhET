@@ -14,9 +14,17 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  * @author Sam Reid
  */
 public class FluxMeter {
+
+    //Pipe that the flux meter attaches to and measures
     public final Pipe pipe;
+
+    //Flag that indicates whether the property is visible
     public final Property<Boolean> visible = new Property<Boolean>( false );
+
+    //Distance along the horizontal length of the pipe, zero is at the left side
     public final Property<Double> x = new Property<Double>( 0.0 );
+
+    //Computed values for area and flux
     public final ObservableProperty<Double> area;
     public final ObservableProperty<Double> flux;
 

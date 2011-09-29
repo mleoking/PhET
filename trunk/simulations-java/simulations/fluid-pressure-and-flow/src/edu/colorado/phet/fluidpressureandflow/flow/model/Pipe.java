@@ -20,14 +20,20 @@ import edu.colorado.phet.common.spline.CubicSpline2D;
 import static java.util.Collections.min;
 
 /**
- * This is not a pipe.
+ * This is not a pipe.  The left of the pipe is x=0 and the control points can be moved up and down to deform the pipe.
  *
  * @author Sam Reid
  */
 public class Pipe {
+
+    //Cross sections that the user can manipulate to deform the pipe.
     private final ArrayList<CrossSection> controlCrossSections = new ArrayList<CrossSection>();
-    private ArrayList<CrossSection> splineCrossSections;//Nonlinear interpolation of the control sections
-    private boolean dirty = true;//Flag to improve performance
+
+    //Nonlinear interpolation of the control sections for particle motion and determining the velocity field
+    private ArrayList<CrossSection> splineCrossSections;
+
+    //Flag to improve performance
+    private boolean dirty = true;
 
     //Rate of fluid flow in volume (m^3) per second
     public final DoubleProperty flowRate = new DoubleProperty( 5.0 );
@@ -100,6 +106,7 @@ public class Pipe {
         for ( double alpha = 0; alpha <= 1; alpha += 1.0 / 70 ) {
             SerializablePoint2D topPt = topSpline.evaluate( alpha );
             SerializablePoint2D bottomPt = bottomSpline.evaluate( alpha );
+
             //make sure pipe top doesn't go below pipe bottom
             double bottomY = bottomPt.getY();
             double topY = topPt.getY();
@@ -130,6 +137,7 @@ public class Pipe {
         return path.getGeneralPath();
     }
 
+    //Gets a single path for the top or bottom of the pipe
     public Shape getPath( Function1<CrossSection, Point2D> getter ) {
         ArrayList<CrossSection> pipePositions = getSplineCrossSections();
         DoubleGeneralPath path = new DoubleGeneralPath();
@@ -167,9 +175,7 @@ public class Pipe {
         return new Function.LinearFunction( position.getBottom().getY(), position.getTop().getY(), 0, 1 ).evaluate( y );
     }
 
-    /*
-     * Determines the cross section for a given x-coordinate by linear interpolation between the nearest nonlinear samples.
-     */
+    //Determines the cross section for a given x-coordinate by linear interpolation between the nearest nonlinear samples.
     public CrossSection getCrossSection( double x ) {
         CrossSection previous = getPipePositionBefore( x );
         CrossSection next = getPipePositionAfter( x );
@@ -178,11 +184,13 @@ public class Pipe {
         return new CrossSection( x, bottom, top );
     }
 
+    //Find the y-value for the specified x-value and fraction (0=bottom, 1=top) of the pipe
     public double fractionToLocation( double x, double fraction ) {
         CrossSection position = getCrossSection( x );
         return new Function.LinearFunction( 0, 1, position.getBottom().getY(), position.getTop().getY() ).evaluate( fraction );
     }
 
+    //Lookup the cross section immediately before the specified x-location for interpolation
     private CrossSection getPipePositionBefore( final double x ) {
         ArrayList<CrossSection> list = new ArrayList<CrossSection>() {{
             for ( CrossSection pipePosition : getCrossSections() ) {
@@ -205,6 +213,7 @@ public class Pipe {
         return getSplineCrossSections();
     }
 
+    //Lookup the cross section immediately after the specified x-location for interpolation
     private CrossSection getPipePositionAfter( final double x ) {
         ArrayList<CrossSection> list = new ArrayList<CrossSection>() {{
             for ( CrossSection pipePosition : getCrossSections() ) {

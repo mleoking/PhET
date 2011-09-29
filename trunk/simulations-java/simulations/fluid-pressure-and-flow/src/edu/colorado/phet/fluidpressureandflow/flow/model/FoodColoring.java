@@ -10,11 +10,19 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
+ * Rectangular "dye" that the user can squirt into the pipe and which flows along the pipe.
+ *
  * @author Sam Reid
  */
 public class FoodColoring {
+
+    //The food coloring has a set of particles along its perimeter and fills the interior
     private final ArrayList<Particle> particles = new ArrayList<Particle>();
+
+    //The pipe within which the food coloring travels
     private final Pipe pipe;
+
+    //Listeners
     private final ArrayList<SimpleObserver> removalObservers = new ArrayList<SimpleObserver>();
     private final ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
 
@@ -71,6 +79,7 @@ public class FoodColoring {
         simpleObserver.update();
     }
 
+    //Get the shape of the region by using the particles as the perimeter
     public Shape getShape() {
         DoubleGeneralPath path = new DoubleGeneralPath( particles.get( 0 ).getPosition() );
         for ( int i = 1; i < particles.size(); i++ ) {
@@ -92,5 +101,4 @@ public class FoodColoring {
     public ArrayList<Particle> getParticles() {
         return particles;
     }
-
 }
