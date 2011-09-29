@@ -13,12 +13,16 @@ import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterDrop;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Graphic for a single drop of water
+ *
  * @author Sam Reid
  */
 public class WaterDropNode extends PNode {
     public WaterDropNode( final ModelViewTransform transform, final WaterDrop waterDrop, Property<Double> fluidDensity ) {
         double r = transform.modelToViewDeltaX( waterDrop.radius.get() );
         addChild( new PhetPPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ), new Color( WaterColor.getTopColor( fluidDensity.get() ).getRGB() ) ) {{
+
+            //Update when size or position change
             waterDrop.position.addObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( transform.modelToView( waterDrop.position.get().toPoint2D() ) );
