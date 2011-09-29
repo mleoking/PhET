@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.math.Function;
 
 /**
+ * Linear model for converting values to/from SI, such as feet/meters.
+ *
  * @author Sam Reid
  */
 public class LinearUnit implements Unit {
@@ -19,18 +21,22 @@ public class LinearUnit implements Unit {
         linearFunction = new Function.LinearFunction( 0, 1, 0, siToUnitScale );
     }
 
+    //See parent docs
     public String getAbbreviation() {
         return abbreviation;
     }
 
+    //See parent docs
     public DecimalFormat getDecimalFormat() {
         return decimalFormat;
     }
 
+    //See parent docs
     public double siToUnit( double value ) {
         return linearFunction.evaluate( value );
     }
 
+    //See parent docs
     public double toSI( double value ) {
         return linearFunction.createInverse().evaluate( value );
     }
