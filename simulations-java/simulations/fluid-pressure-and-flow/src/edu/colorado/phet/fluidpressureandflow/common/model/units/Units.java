@@ -10,6 +10,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
 
 /**
  * The units for the Fluid Pressure and Flow model are SI, and Units converts them to and from different units systems.
+ * List of all units used in the sim.
  *
  * @author Sam Reid
  */
@@ -25,18 +26,23 @@ public class Units {
                 return answer;
             }
         }
-    } );//http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
+    } );
+
+    //Units for atmosphere, see http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
     public static final Unit PASCAL = new LinearUnit( FluidPressureAndFlowResources.Strings.PA, 1, new DecimalFormat( "0" ) );
     public static final Unit PSI = new LinearUnit( FluidPressureAndFlowResources.Strings.PSI, 145.04E-6, new DecimalFormat( "0.00" ) );
 
+    //Units for length
     public static final Unit METERS = new LinearUnit( FluidPressureAndFlowResources.Strings.M, 1, new DecimalFormat( "0.0" ) );
     public static final double FEET_PER_METER = 3.2808399;
     public static final Unit FEET = new LinearUnit( FT, FEET_PER_METER, new DecimalFormat( "0.0" ) );
 
+    //Units for velocity
     public static final Unit METERS_PER_SECOND = new LinearUnit( M_PER_S, 1, new DecimalFormat( "0.0" ) );
     public static final Unit FEET_PER_SECOND = new LinearUnit( FT_PER_S, FEET_PER_METER, new DecimalFormat( "0.0" ) );
 
+    //Convenience method for converting feet to meters
     public double feetToMeters( double feet ) {
-        return feet * 0.3048;
+        return feet / FEET_PER_METER;
     }
 }
