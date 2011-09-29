@@ -21,21 +21,37 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.
 import static java.lang.Math.sqrt;
 
 /**
- * Model class for the water tower, which has a water tower that the user can raise/lower and empty/fill.
+ * Model for the "water tower" tab, which has a water tower that the user can raise/lower and empty/fill.
  *
  * @author Sam Reid
  */
 public class WaterTowerModel extends FluidPressureAndFlowModel implements VelocitySensorContext {
-    private final WaterTower waterTower = new WaterTower();
-    private final ArrayList<WaterDrop> waterTowerDrops = new ArrayList<WaterDrop>();//drops coming out of the water tower
-    private final ArrayList<WaterDrop> faucetDrops = new ArrayList<WaterDrop>();//drops coming from the faucet into the water tower
-    private final Random random = new Random();//source of randomness for creating drops
-    private final FaucetFlowRate faucetFlowLevel = new FaucetFlowRate();
+
+    //Model for the water tower and the water
+    public final WaterTower waterTower = new WaterTower();
+
+    //The hose that can optionally be attached to the water tower
+    public final Hose hose;
+
+    //drops coming out of the water tower
+    private final ArrayList<WaterDrop> waterTowerDrops = new ArrayList<WaterDrop>();
+
+    //drops coming from the faucet into the water tower
+    private final ArrayList<WaterDrop> faucetDrops = new ArrayList<WaterDrop>();
+
+    //source of randomness for creating drops
+    private final Random random = new Random();
+
+    //Rate of filling up the water tower from the faucet
+    public final FaucetFlowRate faucetFlowRate = new FaucetFlowRate();
+
+    //Gravity
     private double g = 9.8;
+
+    //Listeners
     private final ArrayList<VoidFunction1<WaterDrop>> waterTowerDropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
     private final ArrayList<VoidFunction1<WaterDrop>> faucetDropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
     private final ArrayList<SimpleObserver> velocityUpdateListeners = new ArrayList<SimpleObserver>();
-    public final Hose hose;
 
     public WaterTowerModel() {
         super( METRIC );
@@ -62,6 +78,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
     //Update the simulation when the clock ticks
     private void stepInTime( double dt ) {
+
         //Update water tower
         double origFluidVolume = updateWaterTower();
 
@@ -128,11 +145,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
     //Perform any model updates related to the faucet, creating new drops to fall into the water tower and propagating them
     private void updateFaucet( double dt, double origFluidVolume ) {
+
         //emit drops from faucet that will keep the tank at a constant volume (time averaged)
         double newVolume = waterTower.fluidVolume.get();
-        double faucetDropVolume = faucetFlowLevel.automatic.get() ?
+        double faucetDropVolume = faucetFlowRate.automatic.get() ?
                                   origFluidVolume - newVolume :
-                                  faucetFlowLevel.flow.get();
+                                  faucetFlowRate.flow.get();
 
         if ( faucetDropVolume > 0 && !waterTower.full.get() ) {
 
@@ -163,6 +181,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         } );
     }
 
+    //Propagate the specified water drops
     private void updateWaterDrops( double thresholdY, ArrayList<WaterDrop> waterDrops, double dt, VoidFunction1<WaterDrop> collision ) {
         ArrayList<WaterDrop> toRemove = new ArrayList<WaterDrop>();
         for ( WaterDrop drop : waterDrops ) {
@@ -175,6 +194,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         removeDrops( waterDrops, toRemove );
     }
 
+    //Remvoe any water drops that should exit the model
     private void removeDrops( ArrayList<WaterDrop> waterDrops, ArrayList<WaterDrop> toRemove ) {
         for ( WaterDrop waterDrop : toRemove ) {
             waterDrop.notifyRemoved();
@@ -190,6 +210,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         faucetDropAddedListeners.add( dropAddedListener );
     }
 
+    //Find the velocity at the specified point
     public Option<ImmutableVector2D> getVelocity( double x, double y ) {
         for ( WaterDrop waterTowerDrop : waterTowerDrops ) {
             if ( waterTowerDrop.contains( x, y ) ) {
@@ -203,29 +224,20 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         velocityUpdateListeners.add( observer );
     }
 
-    public WaterTower getWaterTower() {
-        return waterTower;
-    }
-
-    public FaucetFlowRate getFaucetFlowRate() {
-        return faucetFlowLevel;
-    }
-
-    @Override
-    public void reset() {
+    @Override public void reset() {
         super.reset();
         waterTower.reset();
-        faucetFlowLevel.reset();
+        faucetFlowRate.reset();
         g = 9.8;
         removeDrops( faucetDrops, faucetDrops );
         removeDrops( waterTowerDrops, waterTowerDrops );
         hose.reset();
     }
 
-    @Override
-    public double getPressure( double x, double y ) {
-        if ( getWaterTower().getWaterShape().contains( x, y ) ) {
-            final double waterTopY = getWaterTower().getWaterShape().getBounds2D().getMaxY();
+    //Get the pressure at the specified point
+    @Override public double getPressure( double x, double y ) {
+        if ( waterTower.getWaterShape().contains( x, y ) ) {
+            final double waterTopY = waterTower.getWaterShape().getBounds2D().getMaxY();
             double distanceUnderwater = waterTopY - y;
             double airPressureOnTop = super.getPressure( x, waterTopY );
             return airPressureOnTop + liquidDensity.get() * gravity.get() * distanceUnderwater;
@@ -235,10 +247,10 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         }
     }
 
-    @Override
-    public void addFluidChangeObserver( SimpleObserver updatePressure ) {
+    //Listen for change in the fluid pressure
+    @Override public void addFluidChangeObserver( SimpleObserver updatePressure ) {
         super.addFluidChangeObserver( updatePressure );
-        getWaterTower().fluidVolume.addObserver( updatePressure );
-        getWaterTower().tankBottomCenter.addObserver( updatePressure );
+        waterTower.fluidVolume.addObserver( updatePressure );
+        waterTower.tankBottomCenter.addObserver( updatePressure );
     }
 }

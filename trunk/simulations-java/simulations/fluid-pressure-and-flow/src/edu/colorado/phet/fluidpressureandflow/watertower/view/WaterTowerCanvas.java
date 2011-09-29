@@ -62,24 +62,24 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         addChild( hoseNode );
 
         //Show the water tower node, should be after the hose so that the red door will go in front of the hose
-        addChild( new WaterTowerNode( transform, module.model.getWaterTower(), module.model.liquidDensity ) );
+        addChild( new WaterTowerNode( transform, module.model.waterTower, module.model.liquidDensity ) );
         addChild( faucetDropLayer );
 
         //Add a button that will fill the tank
-        addChild( new FillTankButton( module.model.getWaterTower().full, module.model.getWaterTower().fill ) {{
-            module.model.getWaterTower().tankBottomCenter.addObserver( new VoidFunction1<ImmutableVector2D>() {
+        addChild( new FillTankButton( module.model.waterTower.full, module.model.waterTower.fill ) {{
+            module.model.waterTower.tankBottomCenter.addObserver( new VoidFunction1<ImmutableVector2D>() {
                 public void apply( ImmutableVector2D bottomCenter ) {
 
                     //Show the button to the left center of the tank, and move when the tank moves
-                    final Point2D leftCenterOfWaterTower = transform.modelToView( module.model.getWaterTower().getTankShape().getX(),
-                                                                                  bottomCenter.getY() + module.model.getWaterTower().getTankShape().getHeight() / 2 );
+                    final Point2D leftCenterOfWaterTower = transform.modelToView( module.model.waterTower.getTankShape().getX(),
+                                                                                  bottomCenter.getY() + module.model.waterTower.getTankShape().getHeight() / 2 );
                     setOffset( leftCenterOfWaterTower.getX() - getFullBounds().getWidth() - INSET, leftCenterOfWaterTower.getY() - getFullBounds().getHeight() / 2 );
                 }
             } );
         }} );
 
         //Add the faucet
-        addChild( new FPAFFaucetNode( module.model.getFaucetFlowRate(), new Not( module.model.getWaterTower().full ) ) );
+        addChild( new FPAFFaucetNode( module.model.faucetFlowRate, new Not( module.model.waterTower.full ) ) );
 
         module.model.addWaterTowerDropAddedListener( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop waterDrop ) {

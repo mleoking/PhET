@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fluidpressureandflow.pressure.view.PoolNode;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.WaterColor;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTower;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -85,10 +85,10 @@ public class WaterTowerNode extends PNode {
         }} );
 
         //water in the tower
-        addChild( new PhetPPath( new Color( PoolNode.getTopColor( fluidDensity.get() ).getRGB() ) ) {{
+        addChild( new PhetPPath( new Color( WaterColor.getTopColor( fluidDensity.get() ).getRGB() ) ) {{
             fluidDensity.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPaint( new Color( PoolNode.getTopColor( fluidDensity.get() ).getRGB() ) );
+                    setPaint( new Color( WaterColor.getTopColor( fluidDensity.get() ).getRGB() ) );
                 }
             } );
             final SimpleObserver updateWaterLocation = new SimpleObserver() {
@@ -102,10 +102,10 @@ public class WaterTowerNode extends PNode {
         }} );
 
         //water in the hole
-        addChild( new PhetPPath( new Color( PoolNode.getTopColor( fluidDensity.get() ).getRGB() ) ) {{
+        addChild( new PhetPPath( new Color( WaterColor.getTopColor( fluidDensity.get() ).getRGB() ) ) {{
             fluidDensity.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPaint( new Color( PoolNode.getTopColor( fluidDensity.get() ).getRGB() ) );
+                    setPaint( new Color( WaterColor.getTopColor( fluidDensity.get() ).getRGB() ) );
                 }
             } );
             final SimpleObserver updateWaterLocation = new SimpleObserver() {

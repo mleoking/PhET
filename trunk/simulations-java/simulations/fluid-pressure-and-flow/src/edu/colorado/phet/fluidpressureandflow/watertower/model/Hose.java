@@ -20,10 +20,13 @@ public class Hose {
     //Angle in radians where 0 radians is to the right and PI/2 is straight up, should be between 0 and PI/2
     public final DoubleProperty angle = new DoubleProperty( Math.PI / 2 );
 
+    //Location of the output point of the hose, starts on the ground
     public final Property<Double> y = new Property<Double>( 0.0 );
 
     //Flag to indicate whether the hose has been enabled by the user
     public final Property<Boolean> enabled = new Property<Boolean>( false );
+
+    //Place where the hose attaches to the water tower
     public final ObservableProperty<ImmutableVector2D> attachmentPoint;
 
     //The place where the water comes out, tuned based on the curves in the HoseNode so the path is smooth and natural-looking

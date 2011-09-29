@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
-import edu.colorado.phet.fluidpressureandflow.pressure.view.PoolNode;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.WaterColor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -104,7 +104,7 @@ public class PipeBackNode extends PNode {
             } );
             fluidDensity.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPaint( PoolNode.getBottomColor( fluidDensity.get() ) );
+                    setPaint( WaterColor.getBottomColor( fluidDensity.get() ) );
                 }
             } );
         }} );
