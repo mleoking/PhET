@@ -1,3 +1,5 @@
+Removed "Real Examples" panel from the 1st tab
+Bugfixes
 # 0.00.36 (56939) Sep 23, 2011
 9/23/11 Added colors options (projector mode), lots of code changes
 # 0.00.35 (56504) Sep 13, 2011
