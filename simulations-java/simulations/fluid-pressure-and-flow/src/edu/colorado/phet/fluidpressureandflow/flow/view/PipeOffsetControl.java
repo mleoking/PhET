@@ -16,7 +16,7 @@ import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionC
 import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionControl.MIN_DRAG_Y;
 
 /**
- * Translate a pipe cross section
+ * Translate a pipe cross section up and down, used on the leftmost and rightmost parts of the pipe to change the height.
  *
  * @author Sam Reid
  */

@@ -10,6 +10,8 @@ import edu.colorado.phet.fluidpressureandflow.flow.model.FoodColoring;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Graphic that shows the FoodColoring rectangular dye
+ *
  * @author Sam Reid
  */
 public class FoodColoringNode extends PNode {

@@ -5,16 +5,18 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
 import edu.colorado.phet.fluidpressureandflow.flow.model.CrossSection;
 import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.PIPE_LEFT_FRONT;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.PIPE_RIGHT;
+import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeBackNode.pipeOpeningHeight;
 
 /**
  * The front part (in z-ordering) of the pipe graphics, so it looks like particles go inside the pipe.
@@ -30,6 +32,7 @@ public class PipeFrontNode extends PNode {
         this.transform = transform;
         this.pipe = pipe;
 
+        //Show the edges and color match with the images
         final int edgeOffset = 4;
         addChild( new PhetPPath( EDGE_STROKE, new Color( 165, 91, 0 ) ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
@@ -38,7 +41,6 @@ public class PipeFrontNode extends PNode {
                 }
             } );
         }} );
-
         addChild( new PhetPPath( EDGE_STROKE, new Color( 0, 51, 91 ) ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
@@ -47,42 +49,44 @@ public class PipeFrontNode extends PNode {
             } );
         }} );
 
-        final BufferedImage pipeLeftFrontImage = FluidPressureAndFlowResources.Images.PIPE_LEFT_FRONT;
-        addChild( new PImage( pipeLeftFrontImage ) {{
+        //image for the left of the pipe
+        addChild( new PImage( PIPE_LEFT_FRONT ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
-                    double sy = getPipeLeftViewHeight() / PipeBackNode.pipeOpeningHeight;
+                    double sy = getPipeLeftViewHeight() / pipeOpeningHeight;
                     setTransform( AffineTransform.getScaleInstance( PipeBackNode.sx, sy ) );
                     final Point2D topLeft = transform.modelToView( pipe.getTopLeft() );
-                    setOffset( topLeft.getX() - pipeLeftFrontImage.getWidth() + PipeBackNode.PIPE_LEFT_OFFSET / PipeBackNode.sx, topLeft.getY() - PipeBackNode.pipeOpeningPixelYTop * sy );
+                    setOffset( topLeft.getX() - getImage().getWidth( null ) + PipeBackNode.PIPE_LEFT_OFFSET / PipeBackNode.sx, topLeft.getY() - PipeBackNode.pipeOpeningPixelYTop * sy );
                 }
             } );
         }} );
 
-        final BufferedImage pipeRightImage = FluidPressureAndFlowResources.Images.PIPE_RIGHT;
-        addChild( new PImage( pipeRightImage ) {{
+        //image for the right of the pipe
+        addChild( new PImage( PIPE_RIGHT ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
-                    double sy = getPipeRightViewHeight() / PipeBackNode.pipeOpeningHeight;
+                    double sy = getPipeRightViewHeight() / pipeOpeningHeight;
                     setTransform( AffineTransform.getScaleInstance( PipeBackNode.sx, sy ) );
                     final Point2D topLeft = transform.modelToView( pipe.getTopRight() );
-                    setOffset( topLeft.getX() - pipeRightImage.getWidth() + PipeBackNode.PIPE_LEFT_OFFSET / PipeBackNode.sx, topLeft.getY() - PipeBackNode.pipeOpeningPixelYTop * sy );
+                    setOffset( topLeft.getX() - getImage().getWidth( null ) + PipeBackNode.PIPE_LEFT_OFFSET / PipeBackNode.sx, topLeft.getY() - PipeBackNode.pipeOpeningPixelYTop * sy );
                 }
             } );
         }} );
 
+        //Show user-draggable controls for each cross section
         for ( CrossSection crossSection : pipe.getControlCrossSections() ) {
             addChild( new PipeCrossSectionControl( transform, crossSection ) );
         }
+
+        //Also allow the user to translate the left and right sides up and down
         double offsetX = 0.6;
         addChild( new PipeOffsetControl( transform, pipe.getControlCrossSections().get( 0 ), -offsetX ) );
         addChild( new PipeOffsetControl( transform, pipe.getControlCrossSections().get( pipe.getControlCrossSections().size() - 1 ), offsetX ) );
     }
 
     public double getPipeRightViewHeight() {
-        final Point2D topRight = transform.modelToView( pipe.getTopRight() );
         final Point2D bottomRight = transform.modelToView( pipe.getBottomRight() );
-        return bottomRight.getY() - topRight.getY();
+        return bottomRight.getY() - transform.modelToView( pipe.getTopRight() ).getY();
     }
 
     public double getPipeLeftViewHeight() {

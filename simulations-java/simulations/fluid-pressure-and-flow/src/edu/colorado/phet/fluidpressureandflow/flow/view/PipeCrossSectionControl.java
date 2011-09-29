@@ -11,12 +11,20 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 
 /**
+ * Control for the user to deform the pipe vertically.
+ *
  * @author Sam Reid
  */
 public class PipeCrossSectionControl extends PNode {
+
+    //Distance that must separate the points so the pipe cannot become too constricted (makes velocity too high)
     private final double DISTANCE_THRESHOLD = 0.5;
-    public static final double MIN_DRAG_Y = -5;//make it so that the control point can't be dragged off-screen in the down direction
-    public static final double MAX_DRAG_Y = 3;//make it so that the control point can't be dragged off-screen in the up direction
+
+    //make it so that the control point can't be dragged off-screen in the down direction
+    public static final double MIN_DRAG_Y = -5;
+
+    //make it so that the control point can't be dragged off-screen in the up direction
+    public static final double MAX_DRAG_Y = 3;
 
     public PipeCrossSectionControl( final ModelViewTransform transform, final CrossSection pipePosition ) {
         final PipeControlPoint top = new PipeControlPoint( pipePosition.top );

@@ -48,21 +48,5 @@ public class GrabHandle extends PNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new RelativeDragHandler( this, transform, controlPoint.point, constraint ) );
         }} );
-
-        //Shows a green double-headed arrow for dragging
-        //Commented out since we are considering switching back
-//        double arrowLength = 20;
-//        addChild( new DoubleArrowNode( new Point2D.Double( 0, -arrowLength ), new Point2D.Double( 0, arrowLength ), 16, 16, 8 ) {{
-//            setPaint( Color.green );
-//            setStroke( new BasicStroke( 1 ) );
-//            setStrokePaint( Color.black );
-//            controlPoint.point.addObserver( new SimpleObserver() {
-//                public void update() {
-//                    setOffset( transform.modelToView( controlPoint.point.getValue().toPoint2D() ) );
-//                }
-//            } );
-//            addInputEventListener( new CursorHandler() );
-//            addInputEventListener( new RelativeDragHandler( this, transform, controlPoint.point, constraint ) );
-//        }} );
     }
 }
