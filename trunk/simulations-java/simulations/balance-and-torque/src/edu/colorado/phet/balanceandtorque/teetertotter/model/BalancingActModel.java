@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Primary model class for the tab that depicts torque on a plank, a.k.a. a
@@ -92,9 +91,22 @@ public class BalancingActModel implements Resettable {
 
     // Adds a mass to the model.
     public UserMovableModelElement addMass( final Mass mass ) {
-        mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean userControlled ) {
-                if ( !userControlled ) {
+//        mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
+//            public void apply( Boolean userControlled ) {
+//                if ( !userControlled ) {
+//                    // The user has dropped this mass.
+//                    if ( !plank.addMassToSurface( mass ) ) {
+//                        // The attempt to add mass to surface of plank failed,
+//                        // probably because the area below the mass is full,
+//                        // or because the mass wasn't over the plank.
+//                        removeMassAnimated( mass );
+//                    }
+//                }
+//            }
+//        } );
+        mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
+            public void update( Boolean newValue, Boolean oldValue ) {
+                if ( newValue == false && oldValue == true ) {
                     // The user has dropped this mass.
                     if ( !plank.addMassToSurface( mass ) ) {
                         // The attempt to add mass to surface of plank failed,
