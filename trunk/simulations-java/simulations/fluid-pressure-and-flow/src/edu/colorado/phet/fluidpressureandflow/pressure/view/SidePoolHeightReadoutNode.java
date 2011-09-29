@@ -21,15 +21,20 @@ import edu.umd.cs.piccolo.nodes.PText;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.VALUE_WITH_UNITS_PATTERN;
 
 /**
+ * Shows the height of the pool with a readout in the appropriate units.
+ *
  * @author Sam Reid
  */
 public class SidePoolHeightReadoutNode extends PNode {
     public SidePoolHeightReadoutNode( final ModelViewTransform transform, final Pool pool, final Property<UnitSet> units ) {
+
+        //Bracket to show the relevant height
         final PhetPPath bracket = new PhetPPath( new BasicStroke( 1 ), Color.black );
         final PText text = new PText() {{
             setFont( new PhetFont( 16, true ) );
         }};
 
+        //Update when the units change
         units.addObserver( new SimpleObserver() {
             public void update() {
                 DecimalFormat format = new DecimalFormat( "0.000" );

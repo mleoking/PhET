@@ -30,39 +30,51 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
     public FluidPressureCanvas( final FluidPressureModule module ) {
         super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / modelHeight ) );
 
+        //Show the sky
         addChild( new OutsideBackgroundNode( transform, 3, 1 ) );
-        addChild( new PhetPPath( transform.modelToView( module.model.getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
-        addChild( new SidePoolHeightReadoutNode( transform, module.model.getPool(), module.model.units ) );
+
+        //Variables for convenient access
+        final FluidPressureModel model = module.model;
+        final Pool pool = model.pool;
+
+        //Add a background behind the pool so earth doesn't bleed through transparent pool
+        addChild( new PhetPPath( transform.modelToView( pool.getShape() ), Color.white ) );
+
+        //Show the height on the side of the pool in selected right units
+        addChild( new SidePoolHeightReadoutNode( transform, pool, model.units ) );
 
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidPressureControlPanel( module ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, INSET );
         }};
         addChild( controlPanelNode );
+
+        //Show the reset button beneath the control panel
         addChild( new ResetAllButtonNode( module, this, (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
             setConfirmationEnabled( false );
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + INSET * 2 );
         }} );
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
-        for ( PressureSensor pressureSensor : module.model.getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, module.model.units, module.model.getPool(), visibleModelBounds ) {{
+        for ( PressureSensor pressureSensor : model.getPressureSensors() ) {
+            addChild( new PressureSensorNode( transform, pressureSensor, model.units, pool, visibleModelBounds ) {{
 
                 //Since it is the focus of this tab, make the pressure sensor nodes larger
                 scale( 1.2 );
             }} );
         }
 
+        //Show the ruler
         //Some nodes go behind the pool so that it looks like they submerge
-        final Point2D.Double rulerModelOrigin = new Point2D.Double( module.model.getPool().getMinX(), module.model.getPool().getMinY() );
-        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, module.model );
-        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, module.model );
+        final Point2D.Double rulerModelOrigin = new Point2D.Double( pool.getMinX(), pool.getMinY() );
+        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, model );
+        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, model );
         synchronizeRulerLocations( meterStick, englishRuler );
         addChild( meterStick );
         addChild( englishRuler );
 
-        final PoolNode poolNode = new PoolNode( transform, module.model.getPool(), module.model.liquidDensity );
-        addChild( poolNode );
+        //Show the pool itself
+        addChild( new PoolNode( transform, pool, model.liquidDensity ) );
 
         //Create and show the fluid density controls
         addFluidDensityControl( module );
