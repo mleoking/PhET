@@ -1,3 +1,4 @@
+Mode changed to "White Background"
 # 0.00.39 (57076) Sep 29, 2011
 "Teacher" menu i18nized, changed to one checkbox for "Projector Mode" option.
 # 0.00.38 (57065) Sep 29, 2011
