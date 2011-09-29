@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fluidpressureandflow.pressure.view.PoolNode;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.WaterColor;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterDrop;
 import edu.umd.cs.piccolo.PNode;
 
@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
 public class WaterDropNode extends PNode {
     public WaterDropNode( final ModelViewTransform transform, final WaterDrop waterDrop, Property<Double> fluidDensity ) {
         double r = transform.modelToViewDeltaX( waterDrop.radius.get() );
-        addChild( new PhetPPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ), new Color( PoolNode.getTopColor( fluidDensity.get() ).getRGB() ) ) {{
+        addChild( new PhetPPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ), new Color( WaterColor.getTopColor( fluidDensity.get() ).getRGB() ) ) {{
             waterDrop.position.addObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( transform.modelToView( waterDrop.position.get().toPoint2D() ) );

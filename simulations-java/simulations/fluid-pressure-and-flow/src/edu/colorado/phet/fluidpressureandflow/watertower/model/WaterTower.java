@@ -20,22 +20,29 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * @author Sam Reid
  */
 public class WaterTower {
-    public static final int MAX_Y = 18;
 
+    //Layout parameters for the water tower
     //Don't start the tank at the maximum height so the user can drag it up and down
+    public static final int MAX_Y = 18;
     public static final int INITIAL_Y = 15;
     public static final double TANK_RADIUS = 5;
     public static final double PANEL_OFFSET = TANK_RADIUS + 0.25;
     public static final double TANK_HEIGHT = 10;
     private static final int LEG_EXTENSION = 3;
+
+    //Assume the tank is a cylinder ond compute the max volume
     public static final double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
+
+    //Location of the bottom center of the water tower
     public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, INITIAL_Y ) );
 
     //Start the tank partly full so that the "fill" button and faucet slider are initially enabled
     public final DoubleProperty fluidVolume = new DoubleProperty( tankVolume * 0.8 );//meters cubed
 
-    public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( PANEL_OFFSET, 0 ) );//The movable panel that can cover the hole.
+    //The movable panel that can cover the hole.
+    public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( PANEL_OFFSET, 0 ) );
 
+    //Flag indicating whether the tank is full, for purposes of disabling controls that can be used to fill the tank
     public final ObservableProperty<Boolean> full = fluidVolume.greaterThanOrEqualTo( tankVolume );
 
     //Size of the hole in meters
@@ -56,6 +63,7 @@ public class WaterTower {
         return new Point2D.Double( tankBottomCenter.get().getX(), tankBottomCenter.get().getY() + TANK_HEIGHT );
     }
 
+    //Get the shape of the legs
     public Shape getSupportShape() {
         final Point2D bottomCenter = tankBottomCenter.get().toPoint2D();
         final Point2D.Double leftLegTop = new Point2D.Double( bottomCenter.getX() - TANK_RADIUS / 2, bottomCenter.getY() );
@@ -76,6 +84,7 @@ public class WaterTower {
         return new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( path.getGeneralPath() );
     }
 
+    //Add the struts to the water tower support path
     private void addStruts( DoubleGeneralPath path, Function.LinearFunction yMap, Function.LinearFunction xMapLeft, Function.LinearFunction xMapRight, double leftFraction, double rightFraction ) {
         addStrut( path, yMap, xMapLeft, xMapRight, leftFraction, rightFraction );
         addStrut( path, yMap, xMapLeft, xMapRight, rightFraction, leftFraction );
@@ -90,14 +99,17 @@ public class WaterTower {
         path.lineTo( b );
     }
 
+    //Gets the shape that the water should occupy
     public Shape getWaterShape() {
         return new Rectangle2D.Double( tankBottomCenter.get().getX() - TANK_RADIUS, tankBottomCenter.get().getY(), TANK_RADIUS * 2, getWaterLevel() );
     }
 
+    //Get the height of the water
     public double getWaterLevel() {
         return fluidVolume.get() / Math.PI / TANK_RADIUS / TANK_RADIUS;
     }
 
+    //Get the location where water can flow out of the hole in the water tower
     public Point2D getHoleLocation() {
         return new Point2D.Double( tankBottomCenter.get().getX() + TANK_RADIUS + 0.55 / 2, tankBottomCenter.get().getY() - 0.15 );
     }
