@@ -8,6 +8,8 @@ import edu.colorado.phet.fluidpressureandflow.flow.view.FluidFlowCanvas;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.FLOW;
 
 /**
+ * Module for the "flow" tab
+ *
  * @author Sam Reid
  */
 public class FluidFlowModule extends FluidPressureAndFlowModule<FluidFlowModel> {

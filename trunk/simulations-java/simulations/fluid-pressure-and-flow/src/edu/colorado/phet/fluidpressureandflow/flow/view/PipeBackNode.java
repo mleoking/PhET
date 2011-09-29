@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.PIPE_LEFT_BACK;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.PIPE_MIDDLE;
+import static java.awt.Color.blue;
 
 /**
  * The back part (in z-ordering) of the pipe graphics
@@ -26,12 +27,19 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class PipeBackNode extends PNode {
-    private final Color waterColor = new Color( 122, 197, 213 );
-    private final Pipe pipe;
-    private final ModelViewTransform transform;
-    public static final int PIPE_LEFT_OFFSET = 72;
-    static final double sx = 0.4;
 
+    //Color to use for the water
+    private static final Color waterColor = new Color( 122, 197, 213 );
+
+    //Pipe to represent
+    private final Pipe pipe;
+
+    //The transform
+    private final ModelViewTransform transform;
+
+    //Layout parameters
+    public static final int PIPE_LEFT_OFFSET = 72;
+    public static final double sx = 0.4;
     public static final double pipeOpeningPixelYTop = 58;
     private static final double pipeOpeningPixelYBottom = 375;
     public static final double pipeOpeningHeight = pipeOpeningPixelYBottom - pipeOpeningPixelYTop;
@@ -39,29 +47,34 @@ public class PipeBackNode extends PNode {
     public PipeBackNode( final ModelViewTransform transform, final Pipe pipe, final Property<Double> fluidDensity ) {
         this.pipe = pipe;
         this.transform = transform;
-        //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe
 
+        //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe
         final BufferedImage pipeImage = PIPE_MIDDLE;
-        final PhetPPath leftExtension = new PhetPPath( Color.blue );
-        final PhetPPath rightExtension = new PhetPPath( Color.blue );
+        final PhetPPath leftExtension = new PhetPPath( blue );
+        final PhetPPath rightExtension = new PhetPPath( blue );
 
         final BufferedImage pipeLeftBackImage = PIPE_LEFT_BACK;
 
+        //Synchronize with the pipe shape
         addChild( new PImage( pipeLeftBackImage ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
+
+                    //Update the transform and offset
                     double syLeft = getPipeLeftViewHeight() / pipeOpeningHeight;
                     double syRight = getPipeRightViewHeight() / pipeOpeningHeight;
                     setTransform( AffineTransform.getScaleInstance( sx, syLeft ) );
                     final Point2D topLeft = transform.modelToView( pipe.getTopLeft() );
                     setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * syLeft );
 
+                    //Fill in the left part that joins the exterior to interior pipe
                     double length = 10000;
                     leftExtension.setPathTo( new Rectangle2D.Double( topLeft.getX() - length, 0, length, pipeLeftBackImage.getHeight() ) );
                     leftExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, 0, pipeImage.getWidth(), pipeLeftBackImage.getHeight() ) ) );
                     leftExtension.setTransform( AffineTransform.getScaleInstance( 1, syLeft ) );
                     leftExtension.setOffset( 0, topLeft.getY() - pipeOpeningPixelYTop * syLeft );
 
+                    //Fill in the right part that joins the exterior to interior pipe
                     final Point2D topRight = transform.modelToView( pipe.getTopRight() );
                     rightExtension.setPathTo( new Rectangle2D.Double( 0, 0, length, pipeLeftBackImage.getHeight() ) );
                     rightExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, 0, pipeImage.getWidth(), pipeLeftBackImage.getHeight() ) ) );
@@ -74,7 +87,6 @@ public class PipeBackNode extends PNode {
         //extensions
         addChild( leftExtension );
         addChild( rightExtension );
-
 
         //Background so the semi-transparent water color looks correct
         addChild( new PhetPPath( Color.white ) {{
@@ -99,15 +111,10 @@ public class PipeBackNode extends PNode {
     }
 
     public double getPipeLeftViewHeight() {
-        final Point2D topLeft = transform.modelToView( pipe.getTopLeft() );
-        final Point2D bottomLeft = transform.modelToView( pipe.getBottomLeft() );
-        return bottomLeft.getY() - topLeft.getY();
+        return transform.modelToView( pipe.getBottomLeft() ).getY() - transform.modelToView( pipe.getTopLeft() ).getY();
     }
 
     public double getPipeRightViewHeight() {
-        final Point2D topRight = transform.modelToView( pipe.getTopRight() );
-        final Point2D bottomRight = transform.modelToView( pipe.getBottomRight() );
-        return bottomRight.getY() - topRight.getY();
+        return transform.modelToView( pipe.getBottomRight() ).getY() - transform.modelToView( pipe.getTopRight() ).getY();
     }
-
 }
