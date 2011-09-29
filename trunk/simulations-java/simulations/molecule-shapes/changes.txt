@@ -1,3 +1,4 @@
+# 0.00.37 (57060) Sep 29, 2011
 Minor text change for "Teacher" menu
 Center atom made purple
 Removed "Real Examples" panel from the 1st tab
