@@ -48,7 +48,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", globalState.colorScheme.saltColor.selectedColor ) );
 
         //Add an options menu with the option to change the background to white for use on projectors in bright classrooms
-        getPhetFrame().addMenu( new TeacherMenu() {{addProjectorMenuItem( globalState.colorScheme.projectorMode );}} );
+        getPhetFrame().addMenu( new TeacherMenu() {{addWhiteBackgroundMenuItem( globalState.colorScheme.projectorMode );}} );
     }
 
     public static void main( String[] args ) {
