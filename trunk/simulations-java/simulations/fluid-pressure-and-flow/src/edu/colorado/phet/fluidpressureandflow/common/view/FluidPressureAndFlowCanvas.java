@@ -43,16 +43,26 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
 import static edu.umd.cs.piccolo.PNode.PROPERTY_FULL_BOUNDS;
 
 /**
+ * Canvas used in all tabs of "Fluid Pressure and Flow"
+ *
  * @author Sam Reid
  */
 public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> extends PhetPCanvas {
 
+    //Standard inset used in many layouts
     public static double INSET = 10;
+
+    //Transform from model to view
     protected final ModelViewTransform transform;
+
+    //Stage where nodes are added and scaled up and down
     private final PNode rootNode;
 
+    //Size for the stage, should have the right aspect ratio since it will always be visible
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
-    public static final Font CONTROL_FONT = new PhetFont( 15, false );//Font to use for the majority of controls in this sim
+
+    //Font to use for the majority of controls in this sim
+    public static final Font CONTROL_FONT = new PhetFont( 15, false );
 
     //Compute the bounds in the model (meters) that are visible in this canvas, for purposes of constraining draggable sensors to remain onscreen
     public final Function0<ImmutableRectangle2D> visibleModelBounds = new Function0<ImmutableRectangle2D>() {
@@ -77,6 +87,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         setBorder( null );
     }
 
+    //Set alpha and opacity for the specified component (but not textfields) to make them integrate better with piccolo
     public static void makeTransparent( JComponent component ) {
         if ( !( component instanceof JTextComponent ) ) {
             component.setBackground( new Color( 0, 0, 0, 0 ) );

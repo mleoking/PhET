@@ -6,7 +6,6 @@ import javax.swing.BoxLayout;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.UNITS;
@@ -17,7 +16,7 @@ import static javax.swing.BoxLayout.Y_AXIS;
  *
  * @author Sam Reid
  */
-public class EnglishMetricControlPanel<T extends FluidPressureAndFlowModel> extends PhetTitledPanel {
+public class EnglishMetricControlPanel extends PhetTitledPanel {
     public EnglishMetricControlPanel( PropertyRadioButton... buttons ) {
         super( UNITS );
         setLayout( new BoxLayout( this, Y_AXIS ) );
