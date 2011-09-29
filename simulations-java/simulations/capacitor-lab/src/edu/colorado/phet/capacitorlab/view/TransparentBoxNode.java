@@ -49,6 +49,6 @@ public class TransparentBoxNode extends BoxNode {
     }
 
     public void setTransparent( boolean transparent ) {
-        setTransparency( ( transparent ) ? 0.75f : 1f );
+        setTransparency( ( transparent ) ? 0.5f : 1f );
     }
 }
