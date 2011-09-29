@@ -20,8 +20,14 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
+import static edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas.makeTransparent;
 
 /**
+ * PSwing slider control customized with tick labels and using the Property[Double] interface
+ * Even though we only use the slider component of this linear value control, it is easier to create the whole LinearValueControl so that
+ * We can use its facilities for settings ticks.
+ * A better design would have been to move tick mark functionality to LinearSlider so we could just us it directly, see #2837
+ *
  * @author Sam Reid
  */
 public class SliderControl extends PNode {
@@ -29,11 +35,10 @@ public class SliderControl extends PNode {
     public final HTMLNode unitsNode;
 
     public SliderControl( String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
-        //Even though we only use the slider component of this linear value control, it is easier to create the whole LinearValueControl so that
-        //We can use its facilities for settings ticks.
-        //A better design would have been to move tick mark functionality to LinearSlider so we could just us it directly, see #2837
         final PSwing slider = new PSwing( new LinearValueControl( min, max, property.get(), "", "0.00", "" ) {
             {
+
+                //Show the tick labels on the linear value control
                 setTickLabels( new Hashtable<Object, Object>() {{
                     for ( Double s : tickLabels.keySet() ) {
                         put( s, tickLabels.get( s ) );
@@ -41,20 +46,22 @@ public class SliderControl extends PNode {
                 }} );
                 setMajorTicksVisible( false );
                 setMinorTicksVisible( false );
+
+                //Make it look good
                 setFont( FluidPressureCanvas.CONTROL_FONT );
                 getTextField().setColumns( 5 );
                 setTextFieldVisible( false );
+                makeTransparent( this );
 
-                FluidPressureCanvas.makeTransparent( this );
+                //Wire up to property
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         property.set( getValue() );
                     }
                 } );
+                //Since ScaledDoubleProperty is rounded, values can get slightly outside min and max, so clamp here
                 property.addObserver( new SimpleObserver() {
                     public void update() {
-
-                        //Since ScaledDoubleProperty is rounded, values can get slightly outside min and max, so clamp here
                         setValue( clamp( min, property.get(), max ) );
                     }
                 } );
@@ -90,9 +97,5 @@ public class SliderControl extends PNode {
         //Note: if HBox is rewritten to maintain its layout throughout child bound changes this will break
         //A better long term solution might be to make an HBox variant (or setting) that aligns baselines instead of centers (even though that might not work perfectly since HTMLNode bounds are a bit off)
         unitsNode.translate( 0, -3 );
-    }
-
-    public void setUnits( String units ) {
-        unitsNode.setHTML( units );
     }
 }
