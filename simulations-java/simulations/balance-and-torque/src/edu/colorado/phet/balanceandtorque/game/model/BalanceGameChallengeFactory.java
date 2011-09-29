@@ -122,10 +122,14 @@ public class BalanceGameChallengeFactory {
         }
         else if ( level == 4 ) {
             balanceChallengeList.add( generateMultiMassBalanceChallenge() );
-            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
             balanceChallengeList.add( generateMultiMassBalanceChallenge() );
-            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
             balanceChallengeList.add( generateMultiMassBalanceChallenge() );
+            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
+            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
+//            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
+//            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
+//            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
+//            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
         }
         else {
             // This level is either out of range or not implemented yet.
@@ -616,6 +620,10 @@ public class BalanceGameChallengeFactory {
         List<BalanceGameChallenge> solvableChallenges = new ArrayList<BalanceGameChallenge>();
         for ( double fixedMass1Distance = distanceIncrement; fixedMass1Distance <= maxDistance; fixedMass1Distance += distanceIncrement ) {
             for ( double fixedMass2Distance = distanceIncrement; fixedMass2Distance <= maxDistance; fixedMass2Distance += distanceIncrement ) {
+                if ( fixedMass1Distance == fixedMass2Distance ) {
+                    // Skip these cases, since the masses can't be in the same place.
+                    continue;
+                }
                 double fixedMassTorque = fixedMass1Prototype.getMass() * fixedMass1Distance + fixedMass2Prototype.getMass() * fixedMass2Distance;
                 double movableMassDistance = fixedMassTorque / movableMassPrototype.getMass();
                 if ( movableMassDistance >= distanceIncrement &&
@@ -632,10 +640,11 @@ public class BalanceGameChallengeFactory {
         return solvableChallenges;
     }
 
+    // Test harness, changes as code evolves, not meant to test all aspects of
+    // this class.
     public static void main( String[] args ) {
-        System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 10, 5, 0.25, 2 ) );
-        System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 5, 10, 0.25, 2 ) );
-        System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 10, 7, 0.25, 2 ) );
-        System.out.println( BalanceGameChallengeFactory.isChallengeSolvable( 10, 100, 0.25, 2 ) );
+        List<BalanceGameChallenge> balanceGameChallenges = generateSolvableChallenges( new BrickStack( 1 ), new SmallRock(), new BrickStack( 3 ),
+                                                                                       Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                                       Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE );
     }
 }
