@@ -24,9 +24,9 @@ public class TeacherMenu extends JMenu {
      *
      * @param projectorMode the Property<Boolean> with which to synchronize.
      */
-    public void addProjectorMenuItem( SettableProperty<Boolean> projectorMode ) {
-        add( new PropertyCheckBoxMenuItem( PhetCommonResources.getString( "Common.Projector" ), projectorMode ) {{
-            setMnemonic( PhetCommonResources.getChar( "Common.Projector.mnemonic", 'P' ) );
+    public void addWhiteBackgroundMenuItem( SettableProperty<Boolean> projectorMode ) {
+        add( new PropertyCheckBoxMenuItem( PhetCommonResources.getString( "Common.WhiteBackground" ), projectorMode ) {{
+            setMnemonic( PhetCommonResources.getChar( "Common.WhiteBackground.mnemonic", 'W' ) );
         }} );
     }
 }
