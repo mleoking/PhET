@@ -33,14 +33,16 @@ public abstract class PlateChargeNode extends PhetPNode {
     private final PNode parentNode; // parent node for charges
     private final IGridSizeStrategy gridSizeStrategy;
     private final double maxPlateCharge;
+    private final float transparency;
 
-    public PlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
+    public PlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge, float transparency ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
         this.polarity = polarity;
         this.maxPlateCharge = maxPlateCharge;
         this.gridSizeStrategy = GridSizeStrategyFactory.createStrategy();
+        this.transparency = transparency;
 
         capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
             public void capacitorChanged() {
@@ -137,6 +139,7 @@ public abstract class PlateChargeNode extends PhetPNode {
                 for ( int column = 0; column < columns; column++ ) {
                     // add a charge
                     PNode chargeNode = isPositivelyCharged() ? new PositiveChargeNode() : new NegativeChargeNode();
+                    chargeNode.setTransparency( transparency );
                     parentNode.addChild( chargeNode );
 
                     // position the charge in cell in the grid
@@ -177,7 +180,7 @@ public abstract class PlateChargeNode extends PhetPNode {
     public static class DielectricPlateChargeNode extends PlateChargeNode {
 
         public DielectricPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
-            super( capacitor, mvt, polarity, maxPlateCharge );
+            super( capacitor, mvt, polarity, maxPlateCharge, 0.25f );
         }
 
         // Gets the portion of the plate charge due to the dielectric.
@@ -203,7 +206,7 @@ public abstract class PlateChargeNode extends PhetPNode {
     public static class AirPlateChargeNode extends PlateChargeNode {
 
         public AirPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
-            super( capacitor, mvt, polarity, maxPlateCharge );
+            super( capacitor, mvt, polarity, maxPlateCharge, 1f );
         }
 
         // Gets the portion of the plate charge due to air.
