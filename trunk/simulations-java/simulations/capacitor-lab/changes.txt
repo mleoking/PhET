@@ -1,3 +1,4 @@
+# 2.00.01 (57035) Sep 29, 2011
 > revised representation of dielectric excess charge
 9/29/11 #3012, dielectric excess charge: use a grid for bottom face, use old approach for top face
 9/29/11 #3012, use one representation for excess charge, make dielectric transparent when excess charge is selected
