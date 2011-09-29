@@ -25,7 +25,7 @@ public class SimpleBalancingActModule extends Module {
 
     private SimpleBalancingActModule( BalancingActModel model ) {
         // TODO: i18n
-        super( "Balance", model.getClock() );
+        super( "Intro", model.getClock() );
         this.model = model;
         setSimulationPanel( new SimpleBalancingActCanvas( model ) );
         reset();
