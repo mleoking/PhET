@@ -28,7 +28,6 @@ public class BrickStack extends ShapeMass {
     //-------------------------------------------------------------------------
 
     private int numBricks = 1;
-    private Point2D position = new Point2D.Double( 0, 0 );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
