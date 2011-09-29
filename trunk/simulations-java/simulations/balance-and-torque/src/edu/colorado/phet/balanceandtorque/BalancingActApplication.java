@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
- * Main application for PhET's balance simulation
+ * Main application class for PhET's balancing act simulation.
  *
  * @author Sam Reid
  * @author John Blanco
