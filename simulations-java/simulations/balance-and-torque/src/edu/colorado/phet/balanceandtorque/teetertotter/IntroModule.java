@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
-import edu.colorado.phet.balanceandtorque.teetertotter.view.SimpleBalancingActCanvas;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.IntroCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
@@ -13,21 +13,21 @@ import edu.colorado.phet.common.phetcommon.application.Module;
  *
  * @author John Blanco
  */
-public class SimpleBalancingActModule extends Module {
+public class IntroModule extends Module {
 
     BalancingActModel model;
 
-    public SimpleBalancingActModule() {
+    public IntroModule() {
         this( new BalancingActModel() );
         setClockControlPanel( null );
         getModulePanel().setLogoPanel( null );
     }
 
-    private SimpleBalancingActModule( BalancingActModel model ) {
+    private IntroModule( BalancingActModel model ) {
         // TODO: i18n
         super( "Intro", model.getClock() );
         this.model = model;
-        setSimulationPanel( new SimpleBalancingActCanvas( model ) );
+        setSimulationPanel( new IntroCanvas( model ) );
         reset();
     }
 

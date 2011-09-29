@@ -39,7 +39,7 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 /**
  * @author John Blanco
  */
-public class SimpleBalancingActCanvas extends PhetPCanvas {
+public class IntroCanvas extends PhetPCanvas {
 
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private final ModelViewTransform mvt;
@@ -49,7 +49,7 @@ public class SimpleBalancingActCanvas extends PhetPCanvas {
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty levelIndicatorVisibleProperty = new BooleanProperty( false );
 
-    public SimpleBalancingActCanvas( final BalancingActModel model ) {
+    public IntroCanvas( final BalancingActModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
@@ -79,14 +79,14 @@ public class SimpleBalancingActCanvas extends PhetPCanvas {
                 PNode massNode = null;
                 if ( mass instanceof ShapeMass ) {
                     // TODO: Always bricks right now, may have to change in the future.
-                    massNode = new BrickStackNode( (ShapeMass) mass, mvt, SimpleBalancingActCanvas.this, massLabelVisibilityProperty );
+                    massNode = new BrickStackNode( (ShapeMass) mass, mvt, IntroCanvas.this, massLabelVisibilityProperty );
                 }
                 else if ( mass instanceof LabeledImageMass ) {
                     // These are mystery objects.
-                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, SimpleBalancingActCanvas.this, massLabelVisibilityProperty );
+                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, IntroCanvas.this, massLabelVisibilityProperty );
                 }
                 else if ( mass instanceof ImageMass ) {
-                    massNode = new ImageMassNode( mvt, (ImageMass) mass, SimpleBalancingActCanvas.this, massLabelVisibilityProperty );
+                    massNode = new ImageMassNode( mvt, (ImageMass) mass, IntroCanvas.this, massLabelVisibilityProperty );
                 }
                 else {
                     System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
