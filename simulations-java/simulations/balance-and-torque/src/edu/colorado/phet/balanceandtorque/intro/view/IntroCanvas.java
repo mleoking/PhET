@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.teetertotter.view;
+package edu.colorado.phet.balanceandtorque.intro.view;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -17,6 +17,17 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.AttachmentBarNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.BrickStackNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.FulcrumAbovePlankNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.ImageMassNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.LabeledImageMassNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.LevelIndicatorNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.LevelSupportColumnNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.MysteryVectorNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.PlankNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.PositionedVectorNode;
+import edu.colorado.phet.balanceandtorque.teetertotter.view.RotatingRulerNode;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
