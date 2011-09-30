@@ -1,3 +1,4 @@
+Rename elements to elementAtomicMasses, to correspond to getter, see #3090
 Renamed playButtonPressed field to clockRunning, see #3090
 Renamed projectorMode field to whiteBackground to match up with the menu item name, see #3090
 # 0.00.125 (57089) Sep 30, 2011
