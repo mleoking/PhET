@@ -29,16 +29,24 @@ public class MicroKitControlNode extends PNode {
     public MicroKitControlNode( final Property<Integer> selectedKit, final Property<DispenserType> dispenserType,
 
                                 //A button that shows the periodic table when pressed, shown inside the kit selection node since the selected item controls what is highlighted in the periodic table
-                                TextButtonNode periodicTableButton ) {
+                                TextButtonNode periodicTableButton,
+
+                                boolean onlyOneKit ) {
 
         //Show the radio buttons on two lines to show scientific name and molecular formula to save horizontal space
-        kitSelectionNode = new KitSelectionNode<DispenserRadioButtonSet>(
+        //For onlyOneKit, only show sugar and salt in the micro tab.  Used for wet lab in fall 2011 and can probably be deleted afterwards.
+        kitSelectionNode = onlyOneKit ? new KitSelectionNode<DispenserRadioButtonSet>(
+                selectedKit,
+                createTitle(),
+                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( SUCROSE_C_12_H_22_O_11, SUGAR ) ) ) )
+                                      : new KitSelectionNode<DispenserRadioButtonSet>(
                 selectedKit,
                 createTitle(),
                 new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( SUCROSE_C_12_H_22_O_11, SUGAR ) ) ),
                 new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( CALCIUM_CHLORIDE_CA_CL_2, CALCIUM_CHLORIDE ) ) ),
                 new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( SODIUM_NITRATE_NA_NO_3, SODIUM_NITRATE ) ) ),
                 new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SUCROSE_C_12_H_22_O_11, SUGAR ), new Item( GLUCOSE_C_6_H_12_O_6, GLUCOSE ) ) ) );
+
 
         //Show the selection dialog above the periodic table button
         addChild( new WhiteControlPanelNode( new VBox( kitSelectionNode, periodicTableButton ) ) );

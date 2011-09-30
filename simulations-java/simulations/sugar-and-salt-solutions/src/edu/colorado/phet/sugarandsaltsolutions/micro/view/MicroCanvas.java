@@ -104,7 +104,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }};
 
         //Show the kit control node that allows the user to scroll through different kits
-        microKitControlNode = new ZeroOffsetNode( new MicroKitControlNode( model.selectedKit, model.dispenserType, periodicTableButton ) {{
+        microKitControlNode = new ZeroOffsetNode( new MicroKitControlNode( model.selectedKit, model.dispenserType, periodicTableButton, globalState.singleMicroKit ) {{
             model.addResetListener( new VoidFunction0() {
                 public void apply() {
                     kitSelectionNode.selectedKit.set( 0 );

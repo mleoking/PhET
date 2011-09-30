@@ -12,20 +12,19 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
 
 /**
  * This sim was written to accommodate a chemistry wet lab in Fall 2011, this sim just shows the macro tab.
- * <p/>
- * No need to internationalize this version--it is just used for one experiment.
+ * Can probably be deleted after usage.  No need to internationalize this version--it is just used for one experiment.
  *
  * @author Sam Reid
  */
-public class MacroscopicApplication extends PiccoloPhetApplication {
+public class SugarAndSaltSolutionsMacroscopicApplication extends PiccoloPhetApplication {
 
     private static final String NAME = "sugar-and-salt-solutions-macroscopic";
 
-    public MacroscopicApplication( PhetApplicationConfig config ) {
+    public SugarAndSaltSolutionsMacroscopicApplication( PhetApplicationConfig config ) {
         super( config );
 
         //Create the modules
-        final GlobalState globalState = new GlobalState( new SugarAndSaltSolutionsColorScheme(), config, getPhetFrame() );
+        final GlobalState globalState = new GlobalState( new SugarAndSaltSolutionsColorScheme(), config, getPhetFrame(), true );
         addModule( new MacroModule( globalState ) );
 
         //Add an options menu with the option to change the background to white for use on projectors in bright classrooms
@@ -33,6 +32,6 @@ public class MacroscopicApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, SugarAndSaltSolutionsResources.NAME, NAME, MacroscopicApplication.class );
+        new PhetApplicationLauncher().launchSim( args, SugarAndSaltSolutionsResources.NAME, NAME, SugarAndSaltSolutionsMacroscopicApplication.class );
     }
 }
