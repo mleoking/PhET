@@ -45,7 +45,10 @@ public class TestDensityRenderer extends PNode {
     }
 
     private Paint getColor( double density, double temperature ) {
+        //When surface density and temperature, use clay color
         Color clay = new Color( 255, 222, 156 );
+
+        //When it gets hotter, turn down the G & B channels to make redder
 
 //        System.out.println( "density = " + density );
         double minDensityToShow = 3000;
