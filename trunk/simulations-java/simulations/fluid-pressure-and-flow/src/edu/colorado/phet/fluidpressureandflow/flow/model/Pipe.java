@@ -37,6 +37,8 @@ public class Pipe {
 
     //Rate of fluid flow in volume (m^3) per second
     public final DoubleProperty flowRate = new DoubleProperty( 5.0 );
+
+    //Flag indicating whether friction should slow particles near the edges
     public final Property<Boolean> friction = new Property<Boolean>( false );
 
     //Creates a pipe with a default shape.
@@ -278,9 +280,13 @@ public class Pipe {
 
     //Get the speed at the specified x-location.  This is before friction and vertical effects are accounted for
     private double getSpeed( double x ) {
+
         //Continuity equation: a1 v1 = a2 v2
-        //TODO: treat pipes as if they are cylindrical cross sections?
-        return flowRate.get() / getCrossSection( x ).getHeight();
+        //treat pipes as if they are cylindrical cross sections?
+        final double crossSectionDiameter = getCrossSection( x ).getHeight();
+        double crossSectionRadius = crossSectionDiameter / 2;
+        double crossSectionArea = Math.PI * crossSectionRadius * crossSectionRadius;
+        return flowRate.get() / crossSectionArea;
     }
 
     //I was told that the fluid flow rate falls off quadratically, so use lagrange interpolation so that at the center of the pipe
