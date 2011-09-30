@@ -6,4 +6,4 @@ sugar_empty_closed.png author=PhET
 sugar_empty_open.png author=PhET
 sugar_micro_closed.png author=PhET
 sugar_micro_open.png author=PhET
-sugar_open author=PhET
+sugar_open.png author=PhET
