@@ -33,7 +33,7 @@ public class TestDensityRenderer extends PNode {
         double cellHeight = 250;
         for ( double x = modelRect.getMinX(); x <= modelRect.getMaxX(); x += cellWidth ) {
             for ( double y = modelRect.getMinY(); y <= modelRect.getMaxY(); y += cellHeight ) {
-                if ( y <= 0 ) {
+                if ( y <= plateModel.getElevation( x, 0 ) ) {
                     double density = plateModel.getDensity( x, y );
                     double temperature = plateModel.getTemperature( x, y );
                     final Shape viewShape = transform.modelToView( new Rectangle2D.Double( x, y, cellWidth, cellHeight ) );
@@ -45,6 +45,8 @@ public class TestDensityRenderer extends PNode {
     }
 
     private Paint getColor( double density, double temperature ) {
+        Color clay = new Color( 255, 222, 156 );
+
 //        System.out.println( "density = " + density );
         double minDensityToShow = 3000;
         double maxDensityToShow = 3100;
@@ -62,6 +64,7 @@ public class TestDensityRenderer extends PNode {
             public void run() {
                 new JFrame( "Test density renderer" ) {{
                     setContentPane( new PhetPCanvas() {{
+                        setBackground( Color.blue );
                         addScreenChild( new TestDensityRenderer( new VerySimplePlateModel() ) );
                         setPanEventHandler( new PPanEventHandler() );
                         setZoomEventHandler( new PZoomEventHandler() );
