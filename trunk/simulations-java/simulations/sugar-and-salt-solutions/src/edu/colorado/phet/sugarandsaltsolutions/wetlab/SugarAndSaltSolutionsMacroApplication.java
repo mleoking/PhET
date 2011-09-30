@@ -30,7 +30,7 @@ public class SugarAndSaltSolutionsMacroApplication extends PiccoloPhetApplicatio
         addModule( new MacroModule( globalState ) );
 
         //Add an options menu with the option to change the background to white for use on projectors in bright classrooms
-        getPhetFrame().addMenu( new TeacherMenu() {{addWhiteBackgroundMenuItem( globalState.colorScheme.projectorMode );}} );
+        getPhetFrame().addMenu( new TeacherMenu() {{addWhiteBackgroundMenuItem( globalState.colorScheme.whiteBackground );}} );
     }
 
     public static void main( String[] args ) {
