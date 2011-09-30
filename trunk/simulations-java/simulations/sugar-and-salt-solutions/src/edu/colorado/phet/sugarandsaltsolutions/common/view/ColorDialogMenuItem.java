@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory.Listener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
+//REVIEW migrate to phetcommon
+
 /**
  * This JMenuItem shows a Color dialog when selected so the user can change the color of the given color property.
  *

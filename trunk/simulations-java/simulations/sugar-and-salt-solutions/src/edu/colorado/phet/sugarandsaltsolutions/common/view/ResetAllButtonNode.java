@@ -12,6 +12,8 @@ import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.*;
 
+//REVIEW why aren't you using piccolo-phet's ResetAllButtonNode?
+
 /**
  * Reset all button used in all tabs, shown in the bottom right corner
  *

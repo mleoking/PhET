@@ -14,7 +14,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.*;
 
 /**
- * Sugar dispenser which can be rotated to pour out sugar, used in macro and micro tab.
+ * Salt dispenser which can be rotated to pour out salt, used in macro and micro tab.
  *
  * @author Sam Reid
  */

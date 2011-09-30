@@ -23,6 +23,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.wetlab.SugarAndSaltSolutio
  */
 public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
 
+    //REVIEW this seems odd and brittle, let's discuss
     //Global property for setting the size for atoms and molecules, since they are supposed to look and act smaller in the Micro tab than in real life
     //This was designed as a global property since propagating the scale through the object graphs on initialization was much more complex and confusing
     public static final Property<Double> sizeScale = new Property<Double>( 1.0 );

@@ -23,8 +23,10 @@ public class Solution {
     public Solution( final DoubleProperty waterVolume,
                      final Beaker beaker ) {
 
-        //To simplify the model and make it less confusing for students (since adding salt could change sugar concentration), we have switched back to using just the water volume for concentration computations
-        //To add to the volume based on dissolved solute volume, use something like this line: this.volume = waterVolume.plus( dissolvedSaltVolume, dissolvedSugarVolume );
+        //To simplify the model and make it less confusing for students (since adding salt could change sugar concentration),
+        // we have switched back to using just the water volume for concentration computations
+        //To add to the volume based on dissolved solute volume, use something like this line:
+        // this.volume = waterVolume.plus( dissolvedSaltVolume, dissolvedSugarVolume );
         this.volume = waterVolume;
         shape = new CompositeProperty<Shape>( new Function0<Shape>() {
             public Shape apply() {

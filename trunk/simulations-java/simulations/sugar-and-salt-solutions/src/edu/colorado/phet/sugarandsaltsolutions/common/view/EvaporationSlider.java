@@ -27,6 +27,7 @@ public class EvaporationSlider extends WhiteControlPanelNode {
 
                 //Add the slider
                 new HSliderNode( 0, 100, evaporationRate ) {{
+                    //REVIEW IDEA presentation compiler complains "cannot reference PNode.addInputEventListener before superclass constructor has been called"
                     addInputEventListener( new PBasicInputEventHandler() {
                         @Override public void mouseReleased( PInputEvent event ) {
                             evaporationRate.set( 0.0 );
