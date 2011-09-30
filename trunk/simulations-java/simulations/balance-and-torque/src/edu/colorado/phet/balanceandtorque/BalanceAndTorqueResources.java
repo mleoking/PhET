@@ -22,6 +22,10 @@ public class BalanceAndTorqueResources {
     public static class Images {
         public static final BufferedImage BOY_SITTING = RESOURCES.getImage( "boy-sitting.png" );
         public static final BufferedImage BOY_STANDING = RESOURCES.getImage( "boy-standing.png" );
+        public static final BufferedImage DRINK_WITH_STRAW = RESOURCES.getImage( "drink-with-straw.png" );
+        public static final BufferedImage FIRE_EXTINGUISHER = RESOURCES.getImage( "fire-extinguisher.png" );
+        public static final BufferedImage FIRE_HYDRANT = RESOURCES.getImage( "fire-hydrant.png" );
+        public static final BufferedImage FLOWER_POT = RESOURCES.getImage( "flower-pot.png" );
         public static final BufferedImage GIRL_SITTING = RESOURCES.getImage( "girl-sitting.png" );
         public static final BufferedImage GIRL_STANDING = RESOURCES.getImage( "girl-standing.png" );
         public static final BufferedImage MAN_SITTING = RESOURCES.getImage( "man-sitting.png" );
@@ -34,8 +38,11 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage MYSTERY_OBJECT_06 = RESOURCES.getImage( "mystery-object-06.png" );
         public static final BufferedImage MYSTERY_OBJECT_07 = RESOURCES.getImage( "mystery-object-07.png" );
         public static final BufferedImage MYSTERY_OBJECT_08 = RESOURCES.getImage( "mystery-object-08.png" );
+        public static final BufferedImage OLD_TELEVISION = RESOURCES.getImage( "old-television.png" );
+        public static final BufferedImage ROCK_1 = RESOURCES.getImage( "rock_1.png" );
         public static final BufferedImage ROCK_4 = RESOURCES.getImage( "rock_4.png" );
         public static final BufferedImage ROCK_6 = RESOURCES.getImage( "rock_6.png" );
+        public static final BufferedImage TRASH_CAN = RESOURCES.getImage( "trash-can.png" );
         public static final BufferedImage WOMAN_SITTING = RESOURCES.getImage( "woman-sitting.png" );
         public static final BufferedImage WOMAN_STANDING = RESOURCES.getImage( "woman-standing.png" );
     }
