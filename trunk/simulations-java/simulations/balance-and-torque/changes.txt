@@ -1,3 +1,5 @@
+Got "Reset All" to return bricks to original position on the ground on the Intro tab.
+Made it possible to place bricks on the ground anywhere on the Intro tab.
 Changed names of the first two tabs to "Intro" and "Balance Lab".
 Added a simple first tab where the user can only manipulate a limited set of masses.
 Added multiple mass balance challenges.  For now, these are on level 4 only.

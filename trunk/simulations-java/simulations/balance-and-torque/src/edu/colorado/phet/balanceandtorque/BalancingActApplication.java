@@ -20,7 +20,7 @@ public class BalancingActApplication extends PiccoloPhetApplication {
     public BalancingActApplication( PhetApplicationConfig config ) {
         super( config );
 
-        //Create the modules
+        // Create the modules
         addModule( new IntroModule() );
         addModule( new BalancingActModule() );
         addModule( new BalanceGameModule() );
