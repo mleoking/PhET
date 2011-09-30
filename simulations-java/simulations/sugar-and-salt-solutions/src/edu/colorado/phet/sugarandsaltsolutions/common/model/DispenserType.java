@@ -12,7 +12,7 @@ public class DispenserType {
     private final String name;
 
     //List of elements comprising the solute
-    private final Integer[] elements; //REVIEW rename elementAtomicMasses, to correspond to getter?
+    private final Integer[] elementAtomicMasses;
 
     public static final DispenserType SALT = new DispenserType( "Salt", 11, 17 );
     public static final DispenserType SUGAR = new DispenserType( "Sugar", 6, 1, 8 );
@@ -21,9 +21,9 @@ public class DispenserType {
     public static final DispenserType CALCIUM_CHLORIDE = new DispenserType( "Calcium Chloride", 20, 17 );
 
     //Enum pattern, so no other instances should be created
-    private DispenserType( String name, Integer... elements ) {
+    private DispenserType( String name, Integer... elementAtomicMasses ) {
         this.name = name;
-        this.elements = elements;
+        this.elementAtomicMasses = elementAtomicMasses;
     }
 
     @Override public String toString() {
@@ -31,6 +31,6 @@ public class DispenserType {
     }
 
     public Integer[] getElementAtomicMasses() {
-        return elements;
+        return elementAtomicMasses;
     }
 }
