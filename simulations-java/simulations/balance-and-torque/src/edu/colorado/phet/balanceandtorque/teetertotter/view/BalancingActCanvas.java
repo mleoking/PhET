@@ -218,8 +218,9 @@ public class BalancingActCanvas extends PhetPCanvas {
         }} );
 
         // Lay out the control panels.
-        double controlPanelCenterX = Math.min( STAGE_SIZE.getWidth() - massKit.getFullBoundsReference().width / 2 - 10,
-                                               STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width / 2 - 10 );
+        double minDistanceToEdge = 20; // Value chosen based on visual appearance.
+        double controlPanelCenterX = Math.min( STAGE_SIZE.getWidth() - massKit.getFullBoundsReference().width / 2 - minDistanceToEdge,
+                                               STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width / 2 - minDistanceToEdge );
         massKit.setOffset( controlPanelCenterX - massKit.getFullBoundsReference().width / 2,
                            mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().height - 10 );
         controlPanel.setOffset( controlPanelCenterX - controlPanel.getFullBoundsReference().width / 2,
