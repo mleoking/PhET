@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  * PhetOptionPane provides JOptionPane-like functionality, but uses a PaintImmediateDialog
  * to address issues with AWT thread priority (see Unfuddle #89).
  * The interface differs from JOptionPane, and is oriented towards common dialogs that
- * need to be displated in PhET simulations.
+ * need to be displayed in PhET simulations.
  * <p/>
  * All dialogs are modal and non-resizable.
  * Return values are identical to (and obtained from) JOptionPane.
