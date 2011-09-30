@@ -1,3 +1,4 @@
+Flow tab: Changed flow speed calculation from speed = flowRate / crossSectionalHeight to speed = flowRate / crossSectionalArea
 # 0.00.30 (57029) Sep 29, 2011
 Water tower: Control the hose with handles instead of dragging the hose itself
 Water tower: Start the tank partly full so that the "fill" button and faucet slider are initially enabled
