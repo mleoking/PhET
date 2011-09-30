@@ -10,6 +10,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.balanceandtorque.game.MyGameScoreboardNode;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
@@ -29,7 +30,6 @@ import edu.colorado.phet.balanceandtorque.teetertotter.view.RotatingRulerNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.TiltedSupportColumnNode;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
-import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -87,7 +87,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private final BalanceGameModel model;
 
     // Scoreboard that tracks user's score while playing the game.
-    private final GameScoreboardNode scoreboard;
+    private final MyGameScoreboardNode scoreboard;
 
     // Canvas layers.
     private PNode rootNode;
@@ -217,7 +217,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         } );
 
         // Create and add the game scoreboard.
-        scoreboard = new GameScoreboardNode( BalanceGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
+        scoreboard = new MyGameScoreboardNode( BalanceGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
             setBackgroundWidth( STAGE_SIZE.getWidth() * 0.85 );
             model.getClock().addClockListener( new ClockAdapter() {
                 @Override
@@ -250,7 +250,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Set up listener for the button on the score board that indicates that
         // a new game is desired.
-        scoreboard.addGameScoreboardListener( new GameScoreboardNode.GameScoreboardListener() {
+        scoreboard.addGameScoreboardListener( new MyGameScoreboardNode.GameScoreboardListener() {
             public void newGamePressed() {
                 model.showGameInitDialog();
             }
