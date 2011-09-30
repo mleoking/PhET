@@ -15,7 +15,7 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
  *
  * @author Sam Reid
  */
-public class SugarAndSaltSolutionsBasics {
+public class SugarAndSaltSolutionsBasicsApplication {
 
     private static final String NAME = "sugar-and-salt-solutions-basics";
 
@@ -23,7 +23,7 @@ public class SugarAndSaltSolutionsBasics {
     public static String SINGLE_MICRO_KIT = "-singleMicroKit";
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( append( args, SINGLE_MICRO_KIT ), SugarAndSaltSolutionsResources.NAME, SugarAndSaltSolutionsBasics.NAME ), SugarAndSaltSolutionsApplication.class );
+        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( append( args, SINGLE_MICRO_KIT ), SugarAndSaltSolutionsResources.NAME, SugarAndSaltSolutionsBasicsApplication.NAME ), SugarAndSaltSolutionsApplication.class );
     }
 
     private static String[] append( String[] args, final String s ) {
