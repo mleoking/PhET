@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.intro.model.IntroModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.MassForceVector;
@@ -60,7 +60,7 @@ public class IntroCanvas extends PhetPCanvas {
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty levelIndicatorVisibleProperty = new BooleanProperty( false );
 
-    public IntroCanvas( final BalancingActModel model ) {
+    public IntroCanvas( final IntroModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
