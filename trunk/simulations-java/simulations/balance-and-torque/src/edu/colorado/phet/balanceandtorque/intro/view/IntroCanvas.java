@@ -83,6 +83,15 @@ public class IntroCanvas extends PhetPCanvas {
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
+        // Set up a layer for the non-mass model elements.
+        final PNode nonMassLayer = new PNode();
+        rootNode.addChild( nonMassLayer );
+
+        // Set up a separate layer for the masses so that they will be out in
+        // front of the other elements of the model.
+        final PNode massesLayer = new PNode();
+        rootNode.addChild( massesLayer );
+
         // Whenever a mass is added to the model, create a graphic for it.
         model.massList.addElementAddedObserver( new VoidFunction1<Mass>() {
             public void apply( Mass mass ) {
@@ -103,7 +112,7 @@ public class IntroCanvas extends PhetPCanvas {
                     System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
                     assert false;
                 }
-                rootNode.addChild( massNode );
+                massesLayer.addChild( massNode );
                 // Add the removal listener for if and when this mass is removed from the model.
                 final PNode finalMassNode = massNode;
                 model.massList.addElementRemovedObserver( mass, new VoidFunction0() {
@@ -115,18 +124,18 @@ public class IntroCanvas extends PhetPCanvas {
         } );
 
         // Add graphics for the plank, the fulcrum, the attachment bar, and the columns.
-        rootNode.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
-        rootNode.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
-        rootNode.addChild( new PlankNode( mvt, model.getPlank(), this ) );
+        nonMassLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
+        nonMassLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
+        nonMassLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) );
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
-            rootNode.addChild( new LevelSupportColumnNode( mvt, supportColumn, model.columnState ) );
+            nonMassLayer.addChild( new LevelSupportColumnNode( mvt, supportColumn, model.columnState ) );
         }
 
         // Add the ruler.
-        rootNode.addChild( new RotatingRulerNode( model.getPlank(), mvt, distancesVisibleProperty ) );
+        nonMassLayer.addChild( new RotatingRulerNode( model.getPlank(), mvt, distancesVisibleProperty ) );
 
         // Add the level indicator node which will show whether the plank is balanced or not
-        rootNode.addChild( new LevelIndicatorNode( mvt, model.getPlank() ) {{
+        nonMassLayer.addChild( new LevelIndicatorNode( mvt, model.getPlank() ) {{
             levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
@@ -149,13 +158,13 @@ public class IntroCanvas extends PhetPCanvas {
                                                                 Color.WHITE,
                                                                 mvt );
                 }
-                rootNode.addChild( forceVectorNode );
+                nonMassLayer.addChild( forceVectorNode );
                 // Listen for removal of this vector and, if and when it is
                 // removed, remove the corresponding representation.
                 model.getPlank().forceVectorList.addElementRemovedObserver( new VoidFunction1<MassForceVector>() {
                     public void apply( MassForceVector removedMassForceVector ) {
                         if ( removedMassForceVector == addedMassForceVector ) {
-                            rootNode.removeChild( forceVectorNode );
+                            nonMassLayer.removeChild( forceVectorNode );
                         }
                     }
                 } );
@@ -188,7 +197,7 @@ public class IntroCanvas extends PhetPCanvas {
                 }
             } );
         }};
-        rootNode.addChild( columnControlButton );
+        nonMassLayer.addChild( columnControlButton );
 
         // Add the control panel that will allow users to control the visibility
         // of the various indicators.
@@ -204,10 +213,10 @@ public class IntroCanvas extends PhetPCanvas {
             addChild( new PropertyCheckBoxNode( "Level", levelIndicatorVisibleProperty ) );
         }} );
         controlPanel.setOffset( STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width - 20, 20 );
-        rootNode.addChild( controlPanel );
+        nonMassLayer.addChild( controlPanel );
 
         // Add the Reset All button.
-        rootNode.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        nonMassLayer.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             centerFullBoundsOnPoint( columnControlButton.getFullBoundsReference().getCenterX(),
                                      columnControlButton.getFullBoundsReference().getMaxY() + 30 );
             setConfirmationEnabled( false );
