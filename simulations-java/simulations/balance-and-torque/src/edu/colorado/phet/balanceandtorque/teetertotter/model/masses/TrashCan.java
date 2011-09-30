@@ -14,7 +14,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 public class TrashCan extends ImageMass {
 
     private static final double MASS = 15; // in kg
-    private static final double HEIGHT = 1.2; // In meters.
+    private static final double HEIGHT = 0.9; // In meters.
 
     public TrashCan() {
         super( MASS, Images.TRASH_CAN, HEIGHT, new Point2D.Double( 0, 0 ), true );
