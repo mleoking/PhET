@@ -23,7 +23,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.wetlab.SugarAndSaltSolutio
  */
 public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
 
-    //Global property for setting the size for atoms and molecules, since they are supposed to be look and act smaller in the Micro tab than in real life
+    //Global property for setting the size for atoms and molecules, since they are supposed to look and act smaller in the Micro tab than in real life
     //This was designed as a global property since propagating the scale through the object graphs on initialization was much more complex and confusing
     public static final Property<Double> sizeScale = new Property<Double>( 1.0 );
 
@@ -50,7 +50,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", globalState.colorScheme.backgroundColorSet.selectedColor ) );
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", globalState.colorScheme.saltColor.selectedColor ) );
 
-        //Add an options menu with the option to change the background to white for use on projectors in bright classrooms
+        //Add a Teacher menu with an item to change the background to white for use on projectors in bright classrooms
         getPhetFrame().addMenu( new TeacherMenu() {{addWhiteBackgroundMenuItem( globalState.colorScheme.projectorMode );}} );
     }
 
