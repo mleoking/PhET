@@ -3,9 +3,10 @@
 package edu.colorado.phet.platetectonics;
 
 
-import java.awt.*;
+import java.awt.Frame;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -81,6 +82,6 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
         * If you want to customize your application (look-&-feel, window size, etc)
         * create your own PhetApplicationConfig and use one of the other launchSim methods
         */
-        new PhetApplicationLauncher().launchSim( args, PlateTectonicsConstants.PROJECT_NAME, PlateTectonicsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, PlateTectonicsResources.NAME, PlateTectonicsApplication.class );
     }
 }
