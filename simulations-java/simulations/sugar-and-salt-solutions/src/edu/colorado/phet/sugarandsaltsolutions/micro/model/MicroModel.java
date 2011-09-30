@@ -533,7 +533,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         dispenserType.reset();
         showChargeColor.reset();
         selectedKit.reset();
-        playButtonPressed.reset();
+        clockRunning.reset();
     }
 
     //Remove all solutes from the model
