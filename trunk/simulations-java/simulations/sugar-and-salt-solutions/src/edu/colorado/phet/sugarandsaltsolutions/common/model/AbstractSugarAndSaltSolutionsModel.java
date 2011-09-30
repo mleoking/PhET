@@ -26,10 +26,9 @@ public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
     //Model clock
     public final ConstantDtClock clock;
 
-    //REVIEW clockIsRunning would be a better name for this in the model. Play button is a view thing, and "pressed" is an event, not a state
     //Settable property that indicates whether the clock is running or paused.
     //The clock is never turned off in the first tab, since there are no dynamics and hence no pause button
-    public final BooleanProperty playButtonPressed = new BooleanProperty( true );
+    public final BooleanProperty clockRunning = new BooleanProperty( true );
 
     //Boolean flag to indicate whether the module is running, for purposes of starting and pausing the clock
     public final BooleanProperty moduleActive = new BooleanProperty( false );
@@ -46,7 +45,7 @@ public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
 
         //REVIEW why do you need to do this? This should be handled by phetcommon Module activation.
         //Make the clock run if "play" is selected with the user controls and if the module is active
-        final And clockRunning = playButtonPressed.and( moduleActive );
+        final And clockRunning = this.clockRunning.and( moduleActive );
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean clockRunning ) {
                 if ( clockRunning ) {

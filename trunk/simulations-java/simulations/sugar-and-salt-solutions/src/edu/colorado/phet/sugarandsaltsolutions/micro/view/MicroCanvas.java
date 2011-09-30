@@ -129,7 +129,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         model.sphericalParticles.addElementAddedObserver( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
 
         //Add clock controls for pause/play/step
-        addChild( new FloatingClockControlNode( model.playButtonPressed, NO_READOUT, model.clock, "", new Property<Color>( Color.white ) ) {{
+        addChild( new FloatingClockControlNode( model.clockRunning, NO_READOUT, model.clock, "", new Property<Color>( Color.white ) ) {{
             setOffset( 0, stageSize.getHeight() - getFullBounds().getHeight() );
         }} );
 
