@@ -57,7 +57,9 @@ public class ResourceGenerator {
         final File englishFile = new File( simDir, "data/" + simDir.getName() + "/localization/" + simDir.getName() + "-strings.properties" );
 
         //Load and sort the english string keys alphabetically
-        final ArrayList<String> list = new ArrayList<String>( new Properties() {{load( new FileReader( englishFile ) );}}.stringPropertyNames() ) {{
+        final ArrayList<String> list = new ArrayList<String>( new Properties() {{
+            load( new FileReader( englishFile ) );
+        }}.stringPropertyNames() ) {{
             Collections.sort( this );
         }};
 
@@ -221,10 +223,11 @@ public class ResourceGenerator {
 
     //Run the resource generator on the specified simulation, populate the template and output it in the simulation source directory as a .java file for use at compilation time.
     public static void main( String[] args ) throws IOException {
-        if ( args.length == 0 ) {
+        if ( args.length != 2 ) {
             System.out.println( "Usage:\n" +
                                 "args[0] = trunk\n" +
                                 "args[1] = relative path to simulation directory from trunk" );
+            return;
         }
         new ResourceGenerator( new File( args[0] ) ).generateResources( args[1] );
     }
