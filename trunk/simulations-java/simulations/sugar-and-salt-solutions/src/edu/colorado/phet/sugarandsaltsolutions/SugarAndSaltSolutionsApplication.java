@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions;
 
+import java.util.Arrays;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -12,6 +14,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule;
 import edu.colorado.phet.sugarandsaltsolutions.water.WaterModule;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule.SIZE_SCALE;
+import static edu.colorado.phet.sugarandsaltsolutions.wetlab.SugarAndSaltSolutionsBasics.SINGLE_MICRO_KIT;
 
 /**
  * Main application for the PhET "Sugar and Salt Solutions" simulation
@@ -28,7 +31,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         super( config );
 
         //Create a shared configuration for changing colors or state in all tabs
-        final GlobalState globalState = new GlobalState( new SugarAndSaltSolutionsColorScheme(), config, getPhetFrame() );
+        final GlobalState globalState = new GlobalState( new SugarAndSaltSolutionsColorScheme(), config, getPhetFrame(), Arrays.asList( config.getCommandLineArgs() ).contains( SINGLE_MICRO_KIT ) );
 
         //Create the modules
         addModule( new MacroModule( globalState ) );

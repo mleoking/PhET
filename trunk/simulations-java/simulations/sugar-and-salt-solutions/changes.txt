@@ -1,4 +1,5 @@
-Added new "Sugar and Salt Solutions: Macroscopic" sim
+Added new "Sugar and Salt Solutions: Basics" sim for temporary use in Fall 2011 wet lab at CU
+Added new "Sugar and Salt Solutions: Macroscopic" sim for temporary use in Fall 2011 wet lab at CU
 # 0.00.122 (57027) Sep 29, 2011
 Trial version for testing
 # 0.00.121 (57015) Sep 28, 2011

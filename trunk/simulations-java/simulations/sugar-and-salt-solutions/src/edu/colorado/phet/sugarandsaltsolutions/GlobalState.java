@@ -14,9 +14,13 @@ public class GlobalState {
     public final PhetApplicationConfig config;
     public final PhetFrame frame;
 
-    public GlobalState( SugarAndSaltSolutionsColorScheme colorScheme, PhetApplicationConfig config, PhetFrame frame ) {
+    //Flag indicating that only sugar and salt (kit 1) should be available in the micro tab.  Used for wet lab in fall 2011 and can probably be deleted afterwards.
+    public final boolean singleMicroKit;
+
+    public GlobalState( SugarAndSaltSolutionsColorScheme colorScheme, PhetApplicationConfig config, PhetFrame frame, boolean singleMicroKit ) {
         this.colorScheme = colorScheme;
         this.config = config;
         this.frame = frame;
+        this.singleMicroKit = singleMicroKit;
     }
 }

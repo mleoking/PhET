@@ -77,5 +77,16 @@ public class KitControlNode extends PNode {
         else {
             nextButton.setOffset( backButton.getFullBounds().getMaxX() + inset * 2, 0 );
         }
+
+        //If there is only one kit, show the title but not the radio buttons.  Leave them in the scene graph for keeping layout consistent.
+        if ( numKits == 1 ) {
+            backButton.setVisible( false );
+            backButton.setPickable( false );
+            backButton.setChildrenPickable( false );
+
+            nextButton.setVisible( false );
+            nextButton.setPickable( false );
+            nextButton.setChildrenPickable( false );
+        }
     }
 }
