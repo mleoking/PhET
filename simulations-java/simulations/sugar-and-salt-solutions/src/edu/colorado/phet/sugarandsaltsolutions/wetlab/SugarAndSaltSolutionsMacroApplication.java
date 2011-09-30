@@ -18,7 +18,7 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
  */
 public class SugarAndSaltSolutionsMacroApplication extends PiccoloPhetApplication {
 
-    private static final String NAME = "sugar-and-salt-solutions-macroscopic";
+    private static final String NAME = "sugar-and-salt-solutions-macro";
 
     public SugarAndSaltSolutionsMacroApplication( PhetApplicationConfig config ) {
         super( config );

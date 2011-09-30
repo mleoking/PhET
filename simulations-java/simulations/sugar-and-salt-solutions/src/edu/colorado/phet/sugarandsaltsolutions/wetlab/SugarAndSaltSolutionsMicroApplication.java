@@ -17,7 +17,7 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
  */
 public class SugarAndSaltSolutionsMicroApplication {
 
-    private static final String NAME = "sugar-and-salt-solutions-basics";
+    private static final String NAME = "sugar-and-salt-solutions-micro";
 
     //String key used to indicate that this is the customized wet lab version for fall 2011
     public static String SINGLE_MICRO_KIT = "-singleMicroKit";
