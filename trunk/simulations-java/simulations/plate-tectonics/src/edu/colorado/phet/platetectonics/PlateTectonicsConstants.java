@@ -10,7 +10,4 @@ public class PlateTectonicsConstants {
     /* Not intended for instantiation. */
     private PlateTectonicsConstants() {
     }
-
-    public static final String PROJECT_NAME = "plate-tectonics";
-
 }
