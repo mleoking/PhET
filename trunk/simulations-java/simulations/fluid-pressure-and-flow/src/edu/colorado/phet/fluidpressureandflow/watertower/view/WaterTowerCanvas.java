@@ -66,7 +66,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         addChild( faucetDropLayer );
 
         //Add a button that will fill the tank
-        addChild( new FillTankButton( module.model.waterTower.full, module.model.waterTower.fill ) {{
+        addChild( new FillTankButton( module.model.waterTower.full, module.model.waterTower.fill, module.model.waterTower.panelOffset ) {{
             module.model.waterTower.tankBottomCenter.addObserver( new VoidFunction1<ImmutableVector2D>() {
                 public void apply( ImmutableVector2D bottomCenter ) {
 

@@ -1,3 +1,4 @@
+Water tower: Fixed: Sometimes repeated clicks on the "Fill" button don't work when the door is open
 # 0.00.31 (57080) Sep 29, 2011
 Flow tab: Changed flow speed calculation from speed = flowRate / crossSectionalHeight to speed = flowRate / crossSectionalArea
 # 0.00.30 (57029) Sep 29, 2011
