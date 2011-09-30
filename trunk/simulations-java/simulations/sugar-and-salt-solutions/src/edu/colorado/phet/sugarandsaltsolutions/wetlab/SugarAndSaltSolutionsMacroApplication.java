@@ -16,11 +16,11 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
  *
  * @author Sam Reid
  */
-public class SugarAndSaltSolutionsMacroscopicApplication extends PiccoloPhetApplication {
+public class SugarAndSaltSolutionsMacroApplication extends PiccoloPhetApplication {
 
     private static final String NAME = "sugar-and-salt-solutions-macroscopic";
 
-    public SugarAndSaltSolutionsMacroscopicApplication( PhetApplicationConfig config ) {
+    public SugarAndSaltSolutionsMacroApplication( PhetApplicationConfig config ) {
         super( config );
 
         //Create the modules
@@ -32,6 +32,6 @@ public class SugarAndSaltSolutionsMacroscopicApplication extends PiccoloPhetAppl
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, SugarAndSaltSolutionsResources.NAME, NAME, SugarAndSaltSolutionsMacroscopicApplication.class );
+        new PhetApplicationLauncher().launchSim( args, SugarAndSaltSolutionsResources.NAME, NAME, SugarAndSaltSolutionsMacroApplication.class );
     }
 }

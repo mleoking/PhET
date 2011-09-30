@@ -1,3 +1,5 @@
+Renamed Sugar and Salt Solutions: Macro (instead of Macroscopic)
+Renamed Sugar and Salt Solutions: Micro (instead of Basics)
 # 0.00.123 (57085) Sep 30, 2011
 Added new "Sugar and Salt Solutions: Basics" sim for temporary use in Fall 2011 wet lab at CU
 Added new "Sugar and Salt Solutions: Macroscopic" sim for temporary use in Fall 2011 wet lab at CU
