@@ -14,7 +14,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule;
 import edu.colorado.phet.sugarandsaltsolutions.water.WaterModule;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule.SIZE_SCALE;
-import static edu.colorado.phet.sugarandsaltsolutions.wetlab.SugarAndSaltSolutionsBasicsApplication.SINGLE_MICRO_KIT;
+import static edu.colorado.phet.sugarandsaltsolutions.wetlab.SugarAndSaltSolutionsMicroApplication.SINGLE_MICRO_KIT;
 
 /**
  * Main application for the PhET "Sugar and Salt Solutions" simulation
