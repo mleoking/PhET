@@ -1,3 +1,4 @@
+Improved layout of control panel(s) on first two tabs.
 Set up layers on the Intro tab so that the masses will always appear to be in front of the other model and control elements.
 Got "Reset All" to return bricks to original position on the ground on the Intro tab.
 Made it possible to place bricks on the ground anywhere on the Intro tab.

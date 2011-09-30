@@ -212,7 +212,7 @@ public class IntroCanvas extends PhetPCanvas {
             addChild( new PropertyCheckBoxNode( "Forces from Objects", forceVectorsFromObjectsVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( "Level", levelIndicatorVisibleProperty ) );
         }} );
-        controlPanel.setOffset( STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width - 20, 20 );
+        controlPanel.setOffset( STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width - 20, 100 );
         nonMassLayer.addChild( controlPanel );
 
         // Add the Reset All button.
