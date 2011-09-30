@@ -77,17 +77,19 @@ public class ConductivityTester implements IConductivityTester {
 
     //Determine the size of the probes in meters
     public PDimension getProbeSizeReference() {
-        return new PDimension( 0.0125, 0.025 );
+        return new PDimension( 0.0125, 0.025 ); //REVIEW hardcoded because? significance of these values? they might need to be changed if...?
     }
 
     //Returns the region in space occupied by the positive probe, used for hit detection with the entire probe region
     public ImmutableRectangle2D getPositiveProbeRegion() {
-        return new ImmutableRectangle2D( positiveProbeLocation.getX() - getProbeSizeReference().getWidth() / 2, positiveProbeLocation.getY(), getProbeSizeReference().getWidth(), getProbeSizeReference().getHeight() );
+        return new ImmutableRectangle2D( positiveProbeLocation.getX() - getProbeSizeReference().getWidth() / 2, positiveProbeLocation.getY(),
+                                         getProbeSizeReference().getWidth(), getProbeSizeReference().getHeight() );
     }
 
     //Returns the region in space occupied by the negative probe, used for hit detection with the entire probe region
     public ImmutableRectangle2D getNegativeProbeRegion() {
-        return new ImmutableRectangle2D( negativeProbeLocation.getX() - getProbeSizeReference().getWidth() / 2, negativeProbeLocation.getY(), getProbeSizeReference().getWidth(), getProbeSizeReference().getHeight() );
+        return new ImmutableRectangle2D( negativeProbeLocation.getX() - getProbeSizeReference().getWidth() / 2, negativeProbeLocation.getY(),
+                                         getProbeSizeReference().getWidth(), getProbeSizeReference().getHeight() );
     }
 
     //Determine the location of the positive probe
@@ -121,6 +123,7 @@ public class ConductivityTester implements IConductivityTester {
         }
     }
 
+    //REVIEW do you need this? brightness is public.
     //Get the bulb brightness, a function of the conductivity of the liquid
     public double getBrightness() {
         return brightness.get();

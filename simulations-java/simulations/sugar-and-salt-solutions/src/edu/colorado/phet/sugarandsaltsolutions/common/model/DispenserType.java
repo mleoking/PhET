@@ -12,7 +12,7 @@ public class DispenserType {
     private final String name;
 
     //List of elements comprising the solute
-    private final Integer[] elements;
+    private final Integer[] elements; //REVIEW rename elementAtomicMasses, to correspond to getter?
 
     public static final DispenserType SALT = new DispenserType( "Salt", 11, 17 );
     public static final DispenserType SUGAR = new DispenserType( "Sugar", 6, 1, 8 );

@@ -14,6 +14,7 @@ public class GlobalState {
     public final PhetApplicationConfig config;
     public final PhetFrame frame;
 
+    //REVIEW delete or change comment
     //Flag indicating that only sugar and salt (kit 1) should be available in the micro tab.  Used for wet lab in fall 2011 and can probably be deleted afterwards.
     public final boolean singleMicroKit;
 

@@ -17,6 +17,8 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel.VOLUME_PER_SOLID_MOLE_SALT;
 
+//REVIEW You have Shaker (for salt) and SugarDispenser (for sugar), somewhat inconsistent naming of Dispenser subclasses. Change this to SaltDispenser? Or SaltShaker, to match SaltShakerNode?
+
 /**
  * Model element for the salt shaker, which includes its position and rotation and adds salt to the model when shaken.
  * Shaking (by acceleration and deceleration) along the axis produce salt.

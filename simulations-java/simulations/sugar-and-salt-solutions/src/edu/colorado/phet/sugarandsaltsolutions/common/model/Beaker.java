@@ -21,6 +21,7 @@ public class Beaker {
     //Left side of the inner part of the beaker
     private final double x;
 
+    //REVIEW is +y up or down in the model?
     //the y-location of the inner part of the base of the beaker
     private final double y;
 
@@ -28,6 +29,7 @@ public class Beaker {
     private final double width;
     private final double height;
 
+    //REVIEW is +z into or out of the screen in the model? or does it even matter?
     //dimension of the beaker in the z-direction (into the screen)
     private final double depth;
 

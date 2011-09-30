@@ -20,6 +20,7 @@ public class ColorSet {
     //The background color to show, which accounts for the whiteBackground flag
     public final ObservableProperty<Color> color;
 
+    //REVIEW change whiteBackground to more general projectorMode, as used by client?
     public ColorSet( Color color, final Property<Boolean> whiteBackground, final Color colorForWhiteBackground ) {
         this.selectedColor = new Property<Color>( color );
         this.color = new CompositeProperty<Color>( new Function0<Color>() {

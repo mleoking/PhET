@@ -75,6 +75,7 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
         center.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
     }
 
+    //REVIEW lots of model classes with a reset method, why don't I see "implements Resettable" anywhere? Are you using a nonstandard approach to Reset All?
     //Reset the dispenser's position and orientation
     public void reset() {
 

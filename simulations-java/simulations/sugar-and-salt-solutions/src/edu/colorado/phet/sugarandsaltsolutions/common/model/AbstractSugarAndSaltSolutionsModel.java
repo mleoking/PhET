@@ -19,12 +19,14 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
 
+    //REVIEW But where is the interface for resetting the model?...
     //Listeners which are notified when the sim is reset.
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     //Model clock
     public final ConstantDtClock clock;
 
+    //REVIEW clockIsRunning would be a better name for this in the model. Play button is a view thing, and "pressed" is an event, not a state
     //Settable property that indicates whether the clock is running or paused.
     //The clock is never turned off in the first tab, since there are no dynamics and hence no pause button
     public final BooleanProperty playButtonPressed = new BooleanProperty( true );
@@ -42,6 +44,7 @@ public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
             }
         } );
 
+        //REVIEW why do you need to do this? This should be handled by phetcommon Module activation.
         //Make the clock run if "play" is selected with the user controls and if the module is active
         final And clockRunning = playButtonPressed.and( moduleActive );
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
