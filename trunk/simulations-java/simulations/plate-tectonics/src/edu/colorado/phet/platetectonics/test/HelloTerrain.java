@@ -6,7 +6,6 @@ import java.nio.ByteBuffer;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
-import edu.colorado.phet.platetectonics.model.AnimatedPlateModel;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;

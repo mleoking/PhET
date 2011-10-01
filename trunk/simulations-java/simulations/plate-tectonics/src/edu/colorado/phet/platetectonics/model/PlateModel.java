@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
-import java.awt.*;
-
 /**
  * All units in SI unless otherwise noted
  */

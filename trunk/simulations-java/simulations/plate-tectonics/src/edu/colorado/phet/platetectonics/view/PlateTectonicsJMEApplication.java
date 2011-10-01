@@ -43,7 +43,7 @@ public class PlateTectonicsJMEApplication extends PhetJMEApplication {
     public static void addLighting( Node node ) {
         final DirectionalLight sun = new DirectionalLight();
         sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
-        sun.setColor( new ColorRGBA( 1, 1, 1, 0.8f ) );
+        sun.setColor( new ColorRGBA( 1, 1, 1, 1.3f ) );
         node.addLight( sun );
 
         final DirectionalLight moon = new DirectionalLight();
