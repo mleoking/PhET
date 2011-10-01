@@ -1,69 +1,64 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.test;
 
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import java.nio.ByteBuffer;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.platetectonics.model.AnimatedPlateModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.model.VerySimplePlateModel;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.terrain.geomipmap.lodcalc.LodDistanceCalculatorFactory;
+import com.jme3.terrain.geomipmap.lodcalc.SimpleLodThreshold;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
+import com.jme3.texture.Image.Format;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import com.jme3.texture.Texture2D;
 
 public class HelloTerrain extends SimpleApplication {
 
     private TerrainQuad terrain;
     Material mat_terrain;
+    private PlateModel model;
+    private static final int PIXELS = 512; // number of pixels
+    private static final double PIXEL_SCALE = 250; // each pixel spans over this many meters
+    private static final double SEA_LEVEL_IN_PIXELS = 100;
 
     public static void main( String[] args ) {
         HelloTerrain app = new HelloTerrain();
         app.start();
     }
 
+    public HelloTerrain() {
+        model = new AnimatedPlateModel();
+    }
+
+    @Override public void simpleUpdate( float tpf ) {
+        super.simpleUpdate( tpf );
+    }
+
+    public float getHeightAtPixel( int x, int z ) {
+        double elevation = getElevationAtPixel( x, z );
+        return (float) MathUtil.clamp( 0, elevation / PIXEL_SCALE + SEA_LEVEL_IN_PIXELS, 255 );
+    }
+
+    private double getElevationAtPixel( int x, int z ) {
+        return model.getElevation(
+                ( x - PIXELS / 2 ) * PIXEL_SCALE,
+                ( z - PIXELS / 2 ) * PIXEL_SCALE );
+    }
+
     @Override
     public void simpleInitApp() {
         flyCam.setMoveSpeed( 50 );
 
-        /** 1. Create terrain material and load four textures into it. */
-        mat_terrain = new Material( assetManager,
-                                    "Common/MatDefs/Terrain/Terrain.j3md" );
-
-        /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
-        mat_terrain.setTexture( "Alpha", assetManager.loadTexture(
-                "Textures/Terrain/splat/alphamap.png" ) );
-
-        /** 1.2) Add GRASS texture into the red layer (Tex1). */
-        Texture grass = assetManager.loadTexture(
-                "Textures/Terrain/splat/grass.jpg" );
-        grass.setWrap( WrapMode.Repeat );
-        mat_terrain.setTexture( "Tex1", grass );
-        mat_terrain.setFloat( "Tex1Scale", 64f );
-
-        /** 1.3) Add DIRT texture into the green layer (Tex2) */
-        Texture dirt = assetManager.loadTexture(
-                "Textures/Terrain/splat/dirt.jpg" );
-        dirt.setWrap( WrapMode.Repeat );
-        mat_terrain.setTexture( "Tex2", dirt );
-        mat_terrain.setFloat( "Tex2Scale", 32f );
-
-        /** 1.4) Add ROAD texture into the blue layer (Tex3) */
-        Texture rock = assetManager.loadTexture(
-                "Textures/Terrain/splat/road.jpg" );
-        rock.setWrap( WrapMode.Repeat );
-        mat_terrain.setTexture( "Tex3", rock );
-        mat_terrain.setFloat( "Tex3Scale", 128f );
-
-        /** 2. Create the height map */
-        AbstractHeightMap heightmap = null;
-        Texture heightMapImage = assetManager.loadTexture(
-                "Textures/Terrain/splat/mountains512.png" );
-//        heightmap = new ImageBasedHeightMap( ImageToAwt.convert( heightMapImage.getImage(), false, true, 0 ) );
-        heightmap = new AbstractHeightMap() {
+        AbstractHeightMap heightmap = new AbstractHeightMap() {
             {
-                size = 513;
+                size = PIXELS + 1;
             }
 
             public boolean load() {
@@ -72,20 +67,76 @@ public class HelloTerrain extends SimpleApplication {
                     unloadHeightMap();
                 }
                 heightData = new float[size * size];
-                PlateModel model = new VerySimplePlateModel();
-                LinearFunction mapper = new LinearFunction( -1500, 1500, 0, 50 );
                 for ( int i = 0; i < size; i++ ) {
                     for ( int j = 0; j < size; j++ ) {
-                        double x = ( i - size / 2 ) * 250;
-                        double z = ( j - size / 2 ) * 250;
-                        double elevation = model.getElevation( x, z );
-                        setHeightAtPoint( (float) mapper.evaluate( elevation ), j, i );
+                        setHeightAtPoint( getHeightAtPixel( i, j ), j, i );
                     }
                 }
                 return true;
             }
         };
         heightmap.load();
+
+        /** 1. Create terrain material and load four textures into it. */
+        mat_terrain = new Material( assetManager, "Common/MatDefs/Terrain/Terrain.j3md" );
+
+        /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
+        mat_terrain.setTexture( "Alpha", assetManager.loadTexture( "Textures/Terrain/splat/alphamap.png" ) );
+        mat_terrain.setTexture( "Alpha", new Texture2D() {{
+            int width = PIXELS;
+            int height = PIXELS;
+            setImage( new com.jme3.texture.Image( Format.RGBA8, width, height, ByteBuffer.allocateDirect( 4 * width * height ) ) {
+                {
+                    update();
+                }
+
+                public void update() {
+                    ByteBuffer buffer = data.get( 0 );
+                    buffer.clear();
+                    int maxStone = 0;
+                    int maxBeach = 0;
+                    for ( int i = 0; i < width; i++ ) {
+                        for ( int j = 0; j < height; j++ ) {
+                            double elevation = getElevationAtPixel( i, j );
+                            int stonyness = MathUtil.clamp( 0, (int) ( ( elevation - 10000 ) / 20 ) + 255, 255 ); // fully stony at 10km
+                            int beachyness = elevation < 10 ? 255 : 0;
+                            buffer.put( (byte) ( 255 - stonyness - beachyness ) ); // grass
+                            buffer.put( (byte) stonyness ); // stone
+                            buffer.put( (byte) beachyness ); // beach (cobbles right now)
+                            buffer.put( (byte) 1 );
+
+                            maxStone = Math.max( maxStone, stonyness );
+                            maxBeach = Math.max( maxBeach, beachyness );
+                        }
+                    }
+                    System.out.println( "maxStone = " + maxStone );
+                    System.out.println( "maxBeach = " + maxBeach );
+                    setUpdateNeeded();
+                }
+            } );
+        }} );
+
+        /** 1.2) Add GRASS texture into the red layer (Tex1). */
+        Texture grass = assetManager.loadTexture( "Textures/Terrain/splat/grass.jpg" );
+        grass.setWrap( WrapMode.Repeat );
+        mat_terrain.setTexture( "Tex1", grass );
+        mat_terrain.setFloat( "Tex1Scale", 64f );
+
+        /** 1.3) Add DIRT texture into the green layer (Tex2) */
+        Texture dirt = assetManager.loadTexture( "Textures/Terrain/splat/dirt.jpg" );
+        dirt.setWrap( WrapMode.Repeat );
+        mat_terrain.setTexture( "Tex2", dirt );
+        mat_terrain.setFloat( "Tex2Scale", 32f );
+
+        /** 1.4) Add ROAD texture into the blue layer (Tex3) */
+        Texture rock = assetManager.loadTexture( "Textures/Terrain/splat/road.jpg" );
+        rock.setWrap( WrapMode.Repeat );
+        mat_terrain.setTexture( "Tex3", rock );
+        mat_terrain.setFloat( "Tex3Scale", 128f );
+
+        /** 2. Create the height map */
+        Texture heightMapImage = assetManager.loadTexture(
+                "Textures/Terrain/splat/mountains512.png" );
 
         /** 3. We have prepared material and heightmap.
          * Now we create the actual terrain:
@@ -100,13 +151,16 @@ public class HelloTerrain extends SimpleApplication {
 
         /** 4. We give the terrain its material, position & scale it, and attach it. */
         terrain.setMaterial( mat_terrain );
-        terrain.setLocalTranslation( 0, -100, 0 );
-        terrain.setLocalScale( 2f, 1f, 2f );
+        terrain.setLocalTranslation( 0, (float) -SEA_LEVEL_IN_PIXELS, 0 );
+//        terrain.setLocalScale( 1f, 1f, 1f );
         rootNode.attachChild( terrain );
 
         /** 5. The LOD (level of detail) depends on were the camera is: */
         TerrainLodControl control = new TerrainLodControl( terrain, getCamera() );
 
+        terrain.setLodCalculatorFactory( new LodDistanceCalculatorFactory( new SimpleLodThreshold( patchSize, 2.7f ) {{
+            setLodMultiplier( 7f );
+        }} ) );
 //        control.setLodCalculator( new DistanceLodCalculator( patchSize, 2.7f ) ); // patch size, and a multiplier
         terrain.addControl( control );
     }
