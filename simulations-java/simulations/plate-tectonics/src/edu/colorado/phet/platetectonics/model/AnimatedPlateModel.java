@@ -9,7 +9,8 @@ public class AnimatedPlateModel implements PlateModel {
     }
 
     public double getElevation( double x, double z ) {
-        return 20000 - ( x * x + z * z ) / 100000 + 1000 * ( Math.cos( x / 1000 + time / 5 ) - Math.sin( z / 1000 + time / 3 ) );
+        return 20000 - ( x * x + z * z ) / 100000 + 1000 * ( Math.cos( x / 1000 + time ) - Math.sin( z / 1000 + 2 * time ) )
+               + Math.sin( x / 10000 + time / 4 ) * 5000;
     }
 
     public double getDensity( double x, double y ) {
