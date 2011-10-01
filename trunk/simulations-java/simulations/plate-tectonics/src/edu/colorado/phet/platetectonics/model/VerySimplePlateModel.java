@@ -3,7 +3,7 @@ package edu.colorado.phet.platetectonics.model;
 
 public class VerySimplePlateModel implements PlateModel {
     public double getElevation( double x, double z ) {
-        return ( x - z ) / 10;
+        return ( x - z ) / 10 + 1000 * ( Math.cos( x / 1000 ) - Math.sin( z / 1000 ) );
     }
 
     public double getDensity( double x, double y ) {
