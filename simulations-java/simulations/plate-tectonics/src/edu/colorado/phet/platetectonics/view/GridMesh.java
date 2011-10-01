@@ -7,6 +7,7 @@ import java.nio.IntBuffer;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.util.BufferUtils;
 
 /**
@@ -14,11 +15,20 @@ import com.jme3.util.BufferUtils;
  */
 public class GridMesh extends Mesh {
 
+    private FloatBuffer positionBuffer;
+    private FloatBuffer normalBuffer;
+
+    private int rows;
+    private int columns;
+
     // TODO: consider changing positions to be a float buffer? or vertex buffer?
     public GridMesh( int rows, int columns, Vector3f[] positions ) {
+        this.rows = rows;
+        this.columns = columns;
+
         int vertexCount = columns * rows;
-        FloatBuffer positionBuffer = BufferUtils.createFloatBuffer( vertexCount * 3 );
-        FloatBuffer normalBuffer = BufferUtils.createFloatBuffer( vertexCount * 3 );
+        positionBuffer = BufferUtils.createFloatBuffer( vertexCount * 3 );
+        normalBuffer = BufferUtils.createFloatBuffer( vertexCount * 3 );
         FloatBuffer textureBuffer = BufferUtils.createFloatBuffer( vertexCount * 2 );
 
         // we build it from strips. there are (rows-1) strips, each strip uses two full rows (columns*2),
@@ -26,7 +36,66 @@ public class GridMesh extends Mesh {
         int numIndices = ( rows - 1 ) * columns * 2 + ( rows - 2 ) * 2;
         IntBuffer indexBuffer = BufferUtils.createIntBuffer( numIndices );
 
+        setPositions( positions );
+
+        // compute texture coordinates at the start
         float maxSize = Math.max( rows, columns );
+        for ( int row = 0; row < rows; row++ ) {
+            for ( int col = 0; col < columns; col++ ) {
+                /*---------------------------------------------------------------------------*
+                * texture
+                *----------------------------------------------------------------------------*/
+
+                // add texture coordinates based on the largest overall space that will fit in our unit square with the correct aspect ratio
+                // TODO: better way of handling this? can we scale the terrain textures to make this work better?
+                textureBuffer.put( new float[] {
+                        ( (float) ( col ) ) / maxSize,
+                        ( (float) ( row ) ) / maxSize, // consider moving this out of the loop for optimization
+                } );
+            }
+        }
+
+        // create the index information so OpenGL knows how to walk our position indices
+        for ( int strip = 0; strip < rows - 1; strip++ ) {
+            int stripOffset = strip * columns;
+
+            if ( strip != 0 ) {
+                // add in two points that create volume-less triangles (won't render) and keep the winding number the same for the start
+                indexBuffer.put( stripOffset + columns - 1 ); // add the last-added point
+                indexBuffer.put( stripOffset );
+            }
+
+            // each quad is walked over by hitting (in order) upper-left, lower-left, upper-right, lower-right.
+            for ( int offset = 0; offset < columns; offset++ ) {
+                indexBuffer.put( stripOffset + offset );
+                indexBuffer.put( stripOffset + columns + offset ); // down a row
+            }
+        }
+
+        setMode( Mode.TriangleStrip );
+        setBuffer( VertexBuffer.Type.Position, 3, positionBuffer );
+        setBuffer( VertexBuffer.Type.Normal, 3, normalBuffer );
+        setBuffer( VertexBuffer.Type.TexCoord, 2, textureBuffer );
+        setBuffer( VertexBuffer.Type.Index, 3, indexBuffer );
+        updateBound();
+        updateCounts();
+    }
+
+    public void updateGeometry( Vector3f[] positions ) {
+        setPositions( positions );
+        updateBound();
+        updateCounts();
+
+        getBuffer( Type.Position ).updateData( positionBuffer );
+        getBuffer( Type.Normal ).updateData( normalBuffer );
+    }
+
+    private void setPositions( Vector3f[] positions ) {
+        // reset the buffers
+        positionBuffer.clear();
+        normalBuffer.clear();
+
+        // fill them with data
         for ( int row = 0; row < rows; row++ ) {
             int rowOffset = row * columns;
             for ( int col = 0; col < columns; col++ ) {
@@ -65,11 +134,6 @@ public class GridMesh extends Mesh {
                     left = right.negate();
                 }
 
-//                System.out.println( "up = " + up );
-//                System.out.println( "down = " + down );
-//                System.out.println( "left = " + left );
-//                System.out.println( "right = " + right );
-
                 Vector3f normal = new Vector3f();
                 // basically, sum up the normals of each quad this vertex is part of, and take the average
                 normal.addLocal( right.cross( up ).normalizeLocal() );
@@ -77,45 +141,8 @@ public class GridMesh extends Mesh {
                 normal.addLocal( left.cross( down ).normalizeLocal() );
                 normal.addLocal( down.cross( right ).normalizeLocal() );
                 normal.normalizeLocal();
-//                System.out.println( "normal = " + normal );
                 normalBuffer.put( new float[] { normal.x, normal.y, normal.z } );
-
-                /*---------------------------------------------------------------------------*
-                * texture
-                *----------------------------------------------------------------------------*/
-
-                // add texture coordinates based on the largest overall space that will fit in our unit square with the correct aspect ratio
-                // TODO: better way of handling this? can we scale the terrain textures to make this work better?
-                textureBuffer.put( new float[] {
-                        ( (float) ( col ) ) / maxSize,
-                        ( (float) ( row ) ) / maxSize, // consider moving this out of the loop for optimization
-                } );
             }
         }
-
-        // create the index information so OpenGL knows how to walk our position indices
-        for ( int strip = 0; strip < rows - 1; strip++ ) {
-            int stripOffset = strip * columns;
-
-            if ( strip != 0 ) {
-                // add in two points that create volume-less triangles (won't render) and keep the winding number the same for the start
-                indexBuffer.put( stripOffset + columns - 1 ); // add the last-added point
-                indexBuffer.put( stripOffset );
-            }
-
-            // each quad is walked over by hitting (in order) upper-left, lower-left, upper-right, lower-right.
-            for ( int offset = 0; offset < columns; offset++ ) {
-                indexBuffer.put( stripOffset + offset );
-                indexBuffer.put( stripOffset + columns + offset ); // down a row
-            }
-        }
-
-        setMode( Mode.TriangleStrip );
-        setBuffer( VertexBuffer.Type.Position, 3, positionBuffer );
-        setBuffer( VertexBuffer.Type.Normal, 3, normalBuffer );
-        setBuffer( VertexBuffer.Type.TexCoord, 2, textureBuffer );
-        setBuffer( VertexBuffer.Type.Index, 3, indexBuffer );
-        updateBound();
-        updateCounts();
     }
 }
