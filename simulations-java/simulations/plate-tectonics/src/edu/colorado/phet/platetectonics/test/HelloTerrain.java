@@ -62,19 +62,23 @@ public class HelloTerrain extends SimpleApplication {
                 "Textures/Terrain/splat/mountains512.png" );
 //        heightmap = new ImageBasedHeightMap( ImageToAwt.convert( heightMapImage.getImage(), false, true, 0 ) );
         heightmap = new AbstractHeightMap() {
+            {
+                size = 513;
+            }
+
             public boolean load() {
-                int size = 50;
                 // clean up data if needed.
                 if ( null != heightData ) {
                     unloadHeightMap();
                 }
                 heightData = new float[size * size];
                 PlateModel model = new VerySimplePlateModel();
-                LinearFunction mapper = new LinearFunction( -5, 5, 0, 255 );
+                LinearFunction mapper = new LinearFunction( -1500, 1500, 0, 50 );
                 for ( int i = 0; i < size; i++ ) {
                     for ( int j = 0; j < size; j++ ) {
-                        double elevation = model.getElevation( i - size / 2, j - size / 2 );
-                        System.out.println( "elevation = " + elevation );
+                        double x = ( i - size / 2 ) * 250;
+                        double z = ( j - size / 2 ) * 250;
+                        double elevation = model.getElevation( x, z );
                         setHeightAtPoint( (float) mapper.evaluate( elevation ), j, i );
                     }
                 }
