@@ -48,6 +48,7 @@ public class SinglePlateModule extends JMEModule {
     @Override public void updateState( float tpf ) {
         super.updateState( tpf );
         model.update( tpf );
+        terrainNode.updateState( tpf );
 //        terrainNode.rotate( tpf, 0, 0 );
     }
 

@@ -3,14 +3,16 @@
 package edu.colorado.phet.platetectonics;
 
 
-import java.awt.Frame;
+import java.awt.*;
 
-import javax.swing.JMenu;
-import javax.swing.JSeparator;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
@@ -69,6 +71,21 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
         // add items to the Developer menu here...
 
         developerMenu.add( new JSeparator() );
+
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
+            addObserver( new SimpleObserver() {
+                             public void update() {
+                                 JMEUtils.getApplication().statistics.setDisplayFps( get() );
+                             }
+                         }, false );
+        }} ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show Statistics", new Property<Boolean>( false ) {{
+            addObserver( new SimpleObserver() {
+                             public void update() {
+                                 JMEUtils.getApplication().statistics.setDisplayStatView( get() );
+                             }
+                         }, false );
+        }} ) );
     }
 
     //----------------------------------------------------------------------------

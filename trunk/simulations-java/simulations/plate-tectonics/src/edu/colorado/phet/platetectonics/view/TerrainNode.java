@@ -13,8 +13,30 @@ public class TerrainNode extends Geometry {
     private static final int xSamples = 400;
     private static final int zSamples = 100;
     private static final float SCALE = 500; // TODO: replace with JME-version of ModelViewTransform
+    private GridMesh gridMesh;
+    private final AnimatedPlateModel model;
 
     public TerrainNode( AnimatedPlateModel model, JMEModule module ) {
+        this.model = model;
+        Vector3f[] positions = computePositions( model );
+
+        gridMesh = new GridMesh( zSamples, xSamples, positions );
+        setMesh( gridMesh );
+        setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md" ) {{
+            setBoolean( "UseMaterialColors", true );
+//            getAdditionalRenderState().setWireframe(true);
+
+            setColor( "Diffuse", ColorRGBA.Gray );
+            setFloat( "Shininess", 1f ); // [0,128]
+        }} );
+    }
+
+    public void updateState( float tpf ) {
+        // TODO: refactor to a listener on the model? or something else?
+        gridMesh.updateGeometry( computePositions( model ) );
+    }
+
+    private Vector3f[] computePositions( AnimatedPlateModel model ) {
         Vector3f[] positions = new Vector3f[xSamples * zSamples];
         for ( int zIndex = 0; zIndex < zSamples; zIndex++ ) {
             for ( int xIndex = 0; xIndex < xSamples; xIndex++ ) {
@@ -25,15 +47,7 @@ public class TerrainNode extends Geometry {
                 positions[zIndex * xSamples + xIndex] = vector;
             }
         }
-
-        setMesh( new GridMesh( zSamples, xSamples, positions ) );
-        setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md" ) {{
-            setBoolean( "UseMaterialColors", true );
-//            getAdditionalRenderState().setWireframe(true);
-
-            setColor( "Diffuse", ColorRGBA.Gray );
-            setFloat( "Shininess", 1f ); // [0,128]
-        }} );
+        return positions;
     }
 
 }
