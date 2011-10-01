@@ -11,7 +11,8 @@ import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.util.BufferUtils;
 
 /**
- * Displays a grid made of triangles
+ * Displays a quad-based polygonal grid tesselated with triangles. Think of it as a table of
+ * vertices, each connected to its neighbors.
  */
 public class GridMesh extends Mesh {
 
@@ -22,6 +23,12 @@ public class GridMesh extends Mesh {
     private int columns;
 
     // TODO: consider changing positions to be a float buffer? or vertex buffer?
+
+    /**
+     * @param rows      How many rows of vertices there are in positions
+     * @param columns   How many columns of vertices  there are in positions
+     * @param positions Vertices. Should be rows*columns of them
+     */
     public GridMesh( int rows, int columns, Vector3f[] positions ) {
         this.rows = rows;
         this.columns = columns;
@@ -47,10 +54,13 @@ public class GridMesh extends Mesh {
                 *----------------------------------------------------------------------------*/
 
                 // add texture coordinates based on the largest overall space that will fit in our unit square with the correct aspect ratio
-                // TODO: better way of handling this? can we scale the terrain textures to make this work better?
                 textureBuffer.put( new float[] {
                         ( (float) ( col ) ) / maxSize,
                         ( (float) ( row ) ) / maxSize, // consider moving this out of the loop for optimization
+                        /*
+                        ( (float) ( col ) ) / (float) ( columns - 1 ),
+                        ( (float) ( row ) ) / (float) ( rows - 1 ), // consider moving this out of the loop for optimization
+                         */
                 } );
             }
         }
@@ -81,6 +91,11 @@ public class GridMesh extends Mesh {
         updateCounts();
     }
 
+    /**
+     * Update the position vertices.
+     *
+     * @param positions See docs on constructor
+     */
     public void updateGeometry( Vector3f[] positions ) {
         setPositions( positions );
         updateBound();

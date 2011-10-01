@@ -1,5 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.platetectonics.model;
+package edu.colorado.phet.platetectonics.test;
+
+import edu.colorado.phet.platetectonics.model.PlateModel;
 
 public class VerySimplePlateModel implements PlateModel {
     public double getElevation( double x, double z ) {
