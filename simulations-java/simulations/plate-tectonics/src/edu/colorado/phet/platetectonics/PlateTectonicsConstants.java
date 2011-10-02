@@ -13,6 +13,7 @@ public class PlateTectonicsConstants {
 
     public static final float RESOLUTION = 0.5f; // TODO: better separation of "resolution" and samples
 
-    public static final int X_SAMPLES = 200;
-    public static final int Y_SAMPLES = 50;
+    public static final int X_SAMPLES = 200; // number of samples along the x direction (terrain and cross section)
+    public static final int Y_SAMPLES = 200; // number of vertical samples along the y direction (cross section only)
+    public static final int Z_SAMPLES = 50; // number of samples along the z direction (terrain only)
 }
