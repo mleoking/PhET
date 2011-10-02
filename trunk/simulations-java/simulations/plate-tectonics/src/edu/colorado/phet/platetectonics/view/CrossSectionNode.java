@@ -5,9 +5,9 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
-import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
+import edu.colorado.phet.platetectonics.util.Grid3D;
 
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -18,16 +18,16 @@ import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.util.BufferUtils;
 
-import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.X_SAMPLES;
-import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.Y_SAMPLES;
-
+/**
+ * Displays a cross section of the plate model, within the specified grid bounds
+ */
 public class CrossSectionNode extends Geometry {
-    private final PlateTectonicsModule module;
+    private final Grid3D grid;
 
-    public CrossSectionNode( final PlateModel model, final PlateTectonicsModule module ) {
-        this.module = module;
+    public CrossSectionNode( final PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
+        this.grid = grid;
         setMesh( new Mesh() {{
-            final int vertexCount = X_SAMPLES * 2;
+            final int vertexCount = grid.getNumXSamples() * 2;
             final FloatBuffer positionBuffer = BufferUtils.createFloatBuffer( vertexCount * 3 );
             final FloatBuffer normalBuffer = BufferUtils.createFloatBuffer( vertexCount * 3 );
             final FloatBuffer textureBuffer = BufferUtils.createFloatBuffer( vertexCount * 2 );
@@ -46,9 +46,10 @@ public class CrossSectionNode extends Geometry {
                     textureBuffer.clear();
 
                     // scan through all of our "top" vertices
-                    for ( int i = 0; i < X_SAMPLES; i++ ) {
-                        float modelX = getModelX( i );
-                        float modelZ = 0;
+                    int numXSamples = grid.getNumXSamples();
+                    for ( int i = 0; i < numXSamples; i++ ) {
+                        float modelX = grid.getXSample( i );
+                        float modelZ = getFrontZ();
                         Vector3f modelTop = new Vector3f( modelX, (float) model.getElevation( modelX, modelZ ), modelZ );
                         Vector3f modelBottom = new Vector3f( modelX, getBaseY(), modelZ );
 
@@ -93,14 +94,12 @@ public class CrossSectionNode extends Geometry {
         }} );
     }
 
-    private float getModelX( float xIndex ) {
-        // TODO: refactor this to combine constraints with TerrainNode!
-        // center our x samples, and apply the resolution
-        return module.getModelViewTransform().viewToModelDeltaX( ( xIndex - ( (float) X_SAMPLES - 1 ) / 2 ) / PlateTectonicsConstants.RESOLUTION );
+    private float getBaseY() {
+        return grid.getYSample( 0 );
     }
 
-    private float getBaseY() {
-        // TODO: improve base Y, since this would only render samples up to the sea level!
-        return module.getModelViewTransform().viewToModelDeltaY( ( -Y_SAMPLES ) / PlateTectonicsConstants.RESOLUTION );
+    private float getFrontZ() {
+        // pick out the "front" Z sample, which is actually at the end of the array
+        return grid.getZSample( grid.getNumZSamples() - 1 );
     }
 }
