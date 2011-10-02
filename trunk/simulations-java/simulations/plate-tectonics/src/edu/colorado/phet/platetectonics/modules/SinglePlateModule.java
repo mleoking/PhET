@@ -7,27 +7,22 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
 import edu.colorado.phet.jmephet.JMEView;
-import edu.colorado.phet.jmephet.PhetCamera;
-import edu.colorado.phet.jmephet.PhetCamera.CenteredStageCameraStrategy;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
-import edu.colorado.phet.platetectonics.test.AnimatedPlateModel;
+import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.test.VerySimplePlateModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
-import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 
 public class SinglePlateModule extends PlateTectonicsModule {
 
-    private AnimatedPlateModel model;
+    private PlateModel model;
     private PlateView plateView;
-    private JMEView mainView;
 
     public SinglePlateModule( Frame parentFrame ) {
         super( parentFrame, Strings.SINGLE_PLATE__TITLE );
@@ -41,18 +36,7 @@ public class SinglePlateModule extends PlateTectonicsModule {
     }
 
     @Override public void initialize() {
-        canvasTransform = new CenteredStageCanvasTransform( getApp() );
-
-        /*---------------------------------------------------------------------------*
-        * temporary test scene
-        *----------------------------------------------------------------------------*/
-        mainView = createMainView( "Main", new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 45, 1, 1000 ) ) {{
-            setLocation( new Vector3f( 0, 100, 400 ) );
-            lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-        }} );
-
-        // light it
-        PlateTectonicsJMEApplication.addLighting( mainView.getScene() );
+        super.initialize();
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D( new Bounds3D(
@@ -64,7 +48,7 @@ public class SinglePlateModule extends PlateTectonicsModule {
                 50000 ), 200, 200, 50 );
 
         // create the model and terrain
-        model = new AnimatedPlateModel();
+        model = new VerySimplePlateModel();
         plateView = new PlateView( model, this, grid );
         mainView.getScene().attachChild( plateView );
 
