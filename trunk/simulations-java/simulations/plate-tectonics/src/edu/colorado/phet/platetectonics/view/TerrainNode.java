@@ -5,7 +5,6 @@ import java.nio.ByteBuffer;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
-import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
 
@@ -16,8 +15,7 @@ import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import com.jme3.texture.Texture2D;
 
-import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.X_SAMPLES;
-import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.Z_SAMPLES;
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.*;
 
 /**
  * Displays the top terrain of a plate model
@@ -97,12 +95,12 @@ public class TerrainNode extends Geometry {
     private float getModelX( float xIndex ) {
         // TODO: refactor this to combine constraints with CrossSectionNode!
         // center our x samples, and apply the resolution
-        return module.getModelViewTransform().viewToModelDeltaX( ( xIndex - ( (float) X_SAMPLES - 1 ) / 2 ) / PlateTectonicsConstants.RESOLUTION );
+        return module.getModelViewTransform().viewToModelDeltaX( ( xIndex - ( (float) X_SAMPLES - 1 ) / 2 ) / RESOLUTION );
     }
 
     private float getModelZ( float zIndex ) {
         // z samples go into negative z, and apply the resolution
-        return module.getModelViewTransform().viewToModelDeltaZ( ( zIndex - ( (float) Z_SAMPLES - 1 ) ) / PlateTectonicsConstants.RESOLUTION );
+        return module.getModelViewTransform().viewToModelDeltaZ( ( zIndex - ( (float) Z_SAMPLES - 1 ) ) / RESOLUTION );
     }
 
     /*---------------------------------------------------------------------------*
