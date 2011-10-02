@@ -16,12 +16,13 @@ import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import com.jme3.texture.Texture2D;
 
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.X_SAMPLES;
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.Z_SAMPLES;
+
 /**
  * Displays the top terrain of a plate model
  */
 public class TerrainNode extends Geometry {
-    private final int xSamples;
-    private final int zSamples;
     private GridMesh gridMesh;
     private final PlateModel model;
     private final PlateTectonicsModule module;
@@ -30,12 +31,10 @@ public class TerrainNode extends Geometry {
     public TerrainNode( PlateModel model, final PlateTectonicsModule module ) {
         this.model = model;
         this.module = module;
-        xSamples = PlateTectonicsConstants.X_SAMPLES;
-        zSamples = PlateTectonicsConstants.Z_SAMPLES;
         Vector3f[] positions = computePositions( model );
 
         // use the gridded mesh to handle the terrain
-        gridMesh = new GridMesh( zSamples, xSamples, positions );
+        gridMesh = new GridMesh( Z_SAMPLES, X_SAMPLES, positions );
         setMesh( gridMesh );
 
         // use a terrain-style texture. this allows us to blend between three different textures
@@ -43,8 +42,8 @@ public class TerrainNode extends Geometry {
 
             /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
             setTexture( "Alpha", new Texture2D() {{
-                int width = xSamples;
-                int height = zSamples;
+                int width = X_SAMPLES;
+                int height = Z_SAMPLES;
                 image = new TerrainTextureImage( width, height );
                 setImage( image );
             }} );
@@ -76,20 +75,20 @@ public class TerrainNode extends Geometry {
         }, false );
     }
 
-    private double getElevationAtPixel( int xIndex, int zIndex ) {
+    private double getElevationAtPixel( float xIndex, float zIndex ) {
         return model.getElevation( getModelX( xIndex ), getModelZ( zIndex ) );
     }
 
     private Vector3f[] computePositions( PlateModel model ) {
-        Vector3f[] positions = new Vector3f[xSamples * zSamples];
-        for ( int zIndex = 0; zIndex < zSamples; zIndex++ ) {
-            for ( int xIndex = 0; xIndex < xSamples; xIndex++ ) {
+        Vector3f[] positions = new Vector3f[X_SAMPLES * Z_SAMPLES];
+        for ( int zIndex = 0; zIndex < Z_SAMPLES; zIndex++ ) {
+            for ( int xIndex = 0; xIndex < X_SAMPLES; xIndex++ ) {
                 float x = getModelX( xIndex );
                 float z = getModelZ( zIndex );
                 float elevation = (float) model.getElevation( x, z );
                 Vector3f modelVector = new Vector3f( x, elevation, z );
                 Vector3f viewVector = module.getModelViewTransform().modelToView( modelVector );
-                positions[zIndex * xSamples + xIndex] = viewVector;
+                positions[zIndex * X_SAMPLES + xIndex] = viewVector;
             }
         }
         return positions;
@@ -98,12 +97,12 @@ public class TerrainNode extends Geometry {
     private float getModelX( float xIndex ) {
         // TODO: refactor this to combine constraints with CrossSectionNode!
         // center our x samples, and apply the resolution
-        return module.getModelViewTransform().viewToModelDeltaX( ( xIndex - ( (float) xSamples ) / 2 ) / PlateTectonicsConstants.RESOLUTION );
+        return module.getModelViewTransform().viewToModelDeltaX( ( xIndex - ( (float) X_SAMPLES - 1 ) / 2 ) / PlateTectonicsConstants.RESOLUTION );
     }
 
     private float getModelZ( float zIndex ) {
         // z samples go into negative z, and apply the resolution
-        return module.getModelViewTransform().viewToModelDeltaZ( ( zIndex - ( (float) zSamples ) ) / PlateTectonicsConstants.RESOLUTION );
+        return module.getModelViewTransform().viewToModelDeltaZ( ( zIndex - ( (float) Z_SAMPLES - 1 ) ) / PlateTectonicsConstants.RESOLUTION );
     }
 
     /*---------------------------------------------------------------------------*

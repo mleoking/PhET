@@ -96,7 +96,7 @@ public class CrossSectionNode extends Geometry {
     private float getModelX( float xIndex ) {
         // TODO: refactor this to combine constraints with TerrainNode!
         // center our x samples, and apply the resolution
-        return module.getModelViewTransform().viewToModelDeltaX( ( xIndex - X_SAMPLES / 2 ) / PlateTectonicsConstants.RESOLUTION );
+        return module.getModelViewTransform().viewToModelDeltaX( ( xIndex - ( (float) X_SAMPLES - 1 ) / 2 ) / PlateTectonicsConstants.RESOLUTION );
     }
 
     private float getBaseY() {
