@@ -135,8 +135,8 @@ public class CrossSectionNode extends Geometry {
             int Y_SAMPLES = grid.getNumYSamples();
             ByteBuffer buffer = data.get( 0 );
             buffer.clear();
-            System.out.println( "width = " + width );
-            System.out.println( "height = " + height );
+//            System.out.println( "width = " + width );
+//            System.out.println( "height = " + height );
             for ( int y = 0; y < height; y++ ) {
                 for ( int x = 0; x < width; x++ ) {
                     // TODO: investigate this code, why it is needed in the other location. Probably deals with square-ness of textures?
