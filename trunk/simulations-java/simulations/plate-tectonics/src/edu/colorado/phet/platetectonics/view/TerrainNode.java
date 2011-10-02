@@ -119,10 +119,9 @@ public class TerrainNode extends Geometry {
             buffer.clear();
             for ( int z = 0; z < height; z++ ) {
                 for ( int x = 0; x < width; x++ ) {
-                    // TODO: add in subsampling?
                     double elevation = getElevationAtPixel( x, z );
-                    int stonyness = MathUtil.clamp( 0, (int) ( ( elevation - 10000 ) / 20 ) + 255, 255 ); // fully stony at 10km
-                    int beachyness = MathUtil.clamp( 0, (int) ( -( elevation - 300 ) ), 255 );
+                    int stonyness = MathUtil.clamp( 0, (int) ( ( elevation - 15000 ) / 20 ) + 255, 255 ); // fully stony at 10km
+                    int beachyness = MathUtil.clamp( 0, (int) ( -( elevation - 1500 ) / 3 ), 255 );
                     buffer.put( (byte) ( 255 - stonyness - beachyness ) ); // grass
                     buffer.put( (byte) stonyness ); // stone
                     buffer.put( (byte) beachyness ); // beach (cobbles right now)
