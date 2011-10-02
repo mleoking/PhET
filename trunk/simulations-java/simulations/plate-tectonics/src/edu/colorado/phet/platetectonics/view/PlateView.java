@@ -26,10 +26,11 @@ public class PlateView extends Node {
 
         terrainNode = new TerrainNode( model, module );
         attachChild( terrainNode );
+        attachChild( new CrossSectionNode( model, module ) );
 
         // a quick water test
         final float waterWidth = PlateTectonicsConstants.X_SAMPLES / PlateTectonicsConstants.RESOLUTION;
-        float waterHeight = PlateTectonicsConstants.Y_SAMPLES / PlateTectonicsConstants.RESOLUTION;
+        float waterHeight = PlateTectonicsConstants.Z_SAMPLES / PlateTectonicsConstants.RESOLUTION;
         attachChild( new Geometry( "Water", new Quad( waterWidth, waterHeight, true ) ) {{
             setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
 //                setBoolean( "UseMaterialColors", true );
@@ -49,6 +50,6 @@ public class PlateView extends Node {
     }
 
     public void updateView() {
-        terrainNode.updateView();
+//        terrainNode.updateView();
     }
 }

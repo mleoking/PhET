@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.view;
 import java.nio.ByteBuffer;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
@@ -30,7 +31,7 @@ public class TerrainNode extends Geometry {
         this.model = model;
         this.module = module;
         xSamples = PlateTectonicsConstants.X_SAMPLES;
-        zSamples = PlateTectonicsConstants.Y_SAMPLES;
+        zSamples = PlateTectonicsConstants.Z_SAMPLES;
         Vector3f[] positions = computePositions( model );
 
         // use the gridded mesh to handle the terrain
@@ -66,12 +67,13 @@ public class TerrainNode extends Geometry {
             setTexture( "Tex3", rock );
             setFloat( "Tex3Scale", 128f );
         }} );
-    }
 
-    public void updateView() {
-        // TODO: refactor to a listener on the model? or something else?
-        gridMesh.updateGeometry( computePositions( model ) );
-        image.updateTerrain();
+        model.modelChanged.addUpdateListener( new UpdateListener() {
+            public void update() {
+                gridMesh.updateGeometry( computePositions( TerrainNode.this.model ) );
+                image.updateTerrain();
+            }
+        }, false );
     }
 
     private double getElevationAtPixel( int xIndex, int zIndex ) {
@@ -94,6 +96,7 @@ public class TerrainNode extends Geometry {
     }
 
     private float getModelX( float xIndex ) {
+        // TODO: refactor this to combine constraints with CrossSectionNode!
         // center our x samples, and apply the resolution
         return module.getModelViewTransform().viewToModelDeltaX( ( xIndex - ( (float) xSamples ) / 2 ) / PlateTectonicsConstants.RESOLUTION );
     }
