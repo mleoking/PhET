@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
-import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
+import edu.colorado.phet.platetectonics.util.Grid3D;
 
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
@@ -15,22 +15,23 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 
 /**
- * A view (node) that displays everything physical related to a plate model
+ * A view (node) that displays everything physical related to a plate model, within the bounds
+ * of the specified grid
  */
 public class PlateView extends Node {
     private PlateModel model;
     private TerrainNode terrainNode;
 
-    public PlateView( PlateModel model, final PlateTectonicsModule module ) {
+    public PlateView( PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
         this.model = model;
 
-        terrainNode = new TerrainNode( model, module );
+        terrainNode = new TerrainNode( model, module, grid );
         attachChild( terrainNode );
-        attachChild( new CrossSectionNode( model, module ) );
+        attachChild( new CrossSectionNode( model, module, grid ) );
 
         // a quick water test
-        final float waterWidth = PlateTectonicsConstants.X_SAMPLES / PlateTectonicsConstants.RESOLUTION;
-        float waterHeight = PlateTectonicsConstants.Z_SAMPLES / PlateTectonicsConstants.RESOLUTION;
+        final float waterWidth = module.getModelViewTransform().modelToViewDeltaX( grid.getBounds().getWidth() );
+        float waterHeight = module.getModelViewTransform().modelToViewDeltaX( grid.getBounds().getDepth() );
         attachChild( new Geometry( "Water", new Quad( waterWidth, waterHeight, true ) ) {{
             setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
 //                setBoolean( "UseMaterialColors", true );
@@ -44,7 +45,7 @@ public class PlateView extends Node {
                 setTransparent( true );
             }} );
             setQueueBucket( Bucket.Transparent ); // allow it to be transparent
-            setLocalTranslation( -waterWidth / 2, 0, 0 );
+            setLocalTranslation( module.getModelViewTransform().modelToViewDeltaX( grid.getBounds().getMinX() ), 0, 0 );
             rotate( -FastMath.PI / 2, 0, 0 );
         }} );
     }

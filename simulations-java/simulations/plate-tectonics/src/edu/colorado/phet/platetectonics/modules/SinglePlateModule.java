@@ -14,6 +14,8 @@ import edu.colorado.phet.jmephet.PhetCamera.CenteredStageCameraStrategy;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.test.AnimatedPlateModel;
+import edu.colorado.phet.platetectonics.util.Bounds3D;
+import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -52,9 +54,18 @@ public class SinglePlateModule extends PlateTectonicsModule {
         // light it
         PlateTectonicsJMEApplication.addLighting( mainView.getScene() );
 
+        // grid centered X, with front Z at 0
+        Grid3D grid = new Grid3D( new Bounds3D(
+                -100000,
+                -100000,
+                -50000,
+                200000,
+                200000,
+                50000 ), 200, 200, 50 );
+
         // create the model and terrain
         model = new AnimatedPlateModel();
-        plateView = new PlateView( model, this );
+        plateView = new PlateView( model, this, grid );
         mainView.getScene().attachChild( plateView );
 
         /*---------------------------------------------------------------------------*
