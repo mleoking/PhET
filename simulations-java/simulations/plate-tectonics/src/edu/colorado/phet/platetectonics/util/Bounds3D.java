@@ -23,6 +23,10 @@ public class Bounds3D {
         this.depth = depth;
     }
 
+    public static Bounds3D fromMinMax( float minX, float maxX, float minY, float maxY, float minZ, float maxZ ) {
+        return new Bounds3D( minX, minY, minZ, maxX - minX, maxY - minY, maxZ - minZ );
+    }
+
     public float getDepth() {
         return depth;
     }

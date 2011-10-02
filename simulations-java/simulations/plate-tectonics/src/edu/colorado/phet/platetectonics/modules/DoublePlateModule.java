@@ -15,7 +15,6 @@ import com.jme3.renderer.Camera;
 public class DoublePlateModule extends PlateTectonicsModule {
 
     private PlateModel model;
-    private PlateView plateView;
 
     public DoublePlateModule( Frame parentFrame ) {
         super( parentFrame, Strings.DOUBLE_PLATE__TITLE );
@@ -24,26 +23,21 @@ public class DoublePlateModule extends PlateTectonicsModule {
     @Override public void updateState( float tpf ) {
         super.updateState( tpf );
         model.update( tpf );
-        plateView.updateView();
-//        terrainNode.rotate( tpf, 0, 0 );
     }
 
     @Override public void initialize() {
         super.initialize();
 
         // grid centered X, with front Z at 0
-        Grid3D grid = new Grid3D( new Bounds3D(
-                -100000,
-                -100000,
-                -50000,
-                200000,
-                200000,
-                50000 ), 512, 512, 32 );
+        Grid3D grid = new Grid3D(
+                Bounds3D.fromMinMax( -100000, 100000,
+                                     -100000, 100000,
+                                     -50000, 0 ),
+                512, 512, 32 );
 
         // create the model and terrain
         model = new AnimatedPlateModel();
-        plateView = new PlateView( model, this, grid );
-        mainView.getScene().attachChild( plateView );
+        mainView.getScene().attachChild( new PlateView( model, this, grid ) );
     }
 
     @Override public Camera getDebugCamera() {
