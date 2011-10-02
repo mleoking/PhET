@@ -4,6 +4,8 @@ package edu.colorado.phet.platetectonics;
 
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -17,7 +19,11 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.platetectonics.modules.DoublePlateModule;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
 import edu.colorado.phet.platetectonics.modules.SinglePlateModule;
+
+import com.jme3.input.FlyByCamera;
+import com.jme3.renderer.Camera;
 
 public class PlateTectonicsApplication extends JMEPhetApplication {
 
@@ -74,18 +80,35 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
 
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                             public void update() {
-                                 JMEUtils.getApplication().statistics.setDisplayFps( get() );
-                             }
-                         }, false );
+                public void update() {
+                    JMEUtils.getApplication().statistics.setDisplayFps( get() );
+                }
+            }, false );
         }} ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show Statistics", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                             public void update() {
-                                 JMEUtils.getApplication().statistics.setDisplayStatView( get() );
-                             }
-                         }, false );
+                public void update() {
+                    JMEUtils.getApplication().statistics.setDisplayStatView( get() );
+                }
+            }, false );
         }} ) );
+        developerMenu.add( new JMenuItem( "Activate fly-by camera" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    JMEUtils.invoke( new Runnable() {
+                        public void run() {
+                            PlateTectonicsModule activeModule = (PlateTectonicsModule) getActiveModule();
+                            Camera cam = activeModule.getDebugCamera();
+                            if ( cam != null ) {
+                                FlyByCamera flyCam = new FlyByCamera( cam );
+                                flyCam.setMoveSpeed( 100f );
+                                flyCam.registerWithInput( JMEUtils.getApplication().getInputManager() );
+                            }
+                        }
+                    } );
+                }
+            } );
+        }} );
     }
 
     //----------------------------------------------------------------------------

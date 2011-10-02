@@ -11,6 +11,7 @@ import edu.colorado.phet.platetectonics.util.JMEModelViewTransform;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
 
 import com.jme3.math.Matrix4f;
+import com.jme3.renderer.Camera;
 
 /**
  * General plate tectonics module that consolidates common behavior between the various tabs
@@ -39,5 +40,10 @@ public abstract class PlateTectonicsModule extends JMEModule {
 
     public JMEModelViewTransform getModelViewTransform() {
         return modelViewTransform;
+    }
+
+    // camera to use for debugging purposes
+    public Camera getDebugCamera() {
+        return null;
     }
 }
