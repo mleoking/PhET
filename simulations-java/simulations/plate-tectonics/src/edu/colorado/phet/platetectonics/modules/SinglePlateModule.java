@@ -45,7 +45,7 @@ public class SinglePlateModule extends PlateTectonicsModule {
                 -50000,
                 200000,
                 200000,
-                50000 ), 200, 200, 50 );
+                50000 ), 512, 512, 32 );
 
         // create the model and terrain
         model = new VerySimplePlateModel();

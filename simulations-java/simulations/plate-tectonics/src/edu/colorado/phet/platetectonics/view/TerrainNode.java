@@ -109,23 +109,29 @@ public class TerrainNode extends Geometry {
             updateTerrain();
         }
 
+        // TODO: performance hotspot. ideally avoid by not having such a fine texture (coarser would be just fine!!!)
         public void updateTerrain() {
             ByteBuffer buffer = data.get( 0 );
             buffer.clear();
             for ( int z = 0; z < height; z++ ) {
-                for ( int x = 0; x < width; x++ ) {
-                    if ( z >= Z_SAMPLES ) {
-                        // since we don't care about data past this point, just zero it out
-                        buffer.put( new byte[] { 0, 0, 0, 0 } );
-                        continue;
+                // since we don't care about data past this point, just zero it out
+                if ( z >= Z_SAMPLES ) {
+                    byte[] bytes = new byte[] { 0, 0, 0, 0 };
+                    for ( int x = 0; x < width; x++ ) {
+                        buffer.put( bytes );
                     }
+                    continue;
+                }
+                for ( int x = 0; x < width; x++ ) {
                     double elevation = getElevationAtPixel( x, z );
                     int stonyness = MathUtil.clamp( 0, (int) ( ( elevation - 15000 ) / 20 ) + 255, 255 ); // fully stony at 10km
                     int beachyness = MathUtil.clamp( 0, (int) ( -( elevation - 1500 ) / 3 ), 255 );
-                    buffer.put( (byte) ( 255 - stonyness - beachyness ) ); // grass
-                    buffer.put( (byte) stonyness ); // stone
-                    buffer.put( (byte) beachyness ); // beach (cobbles right now)
-                    buffer.put( (byte) 1 );
+                    buffer.put( new byte[] {
+                            (byte) ( 255 - stonyness - beachyness ), // grass
+                            (byte) stonyness, // stone
+                            (byte) beachyness, // beach (cobbles right now)
+                            (byte) 1
+                    } );
                 }
             }
             setUpdateNeeded();
