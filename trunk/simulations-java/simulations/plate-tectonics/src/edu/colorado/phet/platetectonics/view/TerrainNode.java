@@ -4,8 +4,9 @@ package edu.colorado.phet.platetectonics.view;
 import java.nio.ByteBuffer;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
 
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
@@ -18,15 +19,18 @@ import com.jme3.texture.Texture2D;
  * Displays the top terrain of a plate model
  */
 public class TerrainNode extends Geometry {
-    private static final int xSamples = 200;
-    private static final int zSamples = 50;
-    private static final float SCALE = 1000; // TODO: replace with JME-version of ModelViewTransform
+    private final int xSamples;
+    private final int zSamples;
     private GridMesh gridMesh;
     private final PlateModel model;
+    private final PlateTectonicsModule module;
     private TerrainNode.TerrainTextureImage image;
 
-    public TerrainNode( PlateModel model, final JMEModule module ) {
+    public TerrainNode( PlateModel model, final PlateTectonicsModule module ) {
         this.model = model;
+        this.module = module;
+        xSamples = PlateTectonicsConstants.X_SAMPLES;
+        zSamples = PlateTectonicsConstants.Y_SAMPLES;
         Vector3f[] positions = computePositions( model );
 
         // use the gridded mesh to handle the terrain
@@ -81,19 +85,22 @@ public class TerrainNode extends Geometry {
                 float x = getModelX( xIndex );
                 float z = getModelZ( zIndex );
                 float elevation = (float) model.getElevation( x, z );
-                Vector3f vector = new Vector3f( x / SCALE, elevation / SCALE, z / SCALE );
-                positions[zIndex * xSamples + xIndex] = vector;
+                Vector3f modelVector = new Vector3f( x, elevation, z );
+                Vector3f viewVector = module.getModelViewTransform().modelToView( modelVector );
+                positions[zIndex * xSamples + xIndex] = viewVector;
             }
         }
         return positions;
     }
 
     private float getModelX( float xIndex ) {
-        return ( xIndex - ( (float) xSamples ) / 2 ) * SCALE;
+        // center our x samples, and apply the resolution
+        return module.getModelViewTransform().viewToModelDeltaX( ( xIndex - ( (float) xSamples ) / 2 ) / PlateTectonicsConstants.RESOLUTION );
     }
 
     private float getModelZ( float zIndex ) {
-        return ( zIndex - ( (float) zSamples ) ) * SCALE;
+        // z samples go into negative z, and apply the resolution
+        return module.getModelViewTransform().viewToModelDeltaZ( ( zIndex - ( (float) zSamples ) ) / PlateTectonicsConstants.RESOLUTION );
     }
 
     /*---------------------------------------------------------------------------*
@@ -112,6 +119,7 @@ public class TerrainNode extends Geometry {
             buffer.clear();
             for ( int z = 0; z < height; z++ ) {
                 for ( int x = 0; x < width; x++ ) {
+                    // TODO: add in subsampling?
                     double elevation = getElevationAtPixel( x, z );
                     int stonyness = MathUtil.clamp( 0, (int) ( ( elevation - 10000 ) / 20 ) + 255, 255 ); // fully stony at 10km
                     int beachyness = MathUtil.clamp( 0, (int) ( -( elevation - 300 ) ), 255 );
