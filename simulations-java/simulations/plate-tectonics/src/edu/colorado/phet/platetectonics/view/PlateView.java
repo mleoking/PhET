@@ -1,8 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
 
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
@@ -20,17 +21,15 @@ public class PlateView extends Node {
     private PlateModel model;
     private TerrainNode terrainNode;
 
-    public PlateView( PlateModel model, final JMEModule module ) {
+    public PlateView( PlateModel model, final PlateTectonicsModule module ) {
         this.model = model;
 
-        terrainNode = new TerrainNode( model, module ) {{
-            scale( 2.0f );
-        }};
+        terrainNode = new TerrainNode( model, module );
         attachChild( terrainNode );
 
         // a quick water test
-        final float waterWidth = 400;
-        float waterHeight = 100;
+        final float waterWidth = PlateTectonicsConstants.X_SAMPLES / PlateTectonicsConstants.RESOLUTION;
+        float waterHeight = PlateTectonicsConstants.Y_SAMPLES / PlateTectonicsConstants.RESOLUTION;
         attachChild( new Geometry( "Water", new Quad( waterWidth, waterHeight, true ) ) {{
             setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
 //                setBoolean( "UseMaterialColors", true );

@@ -3,18 +3,16 @@ package edu.colorado.phet.platetectonics.modules;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
 
-public class DoublePlateModule extends JMEModule {
+public class DoublePlateModule extends PlateTectonicsModule {
 
     private PlateTectonicsJMEApplication app;
 
     public DoublePlateModule( Frame parentFrame ) {
-        super( parentFrame, Strings.DOUBLE_PLATE__TITLE, new ConstantDtClock( 30.0 ) );
+        super( parentFrame, Strings.DOUBLE_PLATE__TITLE );
     }
 
     public PlateTectonicsJMEApplication getApp() {

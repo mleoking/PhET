@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
-import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.PhetCamera;
 import edu.colorado.phet.jmephet.PhetCamera.CenteredStageCameraStrategy;
@@ -23,19 +22,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.math.Vector3f;
 
-public class SinglePlateModule extends JMEModule {
+public class SinglePlateModule extends PlateTectonicsModule {
 
-    private PlateTectonicsJMEApplication app;
-    private CenteredStageCanvasTransform canvasTransform;
     private AnimatedPlateModel model;
     private PlateView plateView;
 
     public SinglePlateModule( Frame parentFrame ) {
-        super( parentFrame, Strings.SINGLE_PLATE__TITLE, new ConstantDtClock( 30.0 ) );
-    }
-
-    public PlateTectonicsJMEApplication getApp() {
-        return app;
+        super( parentFrame, Strings.SINGLE_PLATE__TITLE );
     }
 
     @Override public void updateState( float tpf ) {
@@ -74,10 +67,5 @@ public class SinglePlateModule extends JMEModule {
         guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new PText( "Toolbox" ) {{
             setFont( new PhetFont( 16, true ) );
         }} ), getInputHandler(), this, canvasTransform, position ) ); // TODO: use module input handler
-    }
-
-    @Override public PhetJMEApplication createApplication( Frame parentFrame ) {
-        app = new PlateTectonicsJMEApplication( parentFrame );
-        return app;
     }
 }
