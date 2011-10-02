@@ -1,31 +1,40 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import java.awt.*;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 
 import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.VertexBuffer.Type;
+import com.jme3.texture.Image;
+import com.jme3.texture.Texture2D;
 import com.jme3.util.BufferUtils;
 
 /**
  * Displays a cross section of the plate model, within the specified grid bounds
  */
 public class CrossSectionNode extends Geometry {
+    private final PlateModel model;
     private final Grid3D grid;
 
     public CrossSectionNode( final PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
+        this.model = model;
         this.grid = grid;
+
+        // create a mesh using a triangle strip
         setMesh( new Mesh() {{
             final int vertexCount = grid.getNumXSamples() * 2;
             final FloatBuffer positionBuffer = BufferUtils.createFloatBuffer( vertexCount * 3 );
@@ -47,11 +56,18 @@ public class CrossSectionNode extends Geometry {
 
                     // scan through all of our "top" vertices
                     int numXSamples = grid.getNumXSamples();
+
+                    float modelZ = getFrontZ();
+                    float modelBottomY = getBaseY();
+                    float textureBottomY = ( modelBottomY - grid.getBounds().getMinY() ) / grid.getBounds().getHeight();
+
+                    // scan left to right, alternating top (crust elevation) and bottom (lower bounds) vertices
                     for ( int i = 0; i < numXSamples; i++ ) {
                         float modelX = grid.getXSample( i );
-                        float modelZ = getFrontZ();
-                        Vector3f modelTop = new Vector3f( modelX, (float) model.getElevation( modelX, modelZ ), modelZ );
-                        Vector3f modelBottom = new Vector3f( modelX, getBaseY(), modelZ );
+                        float modelTopY = (float) model.getElevation( modelX, modelZ );
+
+                        Vector3f modelTop = new Vector3f( modelX, modelTopY, modelZ );
+                        Vector3f modelBottom = new Vector3f( modelX, modelBottomY, modelZ );
 
                         Vector3f viewTop = module.getModelViewTransform().modelToView( modelTop );
                         Vector3f viewBottom = module.getModelViewTransform().modelToView( modelBottom );
@@ -61,7 +77,12 @@ public class CrossSectionNode extends Geometry {
 
                         normalBuffer.put( new float[] { 0, 0, 1, 0, 0, 1 } ); // consolidated the two normals facing towards the camera
 
-                        textureBuffer.put( new float[] { 0, 0, 0, 0 } ); // TODO: actual texture coordinates!
+                        // scale our entire texture across the unit square. TODO (possible bug): check for texture size changes and handle there?
+                        float textureX = ( modelX - grid.getBounds().getMinX() ) / grid.getBounds().getWidth();
+                        float textureTopY = ( modelTopY - grid.getBounds().getMinY() ) / grid.getBounds().getHeight();
+                        textureBuffer.put( new float[] {
+                                textureX, textureTopY,
+                                textureX, textureBottomY } );
                     }
                 }
             };
@@ -89,8 +110,9 @@ public class CrossSectionNode extends Geometry {
             updateCounts();
         }} );
         setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-            // TODO: texturing!
-            setColor( "Color", ColorRGBA.Gray );
+            setTexture( "ColorMap", new Texture2D() {{
+                setImage( new CrossSectionTextureImage( grid.getNumXSamples(), grid.getNumYSamples() ) );
+            }} );
         }} );
     }
 
@@ -101,5 +123,55 @@ public class CrossSectionNode extends Geometry {
     private float getFrontZ() {
         // pick out the "front" Z sample, which is actually at the end of the array
         return grid.getZSample( grid.getNumZSamples() - 1 );
+    }
+
+    private class CrossSectionTextureImage extends Image {
+        public CrossSectionTextureImage( int width, int height ) {
+            super( Format.RGBA8, Math.max( width, height ), Math.max( width, height ), ByteBuffer.allocateDirect( 4 * Math.max( width, height ) * Math.max( width, height ) ) );
+            updateCrossSection();
+        }
+
+        public void updateCrossSection() {
+            int Y_SAMPLES = grid.getNumYSamples();
+            ByteBuffer buffer = data.get( 0 );
+            buffer.clear();
+            System.out.println( "width = " + width );
+            System.out.println( "height = " + height );
+            for ( int y = 0; y < height; y++ ) {
+                for ( int x = 0; x < width; x++ ) {
+                    // TODO: investigate this code, why it is needed in the other location. Probably deals with square-ness of textures?
+                    // TODO: (possible bug) we might need to double-check that we don't go up to a power of 256 texture somehow, so we should figure out the texture coordinates better
+//                    if ( Y_SAMPLES - y - 1 >= Y_SAMPLES ) {
+//                        // since we don't care about data past this point, just zero it out
+//                        buffer.put( new byte[] { 0, 0, 0, 0 } );
+//                        continue;
+//                    }
+                    float modelX = grid.getXSample( x );
+                    float modelY = grid.getYSample( y );
+                    buffer.put( getColor( model.getDensity( modelX, modelY ), model.getTemperature( modelX, modelY ) ) );
+                }
+            }
+            setUpdateNeeded();
+        }
+
+        // TODO: cleanup. moved from TestDensityRenderer (and modified a bit)
+        private byte[] getColor( double density, double temperature ) {
+            //When surface density and temperature, use clay color
+            Color clay = new Color( 255, 222, 156 );
+
+            // TODO: improve coloring function, make it calculate ONLY density or temperature, and hook up radio button controls
+            //When it gets hotter, turn down the G & B channels to make redder
+
+//        System.out.println( "density = " + density );
+            double minDensityToShow = 2500;
+            double maxDensityToShow = 3500;
+            double x = new Function.LinearFunction( minDensityToShow, maxDensityToShow, 255, 100 ).evaluate( density );
+            int d = (int) MathUtil.clamp( 0, x, 255 );
+
+//        System.out.println( "temperature = " + temperature );
+
+            int tempChannel = (int) MathUtil.clamp( 0, new Function.LinearFunction( 280, 300, d, 255 ).evaluate( temperature ), 255 );
+            return new byte[] { (byte) tempChannel, (byte) d, (byte) d, (byte) 255 };
+        }
     }
 }

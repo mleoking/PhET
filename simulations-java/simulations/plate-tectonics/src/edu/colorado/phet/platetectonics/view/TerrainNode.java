@@ -12,6 +12,7 @@ import edu.colorado.phet.platetectonics.util.Grid3D;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 import com.jme3.texture.Texture2D;
@@ -100,7 +101,7 @@ public class TerrainNode extends Geometry {
     /*---------------------------------------------------------------------------*
     * update the texture solely based on elevation
     *----------------------------------------------------------------------------*/
-    private class TerrainTextureImage extends com.jme3.texture.Image {
+    private class TerrainTextureImage extends Image {
         public TerrainTextureImage( int width, int height ) {
             // TODO: simplify, and make it so that we actually use the entire texture space?
             // TODO: (performance) fix to use less texture space, and ideally less computation related to that
