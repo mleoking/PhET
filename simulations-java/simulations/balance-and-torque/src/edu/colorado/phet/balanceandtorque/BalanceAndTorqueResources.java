@@ -26,6 +26,14 @@ public class BalanceAndTorqueResources {
         public static final String INTRO = RESOURCES.getLocalizedString( "Intro" );
         public static final String LEVEL = RESOURCES.getLocalizedString( "Level" );
         public static final String MASS_EQUALS = RESOURCES.getLocalizedString( "MassEquals" );
+        public static final String MASS_LABEL_A = RESOURCES.getLocalizedString( "MassLabelA" );
+        public static final String MASS_LABEL_B = RESOURCES.getLocalizedString( "MassLabelB" );
+        public static final String MASS_LABEL_C = RESOURCES.getLocalizedString( "MassLabelC" );
+        public static final String MASS_LABEL_D = RESOURCES.getLocalizedString( "MassLabelD" );
+        public static final String MASS_LABEL_E = RESOURCES.getLocalizedString( "MassLabelE" );
+        public static final String MASS_LABEL_F = RESOURCES.getLocalizedString( "MassLabelF" );
+        public static final String MASS_LABEL_G = RESOURCES.getLocalizedString( "MassLabelG" );
+        public static final String MASS_LABEL_H = RESOURCES.getLocalizedString( "MassLabelH" );
         public static final String MASS_LABELS = RESOURCES.getLocalizedString( "MassLabels" );
         public static final String NEXT = RESOURCES.getLocalizedString( "Next" );
         public static final String REMOVE_SUPPORTS = RESOURCES.getLocalizedString( "RemoveSupports" );
