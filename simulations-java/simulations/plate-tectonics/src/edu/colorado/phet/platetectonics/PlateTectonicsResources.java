@@ -13,8 +13,20 @@ public class PlateTectonicsResources {
 
     //Strings
     public static class Strings {
+        public static final String COMPOSITION = RESOURCES.getLocalizedString( "composition" );
+        public static final String CONTINENTAL_CRUST = RESOURCES.getLocalizedString( "continentalCrust" );
+        public static final String COOL = RESOURCES.getLocalizedString( "cool" );
+        public static final String MORE_IRON = RESOURCES.getLocalizedString( "moreIron" );
+        public static final String MORE_SILICA = RESOURCES.getLocalizedString( "moreSilica" );
+        public static final String MY_CRUST = RESOURCES.getLocalizedString( "myCrust" );
+        public static final String OCEANIC_CRUST = RESOURCES.getLocalizedString( "oceanicCrust" );
         public static final String ONE_PLATE = RESOURCES.getLocalizedString( "onePlate" );
+        public static final String TEMPERATURE = RESOURCES.getLocalizedString( "temperature" );
+        public static final String THICK = RESOURCES.getLocalizedString( "thick" );
+        public static final String THICKNESS = RESOURCES.getLocalizedString( "thickness" );
+        public static final String THIN = RESOURCES.getLocalizedString( "thin" );
         public static final String TWO_PLATES = RESOURCES.getLocalizedString( "twoPlates" );
+        public static final String WARM = RESOURCES.getLocalizedString( "warm" );
     }
 
     //Images

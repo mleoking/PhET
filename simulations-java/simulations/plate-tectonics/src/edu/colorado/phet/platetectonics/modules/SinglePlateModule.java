@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.renderer.Camera;
 
-import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.ONE_PLATE;
+import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*;
 
 // TODO: better name?
 public class SinglePlateModule extends PlateTectonicsModule {
@@ -75,7 +75,7 @@ public class SinglePlateModule extends PlateTectonicsModule {
         }} );
 
         // "oceanic crust" label
-        guiView.getScene().attachChild( new PiccoloJMENode( new PText( "Oceanic Crust" ) {{
+        guiView.getScene().attachChild( new PiccoloJMENode( new PText( OCEANIC_CRUST ) {{
             setFont( new PhetFont( 16, true ) );
         }}, getInputHandler(), this, canvasTransform ) {{
             // TODO: improve positioning to handle i18n?
@@ -84,7 +84,7 @@ public class SinglePlateModule extends PlateTectonicsModule {
         }} );
 
         // "continental crust" label
-        guiView.getScene().attachChild( new PiccoloJMENode( new PText( "Continental Crust" ) {{
+        guiView.getScene().attachChild( new PiccoloJMENode( new PText( CONTINENTAL_CRUST ) {{
             setFont( new PhetFont( 16, true ) );
         }}, getInputHandler(), this, canvasTransform ) {{
             // TODO: improve positioning to handle i18n?

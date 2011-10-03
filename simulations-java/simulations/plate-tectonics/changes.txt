@@ -1,3 +1,4 @@
+Internationalized current strings
 Updated strings file
 Fixed build properties so plate-tectonics will build and run with PBG
 Moved textures from jME3-testdata.jar:Textures/Terrain/splat/ to plate-tectonics data directory
