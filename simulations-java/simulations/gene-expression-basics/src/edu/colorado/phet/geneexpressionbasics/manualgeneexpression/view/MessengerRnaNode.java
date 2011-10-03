@@ -28,6 +28,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
      */
     public MessengerRnaNode( final ModelViewTransform mvt, final MessengerRna messengerRna ) {
         super( mvt, messengerRna, new BasicStroke( 2 ) );
+        addChild( new PlacementHintNode( mvt, messengerRna.ribosomePlacementHint ) );
     }
 
     // TODO: Started on this, decided not to use it for now, delete if never used.

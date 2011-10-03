@@ -15,12 +15,14 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.DetachingState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.IdleState;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
@@ -83,6 +85,8 @@ public class MessengerRna extends MobileBiomolecule {
     private PointMass firstShapeDefiningPoint = null;
     private PointMass lastShapeDefiningPoint = null;
 
+    public final PlacementHint ribosomePlacementHint;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -100,6 +104,18 @@ public class MessengerRna extends MobileBiomolecule {
         // Explicitly set the state to idle, so that this won't move (other
         // than growing) until it is released.
         behaviorState = new IdleState( this );
+
+        // Add the placement hint that will show the user where the ribosome
+        // can be attached.
+        ribosomePlacementHint = new PlacementHint( new Ribosome( model ) );
+        shapeProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                // This hint always sits at the beginning of the RNA strand.
+                ribosomePlacementHint.setPosition( firstShapeDefiningPoint.getPosition() );
+            }
+        } );
+        // TODO: Temp, remove once hint is working.
+        ribosomePlacementHint.active.set( true );
     }
 
     //-------------------------------------------------------------------------
@@ -626,6 +642,21 @@ public class MessengerRna extends MobileBiomolecule {
             thisPoint = thisPoint.getNextPointMass();
         }
         return length;
+    }
+
+    /**
+     * Activate the placement hint(s).
+     *
+     * @param biomolecule
+     */
+    public void activateHints( MobileBiomolecule biomolecule ) {
+        if ( ribosomePlacementHint.isMatchingBiomolecule( biomolecule ) ) {
+            ribosomePlacementHint.active.set( true );
+        }
+    }
+
+    public void deactivateHints() {
+        ribosomePlacementHint.active.set( false );
     }
 
     private void dumpPointMasses() {
