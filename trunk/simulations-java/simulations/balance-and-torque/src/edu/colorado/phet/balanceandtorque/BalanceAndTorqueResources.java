@@ -15,14 +15,21 @@ public class BalanceAndTorqueResources {
 
     //Strings
     public static class Strings {
+        public static final String ADD_SUPPORTS = RESOURCES.getLocalizedString( "AddSupports" );
         public static final String BALANCE_LAB = RESOURCES.getLocalizedString( "BalanceLab" );
         public static final String BALANCE_ME = RESOURCES.getLocalizedString( "BalanceMe" );
         public static final String CHECK_ANSWER = RESOURCES.getLocalizedString( "CheckAnswer" );
         public static final String DISPLAY_CORRECT_ANSWER = RESOURCES.getLocalizedString( "DisplayCorrectAnswer" );
+        public static final String DISTANCES = RESOURCES.getLocalizedString( "Distances" );
+        public static final String FORCES_FROM_OBJECTS = RESOURCES.getLocalizedString( "ForcesFromObjects" );
         public static final String GAME = RESOURCES.getLocalizedString( "Game" );
         public static final String INTRO = RESOURCES.getLocalizedString( "Intro" );
+        public static final String LEVEL = RESOURCES.getLocalizedString( "Level" );
         public static final String MASS_EQUALS = RESOURCES.getLocalizedString( "MassEquals" );
+        public static final String MASS_LABELS = RESOURCES.getLocalizedString( "MassLabels" );
         public static final String NEXT = RESOURCES.getLocalizedString( "Next" );
+        public static final String REMOVE_SUPPORTS = RESOURCES.getLocalizedString( "RemoveSupports" );
+        public static final String SHOW = RESOURCES.getLocalizedString( "Show" );
         public static final String SHOW_RULER = RESOURCES.getLocalizedString( "ShowRuler" );
         public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "TryAgain" );
         public static final String WHAT_IS_THE_MASS = RESOURCES.getLocalizedString( "WhatIsTheMass" );
