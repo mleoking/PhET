@@ -10,6 +10,7 @@ import java.awt.Color;
  */
 public class Element {
 
+    //REVIEW surprising that there is no element number here
     public final String name;
     public final double radius;
     public final Color color;

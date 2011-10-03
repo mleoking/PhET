@@ -16,6 +16,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+//REVIEW Used to create data values in GlucosePositions and SucrosePositions classes? Doc only mentions sucrose.
+
 /**
  * This is a utility class that allows the user to use a screen shot to pick 2D projected coordinates from a rasterized 3D representation.
  * We are using this to pick good 2D positions for the 3D sucrose structure.

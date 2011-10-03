@@ -37,6 +37,7 @@ public class CompositeParticleNode<T extends Particle> extends PNode {
         }
     }
 
+    //REVIEW is this working? doesn't display anything that looks like a molecule.
     //Test main
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {

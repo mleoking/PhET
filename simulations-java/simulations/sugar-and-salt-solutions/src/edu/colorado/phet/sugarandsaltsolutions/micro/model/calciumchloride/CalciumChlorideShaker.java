@@ -24,6 +24,7 @@ public class CalciumChlorideShaker extends MicroShaker {
         model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 6 ); }} );
     }
 
+    //REVIEW what might I expect to see (other than "creating i") when this test is run?
     //Test for creating calcium chloride crystals, which are susceptible to dead ends
     public static void main( String[] args ) {
         for ( int i = 0; i < 10000; i++ ) {

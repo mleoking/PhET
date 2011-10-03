@@ -305,14 +305,17 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         compoundListNode.moveToBucket();
     }
 
+    //REVIEW duplicated here and in SugarAndSaltSolutionsCanvas
     public void addChild( PNode node ) {
         rootNode.addChild( node );
     }
 
+    //REVIEW duplicated here and in SugarAndSaltSolutionsCanvas
     public void removeChild( PNode node ) {
         rootNode.removeChild( node );
     }
 
+    //REVIEW duplicated here and in SugarAndSaltSolutionsCanvas
     //Get the root node used for stage coordinates, necessary when transforming through the global coordinate frame to stage
     public PNode getRootNode() {
         return rootNode;

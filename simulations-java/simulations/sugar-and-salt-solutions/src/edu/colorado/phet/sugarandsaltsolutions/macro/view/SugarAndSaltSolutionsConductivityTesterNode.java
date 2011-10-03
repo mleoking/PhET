@@ -20,6 +20,9 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
+//REVIEW You have 4 classes (ConductivityTesterNode,  SugarAndSaltSolutionsConductivityTesterNode, ConductivityTesterToolNode, ConductivityTesterToolboxNode)
+// that are needed to implement this feature. Perhaps the naming and relationships make this more complicated than it needs to be?...
+
 /**
  * Conductivity Tester Node specialized for Sugar and Salt Solutions.  This makes the light bulb draggable, and makes it possible to
  * drag into and out of the toolbox.

@@ -15,8 +15,11 @@ import edu.colorado.phet.common.jmolphet.Molecule;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
+//REVIEW the Jmol viewer has some undesirable key bindings (eg, zoom)
+//REVIEW Lots of "module" references in names and comments, I make these more generic (moduleActivated -> activate), or at least consistent (reset -> moduleReset).
+
 /**
- * Creates and displays the JMolDialog, and minimizes and restores it when the user switches tabs
+ * Creates and displays the JmolDialog, and minimizes and restores it when the user switches tabs
  *
  * @author Sam Reid
  */

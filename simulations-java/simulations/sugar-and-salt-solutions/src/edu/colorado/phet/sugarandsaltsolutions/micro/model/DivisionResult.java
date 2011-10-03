@@ -25,6 +25,7 @@ public class DivisionResult {
         return quotient == that.quotient && remainder == that.remainder;
     }
 
+    //REVIEW is this correct and useful?
     //IDEA-generated hashCode
     @Override public int hashCode() {
         int result = quotient;

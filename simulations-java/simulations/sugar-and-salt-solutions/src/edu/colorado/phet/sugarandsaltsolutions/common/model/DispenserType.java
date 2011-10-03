@@ -9,7 +9,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 public class DispenserType {
 
     //Name of the solute
-    private final String name;
+    private final String name; //REVIEW this is not the dispenser name, rename to soluteName
 
     //List of elements comprising the solute
     private final Integer[] elementAtomicMasses;
@@ -26,6 +26,8 @@ public class DispenserType {
         this.elementAtomicMasses = elementAtomicMasses;
     }
 
+    //REVIEW Why are you using toString instead of getName? If it's to populate a JComboBox,
+    // this approach is brittle and pollutes the model, use a custom renderer.
     @Override public String toString() {
         return name;
     }

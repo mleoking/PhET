@@ -69,6 +69,7 @@ import static java.util.Arrays.asList;
  */
 public class MicroModel extends SugarAndSaltSolutionModel {
 
+    //REVIEW constant name should be uppercase
     private static final double framesPerSecond = 30;
 
     //List of all spherical particles, the constituents in larger molecules or crystals, used for rendering on the screen
@@ -90,6 +91,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Note: this value should not be set externally, it should only be set by this model.  The reason that we used DoubleProperty which has a public setter is because it also has methods such as greaterThan and valueEquals
     public final DoubleProperty numberSoluteTypes = new DoubleProperty( 0.0 );
 
+    //REVIEW constant name should be uppercase
     //Debugging flag for draining particles through the faucet
     public static final boolean debugDraining = false;
 
@@ -169,6 +171,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                 clearSolutes();
                 resetWater();
 
+                //REVIEW are you still considering this?
                 //TODO: Consider consolidating this and other kit definition code in MicroModel.countFreeFormulaUnits
                 if ( get() == 0 ) { kit = new MicroModelKit( Formula.SODIUM_CHLORIDE, Formula.SUCROSE ); }
                 else if ( get() == 1 ) { kit = new MicroModelKit( Formula.SODIUM_CHLORIDE, Formula.CALCIUM_CHLORIDE ); }
@@ -192,6 +195,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Workaround for completely dissolving any crystals that have become disconnected as a result of partial dissolving
     public final DissolveDisconnectedCrystals dissolveDisconnectedCrystals = new DissolveDisconnectedCrystals( this );
 
+    //REVIEW constant name should be uppercase
     //Flag to help debug the crystal ratios
     public static final boolean debugCrystalRatio = false;
 
@@ -218,6 +222,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                                               //convert L to meters cubed
                                               * 0.001, 1 / 3.0 ) ),
 
+               //REVIEW explain this computation
                //Flow rate must be slowed since the beaker is so small.
                0.0005 * 2E-23 / 2,
 
@@ -225,6 +230,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                //Should be moved to be high enough to contain the largest molecule (sucrose), so that it may move about freely
                2.8440282964793075E-10, 5.75234062238494E-10,
 
+               //REVIEW explain this computation
                //Ratio of length scales in meters
                1.0 / Math.pow( 8E-23 * 0.001, 1 / 3.0 ) / 0.2 );
 
@@ -418,7 +424,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         for ( ItemList<?> freeParticle : freeParticles ) {
             ArrayList<?> list = freeParticle.toList();
             for ( Object o : list ) {
-                p.add( (Particle) o );
+                p.add( (Particle) o ); //REVIEW if this is safe, then why isn't freeParticles of type ItemList<? extends Particle>?
             }
         }
         return p;

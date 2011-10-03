@@ -129,6 +129,7 @@ public class Draining {
         }
     }
 
+    //REVIEW why not use a logger?
     private void debug( String s ) {
         if ( MicroModel.debugDraining ) {
             System.out.println( s );

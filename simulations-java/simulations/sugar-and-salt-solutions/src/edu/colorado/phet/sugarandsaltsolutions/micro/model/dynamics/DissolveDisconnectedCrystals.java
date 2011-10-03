@@ -39,8 +39,10 @@ public class DissolveDisconnectedCrystals {
                 final int newCount = numberStepsDisconnected.containsKey( crystal ) ? numberStepsDisconnected.get( crystal ) + 1 : 1;
                 numberStepsDisconnected.put( crystal, newCount );
 
+                //REVIEW how does 30 equate to 1 second?
                 //If it has been disconnected for >1 second, dissolve it completely
                 if ( newCount > 30 ) {
+                    //REVIEW use of a logger would look nicer than this if(debug) stuff, applied to other similar places in code
                     if ( debug ) {
                         System.out.println( "Crystal disconnected for " + newCount + " steps, dissolving..." );
                     }

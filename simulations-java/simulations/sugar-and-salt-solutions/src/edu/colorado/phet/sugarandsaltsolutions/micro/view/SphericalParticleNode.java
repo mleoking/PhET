@@ -17,6 +17,8 @@ import edu.umd.cs.piccolox.PFrame;
 import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.AtomImageCache.getAtomImage;
 
+//REVIEW this is also used in the water package, move to common.view?
+
 /**
  * Piccolo node that draws a shaded sphere in the location of the spherical particle.
  * It switches between showing color for the atomic identity or color for the charge (blue = negative, red = positive, yellow = neutral)

@@ -64,7 +64,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private final Random random = new Random();
 
     //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
-    private final double particleWindowWidth = 2.3E-9 * 0.8;
+    private final double particleWindowWidth = 2.3E-9 * 0.8; //REVIEW How did you arrive at this value?
     private final double particleWindowHeight = particleWindowWidth * 0.65;
 
     //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
@@ -82,7 +82,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Thresholds and settings for artificial force on waters to split up salt or sucrose components that are too close to each other
     private static final double SALT_ION_DISTANCE_THRESHOLD = new SaltIon.ChlorideIon().getShape().getBounds2D().getWidth() * 1.3;
     private static final double SUCROSE_DISTANCE_THRESHOLD = new Sucrose().getShape().getBounds2D().getWidth();
-    public final double COULOMB_FORCE_SCALE_FACTOR = 5E-36 / 10 * 2;
+    public final double COULOMB_FORCE_SCALE_FACTOR = 5E-36 / 10 * 2; //REVIEW How did you arrive at this value?
 
     //Flag to indicate debugging of removal of water when sucrose added, to keep water density constant
     private final boolean debugWaterRemoval = false;
@@ -98,6 +98,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         return new ImmutableVector2D( new Point2D.Double( bounds2D.getX(), bounds2D.getY() ), new Point2D.Double( bounds2D.getCenterX(), bounds2D.getCenterY() ) ).getMagnitude();
     }
 
+    //REVIEW what is box2D?
     //Width of the box2D model
     private final double box2DWidth = 20;
 
@@ -118,6 +119,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
     public final ObservableProperty<Boolean> showChargeColor = new Property<Boolean>( false );
 
+    //REVIEW document these. What are they for? What are the effects of increasing/decreasing them?
     //Developer settings
     public final Property<Double> coulombStrengthMultiplier = new Property<Double>( 100.0 );
     public final BooleanProperty coulombForceOnAllMolecules = new BooleanProperty( true );
@@ -186,6 +188,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         }
     }
 
+    //REVIEW move to join the single lonely method in RandomUtil?
     private double randomBetweenMinusOneAndOne() {
         return ( random.nextFloat() - 0.5 ) * 2;
     }
