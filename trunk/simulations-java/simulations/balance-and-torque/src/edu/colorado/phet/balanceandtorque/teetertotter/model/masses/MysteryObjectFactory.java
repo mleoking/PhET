@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
 
@@ -21,15 +22,14 @@ public class MysteryObjectFactory {
     private static final List<MysteryObjectConfig> MYSTERY_OBJECT_CONFIGURATIONS = new ArrayList<MysteryObjectConfig>() {{
         // Note that the height value needs to be somewhat coordinated with
         // the image for things to look good.
-        // TODO: i18n of all labels (not sure how this will work with single character labels).
-        add( new MysteryObjectConfig( 20.0, Images.MYSTERY_OBJECT_01, 0.25, "A" ) );
-        add( new MysteryObjectConfig( 5.0, Images.MYSTERY_OBJECT_02, 0.30, "B" ) );
-        add( new MysteryObjectConfig( 15.0, Images.MYSTERY_OBJECT_03, 0.35, "C" ) );
-        add( new MysteryObjectConfig( 10.0, Images.MYSTERY_OBJECT_04, 0.40, "D" ) );
-        add( new MysteryObjectConfig( 2.5, Images.MYSTERY_OBJECT_05, 0.25, "E" ) );
-        add( new MysteryObjectConfig( 52.5, Images.MYSTERY_OBJECT_06, 0.35, "F" ) );
-        add( new MysteryObjectConfig( 25, Images.MYSTERY_OBJECT_07, 0.40, "G" ) );
-        add( new MysteryObjectConfig( 7.5, Images.MYSTERY_OBJECT_08, 0.30, "H" ) );
+        add( new MysteryObjectConfig( 20.0, Images.MYSTERY_OBJECT_01, 0.25, BalanceAndTorqueResources.Strings.MASS_LABEL_A ) );
+        add( new MysteryObjectConfig( 5.0, Images.MYSTERY_OBJECT_02, 0.30, BalanceAndTorqueResources.Strings.MASS_LABEL_B ) );
+        add( new MysteryObjectConfig( 15.0, Images.MYSTERY_OBJECT_03, 0.35, BalanceAndTorqueResources.Strings.MASS_LABEL_C ) );
+        add( new MysteryObjectConfig( 10.0, Images.MYSTERY_OBJECT_04, 0.40, BalanceAndTorqueResources.Strings.MASS_LABEL_D ) );
+        add( new MysteryObjectConfig( 2.5, Images.MYSTERY_OBJECT_05, 0.25, BalanceAndTorqueResources.Strings.MASS_LABEL_E ) );
+        add( new MysteryObjectConfig( 52.5, Images.MYSTERY_OBJECT_06, 0.35, BalanceAndTorqueResources.Strings.MASS_LABEL_F ) );
+        add( new MysteryObjectConfig( 25, Images.MYSTERY_OBJECT_07, 0.40, BalanceAndTorqueResources.Strings.MASS_LABEL_G ) );
+        add( new MysteryObjectConfig( 7.5, Images.MYSTERY_OBJECT_08, 0.30, BalanceAndTorqueResources.Strings.MASS_LABEL_H ) );
     }};
 
     /**
