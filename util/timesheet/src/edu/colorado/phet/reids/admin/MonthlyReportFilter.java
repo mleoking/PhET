@@ -29,6 +29,9 @@ public class MonthlyReportFilter {
         allList.add( "leave:sick:family" );
         allList.add( "leave:sick:personal" );
         allList.add( "leave:vacation" );
+        allList.add( "forces-and-motion-basics" );
+        allList.add( "energy-skate-park-basics" );
+        allList.add( "ti" );
     }
 
     public ArrayList<String> getAllCategories() {
