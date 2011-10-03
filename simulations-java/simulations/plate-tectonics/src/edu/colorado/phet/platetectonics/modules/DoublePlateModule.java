@@ -12,6 +12,7 @@ import edu.colorado.phet.platetectonics.view.PlateView;
 
 import com.jme3.renderer.Camera;
 
+// TODO: better name?
 public class DoublePlateModule extends PlateTectonicsModule {
 
     private PlateModel model;

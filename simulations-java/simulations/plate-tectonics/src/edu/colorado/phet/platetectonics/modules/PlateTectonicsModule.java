@@ -55,7 +55,7 @@ public abstract class PlateTectonicsModule extends JMEModule {
         /*---------------------------------------------------------------------------*
         * temporary test scene
         *----------------------------------------------------------------------------*/
-        mainView = createMainView( "Main", new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 45, 1, 1000 ) ) {{
+        mainView = createMainView( "Main", new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 40, 1, 1000 ) ) {{
             setLocation( new Vector3f( 0, 100, 400 ) );
             lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
         }} );

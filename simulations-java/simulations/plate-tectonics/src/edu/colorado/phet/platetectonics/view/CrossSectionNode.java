@@ -128,7 +128,11 @@ public class CrossSectionNode extends Geometry {
     private class CrossSectionTextureImage extends Image {
         public CrossSectionTextureImage( int width, int height ) {
             super( Format.RGBA8, Math.max( width, height ), Math.max( width, height ), ByteBuffer.allocateDirect( 4 * Math.max( width, height ) * Math.max( width, height ) ) );
-            updateCrossSection();
+            model.modelChanged.addUpdateListener( new UpdateListener() {
+                public void update() {
+                    updateCrossSection();
+                }
+            }, true );
         }
 
         public void updateCrossSection() {
@@ -171,7 +175,7 @@ public class CrossSectionNode extends Geometry {
 //        System.out.println( "temperature = " + temperature );
 
             int tempChannel = (int) MathUtil.clamp( 0, new Function.LinearFunction( 280, 300, d, 255 ).evaluate( temperature ), 255 );
-            return new byte[] { (byte) tempChannel, (byte) d, (byte) d, (byte) 255 };
+            return new byte[] { (byte) d, (byte) d, (byte) d, (byte) 255 };
         }
     }
 }
