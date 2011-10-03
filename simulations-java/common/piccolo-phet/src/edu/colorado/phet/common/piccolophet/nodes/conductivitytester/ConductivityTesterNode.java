@@ -295,6 +295,7 @@ public class ConductivityTesterNode extends PhetPNode {
     public void setAgainstDarkBackground() {
         bulbBrightnessFunction = BRIGHTNESS_TO_ALPHA_FUNCTION_AGAINST_DARK_BACKGROUND;
         lightBulbNode.setMaskVisible( false );
+        lightRaysNode.setRayColor( LightRaysNode.DEFAULT_RAY_COLOR_AGAINST_DARK_BACKGROUND );
         updateBrightness();
     }
 
@@ -304,6 +305,7 @@ public class ConductivityTesterNode extends PhetPNode {
     public void setAgainstWhiteBackground() {
         bulbBrightnessFunction = BRIGHTNESS_TO_ALPHA_FUNCTION_AGAINST_LIGHT_BACKGROUND;
         lightBulbNode.setMaskVisible( true );
+        lightRaysNode.setRayColor( LightRaysNode.DEFAULT_RAY_COLOR_AGAINST_LIGHT_BACKGROUND );
         updateBrightness();
     }
 
