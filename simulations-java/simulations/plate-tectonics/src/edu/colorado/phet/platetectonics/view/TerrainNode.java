@@ -29,6 +29,11 @@ public class TerrainNode extends Geometry {
     private final int X_SAMPLES;
     private final int Z_SAMPLES;
 
+    //Textures taken from jME3-testdata.jar in Textures/Terrain/splat/
+    private static final String GRASS = "plate-tectonics/images/textures/grass.jpg";
+    private static final String DIRT = "plate-tectonics/images/textures/dirt.jpg";
+    private static final String ROAD = "plate-tectonics/images/textures/road.jpg";
+
     public TerrainNode( PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
         this.model = model;
         this.module = module;
@@ -53,19 +58,19 @@ public class TerrainNode extends Geometry {
             }} );
 
             /** 1.2) Add GRASS texture into the red layer (Tex1). */
-            Texture grass = module.getAssetManager().loadTexture( "Textures/Terrain/splat/grass.jpg" );
+            Texture grass = module.getAssetManager().loadTexture( GRASS );
             grass.setWrap( WrapMode.Repeat );
             setTexture( "Tex1", grass );
             setFloat( "Tex1Scale", 64f );
 
             /** 1.3) Add DIRT texture into the green layer (Tex2) */
-            Texture dirt = module.getAssetManager().loadTexture( "Textures/Terrain/splat/dirt.jpg" );
+            Texture dirt = module.getAssetManager().loadTexture( DIRT );
             dirt.setWrap( WrapMode.Repeat );
             setTexture( "Tex2", dirt );
             setFloat( "Tex2Scale", 32f );
 
             /** 1.4) Add ROAD texture into the blue layer (Tex3) */
-            Texture rock = module.getAssetManager().loadTexture( "Textures/Terrain/splat/road.jpg" );
+            Texture rock = module.getAssetManager().loadTexture( ROAD );
             rock.setWrap( WrapMode.Repeat );
             setTexture( "Tex3", rock );
             setFloat( "Tex3Scale", 128f );
