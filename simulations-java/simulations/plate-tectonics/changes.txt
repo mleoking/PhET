@@ -1,3 +1,4 @@
+Added in a 3D test version of a ruler
 Internationalized current strings
 Updated strings file
 Fixed build properties so plate-tectonics will build and run with PBG
