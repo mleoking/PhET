@@ -16,8 +16,14 @@ public class BalanceAndTorqueResources {
     //Strings
     public static class Strings {
         public static final String BALANCE_LAB = RESOURCES.getLocalizedString( "BalanceLab" );
+        public static final String BALANCE_ME = RESOURCES.getLocalizedString( "BalanceMe" );
+        public static final String CHECK_ANSWER = RESOURCES.getLocalizedString( "CheckAnswer" );
+        public static final String DISPLAY_CORRECT_ANSWER = RESOURCES.getLocalizedString( "DisplayCorrectAnswer" );
         public static final String GAME = RESOURCES.getLocalizedString( "Game" );
         public static final String INTRO = RESOURCES.getLocalizedString( "Intro" );
+        public static final String NEXT = RESOURCES.getLocalizedString( "Next" );
+        public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "TryAgain" );
+        public static final String WHAT_IS_THE_MASS = RESOURCES.getLocalizedString( "WhatIsTheMass" );
         public static final String TEMP = RESOURCES.getLocalizedString( "temp" );
     }
 

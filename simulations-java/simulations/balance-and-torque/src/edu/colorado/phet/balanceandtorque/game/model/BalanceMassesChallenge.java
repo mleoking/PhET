@@ -3,6 +3,7 @@ package edu.colorado.phet.balanceandtorque.game.model;
 
 import java.util.List;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 
@@ -16,8 +17,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
  */
 public class BalanceMassesChallenge extends BalanceGameChallenge {
 
-    // TODO: i18n
-    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "Balance Me!", false );
+    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueResources.Strings.BALANCE_ME, false );
 
     /**
      * Constructor.
