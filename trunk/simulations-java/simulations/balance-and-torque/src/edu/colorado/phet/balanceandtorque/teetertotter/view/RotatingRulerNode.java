@@ -4,6 +4,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -30,8 +31,7 @@ public class RotatingRulerNode extends PNode {
         rulerNode.setBackgroundPaint( new Color( 236, 225, 113, 100 ) );
         addChild( rulerNode );
         // Create and add the units label.
-        // TODO: i18n
-        final PText unitsLabelNode = new PText( "Meters" ) {{
+        final PText unitsLabelNode = new PText( BalanceAndTorqueResources.Strings.METERS ) {{
             setFont( new PhetFont( 16 ) );
             setOffset( rulerNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
                        rulerNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().height );

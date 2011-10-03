@@ -15,34 +15,36 @@ public class BalanceAndTorqueResources {
 
     //Strings
     public static class Strings {
-        public static final String ADD_SUPPORTS = RESOURCES.getLocalizedString( "AddSupports" );
-        public static final String BALANCE_LAB = RESOURCES.getLocalizedString( "BalanceLab" );
-        public static final String BALANCE_ME = RESOURCES.getLocalizedString( "BalanceMe" );
-        public static final String CHECK_ANSWER = RESOURCES.getLocalizedString( "CheckAnswer" );
-        public static final String DISPLAY_CORRECT_ANSWER = RESOURCES.getLocalizedString( "DisplayCorrectAnswer" );
-        public static final String DISTANCES = RESOURCES.getLocalizedString( "Distances" );
-        public static final String FORCES_FROM_OBJECTS = RESOURCES.getLocalizedString( "ForcesFromObjects" );
-        public static final String GAME = RESOURCES.getLocalizedString( "Game" );
-        public static final String INTRO = RESOURCES.getLocalizedString( "Intro" );
-        public static final String LEVEL = RESOURCES.getLocalizedString( "Level" );
-        public static final String MASS_EQUALS = RESOURCES.getLocalizedString( "MassEquals" );
-        public static final String MASS_LABEL_A = RESOURCES.getLocalizedString( "MassLabelA" );
-        public static final String MASS_LABEL_B = RESOURCES.getLocalizedString( "MassLabelB" );
-        public static final String MASS_LABEL_C = RESOURCES.getLocalizedString( "MassLabelC" );
-        public static final String MASS_LABEL_D = RESOURCES.getLocalizedString( "MassLabelD" );
-        public static final String MASS_LABEL_E = RESOURCES.getLocalizedString( "MassLabelE" );
-        public static final String MASS_LABEL_F = RESOURCES.getLocalizedString( "MassLabelF" );
-        public static final String MASS_LABEL_G = RESOURCES.getLocalizedString( "MassLabelG" );
-        public static final String MASS_LABEL_H = RESOURCES.getLocalizedString( "MassLabelH" );
-        public static final String MASS_LABELS = RESOURCES.getLocalizedString( "MassLabels" );
-        public static final String NEXT = RESOURCES.getLocalizedString( "Next" );
-        public static final String REMOVE_SUPPORTS = RESOURCES.getLocalizedString( "RemoveSupports" );
-        public static final String SHOW = RESOURCES.getLocalizedString( "Show" );
-        public static final String SHOW_RULER = RESOURCES.getLocalizedString( "ShowRuler" );
-        public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "TryAgain" );
-        public static final String UNKNOWN_MASS_LABEL = RESOURCES.getLocalizedString( "UnknownMassLabel" );
-        public static final String WHAT_IS_THE_MASS = RESOURCES.getLocalizedString( "WhatIsTheMass" );
+        public static final String ADD_SUPPORTS = RESOURCES.getLocalizedString( "addSupports" );
+        public static final String BALANCE_LAB = RESOURCES.getLocalizedString( "balanceLab" );
+        public static final String BALANCE_ME = RESOURCES.getLocalizedString( "balanceMe" );
+        public static final String CHECK_ANSWER = RESOURCES.getLocalizedString( "checkAnswer" );
+        public static final String DISPLAY_CORRECT_ANSWER = RESOURCES.getLocalizedString( "displayCorrectAnswer" );
+        public static final String DISTANCES = RESOURCES.getLocalizedString( "distances" );
+        public static final String FORCES_FROM_OBJECTS = RESOURCES.getLocalizedString( "forcesFromObjects" );
+        public static final String GAME = RESOURCES.getLocalizedString( "game" );
+        public static final String INTRO = RESOURCES.getLocalizedString( "intro" );
         public static final String KG = RESOURCES.getLocalizedString( "kg" );
+        public static final String LEVEL = RESOURCES.getLocalizedString( "level" );
+        public static final String MASS_EQUALS = RESOURCES.getLocalizedString( "massEquals" );
+        public static final String MASS_LABEL_A = RESOURCES.getLocalizedString( "massLabelA" );
+        public static final String MASS_LABEL_B = RESOURCES.getLocalizedString( "massLabelB" );
+        public static final String MASS_LABEL_C = RESOURCES.getLocalizedString( "massLabelC" );
+        public static final String MASS_LABEL_D = RESOURCES.getLocalizedString( "massLabelD" );
+        public static final String MASS_LABEL_E = RESOURCES.getLocalizedString( "massLabelE" );
+        public static final String MASS_LABEL_F = RESOURCES.getLocalizedString( "massLabelF" );
+        public static final String MASS_LABEL_G = RESOURCES.getLocalizedString( "massLabelG" );
+        public static final String MASS_LABEL_H = RESOURCES.getLocalizedString( "massLabelH" );
+        public static final String MASS_LABELS = RESOURCES.getLocalizedString( "massLabels" );
+        public static final String METERS = RESOURCES.getLocalizedString( "meters" );
+        public static final String NEXT = RESOURCES.getLocalizedString( "next" );
+        public static final String PATTERN_0_VALUE_1_UNITS = RESOURCES.getLocalizedString( "pattern0Value1Units" );
+        public static final String REMOVE_SUPPORTS = RESOURCES.getLocalizedString( "removeSupports" );
+        public static final String SHOW = RESOURCES.getLocalizedString( "show" );
+        public static final String SHOW_RULER = RESOURCES.getLocalizedString( "showRuler" );
+        public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "tryAgain" );
+        public static final String UNKNOWN_MASS_LABEL = RESOURCES.getLocalizedString( "unknownMassLabel" );
+        public static final String WHAT_IS_THE_MASS = RESOURCES.getLocalizedString( "whatIsTheMass" );
     }
 
     //Images
