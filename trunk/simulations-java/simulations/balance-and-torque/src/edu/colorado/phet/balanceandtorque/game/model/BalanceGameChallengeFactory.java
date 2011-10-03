@@ -67,8 +67,8 @@ public class BalanceGameChallengeFactory {
         add( new BrickStack( 2 ) );
         add( new BrickStack( 3 ) );
         add( new BrickStack( 4 ) );
-        add( new SmallRock( true ) );
-        add( new BigRock( true ) );
+        add( new SmallRock( false ) );
+        add( new BigRock( false ) );
         add( new Boy() );
         add( new Girl() );
         add( new Woman() );
