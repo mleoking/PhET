@@ -2,6 +2,7 @@ Tab 1:
     Create tools for the toolbox, hook them up to the model and allow them to move as normal.
         SR: Should these be 2D or 3D objects?
     Add the ability to switch between density and temperature views?
+        SR: Or just provide a mixed view that is always on?  More dense = denser lattice texture, hotter=redder?
     Model improvements. Currently includes hacks. PENDING on Noah?
     Create a "crust" icon that the student needs to drag into an empty "crust-less" slot? (is this needed?)
         SR: With the current design, I'd recommend against having the student drag a crust into the empty crust-less slot
@@ -12,7 +13,9 @@ Tab 2:
 General:
     Refactoring and Cleanup.
     Improve module names. What should the tab names be?
+        SR: I recommend something like "Crust" and "Plate Motion"
     I18n
+        SR: I internationalized what is here, but I'll leave this on the list since more string will be added to the sim
 
 Technical:
     Add cursor handling (see Molecule Shapes)
