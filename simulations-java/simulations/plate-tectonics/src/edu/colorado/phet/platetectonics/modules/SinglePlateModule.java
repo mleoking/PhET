@@ -7,14 +7,17 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.model.BlockCrustPlateModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
-import edu.colorado.phet.platetectonics.view.PlateRulerNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
+import edu.colorado.phet.platetectonics.view.RulerNode3D;
+import edu.colorado.phet.platetectonics.view.RulerNode3D.RulerNode2D;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.renderer.Camera;
@@ -52,7 +55,7 @@ public class SinglePlateModule extends PlateTectonicsModule {
         /*---------------------------------------------------------------------------*
         * test ruler
         *----------------------------------------------------------------------------*/
-        mainView.getScene().attachChild( new PlateRulerNode( getModelViewTransform(), this ) {{
+        mainView.getScene().attachChild( new RulerNode3D( getModelViewTransform(), this ) {{
             setLocalTranslation( -100, -100, 1 );
         }} );
 
@@ -63,9 +66,16 @@ public class SinglePlateModule extends PlateTectonicsModule {
         JMEView guiView = createFrontGUIView( "GUI" );
 
         // toolbox
-        guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new PText( "Toolbox" ) {{
-            setFont( new PhetFont( 16, true ) );
-            // TODO: create toolbox
+        guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new PNode() {{
+            ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( 0.75f ) ); // wrap it in a zero-offset node, since we are rotating and scaling it (bad origin)
+            PText toolboxLabel = new PText( "Toolbox" ) {{
+                setFont( new PhetFont( 16, true ) );
+            }};
+
+            addChild( rulerNode2D ); // approximate scaling to get the size right
+            addChild( toolboxLabel );
+
+            toolboxLabel.setOffset( rulerNode2D.getFullBounds().getWidth() + 10, 0 ); // TODO: change positioning once we have added other toolbox elements
         }} ), getInputHandler(), this, canvasTransform ) {{
             position.set( new ImmutableVector2D( 10, 10 ) );
         }} );
