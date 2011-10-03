@@ -8,7 +8,8 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Transcr
 
 /**
  * This class represents a "placement hint" in the model, which is a location
- * where a biomolecule of the provided type can be placed.
+ * where a biomolecule of the provided type can be placed and which will be
+ * "hinted" to the user at the appropriate times.
  *
  * @author John Blanco
  */
