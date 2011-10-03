@@ -18,5 +18,6 @@ public class FireExtinguisher extends ImageMass {
 
     public FireExtinguisher( boolean isMystery ) {
         super( MASS, Images.FIRE_EXTINGUISHER, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
+        setCenterOfMassXOffset( 0.04 );
     }
 }
