@@ -56,6 +56,10 @@ public class JMENatives {
     private static final byte[] buf = new byte[1024];
     private static File workingDir = new File( "" ).getAbsoluteFile();
 
+    public static void setExtractionDir( String name ) {
+        workingDir = new File( name ).getAbsoluteFile();
+    }
+
     protected static void extractNativeLib( String sysName, String name ) throws IOException {
         extractNativeLib( sysName, name, false, true );
     }
