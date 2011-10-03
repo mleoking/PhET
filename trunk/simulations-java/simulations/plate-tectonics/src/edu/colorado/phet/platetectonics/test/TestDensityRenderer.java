@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.platetectonics.java2d;
+package edu.colorado.phet.platetectonics.test;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
