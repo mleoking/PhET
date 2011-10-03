@@ -263,6 +263,9 @@ public class HUDNode extends Geometry {
         module.detachState( state );
     }
 
+    /**
+     * Call this once and further mouse input will not be forwarded
+     */
     public void ignoreInput() {
         if ( listenerAttached ) {
             listenerAttached = false;
