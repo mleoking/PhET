@@ -3,6 +3,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.Color;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.PositionedVector;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -34,8 +35,7 @@ public class MysteryVectorNode extends PNode {
     public MysteryVectorNode( final Property<PositionedVector> positionedVectorProperty,
                               BooleanProperty visibilityProperty, final Color fillColor, final ModelViewTransform mvt ) {
         // Create the label and add it as a child.
-        // TODO: i18n
-        final OutlinePText mysterySymbolNode = new OutlinePText( "?", new PhetFont( FONT_SIZE, true ), Color.WHITE, Color.BLACK, 1 );
+        final OutlinePText mysterySymbolNode = new OutlinePText( BalanceAndTorqueResources.Strings.UNKNOWN_MASS_LABEL, new PhetFont( FONT_SIZE, true ), Color.WHITE, Color.BLACK, 1 );
         addChild( mysterySymbolNode );
         // Listen to the vector and update the node when changes occur.
         positionedVectorProperty.addObserver( new VoidFunction1<PositionedVector>() {

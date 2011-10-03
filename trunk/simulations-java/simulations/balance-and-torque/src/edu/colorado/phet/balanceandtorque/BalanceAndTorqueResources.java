@@ -40,6 +40,7 @@ public class BalanceAndTorqueResources {
         public static final String SHOW = RESOURCES.getLocalizedString( "Show" );
         public static final String SHOW_RULER = RESOURCES.getLocalizedString( "ShowRuler" );
         public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "TryAgain" );
+        public static final String UNKNOWN_MASS_LABEL = RESOURCES.getLocalizedString( "UnknownMassLabel" );
         public static final String WHAT_IS_THE_MASS = RESOURCES.getLocalizedString( "WhatIsTheMass" );
         public static final String KG = RESOURCES.getLocalizedString( "kg" );
     }
