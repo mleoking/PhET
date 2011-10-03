@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -87,7 +88,15 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // Watch for and handle comings and goings of molecules in the mode.
         model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
             public void apply( final MobileBiomolecule addedBiomolecule ) {
-                final PNode biomoleculeNode = new MobileBiomoleculeNode( mvt, addedBiomolecule );
+                final PNode biomoleculeNode;
+                if ( addedBiomolecule instanceof MessengerRna ) {
+                    // Messenger RNA has a unique representation compared to the
+                    // other biomolecules.
+                    biomoleculeNode = new MessengerRnaNode( mvt, (MessengerRna) addedBiomolecule );
+                }
+                else {
+                    biomoleculeNode = new MobileBiomoleculeNode( mvt, addedBiomolecule );
+                }
                 modelRootNode.addChild( biomoleculeNode );
                 model.mobileBiomoleculeList.addElementRemovedObserver( new VoidFunction1<MobileBiomolecule>() {
                     public void apply( MobileBiomolecule removedBiomolecule ) {
