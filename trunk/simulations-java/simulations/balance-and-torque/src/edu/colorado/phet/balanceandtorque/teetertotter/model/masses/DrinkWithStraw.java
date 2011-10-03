@@ -16,7 +16,7 @@ public class DrinkWithStraw extends ImageMass {
     private static final double MASS = 1; // in kg
     private static final double HEIGHT = 0.2; // In meters.
 
-    public DrinkWithStraw() {
-        super( MASS, Images.DRINK_WITH_STRAW, HEIGHT, new Point2D.Double( 0, 0 ), true );
+    public DrinkWithStraw( boolean isMystery ) {
+        super( MASS, Images.DRINK_WITH_STRAW, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
     }
 }

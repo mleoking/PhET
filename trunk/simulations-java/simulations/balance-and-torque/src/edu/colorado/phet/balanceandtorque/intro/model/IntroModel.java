@@ -15,7 +15,6 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FireExtinguisher;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FlowerPot;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumTrashCan;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -102,18 +101,18 @@ public class IntroModel implements Resettable {
 //        mass = new BrickStack( 2, new Point2D.Double( 3.3, 0 ) );
 //        addMass( mass );
 //        mapMassesToInitialPositions.put( mass, mass.getPosition() );
-        Mass mass = new FlowerPot() {{
+        Mass mass = new FireExtinguisher( false ) {{
             setPosition( 2.7, 0 );
         }};
         addMass( mass );
         mapMassesToInitialPositions.put( mass, mass.getPosition() );
-        mass = new FireExtinguisher() {{
+        mass = new FireExtinguisher( false ) {{
             setPosition( 3.2, 0 );
 
         }};
         addMass( mass );
         mapMassesToInitialPositions.put( mass, mass.getPosition() );
-        mass = new MediumTrashCan() {{
+        mass = new MediumTrashCan( false ) {{
             setPosition( 3.7, 0 );
         }};
         addMass( mass );

@@ -16,7 +16,7 @@ public class Television extends ImageMass {
     private static final double MASS = 10; // in kg
     private static final double HEIGHT = 0.5; // In meters.
 
-    public Television() {
-        super( MASS, Images.OLD_TELEVISION, HEIGHT, new Point2D.Double( 0, 0 ), true );
+    public Television( boolean isMystery ) {
+        super( MASS, Images.OLD_TELEVISION, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
     }
 }

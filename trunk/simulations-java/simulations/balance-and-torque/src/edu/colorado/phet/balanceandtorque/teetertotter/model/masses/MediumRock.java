@@ -16,7 +16,7 @@ public class MediumRock extends ImageMass {
     private static final double MASS = 40; // in kg
     private static final double HEIGHT = 0.4; // In meters.
 
-    public MediumRock() {
-        super( MASS, Images.ROCK_1, HEIGHT, new Point2D.Double( 0, 0 ), true );
+    public MediumRock( boolean isMystery ) {
+        super( MASS, Images.ROCK_1, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
     }
 }
