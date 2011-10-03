@@ -1,5 +1,6 @@
 Tab 1:
     Create tools for the toolbox, hook them up to the model and allow them to move as normal.
+        SR: Should these be 2D or 3D objects?
     Add the ability to switch between density and temperature views?
     Model improvements. Currently includes hacks. PENDING on Noah?
     Create a "crust" icon that the student needs to drag into an empty "crust-less" slot? (is this needed?)
