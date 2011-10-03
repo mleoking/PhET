@@ -72,6 +72,24 @@ public class SinglePlateModule extends PlateTectonicsModule {
                 }
             }, true ); // TODO: default to this?
         }} );
+
+        // "oceanic crust" label
+        guiView.getScene().attachChild( new PiccoloJMENode( new PText( "Oceanic Crust" ) {{
+            setFont( new PhetFont( 16, true ) );
+        }}, getInputHandler(), this, canvasTransform ) {{
+            // TODO: improve positioning to handle i18n?
+            position.set( new ImmutableVector2D( 30,
+                                                 getStageSize().getHeight() * 0.6 ) );
+        }} );
+
+        // "continental crust" label
+        guiView.getScene().attachChild( new PiccoloJMENode( new PText( "Continental Crust" ) {{
+            setFont( new PhetFont( 16, true ) );
+        }}, getInputHandler(), this, canvasTransform ) {{
+            // TODO: improve positioning to handle i18n?
+            position.set( new ImmutableVector2D( getStageSize().getWidth() - getComponentWidth() - 30,
+                                                 getStageSize().getHeight() * 0.6 ) );
+        }} );
     }
 
     @Override public Camera getDebugCamera() {

@@ -1,0 +1,20 @@
+Tab 1:
+    Create a "crust" icon that the student needs to drag into an empty "crustless" slot? (is this needed?)
+    Create tools for the toolbox, hook them up to the model and allow them to move as normal.
+    Add the ability to switch between density and temperature views?
+    Model improvements. Currently includes hacks. PENDING on Noah?
+
+Tab 2:
+    Everything!
+
+General:
+    Refactoring and Cleanup.
+    Improve module names. What should the tab names be?
+    I18n
+
+Technical:
+    Add cursor handling (see Molecule Shapes)
+    Add code to compute 3D x,y,z positions from a 2D x,y screen position (see Molecule Shapes)
+    Improve texturing and texture handling for the terrain and cross sections. (Independent texture samping for the terrain!!!)
+    Fix texturing of terrain for non-square aspect ratios
+    Improve non-square aspect ratios and bounds for the cross section
