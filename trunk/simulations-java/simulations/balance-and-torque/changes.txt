@@ -1,3 +1,4 @@
+Made the ruler look like two separate rulers joined in the center.
 Removed bricks from first tab and added more "interesting" objects.
 # 0.00.13 (57110) Sep 30, 2011
 9/30/11 Deploying to dev for interviews and feedback from design team.
