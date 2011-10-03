@@ -1,3 +1,5 @@
+# 2.12.00 (57171) Oct 3, 2011
+10/3/11 added support for Kannada
 # 2.11.00 (55119) Aug 12, 2011
 8/12/11 > added support for Tamil
 # 2.10.00 (48775) Feb 8, 2011
