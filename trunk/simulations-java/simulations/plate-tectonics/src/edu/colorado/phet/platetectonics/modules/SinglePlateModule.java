@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.*;
+import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
-import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.model.BlockCrustPlateModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
@@ -19,13 +18,15 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.renderer.Camera;
 
+import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.ONE_PLATE;
+
 // TODO: better name?
 public class SinglePlateModule extends PlateTectonicsModule {
 
     private BlockCrustPlateModel model;
 
     public SinglePlateModule( Frame parentFrame ) {
-        super( parentFrame, Strings.SINGLE_PLATE__TITLE );
+        super( parentFrame, ONE_PLATE );
     }
 
     @Override public void updateState( float tpf ) {

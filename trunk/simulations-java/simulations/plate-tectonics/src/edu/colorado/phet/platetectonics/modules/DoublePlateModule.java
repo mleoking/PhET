@@ -1,9 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.*;
+import java.awt.Frame;
 
-import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.test.AnimatedPlateModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
@@ -12,13 +11,15 @@ import edu.colorado.phet.platetectonics.view.PlateView;
 
 import com.jme3.renderer.Camera;
 
+import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.TWO_PLATES;
+
 // TODO: better name?
 public class DoublePlateModule extends PlateTectonicsModule {
 
     private PlateModel model;
 
     public DoublePlateModule( Frame parentFrame ) {
-        super( parentFrame, Strings.DOUBLE_PLATE__TITLE );
+        super( parentFrame, TWO_PLATES );
     }
 
     @Override public void updateState( float tpf ) {
