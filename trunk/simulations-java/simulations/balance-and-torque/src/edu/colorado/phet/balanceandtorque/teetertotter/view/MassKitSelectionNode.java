@@ -2,7 +2,9 @@
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.GridLayout;
+import java.text.MessageFormat;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -34,7 +36,7 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
 
     public MassKitSelectionNode( final Property<Integer> selectedKit, final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( selectedKit,
-               new Kit<PNode>( new TitleNode( "Bricks" ),
+               new Kit<PNode>( new TitleNode( BalanceAndTorqueResources.Strings.BRICKS ),
                                new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
                                    addChild( new BrickStackCreatorNode( 1, model, mvt, canvas ) );
                                    addChild( new BrickStackCreatorNode( 2, model, mvt, canvas ) );
@@ -42,19 +44,19 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                                    addChild( new BrickStackCreatorNode( 4, model, mvt, canvas ) );
                                }}
                ),
-               new Kit<PNode>( new TitleNode( "People 1" ),
+               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.PEOPLE, "1" ) ),
                                new HBox(
                                        new AdolescentBoyCreatorNode( model, mvt, canvas ),
                                        new AdultMaleHumanCreatorNode( model, mvt, canvas )
                                )
                ),
-               new Kit<PNode>( new TitleNode( "People 2" ),
+               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.PEOPLE, "2" ) ),
                                new HBox(
                                        new YoungGirlCreatorNode( model, mvt, canvas ),
                                        new AdultFemaleHumanCreatorNode( model, mvt, canvas )
                                )
                ),
-               new Kit<PNode>( new TitleNode( "Mystery Objects 1" ),
+               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.MYSTERY_OBJECTS, "1" ) ),
                                new VBox(
                                        new HBox( 20, new MysteryObjectCreatorNode( 0, model, mvt, canvas ),
                                                  new MysteryObjectCreatorNode( 1, model, mvt, canvas ) ),
@@ -62,7 +64,7 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                                                  new MysteryObjectCreatorNode( 3, model, mvt, canvas ) )
                                )
                ),
-               new Kit<PNode>( new TitleNode( "Mystery Objects 2" ),
+               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.MYSTERY_OBJECTS, "2" ) ),
                                new VBox(
                                        new HBox( 20, new MysteryObjectCreatorNode( 4, model, mvt, canvas ),
                                                  new MysteryObjectCreatorNode( 5, model, mvt, canvas ) ),
