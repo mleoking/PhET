@@ -97,10 +97,10 @@ public class SwingJMENode extends Node {
             }
         } );
         position.addObserver( new SimpleObserver() {
-                                  public void update() {
-                                      rebuildHUD();
-                                  }
-                              }, false );
+            public void update() {
+                rebuildHUD();
+            }
+        }, false );
         canvasTransform.transform.addObserver( new SimpleObserver() {
             public void update() {
                 rebuildHUD();
