@@ -58,6 +58,7 @@ public class WaterMolecule extends Compound<SphericalParticle> {
         addConstituent( c );
     }
 
+    //REVIEW why do you need this in addition to SphericalParticle.Hydrogen?
     public static class Hydrogen extends SphericalParticle {
         public Hydrogen() {
             //See this table for the charge, using TIP3P model: http://en.wikipedia.org/wiki/Water_model
@@ -65,6 +66,7 @@ public class WaterMolecule extends Compound<SphericalParticle> {
         }
     }
 
+    //REVIEW why do you need this in addition to SphericalParticle.Oxygen?
     public static class Oxygen extends SphericalParticle {
         public Oxygen() {
             //See this table for the charge, using TIP3P model: http://en.wikipedia.org/wiki/Water_model

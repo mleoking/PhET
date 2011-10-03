@@ -1,2 +1,6 @@
+//REVIEW For a relatively complicated sim, this is a disappointing amount of overview information.
+
 The view in Macro and Micro are supposed to look similar (nearly identical), so the view is created first and mapped into
 model coordinates to ensure that measurements and dimensions look the same in the view, while still giving correct model measurements.
+
+//REVIEW describe how jbox2D is being used

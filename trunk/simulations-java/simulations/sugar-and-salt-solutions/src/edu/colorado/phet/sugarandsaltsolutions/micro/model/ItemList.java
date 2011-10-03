@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class ItemList<T> extends ObservableList<T> {
 
+    //REVIEW if this shouldn't be settable, then make it private, and add getSize and addSizeObserver methods.
     //Property that can be used to monitor the number of items in the list.
     //It is typed as Double since that package provides support for composition (through >, +, etc)
     //When support is added for IntegerProperty, this should be switched to use IntegerProperty instead of DoubleProperty

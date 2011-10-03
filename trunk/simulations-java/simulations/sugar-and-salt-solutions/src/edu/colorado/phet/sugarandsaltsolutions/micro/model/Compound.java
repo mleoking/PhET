@@ -12,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
+//REVIEW When is 0 OK? Won't getShape fail if there are zero constituents?
+
 /**
  * A compound represents 0 or more (usually 1 or more) constituents which can be put into solution.  It may be constructed from a lattice.
  * The type is generic since some compounds such as NaCl are made of SphericalParticles while others such as Sucrose are made from molecules with their own substructure
@@ -59,6 +61,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<T
 
     //The shape of a lattice is the combined area of its constituents, using bounding rectangles to improve performance
     @Override public Shape getShape() {
+        //REVIEW this will fail if zero constituents is really OK, as stated in the class doc
         final Rectangle2D bounds2D = constituents.get( 0 ).particle.getShape().getBounds2D();
         Rectangle2D rect = new Rectangle2D.Double( bounds2D.getX(), bounds2D.getY(), bounds2D.getWidth(), bounds2D.getHeight() );
         for ( Constituent constituent : constituents ) {

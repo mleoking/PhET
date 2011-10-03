@@ -15,6 +15,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
+//REVIEW What is a "box2D representation"? I see a few Box2D* classes in the repository, but none seem relevant.
+
 /**
  * The Box2DAdapter creates a connection between the Compound model object and its box2D representation, and can use values from one to update the other.
  * This is so we can use Box2D for physics and piccolo for graphics

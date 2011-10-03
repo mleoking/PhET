@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 
+//REVIEW needs a more descriptive name. Or why not make this class unnecessary by changing DispenserType.name to DispenserType.soluteName and adding DispenserType.name?
+
 /**
  * Item to be displayed in a DispenserRadioButtonSet
  *

@@ -10,8 +10,6 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
 
-//REVIEW delete?
-
 /**
  * This sim was written to accommodate a chemistry wet lab in Fall 2011, this sim just shows the macro tab.
  * Can probably be deleted after usage.  No need to internationalize this version--it is just used for one experiment.

@@ -29,6 +29,8 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PERIODIC_TABLE;
 
+//REVIEW reused how? Was common code moved into base class?
+
 /**
  * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused.
  *

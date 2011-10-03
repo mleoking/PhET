@@ -22,6 +22,8 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
+//REVIEW would be nice if the class name indicated what kind of things are in the kit
+
 /**
  * List of the kits the user can choose from, for showing the appropriate bars in the concentration bar charts
  *

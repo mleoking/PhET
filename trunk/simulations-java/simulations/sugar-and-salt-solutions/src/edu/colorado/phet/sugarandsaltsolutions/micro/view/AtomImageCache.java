@@ -25,6 +25,7 @@ public class AtomImageCache {
             this.color = color;
         }
 
+        //REVIEW is this useful?
         //Automatically generated (by IDEA)
         @Override public boolean equals( Object o ) {
             if ( this == o ) { return true; }
@@ -35,6 +36,7 @@ public class AtomImageCache {
             return Double.compare( key.diameter, diameter ) == 0 && color.equals( key.color );
         }
 
+        //REVIEW is this useful?
         //Automatically generated (by IDEA)
         @Override public int hashCode() {
             int result;

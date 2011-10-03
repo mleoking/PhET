@@ -15,6 +15,7 @@ public class ParticleCountTable {
     public static final int MAX_SUCROSE = NUMBER_SOLUTE_FORMULAE;
     public static final int MAX_GLUCOSE = NUMBER_SOLUTE_FORMULAE;
 
+    //REVIEW this is not "half as much"
     //Half as much since different formula ratio, this number limits the concentration to 1.00mol/L on startup
     public static final int MAX_CALCIUM_CHLORIDE = NUMBER_SOLUTE_FORMULAE;
 }

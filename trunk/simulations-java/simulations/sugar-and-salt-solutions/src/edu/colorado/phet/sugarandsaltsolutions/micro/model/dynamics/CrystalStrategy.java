@@ -38,7 +38,7 @@ public class CrystalStrategy extends UpdateStrategy {
 
         //Accelerate the particle due to gravity and perform an euler integration step
         //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-        double mass = 1E10;
+        double mass = 1E10; //REVIEW final, and move closer to usage
 
         //Cache the value to improve performance by 30% when number of particles is large
         final boolean anyPartUnderwater = model.isAnyPartUnderwater( crystal );

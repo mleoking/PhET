@@ -29,6 +29,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //The spacing between components on the lattice
     public final double spacing;
 
+    //REVIEW These are not constants, names should be camel-case, not uppercase. More descriptive names would also improve readability of client code.
     //Direction vectors (non-unit vectors) in the coordinate frame of the lattice, at the right spacing and angle
     protected final ImmutableVector2D NORTH;
     protected final ImmutableVector2D SOUTH;
@@ -63,13 +64,14 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //Grow the crystal for the specified number of formula ratios
     public void grow( int numberFormulaRatios ) {
 
+        //REVIEW What happens if it fails to grow after numTries attempts? Does the sim still function?
         //There is a random aspect to crystal growth and in some cases (particularly for the more constrained case of CaCl2's lattice topology)
         //The growth can run into a dead end where it is impossible to add a full formula unit.
         //To handle this problem, try many times to generate a crystal and keep the first one that doesn't run into a dead end
         int numTries = 10000;
         for ( int tryIndex = 0; tryIndex < numTries; tryIndex++ ) {
             try {
-
+                //REVIEW growRandomly should return boolean success, not throw an exception. See comment in BondingFailure.
                 //Grow the full crystal
                 growRandomly( numberFormulaRatios );
                 return;

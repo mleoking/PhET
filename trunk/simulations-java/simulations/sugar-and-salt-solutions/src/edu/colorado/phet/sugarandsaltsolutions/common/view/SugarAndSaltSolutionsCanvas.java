@@ -26,6 +26,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 
+//REVIEW Class name is misleading and class doc is wrong. This is the base class in 2 of 3 tabs.
 //REVIEW I don't see setOffset calls for some nodes here. Do those nodes draw themselves in world coordinates?
 
 /**

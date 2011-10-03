@@ -37,11 +37,13 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
             //This is used by both the drag handler from the toolbox and by the node itself (after being dropped once, it gets a new drag handler)
             final Function0<Rectangle2D> getToolboxBounds = new Function0<Rectangle2D>() {
                 public Rectangle2D apply() {
+                    //REVIEW IDEA presentation compiler flags this as a dbi scoping issue
                     return getParent().getGlobalFullBounds();
                 }
             };
 
             //Add title and a spacer below it
+            //REVIEW IDEA presentation compiler flags this as a dbi scoping issue
             addChild( new PText( SugarAndSaltSolutionsResources.Strings.CONDUCTIVITY ) {{setFont( TITLE_FONT );}} );
 
             //Factory that creates the ConductivityTesterToolNode and positions it where the mouse is
@@ -56,6 +58,7 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
             Image thumbnail = new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, canvas.getModelViewTransform(), canvas.getRootNode(), new Point2D.Double( 0, 0 ), whiteBackground ).createImage();
 
             //Add the tool icon node, which can be dragged out of the toolbox to create the full-sized conductivity tester node
+            //REVIEW IDEA presentation compiler flags this as a dbi scoping issue
             addChild( new ToolIconNode<SugarAndSaltSolutionsCanvas>(
                     multiScaleToWidth( toBufferedImage( thumbnail ), 130 ), model.conductivityTester.visible, canvas.getModelViewTransform(), canvas,
                     conductivityNodeMaker, model, getToolboxBounds ) {

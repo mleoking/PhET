@@ -25,6 +25,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel.VO
  *
  * @author Sam Reid
  */
+//REVIEW It seems odd that the model element (Shaker) needs to know about the model (SugarAndSaltSolutionModel).
+//  Consider moving the things that Shaker needs to a narrower interface that is implemented by SugarAndSaltSolutionModel.
 public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispenser<T> {
 
     //Some randomness in number of generated crystals when shaken

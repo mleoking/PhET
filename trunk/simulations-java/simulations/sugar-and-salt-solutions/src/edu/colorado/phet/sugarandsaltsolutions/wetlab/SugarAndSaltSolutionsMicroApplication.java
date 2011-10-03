@@ -9,8 +9,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 
-//REVIEW delete?
-
 /**
  * This sim was written to accommodate a chemistry wet lab in Fall 2011, this sim has only one kit in the Macro tab.
  * Can probably be deleted after usage.  No need to internationalize this version--it is just used for one experiment.

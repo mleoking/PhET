@@ -24,5 +24,6 @@ public class DrainData {
 
     public DrainData( Formula formula ) {
         this.formula = formula;
+        //REVIEW should initialNumberFormulaUnits be set here to make this properly constructed?
     }
 }
