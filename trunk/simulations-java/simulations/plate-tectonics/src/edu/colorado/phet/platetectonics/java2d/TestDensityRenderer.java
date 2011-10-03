@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.platetectonics.model.BlockCrustPlateModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.test.VerySimplePlateModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PPanEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
@@ -65,7 +65,7 @@ public class TestDensityRenderer extends PNode {
                 new JFrame( "Test density renderer" ) {{
                     setContentPane( new PhetPCanvas() {{
                         setBackground( Color.blue );
-                        addScreenChild( new TestDensityRenderer( new VerySimplePlateModel() ) );
+                        addScreenChild( new TestDensityRenderer( new BlockCrustPlateModel() ) );
                         setPanEventHandler( new PPanEventHandler() );
                         setZoomEventHandler( new PZoomEventHandler() );
                     }} );

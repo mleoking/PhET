@@ -4,14 +4,14 @@ package edu.colorado.phet.platetectonics.modules;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
-import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.test.VerySimplePlateModel;
+import edu.colorado.phet.platetectonics.control.MyCrustPanel;
+import edu.colorado.phet.platetectonics.model.BlockCrustPlateModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
@@ -19,9 +19,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.renderer.Camera;
 
+// TODO: better name?
 public class SinglePlateModule extends PlateTectonicsModule {
 
-    private PlateModel model;
+    private BlockCrustPlateModel model;
 
     public SinglePlateModule( Frame parentFrame ) {
         super( parentFrame, Strings.SINGLE_PLATE__TITLE );
@@ -37,13 +38,13 @@ public class SinglePlateModule extends PlateTectonicsModule {
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
-                Bounds3D.fromMinMax( -100000, 100000,
-                                     -100000, 100000,
+                Bounds3D.fromMinMax( -150000, 150000,
+                                     -150000, 150000,
                                      -50000, 0 ),
                 512, 512, 32 );
 
         // create the model and terrain
-        model = new VerySimplePlateModel();
+        model = new BlockCrustPlateModel();
         mainView.getScene().attachChild( new PlateView( model, this, grid ) );
 
         /*---------------------------------------------------------------------------*
@@ -52,13 +53,29 @@ public class SinglePlateModule extends PlateTectonicsModule {
 
         JMEView guiView = createFrontGUIView( "GUI" );
 
-        Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        // toolbox
         guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new PText( "Toolbox" ) {{
             setFont( new PhetFont( 16, true ) );
-        }} ), getInputHandler(), this, canvasTransform, position ) ); // TODO: use module input handler
+            // TODO: create toolbox
+        }} ), getInputHandler(), this, canvasTransform ) {{
+            position.set( new ImmutableVector2D( 10, 10 ) );
+        }} );
+
+        // "my crust" control
+        guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new MyCrustPanel( model ) ), getInputHandler(), this, canvasTransform ) {{
+            // layout the panel if its size changes (and on startup)
+            onResize.addUpdateListener( new UpdateListener() {
+                public void update() {
+                    position.set( new ImmutableVector2D(
+                            Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
+                            getStageSize().height - getComponentHeight() - 10 ) ); // offset from top
+                }
+            }, true ); // TODO: default to this?
+        }} );
     }
 
     @Override public Camera getDebugCamera() {
         return mainView.getCamera();
     }
+
 }
