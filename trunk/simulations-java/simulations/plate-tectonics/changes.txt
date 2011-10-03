@@ -1,0 +1,1 @@
+Moved textures from jME3-testdata.jar:Textures/Terrain/splat/ to plate-tectonics data directory
