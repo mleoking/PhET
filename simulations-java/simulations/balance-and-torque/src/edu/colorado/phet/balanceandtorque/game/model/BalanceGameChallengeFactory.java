@@ -13,13 +13,14 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FireExtingui
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FireHydrant;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FlowerPot;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Girl;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.LargeTrashCan;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Man;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumRock;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumTrashCan;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MysteryObjectFactory;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Television;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.TrashCan;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Woman;
 
 /**
@@ -80,7 +81,8 @@ public class BalanceGameChallengeFactory {
         add( new FireExtinguisher() );
         add( new FireHydrant() );
         add( new Television() );
-        add( new TrashCan() );
+        add( new LargeTrashCan() );
+        add( new MediumTrashCan() );
         add( new FlowerPot() );
     }};
 

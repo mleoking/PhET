@@ -1,3 +1,4 @@
+Removed bricks from first tab and added more "interesting" objects.
 # 0.00.13 (57110) Sep 30, 2011
 9/30/11 Deploying to dev for interviews and feedback from design team.
 Added a set of mystery masses that the user will not have seen by the time they get to the game.  We will need a bunch more of these.

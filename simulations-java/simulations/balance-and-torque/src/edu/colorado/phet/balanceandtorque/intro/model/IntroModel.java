@@ -14,8 +14,10 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.FulcrumAbovePlank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FireExtinguisher;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FlowerPot;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumTrashCan;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -91,13 +93,29 @@ public class IntroModel implements Resettable {
         } );
 
         // Add the initial masses and save their initial positions.
-        Mass mass = new BrickStack( 1, new Point2D.Double( 2.7, 0 ) );
+//        Mass mass = new BrickStack( 1, new Point2D.Double( 2.7, 0 ) );
+//        addMass( mass );
+//        mapMassesToInitialPositions.put( mass, mass.getPosition() );
+//        mass = new BrickStack( 1, new Point2D.Double( 3.0, 0 ) );
+//        addMass( mass );
+//        mapMassesToInitialPositions.put( mass, mass.getPosition() );
+//        mass = new BrickStack( 2, new Point2D.Double( 3.3, 0 ) );
+//        addMass( mass );
+//        mapMassesToInitialPositions.put( mass, mass.getPosition() );
+        Mass mass = new FlowerPot() {{
+            setPosition( 2.7, 0 );
+        }};
         addMass( mass );
         mapMassesToInitialPositions.put( mass, mass.getPosition() );
-        mass = new BrickStack( 1, new Point2D.Double( 3.0, 0 ) );
+        mass = new FireExtinguisher() {{
+            setPosition( 3.2, 0 );
+
+        }};
         addMass( mass );
         mapMassesToInitialPositions.put( mass, mass.getPosition() );
-        mass = new BrickStack( 2, new Point2D.Double( 3.3, 0 ) );
+        mass = new MediumTrashCan() {{
+            setPosition( 3.7, 0 );
+        }};
         addMass( mass );
         mapMassesToInitialPositions.put( mass, mass.getPosition() );
     }
