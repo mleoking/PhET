@@ -1,3 +1,4 @@
+Water tab: Renamed "sugar atoms" to "sugar highlight"
 Made the light rays more visible when in "white background" mode
 Rename elements to elementAtomicMasses, to correspond to getter, see #3090
 Renamed playButtonPressed field to clockRunning, see #3090
