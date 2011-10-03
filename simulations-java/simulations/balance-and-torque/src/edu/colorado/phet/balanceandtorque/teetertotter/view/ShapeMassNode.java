@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -112,8 +113,7 @@ public class ShapeMassNode extends PNode {
             final PText massText = new PText( FORMATTER.format( mass ) );
             massText.setFont( FONT );
             addChild( massText );
-            // TODO: i18n
-            addChild( new PText( "kg" ) {{
+            addChild( new PText( BalanceAndTorqueResources.Strings.KG ) {{
                 setFont( FONT );
                 // TODO: There is a tweak factor in the Y direction that may cause issues with translation.  Research better way to get label elements closer.
                 setOffset( massText.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
