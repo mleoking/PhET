@@ -4,7 +4,10 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.MessageFormat;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -24,6 +27,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author John Blanco
  */
 public class ImageMassNode extends PNode {
+    private static final Format MASS_VALUE_FORMAT = new DecimalFormat( "##" );
     private final ImageMass mass;
     private final ModelViewTransform mvt;
     protected final PImage imageNode = new PImage();
@@ -37,12 +41,11 @@ public class ImageMassNode extends PNode {
         massLabel = new PText() {{
             setFont( new PhetFont( 14 ) );
             if ( mass.isMystery() ) {
-                // TODO: i18n
-                setText( "?" );
+                setText( BalanceAndTorqueResources.Strings.UNKNOWN_MASS_LABEL );
             }
             else {
-                // TODO: i18n, including order and units!
-                setText( new DecimalFormat( "##" ).format( mass.getMass() ) + " kg" );
+                String valueText = MASS_VALUE_FORMAT.format( mass.getMass() );
+                setText( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, valueText, BalanceAndTorqueResources.Strings.KG ) );
             }
         }};
         addChild( massLabel );
