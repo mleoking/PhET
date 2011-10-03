@@ -308,7 +308,7 @@ public class JMEUtils {
             tempDir.mkdirs();
             final String path = tempDir.getAbsolutePath();
             System.out.println( "Extracting native JME3 libraries to: " + path ); // TODO use common logging?
-            Natives.setExtractionDir( path );
+            JMENatives.setExtractionDir( path );
             tempDir.deleteOnExit();
         }
 
