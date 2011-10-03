@@ -245,7 +245,7 @@ public class MyGameScoreboardNode extends PhetPNode {
         if ( confirmNewGame ) {
             // request confirmation via a Yes/No dialog
             Frame parent = PhetApplication.getInstance().getPhetFrame();
-            int option = showNewGameConfirmationDialog( parent, "Holy dialog, Batman" );
+            int option = showNewGameConfirmationDialog( parent, "Confirm" );
             if ( option == JOptionPane.YES_OPTION ) {
                 fireNewGamePressed();
             }
@@ -257,7 +257,7 @@ public class MyGameScoreboardNode extends PhetPNode {
 
     private int showNewGameConfirmationDialog( Component parent, String title ) {
         // Use a JOptionPane to get the right dialog look and layout
-        JOptionPane pane = new JOptionPane( "Are you sure?", JOptionPane.ERROR_MESSAGE, JOptionPane.YES_NO_OPTION );
+        JOptionPane pane = new JOptionPane( "Are you sure?", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION );
         pane.selectInitialValue();
 
         // Create our own dialog to solve issue #89
