@@ -13,7 +13,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
  */
 public class FireHydrant extends ImageMass {
 
-    private static final double MASS = 50; // in kg
+    private static final double MASS = 60; // in kg
     private static final double HEIGHT = 0.75; // In meters.
 
     public FireHydrant( boolean isMystery ) {
