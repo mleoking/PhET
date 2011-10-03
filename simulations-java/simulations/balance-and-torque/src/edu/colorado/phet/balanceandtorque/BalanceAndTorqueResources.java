@@ -21,10 +21,12 @@ public class BalanceAndTorqueResources {
         public static final String DISPLAY_CORRECT_ANSWER = RESOURCES.getLocalizedString( "DisplayCorrectAnswer" );
         public static final String GAME = RESOURCES.getLocalizedString( "Game" );
         public static final String INTRO = RESOURCES.getLocalizedString( "Intro" );
+        public static final String MASS_EQUALS = RESOURCES.getLocalizedString( "MassEquals" );
         public static final String NEXT = RESOURCES.getLocalizedString( "Next" );
+        public static final String SHOW_RULER = RESOURCES.getLocalizedString( "ShowRuler" );
         public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "TryAgain" );
         public static final String WHAT_IS_THE_MASS = RESOURCES.getLocalizedString( "WhatIsTheMass" );
-        public static final String TEMP = RESOURCES.getLocalizedString( "temp" );
+        public static final String KG = RESOURCES.getLocalizedString( "kg" );
     }
 
     //Images
