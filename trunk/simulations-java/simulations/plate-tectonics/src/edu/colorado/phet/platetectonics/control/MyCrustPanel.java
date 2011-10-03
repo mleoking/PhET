@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import javax.swing.*;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -13,6 +13,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*;
+
 /**
  * Displays three sliders (temperature, composition and thickness) to control a piece of crust
  */
@@ -21,13 +23,13 @@ public class MyCrustPanel extends PNode {
     private static final PhetFont limitFont = new PhetFont( 10 );
 
     public MyCrustPanel( BlockCrustPlateModel model ) {
-        PText titleNode = new PText( "My Crust" ) {{
+        PText titleNode = new PText( MY_CRUST ) {{
             setFont( new PhetFont( 16, true ) );
         }};
 
-        SliderNode temperatureSlider = new SliderNode( "Temperature", "Cool", "Warm", model.temperatureRatio, 0, 1 );
-        SliderNode compositionSlider = new SliderNode( "Composition", "More Iron", "More Silica", model.compositionRatio, 0, 1 );
-        SliderNode thicknessSlider = new SliderNode( "Thickness", "Thin", "Thick", model.thickness, 4000, 70000 );
+        SliderNode temperatureSlider = new SliderNode( TEMPERATURE, COOL, WARM, model.temperatureRatio, 0, 1 );
+        SliderNode compositionSlider = new SliderNode( COMPOSITION, MORE_IRON, MORE_SILICA, model.compositionRatio, 0, 1 );
+        SliderNode thicknessSlider = new SliderNode( THICKNESS, THIN, THICK, model.thickness, 4000, 70000 );
 
         // center the title node (based on the slider itself, not the other labels!)
         titleNode.setOffset( ( temperatureSlider.getSlider().getWidth() - titleNode.getFullBounds().getWidth() ) / 2, 0 );
