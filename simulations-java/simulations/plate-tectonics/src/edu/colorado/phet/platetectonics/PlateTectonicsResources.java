@@ -13,9 +13,8 @@ public class PlateTectonicsResources {
 
     //Strings
     public static class Strings {
-        public static final String DOUBLE_PLATE__TITLE = RESOURCES.getLocalizedString( "doublePlate.title" );
-        public static final String PLATE__TECTONICS__TITLE = RESOURCES.getLocalizedString( "plate-tectonics.title" );
-        public static final String SINGLE_PLATE__TITLE = RESOURCES.getLocalizedString( "singlePlate.title" );
+        public static final String ONE_PLATE = RESOURCES.getLocalizedString( "onePlate" );
+        public static final String TWO_PLATES = RESOURCES.getLocalizedString( "twoPlates" );
     }
 
     //Images

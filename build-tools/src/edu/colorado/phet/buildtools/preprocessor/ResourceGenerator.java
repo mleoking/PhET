@@ -106,9 +106,10 @@ public class ResourceGenerator {
         }}.toStringWithoutLastCharacter();
 
         //Find the image files under the data/simname/images directory
+        //TODO: doesn't handle nested directory structure
         final File[] imageFiles = new File( simDir, "data/" + simDir.getName() + "/images" ).listFiles( new FilenameFilter() {
             public boolean accept( File dir, String name ) {
-                return !name.equals( "license.txt" ) && !name.equals( ".svn" );
+                return !name.equals( "license.txt" ) && !name.equals( ".svn" ) && name.indexOf( "." ) > 0;
             }
         } );
 
