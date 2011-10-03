@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.intro.model.IntroModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
@@ -186,12 +187,10 @@ public class IntroCanvas extends PhetPCanvas {
             model.columnState.addObserver( new VoidFunction1<ColumnState>() {
                 public void apply( ColumnState columnState ) {
                     if ( columnState == ColumnState.DOUBLE_COLUMNS ) {
-                        // TODO: i18n
-                        setText( "Remove Supports" );
+                        setText( BalanceAndTorqueResources.Strings.REMOVE_SUPPORTS );
                     }
                     else {
-                        // TODO: i18n
-                        setText( "Add Supports" );
+                        setText( BalanceAndTorqueResources.Strings.ADD_SUPPORTS );
                     }
                     centerFullBoundsOnPoint( columnControlButtonLocation.getX(), columnControlButtonLocation.getY() );
                 }
@@ -202,15 +201,13 @@ public class IntroCanvas extends PhetPCanvas {
         // Add the control panel that will allow users to control the visibility
         // of the various indicators.
         PNode controlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 5, 1 ) ) {{
-            // TODO: i18n
-            addChild( new PText( "Show" ) {{
+            addChild( new PText( BalanceAndTorqueResources.Strings.SHOW ) {{
                 setFont( new PhetFont( 18 ) );
             }} );
-            // TODO: i18n
-            addChild( new PropertyCheckBoxNode( "Mass Labels", massLabelVisibilityProperty ) );
-            addChild( new PropertyCheckBoxNode( "Distances", distancesVisibleProperty ) );
-            addChild( new PropertyCheckBoxNode( "Forces from Objects", forceVectorsFromObjectsVisibleProperty ) );
-            addChild( new PropertyCheckBoxNode( "Level", levelIndicatorVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.MASS_LABELS, massLabelVisibilityProperty ) );
+            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.DISTANCES, distancesVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.FORCES_FROM_OBJECTS, forceVectorsFromObjectsVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.LEVEL, levelIndicatorVisibleProperty ) );
         }} );
         controlPanel.setOffset( STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width - 20, 100 );
         nonMassLayer.addChild( controlPanel );
