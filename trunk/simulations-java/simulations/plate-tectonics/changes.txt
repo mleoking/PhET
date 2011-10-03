@@ -1,3 +1,4 @@
+Added ruler to toolbox
 Added in a 3D test version of a ruler
 Internationalized current strings
 Updated strings file
