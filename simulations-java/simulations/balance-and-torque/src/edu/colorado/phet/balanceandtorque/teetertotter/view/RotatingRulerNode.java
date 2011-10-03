@@ -25,6 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class RotatingRulerNode extends PNode {
 
     public RotatingRulerNode( final Plank plank, final ModelViewTransform mvt, BooleanProperty visibleProperty ) {
+
         final TopTickMarkRulerNode rulerNode = new TopTickMarkRulerNode( mvt.modelToViewDeltaX( Plank.LENGTH - 0.5 ),
                                                                          60,
                                                                          new String[] { "2", "1.75", "1.5", "1.25", "1", "0.75", "0.5", "0.25", "", "0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2" },
@@ -33,14 +34,15 @@ public class RotatingRulerNode extends PNode {
                                                                          12 );
         rulerNode.setBackgroundPaint( new Color( 236, 225, 113, 100 ) );
         addChild( rulerNode );
+
         // Create and add the units labels.
         final PText leftUnitsLabelNode = new LabelUnitsNode() {{
-            setOffset( rulerNode.getFullBoundsReference().getWidth() / 3 - getFullBoundsReference().width / 2,
+            setOffset( rulerNode.getFullBoundsReference().getWidth() * 0.25 - getFullBoundsReference().width / 2,
                        rulerNode.getFullBoundsReference().getHeight() - getFullBoundsReference().height );
         }};
         rulerNode.addChild( leftUnitsLabelNode );
         final PText rightUnitsLabelNode = new LabelUnitsNode() {{
-            setOffset( 2 * rulerNode.getFullBoundsReference().getWidth() / 3 - getFullBoundsReference().width / 2,
+            setOffset( rulerNode.getFullBoundsReference().getWidth() * 0.75 - getFullBoundsReference().width / 2,
                        rulerNode.getFullBoundsReference().getHeight() - getFullBoundsReference().height );
         }};
         rulerNode.addChild( rightUnitsLabelNode );
