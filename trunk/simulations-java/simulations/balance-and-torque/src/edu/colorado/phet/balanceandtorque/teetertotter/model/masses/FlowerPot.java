@@ -13,7 +13,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
  */
 public class FlowerPot extends ImageMass {
 
-    private static final double MASS = 7.5; // in kg
+    private static final double MASS = 5; // in kg
     private static final double HEIGHT = 0.6; // In meters.
 
     public FlowerPot() {
