@@ -110,7 +110,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }};
 
     // Buttons.
-    // TODO: i18n of all buttons
     private TextButtonNode checkAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.CHECK_ANSWER, BUTTON_FONT, Color.YELLOW );
     private TextButtonNode tryAgainButton = new TextButtonNode( BalanceAndTorqueResources.Strings.TRY_AGAIN, BUTTON_FONT, Color.YELLOW );
     private TextButtonNode nextChallengeButton = new TextButtonNode( BalanceAndTorqueResources.Strings.NEXT, BUTTON_FONT, Color.YELLOW );
