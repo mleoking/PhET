@@ -30,13 +30,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
     private static final double RAYS_ARC_ANGLE = Math.toRadians( 270 );
 
     // Color and strokes
-    private static final Color RAY_COLOR = Color.YELLOW;
+    // Make the color darker when shown against light background to make it more visible
+    public static final Color DEFAULT_RAY_COLOR_AGAINST_DARK_BACKGROUND = Color.YELLOW;
+    public static final Color DEFAULT_RAY_COLOR_AGAINST_LIGHT_BACKGROUND = new Color( 232, 167, 54 );
     private static final BasicStroke RAY_STROKE_BIG = new BasicStroke( 3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final BasicStroke RAY_STROKE_MEDIUM = new BasicStroke( 2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final BasicStroke RAY_STROKE_SMALL = new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
     private final double bulbRadius;
     private double intensity;
+    private Color rayColor = DEFAULT_RAY_COLOR_AGAINST_DARK_BACKGROUND;
 
     private final PPath[] cachePPaths; // reusable PPaths
     private final Line2D[] cacheLines; // reusable lines
@@ -74,6 +77,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
             this.intensity = intensity;
             update();
         }
+    }
+
+    /**
+     * Set the ray color to use
+     *
+     * @param rayColor the color for the rays
+     */
+    public void setRayColor( Color rayColor ) {
+        this.rayColor = rayColor;
+        update();
     }
 
     private void update() {
@@ -122,7 +135,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
             PPath pathNode = cachePPaths[i];
             pathNode.setPathTo( line );
             pathNode.setStroke( stroke );
-            pathNode.setStrokePaint( RAY_COLOR );
+            pathNode.setStrokePaint( rayColor );
             addChild( pathNode );
 
             // Increment the angle.

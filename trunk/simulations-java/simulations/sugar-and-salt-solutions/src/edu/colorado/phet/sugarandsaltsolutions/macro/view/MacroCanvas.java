@@ -98,7 +98,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
         soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
 
         //Toolbox from which the conductivity tester can be dragged
-        conductivityToolboxLayer.addChild( new ConductivityTesterToolboxNode( model, this ) {{
+        conductivityToolboxLayer.addChild( new ConductivityTesterToolboxNode( model, this, globalState.colorScheme.whiteBackground ) {{
             //Set the location of the control panel
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getMaxY() + INSET );
         }} );

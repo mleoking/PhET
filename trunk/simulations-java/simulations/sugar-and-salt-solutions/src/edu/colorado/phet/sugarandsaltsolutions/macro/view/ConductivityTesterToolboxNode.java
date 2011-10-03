@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -29,7 +30,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
-    public ConductivityTesterToolboxNode( final MacroModel model, final SugarAndSaltSolutionsCanvas canvas ) {
+    public ConductivityTesterToolboxNode( final MacroModel model, final SugarAndSaltSolutionsCanvas canvas, final ObservableProperty<Boolean> whiteBackground ) {
         super( new VBox() {{
 
             //Function for determining whether the conductivity node should get dropped back in the toolbox.
@@ -47,12 +48,12 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
             NodeFactory conductivityNodeMaker = new NodeFactory() {
                 public ToolNode createNode( final ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
                     //Create and return the tool node, which reuses the same conductivityTesterNode
-                    return new ConductivityTesterToolNode( new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, transform, canvas.getRootNode(), location ) );
+                    return new ConductivityTesterToolNode( new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, transform, canvas.getRootNode(), location, whiteBackground ) );
                 }
             };
 
             //Create a thumbnail to be shown in the toolbox
-            Image thumbnail = new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, canvas.getModelViewTransform(), canvas.getRootNode(), new Point2D.Double( 0, 0 ) ).createImage();
+            Image thumbnail = new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, canvas.getModelViewTransform(), canvas.getRootNode(), new Point2D.Double( 0, 0 ), whiteBackground ).createImage();
 
             //Add the tool icon node, which can be dragged out of the toolbox to create the full-sized conductivity tester node
             addChild( new ToolIconNode<SugarAndSaltSolutionsCanvas>(

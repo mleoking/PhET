@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -29,13 +30,22 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
     private final ConductivityTester conductivityTester;
     private final ModelViewTransform transform;
 
-    public SugarAndSaltSolutionsConductivityTesterNode( final ConductivityTester conductivityTester, final ModelViewTransform transform, final PNode rootNode, Point2D location ) {
+    public SugarAndSaltSolutionsConductivityTesterNode( final ConductivityTester conductivityTester, final ModelViewTransform transform, final PNode rootNode, Point2D location, ObservableProperty<Boolean> whiteBackground ) {
         super( conductivityTester, transform, Color.lightGray, Color.lightGray, Color.lightGray, PhetColorScheme.RED_COLORBLIND, Color.green, Color.black, Color.black, false );
         this.conductivityTester = conductivityTester;
         this.transform = transform;
 
-        //Set up the ConductivityTesterNode to work well against a black background
-        setAgainstDarkBackground();
+        //Set up the ConductivityTesterNode to work well against the selected background
+        whiteBackground.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean whiteBackground ) {
+                if ( whiteBackground ) {
+                    setAgainstWhiteBackground();
+                }
+                else {
+                    setAgainstDarkBackground();
+                }
+            }
+        } );
 
         //Make it visible when the model shows the conductivity tester to be visible (i.e. enabled)
         conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
