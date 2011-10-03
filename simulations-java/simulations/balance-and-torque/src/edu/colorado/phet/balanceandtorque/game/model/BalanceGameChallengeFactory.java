@@ -67,8 +67,8 @@ public class BalanceGameChallengeFactory {
         add( new BrickStack( 2 ) );
         add( new BrickStack( 3 ) );
         add( new BrickStack( 4 ) );
-        add( new SmallRock() );
-        add( new BigRock() );
+        add( new SmallRock( true ) );
+        add( new BigRock( true ) );
         add( new Boy() );
         add( new Girl() );
         add( new Woman() );
@@ -77,13 +77,13 @@ public class BalanceGameChallengeFactory {
 
     // List of mystery objects that the user has not seen on the other tab(s).
     private static final List<Mass> MYSTERY_MASSES = new ArrayList<Mass>() {{
-        add( new MediumRock() );
-        add( new FireExtinguisher() );
-        add( new FireHydrant() );
-        add( new Television() );
-        add( new LargeTrashCan() );
-        add( new MediumTrashCan() );
-        add( new FlowerPot() );
+        add( new MediumRock( true ) );
+        add( new FireExtinguisher( true ) );
+        add( new FireHydrant( true ) );
+        add( new Television( true ) );
+        add( new LargeTrashCan( true ) );
+        add( new MediumTrashCan( true ) );
+        add( new FlowerPot( true ) );
     }};
 
     /**
@@ -651,7 +651,7 @@ public class BalanceGameChallengeFactory {
     // Test harness, changes as code evolves, not meant to test all aspects of
     // this class.
     public static void main( String[] args ) {
-        List<BalanceGameChallenge> balanceGameChallenges = generateSolvableChallenges( new BrickStack( 1 ), new SmallRock(), new BrickStack( 3 ),
+        List<BalanceGameChallenge> balanceGameChallenges = generateSolvableChallenges( new BrickStack( 1 ), new SmallRock( true ), new BrickStack( 3 ),
                                                                                        Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                                                        Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE );
     }

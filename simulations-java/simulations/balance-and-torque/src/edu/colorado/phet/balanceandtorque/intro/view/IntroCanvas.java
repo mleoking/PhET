@@ -56,7 +56,7 @@ public class IntroCanvas extends PhetPCanvas {
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private final ModelViewTransform mvt;
 
-    public final BooleanProperty massLabelVisibilityProperty = new BooleanProperty( false );
+    public final BooleanProperty massLabelVisibilityProperty = new BooleanProperty( true );
     public final BooleanProperty distancesVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty levelIndicatorVisibleProperty = new BooleanProperty( false );

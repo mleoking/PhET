@@ -16,7 +16,7 @@ public class LargeTrashCan extends ImageMass {
     private static final double MASS = 15; // in kg
     private static final double HEIGHT = 0.9; // In meters.
 
-    public LargeTrashCan() {
-        super( MASS, Images.TRASH_CAN, HEIGHT, new Point2D.Double( 0, 0 ), true );
+    public LargeTrashCan( boolean isMystery ) {
+        super( MASS, Images.TRASH_CAN, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
     }
 }

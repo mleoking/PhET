@@ -16,7 +16,7 @@ public class BigRock extends ImageMass {
     private static final double MASS = 60; // in kg
     private static final double HEIGHT = 0.5; // In meters.
 
-    public BigRock() {
-        super( MASS, Images.ROCK_6, HEIGHT, new Point2D.Double( 0, 0 ) );
+    public BigRock( boolean isMystery ) {
+        super( MASS, Images.ROCK_6, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
     }
 }
