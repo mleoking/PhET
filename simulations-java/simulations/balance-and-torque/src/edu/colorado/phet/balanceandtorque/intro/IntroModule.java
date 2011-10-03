@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.intro;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.intro.model.IntroModel;
 import edu.colorado.phet.balanceandtorque.intro.view.IntroCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -21,8 +22,7 @@ public class IntroModule extends Module {
     }
 
     private IntroModule( IntroModel model ) {
-        // TODO: i18n
-        super( "Intro", model.getClock() );
+        super( BalanceAndTorqueResources.Strings.INTRO, model.getClock() );
         this.model = model;
         setSimulationPanel( new IntroCanvas( model ) );
         reset();
