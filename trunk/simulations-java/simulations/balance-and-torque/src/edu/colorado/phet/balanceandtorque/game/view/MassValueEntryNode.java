@@ -16,6 +16,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -52,8 +53,7 @@ public class MassValueEntryNode extends PNode {
         this.model = balanceGameModel;
 
         // Add the textual prompt.
-        // TODO: i18n
-        PText prompt = new PText( "Mass = " );
+        PText prompt = new PText( BalanceAndTorqueResources.Strings.MASS_EQUALS );
         prompt.setFont( TEXT_FONT );
 
         // Create the sub-panel that will contain the edit box for entering
@@ -67,8 +67,7 @@ public class MassValueEntryNode extends PNode {
         numericalValueEntryPanel.add( numberEntryField );
 
         // Add the units label.
-        // TODO: i18n
-        PText unitsLabel = new PText( "kg" );
+        PText unitsLabel = new PText( BalanceAndTorqueResources.Strings.KG );
         unitsLabel.setFont( TEXT_FONT );
 
         // Add a handler for the case where the user presses the Enter key.
@@ -82,8 +81,7 @@ public class MassValueEntryNode extends PNode {
         PSwing valueEntryPSwing = new PSwing( numericalValueEntryPanel );
 
         // Create the button for checking the answer.
-        // TODO: i18n
-        checkAnswerButton = new TextButtonNode( "Check Answer", new PhetFont( 20 ), Color.YELLOW );
+        checkAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.CHECK_ANSWER, new PhetFont( 20 ), Color.YELLOW );
 
         // Register to send the user's guess when the button is pushed.
         checkAnswerButton.addActionListener( new ActionListener() {

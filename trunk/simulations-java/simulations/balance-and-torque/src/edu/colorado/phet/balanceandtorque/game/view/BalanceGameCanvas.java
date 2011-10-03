@@ -354,8 +354,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add a check box for controlling whether the ruler is visible.
         BooleanProperty rulerVisibilityProperty = new BooleanProperty( false );
-        // TODO: i18n
-        PropertyCheckBox rulerVisibilityCheckBox = new PropertyCheckBox( "Show Ruler", rulerVisibilityProperty ) {{
+        PropertyCheckBox rulerVisibilityCheckBox = new PropertyCheckBox( BalanceAndTorqueResources.Strings.SHOW_RULER, rulerVisibilityProperty ) {{
             setFont( new PhetFont( 16 ) );
             setBackground( new Color( 0, 0, 0, 0 ) );
         }};
