@@ -50,7 +50,7 @@ public class WaterControlPanel extends WhiteControlPanelNode {
 
                     //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
                     //Works for both the sugar in the bucket and any in the model
-                    add( new PropertyCheckBox( SUGAR_ATOMS, waterModel.showSugarAtoms ) {{
+                    add( new PropertyCheckBox( SUGAR_HIGHLIGHT, waterModel.showSugarAtoms ) {{
                         setFont( BUTTON_FONT );
                     }} );
                 }} ),
