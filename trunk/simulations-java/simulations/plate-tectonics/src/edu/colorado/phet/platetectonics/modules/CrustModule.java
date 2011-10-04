@@ -15,7 +15,7 @@ import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.hud.HUDNode.HUDNodeCollision;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
-import edu.colorado.phet.platetectonics.model.BlockCrustPlateModel;
+import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
@@ -38,7 +38,7 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*
  */
 public class CrustModule extends PlateTectonicsModule {
 
-    private BlockCrustPlateModel model;
+    private CrustModel model;
     private JMEView guiView;
 
     public CrustModule( Frame parentFrame ) {
@@ -88,7 +88,7 @@ public class CrustModule extends PlateTectonicsModule {
                 512, 512, 32 );
 
         // create the model and terrain
-        model = new BlockCrustPlateModel();
+        model = new CrustModel();
         mainView.getScene().attachChild( new PlateView( model, this, grid ) );
 
         /*---------------------------------------------------------------------------*

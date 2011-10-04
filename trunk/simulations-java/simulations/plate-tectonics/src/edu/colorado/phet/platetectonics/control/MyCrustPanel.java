@@ -8,7 +8,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.jmephet.JMEUtils;
-import edu.colorado.phet.platetectonics.model.BlockCrustPlateModel;
+import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -22,7 +22,7 @@ public class MyCrustPanel extends PNode {
     private static final PhetFont sliderTitleFont = new PhetFont( 14 );
     private static final PhetFont limitFont = new PhetFont( 10 );
 
-    public MyCrustPanel( BlockCrustPlateModel model ) {
+    public MyCrustPanel( CrustModel model ) {
         PText titleNode = new PText( MY_CRUST ) {{
             setFont( new PhetFont( 16, true ) );
         }};

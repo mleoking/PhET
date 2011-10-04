@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * Displays a simplified block model of crusts resting on the mantle. Their elevation is dependent on
  * their density (temperature and composition), and the center crust is user controlled.
  */
-public class BlockCrustPlateModel extends PlateModel {
+public class CrustModel extends PlateModel {
 
     // X positions of the plate boundaries
     private static final int LEFT_BOUNDARY = -75000;
@@ -35,7 +35,7 @@ public class BlockCrustPlateModel extends PlateModel {
     // thickness of the center crust, in meters
     public final Property<Double> thickness = new Property<Double>( 20000.0 );
 
-    public BlockCrustPlateModel() {
+    public CrustModel() {
         // fire a change event when anything is modified
         SimpleObserver fireModelChanged = new SimpleObserver() {
             public void update() {
