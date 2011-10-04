@@ -58,6 +58,8 @@ public class HUDNode extends Geometry {
     private final int width;
     private final int height;
 
+    private Material material;
+
     private RawInputListener inputListener; // our listener for mouse events, so that we can forward them
     private volatile boolean listenerAttached = false; // whether our listener is listening
     private AbstractAppState state; // our state listener. will get updates every frame until disposed
@@ -166,7 +168,7 @@ public class HUDNode extends Geometry {
             }
         };
 
-        setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+        material = new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             setTexture( "ColorMap", new Texture2D() {{
                 setImage( image );
 
@@ -190,7 +192,8 @@ public class HUDNode extends Geometry {
 
             getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
             setTransparent( true );
-        }} );
+        }};
+        setMaterial( material );
 
         initRepaintManager();
 
@@ -314,6 +317,9 @@ public class HUDNode extends Geometry {
     public void dispose() {
         ignoreInput();
         module.detachState( state );
+
+        // don't leak memory!
+        JMEUtils.getApplication().getRenderer().deleteImage( image );
     }
 
     /**
