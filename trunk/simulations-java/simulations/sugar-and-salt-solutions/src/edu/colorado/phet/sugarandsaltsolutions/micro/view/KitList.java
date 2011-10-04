@@ -30,7 +30,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  * @author Sam Reid
  */
 public class KitList {
-    private final ArrayList<MicroKit> kits = new ArrayList<MicroKit>();
+    private final ArrayList<MicroSoluteKit> kits = new ArrayList<MicroSoluteKit>();
 
     public KitList( final MicroModel model, final ModelViewTransform transform ) {
 
@@ -68,23 +68,23 @@ public class KitList {
 
         //This is the logic for which components are present within each kit.  If kits change, this will need to be updated
         //Put the positive ions to the left of the negative ions
-        kits.add( new MicroKit( new BarItem( model.sodium, SODIUM, sodiumIcon ),
-                                new BarItem( model.chloride, CHLORIDE, chlorideIcon ),
-                                new BarItem( model.sucrose, SUCROSE, sucroseIcon ) ) );
+        kits.add( new MicroSoluteKit( new BarItem( model.sodium, SODIUM, sodiumIcon ),
+                                      new BarItem( model.chloride, CHLORIDE, chlorideIcon ),
+                                      new BarItem( model.sucrose, SUCROSE, sucroseIcon ) ) );
 
-        kits.add( new MicroKit( new BarItem( model.sodium, SODIUM, sodiumIcon ),
-                                new BarItem( model.calcium, CALCIUM, calciumIcon ),
-                                new BarItem( model.chloride, CHLORIDE, chlorideIcon ) ) );
+        kits.add( new MicroSoluteKit( new BarItem( model.sodium, SODIUM, sodiumIcon ),
+                                      new BarItem( model.calcium, CALCIUM, calciumIcon ),
+                                      new BarItem( model.chloride, CHLORIDE, chlorideIcon ) ) );
 
-        kits.add( new MicroKit( new BarItem( model.sodium, SODIUM, sodiumIcon ),
-                                new BarItem( model.chloride, CHLORIDE, chlorideIcon ),
-                                new BarItem( model.nitrate, NITRATE, nitrateIcon ) ) );
+        kits.add( new MicroSoluteKit( new BarItem( model.sodium, SODIUM, sodiumIcon ),
+                                      new BarItem( model.chloride, CHLORIDE, chlorideIcon ),
+                                      new BarItem( model.nitrate, NITRATE, nitrateIcon ) ) );
 
-        kits.add( new MicroKit( new BarItem( model.sucrose, SUCROSE, sucroseIcon ),
-                                new BarItem( model.glucose, GLUCOSE, glucoseIcon ) ) );
+        kits.add( new MicroSoluteKit( new BarItem( model.sucrose, SUCROSE, sucroseIcon ),
+                                      new BarItem( model.glucose, GLUCOSE, glucoseIcon ) ) );
     }
 
-    public MicroKit getKit( int kit ) {
+    public MicroSoluteKit getKit( int kit ) {
         return kits.get( kit );
     }
 }
