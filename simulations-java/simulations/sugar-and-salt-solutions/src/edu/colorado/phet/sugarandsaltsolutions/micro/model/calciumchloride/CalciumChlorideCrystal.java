@@ -37,10 +37,10 @@ public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
         //This is to match the design doc spec and Soluble Salts sim to get a 2:1 lattice
         //This effectively makes it so that so that every other Ca2+ is omitted from the lattice in a regular way
         if ( constituent.particle instanceof Chloride ) {
-            if ( isOccupied( constituent.relativePosition.plus( NORTH ) ) ) { return new ImmutableVector2D[] { SOUTH }; }
-            else if ( isOccupied( constituent.relativePosition.plus( SOUTH ) ) ) { return new ImmutableVector2D[] { NORTH };}
-            else if ( isOccupied( constituent.relativePosition.plus( EAST ) ) ) { return new ImmutableVector2D[] { WEST };}
-            else if ( isOccupied( constituent.relativePosition.plus( WEST ) ) ) { return new ImmutableVector2D[] { EAST };}
+            if ( isOccupied( constituent.relativePosition.plus( northUnitVector ) ) ) { return new ImmutableVector2D[] { southUnitVector }; }
+            else if ( isOccupied( constituent.relativePosition.plus( southUnitVector ) ) ) { return new ImmutableVector2D[] { northUnitVector };}
+            else if ( isOccupied( constituent.relativePosition.plus( eastUnitVector ) ) ) { return new ImmutableVector2D[] { westUnitVector };}
+            else if ( isOccupied( constituent.relativePosition.plus( westUnitVector ) ) ) { return new ImmutableVector2D[] { eastUnitVector };}
 
             //If no neighbor site is occupied, then this is the first particle in the lattice, so fall through and allow to go any direction
         }

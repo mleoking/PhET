@@ -71,16 +71,16 @@ public class MacroModel extends SugarAndSaltSolutionModel {
     public MacroModel() {
         super( new ConstantDtClock( 30 ), new BeakerDimension( 0.2 ), 0.0005,
 
-               //REVIEW sampled how and where, in case someone needs to change this?
-               //These values were sampled from the model with debug mode.
+               //These values were sampled from the model with debug mode by printing out the model location of the mouse and moving it to a location that looks good
                0.011746031746031754, 0.026349206349206344,
 
                //In macro model scales are already tuned so no additional scaling is needed
                1 );
 
         //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
+        //The chemistry team informed me that there is 0.2157/1000 meters cubed per mole of solid sugar
         salt = new SoluteModel( waterVolume, saltSaturationPoint, SoluteModel.VOLUME_PER_SOLID_MOLE_SALT, MacroSalt.molarMass );
-        sugar = new SoluteModel( waterVolume, sugarSaturationPoint, 0.2157 / 1000.0, MacroSugar.molarMass ); //REVIEW explain the volumePerSolidMole arg
+        sugar = new SoluteModel( waterVolume, sugarSaturationPoint, 0.2157 / 1000.0, MacroSugar.molarMass );
 
         //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
         anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
