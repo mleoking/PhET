@@ -8,28 +8,18 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
  */
 public class DispenserType {
 
-    //Name of the solute
-    private final String soluteName;
-
     //List of elements comprising the solute
     private final Integer[] elementAtomicMasses;
 
-    public static final DispenserType SALT = new DispenserType( "Salt", 11, 17 );
-    public static final DispenserType SUGAR = new DispenserType( "Sugar", 6, 1, 8 );
-    public static final DispenserType GLUCOSE = new DispenserType( "Glucose", 6, 1, 8 );
-    public static final DispenserType SODIUM_NITRATE = new DispenserType( "Sodium Nitrate", 11, 7, 8 );
-    public static final DispenserType CALCIUM_CHLORIDE = new DispenserType( "Calcium Chloride", 20, 17 );
+    public static final DispenserType SALT = new DispenserType( 11, 17 );
+    public static final DispenserType SUGAR = new DispenserType( 6, 1, 8 );
+    public static final DispenserType GLUCOSE = new DispenserType( 6, 1, 8 );
+    public static final DispenserType SODIUM_NITRATE = new DispenserType( 11, 7, 8 );
+    public static final DispenserType CALCIUM_CHLORIDE = new DispenserType( 20, 17 );
 
     //Enum pattern, so no other instances should be created
-    private DispenserType( String soluteName, Integer... elementAtomicMasses ) {
-        this.soluteName = soluteName;
+    private DispenserType( Integer... elementAtomicMasses ) {
         this.elementAtomicMasses = elementAtomicMasses;
-    }
-
-    //REVIEW Why are you using toString instead of getName? If it's to populate a JComboBox,
-    // this approach is brittle and pollutes the model, use a custom renderer.
-    @Override public String toString() {
-        return soluteName;
     }
 
     public Integer[] getElementAtomicMasses() {
