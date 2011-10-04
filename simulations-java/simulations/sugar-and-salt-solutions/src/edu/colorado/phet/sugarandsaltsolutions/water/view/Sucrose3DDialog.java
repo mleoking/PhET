@@ -16,7 +16,6 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
 //REVIEW the Jmol viewer has some undesirable key bindings (eg, zoom)
-//REVIEW Lots of "module" references in names and comments, I make these more generic (moduleActivated -> activate), or at least consistent (reset -> moduleReset).
 
 /**
  * Creates and displays the JmolDialog, and minimizes and restores it when the user switches tabs
@@ -73,14 +72,14 @@ public class Sucrose3DDialog {
     }
 
     //Called when the user switches to the water tab from another tab.  Remembers if the JMolDialog was showing and restores it if so
-    public void moduleActivated() {
+    public void activate() {
         if ( jmolDialog != null ) {
             jmolDialog.setVisible( showJMolDialogOnActivate );
         }
     }
 
     //Called when the user switches to another tab.  Stores the state of the jmol dialog so that it can be restored when the user comes back to this tab
-    public void moduleDeactivated() {
+    public void deactivate() {
         showJMolDialogOnActivate = jmolDialog != null && jmolDialog.isVisible();
         if ( jmolDialog != null ) {
             jmolDialog.setVisible( false );
