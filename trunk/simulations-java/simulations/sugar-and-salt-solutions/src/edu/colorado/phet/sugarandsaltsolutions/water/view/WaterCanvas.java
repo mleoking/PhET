@@ -18,11 +18,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ResetAllButtonNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
@@ -49,7 +49,7 @@ import static java.awt.Color.blue;
  *
  * @author Sam Reid
  */
-public class WaterCanvas extends PhetPCanvas implements ICanvas {
+public class WaterCanvas extends SugarAndSaltSolutionsCanvas implements ICanvas {
 
     //Default size of the canvas.  Sampled at runtime on a large res screen from a sim with multiple tabs
     public static final Dimension canvasSize = new Dimension( 1008, 676 );
@@ -303,21 +303,5 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
         //Center it on the bucket hole after it has been added to the layer
         compoundListNode.moveToBucket();
-    }
-
-    //REVIEW duplicated here and in SugarAndSaltSolutionsCanvas
-    public void addChild( PNode node ) {
-        rootNode.addChild( node );
-    }
-
-    //REVIEW duplicated here and in SugarAndSaltSolutionsCanvas
-    public void removeChild( PNode node ) {
-        rootNode.removeChild( node );
-    }
-
-    //REVIEW duplicated here and in SugarAndSaltSolutionsCanvas
-    //Get the root node used for stage coordinates, necessary when transforming through the global coordinate frame to stage
-    public PNode getRootNode() {
-        return rootNode;
     }
 }

@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
@@ -33,11 +32,8 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
  *
  * @author Sam Reid
  */
-public abstract class BeakerAndShakerCanvas extends PhetPCanvas implements ToolboxCanvas {
+public abstract class BeakerAndShakerCanvas extends SugarAndSaltSolutionsCanvas implements ToolboxCanvas {
     public static final Color WATER_COLOR = new Color( 179, 239, 243 );
-
-    //Root node that shows the nodes in the stage coordinate frame
-    private final PNode rootNode;
 
     //Insets to be used for padding between edge of canvas and controls, or between controls
     public static final int INSET = 5;
@@ -87,10 +83,6 @@ public abstract class BeakerAndShakerCanvas extends PhetPCanvas implements Toolb
 
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         this.transform = transform;
-
-        // Root of the scene graph in stage coordinates (scaled with the window size)
-        rootNode = new PNode();
-        addWorldChild( rootNode );
 
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
         globalState.colorScheme.backgroundColorSet.color.addObserver( new VoidFunction1<Color>() {
@@ -190,18 +182,6 @@ public abstract class BeakerAndShakerCanvas extends PhetPCanvas implements Toolb
                 setPathTo( transform.modelToView( model.visibleRegion ).toShape() );
             }} );
         }
-    }
-
-    public void addChild( PNode node ) {
-        rootNode.addChild( node );
-    }
-
-    public void removeChild( PNode node ) {
-        rootNode.removeChild( node );
-    }
-
-    public PNode getRootNode() {
-        return rootNode;
     }
 
     public ModelViewTransform getModelViewTransform() {
