@@ -19,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
 
-    //REVIEW But where is the interface for resetting the model?...
     //Listeners which are notified when the sim is reset.
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
@@ -57,6 +56,9 @@ public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
             }
         } );
     }
+
+    //Reset the the model when "reset all" is pressed
+    public abstract void reset();
 
     protected abstract double updateModel( double dt );
 
