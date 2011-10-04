@@ -120,6 +120,18 @@ public class MessengerRna extends MobileBiomolecule {
     // Methods
     //-------------------------------------------------------------------------
 
+
+    @Override public void translate( ImmutableVector2D translationVector ) {
+        // Translate the current shape user the superclass facility.
+        super.translate( translationVector );
+        // Move each of the shape-defining points.
+        PointMass thisPoint = firstShapeDefiningPoint;
+        while ( thisPoint != null ) {
+            thisPoint.translate( translationVector );
+            thisPoint = thisPoint.getNextPointMass();
+        }
+    }
+
     /**
      * Add a length to the mRNA from its current end point to the specified end
      * point.  This is usually done in small amounts, and is likely to look
@@ -739,6 +751,10 @@ public class MessengerRna extends MobileBiomolecule {
 
         public void updatePosition( double time ) {
             setPosition( position.getX() + velocity.getX() * time, position.getY() + velocity.getY() * time );
+        }
+
+        public void translate( ImmutableVector2D translationVector ) {
+            setPosition( position.getX() + translationVector.getX(), position.getY() + translationVector.getY() );
         }
     }
 
