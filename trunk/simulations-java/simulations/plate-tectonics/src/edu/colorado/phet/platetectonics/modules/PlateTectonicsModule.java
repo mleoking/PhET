@@ -14,6 +14,9 @@ import edu.colorado.phet.jmephet.PhetJMEApplication;
 import edu.colorado.phet.platetectonics.util.JMEModelViewTransform;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
 
+import com.jme3.input.MouseInput;
+import com.jme3.input.controls.MouseAxisTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Matrix4f;
@@ -25,6 +28,12 @@ import com.jme3.scene.Node;
  * General plate tectonics module that consolidates common behavior between the various tabs
  */
 public abstract class PlateTectonicsModule extends JMEModule {
+    public static final String MAP_LEFT = "CameraLeft";
+    public static final String MAP_RIGHT = "CameraRight";
+    public static final String MAP_UP = "CameraUp";
+    public static final String MAP_DOWN = "CameraDown";
+    public static final String MAP_LMB = "CameraDrag";
+
     protected CenteredStageCanvasTransform canvasTransform;
     protected JMEView mainView;
 
@@ -62,6 +71,15 @@ public abstract class PlateTectonicsModule extends JMEModule {
 
         // light it
         addLighting( mainView.getScene() );
+
+        // hook up mouse-move handlers
+        getInputHandler().addMapping( MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
+        getInputHandler().addMapping( MAP_RIGHT, new MouseAxisTrigger( MouseInput.AXIS_X, false ) );
+        getInputHandler().addMapping( MAP_UP, new MouseAxisTrigger( MouseInput.AXIS_Y, false ) );
+        getInputHandler().addMapping( MAP_DOWN, new MouseAxisTrigger( MouseInput.AXIS_Y, true ) );
+
+        // hook up mouse-button handlers
+        getInputHandler().addMapping( MAP_LMB, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
     }
 
     // camera to use for debugging purposes

@@ -5,10 +5,12 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.jmephet.JMEView;
+import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.model.BlockCrustPlateModel;
@@ -20,7 +22,10 @@ import edu.colorado.phet.platetectonics.view.RulerNode3D.RulerNode2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.AnalogListener;
 import com.jme3.renderer.Camera;
+import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*;
 
@@ -28,6 +33,7 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*
 public class SinglePlateModule extends PlateTectonicsModule {
 
     private BlockCrustPlateModel model;
+    private JMEView guiView;
 
     public SinglePlateModule( Frame parentFrame ) {
         super( parentFrame, ONE_PLATE );
@@ -40,6 +46,33 @@ public class SinglePlateModule extends PlateTectonicsModule {
 
     @Override public void initialize() {
         super.initialize();
+
+        /*---------------------------------------------------------------------------*
+        * mouse-button presses
+        *----------------------------------------------------------------------------*/
+        getInputHandler().addListener(
+                new ActionListener() {
+                    public void onAction( String name, boolean isMouseDown, float tpf ) {
+                        // on left mouse button change
+                        if ( name.equals( MAP_LMB ) ) {
+                            // TODO: handle mouse-button actions here
+                        }
+                    }
+                }, MAP_LMB );
+
+        /*---------------------------------------------------------------------------*
+        * mouse motion
+        *----------------------------------------------------------------------------*/
+        getInputHandler().addListener(
+                new AnalogListener() {
+                    public void onAnalog( final String name, final float value, float tpf ) {
+                        //By always updating the cursor at every mouse move, we can be sure it is always correct.
+                        //Whenever there is a mouse move event, make sure the cursor is in the right state.
+                        updateCursor();
+
+                        // TODO: handle mouse-move actions here
+                    }
+                }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN );
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
@@ -63,7 +96,7 @@ public class SinglePlateModule extends PlateTectonicsModule {
         * "Test" GUI
         *----------------------------------------------------------------------------*/
 
-        JMEView guiView = createFrontGUIView( "GUI" );
+        guiView = createFrontGUIView( "GUI" );
 
         // toolbox
         guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new PNode() {{
@@ -109,6 +142,24 @@ public class SinglePlateModule extends PlateTectonicsModule {
             position.set( new ImmutableVector2D( getStageSize().getWidth() - getComponentWidth() - 30,
                                                  getStageSize().getHeight() * 0.6 ) );
         }} );
+    }
+
+    public void updateCursor() {
+        JmeCanvasContext context = (JmeCanvasContext) getApp().getContext();
+        final Canvas canvas = context.getCanvas();
+
+        HUDNode.withComponentUnderPointer( guiView.getScene(), getInputHandler(), new VoidFunction1<Component>() {
+            public void apply( Component component ) {
+                if ( component != null ) {
+                    // over a HUD node, so set the cursor to what the component would want
+                    canvas.setCursor( component.getCursor() );
+                }
+                else {
+                    // default to the default cursor
+                    canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                }
+            }
+        } );
     }
 
     @Override public Camera getDebugCamera() {
