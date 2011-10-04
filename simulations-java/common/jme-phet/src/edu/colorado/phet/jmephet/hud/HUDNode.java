@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 
 import com.jme3.app.state.AbstractAppState;
@@ -34,11 +35,9 @@ import com.jme3.input.event.MouseMotionEvent;
 import com.jme3.input.event.TouchEvent;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
-import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture2D;
 
@@ -246,10 +245,13 @@ public class HUDNode extends Geometry {
 
     /**
      * NOTE: only call this from the Swing EDT
+     *
+     * @param view  The view that contains the HUD nodes to look for
+     * @param point The screen point at which we are casting the ray
+     * @return Collision information
      */
-    public static HUDNodeCollision getGUIComponentUnderPoint( Node scene, Vector2f point ) {
-        CollisionResults results = new CollisionResults();
-        scene.collideWith( new Ray( new Vector3f( point.x, point.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
+    public static HUDNodeCollision getHUDCollisionUnderPoint( JMEView view, Vector2f point ) {
+        CollisionResults results = view.hitsUnderPoint( point );
         for ( CollisionResult result : results ) {
 
             Geometry geometry = result.getGeometry();
@@ -263,8 +265,15 @@ public class HUDNode extends Geometry {
         return null;
     }
 
-    public static void withComponentUnderPoint( Node scene, Vector2f point, final VoidFunction1<Component> callback ) {
-        final HUDNodeCollision collision = getGUIComponentUnderPoint( scene, point );
+    /**
+     * Runs a callback with either the topmost Component that was under the point, or null if there was none.
+     *
+     * @param view     The view that contains the HUD nodes to look for
+     * @param point    The screen point at which we are casting the ray
+     * @param callback Callback to be called, with the component if one exists, or null otherwise
+     */
+    public static void withComponentUnderPoint( JMEView view, Vector2f point, final VoidFunction1<Component> callback ) {
+        final HUDNodeCollision collision = getHUDCollisionUnderPoint( view, point );
         if ( collision != null ) {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
@@ -281,8 +290,15 @@ public class HUDNode extends Geometry {
         }
     }
 
-    public static void withComponentUnderPointer( Node scene, JMEInputHandler inputHandler, final VoidFunction1<Component> callback ) {
-        withComponentUnderPoint( scene, inputHandler.getCursorPosition(), callback );
+    /**
+     * Runs a callback with either the topmost Component that was under the current mouse location, or null if there was none.
+     *
+     * @param view         The view that contains the HUD nodes to look for
+     * @param inputHandler Input handler
+     * @param callback     Callback to be called, with the component if one exists, or null otherwise
+     */
+    public static void withComponentUnderPointer( JMEView view, JMEInputHandler inputHandler, final VoidFunction1<Component> callback ) {
+        withComponentUnderPoint( view, inputHandler.getCursorPosition(), callback );
     }
 
     public void repaint() {

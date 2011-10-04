@@ -383,12 +383,6 @@ public class MoleculeShapesModule extends JMEModule {
         }}, inputHandler, this, canvasTransform );
         guiView.getScene().attachChild( namePanel );
         namePanel.position.set( new ImmutableVector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
-
-//         guiView.getScene().attachChild( new Geometry( "DebugThing", new Quad( 2000, 2000, true ) ) {{
-//            setMaterial( new Material( getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-//                setColor( "Color", new ColorRGBA( 1, 0, 0, 1 ) );
-//            }} );
-//        }} );
     }
 
     @Override public void updateState( final float tpf ) {
@@ -469,7 +463,7 @@ public class MoleculeShapesModule extends JMEModule {
 
     private void onLeftMouseDown() {
         // for dragging, ignore mouse presses over the HUD
-        HUDNode.withComponentUnderPointer( guiView.getScene(), inputHandler, new VoidFunction1<Component>() {
+        HUDNode.withComponentUnderPointer( guiView, inputHandler, new VoidFunction1<Component>() {
             public void apply( final Component componentUnderPointer ) {
                 boolean mouseOverInterface = componentUnderPointer != null;
                 if ( !mouseOverInterface ) {
@@ -562,7 +556,7 @@ public class MoleculeShapesModule extends JMEModule {
         //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
         final PairGroup pair = getElectronPairUnderPointer();
 
-        HUDNode.withComponentUnderPointer( guiView.getScene(), inputHandler, new VoidFunction1<Component>() {
+        HUDNode.withComponentUnderPointer( guiView, inputHandler, new VoidFunction1<Component>() {
             public void apply( Component component ) {
                 if ( dragging && ( dragMode == DragMode.MODEL_ROTATE || dragMode == DragMode.REAL_MOLECULE_ROTATE ) ) {
                     // rotating the molecule. for now, trying out the "move" cursor
@@ -608,14 +602,11 @@ public class MoleculeShapesModule extends JMEModule {
 
         // set up intersection stuff
         CollisionResults results = new CollisionResults();
-        Vector2f click2d = inputHandler.getCursorPosition();
-        Vector3f click3d = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
-        Vector3f dir = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
 
         // transform our position and direction into the local coordinate frame. we will do our computations there
-        Vector3f transformedPosition = moleculeNode.getWorldTransform().transformInverseVector( click3d, new Vector3f() );
-        Vector3f transformedDirection = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
-        Ray ray = new Ray( transformedPosition, transformedDirection );
+        Ray ray = JMEUtils.transformWorldRayToLocalCoordinates( moleculeView.getCameraRay( inputHandler.getCursorPosition() ), moleculeNode );
+        Vector3f localCameraPosition = ray.getOrigin();
+        Vector3f localCameraDirection = ray.getDirection();
 
         // how far we will end up from the center atom
         float finalDistance = (float) draggedParticle.getIdealDistanceFromCenter();
@@ -636,7 +627,7 @@ public class MoleculeShapesModule extends JMEModule {
              * Now, back to 3D. Since camera is (0,0,d), our z == 1/d and our x^2 + y^2 == (our 2D y := height), then rescale them out of the unit sphere
              */
 
-            float distanceFromCamera = transformedPosition.distance( new Vector3f() );
+            float distanceFromCamera = localCameraPosition.distance( new Vector3f() );
 
             // first, calculate it in unit-sphere, as noted above
             float d = distanceFromCamera / finalDistance; // scaled distance to the camera (from the origin)
@@ -650,9 +641,9 @@ public class MoleculeShapesModule extends JMEModule {
              */
 
             // intersect our camera ray against our perpendicular plane (perpendicular to our camera position from the origin) to determine the orientations
-            Vector3f planeNormal = transformedPosition.normalize();
-            float t = -( transformedPosition.length() ) / ( planeNormal.dot( transformedDirection ) );
-            Vector3f planeHitDirection = transformedPosition.add( transformedDirection.mult( t ) ).normalize();
+            Vector3f planeNormal = localCameraPosition.normalize();
+            float t = -( localCameraPosition.length() ) / ( planeNormal.dot( localCameraDirection ) );
+            Vector3f planeHitDirection = localCameraPosition.add( localCameraDirection.mult( t ) ).normalize();
 
             // use the above plane hit direction (perpendicular to the camera) and plane normal (collinear with the camera) to calculate the result
             Vector3f downscaledResult = planeHitDirection.mult( height ).add( planeNormal.mult( z ) );
@@ -671,13 +662,7 @@ public class MoleculeShapesModule extends JMEModule {
      * @return The closest (hit) electron pair currently under the mouse pointer, or null if there is none
      */
     public PairGroup getElectronPairUnderPointer() {
-        CollisionResults results = new CollisionResults();
-        Vector2f click2d = inputHandler.getCursorPosition();
-        Vector3f click3d = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
-        Vector3f dir = moleculeCamera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
-        Ray ray = new Ray( click3d, dir );
-        moleculeView.getScene().collideWith( ray, results );
-        for ( CollisionResult result : results ) {
+        for ( CollisionResult result : moleculeView.hitsUnderCursorPosition( getInputHandler() ) ) {
             PairGroup pair = getElectronPairForTarget( result.getGeometry() );
             if ( pair != null ) {
                 return pair;
