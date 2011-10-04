@@ -114,8 +114,6 @@ public class MessengerRna extends MobileBiomolecule {
                 ribosomePlacementHint.setPosition( firstShapeDefiningPoint.getPosition() );
             }
         } );
-        // TODO: Temp, remove once hint is working.
-        ribosomePlacementHint.active.set( true );
     }
 
     //-------------------------------------------------------------------------
@@ -655,7 +653,7 @@ public class MessengerRna extends MobileBiomolecule {
         }
     }
 
-    public void deactivateHints() {
+    public void deactivateAllHints() {
         ribosomePlacementHint.active.set( false );
     }
 

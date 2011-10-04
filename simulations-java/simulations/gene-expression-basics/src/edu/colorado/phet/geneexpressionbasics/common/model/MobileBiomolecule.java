@@ -87,6 +87,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      * @param biomolecule
      */
     public void spawnMolecule( MobileBiomolecule biomolecule ) {
+        assert !( biomolecule instanceof MessengerRna ); // Use a different method to add messenger RNA.
         model.addMobileBiomolecule( biomolecule );
     }
 

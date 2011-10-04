@@ -31,7 +31,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
         addChild( new PlacementHintNode( mvt, messengerRna.ribosomePlacementHint ) );
     }
 
-    // TODO: Started on this, decided not to use it for now, delete if never used.
+    // TODO: Started on this, decided not to use it for now, delete if never used.  It is intended for debugging the mRNA shape.
     private static class PointMassNode {
         private static final int DIAMETER = 5;
         private static final Shape SHAPE = new Ellipse2D.Double( -DIAMETER / 2, -DIAMETER / 2, DIAMETER, DIAMETER );

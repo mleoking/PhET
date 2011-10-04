@@ -41,7 +41,7 @@ public class PlacementHint extends ShapeChangingModelElement {
                 // There are multiple configurations of transcription factor,
                 // so we need to test whether this one matches.
                 // TODO: This test is kind of hokey.  As the class and behavior
-                // of transcription factors evolve some better way many come
+                // of transcription factors evolve some better way may come
                 // along.
                 if ( this.biomolecule.colorProperty.get() == testBiomolecule.colorProperty.get() ) {
                     match = true;
