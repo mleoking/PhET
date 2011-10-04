@@ -10,24 +10,29 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.hud.HUDNode.HUDNodeCollision;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
+import edu.colorado.phet.platetectonics.control.DraggableTool;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
+import edu.colorado.phet.platetectonics.control.RulerNode3D;
+import edu.colorado.phet.platetectonics.control.RulerNode3D.RulerNode2D;
+import edu.colorado.phet.platetectonics.control.ToolDragHandler;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
-import edu.colorado.phet.platetectonics.view.RulerNode3D;
-import edu.colorado.phet.platetectonics.view.RulerNode3D.RulerNode2D;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
+import com.jme3.math.Vector2f;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.Node;
 import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*;
@@ -40,6 +45,7 @@ public class CrustModule extends PlateTectonicsModule {
 
     private CrustModel model;
     private JMEView guiView;
+    private ToolDragHandler toolDragHandler = new ToolDragHandler();
 
     public CrustModule( Frame parentFrame ) {
         super( parentFrame, CRUST_TAB );
@@ -61,7 +67,23 @@ public class CrustModule extends PlateTectonicsModule {
                     public void onAction( String name, boolean isMouseDown, float tpf ) {
                         // on left mouse button change
                         if ( name.equals( MAP_LMB ) ) {
-                            // TODO: handle mouse-button actions here
+                            if ( isMouseDown ) {
+                                final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
+                                final HUDNodeCollision mainCollision = HUDNode.getHUDCollisionUnderPoint( mainView, getInputHandler().getCursorPosition() );
+                                if ( guiCollision != null ) {
+                                    // GUI is in front of whatever. other input listeners will take care of this
+                                }
+                                else if ( mainCollision != null ) {
+                                    Node parentNode = mainCollision.hudNode.getParent();
+
+                                    if ( parentNode instanceof DraggableTool ) {
+                                        toolDragHandler.mouseDownOnTool( (DraggableTool) parentNode, getMousePositionOnZPlane() );
+                                    }
+                                }
+                            }
+                            else {
+                                toolDragHandler.mouseUp();
+                            }
                         }
                     }
                 }, MAP_LMB );
@@ -76,7 +98,7 @@ public class CrustModule extends PlateTectonicsModule {
                         //Whenever there is a mouse move event, make sure the cursor is in the right state.
                         updateCursor();
 
-                        // TODO: handle mouse-move actions here
+                        toolDragHandler.mouseMove( getMousePositionOnZPlane() );
                     }
                 }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN );
 
@@ -180,6 +202,10 @@ public class CrustModule extends PlateTectonicsModule {
 
     @Override public Camera getDebugCamera() {
         return mainView.getCamera();
+    }
+
+    private Vector2f getMousePositionOnZPlane() {
+        return JMEUtils.intersectZPlaneWithRay( mainView.getCameraRayUnderCursor( getInputHandler() ) );
     }
 
 }

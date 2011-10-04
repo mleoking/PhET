@@ -662,7 +662,7 @@ public class MoleculeShapesModule extends JMEModule {
      * @return The closest (hit) electron pair currently under the mouse pointer, or null if there is none
      */
     public PairGroup getElectronPairUnderPointer() {
-        for ( CollisionResult result : moleculeView.hitsUnderCursorPosition( getInputHandler() ) ) {
+        for ( CollisionResult result : moleculeView.hitsUnderCursor( getInputHandler() ) ) {
             PairGroup pair = getElectronPairForTarget( result.getGeometry() );
             if ( pair != null ) {
                 return pair;

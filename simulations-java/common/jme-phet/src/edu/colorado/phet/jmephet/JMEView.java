@@ -57,13 +57,17 @@ public class JMEView {
         }
     }
 
+    public Ray getCameraRayUnderCursor( JMEInputHandler inputHandler ) {
+        return getCameraRay( inputHandler.getCursorPosition() );
+    }
+
     public CollisionResults hitsUnderPoint( Vector2f screenPoint ) {
         CollisionResults results = new CollisionResults();
         scene.collideWith( getCameraRay( screenPoint ), results );
         return results;
     }
 
-    public CollisionResults hitsUnderCursorPosition( JMEInputHandler inputHandler ) {
+    public CollisionResults hitsUnderCursor( JMEInputHandler inputHandler ) {
         return hitsUnderPoint( inputHandler.getCursorPosition() );
     }
 }
