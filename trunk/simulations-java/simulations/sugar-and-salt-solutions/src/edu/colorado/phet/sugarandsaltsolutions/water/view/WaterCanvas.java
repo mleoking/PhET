@@ -250,12 +250,12 @@ public class WaterCanvas extends SugarAndSaltSolutionsCanvas implements ICanvas 
 
     //Called when the user switches to the water tab from another tab.  Remembers if the JMolDialog was showing and restores it if so
     public void moduleActivated() {
-        sucrose3DDialog.moduleActivated();
+        sucrose3DDialog.activate();
     }
 
     //Called when the user switches to another tab.  Stores the state of the jmol dialog so that it can be restored when the user comes back to this tab
     public void moduleDeactivated() {
-        sucrose3DDialog.moduleDeactivated();
+        sucrose3DDialog.deactivate();
     }
 
     //Puts a single salt crystal in the sugar bucket for the user to drag out
