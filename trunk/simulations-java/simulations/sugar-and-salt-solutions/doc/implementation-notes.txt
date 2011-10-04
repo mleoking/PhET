@@ -3,4 +3,6 @@
 The view in Macro and Micro are supposed to look similar (nearly identical), so the view is created first and mapped into
 model coordinates to ensure that measurements and dimensions look the same in the view, while still giving correct model measurements.
 
-//REVIEW describe how jbox2D is being used
+Water tab:
+JBox2D is used to model the collision and coulomb repulsion between particles in WaterModel.
+JBox2D updates the model and those values are used to set the true model values, which then update the views, see WaterModel for more.
