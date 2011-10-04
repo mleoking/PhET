@@ -46,7 +46,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     public final FaucetFlowRate faucetFlowRate = new FaucetFlowRate();
 
     //Gravity
-    private double g = 9.8;
+    private double g = 9.8; //REVIEW replace with FluidPressureAndFlowModel.EARTH_GRAVITY
 
     //Listeners
     private final ArrayList<VoidFunction1<WaterDrop>> waterTowerDropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
@@ -228,7 +228,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         super.reset();
         waterTower.reset();
         faucetFlowRate.reset();
-        g = 9.8;
+        g = 9.8; //REVIEW unnecessary, this is a constant
         removeDrops( faucetDrops, faucetDrops );
         removeDrops( waterTowerDrops, waterTowerDrops );
         hose.reset();

@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 
+//REVIEW Class doc says MKS units, elsewhere says SI units, which is it? MKS and SI are not identical.
+
 /**
  * Main model base class for FluidPressureAndFlow.  Units for this sim are by default in MKS, and conversions through class
  * Units are used to convert to different units systems.
@@ -26,7 +28,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     public static final double GASOLINE_DENSITY = 700;
     public static final double WATER_DENSITY = 1000;
     public static final double HONEY_DENSITY = 1420;
-    public static final Double EARTH_GRAVITY = 9.8;
+    public static final Double EARTH_GRAVITY = 9.8; //REVIEW this constant appears 3 other times elsewhere in the code
 
     //Model values
     private final ConstantDtClock clock = new ConstantDtClock( 30 );

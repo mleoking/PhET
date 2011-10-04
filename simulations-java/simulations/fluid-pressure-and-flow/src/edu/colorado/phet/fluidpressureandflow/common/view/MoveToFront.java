@@ -17,6 +17,7 @@ public class MoveToFront extends PBasicInputEventHandler {
         this.node = node;
     }
 
+    //REVIEW why do this on every drag event? better to do this on mousePressed or PDragSequenceEventHandler.startDrag
     @Override public void mouseDragged( PInputEvent event ) {
         node.moveToFront();
     }

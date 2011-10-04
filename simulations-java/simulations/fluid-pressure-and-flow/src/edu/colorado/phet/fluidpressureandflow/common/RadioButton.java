@@ -5,6 +5,9 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 
+//REVIEW something that is more specialized should have a more specialized name. Rename FPAFRadioButton?
+//REVIEW shouldn't this be in common.view, with CheckBox?
+
 /**
  * Radio button used in fluid pressure and flow, which uses the sim-specific font for controls.
  *

@@ -7,6 +7,8 @@ import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 
 import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel.FOREGROUND;
 
+//REVIEW something that is more specialized should have a more specialized name. Rename FPAFCheckBox?
+
 /**
  * Stylized property check box with colors and fonts used in Fluid Pressure and Flow sim.
  *

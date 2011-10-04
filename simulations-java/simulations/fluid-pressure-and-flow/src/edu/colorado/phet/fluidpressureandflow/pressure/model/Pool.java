@@ -16,8 +16,8 @@ public class Pool {
 
     //10 foot deep pool, a customary depth for the deep end in the United States
     public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );
-    private final double height = DEFAULT_HEIGHT;
-    private final double width = 4;
+    private final double height = DEFAULT_HEIGHT; //REVIEW private static final, uppercase
+    private final double width = 4; //REVIEW private static final, uppercase
 
     public Pool() {
     }

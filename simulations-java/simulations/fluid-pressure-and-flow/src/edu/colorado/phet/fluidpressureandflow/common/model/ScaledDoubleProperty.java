@@ -14,10 +14,12 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class ScaledDoubleProperty extends Property<Double> {
 
+    //REVIEW private?
     //Round off the value to prevent notification cycles
     public static double round( double value ) {
 
         //Round to 8 decimal places
+        //REVIEW make number of decimal places a constructor arg, with a default constructor of 8
         return new BigDecimal( value ).setScale( 8, BigDecimal.ROUND_HALF_UP ).doubleValue();
     }
 

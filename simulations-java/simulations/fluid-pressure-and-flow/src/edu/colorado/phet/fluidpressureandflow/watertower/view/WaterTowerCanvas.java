@@ -33,8 +33,8 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
  * @author Sam Reid
  */
 public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel> {
-    private static final double modelHeight = 50;
-    private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
+    private static final double modelHeight = 50; //REVIEW uppercase
+    private static final double scale = STAGE_SIZE.getHeight() / modelHeight; //REVIEW uppercase
 
     //Use different layers for the water tower drops vs faucet drops since water tower drops must go behind the ground, but faucet drops must go in front of the tower
     private final PNode waterTowerDropLayer = new PNode();
@@ -107,6 +107,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
             }
         } );
 
+        //REVIEW address this TODO
         //TODO: this is duplicated in FluidFlowCanvas
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new WaterTowerControlPanel( module ) ) {{

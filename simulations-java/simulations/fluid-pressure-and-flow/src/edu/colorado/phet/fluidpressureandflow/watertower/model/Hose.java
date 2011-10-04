@@ -36,7 +36,7 @@ public class Hose {
     public final double holeSize;
 
     //Height of the nozzle in meters, determined by setting up the view as desired then doing an inverse delta transform
-    public final double nozzleHeight = 2.85;
+    public final double nozzleHeight = 2.85; //REVIEW static, uppercase
 
     public Hose( ObservableProperty<ImmutableVector2D> attachmentPoint, double holeSize ) {
         this.attachmentPoint = attachmentPoint;
@@ -45,7 +45,7 @@ public class Hose {
         //The output point is at an arbitrary fixed x location, and the y-value is specified by another property
         outputPoint = new CompositeProperty<ImmutableVector2D>( new Function0<ImmutableVector2D>() {
             public ImmutableVector2D apply() {
-                return new ImmutableVector2D( 17.275, y.get() );
+                return new ImmutableVector2D( 17.275, y.get() ); //REVIEW how did you arrive ast 17.275?
             }
         }, y );
     }

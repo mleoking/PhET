@@ -39,6 +39,7 @@ public class PipeBackNode extends PNode {
 
     //Layout parameters
     public static final int PIPE_LEFT_OFFSET = 72;
+    //REVIEW constant names uppercase
     public static final double sx = 0.4;
     public static final double pipeOpeningPixelYTop = 58;
     private static final double pipeOpeningPixelYBottom = 375;

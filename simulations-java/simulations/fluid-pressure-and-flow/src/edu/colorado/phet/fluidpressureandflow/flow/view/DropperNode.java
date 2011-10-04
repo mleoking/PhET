@@ -20,6 +20,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.*;
 
+//REVIEW rather than copying, generalize ParticleInjectorNode and migrate to piccolo-phet
+
 /**
  * Node that represents the thing with which the user interacts in order to
  * inject particles (generally ions) into the chamber.

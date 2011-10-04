@@ -53,6 +53,7 @@ public class PoolNode extends PNode {
         return new GradientPaint( 0, (float) yTop, darker( topColor ), 0, (float) yBottom, darker( bottomColor ) );
     }
 
+    //REVIEW replace with ColorUtils.darkerColor(color,0.8)
     //Darken a color but keep the alpha value instead of discarding it (as in java.awt.Color.darker)
     private static Color darker( Color color ) {
         double FACTOR = 0.8;

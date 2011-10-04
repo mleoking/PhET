@@ -38,6 +38,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
     private final PNode particleLayer;
     private final PNode foodColoringLayer;
 
+    //REVIEW use uppercase for constants
     private static final double modelHeight = Pool.DEFAULT_HEIGHT * 3.2;
     private static final double pipeCenterY = -2;
     private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
@@ -73,6 +74,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         } );
         addChild( dropperNode );
 
+        //REVIEW formatting doesn't reflect nested dbi, unnecessarily difficult to read
         //Show a checkbox that enabled/disables adding dots to the fluid
         addChild( new PSwing( new PropertyCheckBox( DOTS, model.dropperEnabled ) {{
             setFont( CONTROL_FONT );
