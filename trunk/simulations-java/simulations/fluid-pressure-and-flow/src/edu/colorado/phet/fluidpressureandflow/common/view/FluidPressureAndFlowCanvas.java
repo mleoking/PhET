@@ -50,7 +50,7 @@ import static edu.umd.cs.piccolo.PNode.PROPERTY_FULL_BOUNDS;
 public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> extends PhetPCanvas {
 
     //Standard inset used in many layouts
-    public static double INSET = 10;
+    public static final double INSET = 10;
 
     //Transform from model to view
     protected final ModelViewTransform transform;
@@ -59,7 +59,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     private final PNode rootNode;
 
     //Size for the stage, should have the right aspect ratio since it will always be visible
-    public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
+    public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 ); //REVIEW magic numbers determined how?
 
     //Font to use for the majority of controls in this sim
     public static final Font CONTROL_FONT = new PhetFont( 15, false );
@@ -202,6 +202,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }};
     }
 
+    //REVIEW rename createVelocityFormatter? This is specific to velocity.
     private Function1<Double, String> createFormatter( final FluidPressureAndFlowModel model ) {
         return new Function1<Double, String>() {
             public String apply( Double aDouble ) {

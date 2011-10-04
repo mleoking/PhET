@@ -15,6 +15,7 @@ public interface VelocitySensorContext {
     //Get the velocity at the specified point
     public Option<ImmutableVector2D> getVelocity( double x, double y );
 
+    //REVIEW "the scene"?...
     //Add a listener for when the scene changes
     public void addVelocityUpdateListener( SimpleObserver observer );
 }

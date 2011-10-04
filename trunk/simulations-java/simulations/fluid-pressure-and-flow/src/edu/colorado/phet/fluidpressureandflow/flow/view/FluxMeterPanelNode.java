@@ -40,13 +40,13 @@ import static java.awt.GridBagConstraints.*;
 public class FluxMeterPanelNode extends PNode {
 
     //Font to use for readouts
-    public static final PhetFont font = new PhetFont( 15 );
+    public static final PhetFont font = new PhetFont( 15 ); //REVIEW uppercase
 
     //Use a horizontal spacing to separate the columns
-    Insets insets = new Insets( 0, 6, 0, 3 );
+    Insets insets = new Insets( 0, 6, 0, 3 ); //REVIEW private static final, uppercase
 
     //Move the HTML units up so the baselines will align (otherwise text like m^2 will center and look odd)
-    final Insets htmlInsets = new Insets( insets.top, insets.left, insets.bottom + 8, insets.right );
+    final Insets htmlInsets = new Insets( insets.top, insets.left, insets.bottom + 8, insets.right ); //REVIEW private static final, uppercase
 
     public FluxMeterPanelNode( final ModelViewTransform transform, final FluxMeter fluxMeter, final Property<UnitSet> selectedUnits, final UnitSet units ) {
 
@@ -111,10 +111,11 @@ public class FluxMeterPanelNode extends PNode {
     private Insets getInsets( String rateUnits ) {
 
         //Assume that any string with a "<" symbol contains HTML.
-        final boolean isHTML = rateUnits.indexOf( "<" ) >= 0;
+        final boolean isHTML = rateUnits.indexOf( "<" ) >= 0; //REVIEW BasicHTML.isHTMLString
         return isHTML ? htmlInsets : insets;
     }
 
+    //REVIEW 3 inner classes below should be private static
     //utility class for showing text readouts with the right font
     class Text extends PText {
 

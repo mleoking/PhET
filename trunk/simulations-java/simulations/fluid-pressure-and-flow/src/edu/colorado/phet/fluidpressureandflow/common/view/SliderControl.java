@@ -22,6 +22,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 import static edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas.makeTransparent;
 
+//REVIEW this slider has issues on Mac, see #3101
+
 /**
  * PSwing slider control customized with tick labels and using the Property[Double] interface
  * Even though we only use the slider component of this linear value control, it is easier to create the whole LinearValueControl so that

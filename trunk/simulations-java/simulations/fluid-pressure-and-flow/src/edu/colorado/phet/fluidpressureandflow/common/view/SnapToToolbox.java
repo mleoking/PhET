@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class SnapToToolbox extends PBasicInputEventHandler {
 
+    //REVIEW all field should be final?
     //Function that checks the bounds of the node to see if it should go back to the toolbox
     private Function0<PBounds> getDragNodeGlobalFullBounds;
 

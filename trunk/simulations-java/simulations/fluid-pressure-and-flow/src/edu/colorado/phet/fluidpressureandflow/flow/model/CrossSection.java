@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
+//REVIEW rename PipeCrossSection
+
 /**
  * The cross section of a pipe, representing a vertical slice and the top and bottom points,
  * which can be moved by the user.  This class supports movement in x and y directions, but the user interface

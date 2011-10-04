@@ -29,8 +29,8 @@ public class WaterDrop {
     private final double volume;
 
     //Mass and gravity for stepping in time according to newtons laws
-    private final double mass = 1;
-    private final double gravity = -9.8;
+    private static final double MASS = 1;
+    private static final double GRAVITY = -9.8; //REVIEW replace with FluidPressureAndFlowModel.EARTH_GRAVITY (and why is this negative?)
 
     //Listeners
     private final ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
@@ -62,8 +62,8 @@ public class WaterDrop {
 
     //Apply gravity force and euler-integrate to update
     public void stepInTime( double simulationTimeChange ) {
-        ImmutableVector2D force = new ImmutableVector2D( 0, mass * gravity );
-        ImmutableVector2D acceleration = force.getScaledInstance( 1.0 / mass );
+        ImmutableVector2D force = new ImmutableVector2D( 0, MASS * GRAVITY );
+        ImmutableVector2D acceleration = force.getScaledInstance( 1.0 / MASS );
         velocity.set( acceleration.getScaledInstance( simulationTimeChange ).getAddedInstance( velocity.get() ) );
         position.set( velocity.get().getScaledInstance( simulationTimeChange ).getAddedInstance( position.get() ) );
     }

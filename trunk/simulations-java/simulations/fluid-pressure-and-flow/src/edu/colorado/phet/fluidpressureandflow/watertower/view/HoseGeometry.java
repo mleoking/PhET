@@ -11,12 +11,13 @@ import edu.colorado.phet.fluidpressureandflow.watertower.model.Hose;
  */
 public class HoseGeometry {
 
+    //REVIEW document these fields, they aren't described in HoseNode
     //See docs in HoseNode constructor
     public final ImmutableVector2D startPoint;
     public final ImmutableVector2D nozzleInput;
     public final ImmutableVector2D delta;
     public final ImmutableVector2D prePoint;
-    public final ImmutableVector2D rightOfTower;
+    public final ImmutableVector2D rightOfTower; //REVIEW I don't see any info about a "tower" provided
     public final ImmutableVector2D bottomLeft;
 
     public HoseGeometry( Hose hose ) {

@@ -18,6 +18,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
+//REVIEW abstract or protected constructor?
+
 /**
  * Base class for draggable english/metric rules
  *

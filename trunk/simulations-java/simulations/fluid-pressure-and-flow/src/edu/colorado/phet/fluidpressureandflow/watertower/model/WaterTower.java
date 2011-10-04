@@ -31,7 +31,7 @@ public class WaterTower {
     private static final int LEG_EXTENSION = 3;
 
     //Assume the tank is a cylinder ond compute the max volume
-    public static final double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
+    public static final double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT; //REVIEW uppercase
 
     //Location of the bottom center of the water tower
     public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, INITIAL_Y ) );
@@ -46,7 +46,7 @@ public class WaterTower {
     public final ObservableProperty<Boolean> full = fluidVolume.greaterThanOrEqualTo( tankVolume );
 
     //Size of the hole in meters
-    public final double holeSize = 1;
+    public final double holeSize = 1; //REVIEW static, uppercase
 
     //Function to fill up the water tank
     public final VoidFunction0 fill = new VoidFunction0() {

@@ -25,10 +25,10 @@ public class WaterColor {
     private static final double GAS_DENSITY = 719;//si
     private static final double WATER_DENSITY = 1000;
     private static final double HONEY_DENSITY = 1360;
-    private static final Color honeyColor = new Color( 255, 191, 0 );
-    private static final Color gasColor = Color.gray;
+    private static final Color honeyColor = new Color( 255, 191, 0 ); //REVIEW uppercase
+    private static final Color gasColor = Color.gray; //REVIEW uppercase
 
-    public static final boolean debugColorChoice = false;
+    public static final boolean debugColorChoice = false; //REVIEW uppercase
 
     static {
         if ( debugColorChoice ) {//debug color choice
@@ -46,6 +46,7 @@ public class WaterColor {
         }
     }
 
+    //REVIEW private?
     public static Function1<Double, Boolean> lessThan( final double x ) {
         return new Function1<Double, Boolean>() {
             public Boolean apply( Double aDouble ) {
@@ -54,6 +55,7 @@ public class WaterColor {
         };
     }
 
+    //REVIEW private?
     public static Function1<Double, Boolean> greaterEqual( final double x ) {
         return new Function1<Double, Boolean>() {
             public Boolean apply( Double aDouble ) {
@@ -62,6 +64,7 @@ public class WaterColor {
         };
     }
 
+    //REVIEWW private?
     public static Function1<Double, Double> linear( final Function.LinearFunction linearFunction ) {
         return new Function1<Double, Double>() {
             public Double apply( Double aDouble ) {
@@ -70,6 +73,7 @@ public class WaterColor {
         };
     }
 
+    //REVIEW private?
     public static PiecewiseFunction getColorComponent( Function1<Color, Integer> component ) {
         final Function.LinearFunction rLow = new Function.LinearFunction( GAS_DENSITY, WATER_DENSITY, component.apply( gasColor ), component.apply( waterColor.get() ) );
         final Function.LinearFunction rHigh = new Function.LinearFunction( WATER_DENSITY, HONEY_DENSITY, component.apply( waterColor.get() ), component.apply( honeyColor ) );

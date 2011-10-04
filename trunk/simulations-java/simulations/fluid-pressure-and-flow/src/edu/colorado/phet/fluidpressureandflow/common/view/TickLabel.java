@@ -10,6 +10,8 @@ import java.awt.Stroke;
 
 import javax.swing.JLabel;
 
+//REVIEW If you rewrite SliderControl, this may be unnecessary.
+
 /**
  * JSlider ticks have to be uniformly spaced, so I wrote my own tick label class to allow putting them at arbitrary locations for "honey" and "gasoline" tick labels.
  *

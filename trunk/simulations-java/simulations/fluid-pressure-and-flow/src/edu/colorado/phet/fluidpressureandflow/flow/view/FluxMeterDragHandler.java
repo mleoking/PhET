@@ -21,6 +21,7 @@ public class FluxMeterDragHandler extends PBasicInputEventHandler {
     private final FluxMeter fluxMeter;
     private final PNode node;
 
+    //REVIEW I don't understand why you're using cursor handler to implement dragging.
     //Use composition to also implement cursor handler so it doesn't need to be added as a separate listener
     private final CursorHandler cursorHandler = new CursorHandler();
 
