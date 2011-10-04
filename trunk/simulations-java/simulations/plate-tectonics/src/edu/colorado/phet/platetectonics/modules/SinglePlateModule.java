@@ -3,14 +3,16 @@ package edu.colorado.phet.platetectonics.modules;
 
 import java.awt.*;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.HUDNode;
+import edu.colorado.phet.jmephet.hud.HUDNode.HUDNodeCollision;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.model.BlockCrustPlateModel;
@@ -148,11 +150,14 @@ public class SinglePlateModule extends PlateTectonicsModule {
         JmeCanvasContext context = (JmeCanvasContext) getApp().getContext();
         final Canvas canvas = context.getCanvas();
 
-        HUDNode.withComponentUnderPointer( guiView.getScene(), getInputHandler(), new VoidFunction1<Component>() {
-            public void apply( Component component ) {
-                if ( component != null ) {
+        // TODO: get a fixed up collision detection for HUDNodes in a regular scene, then use to set cursor for things like the ruler
+        final HUDNodeCollision guiCollision = HUDNode.getGUIComponentUnderPoint( guiView.getScene(), getInputHandler().getCursorPosition() );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                Component guiComponent = guiCollision == null ? null : guiCollision.getComponent();
+                if ( guiComponent != null ) {
                     // over a HUD node, so set the cursor to what the component would want
-                    canvas.setCursor( component.getCursor() );
+                    canvas.setCursor( guiComponent.getCursor() );
                 }
                 else {
                     // default to the default cursor
