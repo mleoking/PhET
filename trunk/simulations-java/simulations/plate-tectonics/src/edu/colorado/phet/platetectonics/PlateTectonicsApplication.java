@@ -18,17 +18,17 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuIte
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
-import edu.colorado.phet.platetectonics.modules.DoublePlateModule;
+import edu.colorado.phet.platetectonics.modules.PlateMotionModule;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
-import edu.colorado.phet.platetectonics.modules.SinglePlateModule;
+import edu.colorado.phet.platetectonics.modules.CrustModule;
 
 import com.jme3.input.FlyByCamera;
 import com.jme3.renderer.Camera;
 
 public class PlateTectonicsApplication extends JMEPhetApplication {
 
-    private SinglePlateModule singlePlateModule;
-    private DoublePlateModule doublePlateModule;
+    private CrustModule singlePlateModule;
+    private PlateMotionModule doublePlateModule;
 
     /**
      * Sole constructor.
@@ -52,8 +52,8 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
 
         Frame parentFrame = getPhetFrame();
 
-        addModule( singlePlateModule = new SinglePlateModule( parentFrame ) );
-        addModule( doublePlateModule = new DoublePlateModule( parentFrame ) );
+        addModule( singlePlateModule = new CrustModule( parentFrame ) );
+        addModule( doublePlateModule = new PlateMotionModule( parentFrame ) );
     }
 
     /*
