@@ -194,7 +194,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         removeDrops( waterDrops, toRemove );
     }
 
-    //Remvoe any water drops that should exit the model
+    //Remove any water drops that should exit the model
     private void removeDrops( ArrayList<WaterDrop> waterDrops, ArrayList<WaterDrop> toRemove ) {
         for ( WaterDrop waterDrop : toRemove ) {
             waterDrop.notifyRemoved();
