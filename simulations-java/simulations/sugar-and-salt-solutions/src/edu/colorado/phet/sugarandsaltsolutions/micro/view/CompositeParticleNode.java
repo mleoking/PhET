@@ -8,11 +8,12 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.Sucrose;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SphericalParticleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 

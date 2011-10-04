@@ -11,9 +11,9 @@ import org.jbox2d.dynamics.World;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 
 //REVIEW What is a "box2D representation"? I see a few Box2D* classes in the repository, but none seem relevant.
 

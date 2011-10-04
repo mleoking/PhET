@@ -6,8 +6,8 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SphericalParticleNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**

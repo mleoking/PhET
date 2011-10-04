@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.view;
+package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 

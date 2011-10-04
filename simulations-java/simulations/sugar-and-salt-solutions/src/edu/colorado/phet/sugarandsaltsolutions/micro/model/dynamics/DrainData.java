@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
 
 /**
  * DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing

@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.IfElse;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 
 /**
  * Color to show for the specified particle

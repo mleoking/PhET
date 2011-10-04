@@ -21,13 +21,13 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.Sucrose;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.SucroseCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.ICanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ResetAllButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.view.ICanvas;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.SaltIon;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
@@ -41,7 +41,6 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.INSET;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.WATER_COLOR;
-import static edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas.NO_READOUT;
 import static java.awt.Color.blue;
 
 /**

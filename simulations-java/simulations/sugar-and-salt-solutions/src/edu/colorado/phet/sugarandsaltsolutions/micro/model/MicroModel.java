@@ -20,13 +20,22 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Calcium;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Chloride;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Oxygen;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Sodium;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Units;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Oxygen;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.Sucrose;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.SucroseCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.SucroseCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
@@ -46,9 +55,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.GlucoseDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SucroseDispenser;
 
@@ -56,9 +62,9 @@ import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLOR
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.NEUTRAL_COLOR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.Units.molesPerLiterToMolesPerMeterCubed;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.*;
-import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
 import static java.awt.Color.blue;
 import static java.util.Arrays.asList;
 

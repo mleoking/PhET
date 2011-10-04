@@ -1,15 +1,15 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Calcium;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Chloride;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Sodium;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.Glucose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 
 /**
  * Represents a formula ratio for constructive units for crystals.  NaCl is 1Na + 1Cl, NaNO3 is 1Na + 1 NO3.  Sucrose crystals just have a repeating unit of 1 sucrose molecule.

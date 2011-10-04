@@ -11,6 +11,8 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.St
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.CrystalMaker;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.DispenserRadioButtonSet;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.Item;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarNode;
@@ -18,8 +20,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.VolumeIndicatorNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
-import edu.colorado.phet.sugarandsaltsolutions.micro.view.DispenserRadioButtonSet;
-import edu.colorado.phet.sugarandsaltsolutions.micro.view.Item;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Pair;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy.FREE_PARTICLE_SPEED;

@@ -2,11 +2,11 @@
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Chloride;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM;
@@ -23,7 +23,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 public class SodiumChlorideCrystal extends Crystal<SaltIon> {
 
     public SodiumChlorideCrystal( ImmutableVector2D position, double angle ) {
-        super( new Formula( SaltIon.SodiumIon.class, SaltIon.ChlorideIon.class ), position, new Chloride().radius + new edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium().radius, angle );
+        super( new Formula( SaltIon.SodiumIon.class, SaltIon.ChlorideIon.class ), position, new Chloride().radius + new SphericalParticle.Sodium().radius, angle );
     }
 
     //Randomly choose an initial particle for the crystal lattice

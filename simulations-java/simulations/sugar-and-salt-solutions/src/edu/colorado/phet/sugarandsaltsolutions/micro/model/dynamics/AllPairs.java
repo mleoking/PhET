@@ -3,8 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 
 /**
  * List containing all pairs of particles that could be used to seed a crystal

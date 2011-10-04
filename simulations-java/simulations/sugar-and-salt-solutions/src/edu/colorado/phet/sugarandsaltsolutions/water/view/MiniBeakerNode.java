@@ -14,6 +14,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShake
 
 /**
  * Shows a small representation of a beaker with solution that is "zoomed in" on by the ParticleWindowNode
+ * Uses features from "macro" tab that were not moved to "common" package.
  *
  * @author Sam Reid
  */

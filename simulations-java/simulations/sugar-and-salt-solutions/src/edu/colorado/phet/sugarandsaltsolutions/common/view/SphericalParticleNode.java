@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.view;
+package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -16,8 +16,6 @@ import edu.umd.cs.piccolox.PFrame;
 
 import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.AtomImageCache.getAtomImage;
-
-//REVIEW this is also used in the water package, move to common.view?
 
 /**
  * Piccolo node that draws a shaded sphere in the location of the spherical particle.

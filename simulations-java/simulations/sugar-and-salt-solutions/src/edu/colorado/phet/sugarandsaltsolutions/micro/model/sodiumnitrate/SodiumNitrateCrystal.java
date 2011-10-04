@@ -2,12 +2,12 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.FreeOxygen;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Nitrogen;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.FreeOxygen;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Nitrogen;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Sodium;
 
 /**
  * This crystal for Sodium Chloride salt updates the positions of the molecules to ensure they move as a crystal

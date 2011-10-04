@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 //REVIEW This seems like an abuse of exceptions. Exceptions are for abnormal conditions, they shouldn't be used to report
 // conditions that can are expected as part of the everyday functioning of a method. Your various Crystal.grow* methods throw this

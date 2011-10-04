@@ -2,8 +2,11 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ProjectedPositions;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ProjectedPositions.AtomPosition;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.sizeScale;

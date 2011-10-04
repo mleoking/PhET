@@ -2,8 +2,8 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 
 /**
  * A TargetConfiguration indicates target positions and matching crystal lattice sites for each member of a formula unit

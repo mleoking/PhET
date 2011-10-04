@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.Units.numberToMoles;
 

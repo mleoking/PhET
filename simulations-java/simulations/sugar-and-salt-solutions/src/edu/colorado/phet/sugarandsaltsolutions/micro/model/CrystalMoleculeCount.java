@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 
 /**
  * Property that identifies the number of molecules in crystal form, for making sure the user doesn't exceed the allowed maximum

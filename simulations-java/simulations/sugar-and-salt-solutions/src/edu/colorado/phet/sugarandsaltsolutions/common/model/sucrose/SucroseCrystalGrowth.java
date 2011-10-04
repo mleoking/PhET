@@ -1,10 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
+package edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose;
 
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.AllPairs;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalGrowth;
