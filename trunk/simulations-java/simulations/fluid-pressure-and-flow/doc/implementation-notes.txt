@@ -12,7 +12,7 @@ For the "food coloring" that the user can squirt in, it is modeled as a rectangu
 
 Water tower tab:
 Water flows in through the top faucet and out through the hole in the water tower (if open), which may connect to a hose
-The speed of the water coming out is sqrt( 2 * g * waterHeight )
+The speed of the water coming out is sqrt( 2 * g * waterHeight ), see model.txt
 
 Sam Reid
 10-3-2011

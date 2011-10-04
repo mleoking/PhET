@@ -12,7 +12,7 @@ pressure at depth h is given by: p = p0 + rho g h
 water pressure increases linearly with depth
 air pressure decreases with altitude
 water pressure at the top of water equals air pressure at the same
-pressure doesn’t change as you move horizontally through a fluid
+pressure doesn't change as you move horizontally through a fluid
 water pressure increases linearly with fluid density
 water pressure increases linearly with gravity
 
