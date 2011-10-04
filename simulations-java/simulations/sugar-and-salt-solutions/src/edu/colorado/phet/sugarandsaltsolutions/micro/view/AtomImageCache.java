@@ -15,6 +15,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.t
  * @author Sam Reid
  */
 public class AtomImageCache {
+
     //Keys for caching the images by diameter and color
     static class Key {
         public final double diameter;
@@ -25,8 +26,7 @@ public class AtomImageCache {
             this.color = color;
         }
 
-        //REVIEW is this useful?
-        //Automatically generated (by IDEA)
+        //Necessary since the key is used in a map as a key, automatically generated (by IDEA)
         @Override public boolean equals( Object o ) {
             if ( this == o ) { return true; }
             if ( o == null || getClass() != o.getClass() ) { return false; }
@@ -36,8 +36,7 @@ public class AtomImageCache {
             return Double.compare( key.diameter, diameter ) == 0 && color.equals( key.color );
         }
 
-        //REVIEW is this useful?
-        //Automatically generated (by IDEA)
+        //Necessary since the key is used in a map as a key, automatically generated (by IDEA)
         @Override public int hashCode() {
             int result;
             long temp;
