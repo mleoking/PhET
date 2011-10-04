@@ -69,7 +69,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
             frame.addMenu( optionsMenu );
         }
 
-        JMenu teachersMenu = new JMenu( PhetCommonResources.getString( "Common.TeacherMenu" ) ){{
+        JMenu teachersMenu = new JMenu( PhetCommonResources.getString( "Common.TeacherMenu" ) ) {{
             setMnemonic( PhetCommonResources.getChar( "Common.TeacherMenu.mnemonic", 'T' ) );
         }};
 

@@ -7,25 +7,25 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.hud.HUDNode.HUDNodeCollision;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
-import edu.colorado.phet.platetectonics.control.DraggableTool;
+import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.control.RulerNode3D;
-import edu.colorado.phet.platetectonics.control.RulerNode3D.RulerNode2D;
 import edu.colorado.phet.platetectonics.control.ToolDragHandler;
+import edu.colorado.phet.platetectonics.control.Toolbox;
 import edu.colorado.phet.platetectonics.model.CrustModel;
+import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.input.controls.ActionListener;
@@ -45,7 +45,9 @@ public class CrustModule extends PlateTectonicsModule {
 
     private CrustModel model;
     private JMEView guiView;
-    private ToolDragHandler toolDragHandler = new ToolDragHandler();
+    private ToolboxState toolboxState = new ToolboxState();
+    private ToolDragHandler toolDragHandler = new ToolDragHandler( toolboxState );
+    private Toolbox toolbox;
 
     public CrustModule( Frame parentFrame ) {
         super( parentFrame, CRUST_TAB );
@@ -67,22 +69,24 @@ public class CrustModule extends PlateTectonicsModule {
                     public void onAction( String name, boolean isMouseDown, float tpf ) {
                         // on left mouse button change
                         if ( name.equals( MAP_LMB ) ) {
+                            final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
+                            final HUDNodeCollision mainCollision = HUDNode.getHUDCollisionUnderPoint( mainView, getInputHandler().getCursorPosition() );
+
                             if ( isMouseDown ) {
-                                final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
-                                final HUDNodeCollision mainCollision = HUDNode.getHUDCollisionUnderPoint( mainView, getInputHandler().getCursorPosition() );
                                 if ( guiCollision != null ) {
                                     // GUI is in front of whatever. other input listeners will take care of this
                                 }
                                 else if ( mainCollision != null ) {
                                     Node parentNode = mainCollision.hudNode.getParent();
 
-                                    if ( parentNode instanceof DraggableTool ) {
-                                        toolDragHandler.mouseDownOnTool( (DraggableTool) parentNode, getMousePositionOnZPlane() );
+                                    if ( parentNode instanceof DraggableTool2D ) {
+                                        toolDragHandler.mouseDownOnTool( (DraggableTool2D) parentNode, getMousePositionOnZPlane() );
                                     }
                                 }
                             }
                             else {
-                                toolDragHandler.mouseUp();
+                                boolean isMouseOverToolbox = guiCollision != null && guiCollision.hudNode.getParent() == toolbox;
+                                toolDragHandler.mouseUp( isMouseOverToolbox );
                             }
                         }
                     }
@@ -114,34 +118,40 @@ public class CrustModule extends PlateTectonicsModule {
         mainView.getScene().attachChild( new PlateView( model, this, grid ) );
 
         /*---------------------------------------------------------------------------*
-        * test ruler
-        *----------------------------------------------------------------------------*/
-        mainView.getScene().attachChild( new RulerNode3D( getModelViewTransform(), this ) {{
-            setLocalTranslation( -100, -100, 1 );
-        }} );
-
-        /*---------------------------------------------------------------------------*
         * "Test" GUI
         *----------------------------------------------------------------------------*/
 
         guiView = createFrontGUIView( "GUI" );
 
-        // toolbox
-        guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new PNode() {{
-            ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( 0.75f ) ); // wrap it in a zero-offset node, since we are rotating and scaling it (bad origin)
-            PText toolboxLabel = new PText( "Toolbox" ) {{
-                setFont( new PhetFont( 16, true ) );
-            }};
-
-            addChild( rulerNode2D ); // approximate scaling to get the size right
-            addChild( toolboxLabel );
-
-            toolboxLabel.setOffset( rulerNode2D.getFullBounds().getWidth() + 10, 0 ); // TODO: change positioning once we have added other toolbox elements
-        }} ), getInputHandler(), this, canvasTransform ) {{
+        /*---------------------------------------------------------------------------*
+        * toolbox
+        *----------------------------------------------------------------------------*/
+        toolbox = new Toolbox( this, toolboxState ) {{
             position.set( new ImmutableVector2D( 10, 10 ) );
-        }} );
+        }};
+        guiView.getScene().attachChild( toolbox );
+        toolboxState.rulerInToolbox.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( !toolboxState.rulerInToolbox.get() ) {
+                    // we just "removed" the ruler from the toolbox, so add it to our scene
+                    RulerNode3D ruler = new RulerNode3D( getModelViewTransform(), CrustModule.this );
+                    mainView.getScene().attachChild( ruler );
 
-        // "my crust" control
+                    // offset the ruler slightly from the mouse, and start the drag
+                    Vector2f mousePosition = getMousePositionOnZPlane();
+                    Vector2f initialMouseOffset = ruler.getInitialMouseOffset();
+                    ruler.setLocalTranslation( mousePosition.x - initialMouseOffset.x,
+                                               mousePosition.y - initialMouseOffset.y,
+                                               1 ); // put ruler in front, and at a slight offset from mouse
+                    toolDragHandler.startDragging( ruler, mousePosition );
+                }
+            }
+        } );
+
+
+        /*---------------------------------------------------------------------------*
+        * my crust
+        *----------------------------------------------------------------------------*/
         guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new MyCrustPanel( model ) ), getInputHandler(), this, canvasTransform ) {{
             // layout the panel if its size changes (and on startup)
             onResize.addUpdateListener( new UpdateListener() {
@@ -152,6 +162,10 @@ public class CrustModule extends PlateTectonicsModule {
                 }
             }, true ); // TODO: default to this?
         }} );
+
+        /*---------------------------------------------------------------------------*
+        * labels
+        *----------------------------------------------------------------------------*/
 
         // "oceanic crust" label
         guiView.getScene().attachChild( new PiccoloJMENode( new PText( OCEANIC_CRUST ) {{

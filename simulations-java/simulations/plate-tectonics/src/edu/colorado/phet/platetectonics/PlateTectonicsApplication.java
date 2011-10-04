@@ -18,9 +18,9 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuIte
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.platetectonics.modules.CrustModule;
 import edu.colorado.phet.platetectonics.modules.PlateMotionModule;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
-import edu.colorado.phet.platetectonics.modules.CrustModule;
 
 import com.jme3.input.FlyByCamera;
 import com.jme3.renderer.Camera;
