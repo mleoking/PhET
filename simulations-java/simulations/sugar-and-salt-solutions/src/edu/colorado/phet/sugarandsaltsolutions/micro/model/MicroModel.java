@@ -171,8 +171,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                 clearSolutes();
                 resetWater();
 
-                //REVIEW are you still considering this?
                 //TODO: Consider consolidating this and other kit definition code in MicroModel.countFreeFormulaUnits
+                //Decided not to implement before 1.00 published, but may be useful if other kit features are added in the future
                 if ( get() == 0 ) { kit = new MicroModelKit( Formula.SODIUM_CHLORIDE, Formula.SUCROSE ); }
                 else if ( get() == 1 ) { kit = new MicroModelKit( Formula.SODIUM_CHLORIDE, Formula.CALCIUM_CHLORIDE ); }
                 else if ( get() == 2 ) { kit = new MicroModelKit( Formula.SODIUM_CHLORIDE, Formula.SODIUM_NITRATE ); }
