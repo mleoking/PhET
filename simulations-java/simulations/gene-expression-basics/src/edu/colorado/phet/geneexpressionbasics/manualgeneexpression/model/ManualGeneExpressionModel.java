@@ -142,6 +142,10 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         } );
     }
 
+    public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
+        mobileBiomoleculeList.remove( mobileBiomolecule );
+    }
+
     public void addMessengerRna( final MessengerRna messengerRna ) {
         messengerRnaList.add( messengerRna );
         messengerRna.setMotionBounds( getBoundsForActiveGene() );
@@ -151,14 +155,9 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         return messengerRnaList;
     }
 
-    public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
-        mobileBiomoleculeList.remove( mobileBiomolecule );
-    }
-
     public void reset() {
-        for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
-            removeMobileBiomolecule( mobileBiomolecule );
-        }
+        mobileBiomoleculeList.clear();
+        messengerRnaList.clear();
         dnaMolecule.reset();
         activateGene( 0 );
     }
