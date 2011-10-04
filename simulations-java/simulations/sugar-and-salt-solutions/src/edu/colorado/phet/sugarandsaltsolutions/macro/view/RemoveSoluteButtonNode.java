@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.BUTTON_COLOR;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.BUTTON_COLOR;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.CONTROL_FONT;
 
 /**
  * Button that allows the user to remove a particular type of solute, only shown if the sim contains the solute.

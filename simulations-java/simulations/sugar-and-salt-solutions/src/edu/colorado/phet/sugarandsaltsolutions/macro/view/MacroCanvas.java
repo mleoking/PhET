@@ -9,10 +9,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.CrystalMaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VolumeIndicatorNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
@@ -32,7 +32,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.Units.metersC
  *
  * @author Sam Reid
  */
-public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
+public class MacroCanvas extends BeakerAndShakerCanvas {
 
     //Separate layer for the conductivity toolbox to make sure the conductivity node shows as submerged in the water, but still goes behind the shaker
     protected final PNode conductivityToolboxLayer = new PNode();

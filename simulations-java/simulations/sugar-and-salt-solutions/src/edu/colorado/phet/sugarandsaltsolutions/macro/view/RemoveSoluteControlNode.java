@@ -2,7 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -32,6 +32,6 @@ public class RemoveSoluteControlNode extends PNode {
         addChild( sugarButton );
 
         //Put the buttons next to each other, leaving the origin at (0,0) so it can be positioned easily by the client
-        sugarButton.setOffset( saltButton.getFullBounds().getMaxX() + SugarAndSaltSolutionsCanvas.INSET, 0 );
+        sugarButton.setOffset( saltButton.getFullBounds().getMaxX() + BeakerAndShakerCanvas.INSET, 0 );
     }
 }

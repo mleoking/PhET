@@ -39,8 +39,8 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.WATER_COLOR;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.INSET;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.WATER_COLOR;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas.NO_READOUT;
 import static java.awt.Color.blue;
 

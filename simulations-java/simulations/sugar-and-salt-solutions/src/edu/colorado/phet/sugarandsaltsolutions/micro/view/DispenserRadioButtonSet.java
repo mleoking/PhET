@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.CONTROL_FONT;
 
 /**
  * Radio buttons to choose between dispensers and hence solutes

@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__MOLES_PER_LITER;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__MOLES_PER_LITER_MULTILINE;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.CONTROL_FONT;
 import static java.lang.Float.isInfinite;
 import static java.lang.Float.isNaN;
 

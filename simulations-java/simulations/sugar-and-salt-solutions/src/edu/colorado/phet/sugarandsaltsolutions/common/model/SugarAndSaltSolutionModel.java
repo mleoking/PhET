@@ -21,7 +21,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.canvasSize;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.canvasSize;
 
 /**
  * Base class model for Sugar and Salt Solutions, which keeps track of the physical model as well as the MVC model for view components (such as whether certain components are enabled).

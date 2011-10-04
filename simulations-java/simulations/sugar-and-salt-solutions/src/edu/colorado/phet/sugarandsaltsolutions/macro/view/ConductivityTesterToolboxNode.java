@@ -14,15 +14,15 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ShortCircuitTextNode;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.WhiteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.TITLE_FONT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.TITLE_FONT;
 
 /**
  * The toolbox node that the conductivity tester gets dragged out of and back into.
@@ -30,7 +30,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
-    public ConductivityTesterToolboxNode( final MacroModel model, final SugarAndSaltSolutionsCanvas canvas, final ObservableProperty<Boolean> whiteBackground ) {
+    public ConductivityTesterToolboxNode( final MacroModel model, final BeakerAndShakerCanvas canvas, final ObservableProperty<Boolean> whiteBackground ) {
         super( new VBox() {{
 
             //Function for determining whether the conductivity node should get dropped back in the toolbox.
@@ -59,21 +59,21 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
 
             //Add the tool icon node, which can be dragged out of the toolbox to create the full-sized conductivity tester node
             //REVIEW IDEA presentation compiler flags this as a dbi scoping issue
-            addChild( new ToolIconNode<SugarAndSaltSolutionsCanvas>(
+            addChild( new ToolIconNode<BeakerAndShakerCanvas>(
                     multiScaleToWidth( toBufferedImage( thumbnail ), 130 ), model.conductivityTester.visible, canvas.getModelViewTransform(), canvas,
                     conductivityNodeMaker, model, getToolboxBounds ) {
 
                 private ShortCircuitTextNode shortCircuitTextNode;
 
                 //Override addChild so that the created node will go behind the salt shaker, since the salt shaker should always be in front
-                @Override protected void addChild( SugarAndSaltSolutionsCanvas canvas, ToolNode node ) {
+                @Override protected void addChild( BeakerAndShakerCanvas canvas, ToolNode node ) {
                     canvas.submergedInWaterNode.addChild( node );
                     shortCircuitTextNode = new ShortCircuitTextNode( model.conductivityTester, ( (ConductivityTesterToolNode) node ).node.getLightBulbNode() );
                     canvas.addChild( shortCircuitTextNode );
                 }
 
                 //Remove created tools from their parent node
-                @Override protected void removeChild( SugarAndSaltSolutionsCanvas canvas, ToolNode node ) {
+                @Override protected void removeChild( BeakerAndShakerCanvas canvas, ToolNode node ) {
                     canvas.submergedInWaterNode.removeChild( node );
                     canvas.removeChild( shortCircuitTextNode );
                 }

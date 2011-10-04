@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog;
 import edu.colorado.phet.sugarandsaltsolutions.water.view.WaterControlPanel;
@@ -36,7 +36,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  *
  * @author Sam Reid
  */
-public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.Listener, ICanvas {
+public class MicroCanvas extends BeakerAndShakerCanvas implements Module.Listener, ICanvas {
     private PeriodicTableDialog periodicTableDialog;
     private boolean dialogVisibleOnActivate;
 
