@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
@@ -33,6 +34,10 @@ public class ShapeMassNode extends PNode {
     //-------------------------------------------------------------------------
     // Class Data
     //-------------------------------------------------------------------------
+
+    // Additional size added to bounds of the shape in order to prevent trails,
+    // a.k.a. ghosting.
+    private static final double ADJUSTMENT_SIZE = 1;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -64,6 +69,13 @@ public class ShapeMassNode extends PNode {
             }
         } );
 
+        // Add a transparent node that is just a tiny bit larger than the actual
+        // shape node.  This is done as a workaround for an issue where the
+        // shapes would sometimes leave trails when moved around on an enlarged
+        // canvas.
+        final PhetPPath transparentBackgroundNode = new PhetPPath( new Color( 0, 0, 0, 0 ) );
+        addChild( transparentBackgroundNode );
+
         // Create and add the main shape node.
         shapeNode = new PhetPPath( fillColor, new BasicStroke( 1 ), Color.BLACK );
         addChild( shapeNode );
@@ -78,6 +90,13 @@ public class ShapeMassNode extends PNode {
                 massLabel.setScale( Math.min( shapeNode.getFullBoundsReference().width * 0.9 / massLabel.getFullBoundsReference().width, 1 ) );
                 massLabel.setOffset( shapeNode.getFullBoundsReference().getCenterX() - massLabel.getFullBoundsReference().width / 2,
                                      shapeNode.getFullBoundsReference().getY() - massLabel.getFullBoundsReference().height - 3 );
+                Rectangle2D unadjustedShapeBounds = shapeNode.getFullBounds();
+                Rectangle2D backgroundShape = new Rectangle2D.Double( unadjustedShapeBounds.getX() - ADJUSTMENT_SIZE,
+                                                                      unadjustedShapeBounds.getY() - ADJUSTMENT_SIZE,
+                                                                      unadjustedShapeBounds.getWidth() + 2 * ADJUSTMENT_SIZE,
+                                                                      unadjustedShapeBounds.getHeight() + 2 * ADJUSTMENT_SIZE );
+                transparentBackgroundNode.setPathTo( backgroundShape );
+
                 updatePositionAndAngle();
             }
         } );
