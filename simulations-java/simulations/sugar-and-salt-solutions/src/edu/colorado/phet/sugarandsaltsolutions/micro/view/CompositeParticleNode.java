@@ -38,7 +38,6 @@ public class CompositeParticleNode<T extends Particle> extends PNode {
         }
     }
 
-    //REVIEW is this working? doesn't display anything that looks like a molecule.
     //Test main
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
@@ -49,7 +48,7 @@ public class CompositeParticleNode<T extends Particle> extends PNode {
                     getCanvas().getLayer().addChild( new CompositeParticleNode<SphericalParticle>( createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 1E11 ), new Sucrose( ZERO ), new Property<Boolean>( false ) ) {{
                         double width = getFullBounds().getWidth();
                         System.out.println( "width = " + width );
-                        scale( 100 );
+                        translate( 200, 200 );
                     }} );
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
                 }}.setVisible( true );
