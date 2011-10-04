@@ -4,10 +4,7 @@ package edu.colorado.phet.moleculeshapes;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
-import com.jme3.math.ColorRGBA;
 
 /**
  * Contains global constants and some dynamic global variables (like colors)

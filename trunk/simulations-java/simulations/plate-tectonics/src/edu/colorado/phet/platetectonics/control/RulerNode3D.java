@@ -3,11 +3,13 @@ package edu.colorado.phet.platetectonics.control;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.jmephet.JMECursorHandler;
 import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.hud.SwingJMENode;
+import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.util.JMEModelViewTransform;
 
 import com.jme3.math.Vector2f;
@@ -17,7 +19,7 @@ import com.jme3.renderer.queue.RenderQueue.Bucket;
 /**
  * Displays a ruler in the 3D play area space
  */
-public class RulerNode3D extends PiccoloJMENode implements DraggableTool {
+public class RulerNode3D extends PiccoloJMENode implements DraggableTool2D {
 
     // how much we subsample the piccolo ruler in texture construction
     private static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
@@ -44,12 +46,24 @@ public class RulerNode3D extends PiccoloJMENode implements DraggableTool {
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
     }
 
-    public boolean allowsDrag( float x, float y ) {
+    public boolean allowsDrag( Vector2f intialPosition ) {
         return true; // if this node is picked, always allow a drag anywhere on it
     }
 
     public void dragDelta( Vector2f delta ) {
         setLocalTranslation( getLocalTranslation().add( new Vector3f( delta.x, delta.y, 0 ) ) );
+    }
+
+    public Property<Boolean> getInsideToolboxProperty( ToolboxState toolboxState ) {
+        return toolboxState.rulerInToolbox;
+    }
+
+    public Vector2f getInitialMouseOffset() {
+        return new Vector2f( 10, 10 );
+    }
+
+    public void recycle() {
+        getParent().detachChild( this );
     }
 
     public static class RulerNode2D extends RulerNode {

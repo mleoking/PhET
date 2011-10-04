@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
+import edu.colorado.phet.platetectonics.model.ToolboxState;
+
 import com.jme3.math.Vector2f;
 
 /**
@@ -9,19 +11,36 @@ import com.jme3.math.Vector2f;
 public class ToolDragHandler {
 
     private boolean dragging = false;
-    private DraggableTool tool;
+    private DraggableTool2D tool;
     private Vector2f lastPosition;
 
-    public void mouseDownOnTool( DraggableTool tool, Vector2f viewPosition ) {
+    private ToolboxState toolboxState;
+
+    public ToolDragHandler( ToolboxState toolboxState ) {
+        this.toolboxState = toolboxState;
+    }
+
+    public void mouseDownOnTool( DraggableTool2D tool, Vector2f viewPosition ) {
         // TODO: improve the x/y on this? not sure what coordinate system it will be using!!!
-        if ( tool.allowsDrag( viewPosition.x, viewPosition.y ) ) {
-            this.tool = tool;
-            lastPosition = viewPosition.clone();
-            dragging = true;
+        if ( tool.allowsDrag( viewPosition ) ) {
+            startDragging( tool, viewPosition );
         }
     }
 
-    public void mouseUp() {
+    public void startDragging( DraggableTool2D tool, Vector2f viewPosition ) {
+        this.tool = tool;
+        lastPosition = viewPosition.clone();
+        dragging = true;
+    }
+
+    public void mouseUp( boolean overToolbox ) {
+        if ( dragging && overToolbox ) {
+            // get rid of the tool
+            tool.recycle();
+
+            // mark the toolbox as having the tool again
+            tool.getInsideToolboxProperty( toolboxState ).set( true );
+        }
         dragging = false;
     }
 

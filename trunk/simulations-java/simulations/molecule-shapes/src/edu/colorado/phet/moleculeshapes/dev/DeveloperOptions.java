@@ -25,17 +25,17 @@ public class DeveloperOptions {
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                             public void update() {
-                                 module.getApp().statistics.setDisplayFps( get() );
-                             }
-                         }, false );
+                public void update() {
+                    module.getApp().statistics.setDisplayFps( get() );
+                }
+            }, false );
         }} ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show Statistics", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                             public void update() {
-                                 module.getApp().statistics.setDisplayStatView( get() );
-                             }
-                         }, false );
+                public void update() {
+                    module.getApp().statistics.setDisplayStatView( get() );
+                }
+            }, false );
         }} ) );
         developerMenu.add( new JSeparator() );
         developerMenu.add( new JMenuItem( "Color Options" ) {{

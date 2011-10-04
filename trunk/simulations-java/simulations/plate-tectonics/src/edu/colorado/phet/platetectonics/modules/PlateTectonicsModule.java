@@ -98,4 +98,8 @@ public abstract class PlateTectonicsModule extends JMEModule {
         moon.setColor( new ColorRGBA( 1, 1, 1, 0.5f ) );
         node.addLight( moon );
     }
+
+    public CenteredStageCanvasTransform getCanvasTransform() {
+        return canvasTransform;
+    }
 }
