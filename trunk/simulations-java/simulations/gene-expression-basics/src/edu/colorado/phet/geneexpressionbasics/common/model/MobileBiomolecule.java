@@ -12,6 +12,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.Biomol
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.UnattachedAndAvailableState;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 
 /**
  * Base class for all biomolecules (i.e. rna polymerase, transcription factors,
@@ -87,6 +88,15 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      */
     public void spawnMolecule( MobileBiomolecule biomolecule ) {
         model.addMobileBiomolecule( biomolecule );
+    }
+
+    /**
+     * Add the specified messenger RNA to the model.
+     *
+     * @param messengerRna
+     */
+    public void spawnMessengerRna( MessengerRna messengerRna ) {
+        model.addMessengerRna( messengerRna );
     }
 
     /**

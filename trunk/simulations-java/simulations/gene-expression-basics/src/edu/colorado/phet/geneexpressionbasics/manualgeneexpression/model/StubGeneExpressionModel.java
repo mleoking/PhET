@@ -19,4 +19,8 @@ public class StubGeneExpressionModel extends GeneExpressionModel {
     @Override public void addMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
         System.out.println( getClass().getName() + " - Warning: Unimplemented method called in stub class." );
     }
+
+    @Override public void addMessengerRna( MessengerRna messengerRna ) {
+        System.out.println( getClass().getName() + " - Warning: Unimplemented method called in stub class." );
+    }
 }

@@ -52,8 +52,12 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // its transcription, and where a lot of the action takes place.
     protected final DnaMolecule dnaMolecule = new DnaMolecule();
 
-    // List of mobile biomolecules in the model.
+    // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
+
+    // List of mRNA molecules in the sim.  These are kept separate because they
+    // are treated a bit differently than the other mobile biomolecules.
+    public final ObservableList<MessengerRna> messengerRnaList = new ObservableList<MessengerRna>();
 
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
@@ -115,10 +119,6 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         activeGene.set( dnaMolecule.getGenes().get( i ) );
     }
 
-    public List<MobileBiomolecule> getMobileBiomoleculeList() {
-        return mobileBiomoleculeList;
-    }
-
     public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
         mobileBiomolecule.setMotionBounds( getBoundsForActiveGene() );
@@ -134,6 +134,11 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
                 }
             }
         } );
+    }
+
+    public void addMessengerRna( final MessengerRna messengerRna ) {
+        messengerRnaList.add( messengerRna );
+        messengerRna.setMotionBounds( getBoundsForActiveGene() );
     }
 
     public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {

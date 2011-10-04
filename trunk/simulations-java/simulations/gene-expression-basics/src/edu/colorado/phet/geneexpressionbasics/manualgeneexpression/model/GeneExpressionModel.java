@@ -25,5 +25,13 @@ public abstract class GeneExpressionModel {
      * @param mobileBiomolecule
      */
     public abstract void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule );
+
+    /**
+     * Add the specified messenger RNA strand to the model.  The model must
+     * send out the appropriate notifications.
+     *
+     * @param messengerRna
+     */
+    public abstract void addMessengerRna( final MessengerRna messengerRna );
 }
 

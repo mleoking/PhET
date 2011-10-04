@@ -81,27 +81,36 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         modelRootNode.addChild( dnaMoleculeNode );
 
         // Add any initial molecules.
-        for ( MobileBiomolecule biomolecule : model.getMobileBiomoleculeList() ) {
+        for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
             modelRootNode.addChild( new MobileBiomoleculeNode( mvt, biomolecule ) );
         }
 
-        // Watch for and handle comings and goings of molecules in the mode.
+        // Watch for and handle comings and goings of biomolecules in the model.
         model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
             public void apply( final MobileBiomolecule addedBiomolecule ) {
                 final PNode biomoleculeNode;
-                if ( addedBiomolecule instanceof MessengerRna ) {
-                    // Messenger RNA has a unique representation compared to the
-                    // other biomolecules.
-                    biomoleculeNode = new MessengerRnaNode( mvt, (MessengerRna) addedBiomolecule );
-                }
-                else {
-                    biomoleculeNode = new MobileBiomoleculeNode( mvt, addedBiomolecule );
-                }
+                biomoleculeNode = new MobileBiomoleculeNode( mvt, addedBiomolecule );
                 modelRootNode.addChild( biomoleculeNode );
                 model.mobileBiomoleculeList.addElementRemovedObserver( new VoidFunction1<MobileBiomolecule>() {
                     public void apply( MobileBiomolecule removedBiomolecule ) {
                         if ( removedBiomolecule == addedBiomolecule ) {
                             modelRootNode.removeChild( biomoleculeNode );
+                        }
+                    }
+                } );
+            }
+        } );
+
+        // Watch for and handle comings and goings of messenger RNA.
+        model.messengerRnaList.addElementAddedObserver( new VoidFunction1<MessengerRna>() {
+            public void apply( final MessengerRna addedMessengerRna ) {
+                final PNode messengerRnaNode;
+                messengerRnaNode = new MessengerRnaNode( mvt, addedMessengerRna );
+                modelRootNode.addChild( messengerRnaNode );
+                model.messengerRnaList.addElementRemovedObserver( new VoidFunction1<MessengerRna>() {
+                    public void apply( MessengerRna removedMessengerRna ) {
+                        if ( removedMessengerRna == addedMessengerRna ) {
+                            modelRootNode.removeChild( messengerRnaNode );
                         }
                     }
                 } );
