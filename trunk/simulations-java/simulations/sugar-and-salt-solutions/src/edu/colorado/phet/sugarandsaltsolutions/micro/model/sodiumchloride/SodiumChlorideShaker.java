@@ -24,10 +24,7 @@ public class SodiumChlorideShaker extends MicroShaker {
     //Create a random salt crystal and add it to the model
     @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint ) {
 
-        //REVIEW Where is the "100 times" here? I see 10000 times in the grow method, so it perhaps this doc is stale and misplaced.
-        //Attempt 100 times to randomly create a crystal with a correct balance of components
-        //If no success after 100 random tries, just take the last attempt
-        //This tends to work in much less than 100 tries, such as 3-4 tries
+        //Attempt to randomly create a crystal with a correct balance of components
         model.addSodiumChlorideCrystal( new SodiumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 6 ); }} );
     }
 }
