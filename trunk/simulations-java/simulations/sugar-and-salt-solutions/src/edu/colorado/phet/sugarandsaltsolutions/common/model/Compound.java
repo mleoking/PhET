@@ -60,7 +60,8 @@ public class Compound<T extends Particle> extends Particle implements Iterable<T
 
     //The shape of a lattice is the combined area of its constituents, using bounding rectangles to improve performance
     @Override public Shape getShape() {
-        //REVIEW this will fail if zero constituents is really OK, as stated in the class doc
+
+        //If reduced to zero constituents, should be removed from the model before this is called otherwise will cause ArrayIndexOutOfBoundsException
         final Rectangle2D bounds2D = constituents.get( 0 ).particle.getShape().getBounds2D();
         Rectangle2D rect = new Rectangle2D.Double( bounds2D.getX(), bounds2D.getY(), bounds2D.getWidth(), bounds2D.getHeight() );
         for ( Constituent constituent : constituents ) {
