@@ -21,16 +21,14 @@ public class Beaker {
     //Left side of the inner part of the beaker
     private final double x;
 
-    //REVIEW is +y up or down in the model?
-    //the y-location of the inner part of the base of the beaker
+    //the y-location of the inner part of the base of the beaker, +y is up in the model (down in the graphics)
     private final double y;
 
     //Dimensions of the inner part of the beaker
     private final double width;
     private final double height;
 
-    //REVIEW is +z into or out of the screen in the model? or does it even matter?
-    //dimension of the beaker in the z-direction (into the screen)
+    //dimension of the beaker in the z-direction (into the screen), direction irrelevant since it is only used for computing the volume within the beaker
     private final double depth;
 
     //Width of the beaker

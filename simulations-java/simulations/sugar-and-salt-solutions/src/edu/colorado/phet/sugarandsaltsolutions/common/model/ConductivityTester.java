@@ -25,6 +25,9 @@ public class ConductivityTester implements IConductivityTester {
     private final double positiveProbeX;
     final double defaultProbeY;
 
+    //Size of each probe in meters, corresponds to the side of the red or black object in model coordinates (meters), might need to be changed if we want to make the conductivity tester probes bigger or smaller
+    private PDimension PROBE_SIZE = new PDimension( 0.0125, 0.025 );
+
     public ConductivityTester( double beakerWidth, double beakerHeight ) {
         //Locations are in model coordinates (meters).
         //Note that in the typical usage scenario (dragged out of a toolbox), these values are overriden with other values in SugarAndSaltSolutionsConductivityTesterNode
@@ -77,7 +80,7 @@ public class ConductivityTester implements IConductivityTester {
 
     //Determine the size of the probes in meters
     public PDimension getProbeSizeReference() {
-        return new PDimension( 0.0125, 0.025 ); //REVIEW hardcoded because? significance of these values? they might need to be changed if...?
+        return PROBE_SIZE;
     }
 
     //Returns the region in space occupied by the positive probe, used for hit detection with the entire probe region
@@ -123,8 +126,7 @@ public class ConductivityTester implements IConductivityTester {
         }
     }
 
-    //REVIEW do you need this? brightness is public.
-    //Get the bulb brightness, a function of the conductivity of the liquid
+    //Get the bulb brightness, a function of the conductivity of the liquid.  This method is necessary so that ConductivityTester can implement the getBrightness method in IConductivityTester
     public double getBrightness() {
         return brightness.get();
     }
