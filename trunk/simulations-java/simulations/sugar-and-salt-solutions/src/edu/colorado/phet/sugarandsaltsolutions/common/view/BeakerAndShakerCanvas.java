@@ -26,15 +26,14 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 
-//REVIEW Class name is misleading and class doc is wrong. This is the base class in 2 of 3 tabs.
 //REVIEW I don't see setOffset calls for some nodes here. Do those nodes draw themselves in world coordinates?
 
 /**
- * Canvas for the tabs 1-2 in the Sugar and Salt Solutions Sim
+ * Canvas for the tabs 1-2 (which both use a beaker and shaker) in the Sugar and Salt Solutions Sim
  *
  * @author Sam Reid
  */
-public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxCanvas {
+public abstract class BeakerAndShakerCanvas extends PhetPCanvas implements ToolboxCanvas {
     public static final Color WATER_COLOR = new Color( 179, 239, 243 );
 
     //Root node that shows the nodes in the stage coordinate frame
@@ -75,13 +74,13 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //Flag to indicate debugging of the model visible bounding region, used for layouts
     private final boolean debugVisibleBounds = false;
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform,
+    public BeakerAndShakerCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform,
 
-                                        //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
-                                        boolean micro,
+                                  //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
+                                  boolean micro,
 
-                                        //Ticks are shown in Macro and Micro tab, but values are omitted from Micro tab
-                                        boolean showBeakerTickLabels ) {
+                                  //Ticks are shown in Macro and Micro tab, but values are omitted from Micro tab
+                                  boolean showBeakerTickLabels ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
         stageSize = new PDimension( canvasSize.width, (int) ( canvasSize.width / model.visibleRegion.width * model.visibleRegion.height ) );
@@ -176,7 +175,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
         //Add an evaporation rate slider below the beaker
         evaporationSlider = new EvaporationSlider( model.evaporationRate ) {{
-            Point2D point = SugarAndSaltSolutionsCanvas.this.transform.modelToView( 0, -model.beaker.getWallThickness() / 2 );
+            Point2D point = BeakerAndShakerCanvas.this.transform.modelToView( 0, -model.beaker.getWallThickness() / 2 );
             setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }};
 

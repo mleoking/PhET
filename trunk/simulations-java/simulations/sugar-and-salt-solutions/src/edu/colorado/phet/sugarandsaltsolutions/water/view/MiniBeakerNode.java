@@ -10,7 +10,7 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.WATER_COLOR;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.WATER_COLOR;
 
 /**
  * Shows a small representation of a beaker with solution that is "zoomed in" on by the ParticleWindowNode

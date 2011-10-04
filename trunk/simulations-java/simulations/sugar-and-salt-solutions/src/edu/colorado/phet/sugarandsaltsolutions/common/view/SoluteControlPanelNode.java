@@ -30,6 +30,6 @@ public class SoluteControlPanelNode extends WhiteControlPanelNode {
     }
 
     public static PText createTitle() {
-        return new PText( SugarAndSaltSolutionsResources.Strings.SOLUTE ) {{setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );}};
+        return new PText( SugarAndSaltSolutionsResources.Strings.SOLUTE ) {{setFont( BeakerAndShakerCanvas.TITLE_FONT );}};
     }
 }

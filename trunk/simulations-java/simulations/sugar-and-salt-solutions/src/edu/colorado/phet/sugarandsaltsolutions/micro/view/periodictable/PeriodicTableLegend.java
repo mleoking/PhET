@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import static edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.CELL_DIMENSION;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.METAL;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.NON_METAL;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.CONTROL_FONT;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog.METAL_COLOR;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog.NON_METAL_COLOR;
 import static java.awt.Color.black;

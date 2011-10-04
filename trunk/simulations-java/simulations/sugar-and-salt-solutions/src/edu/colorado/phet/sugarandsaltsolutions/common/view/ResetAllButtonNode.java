@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.*;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.*;
 
 //REVIEW why aren't you using piccolo-phet's ResetAllButtonNode?
 
