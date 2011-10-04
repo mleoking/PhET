@@ -2,6 +2,7 @@
 package edu.colorado.phet.platetectonics.view;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.colorado.phet.jmephet.JMECursorHandler;
 import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.hud.SwingJMENode;
@@ -52,6 +53,9 @@ public class RulerNode3D extends PiccoloJMENode {
 
             // don't show things below the "0" mark
             setInsetWidth( 0 );
+
+            // give it the "Hand" cursor
+            addInputEventListener( new JMECursorHandler() );
         }
     }
 }
