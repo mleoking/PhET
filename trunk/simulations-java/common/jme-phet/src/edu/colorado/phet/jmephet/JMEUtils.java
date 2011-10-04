@@ -31,6 +31,7 @@ import com.jme3.math.Matrix3f;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
@@ -260,6 +261,13 @@ public class JMEUtils {
         Vector3f transformedPosition = spatial.getWorldTransform().transformInverseVector( ray.getOrigin(), new Vector3f() );
         Vector3f transformedDirection = spatial.getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( ray.getDirection() ).normalize(); // transpose trick to transform a unit vector
         return new Ray( transformedPosition, transformedDirection );
+    }
+
+    public static Vector2f intersectZPlaneWithRay( Ray ray ) {
+        float t = -ray.getOrigin().getZ() / ray.getDirection().getZ(); // solve for below equation at z=0. assumes camera isn't z=0, which should be safe here
+
+        Vector3f hitPosition = ray.getOrigin().add( ray.getDirection().mult( t ) );
+        return new Vector2f( hitPosition.x, hitPosition.y );
     }
 
     /**
