@@ -10,9 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.jmephet.CanvasTransform;
 import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Embed a Piccolo node within the JME3 space as a Spatial. Handles proper resizing.
@@ -31,13 +29,13 @@ public class PiccoloJMENode extends SwingJMENode {
     public PiccoloJMENode( final PNode node, final JMEInputHandler inputHandler, final JMEModule module, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
         // use a wrapper panel that takes up no extra room
         super( new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) ) {{
-                   add( new PiccoloJMECanvas( node ) );
-               }}, inputHandler, module, canvasTransform, position );
+            add( new PiccoloJMECanvas( node ) );
+        }}, inputHandler, module, canvasTransform, position );
         this.node = node;
     }
 
-    public PCanvas getCanvas() {
-        return (PSwingCanvas) getComponent();
+    public PiccoloJMECanvas getCanvas() {
+        return (PiccoloJMECanvas) ( getComponent().getComponent( 0 ) );
     }
 
     public PNode getNode() {

@@ -11,8 +11,12 @@ import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.TransparentColorMaterial;
 
+import com.jme3.bounding.BoundingVolume;
+import com.jme3.collision.Collidable;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Matrix4f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
@@ -174,6 +178,12 @@ public class WaterNode extends Node {
             setBuffer( VertexBuffer.Type.Index, 3, indexBuffer );
             updateBound();
             updateCounts();
+        }
+
+        // TODO: find out why ray-casting fails on this mesh. Seems to be an Index-buffer related issue
+        @Override public int collideWith( Collidable other, Matrix4f worldMatrix, BoundingVolume worldBound, CollisionResults results ) {
+            // don't allow ray-casting with this object, due to a bug. see above TODO
+            return 0;
         }
     }
 }

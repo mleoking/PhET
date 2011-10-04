@@ -21,6 +21,7 @@ import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RulerNode3D;
 import edu.colorado.phet.platetectonics.view.RulerNode3D.RulerNode2D;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -150,21 +151,25 @@ public class SinglePlateModule extends PlateTectonicsModule {
         JmeCanvasContext context = (JmeCanvasContext) getApp().getContext();
         final Canvas canvas = context.getCanvas();
 
-//        System.out.println( "GUI:  " + guiView.hitsUnderCursorPosition( getInputHandler() ).size() );
-//        System.out.println( "Main: " + mainView.hitsUnderCursorPosition( getInputHandler() ).size() );
-
-        // TODO: get a fixed up collision detection for HUDNodes in a regular scene, then use to set cursor for things like the ruler
         final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
+        final HUDNodeCollision mainCollision = HUDNode.getHUDCollisionUnderPoint( mainView, getInputHandler().getCursorPosition() );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                Component guiComponent = guiCollision == null ? null : guiCollision.getComponent();
+                Component guiComponent = guiCollision == null ? null : guiCollision.getGuiPlaneComponent();
                 if ( guiComponent != null ) {
                     // over a HUD node, so set the cursor to what the component would want
                     canvas.setCursor( guiComponent.getCursor() );
                 }
                 else {
-                    // default to the default cursor
-                    canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                    // check if we are picking a piccolo canvas in the main view
+                    if ( mainCollision != null && mainCollision.hudNode.getRootComponent().getComponent( 0 ) instanceof PCanvas ) {
+                        // use the canvas's cursor
+                        canvas.setCursor( mainCollision.hudNode.getRootComponent().getComponent( 0 ).getCursor() );
+                    }
+                    else {
+                        // default to the default cursor
+                        canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                    }
                 }
             }
         } );
