@@ -28,11 +28,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeSystem;
-import com.jme3.system.Natives;
 
 /**
  * Utilities for dealing with JME3
@@ -245,6 +247,19 @@ public class JMEUtils {
     public static Vector3f slerp( Vector3f start, Vector3f end, float ratio ) {
         // assumes normalized. TODO doc
         return new Quaternion().slerp( Quaternion.IDENTITY, getRotationQuaternion( start, end ), ratio ).mult( start );
+    }
+
+    /**
+     * Returns a ray that is in the coordinate system of the spatial passed in.
+     *
+     * @param ray     A ray in the world coordinate system
+     * @param spatial Any spatial
+     * @return A new Ray in the coordinate system of the spatial
+     */
+    public static Ray transformWorldRayToLocalCoordinates( Ray ray, Spatial spatial ) {
+        Vector3f transformedPosition = spatial.getWorldTransform().transformInverseVector( ray.getOrigin(), new Vector3f() );
+        Vector3f transformedDirection = spatial.getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( ray.getDirection() ).normalize(); // transpose trick to transform a unit vector
+        return new Ray( transformedPosition, transformedDirection );
     }
 
     /**

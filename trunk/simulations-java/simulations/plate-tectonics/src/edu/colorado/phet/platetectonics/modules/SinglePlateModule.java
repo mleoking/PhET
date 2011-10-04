@@ -150,8 +150,11 @@ public class SinglePlateModule extends PlateTectonicsModule {
         JmeCanvasContext context = (JmeCanvasContext) getApp().getContext();
         final Canvas canvas = context.getCanvas();
 
+//        System.out.println( "GUI:  " + guiView.hitsUnderCursorPosition( getInputHandler() ).size() );
+//        System.out.println( "Main: " + mainView.hitsUnderCursorPosition( getInputHandler() ).size() );
+
         // TODO: get a fixed up collision detection for HUDNodes in a regular scene, then use to set cursor for things like the ruler
-        final HUDNodeCollision guiCollision = HUDNode.getGUIComponentUnderPoint( guiView.getScene(), getInputHandler().getCursorPosition() );
+        final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 Component guiComponent = guiCollision == null ? null : guiCollision.getComponent();
