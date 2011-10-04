@@ -12,12 +12,11 @@ import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
-//REVIEW When is 0 OK? Won't getShape fail if there are zero constituents?
-
 /**
  * A compound represents 0 or more (usually 1 or more) constituents which can be put into solution.  It may be constructed from a lattice.
  * The type is generic since some compounds such as NaCl are made of SphericalParticles while others such as Sucrose are made from molecules with their own substructure
  * Adding the type parameter at this level makes it so we don't have as many casts when acquiring components during dissolve or iteration processes.
+ * When a compound has 0 constituents, it should be removed from the model.
  *
  * @author Sam Reid
  */

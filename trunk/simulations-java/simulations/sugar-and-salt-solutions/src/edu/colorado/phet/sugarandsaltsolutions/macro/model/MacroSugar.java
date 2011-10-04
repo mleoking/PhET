@@ -13,8 +13,9 @@ public class MacroSugar extends MacroCrystal {
     //Create a sugar crystal with the specified amount in grams /mol
     public static final double molarMass = 342.23134;
 
-    //REVIEW might be nice to indicate the affect of making this bigger or smaller, in case someone needs to tune it.
-    private static final double gramsPerGrain = 0.4;//Manually tuned to make it so that grains are small but it doesn't take too long to get the concentration bar to appear on the bar chart
+    //Number of grams per grain of sugar, manually tuned to make it so that grains are small but it doesn't take too long to get the concentration bar to appear on the bar chart
+    //Making this number bigger won't change the size of the salt grain, but will change how fast the concentration goes up as salt is shaken in
+    private static final double gramsPerGrain = 0.4;
 
     private static final double molesIn5Grams = gramsPerGrain / molarMass;
 

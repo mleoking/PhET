@@ -29,12 +29,11 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //The spacing between components on the lattice
     public final double spacing;
 
-    //REVIEW These are not constants, names should be camel-case, not uppercase. More descriptive names would also improve readability of client code.
-    //Direction vectors (non-unit vectors) in the coordinate frame of the lattice, at the right spacing and angle
-    protected final ImmutableVector2D NORTH;
-    protected final ImmutableVector2D SOUTH;
-    protected final ImmutableVector2D EAST;
-    protected final ImmutableVector2D WEST;
+    //Direction vectors (non-unit vectors) in the coordinate frame of the lattice, at the right spacing and angle for generating the lattice topology
+    protected final ImmutableVector2D northUnitVector;
+    protected final ImmutableVector2D southUnitVector;
+    protected final ImmutableVector2D eastUnitVector;
+    protected final ImmutableVector2D westUnitVector;
 
     //Randomness for growing the crystal
     public final Random random = new Random();
@@ -52,10 +51,10 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         //Update positions so the lattice position overwrites constituent particle positions
         updateConstituentLocations();
 
-        NORTH = new ImmutableVector2D( 0, 1 ).times( spacing ).getRotatedInstance( angle );
-        SOUTH = new ImmutableVector2D( 0, -1 ).times( spacing ).getRotatedInstance( angle );
-        EAST = new ImmutableVector2D( 1, 0 ).times( spacing ).getRotatedInstance( angle );
-        WEST = new ImmutableVector2D( -1, 0 ).times( spacing ).getRotatedInstance( angle );
+        northUnitVector = new ImmutableVector2D( 0, 1 ).times( spacing ).getRotatedInstance( angle );
+        southUnitVector = new ImmutableVector2D( 0, -1 ).times( spacing ).getRotatedInstance( angle );
+        eastUnitVector = new ImmutableVector2D( 1, 0 ).times( spacing ).getRotatedInstance( angle );
+        westUnitVector = new ImmutableVector2D( -1, 0 ).times( spacing ).getRotatedInstance( angle );
     }
 
     //Create an instance that could bond with the specified original particle for purposes of growing crystals from scratch
@@ -64,10 +63,10 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //Grow the crystal for the specified number of formula ratios
     public void grow( int numberFormulaRatios ) {
 
-        //REVIEW What happens if it fails to grow after numTries attempts? Does the sim still function?
         //There is a random aspect to crystal growth and in some cases (particularly for the more constrained case of CaCl2's lattice topology)
         //The growth can run into a dead end where it is impossible to add a full formula unit.
         //To handle this problem, try many times to generate a crystal and keep the first one that doesn't run into a dead end
+        //If the sim fails to grow a lattice, then the Crystal is cleared and the sim continues to run
         int numTries = 10000;
         for ( int tryIndex = 0; tryIndex < numTries; tryIndex++ ) {
             try {
@@ -147,7 +146,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //This method is overrideable so that other crystal types like CaCl2 can specify their own topology
     //This may not generalize to non-square lattice topologies, but is sufficient for all currently requested crystal types for sugar and salt solutions
     public ImmutableVector2D[] getPossibleDirections( Constituent<T> constituent ) {
-        return new ImmutableVector2D[] { NORTH, SOUTH, EAST, WEST };
+        return new ImmutableVector2D[] { northUnitVector, southUnitVector, eastUnitVector, westUnitVector };
     }
 
     //Determine whether the specified location is available for bonding or already occupied by another particle
@@ -314,7 +313,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //Find the neighbors for the specified constituent
     private ItemList<Constituent<T>> getNeighbors( Constituent<T> constituent ) {
         ItemList<Constituent<T>> neighbors = new ItemList<Constituent<T>>();
-        for ( ImmutableVector2D direction : new ImmutableVector2D[] { NORTH, SOUTH, EAST, WEST } ) {
+        for ( ImmutableVector2D direction : new ImmutableVector2D[] { northUnitVector, southUnitVector, eastUnitVector, westUnitVector } ) {
             Option<Constituent<T>> option = getConstituentAtLocation( constituent.relativePosition.plus( direction ) );
             if ( option.isSome() ) {
                 neighbors.add( option.get() );
