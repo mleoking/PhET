@@ -128,9 +128,15 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
                     dnaMolecule.activateHints( mobileBiomolecule );
+                    for ( MessengerRna messengerRna : messengerRnaList ) {
+                        messengerRna.activateHints( mobileBiomolecule );
+                    }
                 }
                 else {
                     dnaMolecule.deactivateAllHints();
+                    for ( MessengerRna messengerRna : messengerRnaList ) {
+                        messengerRna.deactivateAllHints();
+                    }
                 }
             }
         } );
@@ -167,6 +173,9 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     private void stepInTime( double dt ) {
         for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
             mobileBiomolecule.stepInTime( dt );
+        }
+        for ( MessengerRna messengerRna : messengerRnaList ) {
+            messengerRna.stepInTime( dt );
         }
     }
 

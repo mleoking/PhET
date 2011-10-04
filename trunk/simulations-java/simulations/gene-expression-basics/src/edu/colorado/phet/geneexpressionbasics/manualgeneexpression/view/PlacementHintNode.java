@@ -47,6 +47,7 @@ public class PlacementHintNode extends PNode {
         placementHint.active.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean hintActive ) {
                 setVisible( hintActive );
+                System.out.println( "hintActive = " + hintActive );
             }
         } );
     }

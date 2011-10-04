@@ -60,7 +60,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
 
         messengerRna = new MessengerRna( biomolecule.getModel(), new Point2D.Double( biomolecule.getPosition().getX() + messengerRnaEmergenceOffset.getX(),
                                                                                      biomolecule.getPosition().getY() + messengerRnaEmergenceOffset.getY() ) );
-        biomolecule.spawnMolecule( messengerRna );
+        biomolecule.spawnMessengerRna( messengerRna );
     }
 
     //-------------------------------------------------------------------------
