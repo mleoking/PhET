@@ -15,6 +15,8 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.util.ColorPropertyControl;
 
+import com.jme3.util.BufferUtils;
+
 public class DeveloperOptions {
     public static void addDeveloperOptions( JMenu developerMenu, final JFrame frame, final MoleculeShapesModule module ) {
         developerMenu.add( new JSeparator() );
@@ -25,18 +27,27 @@ public class DeveloperOptions {
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                public void update() {
-                    module.getApp().statistics.setDisplayFps( get() );
-                }
-            }, false );
+                             public void update() {
+                                 module.getApp().statistics.setDisplayFps( get() );
+                             }
+                         }, false );
         }} ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show Statistics", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                public void update() {
-                    module.getApp().statistics.setDisplayStatView( get() );
-                }
-            }, false );
+                             public void update() {
+                                 module.getApp().statistics.setDisplayStatView( get() );
+                             }
+                         }, false );
         }} ) );
+        developerMenu.add( new JMenuItem( "Dump Direct Memory" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    StringBuilder builder = new StringBuilder();
+                    BufferUtils.printCurrentDirectMemory( builder );
+                    System.out.println( "----------\n" + builder.toString() );
+                }
+            } );
+        }} );
         developerMenu.add( new JSeparator() );
         developerMenu.add( new JMenuItem( "Color Options" ) {{
             addActionListener( new ActionListener() {
