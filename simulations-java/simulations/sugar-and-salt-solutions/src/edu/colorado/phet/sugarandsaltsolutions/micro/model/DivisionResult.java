@@ -25,8 +25,7 @@ public class DivisionResult {
         return quotient == that.quotient && remainder == that.remainder;
     }
 
-    //REVIEW is this correct and useful?
-    //IDEA-generated hashCode
+    //IDEA-generated (and hence correct) hashCode, used for hashing in Crystal
     @Override public int hashCode() {
         int result = quotient;
         result = 31 * result + remainder;
