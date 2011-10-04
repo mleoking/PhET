@@ -1,3 +1,4 @@
+Changed tab names to "Crust" and "Plate Motion"
 Added ruler to toolbox
 Added in a 3D test version of a ruler
 Internationalized current strings

@@ -11,15 +11,17 @@ import edu.colorado.phet.platetectonics.view.PlateView;
 
 import com.jme3.renderer.Camera;
 
-import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.TWO_PLATES;
+import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.PLATE_MOTION_TAB;
 
-// TODO: better name?
-public class DoublePlateModule extends PlateTectonicsModule {
+/**
+ * Displays two main plates that the user can direct to move towards, away from, or along each other.
+ */
+public class PlateMotionModule extends PlateTectonicsModule {
 
     private PlateModel model;
 
-    public DoublePlateModule( Frame parentFrame ) {
-        super( parentFrame, TWO_PLATES );
+    public PlateMotionModule( Frame parentFrame ) {
+        super( parentFrame, PLATE_MOTION_TAB );
     }
 
     @Override public void updateState( float tpf ) {

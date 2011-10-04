@@ -12,8 +12,6 @@ Tab 2:
 
 General:
     Refactoring and Cleanup.
-    Improve module names. What should the tab names be?
-        SR: I recommend something like "Crust" and "Plate Motion"
     I18n
         SR: I internationalized what is here, but I'll leave this on the list since more string will be added to the sim
 

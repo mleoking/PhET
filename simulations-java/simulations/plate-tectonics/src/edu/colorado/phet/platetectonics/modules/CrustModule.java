@@ -32,14 +32,17 @@ import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*;
 
-// TODO: better name?
-public class SinglePlateModule extends PlateTectonicsModule {
+/**
+ * Represents the 1st tab, which has a modifiable section of crust surrounded by oceanic and continental crusts, all
+ * on top of the mantle.
+ */
+public class CrustModule extends PlateTectonicsModule {
 
     private BlockCrustPlateModel model;
     private JMEView guiView;
 
-    public SinglePlateModule( Frame parentFrame ) {
-        super( parentFrame, ONE_PLATE );
+    public CrustModule( Frame parentFrame ) {
+        super( parentFrame, CRUST_TAB );
     }
 
     @Override public void updateState( float tpf ) {
