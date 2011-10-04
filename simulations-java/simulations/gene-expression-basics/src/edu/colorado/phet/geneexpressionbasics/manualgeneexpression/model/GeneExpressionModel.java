@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.util.List;
+
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
@@ -33,5 +35,13 @@ public abstract class GeneExpressionModel {
      * @param messengerRna
      */
     public abstract void addMessengerRna( final MessengerRna messengerRna );
+
+    /**
+     * Get a list of all messenger RNA strands that are currently in
+     * existence.
+     *
+     * @return
+     */
+    public abstract List<MessengerRna> getMessengerRnaList();
 }
 
