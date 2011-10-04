@@ -5,7 +5,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Base class used by all tabs in the sim.
+ * Base canvas class used by all tabs in the sim.
  *
  * @author Sam Reid
  */
