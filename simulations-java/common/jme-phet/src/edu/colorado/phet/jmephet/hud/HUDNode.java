@@ -221,7 +221,33 @@ public class HUDNode extends Geometry {
         } );
     }
 
-    public static void withComponentUnderPoint( Node scene, Vector2f point, final VoidFunction1<Component> callback ) {
+    public static class HUDNodeCollision {
+        public final Vector2f screenPoint;
+        public final HUDNode hudNode;
+        public final Vector3f hitPoint;
+        public final CollisionResult collisionResult;
+
+        public HUDNodeCollision( CollisionResult collisionResult, Vector3f hitPoint, HUDNode hudNode, Vector2f screenPoint ) {
+            this.collisionResult = collisionResult;
+            this.hitPoint = hitPoint;
+            this.hudNode = hudNode;
+            this.screenPoint = screenPoint;
+        }
+
+        /**
+         * NOTE: only call this from the Swing EDT
+         *
+         * @return The leaf component that was clicked.
+         */
+        public Component getComponent() {
+            return hudNode.componentAt( (int) hitPoint.x, (int) hitPoint.y );
+        }
+    }
+
+    /**
+     * NOTE: only call this from the Swing EDT
+     */
+    public static HUDNodeCollision getGUIComponentUnderPoint( Node scene, Vector2f point ) {
         CollisionResults results = new CollisionResults();
         scene.collideWith( new Ray( new Vector3f( point.x, point.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
         for ( CollisionResult result : results ) {
@@ -231,22 +257,28 @@ public class HUDNode extends Geometry {
                 final HUDNode node = (HUDNode) geometry;
                 final Vector3f hitPoint = node.transformEventCoordinates( point.x, point.y );
 
-                // test for the component in the EDT thread, and run the callback there
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-                        callback.apply( node.componentAt( (int) hitPoint.x, (int) hitPoint.y ) );
-                    }
-                } );
-
-                // don't invoke the default (null) callback
-                return;
+                return new HUDNodeCollision( result, hitPoint, node, point );
             }
         }
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                callback.apply( null );
-            }
-        } );
+        return null;
+    }
+
+    public static void withComponentUnderPoint( Node scene, Vector2f point, final VoidFunction1<Component> callback ) {
+        final HUDNodeCollision collision = getGUIComponentUnderPoint( scene, point );
+        if ( collision != null ) {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    callback.apply( collision.getComponent() );
+                }
+            } );
+        }
+        else {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    callback.apply( null );
+                }
+            } );
+        }
     }
 
     public static void withComponentUnderPointer( Node scene, JMEInputHandler inputHandler, final VoidFunction1<Component> callback ) {
