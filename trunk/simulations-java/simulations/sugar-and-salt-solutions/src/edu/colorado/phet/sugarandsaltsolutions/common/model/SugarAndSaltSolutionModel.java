@@ -231,7 +231,6 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         this.inputFaucetMetrics = faucetMetrics;
     }
 
-    //REVIEW nice! took me ~5 seconds to understand this by skimming comments.
     //Update the model when the clock ticks, and return the amount of drained water (in meters cubed) so that subclasses like MacroModel can decrease the amount of dissolved solutes
     protected double updateModel( double dt ) {
         time += dt;
