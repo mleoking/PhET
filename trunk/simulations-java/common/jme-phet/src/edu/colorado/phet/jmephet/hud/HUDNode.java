@@ -236,11 +236,16 @@ public class HUDNode extends Geometry {
         /**
          * NOTE: only call this from the Swing EDT
          *
-         * @return The leaf component that was clicked.
+         * @return The leaf component that was clicked, assuming that it is planar
          */
-        public Component getComponent() {
+        public Component getGuiPlaneComponent() {
+            // TODO: extend this to work for nodes that aren't planar, etc.!
             return hudNode.componentAt( (int) hitPoint.x, (int) hitPoint.y );
         }
+    }
+
+    public JComponent getRootComponent() {
+        return component;
     }
 
     /**
@@ -277,7 +282,7 @@ public class HUDNode extends Geometry {
         if ( collision != null ) {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
-                    callback.apply( collision.getComponent() );
+                    callback.apply( collision.getGuiPlaneComponent() );
                 }
             } );
         }

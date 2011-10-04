@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.jmephet.JMECursorHandler;
 import edu.colorado.phet.jmephet.JMEModule;
@@ -32,6 +34,12 @@ public class RulerNode3D extends PiccoloJMENode {
 
         // allow parts to see through
         setQueueBucket( Bucket.Transparent );
+
+        // don't forward mouse events!
+        ignoreInput();
+
+        // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
+        getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
     }
 
     public static class RulerNode2D extends RulerNode {
