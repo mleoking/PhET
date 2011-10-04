@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 

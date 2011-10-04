@@ -31,10 +31,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.Sucrose;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 

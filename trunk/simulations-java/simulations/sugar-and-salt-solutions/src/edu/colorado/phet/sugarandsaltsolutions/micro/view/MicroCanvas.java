@@ -11,7 +11,6 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -21,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockCont
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.ICanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog;
 import edu.colorado.phet.sugarandsaltsolutions.water.view.WaterControlPanel;
@@ -43,12 +43,6 @@ public class MicroCanvas extends BeakerAndShakerCanvas implements Module.Listene
     //If set to true, will highlight regions where crystals can be grown
     private final boolean debugBindingSites = false;
 
-    //Function that is used in the floating clock control panel to hide the time readout
-    public static final Function1<Double, String> NO_READOUT = new Function1<Double, String>() {
-        public String apply( Double aDouble ) {
-            return "";
-        }
-    };
     private final PNode microKitControlNode;
 
     //Keep track of the global state to access the PhetFrame to position the Periodic Table Dialog

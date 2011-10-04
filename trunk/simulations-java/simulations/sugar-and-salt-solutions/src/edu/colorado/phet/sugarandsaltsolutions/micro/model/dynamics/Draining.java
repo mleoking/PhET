@@ -7,10 +7,10 @@ import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 /**
  * Moves the particles toward the drain when the user drains the water out, constraining the number of formula units for each solute type to be integral

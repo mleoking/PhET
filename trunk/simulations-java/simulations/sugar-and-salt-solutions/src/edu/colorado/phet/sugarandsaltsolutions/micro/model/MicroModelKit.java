@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
+
 /**
  * Model kit, for making sure that particle draining can happen in formula units so there isn't an unbalanced number of solutes for crystallization
  *

@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.RemoveSoluteButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.PNode;
 

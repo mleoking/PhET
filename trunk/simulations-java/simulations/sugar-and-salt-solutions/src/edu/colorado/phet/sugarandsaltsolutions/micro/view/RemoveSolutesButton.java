@@ -3,7 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteButtonNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.RemoveSoluteButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 
 /**

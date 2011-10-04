@@ -2,13 +2,13 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Calcium;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Chloride;
 
 /**
  * This crystal for Calcium Chloride salt updates the positions of the molecules to ensure they move as a crystal

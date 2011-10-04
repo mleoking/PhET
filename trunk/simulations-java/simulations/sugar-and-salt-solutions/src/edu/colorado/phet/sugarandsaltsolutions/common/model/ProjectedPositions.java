@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Carbon;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Hydrogen;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NeutralOxygen;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Carbon;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Hydrogen;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.NeutralOxygen;
 
 /**
  * Provides physical locations (positions) of the atoms within a molecule.

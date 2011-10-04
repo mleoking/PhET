@@ -2,11 +2,11 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.FreeOxygen;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Nitrogen;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.FreeOxygen;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Nitrogen;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;

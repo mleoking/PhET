@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.Shape;
 

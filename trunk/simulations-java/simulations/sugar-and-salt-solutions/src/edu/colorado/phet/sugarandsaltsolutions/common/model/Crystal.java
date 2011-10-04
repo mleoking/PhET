@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -12,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.DivisionResult;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static java.util.Collections.min;

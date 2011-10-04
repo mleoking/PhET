@@ -3,8 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.awt.Shape;
 
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 /**
  * Data structure used when searching for a place for an ion to join a crystal

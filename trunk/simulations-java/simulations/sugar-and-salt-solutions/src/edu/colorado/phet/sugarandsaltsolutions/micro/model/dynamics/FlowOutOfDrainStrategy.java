@@ -1,10 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 /**
  * Update the particles that flowed out the drain

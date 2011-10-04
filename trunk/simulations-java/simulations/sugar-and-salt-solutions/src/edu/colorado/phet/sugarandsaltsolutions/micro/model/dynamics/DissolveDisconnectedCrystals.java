@@ -3,10 +3,10 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.IdentityHashMap;
 
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 /**
  * Workaround for completely dissolving any crystals that have become disconnected as a result of partial dissolving

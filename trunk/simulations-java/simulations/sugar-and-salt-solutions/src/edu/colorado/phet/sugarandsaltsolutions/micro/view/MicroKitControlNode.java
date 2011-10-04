@@ -8,6 +8,8 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.Kit;
 import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.DispenserRadioButtonSet;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.Item;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.WhiteControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 

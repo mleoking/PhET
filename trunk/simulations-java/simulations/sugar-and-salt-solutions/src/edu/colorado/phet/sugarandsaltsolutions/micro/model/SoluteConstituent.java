@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 
 /**
  * Composes data relevant to any kind of dissolved solute constituent, such as sodium, nitrate, sucrose, etc.
