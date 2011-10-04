@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Base class for elements in the model that change shape or move around.
+ * Base class for elements in the model that change shape and/or move around.
  *
  * @author John Blanco
  */
