@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
@@ -24,14 +25,28 @@ public class Ribosome extends MobileBiomolecule {
     private static final double TOP_SUBUNIT_HEIGHT_PROPORTION = 0.6;
     private static final double TOP_SUBUNIT_HEIGHT = OVERALL_HEIGHT * TOP_SUBUNIT_HEIGHT_PROPORTION;
     private static final double BOTTOM_SUBUNIT_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_SUBUNIT_HEIGHT_PROPORTION );
+    private static final double MRNA_CAPTURE_THRESHOLD = 1000;
 
     public Ribosome( GeneExpressionModel model ) {
         this( model, new Point2D.Double( 0, 0 ) );
     }
 
-    public Ribosome( GeneExpressionModel model, Point2D position ) {
+    public Ribosome( final GeneExpressionModel model, Point2D position ) {
         super( model, createShape(), new Color( 205, 155, 29 ) );
         setPosition( position );
+        userControlled.addObserver( new ChangeObserver<Boolean>() {
+            public void update( Boolean newValue, Boolean oldValue ) {
+                if ( oldValue == true && newValue == false ) {
+                    // If there is an mRNA nearby, attach to it.
+                    for ( MessengerRna messengerRna : model.getMessengerRnaList() ) {
+                        if ( messengerRna.getPosition().distance( getPosition() ) < MRNA_CAPTURE_THRESHOLD ) {
+                            // Attache to this mRNA.
+                            messengerRna.connectToRibosome( Ribosome.this );
+                        }
+                    }
+                }
+            }
+        } );
     }
 
     private static Shape createShape() {

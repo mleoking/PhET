@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BeingTranslatedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.DetachingState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.IdleState;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
@@ -667,6 +668,10 @@ public class MessengerRna extends MobileBiomolecule {
 
     public void deactivateAllHints() {
         ribosomePlacementHint.active.set( false );
+    }
+
+    public void connectToRibosome( Ribosome ribosome ) {
+        behaviorState = new BeingTranslatedState( this, ribosome );
     }
 
     private void dumpPointMasses() {

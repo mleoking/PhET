@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.util.List;
+
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
@@ -22,5 +24,10 @@ public class StubGeneExpressionModel extends GeneExpressionModel {
 
     @Override public void addMessengerRna( MessengerRna messengerRna ) {
         System.out.println( getClass().getName() + " - Warning: Unimplemented method called in stub class." );
+    }
+
+    @Override public List<MessengerRna> getMessengerRnaList() {
+        System.out.println( getClass().getName() + " - Warning: Unimplemented method called in stub class." );
+        return null;
     }
 }
