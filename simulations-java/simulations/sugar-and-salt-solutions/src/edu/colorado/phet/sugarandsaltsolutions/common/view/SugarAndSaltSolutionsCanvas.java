@@ -30,7 +30,7 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 //REVIEW I don't see setOffset calls for some nodes here. Do those nodes draw themselves in world coordinates?
 
 /**
- * Canvas for the first tab in the Sugar and Salt Solutions Sim
+ * Canvas for the tabs 1-2 in the Sugar and Salt Solutions Sim
  *
  * @author Sam Reid
  */
