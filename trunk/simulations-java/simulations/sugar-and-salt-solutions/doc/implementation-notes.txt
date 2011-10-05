@@ -1,7 +1,6 @@
-//REVIEW For a relatively complicated sim, this is a disappointing amount of overview information.
-
 Micro tab:
-Simple module, the concentration of sugar and salt is computed as moles per volume and all displays update as necessary and there is no dynamic behavior
+Simple module, the concentration of sugar and salt is computed as moles per volume and all displays update as necessary and there is no dynamic behavior.
+See model.txt for a description of the physics
 
 Macro tab:
 Very complex sim, there are several types of solute (with different lattice structures) which the user can add.  There are many steps in the crystal lifecycle, and each must respect the formula ratio
@@ -16,6 +15,11 @@ By ensuring that all events happen in pairs (for NaCl or NaNO3) or in 2:1 ratio 
 The view in Macro and Micro are supposed to look similar (nearly identical), so the view is created first and mapped into
 model coordinates to ensure that measurements and dimensions look the same in the view, while still giving correct model measurements.
 
+See model.txt for more explanations of the supported behavior
+
 Water tab:
-JBox2D is used to model the collision and coulomb repulsion between particles in WaterModel.
+JBox2D is used to model collisions and coulomb forces between particles in WaterModel.
 JBox2D updates the model and those values are used to set the true model values, which then update the views, see WaterModel for more.
+Hence there are 3 coordinate frames: Box2D, Model and View.  This is necessary since Box2D only works for a specific range of values.
+
+See model.txt for more explanations of the supported behavior
