@@ -1,3 +1,4 @@
+Moved ruler in front of everything else (other tools will have the same behavior)
 Made ruler draggable
 Changed tab names to "Crust" and "Plate Motion"
 Added ruler to toolbox

@@ -46,6 +46,7 @@ public class CrustModule extends PlateTectonicsModule {
 
     private CrustModel model;
     private JMEView guiView;
+    private JMEView toolView;
     private ToolboxState toolboxState = new ToolboxState();
     private ToolDragHandler toolDragHandler = new ToolDragHandler( toolboxState );
     private Toolbox toolbox;
@@ -70,15 +71,12 @@ public class CrustModule extends PlateTectonicsModule {
                     public void onAction( String name, boolean isMouseDown, float tpf ) {
                         // on left mouse button change
                         if ( name.equals( MAP_LMB ) ) {
+                            final HUDNodeCollision toolCollision = HUDNode.getHUDCollisionUnderPoint( toolView, getInputHandler().getCursorPosition() );
                             final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
-                            final HUDNodeCollision mainCollision = HUDNode.getHUDCollisionUnderPoint( mainView, getInputHandler().getCursorPosition() );
 
                             if ( isMouseDown ) {
-                                if ( guiCollision != null ) {
-                                    // GUI is in front of whatever. other input listeners will take care of this
-                                }
-                                else if ( mainCollision != null ) {
-                                    Node parentNode = mainCollision.hudNode.getParent();
+                                if ( toolCollision != null ) {
+                                    Node parentNode = toolCollision.hudNode.getParent();
 
                                     if ( parentNode instanceof DraggableTool2D ) {
                                         toolDragHandler.mouseDownOnTool( (DraggableTool2D) parentNode, getMousePositionOnZPlane() );
@@ -123,6 +121,8 @@ public class CrustModule extends PlateTectonicsModule {
         *----------------------------------------------------------------------------*/
 
         guiView = createGUIView( "GUI", RenderPosition.FRONT );
+        toolView = createRegularView( "Tool", createCrustCamera(), RenderPosition.FRONT );
+        toolView.getViewport().setClearDepth( true ); // allow it to draw on whatever on top!
 
         /*---------------------------------------------------------------------------*
         * toolbox
@@ -136,14 +136,14 @@ public class CrustModule extends PlateTectonicsModule {
                 if ( !toolboxState.rulerInToolbox.get() ) {
                     // we just "removed" the ruler from the toolbox, so add it to our scene
                     RulerNode3D ruler = new RulerNode3D( getModelViewTransform(), CrustModule.this );
-                    mainView.getScene().attachChild( ruler );
+                    toolView.getScene().attachChild( ruler );
 
                     // offset the ruler slightly from the mouse, and start the drag
                     Vector2f mousePosition = getMousePositionOnZPlane();
                     Vector2f initialMouseOffset = ruler.getInitialMouseOffset();
                     ruler.setLocalTranslation( mousePosition.x - initialMouseOffset.x,
                                                mousePosition.y - initialMouseOffset.y,
-                                               1 ); // put ruler in front, and at a slight offset from mouse
+                                               0 ); // on Z=0 plane
                     toolDragHandler.startDragging( ruler, mousePosition );
                 }
             }
@@ -191,24 +191,32 @@ public class CrustModule extends PlateTectonicsModule {
         JmeCanvasContext context = (JmeCanvasContext) getApp().getContext();
         final Canvas canvas = context.getCanvas();
 
+        // TODO: refactor picking to work with multiple views?
+        final HUDNodeCollision toolCollision = HUDNode.getHUDCollisionUnderPoint( toolView, getInputHandler().getCursorPosition() );
         final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
         final HUDNodeCollision mainCollision = HUDNode.getHUDCollisionUnderPoint( mainView, getInputHandler().getCursorPosition() );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                Component guiComponent = guiCollision == null ? null : guiCollision.getGuiPlaneComponent();
-                if ( guiComponent != null ) {
-                    // over a HUD node, so set the cursor to what the component would want
-                    canvas.setCursor( guiComponent.getCursor() );
+                Component toolComponent = toolCollision == null ? null : toolCollision.hudNode.getRootComponent().getComponent( 0 );
+                if ( toolComponent != null ) {
+                    canvas.setCursor( toolComponent.getCursor() );
                 }
                 else {
-                    // check if we are picking a piccolo canvas in the main view
-                    if ( mainCollision != null && mainCollision.hudNode.getRootComponent().getComponent( 0 ) instanceof PCanvas ) {
-                        // use the canvas's cursor
-                        canvas.setCursor( mainCollision.hudNode.getRootComponent().getComponent( 0 ).getCursor() );
+                    Component guiComponent = guiCollision == null ? null : guiCollision.getGuiPlaneComponent();
+                    if ( guiComponent != null ) {
+                        // over a HUD node, so set the cursor to what the component would want
+                        canvas.setCursor( guiComponent.getCursor() );
                     }
                     else {
-                        // default to the default cursor
-                        canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                        // check if we are picking a piccolo canvas in the main view
+                        if ( mainCollision != null && mainCollision.hudNode.getRootComponent().getComponent( 0 ) instanceof PCanvas ) {
+                            // use the canvas's cursor
+                            canvas.setCursor( mainCollision.hudNode.getRootComponent().getComponent( 0 ).getCursor() );
+                        }
+                        else {
+                            // default to the default cursor
+                            canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                        }
                     }
                 }
             }
