@@ -29,19 +29,18 @@ public class Sector extends Mesh {
         int numTriangles = arc.getNumVertices() - 1;
         int numEdgeVertices = numTriangles + 1;
         int numVertices = numEdgeVertices + 1; // +1 for origin
-        int numIndices = numTriangles * 3;
 
         positionBuffer = BufferUtils.createFloatBuffer( numVertices * 3 );
-        ShortBuffer indexBuffer = BufferUtils.createShortBuffer( numIndices );
+        ShortBuffer indexBuffer = BufferUtils.createShortBuffer( numVertices );
 
         setPositions();
 
-        // set up the indices correctly for Mode.Triangles // TODO: in the future, use Mode.TriangleFan!
-        for ( int i = 0; i < numIndices; i++ ) {
-            indexBuffer.put( (short) ( ( i % 3 + i / 3 ) * ( i % 3 ) * ( 3 - i % 3 ) / 2 ) ); // an exercise left to the reader
+        // our shape is easy to make with the TriangleFan mode
+        for ( int i = 0; i < numVertices; i++ ) {
+            indexBuffer.put( (short) i );
         }
 
-        this.setMode( Mode.Triangles );
+        this.setMode( Mode.TriangleFan );
         this.setBuffer( VertexBuffer.Type.Position, 3, positionBuffer );
         this.setBuffer( VertexBuffer.Type.Index, 3, indexBuffer );
         this.updateBound();
