@@ -58,17 +58,21 @@ public class WaterMolecule extends Compound<SphericalParticle> {
         addConstituent( c );
     }
 
-    //REVIEW why do you need this in addition to SphericalParticle.Hydrogen?
+    //This class is different than the SphericalParticle.Hydrogen class because it represents the partial charge under the TIP3P model
+    //Provided here as a separate class so that the creation above is as simple as new Hydrogen() and no code is duplicated in the constructor invocations
     public static class Hydrogen extends SphericalParticle {
         public Hydrogen() {
+
             //See this table for the charge, using TIP3P model: http://en.wikipedia.org/wiki/Water_model
-            super( SphericalParticle.Hydrogen.RADIUS_PICOMETERS, SphericalParticle.POSITIVE_COLOR, white, +0.417 );
+            super( SphericalParticle.Hydrogen.RADIUS_PICOMETERS, POSITIVE_COLOR, white, +0.417 );
         }
     }
 
-    //REVIEW why do you need this in addition to SphericalParticle.Oxygen?
+    //This class is different than the SphericalParticle.Oxygen class because it represents the partial charge under the TIP3P model
+    //Provided here as a separate class for uniformity with Hydrogen inner class
     public static class Oxygen extends SphericalParticle {
         public Oxygen() {
+
             //See this table for the charge, using TIP3P model: http://en.wikipedia.org/wiki/Water_model
             super( SphericalParticle.Oxygen.RADIUS_PICOMETERS, NEUTRAL_COLOR, RED_COLORBLIND, -0.834 );
         }
