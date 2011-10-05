@@ -127,8 +127,17 @@ public class ResourceGenerator {
         //Construct the class name for the generated file
         final String fullClassName = className + "Resources";
 
+        //Only include relevant imports so that reformatting the code won't cause any changes
+        //This is important when there are no images
+        final String imports = imageFiles.length == 0 ?
+                               "import edu.colorado.phet.common.phetcommon.resources.PhetResources;\n" :
+                               "import java.awt.image.BufferedImage;\n" +
+                               "\n" +
+                               "import edu.colorado.phet.common.phetcommon.resources.PhetResources;\n";
+
         //Filter the template to create the .java source file
         String resourceFileString = filter( new HashMap<String, String>() {{
+            put( "imports", imports );
             put( "packagename", packagename );
             put( "classname", className );
             put( "simname", simDir.getName() );
