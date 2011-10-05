@@ -77,7 +77,13 @@ public class PairGroup {
         return a * ( 1 - ratio ) + b * ratio;
     }
 
-    public void repulseFrom( PairGroup other, double timeElapsed, double trueLengthsRatioOverride ) {
+    /**
+     * @param other                    The pair group whose force on this object we want
+     * @param timeElapsed              Time elapsed (thus we return an impulse instead of a force)
+     * @param trueLengthsRatioOverride From 0 to 1. If 0, lone pairs will behave the same as bonds. If 1, lone pair distance will be taken into account
+     * @return Repulsion force on this pair group, from the other pair group
+     */
+    public ImmutableVector3D getRepulsionImpulse( PairGroup other, double timeElapsed, double trueLengthsRatioOverride ) {
         // only handle the force on this object for now
 
         /*---------------------------------------------------------------------------*
@@ -111,7 +117,11 @@ public class PairGroup {
 
         // apply a nonphysical reduction on coulomb's law when the frame-rate is low, so we can avoid oscillation
         double coulombDowngrade = Math.sqrt( ( timeElapsed > 0.017 ) ? 0.017 / timeElapsed : 1 ); // TODO: isolate the "standard" tpf?
-        addVelocity( coulombVelocityDelta.times( coulombDowngrade ) );
+        return coulombVelocityDelta.times( coulombDowngrade );
+    }
+
+    public void repulseFrom( PairGroup other, double timeElapsed, double trueLengthsRatioOverride ) {
+        addVelocity( getRepulsionImpulse( other, timeElapsed, trueLengthsRatioOverride ) );
     }
 
     public void addVelocity( ImmutableVector3D velocityChange ) {
