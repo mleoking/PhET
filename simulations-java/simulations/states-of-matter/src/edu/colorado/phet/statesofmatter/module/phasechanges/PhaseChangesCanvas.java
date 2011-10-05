@@ -48,7 +48,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     // window, 1 puts it at the bottom.
 
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
-    private final double BURNER_NODE_HEIGHT = CANVAS_WIDTH * 0.18;
+    private final double BURNER_NODE_HEIGHT = CANVAS_WIDTH * 0.15;
     private final double PUMP_HEIGHT = CANVAS_HEIGHT / 2;
     private final double PUMP_WIDTH = CANVAS_WIDTH / 4;
 
@@ -135,7 +135,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         final StoveNode stoveNode = new StoveNode( m_model, this.getBackground() );
         stoveNode.setScale( BURNER_NODE_HEIGHT / stoveNode.getFullBoundsReference().height );
         stoveNode.setOffset( containerRect.getCenterX() - stoveNode.getFullBoundsReference().width / 2,
-                             m_particleContainer.getFullBoundsReference().getMaxY() + 400 );
+                             m_particleContainer.getFullBoundsReference().getMaxY() + 600 );
         addWorldChild( stoveNode );
 
         // Add a "Reset All" button.

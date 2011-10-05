@@ -91,7 +91,7 @@ public class StoveNode extends PNode {
             lineTo( WIDTH * 0.20, burnerHeight );
             lineTo( WIDTH * 0.80, burnerHeight );
             lineTo( WIDTH, 0 );
-            quadTo( WIDTH / 2, burnerHeight * 0.05, 0, 0 );
+            quadTo( WIDTH / 2, burnerHeight * 0.08, 0, 0 );
             closePath();
         }};
         Paint burnerPaint = new GradientPaint( 0, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ), (float) WIDTH, 0, ColorUtils.darkerColor( BASE_COLOR, 0.5 ) );
@@ -114,10 +114,9 @@ public class StoveNode extends PNode {
         PhetPText sliderTitle = new PhetPText( STOVE_CONTROL_PANEL_TITLE, new PhetFont( 18, true ), Color.white );
         addChild( sliderTitle );
 
-        // Create the bottom area of the stove, which is where the control
-        // resides.
+        // Create the bottom area of the stove, which is where the control resides.
         Shape controlBackgroundShape = new RoundRectangle2D.Double( 0, 0, WIDTH,
-                                                                    m_stoveControlSlider.getFullBoundsReference().height + sliderTitle.getFullBoundsReference().height + 30,
+                                                                    m_stoveControlSlider.getFullBoundsReference().height + sliderTitle.getFullBoundsReference().height + 10,
                                                                     10, 10 );
         m_stoveControlBackground = new PhetPPath( controlBackgroundShape, BASE_COLOR );
 
