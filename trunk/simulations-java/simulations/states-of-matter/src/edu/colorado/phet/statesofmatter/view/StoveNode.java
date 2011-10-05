@@ -44,7 +44,7 @@ public class StoveNode extends PNode {
     private static final double WIDTH = 200; // In screen coords, which are close to pixels.
 
     // Basic color used for the stove.
-    private static final Color BASE_COLOR = Color.LIGHT_GRAY;
+    private static final Color BASE_COLOR = new Color( 159, 182, 205 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -91,7 +91,8 @@ public class StoveNode extends PNode {
             lineTo( WIDTH * 0.20, burnerHeight );
             lineTo( WIDTH * 0.80, burnerHeight );
             lineTo( WIDTH, 0 );
-            quadTo( WIDTH / 2, burnerHeight * 0.08, 0, 0 );
+//            quadTo( WIDTH / 2, burnerHeight * 0.08, 0, 0 );
+            curveTo( WIDTH * 0.75, burnerHeight * 0.07, WIDTH * 0.25, burnerHeight * 0.07, 0, 0 );
             closePath();
         }};
         Paint burnerPaint = new GradientPaint( 0, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ), (float) WIDTH, 0, ColorUtils.darkerColor( BASE_COLOR, 0.5 ) );
@@ -169,12 +170,12 @@ public class StoveNode extends PNode {
     private void update() {
         if ( m_heat.get() > 0 ) {
             m_fireImage.setOffset( m_burner.getFullBoundsReference().width / 2 - m_fireImage.getFullBoundsReference().width / 2,
-                                   -m_heat.get() * m_fireImage.getFullBoundsReference().height );
+                                   -m_heat.get() * m_fireImage.getFullBoundsReference().height * 0.9 );
             m_iceImage.setOffset( m_burner.getFullBoundsReference().width / 2 - m_iceImage.getFullBoundsReference().width / 2, 0 );
         }
         else if ( m_heat.get() <= 0 ) {
             m_iceImage.setOffset( m_burner.getFullBoundsReference().width / 2 - m_iceImage.getFullBoundsReference().width / 2,
-                                  m_heat.get() * m_iceImage.getFullBoundsReference().height );
+                                  m_heat.get() * m_iceImage.getFullBoundsReference().height * 0.9 );
             m_fireImage.setOffset( m_burner.getFullBoundsReference().width / 2 - m_fireImage.getFullBoundsReference().width / 2, 0 );
         }
         m_iceImage.setVisible( m_heat.get() < 0 );
