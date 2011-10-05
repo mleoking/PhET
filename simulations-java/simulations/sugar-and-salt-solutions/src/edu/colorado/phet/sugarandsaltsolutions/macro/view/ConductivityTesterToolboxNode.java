@@ -31,24 +31,28 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShake
  */
 public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
     public ConductivityTesterToolboxNode( final MacroModel model, final BeakerAndShakerCanvas canvas, final ObservableProperty<Boolean> whiteBackground ) {
-        super( new VBox() {{
+        super( new ContentPanel( model, canvas, whiteBackground ) );
+    }
+
+    //Inner class for ContentPanel provided to avoid IDEA presentation compiler flagging inlined DBI version as a dbi scoping issue
+    public static class ContentPanel extends VBox {
+        public ContentPanel( final MacroModel model, final BeakerAndShakerCanvas canvas, final ObservableProperty<Boolean> whiteBackground ) {
 
             //Function for determining whether the conductivity node should get dropped back in the toolbox.
             //This is used by both the drag handler from the toolbox and by the node itself (after being dropped once, it gets a new drag handler)
             final Function0<Rectangle2D> getToolboxBounds = new Function0<Rectangle2D>() {
                 public Rectangle2D apply() {
-                    //REVIEW IDEA presentation compiler flags this as a dbi scoping issue
                     return getParent().getGlobalFullBounds();
                 }
             };
 
             //Add title and a spacer below it
-            //REVIEW IDEA presentation compiler flags this as a dbi scoping issue
             addChild( new PText( SugarAndSaltSolutionsResources.Strings.CONDUCTIVITY ) {{setFont( TITLE_FONT );}} );
 
             //Factory that creates the ConductivityTesterToolNode and positions it where the mouse is
             NodeFactory conductivityNodeMaker = new NodeFactory() {
                 public ToolNode createNode( final ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
+
                     //Create and return the tool node, which reuses the same conductivityTesterNode
                     return new ConductivityTesterToolNode( new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, transform, canvas.getRootNode(), location, whiteBackground ) );
                 }
@@ -58,7 +62,6 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
             Image thumbnail = new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, canvas.getModelViewTransform(), canvas.getRootNode(), new Point2D.Double( 0, 0 ), whiteBackground ).createImage();
 
             //Add the tool icon node, which can be dragged out of the toolbox to create the full-sized conductivity tester node
-            //REVIEW IDEA presentation compiler flags this as a dbi scoping issue
             addChild( new ToolIconNode<BeakerAndShakerCanvas>(
                     multiScaleToWidth( toBufferedImage( thumbnail ), 130 ), model.conductivityTester.visible, canvas.getModelViewTransform(), canvas,
                     conductivityNodeMaker, model, getToolboxBounds ) {
@@ -78,6 +81,6 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
                     canvas.removeChild( shortCircuitTextNode );
                 }
             } );
-        }} );
+        }
     }
 }
