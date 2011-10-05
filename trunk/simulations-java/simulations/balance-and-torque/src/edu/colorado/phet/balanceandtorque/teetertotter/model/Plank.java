@@ -496,7 +496,7 @@ public class Plank extends ShapeModelElement {
 
     /**
      * Obtain the Y value for the surface of the plank for the specified X
-     * value.
+     * value.  Does not check for value x value.
      *
      * @param xValue
      * @return
@@ -504,7 +504,7 @@ public class Plank extends ShapeModelElement {
     public double getSurfaceYValue( double xValue ) {
         // Solve the linear equation for the line that represents the surface
         // of the plank.
-        double m = Math.atan( tiltAngle );
+        double m = Math.tan( tiltAngle );
         double b = getPlankSurfaceCenter().getY() - m * getPlankSurfaceCenter().getX();
         // Does NOT check if the xValue range is valid.
         return m * xValue + b;

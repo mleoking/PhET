@@ -1,3 +1,4 @@
+Fixed a problem with the calculation used for determining whether a mass was above the plank.
 Implemented a workaround for an issue where bricks would leave trails behind them when dragged on an enlarged play area.
 # 0.00.14 (57181) Oct 3, 2011
 10/3/11 Publishing to dev for interviews.
