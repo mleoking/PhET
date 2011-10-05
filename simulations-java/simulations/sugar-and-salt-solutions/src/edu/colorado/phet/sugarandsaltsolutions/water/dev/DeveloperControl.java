@@ -12,6 +12,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -93,7 +94,7 @@ public class DeveloperControl extends JPanel {
     }
 
     private class DoubleLabel extends JLabel {
-        public DoubleLabel( Property<Double> k ) {
+        public DoubleLabel( ObservableProperty<Double> k ) {
             super( k.get() + "" );
             k.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double integer ) {
