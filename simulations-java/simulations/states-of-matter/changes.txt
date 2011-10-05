@@ -1,3 +1,4 @@
+10/5/2011 Removed the option to selected "Adjustable Attraction" in the basic version.
 10/5/2011 Removed the interaction potential diagram from the "Basics" version.
 10/5/2011 Modified pressure gauge label that said "Pressure Gauge" to instead say "Pressure".
 10/5/2011 Modified control panel label that said "Molecules" to instead say "Atoms & Molecules".
