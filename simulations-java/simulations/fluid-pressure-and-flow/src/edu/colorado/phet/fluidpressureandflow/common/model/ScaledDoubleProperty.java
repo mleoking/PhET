@@ -15,14 +15,17 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public class ScaledDoubleProperty extends Property<Double> {
 
     //Round off the value to prevent notification cycles
-    private static double round( double value ) {
+    private static double round( double value, int numDecimalPlaces ) {
 
         //Round to 8 decimal places
-        //REVIEW make number of decimal places a constructor arg, with a default constructor of 8
-        return new BigDecimal( value ).setScale( 8, BigDecimal.ROUND_HALF_UP ).doubleValue();
+        return new BigDecimal( value ).setScale( numDecimalPlaces, BigDecimal.ROUND_HALF_UP ).doubleValue();
     }
 
     public ScaledDoubleProperty( final Property<Double> property, final double scale ) {
+        this( property, scale, 8 );
+    }
+
+    public ScaledDoubleProperty( final Property<Double> property, final double scale, final int numDecimalPlaces ) {
         super( property.get() * scale );
 
         //Wire up for 2-way notifications, but make sure the value is rounded to prevent notification cycles caused by floating point error
@@ -30,12 +33,12 @@ public class ScaledDoubleProperty extends Property<Double> {
         //This can cause looping notification cycles.  So we round the number to try to avoid this problem
         property.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                set( round( value * scale ) );
+                set( round( value * scale, numDecimalPlaces ) );
             }
         } );
         addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                property.set( round( value / scale ) );
+                property.set( round( value / scale, numDecimalPlaces ) );
             }
         } );
     }
@@ -56,7 +59,7 @@ public class ScaledDoubleProperty extends Property<Double> {
             System.out.println( "thisValue = " + thisValue );
             System.out.println( "x = " + x * scale );
 
-            System.out.println( "round( x ) = " + round( x ) );
+            System.out.println( "round( x ) = " + round( x, 8 ) );
         }
     }
 
