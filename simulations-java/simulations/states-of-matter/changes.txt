@@ -1,3 +1,6 @@
+10/5/2011 Modified pressure gauge label that said "Pressure Gauge" to instead say "Pressure".
+10/5/2011 Modified control panel label that said "Molecules" to instead say "Atoms & Molecules".
+10/5/2011 Modified control panel label that said "Molecules" to instead say "Atoms & Molecules".
 10/5/2011 Modified atom colors to be more consistent with other chemistry simulations.
 10/5/2011 Removed confirmation dialog from Reset All
 10/5/2011 Moved the Reset All button into the play area on the Solid, Liquid, and Gas tab.
