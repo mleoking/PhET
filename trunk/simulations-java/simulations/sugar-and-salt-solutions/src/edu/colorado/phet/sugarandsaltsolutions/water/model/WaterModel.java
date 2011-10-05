@@ -64,7 +64,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private final Random random = new Random();
 
     //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
-    private final double particleWindowWidth = 2.3E-9 * 0.8; //REVIEW How did you arrive at this value?
+    private final double particleWindowWidth = 1.84E-9; //Manually tuned until particles were big enough to see but small enough that you could see several but big enough that there wouldn't have to be too many of them
     private final double particleWindowHeight = particleWindowWidth * 0.65;
 
     //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
