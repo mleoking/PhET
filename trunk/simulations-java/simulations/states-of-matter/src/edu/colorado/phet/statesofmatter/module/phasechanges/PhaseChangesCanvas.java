@@ -134,8 +134,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         // particle container.
         final StoveNode stoveNode = new StoveNode( m_model, this.getBackground() );
         stoveNode.setScale( BURNER_NODE_HEIGHT / stoveNode.getFullBoundsReference().height );
-        stoveNode.setOffset( containerRect.getX() + containerRect.getWidth() * 0.25,
-                             containerRect.getY() + containerRect.getHeight() * 0.1 );
+        stoveNode.setOffset( containerRect.getCenterX() - stoveNode.getFullBoundsReference().width / 2,
+                             m_particleContainer.getFullBoundsReference().getMaxY() + 400 );
         addWorldChild( stoveNode );
 
         // Add a "Reset All" button.

@@ -41,11 +41,7 @@ public class StoveNode extends PNode {
 
     // Width of the burner output - much of the rest of the size of the stove
     // derives from this value.
-    private static final double WIDTH = 250; // In screen coords, which are close to pixels.
-
-    // Scaling used to set relative size of burner to control panel.  Tweak
-    // as needed.
-    private static final double INITIAL_STOVE_SCALING = 1.5;
+    private static final double WIDTH = 200; // In screen coords, which are close to pixels.
 
     // Basic color used for the stove.
     private static final Color BASE_COLOR = Color.LIGHT_GRAY;
