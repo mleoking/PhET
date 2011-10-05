@@ -58,6 +58,77 @@ public class BondAngleNode extends Node {
         } );
     }
 
+    public void initialize( Vector3f a, Vector3f b, Vector3f lastMidpoint ) {
+        arc = new PointArc( a, b, radius, BOND_ANGLE_SAMPLES, lastMidpoint ) {{
+            setLineWidth( 2 );
+        }};
+
+        attachChild( new Geometry( "Bond Arc", arc ) {{
+            setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+                final Runnable updateColor = new Runnable() {
+                    public void run() {
+                        ColorRGBA colorRGBA = MoleculeShapesColor.BOND_ANGLE_ARC.getRGBA();
+                        setColor( "Color", new ColorRGBA( colorRGBA.r, colorRGBA.g, colorRGBA.b, alpha.get() ) );
+                    }
+                };
+
+                // update on color change
+                MoleculeShapesColor.BOND_ANGLE_ARC.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
+                    public void apply( ColorRGBA colorRGBA ) {
+                        updateColor.run();
+                    }
+                } );
+
+                // update on alpha change
+                alpha.addObserver( new SimpleObserver() {
+                    public void update() {
+                        updateColor.run();
+                    }
+                } );
+
+                getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+                setTransparent( true );
+            }} );
+        }} );
+
+        final Material sectorMaterial = new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+            final Runnable updateColor = new Runnable() {
+                public void run() {
+                    ColorRGBA colorRGBA = MoleculeShapesColor.BOND_ANGLE_SWEEP.getRGBA();
+                    setColor( "Color", new ColorRGBA( colorRGBA.r, colorRGBA.g, colorRGBA.b, alpha.get() / 2 ) );
+                }
+            };
+
+            // update on color change
+            MoleculeShapesColor.BOND_ANGLE_SWEEP.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
+                public void apply( ColorRGBA colorRGBA ) {
+                    updateColor.run();
+                }
+            } );
+
+            // update on alpha change
+            alpha.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateColor.run();
+                }
+            } );
+
+            getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+            setTransparent( true );
+        }};
+
+        // do two swoops for transparent two-sidedness
+        // TODO: render only one. look up double-sidedness
+        sector = new Sector( arc, false );
+        attachChild( new Geometry( "Bond Sector A=>B", sector ) {{
+            setMaterial( sectorMaterial );
+        }} );
+        oppositeSector = new Sector( arc, true );
+        attachChild( new Geometry( "Bond Sector B=>A", oppositeSector ) {{
+            setMaterial( sectorMaterial );
+        }} );
+    }
+
     public PairGroup getA() {
         return aGroup;
     }
@@ -78,74 +149,7 @@ public class BondAngleNode extends Node {
         if ( !initialized ) {
             initialized = true;
 
-            arc = new PointArc( a, b, radius, BOND_ANGLE_SAMPLES, lastMidpoint ) {{
-                setLineWidth( 2 );
-            }};
-
-            attachChild( new Geometry( "Bond Arc", arc ) {{
-                setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-                    final Runnable updateColor = new Runnable() {
-                        public void run() {
-                            ColorRGBA colorRGBA = MoleculeShapesColor.BOND_ANGLE_ARC.getRGBA();
-                            setColor( "Color", new ColorRGBA( colorRGBA.r, colorRGBA.g, colorRGBA.b, alpha.get() ) );
-                        }
-                    };
-
-                    // update on color change
-                    MoleculeShapesColor.BOND_ANGLE_ARC.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
-                        public void apply( ColorRGBA colorRGBA ) {
-                            updateColor.run();
-                        }
-                    } );
-
-                    // update on alpha change
-                    alpha.addObserver( new SimpleObserver() {
-                        public void update() {
-                            updateColor.run();
-                        }
-                    } );
-
-                    getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
-                    setTransparent( true );
-                }} );
-            }} );
-
-            final Material sectorMaterial = new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-                final Runnable updateColor = new Runnable() {
-                    public void run() {
-                        ColorRGBA colorRGBA = MoleculeShapesColor.BOND_ANGLE_SWEEP.getRGBA();
-                        setColor( "Color", new ColorRGBA( colorRGBA.r, colorRGBA.g, colorRGBA.b, alpha.get() / 2 ) );
-                    }
-                };
-
-                // update on color change
-                MoleculeShapesColor.BOND_ANGLE_SWEEP.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
-                    public void apply( ColorRGBA colorRGBA ) {
-                        updateColor.run();
-                    }
-                } );
-
-                // update on alpha change
-                alpha.addObserver( new SimpleObserver() {
-                    public void update() {
-                        updateColor.run();
-                    }
-                } );
-
-                getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
-                setTransparent( true );
-            }};
-
-            // do two swoops for transparent two-sidedness
-            // TODO: render only one. look up double-sidedness
-            sector = new Sector( arc, false );
-            attachChild( new Geometry( "Bond Sector A=>B", sector ) {{
-                setMaterial( sectorMaterial );
-            }} );
-            oppositeSector = new Sector( arc, true );
-            attachChild( new Geometry( "Bond Sector B=>A", oppositeSector ) {{
-                setMaterial( sectorMaterial );
-            }} );
+            initialize( a, b, lastMidpoint );
         }
         else {
             arc.updateView( a, b, lastMidpoint );
