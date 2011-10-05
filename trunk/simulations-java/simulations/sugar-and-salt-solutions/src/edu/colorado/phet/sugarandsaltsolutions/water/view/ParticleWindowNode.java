@@ -22,7 +22,7 @@ public class ParticleWindowNode extends PNode {
     public final PNode particleLayer = new PNode();
 
     //Color to show around the particle window as its border.  Also used for the zoom in box in ZoomIndicatorNode
-    public static final Color FRAME_COLOR = Color.orange; //REVIEW private?
+    private static final Color FRAME_COLOR = Color.orange;
 
     public ParticleWindowNode( final WaterModel model, final ModelViewTransform transform ) {
         PClip clip = new PClip() {{

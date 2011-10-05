@@ -16,11 +16,11 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShake
  */
 public class DispenserRadioButtonSet extends PSwing {
     private final Property<DispenserType> dispenserType;
-    private final Item[] items;
+    private final SelectableSoluteItem[] items;
 
-    public DispenserRadioButtonSet( final Property<DispenserType> dispenserType, final Item... items ) {
+    public DispenserRadioButtonSet( final Property<DispenserType> dispenserType, final SelectableSoluteItem... items ) {
         super( new VerticalLayoutPanel() {{
-            for ( Item item : items ) {
+            for ( SelectableSoluteItem item : items ) {
                 add( new PropertyRadioButton<DispenserType>( item.name, dispenserType, item.dispenserType ) {{setFont( CONTROL_FONT );}} );
             }
         }} );
@@ -38,7 +38,7 @@ public class DispenserRadioButtonSet extends PSwing {
     //Determine whether the currently selected dispenser is one of the choices in this kit
     private boolean containsDispenser() {
         boolean isDispenserAvailable = false;
-        for ( Item item : items ) {
+        for ( SelectableSoluteItem item : items ) {
             if ( item.dispenserType == dispenserType.get() ) {
                 isDispenserAvailable = true;
             }

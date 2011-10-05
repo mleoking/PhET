@@ -232,9 +232,10 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                //Should be moved to be high enough to contain the largest molecule (sucrose), so that it may move about freely
                2.8440282964793075E-10, 5.75234062238494E-10,
 
-               //REVIEW explain this computation
                //Ratio of length scales in meters
-               1.0 / Math.pow( 8E-23 * 0.001, 1 / 3.0 ) / 0.2 );
+               //The amount to scale model translations so that micro tab emits solute at the appropriate time.  Without this factor, the tiny (1E-9 meters) drag motion in the Micro tab wouldn't be enough to emit solute
+               //This was tuned so that drag motions in each model are commensurate
+               1.1603972084031932E9 );
 
         //Property that identifies the number of sucrose molecules in crystal form, for making sure the user doesn't exceed the allowed maximum
         final CrystalMoleculeCount numSucroseMoleculesInCrystal = new CrystalMoleculeCount( sucroseCrystals );

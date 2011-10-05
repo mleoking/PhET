@@ -12,8 +12,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.CrystalMaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.DispenserRadioButtonSet;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.Item;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SelectableSoluteItem;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VolumeIndicatorNode;
@@ -89,7 +89,7 @@ public class MacroCanvas extends BeakerAndShakerCanvas {
         behindShakerNode.addChild( concentrationBarChart );
 
         //Create the control panel for choosing sugar vs salt, use a radio-button-based selector for solutes.
-        soluteControlPanelNode = new SoluteControlPanelNode( new DispenserRadioButtonSet( model.dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.SUGAR, SUGAR ) ) );
+        soluteControlPanelNode = new SoluteControlPanelNode( new DispenserRadioButtonSet( model.dispenserType, new SelectableSoluteItem( Strings.SALT, SALT ), new SelectableSoluteItem( Strings.SUGAR, SUGAR ) ) );
         soluteControlPanelNode.setOffset( stageSize.getWidth() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, 150 );
 
         //Show the solute control panel node behind the shaker node so the conductivity tester will also go in front
