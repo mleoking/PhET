@@ -5,11 +5,11 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -17,17 +17,19 @@ import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.*;
 import static java.awt.Color.white;
 
 /**
- * This class is the slider that is used to control the StoveNode, causing it to add heat or cooling to the simulated system.
+ * This class is the slider that is used to control the StoveNode, causing it
+ * to add heat or cooling to the simulated system.
  *
  * @author Sam Reid
+ * @author John Blanco
  */
-public class StoveControlSliderNode extends VSliderNode {
+public class StoveControlSliderNode extends HSliderNode {
 
     private static final Color lightOrange = new Color( 255, 233, 80 );
     private static final Color lightBlue = new Color( 106, 255, 239 );
 
     public StoveControlSliderNode( final SettableProperty<Double> value ) {
-        super( -1, 1, value, new Property<Boolean>( true ), 80 );
+        super( -1, 1, value, new BooleanProperty( true ) );
 
         //Show labels for add, zero and remove
         addLabel( +1, new PhetPText( STOVE_CONTROL_PANEL_ADD_LABEL, new PhetFont( 16, true ), lightOrange ) );
