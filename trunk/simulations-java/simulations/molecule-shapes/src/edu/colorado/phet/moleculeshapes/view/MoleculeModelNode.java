@@ -136,8 +136,7 @@ public class MoleculeModelNode extends Node {
     }
 
     private void rebuildBonds() {
-        // necessary for now since just updating their geometry shows significant errors
-        // TODO: we fixed this!
+        // basically remove all of the bonds and rebuild them
         for ( BondNode bondNode : bondNodes ) {
             JMEUtils.discardTree( bondNode );
         }
