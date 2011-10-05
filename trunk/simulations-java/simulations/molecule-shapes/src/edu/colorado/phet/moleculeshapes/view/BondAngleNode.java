@@ -119,6 +119,9 @@ public class BondAngleNode extends Node {
 
             // two-sided support
             getAdditionalRenderState().setFaceCullMode( FaceCullMode.Off );
+
+            // attempt to prevent "wedge" bugs when two angle sections are closer to being coplanar
+            getAdditionalRenderState().setDepthWrite( false );
         }};
 
         sector = new Sector( arc );
