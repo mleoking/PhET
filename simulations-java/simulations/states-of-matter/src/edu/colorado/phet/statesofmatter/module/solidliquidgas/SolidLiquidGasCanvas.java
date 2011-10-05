@@ -103,8 +103,8 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
         // particle container.
         final StoveNode stoveNode = new StoveNode( m_model, this.getBackground() );
         stoveNode.setScale( BURNER_NODE_HEIGHT / stoveNode.getFullBoundsReference().height );
-        stoveNode.setOffset( containerRect.getX() + containerRect.getWidth() * 0.25,
-                             containerRect.getY() + containerRect.getHeight() * 0.1 );
+        stoveNode.setOffset( m_particleContainer.getFullBoundsReference().getCenterX() - stoveNode.getFullBoundsReference().width / 2,
+                             m_particleContainer.getFullBoundsReference().getMaxY() + 400 );
         addWorldChild( stoveNode );
 
         // Add a "Reset All" button.
