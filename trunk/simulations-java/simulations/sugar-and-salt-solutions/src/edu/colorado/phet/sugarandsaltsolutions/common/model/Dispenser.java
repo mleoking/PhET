@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Base class for sugar and salt dispensers
+ * Base class for sugar and salt dispensers.  To clarify the terminology in the subclasses, salt is created by "shakers" (a refinement of this dispenser class) and sugar is created by "dispensers"
  *
  * @author Sam Reid
  */
