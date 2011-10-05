@@ -18,7 +18,6 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Man;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumTrashCan;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MysteryObjectFactory;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Television;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Woman;
@@ -349,6 +348,11 @@ public class BalanceGameChallengeFactory {
         return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solution );
     }
 
+    // TODO: Created for duplicating a bug with the positioning of 5kg bricks, remove before final publication.
+    private static BalanceMassesChallenge generateProblematicChallenge() {
+        return createBalanceChallengeFromParts( new BrickStack( 1 ), 2, new BrickStack( 1 ), 1.75, new SmallRock( true ) );
+    }
+
     /**
      * Convenience method for assembling two fixed masses and one movable mass
      * into a balance challenge.  All distances should be positive values, and
@@ -538,50 +542,6 @@ public class BalanceGameChallengeFactory {
         // If we made it to here, that means that there is no mass that
         // matches the specified criterion.
         return null;
-    }
-
-    private static DeduceTheMassChallenge generateChallengeSimpleDeduceMass( int index ) {
-        // TODO: static generation for now, need to make random once approved.
-
-        // Add the fixed mass and its distance from the center of the balance.
-        MassDistancePair mysteryMassDistancePair = null;
-        Mass movableMass = null;
-
-        switch( index ) {
-            case 0:
-                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 3 ), -1.5 );
-                movableMass = new BrickStack( 2 );
-                break;
-            case 1:
-                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 4 ), -2 );
-                movableMass = new BrickStack( 2 );
-                break;
-            case 2:
-                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 2 ), -0.5 );
-                movableMass = new BrickStack( 1 );
-                break;
-            case 3:
-                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 0 ), -1 );
-                movableMass = new BrickStack( 2 );
-                break;
-            case 4:
-                mysteryMassDistancePair = new MassDistancePair( MysteryObjectFactory.createUnlabeledMysteryObject( 6 ), -.75 );
-                movableMass = new BrickStack( 3 );
-                break;
-            default:
-                assert false;
-        }
-
-        // Add the movable mass.
-        List<Mass> movableMassesList = new ArrayList<Mass>();
-        movableMassesList.add( movableMass );
-
-        // Create a valid solution for the challenge.
-        List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
-        solution.add( new MassDistancePair( movableMass, -mysteryMassDistancePair.mass.getMass() * mysteryMassDistancePair.distance / movableMass.getMass() ) );
-
-        // Combine into challenge.
-        return new DeduceTheMassChallenge( mysteryMassDistancePair, movableMassesList, solution );
     }
 
     // TODO: If this is kept, move it into a constructor for the challenge.  Do for all similar convenience functions.
