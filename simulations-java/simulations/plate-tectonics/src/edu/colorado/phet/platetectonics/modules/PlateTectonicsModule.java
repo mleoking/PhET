@@ -65,10 +65,7 @@ public abstract class PlateTectonicsModule extends JMEModule {
         /*---------------------------------------------------------------------------*
         * temporary test scene
         *----------------------------------------------------------------------------*/
-        mainView = createRegularView( "Main", new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 40, 1, 1000 ) ) {{
-                                          setLocation( new Vector3f( 0, 100, 400 ) );
-                                          lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-                                      }}, RenderPosition.MAIN );
+        mainView = createRegularView( "Main", createCrustCamera(), RenderPosition.MAIN );
 
         // light it
         addLighting( mainView.getScene() );
@@ -81,6 +78,13 @@ public abstract class PlateTectonicsModule extends JMEModule {
 
         // hook up mouse-button handlers
         getInputHandler().addMapping( MAP_LMB, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
+    }
+
+    protected PhetCamera createCrustCamera() {
+        return new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 40, 1, 1000 ) ) {{
+            setLocation( new Vector3f( 0, 100, 400 ) );
+            lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+        }};
     }
 
     // camera to use for debugging purposes
