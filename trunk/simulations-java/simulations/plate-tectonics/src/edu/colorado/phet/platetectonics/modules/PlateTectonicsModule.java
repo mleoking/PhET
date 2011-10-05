@@ -11,6 +11,7 @@ import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.PhetCamera;
 import edu.colorado.phet.jmephet.PhetCamera.CenteredStageCameraStrategy;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
+import edu.colorado.phet.jmephet.PhetJMEApplication.RenderPosition;
 import edu.colorado.phet.platetectonics.util.JMEModelViewTransform;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
 
@@ -64,10 +65,10 @@ public abstract class PlateTectonicsModule extends JMEModule {
         /*---------------------------------------------------------------------------*
         * temporary test scene
         *----------------------------------------------------------------------------*/
-        mainView = createMainView( "Main", new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 40, 1, 1000 ) ) {{
-            setLocation( new Vector3f( 0, 100, 400 ) );
-            lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-        }} );
+        mainView = createRegularView( "Main", new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 40, 1, 1000 ) ) {{
+                                          setLocation( new Vector3f( 0, 100, 400 ) );
+                                          lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+                                      }}, RenderPosition.MAIN );
 
         // light it
         addLighting( mainView.getScene() );
