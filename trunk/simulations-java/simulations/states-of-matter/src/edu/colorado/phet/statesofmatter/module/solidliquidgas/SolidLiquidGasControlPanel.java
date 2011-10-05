@@ -20,7 +20,10 @@ import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -87,7 +90,9 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
 
         // Add the Reset All button.
         addVerticalSpace( 10 );
-        addResetAllButton( solidLiquidGasModule );
+        ResetAllButton resetAllButton = new ResetAllButton( new Resettable[] { solidLiquidGasModule }, PhetApplication.getInstance().getPhetFrame() );
+        resetAllButton.setConfirmationEnabled( false );
+        addControl( resetAllButton );
     }
 
     //----------------------------------------------------------------------------
