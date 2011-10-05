@@ -15,7 +15,8 @@ import edu.colorado.phet.common.jmolphet.Molecule;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
-//REVIEW the Jmol viewer has some undesirable key bindings (eg, zoom), see JMolViewerNode.configureMouse
+//TODO: the Jmol viewer has some undesirable key bindings (eg, zoom), see JMolViewerNode.configureMouse
+//CM hopes to generalize that code for re-use here.  When that is done, we can make sure the undesirable key bindings were also removed here
 
 /**
  * Creates and displays the JmolDialog, and minimizes and restores it when the user switches tabs
