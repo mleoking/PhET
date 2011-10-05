@@ -1,3 +1,4 @@
+Made "Reset all" button non-bold to re-use common code for reset all buttons
 Micro tab: Rewrote crystal growth to use boolean flags instead of BondingFailure exception
 Micro tab: Made periodic table non-resizable
 Water tab: Renamed "sugar atoms" to "sugar highlight"
