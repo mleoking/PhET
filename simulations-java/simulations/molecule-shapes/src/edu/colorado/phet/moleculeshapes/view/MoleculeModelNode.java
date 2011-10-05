@@ -27,7 +27,6 @@ import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import com.jme3.app.state.AbstractAppState;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
