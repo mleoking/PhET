@@ -5,10 +5,10 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
-import edu.colorado.phet.fluidpressureandflow.common.RadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.view.FPAFRadioButton;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluidFlowModel;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
@@ -25,8 +25,8 @@ public class FluidFlowControlPanel extends VerticalLayoutPanel {
         addControlFullWidth( new CheckBox( RULER, module.rulerVisible ) );
 
         //Units control panel that allows choice between english and metric
-        addControlFullWidth( new EnglishMetricControlPanel( new RadioButton<UnitSet>( METRIC, module.model.units, UnitSet.METRIC ),
-                                                            new RadioButton<UnitSet>( ENGLISH, module.model.units, UnitSet.ENGLISH ) ) );
+        addControlFullWidth( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( METRIC, module.model.units, UnitSet.METRIC ),
+                                                            new FPAFRadioButton<UnitSet>( ENGLISH, module.model.units, UnitSet.ENGLISH ) ) );
 
         //Add a control that lets the user toggle friction on and off
         addControlFullWidth( new CheckBox( FRICTION, module.model.pipe.friction ) );

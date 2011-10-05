@@ -8,10 +8,10 @@ import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.fluidpressureandflow.common.RadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.view.FPAFRadioButton;
 import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
@@ -29,8 +29,8 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
 
         //Units control panel that allows choice between english and metric
         SettableProperty<UnitSet> units = module.model.units;
-        add( new EnglishMetricControlPanel( new RadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ),
-                                            new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ) ) );
+        add( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ),
+                                            new FPAFRadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ) ) );
 
         //Separator
         add( Box.createRigidArea( new Dimension( 5, 5 ) ) );//separate the "hose" control a bit from the other controls so it is easier to parse visually

@@ -6,10 +6,10 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
-import edu.colorado.phet.fluidpressureandflow.common.RadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.view.FPAFRadioButton;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
@@ -31,8 +31,8 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
 
         //Units control panel that allows choice between atmospheres, english and metric
         final Property<UnitSet> units = module.model.units;
-        add( new EnglishMetricControlPanel( new RadioButton<UnitSet>( ATMOSPHERES, units, UnitSet.ATMOSPHERES ),
-                                            new RadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ),
-                                            new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ) ) );
+        add( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( ATMOSPHERES, units, UnitSet.ATMOSPHERES ),
+                                            new FPAFRadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ),
+                                            new FPAFRadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ) ) );
     }
 }
