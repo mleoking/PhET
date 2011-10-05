@@ -289,6 +289,13 @@ public abstract class PhetProject {
             System.out.println( "Found item based on path from trunk: " + trunkPath.getAbsolutePath() );
             return trunkPath;
         }
+
+        //Look in util if it wasn't anywhere else, could find projects like simsharing and dependencies
+        File utilProject = new File( getTrunk(), BuildToolsPaths.UTIL + "/" + token );
+        if ( utilProject.exists() ) {
+            return utilProject;
+        }
+
         System.out.println( "Searched simJ=" + new File( getTrunk(), BuildToolsPaths.SIMULATIONS_JAVA ) );
 
         throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + new File( getTrunk(), BuildToolsPaths.SIMULATIONS_JAVA ).getAbsolutePath() + ", in project=" + this );
