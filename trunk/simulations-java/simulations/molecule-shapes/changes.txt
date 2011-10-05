@@ -1,3 +1,4 @@
+# 0.00.41 (57259) Oct 4, 2011
 Fixed bug where atoms could come off of their bonds
 Added optimizations to work around remaining memory leak
 Fixed multiple memory leak bugs
