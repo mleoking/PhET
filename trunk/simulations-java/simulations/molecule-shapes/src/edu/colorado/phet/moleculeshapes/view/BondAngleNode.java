@@ -88,6 +88,9 @@ public class BondAngleNode extends Node {
 
                 getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
                 setTransparent( true );
+
+                // prevention of a weird "wedge" bug where a triangle would disappear from the sector when overlapping other transparent objects
+                getAdditionalRenderState().setDepthWrite( false );
             }} );
         }} );
 
@@ -120,7 +123,7 @@ public class BondAngleNode extends Node {
             // two-sided support
             getAdditionalRenderState().setFaceCullMode( FaceCullMode.Off );
 
-            // attempt to prevent "wedge" bugs when two angle sections are closer to being coplanar
+            // prevention of a weird "wedge" bug where a triangle would disappear from the sector when overlapping other transparent objects
             getAdditionalRenderState().setDepthWrite( false );
         }};
 
