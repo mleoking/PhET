@@ -7,11 +7,13 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.DivisionResult;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
 
@@ -40,9 +42,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //Randomness for growing the crystal
     public final Random random = new Random();
 
-    //Flag for debugging the crystals
-    private final boolean debugCrystalDissolve = false;
-    private final boolean debugCrystalRatio = false;
+    private static final Logger LOGGER = LoggingUtils.getLogger( Crystal.class.getCanonicalName() );
 
     //Construct the compound from the specified lattice
     public Crystal( Formula formula, ImmutableVector2D position, double spacing, double angle ) {
@@ -277,13 +277,11 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
                 }
             } );
 
-            if ( debugCrystalDissolve ) {
-                System.out.println( "Crystal num components = " + c.size() );
-                for ( int i = 0; i < c.size(); i++ ) {
-                    System.out.println( "" + i + ": " + getNumBonds( c.get( i ) ) );
-                }
-                System.out.println( "END crystal" );
+            LOGGER.fine( "Crystal num components = " + c.size() );
+            for ( int i = 0; i < c.size(); i++ ) {
+                LOGGER.fine( "" + i + ": " + getNumBonds( c.get( i ) ) );
             }
+            LOGGER.fine( "END crystal" );
 
             //Return the highest item
             if ( c.size() > 0 ) {
@@ -344,9 +342,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
     //Check to see if the crystal matches the formula ratio by dividing each constituent count by getting the division results for each, making sure they are the same, and making sure there is no remainder
     public boolean matchesFormulaRatio() {
-        if ( debugCrystalRatio ) {
-            System.out.println( "Crystal.matchesFormulaRatio" );
-        }
+        LOGGER.fine( "Crystal.matchesFormulaRatio" );
         HashSet<DivisionResult> result = new HashSet<DivisionResult>();
         for ( Class type : formula.getTypes() ) {
             int count = constituents.map( new Function1<Constituent<T>, T>() {
@@ -357,9 +353,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
             int factor = formula.getFactor( type );
             final DivisionResult e = new DivisionResult( count, factor );
             result.add( e );
-            if ( debugCrystalRatio ) {
-                System.out.println( e );
-            }
+            LOGGER.fine( e.toString() );
         }
         return result.size() == 1 && result.iterator().next().remainder == 0;
     }
