@@ -28,7 +28,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShake
  * The toolbox node that the conductivity tester gets dragged out of and back into.
  * There are 4 classes (ConductivityTesterNode,  SugarAndSaltSolutionsConductivityTesterNode, ConductivityTesterToolNode, ConductivityTesterToolboxNode)
  * needed to implement the conductivity tester feature.   To clarify the naming and conventions:
- * The Tool is the icon drawn on the Toolbox, and used to create the tester node (Sugar and Salt Solutions Conductivity Tester Node is a sim-specific subclass).
+ * The ToolIcon is the icon drawn on the Toolbox, and used to create the tester node which is a ToolNode (Sugar and Salt Solutions Conductivity Tester Node is a sim-specific subclass).
  *
  * @author Sam Reid
  */
