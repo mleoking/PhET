@@ -10,8 +10,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
-import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
-import static java.awt.Color.white;
 
 /**
  * Water molecule: H2O for use in the water model.  Units of this compound are in meters, and the values can get updated by Box2D update steps by Box2DAdapter
@@ -58,23 +56,21 @@ public class WaterMolecule extends Compound<SphericalParticle> {
         addConstituent( c );
     }
 
-    //This class is different than the SphericalParticle.Hydrogen class because it represents the partial charge under the TIP3P model
+    //Specialization of SphericalParticle.Hydrogen that uses the TIP3P model of partial charge.
     //Provided here as a separate class so that the creation above is as simple as new Hydrogen() and no code is duplicated in the constructor invocations
-    public static class Hydrogen extends SphericalParticle {
+    public static class Hydrogen extends SphericalParticle.Hydrogen {
         public Hydrogen() {
-
             //See this table for the charge, using TIP3P model: http://en.wikipedia.org/wiki/Water_model
-            super( SphericalParticle.Hydrogen.RADIUS_PICOMETERS, POSITIVE_COLOR, white, +0.417 );
+            super( POSITIVE_COLOR, +0.417 );
         }
     }
 
-    //This class is different than the SphericalParticle.Oxygen class because it represents the partial charge under the TIP3P model
+    //Specialization of SphericalParticle.Oxygen that uses the TIP3P model of partial charge.
     //Provided here as a separate class for uniformity with Hydrogen inner class
-    public static class Oxygen extends SphericalParticle {
+    public static class Oxygen extends SphericalParticle.Oxygen {
         public Oxygen() {
-
             //See this table for the charge, using TIP3P model: http://en.wikipedia.org/wiki/Water_model
-            super( SphericalParticle.Oxygen.RADIUS_PICOMETERS, NEUTRAL_COLOR, RED_COLORBLIND, -0.834 );
+            super( NEUTRAL_COLOR, -0.834 );
         }
     }
 }
