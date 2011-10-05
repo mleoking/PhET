@@ -90,7 +90,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final BooleanProperty showChargeColor = new BooleanProperty( false );
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
-    private final ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
+    private final ObservableProperty<Boolean> anySolutes = new CompositeProperty<Boolean>( new Function0<Boolean>() {
+        public Boolean apply() {
+            return freeParticles.size.get() > 0;
+        }
+    }, freeParticles.size );
 
     //The number of different types of solute in solution, to determine whether to show singular or plural text for the "remove solute(s)" button
     //Note: this value should not be set externally, it should only be set by this model.  The reason that we used DoubleProperty which has a public setter is because it also has methods such as greaterThan and valueEquals
