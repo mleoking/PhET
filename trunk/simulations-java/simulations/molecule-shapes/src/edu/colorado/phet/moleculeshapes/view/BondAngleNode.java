@@ -17,6 +17,7 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
+import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
@@ -38,7 +39,6 @@ public class BondAngleNode extends Node {
 
     private static final float radius = 5;
     private Sector sector;
-    private Sector oppositeSector;
     private Property<Float> alpha = new Property<Float>( 0f );
 
     public BondAngleNode( final MoleculeShapesModule module, MoleculeModel molecule, PairGroup a, PairGroup b ) {
@@ -113,18 +113,16 @@ public class BondAngleNode extends Node {
                 }
             } );
 
+            // alpha support
             getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
             setTransparent( true );
+
+            // two-sided support
+            getAdditionalRenderState().setFaceCullMode( FaceCullMode.Off );
         }};
 
-        // do two swoops for transparent two-sidedness
-        // TODO: render only one. look up double-sidedness
-        sector = new Sector( arc, false );
-        attachChild( new Geometry( "Bond Sector A=>B", sector ) {{
-            setMaterial( sectorMaterial );
-        }} );
-        oppositeSector = new Sector( arc, true );
-        attachChild( new Geometry( "Bond Sector B=>A", oppositeSector ) {{
+        sector = new Sector( arc );
+        attachChild( new Geometry( "Bond Sector", sector ) {{
             setMaterial( sectorMaterial );
         }} );
     }
@@ -154,7 +152,6 @@ public class BondAngleNode extends Node {
         else {
             arc.updateView( a, b, lastMidpoint );
             sector.updateView();
-            oppositeSector.updateView();
         }
     }
 

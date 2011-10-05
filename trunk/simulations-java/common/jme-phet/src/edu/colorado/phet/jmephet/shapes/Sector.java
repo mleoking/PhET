@@ -16,18 +16,14 @@ public class Sector extends Mesh {
 
     private FloatBuffer positionBuffer;
     private final PointArc arc;
-    private final boolean reversed;
 
     /**
      * Create a sector using the points from a specified arc.
-     * // TODO: remove reversed option, since we can make this double-sided!
      *
-     * @param arc      Arc to pull points from
-     * @param reversed Whether the points should be used in the opposite order. Useful for making 2-sided sectors
+     * @param arc Arc to pull points from
      */
-    public Sector( PointArc arc, boolean reversed ) {
+    public Sector( PointArc arc ) {
         this.arc = arc;
-        this.reversed = reversed;
 
         // calculate convenience numbers
         int numTriangles = arc.getNumVertices() - 1;
@@ -60,18 +56,8 @@ public class Sector extends Mesh {
         positionBuffer.put( new float[] { 0, 0, 0 } ); // origin point (not in original arc, so added in the front)
 
         int len = arcVertices.length;
-        if ( reversed ) {
-            // TODO: remove reversed option, since we can make this double-sided!
-            // insert the vertices in the opposite order
-            for ( int i = 0; i < len; i += 3 ) {
-                int arcBase = len - 3 - i;
-                positionBuffer.put( new float[] { arcVertices[arcBase], arcVertices[arcBase + 1], arcVertices[arcBase + 2] } );
-            }
-        }
-        else {
-            for ( int i = 0; i < len; i++ ) {
-                positionBuffer.put( arcVertices[i] );
-            }
+        for ( int i = 0; i < len; i++ ) {
+            positionBuffer.put( arcVertices[i] );
         }
     }
 
