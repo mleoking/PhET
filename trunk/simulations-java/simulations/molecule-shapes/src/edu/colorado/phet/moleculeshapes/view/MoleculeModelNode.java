@@ -139,7 +139,7 @@ public class MoleculeModelNode extends Node {
         // necessary for now since just updating their geometry shows significant errors
         // TODO: we fixed this!
         for ( BondNode bondNode : bondNodes ) {
-            detachChild( bondNode );
+            JMEUtils.discardTree( bondNode );
         }
         bondNodes.clear();
         for ( PairGroup pair : molecule.getGroups() ) {
@@ -168,7 +168,7 @@ public class MoleculeModelNode extends Node {
         final Vector3f localCameraPosition = getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
 
         for ( Spatial node : angleNodes ) {
-            node.getParent().detachChild( node );
+            JMEUtils.discardTree( node );
         }
         angleNodes.clear();
 

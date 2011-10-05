@@ -103,7 +103,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
     public static void main( final String[] args ) throws ClassNotFoundException {
         JMEUtils.initializeJME( args );
-
+        JMEUtils.disableBufferTrackingPerformanceHack();
 
         /*
         * If you want to customize your application (look-&-feel, window size, etc)

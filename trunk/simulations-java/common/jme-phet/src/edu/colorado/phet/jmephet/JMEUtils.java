@@ -4,7 +4,12 @@ package edu.colorado.phet.jmephet;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -33,9 +38,11 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeSystem;
+import com.jme3.util.BufferUtils;
 
 /**
  * Utilities for dealing with JME3
@@ -270,6 +277,18 @@ public class JMEUtils {
         return new Vector2f( hitPosition.x, hitPosition.y );
     }
 
+    public static void discardTree( Spatial spatial ) {
+        // remove any children, if there are any
+        if ( spatial instanceof Node ) {
+            for ( Spatial child : new ArrayList<Spatial>( ( (Node) spatial ).getChildren() ) ) {
+                discardTree( child );
+            }
+        }
+
+        // remove the node itself
+        spatial.getParent().detachChild( spatial );
+    }
+
     /**
      * Ensure that the (probably LWJGL) libraries are loaded (either from the JNLP path or extracted out to disk)
      *
@@ -343,6 +362,63 @@ public class JMEUtils {
             }
         }
     }
+
+    /**
+     * Sets BufferUtils.trackingHash to a different hashmap that doesn't add elements, to avoid
+     * the extremely significant performance overhead when there are many buffers.
+     * <p/>
+     * Uses reflection (thus hack-ish) because BufferUtils does not provide write access to
+     * the boolean value trackDirectMemory (it is detected as a constant and thus changing it
+     * via reflection probably would have no effect).
+     * <p/>
+     * It's also a hack because it's changing a private static final field! Although nicely,
+     * if this fails it won't cause major issues, just performance degradation.
+     */
+    public static void disableBufferTrackingPerformanceHack() {
+        try {
+            Field f = BufferUtils.class.getDeclaredField( "trackingHash" );
+            f.setAccessible( true );
+
+            Field modifiersField = Field.class.getDeclaredField( "modifiers" );
+            modifiersField.setAccessible( true );
+            modifiersField.setInt( f, f.getModifiers() & ~Modifier.FINAL );
+
+            f.set( f, new HashMap<Buffer, Object>() {
+                @Override public Object put( Buffer key, Object value ) {
+                    // empty!
+                    return value;
+                }
+            } );
+        }
+        catch ( NoSuchFieldException e ) {
+            e.printStackTrace();
+        }
+        catch ( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Displays the number of buffers being tracked in memory. Increasing amounts mean
+     * memory leaks (most likely)
+     * <p/>
+     * NOTE: only works if disableBufferTrackingPerformanceHack() has not been called
+     *
+     * @return Number of buffers.
+     */
+    public static int debugGetNumberOfBuffers() {
+        // only way to get this info is to read it out of a string returned :(
+        StringBuilder builder = new StringBuilder();
+        BufferUtils.printCurrentDirectMemory( builder );
+        String str = builder.toString();
+        int start = str.indexOf( ": " ) + 2;
+        int end = str.indexOf( "\n" );
+        return Integer.parseInt( str.substring( start, end ) );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * threading
+    *----------------------------------------------------------------------------*/
 
     /**
      * Attempt to run the code within the Swing Event Dispatch Thread (EDT)
