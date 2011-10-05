@@ -45,8 +45,10 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*
 public class CrustModule extends PlateTectonicsModule {
 
     private CrustModel model;
-    private JMEView guiView;
-    private JMEView toolView;
+
+    private JMEView guiView; // view (layer) for our control panels
+    private JMEView toolView; // view (layer) for our tools
+
     private ToolboxState toolboxState = new ToolboxState();
     private ToolDragHandler toolDragHandler = new ToolDragHandler( toolboxState );
     private Toolbox toolbox;
