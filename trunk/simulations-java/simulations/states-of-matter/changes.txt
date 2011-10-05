@@ -1,3 +1,4 @@
+10/5/2011 Moved the "Reset All" button on the phase changes tab from the control panel to the play area.
 10/5/2011 Made the phase diagram be hidden by default in the "Basics" version.
 10/5/2011 Removed the option to selected "Adjustable Attraction" in the basic version.
 10/5/2011 Removed the interaction potential diagram from the "Basics" version.
