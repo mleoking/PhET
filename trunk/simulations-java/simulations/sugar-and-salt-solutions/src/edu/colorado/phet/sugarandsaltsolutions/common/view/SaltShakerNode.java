@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Shaker;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SaltShaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
@@ -18,8 +18,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  *
  * @author Sam Reid
  */
-public class SaltShakerNode<T extends SugarAndSaltSolutionModel> extends DispenserNode<T, Shaker<T>> {
-    public SaltShakerNode( final ModelViewTransform transform, final Shaker<T> model,
+public class SaltShakerNode<T extends SugarAndSaltSolutionModel> extends DispenserNode<T, SaltShaker<T>> {
+    public SaltShakerNode( final ModelViewTransform transform, final SaltShaker<T> model,
 
                            //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
                            boolean micro, Function1<Point2D, Point2D> constraint ) {

@@ -6,14 +6,14 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Shaker;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SaltShaker;
 
 /**
  * A shaker for the "micro tab" emits crystals less frequently than in the macro tab.  This class keeps track of when and what to emit.
  *
  * @author Sam Reid
  */
-public abstract class MicroShaker extends Shaker<MicroModel> {
+public abstract class MicroShaker extends SaltShaker<MicroModel> {
     //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
     private final Property<Integer> stepsAdding = new Property<Integer>( 0 );
 

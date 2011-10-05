@@ -19,11 +19,11 @@ import static edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel.VO
 
 /**
  * Model element for the salt shaker, which includes its position and rotation and adds salt to the model when shaken.
- * Shaking (by acceleration and deceleration) along the axis produce salt.  To clarify the terminology in the sim, salt is created by "shakers" and sugar is created by "dispensers"
+ * Shaking (by acceleration and deceleration) along the axis produce salt.
  *
  * @author Sam Reid
  */
-public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispenser<T> {
+public abstract class SaltShaker<T extends SugarAndSaltSolutionModel> extends Dispenser<T> {
 
     //Some randomness in number of generated crystals when shaken
     private final Random random = new Random();
@@ -34,7 +34,7 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
     //Keep track of recorded positions when the shaker is translated so we can compute accelerations, which are responsible for shaking out the salt
     private final ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
-    public Shaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, T model ) {
+    public SaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, T model ) {
         super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
         moreAllowed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean allowed ) {
