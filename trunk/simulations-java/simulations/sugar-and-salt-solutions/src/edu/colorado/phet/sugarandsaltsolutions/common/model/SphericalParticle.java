@@ -63,7 +63,7 @@ public class SphericalParticle extends Particle {
 
     //These classes contains state information for particulars particles and ions and permit matching in MicroModel for particle counting.
     public static class Hydrogen extends SphericalParticle {
-        public static final double RADIUS_PICOMETERS = 37; //REVIEW why can't clients use radius field?
+        public static final double RADIUS_PICOMETERS = 37;//Field provided for reuse in the water tab since WaterMolecule needs to have the same oxygen radius
 
         public Hydrogen() {
             super( RADIUS_PICOMETERS, SphericalParticle.NEUTRAL_COLOR, white, +1 );
@@ -84,7 +84,7 @@ public class SphericalParticle extends Particle {
 
     //Abstract since oxygen ions and oxygen in sucrose/glucose must have different colors
     public abstract static class Oxygen extends SphericalParticle {
-        public static final double RADIUS_PICOMETERS = 73;  //REVIEW why can't clients use radius field?
+        public static final double RADIUS_PICOMETERS = 73;//Field provided for reuse in the water tab since WaterMolecule needs to have the same oxygen radius
 
         public Oxygen( Color chargeColor ) {
             super( RADIUS_PICOMETERS, chargeColor, RED_COLORBLIND, -2 );
