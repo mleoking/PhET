@@ -25,8 +25,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.SucroseCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.ResetAllButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsResetAllButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.SaltIon;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
@@ -122,7 +122,7 @@ public class WaterCanvas extends SugarAndSaltSolutionsCanvas {
         }, state.colorScheme.whiteBackground ), miniBeakerNode, particleWindowNode ) );
 
         //Add the reset all button
-        final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( canvasSize.width, canvasSize.height, new VoidFunction0() {
+        final SugarAndSaltSolutionsResetAllButtonNode resetAllButtonNode = new SugarAndSaltSolutionsResetAllButtonNode( canvasSize.width, canvasSize.height, new VoidFunction0() {
             public void apply() {
                 model.reset();
 

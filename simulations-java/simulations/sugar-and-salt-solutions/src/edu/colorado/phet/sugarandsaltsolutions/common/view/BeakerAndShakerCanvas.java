@@ -95,7 +95,7 @@ public abstract class BeakerAndShakerCanvas extends SugarAndSaltSolutionsCanvas 
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
 
         //Add the reset all button
-        addChild( new ResetAllButtonNode( stageSize.getWidth(), stageSize.getHeight(), new VoidFunction0() {
+        addChild( new SugarAndSaltSolutionsResetAllButtonNode( stageSize.getWidth(), stageSize.getHeight(), new VoidFunction0() {
             public void apply() {
                 model.reset();
             }
