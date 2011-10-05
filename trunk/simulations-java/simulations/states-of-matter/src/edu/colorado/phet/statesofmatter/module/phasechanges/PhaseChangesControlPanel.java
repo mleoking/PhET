@@ -139,7 +139,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
 
         // Add the panel that allows the user to select molecule type.
-        m_moleculeSelectionPanel = new MoleculeSelectionPanel();
+        m_moleculeSelectionPanel = new MoleculeSelectionPanel( advanced );
         addControlFullWidth( m_moleculeSelectionPanel );
 
         // Create the panel for controlling the interaction strength.
@@ -319,6 +319,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Inner Classes
     //----------------------------------------------------------------------------
+
     private class MoleculeSelectionPanel extends JPanel {
 
         private JRadioButton m_neonRadioButton;
@@ -327,7 +328,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         private JRadioButton m_waterRadioButton;
         private JRadioButton m_configurableRadioButton;
 
-        MoleculeSelectionPanel() {
+        MoleculeSelectionPanel( boolean showConfigurableAtom ) {
 
             setLayout( new GridLayout( 0, 1 ) );
 
@@ -404,7 +405,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
             add( m_argonRadioButton );
             add( m_oxygenRadioButton );
             add( m_waterRadioButton );
-            add( m_configurableRadioButton );
+            if ( showConfigurableAtom ) {
+                add( m_configurableRadioButton );
+            }
         }
 
         public void setMolecule( int molecule ) {
