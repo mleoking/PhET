@@ -162,11 +162,11 @@ public class WaterNode extends Node {
                 public void update() {
                     setPositions.run();
 
-                    updateBound();
-                    updateCounts();
-
                     getBuffer( Type.Position ).updateData( positionBuffer );
                     getBuffer( Type.Index ).updateData( indexBuffer );
+
+                    updateBound();
+                    updateCounts(); // TODO: if this doesn't work, put before buffer calls
 //                    getBuffer( Type.TexCoord ).updateData( textureBuffer );
                 }
             }, false );

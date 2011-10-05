@@ -1,3 +1,4 @@
+Fixed multiple memory leak bugs
 # 0.00.40 (57078) Sep 29, 2011
 Mode changed to "White Background"
 # 0.00.39 (57076) Sep 29, 2011
