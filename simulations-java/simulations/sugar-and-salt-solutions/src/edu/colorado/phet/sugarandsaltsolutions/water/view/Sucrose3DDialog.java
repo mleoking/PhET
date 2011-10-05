@@ -15,7 +15,7 @@ import edu.colorado.phet.common.jmolphet.Molecule;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
-//REVIEW the Jmol viewer has some undesirable key bindings (eg, zoom)
+//REVIEW the Jmol viewer has some undesirable key bindings (eg, zoom), see JMolViewerNode.configureMouse
 
 /**
  * Creates and displays the JmolDialog, and minimizes and restores it when the user switches tabs
@@ -25,7 +25,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 public class Sucrose3DDialog {
 
     //The JmolDialog which shows the sucrose in 3d
-    JmolDialog jmolDialog = null;
+    private JmolDialog jmolDialog = null;
 
     //Flag to indicate whether the JMolDialog should be shown when the user switches to this tab
     private boolean showJMolDialogOnActivate;
