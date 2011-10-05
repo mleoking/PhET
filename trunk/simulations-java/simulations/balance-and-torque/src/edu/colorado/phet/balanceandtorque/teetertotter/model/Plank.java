@@ -240,6 +240,7 @@ public class Plank extends ShapeModelElement {
         // Set the position of the mass to be just above the plank at the
         // appropriate distance so that it will drop to the correct place.
         mass.setPosition( vectorToLocation.getX(), vectorToLocation.getY() + 0.01 );
+        assert isPointAbovePlank( mass.getPosition() );  // Need to fix this if mass isn't above the surface.
         addMassToSurface( mass );
     }
 
