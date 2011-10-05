@@ -42,8 +42,8 @@ public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
             }
         } );
 
-        //REVIEW why do you need to do this? This should be handled by phetcommon Module activation.
         //Make the clock run if "play" is selected with the user controls and if the module is active
+        //This code is not necessary for starting/stopping the clock, but for updating the floating play/pause button
         final And clockRunning = this.clockRunning.and( moduleActive );
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean clockRunning ) {
