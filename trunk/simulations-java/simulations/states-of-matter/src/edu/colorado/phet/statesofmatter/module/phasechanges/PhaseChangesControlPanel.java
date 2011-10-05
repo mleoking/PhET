@@ -251,11 +251,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
         };
         m_phaseDiagram.addListener( m_phaseDiagramCloseListener );
 
-        // Add the Reset All button.
-        addSeparator();
-        addVerticalSpace( 5 );
-        addResetAllButton( phaseChangesModule );
-
         // Update the visibility of the controls based on current model state.
         updateVisibilityStates();
     }
