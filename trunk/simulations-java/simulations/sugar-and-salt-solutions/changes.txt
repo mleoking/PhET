@@ -1,3 +1,4 @@
+Micro tab: Rewrote crystal growth to use boolean flags instead of BondingFailure exception
 Micro tab: Made periodic table non-resizable
 Water tab: Renamed "sugar atoms" to "sugar highlight"
 Made the light rays more visible when in "white background" mode

@@ -36,10 +36,6 @@ public class CrystalStrategy extends UpdateStrategy {
             crystal.setSubmerged();
         }
 
-        //Accelerate the particle due to gravity and perform an euler integration step
-        //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-        double mass = 1E10; //REVIEW final, and move closer to usage
-
         //Cache the value to improve performance by 30% when number of particles is large
         final boolean anyPartUnderwater = model.isAnyPartUnderwater( crystal );
 
@@ -55,6 +51,11 @@ public class CrystalStrategy extends UpdateStrategy {
         if ( !crystal.isUnderwaterTimeRecorded() && !model.isCrystalTotallyAboveTheWater( crystal ) ) {
             crystal.setUnderwater( model.getTime() );
         }
+
+        //Accelerate the particle due to gravity and perform an euler integration step
+        //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
+        final double mass = 1E10;
+
         crystal.stepInTime( model.getExternalForce( anyPartUnderwater ).times( 1.0 / mass ), dt );
 
         //Collide with the bottom of the beaker

@@ -75,8 +75,7 @@ import static java.util.Arrays.asList;
  */
 public class MicroModel extends SugarAndSaltSolutionModel {
 
-    //REVIEW constant name should be uppercase
-    private static final double framesPerSecond = 30;
+    private static final double FRAMES_PER_SECOND = 30;
 
     //List of all spherical particles, the constituents in larger molecules or crystals, used for rendering on the screen
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
@@ -97,9 +96,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Note: this value should not be set externally, it should only be set by this model.  The reason that we used DoubleProperty which has a public setter is because it also has methods such as greaterThan and valueEquals
     public final DoubleProperty numberSoluteTypes = new DoubleProperty( 0.0 );
 
-    //REVIEW constant name should be uppercase
     //Debugging flag for draining particles through the faucet
-    public static final boolean debugDraining = false;
+    public static final boolean DEBUG_DRAINING = false;
 
     //Listeners that are notified when the simulation time step has completed
     public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
@@ -201,9 +199,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Workaround for completely dissolving any crystals that have become disconnected as a result of partial dissolving
     public final DissolveDisconnectedCrystals dissolveDisconnectedCrystals = new DissolveDisconnectedCrystals( this );
 
-    //REVIEW constant name should be uppercase
     //Flag to help debug the crystal ratios
-    public static final boolean debugCrystalRatio = false;
+    public static final boolean DEBUG_CRYSTAL_RATIO = false;
 
     //Amount to move back particles (in meters) to prevent them from going past the edge of the beaker
     public final double modelInset = 1E-12;
@@ -211,7 +208,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public MicroModel() {
 
         //SolubleSalts clock runs much faster than wall time
-        super( new ConstantDtClock( framesPerSecond ),
+        super( new ConstantDtClock( FRAMES_PER_SECOND ),
 
                //The volume of the micro beaker should be 2E-23L
                //In the macro tab, the dimension is BeakerDimension( width = 0.2, height = 0.1, depth = 0.1 ), each unit in meters
@@ -228,9 +225,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                                               //convert L to meters cubed
                                               * 0.001, 1 / 3.0 ) ),
 
-               //REVIEW explain this computation
-               //Flow rate must be slowed since the beaker is so small.
-               0.0005 * 2E-23 / 2,
+               //Flow rate must be slowed since the beaker is microscopically small, this value determines how fast it will fill up
+               5.0E-27,
 
                //Values sampled at runtime using a debugger using this line in SugarAndSaltSolutionModel.update: System.out.println( "solution.shape.get().getBounds2D().getMaxY() = " + solution.shape.get().getBounds2D().getMaxY() );
                //Should be moved to be high enough to contain the largest molecule (sucrose), so that it may move about freely
@@ -279,7 +275,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public void checkStartDrain( DrainData drainData ) {
         double currentDrainFlowRate = outputFlowRate.get() * faucetFlowRate;
 
-        if ( debugDraining ) {
+        if ( DEBUG_DRAINING ) {
             double timeToDrainFully = solution.volume.get() / currentDrainFlowRate;
             System.out.println( "clock.getDt() = " + clock.getDt() + ", time to drain fully: " + timeToDrainFully );
         }
@@ -378,7 +374,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         dissolveDisconnectedCrystals.apply( sucroseCrystals );
         dissolveDisconnectedCrystals.apply( glucoseCrystals );
 
-        if ( debugCrystalRatio ) {
+        if ( DEBUG_CRYSTAL_RATIO ) {
             for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
                 boolean matches = sodiumChlorideCrystal.matchesFormulaRatio();
                 System.out.println( "matches = " + matches );
@@ -425,12 +421,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     //Combine elements from several lists so they can be iterated over together
-    private ArrayList<Particle> joinLists( ItemList<?>... freeParticles ) {
+    private ArrayList<Particle> joinLists( ItemList<? extends Particle>... freeParticles ) {
         ArrayList<Particle> p = new ArrayList<Particle>();
-        for ( ItemList<?> freeParticle : freeParticles ) {
-            ArrayList<?> list = freeParticle.toList();
-            for ( Object o : list ) {
-                p.add( (Particle) o ); //REVIEW if this is safe, then why isn't freeParticles of type ItemList<? extends Particle>?
+        for ( ItemList<? extends Particle> freeParticle : freeParticles ) {
+            ArrayList<? extends Particle> list = freeParticle.toList();
+            for ( Particle o : list ) {
+                p.add( o );
             }
         }
         return p;

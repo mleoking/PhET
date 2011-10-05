@@ -63,7 +63,8 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     public abstract T createPartner( T original );
 
     //Grow the crystal for the specified number of formula ratios
-    public void grow( int numberFormulaRatios ) {
+    //Returns "true" if successful
+    public boolean grow( int numberFormulaRatios ) {
 
         //There is a random aspect to crystal growth and in some cases (particularly for the more constrained case of CaCl2's lattice topology)
         //The growth can run into a dead end where it is impossible to add a full formula unit.
@@ -71,33 +72,44 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         //If the sim fails to grow a lattice, then the Crystal is cleared and the sim continues to run
         int numTries = 10000;
         for ( int tryIndex = 0; tryIndex < numTries; tryIndex++ ) {
-            try {
-                //REVIEW growRandomly should return boolean success, not throw an exception. See comment in BondingFailure.
-                //Grow the full crystal
-                growRandomly( numberFormulaRatios );
-                return;
+            //Grow the full crystal
+            boolean success = growRandomly( numberFormulaRatios );
+            if ( success ) {
+                return true;
             }
-
-            //If there was a dead end, clear this crystal and try again
-            catch ( BondingFailure bondingFailure ) {
+            else {
+                //If there was a dead end, clear this crystal and try again
                 System.out.println( "crystal growth failed: tryIndex = " + tryIndex );
                 while ( numberConstituents() > 0 ) {
                     removeConstituent( getConstituent( 0 ) );
                 }
             }
         }
+
+        //No success after numTries tries, so signify a failure (shouldn't happen unless you have an unusual lattice structure)
+        return false;
     }
 
     //Grow the entire crystal for the specified number of formula ratios, fails if it runs into a dead end.  In that case it should be re-run
-    private void growRandomly( int numberFormulaRatios ) throws BondingFailure {
+    //Returns "true" if successful
+    private boolean growRandomly( int numberFormulaRatios ) {
         for ( int i = 0; i < numberFormulaRatios; i++ ) {
-            growByOneFormulaUnit();
+            boolean success = growByOneFormulaUnit();
+            if ( !success ) {
+
+                //Indicate a failure immediately if we couldn't even grow by one formula unit
+                return false;
+            }
         }
+
+        //All steps completed, so signify successful
+        return true;
     }
 
     //Grow the crystal randomly at one of the open sites by adding a full formula (such as 1 Ca and 2Cl for CaCl2)
-    //If it is impossible to continue growing the crystal then exit by throwing a BondingFailure
-    public void growByOneFormulaUnit() throws BondingFailure {
+    //Returns "true" if successful
+    //If it is impossible to continue growing the crystal then exit by returning false
+    public boolean growByOneFormulaUnit() {
         for ( final Class<? extends Particle> type : formula.getFormulaUnit() ) {
             if ( constituents.size() == 0 ) {
                 addConstituent( new Constituent<T>( createConstituentParticle( type ), ZERO ) );
@@ -115,10 +127,11 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
                     addConstituent( openSites.get( random.nextInt( openSites.size() ) ).toConstituent() );
                 }
                 else {
-                    throw new BondingFailure();
+                    return false;
                 }
             }
         }
+        return true;
     }
 
     //Determine all of the available locations where an existing particle could be added
