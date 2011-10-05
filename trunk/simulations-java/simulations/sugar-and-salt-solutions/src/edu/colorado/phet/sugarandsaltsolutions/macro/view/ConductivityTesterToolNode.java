@@ -5,11 +5,10 @@ import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
-//REVIEW the way this feature is implemented is a little odd.
-
 /**
  * Tool node that is created when the user drags the conductivity tester from its toolbox.
  * This is modeled using composition since we must inherit from both ToolNode and ConductivityTesterNode
+ * This leverages the reusable ToolNode code that was developed for bending light.
  *
  * @author Sam Reid
  */
