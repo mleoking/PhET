@@ -24,6 +24,7 @@ public class DrainData {
 
     public DrainData( Formula formula ) {
         this.formula = formula;
-        //REVIEW should initialNumberFormulaUnits be set here to make this properly constructed?
+
+        //Do not set other state here since it should only be set once the user starts manipulating the drain faucet
     }
 }

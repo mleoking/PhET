@@ -1,3 +1,4 @@
+Micro tab: Made periodic table non-resizable
 Water tab: Renamed "sugar atoms" to "sugar highlight"
 Made the light rays more visible when in "white background" mode
 Rename elements to elementAtomicMasses, to correspond to getter, see #3090

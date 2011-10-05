@@ -23,17 +23,15 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
-//REVIEW would be nice if the class name indicated what kind of things are in the kit
-
 /**
  * List of the kits the user can choose from, for showing the appropriate bars in the concentration bar charts
  *
  * @author Sam Reid
  */
-public class KitList {
+public class MicroSoluteKitList {
     private final ArrayList<MicroSoluteKit> kits = new ArrayList<MicroSoluteKit>();
 
-    public KitList( final MicroModel model, final ModelViewTransform transform ) {
+    public MicroSoluteKitList( final MicroModel model, final ModelViewTransform transform ) {
 
         //Create icons to be shown beneath each bar.  Functions are used to create new icons for each kit since giving the same PNode multiple parents caused layout problems
         Function0<Option<PNode>> sodiumIcon = new Function0<Option<PNode>>() {

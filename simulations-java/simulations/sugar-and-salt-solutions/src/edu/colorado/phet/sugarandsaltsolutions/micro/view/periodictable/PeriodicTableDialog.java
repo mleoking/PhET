@@ -29,7 +29,9 @@ public class PeriodicTableDialog extends JDialog {
 
     public PeriodicTableDialog( final Property<DispenserType> dispenser, final SugarAndSaltSolutionsColorScheme colorScheme, PhetFrame parentFrame ) {
         super( parentFrame );
-        //REVIEW setResizable(false)
+
+        setResizable( false );
+
         setContentPane( new PhetPCanvas() {
             private final PNode root = new PNode();
 

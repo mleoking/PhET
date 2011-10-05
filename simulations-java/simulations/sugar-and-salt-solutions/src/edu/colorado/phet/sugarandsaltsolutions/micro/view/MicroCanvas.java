@@ -29,10 +29,8 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PERIODIC_TABLE;
 
-//REVIEW reused how? Was common code moved into base class?
-
 /**
- * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused.
+ * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused by extending BeakerAndShakerCanvas.
  *
  * @author Sam Reid
  */
@@ -53,7 +51,7 @@ public class MicroCanvas extends BeakerAndShakerCanvas implements Module.Listene
         this.globalState = globalState;
 
         //List of the kits the user can choose from, for showing the appropriate bar charts + controls
-        final KitList kitList = new KitList( model, transform );
+        final MicroSoluteKitList kitList = new MicroSoluteKitList( model, transform );
 
         //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
         ExpandableConcentrationBarChartNode concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.showConcentrationValues ) {{
