@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.common.view;
+package edu.colorado.phet.common.phetcommon.view.menu;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,8 +13,6 @@ import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory.Listener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
-//REVIEW migrate to phetcommon
 
 /**
  * This JMenuItem shows a Color dialog when selected so the user can change the color of the given color property.
