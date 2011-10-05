@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.MessageFormat;
 
 import javax.swing.JFrame;
 
@@ -11,6 +12,7 @@ import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.common.jmolphet.JmolDialog;
 import edu.colorado.phet.common.jmolphet.Molecule;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
@@ -55,7 +57,11 @@ public class Sucrose3DDialog {
                 public void fixJmolColors( JmolViewer viewer ) {
 
                     //Use the specified background color for jmol.  In this case the background is water blue since the sucrose is in the water
-                    viewer.script( "color background [" + backgroundColor.getRed() + "," + backgroundColor.getGreen() + "," + backgroundColor.getBlue() + "]" );
+                    viewer.script( "color background " + toJmolColor( backgroundColor ) );
+
+                    // use custom colors for some atoms, but don't set the color for carbon to gray (even though that is its color) otherwise Jmol will make it too dark
+                    viewer.script( "select oxygen; color " + toJmolColor( new WaterMolecule.Oxygen().color ) );
+                    viewer.script( "select all" ); // be polite to other scripts that assume that everything is selected
                 }
             },
                                                        //These strings duplicated in Build a Molecule
@@ -111,5 +117,11 @@ public class Sucrose3DDialog {
             jmolDialog.setVisible( false );
             jmolDialog = null;//Set it to null so that when it is opened again it will be in the startup location instead of saved location
         }
+    }
+
+    // Converts an AWT Color to a Jmol RGB-color argument, a String of the form "[R,G,B]". Eg, Color.ORANGE -> eg "[255,200,0]".
+    //Copied from simulations-java\simulations\molecule-polarity\src\edu\colorado\phet\moleculepolarity\common\view\JmolViewerNode.java
+    public static String toJmolColor( Color color ) {
+        return MessageFormat.format( "[{0},{1},{2}]", color.getRed(), color.getGreen(), color.getBlue() );
     }
 }

@@ -1,3 +1,4 @@
+Water tab: Fixed color for oxygen in JMol view to match the color used in the sucrose in the play area
 Prevent shakers from being dragged too far past the left edge of the beaker
 Made "Reset all" button non-bold to re-use common code for reset all buttons
 Micro tab: Rewrote crystal growth to use boolean flags instead of BondingFailure exception
