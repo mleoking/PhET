@@ -12,6 +12,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.jmephet.PhetJMEApplication.RenderPosition;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.jmephet.input.JMEModuleInputHandler;
 
@@ -193,20 +194,14 @@ public abstract class JMEModule extends Module {
         }
     }
 
-    public JMEView createMainView( final String name, Camera camera ) {
-        JMEView view = app.createMainView( name, camera );
+    public JMEView createRegularView( final String name, Camera camera, RenderPosition position ) {
+        JMEView view = app.createRegularView( name, camera, position );
         addView( view );
         return view;
     }
 
-    public JMEView createBackGUIView( final String name ) {
-        JMEView view = app.createBackGUIView( name );
-        addView( view );
-        return view;
-    }
-
-    public JMEView createFrontGUIView( final String name ) {
-        JMEView view = app.createFrontGUIView( name );
+    public JMEView createGUIView( final String name, RenderPosition position ) {
+        JMEView view = app.createGUIView( name, position );
         addView( view );
         return view;
     }

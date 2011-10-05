@@ -20,6 +20,7 @@ import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.OverlayCamera;
 import edu.colorado.phet.jmephet.PhetCamera;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
+import edu.colorado.phet.jmephet.PhetJMEApplication.RenderPosition;
 import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
@@ -257,9 +258,9 @@ public class MoleculeShapesModule extends JMEModule {
         moleculeCamera.setLocation( new Vector3f( 0, 0, 40 ) );
         moleculeCamera.lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
 
-        moleculeView = createMainView( "Main", moleculeCamera );
-        guiView = createBackGUIView( "Back GUI" );
-        JMEView readoutView = createFrontGUIView( "Readout" );
+        moleculeView = createRegularView( "Main", moleculeCamera, RenderPosition.MAIN );
+        guiView = createGUIView( "Back GUI", RenderPosition.BACK );
+        JMEView readoutView = createGUIView( "Readout", RenderPosition.FRONT );
 
         // add an offset to the left, since we have a control panel on the right
         // TODO: make the offset dependent on the control panel width?
@@ -292,14 +293,14 @@ public class MoleculeShapesModule extends JMEModule {
         * real molecule overlay
         *----------------------------------------------------------------------------*/
 
-        JMEView realMoleculeOverlayView = createMainView( "Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
-                                                                                        new CanvasTransformedBounds( canvasTransform, realMoleculeOverlayStageBounds ) ) {
-            @Override public void positionMe() {
-                setFrustumPerspective( 45f, 1, 1f, 1000f );
-                setLocation( new Vector3f( 0, 0, 40 ) );
-                lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-            }
-        } );
+        JMEView realMoleculeOverlayView = createRegularView( "Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
+                                                                                           new CanvasTransformedBounds( canvasTransform, realMoleculeOverlayStageBounds ) ) {
+                                                                 @Override public void positionMe() {
+                                                                     setFrustumPerspective( 45f, 1, 1f, 1000f );
+                                                                     setLocation( new Vector3f( 0, 0, 40 ) );
+                                                                     lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+                                                                 }
+                                                             }, RenderPosition.MAIN );
 
         realMoleculeOverlayNode = new RealMoleculeOverlayNode( this, realMoleculeOverlayView.getCamera() );
         realMoleculeOverlayView.getScene().attachChild( realMoleculeOverlayNode );
@@ -317,15 +318,15 @@ public class MoleculeShapesModule extends JMEModule {
 
         Function2<String, Property<Rectangle2D>, JMEView> createBondOverlayView = new Function2<String, Property<Rectangle2D>, JMEView>() {
             public JMEView apply( String name, final Property<Rectangle2D> rectangle2DProperty ) {
-                return createMainView( name + " Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
-                                                                             new CanvasTransformedBounds( canvasTransform,
-                                                                                                          rectangle2DProperty ) ) {
-                    @Override public void positionMe() {
-                        setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
-                        setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
-                        lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-                    }
-                } );
+                return createRegularView( name + " Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
+                                                                                new CanvasTransformedBounds( canvasTransform,
+                                                                                                             rectangle2DProperty ) ) {
+                                              @Override public void positionMe() {
+                                                  setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
+                                                  setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
+                                                  lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+                                              }
+                                          }, RenderPosition.MAIN );
             }
         };
 

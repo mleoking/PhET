@@ -201,41 +201,40 @@ public class PhetJMEApplication extends Application {
         return new Camera( canvasSize.get().width, canvasSize.get().height );
     }
 
-    public JMEView createMainView( final String name, Camera camera ) {
-        return createView( name, camera, new Function2<RenderManager, Camera, ViewPort>() {
-            public ViewPort apply( RenderManager renderManager, Camera camera ) {
-                return renderManager.createMainView( name + " Viewport", camera );
-            }
-        } );
+    public static enum RenderPosition {
+        BACK, // behind main and front
+        MAIN, // between back and front
+        FRONT; // in front of back and main
+
+        public Function2<RenderManager, Camera, ViewPort> getViewportFactory( final String name ) {
+            return new Function2<RenderManager, Camera, ViewPort>() {
+                public ViewPort apply( RenderManager renderManager, Camera camera ) {
+                    switch( RenderPosition.this ) {
+                        case BACK:
+                            return JMEUtils.getApplication().renderManager.createPreView( name + " (back viewport)", camera );
+                        case MAIN:
+                            return JMEUtils.getApplication().renderManager.createMainView( name + " (main viewport)", camera );
+                        case FRONT:
+                            return JMEUtils.getApplication().renderManager.createPostView( name + " (front viewport)", camera );
+                        default:
+                            throw new IllegalArgumentException( "unknown position: " + RenderPosition.this );
+                    }
+                }
+            };
+        }
     }
 
-    public JMEView createBackGUIView( final String name ) {
-        return createGUIView( name, new Function2<RenderManager, Camera, ViewPort>() {
-            public ViewPort apply( RenderManager renderManager, Camera camera ) {
-                return renderManager.createPreView( name + " Viewport", camera );
-            }
-        } );
-    }
-
-    public JMEView createFrontGUIView( final String name ) {
-        return createGUIView( name, new Function2<RenderManager, Camera, ViewPort>() {
-            public ViewPort apply( RenderManager renderManager, Camera camera ) {
-                return renderManager.createPostView( name + " Viewport", camera );
-            }
-        } );
-    }
-
-    private JMEView createView( String name, Camera camera, Function2<RenderManager, Camera, ViewPort> viewportFactory ) {
+    public JMEView createRegularView( String name, Camera camera, RenderPosition position ) {
         Node scene = new Node( name + " Node" );
 
-        final ViewPort viewport = viewportFactory.apply( renderManager, camera );
+        final ViewPort viewport = position.getViewportFactory( name ).apply( renderManager, camera );
         viewport.attachScene( scene );
         addLiveNode( scene );
         return new JMEView( this, viewport, camera, scene );
     }
 
-    private JMEView createGUIView( String name, Function2<RenderManager, Camera, ViewPort> viewportFactory ) {
-        JMEView view = createView( name, createDefaultCamera(), viewportFactory );
+    public JMEView createGUIView( String name, RenderPosition position ) {
+        JMEView view = createRegularView( name, createDefaultCamera(), position );
 
         view.getScene().setQueueBucket( Bucket.Gui );
         view.getScene().setCullHint( CullHint.Never );

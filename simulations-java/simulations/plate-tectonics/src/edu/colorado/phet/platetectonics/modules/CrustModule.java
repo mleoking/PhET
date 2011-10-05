@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
+import edu.colorado.phet.jmephet.PhetJMEApplication.RenderPosition;
 import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.hud.HUDNode.HUDNodeCollision;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
@@ -121,7 +122,7 @@ public class CrustModule extends PlateTectonicsModule {
         * "Test" GUI
         *----------------------------------------------------------------------------*/
 
-        guiView = createFrontGUIView( "GUI" );
+        guiView = createGUIView( "GUI", RenderPosition.FRONT );
 
         /*---------------------------------------------------------------------------*
         * toolbox
@@ -155,12 +156,12 @@ public class CrustModule extends PlateTectonicsModule {
         guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new MyCrustPanel( model ) ), getInputHandler(), this, canvasTransform ) {{
             // layout the panel if its size changes (and on startup)
             onResize.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    position.set( new ImmutableVector2D(
-                            Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
-                            getStageSize().height - getComponentHeight() - 10 ) ); // offset from top
-                }
-            }, true ); // TODO: default to this?
+                                            public void update() {
+                                                position.set( new ImmutableVector2D(
+                                                        Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
+                                                        getStageSize().height - getComponentHeight() - 10 ) ); // offset from top
+                                            }
+                                        }, true ); // TODO: default to this?
         }} );
 
         /*---------------------------------------------------------------------------*
