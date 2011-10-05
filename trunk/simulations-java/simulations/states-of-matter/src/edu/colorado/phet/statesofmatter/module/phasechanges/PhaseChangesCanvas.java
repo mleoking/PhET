@@ -8,6 +8,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -146,7 +148,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         addWorldChild( resetAllButton );
 
         // Add a floating clock control.
-        BooleanProperty clockRunning = new BooleanProperty( false );
+        final BooleanProperty clockRunning = new BooleanProperty( false );
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean isRunning ) {
                 multipleParticleModel.getClock().setRunning( isRunning );
@@ -159,6 +161,14 @@ public class PhaseChangesCanvas extends PhetPCanvas {
             setOffset( resetAllButton.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
                        resetAllButton.getFullBoundsReference().getMinY() - getFullBoundsReference().height - 200 );
         }} );
+
+        // Make sure that the floating clock control sees the change when the
+        // clock gets started.
+        multipleParticleModel.getClock().addClockListener( new ClockAdapter() {
+            @Override public void clockStarted( ClockEvent clockEvent ) {
+                clockRunning.set( true );
+            }
+        } );
     }
 
     //----------------------------------------------------------------------------
