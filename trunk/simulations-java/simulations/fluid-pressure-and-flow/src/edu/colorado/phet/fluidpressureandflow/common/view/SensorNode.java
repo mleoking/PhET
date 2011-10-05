@@ -52,7 +52,7 @@ public abstract class SensorNode extends PNode {
         addInputEventListener( new CursorHandler() );
         sensor.location.addObserver( new SimpleObserver() {
             public void update() {
-                setOffset( transform.modelToView( sensor.getLocation().toPoint2D() ) );
+                setOffset( transform.modelToView( sensor.location.get().toPoint2D() ) );
             }
         } );
     }

@@ -39,11 +39,10 @@ public class PipeBackNode extends PNode {
 
     //Layout parameters
     public static final int PIPE_LEFT_OFFSET = 72;
-    //REVIEW constant names uppercase
-    public static final double sx = 0.4;
-    public static final double pipeOpeningPixelYTop = 58;
-    private static final double pipeOpeningPixelYBottom = 375;
-    public static final double pipeOpeningHeight = pipeOpeningPixelYBottom - pipeOpeningPixelYTop;
+    public static final double SX = 0.4;
+    public static final double PIPE_OPENING_PIXEL_Y_TOP = 58;
+    private static final double PIPE_OPENING_PIXEL_Y_BOTTOM = 375;
+    public static final double PIPE_OPENING_HEIGHT = PIPE_OPENING_PIXEL_Y_BOTTOM - PIPE_OPENING_PIXEL_Y_TOP;
 
     public PipeBackNode( final ModelViewTransform transform, final Pipe pipe, final Property<Double> fluidDensity ) {
         this.pipe = pipe;
@@ -62,25 +61,25 @@ public class PipeBackNode extends PNode {
                 public void update() {
 
                     //Update the transform and offset
-                    double syLeft = getPipeLeftViewHeight() / pipeOpeningHeight;
-                    double syRight = getPipeRightViewHeight() / pipeOpeningHeight;
-                    setTransform( AffineTransform.getScaleInstance( sx, syLeft ) );
+                    double syLeft = getPipeLeftViewHeight() / PIPE_OPENING_HEIGHT;
+                    double syRight = getPipeRightViewHeight() / PIPE_OPENING_HEIGHT;
+                    setTransform( AffineTransform.getScaleInstance( SX, syLeft ) );
                     final Point2D topLeft = transform.modelToView( pipe.getTopLeft() );
-                    setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * syLeft );
+                    setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / SX, topLeft.getY() - PIPE_OPENING_PIXEL_Y_TOP * syLeft );
 
                     //Fill in the left part that joins the exterior to interior pipe
                     double length = 10000;
                     leftExtension.setPathTo( new Rectangle2D.Double( topLeft.getX() - length, 0, length, pipeLeftBackImage.getHeight() ) );
                     leftExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, 0, pipeImage.getWidth(), pipeLeftBackImage.getHeight() ) ) );
                     leftExtension.setTransform( AffineTransform.getScaleInstance( 1, syLeft ) );
-                    leftExtension.setOffset( 0, topLeft.getY() - pipeOpeningPixelYTop * syLeft );
+                    leftExtension.setOffset( 0, topLeft.getY() - PIPE_OPENING_PIXEL_Y_TOP * syLeft );
 
                     //Fill in the right part that joins the exterior to interior pipe
                     final Point2D topRight = transform.modelToView( pipe.getTopRight() );
                     rightExtension.setPathTo( new Rectangle2D.Double( 0, 0, length, pipeLeftBackImage.getHeight() ) );
                     rightExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, 0, pipeImage.getWidth(), pipeLeftBackImage.getHeight() ) ) );
                     rightExtension.setTransform( AffineTransform.getScaleInstance( 1, syRight ) );
-                    rightExtension.setOffset( topRight.getX(), topRight.getY() - pipeOpeningPixelYTop * syRight );
+                    rightExtension.setOffset( topRight.getX(), topRight.getY() - PIPE_OPENING_PIXEL_Y_TOP * syRight );
                 }
             } );
         }} );

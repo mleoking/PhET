@@ -16,7 +16,7 @@ public class PressureSensor extends Sensor<Double> {
         //When the location or context changes, update the pressure value so readouts will update
         final SimpleObserver updatePressure = new SimpleObserver() {
             public void update() {
-                setValue( context.getPressure( getLocation().getX(), getLocation().getY() ) );
+                setValue( context.getPressure( location.get().getX(), location.get().getY() ) );
             }
         };
         location.addObserver( updatePressure );

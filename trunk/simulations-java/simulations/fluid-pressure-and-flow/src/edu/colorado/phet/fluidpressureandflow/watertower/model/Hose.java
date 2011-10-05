@@ -36,16 +36,18 @@ public class Hose {
     public final double holeSize;
 
     //Height of the nozzle in meters, determined by setting up the view as desired then doing an inverse delta transform
-    public final double nozzleHeight = 2.85; //REVIEW static, uppercase
+    public static final double NOZZLE_HEIGHT = 2.85;
 
     public Hose( ObservableProperty<ImmutableVector2D> attachmentPoint, double holeSize ) {
         this.attachmentPoint = attachmentPoint;
         this.holeSize = holeSize;
 
         //The output point is at an arbitrary fixed x location, and the y-value is specified by another property
+        //Determined value for x-position of output point through trial and error to find something far enough from the water tower that it is easy to control the hose
+        //but close enough that you can still see and measure the parabolic flow of water
         outputPoint = new CompositeProperty<ImmutableVector2D>( new Function0<ImmutableVector2D>() {
             public ImmutableVector2D apply() {
-                return new ImmutableVector2D( 17.275, y.get() ); //REVIEW how did you arrive ast 17.275?
+                return new ImmutableVector2D( 17.275, y.get() );
             }
         }, y );
     }
@@ -56,7 +58,7 @@ public class Hose {
     }
 
     public ImmutableVector2D getNozzleInputPoint() {
-        return createPolar( nozzleHeight, angle.get() + Math.PI ).plus( outputPoint.get() );
+        return createPolar( NOZZLE_HEIGHT, angle.get() + Math.PI ).plus( outputPoint.get() );
     }
 
     //Gets a unit vector pointing from the nozzle input point to the output point, used to place the arrow drag handles

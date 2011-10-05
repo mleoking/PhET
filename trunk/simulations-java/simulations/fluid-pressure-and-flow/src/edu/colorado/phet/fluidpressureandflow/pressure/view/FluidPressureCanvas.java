@@ -25,10 +25,10 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
  */
 public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressureModel> {
 
-    private static final double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;  //REVIEW private static final, uppercase
+    private static final double MODEL_HEIGHT = Pool.DEFAULT_HEIGHT * 2.2;
 
     public FluidPressureCanvas( final FluidPressureModule module ) {
-        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / modelHeight ) );
+        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / MODEL_HEIGHT ) );
 
         //Show the sky
         addChild( new OutsideBackgroundNode( transform, 3, 1 ) );

@@ -15,15 +15,14 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class SnapToToolbox extends PBasicInputEventHandler {
 
-    //REVIEW all field should be final?
     //Function that checks the bounds of the node to see if it should go back to the toolbox
-    private Function0<PBounds> getDragNodeGlobalFullBounds;
+    private final Function0<PBounds> getDragNodeGlobalFullBounds;
 
-    private SensorToolBoxNode sensorToolBoxNode;
-    private SettableProperty<ImmutableVector2D> modelPosition;
-    private ImmutableVector2D controlPanelModelPosition;
+    private final FluidPressureAndFlowControlPanelNode sensorToolBoxNode;
+    private final SettableProperty<ImmutableVector2D> modelPosition;
+    private final ImmutableVector2D controlPanelModelPosition;
 
-    public SnapToToolbox( SensorToolBoxNode sensorToolBoxNode, SettableProperty<ImmutableVector2D> modelPosition, ImmutableVector2D controlPanelModelPosition, Function0<PBounds> getDragNodeGlobalFullBounds ) {
+    public SnapToToolbox( FluidPressureAndFlowControlPanelNode sensorToolBoxNode, SettableProperty<ImmutableVector2D> modelPosition, ImmutableVector2D controlPanelModelPosition, Function0<PBounds> getDragNodeGlobalFullBounds ) {
         this.getDragNodeGlobalFullBounds = getDragNodeGlobalFullBounds;
         this.sensorToolBoxNode = sensorToolBoxNode;
         this.modelPosition = modelPosition;

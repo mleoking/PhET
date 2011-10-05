@@ -21,8 +21,8 @@ public class EnglishRuler extends FluidPressureAndFlowRuler {
                rulerModelOrigin, resetModel );
     }
 
-    //REVIEW parameter flag is not used
-    public EnglishRuler( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin, boolean flag, ResetModel resetModel ) {
+    //Creates a ruler that goes 100 feet long
+    public EnglishRuler( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin, boolean dummyFlagToIndicate100Max, ResetModel resetModel ) {
         super( transform, visible, setVisible, Math.abs( transform.modelToViewDeltaY( Units.FEET.toSI( 100 ) ) ),
                new String[] { "0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100" }, Units.FEET.getAbbreviation(),
                rulerModelOrigin, resetModel );
