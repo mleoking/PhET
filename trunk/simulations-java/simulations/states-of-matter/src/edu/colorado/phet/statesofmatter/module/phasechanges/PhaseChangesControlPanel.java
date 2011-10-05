@@ -105,8 +105,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
         super();
         m_model = phaseChangesModule.getMultiParticleModel();
         m_advanced = advanced;
-        m_phaseDiagramVisible = true;
-        m_interactionDiagramVisible = true;
+        m_phaseDiagramVisible = advanced;
+        m_interactionDiagramVisible = advanced;
 
         // Register with the model for events that affect the diagrams on this panel.
         m_model.addListener( new MultipleParticleModel.Adapter() {
@@ -128,8 +128,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
             }
 
             public void resetOccurred() {
-                m_phaseDiagramVisible = true;
-                m_interactionDiagramVisible = true;
+                m_phaseDiagramVisible = m_advanced;
+                m_interactionDiagramVisible = m_advanced;
                 updateVisibilityStates();
             }
         } );
