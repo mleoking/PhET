@@ -26,11 +26,6 @@ public abstract class Sensor<T> {
         value.reset();
     }
 
-    //REVIEW this is redundant if location field is public
-    public ImmutableVector2D getLocation() {
-        return location.get();
-    }
-
     public T getValue() {
         return value.get();
     }

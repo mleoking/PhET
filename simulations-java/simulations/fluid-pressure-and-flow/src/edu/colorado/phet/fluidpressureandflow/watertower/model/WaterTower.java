@@ -31,27 +31,27 @@ public class WaterTower {
     private static final int LEG_EXTENSION = 3;
 
     //Assume the tank is a cylinder ond compute the max volume
-    public static final double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT; //REVIEW uppercase
+    public static final double TANK_VOLUME = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
 
     //Location of the bottom center of the water tower
     public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, INITIAL_Y ) );
 
     //Start the tank partly full so that the "fill" button and faucet slider are initially enabled
-    public final DoubleProperty fluidVolume = new DoubleProperty( tankVolume * 0.8 );//meters cubed
+    public final DoubleProperty fluidVolume = new DoubleProperty( TANK_VOLUME * 0.8 );//meters cubed
 
     //The movable panel that can cover the hole.
     public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( PANEL_OFFSET, 0 ) );
 
     //Flag indicating whether the tank is full, for purposes of disabling controls that can be used to fill the tank
-    public final ObservableProperty<Boolean> full = fluidVolume.greaterThanOrEqualTo( tankVolume );
+    public final ObservableProperty<Boolean> full = fluidVolume.greaterThanOrEqualTo( TANK_VOLUME );
 
     //Size of the hole in meters
-    public final double holeSize = 1; //REVIEW static, uppercase
+    public static final double HOLE_SIZE = 1;
 
     //Function to fill up the water tank
     public final VoidFunction0 fill = new VoidFunction0() {
         public void apply() {
-            setFluidVolume( tankVolume );
+            setFluidVolume( TANK_VOLUME );
         }
     };
 

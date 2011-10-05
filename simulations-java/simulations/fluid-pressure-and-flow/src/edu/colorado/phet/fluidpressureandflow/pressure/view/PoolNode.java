@@ -7,6 +7,7 @@ import java.awt.GradientPaint;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
@@ -53,13 +54,8 @@ public class PoolNode extends PNode {
         return new GradientPaint( 0, (float) yTop, darker( topColor ), 0, (float) yBottom, darker( bottomColor ) );
     }
 
-    //REVIEW replace with ColorUtils.darkerColor(color,0.8)
     //Darken a color but keep the alpha value instead of discarding it (as in java.awt.Color.darker)
     private static Color darker( Color color ) {
-        double FACTOR = 0.8;
-        return new Color( Math.max( (int) ( color.getRed() * FACTOR ), 0 ),
-                          Math.max( (int) ( color.getGreen() * FACTOR ), 0 ),
-                          Math.max( (int) ( color.getBlue() * FACTOR ), 0 ),
-                          color.getAlpha() );
+        return ColorUtils.darkerColor( color, 0.2 );
     }
 }

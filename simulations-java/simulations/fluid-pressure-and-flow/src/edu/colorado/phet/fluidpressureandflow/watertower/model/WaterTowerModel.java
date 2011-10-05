@@ -70,7 +70,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
             public ImmutableVector2D apply() {
                 return new ImmutableVector2D( waterTower.getHoleLocation() );
             }
-        }, waterTower.tankBottomCenter ), waterTower.holeSize );
+        }, waterTower.tankBottomCenter ), waterTower.HOLE_SIZE );
     }
 
     //Update the simulation when the clock ticks
@@ -173,7 +173,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         //absorb the water from the faucet and increase the water tower volume
         updateWaterDrops( waterTower.getWaterShape().getBounds2D().getMaxY(), faucetDrops, dt, new VoidFunction1<WaterDrop>() {
             public void apply( WaterDrop drop ) {
-                waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.get() + drop.getVolume(), WaterTower.tankVolume ) );
+                waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.get() + drop.getVolume(), WaterTower.TANK_VOLUME ) );
             }
         } );
     }

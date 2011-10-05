@@ -9,8 +9,8 @@ import javax.swing.JSeparator;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
-import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.view.FPAFCheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.FPAFRadioButton;
 import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
 
@@ -24,8 +24,8 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
 public class WaterTowerControlPanel extends VerticalLayoutPanel {
     public WaterTowerControlPanel( final WaterTowerModule module ) {
         //Measuring devices and units
-        add( new CheckBox( RULER, module.rulerVisible ) );
-        add( new CheckBox( MEASURING_TAPE, module.measuringTapeVisible ) );
+        add( new FPAFCheckBox( RULER, module.rulerVisible ) );
+        add( new FPAFCheckBox( MEASURING_TAPE, module.measuringTapeVisible ) );
 
         //Units control panel that allows choice between english and metric
         SettableProperty<UnitSet> units = module.model.units;
@@ -37,6 +37,6 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
         add( new JSeparator() );
 
         //Hose on/off
-        add( new CheckBox( HOSE, module.model.hose.enabled ) );
+        add( new FPAFCheckBox( HOSE, module.model.hose.enabled ) );
     }
 }

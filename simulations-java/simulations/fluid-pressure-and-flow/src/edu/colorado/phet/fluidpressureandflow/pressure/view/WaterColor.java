@@ -25,13 +25,13 @@ public class WaterColor {
     private static final double GAS_DENSITY = 719;//si
     private static final double WATER_DENSITY = 1000;
     private static final double HONEY_DENSITY = 1360;
-    private static final Color honeyColor = new Color( 255, 191, 0 ); //REVIEW uppercase
-    private static final Color gasColor = Color.gray; //REVIEW uppercase
+    private static final Color HONEY_COLOR = new Color( 255, 191, 0 );
+    private static final Color GAS_COLOR = Color.gray;
 
-    public static final boolean debugColorChoice = false; //REVIEW uppercase
+    public static final boolean DEBUG_COLOR_CHOICE = false;
 
     static {
-        if ( debugColorChoice ) {//debug color choice
+        if ( DEBUG_COLOR_CHOICE ) {//debug color choice
             new JFrame() {{
                 final JColorChooser contentPane = new JColorChooser() {{
                     getSelectionModel().addChangeListener( new ChangeListener() {
@@ -46,8 +46,7 @@ public class WaterColor {
         }
     }
 
-    //REVIEW private?
-    public static Function1<Double, Boolean> lessThan( final double x ) {
+    private static Function1<Double, Boolean> lessThan( final double x ) {
         return new Function1<Double, Boolean>() {
             public Boolean apply( Double aDouble ) {
                 return aDouble < x;
@@ -55,8 +54,7 @@ public class WaterColor {
         };
     }
 
-    //REVIEW private?
-    public static Function1<Double, Boolean> greaterEqual( final double x ) {
+    private static Function1<Double, Boolean> greaterEqual( final double x ) {
         return new Function1<Double, Boolean>() {
             public Boolean apply( Double aDouble ) {
                 return aDouble >= x;
@@ -64,8 +62,7 @@ public class WaterColor {
         };
     }
 
-    //REVIEWW private?
-    public static Function1<Double, Double> linear( final Function.LinearFunction linearFunction ) {
+    private static Function1<Double, Double> linear( final Function.LinearFunction linearFunction ) {
         return new Function1<Double, Double>() {
             public Double apply( Double aDouble ) {
                 return linearFunction.evaluate( aDouble );
@@ -73,10 +70,9 @@ public class WaterColor {
         };
     }
 
-    //REVIEW private?
-    public static PiecewiseFunction getColorComponent( Function1<Color, Integer> component ) {
-        final Function.LinearFunction rLow = new Function.LinearFunction( GAS_DENSITY, WATER_DENSITY, component.apply( gasColor ), component.apply( waterColor.get() ) );
-        final Function.LinearFunction rHigh = new Function.LinearFunction( WATER_DENSITY, HONEY_DENSITY, component.apply( waterColor.get() ), component.apply( honeyColor ) );
+    private static PiecewiseFunction getColorComponent( Function1<Color, Integer> component ) {
+        final Function.LinearFunction rLow = new Function.LinearFunction( GAS_DENSITY, WATER_DENSITY, component.apply( GAS_COLOR ), component.apply( waterColor.get() ) );
+        final Function.LinearFunction rHigh = new Function.LinearFunction( WATER_DENSITY, HONEY_DENSITY, component.apply( waterColor.get() ), component.apply( HONEY_COLOR ) );
 
         return new PiecewiseFunction( new PiecewiseFunction.Piece[] {
                 new PiecewiseFunction.Piece( lessThan( WATER_DENSITY ), linear( rLow ) ),

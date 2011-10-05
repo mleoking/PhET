@@ -33,8 +33,8 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
  * @author Sam Reid
  */
 public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel> {
-    private static final double modelHeight = 50; //REVIEW uppercase
-    private static final double scale = STAGE_SIZE.getHeight() / modelHeight; //REVIEW uppercase
+    private static final double MODEL_HEIGHT = 50;
+    private static final double SCALE = STAGE_SIZE.getHeight() / MODEL_HEIGHT;
 
     //Use different layers for the water tower drops vs faucet drops since water tower drops must go behind the ground, but faucet drops must go in front of the tower
     private final PNode waterTowerDropLayer = new PNode();
@@ -47,7 +47,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
     public static int FLOATING_BUTTON_FONT_SIZE = (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 );
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.225, STAGE_SIZE.height * 0.75 ), scale ) );
+        super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.225, STAGE_SIZE.height * 0.75 ), SCALE ) );
 
         addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
 

@@ -6,8 +6,8 @@ import javax.swing.JComponent;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
-import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.view.FPAFCheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.FPAFRadioButton;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluidFlowModel;
 
@@ -22,17 +22,17 @@ public class FluidFlowControlPanel extends VerticalLayoutPanel {
     public FluidFlowControlPanel( final FluidPressureAndFlowModule<FluidFlowModel> module ) {
 
         //Checkbox that allows the user to show/hide the ruler
-        addControlFullWidth( new CheckBox( RULER, module.rulerVisible ) );
+        addControlFullWidth( new FPAFCheckBox( RULER, module.rulerVisible ) );
 
         //Units control panel that allows choice between english and metric
         addControlFullWidth( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( METRIC, module.model.units, UnitSet.METRIC ),
                                                             new FPAFRadioButton<UnitSet>( ENGLISH, module.model.units, UnitSet.ENGLISH ) ) );
 
         //Add a control that lets the user toggle friction on and off
-        addControlFullWidth( new CheckBox( FRICTION, module.model.pipe.friction ) );
+        addControlFullWidth( new FPAFCheckBox( FRICTION, module.model.pipe.friction ) );
 
         //Add a control that enables the user to show/hide a flux meter
-        addControlFullWidth( new CheckBox( FLUX_METER, module.model.fluxMeter.visible ) );
+        addControlFullWidth( new FPAFCheckBox( FLUX_METER, module.model.fluxMeter.visible ) );
     }
 
     private void addControlFullWidth( JComponent component ) {

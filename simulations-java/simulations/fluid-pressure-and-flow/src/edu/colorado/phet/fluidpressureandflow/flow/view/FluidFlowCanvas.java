@@ -74,12 +74,12 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         } );
         addChild( dropperNode );
 
-        //REVIEW formatting doesn't reflect nested dbi, unnecessarily difficult to read
         //Show a checkbox that enabled/disables adding dots to the fluid
-        addChild( new PSwing( new PropertyCheckBox( DOTS, model.dropperEnabled ) {{
+        final PropertyCheckBox dotsCheckBox = new PropertyCheckBox( DOTS, model.dropperEnabled ) {{
             setFont( CONTROL_FONT );
             setBackground( new Color( 0, 0, 0, 0 ) );
-        }} ) {{
+        }};
+        addChild( new PSwing( dotsCheckBox ) {{
             setOffset( dropperNode.getFullBounds().getMaxX(), dropperNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 

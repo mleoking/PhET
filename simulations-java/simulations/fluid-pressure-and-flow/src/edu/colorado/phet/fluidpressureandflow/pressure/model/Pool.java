@@ -16,18 +16,18 @@ public class Pool {
 
     //10 foot deep pool, a customary depth for the deep end in the United States
     public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );
-    private final double height = DEFAULT_HEIGHT; //REVIEW private static final, uppercase
-    private final double width = 4; //REVIEW private static final, uppercase
+    private static final double HEIGHT = DEFAULT_HEIGHT; //REVIEW private static final, uppercase
+    private static final double WIDTH = 4; //REVIEW private static final, uppercase
 
     public Pool() {
     }
 
     public double getHeight() {
-        return height;
+        return HEIGHT;
     }
 
     public Shape getShape() {
-        return new Rectangle2D.Double( -width / 2, -height, width, height );
+        return new Rectangle2D.Double( -WIDTH / 2, -HEIGHT, WIDTH, HEIGHT );
     }
 
     public double getMinX() {

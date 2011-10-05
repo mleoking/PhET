@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.fluidpressureandflow.flow.model.CrossSection;
+import edu.colorado.phet.fluidpressureandflow.flow.model.PipeCrossSection;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
@@ -26,7 +26,7 @@ public class PipeCrossSectionControl extends PNode {
     //make it so that the control point can't be dragged off-screen in the up direction
     public static final double MAX_DRAG_Y = 3;
 
-    public PipeCrossSectionControl( final ModelViewTransform transform, final CrossSection pipePosition ) {
+    public PipeCrossSectionControl( final ModelViewTransform transform, final PipeCrossSection pipePosition ) {
         final PipeControlPoint top = new PipeControlPoint( pipePosition.top );
         final PipeControlPoint bottom = new PipeControlPoint( pipePosition.bottom );
 

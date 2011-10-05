@@ -27,10 +27,10 @@ import static java.util.Collections.min;
 public class Pipe {
 
     //Cross sections that the user can manipulate to deform the pipe.
-    private final ArrayList<CrossSection> controlCrossSections = new ArrayList<CrossSection>();
+    private final ArrayList<PipeCrossSection> controlCrossSections = new ArrayList<PipeCrossSection>();
 
     //Nonlinear interpolation of the control sections for particle motion and determining the velocity field
-    private ArrayList<CrossSection> splineCrossSections;
+    private ArrayList<PipeCrossSection> splineCrossSections;
 
     //Flag to improve performance
     private boolean dirty = true;
@@ -43,14 +43,14 @@ public class Pipe {
 
     //Creates a pipe with a default shape.
     public Pipe() {
-        controlCrossSections.add( new CrossSection( -6, -3, -1 ) );
-        controlCrossSections.add( new CrossSection( -4, -3, -1 ) );
-        controlCrossSections.add( new CrossSection( -2, -3, -1 ) );
-        controlCrossSections.add( new CrossSection( 0, -3, -1 ) );
-        controlCrossSections.add( new CrossSection( 2, -3, -1 ) );
-        controlCrossSections.add( new CrossSection( 4, -3, -1 ) );
-        controlCrossSections.add( new CrossSection( 6, -3, -1 ) );
-        for ( CrossSection controlPoint : controlCrossSections ) {
+        controlCrossSections.add( new PipeCrossSection( -6, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( -4, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( -2, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( 0, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( 2, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( 4, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( 6, -3, -1 ) );
+        for ( PipeCrossSection controlPoint : controlCrossSections ) {
             controlPoint.addObserver( new SimpleObserver() {
                 public void update() {
                     dirty = true;
@@ -59,12 +59,12 @@ public class Pipe {
         }
     }
 
-    public ArrayList<CrossSection> getControlCrossSections() {
-        return new ArrayList<CrossSection>( controlCrossSections );
+    public ArrayList<PipeCrossSection> getControlCrossSections() {
+        return new ArrayList<PipeCrossSection>( controlCrossSections );
     }
 
     public void addShapeChangeListener( SimpleObserver simpleObserver ) {
-        for ( CrossSection pipePosition : controlCrossSections ) {
+        for ( PipeCrossSection pipePosition : controlCrossSections ) {
             pipePosition.addObserver( simpleObserver );
         }
     }
@@ -73,7 +73,7 @@ public class Pipe {
         return getShape( getSplineCrossSections() );
     }
 
-    public ArrayList<CrossSection> getSplineCrossSections() {
+    public ArrayList<PipeCrossSection> getSplineCrossSections() {
         if ( dirty ) {
             splineCrossSections = createSpline();
             dirty = false;
@@ -82,18 +82,18 @@ public class Pipe {
     }
 
     //Creates the set of interpolated cross section samples from the control cross sections.
-    private ArrayList<CrossSection> createSpline() {
-        ArrayList<CrossSection> pipePositions = new ArrayList<CrossSection>();
+    private ArrayList<PipeCrossSection> createSpline() {
+        ArrayList<PipeCrossSection> pipePositions = new ArrayList<PipeCrossSection>();
         double dx = 0.2;//extend water flow so it looks like it enters the pipe cutaway
-        pipePositions.add( new CrossSection( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
+        pipePositions.add( new PipeCrossSection( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
         pipePositions.addAll( this.controlCrossSections );
-        pipePositions.add( new CrossSection( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
+        pipePositions.add( new PipeCrossSection( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
         return spline( pipePositions );
     }
 
     //Interpolates the specified control points to obtain a smooth set of cross sections
-    private ArrayList<CrossSection> spline( ArrayList<CrossSection> controlPoints ) {
-        ArrayList<CrossSection> spline = new ArrayList<CrossSection>();
+    private ArrayList<PipeCrossSection> spline( ArrayList<PipeCrossSection> controlPoints ) {
+        ArrayList<PipeCrossSection> spline = new ArrayList<PipeCrossSection>();
         SerializablePoint2D[] top = new SerializablePoint2D[controlPoints.size()];
         for ( int i = 0; i < top.length; i++ ) {
             top[i] = new SerializablePoint2D( controlPoints.get( i ).getTop() );
@@ -118,33 +118,33 @@ public class Pipe {
                 topY = center + min / 2;
                 bottomY = center - min / 2;
             }
-            spline.add( new CrossSection( ( topPt.getX() + bottomPt.getX() ) / 2, bottomY, topY ) );
+            spline.add( new PipeCrossSection( ( topPt.getX() + bottomPt.getX() ) / 2, bottomY, topY ) );
         }
         return spline;
     }
 
     //Converts a list of CrossSections to a Shape, this is used with the interpolated cross sections.
-    public Shape getShape( ArrayList<CrossSection> controlSections ) {
+    public Shape getShape( ArrayList<PipeCrossSection> controlSections ) {
         DoubleGeneralPath path = new DoubleGeneralPath( controlSections.get( 0 ).getTop() );
-        for ( CrossSection pipePosition : controlSections.subList( 1, controlSections.size() ) ) {
+        for ( PipeCrossSection pipePosition : controlSections.subList( 1, controlSections.size() ) ) {
             path.lineTo( pipePosition.getTop() );
         }
 
-        final ArrayList<CrossSection> rev = new ArrayList<CrossSection>( controlSections ) {{
+        final ArrayList<PipeCrossSection> rev = new ArrayList<PipeCrossSection>( controlSections ) {{
             Collections.reverse( this );
         }};
-        for ( CrossSection pipePosition : rev ) {
+        for ( PipeCrossSection pipePosition : rev ) {
             path.lineTo( pipePosition.getBottom() );
         }
         return path.getGeneralPath();
     }
 
     //Gets a single path for the top or bottom of the pipe
-    public Shape getPath( Function1<CrossSection, Point2D> getter ) {
-        ArrayList<CrossSection> pipePositions = getSplineCrossSections();
+    public Shape getPath( Function1<PipeCrossSection, Point2D> getter ) {
+        ArrayList<PipeCrossSection> pipePositions = getSplineCrossSections();
         DoubleGeneralPath path = new DoubleGeneralPath();
         for ( int i = 0; i < pipePositions.size(); i++ ) {
-            CrossSection pipePosition = pipePositions.get( i );
+            PipeCrossSection pipePosition = pipePositions.get( i );
             if ( i == 0 ) {
                 path.moveTo( getter.apply( pipePosition ) );
             }
@@ -156,16 +156,16 @@ public class Pipe {
     }
 
     public Shape getTopPath() {
-        return getPath( new Function1<CrossSection, Point2D>() {
-            public Point2D apply( CrossSection pipePosition ) {
+        return getPath( new Function1<PipeCrossSection, Point2D>() {
+            public Point2D apply( PipeCrossSection pipePosition ) {
                 return pipePosition.getTop();
             }
         } );
     }
 
     public Shape getBottomPath() {
-        return getPath( new Function1<CrossSection, Point2D>() {
-            public Point2D apply( CrossSection pipePosition ) {
+        return getPath( new Function1<PipeCrossSection, Point2D>() {
+            public Point2D apply( PipeCrossSection pipePosition ) {
                 return pipePosition.getBottom();
             }
         } );
@@ -173,29 +173,29 @@ public class Pipe {
 
     //Given a global y-position, determine the fraction to the top (point at bottom = 0, point halfway up = 0.5, etc.)
     public double getFractionToTop( double x, double y ) {
-        CrossSection position = getCrossSection( x );
+        PipeCrossSection position = getCrossSection( x );
         return new Function.LinearFunction( position.getBottom().getY(), position.getTop().getY(), 0, 1 ).evaluate( y );
     }
 
     //Determines the cross section for a given x-coordinate by linear interpolation between the nearest nonlinear samples.
-    public CrossSection getCrossSection( double x ) {
-        CrossSection previous = getPipePositionBefore( x );
-        CrossSection next = getPipePositionAfter( x );
+    public PipeCrossSection getCrossSection( double x ) {
+        PipeCrossSection previous = getPipePositionBefore( x );
+        PipeCrossSection next = getPipePositionAfter( x );
         double top = new Function.LinearFunction( previous.getTop(), next.getTop() ).evaluate( x );
         double bottom = new Function.LinearFunction( previous.getBottom(), next.getBottom() ).evaluate( x );
-        return new CrossSection( x, bottom, top );
+        return new PipeCrossSection( x, bottom, top );
     }
 
     //Find the y-value for the specified x-value and fraction (0=bottom, 1=top) of the pipe
     public double fractionToLocation( double x, double fraction ) {
-        CrossSection position = getCrossSection( x );
+        PipeCrossSection position = getCrossSection( x );
         return new Function.LinearFunction( 0, 1, position.getBottom().getY(), position.getTop().getY() ).evaluate( fraction );
     }
 
     //Lookup the cross section immediately before the specified x-location for interpolation
-    private CrossSection getPipePositionBefore( final double x ) {
-        ArrayList<CrossSection> list = new ArrayList<CrossSection>() {{
-            for ( CrossSection pipePosition : getCrossSections() ) {
+    private PipeCrossSection getPipePositionBefore( final double x ) {
+        ArrayList<PipeCrossSection> list = new ArrayList<PipeCrossSection>() {{
+            for ( PipeCrossSection pipePosition : getCrossSections() ) {
                 if ( pipePosition.getX() < x ) {
                     add( pipePosition );
                 }
@@ -204,35 +204,35 @@ public class Pipe {
         if ( list.size() == 0 ) {
             throw new RuntimeException( "No pipe segments before x= " + x );
         }
-        return min( list, new Comparator<CrossSection>() {
-            public int compare( CrossSection o1, CrossSection o2 ) {
+        return min( list, new Comparator<PipeCrossSection>() {
+            public int compare( PipeCrossSection o1, PipeCrossSection o2 ) {
                 return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
             }
         } );
     }
 
-    private Iterable<? extends CrossSection> getCrossSections() {
+    private Iterable<? extends PipeCrossSection> getCrossSections() {
         return getSplineCrossSections();
     }
 
     //Lookup the cross section immediately after the specified x-location for interpolation
-    private CrossSection getPipePositionAfter( final double x ) {
-        ArrayList<CrossSection> list = new ArrayList<CrossSection>() {{
-            for ( CrossSection pipePosition : getCrossSections() ) {
+    private PipeCrossSection getPipePositionAfter( final double x ) {
+        ArrayList<PipeCrossSection> list = new ArrayList<PipeCrossSection>() {{
+            for ( PipeCrossSection pipePosition : getCrossSections() ) {
                 if ( pipePosition.getX() > x ) {
                     add( pipePosition );
                 }
             }
         }};
-        return Collections.min( list, new Comparator<CrossSection>() {
-            public int compare( CrossSection o1, CrossSection o2 ) {
+        return Collections.min( list, new Comparator<PipeCrossSection>() {
+            public int compare( PipeCrossSection o1, PipeCrossSection o2 ) {
                 return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
             }
         } );
     }
 
     public double getMaxX() {
-        ArrayList<CrossSection> list = getPipePositionsSortedByX();
+        ArrayList<PipeCrossSection> list = getPipePositionsSortedByX();
         return list.get( list.size() - 1 ).getX();
     }
 
@@ -240,10 +240,10 @@ public class Pipe {
         return getPipePositionsSortedByX().get( 0 ).getX();
     }
 
-    private ArrayList<CrossSection> getPipePositionsSortedByX() {
-        return new ArrayList<CrossSection>( controlCrossSections ) {{
-            Collections.sort( this, new Comparator<CrossSection>() {
-                public int compare( CrossSection o1, CrossSection o2 ) {
+    private ArrayList<PipeCrossSection> getPipePositionsSortedByX() {
+        return new ArrayList<PipeCrossSection>( controlCrossSections ) {{
+            Collections.sort( this, new Comparator<PipeCrossSection>() {
+                public int compare( PipeCrossSection o1, PipeCrossSection o2 ) {
                     return Double.compare( o1.getX(), o2.getX() );
                 }
             } );
@@ -273,7 +273,7 @@ public class Pipe {
     public void reset() {
         flowRate.reset();
         friction.reset();
-        for ( CrossSection pipePosition : controlCrossSections ) {
+        for ( PipeCrossSection pipePosition : controlCrossSections ) {
             pipePosition.reset();
         }
     }
@@ -303,8 +303,8 @@ public class Pipe {
         double fraction = getFractionToTop( x, y );
         double speed = getSpeed( x );
 
-        CrossSection pre = getCrossSection( x - 1E-7 );
-        CrossSection post = getCrossSection( x + 1E-7 );
+        PipeCrossSection pre = getCrossSection( x - 1E-7 );
+        PipeCrossSection post = getCrossSection( x + 1E-7 );
 
         double x0 = pre.getX();
         double y0 = new Function.LinearFunction( 0, 1, pre.getBottom().getY(), pre.getTop().getY() ).evaluate( fraction );

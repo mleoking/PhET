@@ -59,7 +59,8 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     private final PNode rootNode;
 
     //Size for the stage, should have the right aspect ratio since it will always be visible
-    public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 ); //REVIEW magic numbers determined how?
+    //The dimension was determined by running on Windows and inspecting the dimension of the canvas after menubar and tabs are added
+    public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
 
     //Font to use for the majority of controls in this sim
     public static final Font CONTROL_FONT = new PhetFont( 15, false );
@@ -161,7 +162,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     }
 
     //Add the velocity sensor node, and constrain to remain on the screen
-    protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model, final EmptyNode velocitySensorNodeArea, final SensorToolBoxNode sensorToolBoxNode ) {
+    protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model, final EmptyNode velocitySensorNodeArea, final FluidPressureAndFlowControlPanelNode sensorToolBoxNode ) {
         for ( final VelocitySensor velocitySensor : model.getVelocitySensors() ) {
 
             //Move so it has the right physical location so it will look like it is in the toolbox
@@ -193,17 +194,16 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     }
 
     public Property<Function1<Double, String>> getVelocityFormatter( final FluidPressureAndFlowModel model ) {
-        return new Property<Function1<Double, String>>( createFormatter( model ) ) {{
+        return new Property<Function1<Double, String>>( createVelocityFormatter( model ) ) {{
             model.units.addObserver( new SimpleObserver() {
                 public void update() {
-                    set( createFormatter( model ) );
+                    set( createVelocityFormatter( model ) );
                 }
             } );
         }};
     }
 
-    //REVIEW rename createVelocityFormatter? This is specific to velocity.
-    private Function1<Double, String> createFormatter( final FluidPressureAndFlowModel model ) {
+    private Function1<Double, String> createVelocityFormatter( final FluidPressureAndFlowModel model ) {
         return new Function1<Double, String>() {
             public String apply( Double aDouble ) {
                 final Unit unit = model.units.get().velocity;
@@ -227,7 +227,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     public void addSensorToolboxNode( final FluidPressureAndFlowModel model, final FluidPressureAndFlowControlPanelNode controlPanelNode ) {
         final EmptyNode velocitySensorArea = new EmptyNode( new VelocitySensorNode( transform, model.getVelocitySensors()[0], 1, getVelocityFormatter( model ) ) );
         final EmptyNode pressureSensorArea = new EmptyNode( new PressureSensorNode( transform, model.getPressureSensors()[0], new Property<UnitSet>( UnitSet.METRIC ), visibleModelBounds ) );
-        final SensorToolBoxNode sensorToolBoxNode = new SensorToolBoxNode( new HBox( velocitySensorArea, pressureSensorArea ) ) {{
+        final FluidPressureAndFlowControlPanelNode sensorToolBoxNode = new FluidPressureAndFlowControlPanelNode( new HBox( velocitySensorArea, pressureSensorArea ) ) {{
 
             //Position it to the left of the control panel, but leave extra space in case the pressure sensor node needs to jut off to the right;
             //this could happen if the units translation in Metric is significantly longer than the units translation for English (which is used to set the default size)

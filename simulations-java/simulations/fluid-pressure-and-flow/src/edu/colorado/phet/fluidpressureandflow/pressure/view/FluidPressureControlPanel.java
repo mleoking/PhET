@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
-import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.view.FPAFCheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.FPAFRadioButton;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 
@@ -27,7 +27,7 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
         super();
 
         //Checkbox to show/hide ruler
-        add( new CheckBox( RULER, module.rulerVisible ) );
+        add( new FPAFCheckBox( RULER, module.rulerVisible ) );
 
         //Units control panel that allows choice between atmospheres, english and metric
         final Property<UnitSet> units = module.model.units;

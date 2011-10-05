@@ -40,13 +40,13 @@ import static java.awt.GridBagConstraints.*;
 public class FluxMeterPanelNode extends PNode {
 
     //Font to use for readouts
-    public static final PhetFont font = new PhetFont( 15 ); //REVIEW uppercase
+    public static final PhetFont FONT = new PhetFont( 15 );
 
     //Use a horizontal spacing to separate the columns
-    Insets insets = new Insets( 0, 6, 0, 3 ); //REVIEW private static final, uppercase
+    private static final Insets insets = new Insets( 0, 6, 0, 3 );
 
     //Move the HTML units up so the baselines will align (otherwise text like m^2 will center and look odd)
-    final Insets htmlInsets = new Insets( insets.top, insets.left, insets.bottom + 8, insets.right ); //REVIEW private static final, uppercase
+    private final Insets HTML_INSETS = new Insets( insets.top, insets.left, insets.bottom + 8, insets.right );
 
     public FluxMeterPanelNode( final ModelViewTransform transform, final FluxMeter fluxMeter, final Property<UnitSet> selectedUnits, final UnitSet units ) {
 
@@ -65,7 +65,7 @@ public class FluxMeterPanelNode extends PNode {
             //Area row
             addChild( new Text( AREA ), new Constraint( 0, 1, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.area, units.area ), new Constraint( 1, 1, LINE_END, insets, 0, 0 ) );
-            addChild( new HTML( units.area.getAbbreviation() ), new Constraint( 2, 1, LINE_START, htmlInsets, 0, 0 ) );
+            addChild( new HTML( units.area.getAbbreviation() ), new Constraint( 2, 1, LINE_START, HTML_INSETS, 0, 0 ) );
 
             //Separator row to signify that the value below is a result of a computation of the previous rows
             addChild( new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ) ), new GridBagConstraints( 0, 2, 3, 1, 1, 0.5, CENTER, NONE, insets, 0, 0 ) );
@@ -73,7 +73,7 @@ public class FluxMeterPanelNode extends PNode {
             //Flux row
             addChild( new Text( FLUX ), new Constraint( 0, 3, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.flux, units.flux ), new Constraint( 1, 3, LINE_END, insets, 0, 0 ) );
-            addChild( new HTML( units.flux.getAbbreviation() ), new Constraint( 2, 3, LINE_START, htmlInsets, 0, 0 ) );
+            addChild( new HTML( units.flux.getAbbreviation() ), new Constraint( 2, 3, LINE_START, HTML_INSETS, 0, 0 ) );
 
         }}, FluidPressureControlPanel.BACKGROUND, new BasicStroke( 2 ), Color.blue ) {{
             final SimpleObserver updateShape = new SimpleObserver() {
@@ -112,12 +112,11 @@ public class FluxMeterPanelNode extends PNode {
 
         //Assume that any string with a "<" symbol contains HTML.
         final boolean isHTML = rateUnits.indexOf( "<" ) >= 0; //REVIEW BasicHTML.isHTMLString
-        return isHTML ? htmlInsets : insets;
+        return isHTML ? HTML_INSETS : insets;
     }
 
-    //REVIEW 3 inner classes below should be private static
     //utility class for showing text readouts with the right font
-    class Text extends PText {
+    private static class Text extends PText {
 
         Text() {
             this( "" );
@@ -125,7 +124,7 @@ public class FluxMeterPanelNode extends PNode {
 
         Text( String text ) {
             super( text );
-            setFont( font );
+            setFont( FONT );
         }
 
         public Text( final DecimalFormat formatter, ObservableProperty<Double> value, final Unit unit ) {
@@ -139,15 +138,15 @@ public class FluxMeterPanelNode extends PNode {
     }
 
     //utility class for showing units with the right font
-    class HTML extends HTMLNode {
+    private static class HTML extends HTMLNode {
         HTML( String html ) {
             super( html );
-            setFont( font );
+            setFont( FONT );
         }
     }
 
     //utility class for creating grid bag constraints for the table
-    class Constraint extends GridBagConstraints {
+    private static class Constraint extends GridBagConstraints {
         Constraint( int gridx, int gridy, int anchor, Insets insets, int ipadx, int ipady ) {
             super( gridx, gridy, 1, 1, 0.5, 0.5, anchor, NONE, insets, ipadx, ipady );
         }

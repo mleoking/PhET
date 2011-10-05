@@ -18,26 +18,24 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
-//REVIEW abstract or protected constructor?
-
 /**
  * Base class for draggable english/metric rules
  *
  * @author Sam Reid
  */
 public class FluidPressureAndFlowRuler extends PNode {
-    public FluidPressureAndFlowRuler( final ModelViewTransform transform,
+    protected FluidPressureAndFlowRuler( final ModelViewTransform transform,
 
-                                      //getter
-                                      final ObservableProperty<Boolean> visible,
+                                         //getter
+                                         final ObservableProperty<Boolean> visible,
 
-                                      //setter, separate from getter since has to be and-ed with units property in FluidPressureCanvas
-                                      final Property<Boolean> setVisible,
-                                      double length,
-                                      String[] majorTicks,
-                                      String units,
-                                      final Point2D rulerModelOrigin,
-                                      ResetModel resetModel ) {
+                                         //setter, separate from getter since has to be and-ed with units property in FluidPressureCanvas
+                                         final Property<Boolean> setVisible,
+                                         double length,
+                                         String[] majorTicks,
+                                         String units,
+                                         final Point2D rulerModelOrigin,
+                                         ResetModel resetModel ) {
         visible.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visible.get() );

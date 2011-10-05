@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.fluidpressureandflow.flow.model.CrossSection;
+import edu.colorado.phet.fluidpressureandflow.flow.model.PipeCrossSection;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionControl.MAX_DRAG_Y;
@@ -21,7 +21,7 @@ import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionC
  * @author Sam Reid
  */
 public class PipeOffsetControl extends PNode {
-    public PipeOffsetControl( final ModelViewTransform transform, final CrossSection pipePosition, final double offsetX ) {
+    public PipeOffsetControl( final ModelViewTransform transform, final PipeCrossSection pipePosition, final double offsetX ) {
         final double x = pipePosition.getX() + offsetX;
         final Property<ImmutableVector2D> point = new Property<ImmutableVector2D>( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
         point.addObserver( new SimpleObserver() {
