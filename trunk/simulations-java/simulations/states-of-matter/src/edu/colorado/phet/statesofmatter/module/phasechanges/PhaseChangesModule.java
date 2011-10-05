@@ -23,7 +23,7 @@ public class PhaseChangesModule extends PiccoloModule {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public PhaseChangesModule( Frame parentFrame ) {
+    public PhaseChangesModule( Frame parentFrame, boolean advanced ) {
 
         super( StatesOfMatterStrings.TITLE_PHASE_CHANGES_MODULE,
                new ConstantDtClock( PhaseChangesDefaults.CLOCK_FRAME_DELAY, PhaseChangesDefaults.CLOCK_DT ) );
@@ -36,7 +36,7 @@ public class PhaseChangesModule extends PiccoloModule {
         setSimulationPanel( m_canvas );
 
         // Control panel
-        setControlPanel( new PhaseChangesControlPanel( this, parentFrame ) );
+        setControlPanel( new PhaseChangesControlPanel( this, advanced ) );
 
         // Turn off the clock control panel - a floating node is used for clock control.
         setClockControlPanel( null );

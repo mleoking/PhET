@@ -70,7 +70,7 @@ public class StatesOfMatterBasicsApplication extends PiccoloPhetApplication impl
         m_solidLiquidGasModule = new SolidLiquidGasModule( parentFrame );
         addModule( m_solidLiquidGasModule );
 
-        m_phaseChangesModule = new PhaseChangesModule( parentFrame );
+        m_phaseChangesModule = new PhaseChangesModule( parentFrame, false );
         addModule( m_phaseChangesModule );
     }
 
