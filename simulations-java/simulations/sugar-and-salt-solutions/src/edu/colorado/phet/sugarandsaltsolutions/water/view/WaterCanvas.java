@@ -25,7 +25,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.SucroseCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.ICanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ResetAllButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.SaltIon;
@@ -48,13 +47,10 @@ import static java.awt.Color.blue;
  *
  * @author Sam Reid
  */
-public class WaterCanvas extends SugarAndSaltSolutionsCanvas implements ICanvas {
+public class WaterCanvas extends SugarAndSaltSolutionsCanvas {
 
     //Default size of the canvas.  Sampled at runtime on a large res screen from a sim with multiple tabs
     public static final Dimension canvasSize = new Dimension( 1008, 676 );
-
-    //Where the content is shown
-    private final PNode rootNode = new PNode();
 
     //Separate layer for the particles so they are always behind the control panel
     private final ParticleWindowNode particleWindowNode;

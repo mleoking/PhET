@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
+public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ICanvas {
 
     //Root node that shows the nodes in the stage coordinate frame
     public final PNode rootNode;
