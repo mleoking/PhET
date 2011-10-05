@@ -5,12 +5,12 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Shaker;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SaltShaker;
 
 /**
  * @author Sam Reid
  */
-public class MacroSaltShaker extends Shaker<MacroModel> {
+public class MacroSaltShaker extends SaltShaker<MacroModel> {
     public MacroSaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, MacroModel model ) {
         super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
