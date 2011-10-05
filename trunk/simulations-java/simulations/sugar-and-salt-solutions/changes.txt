@@ -1,3 +1,4 @@
+Prevent shakers from being dragged too far past the left edge of the beaker
 Made "Reset all" button non-bold to re-use common code for reset all buttons
 Micro tab: Rewrote crystal growth to use boolean flags instead of BondingFailure exception
 Micro tab: Made periodic table non-resizable

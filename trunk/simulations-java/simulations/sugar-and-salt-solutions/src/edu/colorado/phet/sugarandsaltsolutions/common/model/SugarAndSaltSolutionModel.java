@@ -70,6 +70,9 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     //Part of the model that must be visible within the view
     public final ImmutableRectangle2D visibleRegion;
 
+    //The region within which the user can drag the shakers, smaller than the visible region to make sure the shakers can't be moved too far past the left edge of the beaker
+    public final ImmutableRectangle2D dragRegion;
+
     //Observable flag which determines whether the beaker is full of solution, for purposes of preventing overflow
     public final ObservableProperty<Boolean> beakerFull;
 
@@ -87,7 +90,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
             //Use the visible region for constraining the X-value, and a fraction past the beaker value.
             //These values were determined experimentally since we are constraining the center of the shaker (and shakers have different sizes and different angles)
-            return new Point2D.Double( visibleRegion.getClosestPoint( point2D ).getX(),
+            return new Point2D.Double( dragRegion.getClosestPoint( point2D ).getX(),
                                        clamp( beaker.getTopY() * 1.3, point2D.getY(), beaker.getTopY() * 2 ) );
         }
     };
@@ -141,6 +144,10 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
         //Visible model region: a bit bigger than the beaker, used to set the stage aspect ratio in the canvas
         visibleRegion = new ImmutableRectangle2D( -modelWidth / 2, -inset, modelWidth, modelWidth / aspectRatio );
+
+        //Create the region within which the user can drag the shakers, must remove some of the visible region--otherwise the shakers can be dragged too far to the left of the beaker
+        final double insetForDragRegion = visibleRegion.width / 6;
+        dragRegion = new ImmutableRectangle2D( visibleRegion.x + insetForDragRegion, visibleRegion.y, visibleRegion.width - insetForDragRegion, visibleRegion.height );
 
         //Set a max amount of water that the user can add to the system so they can't overflow it
         maxWater = beaker.getMaxFluidVolume();
