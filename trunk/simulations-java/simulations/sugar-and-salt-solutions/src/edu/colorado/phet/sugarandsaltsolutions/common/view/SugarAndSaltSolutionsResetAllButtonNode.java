@@ -19,8 +19,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShake
  *
  * @author Sam Reid
  */
-public class ResetAllButtonNode extends PNode {
-    public ResetAllButtonNode( final double stageWidth, final double stageHeight, final VoidFunction0 reset ) {
+public class SugarAndSaltSolutionsResetAllButtonNode extends PNode {
+    public SugarAndSaltSolutionsResetAllButtonNode( final double stageWidth, final double stageHeight, final VoidFunction0 reset ) {
         addChild( new HTMLImageButtonNode( getInstance().getLocalizedString( STRING_RESET_ALL ), BUTTON_COLOR ) {{
             setFont( CONTROL_FONT );
 
