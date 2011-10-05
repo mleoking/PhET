@@ -32,7 +32,6 @@ import com.jme3.math.Matrix4f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 /**
  * Displays a molecule
@@ -47,7 +46,7 @@ public class MoleculeModelNode extends Node {
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
     private List<LonePairNode> lonePairNodes = new ArrayList<LonePairNode>();
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
-    private List<Spatial> angleNodes = new ArrayList<Spatial>();
+    private List<BondAngleNode> angleNodes = new ArrayList<BondAngleNode>();
 
     private int angleIndex = 0;
     private List<ReadoutNode> angleReadouts = new ArrayList<ReadoutNode>();
@@ -101,7 +100,16 @@ public class MoleculeModelNode extends Node {
             atomNodes.add( atomNode );
             attachChild( atomNode );
             rebuildBonds();
-            rebuildAngles();
+            updateAngles();
+
+            // add a new bond angle for every other bond
+            for ( PairGroup otherGroup : molecule.getBondedGroups() ) {
+                if ( otherGroup != group ) {
+                    BondAngleNode bondAngleNode = new BondAngleNode( module, molecule, group, otherGroup );
+                    attachChild( bondAngleNode );
+                    angleNodes.add( bondAngleNode );
+                }
+            }
         }
     }
 
@@ -123,16 +131,24 @@ public class MoleculeModelNode extends Node {
                     detachChild( atomNode );
                 }
             }
+
+            // remove all angle nodes that involve the specified bond
+            for ( BondAngleNode angleNode : new ArrayList<BondAngleNode>( angleNodes ) ) {
+                if ( angleNode.getA() == group || angleNode.getB() == group ) {
+                    JMEUtils.discardTree( angleNode );
+                    angleNodes.remove( angleNode );
+                }
+            }
         }
         rebuildBonds();
-        rebuildAngles();
+        updateAngles();
     }
 
     public void updateView() {
         for ( BondNode bondNode : bondNodes ) {
             bondNode.updateView();
         }
-        rebuildAngles();
+        updateAngles();
     }
 
     private void rebuildBonds() {
@@ -161,83 +177,61 @@ public class MoleculeModelNode extends Node {
 
     private Vector3f lastMidpoint = null; // used to keep the bond angle of 180 degrees stable for 2-bond molecules
 
-    private void rebuildAngles() {
-        // TODO: docs and cleanup
+    private void updateAngles() {
+        // get the camera location, so that we can correctly shade the bond angles
         Vector3f dir = camera.getLocation();
         final Vector3f localCameraPosition = getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
 
-        for ( Spatial node : angleNodes ) {
-            JMEUtils.discardTree( node );
+        // we need to handle the 2-atom case separately for proper support of 180-degree bonds
+        boolean hasTwoBonds = molecule.getBondedGroups().size() == 2;
+        if ( !hasTwoBonds ) {
+            // if we don't have two bonds, just ignore the last midpoint
+            lastMidpoint = null;
         }
-        angleNodes.clear();
+
+        for ( BondAngleNode angleNode : angleNodes ) {
+            angleNode.updateView( localCameraPosition, lastMidpoint );
+
+            // if we have two bonds, store the last midpoint so we can keep the bond midpoint stable
+            if ( hasTwoBonds ) {
+                lastMidpoint = angleNode.getMidpoint().normalize();
+            }
+        }
 
         // start handling angle nodes from the beginning
         angleIndex = 0;
 
-        final boolean showAnglesBetweenLonePairs = MoleculeShapesProperties.allowAnglesBetweenLonePairs.get();
-
         // TODO: separate out bond angle feature
         if ( MoleculeShapesProperties.showBondAngles.get() ) {
+            for ( BondAngleNode bondAngleNode : angleNodes ) {
+                PairGroup a = bondAngleNode.getA();
+                PairGroup b = bondAngleNode.getB();
 
-            // we need to handle the 2-atom case separately for proper support of 180-degree bonds
-            boolean hasTwoBonds = molecule.getBondedGroups().size() == 2;
-            if ( !hasTwoBonds ) {
-                // if we don't have two bonds, just ignore the last midpoint
-                lastMidpoint = null;
-            }
+                final ImmutableVector3D aDir = a.position.get().normalized();
+                final ImmutableVector3D bDir = b.position.get().normalized();
 
-            // iterate over all combinations of two pair groups
-            for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
-                PairGroup a = molecule.getGroups().get( i );
-
-                // skip lone pairs if necessary
-                if ( a.isLonePair && !showAnglesBetweenLonePairs ) {
+                final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, localCameraPosition, molecule.getBondedGroups().size() );
+                if ( brightness == 0 ) {
                     continue;
                 }
 
-                final ImmutableVector3D aDir = a.position.get().normalized();
+                // TODO: integrate the labels with the BondAngleNode?
 
-                for ( int j = i + 1; j < molecule.getGroups().size(); j++ ) {
-                    final PairGroup b = molecule.getGroups().get( j );
+                Vector3f globalCenter = getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
+                Vector3f globalMidpoint = getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
 
-                    // skip lone pairs if necessary
-                    if ( b.isLonePair && !showAnglesBetweenLonePairs ) {
-                        continue;
-                    }
+                final Vector3f screenCenter = camera.getScreenCoordinates( globalCenter );
+                final Vector3f screenMidpoint = camera.getScreenCoordinates( globalMidpoint );
 
-                    final ImmutableVector3D bDir = b.position.get().normalized();
+                float extensionFactor = 1.3f;
+                final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
 
-                    final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, localCameraPosition, molecule.getBondedGroups().size() );
-                    if ( brightness == 0 ) {
-                        continue;
-                    }
-
-                    final BondAngleNode bondAngleNode = new BondAngleNode( module, molecule, aDir, bDir, localCameraPosition, lastMidpoint );
-                    attachChild( bondAngleNode );
-                    angleNodes.add( bondAngleNode );
-
-                    // if we have two bonds, store the last midpoint so we can keep the bond midpoint stable
-                    if ( hasTwoBonds ) {
-                        lastMidpoint = bondAngleNode.getMidpoint().normalize();
-                    }
-
-                    // TODO: integrate the labels with the BondAngleNode?
-
-                    Vector3f globalCenter = getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
-                    Vector3f globalMidpoint = getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
-
-                    final Vector3f screenCenter = camera.getScreenCoordinates( globalCenter );
-                    final Vector3f screenMidpoint = camera.getScreenCoordinates( globalMidpoint );
-
-                    float extensionFactor = 1.3f;
-                    final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
-
-                    String labelText = MessageFormat.format( Strings.ANGLE__DEGREES, angleFormat.format( aDir.angleBetweenInDegrees( bDir ) ) );
-                    showAngleLabel( labelText, brightness, displayPoint );
-                }
+                String labelText = MessageFormat.format( Strings.ANGLE__DEGREES, angleFormat.format( aDir.angleBetweenInDegrees( bDir ) ) );
+                showAngleLabel( labelText, brightness, displayPoint );
             }
         }
 
+        // remove any unused labels, since we need to cache them
         removeRemainingLabels();
     }
 

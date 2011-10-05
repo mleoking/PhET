@@ -3,13 +3,17 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.shapes.PointArc;
 import edu.colorado.phet.jmephet.shapes.Sector;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
@@ -21,56 +25,133 @@ import com.jme3.scene.Node;
 
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.BOND_ANGLE_SAMPLES;
 
+/**
+ * Displays an angle between two bonds. It is shaded, has an outline, and a label
+ */
 public class BondAngleNode extends Node {
     private PointArc arc;
+    private boolean initialized = false;
+    private final MoleculeShapesModule module;
+    private final MoleculeModel molecule;
+    private final PairGroup aGroup;
+    private final PairGroup bGroup;
 
-    // TODO: docs and cleanup, and move out if kept
-    public BondAngleNode( final MoleculeShapesModule module, MoleculeModel molecule, ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f localCameraPosition, Vector3f lastMidpoint ) {
+    private static final float radius = 5;
+    private Sector sector;
+    private Sector oppositeSector;
+    private Property<Float> alpha = new Property<Float>( 0f );
+
+    public BondAngleNode( final MoleculeShapesModule module, MoleculeModel molecule, PairGroup a, PairGroup b ) {
         super( "Bond Angle" );
-        float radius = 5;
-        final float alpha = calculateBrightness( aDir, bDir, localCameraPosition, molecule.getBondedGroups().size() );
+        this.module = module;
+        this.molecule = molecule;
+        this.aGroup = a;
+        this.bGroup = b;
+
+        setQueueBucket( Bucket.Transparent ); // allow it to be transparent
+
+        // only show these when they should be visible
+        MoleculeShapesProperties.showBondAngles.addObserver( new SimpleObserver() {
+            public void update() {
+                setCullHint( MoleculeShapesProperties.showBondAngles.get() ? CullHint.Never : CullHint.Always );
+            }
+        } );
+    }
+
+    public PairGroup getA() {
+        return aGroup;
+    }
+
+    public PairGroup getB() {
+        return bGroup;
+    }
+
+    public void updateView( Vector3f localCameraPosition, Vector3f lastMidpoint ) {
+        ImmutableVector3D aDir = aGroup.position.get().normalized();
+        ImmutableVector3D bDir = bGroup.position.get().normalized();
+
+        alpha.set( calculateBrightness( aDir, bDir, localCameraPosition, molecule.getBondedGroups().size() ) );
 
         Vector3f a = JMEUtils.convertVector( aDir );
         Vector3f b = JMEUtils.convertVector( bDir );
 
-        arc = new PointArc( a, b, radius, BOND_ANGLE_SAMPLES, lastMidpoint ) {{
-            setLineWidth( 2 );
-        }};
+        if ( !initialized ) {
+            initialized = true;
 
-        attachChild( new Geometry( "Bond Arc", arc ) {{
-            setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-                MoleculeShapesColor.BOND_ANGLE_ARC.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
+            arc = new PointArc( a, b, radius, BOND_ANGLE_SAMPLES, lastMidpoint ) {{
+                setLineWidth( 2 );
+            }};
+
+            attachChild( new Geometry( "Bond Arc", arc ) {{
+                setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+                    final Runnable updateColor = new Runnable() {
+                        public void run() {
+                            ColorRGBA colorRGBA = MoleculeShapesColor.BOND_ANGLE_ARC.getRGBA();
+                            setColor( "Color", new ColorRGBA( colorRGBA.r, colorRGBA.g, colorRGBA.b, alpha.get() ) );
+                        }
+                    };
+
+                    // update on color change
+                    MoleculeShapesColor.BOND_ANGLE_ARC.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
+                        public void apply( ColorRGBA colorRGBA ) {
+                            updateColor.run();
+                        }
+                    } );
+
+                    // update on alpha change
+                    alpha.addObserver( new SimpleObserver() {
+                        public void update() {
+                            updateColor.run();
+                        }
+                    } );
+
+                    getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+                    setTransparent( true );
+                }} );
+            }} );
+
+            final Material sectorMaterial = new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+                final Runnable updateColor = new Runnable() {
+                    public void run() {
+                        ColorRGBA colorRGBA = MoleculeShapesColor.BOND_ANGLE_SWEEP.getRGBA();
+                        setColor( "Color", new ColorRGBA( colorRGBA.r, colorRGBA.g, colorRGBA.b, alpha.get() / 2 ) );
+                    }
+                };
+
+                // update on color change
+                MoleculeShapesColor.BOND_ANGLE_SWEEP.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
                     public void apply( ColorRGBA colorRGBA ) {
-                        setColor( "Color", new ColorRGBA( colorRGBA.r, colorRGBA.g, colorRGBA.b, alpha ) );
+                        updateColor.run();
+                    }
+                } );
+
+                // update on alpha change
+                alpha.addObserver( new SimpleObserver() {
+                    public void update() {
+                        updateColor.run();
                     }
                 } );
 
                 getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
                 setTransparent( true );
+            }};
+
+            // do two swoops for transparent two-sidedness
+            // TODO: render only one. look up double-sidedness
+            sector = new Sector( arc, false );
+            attachChild( new Geometry( "Bond Sector A=>B", sector ) {{
+                setMaterial( sectorMaterial );
             }} );
-        }} );
-
-        final Material sectorMaterial = new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-            MoleculeShapesColor.BOND_ANGLE_SWEEP.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
-                public void apply( ColorRGBA colorRGBA ) {
-                    setColor( "Color", new ColorRGBA( colorRGBA.r, colorRGBA.g, colorRGBA.b, alpha / 2 ) );
-                }
-            } );
-
-            getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
-            setTransparent( true );
-        }};
-
-        // do two swoops for transparent two-sidedness
-        // TODO: find which one is pointing towards the camera, and render only one?
-        attachChild( new Geometry( "Bond Sector A=>B", new Sector( arc, false ) ) {{
-            setMaterial( sectorMaterial );
-        }} );
-        attachChild( new Geometry( "Bond Sector B=>A", new Sector( arc, true ) ) {{
-            setMaterial( sectorMaterial );
-        }} );
-
-        setQueueBucket( Bucket.Transparent ); // allow it to be transparent
+            oppositeSector = new Sector( arc, true );
+            attachChild( new Geometry( "Bond Sector B=>A", oppositeSector ) {{
+                setMaterial( sectorMaterial );
+            }} );
+        }
+        else {
+            arc.updateView( a, b, lastMidpoint );
+            sector.updateView();
+            oppositeSector.updateView();
+        }
     }
 
     private static final float[] lowThresholds = new float[] { 0, 0, 0, 0, 0.35f, 0.45f, 0.5f };

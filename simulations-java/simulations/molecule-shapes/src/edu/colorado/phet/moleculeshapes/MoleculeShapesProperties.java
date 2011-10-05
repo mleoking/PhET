@@ -16,9 +16,6 @@ public class MoleculeShapesProperties {
     // whether bond angles should be shown
     public static final Property<Boolean> showBondAngles = new Property<Boolean>( false );
 
-    // whether we should show bond angles between lone pairs
-    public static final Property<Boolean> allowAnglesBetweenLonePairs = new Property<Boolean>( false );
-
     // whether bonds should be colorized in the real molecule view
     public static final Property<Boolean> useColoredBonds = new Property<Boolean>( false );
 

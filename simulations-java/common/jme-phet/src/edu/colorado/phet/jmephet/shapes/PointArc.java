@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet.shapes;
 
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
+
 import edu.colorado.phet.jmephet.JMEUtils;
 
 import com.jme3.math.FastMath;
@@ -8,6 +11,8 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
+import com.jme3.scene.VertexBuffer.Type;
+import com.jme3.util.BufferUtils;
 
 /**
  * Displays an arc between two directions at a specific radius. Used JME3 Curve code as a template.
@@ -18,8 +23,10 @@ public class PointArc extends Mesh {
     private boolean approximateSemicircle;
 
     private Vector3f midpoint;
-
-    private float[] vertices;
+    private FloatBuffer positionBuffer;
+    private final float radius;
+    private int numFloats;
+    private int numVertices;
 
     /**
      * Creates an Arc
@@ -31,10 +38,30 @@ public class PointArc extends Mesh {
      * @param lastMidpointDir The direction that the arc will point out in if it is determined to be too close to 180 degrees
      */
     public PointArc( Vector3f startDir, Vector3f endDir, float radius, int numSegments, Vector3f lastMidpointDir ) {
-        int numVertices = numSegments + 1;
+        this.radius = radius;
+        numVertices = numSegments + 1;
+        numFloats = numVertices * 3;
+        int numIndices = numSegments + 1;
 
-        vertices = new float[numVertices * 3];
-        short[] indices = new short[numSegments + 1];
+        positionBuffer = BufferUtils.createFloatBuffer( numFloats );
+        ShortBuffer indexBuffer = BufferUtils.createShortBuffer( numIndices );
+
+        setPositions( startDir, endDir, lastMidpointDir );
+
+        for ( short i = 0; i < numIndices; i++ ) {
+            indexBuffer.put( i );
+        }
+
+        this.setMode( Mode.LineStrip );
+        this.setBuffer( VertexBuffer.Type.Position, 3, positionBuffer );
+        this.setBuffer( VertexBuffer.Type.Index, 2, indexBuffer );
+        this.updateBound();
+        this.updateCounts();
+    }
+
+    // updates the arc. see the constructor for documentation on arguments
+    private void setPositions( Vector3f startDir, Vector3f endDir, Vector3f lastMidpointDir ) {
+        positionBuffer.clear();
 
         approximateSemicircle = isApproximateSemicircle( startDir, endDir );
 
@@ -54,17 +81,15 @@ public class PointArc extends Mesh {
             Vector3f planarMidpointDir = averageCross.cross( planarPointDir ).normalizeLocal();
 
             // now make our semicircle around with our two orthonormal basis vectors
-            for ( int i = 0; i < vertices.length; i += 3 ) {
-                float ratio = ( (float) i ) / ( vertices.length - 3 ); // zero to 1
+            for ( int i = 0; i < numFloats; i += 3 ) {
+                float ratio = ( (float) i ) / ( numFloats - 3 ); // zero to 1
 
                 // 0 should be near startDir, 0.5 (pi/2) should be near semicircleDir, 1 (pi) should be near endDir
                 float angle = ratio * FastMath.PI;
 
                 Vector3f position = planarPointDir.mult( FastMath.cos( angle ) ).add( planarMidpointDir.mult( FastMath.sin( angle ) ) ).mult( radius );
 
-                vertices[i] = position.x;
-                vertices[i + 1] = position.y;
-                vertices[i + 2] = position.z;
+                positionBuffer.put( new float[] { position.x, position.y, position.z } );
             }
 
             midpoint = planarMidpointDir.mult( radius );
@@ -73,44 +98,50 @@ public class PointArc extends Mesh {
             // figure out the quaternion rotation from start to end
             Quaternion startToEnd = JMEUtils.getRotationQuaternion( startDir, endDir );
 
-            for ( int i = 0; i < vertices.length; i += 3 ) {
-                float ratio = ( (float) i ) / ( vertices.length - 3 ); // zero to 1
+            for ( int i = 0; i < numFloats; i += 3 ) {
+                float ratio = ( (float) i ) / ( numFloats - 3 ); // zero to 1
 
                 // spherical linear interpolation (slerp) from start to end
                 Vector3f position = new Quaternion().slerp( Quaternion.IDENTITY, startToEnd, ratio ).mult( startDir ).mult( radius );
 
-                vertices[i] = position.x;
-                vertices[i + 1] = position.y;
-                vertices[i + 2] = position.z;
+                positionBuffer.put( new float[] { position.x, position.y, position.z } );
             }
 
             midpoint = JMEUtils.slerp( startDir, endDir, 0.5f ).mult( radius );
         }
-
-        for ( int i = 0; i < indices.length; i++ ) {
-            indices[i] = (short) i;
-        }
-
-        this.setMode( Mode.LineStrip );
-        this.setBuffer( VertexBuffer.Type.Position, 3, vertices );
-        this.setBuffer( VertexBuffer.Type.Index, 2, indices );//(spline.getControlPoints().size() - 1) * nbSubSegments * 2
-        this.updateBound();
-        this.updateCounts();
     }
 
     public Vector3f getMidpoint() {
         return midpoint;
     }
 
+    public int getNumVertices() {
+        return numVertices;
+    }
+
     public boolean isApproximateSemicircle() {
         return approximateSemicircle;
     }
 
-    public float[] getVertices() {
-        return vertices;
+    public float[] getVertexData() {
+        // TODO: potentially just return a buffer in the future?
+        float[] result = new float[positionBuffer.limit()];
+        for ( int i = 0; i < positionBuffer.limit(); i++ ) {
+            result[i] = positionBuffer.get( i );
+        }
+        return result;
     }
 
     public static boolean isApproximateSemicircle( Vector3f startDir, Vector3f endDir ) {
         return FastMath.acos( startDir.dot( endDir ) ) >= 3.12414;
+    }
+
+    public void updateView( Vector3f startDir, Vector3f endDir, Vector3f lastMidpointDir ) {
+        setPositions( startDir, endDir, lastMidpointDir );
+
+        getBuffer( Type.Position ).updateData( positionBuffer );
+
+        updateBound();
+        updateCounts();
     }
 }

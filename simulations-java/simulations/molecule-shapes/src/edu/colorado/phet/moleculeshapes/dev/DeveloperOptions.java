@@ -22,7 +22,6 @@ public class DeveloperOptions {
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", MoleculeShapesProperties.allowDraggingBehind ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", MoleculeShapesProperties.useRotationCursor ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Allow bond angles between lone pairs", MoleculeShapesProperties.allowAnglesBetweenLonePairs ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Disable \"Show Bond Angles\" checkbox with less than 2 bonds", MoleculeShapesProperties.disableNAShowBondAngles ) );
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
