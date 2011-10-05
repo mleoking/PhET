@@ -1,3 +1,4 @@
+# 2.06.01 (57313) Oct 5, 2011
 > change "Turbine" to "Bar Magnet" in Generator panel
 #2246, change "Turbine" to "Bar Magnet" in Generator panel
 > Ported faraday to use ApparatusPanel3 to address canvas problems on low resolution screens, see #2860
