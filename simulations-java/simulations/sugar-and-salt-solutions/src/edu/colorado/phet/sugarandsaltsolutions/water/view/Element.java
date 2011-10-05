@@ -4,13 +4,13 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 import java.awt.Color;
 
 /**
- * Basic information about an element or ion to be shown, such as Na+ or Cl-, including the color, name and radius
+ * Basic information about an element or ion to be shown, such as Na+ or Cl-, including the color, name and radius.
+ * Atomic number is never needed in this sim, but could be added if this is generalized for future sims.
  *
  * @author Sam Reid
  */
 public class Element {
 
-    //REVIEW surprising that there is no element number here
     public final String name;
     public final double radius;
     public final Color color;

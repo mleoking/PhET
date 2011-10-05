@@ -3,18 +3,16 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 
-//REVIEW needs a more descriptive name. Or why not make this class unnecessary by changing DispenserType.name to DispenserType.soluteName and adding DispenserType.name?
-
 /**
  * Item to be displayed in a DispenserRadioButtonSet
  *
  * @author Sam Reid
  */
-public class Item {
+public class SelectableSoluteItem {
     public final String name;
     public final DispenserType dispenserType;
 
-    public Item( String name, DispenserType dispenserType ) {
+    public SelectableSoluteItem( String name, DispenserType dispenserType ) {
         this.name = name;
         this.dispenserType = dispenserType;
     }

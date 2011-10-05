@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.DispenserRadioButtonSet;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.Item;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SelectableSoluteItem;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.WhiteControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -40,14 +40,14 @@ public class MicroKitControlNode extends PNode {
         kitSelectionNode = onlyOneKit ? new KitSelectionNode<DispenserRadioButtonSet>(
                 selectedKit,
                 createTitle(),
-                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( SUCROSE_C_12_H_22_O_11, SUGAR ) ) ) )
+                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new SelectableSoluteItem( SODIUM_CHLORIDE_NA_CL, SALT ), new SelectableSoluteItem( SUCROSE_C_12_H_22_O_11, SUGAR ) ) ) )
                                       : new KitSelectionNode<DispenserRadioButtonSet>(
                 selectedKit,
                 createTitle(),
-                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( SUCROSE_C_12_H_22_O_11, SUGAR ) ) ),
-                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( CALCIUM_CHLORIDE_CA_CL_2, CALCIUM_CHLORIDE ) ) ),
-                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SODIUM_CHLORIDE_NA_CL, SALT ), new Item( SODIUM_NITRATE_NA_NO_3, SODIUM_NITRATE ) ) ),
-                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( SUCROSE_C_12_H_22_O_11, SUGAR ), new Item( GLUCOSE_C_6_H_12_O_6, GLUCOSE ) ) ) );
+                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new SelectableSoluteItem( SODIUM_CHLORIDE_NA_CL, SALT ), new SelectableSoluteItem( SUCROSE_C_12_H_22_O_11, SUGAR ) ) ),
+                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new SelectableSoluteItem( SODIUM_CHLORIDE_NA_CL, SALT ), new SelectableSoluteItem( CALCIUM_CHLORIDE_CA_CL_2, CALCIUM_CHLORIDE ) ) ),
+                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new SelectableSoluteItem( SODIUM_CHLORIDE_NA_CL, SALT ), new SelectableSoluteItem( SODIUM_NITRATE_NA_NO_3, SODIUM_NITRATE ) ) ),
+                new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new SelectableSoluteItem( SUCROSE_C_12_H_22_O_11, SUGAR ), new SelectableSoluteItem( GLUCOSE_C_6_H_12_O_6, GLUCOSE ) ) ) );
 
 
         //Show the selection dialog above the periodic table button
