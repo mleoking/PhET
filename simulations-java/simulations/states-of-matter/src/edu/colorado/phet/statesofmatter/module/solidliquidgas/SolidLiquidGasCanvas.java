@@ -5,10 +5,12 @@ import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -24,7 +26,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class SolidLiquidGasCanvas extends PhetPCanvas {
+public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -105,6 +107,15 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
                              containerRect.getY() + containerRect.getHeight() * 0.1 );
         addWorldChild( stoveNode );
 
+        // Add a "Reset All" button.
+        final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { multipleParticleModel }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+            setConfirmationEnabled( false );
+            scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
+            setOffset( stoveNode.getFullBoundsReference().getMinX() - getFullBoundsReference().width - 5000,
+                       stoveNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().height );
+        }};
+        addWorldChild( resetAllButton );
+
         // Add a floating clock control.
         BooleanProperty clockRunning = new BooleanProperty( true );
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
@@ -116,9 +127,10 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
                                                      multipleParticleModel.getClock(), null,
                                                      new Property<Color>( Color.white ) ) {{
             scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
-            setOffset( -getFullBoundsReference().width * 1.2,
-                       stoveNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().height );
+            setOffset( resetAllButton.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
+                       resetAllButton.getFullBoundsReference().getMinY() - getFullBoundsReference().height - 200 );
         }} );
+
     }
 
     public void reset() {
