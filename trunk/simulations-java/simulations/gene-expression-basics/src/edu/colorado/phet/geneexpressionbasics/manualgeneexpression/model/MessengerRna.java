@@ -48,7 +48,7 @@ public class MessengerRna extends MobileBiomolecule {
     // Minimum distance between points that define the shape.  This is done so
     // that this doesn't end up defined by so many points that the shape is
     // strange looking.
-    private static final double MIN_DISTANCE_BETWEEN_POINTS = 200; // In picometers, empirically determined.
+    private static final double MIN_DISTANCE_BETWEEN_POINTS = 20; // In picometers, empirically determined.
 
     // Random number generator used for creating "curviness" in the shape of
     // the RNA.
@@ -140,6 +140,129 @@ public class MessengerRna extends MobileBiomolecule {
      * added, the mRNA shape "curls up".
      */
     public void addLength( Point2D newEndPosition ) {
+
+        if ( newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) == 0 ) {
+            // Don't bother adding redundant points.
+            return;
+        }
+        System.out.println( "-------------------------------------" );
+        System.out.println( "newEndPosition = " + newEndPosition );
+
+        // If the current last point is less than the min distance from the 2nd
+        // to last point, remove the current last point.  This prevents having
+        // zillions of shape-defining points, which is harder to work with.
+        // TODO: Maybe just take this out if it isn't needed.
+        /*
+        if ( lastShapeDefiningPoint != firstShapeDefiningPoint &&
+             lastShapeDefiningPoint.targetDistanceToPreviousPoint < MIN_DISTANCE_BETWEEN_POINTS ) {
+            // If the current last point is less than the min distance from
+            // the 2nd to last point, remove the current last point.  This
+            // prevents having zillions of shape-defining points, which is
+            // harder to work with.
+            PointMass secondToLastPoint = lastShapeDefiningPoint.getPreviousPointMass();
+            secondToLastPoint.setNextPointMass( null );
+            lastShapeDefiningPoint = secondToLastPoint;
+        }
+        */
+
+        // Add the new end point.
+        System.out.println( "Distance from new point to previous end point = " + newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) );
+        PointMass newEndPoint = new PointMass( newEndPosition, newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) );
+        lastShapeDefiningPoint.setNextPointMass( newEndPoint );
+        newEndPoint.setPreviousPointMass( lastShapeDefiningPoint );
+        lastShapeDefiningPoint = newEndPoint;
+
+        double currentUnfurledLength = getLength();
+        System.out.println( "currentUnfurledLength = " + currentUnfurledLength );
+        System.out.println( "number of points = " + getPointCount() );
+
+        // Create the containment rect that will contain the curled up portion
+        // of the strand.
+        Rectangle2D woundUpRect = new Rectangle2D.Double( newEndPosition.getX() - currentUnfurledLength,
+                                                          newEndPosition.getY() - MIN_CONTAINMENT_RECT_HEIGHT / 2,
+                                                          1E-6,
+                                                          1E-6 );
+        if ( currentUnfurledLength > STICK_OUT_LENGTH ) {
+            // There are enough points to start winding up the mRNA.  Set the
+            // size of the rectangle that contains the wound up portion to a
+            // value that is shorter than the unfurled length.
+            double diagonalLength = MIN_DISTANCE_BETWEEN_POINTS * ( Math.pow( currentUnfurledLength / MIN_DISTANCE_BETWEEN_POINTS, 0.5 ) );
+
+            double squareSideLength = diagonalLength * Math.cos( Math.PI / 4 );
+            woundUpRect = new Rectangle2D.Double( newEndPosition.getX() - squareSideLength,
+                                                  newEndPosition.getY(),
+                                                  squareSideLength,
+                                                  squareSideLength );
+        }
+
+        System.out.println( "woundUpRect = " + woundUpRect );
+
+        // If there are enough points, move the stick-out region to the upper
+        // left corner of the strand.
+        PointMass firstEnclosedPoint = getFirstEnclosedPoint();
+        if ( firstEnclosedPoint != null ) {
+            firstShapeDefiningPoint.setPosition( woundUpRect.getX() - STICK_OUT_LENGTH, woundUpRect.getMaxY() );
+            PointMass previousPoint = firstShapeDefiningPoint;
+            PointMass thisPoint = firstShapeDefiningPoint.nextPointMass;
+            while ( thisPoint != firstEnclosedPoint.getNextPointMass() ) {
+                thisPoint.setPosition( previousPoint.getPosition().getX() + thisPoint.getTargetDistanceToPreviousPoint(), previousPoint.getPosition().getY() );
+                previousPoint = thisPoint;
+                thisPoint = thisPoint.getNextPointMass();
+            }
+        }
+
+        // Position each of the points at the correct distance from the
+        // previous point but at a random angle.  Any angle is valid as long as
+        // the point ends up inside the containment rectangle.
+        Random rand = new Random( 1 ); // Use a consistent random for predictable results.
+        if ( firstEnclosedPoint != null && firstEnclosedPoint != lastShapeDefiningPoint ) {
+            PointMass previousPoint = getFirstEnclosedPoint();
+            PointMass thisPoint = previousPoint.getNextPointMass();
+            while ( thisPoint != null && thisPoint != lastShapeDefiningPoint ) {
+                Vector2D offsetFromPreviousPoint = new Vector2D( thisPoint.getTargetDistanceToPreviousPoint(), 0 );
+                // Try a finite number of times to find a point within the bounding square.
+                for ( int i = 0; i < 10; i++ ) {
+                    offsetFromPreviousPoint.rotate( rand.nextDouble() * Math.PI * 2 );
+                    if ( woundUpRect.contains( new ImmutableVector2D( previousPoint.getPosition() ).getAddedInstance( offsetFromPreviousPoint ).toPoint2D() ) ) {
+                        break;
+                    }
+                }
+                thisPoint.setPosition( new ImmutableVector2D( previousPoint.getPosition() ).getAddedInstance( offsetFromPreviousPoint ).toPoint2D() );
+                previousPoint = thisPoint;
+                thisPoint = thisPoint.getNextPointMass();
+            }
+            // Start at the end and move points towards the end point so that
+            // all points are at the correct target distance.  This effectively
+            // stretches out the curled up shape to be in the desired space.
+//            thisPoint = lastShapeDefiningPoint;
+//            previousPoint = thisPoint.getPreviousPointMass();
+//            while ( previousPoint != null && previousPoint != firstEnclosedPoint ) {
+//                ImmutableVector2D vectorToPreviousPoint = new ImmutableVector2D( previousPoint.getPosition().getX() - thisPoint.getPosition().getX(),
+//                                                                                 previousPoint.getPosition().getY() - thisPoint.getPosition().getY() );
+//                ImmutableVector2D vectorToTargetPreviousPointLocation = new ImmutableVector2D( thisPoint.targetDistanceToPreviousPoint, 0 ).getRotatedInstance( vectorToPreviousPoint.getAngle() );
+//                previousPoint.setPosition( thisPoint.getPosition().getX() + vectorToTargetPreviousPointLocation.getX(),
+//                                           thisPoint.getPosition().getY() + vectorToTargetPreviousPointLocation.getY() );
+//                previousPoint = previousPoint.getPreviousPointMass();
+//                thisPoint = thisPoint.getPreviousPointMass();
+//            }
+        }
+
+//        System.out.println( "Dumping points: " );
+//        dumpPointMasses();
+
+        // Update the shape to reflect the newly added point.
+        System.out.println( "firstShapeDefiningPoint = " + firstShapeDefiningPoint );
+        System.out.println( "Done with addLength" );
+        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
+    }
+
+    /**
+     * Add a length to the mRNA from its current end point to the specified end
+     * point.  This is usually done in small amounts, and is likely to look
+     * weird if an attempt is made to grow to a distant point.  As a length is
+     * added, the mRNA shape "curls up".
+     */
+    public void addLengthSpringy( Point2D newEndPosition ) {
 
         if ( newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) == 0 ) {
             // Don't bother adding redundant points.
@@ -793,8 +916,8 @@ public class MessengerRna extends MobileBiomolecule {
 
         MessengerRna messengerRna = new MessengerRna( new ManualGeneExpressionModel(), mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
         canvas.addWorldChild( new MobileBiomoleculeNode( mvt, messengerRna ) );
-        for ( int i = 0; i < 20; i++ ) {
-            messengerRna.addLength( mvt.modelToView( i * 1000, 0 ) );
+        for ( int i = 0; i < 200; i++ ) {
+            messengerRna.addLength( mvt.modelToView( i * 200, 0 ) );
             try {
                 Thread.sleep( 500 );
             }
