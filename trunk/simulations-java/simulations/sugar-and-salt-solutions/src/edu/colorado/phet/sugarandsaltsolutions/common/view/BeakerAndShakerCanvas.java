@@ -32,7 +32,7 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
  *
  * @author Sam Reid
  */
-public abstract class BeakerAndShakerCanvas extends SugarAndSaltSolutionsCanvas implements ToolboxCanvas {
+public abstract class BeakerAndShakerCanvas extends SugarAndSaltSolutionsCanvas implements ToolboxCanvas, ICanvas {
     public static final Color WATER_COLOR = new Color( 179, 239, 243 );
 
     //Insets to be used for padding between edge of canvas and controls, or between controls

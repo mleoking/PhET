@@ -3,16 +3,14 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import edu.umd.cs.piccolo.PNode;
 
-//REVIEW based on review of usage, this interface is much "wider" than it needs to be and could be easily abused, see suggestions below for narrowing
-
 /**
  * Interface that allows adding and removing nodes, used by SphericalParticleNodeFactory for adding sphere graphics
  *
  * @author Sam Reid
  */
-public interface ICanvas {  //REVIEW ISphericalParticleCanvas
+public interface ICanvas {
 
-    void addChild( PNode node ); //REVIEW addSphericalParticle(SphericalParticleNode node)
+    void addChild( PNode node );
 
-    void removeChild( PNode node ); //REVIEW removeSphericalParticle(SphericalParticleNode node)
+    void removeChild( PNode node );
 }
