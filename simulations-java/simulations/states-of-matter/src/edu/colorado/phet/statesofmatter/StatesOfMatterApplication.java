@@ -70,7 +70,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         m_solidLiquidGasModule = new SolidLiquidGasModule( parentFrame );
         addModule( m_solidLiquidGasModule );
 
-        m_phaseChangesModule = new PhaseChangesModule( parentFrame );
+        m_phaseChangesModule = new PhaseChangesModule( parentFrame, true );
         addModule( m_phaseChangesModule );
 
         m_interactionPotentialModule = new AtomicInteractionsModule( parentFrame, false );

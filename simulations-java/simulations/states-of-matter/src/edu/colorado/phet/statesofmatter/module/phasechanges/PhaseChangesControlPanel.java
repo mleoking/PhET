@@ -5,7 +5,6 @@ package edu.colorado.phet.statesofmatter.module.phasechanges;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -88,6 +87,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private CloseRequestListener m_phaseDiagramCloseListener;
     private CloseRequestListener m_interactionPotentialDiagramCloseListener;
 
+    private final boolean m_advanced;
+
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
@@ -96,12 +97,14 @@ public class PhaseChangesControlPanel extends ControlPanel {
      * Constructor.
      *
      * @param phaseChangesModule
-     * @param parentFrame        parent frame, for creating dialogs
+     * @param advanced           - Flag to indicate whether basic or advanced mode is to
+     *                           be used.  Advanced mode shows the interaction potential stuff, basic
+     *                           mode does not.
      */
-    public PhaseChangesControlPanel( PhaseChangesModule phaseChangesModule, Frame parentFrame ) {
-
+    public PhaseChangesControlPanel( PhaseChangesModule phaseChangesModule, boolean advanced ) {
         super();
         m_model = phaseChangesModule.getMultiParticleModel();
+        m_advanced = advanced;
         m_phaseDiagramVisible = true;
         m_interactionDiagramVisible = true;
 
@@ -550,8 +553,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
      */
     private void updateVisibilityStates() {
 
-        m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
-        m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible );
+        m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible && m_advanced );
+        m_interactionDiagramCtrlButton.setVisible( !m_interactionDiagramVisible && m_advanced );
         m_preInteractionButtonSpacer.setVisible( !m_interactionDiagramVisible );
         m_postInteractionButtonSpacer.setVisible( !m_interactionDiagramVisible );
 
