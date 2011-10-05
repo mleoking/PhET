@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.statesofmatter.view;
+package edu.colorado.phet.statesofmatter;
 
 import java.awt.Frame;
 
@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.developer.DeveloperControlsMenuItem;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
