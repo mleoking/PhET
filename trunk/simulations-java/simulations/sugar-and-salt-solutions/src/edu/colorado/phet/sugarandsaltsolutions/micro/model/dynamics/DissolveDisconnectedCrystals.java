@@ -44,7 +44,6 @@ public class DissolveDisconnectedCrystals {
 
                 //If it has been disconnected for too long, dissolve it completely
                 if ( newCount > 30 ) {
-                    //REVIEW use of a logger would look nicer than this if(debug) stuff, applied to other similar places in code
                     LOGGER.fine( "Crystal disconnected for " + newCount + " steps, dissolving..." );
                     new CrystalDissolve<T>( model ).dissolve( crystal, crystal.getConstituents().toList() );
                     crystalItemList.remove( crystal );
