@@ -77,13 +77,6 @@ public class MoleculeModelNode extends Node {
             addGroup( pairGroup );
         }
 
-        // on each frame, update our view
-        module.attachState( new AbstractAppState() {
-            @Override public void update( float tpf ) {
-                updateView();
-            }
-        } );
-
         //Create the central atom
         centerAtomNode = new AtomNode( new None<PairGroup>(), module.getAssetManager() );
         attachChild( centerAtomNode );
