@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -55,7 +56,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
  *
  * @author John Blanco
  */
-public class MultipleParticleModel {
+public class MultipleParticleModel implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data
