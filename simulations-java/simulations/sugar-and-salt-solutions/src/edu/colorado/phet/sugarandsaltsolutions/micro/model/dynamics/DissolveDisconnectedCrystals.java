@@ -2,7 +2,9 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.IdentityHashMap;
+import java.util.logging.Logger;
 
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
@@ -15,10 +17,11 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
  */
 public class DissolveDisconnectedCrystals {
     private final MicroModel model;
-    public static final boolean debug = false;
 
     //Map that keeps track of the number of steps that a crystal has been identified as disconnected.  If it is disconnected too long, it will be completely dissolved.
     private final IdentityHashMap<Crystal, Integer> numberStepsDisconnected = new IdentityHashMap<Crystal, Integer>();
+
+    private static final Logger LOGGER = LoggingUtils.getLogger( DissolveDisconnectedCrystals.class.getCanonicalName() );
 
     public DissolveDisconnectedCrystals( MicroModel model ) {
         this.model = model;
@@ -42,9 +45,7 @@ public class DissolveDisconnectedCrystals {
                 //If it has been disconnected for too long, dissolve it completely
                 if ( newCount > 30 ) {
                     //REVIEW use of a logger would look nicer than this if(debug) stuff, applied to other similar places in code
-                    if ( debug ) {
-                        System.out.println( "Crystal disconnected for " + newCount + " steps, dissolving..." );
-                    }
+                    LOGGER.fine( "Crystal disconnected for " + newCount + " steps, dissolving..." );
                     new CrystalDissolve<T>( model ).dissolve( crystal, crystal.getConstituents().toList() );
                     crystalItemList.remove( crystal );
                 }

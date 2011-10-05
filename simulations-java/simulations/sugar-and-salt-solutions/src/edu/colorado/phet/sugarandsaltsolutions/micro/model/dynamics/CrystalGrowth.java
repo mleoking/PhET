@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
@@ -40,8 +42,7 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
     //Randomness for crystal formation times and which crystals to bond to
     private final Random random = new Random();
 
-    //Flag to show debug information to the console about crystal formation
-    private final boolean debug = false;
+    private static final Logger LOGGER = LoggingUtils.getLogger( CrystalGrowth.class.getCanonicalName() );
 
     public CrystalGrowth( MicroModel model, ItemList<U> crystals ) {
         this.model = model;
@@ -60,7 +61,7 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
             lastNewCrystalFormationTime = model.getTime();
             if ( crystals.size() == 0 ) {
                 //Create a crystal if there weren't any
-                debug( "No crystals, starting a new one, num crystals = " + crystals.size() );
+                LOGGER.fine( "No crystals, starting a new one, num crystals = " + crystals.size() );
                 towardNewCrystal( dt );
             }
 
@@ -76,7 +77,7 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
 
                     //With some probability, form a new crystal anyways (if there aren't too many crystals)
                     if ( random.nextDouble() > 0.8 && crystals.size() <= 2 ) {
-                        debug( "Random choice to form new crystal instead of joining another" );
+                        LOGGER.fine( "Random choice to form new crystal instead of joining another" );
                         towardNewCrystal( dt );
                     }
 
@@ -103,24 +104,17 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
                     }
 
                     else {
-                        debug( "Best match was too far away (" + targetConfiguration.distance / model.beaker.getWidth() + " beaker widths, so trying to form new crystal from lone ions" );
+                        LOGGER.fine( "Best match was too far away (" + targetConfiguration.distance / model.beaker.getWidth() + " beaker widths, so trying to form new crystal from lone ions" );
                         towardNewCrystal( dt );
                     }
                 }
 
                 //No matches, so start a new crystal
                 else {
-                    debug( "No matches, starting a new crystal" );
+                    LOGGER.fine( "No matches, starting a new crystal" );
                     towardNewCrystal( dt );
                 }
             }
-        }
-    }
-
-    //Show some debugging information to the console
-    private void debug( String s ) {
-        if ( debug ) {
-            System.out.println( s );
         }
     }
 
@@ -243,7 +237,7 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
                 OpenSite<T> selectedSite = getBindingSite( crystal, particle );
                 //Add the second particle as the second constituent of the crystal
                 if ( selectedSite == null ) {
-                    debug( "No available sites to bind to, this probably shouldn't have happened." );
+                    LOGGER.fine( "No available sites to bind to, this probably shouldn't have happened." );
                 }
                 else {
                     crystal.addConstituent( new Constituent<T>( particle, selectedSite.relativePosition ) );

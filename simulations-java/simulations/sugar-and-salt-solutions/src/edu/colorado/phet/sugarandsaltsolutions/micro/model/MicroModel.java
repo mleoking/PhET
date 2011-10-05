@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -19,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
@@ -170,6 +172,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Keep track of which kit the user has selected so that particle draining can happen in formula units so there isn't an unbalanced number of solutes for crystallization
     private MicroModelKit kit;
 
+    private static final Logger LOGGER = LoggingUtils.getLogger( MicroModel.class.getCanonicalName() );
+
     //The index of the kit selected by the user
     public final Property<Integer> selectedKit = new Property<Integer>( 0 ) {{
 
@@ -280,10 +284,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public void checkStartDrain( DrainData drainData ) {
         double currentDrainFlowRate = outputFlowRate.get() * faucetFlowRate;
 
-        if ( DEBUG_DRAINING ) {
-            double timeToDrainFully = solution.volume.get() / currentDrainFlowRate;
-            System.out.println( "clock.getDt() = " + clock.getDt() + ", time to drain fully: " + timeToDrainFully );
-        }
+        double timeToDrainFully = solution.volume.get() / currentDrainFlowRate;
+        LOGGER.fine( "clock.getDt() = " + clock.getDt() + ", time to drain fully: " + timeToDrainFully );
 
         if ( currentDrainFlowRate > 0 ) {
             if ( drainData.previousDrainFlowRate == 0 ) {

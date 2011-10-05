@@ -4,9 +4,11 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
@@ -24,6 +26,8 @@ public class Draining {
     //The Draining algorithm keeps track of which formula unit each particle is assigned to so that a particle is not double counted
     //It has to be cleared in each iteration since groupings are reassigned at each sim step
     private final ArrayList<Particle> usedParticles = new ArrayList<Particle>();
+
+    private static final Logger LOGGER = LoggingUtils.getLogger( Draining.class.getCanonicalName() );
 
     public Draining( MicroModel model ) {
         this.model = model;
@@ -75,7 +79,7 @@ public class Draining {
         //Sanity check on the number of deltas to reach a problem, if this is negative it could indicate some unexpected change in initial concentration
         //In any case, shouldn't propagate toward the drain with a negative delta, because that causes a negative speed and motion away from the drain
         if ( timeToError < 0 ) {
-            debug( getClass().getName() + ": timeToError = " + timeToError + ", recomputing initial concentration and postponing drain" );
+            LOGGER.fine( getClass().getName() + ": timeToError = " + timeToError + ", recomputing initial concentration and postponing drain" );
             model.checkStartDrain( drainData );
             return;
         }
@@ -89,7 +93,7 @@ public class Draining {
         //Find the closest particles and move them toward the drain at a rate so they will reach at the same time
         ItemList<Particle> closestFormulaUnit = getParticlesToDrain( drainData.formula );
         for ( Particle particle : closestFormulaUnit ) {
-            debug( particle.getClass() + " #" + particle.hashCode() + " x: " + particle.getPosition().getX() );
+            LOGGER.fine( particle.getClass() + " #" + particle.hashCode() + " x: " + particle.getPosition().getX() );
 
             //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
             double distanceToTarget = particle.getPosition().getDistance( drain );
@@ -101,7 +105,7 @@ public class Draining {
             //Set the update strategy of the particle, it will be updated when the strategies are invoked in MicroModel
             particle.setUpdateStrategy( new FlowToDrainStrategy( model, velocity, false ) );
 
-            debug( "i = " + 0 + ", target time = " + model.getTime() + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
+            LOGGER.fine( "i = " + 0 + ", target time = " + model.getTime() + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
         }
 
         if ( !closestFormulaUnit.isEmpty() ) {
@@ -126,13 +130,6 @@ public class Draining {
                     unitParticle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
                 }
             }
-        }
-    }
-
-    //REVIEW why not use a logger?
-    private void debug( String s ) {
-        if ( MicroModel.DEBUG_DRAINING ) {
-            System.out.println( s );
         }
     }
 
