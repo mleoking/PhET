@@ -388,6 +388,7 @@ public class MoleculeShapesModule extends JMEModule {
     @Override public void updateState( final float tpf ) {
         super.updateState( tpf );
         molecule.update( tpf );
+        moleculeNode.updateView();
         moleculeNode.setLocalRotation( rotation );
 
         // update the overlay viewport

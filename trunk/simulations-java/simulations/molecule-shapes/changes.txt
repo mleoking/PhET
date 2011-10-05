@@ -1,3 +1,5 @@
+Fixed bug where atoms could come off of their bonds
+Added optimizations to work around remaining memory leak
 Fixed multiple memory leak bugs
 # 0.00.40 (57078) Sep 29, 2011
 Mode changed to "White Background"
