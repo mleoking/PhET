@@ -130,7 +130,6 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
             setOffset( resetAllButton.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
                        resetAllButton.getFullBoundsReference().getMinY() - getFullBoundsReference().height - 200 );
         }} );
-
     }
 
     public void reset() {

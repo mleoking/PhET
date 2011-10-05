@@ -7,10 +7,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -134,22 +136,28 @@ public class PhaseChangesCanvas extends PhetPCanvas {
                              containerRect.getY() + containerRect.getHeight() * 0.1 );
         addWorldChild( stoveNode );
 
-        // Add a floating clock control.
-        BooleanProperty clockRunning = new BooleanProperty( false ) {{
-            addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean isRunning ) {
-                    multipleParticleModel.getClock().setRunning( isRunning );
-                }
-            } );
+        // Add a "Reset All" button.
+        final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { multipleParticleModel }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+            setConfirmationEnabled( false );
+            scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
+            setOffset( stoveNode.getFullBoundsReference().getMinX() - getFullBoundsReference().width - 5000,
+                       stoveNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().height );
         }};
+        addWorldChild( resetAllButton );
+
+        // Add a floating clock control.
+        BooleanProperty clockRunning = new BooleanProperty( false );
+        clockRunning.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean isRunning ) {
+                multipleParticleModel.getClock().setRunning( isRunning );
+            }
+        } );
         addWorldChild( new FloatingClockControlNode( clockRunning, null,
                                                      multipleParticleModel.getClock(), null,
                                                      new Property<Color>( Color.white ) ) {{
             scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
-            setOffset( -getFullBoundsReference().width * 1.2,
-                       stoveNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().height );
-//            setOffset( stoveNode.getFullBoundsReference().getX() + 900,
-//                       stoveNode.getFullBoundsReference().getMaxY() + 200 );
+            setOffset( resetAllButton.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
+                       resetAllButton.getFullBoundsReference().getMinY() - getFullBoundsReference().height - 200 );
         }} );
     }
 
