@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
@@ -225,25 +226,25 @@ public class ParticleNode extends PNode {
         Color baseColor;
 
         if ( atom instanceof ArgonAtom ) {
-            baseColor = new Color( 0x009933 );
+            baseColor = new Color( 10, 125, 140 );
         }
         else if ( atom instanceof NeonAtom ) {
-            baseColor = new Color( 0xdd4400 );
+            baseColor = new Color( 112, 212, 255 );
         }
         else if ( atom instanceof OxygenAtom ) {
-            baseColor = new Color( 0x4488ff );
+            baseColor = PhetColorScheme.RED_COLORBLIND;
         }
         else if ( atom instanceof HydrogenAtom ) {
-            baseColor = Color.RED;
+            baseColor = Color.WHITE;
         }
         else if ( atom instanceof HydrogenAtom2 ) {
-            baseColor = new Color( 0xff4444 );
+            baseColor = Color.WHITE;
         }
         else if ( atom instanceof ConfigurableStatesOfMatterAtom ) {
-            baseColor = new Color( 0xCC66CC );
+            baseColor = new Color( 204, 102, 204 );
         }
         else {
-            baseColor = Color.WHITE;
+            baseColor = Color.PINK;
         }
 
         return baseColor;
