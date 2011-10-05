@@ -24,12 +24,17 @@ public class CalciumChlorideShaker extends MicroShaker {
         model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 6 ); }} );
     }
 
-    //REVIEW what might I expect to see (other than "creating i") when this test is run?
-    //Test for creating calcium chloride crystals, which are susceptible to dead ends
+    //Test for creating calcium chloride crystals, which are susceptible to dead ends.  Make sure there are enough successes
     public static void main( String[] args ) {
         for ( int i = 0; i < 10000; i++ ) {
             System.out.println( "creating " + i );
-            new CalciumChlorideCrystal( ImmutableVector2D.ZERO, randomAngle() ) {{ grow( 6 ); }};
+            final int finalI = i;
+            new CalciumChlorideCrystal( ImmutableVector2D.ZERO, randomAngle() ) {{
+                boolean success = grow( 6 );
+                if ( !success ) {
+                    System.out.println( "Failed to grow at i=" + finalI );
+                }
+            }};
         }
     }
 }

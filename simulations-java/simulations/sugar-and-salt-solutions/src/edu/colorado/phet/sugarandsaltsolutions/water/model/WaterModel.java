@@ -22,7 +22,6 @@ import org.jbox2d.testbed.framework.TestbedSettings;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Pair;
@@ -82,7 +81,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Thresholds and settings for artificial force on waters to split up salt or sucrose components that are too close to each other
     private static final double SALT_ION_DISTANCE_THRESHOLD = new SaltIon.ChlorideIon().getShape().getBounds2D().getWidth() * 1.3;
     private static final double SUCROSE_DISTANCE_THRESHOLD = new Sucrose().getShape().getBounds2D().getWidth();
-    public final double COULOMB_FORCE_SCALE_FACTOR = 5E-36 / 10 * 2; //REVIEW How did you arrive at this value?
+    public final double COULOMB_FORCE_SCALE_FACTOR = 1.0E-36; //Tuned with discussions with the chemistry team to make interactions strong enough but not too strong
 
     //Flag to indicate debugging of removal of water when sucrose added, to keep water density constant
     private final boolean debugWaterRemoval = false;
@@ -98,8 +97,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         return new ImmutableVector2D( new Point2D.Double( bounds2D.getX(), bounds2D.getY() ), new Point2D.Double( bounds2D.getCenterX(), bounds2D.getCenterY() ) ).getMagnitude();
     }
 
-    //REVIEW what is box2D?
-    //Width of the box2D model
+    //Width of the box2D model.  Box2D is a physics engine used to drive the dynamics for this tab, see implementation-notes.txt and Box2DAdapter
     private final double box2DWidth = 20;
 
     //units for water molecules are in SI
@@ -119,16 +117,14 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
     public final ObservableProperty<Boolean> showChargeColor = new Property<Boolean>( false );
 
-    //REVIEW document these. What are they for? What are the effects of increasing/decreasing them?
     //Developer settings
-    public final Property<Double> coulombStrengthMultiplier = new Property<Double>( 100.0 );
-    public final BooleanProperty coulombForceOnAllMolecules = new BooleanProperty( true );
-    public final Property<Double> pow = new Property<Double>( 2.0 );
-    public final Property<Integer> randomness = new Property<Integer>( 5 );
-    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
-    public final Property<Double> timeScale = new Property<Double>( 0.06 );
-    public final Property<Integer> iterations = new Property<Integer>( 100 );
-    public final Property<Integer> overlaps = new Property<Integer>( 10 );
+    public final Property<Double> coulombStrengthMultiplier = new Property<Double>( 100.0 );//Scale factor that increases the strength of coulomb repulsion/attraction
+    public final Property<Double> pow = new Property<Double>( 2.0 );//Power in the coulomb force radius term
+    public final Property<Integer> randomness = new Property<Integer>( 5 );//How much randomness to add to the system
+    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );//Some interactions are ignored on each time step to improve performance.  But don't ignore too many or it will destroy the dynamics.
+    public final Property<Double> timeScale = new Property<Double>( 0.06 );//How fast the clock should run
+    public final Property<Integer> iterations = new Property<Integer>( 100 );//How many numerical iterations to run: more means more accurate but more processor used
+    public final Property<Integer> overlaps = new Property<Integer>( 10 );//Only remove water molecules that intersected this many sucrose atoms, so that the density of water remains about the same
 
     //if the particles are too close, the coulomb force gets too big--a good way to limit the coulomb force is to limit the inter-particle distance used in the coulomb calculation
     public final double MIN_COULOMB_DISTANCE = new WaterMolecule.Hydrogen().radius * 2;
@@ -188,7 +184,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         }
     }
 
-    //REVIEW move to join the single lonely method in RandomUtil?
+    //Use the specified random number generator to get a number between [-1,1].
     private double randomBetweenMinusOneAndOne() {
         return ( random.nextFloat() - 0.5 ) * 2;
     }
@@ -644,5 +640,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         final WaterModel model = new WaterModel();
         ImmutableVector2D force = model.getCoulombForce( ZERO, new ImmutableVector2D( 1, 0 ), 1, 1 );
         System.out.println( "force = " + force );
+        System.out.println( "5E-36 / 10 * 2 = " + 5E-36 / 10 * 2 );
     }
 }

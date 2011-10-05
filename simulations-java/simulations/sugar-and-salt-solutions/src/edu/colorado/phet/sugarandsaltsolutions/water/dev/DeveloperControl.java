@@ -15,7 +15,6 @@ import javax.swing.border.LineBorder;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.PropertySlider;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 
@@ -78,8 +77,6 @@ public class DeveloperControl extends JPanel {
                 add( new IntLabel( waterModel.overlaps ) );
             }} );
 
-            add( new PropertyRadioButton<Boolean>( "Coulomb forces between all particles", waterModel.coulombForceOnAllMolecules, true ) );
-            add( new PropertyRadioButton<Boolean>( "Coulomb forces only on water", waterModel.coulombForceOnAllMolecules, false ) );
             setBorder( new LineBorder( Color.black ) );
         }} );
     }
