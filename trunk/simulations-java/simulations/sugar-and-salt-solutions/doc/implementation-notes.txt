@@ -2,6 +2,10 @@ Micro tab:
 Simple module, the concentration of sugar and salt is computed as moles per volume and all displays update as necessary and there is no dynamic behavior.
 See model.txt for a description of the physics
 
+There are 4 classes (ConductivityTesterNode,  SugarAndSaltSolutionsConductivityTesterNode, ConductivityTesterToolNode, ConductivityTesterToolboxNode)
+needed to implement the conductivity tester feature.   To clarify the naming and conventions:
+The Tool is the icon drawn on the Toolbox, and used to create the tester node (Sugar and Salt Solutions Conductivity Tester Node is a sim-specific subclass).
+
 Macro tab:
 Very complex sim, there are several types of solute (with different lattice structures) which the user can add.  There are many steps in the crystal lifecycle, and each must respect the formula ratio
 for the crystal (such as NaNO3 or CaCl2):
