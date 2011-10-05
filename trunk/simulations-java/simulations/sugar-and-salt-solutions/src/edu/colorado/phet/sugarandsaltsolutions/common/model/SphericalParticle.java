@@ -23,9 +23,8 @@ public class SphericalParticle extends Particle {
     //Color corresponding to the identity of the atom
     public final Color color;
 
-    //REVIEW non-final fields should not be public
     //Color for the charge of the atom, red = positive, yellow = neutral, blue = negative
-    public Color chargeColor;
+    public final Color chargeColor;
 
     //The charge of the atom
     private final double charge;
@@ -37,15 +36,19 @@ public class SphericalParticle extends Particle {
 
     //This constructor matches the table given in the design doc and to-do doc,
     public SphericalParticle( double radiusInPM, Color chargeColor, Color atomColor, double charge ) {
-        this( picometersToMeters( radiusInPM ) * SugarAndSaltSolutionsApplication.sizeScale.get(), ZERO, atomColor, charge );
-        this.chargeColor = chargeColor;
+        this( picometersToMeters( radiusInPM ) * SugarAndSaltSolutionsApplication.sizeScale.get(), ZERO, atomColor, charge, chargeColor );
     }
 
     public SphericalParticle( double radius, ImmutableVector2D position, Color color, double charge ) {
+        this( radius, position, color, charge, null );
+    }
+
+    private SphericalParticle( double radius, ImmutableVector2D position, Color color, double charge, Color chargeColor ) {
         super( position );
         this.radius = radius;
         this.color = color;
         this.charge = charge;
+        this.chargeColor = chargeColor;
     }
 
     @Override public Shape getShape() {
