@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 
 import static java.lang.Math.PI;
 
@@ -30,7 +31,6 @@ public class WaterDrop {
 
     //Mass and gravity for stepping in time according to newtons laws
     private static final double MASS = 1;
-    private static final double GRAVITY = -9.8; //REVIEW replace with FluidPressureAndFlowModel.EARTH_GRAVITY (and why is this negative?)
 
     //Listeners
     private final ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
@@ -62,7 +62,7 @@ public class WaterDrop {
 
     //Apply gravity force and euler-integrate to update
     public void stepInTime( double simulationTimeChange ) {
-        ImmutableVector2D force = new ImmutableVector2D( 0, MASS * GRAVITY );
+        ImmutableVector2D force = new ImmutableVector2D( 0, -MASS * FluidPressureAndFlowModel.EARTH_GRAVITY );
         ImmutableVector2D acceleration = force.getScaledInstance( 1.0 / MASS );
         velocity.set( acceleration.getScaledInstance( simulationTimeChange ).getAddedInstance( velocity.get() ) );
         position.set( velocity.get().getScaledInstance( simulationTimeChange ).getAddedInstance( position.get() ) );

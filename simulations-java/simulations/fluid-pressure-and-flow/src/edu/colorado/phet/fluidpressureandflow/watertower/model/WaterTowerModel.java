@@ -45,9 +45,6 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     //Rate of filling up the water tower from the faucet
     public final FaucetFlowRate faucetFlowRate = new FaucetFlowRate();
 
-    //Gravity
-    private double g = 9.8; //REVIEW replace with FluidPressureAndFlowModel.EARTH_GRAVITY
-
     //Listeners
     private final ArrayList<VoidFunction1<WaterDrop>> waterTowerDropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
     private final ArrayList<VoidFunction1<WaterDrop>> faucetDropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
@@ -96,7 +93,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
         //Compute the velocity of water leaving the water tower at the bottom from Toricelli's theorem, one of the main learning goals of this tab
         final double waterHeight = waterTower.getWaterLevel();
-        double velocity = !hose.enabled.get() ? sqrt( 2 * g * waterHeight ) : sqrt( 2 * g * ( waterHeight + waterTower.tankBottomCenter.get().getY() - hose.y.get() ) );
+        double velocity = !hose.enabled.get() ? sqrt( 2 * EARTH_GRAVITY * waterHeight ) : sqrt( 2 * EARTH_GRAVITY * ( waterHeight + waterTower.tankBottomCenter.get().getY() - hose.y.get() ) );
 
         //If the user moved the hose above the water level, then do not let any water flow out of the hose
         if ( velocity > 0 ) {
@@ -228,7 +225,6 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         super.reset();
         waterTower.reset();
         faucetFlowRate.reset();
-        g = 9.8; //REVIEW unnecessary, this is a constant
         removeDrops( faucetDrops, faucetDrops );
         removeDrops( waterTowerDrops, waterTowerDrops );
         hose.reset();
