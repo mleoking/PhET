@@ -16,6 +16,8 @@ public class MoleculeShapesResources {
     //Strings
     public static class Strings {
         public static final String ANGLE__DEGREES = RESOURCES.getLocalizedString( "angle.degrees" );
+        public static final String ANGLE__GREATER_THAN_DEGREES = RESOURCES.getLocalizedString( "angle.greaterThanDegrees" );
+        public static final String ANGLE__LESS_THAN_DEGREES = RESOURCES.getLocalizedString( "angle.lessThanDegrees" );
         public static final String CONTROL__BONDING = RESOURCES.getLocalizedString( "control.bonding" );
         public static final String CONTROL__ELECTRON_GEOMETRY = RESOURCES.getLocalizedString( "control.electronGeometry" );
         public static final String CONTROL__GEOMETRY_NAME = RESOURCES.getLocalizedString( "control.geometryName" );

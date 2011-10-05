@@ -5,7 +5,9 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 
@@ -193,6 +195,26 @@ public class MoleculeModelNode extends Node {
         // start handling angle nodes from the beginning
         angleIndex = 0;
 
+        // calculate position changes due to taking lone-pair distances into account
+        boolean hasLonePair = !molecule.getLonePairs().isEmpty();
+        final double timeEpsilon = 0.1; // a small amount of time to consider the forces
+        Map<PairGroup, ImmutableVector3D> lonePairModifiedPositions = new HashMap<PairGroup, ImmutableVector3D>();
+        if ( hasLonePair ) {
+            for ( PairGroup group : molecule.getBondedGroups() ) {
+                ImmutableVector3D position = group.position.get();
+                for ( PairGroup otherGroup : molecule.getGroups() ) {
+                    if ( otherGroup == group ) { continue; }
+
+                    // add in impulse calculated with true from-central-atom distances
+                    position = position.plus( group.getRepulsionImpulse( otherGroup, timeEpsilon, 0 ) );
+
+                    // subtract out the "ideal" impulse (as if they were all bonds)
+                    position = position.minus( group.getRepulsionImpulse( otherGroup, timeEpsilon, 1 ) );
+                }
+                lonePairModifiedPositions.put( group, position.normalized() );
+            }
+        }
+
         // TODO: separate out bond angle feature
         if ( MoleculeShapesProperties.showBondAngles.get() ) {
             for ( BondAngleNode bondAngleNode : angleNodes ) {
@@ -218,7 +240,31 @@ public class MoleculeModelNode extends Node {
                 float extensionFactor = 1.3f;
                 final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
 
-                String labelText = MessageFormat.format( Strings.ANGLE__DEGREES, angleFormat.format( aDir.angleBetweenInDegrees( bDir ) ) );
+                double angle = aDir.angleBetweenInDegrees( bDir );
+                String labelText;
+                if ( hasLonePair ) {
+                    final double angleEpsilon = 0.01; // the change in angle due to lone pairs should have a difference larger than this for us to show a difference
+
+                    double modifiedAngle = lonePairModifiedPositions.get( a ).angleBetweenInDegrees( lonePairModifiedPositions.get( b ) );
+                    String formatString;
+                    if ( modifiedAngle - angle > angleEpsilon ) {
+                        // lone-pair angle version is smaller
+                        formatString = Strings.ANGLE__LESS_THAN_DEGREES;
+                    }
+                    else if ( modifiedAngle - angle < -angleEpsilon ) {
+                        // lone-pair angle version is larger
+                        formatString = Strings.ANGLE__GREATER_THAN_DEGREES;
+                    }
+                    else {
+                        // close enough to report no difference
+                        formatString = Strings.ANGLE__DEGREES;
+                    }
+                    labelText = MessageFormat.format( formatString, angleFormat.format( angle ) );
+                }
+                else {
+                    labelText = MessageFormat.format( Strings.ANGLE__DEGREES, angleFormat.format( angle ) );
+                }
+
                 showAngleLabel( labelText, brightness, displayPoint );
             }
         }
