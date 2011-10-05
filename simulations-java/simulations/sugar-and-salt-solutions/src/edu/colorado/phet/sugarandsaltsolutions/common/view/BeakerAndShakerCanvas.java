@@ -25,10 +25,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 
-//REVIEW I don't see setOffset calls for some nodes here. Do those nodes draw themselves in world coordinates?
-
 /**
  * Canvas for the tabs 1-2 (which both use a beaker and shaker) in the Sugar and Salt Solutions Sim
+ * Some nodes position themselves (where it was possible to factor out the layout code)
  *
  * @author Sam Reid
  */
