@@ -1,3 +1,4 @@
+# 0.00.42 (57341) Oct 5, 2011
 Added in '<' and '>' for bond angle differences for when lone pairs exist
 Potentially fixed the "missing wedge" bug for bond angle sectors
 # 0.00.41 (57259) Oct 4, 2011
