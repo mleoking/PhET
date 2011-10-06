@@ -26,7 +26,7 @@ public class ThermometerNode3D extends PiccoloJMENode implements DraggableTool2D
     private static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
 
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
-    private static final float RULER_PIXEL_SCALE = 3f;
+    private static final float PIXEL_SCALE = 3f;
 
     public ThermometerNode3D( final JMEModelViewTransform transform, final JMEModule module ) {
         super( new ThermometerNode2D( transform.modelToViewDeltaX( 1000 ) ), module.getInputHandler(), module, SwingJMENode.getDefaultTransform() );
@@ -56,7 +56,7 @@ public class ThermometerNode3D extends PiccoloJMENode implements DraggableTool2D
     }
 
     public Property<Boolean> getInsideToolboxProperty( ToolboxState toolboxState ) {
-        return toolboxState.rulerInToolbox;
+        return toolboxState.thermometerInToolbox;
     }
 
     public Vector2f getInitialMouseOffset() {
@@ -78,7 +78,7 @@ public class ThermometerNode3D extends PiccoloJMENode implements DraggableTool2D
             super( new PDimension( 50 * 0.8, 150 * 0.8 ) );
 
             // scale it so that we achieve adherence to the model scale
-            scale( PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / RULER_PIXEL_SCALE );
+            scale( PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / PIXEL_SCALE );
 
             // give it the "Hand" cursor
             addInputEventListener( new JMECursorHandler() );
