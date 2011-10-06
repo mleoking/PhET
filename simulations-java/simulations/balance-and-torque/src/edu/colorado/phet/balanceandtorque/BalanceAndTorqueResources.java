@@ -77,5 +77,8 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage TRASH_CAN = RESOURCES.getImage( "trash-can.png" );
         public static final BufferedImage WOMAN_SITTING = RESOURCES.getImage( "woman-sitting.png" );
         public static final BufferedImage WOMAN_STANDING = RESOURCES.getImage( "woman-standing.png" );
+        public static final BufferedImage BLUE_BUCKET = RESOURCES.getImage( "blue-bucket.png" );
+        public static final BufferedImage YELLOW_BUCKET = RESOURCES.getImage( "yellow-bucket.png" );
+        public static final BufferedImage METAL_BUCKET = RESOURCES.getImage( "metal-bucket.png" );
     }
 }
