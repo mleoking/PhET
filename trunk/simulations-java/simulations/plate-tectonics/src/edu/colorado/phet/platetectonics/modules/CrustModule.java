@@ -137,6 +137,8 @@ public class CrustModule extends PlateTectonicsModule {
             position.set( new ImmutableVector2D( 10, 10 ) );
         }};
         guiView.getScene().attachChild( toolbox );
+
+        //TODO: factor out duplicated code in tools
         toolboxState.rulerInToolbox.addObserver( new SimpleObserver() {
             public void update() {
                 if ( !toolboxState.rulerInToolbox.get() ) {
