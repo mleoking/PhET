@@ -14,10 +14,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ConductivityTester;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -54,19 +54,19 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
             }
         } );
 
-        //Make it possible to drag the light bulb, which translates all parts of the conductivity tester (including probes)
+        //Make it possible to drag the light bulb, which translates all parts of the conductivity tester (including probes), but constrain to the canvas (same as for the ConductivityTesterToolNode)
         getLightBulbNode().addInputEventListener( new CursorHandler() );
-        getLightBulbNode().addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseDragged( PInputEvent event ) {
-                dragAll( event.getDeltaRelativeTo( rootNode ) );
+        getLightBulbNode().addInputEventListener( new CanvasBoundedDragHandler( getLightBulbNode() ) {
+            @Override protected void dragNode( DragEvent event ) {
+                dragAll( event.delta );
             }
         } );
 
-        //Drag the entire component by the battery
+        //Drag the entire component by the battery, but constrain to the canvas (same as for the ConductivityTesterToolNode)
         getBatteryNode().addInputEventListener( new CursorHandler() );
-        getBatteryNode().addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseDragged( PInputEvent event ) {
-                dragAll( event.getDeltaRelativeTo( rootNode ) );
+        getBatteryNode().addInputEventListener( new CanvasBoundedDragHandler( getBatteryNode() ) {
+            @Override protected void dragNode( DragEvent event ) {
+                dragAll( event.delta );
             }
         } );
 
