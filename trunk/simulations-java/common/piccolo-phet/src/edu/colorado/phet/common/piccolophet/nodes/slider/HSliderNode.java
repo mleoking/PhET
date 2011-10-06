@@ -81,7 +81,27 @@ public class HSliderNode extends SliderNode {
                 }
             } );
         }};
+
+        //Create an invisible rectangle that will account for where the knob could be
+        //This is so that the knob won't overlap other layout elements that are positioned using this node's full bounds
+        Rectangle2D leftKnobRect = getKnobRect( min );
+        Rectangle2D rightKnobRect = getKnobRect( max );
+        PhetPPath knobBackground = new PhetPPath( leftKnobRect.createUnion( rightKnobRect ), null, null, null ) {{
+            setPickable( false );
+            setChildrenPickable( false );
+        }};
+        addChild( knobBackground );
+
+        //Add the knob itself
         addChild( knobNode );
+    }
+
+    private Rectangle2D getKnobRect( double value ) {
+        Rectangle2D leftKnobRect = knobNode.getFullBounds();
+        final double x = getViewX( value ) - knobNode.getFullBounds().getWidth() / 2;
+        final double y = trackNode.getFullBounds().getHeight() / 2 - knobNode.getFullBounds().getHeight() / 2;
+        leftKnobRect.setRect( x, y, leftKnobRect.getWidth(), leftKnobRect.getHeight() );
+        return leftKnobRect;
     }
 
     protected double getViewX( double value ) {
@@ -96,12 +116,19 @@ public class HSliderNode extends SliderNode {
 
     public static void main( String[] args ) {
         new PFrame( "test", false, new PCanvas() {{
-            getLayer().addChild( new HSliderNode( 0, 100, new Property<Double>( 0.0 ) ) {{
+            final HSliderNode sliderNode = new HSliderNode( 0, 100, new Property<Double>( 0.0 ) ) {{
                 addLabel( 0.0, new PhetPText( "Low" ) );
-                addLabel( 100.0, new PhetPText( "High" ) );
+                addLabel( 100.0, new PhetPText( "Hi" ) );
+                setOffset( 150, 250 );
+            }};
+            getLayer().addChild( sliderNode );
+
+
+            getLayer().addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ) ) {{
                 setOffset( 150, 250 );
             }} );
 
+            getLayer().addChild( new PhetPPath( sliderNode.getFullBounds() ) );
             setPanEventHandler( null );
         }} ) {{
             setSize( 800, 600 );
