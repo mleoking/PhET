@@ -10,4 +10,5 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class ToolboxState {
     public final Property<Boolean> rulerInToolbox = new Property<Boolean>( true );
+    public final Property<Boolean> thermometerInToolbox = new Property<Boolean>( true );
 }
