@@ -112,7 +112,23 @@ public class CrustModel extends PlateModel {
     }
 
     @Override public double getTemperature( double x, double y ) {
-        // TODO (model): replace with a correct temperature function
-        return 290 - y / 1000;
+        double elevation = getElevation( x, 0 );
+        double surfaceTemperature = getSurfaceTemperature( elevation );
+
+        if ( elevation > y ) {
+            // our point is under surface level
+            return surfaceTemperature + 27 * ( elevation - y ) / 1000; // go up 27 degrees per km
+        }
+        else {
+            // our point is above surface level
+            if ( y > 0 ) {
+                // above water level, so return air temp
+                return getAirTemperature( y );
+            }
+            else {
+                // return water temperature (simplified model)
+                return getWaterTemperature( y );
+            }
+        }
     }
 }

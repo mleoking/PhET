@@ -92,10 +92,10 @@ public class HelloTerrain extends SimpleApplication {
                     {
                         updateTerrain();
                         updateNotifier.addUpdateListener( new UpdateListener() {
-                            public void update() {
-                                updateTerrain();
-                            }
-                        }, true );
+                                                              public void update() {
+                                                                  updateTerrain();
+                                                              }
+                                                          }, true );
                     }
 
                     public void updateTerrain() {

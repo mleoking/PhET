@@ -159,17 +159,17 @@ public class WaterNode extends Node {
             setPositions.run();
 
             model.modelChanged.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    setPositions.run();
+                                                      public void update() {
+                                                          setPositions.run();
 
-                    getBuffer( Type.Position ).updateData( positionBuffer );
-                    getBuffer( Type.Index ).updateData( indexBuffer );
+                                                          getBuffer( Type.Position ).updateData( positionBuffer );
+                                                          getBuffer( Type.Index ).updateData( indexBuffer );
 
-                    updateBound();
-                    updateCounts(); // TODO: if this doesn't work, put before buffer calls
+                                                          updateBound();
+                                                          updateCounts(); // TODO: if this doesn't work, put before buffer calls
 //                    getBuffer( Type.TexCoord ).updateData( textureBuffer );
-                }
-            }, false );
+                                                      }
+                                                  }, false );
 
             setMode( Mode.TriangleStrip );
             setBuffer( VertexBuffer.Type.Position, 3, positionBuffer );
