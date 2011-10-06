@@ -1,9 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Frame;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -19,6 +22,7 @@ import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.control.RulerNode3D;
+import edu.colorado.phet.platetectonics.control.ThermometerNode3D;
 import edu.colorado.phet.platetectonics.control.ToolDragHandler;
 import edu.colorado.phet.platetectonics.control.Toolbox;
 import edu.colorado.phet.platetectonics.model.CrustModel;
@@ -136,6 +140,7 @@ public class CrustModule extends PlateTectonicsModule {
         toolboxState.rulerInToolbox.addObserver( new SimpleObserver() {
             public void update() {
                 if ( !toolboxState.rulerInToolbox.get() ) {
+
                     // we just "removed" the ruler from the toolbox, so add it to our scene
                     RulerNode3D ruler = new RulerNode3D( getModelViewTransform(), CrustModule.this );
                     toolView.getScene().attachChild( ruler );
@@ -151,6 +156,25 @@ public class CrustModule extends PlateTectonicsModule {
             }
         } );
 
+        toolboxState.thermometerInToolbox.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( !toolboxState.thermometerInToolbox.get() ) {
+
+                    // we just "removed" the ruler from the toolbox, so add it to our scene
+                    ThermometerNode3D thermometer = new ThermometerNode3D( getModelViewTransform(), CrustModule.this );
+                    toolView.getScene().attachChild( thermometer );
+
+                    // offset the ruler slightly from the mouse, and start the drag
+                    Vector2f mousePosition = getMousePositionOnZPlane();
+                    Vector2f initialMouseOffset = thermometer.getInitialMouseOffset();
+                    thermometer.setLocalTranslation( mousePosition.x - initialMouseOffset.x,
+                                                     mousePosition.y - initialMouseOffset.y,
+                                                     0 ); // on Z=0 plane
+                    toolDragHandler.startDragging( thermometer, mousePosition );
+                }
+            }
+        } );
+
 
         /*---------------------------------------------------------------------------*
         * my crust
@@ -158,12 +182,12 @@ public class CrustModule extends PlateTectonicsModule {
         guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new MyCrustPanel( model ) ), getInputHandler(), this, canvasTransform ) {{
             // layout the panel if its size changes (and on startup)
             onResize.addUpdateListener( new UpdateListener() {
-                                            public void update() {
-                                                position.set( new ImmutableVector2D(
-                                                        Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
-                                                        getStageSize().height - getComponentHeight() - 10 ) ); // offset from top
-                                            }
-                                        }, true ); // TODO: default to this?
+                public void update() {
+                    position.set( new ImmutableVector2D(
+                            Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
+                            getStageSize().height - getComponentHeight() - 10 ) ); // offset from top
+                }
+            }, true ); // TODO: default to this?
         }} );
 
         /*---------------------------------------------------------------------------*
