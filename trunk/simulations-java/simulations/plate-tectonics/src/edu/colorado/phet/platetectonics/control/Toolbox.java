@@ -3,7 +3,6 @@ package edu.colorado.phet.platetectonics.control;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
@@ -14,7 +13,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Displays a toolbox that contains meters (ruler, thermometer, density meter, composition meter), and display options
@@ -24,7 +22,8 @@ public class Toolbox extends PiccoloJMENode {
 
     public Toolbox( PlateTectonicsModule module, final ToolboxState toolboxState ) {
         super( new ControlPanelNode( new PNode() {{
-            final ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( 0.75f ) {{
+            final float kmToViewUnit = 0.75f;
+            final ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( kmToViewUnit ) {{
                 // make the ruler visible when it is in the toolbox
                 toolboxState.rulerInToolbox.addObserver( JMEUtils.swingObserver( new Runnable() {
                     public void run() {
@@ -46,8 +45,7 @@ public class Toolbox extends PiccoloJMENode {
 
             addChild( rulerNode2D ); // approximate scaling to get the size right
 
-            double scale = 0.8;
-            final PNode thermometer = new ZeroOffsetNode( new LiquidExpansionThermometerNode( new PDimension( 50 * scale, 150 * scale ) ) ) {{
+            final PNode thermometer = new ZeroOffsetNode( new ThermometerNode3D.ThermometerNode2D( kmToViewUnit ) ) {{
 
                 //Move it to the right of the ruler
                 setOffset( rulerNode2D.getFullBounds().getWidth() + INSET, rulerNode2D.getFullBounds().getMaxY() - getFullBounds().getHeight() );
