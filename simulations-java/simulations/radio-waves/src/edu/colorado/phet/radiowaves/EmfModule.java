@@ -7,15 +7,35 @@
 
 package edu.colorado.phet.radiowaves;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AWTException;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Command;
@@ -39,10 +59,16 @@ import edu.colorado.phet.radiowaves.model.movement.ManualMovement;
 import edu.colorado.phet.radiowaves.model.movement.MovementType;
 import edu.colorado.phet.radiowaves.model.movement.SinusoidalMovement;
 import edu.colorado.phet.radiowaves.util.StripChart;
-import edu.colorado.phet.radiowaves.view.*;
+import edu.colorado.phet.radiowaves.view.ElectronGraphic;
+import edu.colorado.phet.radiowaves.view.EmfControlPanel;
+import edu.colorado.phet.radiowaves.view.EmfPanel;
+import edu.colorado.phet.radiowaves.view.ReceivingElectronGraphic;
+import edu.colorado.phet.radiowaves.view.StripChartDelegate;
+import edu.colorado.phet.radiowaves.view.TransmitterElectronGraphic;
+import edu.colorado.phet.radiowaves.view.WaveMediumGraphic;
 
 public class EmfModule extends PiccoloModule {
-    
+
     final double HELP_LAYER_NUMBER = Double.POSITIVE_INFINITY;
     final double WIGGLE_ME_LAYER_NUMBER = 5;
 
@@ -62,12 +88,12 @@ public class EmfModule extends PiccoloModule {
     private Graphic wiggleMeGraphic;
     private boolean beenWiggled;
     private final EmfModel model;
-    
+
     private ModelViewTransform2D mvTx;
     private WaveMediumGraphic waveMediumGraphicB;
     private WaveMediumGraphic waveMediumGraphicA;
     private int fieldSense = EmfConfig.SHOW_FORCE_ON_ELECTRON;
-    
+
     private final HelpItem helpItem;
 
 
@@ -100,7 +126,9 @@ public class EmfModule extends PiccoloModule {
                 if ( !init ) {
                     init = true;
                     double aspectRatio = ( (double) fieldHeight ) / ( (double) fieldWidth );
-                    mvTx.setModelBounds( new Rectangle2D.Double( 0, 0, apparatusPanel.getWidth(), apparatusPanel.getHeight() ) );
+//                    mvTx.setModelBounds( new Rectangle2D.Double( 0, 0, apparatusPanel.getWidth(), apparatusPanel.getHeight() ) );
+                    //Trial fix for getting play area to scale correctly on netbook
+                    mvTx.setModelBounds( new Rectangle2D.Double( 0, 0, apparatusPanel.getPreferredSize().getWidth(), apparatusPanel.getPreferredSize().getHeight() ) );
                 }
                 mvTx.setViewBounds( apparatusPanel.getBounds() );
             }
@@ -151,7 +179,7 @@ public class EmfModule extends PiccoloModule {
             apparatusPanel.addGraphic( helpItem, HELP_LAYER_NUMBER );
         }
     }
-    
+
     public boolean hasHelp() {
         return true;
     }
@@ -165,6 +193,7 @@ public class EmfModule extends PiccoloModule {
             apparatusPanel.removeGraphic( helpItem );
         }
     }
+
     private void createScalarRepresentations() {
         waveMediumGraphicA = new WaveMediumGraphic( electron, apparatusPanel, electronLoc, 800, WaveMediumGraphic.TO_RIGHT );
         waveMediumGraphicB = new WaveMediumGraphic( electron, apparatusPanel, electronLoc, 200, WaveMediumGraphic.TO_LEFT );
