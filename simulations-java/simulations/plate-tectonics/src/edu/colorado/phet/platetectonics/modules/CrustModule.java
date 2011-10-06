@@ -58,6 +58,8 @@ public class CrustModule extends PlateTectonicsModule {
     private ToolboxState toolboxState = new ToolboxState();
     private ToolDragHandler toolDragHandler = new ToolDragHandler( toolboxState );
     private Toolbox toolbox;
+    private static final float RULER_Z = 0;
+    private static final float THERMOMETER_Z = 1;
 
     public CrustModule( Frame parentFrame ) {
         super( parentFrame, CRUST_TAB );
@@ -154,7 +156,7 @@ public class CrustModule extends PlateTectonicsModule {
                     Vector2f initialMouseOffset = ruler.getInitialMouseOffset();
                     ruler.setLocalTranslation( mousePosition.x - initialMouseOffset.x,
                                                mousePosition.y - initialMouseOffset.y,
-                                               0 ); // on Z=0 plane
+                                               RULER_Z ); // on Z=0 plane
                     toolDragHandler.startDragging( ruler, mousePosition );
                 }
             }
@@ -177,7 +179,7 @@ public class CrustModule extends PlateTectonicsModule {
                     Vector2f initialMouseOffset = thermometer.getInitialMouseOffset();
                     thermometer.setLocalTranslation( mousePosition.x - initialMouseOffset.x,
                                                      mousePosition.y - initialMouseOffset.y,
-                                                     0 ); // on Z=0 plane
+                                                     THERMOMETER_Z ); // on Z=0 plane
 
                     toolDragHandler.startDragging( thermometer, mousePosition );
                 }
