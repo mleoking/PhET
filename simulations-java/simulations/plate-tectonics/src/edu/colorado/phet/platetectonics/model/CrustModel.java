@@ -1,8 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
 
 /**
  * Displays a simplified block model of crusts resting on the mantle. Their elevation is dependent on
@@ -61,7 +63,7 @@ public class CrustModel extends PlateModel {
 
     private double getCenterCrustDensity() {
         // TODO (model): replace this hack with the correct density function
-        double ratio = 0.8 * ( 1 - compositionRatio.get() ) + 0.2 * ( 1 - temperatureRatio.get() );
+        double ratio = 0.8 * ( 1 - compositionRatio.get() ) + 0.10 * ( 1 - temperatureRatio.get() );
         return 2600 + 700 * ratio;
     }
 
@@ -117,7 +119,19 @@ public class CrustModel extends PlateModel {
 
         if ( elevation > y ) {
             // our point is under surface level
-            return surfaceTemperature + 27 * ( elevation - y ) / 1000; // go up 27 degrees per km
+            double depth = elevation - y;
+            double continental = getSimplifiedContinentalTemperature( depth, surfaceTemperature );
+            double oceanic = getSimplifiedOceanicTemperature( depth, surfaceTemperature );
+            if ( x < LEFT_BOUNDARY ) {
+                return oceanic;
+            }
+            else if ( x > RIGHT_BOUNDARY ) {
+                return continental;
+            }
+            else {
+                // blend the two based on our "ratio"
+                return continental + temperatureRatio.get() * ( oceanic - continental );
+            }
         }
         else {
             // our point is above surface level
@@ -130,5 +144,26 @@ public class CrustModel extends PlateModel {
                 return getWaterTemperature( y );
             }
         }
+    }
+
+    private static PiecewiseLinearFunction simplifiedContinentalDifference = new PiecewiseLinearFunction(
+            new ImmutableVector2D( 0, 0 ),
+            new ImmutableVector2D( 40000, 500 ),
+            new ImmutableVector2D( 150000, 1250 )
+    );
+
+    private static PiecewiseLinearFunction simplifiedOceanicDifference = new PiecewiseLinearFunction(
+            new ImmutableVector2D( 0, 0 ),
+            new ImmutableVector2D( 50000, 1000 ),
+            new ImmutableVector2D( 100000, 1500 ),
+            new ImmutableVector2D( 150000, 1600 )
+    );
+
+    public static double getSimplifiedContinentalTemperature( double depth, double surfaceTemperature ) {
+        return surfaceTemperature + simplifiedContinentalDifference.apply( depth );
+    }
+
+    public static double getSimplifiedOceanicTemperature( double depth, double surfaceTemperature ) {
+        return surfaceTemperature + simplifiedOceanicDifference.apply( depth );
     }
 }

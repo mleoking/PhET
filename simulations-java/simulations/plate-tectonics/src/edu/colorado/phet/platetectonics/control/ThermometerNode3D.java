@@ -4,13 +4,13 @@ package edu.colorado.phet.platetectonics.control;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.hud.SwingJMENode;
+import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.util.JMEModelViewTransform;
 
@@ -30,15 +30,14 @@ public class ThermometerNode3D extends PiccoloJMENode implements DraggableTool2D
     public static final float PIXEL_SCALE = 3f;
 
     private final JMEModelViewTransform transform;
-    private Property<Function2<Double, Double, Double>> temperature;
+    private final PlateModel model;
 
-    public ThermometerNode3D( final JMEModelViewTransform transform, final JMEModule module, Property<Function2<Double, Double, Double>> temperature ) {
+    public ThermometerNode3D( final JMEModelViewTransform transform, final JMEModule module, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
         super( new ThermometerNode2D( transform.modelToViewDeltaX( 1000 ) ), module.getInputHandler(), module, SwingJMENode.getDefaultTransform() );
         this.transform = transform;
-
-        this.temperature = temperature;
+        this.model = model;
 
         // scale the node to handle the subsampling
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
@@ -55,11 +54,11 @@ public class ThermometerNode3D extends PiccoloJMENode implements DraggableTool2D
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
-        temperature.addObserver( new SimpleObserver() {
-            public void update() {
-                updateLiquidHeight();
-            }
-        } );
+        model.modelChanged.addUpdateListener( new UpdateListener() {
+                                                  public void update() {
+                                                      updateLiquidHeight();
+                                                  }
+                                              }, true );
     }
 
     public boolean allowsDrag( Vector2f initialPosition ) {
@@ -75,8 +74,8 @@ public class ThermometerNode3D extends PiccoloJMENode implements DraggableTool2D
     private void updateLiquidHeight() {
         // get model coordinates
         Vector3f modelSensorPosition = transform.viewToModel( getLocalTranslation() );
-        final Double temp = temperature.get().apply( (double) modelSensorPosition.getX(), (double) modelSensorPosition.getY() );
-        double liquidHeight = new Function.LinearFunction( 290, 3000, 0.2, 0.8 ).evaluate( temp );
+        final Double temp = model.getTemperature( modelSensorPosition.getX(), modelSensorPosition.getY() );
+        double liquidHeight = new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp );
 //        System.out.println( "liquidHeight = " + liquidHeight );
         ( (LiquidExpansionThermometerNode) getNode() ).setLiquidHeight( liquidHeight );
         repaint();

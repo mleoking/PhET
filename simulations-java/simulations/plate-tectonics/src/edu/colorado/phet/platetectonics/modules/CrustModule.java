@@ -7,9 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.jmephet.JMEUtils;
@@ -164,11 +162,7 @@ public class CrustModule extends PlateTectonicsModule {
                 if ( !toolboxState.thermometerInToolbox.get() ) {
 
                     // we just "removed" the ruler from the toolbox, so add it to our scene
-                    ThermometerNode3D thermometer = new ThermometerNode3D( getModelViewTransform(), CrustModule.this, new Property<Function2<Double, Double, Double>>( new Function2<Double, Double, Double>() {
-                        public Double apply( Double x, Double y ) {
-                            return model.getTemperature( x, y );
-                        }
-                    } ) );
+                    ThermometerNode3D thermometer = new ThermometerNode3D( getModelViewTransform(), CrustModule.this, model );
                     toolView.getScene().attachChild( thermometer );
 
                     // offset the ruler slightly from the mouse, and start the drag
