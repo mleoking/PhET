@@ -27,10 +27,14 @@ import com.jme3.util.BufferUtils;
 public class CrossSectionNode extends Geometry {
     private final PlateModel model;
     private final Grid3D grid;
+    private final Grid3D textureGrid;
 
     public CrossSectionNode( final PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
         this.model = model;
         this.grid = grid;
+
+        // lower resolution grid for texture handling
+        this.textureGrid = grid.withSamples( grid.getNumXSamples() / 2, grid.getNumYSamples() / 2, grid.getNumZSamples() / 2 );
 
         // create a mesh using a triangle strip
         setMesh( new Mesh() {{
@@ -87,17 +91,17 @@ public class CrossSectionNode extends Geometry {
             setPositions.run();
 
             model.modelChanged.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    setPositions.run();
+                                                      public void update() {
+                                                          setPositions.run();
 
-                    updateBound();
-                    updateCounts();
+                                                          updateBound();
+                                                          updateCounts();
 
-                    getBuffer( Type.Position ).updateData( positionBuffer );
-                    getBuffer( Type.Normal ).updateData( normalBuffer );
-                    getBuffer( Type.TexCoord ).updateData( textureBuffer );
-                }
-            }, false );
+                                                          getBuffer( Type.Position ).updateData( positionBuffer );
+                                                          getBuffer( Type.Normal ).updateData( normalBuffer );
+                                                          getBuffer( Type.TexCoord ).updateData( textureBuffer );
+                                                      }
+                                                  }, false );
 
             setMode( Mode.TriangleStrip );
             setBuffer( VertexBuffer.Type.Position, 3, positionBuffer );
@@ -109,7 +113,7 @@ public class CrossSectionNode extends Geometry {
         }} );
         setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             setTexture( "ColorMap", new Texture2D() {{
-                setImage( new CrossSectionTextureImage( grid.getNumXSamples(), grid.getNumYSamples() ) );
+                setImage( new CrossSectionTextureImage( textureGrid.getNumXSamples(), textureGrid.getNumYSamples() ) );
             }} );
         }} );
     }
@@ -127,14 +131,14 @@ public class CrossSectionNode extends Geometry {
         public CrossSectionTextureImage( int width, int height ) {
             super( Format.RGBA8, Math.max( width, height ), Math.max( width, height ), ByteBuffer.allocateDirect( 4 * Math.max( width, height ) * Math.max( width, height ) ) );
             model.modelChanged.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    updateCrossSection();
-                }
-            }, true );
+                                                      public void update() {
+                                                          updateCrossSection();
+                                                      }
+                                                  }, true );
         }
 
         public void updateCrossSection() {
-            int Y_SAMPLES = grid.getNumYSamples();
+            int Y_SAMPLES = textureGrid.getNumYSamples();
             ByteBuffer buffer = data.get( 0 );
             buffer.clear();
 //            System.out.println( "width = " + width );
@@ -148,8 +152,8 @@ public class CrossSectionNode extends Geometry {
 //                        buffer.put( new byte[] { 0, 0, 0, 0 } );
 //                        continue;
 //                    }
-                    float modelX = grid.getXSample( x );
-                    float modelY = grid.getYSample( y );
+                    float modelX = textureGrid.getXSample( x );
+                    float modelY = textureGrid.getYSample( y );
                     buffer.put( getColor( model.getDensity( modelX, modelY ), model.getTemperature( modelX, modelY ) ) );
                 }
             }
