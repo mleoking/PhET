@@ -77,11 +77,11 @@ public class TerrainNode extends Geometry {
         }} );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
-            public void update() {
-                gridMesh.updateGeometry( computePositions( TerrainNode.this.model ) );
-                image.updateTerrain();
-            }
-        }, false );
+                                                  public void update() {
+                                                      gridMesh.updateGeometry( computePositions( TerrainNode.this.model ) );
+                                                      image.updateTerrain();
+                                                  }
+                                              }, false );
     }
 
     private double getElevationAtPixel( int xIndex, int zIndex ) {

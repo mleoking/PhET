@@ -31,6 +31,9 @@ public class ToolDragHandler {
         this.tool = tool;
         lastPosition = viewPosition.clone();
         dragging = true;
+
+        /// send an empty drag delta to hopefully synchronize any model
+        tool.dragDelta( new Vector2f( 0, 0 ) );
     }
 
     public void mouseUp( boolean overToolbox ) {

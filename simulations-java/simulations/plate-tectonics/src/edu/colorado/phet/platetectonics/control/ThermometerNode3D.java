@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.Cursor;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -29,12 +29,14 @@ public class ThermometerNode3D extends PiccoloJMENode implements DraggableTool2D
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
     public static final float PIXEL_SCALE = 3f;
 
+    private final JMEModelViewTransform transform;
     private Property<Function2<Double, Double, Double>> temperature;
 
     public ThermometerNode3D( final JMEModelViewTransform transform, final JMEModule module, Property<Function2<Double, Double, Double>> temperature ) {
 
         //TODO: rewrite with composition instead of inheritance
         super( new ThermometerNode2D( transform.modelToViewDeltaX( 1000 ) ), module.getInputHandler(), module, SwingJMENode.getDefaultTransform() );
+        this.transform = transform;
 
         this.temperature = temperature;
 
@@ -71,8 +73,10 @@ public class ThermometerNode3D extends PiccoloJMENode implements DraggableTool2D
     }
 
     private void updateLiquidHeight() {
-        final Double temp = temperature.get().apply( (double) getLocalTranslation().getX(), (double) getLocalTranslation().getY() );
-        double liquidHeight = new Function.LinearFunction( 289.868601257324, 290.161013427734, 0.2, 0.8 ).evaluate( temp );
+        // get model coordinates
+        Vector3f modelSensorPosition = transform.viewToModel( getLocalTranslation() );
+        final Double temp = temperature.get().apply( (double) modelSensorPosition.getX(), (double) modelSensorPosition.getY() );
+        double liquidHeight = new Function.LinearFunction( 290, 3000, 0.2, 0.8 ).evaluate( temp );
 //        System.out.println( "liquidHeight = " + liquidHeight );
         ( (LiquidExpansionThermometerNode) getNode() ).setLiquidHeight( liquidHeight );
         repaint();

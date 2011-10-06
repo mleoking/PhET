@@ -89,17 +89,17 @@ public class CrossSectionNode extends Geometry {
             setPositions.run();
 
             model.modelChanged.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    setPositions.run();
+                                                      public void update() {
+                                                          setPositions.run();
 
-                    updateBound();
-                    updateCounts();
+                                                          updateBound();
+                                                          updateCounts();
 
-                    getBuffer( Type.Position ).updateData( positionBuffer );
-                    getBuffer( Type.Normal ).updateData( normalBuffer );
-                    getBuffer( Type.TexCoord ).updateData( textureBuffer );
-                }
-            }, false );
+                                                          getBuffer( Type.Position ).updateData( positionBuffer );
+                                                          getBuffer( Type.Normal ).updateData( normalBuffer );
+                                                          getBuffer( Type.TexCoord ).updateData( textureBuffer );
+                                                      }
+                                                  }, false );
 
             setMode( Mode.TriangleStrip );
             setBuffer( VertexBuffer.Type.Position, 3, positionBuffer );
@@ -129,10 +129,10 @@ public class CrossSectionNode extends Geometry {
         public CrossSectionTextureImage( int width, int height ) {
             super( Format.RGBA8, Math.max( width, height ), Math.max( width, height ), ByteBuffer.allocateDirect( 4 * Math.max( width, height ) * Math.max( width, height ) ) );
             model.modelChanged.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    updateCrossSection();
-                }
-            }, true );
+                                                      public void update() {
+                                                          updateCrossSection();
+                                                      }
+                                                  }, true );
         }
 
         public void updateCrossSection() {
