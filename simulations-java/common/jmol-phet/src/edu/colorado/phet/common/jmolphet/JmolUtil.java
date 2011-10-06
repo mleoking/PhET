@@ -16,40 +16,45 @@ public class JmolUtil {
      * So we're stuck with this brute-force method of unbinding each action separately.
      */
     public static void unbindMouse( JmolViewer viewer ) {
-        viewer.scriptWait( "unbind \"_clickFrank\"" );
-        viewer.scriptWait( "unbind \"_depth\"" );
-        viewer.scriptWait( "unbind \"_dragDrawObject\"" );
-        viewer.scriptWait( "unbind \"_dragDrawPoint\"" );
-        viewer.scriptWait( "unbind \"_dragLabel\"" );
-        viewer.scriptWait( "unbind \"_dragSelected\"" );
-        viewer.scriptWait( "unbind \"_navTranslate\"" );
-        viewer.scriptWait( "unbind \"_pickAtom\"" );
-        viewer.scriptWait( "unbind \"_pickIsosurface\"" );
-        viewer.scriptWait( "unbind \"_pickMeasure\"" );
-        viewer.scriptWait( "unbind \"_pickLabel\"" );
-        viewer.scriptWait( "unbind \"_pickNavigate\"" );
-        viewer.scriptWait( "unbind \"_pickPoint\"" );
-        viewer.scriptWait( "unbind \"_popupMenu\"" );
-        viewer.scriptWait( "unbind \"_reset\"" );
-        viewer.scriptWait( "unbind \"_rotate\"" );
-        viewer.scriptWait( "unbind \"_rotateSelected\"" );
-        viewer.scriptWait( "unbind \"_rotateZ\"" );
-        viewer.scriptWait( "unbind \"_rotateZorZoom\"" );
-        viewer.scriptWait( "unbind \"_select\"" );
-        viewer.scriptWait( "unbind \"_selectAndNot\"" );
-        viewer.scriptWait( "unbind \"_selectNone\"" );
-        viewer.scriptWait( "unbind \"_selectOr\"" );
-        viewer.scriptWait( "unbind \"_selectToggle\"" );
-        viewer.scriptWait( "unbind \"_selectToggleOr\"" );
-        viewer.scriptWait( "unbind \"_selectToggleOr\"" );
-        viewer.scriptWait( "unbind \"_slab\"" );
-        viewer.scriptWait( "unbind \"_slabAndDepth\"" );
-        viewer.scriptWait( "unbind \"_slideZoom\"" );
-        viewer.scriptWait( "unbind \"_spinDrawObjectCCW\"" );
-        viewer.scriptWait( "unbind \"_spinDrawObjectCW\"" );
-        viewer.scriptWait( "unbind \"_swipe\"" );
-        viewer.scriptWait( "unbind \"_translate\"" );
-        viewer.scriptWait( "unbind \"_wheelZoom\"" );
+        String[] actions = {
+                "_clickFrank",
+                "_depth",
+                "_dragDrawObject",
+                "_dragDrawPoint",
+                "_dragLabel",
+                "_dragSelected",
+                "_navTranslate",
+                "_pickAtom",
+                "_pickIsosurface",
+                "_pickLabel",
+                "_pickMeasure",
+                "_pickNavigate",
+                "_pickPoint",
+                "_popupMenu",
+                "_reset",
+                "_rotate",
+                "_rotateSelected",
+                "_rotateZ",
+                "_rotateZorZoom",
+                "_select",
+                "_selectAndNot",
+                "_selectNone",
+                "_selectOr",
+                "_selectToggle",
+                "_selectToggleOr",
+                "_setMeasure",
+                "_slab",
+                "_slabAndDepth",
+                "_slideZoom",
+                "_spinDrawObjectCCW",
+                "_spinDrawObjectCW",
+                "_swipe",
+                "_translate",
+                "_wheelZoom",
+        };
+        for ( String action : actions ) {
+            viewer.scriptWait( "unbind \"" + action + "\"" );
+        }
     }
 
     // Binds the left mouse button to Jmol's rotate action.
