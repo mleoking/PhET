@@ -205,11 +205,10 @@ public class MoleculeModelNode extends Node {
                 for ( PairGroup otherGroup : molecule.getGroups() ) {
                     if ( otherGroup == group ) { continue; }
 
-                    // add in impulse calculated with true from-central-atom distances
-                    position = position.plus( group.getRepulsionImpulse( otherGroup, timeEpsilon, 0 ) );
+                    double lonePairFactor = otherGroup.isLonePair ? 1.2 : 1;
 
-                    // subtract out the "ideal" impulse (as if they were all bonds)
-                    position = position.minus( group.getRepulsionImpulse( otherGroup, timeEpsilon, 1 ) );
+                    // add in impulse calculated with true from-central-atom distances
+                    position = position.plus( group.getRepulsionImpulse( otherGroup, timeEpsilon, 1 ) ).times( lonePairFactor );
                 }
                 lonePairModifiedPositions.put( group, position.normalized() );
             }
@@ -243,17 +242,17 @@ public class MoleculeModelNode extends Node {
                 double angle = aDir.angleBetweenInDegrees( bDir );
                 String labelText;
                 if ( hasLonePair ) {
-                    final double angleEpsilon = 0.01; // the change in angle due to lone pairs should have a difference larger than this for us to show a difference
+                    final double angleEpsilon = 0.05; // the change in angle due to lone pairs should have a difference larger than this for us to show a difference
 
                     double modifiedAngle = lonePairModifiedPositions.get( a ).angleBetweenInDegrees( lonePairModifiedPositions.get( b ) );
                     String formatString;
                     if ( modifiedAngle - angle > angleEpsilon ) {
-                        // lone-pair angle version is smaller
-                        formatString = Strings.ANGLE__LESS_THAN_DEGREES;
-                    }
-                    else if ( modifiedAngle - angle < -angleEpsilon ) {
                         // lone-pair angle version is larger
                         formatString = Strings.ANGLE__GREATER_THAN_DEGREES;
+                    }
+                    else if ( modifiedAngle - angle < -angleEpsilon ) {
+                        // lone-pair angle version is smaller
+                        formatString = Strings.ANGLE__LESS_THAN_DEGREES;
                     }
                     else {
                         // close enough to report no difference
