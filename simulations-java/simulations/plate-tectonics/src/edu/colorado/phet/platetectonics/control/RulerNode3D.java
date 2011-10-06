@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.*;
+import java.awt.Cursor;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -46,7 +46,7 @@ public class RulerNode3D extends PiccoloJMENode implements DraggableTool2D {
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
     }
 
-    public boolean allowsDrag( Vector2f intialPosition ) {
+    public boolean allowsDrag( Vector2f initialPosition ) {
         return true; // if this node is picked, always allow a drag anywhere on it
     }
 
