@@ -1,14 +1,23 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet.hud;
 
-import java.awt.*;
+import java.awt.AWTEvent;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JRootPane;
+import javax.swing.JTabbedPane;
+import javax.swing.RepaintManager;
+import javax.swing.SwingUtilities;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -189,6 +198,8 @@ public class HUDNode extends Geometry {
                     }
                 } );
             }} );
+
+            getAdditionalRenderState().setDepthWrite( false );
 
             getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
             setTransparent( true );
