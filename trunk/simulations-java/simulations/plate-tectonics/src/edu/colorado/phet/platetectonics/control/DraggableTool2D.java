@@ -9,7 +9,7 @@ import com.jme3.math.Vector2f;
 public interface DraggableTool2D {
 
     // whether drags should be allowed to start at the specified screen point
-    public boolean allowsDrag( Vector2f intialPosition );
+    public boolean allowsDrag( Vector2f initialPosition );
 
     // actually perform a drag movement (view coordinates)
     public void dragDelta( Vector2f delta );
