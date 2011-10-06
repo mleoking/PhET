@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class Toolbox extends PiccoloJMENode {
     public Toolbox( PlateTectonicsModule module, final ToolboxState toolboxState ) {
         super( new ControlPanelNode( new PNode() {{
-            ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( 0.75f ) {{
+            final ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( 0.75f ) {{
                 // make the ruler visible when it is in the toolbox
                 toolboxState.rulerInToolbox.addObserver( JMEUtils.swingObserver( new Runnable() {
                     public void run() {
@@ -40,14 +40,11 @@ public class Toolbox extends PiccoloJMENode {
                 } );
             }} ); // wrap it in a zero-offset node, since we are rotating and scaling it (bad origin)
 
-            PText toolboxLabel = new PText( "Toolbox" ) {{
-                setFont( new PhetFont( 16, true ) );
-            }};
-
-            toolboxLabel.setOffset( rulerNode2D.getFullBounds().getWidth() + 10, 0 ); // TODO: change positioning once we have added other toolbox elements
-
             addChild( rulerNode2D ); // approximate scaling to get the size right
-            addChild( toolboxLabel );
+            addChild( new PText( "Toolbox" ) {{
+                setFont( new PhetFont( 16, true ) );
+                setOffset( rulerNode2D.getFullBounds().getWidth() + 10, 0 ); // TODO: change positioning once we have added other toolbox elements
+            }} );
         }} ), module.getInputHandler(), module, module.getCanvasTransform() );
     }
 }
