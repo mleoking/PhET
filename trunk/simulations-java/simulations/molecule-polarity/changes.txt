@@ -1,3 +1,4 @@
+10/06/11 #3104, move mouse binding features from molecule-polarity to jmol-phet, for reuse in other sims
 10/05/11 design doc snapshot checked into SVN
 9/27/11 check in Tips for Teachers document
 9/27/11 fix: 3D homogeneous diatomic molecules should be using gray (not white) for electron density surface color
