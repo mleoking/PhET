@@ -1,12 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
-import java.awt.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -89,17 +87,17 @@ public class CrossSectionNode extends Geometry {
             setPositions.run();
 
             model.modelChanged.addUpdateListener( new UpdateListener() {
-                                                      public void update() {
-                                                          setPositions.run();
+                public void update() {
+                    setPositions.run();
 
-                                                          updateBound();
-                                                          updateCounts();
+                    updateBound();
+                    updateCounts();
 
-                                                          getBuffer( Type.Position ).updateData( positionBuffer );
-                                                          getBuffer( Type.Normal ).updateData( normalBuffer );
-                                                          getBuffer( Type.TexCoord ).updateData( textureBuffer );
-                                                      }
-                                                  }, false );
+                    getBuffer( Type.Position ).updateData( positionBuffer );
+                    getBuffer( Type.Normal ).updateData( normalBuffer );
+                    getBuffer( Type.TexCoord ).updateData( textureBuffer );
+                }
+            }, false );
 
             setMode( Mode.TriangleStrip );
             setBuffer( VertexBuffer.Type.Position, 3, positionBuffer );
@@ -129,10 +127,10 @@ public class CrossSectionNode extends Geometry {
         public CrossSectionTextureImage( int width, int height ) {
             super( Format.RGBA8, Math.max( width, height ), Math.max( width, height ), ByteBuffer.allocateDirect( 4 * Math.max( width, height ) * Math.max( width, height ) ) );
             model.modelChanged.addUpdateListener( new UpdateListener() {
-                                                      public void update() {
-                                                          updateCrossSection();
-                                                      }
-                                                  }, true );
+                public void update() {
+                    updateCrossSection();
+                }
+            }, true );
         }
 
         public void updateCrossSection() {
@@ -158,24 +156,29 @@ public class CrossSectionNode extends Geometry {
             setUpdateNeeded();
         }
 
+        double minDensityToShow = 2500;
+        double maxDensityToShow = 3500;
+//        final Function.LinearFunction densityFunction = new Function.LinearFunction( minDensityToShow, maxDensityToShow, 255, 100 );
+
         // TODO: cleanup. moved from TestDensityRenderer (and modified a bit)
         private byte[] getColor( double density, double temperature ) {
             //When surface density and temperature, use clay color
-            Color clay = new Color( 255, 222, 156 );
+//            Color clay = new Color( 255, 222, 156 );
 
             // TODO: improve coloring function, make it calculate ONLY density or temperature, and hook up radio button controls
             //When it gets hotter, turn down the G & B channels to make redder
 
 //        System.out.println( "density = " + density );
-            double minDensityToShow = 2500;
-            double maxDensityToShow = 3500;
-            double x = new Function.LinearFunction( minDensityToShow, maxDensityToShow, 255, 100 ).evaluate( density );
-            int d = (int) MathUtil.clamp( 0, x, 255 );
+
+//            double x2 = densityFunction.evaluate( density );
+            double x = 100 + ( 1 - ( density - minDensityToShow ) / ( maxDensityToShow - minDensityToShow ) ) * ( 155 );
+//            System.out.println( "x = " + x +", x2 = "+x2);
+            byte d = (byte) MathUtil.clamp( 0, x, 255 );
 
 //        System.out.println( "temperature = " + temperature );
 
-            int tempChannel = (int) MathUtil.clamp( 0, new Function.LinearFunction( 280, 300, d, 255 ).evaluate( temperature ), 255 );
-            return new byte[] { (byte) d, (byte) d, (byte) d, (byte) 255 };
+//            int tempChannel = (int) MathUtil.clamp( 0, new Function.LinearFunction( 280, 300, d, 255 ).evaluate( temperature ), 255 );
+            return new byte[] { d, d, d, (byte) 255 };
         }
     }
 }
