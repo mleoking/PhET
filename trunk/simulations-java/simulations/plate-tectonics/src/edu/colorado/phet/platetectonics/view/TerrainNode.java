@@ -25,6 +25,7 @@ public class TerrainNode extends Geometry {
     private final PlateModel model;
     private final PlateTectonicsModule module;
     private final Grid3D grid;
+    private final Grid3D textureGrid;
     private TerrainNode.TerrainTextureImage image;
     private final int X_SAMPLES;
     private final int Z_SAMPLES;
@@ -38,6 +39,10 @@ public class TerrainNode extends Geometry {
         this.model = model;
         this.module = module;
         this.grid = grid;
+
+        // lower resolution grid for texture handling
+        this.textureGrid = grid.withSamples( grid.getNumXSamples() / 2, grid.getNumYSamples() / 2, grid.getNumZSamples() / 2 );
+
         X_SAMPLES = grid.getNumXSamples();
         Z_SAMPLES = grid.getNumZSamples();
         Vector3f[] positions = computePositions( model );
@@ -51,9 +56,7 @@ public class TerrainNode extends Geometry {
 
             /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
             setTexture( "Alpha", new Texture2D() {{
-                int width = X_SAMPLES;
-                int height = Z_SAMPLES;
-                image = new TerrainTextureImage( width, height );
+                image = new TerrainTextureImage( textureGrid.getNumXSamples(), textureGrid.getNumZSamples() );
                 setImage( image );
             }} );
 
@@ -82,10 +85,6 @@ public class TerrainNode extends Geometry {
                                                       image.updateTerrain();
                                                   }
                                               }, false );
-    }
-
-    private double getElevationAtPixel( int xIndex, int zIndex ) {
-        return model.getElevation( grid.getXSample( xIndex ), grid.getZSample( zIndex ) );
     }
 
     private Vector3f[] computePositions( PlateModel model ) {
@@ -118,9 +117,10 @@ public class TerrainNode extends Geometry {
         public void updateTerrain() {
             ByteBuffer buffer = data.get( 0 );
             buffer.clear();
-            for ( int z = 0; z < height; z++ ) {
+            int numZSamples = textureGrid.getNumZSamples();
+            for ( int z = 0; z < numZSamples; z++ ) {
                 // since we don't care about data past this point, just zero it out
-                if ( z >= Z_SAMPLES ) {
+                if ( z >= height ) {
                     byte[] bytes = new byte[] { 0, 0, 0, 0 };
                     for ( int x = 0; x < width; x++ ) {
                         buffer.put( bytes );
@@ -140,6 +140,10 @@ public class TerrainNode extends Geometry {
                 }
             }
             setUpdateNeeded();
+        }
+
+        private double getElevationAtPixel( int xIndex, int zIndex ) {
+            return model.getElevation( textureGrid.getXSample( xIndex ), textureGrid.getZSample( zIndex ) );
         }
     }
 }

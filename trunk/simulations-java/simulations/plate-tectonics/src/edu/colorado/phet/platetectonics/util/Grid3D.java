@@ -56,6 +56,10 @@ public class Grid3D {
         }
     }
 
+    public Grid3D withSamples( int numXSamples, int numYSamples, int numZSamples ) {
+        return new Grid3D( getBounds(), numXSamples, numYSamples, numZSamples );
+    }
+
     public Bounds3D getBounds() {
         return bounds;
     }
