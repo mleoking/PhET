@@ -52,6 +52,7 @@ public class BalanceAndTorqueResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage BLUE_BUCKET = RESOURCES.getImage( "blue-bucket.png" );
         public static final BufferedImage BOY_SITTING = RESOURCES.getImage( "boy-sitting.png" );
         public static final BufferedImage BOY_STANDING = RESOURCES.getImage( "boy-standing.png" );
         public static final BufferedImage DRINK_WITH_STRAW = RESOURCES.getImage( "drink-with-straw.png" );
@@ -62,6 +63,7 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage GIRL_STANDING = RESOURCES.getImage( "girl-standing.png" );
         public static final BufferedImage MAN_SITTING = RESOURCES.getImage( "man-sitting.png" );
         public static final BufferedImage MAN_STANDING = RESOURCES.getImage( "man-standing.png" );
+        public static final BufferedImage METAL_BUCKET = RESOURCES.getImage( "metal-bucket.png" );
         public static final BufferedImage MYSTERY_OBJECT_01 = RESOURCES.getImage( "mystery-object-01.png" );
         public static final BufferedImage MYSTERY_OBJECT_02 = RESOURCES.getImage( "mystery-object-02.png" );
         public static final BufferedImage MYSTERY_OBJECT_03 = RESOURCES.getImage( "mystery-object-03.png" );
@@ -77,8 +79,6 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage TRASH_CAN = RESOURCES.getImage( "trash-can.png" );
         public static final BufferedImage WOMAN_SITTING = RESOURCES.getImage( "woman-sitting.png" );
         public static final BufferedImage WOMAN_STANDING = RESOURCES.getImage( "woman-standing.png" );
-        public static final BufferedImage BLUE_BUCKET = RESOURCES.getImage( "blue-bucket.png" );
         public static final BufferedImage YELLOW_BUCKET = RESOURCES.getImage( "yellow-bucket.png" );
-        public static final BufferedImage METAL_BUCKET = RESOURCES.getImage( "metal-bucket.png" );
     }
 }
