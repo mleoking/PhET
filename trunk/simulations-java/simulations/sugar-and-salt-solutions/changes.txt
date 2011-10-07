@@ -1,3 +1,4 @@
+Water tab: Fixed: 'sugar highlight' unchecked is the bright yellow
 Macro tab: Constrain the conductivity tester from leaving the play area
 # 0.00.127 (57290) Oct 5, 2011
 # 0.00.126 (57286) Oct 5, 2011
