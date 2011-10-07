@@ -34,13 +34,10 @@ public class StoveControlSliderNode extends HSliderNode {
     public StoveControlSliderNode( final SettableProperty<Double> value ) {
         super( -1, 1, value, new BooleanProperty( true ) );
 
-        // Show labels for add, zero and remove
+        // Show labels for add, zero and remove.
         addLabel( +1, new PhetPText( STOVE_CONTROL_PANEL_ADD_LABEL, LABEL_FONT ) );
         addLabel( 0.0, new PhetPText( STOVE_CONTROL_PANEL_ZERO_LABEL, LABEL_FONT ) );
         addLabel( -1, new PhetPText( STOVE_CONTROL_PANEL_REMOVE_LABEL, LABEL_FONT ) );
-
-        // Make it a bit smaller--this changes the layout
-        scale( 0.8 );
 
         // Return to 0 when the user releases the slider.
         addInputEventListener( new PBasicInputEventHandler() {

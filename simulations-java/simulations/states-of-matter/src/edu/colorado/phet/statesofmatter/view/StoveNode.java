@@ -20,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -91,7 +90,6 @@ public class StoveNode extends PNode {
             lineTo( WIDTH * 0.20, burnerHeight );
             lineTo( WIDTH * 0.80, burnerHeight );
             lineTo( WIDTH, 0 );
-//            quadTo( WIDTH / 2, burnerHeight * 0.08, 0, 0 );
             curveTo( WIDTH * 0.75, burnerHeight * 0.07, WIDTH * 0.25, burnerHeight * 0.07, 0, 0 );
             closePath();
         }};
@@ -104,10 +102,7 @@ public class StoveNode extends PNode {
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
         // Create the slider.
-        m_stoveControlSlider = new StoveControlSliderNode( m_heat );
-        // TODO: There is in issue with the slider that it's zero offset is not where it should be.
-        // For now, work around this with a zero offset node, but get rid of this when slider is fixed.
-        ZeroOffsetNode zeroedSliderNode = new ZeroOffsetNode( m_stoveControlSlider ) {{
+        m_stoveControlSlider = new StoveControlSliderNode( m_heat ) {{
             setScale( ( WIDTH - 20 ) / getFullBoundsReference().width );
         }};
 
@@ -136,7 +131,7 @@ public class StoveNode extends PNode {
         addChild( m_stoveControlBackground );
         addChild( m_burner );
         addChild( sliderTitle );
-        addChild( zeroedSliderNode );
+        addChild( m_stoveControlSlider );
 
         // Do the layout.
         double centerX = Math.max( m_burner.getFullBoundsReference().width, m_stoveControlBackground.getFullBoundsReference().width ) / 2;
@@ -144,10 +139,10 @@ public class StoveNode extends PNode {
         m_burner.setOffset( centerX - m_burner.getFullBoundsReference().width / 2, 0 );
         m_stoveControlBackground.setOffset( centerX - m_stoveControlBackground.getFullBoundsReference().width / 2,
                                             m_burner.getFullBoundsReference().getMaxY() );
-        zeroedSliderNode.setOffset( centerX - zeroedSliderNode.getFullBoundsReference().width / 2,
-                                    m_stoveControlBackground.getFullBoundsReference().getMaxY() - zeroedSliderNode.getFullBoundsReference().height - 10 );
+        m_stoveControlSlider.setOffset( centerX - m_stoveControlSlider.getFullBoundsReference().width / 2,
+                                        m_stoveControlBackground.getFullBoundsReference().getMaxY() - m_stoveControlSlider.getFullBoundsReference().height - 10 );
         sliderTitle.setOffset( centerX - sliderTitle.getFullBoundsReference().width / 2,
-                               zeroedSliderNode.getFullBoundsReference().getMinY() - sliderTitle.getFullBoundsReference().height );
+                               m_stoveControlSlider.getFullBoundsReference().getMinY() - sliderTitle.getFullBoundsReference().height );
 
         // Observe the heat value and set the model heating/cooling amount
         // accordingly.
