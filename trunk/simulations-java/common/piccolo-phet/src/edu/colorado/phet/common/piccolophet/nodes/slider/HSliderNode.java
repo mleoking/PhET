@@ -160,7 +160,9 @@ public class HSliderNode extends SliderNode {
                         public void actionPerformed( ActionEvent e ) {
                             sliderNode.addLabel( 0.0, new PhetPText( "A much longer label" ) );
                         }
-                    } ).start();
+                    } ) {{
+                        setRepeats( false );
+                    }}.start();
 
                     getLayer().addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ) ) {{
                         setOffset( 150, 250 );
