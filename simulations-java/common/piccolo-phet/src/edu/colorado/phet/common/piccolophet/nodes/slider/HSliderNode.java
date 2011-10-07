@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -129,7 +130,16 @@ public class HSliderNode extends SliderNode {
     //Add a label to appear under the slider at the specified location
     public void addLabel( double value, PNode label ) {
         label.setOffset( getViewX( value ) - label.getFullBounds().getWidth() / 2, knobNode.getFullBounds().getMaxY() );
+
+        //At discussion on 10/6/2011 we decided every label should have a tick mark that extends to the track but is also visible when the knob is over it
+        float tickStroke = 1.5f;
+        final PhetPPath tickMark = new PhetPPath( new Line2D.Double( getViewX( value ) - tickStroke / 2, 0, getViewX( value ) - tickStroke / 2, knobNode.getFullBounds().getHeight() / 2 + 3 ), new BasicStroke( tickStroke ), Color.darkGray );
+        rootNode.addChild( tickMark );
+
         rootNode.addChild( label );
+
+        //Make the tick mark appear behind the track and knob
+        tickMark.moveToBack();
 
         adjustOrigin();
     }
