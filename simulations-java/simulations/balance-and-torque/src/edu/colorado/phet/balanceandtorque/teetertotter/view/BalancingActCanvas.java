@@ -186,7 +186,7 @@ public class BalancingActCanvas extends PhetPCanvas {
                 setFont( new PhetFont( 18 ) );
             }} );
             addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.MASS_LABELS, massLabelVisibilityProperty ) );
-            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.DISTANCES, distancesVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.RULERS, distancesVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.FORCES_FROM_OBJECTS, forceVectorsFromObjectsVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.LEVEL, levelIndicatorVisibleProperty ) );
         }} );

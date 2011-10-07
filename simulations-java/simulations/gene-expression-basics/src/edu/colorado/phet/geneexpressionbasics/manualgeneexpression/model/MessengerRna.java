@@ -139,7 +139,7 @@ public class MessengerRna extends MobileBiomolecule {
      * weird if an attempt is made to grow to a distant point.  As a length is
      * added, the mRNA shape "curls up".
      */
-    public void addLength( Point2D newEndPosition ) {
+    public void addLengthRandomRepos( Point2D newEndPosition ) {
 
         if ( newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) == 0 ) {
             // Don't bother adding redundant points.
@@ -262,7 +262,7 @@ public class MessengerRna extends MobileBiomolecule {
      * weird if an attempt is made to grow to a distant point.  As a length is
      * added, the mRNA shape "curls up".
      */
-    public void addLengthSpringy( Point2D newEndPosition ) {
+    public void addLength( Point2D newEndPosition ) {
 
         if ( newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) == 0 ) {
             // Don't bother adding redundant points.
