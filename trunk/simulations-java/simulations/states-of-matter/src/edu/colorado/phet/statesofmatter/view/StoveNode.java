@@ -117,11 +117,11 @@ public class StoveNode extends PNode {
         m_stoveControlBackground = new PhetPPath( controlBackgroundShape, BASE_COLOR );
 
         // Create the images that comprise the stove.
-        m_fireImage = StatesOfMatterResources.getImageNode( "flames.gif" );
-        m_fireImage.setScale( WIDTH / 2 / m_fireImage.getFullBoundsReference().getWidth() );
+        m_fireImage = StatesOfMatterResources.getImageNode( "flame.png" );
+        m_fireImage.setScale( ( WIDTH * 0.6 ) / m_fireImage.getFullBoundsReference().getWidth() );
 
         m_iceImage = StatesOfMatterResources.getImageNode( "ice.gif" );
-        m_iceImage.setScale( WIDTH / 2 / m_iceImage.getFullBoundsReference().getWidth() );
+        m_iceImage.setScale( ( WIDTH * 0.6 ) / m_iceImage.getFullBoundsReference().getWidth() );
 
         // Add the various components in the order needed to achieve the
         // desired layering.

@@ -1,3 +1,6 @@
+Improved the artwork used for the flame in the stove node.
+Added gradient to the slider node of the track.
+Modified the stove node to have black labels (more visible).
 # 1.08.02 (57327) Oct 5, 2011
 10/5/11 Deploying to dev for feedback from the design team.
 10/5/2011 Created a new stove node that fixes problems with the old one and looks better.
