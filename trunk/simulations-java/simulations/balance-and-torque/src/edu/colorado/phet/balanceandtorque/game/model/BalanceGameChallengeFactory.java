@@ -52,6 +52,9 @@ public class BalanceGameChallengeFactory {
 
     private static final Random RAND = new Random();
 
+    // Challenges per level.
+    private static final int CHALLENGES_PER_LEVEL = 5;
+
     // Max number of attempts to generate a workable or unique challenge.
     private static final int MAX_GEN_ATTEMPTS = 100;
 
@@ -92,6 +95,11 @@ public class BalanceGameChallengeFactory {
         add( new CardboardBox( true ) );
         add( new DrinkWithStraw( true ) );
     }};
+
+    // Structures used to keep track of the challenges generated so far so that
+    // we can avoid created the same challenges multiple times.
+    private static final FiniteLengthList<BalanceMassesChallenge> usedBalanceChallenges = new FiniteLengthList<BalanceMassesChallenge>( CHALLENGES_PER_LEVEL );
+    private static final FiniteLengthList<MassDeductionChallenge> usedMassDeductionChallenges = new FiniteLengthList<MassDeductionChallenge>( CHALLENGES_PER_LEVEL );
 
     /**
      * Get a set of challenges for the provided level.
