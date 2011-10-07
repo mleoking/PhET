@@ -646,8 +646,6 @@ public class BalanceGameChallengeFactory {
             return item;
         }
 
-        ;
-
         public void returnItem( T item ) {
             if ( unusedItems.contains( item ) ) {
                 assert false; // This is to catch misuse of this class.
@@ -655,6 +653,45 @@ public class BalanceGameChallengeFactory {
                 return;
             }
             unusedItems.add( item );
+        }
+    }
+
+    /**
+     * A collection that is limited in length, and when a new item is added
+     * that would make the list too long, the oldest item is removed.
+     *
+     * @param <T>
+     */
+    private static class FiniteLengthList<T> {
+        private final List<T> itemList;
+        private final int maxSize;
+
+        public FiniteLengthList( int maxSize ) {
+            this.maxSize = maxSize;
+            itemList = new ArrayList<T>( maxSize );
+        }
+
+        public void addItem( T item ) {
+            if ( itemList.size() == maxSize ) {
+                // Remove the oldest item.
+                itemList.remove( 0 );
+            }
+            itemList.add( item );
+        }
+
+        public void removeOldestHalfOfItems() {
+            int halfSize = itemList.size() / 2;
+            for ( int i = 0; i < halfSize; i++ ) {
+                itemList.remove( 0 );
+            }
+        }
+
+        public int getSize() {
+            return itemList.size();
+        }
+
+        public T getItem( int i ) {
+            return itemList.get( i );
         }
     }
 
