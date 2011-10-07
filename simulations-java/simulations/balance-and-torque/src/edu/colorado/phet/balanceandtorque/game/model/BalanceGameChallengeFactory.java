@@ -448,7 +448,7 @@ public class BalanceGameChallengeFactory {
      *
      * @return
      */
-    private static DeduceTheMassChallenge generateSimpleDeduceTheMassChallenge() {
+    private static MassDeductionChallenge generateSimpleDeduceTheMassChallenge() {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
         Mass knownMass = null;
         Mass mysteryMassPrototype = null;
@@ -476,7 +476,7 @@ public class BalanceGameChallengeFactory {
      *
      * @return
      */
-    private static DeduceTheMassChallenge generateEasyDeduceTheMassChallenge() {
+    private static MassDeductionChallenge generateEasyDeduceTheMassChallenge() {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
         Mass knownMass = null;
         Mass mysteryMassPrototype = null;
@@ -504,7 +504,7 @@ public class BalanceGameChallengeFactory {
      *
      * @return
      */
-    private static DeduceTheMassChallenge generateModerateDeduceTheMassChallenge() {
+    private static MassDeductionChallenge generateModerateDeduceTheMassChallenge() {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
         Mass knownMass = null;
         Mass mysteryMassPrototype = null;
@@ -553,7 +553,7 @@ public class BalanceGameChallengeFactory {
     }
 
     // TODO: If this is kept, move it into a constructor for the challenge.  Do for all similar convenience functions.
-    private static DeduceTheMassChallenge createDeduceTheMassChallengeFromParts( Mass mysteryMass, double mysteryMassDistanceFromCenter, Mass knownMass ) {
+    private static MassDeductionChallenge createDeduceTheMassChallengeFromParts( Mass mysteryMass, double mysteryMassDistanceFromCenter, Mass knownMass ) {
         // Create the mass-distance pair for the mystery object.
         MassDistancePair mysteryMassDistancePair = new MassDistancePair( mysteryMass, mysteryMassDistanceFromCenter );
 
@@ -566,7 +566,7 @@ public class BalanceGameChallengeFactory {
         solution.add( new MassDistancePair( knownMass, -mysteryMass.getMass() * mysteryMassDistanceFromCenter / knownMass.getMass() ) );
 
         // Combine into challenge.
-        return new DeduceTheMassChallenge( mysteryMassDistancePair, knownMassesList, solution );
+        return new MassDeductionChallenge( mysteryMassDistancePair, knownMassesList, solution );
     }
 
     /**
@@ -614,6 +614,48 @@ public class BalanceGameChallengeFactory {
         }
 
         return solvableChallenges;
+    }
+
+    /**
+     * This class takes a list of items at construction and then, when asked
+     * through the 'get' method will randomly pick an item from the original
+     * list.  It will go through all items in the list before returning the
+     * same one again, at which point it will "reset" back to the original
+     * list.
+     *
+     * @param <T>
+     */
+    private static class RandomItemBag<T> {
+        private static Random RAND = new Random();
+
+        List<T> copyOfOriginalItems;
+        List<T> unusedItems;
+
+        private RandomItemBag( List<T> originalItemList ) {
+            copyOfOriginalItems = new ArrayList<T>( originalItemList );
+        }
+
+        public T getRandomItem() {
+            assert unusedItems.size() > 0; // There is a bug in the code if this happens.
+            T item = unusedItems.get( RAND.nextInt( unusedItems.size() ) );
+            unusedItems.remove( item );
+            if ( unusedItems.size() == 0 ) {
+                // All items have been used, time to reset the list.
+                unusedItems.addAll( copyOfOriginalItems );
+            }
+            return item;
+        }
+
+        ;
+
+        public void returnItem( T item ) {
+            if ( unusedItems.contains( item ) ) {
+                assert false; // This is to catch misuse of this class.
+                System.out.println( getClass().getName() + " - Warning: Attempt to return an item that is already in the bag." );
+                return;
+            }
+            unusedItems.add( item );
+        }
     }
 
     // Test harness, changes as code evolves, not meant to test all aspects of

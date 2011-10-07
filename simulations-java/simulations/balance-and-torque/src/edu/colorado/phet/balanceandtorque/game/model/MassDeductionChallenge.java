@@ -9,14 +9,12 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 
 /**
- * A challenge, used in the balance game, in which the user must attempt to
- * place a movable mass in the correct so that when the support column is
- * removed, the movable mass will balance the fixed mass that is initially on
- * the plank.
+ * A challenge, used in the balance game, in which the user attempts to
+ * deduce the mass of a "mystery mass" using another mass of a known value.
  *
  * @author John Blanco
  */
-public class DeduceTheMassChallenge extends BalanceGameChallenge {
+public class MassDeductionChallenge extends BalanceGameChallenge {
 
     private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueResources.Strings.WHAT_IS_THE_MASS, true );
 
@@ -25,8 +23,9 @@ public class DeduceTheMassChallenge extends BalanceGameChallenge {
      *
      * @param fixedMasses
      * @param movableMasses
+     * @param solutionToDisplay
      */
-    public DeduceTheMassChallenge( final MassDistancePair fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay ) {
+    public MassDeductionChallenge( final MassDistancePair fixedMasses, List<Mass> movableMasses, List<MassDistancePair> solutionToDisplay ) {
         super( ColumnState.NONE );
         List<MassDistancePair> fixedMassList = new ArrayList<MassDistancePair>() {{
             add( fixedMasses );
