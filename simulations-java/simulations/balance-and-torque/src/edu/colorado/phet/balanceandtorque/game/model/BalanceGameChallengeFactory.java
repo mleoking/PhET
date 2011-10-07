@@ -9,14 +9,18 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BigRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Boy;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FireHydrant;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FlowerPot;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Girl;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.LargeBucket;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.LargeTrashCan;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Man;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumBucket;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallBucket;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Television;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Woman;
 
 /**
@@ -73,10 +77,10 @@ public class BalanceGameChallengeFactory {
 
     // List of mystery objects that the user has not seen on the other tab(s).
     private static final List<Mass> MYSTERY_MASSES = new ArrayList<Mass>() {{
-//        add( new MediumRock( true ) );
-//        add( new FireHydrant( true ) );
-//        add( new Television( true ) );
-//        add( new LargeTrashCan( true ) );
+        add( new MediumRock( true ) );
+        add( new FireHydrant( true ) );
+        add( new Television( true ) );
+        add( new LargeTrashCan( true ) );
         add( new FlowerPot( true ) );
         add( new SmallBucket( true ) );
         add( new MediumBucket( true ) );
