@@ -1,3 +1,4 @@
+Water tab: Make it so you can't zoom in and out on the sucrose 3d, but you can still click left to rotate
 Water tab: Made symbols for H partial charges about 1/2 the size of the O partial charges
 Micro tab: Fixed: The default location of the periodic table window is beyond the left edge of the sim
 Disable evaporation slider when water is gone

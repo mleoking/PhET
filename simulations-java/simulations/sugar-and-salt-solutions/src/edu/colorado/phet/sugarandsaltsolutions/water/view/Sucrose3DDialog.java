@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.common.jmolphet.JmolDialog;
+import edu.colorado.phet.common.jmolphet.JmolUtil;
 import edu.colorado.phet.common.jmolphet.Molecule;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 
@@ -62,6 +63,10 @@ public class Sucrose3DDialog {
                     // use custom colors for some atoms, but don't set the color for carbon to gray (even though that is its color) otherwise Jmol will make it too dark
                     viewer.script( "select oxygen; color " + toJmolColor( new WaterMolecule.Oxygen().color ) );
                     viewer.script( "select all" ); // be polite to other scripts that assume that everything is selected
+
+                    //Make it so you can't zoom in and out, but you can still click left to rotate
+                    JmolUtil.unbindMouse( viewer );
+                    JmolUtil.bindRotateLeft( viewer );
                 }
             },
                                                        //These strings duplicated in Build a Molecule
