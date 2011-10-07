@@ -82,7 +82,9 @@ public class MicroCanvas extends BeakerAndShakerCanvas implements Module.Listene
 
                             //Show the periodic table dialog to the left side of the window and underneath the solute control
                             Rectangle parentBounds = globalState.frame.getBounds();
-                            Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() ),
+
+                            //Setting the X to be the same as the parent X actually has the incorrect effect of moving it about 15 pixels to the left of the main frame, so translate to compensate for this bug
+                            Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + 15 ),
                                                                     (int) ( parentBounds.getMinY() + getKitControlNodeY() + INSET * 2 ),
                                                                     getWidth(), getHeight() );
                             setLocation( dialogBounds.x, dialogBounds.y );
