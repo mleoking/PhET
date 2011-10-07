@@ -24,5 +24,8 @@ public class SugarAndSaltSolutionsResetAllButtonNode extends ResetAllButtonNode 
 
         //Have to set the offset after changing the font since it changes the size of the node
         setOffset( stageWidth - getFullBounds().getWidth() - INSET, stageHeight - getFullBounds().getHeight() - INSET );
+
+        //Easy to get back to many states, so don't confirm reset
+        setConfirmationEnabled( false );
     }
 }
