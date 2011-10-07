@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -46,7 +47,17 @@ public class ResetAllButtonNode extends TextButtonNode {
      * @param backgroundColor
      */
     public ResetAllButtonNode( final Resettable[] resettables, final Component parent, int fontSize, Color textColor, Color backgroundColor ) {
-        super( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), new PhetFont( fontSize ) );
+        this( resettables, parent, new PhetFont( fontSize ), textColor, backgroundColor );
+    }
+
+    //Convenience constructor that accepts a single resettable and a font
+    public ResetAllButtonNode( final Resettable resettable, final Component parent, Font font, Color textColor, Color backgroundColor ) {
+        this( new Resettable[] { resettable }, parent, font, textColor, backgroundColor );
+    }
+
+    //Convenience constructor that accepts an array of resettables and a font
+    public ResetAllButtonNode( final Resettable[] resettables, final Component parent, Font font, Color textColor, Color backgroundColor ) {
+        super( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), font );
         setForeground( textColor );
         setBackground( backgroundColor );
         this.delegate = new ResetAllDelegate( resettables, parent );

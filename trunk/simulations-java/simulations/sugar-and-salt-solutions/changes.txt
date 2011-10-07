@@ -1,3 +1,5 @@
+Water tab: Made control panel controls bold
+Made "Reset all" button bold
 Water tab: Fixed: 'sugar highlight' unchecked is the bright yellow
 Macro tab: Constrain the conductivity tester from leaving the play area
 # 0.00.127 (57290) Oct 5, 2011
