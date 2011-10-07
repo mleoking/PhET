@@ -223,6 +223,10 @@ public class KnobNode extends PNode {
      * @param enabled
      */
     public void setEnabled( boolean enabled ) {
+        if ( !enabled ) {
+            entered.set( false );
+            pressed.set( false );
+        }
         this.enabled.set( enabled );
         setPickable( enabled );
         setChildrenPickable( enabled );

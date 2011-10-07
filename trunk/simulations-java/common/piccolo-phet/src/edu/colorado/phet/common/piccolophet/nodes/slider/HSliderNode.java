@@ -50,7 +50,7 @@ public class HSliderNode extends SliderNode {
     }
 
     public HSliderNode( final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
-        super( min, max, value, enabled );
+        super( min, max, value );
         addChild( rootNode );
 
         final int trackHeight = 5;
@@ -85,7 +85,11 @@ public class HSliderNode extends SliderNode {
                     double viewDelta = vector.dot( unitVector );
 
                     double modelDelta = ( max - min ) / trackNode.getFullBounds().getWidth() * viewDelta;
-                    value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
+
+                    //If the slider became disabled while user was dragging, do not allow value to be changed
+                    if ( enabled.get() ) {
+                        value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
+                    }
                 }
             } );
         }};

@@ -1,3 +1,4 @@
+Disable evaporation slider when water is gone
 Added tick marks to the evaporation slider
 Removed "Reset all" confirmation dialog
 Water tab: Made control panel controls bold

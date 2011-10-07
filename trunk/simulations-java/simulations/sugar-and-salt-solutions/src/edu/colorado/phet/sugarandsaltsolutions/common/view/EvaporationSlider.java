@@ -2,16 +2,15 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.LOTS;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.NONE;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.CONTROL_FONT;
 
 /**
@@ -20,13 +19,14 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShake
  * @author Sam Reid
  */
 public class EvaporationSlider extends WhiteControlPanelNode {
-    public EvaporationSlider( final SettableProperty<Double> evaporationRate ) {
+    public EvaporationSlider( final SettableProperty<Double> evaporationRate, final DoubleProperty waterVolume ) {
         super( new HBox(
+
                 //Add a label
-                new PText( SugarAndSaltSolutionsResources.Strings.EVAPORATION ) {{setFont( CONTROL_FONT );}},
+                new PText( EVAPORATION ) {{setFont( CONTROL_FONT );}},
 
                 //Add the slider
-                new HSliderNode( 0, 100, evaporationRate ) {{
+                new HSliderNode( 0, 100, evaporationRate, waterVolume.greaterThan( 0.0 ) ) {{
                     this.addInputEventListener( new PBasicInputEventHandler() {
                         @Override public void mouseReleased( PInputEvent event ) {
                             evaporationRate.set( 0.0 );
