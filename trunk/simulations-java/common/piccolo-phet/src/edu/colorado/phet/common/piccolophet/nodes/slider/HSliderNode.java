@@ -4,6 +4,7 @@ package edu.colorado.phet.common.piccolophet.nodes.slider;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
@@ -41,8 +42,8 @@ public class HSliderNode extends SliderNode {
     private KnobNode knobNode;
 
     // Root node to which all other nodes should be added.  This is done to
-    // allow the offset of this node to be at (0, 0).  Use this when
-    // subclassing if you want to keep the origin at (0, 0).
+    // allow the offset of this node to be at (0, 0).  Use this when adding
+    // children in subclasses if you want to keep the origin at (0, 0).
     protected PNode rootNode = new PNode();
 
     public HSliderNode( final double min, final double max, final SettableProperty<Double> value ) {
@@ -57,7 +58,8 @@ public class HSliderNode extends SliderNode {
 
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, 200, trackHeight );
 
-        trackNode = new PhetPPath( trackPath, new GradientPaint( 0, trackHeight / 2, Color.white, 0, trackHeight, Color.gray, false ), new BasicStroke( 1 ), new GradientPaint( 0, 0, Color.gray, 0, trackHeight, Color.black, false ) );
+        trackNode = new PhetPPath( trackPath, getTrackFillPaint( trackPath ),
+                                   new BasicStroke( 1 ), new GradientPaint( 0, 0, Color.gray, 0, trackHeight, Color.black, false ) );
         rootNode.addChild( trackNode );
         knobNode = new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             enabled.addObserver( new VoidFunction1<Boolean>() {
@@ -127,6 +129,18 @@ public class HSliderNode extends SliderNode {
         return leftKnobRect;
     }
 
+    /**
+     * Get the paint used for filling in the track.  Override in subclasses if
+     * a different look is desired.
+     *
+     * @param trackRect - rectangle that defines shape of the track.
+     * @return
+     */
+    protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
+        return new GradientPaint( (float) trackRect.getMinX(), (float) trackRect.getCenterY(), Color.white, (float) trackRect.getWidth(),
+                                  (float) trackRect.getCenterY(), Color.gray, false );
+    }
+
     protected double getViewX( double value ) {
         return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinX(), trackNode.getFullBounds().getMaxX() ).evaluate( value );
     }
@@ -191,5 +205,4 @@ public class HSliderNode extends SliderNode {
             }
         } );
     }
-
 }

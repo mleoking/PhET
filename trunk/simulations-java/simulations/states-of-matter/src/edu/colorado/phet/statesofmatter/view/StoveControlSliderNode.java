@@ -2,8 +2,10 @@
 package edu.colorado.phet.statesofmatter.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -14,7 +16,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.*;
-import static java.awt.Color.white;
 
 /**
  * This class is the slider that is used to control the StoveNode, causing it
@@ -25,18 +26,20 @@ import static java.awt.Color.white;
  */
 public class StoveControlSliderNode extends HSliderNode {
 
-    private static final Color lightOrange = new Color( 255, 233, 80 );
-    private static final Color lightBlue = new Color( 106, 255, 239 );
+    private static final Color LEFT_SIDE_TRACK_COLOR = new Color( 0, 0, 240 );     // Meant to look cold.
+    private static final Color RIGHT_SIDE_TRACK_COLOR = Color.ORANGE;  // Meant to look warm.
+
+    private static final Font LABEL_FONT = new PhetFont( 24, true );
 
     public StoveControlSliderNode( final SettableProperty<Double> value ) {
         super( -1, 1, value, new BooleanProperty( true ) );
 
-        //Show labels for add, zero and remove
-        addLabel( +1, new PhetPText( STOVE_CONTROL_PANEL_ADD_LABEL, new PhetFont( 16, true ), lightOrange ) );
-        addLabel( 0.0, new PhetPText( STOVE_CONTROL_PANEL_ZERO_LABEL, new PhetFont( 16, true ), white ) );
-        addLabel( -1, new PhetPText( STOVE_CONTROL_PANEL_REMOVE_LABEL, new PhetFont( 16, true ), lightBlue ) );
+        // Show labels for add, zero and remove
+        addLabel( +1, new PhetPText( STOVE_CONTROL_PANEL_ADD_LABEL, LABEL_FONT ) );
+        addLabel( 0.0, new PhetPText( STOVE_CONTROL_PANEL_ZERO_LABEL, LABEL_FONT ) );
+        addLabel( -1, new PhetPText( STOVE_CONTROL_PANEL_REMOVE_LABEL, LABEL_FONT ) );
 
-        //Make it a bit smaller--this changes the layout
+        // Make it a bit smaller--this changes the layout
         scale( 0.8 );
 
         // Return to 0 when the user releases the slider.
@@ -47,12 +50,10 @@ public class StoveControlSliderNode extends HSliderNode {
         } );
     }
 
-    //Show a gradient in the track that goes from orange to light blue to indicate the heat/coolness setting
-    public Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-        return new GradientPaint( 0, 0, lightOrange, (float) 0, (float) trackHeight, lightBlue, false );
-    }
-
-    public Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
-        return Color.lightGray;
+    // Show a gradient in the track that goes from orange to light blue to
+    // indicate the heat/coolness setting.
+    @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
+        return new GradientPaint( (float) trackRect.getMinX(), (float) trackRect.getCenterY(), LEFT_SIDE_TRACK_COLOR, (float) trackRect.getWidth(),
+                                  (float) trackRect.getCenterY(), RIGHT_SIDE_TRACK_COLOR, false );
     }
 }
