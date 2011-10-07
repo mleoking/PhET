@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 public class MPColors {
 
     // Molecule components
-    public static final Color ATOM_A = Color.YELLOW;
+    public static final Color ATOM_A = new Color( 255, 255, 90 );
     public static final Color ATOM_B = Color.GREEN;
     public static final Color ATOM_C = Color.PINK;
     public static final Color BOND = Color.GRAY;
