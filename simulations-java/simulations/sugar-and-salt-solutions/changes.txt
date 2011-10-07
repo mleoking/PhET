@@ -1,3 +1,4 @@
+Removed "Reset all" confirmation dialog
 Water tab: Made control panel controls bold
 Made "Reset all" button bold
 Water tab: Fixed: 'sugar highlight' unchecked is the bright yellow
