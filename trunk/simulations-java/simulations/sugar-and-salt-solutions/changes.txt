@@ -1,3 +1,4 @@
+Added tick marks to the evaporation slider
 Removed "Reset all" confirmation dialog
 Water tab: Made control panel controls bold
 Made "Reset all" button bold
