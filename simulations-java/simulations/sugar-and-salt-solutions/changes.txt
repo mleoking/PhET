@@ -1,3 +1,4 @@
+Micro tab: Fixed: The default location of the periodic table window is beyond the left edge of the sim
 Disable evaporation slider when water is gone
 Added tick marks to the evaporation slider
 Removed "Reset all" confirmation dialog
