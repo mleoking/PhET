@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SphericalParticleNode;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -40,7 +41,9 @@ public class SphericalParticleNodeWithText extends SphericalParticleNode {
                     setVisible( showPartialCharge );
                 }
             } );
-            setFont( new PhetFont( 16 ) );
+
+            //Symbols for H partial charges about 1/2 the size of the O partial charges
+            setFont( new PhetFont( particle instanceof WaterMolecule.Hydrogen ? 10 : 18 ) );
 
             //Center on the particle
             particle.addPositionObserver( new VoidFunction1<ImmutableVector2D>() {
