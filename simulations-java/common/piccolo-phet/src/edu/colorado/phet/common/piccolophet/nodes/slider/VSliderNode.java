@@ -40,7 +40,7 @@ public class VSliderNode extends SliderNode {
     }
 
     public VSliderNode( final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled, int trackHeight ) {
-        super( min, max, value, enabled );
+        super( min, max, value );
 
         trackWidth = 6;
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackWidth, trackHeight );
