@@ -21,7 +21,6 @@ public class BalanceAndTorqueResources {
         public static final String BRICKS = RESOURCES.getLocalizedString( "bricks" );
         public static final String CHECK_ANSWER = RESOURCES.getLocalizedString( "checkAnswer" );
         public static final String DISPLAY_CORRECT_ANSWER = RESOURCES.getLocalizedString( "displayCorrectAnswer" );
-        public static final String DISTANCES = RESOURCES.getLocalizedString( "distances" );
         public static final String FORCES_FROM_OBJECTS = RESOURCES.getLocalizedString( "forcesFromObjects" );
         public static final String GAME = RESOURCES.getLocalizedString( "game" );
         public static final String INTRO = RESOURCES.getLocalizedString( "intro" );
@@ -43,6 +42,7 @@ public class BalanceAndTorqueResources {
         public static final String PATTERN_0_VALUE_1_UNITS = RESOURCES.getLocalizedString( "pattern0Value1Units" );
         public static final String PEOPLE = RESOURCES.getLocalizedString( "people" );
         public static final String REMOVE_SUPPORTS = RESOURCES.getLocalizedString( "removeSupports" );
+        public static final String RULERS = RESOURCES.getLocalizedString( "rulers" );
         public static final String SHOW = RESOURCES.getLocalizedString( "show" );
         public static final String SHOW_RULER = RESOURCES.getLocalizedString( "showRuler" );
         public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "tryAgain" );
