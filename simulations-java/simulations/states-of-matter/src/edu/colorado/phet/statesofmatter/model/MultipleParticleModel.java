@@ -5,7 +5,6 @@ package edu.colorado.phet.statesofmatter.model;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -220,16 +219,8 @@ public class MultipleParticleModel implements Resettable {
         return m_clock;
     }
 
-    public List getParticles() {
-        return Collections.unmodifiableList( m_particles );
-    }
-
     public int getNumMolecules() {
         return m_particles.size() / m_moleculeDataSet.getAtomsPerMolecule();
-    }
-
-    public StatesOfMatterAtom getParticle( int i ) {
-        return (StatesOfMatterAtom) m_particles.get( i );
     }
 
     /**
@@ -1495,9 +1486,6 @@ public class MultipleParticleModel implements Resettable {
 
         return phase;
     }
-
-    static final double EPSILON_CONVERSION_DIVISOR = 95;
-    static final double EPSILON_CONVERSION_EXPONENTIAL = 2.0;
 
     /**
      * Convert a value for epsilon that is in the real range of values into a
