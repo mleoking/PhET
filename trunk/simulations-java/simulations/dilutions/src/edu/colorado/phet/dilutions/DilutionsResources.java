@@ -28,6 +28,7 @@ public class DilutionsResources {
         public static final String MAKE_DILUTIONS = RESOURCES.getLocalizedString( "makeDilutions" );
         public static final String MOLARITY = RESOURCES.getLocalizedString( "molarity" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
+        public static final String PATTERN_0VALUE_1UNITS = RESOURCES.getLocalizedString( "pattern.0value.1units" );
         public static final String POTASSIUM_CHROMATE = RESOURCES.getLocalizedString( "potassiumChromate" );
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
         public static final String POTASSIUM_PERMANGANATE = RESOURCES.getLocalizedString( "potassiumPermanganate" );
@@ -36,6 +37,10 @@ public class DilutionsResources {
         public static final String SOLUTE_AMOUNT = RESOURCES.getLocalizedString( "soluteAmount" );
         public static final String SOLUTION_CONCENTRATION = RESOURCES.getLocalizedString( "solutionConcentration" );
         public static final String SOLUTION_VOLUME = RESOURCES.getLocalizedString( "solutionVolume" );
+        public static final String UNITS_MOLES_PER_LITER = RESOURCES.getLocalizedString( "units.molesPerLiter" );
+        public static final String UNITS_MOLARITY = RESOURCES.getLocalizedString( "units.molarity" );
+        public static final String UNITS_MOLES = RESOURCES.getLocalizedString( "units.moles" );
+        public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
     }
 
     // Symbols, no i18n needed
