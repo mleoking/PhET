@@ -1,3 +1,4 @@
+Added a "hint" to the finger node to make it more obvious that it can be moved.  This hint is only shown when the mouse is over the finger.
 Darkened the control panels a little bit so that the recently added molecules would be a bit more visible.
 Added images of the atoms/molecules
 Improved the artwork used for the flame in the stove node.
