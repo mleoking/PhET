@@ -134,10 +134,10 @@ public class SliderArrayPanel extends Canvas {
         this.mode_str = FlexSimStrings.get("normalMode:", "Normal Mode:");
         this.amplitude_str = FlexSimStrings.get("amplitude:", "Amplitude:");
         this.frequency_str = FlexSimStrings.get("frequency:", "Frequency:");
-        this.omega0_str = FlexSimStrings.get("omega", "w");
+        this.omega0_str = FlexSimStrings.get("omega", "\u03c9");
         this.phase_str = FlexSimStrings.get("phase:", "Phase:");
-        this.plusPi_str = FlexSimStrings.get("plusPi", "+p");
-        this.minusPi_str = FlexSimStrings.get("minusPi", "-p");
+        this.plusPi_str = FlexSimStrings.get("plusPi", "+\u03c0");
+        this.minusPi_str = FlexSimStrings.get("minusPi", "-\u03c0");
     }
 
     private function createLabels():void{
@@ -176,7 +176,7 @@ public class SliderArrayPanel extends Canvas {
         }
         tFormat.size = 16;
         this.frequency_txt.setTextFormat( tFormat );
-        tFormat.font = "Symbol";
+        tFormat.font = "Times New Roman";//"Symbol";
         tFormat.size = 20;
         this.plusPi_txt.setTextFormat( tFormat );
         this.minusPi_txt.setTextFormat( tFormat );
