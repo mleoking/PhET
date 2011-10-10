@@ -136,7 +136,7 @@ public class SliderArrayPanel extends Canvas {
         this.frequency_str = FlexSimStrings.get("frequency:", "Frequency:");
         this.omega0_str = FlexSimStrings.get("omega", "w");
         this.phase_str = FlexSimStrings.get("phase:", "Phase:");
-        this.plusPi_str = FlexSimStrings.get("plusPi:", "+p");
+        this.plusPi_str = FlexSimStrings.get("plusPi", "+p");
         this.minusPi_str = FlexSimStrings.get("minusPi", "-p");
     }
 
@@ -158,6 +158,7 @@ public class SliderArrayPanel extends Canvas {
         this.phaseLabel_txt.text = this.phase_str;
         this.modeLabel_txt.text = this.mode_str;
         this.plusPi_txt.text = this.plusPi_str;
+        //this.plusPi_txt = "\\u030c";
         this.zero_txt.text = "0";
         this.minusPi_txt.text = minusPi_str;
         setLabel( this.modeLabel_txt );
