@@ -40,7 +40,7 @@ public class PlateMotionModule extends PlateTectonicsModule {
                 512, 512, 32 );
 
         // create the model and terrain
-        model = new AnimatedPlateModel();
+        model = new AnimatedPlateModel( grid );
         mainView.getScene().attachChild( new PlateView( model, this, grid ) );
     }
 

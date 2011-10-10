@@ -118,7 +118,7 @@ public class CrustModule extends PlateTectonicsModule {
                 512, 512, 32 );
 
         // create the model and terrain
-        model = new CrustModel();
+        model = new CrustModel( grid );
         mainView.getScene().attachChild( new PlateView( model, this, grid ) );
 
         /*---------------------------------------------------------------------------*

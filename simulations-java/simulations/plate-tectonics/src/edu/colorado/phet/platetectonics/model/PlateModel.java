@@ -3,12 +3,25 @@ package edu.colorado.phet.platetectonics.model;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
+import edu.colorado.phet.platetectonics.util.Bounds3D;
+import edu.colorado.phet.platetectonics.util.Grid3D;
 
 /**
  * All units in SI unless otherwise noted
  */
 public abstract class PlateModel {
     public final VoidNotifier modelChanged = new VoidNotifier();
+
+    // grid used mainly for the (x,z) terrain and elevation in general
+    public final Grid3D grid;
+
+    // full bounds of the simulated model
+    public final Bounds3D bounds;
+
+    protected PlateModel( Grid3D grid ) {
+        this.grid = grid;
+        this.bounds = grid.getBounds();
+    }
 
     public abstract double getElevation( double x, double z );
 

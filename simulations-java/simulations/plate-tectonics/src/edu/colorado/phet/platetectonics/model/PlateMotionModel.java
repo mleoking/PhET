@@ -1,7 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
+import edu.colorado.phet.platetectonics.util.Grid3D;
+
 public class PlateMotionModel extends PlateModel {
+    public PlateMotionModel( Grid3D grid ) {
+        super( grid );
+    }
+
     @Override public double getElevation( double x, double z ) {
         return 0;
     }
