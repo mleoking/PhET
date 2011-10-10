@@ -14,7 +14,7 @@
     <string key="frequency:" value = "Frequency:"/>
     <string key="omega" value = "w"/>
     <string key="phase:" value = "Phase:"/>
-    <string key="plusPi:" value = "+p"/>
+    <string key="plusPi" value = "+p"/>
     <string key="minusPi" value = "-p"/>
     <string key="paused" value = "PAUSED"/>
 </SimStrings>
