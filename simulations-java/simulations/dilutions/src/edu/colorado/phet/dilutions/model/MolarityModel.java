@@ -22,8 +22,8 @@ import edu.colorado.phet.dilutions.model.Solute.PotassiumPermanganate;
  */
 public class MolarityModel implements Resettable {
 
-    public static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 1 );
-    public static final DoubleRange VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.2 );
+    public static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 );
+    public static final DoubleRange VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 );
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Solution solution;
