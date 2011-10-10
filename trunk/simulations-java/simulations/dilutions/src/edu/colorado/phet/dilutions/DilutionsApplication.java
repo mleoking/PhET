@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -19,7 +21,8 @@ public class DilutionsApplication extends PiccoloPhetApplication {
 
     public DilutionsApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new MolarityModule() );
+        Frame frame = getPhetFrame();
+        addModule( new MolarityModule( frame ) );
         addModule( new DilutionEquationModule() );
         addModule( new MakeDilutionsModule() );
         addModule( new BeersLawModule() );
