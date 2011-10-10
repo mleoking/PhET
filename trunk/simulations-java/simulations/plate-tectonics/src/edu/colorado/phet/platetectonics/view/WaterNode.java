@@ -24,7 +24,6 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.scene.VertexBuffer.Type;
-import com.jme3.scene.shape.Quad;
 import com.jme3.util.BufferUtils;
 
 /**
@@ -35,23 +34,27 @@ public class WaterNode extends Node {
     private final PlateTectonicsModule module;
     private final Grid3D grid;
 
-    public WaterNode( PlateModel model, final PlateTectonicsModule module, Grid3D grid ) {
+    public WaterNode( PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
         this.model = model;
         this.module = module;
         this.grid = grid;
 
-        // get water locations
-        // TODO: transformations are too verbose. way to have "X.toViewDeltaX( bounds.width )" ?
-        final float waterWidth = module.getModelViewTransform().modelToViewDeltaX( grid.getBounds().getWidth() );
-        final float waterTopHeight = module.getModelViewTransform().modelToViewDeltaX( grid.getBounds().getDepth() );
-        final float waterLeftX = module.getModelViewTransform().modelToViewDeltaX( grid.getBounds().getMinX() );
-
         // render the top of the water (flat surface. we rely on OpenGL's intersection handling)
-        attachChild( new Geometry( "Water Top", new Quad( waterWidth, waterTopHeight, true ) ) {{
+        attachChild( new Geometry( "Water Top" ) {{
+            // construct grid mesh
+            int rows = grid.getNumZSamples();
+            int columns = grid.getNumXSamples();
+            Vector3f[] positions = new Vector3f[rows * columns];
+            for ( int zIndex = 0; zIndex < rows; zIndex++ ) {
+                float z = grid.getZSample( zIndex );
+                for ( int xIndex = 0; xIndex < columns; xIndex++ ) {
+                    positions[zIndex * columns + xIndex] = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( grid.getXSample( xIndex ), 0, z ) ) );
+                }
+            }
+            setMesh( new GridMesh( rows, columns, positions ) );
+
             setMaterial( new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0.2f, 0.5f, 0.8f, 0.5f ) ) ) );
             setQueueBucket( Bucket.Transparent ); // allow it to be transparent
-            setLocalTranslation( waterLeftX, 0, 0 );
-            rotate( -FastMath.PI / 2, 0, 0 );
         }} );
 
         // render the top of the water. dynamically changes as a strip mesh based on what terrain is above or below sea level
@@ -110,7 +113,7 @@ public class WaterNode extends Node {
                                 assert xIntercept < x; // TODO: assertion failure here?
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                Vector3f position = module.getModelViewTransform().modelToView( new Vector3f( xIntercept, 0, z ) );
+                                Vector3f position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( xIntercept, 0, z ) ) );
                                 positionBuffer.put( new float[] {
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z } );
@@ -125,11 +128,11 @@ public class WaterNode extends Node {
                                 // we need to compute where the x-intercept of our segment is so we start our polygon where the elevation is 0
                                 float xIntercept = lastX - lastY * ( x - lastX ) / ( y - lastY );
 
-                                assert xIntercept > lastX;
+                                assert xIntercept > lastX; // TODO: assertion failure here?
                                 assert xIntercept < x;
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                Vector3f position = module.getModelViewTransform().modelToView( new Vector3f( xIntercept, 0, z ) );
+                                Vector3f position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( xIntercept, 0, z ) ) );
                                 positionBuffer.put( new float[] {
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z } );
@@ -137,8 +140,8 @@ public class WaterNode extends Node {
                                 indexBuffer.put( vertexQuantity++ );
                             }
 
-                            Vector3f topPosition = module.getModelViewTransform().modelToView( new Vector3f( x, 0, z ) );
-                            Vector3f bottomPosition = module.getModelViewTransform().modelToView( new Vector3f( x, y, z ) );
+                            Vector3f topPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( x, 0, z ) ) );
+                            Vector3f bottomPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( x, y, z ) ) );
                             positionBuffer.put( new float[] {
                                     topPosition.x, topPosition.y, topPosition.z,
                                     bottomPosition.x, bottomPosition.y, bottomPosition.z

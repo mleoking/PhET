@@ -21,7 +21,7 @@ public class PlateMotionModule extends PlateTectonicsModule {
     private PlateModel model;
 
     public PlateMotionModule( Frame parentFrame ) {
-        super( parentFrame, PLATE_MOTION_TAB );
+        super( parentFrame, PLATE_MOTION_TAB, 0.5f );
     }
 
     @Override public void updateState( float tpf ) {
@@ -34,9 +34,9 @@ public class PlateMotionModule extends PlateTectonicsModule {
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
-                Bounds3D.fromMinMax( -100000, 100000,
-                                     -100000, 100000,
-                                     -50000, 0 ),
+                Bounds3D.fromMinMax( -700000, 700000,
+                                     -400000, 15000,
+                                     -2500000, 0 ),
                 512, 512, 32 );
 
         // create the model and terrain

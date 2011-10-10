@@ -57,7 +57,7 @@ public class CrustModule extends PlateTectonicsModule {
     private static final float THERMOMETER_Z = 1;
 
     public CrustModule( Frame parentFrame ) {
-        super( parentFrame, CRUST_TAB );
+        super( parentFrame, CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
     }
 
     @Override public void updateState( float tpf ) {
