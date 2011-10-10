@@ -10,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.dilutions.control.ShowValuesNode;
 import edu.colorado.phet.dilutions.control.SoluteControlNode;
 import edu.colorado.phet.dilutions.model.MolarityModel;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas for the "Molarity" tab.
@@ -17,6 +18,8 @@ import edu.colorado.phet.dilutions.model.MolarityModel;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettable {
+
+    private static final double BEAKER_HEIGHT = 400; // the height of controls and displays is based on the height of the beaker
 
     private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
 
@@ -28,17 +31,20 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, Color.YELLOW ) {{
             setConfirmationEnabled( false );
         }};
+        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BEAKER_HEIGHT ), model.solution, model.getConcentrationRange() );
 
         // rendering order
         {
-            addChild( soluteControlNode );
+            addChild( concentrationDisplayNode );
             addChild( showValuesNode );
             addChild( resetAllButtonNode );
+            addChild( soluteControlNode ); // combo box on top
         }
 
         // layout
         {
             soluteControlNode.setOffset( 100, 100 );
+            concentrationDisplayNode.setOffset( 600, 100 );
             showValuesNode.setOffset( 300, 300 );
             resetAllButtonNode.setOffset( showValuesNode.getXOffset(), showValuesNode.getFullBoundsReference().getMaxY() + 10 );
         }
