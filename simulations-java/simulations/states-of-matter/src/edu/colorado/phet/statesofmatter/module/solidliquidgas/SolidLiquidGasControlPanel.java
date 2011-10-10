@@ -4,6 +4,7 @@ package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -179,9 +180,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         private JRadioButton m_waterRadioButton;
 
         MoleculeSelectionPanel( final MultipleParticleModel model ) {
-
-            setLayout( new GridLayout( 4, 2 ) );
-
             BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
                                                                           StatesOfMatterStrings.MOLECULE_TYPE_SELECT_LABEL,
@@ -193,13 +191,13 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             setBorder( titledBorder );
 
             m_oxygenRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL, model, StatesOfMatterConstants.DIATOMIC_OXYGEN );
-            JLabel oxygenLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN );
+            final JLabel oxygenLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN );
             m_neonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.NEON_SELECTION_LABEL, model, StatesOfMatterConstants.NEON );
-            JLabel neonLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON );
+            final JLabel neonLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON );
             m_argonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL, model, StatesOfMatterConstants.ARGON );
-            JLabel argonLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON );
+            final JLabel argonLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON );
             m_waterRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.WATER_SELECTION_LABEL, model, StatesOfMatterConstants.WATER );
-            JLabel waterLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER );
+            final JLabel waterLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER );
 
             // Put the buttons into a button group.
             ButtonGroup buttonGroup = new ButtonGroup();
@@ -210,14 +208,23 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_neonRadioButton.setSelected( true );
 
             // Add the buttons and their icons.
-            add( m_neonRadioButton );
-            add( neonLabel );
-            add( m_argonRadioButton );
-            add( argonLabel );
-            add( m_oxygenRadioButton );
-            add( oxygenLabel );
-            add( m_waterRadioButton );
-            add( waterLabel );
+            setLayout( new GridLayout( 4, 1 ) );
+            add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
+                add( m_neonRadioButton );
+                add( neonLabel );
+            }} );
+            add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
+                add( m_argonRadioButton );
+                add( argonLabel );
+            }} );
+            add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
+                add( m_oxygenRadioButton );
+                add( oxygenLabel );
+            }} );
+            add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
+                add( m_waterRadioButton );
+                add( waterLabel );
+            }} );
         }
 
         public void setMolecule( int molecule ) {

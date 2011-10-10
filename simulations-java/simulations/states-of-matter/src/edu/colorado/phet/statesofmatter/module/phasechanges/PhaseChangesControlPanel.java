@@ -4,6 +4,7 @@ package edu.colorado.phet.statesofmatter.module.phasechanges;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
@@ -328,9 +329,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
         private JRadioButton m_configurableRadioButton;
 
         MoleculeSelectionPanel( boolean showConfigurableAtom ) {
-
-            setLayout( new GridLayout( 5, 2 ) );
-
             BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
                                                                           StatesOfMatterStrings.MOLECULE_TYPE_SELECT_LABEL,
@@ -342,15 +340,15 @@ public class PhaseChangesControlPanel extends ControlPanel {
             setBorder( titledBorder );
 
             m_oxygenRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL, m_model, StatesOfMatterConstants.DIATOMIC_OXYGEN, true );
-            JLabel oxygenLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN );
+            final JLabel oxygenLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN );
             m_neonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.NEON_SELECTION_LABEL, m_model, StatesOfMatterConstants.NEON, false );
-            JLabel neonLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON );
+            final JLabel neonLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON );
             m_argonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL, m_model, StatesOfMatterConstants.ARGON, false );
-            JLabel argonLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON );
+            final JLabel argonLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON );
             m_waterRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.WATER_SELECTION_LABEL, m_model, StatesOfMatterConstants.WATER, true );
-            JLabel waterLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER );
+            final JLabel waterLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER );
             m_configurableRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.ADJUSTABLE_ATTRACTION_SELECTION_LABEL, m_model, StatesOfMatterConstants.USER_DEFINED_MOLECULE, true );
-            JLabel configurableLabel = new MoleculeImageLabel( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
+            final JLabel configurableLabel = new MoleculeImageLabel( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
 
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( m_neonRadioButton );
@@ -360,17 +358,81 @@ public class PhaseChangesControlPanel extends ControlPanel {
             buttonGroup.add( m_configurableRadioButton );
             m_neonRadioButton.setSelected( true );
 
-            add( m_neonRadioButton );
-            add( neonLabel );
-            add( m_argonRadioButton );
-            add( argonLabel );
-            add( m_oxygenRadioButton );
-            add( oxygenLabel );
-            add( m_waterRadioButton );
-            add( waterLabel );
+            // Lay out the panel such that the radio buttons are all the way
+            // to the left and the molecule are vertically aligned to the
+            // right of the labels.
+            // TODO: This layout doesn't look that great when the "adjustable
+            // attraction" label is present since it pushes all of the images
+            // way out to the right.  Delete when and if we accept the other layout.
+//            setLayout( new GridBagLayout() );
+//            GridBagConstraints constraints = new GridBagConstraints();
+//            constraints.anchor = GridBagConstraints.WEST;
+//            constraints.gridx = 0;
+//            constraints.gridy = 0;
+//            add( m_neonRadioButton, constraints );
+//            constraints.gridx++;
+//            constraints.anchor = GridBagConstraints.CENTER;
+//            add( neonLabel, constraints );
+//
+//            constraints.gridx = 0;
+//            constraints.gridy++;
+//            constraints.anchor = GridBagConstraints.WEST;
+//            add( m_argonRadioButton, constraints );
+//            constraints.gridx++;
+//            constraints.anchor = GridBagConstraints.CENTER;
+//            add( argonLabel, constraints );
+//
+//            constraints.gridx = 0;
+//            constraints.gridy++;
+//            constraints.anchor = GridBagConstraints.WEST;
+//            add( m_oxygenRadioButton, constraints );
+//            constraints.gridx++;
+//            constraints.anchor = GridBagConstraints.CENTER;
+//            add( oxygenLabel, constraints );
+//
+//            constraints.gridx = 0;
+//            constraints.gridy++;
+//            constraints.anchor = GridBagConstraints.WEST;
+//            add( m_waterRadioButton, constraints );
+//            constraints.gridx++;
+//            constraints.anchor = GridBagConstraints.CENTER;
+//            add( waterLabel, constraints );
+//
+//            if ( showConfigurableAtom ) {
+//                constraints.gridx = 0;
+//                constraints.gridy++;
+//                constraints.anchor = GridBagConstraints.WEST;
+//                add( m_configurableRadioButton, constraints );
+//                constraints.gridx++;
+//                constraints.anchor = GridBagConstraints.CENTER;
+//                add( configurableLabel, constraints );
+//            }
+
+            // Lay out the controls so that the atom or molecule image is
+            // just to the right of the corresponding label.
+            setLayout( new GridLayout( 5, 1 ) );
+            add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
+                add( m_neonRadioButton );
+                add( neonLabel );
+            }} );
+            add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
+                add( m_argonRadioButton );
+                add( argonLabel );
+            }} );
+            add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
+                add( m_oxygenRadioButton );
+                add( oxygenLabel );
+            }} );
+            add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
+                add( m_waterRadioButton );
+                add( waterLabel );
+            }} );
+
             if ( showConfigurableAtom ) {
-                add( m_configurableRadioButton );
-                add( configurableLabel );
+                add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
+                    add( m_configurableRadioButton );
+                    add( configurableLabel );
+                }} );
             }
         }
 
