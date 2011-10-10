@@ -42,7 +42,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final Font BUTTON_FONT = new PhetFont( Font.PLAIN, 14 );
+    private static final Font BUTTON_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final int MATTER_STATE_ICON_HEIGHT = 32;
 
     //----------------------------------------------------------------------------
@@ -103,7 +103,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         private JButton m_gasButton;
 
         ChangeStateControlPanel() {
-
             BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
                                                                           StatesOfMatterStrings.FORCE_STATE_CHANGE,
@@ -144,7 +143,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             } );
 
             m_liquidButton = new JButton( StatesOfMatterStrings.PHASE_STATE_LIQUID, liquidIcon );
-            m_liquidButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_liquidButton.setFont( BUTTON_FONT );
             m_liquidButton.setAlignmentX( Component.CENTER_ALIGNMENT );
             m_liquidButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -153,7 +152,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             } );
 
             m_gasButton = new JButton( StatesOfMatterStrings.PHASE_STATE_GAS, gasIcon );
-            m_gasButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_gasButton.setFont( BUTTON_FONT );
             m_gasButton.setAlignmentX( Component.CENTER_ALIGNMENT );
             m_gasButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
