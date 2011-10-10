@@ -27,7 +27,7 @@ import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.*;
 public class StoveControlSliderNode extends HSliderNode {
 
     private static final Color LEFT_SIDE_TRACK_COLOR = new Color( 0, 0, 240 );     // Meant to look cold.
-    private static final Color RIGHT_SIDE_TRACK_COLOR = Color.ORANGE;  // Meant to look warm.
+    private static final Color RIGHT_SIDE_TRACK_COLOR = new Color( 255, 69, 0 );  // Meant to look warm.
 
     private static final Font LABEL_FONT = new PhetFont( 24, true );
 
