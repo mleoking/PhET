@@ -35,6 +35,8 @@ public class CrossSectionNode extends Geometry {
 
         // lower resolution grid for texture handling
         this.textureGrid = grid.withSamples( grid.getNumXSamples() / 2, grid.getNumYSamples() / 2, grid.getNumZSamples() / 2 );
+//        this.textureGrid = grid.withSamples( grid.getNumXSamples() * 2, grid.getNumYSamples() * 2, grid.getNumZSamples() * 2 );
+//        this.textureGrid = grid;
 
         // create a mesh using a triangle strip
         setMesh( new Mesh() {{
@@ -137,13 +139,18 @@ public class CrossSectionNode extends Geometry {
                                                   }, true );
         }
 
+        private static final double minDensityToShow = 2500;
+        private static final double maxDensityToShow = 3500;
+
         public void updateCrossSection() {
             int Y_SAMPLES = textureGrid.getNumYSamples();
             ByteBuffer buffer = data.get( 0 );
             buffer.clear();
 //            System.out.println( "width = " + width );
 //            System.out.println( "height = " + height );
+            byte[] byteRow = new byte[width * 4];
             for ( int y = 0; y < height; y++ ) {
+                float modelY = textureGrid.getYSample( y );
                 for ( int x = 0; x < width; x++ ) {
                     // TODO: investigate this code, why it is needed in the other location. Probably deals with square-ness of textures?
                     // TODO: (possible bug) we might need to double-check that we don't go up to a power of 256 texture somehow, so we should figure out the texture coordinates better
@@ -152,20 +159,26 @@ public class CrossSectionNode extends Geometry {
 //                        buffer.put( new byte[] { 0, 0, 0, 0 } );
 //                        continue;
 //                    }
-                    float modelX = textureGrid.getXSample( x );
-                    float modelY = textureGrid.getYSample( y );
-                    buffer.put( getColor( model.getDensity( modelX, modelY ), model.getTemperature( modelX, modelY ) ) );
+                    double c = 100 + ( 1 - ( model.getDensity( textureGrid.getXSample( x ), modelY ) - minDensityToShow ) / ( maxDensityToShow - minDensityToShow ) ) * 155;
+
+                    // MathUtils.clamp has too many slow checks in front of it
+                    byte d = (byte) ( c < 0 ? 0 : ( c > 255 ? 255 : c ) );
+
+                    int offset = 4 * x;
+                    byteRow[offset] = d;
+                    byteRow[offset + 1] = d;
+                    byteRow[offset + 2] = d;
+                    byteRow[offset + 3] = (byte) 255;
                 }
+                buffer.put( byteRow );
             }
             setUpdateNeeded();
         }
 
-        double minDensityToShow = 2500;
-        double maxDensityToShow = 3500;
 //        final Function.LinearFunction densityFunction = new Function.LinearFunction( minDensityToShow, maxDensityToShow, 255, 100 );
 
         // TODO: cleanup. moved from TestDensityRenderer (and modified a bit)
-        private byte[] getColor( double density, double temperature ) {
+        private byte[] getColor( double density ) {
             //When surface density and temperature, use clay color
 //            Color clay = new Color( 255, 222, 156 );
 
