@@ -1,3 +1,4 @@
+Removed unused items from data
 Removed '<' and '>' from bond angles when lone pairs exist
 # 0.00.42 (57341) Oct 5, 2011
 Added in '<' and '>' for bond angle differences for when lone pairs exist
