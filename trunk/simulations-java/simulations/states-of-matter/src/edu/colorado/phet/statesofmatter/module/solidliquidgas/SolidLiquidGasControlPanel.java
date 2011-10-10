@@ -29,14 +29,6 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.engine.WaterMoleculeStructure;
-import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
-import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
-import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
-import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
-import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
-import edu.colorado.phet.statesofmatter.view.ParticleNode;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Control panel for the Solid, Liquid, and Gas module.
@@ -263,51 +255,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
                     }
                 }
             } );
-        }
-    }
-
-    private static class MoleculeImageLabel extends JLabel {
-        private static final ModelViewTransform PARTICLE_MVT = new ModelViewTransform( 300, 300, 0, 0, false, true );
-        private static final double PARTICLE_SCALING_FACTOR = 0.05;
-
-        private MoleculeImageLabel( int moleculeID ) {
-            PNode particleNode = null;
-            switch( moleculeID ) {
-                case StatesOfMatterConstants.ARGON:
-                    particleNode = new ParticleNode( new ArgonAtom( 0, 0 ), PARTICLE_MVT, true, false );
-                    break;
-                case StatesOfMatterConstants.NEON:
-                    particleNode = new ParticleNode( new NeonAtom( 0, 0 ), PARTICLE_MVT );
-                    break;
-                case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-                    // Need to create a diatomic oxygen node.  The model-view
-                    // transform used here was empirically determined.
-                    ModelViewTransform oxygenMvt = new ModelViewTransform( 300, 300, 0, 0, false, true );
-                    particleNode = new PNode();
-                    particleNode.addChild( new ParticleNode( new OxygenAtom( -StatesOfMatterConstants.DIATOMIC_PARTICLE_DISTANCE / 2, 0 ), oxygenMvt ) );
-                    particleNode.addChild( new ParticleNode( new OxygenAtom( StatesOfMatterConstants.DIATOMIC_PARTICLE_DISTANCE / 2, 0 ), oxygenMvt ) );
-                    break;
-                case StatesOfMatterConstants.WATER:
-                    // Need to create a water molecule node.  The model-view
-                    // transform used here was empirically determined.
-                    ModelViewTransform waterMvt = new ModelViewTransform( 500, 500, 0, 0, false, true );
-                    WaterMoleculeStructure wms = WaterMoleculeStructure.getInstance();
-                    particleNode = new PNode();
-                    particleNode.addChild( new ParticleNode( new HydrogenAtom( wms.getStructureArrayX()[1], wms.getStructureArrayY()[1] ), waterMvt ) );
-                    particleNode.addChild( new ParticleNode( new OxygenAtom( wms.getStructureArrayX()[0], wms.getStructureArrayY()[0] ), waterMvt ) );
-                    particleNode.addChild( new ParticleNode( new HydrogenAtom( wms.getStructureArrayX()[2], wms.getStructureArrayY()[2] ), waterMvt ) );
-                    break;
-                default:
-                    assert false; // Should never get here, fix if it does.
-                    particleNode = new ParticleNode( new OxygenAtom( 0, 0 ), PARTICLE_MVT );
-            }
-
-            // Note to future maintainers:  The particle node doesn't use the
-            // MVT for scaling, only for positioning, which is why a separate
-            // scaling operation is needed.
-            particleNode.setScale( PARTICLE_SCALING_FACTOR );
-
-            setIcon( new ImageIcon( particleNode.toImage() ) );
         }
     }
 
