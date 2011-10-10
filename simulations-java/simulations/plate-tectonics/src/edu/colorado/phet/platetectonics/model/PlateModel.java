@@ -6,6 +6,9 @@ import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 
+import com.jme3.math.FastMath;
+import com.jme3.math.Vector3f;
+
 /**
  * All units in SI unless otherwise noted
  */
@@ -74,5 +77,18 @@ public abstract class PlateModel {
         else {
             return getWaterTemperature( y );
         }
+    }
+
+    public static final float EARTH_RADIUS = 6371000;
+
+    // TODO: doc, but basically handles the roundness of the earth in the X direction
+    public static Vector3f convertToRadial( Vector3f planar ) {
+        float radius = planar.getY() + EARTH_RADIUS; // add in radius of the earth
+
+        float theta = FastMath.PI / 2 - planar.getX() / EARTH_RADIUS; // dividing by the radius actually gets us the correct thing
+        float phi = FastMath.PI / 2 - planar.getZ() / EARTH_RADIUS;
+
+        float sinPhi = FastMath.sin( phi );
+        return new Vector3f( radius * FastMath.cos( theta ) * sinPhi, radius * FastMath.sin( theta ) * sinPhi - EARTH_RADIUS, radius * FastMath.cos( phi ) );
     }
 }

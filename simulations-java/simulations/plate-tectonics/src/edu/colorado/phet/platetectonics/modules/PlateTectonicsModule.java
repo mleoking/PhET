@@ -40,11 +40,11 @@ public abstract class PlateTectonicsModule extends JMEModule {
 
     private JMEModelViewTransform modelViewTransform;
 
-    public PlateTectonicsModule( Frame parentFrame, String name ) {
+    public PlateTectonicsModule( Frame parentFrame, String name, float kilometerScale ) {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
 
         // TODO: better initialization for this model view transform (for each module)
-        modelViewTransform = new JMEModelViewTransform( Matrix4f.IDENTITY.mult( 0.002f ) ); // 0.5 km => 1 distance in view
+        modelViewTransform = new JMEModelViewTransform( Matrix4f.IDENTITY.mult( kilometerScale / 1000 ) );
     }
 
     public PlateTectonicsJMEApplication getApp() {
@@ -81,7 +81,7 @@ public abstract class PlateTectonicsModule extends JMEModule {
     }
 
     protected PhetCamera createCrustCamera() {
-        return new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 40, 1, 1000 ) ) {{
+        return new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 40, 1, 5000 ) ) {{
             setLocation( new Vector3f( 0, 100, 400 ) );
             lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
         }};

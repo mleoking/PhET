@@ -73,8 +73,11 @@ public class CrossSectionNode extends Geometry {
                         Vector3f modelTop = new Vector3f( modelX, modelTopY, modelZ );
                         Vector3f modelBottom = new Vector3f( modelX, modelBottomY, modelZ );
 
-                        Vector3f viewTop = module.getModelViewTransform().modelToView( modelTop );
-                        Vector3f viewBottom = module.getModelViewTransform().modelToView( modelBottom );
+                        Vector3f roundedModelTop = PlateModel.convertToRadial( modelTop );
+                        Vector3f roundedModelBottom = PlateModel.convertToRadial( modelBottom );
+
+                        Vector3f viewTop = module.getModelViewTransform().modelToView( roundedModelTop );
+                        Vector3f viewBottom = module.getModelViewTransform().modelToView( roundedModelBottom );
 
                         positionBuffer.put( new float[] { viewTop.x, viewTop.y, viewTop.z } );
                         positionBuffer.put( new float[] { viewBottom.x, viewBottom.y, viewBottom.z } );

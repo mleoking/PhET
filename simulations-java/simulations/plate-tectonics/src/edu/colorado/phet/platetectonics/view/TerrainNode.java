@@ -95,7 +95,8 @@ public class TerrainNode extends Geometry {
                 float z = grid.getZSample( zIndex );
                 float elevation = (float) model.getElevation( x, z );
                 Vector3f modelVector = new Vector3f( x, elevation, z );
-                Vector3f viewVector = module.getModelViewTransform().modelToView( modelVector );
+                Vector3f roundCorrectedVector = PlateModel.convertToRadial( modelVector );
+                Vector3f viewVector = module.getModelViewTransform().modelToView( roundCorrectedVector );
                 positions[zIndex * X_SAMPLES + xIndex] = viewVector;
             }
         }
@@ -129,7 +130,7 @@ public class TerrainNode extends Geometry {
                 }
                 for ( int x = 0; x < width; x++ ) {
                     double elevation = getElevationAtPixel( x, z );
-                    int stonyness = MathUtil.clamp( 0, (int) ( ( elevation - 15000 ) / 20 ) + 255, 255 ); // fully stony at 10km
+                    int stonyness = MathUtil.clamp( 0, (int) ( ( elevation - 3200 ) * ( 255f / 400f ) ), 255 ); // tree line at 3400 km
                     int beachyness = MathUtil.clamp( 0, (int) ( -( elevation - 1500 ) / 3 ), 255 );
                     buffer.put( new byte[] {
                             (byte) ( 255 - stonyness - beachyness ), // grass
