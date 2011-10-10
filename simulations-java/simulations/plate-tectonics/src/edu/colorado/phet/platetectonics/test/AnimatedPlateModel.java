@@ -21,7 +21,17 @@ public class AnimatedPlateModel extends PlateModel {
     }
 
     @Override public double getDensity( double x, double y ) {
-        return 3000 - y / 100;
+        double elevation = getElevation( x, 0 );
+        if ( y > elevation ) {
+            return 2700;
+        }
+        else if ( y + 5000 > elevation ) {
+            return 2700;
+        }
+        else {
+            return 3300;
+        }
+//        return x * x / 50000 > y + 50000 ? 2700 : 3300;
     }
 
     @Override public double getTemperature( double x, double y ) {
