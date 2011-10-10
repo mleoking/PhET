@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
@@ -28,6 +29,14 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.engine.WaterMoleculeStructure;
+import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
+import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
+import edu.colorado.phet.statesofmatter.view.ParticleNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Control panel for the Solid, Liquid, and Gas module.
@@ -78,7 +87,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
 
         // Add the panel that allows the user to select molecule type.
-        m_moleculeSelectionPanel = new MoleculeSelectionPanel();
+        m_moleculeSelectionPanel = new MoleculeSelectionPanel( m_model );
         addControlFullWidth( m_moleculeSelectionPanel );
 
         // Add the panel that allows the user to select the phase state.
@@ -115,17 +124,17 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             // Create the images used to depict the various states.
 
             BufferedImage image = StatesOfMatterResources.getImage( StatesOfMatterConstants.ICE_CUBE_IMAGE );
-            double scaleFactor = (double) ( (double) MATTER_STATE_ICON_HEIGHT / (double) ( image.getHeight() ) );
+            double scaleFactor = ( (double) MATTER_STATE_ICON_HEIGHT / (double) ( image.getHeight() ) );
             image = BufferedImageUtils.rescaleFractional( image, scaleFactor, scaleFactor );
             ImageIcon solidIcon = new ImageIcon( image );
 
             image = StatesOfMatterResources.getImage( StatesOfMatterConstants.LIQUID_IMAGE );
-            scaleFactor = (double) ( (double) MATTER_STATE_ICON_HEIGHT / (double) ( image.getHeight() ) );
+            scaleFactor = ( (double) MATTER_STATE_ICON_HEIGHT / (double) ( image.getHeight() ) );
             image = BufferedImageUtils.rescaleFractional( image, scaleFactor, scaleFactor );
             ImageIcon liquidIcon = new ImageIcon( image );
 
             image = StatesOfMatterResources.getImage( StatesOfMatterConstants.GAS_IMAGE );
-            scaleFactor = (double) ( (double) MATTER_STATE_ICON_HEIGHT / (double) ( image.getHeight() ) );
+            scaleFactor = ( (double) MATTER_STATE_ICON_HEIGHT / (double) ( image.getHeight() ) );
             image = BufferedImageUtils.rescaleFractional( image, scaleFactor, scaleFactor );
             ImageIcon gasIcon = new ImageIcon( image );
 
@@ -170,14 +179,150 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
      * This class defines the selection panel that allows the user to choose
      * the type of molecule.
      */
-    private class MoleculeSelectionPanel extends JPanel {
+    private static class MoleculeSelectionPanel extends JPanel {
 
         private JRadioButton m_neonRadioButton;
         private JRadioButton m_argonRadioButton;
         private JRadioButton m_oxygenRadioButton;
         private JRadioButton m_waterRadioButton;
 
-        MoleculeSelectionPanel() {
+        MoleculeSelectionPanel( final MultipleParticleModel model ) {
+
+            setLayout( new GridLayout( 4, 2 ) );
+
+            BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                                                                          StatesOfMatterStrings.MOLECULE_TYPE_SELECT_LABEL,
+                                                                          TitledBorder.LEFT,
+                                                                          TitledBorder.TOP,
+                                                                          new PhetFont( Font.BOLD, 14 ),
+                                                                          Color.GRAY );
+
+            setBorder( titledBorder );
+
+            m_oxygenRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL, model, StatesOfMatterConstants.DIATOMIC_OXYGEN );
+            JLabel oxygenLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN );
+            m_neonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.NEON_SELECTION_LABEL, model, StatesOfMatterConstants.NEON );
+            JLabel neonLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON );
+            m_argonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL, model, StatesOfMatterConstants.ARGON );
+            JLabel argonLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON );
+            m_waterRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.WATER_SELECTION_LABEL, model, StatesOfMatterConstants.WATER );
+            JLabel waterLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER );
+
+            // Put the buttons into a button group.
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( m_neonRadioButton );
+            buttonGroup.add( m_argonRadioButton );
+            buttonGroup.add( m_oxygenRadioButton );
+            buttonGroup.add( m_waterRadioButton );
+            m_neonRadioButton.setSelected( true );
+
+            // Add the buttons and their icons.
+            add( m_neonRadioButton );
+            add( neonLabel );
+            add( m_argonRadioButton );
+            add( argonLabel );
+            add( m_oxygenRadioButton );
+            add( oxygenLabel );
+            add( m_waterRadioButton );
+            add( waterLabel );
+        }
+
+        public void setMolecule( int molecule ) {
+            switch( molecule ) {
+                case StatesOfMatterConstants.ARGON:
+                    m_argonRadioButton.setSelected( true );
+                    break;
+                case StatesOfMatterConstants.NEON:
+                    m_neonRadioButton.setSelected( true );
+                    break;
+                case StatesOfMatterConstants.DIATOMIC_OXYGEN:
+                    m_oxygenRadioButton.setSelected( true );
+                    break;
+                case StatesOfMatterConstants.WATER:
+                    m_waterRadioButton.setSelected( true );
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Convenience class that creates the radio button with the label and adds
+     * the listener.
+     */
+    private static class MoleculeSelectorButton extends JRadioButton {
+        private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
+
+        private MoleculeSelectorButton( String text, final MultipleParticleModel model, final int moleculeID ) {
+            super( text );
+            setFont( LABEL_FONT );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if ( model.getMoleculeType() != moleculeID ) {
+                        model.setMoleculeType( moleculeID );
+                    }
+                }
+            } );
+        }
+    }
+
+    private static class MoleculeImageLabel extends JLabel {
+        private static final ModelViewTransform PARTICLE_MVT = new ModelViewTransform( 300, 300, 0, 0, false, true );
+        private static final double PARTICLE_SCALING_FACTOR = 0.05;
+
+        private MoleculeImageLabel( int moleculeID ) {
+            PNode particleNode = null;
+            switch( moleculeID ) {
+                case StatesOfMatterConstants.ARGON:
+                    particleNode = new ParticleNode( new ArgonAtom( 0, 0 ), PARTICLE_MVT, true, false );
+                    break;
+                case StatesOfMatterConstants.NEON:
+                    particleNode = new ParticleNode( new NeonAtom( 0, 0 ), PARTICLE_MVT );
+                    break;
+                case StatesOfMatterConstants.DIATOMIC_OXYGEN:
+                    // Need to create a diatomic oxygen node.  The model-view
+                    // transform used here was empirically determined.
+                    ModelViewTransform oxygenMvt = new ModelViewTransform( 300, 300, 0, 0, false, true );
+                    particleNode = new PNode();
+                    particleNode.addChild( new ParticleNode( new OxygenAtom( -StatesOfMatterConstants.DIATOMIC_PARTICLE_DISTANCE / 2, 0 ), oxygenMvt ) );
+                    particleNode.addChild( new ParticleNode( new OxygenAtom( StatesOfMatterConstants.DIATOMIC_PARTICLE_DISTANCE / 2, 0 ), oxygenMvt ) );
+                    break;
+                case StatesOfMatterConstants.WATER:
+                    // Need to create a water molecule node.  The model-view
+                    // transform used here was empirically determined.
+                    ModelViewTransform waterMvt = new ModelViewTransform( 500, 500, 0, 0, false, true );
+                    WaterMoleculeStructure wms = WaterMoleculeStructure.getInstance();
+                    particleNode = new PNode();
+                    particleNode.addChild( new ParticleNode( new HydrogenAtom( wms.getStructureArrayX()[1], wms.getStructureArrayY()[1] ), waterMvt ) );
+                    particleNode.addChild( new ParticleNode( new OxygenAtom( wms.getStructureArrayX()[0], wms.getStructureArrayY()[0] ), waterMvt ) );
+                    particleNode.addChild( new ParticleNode( new HydrogenAtom( wms.getStructureArrayX()[2], wms.getStructureArrayY()[2] ), waterMvt ) );
+                    break;
+                default:
+                    assert false; // Should never get here, fix if it does.
+                    particleNode = new ParticleNode( new OxygenAtom( 0, 0 ), PARTICLE_MVT );
+            }
+
+            // Note to future maintainers:  The particle node doesn't use the
+            // MVT for scaling, only for positioning, which is why a separate
+            // scaling operation is needed.
+            particleNode.setScale( PARTICLE_SCALING_FACTOR );
+
+            setIcon( new ImageIcon( particleNode.toImage() ) );
+        }
+    }
+
+    /**
+     * This class defines the selection panel that allows the user to choose
+     * the type of molecule.
+     */
+    private class MoleculeSelectionPanelOld extends JPanel {
+
+        private JRadioButton m_neonRadioButton;
+        private JRadioButton m_argonRadioButton;
+        private JRadioButton m_oxygenRadioButton;
+        private JRadioButton m_waterRadioButton;
+
+        MoleculeSelectionPanelOld() {
 
             setLayout( new GridLayout( 0, 1 ) );
 
