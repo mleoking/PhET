@@ -1,3 +1,4 @@
+Added images of the atoms/molecules
 Improved the artwork used for the flame in the stove node.
 Added gradient to the slider node of the track.
 Modified the stove node to have black labels (more visible).
