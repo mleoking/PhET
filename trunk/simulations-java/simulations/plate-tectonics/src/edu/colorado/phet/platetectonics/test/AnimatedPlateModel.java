@@ -2,12 +2,17 @@
 package edu.colorado.phet.platetectonics.test;
 
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.util.Grid3D;
 
 /**
  * Testing model that supports animation
  */
 public class AnimatedPlateModel extends PlateModel {
     private double time;
+
+    public AnimatedPlateModel( Grid3D grid ) {
+        super( grid );
+    }
 
     @Override public void update( double timeElapsed ) {
         super.update( timeElapsed );

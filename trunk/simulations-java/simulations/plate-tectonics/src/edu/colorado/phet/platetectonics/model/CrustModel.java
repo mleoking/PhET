@@ -4,7 +4,7 @@ package edu.colorado.phet.platetectonics.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
 
 /**
@@ -38,7 +38,8 @@ public class CrustModel extends PlateModel {
     // thickness of the center crust, in meters
     public final Property<Double> thickness = new Property<Double>( 20000.0 );
 
-    public CrustModel() {
+    public CrustModel( Grid3D grid ) {
+        super( grid );
         // fire a change event when anything is modified
         SimpleObserver fireModelChanged = new SimpleObserver() {
             public void update() {
