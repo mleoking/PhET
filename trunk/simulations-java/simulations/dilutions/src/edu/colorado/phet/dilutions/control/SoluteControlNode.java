@@ -62,7 +62,7 @@ public class SoluteControlNode extends PhetPNode {
                 public PNode apply( final Solute solute ) {
                     return new HTMLNode() {{
                         setHTML( solute.formula.equals( solute.name ) ? solute.name : MessageFormat.format( "{0}: {1}", solute.name, solute.formula ) );
-                        setFont( new PhetFont( 14 ) );
+                        setFont( new PhetFont( 16 ) );
                     }};
                 }
             } );
