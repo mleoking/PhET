@@ -116,6 +116,7 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
+        JMEUtils.frameRate.set( 10000 ); // unlimited, for testing TODO: remove after dev
         JMEUtils.initializeJME( args );
 
         /*

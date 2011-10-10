@@ -107,7 +107,7 @@ public class WaterNode extends Node {
                                 float xIntercept = lastX - lastY * ( x - lastX ) / ( y - lastY );
 
                                 assert xIntercept > lastX;
-                                assert xIntercept < x;
+                                assert xIntercept < x; // TODO: assertion failure here?
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
                                 Vector3f position = module.getModelViewTransform().modelToView( new Vector3f( xIntercept, 0, z ) );
