@@ -2,13 +2,17 @@
 
 package edu.colorado.phet.statesofmatter.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
+import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
@@ -32,6 +36,9 @@ public class ParticleNode extends PNode {
 
     public static final double OVERLAP_ENLARGEMENT_FACTOR = 1.25;
 
+    private static final float STROKE_WIDTH = 20;
+    private static final Stroke STROKE = new BasicStroke( STROKE_WIDTH );
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -48,6 +55,10 @@ public class ParticleNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
 
+    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
+        this( particle, mvt, false, false, false ); // If the user doesn't specify, a basic circle with no stroke and no gradient is assumed.
+    }
+
     /**
      * Main constructor.
      *
@@ -55,11 +66,11 @@ public class ParticleNode extends PNode {
      * @param mvt           - The model view transform for transforming particle position.
      * @param useGradient   - True to use a gradient when displaying the node, false if not.  The gradient is
      *                      computationally intensive to create, so use only when needed.
+     * @param useStroke
      * @param enableOverlap - True if the node should be larger than the actual particle, thus allowing particles
-     *                      to overlap when they collide.
      */
     public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient,
-                         boolean enableOverlap ) {
+                         boolean useStroke, boolean enableOverlap ) {
 
         if ( ( mvt == null ) || ( particle == null ) ) {
             throw new IllegalArgumentException();
@@ -102,7 +113,22 @@ public class ParticleNode extends PNode {
         // Create the node that will represent this particle.  If we are
         // using a gradient, specify that an image should be used, since it
         // will be less computationally intensive to move it around.
-        m_sphere = new SphericalNode( sphereDiameter, choosePaint( particle ), useGradient );
+        if ( useStroke ) {
+            m_sphere = new SphericalNode( sphereDiameter, choosePaint( particle ), STROKE, Color.BLACK, useGradient );
+            // Workaround for a Piccolo bug: add a transparent background
+            // circle that is large enough that the edges of the stroke don't
+            // get cut off.
+            PhetPPath workaroundNode = new PhetPPath( new Ellipse2D.Double( -sphereDiameter / 2 - (double) STROKE_WIDTH * 2,
+                                                                            -sphereDiameter / 2 - (double) STROKE_WIDTH * 2,
+                                                                            sphereDiameter + (double) STROKE_WIDTH * 2,
+                                                                            sphereDiameter + (double) STROKE_WIDTH * 2 ),
+                                                      new Color( 0, 0, 0, 0 ) );
+            workaroundNode.setOffset( STROKE_WIDTH, STROKE_WIDTH );
+            addChild( workaroundNode );
+        }
+        else {
+            m_sphere = new SphericalNode( sphereDiameter, choosePaint( particle ), useGradient );
+        }
         addChild( m_sphere );
 
         // Set ourself to be non-pickable so that we don't get mouse events.
@@ -110,10 +136,6 @@ public class ParticleNode extends PNode {
         setChildrenPickable( false );
 
         updatePosition();
-    }
-
-    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
-        this( particle, mvt, false, false ); // If the user doesn't specify, a hard circle with no gradient is assumed.
     }
 
     //----------------------------------------------------------------------------
