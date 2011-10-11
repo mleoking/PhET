@@ -36,18 +36,18 @@ public class FractionsIntroCanvas extends PhetPCanvas {
 
     public FractionsIntroCanvas() {
         ControlPanelNode toolbox = new ControlPanelNode( new VBox( 0, new PhetPText( "Toolbox" ),
-                                                                   new NumberText( "1", this ),
-                                                                   new NumberText( "2", this ),
-                                                                   new NumberText( "3", this ),
-                                                                   new NumberText( "4", this ),
-                                                                   new NumberText( "5", this ),
-                                                                   new NumberText( "6", this ),
-                                                                   new NumberText( "7", this ),
-                                                                   new NumberText( "8", this ),
-                                                                   new NumberText( "9", this ),
-                                                                   new NumberText( "10", this ),
-                                                                   new NumberText( "11", this ),
-                                                                   new NumberText( "12", this ) ) ) {{
+                                                                   new NumberText( 1, this ),
+                                                                   new NumberText( 2, this ),
+                                                                   new NumberText( 3, this ),
+                                                                   new NumberText( 4, this ),
+                                                                   new NumberText( 5, this ),
+                                                                   new NumberText( 6, this ),
+                                                                   new NumberText( 7, this ),
+                                                                   new NumberText( 8, this ),
+                                                                   new NumberText( 9, this ),
+                                                                   new NumberText( 10, this ),
+                                                                   new NumberText( 11, this ),
+                                                                   new NumberText( 12, this ) ) ) {{
             setOffset( 20, FractionsIntroCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }};
 
@@ -92,15 +92,16 @@ public class FractionsIntroCanvas extends PhetPCanvas {
     }
 
     public static class NumberText extends PNode {
-        public NumberText( final String number, final FractionsIntroCanvas canvas ) {
-            addChild( new PhetPText( number, NUMBER_FONT ) );
+        public NumberText( final int number, final FractionsIntroCanvas canvas ) {
+            addChild( new PhetPText( "" + number, NUMBER_FONT ) );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
 
-                private PhetPText created;
+                private PNode created;
 
                 @Override public void mousePressed( final PInputEvent event ) {
-                    created = new PhetPText( number, BIG_NUMBER_FONT ) {{
+                    created = new PhetPText( "" + number, BIG_NUMBER_FONT ) {{
+//                    created = new ZeroOffsetNode( new NumberGraphic( number ) {{
                         final Point2D position = event.getPositionRelativeTo( NumberText.this.getParent() );
                         setOffset( position.getX() - getFullBounds().getWidth() / 2, position.getY() - getFullBounds().getHeight() / 2 );
                         addInputEventListener( new CursorHandler() );
