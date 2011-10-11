@@ -213,7 +213,7 @@ public class SliderArrayPanel extends Canvas {
         //label showing frequency of mode at bottom of each amplitude slider
         var tFormatGreek = new TextFormat();
         tFormatGreek.align = TextFormatAlign.CENTER;
-        tFormatGreek.font = "Symbol";
+        //tFormatGreek.font = "Symbol";            //don't need to set the font
         tFormatGreek.size = 15;
         tFormatGreek.color = 0x000000;
         for ( var i:int = 0; i < this.myModel1.nMax; i++ ){
@@ -234,7 +234,7 @@ public class SliderArrayPanel extends Canvas {
         for ( var i:int = 0; i < this.myModel1.N; i++ ){
             var freq_txt:TextField = this.ampliSlider_arr[i].getChildAt( this.freqLabelIndex );
             var freqValue_str:String = this.myModel1.freqDividedByOmega_arr[i].toFixed(2);
-            freq_txt.text =  FlexSimStrings.get("freq omega", "{0}w",[freqValue_str]);
+            freq_txt.text =  freqValue_str + omega0_str; //FlexSimStrings.get("freq omega", "{0}w",[freqValue_str]);
             var tFormatArial:TextFormat = new TextFormat();
             tFormatArial.font = "Arial";
             tFormatArial.size = 15;
