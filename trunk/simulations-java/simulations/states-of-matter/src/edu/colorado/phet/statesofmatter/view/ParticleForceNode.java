@@ -51,7 +51,7 @@ public class ParticleForceNode extends ParticleNode {
     public ParticleForceNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient,
                               boolean enableOverlap ) {
 
-        super( particle, mvt, useGradient, enableOverlap );
+        super( particle, mvt, useGradient, false, enableOverlap );
 
         m_attractiveForce = 0;
         m_repulsiveForce = 0;

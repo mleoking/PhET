@@ -340,15 +340,15 @@ public class PhaseChangesControlPanel extends ControlPanel {
             setBorder( titledBorder );
 
             m_oxygenRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL, m_model, StatesOfMatterConstants.DIATOMIC_OXYGEN, true );
-            final JLabel oxygenLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN );
+            final JLabel oxygenImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN );
             m_neonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.NEON_SELECTION_LABEL, m_model, StatesOfMatterConstants.NEON, false );
-            final JLabel neonLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON );
+            final JLabel neonImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON );
             m_argonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL, m_model, StatesOfMatterConstants.ARGON, false );
-            final JLabel argonLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON );
+            final JLabel argonImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON );
             m_waterRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.WATER_SELECTION_LABEL, m_model, StatesOfMatterConstants.WATER, true );
-            final JLabel waterLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER );
+            final JLabel waterImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER );
             m_configurableRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.ADJUSTABLE_ATTRACTION_SELECTION_LABEL, m_model, StatesOfMatterConstants.USER_DEFINED_MOLECULE, true );
-            final JLabel configurableLabel = new MoleculeImageLabel( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
+            final JLabel configurableAtomImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
 
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( m_neonRadioButton );
@@ -413,25 +413,25 @@ public class PhaseChangesControlPanel extends ControlPanel {
             setLayout( new GridLayout( 5, 1 ) );
             add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
                 add( m_neonRadioButton );
-                add( neonLabel );
+                add( neonImageLabel );
             }} );
             add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
                 add( m_argonRadioButton );
-                add( argonLabel );
+                add( argonImageLabel );
             }} );
             add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
                 add( m_oxygenRadioButton );
-                add( oxygenLabel );
+                add( oxygenImageLabel );
             }} );
             add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
                 add( m_waterRadioButton );
-                add( waterLabel );
+                add( waterImageLabel );
             }} );
 
             if ( showConfigurableAtom ) {
                 add( new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {{
                     add( m_configurableRadioButton );
-                    add( configurableLabel );
+                    add( configurableAtomImageLabel );
                 }} );
             }
         }
