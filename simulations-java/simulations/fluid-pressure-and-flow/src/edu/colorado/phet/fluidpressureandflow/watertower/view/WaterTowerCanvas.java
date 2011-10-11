@@ -19,13 +19,14 @@ import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCo
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
-import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterDrop;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTowerModel;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
+import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel.BACKGROUND;
+import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel.FOREGROUND;
 
 /**
  * Canvas for the water tower tab.
@@ -107,14 +108,12 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
             }
         } );
 
-        //REVIEW address this TODO
-        //TODO: this is duplicated in FluidFlowCanvas
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new WaterTowerControlPanel( module ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, INSET );
         }};
         addChild( controlPanelNode );
-        addChild( new ResetAllButtonNode( module, this, FLOATING_BUTTON_FONT_SIZE, FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
+        addChild( new ResetAllButtonNode( module, this, FLOATING_BUTTON_FONT_SIZE, FOREGROUND, BACKGROUND ) {{
             setConfirmationEnabled( false );
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + INSET * 2 );
         }} );
