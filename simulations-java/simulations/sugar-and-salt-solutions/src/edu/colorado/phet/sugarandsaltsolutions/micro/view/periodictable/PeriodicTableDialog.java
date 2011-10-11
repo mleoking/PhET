@@ -30,13 +30,12 @@ public class PeriodicTableDialog extends JDialog {
     public PeriodicTableDialog( final Property<DispenserType> dispenser, final SugarAndSaltSolutionsColorScheme colorScheme, PhetFrame parentFrame ) {
         super( parentFrame );
 
-        setResizable( false );
-
         setContentPane( new PhetPCanvas() {
+            final PhetPCanvas canvas = this;
             private final PNode root = new PNode();
 
             {
-                addScreenChild( root );
+                addWorldChild( root );
 
                 //Match the background with the rest of the sim
                 colorScheme.backgroundColorSet.color.addObserver( new VoidFunction1<Color>() {
@@ -56,6 +55,7 @@ public class PeriodicTableDialog extends JDialog {
                             scale( scale );
                             setOffset( inset, inset );
                         }};
+
                         root.removeAllChildren();
                         root.addChild( periodicTableNode );
 
@@ -64,8 +64,12 @@ public class PeriodicTableDialog extends JDialog {
                             setOffset( inset, periodicTableNode.getFullBounds().getMaxY() + inset );
                         }};
                         root.addChild( legend );
-                        setPreferredSize( new Dimension( (int) periodicTableNode.getFullBounds().getWidth() + inset * 2,
-                                                         (int) ( periodicTableNode.getFullBounds().getHeight() + legend.getFullBounds().getHeight() + inset * 3 ) ) );
+                        final Dimension preferredSize = new Dimension( (int) periodicTableNode.getFullBounds().getWidth() + inset * 2,
+                                                                       (int) ( periodicTableNode.getFullBounds().getHeight() + legend.getFullBounds().getHeight() + inset * 3 ) );
+
+                        //Set a centered stage strategy so the periodic table will be centered and scale up and down with the dialog bounds
+                        setWorldTransformStrategy( new CenteredStage( canvas, preferredSize ) );
+                        setPreferredSize( preferredSize );
                     }
                 } );
             }
