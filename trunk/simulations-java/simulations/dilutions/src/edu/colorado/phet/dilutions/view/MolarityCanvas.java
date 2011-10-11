@@ -28,6 +28,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
     public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
 
         // nodes
+        BeakerNode beakerNode = new BeakerNode( new PDimension( 300, BEAKER_HEIGHT ), model.solution, model.getSolutionVolumeRange(), model.getConcentrationRange() );
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
         ShowValuesNode showValuesNode = new ShowValuesNode( valuesVisible );
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, Color.YELLOW ) {{
@@ -39,6 +40,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
 
         // rendering order
         {
+            addChild( beakerNode );
             addChild( concentrationDisplayNode );
             addChild( soluteAmountSliderNode );
             addChild( solutionVolumeSliderNode );
@@ -49,11 +51,12 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
 
         // layout
         {
+            beakerNode.setOffset( 300, 200 );
             soluteControlNode.setOffset( 50, 50 );
-            soluteAmountSliderNode.setOffset( 100, 200 );
+            soluteAmountSliderNode.setOffset( 100, beakerNode.getYOffset() );
             solutionVolumeSliderNode.setOffset( soluteAmountSliderNode.getFullBoundsReference().getMaxX() + 75,
                                                 soluteAmountSliderNode.getYOffset() );
-            concentrationDisplayNode.setOffset( 650,
+            concentrationDisplayNode.setOffset( beakerNode.getFullBoundsReference().getMaxX() + 75,
                                                 soluteAmountSliderNode.getYOffset() );
             showValuesNode.setOffset( concentrationDisplayNode.getFullBoundsReference().getMaxX() + 10,
                                       concentrationDisplayNode.getFullBoundsReference().getMaxY() - 40 );

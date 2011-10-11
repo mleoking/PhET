@@ -8,7 +8,6 @@ DESIGN
 - better looking sliders
 
 HIGH
-- add beaker
 - editable text fields above sliders
 - show/hide values
 

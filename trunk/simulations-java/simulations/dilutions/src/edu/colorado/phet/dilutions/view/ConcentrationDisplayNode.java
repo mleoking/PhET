@@ -13,7 +13,6 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -75,8 +74,8 @@ public class ConcentrationDisplayNode extends PComposite {
         }
 
         // Pointer position and value corresponds to the solution's concentration.
-        solution.addConcentrationObserver( new VoidFunction1<Double>() {
-            public void apply( Double concentration ) {
+        solution.addConcentrationObserver( new SimpleObserver() {
+            public void update() {
                 pointerNode.setConcentration( solution.getConcentration() );
             }
         } );
