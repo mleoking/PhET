@@ -277,4 +277,46 @@ public class MoleculeForceAndMotionDataSet {
 
         return true;
     }
+
+    /**
+     * Remove the molecule at the designated index.  This also removes all
+     * atoms and forces associated with the molecule and shifts the various
+     * arrays to compensate.
+     * <p/>
+     * This is fairly compute intensive, and should be used sparingly.  This
+     * was originally created to support the feature where the lid is returned
+     * and any molecules outside of the container disappear.
+     *
+     * @param moleculeIndex
+     */
+    public void removeMolecule( int moleculeIndex ) {
+        assert moleculeIndex < m_numberOfAtoms / m_atomsPerMolecule;
+        if ( moleculeIndex >= m_numberOfAtoms / m_atomsPerMolecule ) {
+            // Ignore this out-of-range request.
+            return;
+        }
+
+        // Handle all data arrays that are maintained on a per-molecule basis.
+        for ( int i = moleculeIndex; i < m_numberOfAtoms / m_atomsPerMolecule - 1; i++ ) {
+            // Shift the data in each array forward one slot.
+            m_moleculeCenterOfMassPositions[i] = m_moleculeCenterOfMassPositions[i + 1];
+            m_moleculeVelocities[i] = m_moleculeVelocities[i + 1];
+            m_moleculeForces[i] = m_moleculeForces[i + 1];
+            m_nextMoleculeForces[i] = m_nextMoleculeForces[i + 1];
+            m_moleculeRotationAngles[i] = m_moleculeRotationAngles[i + 1];
+            m_moleculeRotationRates[i] = m_moleculeRotationRates[i + 1];
+            m_moleculeTorques[i] = m_moleculeTorques[i + 1];
+            m_nextMoleculeTorques[i] = m_nextMoleculeTorques[i + 1];
+        }
+
+        // Handle all data arrays that are maintained on a per-atom basis.
+        for ( int i = moleculeIndex * m_atomsPerMolecule; i < m_numberOfAtoms - m_atomsPerMolecule; i += m_atomsPerMolecule ) {
+            for ( int j = 0; j < m_atomsPerMolecule; j++ ) {
+                m_atomPositions[i + j] = m_atomPositions[i + m_atomsPerMolecule + j];
+            }
+        }
+
+        // Reduce the atom count.
+        m_numberOfAtoms -= m_atomsPerMolecule;
+    }
 }
