@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.model.Solution;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -136,12 +137,13 @@ public class ConcentrationDisplayNode extends PComposite {
 
         private final PDimension barSize;
         private final LinearFunction function;
-        private ArrowNode arrowNode;
+        private PNode arrowNode;
         private final ConcentrationValueNode valueNode;
 
         public PointerNode( PDimension barSize, DoubleRange range, double concentration ) {
             this.barSize = barSize;
             this.function = new LinearFunction( range.getMin(), range.getMax(), barSize.getHeight(), 0 );
+            this.arrowNode = new PNode();
             this.valueNode = new ConcentrationValueNode( range.getMin() );
             addChild( valueNode );
             setConcentration( concentration );
@@ -155,12 +157,12 @@ public class ConcentrationDisplayNode extends PComposite {
 
             // update the arrow
             double y = function.evaluate( concentration );
-            if ( arrowNode != null ) {
-                removeChild( arrowNode );
-            }
+            Paint paint = arrowNode.getPaint();
+            removeChild( arrowNode );
             arrowNode = new ArrowNode( new Point2D.Double( barSize.getWidth() + ARROW_LENGTH, y ),
                                        new Point2D.Double( barSize.getWidth(), y ),
                                        ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
+            arrowNode.setPaint( paint );
             addChild( arrowNode );
 
             // update the value
