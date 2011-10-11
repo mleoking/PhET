@@ -40,10 +40,10 @@ public class UnitFluidDensityControl<T extends FluidPressureAndFlowModel> extend
 
         //Create the slider
         final SliderControl fluidDensityControl = new SliderControl( FLUID_DENSITY, density.getAbbreviation(), gasDensity, honeyDensity,
-                                                                     new ScaledDoubleProperty( module.model.liquidDensity, density.siToUnit( 1.0 ) ), new HashMap<Double, TickLabel>() {{
-            put( gasDensity, new TickLabel( GASOLINE ) );
-            put( waterDensity, new TickLabel( WATER ) );
-            put( honeyDensity, new TickLabel( HONEY ) );
+                                                                     new ScaledDoubleProperty( module.model.liquidDensity, density.siToUnit( 1.0 ) ), new HashMap<Double, String>() {{
+            put( gasDensity, GASOLINE );
+            put( waterDensity, WATER );
+            put( honeyDensity, HONEY );
         }} ) {{
             module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
                 public void update() {
