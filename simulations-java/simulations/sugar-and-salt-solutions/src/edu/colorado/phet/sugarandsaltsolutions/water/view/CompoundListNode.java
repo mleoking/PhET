@@ -22,7 +22,10 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static java.util.Arrays.asList;
 
 /**
  * The node for sugar crystals that will be shown in the bucket that the user can grab.
@@ -75,6 +78,9 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
                              //Flag to indicate whether partial charge symbols should be shown.  In this sim, they are optional for sucrose
                              final ObservableProperty<Boolean> showPartialCharges,
 
+                             //Whether the sim is running so that interaction can be disabled when the sim is paused
+                             final ObservableProperty<Boolean> clockRunning,
+
                              final T... compounds ) {
         this.transform = transform;
         this.bucketView = bucketView;
@@ -123,8 +129,8 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
             atomLayer.addChild( compoundNode );
         }
 
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
+        final CursorHandler listener1 = new CursorHandler();
+        final PBasicInputEventHandler listener2 = new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
 
                 //When dragging, remove from the model (if it was in the model) so box2d won't continue to propagate it
@@ -183,12 +189,33 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
                     }
                 }
             }
+        };
+
+        //Not allowed to drag when the sim is paused
+        clockRunning.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean clockRunning ) {
+
+                if ( clockRunning && !containsListener( listener1 ) ) {
+                    addInputEventListener( listener1 );
+                    addInputEventListener( listener2 );
+                }
+                else if ( !clockRunning && containsListener( listener1 ) ) {
+                    removeInputEventListener( listener1 );
+                    removeInputEventListener( listener2 );
+                }
+
+            }
         } );
 
         addChild( atomLayer );
 
         //By default, this node is used for the bucket, so it should start in small icon mode
         setIcon( true );
+    }
+
+    //Determine if this node contains the specified listener for purposes of toggling interaction when sim is paused
+    private boolean containsListener( PInputEventListener listener ) {
+        return asList( getInputEventListeners() ).contains( listener );
     }
 
     private void moveToModel( VoidFunction1<T> addToModel ) {
