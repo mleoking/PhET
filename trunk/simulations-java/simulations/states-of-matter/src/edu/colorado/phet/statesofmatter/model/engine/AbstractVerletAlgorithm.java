@@ -267,14 +267,20 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
     }
 
     protected void updatePressure( double pressureZoneWallForce ) {
-        m_pressure = ( 1 - PRESSURE_CALC_WEIGHTING ) * ( pressureZoneWallForce /
-                                                         ( m_model.getNormalizedContainerWidth() + m_model.getNormalizedContainerHeight() ) ) +
-                     PRESSURE_CALC_WEIGHTING * m_pressure;
+        if ( m_model.getContainerExploded() ) {
+            // If the container has exploded, there is essentially no pressure.
+            m_pressure = 0;
+        }
+        else {
+            m_pressure = ( 1 - PRESSURE_CALC_WEIGHTING ) *
+                         ( pressureZoneWallForce / ( m_model.getNormalizedContainerWidth() + m_model.getNormalizedContainerHeight() ) ) +
+                         PRESSURE_CALC_WEIGHTING * m_pressure;
 
-        if ( ( m_pressure > EXPLOSION_PRESSURE ) && !m_model.getContainerExploded() ) {
-            // The pressure has reached the point where the container should
-            // explode, so blow 'er up.
-            m_model.explodeContainer();
+            if ( ( m_pressure > EXPLOSION_PRESSURE ) && !m_model.getContainerExploded() ) {
+                // The pressure has reached the point where the container should
+                // explode, so blow 'er up.
+                m_model.explodeContainer();
+            }
         }
     }
 
