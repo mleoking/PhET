@@ -57,7 +57,7 @@ public class MassView2 extends Sprite{
         g.clear();
         g.lineStyle(3, 0xffffff, 0);
         //var d:Number = 80;   //edge length of square mass in pixels
-        g.beginFill(0xffffff, 0);
+        g.beginFill(0xffffff, 0);             //border zone is invisible, alpha = 0
         g.drawRoundRect(-w/2, -h/2, w,  h,  w/4 );
         g.endFill();
     }
@@ -69,8 +69,6 @@ public class MassView2 extends Sprite{
         arrows2.setArrowDimensions( 10, 20, 4, 50 );
         arrows1.setRegistrationPointAtCenter( true );
         arrows2.setRegistrationPointAtCenter( true );
-        //arrows1.scaleX = 2;
-        //arrows2.scaleX = 2;
         arrows1.rotation = 45;
         arrows2.rotation = -45;
         this.arrows.addChild( arrows1 );
@@ -202,6 +200,7 @@ public class MassView2 extends Sprite{
         //stage.removeEventListener( MouseEvent.MOUSE_OUT, removeArrows );
     }
 
+    //called by View2 when any mass is grabbed
     public function killArrowListeners():void{
         this.removeEventListener( MouseEvent.ROLL_OVER, this.showArrows );
         this.removeEventListener( MouseEvent.ROLL_OUT, this.removeArrows );

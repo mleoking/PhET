@@ -50,6 +50,7 @@ public class View2 extends Sprite {
         this._LinPix = 0.85*this.stageH;
         this._pixPerMeter = this._LinPix/this.LinMeters;
         this._springsVisible = true;
+        this._massGrabbedByUser = false;
         this._topLeftCornerX = 0.04*this.stageW;
         this._topLeftCornerY = 0.095*this.stageH;
         var nMax:int = this.myModel2.nMax;        //maximum number of mobile masses
@@ -225,13 +226,15 @@ public class View2 extends Sprite {
 
     //called from startTargetDrag() inside MassView2
     public function clearBorderZones():void{
-        this._massGrabbedByUser = true;
-        var N:int = this.myModel2.nMax;
-        for(var i:int = 0; i <= N - 1; i++){
-            for(var j:int = 0; j <= N - 1; j++){
-                this.mass_arr[i][j].killArrowListeners();
+        if( !_massGrabbedByUser ){
+            var N:int = this.myModel2.nMax;
+            for(var i:int = 0; i <= N - 1; i++){
+                for(var j:int = 0; j <= N - 1; j++){
+                    this.mass_arr[i][j].killArrowListeners();
+                }
             }
         }
+        this._massGrabbedByUser = true;
     }
 
 
