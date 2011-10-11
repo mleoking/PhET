@@ -1,0 +1,18 @@
+TODO list for dilutions
+
+DESIGN
+- move min/max range labels to tick marks next to sliders and concentration display
+- model for precipitate in Molarity tab
+
+HIGH
+- fix bug with slider thumb, not centered, hard to grab when it's released at max
+- concentration pointer doesn't fill with correct color when changing mol and Liters sliders
+- add beaker
+
+MEDIUM
+- relative layout of Molarity tab
+
+LOW
+- repackage
+
+MIGRATE TO COMMON
