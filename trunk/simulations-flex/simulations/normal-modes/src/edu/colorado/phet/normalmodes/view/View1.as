@@ -43,7 +43,7 @@ public class View1 extends Sprite {
         this._pixPerMeter = this._LinPix/this.LinMeters;
         this._springsVisible = true;
         this._leftEdgeX = 0.02*this.stageW;
-        this._leftEdgeY = 0.3*this.stageH;
+        this._leftEdgeY = 0.27*this.stageH;
         var nMax:int = this.myModel1.nMax;        //maximum number of mobile masses
         this.mass_arr = new Array( nMax );
         //mass graphic drawn in MassView

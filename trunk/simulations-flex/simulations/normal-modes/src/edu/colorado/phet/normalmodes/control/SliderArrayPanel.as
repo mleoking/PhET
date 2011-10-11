@@ -158,7 +158,6 @@ public class SliderArrayPanel extends Canvas {
         this.phaseLabel_txt.text = this.phase_str;
         this.modeLabel_txt.text = this.mode_str;
         this.plusPi_txt.text = this.plusPi_str;
-        //this.plusPi_txt = "\\u030c";
         this.zero_txt.text = "0";
         this.minusPi_txt.text = minusPi_str;
         setLabel( this.modeLabel_txt );

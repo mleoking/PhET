@@ -46,6 +46,7 @@ public class MassView1 extends Sprite{
         this.makeMassGrabbable();
     } //end constructor
 
+    //when mouse is in border zone, vertical or horizontal arrows appear, cuing user that mass is grabbable
     public function drawBorderZone( width:Number,  height:Number ):void{
         var w:Number = width;
         var h:Number = height;
@@ -61,8 +62,9 @@ public class MassView1 extends Sprite{
 
     public function drawVerticalArrow():void{
         var arrow2HV:TwoHeadedArrow = new TwoHeadedArrow();
+        arrow2HV.setArrowDimensions( 10, 20, 4, 50 );  //headRadius, headWidth, shaftRadius,  shaftLength
         arrow2HV.setRegistrationPointAtCenter( true );
-        arrow2HV.scaleX = 2;
+        //arrow2HV.scaleX = 2;
         arrow2HV.rotation = 90;
         this.arrowV.addChild( arrow2HV );
         this.arrowV.visible = false;
@@ -70,8 +72,9 @@ public class MassView1 extends Sprite{
 
     public function drawHorizontalArrow():void{
         var arrow2HH:TwoHeadedArrow = new TwoHeadedArrow();
+        arrow2HH.setArrowDimensions( 10, 20, 4, 50 );  //headRadius, headWidth, shaftRadius,  shaftLength
         arrow2HH.setRegistrationPointAtCenter( true );
-        arrow2HH.scaleX = 2;
+        //arrow2HH.scaleX = 2;
         this.arrowH.addChild( arrow2HH );
         this.arrowH.visible = false;
     }
