@@ -290,7 +290,7 @@ public class MoleculeForceAndMotionDataSet {
      * @param moleculeIndex
      */
     public void removeMolecule( int moleculeIndex ) {
-        assert moleculeIndex < m_numberOfAtoms / m_atomsPerMolecule;
+//        assert moleculeIndex < m_numberOfAtoms / m_atomsPerMolecule;
         if ( moleculeIndex >= m_numberOfAtoms / m_atomsPerMolecule ) {
             // Ignore this out-of-range request.
             return;

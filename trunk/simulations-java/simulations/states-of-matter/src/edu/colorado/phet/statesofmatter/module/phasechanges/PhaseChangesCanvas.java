@@ -3,6 +3,8 @@
 package edu.colorado.phet.statesofmatter.module.phasechanges;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
@@ -40,19 +42,17 @@ public class PhaseChangesCanvas extends PhetPCanvas {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 24000;
-    private final double CANVAS_HEIGHT = CANVAS_WIDTH * ( 3.0d / 4.0d );
+    private static final double CANVAS_WIDTH = 24000;
+    private static final double CANVAS_HEIGHT = CANVAS_WIDTH * ( 3.0d / 4.0d );
 
     // Translation factors, used to set origin of canvas area.
-    private static final double WIDTH_TRANSLATION_FACTOR = 0.29;  // 0 puts the vertical origin all the way left, 1
-    // is all the way to the right.
-    private static final double HEIGHT_TRANSLATION_FACTOR = 0.73; // 0 puts the horizontal origin at the top of the
-    // window, 1 puts it at the bottom.
+    private static final double WIDTH_TRANSLATION_FACTOR = 0.29;  // 0 puts the vertical origin all the way left, 1 is all the way to the right.
+    private static final double HEIGHT_TRANSLATION_FACTOR = 0.73; // 0 puts the horizontal origin at the top of the window, 1 puts it at the bottom.
 
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
-    private final double BURNER_NODE_HEIGHT = CANVAS_WIDTH * 0.15;
-    private final double PUMP_HEIGHT = CANVAS_HEIGHT / 2;
-    private final double PUMP_WIDTH = CANVAS_WIDTH / 4;
+    private static final double BURNER_NODE_HEIGHT = CANVAS_WIDTH * 0.15;
+    private static final double PUMP_HEIGHT = CANVAS_HEIGHT / 2;
+    private static final double PUMP_WIDTH = CANVAS_WIDTH / 4;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -63,7 +63,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private ModelViewTransform m_mvt;
     private CompositeThermometerNode m_thermometerNode;
     private Random m_rand;
-    private double m_rotationAngle;
+    private double m_rotationRate = 0;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -98,8 +98,14 @@ public class PhaseChangesCanvas extends PhetPCanvas {
                 updateThermometerPosition();
             }
 
-            public void containerExploded() {
-                m_rotationAngle = -( Math.PI / 100 + ( m_rand.nextDouble() * Math.PI / 50 ) );
+            public void containerExplodedStateChanged( boolean containerExploded ) {
+                if ( containerExploded ) {
+                    // Set a random rotation rate.
+                    m_rotationRate = -( Math.PI / 100 + ( m_rand.nextDouble() * Math.PI / 50 ) );
+                }
+                else {
+                    m_rotationRate = 0;
+                }
             }
         } );
 
@@ -173,8 +179,22 @@ public class PhaseChangesCanvas extends PhetPCanvas {
             scale( 30 );
             setOffset( resetAllButton.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
                        m_particleContainer.getFullBoundsReference().getMaxY() - 5000 );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    multipleParticleModel.returnLid();
+                }
+            } );
         }};
         addWorldChild( returnLidButton );
+        returnLidButton.setVisible( multipleParticleModel.getContainerExploded() );
+
+        // Control the visibility of the Return Lid button.  It should only be
+        // visible when the container has exploded.
+        multipleParticleModel.addListener( new MultipleParticleModel.Adapter() {
+            @Override public void containerExplodedStateChanged( boolean containerExploded ) {
+                returnLidButton.setVisible( containerExploded );
+            }
+        } );
 
         // Make sure that the floating clock control sees the change when the
         // clock gets started.
@@ -216,7 +236,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         }
         else {
             // The container is exploding, so spin the thermometer.
-            m_thermometerNode.rotateInPlace( m_rotationAngle );
+            m_thermometerNode.rotateInPlace( m_rotationRate );
         }
 
         m_thermometerNode.setOffset(
