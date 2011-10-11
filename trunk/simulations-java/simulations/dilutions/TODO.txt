@@ -5,6 +5,7 @@ DESIGN
 - model for precipitate in Molarity tab
 - overly verbose titles for sliders and concentration display
 - sliders are accurate to 3 decimal places but we're only showing 2, so we see "0" and "0.00"
+- better looking sliders
 
 HIGH
 - fix bug with slider thumb, not centered, hard to grab when it's released at max
@@ -14,7 +15,6 @@ HIGH
 
 MEDIUM
 - relative layout of Molarity tab
-- better colors and shape for slider thumb
 
 LOW
 - repackage
