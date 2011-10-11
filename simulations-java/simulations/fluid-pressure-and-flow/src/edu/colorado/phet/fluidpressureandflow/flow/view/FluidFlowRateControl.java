@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.common.model.ScaledDoubleProperty;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.SliderControl;
-import edu.colorado.phet.fluidpressureandflow.common.view.TickLabel;
 import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
 import edu.umd.cs.piccolo.PNode;
 
@@ -26,7 +25,7 @@ public class FluidFlowRateControl extends PNode {
         //Create one slider for each set of user-selectable units, and only show one at a time
         class UnitBasedSliderControl extends SliderControl {
             public UnitBasedSliderControl( String title, final UnitSet units ) {
-                super( title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1E-6 ), units.flowRate.siToUnit( 20 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, TickLabel>() );
+                super( title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1E-6 ), units.flowRate.siToUnit( 20 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, String>() );
                 module.model.units.addObserver( new VoidFunction1<UnitSet>() {
                     public void apply( UnitSet unitSet ) {
                         setVisible( unitSet == units );
