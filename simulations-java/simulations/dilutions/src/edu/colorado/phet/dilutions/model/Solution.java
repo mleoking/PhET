@@ -4,6 +4,7 @@ package edu.colorado.phet.dilutions.model;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -52,7 +53,7 @@ public class Solution implements Resettable {
         return concentration.get();
     }
 
-    public void addConcentrationObserver( VoidFunction1<Double> observer ) {
+    public void addConcentrationObserver( SimpleObserver observer ) {
         concentration.addObserver( observer );
     }
 
