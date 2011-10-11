@@ -67,6 +67,7 @@ public class BeakerNode extends PComposite {
         };
         solution.addConcentrationObserver( observer );
         solution.solute.addObserver( observer );
+        solution.volume.addObserver( observer );
     }
 
     private void updateNode() {

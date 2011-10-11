@@ -1,3 +1,4 @@
+10/10/11 make beaker an observer of solution volume property
 10/10/11 add saturation to model
 10/10/11 add simple beaker
 10/10/11 sliders for molarity tab
