@@ -1,3 +1,4 @@
+10/10/11 sliders for molarity tab
 10/10/11 concentration display
 10/10/11 Molarity model, part of view
 10/04/11 created project skeleton
