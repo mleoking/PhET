@@ -198,7 +198,7 @@ public class WaterCanvas extends SugarAndSaltSolutionsCanvas {
         model.sucroseList.addElementAddedObserver( new VoidFunction1<Sucrose>() {
             public void apply( final Sucrose sucrose ) {
                 final CompoundListNode compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, model.addSucrose,
-                                                                                         model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), true, model.showSugarPartialCharge, sucrose );
+                                                                                         model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), true, model.showSugarPartialCharge, model.clockRunning, sucrose );
                 compoundListNode.setIcon( false );
                 compoundListNode.setInBucket( false );
                 particleWindowNode.particleLayer.addChild( compoundListNode );
@@ -216,7 +216,7 @@ public class WaterCanvas extends SugarAndSaltSolutionsCanvas {
         model.saltIonList.addElementAddedObserver( new VoidFunction1<SaltIon>() {
             public void apply( final SaltIon ion ) {
                 final CompoundListNode compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, WaterCanvas.this, model.addSaltIon,
-                                                                                         model.removeSaltIon, model.showChargeColor, new SaltIonLabel(), false, new Property<Boolean>( false ), ion );
+                                                                                         model.removeSaltIon, model.showChargeColor, new SaltIonLabel(), false, new Property<Boolean>( false ), model.clockRunning, ion );
                 compoundListNode.setIcon( false );
                 compoundListNode.setInBucket( false );
                 particleWindowNode.particleLayer.addChild( compoundListNode );
@@ -269,7 +269,7 @@ public class WaterCanvas extends SugarAndSaltSolutionsCanvas {
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
         CompoundListNode<SaltIon> compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, this, model.addSaltIon, model.removeSaltIon, model.showChargeColor,
-                                                                                    new SaltIonLabel(), true, new Property<Boolean>( false ), crystal.getConstituentParticleList().toArray( new SaltIon[crystal.getConstituentParticleList().size()] ) );
+                                                                                    new SaltIonLabel(), true, new Property<Boolean>( false ), model.clockRunning, crystal.getConstituentParticleList().toArray( new SaltIon[crystal.getConstituentParticleList().size()] ) );
 
         //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
         saltBucketParticleLayer.addChild( compoundListNode );
@@ -291,7 +291,7 @@ public class WaterCanvas extends SugarAndSaltSolutionsCanvas {
         }};
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
-        CompoundListNode<Sucrose> compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), true, model.showSugarPartialCharge, crystal.getConstituentParticleList().toArray( new Sucrose[crystal.getConstituentParticleList().size()] ) );
+        CompoundListNode<Sucrose> compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), true, model.showSugarPartialCharge, model.clockRunning, crystal.getConstituentParticleList().toArray( new Sucrose[crystal.getConstituentParticleList().size()] ) );
 
         //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
         sugarBucketParticleLayer.addChild( compoundListNode );
