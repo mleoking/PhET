@@ -8,7 +8,6 @@ DESIGN
 - better looking sliders
 
 HIGH
-- fix bug with slider thumb, not centered, hard to grab when it's released at max
 - add beaker
 - editable text fields above sliders
 - show/hide values

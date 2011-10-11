@@ -94,10 +94,10 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         {
             // max label centered above track
             maxNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( maxNode.getFullBoundsReference().getWidth() / 2 ),
-                               trackNode.getFullBoundsReference().getMinY() - maxNode.getFullBoundsReference().getHeight() - 2 );
+                               trackNode.getFullBoundsReference().getMinY() - maxNode.getFullBoundsReference().getHeight() - ( thumbNode.getFullBoundsReference().getHeight() / 2 ) - 2 );
             // min label centered below track
             minNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( minNode.getFullBoundsReference().getWidth() / 2 ),
-                               trackNode.getFullBoundsReference().getMaxY() + 2 );
+                               trackNode.getFullBoundsReference().getMaxY() + ( thumbNode.getFullBoundsReference().getHeight() / 2 ) + 2 );
             // value centered above max label
             valueNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
                                  maxNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight() - 2 );
@@ -168,7 +168,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
 
         public ThumbNode( PNode relativeNode, PNode trackNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
 
-            setPathTo( new Rectangle2D.Double( -KNOB_SIZE.getWidth() / 2, -KNOB_SIZE.getHeight(), KNOB_SIZE.getWidth(), KNOB_SIZE.getHeight() ) );
+            setPathTo( new Rectangle2D.Double( -KNOB_SIZE.getWidth() / 2, -KNOB_SIZE.getHeight() / 2, KNOB_SIZE.getWidth(), KNOB_SIZE.getHeight() ) );
             setPaint( KNOB_NORMAL_COLOR );
             setStroke( KNOB_STROKE );
             setStrokePaint( KNOB_STROKE_COLOR );
