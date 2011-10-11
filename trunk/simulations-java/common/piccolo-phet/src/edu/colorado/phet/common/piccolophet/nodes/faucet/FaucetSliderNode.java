@@ -21,16 +21,16 @@ public class FaucetSliderNode extends PNode {
     /**
      * Creates a slider control to be shown on the faucet to control the flow rate
      *
-     * @param allowed                    flag to indicate if more water can be added with this control, used to zero the control
+     * @param enabled                    flag to indicate if more water can be added with this control, used to zero the control
      * @param flowRate                   the rate of flow, between 0 and 1
      * @param userHasToHoldTheSliderKnob flag to indicate whether the user has to hold down the knob to maintain a flow rate, and if the knob will snap back to zero if the user lets go
      */
-    public FaucetSliderNode( final ObservableProperty<Boolean> allowed, final Property<Double> flowRate, final boolean userHasToHoldTheSliderKnob ) {
+    public FaucetSliderNode( final ObservableProperty<Boolean> enabled, final Property<Double> flowRate, final boolean userHasToHoldTheSliderKnob ) {
 
         //Wire up 2-way communication with the Property
         final Property<Double> sliderProperty = new Property<Double>( flowRate.get() ) {
             @Override public void set( Double value ) {
-                if ( allowed.get() ) {
+                if ( enabled.get() ) {
                     super.set( value );
                 }
                 else {
@@ -40,7 +40,7 @@ public class FaucetSliderNode extends PNode {
         };
         sliderProperty.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                if ( allowed.get() ) {
+                if ( enabled.get() ) {
                     flowRate.set( value );
                 }
                 else {
@@ -53,7 +53,7 @@ public class FaucetSliderNode extends PNode {
                 sliderProperty.set( value );
             }
         } );
-        final SliderNode sliderNode = new HSliderNode( 0, 1, sliderProperty, allowed );
+        final SliderNode sliderNode = new HSliderNode( 0, 1, sliderProperty, enabled );
 
         //Fix the size so it will fit into the specified image dimensions
         double scale = 85.0 / sliderNode.getFullBounds().getWidth();
@@ -61,7 +61,7 @@ public class FaucetSliderNode extends PNode {
 
         //The two styles for user input are
         // a) the user has to hold the slider knob or it will snap back to zero
-        // b) the user can put the slider at a value, then let go and it will retain that value (until no more water is allowed)
+        // b) the user can put the slider at a value, then let go and it will retain that value (until no more water is enabled)
 
         final VoidFunction0 snapToZero = new VoidFunction0() {
             public void apply() {
@@ -79,7 +79,7 @@ public class FaucetSliderNode extends PNode {
             } );
         }
         else {
-            //When no more water is allowed, snap the slider back to zero
+            //When no more water is enabled, snap the slider back to zero
             final VoidFunction1<Boolean> moveSliderToZero = new VoidFunction1<Boolean>() {
                 public void apply( Boolean allowed ) {
                     if ( !allowed ) {
@@ -87,12 +87,12 @@ public class FaucetSliderNode extends PNode {
                     }
                 }
             };
-            allowed.addObserver( moveSliderToZero );
+            enabled.addObserver( moveSliderToZero );
 
-            //If no more fluid is allowed when the user lets go of the slider, snap it back to zero
+            //If no more fluid is enabled when the user lets go of the slider, snap it back to zero
             sliderNode.addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
-                    moveSliderToZero.apply( allowed.get() );
+                    moveSliderToZero.apply( enabled.get() );
                 }
             } );
         }

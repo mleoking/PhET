@@ -45,7 +45,7 @@ public class FaucetNode extends PNode {
             final Property<Double> flowRate,
 
             //true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
-            final ObservableProperty<Boolean> allowed,
+            final ObservableProperty<Boolean> enabled,
 
             //Length of the faucet input pipe in pixels
             final double faucetLength,
@@ -54,7 +54,7 @@ public class FaucetNode extends PNode {
             boolean userHasToHoldTheSliderKnob ) {
 
         //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
-        faucetSliderNode = new FaucetSliderNode( allowed, flowRate, userHasToHoldTheSliderKnob ) {{
+        faucetSliderNode = new FaucetSliderNode( enabled, flowRate, userHasToHoldTheSliderKnob ) {{
             setOffset( 6, 2.5 );
         }};
 
