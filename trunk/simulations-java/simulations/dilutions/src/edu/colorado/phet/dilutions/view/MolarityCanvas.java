@@ -35,7 +35,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
         }};
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BEAKER_HEIGHT ), model.solution, model.getConcentrationRange() );
         SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( new PDimension( 5, BEAKER_HEIGHT ), model.solution.soluteAmount, model.getSoluteAmountRange() );
-        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( new PDimension( 5, BEAKER_HEIGHT ), model.solution.volume, model.getSolutionVolumeRange() );
+        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( new PDimension( 5, 0.8 * BEAKER_HEIGHT ), model.solution.volume, model.getSolutionVolumeRange() );
 
         // rendering order
         {

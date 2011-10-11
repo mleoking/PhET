@@ -76,8 +76,8 @@ public abstract class DilutionsSliderNode extends PhetPNode {
                 modelValue.set( value );
             }
         } );
-        RangeValueNode maxNode = new RangeValueNode( range.getMax(), valueFormat );
-        RangeValueNode minNode = new RangeValueNode( range.getMin(), valueFormat );
+        RangeValueNode maxNode = new RangeValueNode( range.getMax(), valueFormat, units );
+        RangeValueNode minNode = new RangeValueNode( range.getMin(), valueFormat, units );
 
         // rendering order
         {
@@ -184,10 +184,12 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     private static class RangeValueNode extends PComposite {
 
         private final NumberFormat format;
+        private final String units;
         private final PText textNode;
 
-        public RangeValueNode( double initialValue, NumberFormat format ) {
+        public RangeValueNode( double initialValue, NumberFormat format, String units ) {
             this.format = format;
+            this.units = units;
             textNode = new PText() {{
                 setFont( new PhetFont( 14 ) );
             }};
@@ -198,7 +200,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         // Converts concentration value to a string with units, with special treatment of zero.
         public void setValue( double value ) {
             String valueString = ( value == 0 ) ? "0" : format.format( value );
-            textNode.setText( MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, valueString, Strings.UNITS_MOLARITY ) );
+            textNode.setText( MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, valueString, units ) );
         }
     }
 }
