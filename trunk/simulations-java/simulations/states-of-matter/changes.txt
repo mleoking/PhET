@@ -1,3 +1,5 @@
+# 1.08.04 (57476) Oct 11, 2011
+10/11/11 Deploying a version where the "Return Lid" feature is somewhat better behaved.
 Modified the Return Lid feature to make put the remaining particles into the gaseous state regardless of their current energy.
 # 1.08.03 (57473) Oct 11, 2011
 10/11/11 Deploying to dev for interviews and feedback.
