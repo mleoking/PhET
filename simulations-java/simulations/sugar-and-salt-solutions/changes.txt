@@ -1,3 +1,4 @@
+# 0.00.130 (57448) Oct 11, 2011
 Water tab: Fixed: Shouldn't be able to drag in sugar/salt when the sim is paused
 Water tab: Fixed: Sim doesn't un-pause on reset all
 Micro tab: Fixed: The evaporation slider should be disabled when the sim is paused
