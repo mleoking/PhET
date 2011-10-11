@@ -65,10 +65,12 @@ public class MassView2 extends Sprite{
     public function drawArrows():void{
         var arrows1:TwoHeadedArrow = new TwoHeadedArrow();
         var arrows2:TwoHeadedArrow = new TwoHeadedArrow();
+        arrows1.setArrowDimensions( 10, 20, 4, 50 );
+        arrows2.setArrowDimensions( 10, 20, 4, 50 );
         arrows1.setRegistrationPointAtCenter( true );
         arrows2.setRegistrationPointAtCenter( true );
-        arrows1.scaleX = 2;
-        arrows2.scaleX = 2;
+        //arrows1.scaleX = 2;
+        //arrows2.scaleX = 2;
         arrows1.rotation = 45;
         arrows2.rotation = -45;
         this.arrows.addChild( arrows1 );
