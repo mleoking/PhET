@@ -1,3 +1,4 @@
+Micro tab: Disable faucet sliders when sim is paused so the user can't try to add water while the sim is paused
 # 0.00.128 (57395) Oct 7, 2011
 Water tab: Make it so you can't zoom in and out on the sucrose 3d, but you can still click left to rotate
 Water tab: Made symbols for H partial charges about 1/2 the size of the O partial charges
