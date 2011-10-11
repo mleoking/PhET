@@ -7,10 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="piccolo-phet" exported="" />
-    <orderEntry type="module" module-name="jme3" exported="" />
-    <orderEntry type="module" module-name="apple" />
-    <orderEntry type="module" module-name="poly2tri-core" />
+    <orderEntry type="module" module-name="slf4j" />
   </component>
 </module>
 
