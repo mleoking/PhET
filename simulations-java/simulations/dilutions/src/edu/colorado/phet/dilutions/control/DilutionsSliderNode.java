@@ -54,8 +54,8 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     // knob
     private static final PDimension KNOB_SIZE = new PDimension( 30, 8 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
-    private static final Color KNOB_NORMAL_COLOR = Color.BLUE;//XXX
-    private static final Color KNOB_HIGHLIGHT_COLOR = Color.YELLOW; //XXX
+    private static final Color KNOB_NORMAL_COLOR = new Color( 89, 156, 212 );
+    private static final Color KNOB_HIGHLIGHT_COLOR = new Color( 214, 255, 255 );
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
 
     private final DoubleRange range;
