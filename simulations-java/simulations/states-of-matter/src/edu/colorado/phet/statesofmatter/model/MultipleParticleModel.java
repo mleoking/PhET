@@ -173,7 +173,6 @@ public class MultipleParticleModel implements Resettable {
     private int m_tempAdjustTickCounter;
     private int m_currentMolecule;
     private double m_particleDiameter;
-    private double m_pressure;
     private int m_thermostatType;
     private int m_heightChangeCounter;
     private double m_minModelTemperature;
@@ -598,7 +597,6 @@ public class MultipleParticleModel implements Resettable {
     public void setEpsilon( double epsilon ) {
         if ( m_currentMolecule == StatesOfMatterConstants.USER_DEFINED_MOLECULE ) {
             if ( m_moleculeForceAndMotionCalculator != null ) {
-
                 if ( epsilon < MIN_ADJUSTABLE_EPSILON ) {
                     epsilon = MIN_ADJUSTABLE_EPSILON;
                 }
@@ -916,9 +914,6 @@ public class MultipleParticleModel implements Resettable {
                 m_particleContainerHeight += MAX_PER_TICK_CONTAINER_EXPANSION;
                 notifyContainerSizeChanged();
             }
-
-            // Decrease the pressure quickly as the particles escape.
-            m_pressure = m_pressure * 0.85;
         }
 
         // Record the pressure to see if it changes.
@@ -933,7 +928,7 @@ public class MultipleParticleModel implements Resettable {
 
         // Sync up the positions of the normalized particles (the molecule data
         // set) with the particles being monitored by the view (the model data
-        // set);
+        // set).
         syncParticlePositions();
 
         // If the pressure changed, notify the listeners.
