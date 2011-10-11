@@ -347,9 +347,6 @@ public class MultipleParticleModel implements Resettable {
             return;
         }
 
-        System.out.println( "-----------------------" );
-        System.out.println( "m_moleculeForceAndMotionCalculator.getTemperature before particle removal: " + m_moleculeForceAndMotionCalculator.getTemperature() );
-
         // Remove any particles that are outside of the container.  We work
         // with the normalized particles for this.
         int firstOutsideMoleculeIndex;
@@ -387,11 +384,7 @@ public class MultipleParticleModel implements Resettable {
         // because otherwise the energy that was lost when the particles
         // outside of the container were removed will get transferred to the
         // remaining particles, which causes them to suddenly speed up.
-        double temperature = m_moleculeForceAndMotionCalculator.getTemperature();
-        m_isoKineticThermostat.setTargetTemperature( temperature );
-        m_andersenThermostat.setTargetTemperature( temperature );
-
-        System.out.println( "m_moleculeForceAndMotionCalculator.getTemperature after particle removal: " + m_moleculeForceAndMotionCalculator.getTemperature() );
+        setTemperature( m_moleculeForceAndMotionCalculator.getTemperature() );
 
         // Set the container to be unexploded.
         setContainerExploded( false );
@@ -711,7 +704,6 @@ public class MultipleParticleModel implements Resettable {
             Point2D moleculeCenterOfMassPosition = new Point2D.Double( injectionPointX, injectionPointY );
             Vector2D moleculeVelocity = new Vector2D( xVel, yVel );
             double moleculeRotationRate = ( m_rand.nextDouble() - 0.5 ) * ( Math.PI / 2 );
-            ;
             Point2D[] atomPositions = new Point2D[atomsPerMolecule];
             for ( int i = 0; i < atomsPerMolecule; i++ ) {
                 atomPositions[i] = new Point2D.Double();
@@ -743,7 +735,6 @@ public class MultipleParticleModel implements Resettable {
                         break;
                 }
                 m_particles.add( particle );
-                syncParticlePositions();
                 notifyParticleAdded( particle );
             }
             else if ( m_moleculeDataSet.getAtomsPerMolecule() == 2 ) {
