@@ -117,6 +117,9 @@ public class ParticleContainerNode extends PhetPNode {
         m_model.addListener( new MultipleParticleModel.Adapter() {
             public void particleAdded( StatesOfMatterAtom particle ) {
                 if ( particle instanceof HydrogenAtom ) {
+                    // Hydrogen atoms go on a lower layer so that water looks
+                    // good.  Note there there are two types of hydrogen atoms,
+                    // so some go on top.
                     m_lowerParticleLayer.addChild( new ParticleNode( particle, m_mvt ) );
                 }
                 else {
