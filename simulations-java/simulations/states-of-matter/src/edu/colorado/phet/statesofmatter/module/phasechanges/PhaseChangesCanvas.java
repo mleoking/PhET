@@ -174,11 +174,13 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         // Add the button for returning the lid to the container once it has
         // been blown off.
         final TextButtonNode returnLidButton = new TextButtonNode( "Return Lid", new PhetFont( 18 ), Color.YELLOW ) {{
+
             // Scale and position the button.  The values used here were
             // empirically determined, adjust as needed for optimal look.
             scale( 30 );
-            setOffset( resetAllButton.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
-                       m_particleContainer.getFullBoundsReference().getMaxY() - 5000 );
+            setOffset( -getFullBoundsReference().getWidth() - 500, -8000 );
+
+            // Tell the model to return the lid when this button is pressed.
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     multipleParticleModel.returnLid();
