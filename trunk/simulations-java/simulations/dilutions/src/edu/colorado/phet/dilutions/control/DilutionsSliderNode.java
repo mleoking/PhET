@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -58,14 +59,14 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     private static final Color KNOB_HIGHLIGHT_COLOR = new Color( 214, 255, 255 );
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
 
-    private final DoubleRange range;
+    private final LinearFunction function;
     private final ValueNode valueNode;
     private final TrackNode trackNode;
     private final ThumbNode thumbNode;
 
     public DilutionsSliderNode( String title, PDimension trackSize, final Property<Double> modelValue, NumberFormat valueFormat, String units, DoubleRange range ) {
 
-        this.range = range;
+        this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
         // nodes
         TitleNode titleNode = new TitleNode( title );
@@ -119,9 +120,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     private void updateNode( double value ) {
 
         // knob location
-        double x = thumbNode.getXOffset();
-        double y = trackNode.getYOffset() + trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - value ) / range.getLength() );
-        thumbNode.setOffset( x, y );
+        thumbNode.setOffset( thumbNode.getXOffset(), function.evaluate( value ) );
 
         // value centered above track
         valueNode.setValue( value );
