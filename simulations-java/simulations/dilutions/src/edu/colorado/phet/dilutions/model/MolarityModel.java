@@ -23,13 +23,13 @@ import edu.colorado.phet.dilutions.model.Solute.PotassiumPermanganate;
 public class MolarityModel implements Resettable {
 
     public static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 );
-    public static final DoubleRange VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 );
+    public static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 );
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Solution solution;
 
     public MolarityModel() {
-        this( SOLUTE_AMOUNT_RANGE.getDefault(), VOLUME_RANGE.getDefault() );
+        this( SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
     }
 
     private MolarityModel( double soluteAmount, double solutionVolume ) {
@@ -46,7 +46,7 @@ public class MolarityModel implements Resettable {
             add( new PotassiumPermanganate() );
         }};
 
-        this.solution = new Solution( solutes.get( 0 ), SOLUTE_AMOUNT_RANGE.getDefault(), VOLUME_RANGE.getDefault() );
+        this.solution = new Solution( solutes.get( 0 ), SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
     }
 
     public ArrayList<Solute> getSolutes() {
@@ -57,13 +57,13 @@ public class MolarityModel implements Resettable {
         return SOLUTE_AMOUNT_RANGE;
     }
 
-    public DoubleRange getVolumeRange() {
-        return VOLUME_RANGE;
+    public DoubleRange getSolutionVolumeRange() {
+        return SOLUTION_VOLUME_RANGE;
     }
 
     public DoubleRange getConcentrationRange() {
-        assert ( VOLUME_RANGE.getMin() != 0 && VOLUME_RANGE.getMax() != 0 );
-        return new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / VOLUME_RANGE.getMax(), SOLUTE_AMOUNT_RANGE.getMax() / VOLUME_RANGE.getMin() );
+        assert ( SOLUTION_VOLUME_RANGE.getMin() != 0 && SOLUTION_VOLUME_RANGE.getMax() != 0 );
+        return new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / SOLUTION_VOLUME_RANGE.getMax(), SOLUTE_AMOUNT_RANGE.getMax() / SOLUTION_VOLUME_RANGE.getMin() );
     }
 
     public void reset() {
