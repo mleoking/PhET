@@ -30,7 +30,7 @@ public class Solution implements Resettable {
 
         RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
-                concentration.set( getSoluteAmount() / getVolume() ); // M = mol/L
+                concentration.set( Math.min( getSoluteMaxConcentration(), getSoluteAmount() / getVolume() ) ); // M = mol/L
                 precipitateAmount.set( Math.max( 0, getVolume() * ( getConcentration() - getSoluteMaxConcentration() ) ) );
             }
         };
