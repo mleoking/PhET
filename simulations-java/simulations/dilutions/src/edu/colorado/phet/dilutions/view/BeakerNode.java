@@ -4,12 +4,14 @@ package edu.colorado.phet.dilutions.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.model.Solution;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -31,6 +33,7 @@ public class BeakerNode extends PComposite {
     private final PNode glassNode;
     private final PPath solutionNode;
     private final PText labelNode;
+    private final PText precipitateNode;
 
     public BeakerNode( PDimension beakerSize, Solution solution, DoubleRange volumeRange, DoubleRange concentrationRange ) {
 
@@ -52,12 +55,16 @@ public class BeakerNode extends PComposite {
         labelNode = new PText() {{
             setFont( new PhetFont( Font.BOLD, 20 ) );
         }};
+        precipitateNode = new PText() {{
+            setFont( new PhetFont( 16 ) );
+        }};
 
         // rendering order
         {
             addChild( solutionNode );
             addChild( glassNode );
             addChild( labelNode );
+            addChild( precipitateNode );
         }
 
         SimpleObserver observer = new SimpleObserver() {
@@ -66,6 +73,7 @@ public class BeakerNode extends PComposite {
             }
         };
         solution.addConcentrationObserver( observer );
+        solution.addPrecipitateAmountObserver( observer );
         solution.solute.addObserver( observer );
         solution.volume.addObserver( observer );
     }
@@ -84,5 +92,11 @@ public class BeakerNode extends PComposite {
         // update amount of stuff in the beaker, based on solution volume
         double height = volumeFunction.evaluate( solution.volume.get() );
         solutionNode.setPathTo( new Rectangle2D.Double( 0, beakerSize.getHeight() - height, beakerSize.getWidth(), height ) );
+
+        // update precipitate
+        double precipitateAmount = solution.getPrecipitateAmount();
+        precipitateNode.setText( "precipitate: " + new DecimalFormat( "0.000" ).format( precipitateAmount ) + " " + Strings.UNITS_MOLES ); //XXX
+        precipitateNode.setOffset( glassNode.getFullBoundsReference().getCenterX() - ( precipitateNode.getFullBoundsReference().getWidth() / 2 ),
+                                   glassNode.getFullBoundsReference().getMaxY() - precipitateNode.getFullBoundsReference().getHeight() - 5 );
     }
 }

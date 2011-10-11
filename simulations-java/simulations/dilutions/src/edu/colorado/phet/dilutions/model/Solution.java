@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Simple model of a solution
@@ -31,7 +30,7 @@ public class Solution implements Resettable {
         RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
                 concentration.set( Math.min( getSoluteMaxConcentration(), getSoluteAmount() / getVolume() ) ); // M = mol/L
-                precipitateAmount.set( Math.max( 0, getVolume() * ( getConcentration() - getSoluteMaxConcentration() ) ) );
+                precipitateAmount.set( Math.max( 0, getVolume() * ( ( getSoluteAmount() / getVolume() ) - getSoluteMaxConcentration() ) ) );
             }
         };
         observer.observe( this.solute, this.soluteAmount, this.volume );
@@ -61,7 +60,7 @@ public class Solution implements Resettable {
         return precipitateAmount.get();
     }
 
-    public void addPrecipitateAmountObserver( VoidFunction1<Double> observer ) {
+    public void addPrecipitateAmountObserver( SimpleObserver observer ) {
         precipitateAmount.addObserver( observer );
     }
 
