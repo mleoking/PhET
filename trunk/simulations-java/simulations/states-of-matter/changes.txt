@@ -1,3 +1,5 @@
+Added strokes (black lines) around the atoms/molecules on the control panel to make them more visible.
+Added the ability to return the lid to the container after it has been blown off.
 Added a "hint" to the finger node to make it more obvious that it can be moved.  This hint is only shown when the mouse is over the finger.
 Darkened the control panels a little bit so that the recently added molecules would be a bit more visible.
 Added images of the atoms/molecules
