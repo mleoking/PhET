@@ -110,7 +110,7 @@ public class MultipleParticleModel implements Resettable {
 
     // Constant for deciding if a particle should be considered near to the
     // edges of the container.
-    private static final double PARTICLE_EDGE_PROXIMITRY_RANGE = 2.5;
+    private static final double PARTICLE_EDGE_PROXIMITY_RANGE = 2.5;
 
     // Values used for converting from model temperature to the temperature
     // for a given particle.
@@ -157,7 +157,7 @@ public class MultipleParticleModel implements Resettable {
     private double m_targetContainerHeight;
     private double m_minAllowableContainerHeight;
     private final List m_particles = new ArrayList();
-    private boolean m_lidBlownOff = false;
+    private boolean m_isExploded = false;
     ConstantDtClock m_clock;
     private ArrayList _listeners = new ArrayList();
 
@@ -312,16 +312,74 @@ public class MultipleParticleModel implements Resettable {
     }
 
     public boolean getContainerExploded() {
-        return m_lidBlownOff;
+        return m_isExploded;
+    }
+
+    /**
+     * Cause the lid to blow off the top of the container.
+     */
+    public void explodeContainer() {
+        setContainerExploded( true );
     }
 
     /**
      * This method is used for an external entity to notify the model that it
      * should explode.
+     *
+     * @param isExploded
      */
-    public void setContainerExploded() {
-        m_lidBlownOff = true;
-        notifyContainerExploded();
+    private void setContainerExploded( boolean isExploded ) {
+        if ( m_isExploded != isExploded ) {
+            m_isExploded = isExploded;
+            notifyContainerExplodedStateChanged( m_isExploded );
+            if ( !m_isExploded ) {
+                resetContainerSize();
+            }
+        }
+    }
+
+    /**
+     * Return the lid to the container.  It only makes sense to call this after
+     * the container has exploded, otherwise it has no effect.
+     */
+    public void returnLid() {
+        if ( !m_isExploded ) {
+            System.out.println( getClass().getName() + " - Warning: Ignoring attempt to return lid when container hadn't exploded." );
+            return;
+        }
+
+        // Remove any particles that are outside of the container.  We work
+        // with the normalized particles for this.
+        int firstOutsideMoleculeIndex;
+        do {
+            for ( firstOutsideMoleculeIndex = 0; firstOutsideMoleculeIndex < m_moleculeDataSet.getNumberOfMolecules(); firstOutsideMoleculeIndex++ ) {
+                Point2D pos = m_moleculeDataSet.getMoleculeCenterOfMassPositions()[firstOutsideMoleculeIndex];
+                if ( pos.getX() < 0 || pos.getX() > m_normalizedContainerWidth || pos.getY() < 0 ||
+                     pos.getY() > StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT / m_particleDiameter ) {
+                    // This particle is outside of the container.
+                    break;
+                }
+            }
+            if ( firstOutsideMoleculeIndex < m_moleculeDataSet.getNumberOfMolecules() ) {
+                // Remove the particle that was found.
+                m_moleculeDataSet.removeMolecule( firstOutsideMoleculeIndex );
+            }
+        }
+        while ( firstOutsideMoleculeIndex != m_moleculeDataSet.getNumberOfMolecules() );
+
+        // Remove enough of the non-normalized particles so that we have the
+        // same number as the normalized.  They don't have to be the same
+        // particles since the normalized and non-normalized particles are
+        // explicitly synced up elsewhere.
+        ArrayList copyOfParticles = new ArrayList( m_particles );
+        for ( int i = 0; i < copyOfParticles.size() - m_moleculeDataSet.getNumberOfAtoms(); i++ ) {
+            StatesOfMatterAtom particle = (StatesOfMatterAtom) copyOfParticles.get( i );
+            m_particles.remove( particle );
+            particle.removedFromModel();
+        }
+
+        // Set the container to be unexploded.
+        setContainerExploded( false );
     }
 
     /**
@@ -628,7 +686,7 @@ public class MultipleParticleModel implements Resettable {
         // Make sure that it is okay to inject a new molecule.
         if ( ( m_moleculeDataSet.getNumberOfRemainingSlots() > 1 ) &&
              ( m_normalizedContainerHeight > injectionPointY * 1.05 ) &&
-             ( !m_lidBlownOff ) ) {
+             ( !m_isExploded ) ) {
 
             double angle = Math.PI + ( ( m_rand.nextDouble() - 0.5 ) * MAX_INJECTED_MOLECULE_ANGLE );
             double velocity = MIN_INJECTED_MOLECULE_VELOCITY + ( m_rand.nextDouble() *
@@ -791,11 +849,11 @@ public class MultipleParticleModel implements Resettable {
 
     private void initializeModelParameters() {
         // Initialize the system parameters.
-        m_lidBlownOff = false;
         m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
         m_heatingCoolingAmount = 0;
         m_tempAdjustTickCounter = 0;
         m_temperatureSetPoint = INITIAL_TEMPERATURE;
+        setContainerExploded( false );
     }
 
     /**
@@ -819,7 +877,7 @@ public class MultipleParticleModel implements Resettable {
      */
     private void handleClockTicked( ClockEvent clockEvent ) {
 
-        if ( !m_lidBlownOff ) {
+        if ( !m_isExploded ) {
             // Adjust the particle container height if needed.
             if ( m_targetContainerHeight != m_particleContainerHeight ) {
                 m_heightChangeCounter = CONTAINER_SIZE_CHANGE_RESET_COUNT;
@@ -925,7 +983,7 @@ public class MultipleParticleModel implements Resettable {
      */
     private void runThermostat() {
 
-        if ( m_lidBlownOff ) {
+        if ( m_isExploded ) {
             // Don't bother to run any thermostat if the lid is blown off -
             // just let those little particles run free!
             return;
@@ -1225,9 +1283,9 @@ public class MultipleParticleModel implements Resettable {
         }
     }
 
-    private void notifyContainerExploded() {
+    private void notifyContainerExplodedStateChanged( boolean containerExploded ) {
         for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (Listener) _listeners.get( i ) ).containerExploded();
+            ( (Listener) _listeners.get( i ) ).containerExplodedStateChanged( containerExploded );
         }
     }
 
@@ -1247,6 +1305,9 @@ public class MultipleParticleModel implements Resettable {
         for ( int i = 0; i < m_moleculeDataSet.getNumberOfAtoms(); i++ ) {
             ( (StatesOfMatterAtom) m_particles.get( i ) ).setPosition( atomPositions[i].getX() * positionMultiplier,
                                                                        atomPositions[i].getY() * positionMultiplier );
+        }
+        if ( m_moleculeDataSet.getNumberOfAtoms() != m_particles.size() ) {
+            System.out.println( "Inconsistent number of normalized versus non-normalized particles." );
         }
     }
 
@@ -1403,8 +1464,10 @@ public class MultipleParticleModel implements Resettable {
 
         /**
          * Inform listeners that the container has exploded.
+         *
+         * @param containerExploded
          */
-        public void containerExploded();
+        public void containerExplodedStateChanged( boolean containerExploded );
 
         /**
          * Inform listeners that the interaction potential has changed.
@@ -1432,7 +1495,7 @@ public class MultipleParticleModel implements Resettable {
         public void moleculeTypeChanged() {
         }
 
-        public void containerExploded() {
+        public void containerExplodedStateChanged( boolean containerExploded ) {
         }
 
         public void interactionStrengthChanged() {
@@ -1449,7 +1512,7 @@ public class MultipleParticleModel implements Resettable {
     private boolean particlesNearTop() {
 
         Point2D[] moleculesPositions = m_moleculeDataSet.getMoleculeCenterOfMassPositions();
-        double threshold = m_normalizedContainerHeight - PARTICLE_EDGE_PROXIMITRY_RANGE;
+        double threshold = m_normalizedContainerHeight - PARTICLE_EDGE_PROXIMITY_RANGE;
         boolean particlesNearTop = false;
 
         for ( int i = 0; i < m_moleculeDataSet.getNumberOfMolecules(); i++ ) {

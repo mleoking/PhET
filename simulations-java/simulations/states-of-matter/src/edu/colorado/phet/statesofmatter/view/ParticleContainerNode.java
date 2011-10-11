@@ -137,7 +137,7 @@ public class ParticleContainerNode extends PhetPNode {
                 }
             }
 
-            public void containerExploded() {
+            public void containerExplodedStateChanged( boolean containerExploded ) {
                 m_containerHeightAtExplosion = m_model.getParticleContainerHeight();
                 m_rotationAmount = Math.PI / 100 + ( m_rand.nextDouble() * Math.PI / 50 );
                 if ( m_rand.nextBoolean() ) {

@@ -126,7 +126,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 updatePhaseDiagram();
             }
 
-            public void containerExploded() {
+            public void containerExplodedStateChanged( boolean containerExploded ) {
                 updatePhaseDiagram();
             }
 

@@ -78,7 +78,7 @@ public class StoveNode extends PNode {
                     m_heat.set( 0.0 );
                 }
 
-                public void containerExploded() {
+                public void containerExplodedStateChanged( boolean containerExploded ) {
                     m_heat.set( 0.0 );
                 }
             } );

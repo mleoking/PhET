@@ -150,7 +150,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
                     // The particles are energetic enough to end up outside
                     // the container, so consider it to be exploded (if it
                     // isn't already).
-                    m_model.setContainerExploded();
+                    m_model.explodeContainer();
                 }
                 yPos = minDistance;
             }
@@ -274,7 +274,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
         if ( ( m_pressure > EXPLOSION_PRESSURE ) && !m_model.getContainerExploded() ) {
             // The pressure has reached the point where the container should
             // explode, so blow 'er up.
-            m_model.setContainerExploded();
+            m_model.explodeContainer();
         }
     }
 
