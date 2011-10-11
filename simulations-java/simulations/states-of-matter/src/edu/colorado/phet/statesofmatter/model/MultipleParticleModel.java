@@ -61,9 +61,6 @@ public class MultipleParticleModel implements Resettable {
     // Class Data
     //----------------------------------------------------------------------------
 
-    // Minimum container height fraction.
-    public static final double MIN_CONTAINER_HEIGHT_FRACTION = 0.1;
-
     // The internal model temperature values for the various states.
     public static final double SOLID_TEMPERATURE = 0.15;
     public static final double SLUSH_TEMPERATURE = 0.33;
@@ -78,7 +75,7 @@ public class MultipleParticleModel implements Resettable {
     private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.045;
     public static final double MAX_GRAVITATIONAL_ACCEL = 0.4;
     private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.025;
-    private static final int TICKS_PER_TEMP_ADJUSTEMENT = 10;
+    private static final int TICKS_PER_TEMP_ADJUSTMENT = 10;
     private static final double MIN_INJECTED_MOLECULE_VELOCITY = 0.5;
     private static final double MAX_INJECTED_MOLECULE_VELOCITY = 2.0;
     private static final double MAX_INJECTED_MOLECULE_ANGLE = Math.PI * 0.8;
@@ -888,7 +885,7 @@ public class MultipleParticleModel implements Resettable {
 
         // Adjust the temperature if needed.
         m_tempAdjustTickCounter++;
-        if ( ( m_tempAdjustTickCounter > TICKS_PER_TEMP_ADJUSTEMENT ) && m_heatingCoolingAmount != 0 ) {
+        if ( ( m_tempAdjustTickCounter > TICKS_PER_TEMP_ADJUSTMENT ) && m_heatingCoolingAmount != 0 ) {
             m_tempAdjustTickCounter = 0;
             double newTemperature = m_temperatureSetPoint + m_heatingCoolingAmount;
             if ( newTemperature >= MAX_TEMPERATURE ) {
