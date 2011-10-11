@@ -8,6 +8,7 @@ DESIGN
 - better looking sliders
 
 HIGH
+- bug: amount of solution in beaker doesn't change if volume slider is changed when solution is saturated
 - show precipitate when solution is saturated
 - editable text fields above sliders
 - show/hide values
