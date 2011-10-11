@@ -71,6 +71,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/lasers/lasers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/lasers/lasers.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/licensing/licensing.iml" filepath="$PROJECT_DIR$/util/licensing/licensing.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/localization-strings/localization-strings.iml" filepath="$PROJECT_DIR$/util/localization-strings/localization-strings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/log4j/log4j.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/log4j/log4j.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/maze-game/maze-game.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/maze-game/maze-game.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" filepath="$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" />
@@ -102,6 +103,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/plate-tectonics/plate-tectonics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/plate-tectonics/plate-tectonics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/poly2tri-core/poly2tri-core.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/poly2tri-core/poly2tri-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" filepath="$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/quantum-tunneling/quantum-tunneling.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/quantum-tunneling/quantum-tunneling.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/quantum-wave-interference/quantum-wave-interference.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/quantum-wave-interference/quantum-wave-interference.iml" />
@@ -123,6 +125,7 @@
       <module fileurl="file://$PROJECT_DIR$/util/simsharing/simsharing.iml" filepath="$PROJECT_DIR$/util/simsharing/simsharing.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/simsharing-cassandra/simsharing-cassandra.iml" filepath="$PROJECT_DIR$/util/simsharing-cassandra/simsharing-cassandra.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/simsharing-test-sim/simsharing-test-sim.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/simsharing-test-sim/simsharing-test-sim.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/slf4j/slf4j.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/slf4j/slf4j.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sound/sound.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sound/sound.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/spline/spline.iml" filepath="$PROJECT_DIR$/simulations-java/common/spline/spline.iml" />
