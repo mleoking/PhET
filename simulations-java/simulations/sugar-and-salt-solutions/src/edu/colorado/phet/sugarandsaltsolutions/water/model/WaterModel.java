@@ -451,6 +451,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         showSugarAtoms.reset();
         showWaterCharges.reset();
         showSugarPartialCharge.reset();
+        clockRunning.reset();
     }
 
     //Set up the initial model state, used on init and after reset
