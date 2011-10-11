@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -19,14 +20,14 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShake
  * @author Sam Reid
  */
 public class EvaporationSlider extends WhiteControlPanelNode {
-    public EvaporationSlider( final SettableProperty<Double> evaporationRate, final DoubleProperty waterVolume ) {
+    public EvaporationSlider( final SettableProperty<Double> evaporationRate, final DoubleProperty waterVolume, ObservableProperty<Boolean> clockRunning ) {
         super( new HBox(
 
                 //Add a label
                 new PText( EVAPORATION ) {{setFont( CONTROL_FONT );}},
 
                 //Add the slider
-                new HSliderNode( 0, 100, evaporationRate, waterVolume.greaterThan( 0.0 ) ) {{
+                new HSliderNode( 0, 100, evaporationRate, waterVolume.greaterThan( 0.0 ).and( clockRunning ) ) {{
                     this.addInputEventListener( new PBasicInputEventHandler() {
                         @Override public void mouseReleased( PInputEvent event ) {
                             evaporationRate.set( 0.0 );

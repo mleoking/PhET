@@ -167,7 +167,7 @@ public abstract class BeakerAndShakerCanvas extends SugarAndSaltSolutionsCanvas 
         addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) );
 
         //Add an evaporation rate slider below the beaker
-        evaporationSlider = new EvaporationSlider( model.evaporationRate, model.waterVolume ) {{
+        evaporationSlider = new EvaporationSlider( model.evaporationRate, model.waterVolume, model.clockRunning ) {{
             Point2D point = BeakerAndShakerCanvas.this.transform.modelToView( 0, -model.beaker.getWallThickness() / 2 );
             setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }};

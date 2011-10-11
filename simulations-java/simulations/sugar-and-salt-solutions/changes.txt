@@ -1,3 +1,4 @@
+Micro tab: Fixed: the evaporation slider should be disabled when the sim is paused
 # 0.00.129 (57441) Oct 10, 2011
 Micro tab: Made periodic table dialog resizable
 Micro tab: Disable faucet sliders when sim is paused so the user can't try to add water while the sim is paused
