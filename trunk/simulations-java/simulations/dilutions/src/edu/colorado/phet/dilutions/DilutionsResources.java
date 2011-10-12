@@ -27,6 +27,7 @@ public class DilutionsResources {
         public static final String HIGH = RESOURCES.getLocalizedString( "high" );
         public static final String KOOL_AID = RESOURCES.getLocalizedString( "koolAid" );
         public static final String LOW = RESOURCES.getLocalizedString( "low" );
+        public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String MAKE_DILUTIONS = RESOURCES.getLocalizedString( "makeDilutions" );
