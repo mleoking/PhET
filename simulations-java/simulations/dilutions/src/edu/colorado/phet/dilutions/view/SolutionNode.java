@@ -73,7 +73,7 @@ public class SolutionNode extends PComposite {
     private void updateNode() {
 
         // update the color of the solution, accounting for saturation
-        LinearFunction f = new LinearFunction( 0, solution.getMaxConcentration(), 0, 1 );
+        LinearFunction f = new LinearFunction( 0, solution.getSaturatedConcentration(), 0, 1 );
         double colorScale = f.evaluate( solution.getConcentration() );
         solutionNode.setPaint( ColorUtils.interpolateRBGA( DilutionsColors.WATER_COLOR, solution.solute.get().solutionColor, colorScale ) );
 

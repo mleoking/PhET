@@ -16,7 +16,7 @@ public abstract class Solute {
 
     public final String name;
     public final String formula;
-    public final double maxConcentration;
+    public final double saturatedConcentration;
     public final Color solutionColor;
     public final Color precipitateColor;
     public final double precipitateScale; // how much to scale the precipitate particles in the view
@@ -27,10 +27,10 @@ public abstract class Solute {
         this( name, formula, maxConcentration, solutionColor, solutionColor, precipitateScale, precipitateParticlesMultiplier );
     }
 
-    public Solute( String name, String formula, double maxConcentration, Color solutionColor, Color precipitateColor, double precipitateScale, int precipitateParticlesMultiplier ) {
+    public Solute( String name, String formula, double saturatedConcentration, Color solutionColor, Color precipitateColor, double precipitateScale, int precipitateParticlesMultiplier ) {
         this.name = name;
         this.formula = formula;
-        this.maxConcentration = maxConcentration;
+        this.saturatedConcentration = saturatedConcentration;
         this.solutionColor = solutionColor;
         this.precipitateColor = precipitateColor;
         this.precipitateScale = precipitateScale;
