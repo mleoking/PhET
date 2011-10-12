@@ -7,7 +7,6 @@ import java.awt.Paint;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
@@ -213,7 +212,7 @@ public class ConcentrationDisplayNode extends PComposite {
 
         // Converts value to a string, with special treatment for "0".
         private static String valueToString( double concentration ) {
-            String valueString = ( concentration == 0 ) ? "0" : new DecimalFormat( "0.00" ).format( concentration );
+            String valueString = ( concentration == 0 ) ? "0" : VALUE_FORMAT.format( concentration );
             return MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, valueString, Strings.UNITS_MOLARITY );
         }
     }
