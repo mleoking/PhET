@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions.control;
 
+import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -14,7 +15,9 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.model.Solute;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Combo box for selecting a solute.
@@ -60,12 +63,35 @@ public class SoluteControlNode extends PhetPNode {
         public SoluteComboBoxNode( ArrayList<Solute> solute, Solute selectedSolute ) {
             super( solute, selectedSolute, new Function1<Solute, PNode>() {
                 public PNode apply( final Solute solute ) {
-                    return new HTMLNode() {{
-                        setHTML( solute.formula.equals( solute.name ) ? solute.formula : MessageFormat.format( "{0}: {1}", solute.formula, solute.name ) );
-                        setFont( new PhetFont( 16 ) );
-                    }};
+                    return new SoluteItemNode( solute );
                 }
             } );
+        }
+    }
+
+    // A solute item in the combo box
+    private static class SoluteItemNode extends PComposite {
+        public SoluteItemNode( final Solute solute ) {
+
+            // solute color chip
+            PPath colorNode = new PPath( new Rectangle2D.Double( 0, 0, 20, 20 ) ) {{
+                setPaint( solute.solutionColor );
+                setStroke( null );
+            }};
+            addChild( colorNode );
+
+            // solute label
+            HTMLNode labelNode = new HTMLNode() {{
+                setHTML( solute.formula.equals( solute.name ) ? solute.formula : MessageFormat.format( "{0}: {1}", solute.formula, solute.name ) );
+                setFont( new PhetFont( 16 ) );
+            }};
+            addChild( labelNode );
+
+            // layout
+            colorNode.setOffset( 0, Math.max( 0, ( labelNode.getFullBoundsReference().getHeight() - colorNode.getFullBoundsReference().getHeight() ) / 2 ) );
+            labelNode.setOffset( colorNode.getFullBoundsReference().getMaxX() + 5,
+                                 Math.max( 0, ( colorNode.getFullBoundsReference().getHeight() - labelNode.getFullBoundsReference().getHeight() ) / 2 ) );
+
         }
     }
 
