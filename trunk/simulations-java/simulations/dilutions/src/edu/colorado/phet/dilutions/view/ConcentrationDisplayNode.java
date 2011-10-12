@@ -4,6 +4,7 @@ package edu.colorado.phet.dilutions.view;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
@@ -38,7 +39,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class ConcentrationDisplayNode extends PComposite {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final PhetFont VALUE_FONT = new PhetFont( 16 );
     private static final PhetFont LABEL_FONT = new PhetFont( 16 );
+    private static final double TICK_LENGTH = 10;
 
     public ConcentrationDisplayNode( final PDimension barSize, final Solution solution, DoubleRange range, Property<Boolean> valuesVisible ) {
 
@@ -50,43 +53,33 @@ public class ConcentrationDisplayNode extends PComposite {
         final TitleNode titleNode = new TitleNode();
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, range, solution.getConcentration() );
-        final ConcentrationValueNode maxValueNode = new ConcentrationValueNode( range.getMax() );
-        final ConcentrationValueNode minValueNode = new ConcentrationValueNode( range.getMin() );
-        final ConcentrationQualityNode maxQualityNode = new ConcentrationQualityNode( Strings.HIGH );
-        final ConcentrationQualityNode minQualityNode = new ConcentrationQualityNode( Strings.LOW );
+        final TickMarkNode maxNode = new TickMarkNode( range.getMax(), Strings.HIGH );
+        final TickMarkNode minNode = new TickMarkNode( range.getMin(), Strings.LOW );
 
         // rendering order
         {
             addChild( titleNode );
             addChild( barNode );
-            addChild( maxValueNode );
-            addChild( minValueNode );
-            addChild( maxQualityNode );
-            addChild( minQualityNode );
+            addChild( maxNode );
+            addChild( minNode );
             addChild( pointerNode );
         }
 
         // layout
         {
-            // max labels centered above the bar
-            maxValueNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( maxValueNode.getFullBoundsReference().getWidth() / 2 ),
-                                    barNode.getFullBoundsReference().getMinY() - maxValueNode.getFullBoundsReference().getHeight() - 3 );
-            maxQualityNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( maxQualityNode.getFullBoundsReference().getWidth() / 2 ),
-                                      barNode.getFullBoundsReference().getMinY() - maxQualityNode.getFullBoundsReference().getHeight() - 3 );
-            // min labels centered below the bar
-            minValueNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( minValueNode.getFullBoundsReference().getWidth() / 2 ),
-                                    barNode.getFullBoundsReference().getMaxY() + 3 );
-            minQualityNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( minQualityNode.getFullBoundsReference().getWidth() / 2 ),
-                                      barNode.getFullBoundsReference().getMaxY() + 3 );
-            // title centered above max label
+            // max label at top of bar
+            maxNode.setOffset( 0, 0 );
+            // min label at bottom of bar
+            minNode.setOffset( 0, barSize.getHeight() );
+            // title centered above bar
             titleNode.setOffset( barNode.getFullBounds().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 Math.min( maxValueNode.getFullBoundsReference().getMinY(), maxQualityNode.getFullBoundsReference().getMinY() ) - titleNode.getFullBoundsReference().getHeight() - 3 );
+                                 -titleNode.getFullBoundsReference().getHeight() - ( maxNode.getFullBoundsReference().getHeight() / 2 ) - 3 );
         }
 
         // Pointer position and value corresponds to the solution's concentration.
         solution.addConcentrationObserver( new SimpleObserver() {
             public void update() {
-                pointerNode.setConcentration( solution.getConcentration() );
+                pointerNode.setValue( solution.getConcentration() );
             }
         } );
 
@@ -104,12 +97,16 @@ public class ConcentrationDisplayNode extends PComposite {
         valuesVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 pointerNode.setValueVisible( visible );
-                maxValueNode.setVisible( visible );
-                minValueNode.setVisible( visible );
-                maxQualityNode.setVisible( !visible );
-                minQualityNode.setVisible( !visible );
+                maxNode.setValueVisible( visible );
+                minNode.setValueVisible( visible );
             }
         } );
+    }
+
+    // Converts concentration to a string, with special treatment for "0".
+    private static String concentrationToString( double concentration ) {
+        String valueString = ( concentration == 0 ) ? "0" : new DecimalFormat( "0.00" ).format( concentration );
+        return MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, valueString, Strings.UNITS_MOLARITY );
     }
 
     private static class TitleNode extends HTMLNode {
@@ -119,38 +116,44 @@ public class ConcentrationDisplayNode extends PComposite {
         }
     }
 
-    // Vertical bar
+    // Vertical bar. Origin at upper left.
     private static class BarNode extends PPath {
         public BarNode( final PDimension size ) {
             setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
         }
     }
 
-    // Concentration values
-    private static class ConcentrationValueNode extends PComposite {
+    // Tick mark, a horizontal line with a label to the left of it.  Origin at right center to simplify layout.
+    private static final class TickMarkNode extends PComposite {
 
-        private final PText textNode;
+        private final PNode valueNode, qualityNode;
 
-        public ConcentrationValueNode( double concentration ) {
-            textNode = new PText() {{
+        public TickMarkNode( double value, String qualityLabel ) {
+
+            // nodes
+            PNode tickNode = new PPath( new Line2D.Double( -TICK_LENGTH, 0, 0, 0 ) );
+            valueNode = new PText( concentrationToString( value ) ) {{
                 setFont( LABEL_FONT );
             }};
-            addChild( textNode );
-            setValue( concentration );
+            qualityNode = new PText( qualityLabel ) {{
+                setFont( LABEL_FONT );
+            }};
+
+            // rendering order
+            addChild( tickNode );
+            addChild( valueNode );
+            addChild( qualityNode );
+
+            // layout
+            valueNode.setOffset( tickNode.getFullBoundsReference().getMinX() - valueNode.getFullBoundsReference().getWidth() - 2,
+                                 -( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+            qualityNode.setOffset( tickNode.getFullBoundsReference().getMinX() - qualityNode.getFullBoundsReference().getWidth() - 2,
+                                   -( qualityNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
-        // Converts concentration value to a string with units, with special treatment of zero.
-        public void setValue( double concentration ) {
-            String valueString = ( concentration == 0 ) ? "0" : new DecimalFormat( "0.00" ).format( concentration );
-            textNode.setText( MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, valueString, Strings.UNITS_MOLARITY ) );
-        }
-    }
-
-    // A qualitative concentration label
-    private static class ConcentrationQualityNode extends PText {
-        public ConcentrationQualityNode( String text ) {
-            super( text );
-            setFont( LABEL_FONT );
+        public void setValueVisible( boolean visible ) {
+            valueNode.setVisible( visible );
+            qualityNode.setVisible( !visible );
         }
     }
 
@@ -165,25 +168,27 @@ public class ConcentrationDisplayNode extends PComposite {
         private final PDimension barSize;
         private final LinearFunction function;
         private PNode arrowNode;
-        private final ConcentrationValueNode valueNode;
+        private final PText valueNode;
 
-        public PointerNode( PDimension barSize, DoubleRange range, double concentration ) {
+        public PointerNode( PDimension barSize, DoubleRange range, double value ) {
             this.barSize = barSize;
             this.function = new LinearFunction( range.getMin(), range.getMax(), barSize.getHeight(), 0 );
             this.arrowNode = new PNode();
-            this.valueNode = new ConcentrationValueNode( range.getMin() );
+            this.valueNode = new PText() {{
+                setFont( VALUE_FONT );
+            }};
             addChild( valueNode );
-            setConcentration( concentration );
+            setValue( value );
         }
 
         public void setArrowPaint( Paint paint ) {
             arrowNode.setPaint( paint );
         }
 
-        public void setConcentration( double concentration ) {
+        public void setValue( double value ) {
 
             // update the arrow
-            double y = function.evaluate( concentration );
+            double y = function.evaluate( value );
             Paint paint = arrowNode.getPaint();
             removeChild( arrowNode );
             arrowNode = new ArrowNode( new Point2D.Double( barSize.getWidth() + ARROW_LENGTH, y ),
@@ -193,7 +198,7 @@ public class ConcentrationDisplayNode extends PComposite {
             addChild( arrowNode );
 
             // update the value
-            valueNode.setValue( concentration );
+            valueNode.setText( concentrationToString( value ) );
             valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
                                  arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
         }
