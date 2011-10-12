@@ -98,7 +98,8 @@ public class CompositeThermometerNode extends PNode {
         private double m_valueInKelvin = 0;
         private PText m_text;
         private String m_units;
-        PPath m_foregroundNode;
+        private PPath m_foregroundNode;
+        private double m_defaultTextScale = 1;
 
         /**
          * Constructor.
@@ -107,7 +108,6 @@ public class CompositeThermometerNode extends PNode {
          * @param temperatureUnits
          */
         public DigitalReadoutNode( double width, TemperatureUnits temperatureUnits ) {
-
             double height = width / WIDTH_TO_HEIGHT_RATIO;
             PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, height / 5, height / 5 ) );
             backgroundNode.setPaint( BACKGROUND_COLOR );
@@ -122,7 +122,7 @@ public class CompositeThermometerNode extends PNode {
 
             m_text = new PText( "0" );
             m_text.setFont( new PhetFont( 12, true ) );
-            m_text.scale( m_foregroundNode.getFullBoundsReference().height * 0.8 / m_text.getFullBoundsReference().height );
+            m_defaultTextScale = m_foregroundNode.getFullBoundsReference().height * 0.8 / m_text.getFullBoundsReference().height;
             addChild( m_text );
 
             setTemperatureUnits( temperatureUnits );
@@ -175,10 +175,16 @@ public class CompositeThermometerNode extends PNode {
                 valueString += " ";
                 valueString += m_units;
             }
+            m_text.setScale( m_defaultTextScale );
             m_text.setText( valueString );
+            if ( m_text.getFullBoundsReference().width > m_foregroundNode.getFullBoundsReference().width * 0.95 ) {
+                // Scale the text to fit in the readout.
+                m_text.setScale( 1 );
+                m_text.setScale( m_foregroundNode.getFullBoundsReference().width * 0.95 / m_text.getFullBoundsReference().width );
+            }
             m_text.setOffset(
-                    getFullBoundsReference().width / 2 - m_text.getFullBoundsReference().width / 2,
-                    getFullBoundsReference().height * 0.2 );
+                    m_foregroundNode.getFullBoundsReference().getCenterX() - m_text.getFullBoundsReference().width / 2,
+                    m_foregroundNode.getFullBoundsReference().getCenterY() - m_text.getFullBoundsReference().height / 2 );
         }
     }
 }
