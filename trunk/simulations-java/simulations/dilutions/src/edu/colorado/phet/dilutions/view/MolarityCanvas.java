@@ -21,26 +21,28 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettable {
 
-    private static final double BEAKER_HEIGHT = 400; // the height of controls and displays is based on the height of the beaker
+    private static final PDimension BEAKER_SIZE = new PDimension( 300, 400 ); // the height of controls and displays is based on the height of the beaker
 
     private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
 
     public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
 
         // nodes
-        BeakerNode beakerNode = new BeakerNode( new PDimension( 300, BEAKER_HEIGHT ), model.solution, model.getSolutionVolumeRange(), model.getConcentrationRange() );
+        BeakerNode beakerNode = new BeakerNode( BEAKER_SIZE, model.solution, model.getSolutionVolumeRange(), model.getConcentrationRange() );
+        PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, BEAKER_SIZE );
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
         ShowValuesNode showValuesNode = new ShowValuesNode( valuesVisible );
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, Color.YELLOW ) {{
             setConfirmationEnabled( false );
         }};
-        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BEAKER_HEIGHT ), model.solution, model.getConcentrationRange() );
-        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( new PDimension( 5, BEAKER_HEIGHT ), model.solution.soluteAmount, model.getSoluteAmountRange() );
-        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( new PDimension( 5, 0.8 * BEAKER_HEIGHT ), model.solution.volume, model.getSolutionVolumeRange() );
+        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BEAKER_SIZE.getHeight() ), model.solution, model.getConcentrationRange() );
+        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( new PDimension( 5, BEAKER_SIZE.getHeight() ), model.solution.soluteAmount, model.getSoluteAmountRange() );
+        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( new PDimension( 5, 0.8 * BEAKER_SIZE.getHeight() ), model.solution.volume, model.getSolutionVolumeRange() );
 
         // rendering order
         {
             addChild( beakerNode );
+            addChild( precipitateNode ); //TODO should be behind beaker so that precipitate looks like it's in solution, but solution needs to be transparent
             addChild( concentrationDisplayNode );
             addChild( soluteAmountSliderNode );
             addChild( solutionVolumeSliderNode );
@@ -52,6 +54,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
         // layout
         {
             beakerNode.setOffset( 300, 200 );
+            precipitateNode.setOffset( beakerNode.getOffset() );
             soluteControlNode.setOffset( 50, 50 );
             soluteAmountSliderNode.setOffset( 100, beakerNode.getYOffset() );
             solutionVolumeSliderNode.setOffset( soluteAmountSliderNode.getFullBoundsReference().getMaxX() + 75,
