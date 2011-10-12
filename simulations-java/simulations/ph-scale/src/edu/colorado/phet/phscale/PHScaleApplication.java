@@ -16,43 +16,24 @@ import edu.colorado.phet.phscale.developer.ParticleControlsMenuItem;
  * PHScaleApplication is the main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * 
  */
 public class PHScaleApplication extends PiccoloPhetApplication {
 
     private PHScaleModule _module;
-    
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
 
-    /**
-     * Sole constructor.
-     *
-     * @param args command line arguments
-     */
-    public PHScaleApplication( PhetApplicationConfig config )
-    {
+    public PHScaleApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
 
-    //----------------------------------------------------------------------------
-    // Initialization
-    //----------------------------------------------------------------------------
-
-    /*
-     * Initializes the modules.
-     */
+    // Initializes the modules.
     private void initModules() {
         _module = new PHScaleModule();
         addModule( _module );
     }
 
-    /*
-     * Initializes the menubar.
-     */
+    // Initializes the menubar.
     private void initMenubar( String[] args ) {
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
@@ -63,19 +44,15 @@ public class PHScaleApplication extends PiccoloPhetApplication {
     public PHScaleModule getModule() {
         return _module;
     }
-    
-    //----------------------------------------------------------------------------
-    // main
-    //----------------------------------------------------------------------------
-    
+
     public static void main( final String[] args ) {
-        
+
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new PHScaleApplication( config );
             }
         };
-        
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, PHScaleConstants.PROJECT_NAME );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
