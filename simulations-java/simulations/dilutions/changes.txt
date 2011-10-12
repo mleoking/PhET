@@ -1,3 +1,4 @@
+10/12/11 create custom formatter with special handling of zero and ints
 10/12/11 add tick marks for min/max range labels on concentration display
 10/12/11 make labels less verbose on sliders and concentration display
 10/12/11 use water color from ph-scale

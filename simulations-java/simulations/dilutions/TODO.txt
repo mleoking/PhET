@@ -20,3 +20,4 @@ LOW
 - repackage
 
 MIGRATE TO COMMON
+- SmartDoubleFormat

@@ -7,12 +7,9 @@ import java.awt.Paint;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
-import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -22,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.model.Solution;
+import edu.colorado.phet.dilutions.util.SmartDoubleFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -43,8 +41,8 @@ public class ConcentrationDisplayNode extends PComposite {
     private static final PhetFont VALUE_FONT = new PhetFont( 16 );
     private static final PhetFont LABEL_FONT = new PhetFont( 16 );
     private static final double TICK_LENGTH = 10;
-    private static final NumberFormat TICK_FORMAT = new DefaultDecimalFormat( "0.00" );
-    private static final NumberFormat VALUE_FORMAT = new DefaultDecimalFormat( "0.00" );
+    private static final SmartDoubleFormat TICK_FORMAT = new SmartDoubleFormat( "0.00", true, true );
+    private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
 
     public ConcentrationDisplayNode( final PDimension barSize, final Solution solution, DoubleRange range, Property<Boolean> valuesVisible ) {
 
@@ -129,7 +127,7 @@ public class ConcentrationDisplayNode extends PComposite {
 
             // nodes
             PNode tickNode = new PPath( new Line2D.Double( -TICK_LENGTH, 0, 0, 0 ) );
-            valueNode = new PText( valueToString( value ) ) {{
+            valueNode = new PText( TICK_FORMAT.format( value ) ) {{
                 setFont( LABEL_FONT );
             }};
             qualityNode = new PText( qualityLabel ) {{
@@ -151,12 +149,6 @@ public class ConcentrationDisplayNode extends PComposite {
         public void setValueVisible( boolean visible ) {
             valueNode.setVisible( visible );
             qualityNode.setVisible( !visible );
-        }
-
-        // Converts value to a string, with special treatment for integers.
-        private String valueToString( double value ) {
-            String valueString = ( value % 1 == 0 ) ? String.valueOf( (int) value ) : TICK_FORMAT.format( value );
-            return MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, valueString, Strings.UNITS_MOLARITY );
         }
     }
 
@@ -201,19 +193,13 @@ public class ConcentrationDisplayNode extends PComposite {
             addChild( arrowNode );
 
             // update the value
-            valueNode.setText( valueToString( value ) );
+            valueNode.setText( VALUE_FORMAT.format( value ) );
             valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
                                  arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
         public void setValueVisible( boolean visible ) {
             valueNode.setVisible( visible );
-        }
-
-        // Converts value to a string, with special treatment for "0".
-        private static String valueToString( double concentration ) {
-            String valueString = ( concentration == 0 ) ? "0" : VALUE_FORMAT.format( concentration );
-            return MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, valueString, Strings.UNITS_MOLARITY );
         }
     }
 }
