@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 
 /**
- * OptionsMenu is the "Options" menu that appears in the menu bar.
+ * TeacherMenu is the "Teacher" menu that appears in the menu bar.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
