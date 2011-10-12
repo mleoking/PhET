@@ -1,3 +1,5 @@
+# 1.00.01 (57533) Oct 12, 2011
+10/12/11 Added "Basics" simulation version
 Added Molecule Shapes: Basics
 # 1.00.00 (57427) Oct 10, 2011
 # 0.02.00 (57424) Oct 10, 2011
