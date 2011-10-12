@@ -67,7 +67,7 @@ public class PlanarPolygon extends Mesh {
      */
     public void setVertices( Vector2f[] vertices, Vector2f[] textureCoordinates ) {
         if ( vertices.length > positionBuffer.capacity() ) {
-            updateMaxVertexCount( vertices.length );
+            updateMaxVertexCount( Math.max( vertices.length, positionBuffer.capacity() + 20 ) ); // update by at least 20
         }
 
         positionBuffer.clear();

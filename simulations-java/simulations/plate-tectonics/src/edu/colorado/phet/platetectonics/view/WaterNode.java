@@ -7,15 +7,14 @@ import java.nio.IntBuffer;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
-import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.TransparentColorMaterial;
 
 import com.jme3.bounding.BoundingVolume;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
@@ -30,25 +29,28 @@ import com.jme3.util.BufferUtils;
  * Displays the top and front of the water, according to the plate model.
  */
 public class WaterNode extends Node {
+    private final Terrain terrain;
     private final PlateModel model;
     private final PlateTectonicsModule module;
-    private final Grid3D grid;
 
-    public WaterNode( PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
+    public WaterNode( final Terrain terrain, PlateModel model, final PlateTectonicsModule module ) {
+        this.terrain = terrain;
         this.model = model;
         this.module = module;
-        this.grid = grid;
 
         // render the top of the water (flat surface. we rely on OpenGL's intersection handling)
         attachChild( new Geometry( "Water Top" ) {{
             // construct grid mesh
-            int rows = grid.getNumZSamples();
-            int columns = grid.getNumXSamples();
+            int rows = terrain.numZSamples;
+            int columns = terrain.numXSamples;
             Vector3f[] positions = new Vector3f[rows * columns];
             for ( int zIndex = 0; zIndex < rows; zIndex++ ) {
-                float z = grid.getZSample( zIndex );
+                float z = terrain.zData[zIndex];
                 for ( int xIndex = 0; xIndex < columns; xIndex++ ) {
-                    positions[zIndex * columns + xIndex] = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( grid.getXSample( xIndex ), 0, z ) ) );
+                    float x = terrain.xData[xIndex];
+                    float y = 0;
+                    // TODO: performance increases
+                    positions[zIndex * columns + xIndex] = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( x, y, z ) ) );
                 }
             }
             setMesh( new GridMesh( rows, columns, positions ) );
@@ -69,7 +71,7 @@ public class WaterNode extends Node {
      */
     private class WaterFrontMesh extends Mesh {
         public WaterFrontMesh() {
-            final int maxVertexCount = grid.getNumXSamples() * 2;
+            final int maxVertexCount = terrain.numXSamples * 2;
             final FloatBuffer positionBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
             final FloatBuffer normalBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
 //            final FloatBuffer textureBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 2 );
@@ -86,11 +88,12 @@ public class WaterNode extends Node {
 //                    textureBuffer.clear();
                     indexBuffer.clear();
 
-                    float z = grid.getBounds().getMaxZ();
-                    int X_SAMPLES = grid.getNumXSamples();
+                    float z = 0; // assuming water front at z=0
+                    int frontZIndex = terrain.getFrontZIndex();
+                    int X_SAMPLES = terrain.numXSamples;
 
                     // whether our last x sample was above the sea level (or equal to it)
-                    boolean lastAboveSeaLevel = model.getElevation( grid.getXSample( 0 ), z ) >= 0;
+                    boolean lastAboveSeaLevel = terrain.getElevation( 0, frontZIndex ) >= 0;
 
                     // last coordinates
                     float lastX = 0;
@@ -99,9 +102,11 @@ public class WaterNode extends Node {
                     // used for counting how many vertices we have added
                     int vertexQuantity = 0;
 
-                    for ( int i = 0; i < X_SAMPLES; i++ ) {
-                        float x = grid.getXSample( i );
-                        float y = (float) model.getElevation( x, z );
+                    // TODO: separate out the coordinate finding parts with the drawing parts!!!
+
+                    for ( int xIndex = 0; xIndex < X_SAMPLES; xIndex++ ) {
+                        float x = terrain.xData[xIndex];
+                        float y = terrain.getElevation( xIndex, frontZIndex );
                         if ( y >= 0 ) {
                             // elevation above sea level, don't show any more
 
@@ -109,11 +114,11 @@ public class WaterNode extends Node {
                                 // if our last x sample was below sea level, we need to close off our polygon
                                 float xIntercept = lastX - lastY * ( x - lastX ) / ( y - lastY );
 
-                                assert xIntercept > lastX;
-                                assert xIntercept < x; // TODO: assertion failure here?
+                                assert xIntercept >= lastX;
+                                assert xIntercept <= x;
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                Vector3f position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( xIntercept, 0, z ) ) );
+                                Vector3f position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( xIntercept, 0 ) );
                                 positionBuffer.put( new float[] {
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z } );
@@ -128,11 +133,11 @@ public class WaterNode extends Node {
                                 // we need to compute where the x-intercept of our segment is so we start our polygon where the elevation is 0
                                 float xIntercept = lastX - lastY * ( x - lastX ) / ( y - lastY );
 
-                                assert xIntercept > lastX; // TODO: assertion failure here?
-                                assert xIntercept < x;
+                                assert xIntercept >= lastX;
+                                assert xIntercept <= x;
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                Vector3f position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( xIntercept, 0, z ) ) );
+                                Vector3f position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( xIntercept, 0 ) );
                                 positionBuffer.put( new float[] {
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z } );
@@ -140,8 +145,8 @@ public class WaterNode extends Node {
                                 indexBuffer.put( vertexQuantity++ );
                             }
 
-                            Vector3f topPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( x, 0, z ) ) );
-                            Vector3f bottomPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( x, y, z ) ) );
+                            Vector3f topPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( x, 0 ) );
+                            Vector3f bottomPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( x, y ) );
                             positionBuffer.put( new float[] {
                                     topPosition.x, topPosition.y, topPosition.z,
                                     bottomPosition.x, bottomPosition.y, bottomPosition.z

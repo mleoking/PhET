@@ -2,22 +2,43 @@
 package edu.colorado.phet.platetectonics.test;
 
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 
 /**
  * Testing model that supports animation
  */
 public class AnimatedPlateModel extends PlateModel {
-    private double time;
+    private double time = 0;
+    private final Terrain terrain;
 
-    public AnimatedPlateModel( Grid3D grid ) {
+    public AnimatedPlateModel( final Grid3D grid ) {
         super( grid );
+
+        terrain = new Terrain( 256, 32 ) {{
+            setXBounds( grid.getBounds().getMinX(), grid.getBounds().getMaxX() );
+            setZBounds( grid.getBounds().getMinZ(), grid.getBounds().getMaxZ() );
+        }};
+        addTerrain( terrain );
+
+        updateTerrain();
     }
 
     @Override public void update( double timeElapsed ) {
         super.update( timeElapsed );
         time += timeElapsed;
+        updateTerrain();
         modelChanged.updateListeners();
+    }
+
+    private void updateTerrain() {
+        for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
+            float x = terrain.xData[xIndex];
+            for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
+                float z = terrain.zData[zIndex];
+                terrain.setElevation( (float) getElevation( x, z ), xIndex, zIndex );
+            }
+        }
     }
 
     @Override public double getElevation( double x, double z ) {
