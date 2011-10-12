@@ -29,8 +29,8 @@ public class Solution implements Resettable {
 
         RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
-                concentration.set( Math.min( getSoluteMaxConcentration(), getSoluteAmount() / getVolume() ) ); // M = mol/L
-                precipitateAmount.set( Math.max( 0, getVolume() * ( ( getSoluteAmount() / getVolume() ) - getSoluteMaxConcentration() ) ) );
+                concentration.set( Math.min( getMaxConcentration(), getSoluteAmount() / getVolume() ) ); // M = mol/L
+                precipitateAmount.set( Math.max( 0, getVolume() * ( ( getSoluteAmount() / getVolume() ) - getMaxConcentration() ) ) );
             }
         };
         observer.observe( this.solute, this.soluteAmount, this.volume );
@@ -44,7 +44,7 @@ public class Solution implements Resettable {
         return volume.get();
     }
 
-    private double getSoluteMaxConcentration() {
+    public double getMaxConcentration() {
         return solute.get().maxConcentration;
     }
 

@@ -25,7 +25,7 @@ public class SolutionNode extends PComposite {
 
     private final PDimension beakerSize;
     private final Solution solution;
-    private final LinearFunction volumeFunction, concentrationFunction;
+    private final LinearFunction volumeFunction;
 
     private final PPath solutionNode;
     private final PText saturatedNode;
@@ -40,7 +40,6 @@ public class SolutionNode extends PComposite {
         this.solution = solution;
         this.volumeFunction = new LinearFunction( volumeRange.getMin(), volumeRange.getMax(),
                                                   ( volumeRange.getMin() / volumeRange.getMax() ) * beakerSize.getHeight(), beakerSize.getHeight() );
-        this.concentrationFunction = new LinearFunction( concentrationRange.getMin(), concentrationRange.getMax(), 0, 1 );
 
         // nodes
         solutionNode = new PPath() {{
@@ -74,7 +73,8 @@ public class SolutionNode extends PComposite {
     private void updateNode() {
 
         // update the color of the solution, based on solute and concentration
-        double colorScale = concentrationFunction.evaluate( solution.getConcentration() );
+        LinearFunction f = new LinearFunction( 0, solution.getMaxConcentration(), 0, 1 );
+        double colorScale = f.evaluate( solution.getConcentration() );
         solutionNode.setPaint( ColorUtils.interpolateRBGA( DilutionsColors.WATER_COLOR, solution.solute.get().solutionColor, colorScale ) );
 
         // update amount of stuff in the beaker, based on solution volume
