@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions.view;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 
@@ -11,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.model.Solution;
 import edu.umd.cs.piccolo.PNode;
@@ -91,7 +91,7 @@ public class BeakerNode extends PComposite {
 
         // update the color of the solution, based on solute and concentration
         double colorScale = concentrationFunction.evaluate( solution.getConcentration() );
-        solutionNode.setPaint( ColorUtils.interpolateRBGA( Color.WHITE, solution.solute.get().solutionColor, colorScale ) );
+        solutionNode.setPaint( ColorUtils.interpolateRBGA( DilutionsColors.WATER_COLOR, solution.solute.get().solutionColor, colorScale ) );
 
         // update amount of stuff in the beaker, based on solution volume
         double height = volumeFunction.evaluate( solution.volume.get() );

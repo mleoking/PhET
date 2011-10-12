@@ -7,7 +7,6 @@ DESIGN
 
 HIGH
 - adjust gradients on concentration display to account for saturation point
-- change white to "water" color in gradients
 - add tick marks for min/max range labels on sliders and concentration display
 - make labels less verbose on sliders and concentration display
 - add tick marks to beaker, labeled?

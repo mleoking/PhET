@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions.view;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
@@ -18,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.model.Solution;
 import edu.umd.cs.piccolo.PNode;
@@ -94,7 +94,7 @@ public class ConcentrationDisplayNode extends PComposite {
         solution.solute.addObserver( new SimpleObserver() {
             public void update() {
                 Paint paint = new GradientPaint( 0f, 0f, solution.solute.get().solutionColor,
-                                                 0f, (float) barSize.getHeight(), Color.WHITE );
+                                                 0f, (float) barSize.getHeight(), DilutionsColors.WATER_COLOR );
                 barNode.setPaint( paint );
                 pointerNode.setArrowPaint( paint );
             }
