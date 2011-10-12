@@ -15,9 +15,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
- * This class defines a PNode that has a liquid thermometer, a numerical
- * readout for displaying degrees Kelvin, and a numerical readout for
- * displaying degrees Fahrenheit.
+ * This class defines a PNode that has a liquid thermometer and a numerical
+ * readout that can display the temperature in degrees Kelvin or degrees
+ * Celsius.
  *
  * @author John Blanco
  */
@@ -80,17 +80,6 @@ public class CompositeThermometerNode extends PNode {
 
         private final DecimalFormat highNumberFormatter = new DecimalFormat( "##0" );
 
-        /*
-        * The formats below were created when the model was designed to creep ever
-        * closer to absolute zero without actually reaching it.  A decision was
-        * made in October 2008 to allow the model to reach absolute zero, so this
-        * is being commented out.  Delete this if, after several months, the decision
-        * still stands.
-       private final DecimalFormat lowNumberFormatter = new DecimalFormat( "#.0" );
-       private final DecimalFormat lowerNumberFormatter = new DecimalFormat( "#.00" );
-       private final DecimalFormat lowestNumberFormatter = new DecimalFormat( "0.#E0" );
-        */
-
         private PText m_text;
         private String m_units;
         PPath m_foregroundNode;
@@ -128,26 +117,6 @@ public class CompositeThermometerNode extends PNode {
         public void setValue( double value ) {
             String valueString;
 
-            /*
-                * TODO JPB TBD - The following code adjusts the resolution as
-                * the temperature descreases towards absolute zero.  A decision
-                * was made on 10/8/2008 not to use this, and to just allow the
-                * user to decrease all the way to absolute zero, so this was
-                * commented out.  Leave this here for a couple of months and,
-                * if the decision stands, remove it permanently.
-               if (value < 0.01){
-                   valueString = new String(lowestNumberFormatter.format( value ));
-               }
-               else if (value < 1){
-                   valueString = new String(lowerNumberFormatter.format( value ));
-               }
-               else if (value < 10){
-                   valueString = new String(lowNumberFormatter.format( value ));
-               }
-               else{
-                   valueString = new String(highNumberFormatter.format( value ));
-               }
-                */
             valueString = new String( highNumberFormatter.format( Math.round( value ) ) );
 
             if ( m_units != null ) {
