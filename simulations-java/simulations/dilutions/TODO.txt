@@ -7,7 +7,6 @@ DESIGN
 HIGH
 
 MEDIUM
-- relative layout of Molarity tab
 
 LOW
 - repackage

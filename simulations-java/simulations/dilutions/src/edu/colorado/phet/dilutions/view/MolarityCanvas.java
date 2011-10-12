@@ -7,6 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.control.DilutionsSliderNode.SoluteAmountSliderNode;
 import edu.colorado.phet.dilutions.control.DilutionsSliderNode.SolutionVolumeSliderNode;
@@ -22,7 +23,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettable {
 
-    private static final PDimension BEAKER_SIZE = new PDimension( 300, 350 ); // the height of controls and displays is based on the height of the beaker
+    private static final PDimension BEAKER_SIZE = new PDimension( 400, 450 ); // the height of controls and displays is based on the height of the beaker
 
     private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
 
@@ -58,18 +59,22 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
 
         // layout
         {
-            beakerNode.setOffset( 300, 200 );
+            soluteControlNode.setOffset( 30, 30 );
+            soluteAmountSliderNode.setOffset( soluteControlNode.getXOffset() - PNodeLayoutUtils.getOriginXOffset( soluteAmountSliderNode ),
+                                              soluteControlNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( soluteAmountSliderNode ) + 20 );
+            solutionVolumeSliderNode.setOffset( soluteAmountSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 30,
+                                                soluteAmountSliderNode.getYOffset() );
+            beakerNode.setOffset( solutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( beakerNode ) + 20,
+                                  solutionVolumeSliderNode.getYOffset() );
             solutionNode.setOffset( beakerNode.getOffset() );
             precipitateNode.setOffset( beakerNode.getOffset() );
-            soluteControlNode.setOffset( 50, 30 );
-            soluteAmountSliderNode.setOffset( 100, solutionNode.getYOffset() );
-            solutionVolumeSliderNode.setOffset( soluteAmountSliderNode.getFullBoundsReference().getMaxX() + 75,
+            concentrationDisplayNode.setOffset( beakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( concentrationDisplayNode ) + 50,
                                                 soluteAmountSliderNode.getYOffset() );
-            concentrationDisplayNode.setOffset( solutionNode.getFullBoundsReference().getMaxX() + 100,
-                                                soluteAmountSliderNode.getYOffset() );
-            showValuesNode.setOffset( concentrationDisplayNode.getFullBoundsReference().getMaxX() + 10,
-                                      concentrationDisplayNode.getFullBoundsReference().getMaxY() - 40 );
-            resetAllButtonNode.setOffset( showValuesNode.getXOffset(), showValuesNode.getFullBoundsReference().getMaxY() + 10 );
+            resetAllButtonNode.setOffset( concentrationDisplayNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth() - 30,
+                                          soluteControlNode.getYOffset() );
+            showValuesNode.setOffset( resetAllButtonNode.getFullBoundsReference().getMinX() - showValuesNode.getFullBoundsReference().getWidth() - 20,
+                                      soluteControlNode.getYOffset() );
+
         }
     }
 
