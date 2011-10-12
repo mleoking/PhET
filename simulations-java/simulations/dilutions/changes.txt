@@ -1,4 +1,4 @@
-10/10/11 different solutes have different precipitate sizes
+10/11/11 different solutes have different precipitate sizes
 10/10/11 show precipitate numerically
 10/10/11 make beaker an observer of solution volume property
 10/10/11 add saturation to model
