@@ -55,6 +55,8 @@ public interface ISimInfo {
 
     String[] getCommandLineArgs();
 
+    boolean hasCommandLineArg( String s );
+
     /**
      * Was this sim run in developer mode (-dev program arg)?
      *
