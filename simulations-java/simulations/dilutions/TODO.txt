@@ -6,7 +6,6 @@ DESIGN
 
 HIGH
 - adjust gradients on concentration display to account for saturation point
-- add tick marks for min/max range labels on sliders
 
 MEDIUM
 - relative layout of Molarity tab

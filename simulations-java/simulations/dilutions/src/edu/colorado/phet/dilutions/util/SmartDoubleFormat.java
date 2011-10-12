@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions.util;
 
-import java.text.DecimalFormat;
-
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
@@ -13,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
  */
 public class SmartDoubleFormat {
 
-    private DecimalFormat defaultFormat;
+    private DefaultDecimalFormat defaultFormat;
     private final boolean formatIntegersAsIntegers;
     private final boolean formatZeroAsInteger;
 
@@ -28,6 +26,11 @@ public class SmartDoubleFormat {
         this.defaultFormat = new DefaultDecimalFormat( pattern );
         this.formatIntegersAsIntegers = formatIntegersAsIntegers;
         this.formatZeroAsInteger = showZeroAsInteger;
+    }
+
+    // Constructor that behaves like a DefaultDecimalFormat, formatting all values using pattern.
+    public SmartDoubleFormat( String pattern ) {
+        this( pattern, false, false );
     }
 
     public String format( double value ) {

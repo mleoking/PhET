@@ -4,9 +4,9 @@ package edu.colorado.phet.dilutions.view;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -39,7 +39,7 @@ public class ConcentrationDisplayNode extends PComposite {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PhetFont VALUE_FONT = new PhetFont( 16 );
-    private static final PhetFont LABEL_FONT = new PhetFont( 16 );
+    private static final PhetFont TICK_FONT = new PhetFont( 16 );
     private static final double TICK_LENGTH = 10;
     private static final SmartDoubleFormat TICK_FORMAT = new SmartDoubleFormat( "0.00", true, true );
     private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
@@ -54,8 +54,8 @@ public class ConcentrationDisplayNode extends PComposite {
         final TitleNode titleNode = new TitleNode();
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, range, solution.getConcentration() );
-        final TickMarkNode maxNode = new TickMarkNode( range.getMax(), Strings.HIGH );
-        final TickMarkNode minNode = new TickMarkNode( range.getMin(), Strings.LOW );
+        final TickMarkNode maxNode = new TickMarkNode( range.getMax(), Strings.UNITS_MOLARITY, Strings.HIGH, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
+        final TickMarkNode minNode = new TickMarkNode( range.getMin(), Strings.UNITS_MOLARITY, Strings.LOW, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
 
         // rendering order
         {
@@ -118,40 +118,6 @@ public class ConcentrationDisplayNode extends PComposite {
         }
     }
 
-    // Tick mark, a horizontal line with a label to the left of it.  Origin at right center to simplify layout.
-    private static final class TickMarkNode extends PComposite {
-
-        private final PNode valueNode, qualityNode;
-
-        public TickMarkNode( double value, String qualityLabel ) {
-
-            // nodes
-            PNode tickNode = new PPath( new Line2D.Double( -TICK_LENGTH, 0, 0, 0 ) );
-            valueNode = new PText( TICK_FORMAT.format( value ) ) {{
-                setFont( LABEL_FONT );
-            }};
-            qualityNode = new PText( qualityLabel ) {{
-                setFont( LABEL_FONT );
-            }};
-
-            // rendering order
-            addChild( tickNode );
-            addChild( valueNode );
-            addChild( qualityNode );
-
-            // layout
-            valueNode.setOffset( tickNode.getFullBoundsReference().getMinX() - valueNode.getFullBoundsReference().getWidth() - 2,
-                                 -( valueNode.getFullBoundsReference().getHeight() / 2 ) );
-            qualityNode.setOffset( tickNode.getFullBoundsReference().getMinX() - qualityNode.getFullBoundsReference().getWidth() - 2,
-                                   -( qualityNode.getFullBoundsReference().getHeight() / 2 ) );
-        }
-
-        public void setValueVisible( boolean visible ) {
-            valueNode.setVisible( visible );
-            qualityNode.setVisible( !visible );
-        }
-    }
-
     // Arrow with a value next to it, drawn in the coordinate frame of the bar to simplifying filling with a gradient paint.
     private static class PointerNode extends PComposite {
 
@@ -193,7 +159,8 @@ public class ConcentrationDisplayNode extends PComposite {
             addChild( arrowNode );
 
             // update the value
-            valueNode.setText( VALUE_FORMAT.format( value ) );
+            String valueString = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, VALUE_FORMAT.format( value ), Strings.UNITS_MOLARITY );
+            valueNode.setText( valueString );
             valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
                                  arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
         }
