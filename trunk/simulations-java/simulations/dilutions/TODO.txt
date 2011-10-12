@@ -7,7 +7,6 @@ DESIGN
 
 HIGH
 - frosty translucent background behind formula on beaker
-- translucent background behind "Saturated!"
 
 MEDIUM
 - up/down arrows in slider JTextField to increment/decrement
