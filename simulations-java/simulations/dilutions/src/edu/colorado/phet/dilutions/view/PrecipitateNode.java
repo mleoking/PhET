@@ -97,7 +97,7 @@ public class PrecipitateNode extends PComposite {
     }
 
     private int getNumberOfParticles() {
-        return (int) ( 200 * solution.getPrecipitateAmount() );
+        return (int) ( solution.solute.get().precipitateParticlesMultiplier * solution.getPrecipitateAmount() );
     }
 
     // Gets a random position towards the bottom of the beaker.
