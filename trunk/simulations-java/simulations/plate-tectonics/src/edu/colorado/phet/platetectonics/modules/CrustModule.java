@@ -213,6 +213,22 @@ public class CrustModule extends PlateTectonicsModule {
             position.set( new ImmutableVector2D( getStageSize().getWidth() - getComponentWidth() - 30,
                                                  getStageSize().getHeight() * 0.6 ) );
         }} );
+
+//        final float viewRadius = getModelViewTransform().modelToViewDeltaY( PlateModel.EARTH_RADIUS );
+//        mainView.getScene().attachChild( new Geometry( "Earth Mesh", new Sphere( 50, 50, viewRadius ) ) {{
+//            setMaterial( new Material( getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+//                setColor( "Color", new ColorRGBA( 0.5f, 0.5f, 0.5f, 0.5f ) );
+//                getAdditionalRenderState().setWireframe( true );
+//                getAdditionalRenderState().setFaceCullMode( FaceCullMode.Off );
+//
+//                // allow transparency
+//                getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+//                setTransparent( true );
+//            }} );
+//
+//            setLocalTranslation( 0, -viewRadius, 0 );
+//            setQueueBucket( Bucket.Transparent );
+//        }} );
     }
 
     public void updateCursor() {
