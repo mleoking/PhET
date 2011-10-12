@@ -1,0 +1,65 @@
+PhET Weekly Progress Report
+John Blanco
+October 5th, 2011
+
+Time period covered: September 29th through October 5th.
+
+Balance and Torque - 18.5 hrs
+
+•	Fixed an issue with the multi-mass problems where the one of the fixed masses could end up on the right side.
+•	Met with Physics Group to discuss.
+•	Added a tab with only three objects to be the "Intro" tab.
+•	Made the "dual mass" problems only appear on level 4.
+•	Changed tab names to "Into", "Balance Lab", and "Game".
+•	Added new mystery objects that are not presents so that users have very little idea of their mass when they appear in challenges.
+•	Removed presents, which were being used as mystery objects, from the game.
+•	Published a version for Ariel to use in interviews.
+•	Discussed sim design and next steps with Ariel P and Trish L (separately).
+•	Implemented a workaround for the "ghosting" issue that sometimes occurs when moving bricks on a resized canvas.
+•	Fixed an issue where masses would sometimes not be properly placed on the plank when a challenge was set up.
+
+Gene Expression Basics - 5.0 hrs
+
+•	Added ribosome hint to mRNA.
+•	Added the ability for mRNA to attach to ribosome.
+•	Wrote up some thoughts about model needed for the 3rd tab.
+
+States of Matter Basics - 6.0 hrs
+
+•	Modified the atom colors to be more consistent with other chemistry sims.
+•	Moved the Reset All button from the control panel to the play area on both tabs in the "basics" flavor.
+•	Changed Reset All to not require confirmation.
+•	Changed Reset All to not require confirmation.
+•	Removed things related to adjustable attraction from the Phase Changes tab of the Basics flavor.
+•	Made the phase diagram initially hidden on the Phase Changes tab of the Basics flavor.
+•	Modified the stove node so that the body is created programmatically rather than from an image and integrated the slider.
+
+Installer - 1.5 hrs
+
+•	Investigated an issue where the PhET installation size is reported as being very in Windows Control Panel, see #3096.
+
+Nuclear Physics - 1.0 hrs
+
+•	Investigated an issue where several of the sims in this family have issue being displayed on a net book.
+
+Environment- 1.0 hrs
+
+•	Dealt with an issue where Microsoft Forefront uninstalled Google Chrome.
+
+Customer Support - 1.0 hrs
+
+•	Responded to a question from a user about embedding sims.
+
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+•	Weekly status meeting.
+•	Weekly Physics team meeting.
+•	Weekly status report.
+•	Review, prioritization, and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	No vacation on the immediate horizon.
+
