@@ -30,7 +30,7 @@ public class SolutionNode extends PComposite {
     private final PPath solutionNode;
     private final PText saturatedNode;
 
-    public SolutionNode( PDimension beakerSize, Solution solution, DoubleRange volumeRange, DoubleRange concentrationRange ) {
+    public SolutionNode( PDimension beakerSize, Solution solution, DoubleRange volumeRange ) {
 
         // this node is not interactive
         setPickable( false );
