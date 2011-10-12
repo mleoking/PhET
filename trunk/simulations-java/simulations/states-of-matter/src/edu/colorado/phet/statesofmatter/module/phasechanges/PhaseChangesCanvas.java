@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterGlobalState;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
@@ -90,6 +91,20 @@ public class PhaseChangesCanvas extends PhetPCanvas {
             }
         } );
 
+        // Set the background color.  This may change based on teacher options.
+        StatesOfMatterGlobalState.whiteBackground.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean whiteBackground ) {
+                if ( whiteBackground ) {
+                    // White background.
+                    setBackground( Color.WHITE );
+                }
+                else {
+                    // Default background.
+                    setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
+                }
+            }
+        } );
+
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter() {
             public void temperatureChanged() {
@@ -110,9 +125,6 @@ public class PhaseChangesCanvas extends PhetPCanvas {
                 }
             }
         } );
-
-        // Set the background color.
-        setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
 
         // Create the particle container.
         m_particleContainer = new ParticleContainerNode( m_model, m_mvt, true, true );

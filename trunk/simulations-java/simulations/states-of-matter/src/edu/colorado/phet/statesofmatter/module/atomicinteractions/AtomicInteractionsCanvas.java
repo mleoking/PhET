@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
@@ -19,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterGlobalState;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.DualAtomModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -124,6 +126,20 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         // Create the Model-View transform that we will be using.
         m_mvt = new ModelViewTransform( 1.0, 1.0, 0.0, 0.0, false, true );
 
+        // Set the background color.  This may change based on teacher options.
+        StatesOfMatterGlobalState.whiteBackground.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean whiteBackground ) {
+                if ( whiteBackground ) {
+                    // White background.
+                    setBackground( Color.WHITE );
+                }
+                else {
+                    // Default background.
+                    setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
+                }
+            }
+        } );
+
         // Register for notifications of important events from the model.
         m_model.addListener( new DualAtomModel.Adapter() {
             public void fixedAtomAdded( StatesOfMatterAtom particle ) {
@@ -146,17 +162,10 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
                 updateMinimumXForMovableAtom();
             }
 
-            ;
-
             public void fixedAtomDiameterChanged() {
                 updateMinimumXForMovableAtom();
             }
-
-            ;
         } );
-
-        // Set the background color.
-        setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
 
         // Create the listener for monitoring particle motion.
         m_atomListener = new StatesOfMatterAtom.Adapter() {

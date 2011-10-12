@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterGlobalState;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
@@ -83,8 +84,19 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
             }
         } );
 
-        // Set the background color.
-        setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
+        // Set the background color.  This may change based on teacher options.
+        StatesOfMatterGlobalState.whiteBackground.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean whiteBackground ) {
+                if ( whiteBackground ) {
+                    // White background.
+                    setBackground( Color.WHITE );
+                }
+                else {
+                    // Default background.
+                    setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
+                }
+            }
+        } );
 
         // Create and add the particle container.
         m_particleContainer = new ParticleContainerNode( m_model, m_mvt, false, false );
