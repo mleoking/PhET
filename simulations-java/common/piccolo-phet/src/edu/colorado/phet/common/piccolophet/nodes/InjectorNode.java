@@ -56,7 +56,7 @@ public class InjectorNode extends PNode {
      * @param mvt           - Model-view transform for relating view space to model space.
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
-    public InjectorNode( final ModelViewTransform mvt, double rotationAngle, final SimpleObserver squirt ) {
+    public InjectorNode( final ModelViewTransform mvt, double rotationAngle, final SimpleObserver inject ) {
         double NOMINAL_ION_INJECTION_VELOCITY = 30;
         Vector2D nominalInjectionVelocityVector = new Vector2D( NOMINAL_ION_INJECTION_VELOCITY, 0 );
         nominalInjectionVelocityVector.rotate( rotationAngle );
@@ -107,7 +107,7 @@ public class InjectorNode extends PNode {
             @Override
             public void mousePressed( PInputEvent event ) {
                 buttonImageNode.setImage( pressedButtonImage );
-                squirt.update();
+                inject.update();
             }
 
             @Override
