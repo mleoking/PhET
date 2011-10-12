@@ -1,3 +1,4 @@
+10/12/11 make labels less verbose on sliders and concentration display
 10/12/11 use water color from ph-scale
 # 0.00.01 (57499) Oct 11, 2011
 10/11/11 dev version to demonstrate functionally-complete "Molarity" tab
