@@ -106,7 +106,11 @@ public class MoleculeShapesControlPanel extends PNode {
         }}, Strings.CONTROL__LONE_PAIR ) {{
             setOffset( 0, bondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
-        addChild( nonBondingPanel );
+        if ( !module.isBasicsVersion() ) {
+            addChild( nonBondingPanel );
+        }
+
+        final PBounds lastBounds = module.isBasicsVersion() ? bondingPanel.getFullBounds() : nonBondingPanel.getFullBounds();
 
         final PNode removeAllButtonNode = new TextButtonNode( Strings.CONTROL__REMOVE_ALL,
                                                               MoleculeShapesConstants.REMOVE_BUTTON_FONT,
@@ -129,8 +133,8 @@ public class MoleculeShapesControlPanel extends PNode {
                 }
             } );
 
-            setOffset( ( nonBondingPanel.getFullBounds().getWidth() - getFullBounds().getWidth() ) / 2,
-                       nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER - 4 );
+            setOffset( ( lastBounds.getWidth() - getFullBounds().getWidth() ) / 2,
+                       lastBounds.getMaxY() + PANEL_SPACER - 4 );
         }};
         addChild( removeAllButtonNode );
 
@@ -161,7 +165,9 @@ public class MoleculeShapesControlPanel extends PNode {
                  */
                 updateEnabled.run();
             }};
-            checkboxContainer.addChild( showLonePairsNode );
+            if ( !module.isBasicsVersion() ) {
+                checkboxContainer.addChild( showLonePairsNode );
+            }
 
             /*---------------------------------------------------------------------------*
             * show bond angles
@@ -177,7 +183,9 @@ public class MoleculeShapesControlPanel extends PNode {
                 module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
                 MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JMEUtils.swingObserver( updateEnabled ) );
 
-                setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );
+                if ( !module.isBasicsVersion() ) {
+                    setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );
+                }
             }} );
 
             checkboxContainer.setOffset( ( INNER_WIDTH - checkboxContainer.getFullBounds().getWidth() ) / 2, 0 );

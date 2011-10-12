@@ -352,11 +352,13 @@ public class MoleculeShapesModule extends JMEModule {
         }}, tripleBondOverlay, inputHandler, this, addTripleBondEnabled ) );
         addLighting( tripleBondOverlay.getScene() );
 
-        JMEView lonePairOverlay = createBondOverlayView.apply( "Lone Pair", lonePairOverlayStageBounds );
-        lonePairOverlay.getScene().attachChild( new BondTypeOverlayNode( new MoleculeModel() {{
-            addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), 0, false ) );
-        }}, lonePairOverlay, inputHandler, this, addLonePairEnabled ) );
-        addLighting( lonePairOverlay.getScene() );
+        if ( !isBasicsVersion() ) {
+            JMEView lonePairOverlay = createBondOverlayView.apply( "Lone Pair", lonePairOverlayStageBounds );
+            lonePairOverlay.getScene().attachChild( new BondTypeOverlayNode( new MoleculeModel() {{
+                addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), 0, false ) );
+            }}, lonePairOverlay, inputHandler, this, addLonePairEnabled ) );
+            addLighting( lonePairOverlay.getScene() );
+        }
 
         /*---------------------------------------------------------------------------*
         * main control panel
