@@ -8,7 +8,6 @@ HIGH
 
 MEDIUM
 - relative layout of Molarity tab
-- set columns in slider JTextFields based on NumberFormat pattern
 
 LOW
 - repackage

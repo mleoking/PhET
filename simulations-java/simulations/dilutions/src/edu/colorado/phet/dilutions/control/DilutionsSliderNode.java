@@ -176,7 +176,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
             this.format = format;
 
             // text field
-            textField = new JTextField( 3 ) {{
+            textField = new JTextField( format.getColumns() ) {{
                 setFont( VALUE_FONT );
                 setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( 3, 3, 3, 3 ) ) );
                 setHorizontalAlignment( JTextField.RIGHT );
