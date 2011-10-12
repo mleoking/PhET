@@ -1,3 +1,4 @@
+10/12/11 tweak location of precipitate particles to account for thickness of beaker walls
 10/12/11 add saturation point indicator to concentration display
 10/12/11 adjust gradients on concentration display to account for saturation point
 10/12/11 adjust solution color to account for saturation

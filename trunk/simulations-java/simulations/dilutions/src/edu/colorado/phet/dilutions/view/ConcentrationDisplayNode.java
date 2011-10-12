@@ -96,6 +96,7 @@ public class ConcentrationDisplayNode extends PComposite {
                 barNode.setPaint( paint );
                 pointerNode.setArrowPaint( paint );
                 saturationIndicatorNode.setSaturationPoint( solution.getSaturatedConcentration() );
+                saturationIndicatorNode.setVisible( solution.getSaturatedConcentration() < concentrationRange.getMax() );
             }
         } );
 

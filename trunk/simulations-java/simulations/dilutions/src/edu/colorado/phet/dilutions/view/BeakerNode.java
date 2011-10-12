@@ -50,7 +50,8 @@ public class BeakerNode extends PComposite {
     private static final Font TICK_LABEL_FONT = new PhetFont( 20 );
     private static final double TICK_LABEL_X_SPACING = 8;
 
-    private static final Stroke OUTLINE_STROKE = new BasicStroke( 6f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    public static final float STROKE_WIDTH = 6f;
+    private static final Stroke OUTLINE_STROKE = new BasicStroke( STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Color OUTLINE_COLOR = Color.BLACK;
 
     private static final double SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK = 0;

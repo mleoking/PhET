@@ -103,11 +103,11 @@ public class PrecipitateNode extends PComposite {
     // Gets a random position towards the bottom of the beaker.
     private Point2D getRandomOffset( PrecipitateParticleNode particleNode ) {
         // x offset
-        double xMargin = particleNode.getFullBoundsReference().getWidth();
+        double xMargin = particleNode.getFullBoundsReference().getWidth() + ( BeakerNode.STROKE_WIDTH / 2 );
         double width = beakerSize.getWidth() - particleNode.getFullBoundsReference().getWidth() - ( 2 * xMargin );
         double x = xMargin + ( Math.random() * width );
         // y offset
-        double yMargin = particleNode.getFullBoundsReference().getHeight();
+        double yMargin = particleNode.getFullBoundsReference().getHeight() + ( BeakerNode.STROKE_WIDTH / 2 );
         double height = 0.02 * beakerSize.getHeight();
         double y = beakerSize.getHeight() - yMargin - height + ( Math.random() * height );
         // offset
