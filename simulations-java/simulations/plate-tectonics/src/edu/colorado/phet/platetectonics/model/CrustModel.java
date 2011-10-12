@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.platetectonics.model.Region.Type;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
@@ -51,7 +52,8 @@ public class CrustModel extends PlateModel {
     private final List<TerrainConnector> terrainConnectors = new ArrayList<TerrainConnector>();
 
     private static final int TERRAIN_X_SAMPLES = 20;
-    private static final int TERRAIN_Z_SAMPLES = 5;
+    private static final int TERRAIN_Z_SAMPLES = 20;
+    private Runnable updateMiddleRegions;
 
     public CrustModel( final Grid3D grid ) {
         super( grid );
@@ -100,29 +102,133 @@ public class CrustModel extends PlateModel {
         * regions
         *----------------------------------------------------------------------------*/
 
+        Function1<Vector2f, Vector2f> lowerBoundaryFunct = new Function1<Vector2f, Vector2f>() {
+            public Vector2f apply( Vector2f vector ) {
+                return new Vector2f( vector.x, bounds.getMinY() );
+            }
+        };
+
+        Vector2f[] oceanTop = oceanicTerrain.getFrontVertices();
+        Vector2f[] oceanCrustBottom = map( oceanTop, new Function1<Vector2f, Vector2f>() {
+                                               public Vector2f apply( Vector2f vector ) {
+                                                   return new Vector2f( vector.x, (float) ( vector.y - LEFT_OCEANIC_THICKNESS ) );
+                                               }
+                                           }, new Vector2f[oceanTop.length] );
+        Vector2f[] oceanSideMinY = map( oceanTop, lowerBoundaryFunct, new Vector2f[oceanTop.length] );
+
+        Vector2f[] continentTop = continentalTerrain.getFrontVertices();
+        Vector2f[] continentCrustBottom = map( continentTop, new Function1<Vector2f, Vector2f>() {
+                                                   public Vector2f apply( Vector2f vector ) {
+                                                       return new Vector2f( vector.x, (float) ( vector.y - RIGHT_CONTINENTAL_THICKNESS ) );
+                                                   }
+                                               }, new Vector2f[continentTop.length] );
+        Vector2f[] continentSideMinY = map( continentTop, lowerBoundaryFunct, new Vector2f[continentTop.length] );
+
+        final Vector2f[] middleTop = middleTerrain.getFrontVertices();
+        final Vector2f[] middleCrustBottom = new Vector2f[middleTop.length];
+        final Vector2f[] middleSideMinY = map( middleTop, lowerBoundaryFunct, new Vector2f[middleTop.length] );
+
+        updateMiddleRegions = new Runnable() {
+            public void run() {
+                System.arraycopy( middleTerrain.getFrontVertices(), 0, middleTop, 0, middleTop.length );
+                for ( int i = 0; i < middleTop.length; i++ ) {
+                    middleCrustBottom[i] = new Vector2f( middleTop[i].getX(), (float) ( middleTop[i].getY() - thickness.get() ) );
+                }
+            }
+        };
+        updateMiddleRegions.run();
+
+        Vector2f[] mantleTop = new Vector2f[oceanSideMinY.length + middleSideMinY.length + continentSideMinY.length - 2];
+        System.arraycopy( oceanSideMinY, 0, mantleTop, 0, oceanSideMinY.length );
+        System.arraycopy( middleSideMinY, 0, mantleTop, oceanSideMinY.length - 1, middleSideMinY.length );
+        System.arraycopy( continentSideMinY, 0, mantleTop, oceanSideMinY.length + middleSideMinY.length - 2, continentSideMinY.length );
+        Vector2f[] mantleMiddle = map( mantleTop, new Function1<Vector2f, Vector2f>() {
+                                           public Vector2f apply( Vector2f vector2f ) {
+                                               return new Vector2f( vector2f.x, -750000 ); // to 750km depth
+                                           }
+                                       }, new Vector2f[mantleTop.length] );
+        Vector2f[] mantleBottom = map( mantleTop, new Function1<Vector2f, Vector2f>() {
+                                           public Vector2f apply( Vector2f vector2f ) {
+                                               return new Vector2f( vector2f.x, -2921000 ); // to 2921km depth
+                                           }
+                                       }, new Vector2f[mantleTop.length] );
+        Vector2f[] innerOuterCoreBoundary = map( mantleTop, new Function1<Vector2f, Vector2f>() {
+                                                     public Vector2f apply( Vector2f vector2f ) {
+                                                         return new Vector2f( vector2f.x, -5180000 ); // to 5180km depth
+                                                     }
+                                                 }, new Vector2f[mantleTop.length] );
+        Vector2f[] centerOfTheEarth = new Vector2f[] { new Vector2f( 0, -PlateModel.EARTH_RADIUS ) };
+
         addRegion( new SimpleRegion( Type.CRUST,
-                                     oceanicTerrain,
-                                     constantFunction( 0.0 ),
-                                     constantFunction( LEFT_OCEANIC_THICKNESS ),
+                                     oceanTop,
+                                     oceanCrustBottom,
                                      constantFunction( LEFT_OCEANIC_DENSITY ),
                                      constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+        addRegion( new SimpleRegion( Type.UPPER_MANTLE,
+                                     oceanCrustBottom,
+                                     oceanSideMinY,
+                                     constantFunction( MANTLE_DENSITY ),
+                                     constantFunction( 0.0 ) ) ); // TODO: mandle temperatures!
+
         addRegion( new SimpleRegion( Type.CRUST,
-                                     middleTerrain,
-                                     constantFunction( 0.0 ),
-                                     propertyFunction( thickness ),
+                                     middleTop,
+                                     middleCrustBottom,
                                      new Function0<Double>() {
                                          public Double apply() {
                                              return getCenterCrustDensity();
                                          }
                                      }, constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
-        addRegion( new SimpleRegion( Type.CRUST,
-                                     continentalTerrain,
-                                     constantFunction( 0.0 ),
-                                     constantFunction( RIGHT_CONTINENTAL_THICKNESS ),
-                                     constantFunction( RIGHT_CONTINENTAL_DENSITY ),
+        addRegion( new SimpleRegion( Type.UPPER_MANTLE,
+                                     middleCrustBottom,
+                                     middleSideMinY,
+                                     constantFunction( MANTLE_DENSITY ),
                                      constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
 
+        addRegion( new SimpleRegion( Type.CRUST,
+                                     continentTop,
+                                     continentCrustBottom,
+                                     constantFunction( RIGHT_CONTINENTAL_DENSITY ),
+                                     constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+        addRegion( new SimpleRegion( Type.UPPER_MANTLE,
+                                     continentCrustBottom,
+                                     continentSideMinY,
+                                     constantFunction( MANTLE_DENSITY ),
+                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+
+        addRegion( new SimpleRegion( Type.UPPER_MANTLE,
+                                     mantleTop,
+                                     mantleMiddle,
+                                     constantFunction( MANTLE_DENSITY ), // TODO: fix upper mantle density
+                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+
+        addRegion( new SimpleRegion( Type.LOWER_MANTLE,
+                                     mantleMiddle,
+                                     mantleBottom,
+                                     constantFunction( MANTLE_DENSITY ), // TODO: fix lower mantle density
+                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+
+        addRegion( new SimpleRegion( Type.OUTER_CORE,
+                                     mantleBottom,
+                                     innerOuterCoreBoundary,
+                                     constantFunction( MANTLE_DENSITY ), // TODO: fix core density
+                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+
+        addRegion( new SimpleRegion( Type.INNER_CORE,
+                                     innerOuterCoreBoundary,
+                                     centerOfTheEarth,
+                                     constantFunction( MANTLE_DENSITY ), // TODO: fix core density
+                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+
         updateView();
+    }
+
+    private static <T, U> U[] map( T[] array, Function1<? super T, ? extends U> mapper, U[] resultArray ) {
+        assert resultArray.length >= array.length;
+
+        for ( int i = 0; i < array.length; i++ ) {
+            resultArray[i] = mapper.apply( array[i] );
+        }
+        return resultArray;
     }
 
     private static <T> Function0<T> constantFunction( final T t ) {
@@ -150,7 +256,9 @@ public class CrustModel extends PlateModel {
             connector.update();
         }
 
-        // send out noficiations
+        updateMiddleRegions.run();
+
+        // send out notifications
         modelChanged.updateListeners();
     }
 
@@ -274,17 +382,23 @@ public class CrustModel extends PlateModel {
     }
 
     private static class SimpleRegion extends Region {
-        private final Terrain terrain;
-        private final Function0<Double> thickness;
+        private final Vector2f[] top;
+        private final Vector2f[] bottom;
         private final Function0<Double> density;
         private final Function0<Double> temperature;
+        private final boolean aStatic;
 
-        public SimpleRegion( Type type, Terrain terrain, Function0<Double> negativeOffset, Function0<Double> thickness, Function0<Double> density, Function0<Double> temperature ) {
+        public SimpleRegion( Type type, Vector2f[] top, Vector2f[] bottom, Function0<Double> density, Function0<Double> temperature ) {
+            this( type, top, bottom, density, temperature, false );
+        }
+
+        public SimpleRegion( Type type, Vector2f[] top, Vector2f[] bottom, Function0<Double> density, Function0<Double> temperature, boolean isStatic ) {
             super( type );
-            this.terrain = terrain;
-            this.thickness = thickness;
+            this.top = top;
+            this.bottom = bottom;
             this.density = density;
             this.temperature = temperature;
+            aStatic = isStatic;
         }
 
         // constant density over the entire surface
@@ -297,20 +411,16 @@ public class CrustModel extends PlateModel {
             return temperature.apply().floatValue();
         }
 
+        @Override public boolean isStatic() {
+            return aStatic;
+        }
+
         @Override public Vector2f[] getBoundary() {
-            int numVertices = terrain.numXSamples * 2;
+            int numVertices = top.length + bottom.length;
             Vector2f[] vertices = new Vector2f[numVertices];
-            float height = thickness.apply().floatValue();
-            int frontZIndex = terrain.getFrontZIndex();
-            for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
-                float x = terrain.xData[xIndex];
-                float y = terrain.getElevation( xIndex, frontZIndex );
-
-                // specify the top row
-                vertices[xIndex] = new Vector2f( x, y );
-
-                // and the bottom row, but in reverse order in the 2nd half of the vertices array
-                vertices[numVertices - xIndex - 1] = new Vector2f( x, y - height );
+            System.arraycopy( top, 0, vertices, 0, top.length );
+            for ( int i = 0; i < bottom.length; i++ ) {
+                vertices[numVertices - i - 1] = bottom[i];
             }
             return vertices;
         }

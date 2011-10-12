@@ -40,7 +40,15 @@ public class RegionNode extends Node {
                 // update it whenever the model has changed
                 model.modelChanged.addUpdateListener(
                         new UpdateListener() {
+                            private boolean updated = false;
+
                             public void update() {
+                                // don't update static regions
+                                if ( updated && region.isStatic() ) {
+                                    return;
+                                }
+                                updated = true;
+
                                 Vector2f[] boundary = region.getBoundary();
                                 int numVertices = boundary.length;
                                 Vector2f[] vertices = new Vector2f[numVertices];
@@ -75,8 +83,17 @@ public class RegionNode extends Node {
             put( Type.CRUST,
                  new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0, 1, 0, 1f ) ) ) );
 
-            put( Type.MANTLE,
+            put( Type.UPPER_MANTLE,
                  new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 1, 0, 0, 1f ) ) ) );
+
+            put( Type.LOWER_MANTLE,
+                 new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0.7f, 0.7f, 0, 1f ) ) ) );
+
+            put( Type.OUTER_CORE,
+                 new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0.3f, 0.3f, 0.3f, 1f ) ) ) );
+
+            put( Type.INNER_CORE,
+                 new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f ) ) ) );
         }};
     }
 }

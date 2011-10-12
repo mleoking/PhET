@@ -101,7 +101,7 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
                             Camera cam = activeModule.getDebugCamera();
                             if ( cam != null ) {
                                 FlyByCamera flyCam = new FlyByCamera( cam );
-                                flyCam.setMoveSpeed( 200f );
+                                flyCam.setMoveSpeed( 400f );
                                 flyCam.registerWithInput( JMEUtils.getApplication().getInputManager() );
                             }
                         }

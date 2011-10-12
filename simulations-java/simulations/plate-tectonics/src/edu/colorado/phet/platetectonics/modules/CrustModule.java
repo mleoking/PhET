@@ -112,10 +112,10 @@ public class CrustModule extends PlateTectonicsModule {
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
-                Bounds3D.fromMinMax( -150000, 150000,
+                Bounds3D.fromMinMax( -1500000, 1500000,
                                      -150000, 15000,
-                                     -50000, 0 ),
-                512, 512, 32 );
+                                     -2000000, 0 ),
+                512, 512, 64 );
 
         // create the model and terrain
         model = new CrustModel( grid );

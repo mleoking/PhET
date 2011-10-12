@@ -18,6 +18,8 @@ public abstract class Region {
 
     public abstract float getTemperature( Vector2f position );
 
+    public abstract boolean isStatic();
+
     /**
      * @return The outside boundary of the region. Can be concave, but should have no holes
      */
@@ -25,6 +27,9 @@ public abstract class Region {
 
     public static enum Type {
         CRUST,
-        MANTLE
+        UPPER_MANTLE,
+        LOWER_MANTLE,
+        OUTER_CORE,
+        INNER_CORE
     }
 }
