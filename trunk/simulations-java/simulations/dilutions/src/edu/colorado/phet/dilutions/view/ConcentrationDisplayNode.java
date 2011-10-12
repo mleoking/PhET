@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions.view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
@@ -44,7 +45,7 @@ public class ConcentrationDisplayNode extends PComposite {
     private static final SmartDoubleFormat TICK_FORMAT = new SmartDoubleFormat( "0.00", true, true );
     private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
 
-    public ConcentrationDisplayNode( final PDimension barSize, final Solution solution, DoubleRange range, Property<Boolean> valuesVisible ) {
+    public ConcentrationDisplayNode( final PDimension barSize, final Solution solution, final DoubleRange concentrationRange, Property<Boolean> valuesVisible ) {
 
         // this node is not interactive
         setPickable( false );
@@ -53,9 +54,9 @@ public class ConcentrationDisplayNode extends PComposite {
         // nodes
         final TitleNode titleNode = new TitleNode();
         final BarNode barNode = new BarNode( barSize );
-        final PointerNode pointerNode = new PointerNode( barSize, range, solution.getConcentration() );
-        final TickMarkNode maxNode = new TickMarkNode( range.getMax(), Strings.UNITS_MOLARITY, Strings.HIGH, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
-        final TickMarkNode minNode = new TickMarkNode( range.getMin(), Strings.UNITS_MOLARITY, Strings.LOW, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
+        final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration() );
+        final TickMarkNode maxNode = new TickMarkNode( concentrationRange.getMax(), Strings.UNITS_MOLARITY, Strings.HIGH, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
+        final TickMarkNode minNode = new TickMarkNode( concentrationRange.getMin(), Strings.UNITS_MOLARITY, Strings.LOW, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
 
         // rendering order
         {
@@ -87,8 +88,7 @@ public class ConcentrationDisplayNode extends PComposite {
         // Color the bar and pointer using a gradient that corresponds to the solute's color.
         solution.solute.addObserver( new SimpleObserver() {
             public void update() {
-                Paint paint = new GradientPaint( 0f, 0f, solution.solute.get().solutionColor,
-                                                 0f, (float) barSize.getHeight(), DilutionsColors.WATER_COLOR );
+                Paint paint = createGradient( solution.solute.get().solutionColor, barSize.getHeight(), solution.getSaturatedConcentration(), concentrationRange.getMax() );
                 barNode.setPaint( paint );
                 pointerNode.setArrowPaint( paint );
             }
@@ -104,6 +104,13 @@ public class ConcentrationDisplayNode extends PComposite {
         } );
     }
 
+    // Creates a gradient for the bar and pointer, taking into account the saturation point
+    private static final GradientPaint createGradient( Color soluteColor, double barHeight, double saturatedConcentration, double maxConcentration ) {
+        double y = barHeight - ( barHeight * ( saturatedConcentration / maxConcentration ) );
+        return new GradientPaint( 0f, (float) y, soluteColor, 0f, (float) barHeight, DilutionsColors.WATER_COLOR );
+    }
+
+    // Title above the bar
     private static class TitleNode extends HTMLNode {
         public TitleNode() {
             super( Strings.CONCENTRATION_MOLARITY );
