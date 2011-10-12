@@ -8,7 +8,6 @@ DESIGN
 - better looking sliders
 
 HIGH
-- show precipitate when solution is saturated
 - editable text fields above sliders
 - show/hide values
 

@@ -1,3 +1,4 @@
+10/11/11 display "Saturated!" when the solution is saturated
 10/11/11 show precipitate as a random group of particles at the bottom of the beaker
 10/11/11 format solute combo box as "formula: name"
 10/11/11 show solute formula on beaker
