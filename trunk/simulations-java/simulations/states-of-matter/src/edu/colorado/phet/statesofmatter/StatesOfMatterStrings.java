@@ -83,4 +83,5 @@ public class StatesOfMatterStrings {
     public static final String RESET = StatesOfMatterResources.getString( "Reset" );
 
     public static final String WIGGLE_ME_CAPTION = StatesOfMatterResources.getString( "WiggleMeCaption" );
+    public static final String RETURN_LID = StatesOfMatterResources.getString( "ReturnLid" );
 }

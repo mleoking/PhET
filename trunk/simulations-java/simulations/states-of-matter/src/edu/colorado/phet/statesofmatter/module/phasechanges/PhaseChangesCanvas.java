@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
@@ -173,7 +174,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
 
         // Add the button for returning the lid to the container once it has
         // been blown off.
-        final TextButtonNode returnLidButton = new TextButtonNode( "Return Lid", new PhetFont( 18 ), Color.YELLOW ) {{
+        final TextButtonNode returnLidButton = new TextButtonNode( StatesOfMatterStrings.RETURN_LID, new PhetFont( 18 ), Color.YELLOW ) {{
 
             // Scale and position the button.  The values used here were
             // empirically determined, adjust as needed for optimal look.
