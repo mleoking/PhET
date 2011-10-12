@@ -140,7 +140,7 @@ public class ConcentrationDisplayNode extends PComposite {
         public SaturationIndicatorNode( PDimension barSize, double saturationPoint, double maxConcentration ) {
             this.barSize = barSize;
             this.maxConcentration = maxConcentration;
-            setStroke( new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 2, 5 }, 0 ) ); // dashed
+            setStroke( new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 4, 3 }, 0 ) ); // dashed
             setSaturationPoint( saturationPoint );
         }
 
