@@ -6,8 +6,8 @@ import java.nio.ByteBuffer;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
-import edu.colorado.phet.platetectonics.util.Grid3D;
 
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
@@ -21,34 +21,23 @@ import com.jme3.texture.Texture2D;
  * Displays the top terrain of a plate model, within the bounds of the specified grid
  */
 public class TerrainNode extends Geometry {
-    private GridMesh gridMesh;
-    private final PlateModel model;
+    private final Terrain terrain;
     private final PlateTectonicsModule module;
-    private final Grid3D grid;
-    private final Grid3D textureGrid;
     private TerrainNode.TerrainTextureImage image;
-    private final int X_SAMPLES;
-    private final int Z_SAMPLES;
 
-    //Textures taken from jME3-testdata.jar in Textures/Terrain/splat/
+    //Textures taken from jME3-testdata.jar in Textures/Terrain/splat/ TODO: use our own textures!
     private static final String GRASS = "plate-tectonics/images/textures/grass.jpg";
     private static final String DIRT = "plate-tectonics/images/textures/dirt.jpg";
     private static final String ROAD = "plate-tectonics/images/textures/road.jpg";
 
-    public TerrainNode( PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
-        this.model = model;
+    public TerrainNode( final Terrain terrain, PlateModel model, final PlateTectonicsModule module ) {
+        this.terrain = terrain;
         this.module = module;
-        this.grid = grid;
 
-        // lower resolution grid for texture handling
-        this.textureGrid = grid.withSamples( grid.getNumXSamples() / 2, grid.getNumYSamples() / 2, grid.getNumZSamples() / 2 );
-
-        X_SAMPLES = grid.getNumXSamples();
-        Z_SAMPLES = grid.getNumZSamples();
-        Vector3f[] positions = computePositions( model );
+        Vector3f[] positions = computePositions( terrain );
 
         // use the gridded mesh to handle the terrain
-        gridMesh = new GridMesh( Z_SAMPLES, X_SAMPLES, positions );
+        final GridMesh gridMesh = new GridMesh( terrain.numZSamples, terrain.numXSamples, positions );
         setMesh( gridMesh );
 
         // use a terrain-style texture. this allows us to blend between three different textures
@@ -56,7 +45,7 @@ public class TerrainNode extends Geometry {
 
             /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
             setTexture( "Alpha", new Texture2D() {{
-                image = new TerrainTextureImage( textureGrid.getNumXSamples(), textureGrid.getNumZSamples() );
+                image = new TerrainTextureImage( terrain.numXSamples, terrain.numZSamples );
                 setImage( image );
             }} );
 
@@ -81,23 +70,31 @@ public class TerrainNode extends Geometry {
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
                                                   public void update() {
-                                                      gridMesh.updateGeometry( computePositions( TerrainNode.this.model ) );
+                                                      gridMesh.updateGeometry( computePositions( terrain ) );
                                                       image.updateTerrain();
                                                   }
                                               }, false );
     }
 
-    private Vector3f[] computePositions( PlateModel model ) {
-        Vector3f[] positions = new Vector3f[X_SAMPLES * Z_SAMPLES];
-        for ( int zIndex = 0; zIndex < Z_SAMPLES; zIndex++ ) {
-            for ( int xIndex = 0; xIndex < X_SAMPLES; xIndex++ ) {
-                float x = grid.getXSample( xIndex );
-                float z = grid.getZSample( zIndex );
-                float elevation = (float) model.getElevation( x, z );
-                Vector3f modelVector = new Vector3f( x, elevation, z );
-                Vector3f roundCorrectedVector = PlateModel.convertToRadial( modelVector );
-                Vector3f viewVector = module.getModelViewTransform().modelToView( roundCorrectedVector );
-                positions[zIndex * X_SAMPLES + xIndex] = viewVector;
+    private Vector3f[] computePositions( Terrain terrain ) {
+        Vector3f[] positions = new Vector3f[terrain.numXSamples * terrain.numZSamples];
+        Vector3f[] xRadials = new Vector3f[terrain.numXSamples];
+        Vector3f[] zRadials = new Vector3f[terrain.numZSamples];
+
+        for ( int i = 0; i < terrain.numXSamples; i++ ) {
+            xRadials[i] = PlateModel.getXRadialVector( terrain.xData[i] );
+        }
+        for ( int i = 0; i < terrain.numZSamples; i++ ) {
+            zRadials[i] = PlateModel.getZRadialVector( terrain.zData[i] );
+        }
+
+        for ( int zIndex = terrain.numZSamples - 1; zIndex >= 0; zIndex-- ) {
+            Vector3f zRadial = zRadials[zIndex];
+            for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
+                float elevation = terrain.getElevation( xIndex, zIndex );
+                Vector3f cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
+                Vector3f viewVector = module.getModelViewTransform().modelToView( cartesianModelVector );
+                positions[zIndex * terrain.numXSamples + xIndex] = viewVector;
             }
         }
         return positions;
@@ -118,7 +115,7 @@ public class TerrainNode extends Geometry {
         public void updateTerrain() {
             ByteBuffer buffer = data.get( 0 );
             buffer.clear();
-            int numZSamples = textureGrid.getNumZSamples();
+            int numZSamples = terrain.numZSamples;
             for ( int z = 0; z < numZSamples; z++ ) {
                 // since we don't care about data past this point, just zero it out
                 if ( z >= height ) {
@@ -128,8 +125,8 @@ public class TerrainNode extends Geometry {
                     }
                     continue;
                 }
-                for ( int x = 0; x < width; x++ ) {
-                    double elevation = getElevationAtPixel( x, z );
+                for ( int x = 0; x < terrain.numXSamples; x++ ) {
+                    double elevation = terrain.getElevation( x, z );
                     int stonyness = MathUtil.clamp( 0, (int) ( ( elevation - 3200 ) * ( 255f / 400f ) ), 255 ); // tree line at 3400 km
                     int beachyness = MathUtil.clamp( 0, (int) ( -( elevation - 1500 ) / 3 ), 255 );
                     buffer.put( new byte[] {
@@ -141,10 +138,6 @@ public class TerrainNode extends Geometry {
                 }
             }
             setUpdateNeeded();
-        }
-
-        private double getElevationAtPixel( int xIndex, int zIndex ) {
-            return model.getElevation( textureGrid.getXSample( xIndex ), textureGrid.getZSample( zIndex ) );
         }
     }
 }

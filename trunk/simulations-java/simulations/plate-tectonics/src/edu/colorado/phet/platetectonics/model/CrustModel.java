@@ -1,11 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.platetectonics.model.Region.Type;
+import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
+
+import com.jme3.math.Vector2f;
 
 /**
  * Displays a simplified block model of crusts resting on the mantle. Their elevation is dependent on
@@ -37,18 +45,113 @@ public class CrustModel extends PlateModel {
 
     // thickness of the center crust, in meters
     public final Property<Double> thickness = new Property<Double>( 20000.0 );
+    private final FlatTerrain oceanicTerrain;
+    private final FlatTerrain middleTerrain;
+    private final FlatTerrain continentalTerrain;
+    private final List<TerrainConnector> terrainConnectors = new ArrayList<TerrainConnector>();
 
-    public CrustModel( Grid3D grid ) {
+    private static final int TERRAIN_X_SAMPLES = 20;
+    private static final int TERRAIN_Z_SAMPLES = 5;
+
+    public CrustModel( final Grid3D grid ) {
         super( grid );
-        // fire a change event when anything is modified
-        SimpleObserver fireModelChanged = new SimpleObserver() {
+        final Bounds3D bounds = grid.getBounds();
+
+        // update when anything is modified
+        SimpleObserver updateObserver = new SimpleObserver() {
             public void update() {
-                modelChanged.updateListeners();
+                updateView();
             }
         };
-        temperatureRatio.addObserver( fireModelChanged );
-        compositionRatio.addObserver( fireModelChanged );
-        thickness.addObserver( fireModelChanged );
+        temperatureRatio.addObserver( updateObserver, false );
+        compositionRatio.addObserver( updateObserver, false );
+        thickness.addObserver( updateObserver, false );
+
+        /*---------------------------------------------------------------------------*
+        * terrains
+        *----------------------------------------------------------------------------*/
+
+        oceanicTerrain = new FlatTerrain( TERRAIN_X_SAMPLES, TERRAIN_Z_SAMPLES ) {{
+            setXBounds( bounds.getMinX(), LEFT_BOUNDARY );
+            setZBounds( bounds.getMinZ(), bounds.getMaxZ() );
+            setElevation( (float) LEFT_OCEANIC_ELEVATION );
+        }};
+        middleTerrain = new FlatTerrain( TERRAIN_X_SAMPLES, TERRAIN_Z_SAMPLES ) {{
+            setXBounds( LEFT_BOUNDARY, RIGHT_BOUNDARY );
+            setZBounds( bounds.getMinZ(), bounds.getMaxZ() );
+        }};
+        continentalTerrain = new FlatTerrain( TERRAIN_X_SAMPLES, TERRAIN_Z_SAMPLES ) {{
+            setXBounds( RIGHT_BOUNDARY, bounds.getMaxX() );
+            setZBounds( bounds.getMinZ(), bounds.getMaxZ() );
+            setElevation( (float) RIGHT_CONTINENTAL_ELEVATION );
+        }};
+        addTerrain( oceanicTerrain );
+        addTerrain( middleTerrain );
+        addTerrain( continentalTerrain );
+
+        TerrainConnector leftConnector = new TerrainConnector( oceanicTerrain, middleTerrain, 10 );
+        TerrainConnector rightConnector = new TerrainConnector( middleTerrain, continentalTerrain, 10 );
+        terrainConnectors.add( leftConnector );
+        terrainConnectors.add( rightConnector );
+        addTerrain( leftConnector );
+        addTerrain( rightConnector );
+
+        /*---------------------------------------------------------------------------*
+        * regions
+        *----------------------------------------------------------------------------*/
+
+        addRegion( new SimpleRegion( Type.CRUST,
+                                     oceanicTerrain,
+                                     constantFunction( 0.0 ),
+                                     constantFunction( LEFT_OCEANIC_THICKNESS ),
+                                     constantFunction( LEFT_OCEANIC_DENSITY ),
+                                     constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+        addRegion( new SimpleRegion( Type.CRUST,
+                                     middleTerrain,
+                                     constantFunction( 0.0 ),
+                                     propertyFunction( thickness ),
+                                     new Function0<Double>() {
+                                         public Double apply() {
+                                             return getCenterCrustDensity();
+                                         }
+                                     }, constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+        addRegion( new SimpleRegion( Type.CRUST,
+                                     continentalTerrain,
+                                     constantFunction( 0.0 ),
+                                     constantFunction( RIGHT_CONTINENTAL_THICKNESS ),
+                                     constantFunction( RIGHT_CONTINENTAL_DENSITY ),
+                                     constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+
+        updateView();
+    }
+
+    private static <T> Function0<T> constantFunction( final T t ) {
+        return new Function0<T>() {
+            public T apply() {
+                return t;
+            }
+        };
+    }
+
+    private static <T> Function0<T> propertyFunction( final Property<T> property ) {
+        return new Function0<T>() {
+            public T apply() {
+                return property.get();
+            }
+        };
+    }
+
+    public void updateView() {
+        // update the middle elevation
+        middleTerrain.setElevation( (float) getCenterCrustElevation() );
+
+        // update the terrain connectors
+        for ( TerrainConnector connector : terrainConnectors ) {
+            connector.update();
+        }
+
+        // send out noficiations
+        modelChanged.updateListeners();
     }
 
     /**
@@ -116,10 +219,11 @@ public class CrustModel extends PlateModel {
     }
 
     @Override public double getTemperature( double x, double y ) {
+        // TODO: complete redo on this part?
         double elevation = getElevation( x, 0 );
         double surfaceTemperature = getSurfaceTemperature( elevation );
 
-        if ( elevation > y ) {
+        if ( elevation >= y ) {
             // our point is under surface level
             double depth = elevation - y;
             double continental = getSimplifiedContinentalTemperature( depth, surfaceTemperature );
@@ -167,5 +271,48 @@ public class CrustModel extends PlateModel {
 
     public static double getSimplifiedOceanicTemperature( double depth, double surfaceTemperature ) {
         return surfaceTemperature + simplifiedOceanicDifference.apply( depth );
+    }
+
+    private static class SimpleRegion extends Region {
+        private final Terrain terrain;
+        private final Function0<Double> thickness;
+        private final Function0<Double> density;
+        private final Function0<Double> temperature;
+
+        public SimpleRegion( Type type, Terrain terrain, Function0<Double> negativeOffset, Function0<Double> thickness, Function0<Double> density, Function0<Double> temperature ) {
+            super( type );
+            this.terrain = terrain;
+            this.thickness = thickness;
+            this.density = density;
+            this.temperature = temperature;
+        }
+
+        // constant density over the entire surface
+        @Override public float getDensity( Vector2f position ) {
+            return density.apply().floatValue();
+        }
+
+        // constant temperature over the entire surface
+        @Override public float getTemperature( Vector2f position ) {
+            return temperature.apply().floatValue();
+        }
+
+        @Override public Vector2f[] getBoundary() {
+            int numVertices = terrain.numXSamples * 2;
+            Vector2f[] vertices = new Vector2f[numVertices];
+            float height = thickness.apply().floatValue();
+            int frontZIndex = terrain.getFrontZIndex();
+            for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
+                float x = terrain.xData[xIndex];
+                float y = terrain.getElevation( xIndex, frontZIndex );
+
+                // specify the top row
+                vertices[xIndex] = new Vector2f( x, y );
+
+                // and the bottom row, but in reverse order in the 2nd half of the vertices array
+                vertices[numVertices - xIndex - 1] = new Vector2f( x, y - height );
+            }
+            return vertices;
+        }
     }
 }
