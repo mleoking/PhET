@@ -18,9 +18,9 @@ import edu.colorado.phet.moleculeshapes.control.TeachersMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
 
 /**
- * The main application for Molecule Shapes
+ * The main application for Molecule Shapes: Basics (with a few things stripped out)
  */
-public class MoleculeShapesApplication extends JMEPhetApplication {
+public class MoleculeShapesBasicsApplication extends JMEPhetApplication {
 
     private MoleculeShapesModule module;
 
@@ -29,7 +29,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public MoleculeShapesApplication( PhetApplicationConfig config ) {
+    public MoleculeShapesBasicsApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar();
@@ -46,7 +46,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
         Frame parentFrame = getPhetFrame();
 
-        addModule( module = new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__TITLE, false ) );
+        addModule( module = new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__BASICS__TITLE, true ) );
     }
 
     /*
@@ -87,7 +87,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
         * If you want to customize your application (look-&-feel, window size, etc)
         * create your own PhetApplicationConfig and use one of the other launchSim methods
         */
-        new PhetApplicationLauncher().launchSim( args, MoleculeShapesConstants.PROJECT_NAME, MoleculeShapesConstants.MOLECULE_SHAPES, MoleculeShapesApplication.class );
+        new PhetApplicationLauncher().launchSim( args, MoleculeShapesConstants.PROJECT_NAME, MoleculeShapesConstants.MOLECULE_SHAPES_BASICS, MoleculeShapesBasicsApplication.class );
     }
 
 }

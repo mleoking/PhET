@@ -68,6 +68,7 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_P
 public class MoleculeShapesModule extends JMEModule {
 
     private PhetJMEApplication app;
+    private final boolean isBasicsVersion;
 
     /*---------------------------------------------------------------------------*
     * input mapping constants
@@ -147,8 +148,9 @@ public class MoleculeShapesModule extends JMEModule {
     private static final Random random = new Random( System.currentTimeMillis() );
 
 
-    public MoleculeShapesModule( Frame parentFrame, String name ) {
+    public MoleculeShapesModule( Frame parentFrame, String name, boolean isBasicsVersion ) {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
+        this.isBasicsVersion = isBasicsVersion;
     }
 
     // should be called from stable positions in the JME and Swing EDT threads
@@ -378,7 +380,7 @@ public class MoleculeShapesModule extends JMEModule {
         /*---------------------------------------------------------------------------*
         * "geometry name" panel
         *----------------------------------------------------------------------------*/
-        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule ), Strings.CONTROL__GEOMETRY_NAME ) {{
+        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule, !isBasicsVersion() ), Strings.CONTROL__GEOMETRY_NAME ) {{
             // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
             setOffset( 0, 10 );
         }}, inputHandler, this, canvasTransform );
@@ -734,5 +736,9 @@ public class MoleculeShapesModule extends JMEModule {
     public float getApproximateScale() {
         ImmutableVector2D scale = getScale();
         return (float) ( ( scale.getX() + scale.getY() ) / 2 );
+    }
+
+    public boolean isBasicsVersion() {
+        return isBasicsVersion;
     }
 }

@@ -17,6 +17,9 @@ public class MoleculeShapesConstants {
 
     public static final String PROJECT_NAME = "molecule-shapes";
 
+    public static final String MOLECULE_SHAPES = "molecule-shapes";
+    public static final String MOLECULE_SHAPES_BASICS = "molecule-shapes-basics";
+
     /*---------------------------------------------------------------------------*
     * colors
     *----------------------------------------------------------------------------*/
