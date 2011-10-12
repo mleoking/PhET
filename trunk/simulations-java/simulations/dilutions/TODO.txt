@@ -6,9 +6,9 @@ DESIGN
 - various issues with black text on dark background colors
 
 HIGH
+- use PrecisionDecimal for solute amount and solution volume?
 
 MEDIUM
-- up/down arrows in slider JTextField to increment/decrement
 
 LOW
 - repackage
