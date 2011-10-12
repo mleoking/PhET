@@ -5,12 +5,10 @@ package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.view.TemperatureUnits;
 
 /**
  * This class is where the model and view classes for the "Solid, Liquid, and
@@ -31,7 +29,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public SolidLiquidGasModule( Frame parentFrame, Property<TemperatureUnits> temperatureUnits ) {
+    public SolidLiquidGasModule( Frame parentFrame ) {
 
         super( StatesOfMatterStrings.TITLE_SOLID_LIQUID_GAS_MODULE,
                new ConstantDtClock( SolidLiquidGasDefaults.CLOCK_FRAME_DELAY, SolidLiquidGasDefaults.CLOCK_DT ) );
@@ -40,7 +38,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
         m_model = new MultipleParticleModel( (ConstantDtClock) getClock() );
 
         // Canvas
-        m_canvas = new SolidLiquidGasCanvas( m_model, temperatureUnits );
+        m_canvas = new SolidLiquidGasCanvas( m_model );
         setSimulationPanel( m_canvas );
 
         // Control panel

@@ -3,12 +3,10 @@
 package edu.colorado.phet.statesofmatter.module.phasechanges;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.PhaseChangesDefaults;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.view.TemperatureUnits;
 
 
 public class PhaseChangesModule extends PiccoloModule {
@@ -23,7 +21,7 @@ public class PhaseChangesModule extends PiccoloModule {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public PhaseChangesModule( Property<TemperatureUnits> temperatureUnits, boolean advanced ) {
+    public PhaseChangesModule( boolean advanced ) {
 
         super( StatesOfMatterStrings.TITLE_PHASE_CHANGES_MODULE,
                new ConstantDtClock( PhaseChangesDefaults.CLOCK_FRAME_DELAY, PhaseChangesDefaults.CLOCK_DT ) );
@@ -32,7 +30,7 @@ public class PhaseChangesModule extends PiccoloModule {
         m_model = new MultipleParticleModel( (ConstantDtClock) getClock() );
 
         // Canvas
-        m_canvas = new PhaseChangesCanvas( m_model, temperatureUnits );
+        m_canvas = new PhaseChangesCanvas( m_model );
         setSimulationPanel( m_canvas );
 
         // Control panel
