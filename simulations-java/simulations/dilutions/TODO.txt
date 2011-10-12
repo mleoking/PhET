@@ -6,7 +6,6 @@ DESIGN
 - various issues with black text on dark background colors
 
 HIGH
-- frosty translucent background behind formula on beaker
 
 MEDIUM
 - up/down arrows in slider JTextField to increment/decrement
