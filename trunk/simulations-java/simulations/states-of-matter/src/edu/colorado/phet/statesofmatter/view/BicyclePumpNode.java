@@ -6,9 +6,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.GradientPaint;
-import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -53,8 +53,8 @@ public class BicyclePumpNode extends PNode {
     private static final double HOSE_CONNECTOR_VERT_POS_PROPORTION = 0.5;
     private static final Color HOSE_CONNECTOR_COLOR = new Color( 0xffff99 );
     private static final double HOSE_ATTACH_VERT_POS_PROPORTION = 0.075;
-    private static final Color HOSE_COLOR = Color.WHITE;
-    private static final double HOSE_WIDTH_PROPORTION = 0.02;
+    private static final Color HOSE_COLOR = new Color( 200, 200, 200 );
+    private static final double HOSE_WIDTH_PROPORTION = 0.03;
     private static final double PUMPING_REQUIRED_TO_INJECT_PROPORTION = PUMP_SHAFT_HEIGHT_PROPORTION / 10;
 
     //------------------------------------------------------------------------
@@ -144,10 +144,26 @@ public class BicyclePumpNode extends PNode {
         double hoseExternalAttachPtY = height - ( height * HOSE_CONNECTOR_VERT_POS_PROPORTION ) + ( height * HOSE_CONNECTOR_HEIGHT_PROPORTION / 2 );
         double hoseToPumpAttachPtX = width * PUMP_HORIZ_POSITION_PROPORTION;
         double hoseToPumpAttachPtY = height - ( height * HOSE_ATTACH_VERT_POS_PROPORTION );
-        CubicCurve2D hoseShape = new CubicCurve2D.Double( hoseExternalAttachPtX, hoseExternalAttachPtY, width, height - ( height * HOSE_CONNECTOR_VERT_POS_PROPORTION ), 0, height - ( height * HOSE_ATTACH_VERT_POS_PROPORTION ), hoseToPumpAttachPtX, hoseToPumpAttachPtY );
-        PPath hose = new PPath( hoseShape );
-        hose.setStroke( new BasicStroke( (float) ( HOSE_WIDTH_PROPORTION * width ) ) );
-        hose.setStrokePaint( HOSE_COLOR );
+        DoubleGeneralPath hosePath = new DoubleGeneralPath();
+        double hoseWidth = HOSE_WIDTH_PROPORTION * width;
+        hosePath.moveTo( hoseExternalAttachPtX, hoseExternalAttachPtY + hoseWidth / 2 );
+        hosePath.lineTo( hoseExternalAttachPtX, hoseExternalAttachPtY - hoseWidth / 2 );
+        hosePath.curveTo( width + hoseWidth,
+                          height - ( height * HOSE_CONNECTOR_VERT_POS_PROPORTION ) - hoseWidth / 2,
+                          hoseWidth,
+                          height - ( height * HOSE_ATTACH_VERT_POS_PROPORTION ) - hoseWidth / 2,
+                          hoseToPumpAttachPtX,
+                          hoseToPumpAttachPtY - hoseWidth / 2 );
+        hosePath.lineTo( hoseToPumpAttachPtX, hoseToPumpAttachPtY + hoseWidth / 2 );
+        hosePath.curveTo( -hoseWidth,
+                          height - ( height * HOSE_ATTACH_VERT_POS_PROPORTION ) + hoseWidth / 2,
+                          width,
+                          height - ( height * HOSE_CONNECTOR_VERT_POS_PROPORTION ) + hoseWidth / 2,
+                          hoseExternalAttachPtX,
+                          hoseExternalAttachPtY + hoseWidth / 2 );
+        hosePath.closePath();
+
+        PPath hose = new PhetPPath( hosePath.getGeneralPath(), HOSE_COLOR, new BasicStroke( 20 ), Color.BLACK );
         hose.setPickable( false );
         addChild( hose );
 
