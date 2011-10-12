@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 public class SmartDoubleFormat {
 
     private DefaultDecimalFormat defaultFormat;
+    private String pattern;
     private final boolean formatIntegersAsIntegers;
     private final boolean formatZeroAsInteger;
 
@@ -24,6 +25,7 @@ public class SmartDoubleFormat {
      */
     public SmartDoubleFormat( String pattern, boolean formatIntegersAsIntegers, boolean showZeroAsInteger ) {
         this.defaultFormat = new DefaultDecimalFormat( pattern );
+        this.pattern = pattern;
         this.formatIntegersAsIntegers = formatIntegersAsIntegers;
         this.formatZeroAsInteger = showZeroAsInteger;
     }
@@ -45,5 +47,10 @@ public class SmartDoubleFormat {
             s = defaultFormat.format( value );
         }
         return s;
+    }
+
+    // Gets the number of columns needs to hold a value formatted with this formatter.
+    public int getColumns() {
+        return pattern.length();
     }
 }
