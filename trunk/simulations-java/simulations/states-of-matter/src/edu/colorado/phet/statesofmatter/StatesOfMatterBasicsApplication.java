@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.statesofmatter.developer.DeveloperControlsMenuItem;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
+import edu.colorado.phet.statesofmatter.view.TemperatureUnits;
 
 /**
  * Main application class for the States of Matter - Basics simulation.  This
@@ -38,7 +39,7 @@ public class StatesOfMatterBasicsApplication extends PiccoloPhetApplication impl
 
     // Property that controls whether the thermometer should display the
     // temperature in degrees Kelvin or Celsius.
-    public final static BooleanProperty useKelvin = new BooleanProperty( true );
+    public final static Property<TemperatureUnits> temperatureUnits = new Property<TemperatureUnits>( TemperatureUnits.KELVIN );
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -70,25 +71,24 @@ public class StatesOfMatterBasicsApplication extends PiccoloPhetApplication impl
         final JRadioButtonMenuItem kelvinRadioButton = new JRadioButtonMenuItem( StatesOfMatterStrings.KELVIN ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    useKelvin.set( isSelected() );
+                    temperatureUnits.set( TemperatureUnits.KELVIN );
                 }
             } );
         }};
         optionsMenu.add( kelvinRadioButton );
 
         final JRadioButtonMenuItem celsiusRadioButton = new JRadioButtonMenuItem( StatesOfMatterStrings.CELSIUS ) {{
-            setSelected( !useKelvin.get() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    useKelvin.set( !isSelected() );
+                    temperatureUnits.set( TemperatureUnits.CELSIUS );
                 }
             } );
         }};
         optionsMenu.add( celsiusRadioButton );
-        useKelvin.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean useKelvin ) {
-                kelvinRadioButton.setSelected( useKelvin );
-                celsiusRadioButton.setSelected( !useKelvin );
+        temperatureUnits.addObserver( new VoidFunction1<TemperatureUnits>() {
+            public void apply( TemperatureUnits temperatureUnitsValue ) {
+                kelvinRadioButton.setSelected( temperatureUnitsValue == TemperatureUnits.KELVIN );
+                celsiusRadioButton.setSelected( temperatureUnitsValue == TemperatureUnits.CELSIUS );
             }
         } );
 
@@ -105,10 +105,10 @@ public class StatesOfMatterBasicsApplication extends PiccoloPhetApplication impl
     private void initModules() {
         Frame parentFrame = getPhetFrame();
 
-        m_solidLiquidGasModule = new SolidLiquidGasModule( parentFrame );
+        m_solidLiquidGasModule = new SolidLiquidGasModule( parentFrame, temperatureUnits );
         addModule( m_solidLiquidGasModule );
 
-        m_phaseChangesModule = new PhaseChangesModule( parentFrame, false );
+        m_phaseChangesModule = new PhaseChangesModule( temperatureUnits, false );
         addModule( m_phaseChangesModule );
     }
 

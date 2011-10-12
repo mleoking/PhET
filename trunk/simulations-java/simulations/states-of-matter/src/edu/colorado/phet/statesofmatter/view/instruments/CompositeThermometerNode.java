@@ -6,8 +6,12 @@ import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.statesofmatter.view.TemperatureUnits;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -28,22 +32,24 @@ public class CompositeThermometerNode extends PNode {
 
     private LiquidExpansionThermometerNode m_liquidThermometer;
     private double m_maxTemp;
-    private DigitalReadoutNode m_kelvinReadout;
+    private DigitalReadoutNode m_digitalReadout;
+
+    private enum Units {KELVIN, CELSIUS}
 
     /**
      * Constructor.
      *
-     * @param width   - Width on the canvas of this node.
-     * @param height  - Height on the canvas of this node.
-     * @param maxTemp - The maximum temperature in Kelvin that the thermometer can display.
+     * @param width           - Width on the canvas of this node.
+     * @param height          - Height on the canvas of this node.
+     * @param maxTempInKelvin - The maximum temperature in Kelvin that the thermometer can display.
      */
-    public CompositeThermometerNode( double width, double height, double maxTemp ) {
+    public CompositeThermometerNode( double width, double height, double maxTempInKelvin, Property<TemperatureUnits> temperatureUnitsProperty ) {
 
-        m_maxTemp = maxTemp;
+        m_maxTemp = maxTempInKelvin;
 
         // Add the digital readout.
-        m_kelvinReadout = new DigitalReadoutNode( width, "\u212A" );
-        addChild( m_kelvinReadout );
+        m_digitalReadout = new DigitalReadoutNode( width, temperatureUnitsProperty.get() );
+        addChild( m_digitalReadout );
 
         // Add the thermometer.  !! NOTE !! - The thermometer is added initially as much smaller than
         // it needs to be and then is scaled up.  This is a workaround for an issue where the
@@ -54,12 +60,20 @@ public class CompositeThermometerNode extends PNode {
                 height / LIQUID_THERMOMETER_SCALE_FACTOR ) );
         m_liquidThermometer.setTicks( height / 10 / LIQUID_THERMOMETER_SCALE_FACTOR, Color.BLACK, (float) height / 3500 );
         m_liquidThermometer.scale( LIQUID_THERMOMETER_SCALE_FACTOR );
-        m_liquidThermometer.setOffset( 0, m_kelvinReadout.getFullBoundsReference().height * 1.1 );
+        m_liquidThermometer.setOffset( 0, m_digitalReadout.getFullBoundsReference().height * 1.1 );
         addChild( m_liquidThermometer );
+
+        // Monitor a property that determines whether the temperature should
+        // be displayed in Kelvin or Celsius.
+        temperatureUnitsProperty.addObserver( new VoidFunction1<TemperatureUnits>() {
+            public void apply( TemperatureUnits temperatureUnits ) {
+                m_digitalReadout.setTemperatureUnits( temperatureUnits );
+            }
+        } );
     }
 
     public void setTemperatureInDegreesKelvin( double degrees ) {
-        m_kelvinReadout.setValue( degrees );
+        m_digitalReadout.setValueKelvin( degrees );
         m_liquidThermometer.setLiquidHeight( Math.min( degrees / m_maxTemp, 1.0 ) );
     }
 
@@ -78,17 +92,21 @@ public class CompositeThermometerNode extends PNode {
         private static final double WIDTH_TO_HEIGHT_RATIO = 2.2;
         private static final double INSET_WIDTH_RATIO = 0.95;
 
-        private final DecimalFormat highNumberFormatter = new DecimalFormat( "##0" );
+        private final DecimalFormat numberFormatter = new DecimalFormat( "##0" );
 
+        private TemperatureUnits m_temperatureUnits = TemperatureUnits.KELVIN;
+        private double m_valueInKelvin = 0;
         private PText m_text;
         private String m_units;
         PPath m_foregroundNode;
 
-        public DigitalReadoutNode( double width, String units ) {
-
-            if ( units != null ) {
-                m_units = new String( units );
-            }
+        /**
+         * Constructor.
+         *
+         * @param width
+         * @param temperatureUnits
+         */
+        public DigitalReadoutNode( double width, TemperatureUnits temperatureUnits ) {
 
             double height = width / WIDTH_TO_HEIGHT_RATIO;
             PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, height / 5, height / 5 ) );
@@ -107,17 +125,51 @@ public class CompositeThermometerNode extends PNode {
             m_text.scale( m_foregroundNode.getFullBoundsReference().height * 0.8 / m_text.getFullBoundsReference().height );
             addChild( m_text );
 
-            setValue( 0 );
+            setTemperatureUnits( temperatureUnits );
+            update();
         }
 
-        public void setUnitsString( String units ) {
-            m_units = new String( units );
+        /**
+         * Set the units in which the temperature should be displayed.
+         *
+         * @param temperatureUnits
+         */
+        public void setTemperatureUnits( TemperatureUnits temperatureUnits ) {
+            // Doesn't handle all units.  Modify if needed.
+            assert temperatureUnits == TemperatureUnits.KELVIN || temperatureUnits == TemperatureUnits.CELSIUS;
+
+            m_temperatureUnits = temperatureUnits;
+
+            // Update the string used for the units.
+            switch( m_temperatureUnits ) {
+                case KELVIN:
+                    m_units = StatesOfMatterStrings.UNITS_K;
+                    break;
+                case CELSIUS:
+                    m_units = StatesOfMatterStrings.UNITS_C;
+                    break;
+                default:
+                    assert false; // Don't have support for specified units.
+                    m_units = "X";
+                    break;
+            }
+
+            update();
         }
 
-        public void setValue( double value ) {
+        public void setValueKelvin( double value ) {
+            m_valueInKelvin = value;
+            update();
+        }
+
+        private void update() {
             String valueString;
-
-            valueString = new String( highNumberFormatter.format( Math.round( value ) ) );
+            if ( m_temperatureUnits == TemperatureUnits.CELSIUS ) {
+                valueString = new String( numberFormatter.format( Math.round( m_valueInKelvin - 273.15 ) ) );
+            }
+            else {
+                valueString = new String( numberFormatter.format( Math.round( m_valueInKelvin ) ) );
+            }
 
             if ( m_units != null ) {
                 valueString += " ";
