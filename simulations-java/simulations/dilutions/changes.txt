@@ -1,3 +1,4 @@
+10/11/11 add editable text field to sliders
 10/11/11 use a commandline arg to show stage bounds, so that it's not distracting in dev versions
 10/11/11 implement "show values" for sliders
 10/11/11 implement "show values" for concentration display

@@ -5,10 +5,20 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
+
+import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -27,6 +37,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Base class for vertical sliders in the Dilutions simulation.
@@ -77,7 +88,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
 
         // nodes
         TitleNode titleNode = new TitleNode( title );
-        valueNode = new ValueNode( modelValue.get(), valueFormat, units );
+        valueNode = new ValueNode( modelValue, range, valueFormat, units );
         trackNode = new TrackNode( trackSize, TRACK_FILL_COLOR );
         thumbNode = new ThumbNode( this, trackNode, range, new VoidFunction1<Double>() {
             public void apply( Double value ) {
@@ -143,14 +154,8 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     }
 
     private void updateNode( double value ) {
-
         // knob location
         thumbNode.setOffset( thumbNode.getXOffset(), function.evaluate( value ) );
-
-        // value centered above track
-        valueNode.setValue( value );
-        valueNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
-                             valueNode.getYOffset() );
     }
 
     // Title above the slider
@@ -161,22 +166,97 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         }
     }
 
-    // Value above the slider
-    //TODO make this editable
-    private static class ValueNode extends PText {
+    // Value above the slider, an editable text field
+    private static class ValueNode extends PhetPNode {
 
+        private final Property<Double> modelValue;
+        private final DoubleRange range;
         private final NumberFormat format;
-        private final String units;
+        private final JTextField textField;
 
-        public ValueNode( double initialValue, final NumberFormat format, final String units ) {
-            setFont( VALUE_FONT );
+        public ValueNode( final Property<Double> modelValue, final DoubleRange range, final NumberFormat format, final String units ) {
+
+            this.modelValue = modelValue;
+            this.range = range;
             this.format = format;
-            this.units = units;
-            setValue( initialValue );
+
+            // text field
+            textField = new JTextField( 3 ) {{
+                setFont( VALUE_FONT );
+                setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( 3, 3, 3, 3 ) ) );
+                setHorizontalAlignment( JTextField.RIGHT );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        // update the model when the user presses Enter in the text field
+                        updateModelValue();
+                    }
+                } );
+                addFocusListener( new FocusListener() {
+                    public void focusGained( FocusEvent e ) {
+                        // select the entire contents of the text field when it gains focus
+                        textField.selectAll();
+                    }
+
+                    public void focusLost( FocusEvent e ) {
+                        // update the model when the text field loses focus
+                        updateModelValue();
+                    }
+                } );
+            }};
+
+            // text field node
+            PNode textFieldNode = new PSwing( textField );
+            addChild( textFieldNode );
+
+            // units
+            PText unitsNode = new PText( units ) {{
+                setFont( VALUE_FONT );
+            }};
+            addChild( unitsNode );
+            unitsNode.setOffset( textFieldNode.getFullBoundsReference().getMaxX() + 2,
+                                 ( textFieldNode.getFullBoundsReference().getHeight() - unitsNode.getFullBoundsReference().getHeight() ) / 2 );
+
+            modelValue.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double value ) {
+                    setValue( value );
+                }
+            } );
         }
 
-        public void setValue( double value ) {
-            setText( format.format( value ) + " " + units );
+        // Reads the value from the text field and (if it's valid) writes it to the model.
+        // If the value is bogus, reverts to the model value.
+        private void updateModelValue() {
+            double value = getValue();
+            if ( range.contains( value ) ) {
+                modelValue.set( value );
+            }
+            else {
+                inputErrorAlert();
+                setValue( modelValue.get() );
+            }
+        }
+
+        // Sets the value displayed in the text field.
+        private void setValue( double value ) {
+            textField.setText( format.format( value ) );
+        }
+
+        // Gets the value that is in the text field. If the value is bogus, resets the text field to the model value, and returns that value.
+        private double getValue() {
+            double value;
+            try {
+                value = Double.parseDouble( textField.getText() );
+            }
+            catch ( NumberFormatException nfe ) {
+                inputErrorAlert();
+                value = modelValue.get();
+                setValue( value );
+            }
+            return value;
+        }
+
+        private void inputErrorAlert() {
+            Toolkit.getDefaultToolkit().beep(); //TODO do we want to do this?
         }
     }
 
