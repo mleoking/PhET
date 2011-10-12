@@ -18,7 +18,6 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
-import edu.colorado.phet.statesofmatter.view.TemperatureUnits;
 import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -59,7 +58,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public SolidLiquidGasCanvas( final MultipleParticleModel multipleParticleModel, Property<TemperatureUnits> temperatureUnits ) {
+    public SolidLiquidGasCanvas( final MultipleParticleModel multipleParticleModel ) {
 
         m_model = multipleParticleModel;
 
@@ -107,7 +106,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
         m_thermometerNode = new CompositeThermometerNode( containerRect.getX() + containerRect.getWidth() * 0.18,
                                                           containerRect.getY() + containerRect.getHeight() * 0.30,
                                                           StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE,
-                                                          temperatureUnits );
+                                                          StatesOfMatterGlobalState.temperatureUnitsProperty );
         m_thermometerNode.setOffset(
                 containerRect.getX() + containerRect.getWidth() * 0.23,
                 containerRect.getY() - containerRect.getHeight() * 1.2 );
