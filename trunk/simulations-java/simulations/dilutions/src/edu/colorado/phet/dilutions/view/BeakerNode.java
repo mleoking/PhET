@@ -164,7 +164,7 @@ public class BeakerNode extends PComposite {
                 setStrokePaint( Color.LIGHT_GRAY );
                 double width = 0.65 * beakerSize.getWidth();
                 double height = 2 * htmlNode.getFullBoundsReference().getHeight();
-                setPathTo( new RoundRectangle2D.Double( -width / 2, -height / 2, width, height, 6, 6 ) );
+                setPathTo( new RoundRectangle2D.Double( -width / 2, -height / 2, width, height, 10, 10 ) );
             }};
 
             // rendering order
