@@ -1,9 +1,8 @@
 TODO list for dilutions
 
 DESIGN
-- overly verbose titles for sliders and concentration display
 - sliders are accurate to 3 decimal places but we're only showing 2, so we see "0" and "0.00"
-- better looking sliders
+- beaker ticks on left side, near volume slider? 1/2L vs 0.5L?
 
 HIGH
 - adjust gradients on concentration display to account for saturation point
