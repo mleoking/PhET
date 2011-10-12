@@ -38,13 +38,12 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
     private final PNode particleLayer;
     private final PNode foodColoringLayer;
 
-    //REVIEW use uppercase for constants
-    private static final double modelHeight = Pool.DEFAULT_HEIGHT * 3.2;
-    private static final double pipeCenterY = -2;
-    private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
+    private static final double MODEL_HEIGHT = Pool.DEFAULT_HEIGHT * 3.2;
+    private static final double PIPE_CENTER_Y = -2;
+    private static final double MODEL_WIDTH = MODEL_HEIGHT / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
 
     public FluidFlowCanvas( final FluidFlowModule module ) {
-        super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ) );
+        super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -MODEL_WIDTH / 2, -MODEL_HEIGHT / 2 + PIPE_CENTER_Y + 0.75, MODEL_WIDTH, MODEL_HEIGHT ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ) );
 
         addChild( new OutsideBackgroundNode( transform, 3, 1 ) );
 
