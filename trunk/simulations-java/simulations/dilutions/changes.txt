@@ -1,3 +1,6 @@
+10/12/11 add tick marks for min/max range labels on sliders
+10/12/11 fix units on concentration display
+10/12/11 generalize tick mark for reuse in slider
 10/12/11 round corners of slider thumbs
 10/12/11 use beaker from ph-scale, show/hide tick mark values
 10/12/11 add moles-to-particles multiplier for precipitates
