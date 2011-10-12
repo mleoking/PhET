@@ -55,7 +55,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
         {
             beakerNode.setOffset( 300, 200 );
             precipitateNode.setOffset( beakerNode.getOffset() );
-            soluteControlNode.setOffset( 50, 50 );
+            soluteControlNode.setOffset( 50, 30 );
             soluteAmountSliderNode.setOffset( 100, beakerNode.getYOffset() );
             solutionVolumeSliderNode.setOffset( soluteAmountSliderNode.getFullBoundsReference().getMaxX() + 75,
                                                 soluteAmountSliderNode.getYOffset() );
