@@ -27,6 +27,7 @@ import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
+import edu.colorado.phet.statesofmatter.view.TemperatureUnits;
 import edu.colorado.phet.statesofmatter.view.instruments.CompositeThermometerNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -70,7 +71,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public PhaseChangesCanvas( final MultipleParticleModel multipleParticleModel ) {
+    public PhaseChangesCanvas( final MultipleParticleModel multipleParticleModel, Property<TemperatureUnits> temperatureUnits ) {
 
         m_model = multipleParticleModel;
         m_rand = new Random();
@@ -134,7 +135,9 @@ public class PhaseChangesCanvas extends PhetPCanvas {
 
         // Add a thermometer for displaying temperature.
         m_thermometerNode = new CompositeThermometerNode( containerRect.getWidth() * 0.20,
-                                                          containerRect.getHeight() * 0.32, StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE );
+                                                          containerRect.getHeight() * 0.32,
+                                                          StatesOfMatterConstants.MAX_DISPLAYED_TEMPERATURE,
+                                                          temperatureUnits );
         addWorldChild( m_thermometerNode );
         updateThermometerTemperature();
         updateThermometerPosition();
