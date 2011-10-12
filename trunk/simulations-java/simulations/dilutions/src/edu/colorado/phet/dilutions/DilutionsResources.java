@@ -20,6 +20,7 @@ public class DilutionsResources {
         public static final String BEERS_LAW_LAB = RESOURCES.getLocalizedString( "beersLawLab" );
         public static final String COBALT_II_NITRATE = RESOURCES.getLocalizedString( "cobaltIINitrate" );
         public static final String COBALT_CHLORIDE = RESOURCES.getLocalizedString( "cobaltChloride" );
+        public static final String CONCENTRATION_MOLARITY = RESOURCES.getLocalizedString( "concentrationMolarity" );
         public static final String COPPER_SULFATE = RESOURCES.getLocalizedString( "copperSulfate" );
         public static final String DILUTION_EQUATION = RESOURCES.getLocalizedString( "dilutionEquation" );
         public static final String FULL = RESOURCES.getLocalizedString( "full" );
@@ -41,7 +42,6 @@ public class DilutionsResources {
         public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SOLUTE_AMOUNT = RESOURCES.getLocalizedString( "soluteAmount" );
-        public static final String SOLUTION_CONCENTRATION = RESOURCES.getLocalizedString( "solutionConcentration" );
         public static final String SOLUTION_VOLUME = RESOURCES.getLocalizedString( "solutionVolume" );
         public static final String UNITS_MOLARITY = RESOURCES.getLocalizedString( "units.molarity" );
         public static final String UNITS_MOLES = RESOURCES.getLocalizedString( "units.moles" );
