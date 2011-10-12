@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.InjectorNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
@@ -66,11 +67,11 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
             }
         } );
 
-        final DropperNode dropperNode = new DropperNode( transform, 3 * Math.PI / 2, model.pipe, new SimpleObserver() {
+        final InjectorNode dropperNode = new DyeInjectorNode( transform, 3 * Math.PI / 2, new SimpleObserver() {
             public void update() {
                 model.pourFoodColoring();
             }
-        } );
+        }, model.pipe );
         addChild( dropperNode );
 
         //Show a checkbox that enabled/disables adding dots to the fluid
