@@ -26,12 +26,15 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class SoluteControlNode extends PhetPNode {
 
+    private static final PhetFont LABEL_FONT = new PhetFont( 18 );
+    private static final PhetFont ITEM_FONT = new PhetFont( 18 );
+
     private final SoluteComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
     public SoluteControlNode( ArrayList<Solute> solutes, final Property<Solute> currentSolute ) {
 
         PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.SOLUTE ) ) {{
-            setFont( new PhetFont( 18 ) );
+            setFont( LABEL_FONT );
         }};
         addChild( labelNode );
 
@@ -83,7 +86,7 @@ public class SoluteControlNode extends PhetPNode {
             // solute label
             HTMLNode labelNode = new HTMLNode() {{
                 setHTML( solute.formula.equals( solute.name ) ? solute.formula : MessageFormat.format( "{0}: {1}", solute.formula, solute.name ) );
-                setFont( new PhetFont( 16 ) );
+                setFont( ITEM_FONT );
             }};
             addChild( labelNode );
 
