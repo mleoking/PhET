@@ -1,29 +1,29 @@
+> Added an options menu and added options for selecting Celsius or Kelvin as the temperature units.
 # 1.08.04 (57476) Oct 11, 2011
 10/11/11 Deploying a version where the "Return Lid" feature is somewhat better behaved.
 Modified the Return Lid feature to make put the remaining particles into the gaseous state regardless of their current energy.
 # 1.08.03 (57473) Oct 11, 2011
 10/11/11 Deploying to dev for interviews and feedback.
 Added strokes (black lines) around the atoms/molecules on the control panel to make them more visible.
-Added the ability to return the lid to the container after it has been blown off.
-Added a "hint" to the finger node to make it more obvious that it can be moved.  This hint is only shown when the mouse is over the finger.
+> Added the ability to return the lid to the container after it has been blown off.
+> Added a "hint" to the finger node to make it more obvious that it can be moved.  This hint is only shown when the mouse is over the finger.
 Darkened the control panels a little bit so that the recently added molecules would be a bit more visible.
-Added images of the atoms/molecules
-Improved the artwork used for the flame in the stove node.
+> Added images of the atoms/molecules to the control panel.
+> Improved the artwork used for the flame in the stove node.
 Added gradient to the slider node of the track.
 Modified the stove node to have black labels (more visible).
 # 1.08.02 (57327) Oct 5, 2011
 10/5/11 Deploying to dev for feedback from the design team.
-10/5/2011 Created a new stove node that fixes problems with the old one and looks better.
-10/5/2011 Moved the "Reset All" button on the phase changes tab from the control panel to the play area.
-10/5/2011 Made the phase diagram be hidden by default in the "Basics" version.
+> Created a new stove node that fixes problems with the old one and looks better.
+> Moved the "Reset All" button on the phase changes tab from the control panel to the play area.
+> Made the phase diagram be hidden by default in the "Basics" version.
 10/5/2011 Removed the option to selected "Adjustable Attraction" in the basic version.
 10/5/2011 Removed the interaction potential diagram from the "Basics" version.
-10/5/2011 Modified pressure gauge label that said "Pressure Gauge" to instead say "Pressure".
-10/5/2011 Modified control panel label that said "Molecules" to instead say "Atoms & Molecules".
-10/5/2011 Modified control panel label that said "Molecules" to instead say "Atoms & Molecules".
-10/5/2011 Modified atom colors to be more consistent with other chemistry simulations.
-10/5/2011 Removed confirmation dialog from Reset All
-10/5/2011 Moved the Reset All button into the play area on the Solid, Liquid, and Gas tab.
+> Modified pressure gauge label that said "Pressure Gauge" to instead say "Pressure".
+> Modified control panel label that said "Molecules" to instead say "Atoms & Molecules".
+> Modified atom colors to be more consistent with other chemistry simulations.
+> Removed confirmation dialog from Reset All to make it less intimidating.
+> Moved the Reset All button into the play area on the Solid, Liquid, and Gas tab.
 # 1.08.01 (57031) Sep 29, 2011
 9/23/2011 Changed heat control slider from swing to piccolo
 # 1.08.00 (51142) Apr 25, 2011
