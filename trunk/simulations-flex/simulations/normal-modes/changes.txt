@@ -1,3 +1,5 @@
+# 0.00.44 (57504) Oct 12, 2011
+10/12/11 Fixed greek letter omega (I hope).
 # 0.00.43 (57477) Oct 11, 2011
 10/11/11 Greek letters internationalized.
 # 0.00.42 (55698) Aug 23, 2011
