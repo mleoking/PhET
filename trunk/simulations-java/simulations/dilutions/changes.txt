@@ -1,3 +1,4 @@
+# 0.00.01 (57499) Oct 11, 2011
 10/11/11 dev version to demonstrate functionally-complete "Molarity" tab
 10/11/11 add editable text field to sliders
 10/11/11 use a commandline arg to show stage bounds, so that it's not distracting in dev versions
