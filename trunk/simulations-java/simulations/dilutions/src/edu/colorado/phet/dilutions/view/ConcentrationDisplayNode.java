@@ -11,8 +11,10 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -38,7 +40,7 @@ public class ConcentrationDisplayNode extends PComposite {
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PhetFont LABEL_FONT = new PhetFont( 16 );
 
-    public ConcentrationDisplayNode( final PDimension barSize, final Solution solution, DoubleRange range ) {
+    public ConcentrationDisplayNode( final PDimension barSize, final Solution solution, DoubleRange range, Property<Boolean> valuesVisible ) {
 
         // this node is not interactive
         setPickable( false );
@@ -48,29 +50,37 @@ public class ConcentrationDisplayNode extends PComposite {
         final TitleNode titleNode = new TitleNode();
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, range, solution.getConcentration() );
-        ConcentrationValueNode maxNode = new ConcentrationValueNode( range.getMax() );
-        ConcentrationValueNode minNode = new ConcentrationValueNode( range.getMin() );
+        final ConcentrationValueNode maxValueNode = new ConcentrationValueNode( range.getMax() );
+        final ConcentrationValueNode minValueNode = new ConcentrationValueNode( range.getMin() );
+        final ConcentrationQualityNode maxQualityNode = new ConcentrationQualityNode( Strings.HIGH );
+        final ConcentrationQualityNode minQualityNode = new ConcentrationQualityNode( Strings.LOW );
 
         // rendering order
         {
             addChild( titleNode );
             addChild( barNode );
-            addChild( maxNode );
-            addChild( minNode );
+            addChild( maxValueNode );
+            addChild( minValueNode );
+            addChild( maxQualityNode );
+            addChild( minQualityNode );
             addChild( pointerNode );
         }
 
         // layout
         {
-            // max label centered above the bar
-            maxNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( maxNode.getFullBoundsReference().getWidth() / 2 ),
-                               barNode.getFullBoundsReference().getMinY() - maxNode.getFullBoundsReference().getHeight() - 3 );
-            // min label centered below the bar
-            minNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( minNode.getFullBoundsReference().getWidth() / 2 ),
-                               barNode.getFullBoundsReference().getMaxY() + 3 );
+            // max labels centered above the bar
+            maxValueNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( maxValueNode.getFullBoundsReference().getWidth() / 2 ),
+                                    barNode.getFullBoundsReference().getMinY() - maxValueNode.getFullBoundsReference().getHeight() - 3 );
+            maxQualityNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( maxQualityNode.getFullBoundsReference().getWidth() / 2 ),
+                                      barNode.getFullBoundsReference().getMinY() - maxQualityNode.getFullBoundsReference().getHeight() - 3 );
+            // min labels centered below the bar
+            minValueNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( minValueNode.getFullBoundsReference().getWidth() / 2 ),
+                                    barNode.getFullBoundsReference().getMaxY() + 3 );
+            minQualityNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( minQualityNode.getFullBoundsReference().getWidth() / 2 ),
+                                      barNode.getFullBoundsReference().getMaxY() + 3 );
             // title centered above max label
             titleNode.setOffset( barNode.getFullBounds().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 maxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 3 );
+                                 Math.min( maxValueNode.getFullBoundsReference().getMinY(), maxQualityNode.getFullBoundsReference().getMinY() ) - titleNode.getFullBoundsReference().getHeight() - 3 );
         }
 
         // Pointer position and value corresponds to the solution's concentration.
@@ -90,6 +100,16 @@ public class ConcentrationDisplayNode extends PComposite {
             }
         } );
 
+        // Show values
+        valuesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                pointerNode.setValueVisible( visible );
+                maxValueNode.setVisible( visible );
+                minValueNode.setVisible( visible );
+                maxQualityNode.setVisible( !visible );
+                minQualityNode.setVisible( !visible );
+            }
+        } );
     }
 
     private static class TitleNode extends HTMLNode {
@@ -123,6 +143,14 @@ public class ConcentrationDisplayNode extends PComposite {
         public void setValue( double concentration ) {
             String valueString = ( concentration == 0 ) ? "0" : new DecimalFormat( "0.00" ).format( concentration );
             textNode.setText( MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, valueString, Strings.UNITS_MOLARITY ) );
+        }
+    }
+
+    // A qualitative concentration label
+    private static class ConcentrationQualityNode extends PText {
+        public ConcentrationQualityNode( String text ) {
+            super( text );
+            setFont( LABEL_FONT );
         }
     }
 
@@ -168,6 +196,10 @@ public class ConcentrationDisplayNode extends PComposite {
             valueNode.setValue( concentration );
             valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
                                  arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+        }
+
+        public void setValueVisible( boolean visible ) {
+            valueNode.setVisible( visible );
         }
     }
 }
