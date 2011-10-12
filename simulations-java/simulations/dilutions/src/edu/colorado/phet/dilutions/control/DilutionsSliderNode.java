@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -48,9 +50,8 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     // Slider for controlling amount of solute
     public static class SoluteAmountSliderNode extends DilutionsSliderNode {
         public SoluteAmountSliderNode( PDimension size, final Property<Double> soluteAmount, DoubleRange range, Property<Boolean> valuesVisible ) {
-            super( Strings.SOLUTE_AMOUNT, size, soluteAmount,
-                   Strings.UNITS_MOLES, range, new SmartDoubleFormat( "0.00" ),
-                   new SmartDoubleFormat( "0.00" ),
+            super( Strings.SOLUTE_AMOUNT, size, soluteAmount, Strings.UNITS_MOLES, range, 0.01,
+                   new SmartDoubleFormat( "0.00" ), new SmartDoubleFormat( "0.00" ),
                    Strings.LOTS, Strings.NONE, valuesVisible );
         }
     }
@@ -58,9 +59,8 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     // Slider for controlling volume of solution
     public static class SolutionVolumeSliderNode extends DilutionsSliderNode {
         public SolutionVolumeSliderNode( PDimension size, final Property<Double> solutionVolume, DoubleRange range, Property<Boolean> valuesVisible ) {
-            super( Strings.SOLUTION_VOLUME, size, solutionVolume,
-                   Strings.UNITS_LITERS, range, new SmartDoubleFormat( "0.00" ),
-                   new SmartDoubleFormat( "0.00" ),
+            super( Strings.SOLUTION_VOLUME, size, solutionVolume, Strings.UNITS_LITERS, range, 0.01,
+                   new SmartDoubleFormat( "0.00" ), new SmartDoubleFormat( "0.00" ),
                    Strings.FULL, Strings.LOW, valuesVisible );
         }
     }
@@ -88,14 +88,14 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     private final ThumbNode thumbNode;
 
     public DilutionsSliderNode( String title, PDimension trackSize, final Property<Double> modelValue,
-                                String units, DoubleRange range, SmartDoubleFormat valueFormat, SmartDoubleFormat tickFormat,
+                                String units, DoubleRange range, double delta, SmartDoubleFormat valueFormat, SmartDoubleFormat tickFormat,
                                 String maxQualityText, String minQualityText, Property<Boolean> valuesVisible ) {
 
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
         // nodes
         TitleNode titleNode = new TitleNode( title );
-        valueNode = new ValueNode( modelValue, range, valueFormat, units );
+        valueNode = new ValueNode( modelValue, range, delta, valueFormat, units );
         trackNode = new TrackNode( trackSize, TRACK_FILL_COLOR );
         thumbNode = new ThumbNode( this, trackNode, range, new VoidFunction1<Double>() {
             public void apply( Double value ) {
@@ -169,7 +169,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         private final SmartDoubleFormat format;
         private final JTextField textField;
 
-        public ValueNode( final Property<Double> modelValue, final DoubleRange range, final SmartDoubleFormat format, final String units ) {
+        public ValueNode( final Property<Double> modelValue, final DoubleRange range, final double delta, final SmartDoubleFormat format, final String units ) {
 
             this.modelValue = modelValue;
             this.range = range;
@@ -180,21 +180,43 @@ public abstract class DilutionsSliderNode extends PhetPNode {
                 setFont( VALUE_FONT );
                 setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( 3, 3, 3, 3 ) ) );
                 setHorizontalAlignment( JTextField.RIGHT );
+
+                // update the model when the user presses Enter in the text field
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        // update the model when the user presses Enter in the text field
                         updateModelValue();
                     }
                 } );
+
+                // select the entire contents of the text field when it gains focus
                 addFocusListener( new FocusListener() {
                     public void focusGained( FocusEvent e ) {
-                        // select the entire contents of the text field when it gains focus
                         textField.selectAll();
                     }
 
                     public void focusLost( FocusEvent e ) {
                         // update the model when the text field loses focus
                         updateModelValue();
+                    }
+                } );
+
+                // increment/decrement value with up/down arrows
+                addKeyListener( new KeyAdapter() {
+                    public void keyPressed( KeyEvent e ) {
+                        if ( e.getSource() == textField ) {
+                            if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+                                double value = getValue() + delta;
+                                if ( value <= range.getMax() ) {
+                                    modelValue.set( value );
+                                }
+                            }
+                            else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                                double value = getValue() - delta;
+                                if ( value >= range.getMin() ) {
+                                    modelValue.set( value );
+                                }
+                            }
+                        }
                     }
                 } );
             }};

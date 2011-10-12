@@ -1,3 +1,4 @@
+10/12/11 up/down arrows in slider JTextField to increment/decrement
 10/12/11 frosty translucent background behind formula on beaker
 10/12/11 translucent background behind "Saturated!"
 10/12/11 show H2O on beaker when concentration=0
