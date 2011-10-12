@@ -134,7 +134,7 @@ public class BeakerNode extends PComposite {
                 // update solute label
                 labelNode.setHTML( solute.get().formula );
                 labelNode.setOffset( ( size.getWidth() / 2 ) - ( labelNode.getFullBoundsReference().getWidth() / 2 ),
-                                     ( 035 * size.getHeight() ) - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
+                                     ( 0.35 * size.getHeight() ) - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
             }
         } );
 
