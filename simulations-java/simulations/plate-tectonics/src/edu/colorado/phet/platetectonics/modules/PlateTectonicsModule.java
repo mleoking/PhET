@@ -81,7 +81,7 @@ public abstract class PlateTectonicsModule extends JMEModule {
     }
 
     protected PhetCamera createCrustCamera() {
-        return new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 40, 1, 25000 ) ) {{
+        return new PhetCamera( getStageSize(), new CenteredStageCameraStrategy( 40, 1, 35000 ) ) {{
             setLocation( new Vector3f( 0, 100, 400 ) );
             lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
         }};
