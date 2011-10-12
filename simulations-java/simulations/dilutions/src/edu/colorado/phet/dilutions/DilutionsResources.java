@@ -38,7 +38,6 @@ public class DilutionsResources {
         public static final String SOLUTE_AMOUNT = RESOURCES.getLocalizedString( "soluteAmount" );
         public static final String SOLUTION_CONCENTRATION = RESOURCES.getLocalizedString( "solutionConcentration" );
         public static final String SOLUTION_VOLUME = RESOURCES.getLocalizedString( "solutionVolume" );
-        public static final String UNITS_MOLES_PER_LITER = RESOURCES.getLocalizedString( "units.molesPerLiter" );
         public static final String UNITS_MOLARITY = RESOURCES.getLocalizedString( "units.molarity" );
         public static final String UNITS_MOLES = RESOURCES.getLocalizedString( "units.moles" );
         public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
