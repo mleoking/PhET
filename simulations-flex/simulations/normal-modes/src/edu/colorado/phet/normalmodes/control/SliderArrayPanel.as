@@ -44,6 +44,7 @@ public class SliderArrayPanel extends Canvas {
     private var phaseSlider_arr:Array    //array of vertical Sliders for setting phase of mode
     private var nMax:int;                //maximum number of mobile masses = max nbr of normal modes
     private var phasesShown:Boolean;     //true if phases sliders are visible
+    //private var modeSpectrum_txt: TextField;
     private var modeLabel_txt: TextField
     private var amplitudeLabel_txt:TextField;
     private var frequency_txt:TextField;
@@ -53,6 +54,7 @@ public class SliderArrayPanel extends Canvas {
     private var zero_txt:TextField;
     private var minusPi_txt:TextField;
     //private var tFormat1:TextFormat;
+    //private var modeSpectrum_str:String;
     private var mode_str:String;
     private var amplitude_str:String;
     private var frequency_str:String;
@@ -131,6 +133,7 @@ public class SliderArrayPanel extends Canvas {
     }//end createSliderArray
 
     private function initializeStrings():void{
+        //this.modeSpectrum_str = FlexSimStrings.get("modeSpectrum", "Mode Spectrum");
         this.mode_str = FlexSimStrings.get("normalMode:", "Normal Mode:");
         this.amplitude_str = FlexSimStrings.get("amplitude:", "Amplitude:");
         this.frequency_str = FlexSimStrings.get("frequency:", "Frequency:");
@@ -146,6 +149,7 @@ public class SliderArrayPanel extends Canvas {
         tFormat.size = 20;
         tFormat.font = "Arial";
         tFormat.color = 0x000000;
+        //this.modeSpectrum_txt = new TextField();
         this.modeLabel_txt = new TextField();
         this.amplitudeLabel_txt = new TextField();
         this.frequency_txt = new TextField();
@@ -153,6 +157,7 @@ public class SliderArrayPanel extends Canvas {
         this.plusPi_txt = new TextField();
         this.zero_txt = new TextField();
         this.minusPi_txt = new TextField();
+        //this.modeSpectrum_txt.text = this.modeSpectrum_str;
         this.amplitudeLabel_txt.text = this.amplitude_str;
         this.frequency_txt.text = this.frequency_str;
         this.phaseLabel_txt.text = this.phase_str;
@@ -179,6 +184,12 @@ public class SliderArrayPanel extends Canvas {
         tFormat.size = 20;
         this.plusPi_txt.setTextFormat( tFormat );
         this.minusPi_txt.setTextFormat( tFormat );
+        //Reset tFormat for Mode Spectrum label
+        tFormat.size = 25;
+        tFormat.font = "Arial";
+        //this.modeSpectrum_txt.autoSize = TextFieldAutoSize.LEFT;
+        //this.modeSpectrum_txt.setTextFormat( tFormat );
+        //container.addChild( modeSpectrum_txt )
         //this.plusPi_txt.border = true;    //for testing only
     }//end createLabels()
 
@@ -268,7 +279,9 @@ public class SliderArrayPanel extends Canvas {
         this.setFrequencyLabels();
         this.showPhaseSliders( this.phasesShown );
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
-        this.modeLabel_txt.y = yOffset - 38;
+        //this.modeSpectrum_txt.x = leftEdgeOfSliders - 100;
+        //this.modeSpectrum_txt.y = -40;
+        this.modeLabel_txt.y = yOffset - 36;
         this.amplitudeLabel_txt.y = yOffset + 30;
         this.frequency_txt.y = yOffset + 118;
         this.phaseLabel_txt.y = yOffset + 190;
@@ -295,7 +308,7 @@ public class SliderArrayPanel extends Canvas {
         g.clear();
         g.lineStyle( 5, 0x999999, 1 );  //gray color
         var xPos:Number = Math.min( modeLabel_txt.x, frequency_txt.x ) - 15;
-        var yPos:Number = this.container.y - 20;
+        var yPos:Number = this.container.y - 20;//this.modeSpectrum_txt.y; // - this.modeSpectrum_txt.height; //
         var rightEdgeOfSliders:Number = this.ampliSlider_arr[myModel1.N - 1].x + this.ampliSlider_arr[myModel1.N - 1].width;
         //Next line necessary for correct start-up. On first start-up, this.myPolarizationPanel.width = 0
         var polarizationPanelWidth:Number = Math.max( 97, this.myPolarizationPanel.width );
@@ -308,6 +321,9 @@ public class SliderArrayPanel extends Canvas {
             h = -15 + ampliSlider_arr[0].y + ampliSlider_arr[1].height - container.y;
         }
         g.drawRoundRect( xPos, yPos, w, h, 20 );
+        //Locate Main Label in top left of bounding box;
+        //this.modeSpectrum_txt.x = xPos;
+        //this.modeSpectrum_txt.x = yPos;
     }
 
     public function resetSliders():void{
