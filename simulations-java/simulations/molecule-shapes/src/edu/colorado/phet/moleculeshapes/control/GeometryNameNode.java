@@ -75,7 +75,7 @@ public class GeometryNameNode extends PNode {
 
     private final MoleculeModel molecule;
 
-    public GeometryNameNode( MoleculeModel molecule ) {
+    public GeometryNameNode( MoleculeModel molecule, boolean showElectronGeometry ) {
         this.molecule = molecule;
 
         /*---------------------------------------------------------------------------*
@@ -103,7 +103,9 @@ public class GeometryNameNode extends PNode {
 
         addChild( spacer );
         addChild( molecularCheckbox );
-        addChild( electronCheckbox );
+        if ( showElectronGeometry ) {
+            addChild( electronCheckbox );
+        }
 
         /*---------------------------------------------------------------------------*
         * visibility listeners

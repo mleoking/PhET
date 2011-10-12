@@ -32,6 +32,7 @@ public class MoleculeShapesResources {
         public static final String GEOMETRY__TETRAHEDRAL = RESOURCES.getLocalizedString( "geometry.tetrahedral" );
         public static final String GEOMETRY__TRIGONAL_BIPYRAMIDAL = RESOURCES.getLocalizedString( "geometry.trigonalBipyramidal" );
         public static final String GEOMETRY__TRIGONAL_PLANAR = RESOURCES.getLocalizedString( "geometry.trigonalPlanar" );
+        public static final String MOLECULE__SHAPES__BASICS__TITLE = RESOURCES.getLocalizedString( "molecule-shapes-basics.title" );
         public static final String MOLECULE__SHAPES__TITLE = RESOURCES.getLocalizedString( "molecule-shapes.title" );
         public static final String REAL_EXAMPLES__TITLE = RESOURCES.getLocalizedString( "realExamples.title" );
         public static final String SHAPE__BENT = RESOURCES.getLocalizedString( "shape.bent" );
