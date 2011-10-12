@@ -3,8 +3,11 @@
 package edu.colorado.phet.statesofmatter;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JMenu;
+import javax.swing.JRadioButtonMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -12,7 +15,9 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.statesofmatter.developer.DeveloperControlsMenuItem;
 import edu.colorado.phet.statesofmatter.module.atomicinteractions.AtomicInteractionsModule;
@@ -61,6 +66,34 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
      * Initializes the menu bar.
      */
     protected void initMenubar() {
+        // Options menu
+        OptionsMenu optionsMenu = new OptionsMenu();
+        final JRadioButtonMenuItem kelvinRadioButton = new JRadioButtonMenuItem( StatesOfMatterStrings.KELVIN ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    temperatureUnits.set( TemperatureUnits.KELVIN );
+                }
+            } );
+        }};
+        optionsMenu.add( kelvinRadioButton );
+
+        final JRadioButtonMenuItem celsiusRadioButton = new JRadioButtonMenuItem( StatesOfMatterStrings.CELSIUS ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    temperatureUnits.set( TemperatureUnits.CELSIUS );
+                }
+            } );
+        }};
+        optionsMenu.add( celsiusRadioButton );
+        temperatureUnits.addObserver( new VoidFunction1<TemperatureUnits>() {
+            public void apply( TemperatureUnits temperatureUnitsValue ) {
+                kelvinRadioButton.setSelected( temperatureUnitsValue == TemperatureUnits.KELVIN );
+                celsiusRadioButton.setSelected( temperatureUnitsValue == TemperatureUnits.CELSIUS );
+            }
+        } );
+
+        getPhetFrame().addMenu( optionsMenu );
+
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         developerMenu.add( new DeveloperControlsMenuItem( this ) );
