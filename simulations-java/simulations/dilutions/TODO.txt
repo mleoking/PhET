@@ -9,7 +9,6 @@ DESIGN
 
 HIGH
 - editable text fields above sliders
-- show/hide values
 
 MEDIUM
 - relative layout of Molarity tab

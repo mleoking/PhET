@@ -37,17 +37,23 @@ public abstract class DilutionsSliderNode extends PhetPNode {
 
     // Slider for controlling amount of solute
     public static class SoluteAmountSliderNode extends DilutionsSliderNode {
-        public SoluteAmountSliderNode( PDimension size, final Property<Double> soluteAmount, DoubleRange range ) {
-            super( Strings.SOLUTE_AMOUNT, size, soluteAmount, new DecimalFormat( "0.00" ), Strings.UNITS_MOLES, range );
+        public SoluteAmountSliderNode( PDimension size, final Property<Double> soluteAmount, DoubleRange range, Property<Boolean> valuesVisible ) {
+            super( Strings.SOLUTE_AMOUNT, size, soluteAmount, new DecimalFormat( "0.00" ), Strings.UNITS_MOLES,
+                   range, Strings.LOTS, Strings.NONE, valuesVisible );
         }
     }
 
     // Slider for controlling volume of solution
     public static class SolutionVolumeSliderNode extends DilutionsSliderNode {
-        public SolutionVolumeSliderNode( PDimension size, final Property<Double> solutionVolume, DoubleRange range ) {
-            super( Strings.SOLUTION_VOLUME, size, solutionVolume, new DecimalFormat( "0.00" ), Strings.UNITS_LITERS, range );
+        public SolutionVolumeSliderNode( PDimension size, final Property<Double> solutionVolume, DoubleRange range, Property<Boolean> valuesVisible ) {
+            super( Strings.SOLUTION_VOLUME, size, solutionVolume, new DecimalFormat( "0.00" ), Strings.UNITS_LITERS,
+                   range, Strings.FULL, Strings.LOW, valuesVisible );
         }
     }
+
+    private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final PhetFont VALUE_FONT = new PhetFont( 16 );
+    private static final PhetFont LABEL_FONT = new PhetFont( 14 );
 
     // track
     private static final Color TRACK_FILL_COLOR = Color.BLACK;
@@ -64,7 +70,8 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     private final TrackNode trackNode;
     private final ThumbNode thumbNode;
 
-    public DilutionsSliderNode( String title, PDimension trackSize, final Property<Double> modelValue, NumberFormat valueFormat, String units, DoubleRange range ) {
+    public DilutionsSliderNode( String title, PDimension trackSize, final Property<Double> modelValue, NumberFormat valueFormat, String units,
+                                DoubleRange range, String maxQualityText, String minQualityText, Property<Boolean> valuesVisible ) {
 
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
@@ -77,8 +84,10 @@ public abstract class DilutionsSliderNode extends PhetPNode {
                 modelValue.set( value );
             }
         } );
-        RangeValueNode maxNode = new RangeValueNode( range.getMax(), valueFormat, units );
-        RangeValueNode minNode = new RangeValueNode( range.getMin(), valueFormat, units );
+        final RangeValueNode maxValueNode = new RangeValueNode( range.getMax(), valueFormat, units );
+        final RangeValueNode minValueNode = new RangeValueNode( range.getMin(), valueFormat, units );
+        final QualityNode maxQualityNode = new QualityNode( maxQualityText );
+        final QualityNode minQualityNode = new QualityNode( minQualityText );
 
         // rendering order
         {
@@ -86,21 +95,27 @@ public abstract class DilutionsSliderNode extends PhetPNode {
             addChild( valueNode );
             addChild( trackNode );
             addChild( thumbNode );
-            addChild( maxNode );
-            addChild( minNode );
+            addChild( maxValueNode );
+            addChild( minValueNode );
+            addChild( maxQualityNode );
+            addChild( minQualityNode );
         }
 
         // layout
         {
-            // max label centered above track
-            maxNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( maxNode.getFullBoundsReference().getWidth() / 2 ),
-                               trackNode.getFullBoundsReference().getMinY() - maxNode.getFullBoundsReference().getHeight() - ( thumbNode.getFullBoundsReference().getHeight() / 2 ) - 2 );
-            // min label centered below track
-            minNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( minNode.getFullBoundsReference().getWidth() / 2 ),
-                               trackNode.getFullBoundsReference().getMaxY() + ( thumbNode.getFullBoundsReference().getHeight() / 2 ) + 2 );
+            // max labels centered above track
+            maxValueNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( maxValueNode.getFullBoundsReference().getWidth() / 2 ),
+                                    trackNode.getFullBoundsReference().getMinY() - maxValueNode.getFullBoundsReference().getHeight() - ( thumbNode.getFullBoundsReference().getHeight() / 2 ) - 2 );
+            maxQualityNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( maxQualityNode.getFullBoundsReference().getWidth() / 2 ),
+                                      trackNode.getFullBoundsReference().getMinY() - maxQualityNode.getFullBoundsReference().getHeight() - ( thumbNode.getFullBoundsReference().getHeight() / 2 ) - 2 );
+            // min labels centered below track
+            minValueNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( minValueNode.getFullBoundsReference().getWidth() / 2 ),
+                                    trackNode.getFullBoundsReference().getMaxY() + ( thumbNode.getFullBoundsReference().getHeight() / 2 ) + 2 );
+            minQualityNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( minQualityNode.getFullBoundsReference().getWidth() / 2 ),
+                                      trackNode.getFullBoundsReference().getMaxY() + ( thumbNode.getFullBoundsReference().getHeight() / 2 ) + 2 );
             // value centered above max label
             valueNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
-                                 maxNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight() - 2 );
+                                 Math.min( maxValueNode.getFullBoundsReference().getMinY(), maxQualityNode.getFullBoundsReference().getMinY() ) - valueNode.getFullBoundsReference().getHeight() - 2 );
             // title centered above value
             titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
                                  valueNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 2 );
@@ -113,6 +128,16 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         modelValue.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 updateNode( value );
+            }
+        } );
+
+        valuesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                valueNode.setVisible( visible );
+                maxValueNode.setVisible( visible );
+                minValueNode.setVisible( visible );
+                maxQualityNode.setVisible( !visible );
+                minQualityNode.setVisible( !visible );
             }
         } );
     }
@@ -132,7 +157,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     private static class TitleNode extends HTMLNode {
         public TitleNode( String html ) {
             super( html );
-            setFont( new PhetFont( Font.BOLD, 16 ) );
+            setFont( TITLE_FONT );
         }
     }
 
@@ -144,7 +169,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         private final String units;
 
         public ValueNode( double initialValue, final NumberFormat format, final String units ) {
-            setFont( new PhetFont( 16 ) );
+            setFont( VALUE_FONT );
             this.format = format;
             this.units = units;
             setValue( initialValue );
@@ -152,6 +177,14 @@ public abstract class DilutionsSliderNode extends PhetPNode {
 
         public void setValue( double value ) {
             setText( format.format( value ) + " " + units );
+        }
+    }
+
+    // A qualitative label
+    private static class QualityNode extends PText {
+        public QualityNode( String text ) {
+            super( text );
+            setFont( LABEL_FONT );
         }
     }
 
@@ -190,7 +223,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
             this.format = format;
             this.units = units;
             textNode = new PText() {{
-                setFont( new PhetFont( 14 ) );
+                setFont( LABEL_FONT );
             }};
             addChild( textNode );
             setValue( initialValue );
