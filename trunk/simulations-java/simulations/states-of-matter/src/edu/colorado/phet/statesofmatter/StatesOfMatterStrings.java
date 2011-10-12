@@ -84,4 +84,9 @@ public class StatesOfMatterStrings {
 
     public static final String WIGGLE_ME_CAPTION = StatesOfMatterResources.getString( "WiggleMeCaption" );
     public static final String RETURN_LID = StatesOfMatterResources.getString( "ReturnLid" );
+
+    public static final String KELVIN = StatesOfMatterResources.getString( "Kelvin" );
+    public static final String CELSIUS = StatesOfMatterResources.getString( "Celsius" );
+    public static final String UNITS_K = StatesOfMatterResources.getString( "units.K" );
+    public static final String UNITS_C = StatesOfMatterResources.getString( "units.C" );
 }

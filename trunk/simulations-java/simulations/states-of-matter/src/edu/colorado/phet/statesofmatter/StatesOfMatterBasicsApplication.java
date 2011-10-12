@@ -67,7 +67,7 @@ public class StatesOfMatterBasicsApplication extends PiccoloPhetApplication impl
     protected void initMenubar() {
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu();
-        final JRadioButtonMenuItem kelvinRadioButton = new JRadioButtonMenuItem( "Kelvin" ) {{
+        final JRadioButtonMenuItem kelvinRadioButton = new JRadioButtonMenuItem( StatesOfMatterStrings.KELVIN ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     useKelvin.set( isSelected() );
@@ -76,7 +76,7 @@ public class StatesOfMatterBasicsApplication extends PiccoloPhetApplication impl
         }};
         optionsMenu.add( kelvinRadioButton );
 
-        final JRadioButtonMenuItem celsiusRadioButton = new JRadioButtonMenuItem( "Celsius" ) {{
+        final JRadioButtonMenuItem celsiusRadioButton = new JRadioButtonMenuItem( StatesOfMatterStrings.CELSIUS ) {{
             setSelected( !useKelvin.get() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
