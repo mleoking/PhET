@@ -22,8 +22,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.dilutions.model.Solute;
+import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.model.Solute.KoolAid;
+import edu.colorado.phet.dilutions.model.Solution;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -60,7 +61,7 @@ public class BeakerNode extends PComposite {
     private final HTMLNode labelNode;
     private final ArrayList<PText> tickLabelNodes;
 
-    public BeakerNode( final PDimension size, final double maxVolume, String units, final Property<Solute> solute, Property<Boolean> valuesVisible ) {
+    public BeakerNode( final PDimension size, final double maxVolume, String units, final Solution solution, Property<Boolean> valuesVisible ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -125,18 +126,20 @@ public class BeakerNode extends PComposite {
         }
 
         labelNode = new HTMLNode() {{
-            setFont( new PhetFont( Font.BOLD, 24 ) );
+            setFont( new PhetFont( Font.BOLD, 28 ) );
         }};
         addChild( labelNode );
 
-        solute.addObserver( new SimpleObserver() {
+        SimpleObserver observer = new SimpleObserver() {
             public void update() {
                 // update solute label
-                labelNode.setHTML( solute.get().formula );
+                labelNode.setHTML( ( solution.getConcentration() == 0 ) ? Symbols.WATER : solution.solute.get().formula );
                 labelNode.setOffset( ( size.getWidth() / 2 ) - ( labelNode.getFullBoundsReference().getWidth() / 2 ),
                                      ( 0.35 * size.getHeight() ) - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
             }
-        } );
+        };
+        solution.addConcentrationObserver( observer );
+        solution.solute.addObserver( observer );
 
         valuesVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
@@ -152,15 +155,12 @@ public class BeakerNode extends PComposite {
         }
     }
 
-    public static Point2D getLipOffset() {
-        return new Point2D.Double( BEAKER_LIP_OFFSET.getX(), BEAKER_LIP_OFFSET.getY() );
-    }
-
+    // test
     public static void main( String[] args ) {
-        Property<Solute> solute = new Property<Solute>( new KoolAid() );
+        Solution solution = new Solution( new KoolAid(), 1, 0.5 );
         Property<Boolean> valuesVisible = new Property<Boolean>( true );
         // beaker
-        BeakerNode beakerNode = new BeakerNode( new PDimension( 300, 300 ), 1, "L", solute, valuesVisible );
+        BeakerNode beakerNode = new BeakerNode( new PDimension( 300, 300 ), 1, "L", solution, valuesVisible );
         beakerNode.setOffset( 100, 100 );
         // red dot at beaker's origin
         PPath originNode = new PPath( new Ellipse2D.Double( -3, -3, 6, 6 ) );
