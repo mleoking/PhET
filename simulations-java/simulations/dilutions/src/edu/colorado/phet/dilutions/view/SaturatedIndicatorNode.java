@@ -33,7 +33,7 @@ public class SaturatedIndicatorNode extends PComposite {
         double width = 1.2 * textNode.getFullBoundsReference().getWidth();
         double height = 1.2 * textNode.getFullBoundsReference().getHeight();
         PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, 6, 6 ) ) {{
-            setPaint( ColorUtils.createColor( Color.LIGHT_GRAY, 200 ) );
+            setPaint( ColorUtils.createColor( Color.WHITE, 150 ) );
             setStroke( null );
         }};
 
