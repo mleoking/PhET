@@ -1,13 +1,17 @@
 TODO list for dilutions
 
 DESIGN
-- move min/max range labels to tick marks next to sliders and concentration display
-- model for precipitate in Molarity tab
 - overly verbose titles for sliders and concentration display
 - sliders are accurate to 3 decimal places but we're only showing 2, so we see "0" and "0.00"
 - better looking sliders
 
 HIGH
+- adjust gradients on concentration display to account for saturation point
+- change white to "water" color in gradients
+- add tick marks for min/max range labels on sliders and concentration display
+- make labels less verbose on sliders and concentration display
+- add tick marks to beaker, labeled?
+- grab beaker from ph-scale
 
 MEDIUM
 - relative layout of Molarity tab
