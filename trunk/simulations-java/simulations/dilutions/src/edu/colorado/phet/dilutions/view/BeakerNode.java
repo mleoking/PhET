@@ -12,6 +12,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -20,6 +21,7 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
@@ -58,17 +60,17 @@ public class BeakerNode extends PComposite {
     private static final double SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK = 0;
     private static final Point2D BEAKER_LIP_OFFSET = new Point2D.Double( 20, 20 );
 
-    private final HTMLNode labelNode;
+    private final LabelNode labelNode;
     private final ArrayList<PText> tickLabelNodes;
 
-    public BeakerNode( final PDimension size, final double maxVolume, String units, final Solution solution, Property<Boolean> valuesVisible ) {
+    public BeakerNode( final PDimension beakerSize, final double maxVolume, String units, final Solution solution, Property<Boolean> valuesVisible ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
 
         // outline
-        final float width = (float) size.getWidth();
-        final float height = (float) size.getHeight();
+        final float width = (float) beakerSize.getWidth();
+        final float height = (float) beakerSize.getHeight();
 
         GeneralPath beakerPath = new GeneralPath();
         beakerPath.reset();
@@ -90,8 +92,8 @@ public class BeakerNode extends PComposite {
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
         int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
-        final double bottomY = size.getHeight(); // don't use bounds or position will be off because of stroke width
-        double deltaY = size.getHeight() / numberOfTicks;
+        final double bottomY = beakerSize.getHeight(); // don't use bounds or position will be off because of stroke width
+        double deltaY = beakerSize.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
             if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
@@ -125,17 +127,14 @@ public class BeakerNode extends PComposite {
             }
         }
 
-        labelNode = new HTMLNode() {{
-            setFont( new PhetFont( Font.BOLD, 28 ) );
-        }};
+        labelNode = new LabelNode( solution.solute.get().formula, beakerSize );
         addChild( labelNode );
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
                 // update solute label
-                labelNode.setHTML( ( solution.getConcentration() == 0 ) ? Symbols.WATER : solution.solute.get().formula );
-                labelNode.setOffset( ( size.getWidth() / 2 ) - ( labelNode.getFullBoundsReference().getWidth() / 2 ),
-                                     ( 0.35 * size.getHeight() ) - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
+                labelNode.setText( ( solution.getConcentration() == 0 ) ? Symbols.WATER : solution.solute.get().formula );
+                labelNode.setOffset( ( beakerSize.getWidth() / 2 ), ( 0.35 * beakerSize.getHeight() ) );
             }
         };
         solution.addConcentrationObserver( observer );
@@ -146,6 +145,40 @@ public class BeakerNode extends PComposite {
                 setValuesVisible( visible );
             }
         } );
+    }
+
+    // Label that appears on the beaker in a frost, translucent frame. Origin at geometric center.
+    private static class LabelNode extends PComposite {
+
+        private final HTMLNode htmlNode;
+        private final PPath backgroundNode;
+
+        public LabelNode( String text, final PDimension beakerSize ) {
+
+            // nodes
+            htmlNode = new HTMLNode( "?" ) {{
+                setFont( new PhetFont( Font.BOLD, 28 ) );
+            }};
+            backgroundNode = new PPath() {{
+                setPaint( ColorUtils.createColor( Color.WHITE, 150 ) );
+                setStrokePaint( Color.LIGHT_GRAY );
+                double width = 0.65 * beakerSize.getWidth();
+                double height = 2 * htmlNode.getFullBoundsReference().getHeight();
+                setPathTo( new RoundRectangle2D.Double( -width / 2, -height / 2, width, height, 6, 6 ) );
+            }};
+
+            // rendering order
+            addChild( backgroundNode );
+            addChild( htmlNode );
+
+            setText( text );
+        }
+
+        public void setText( String text ) {
+            // label, centered
+            htmlNode.setHTML( text );
+            htmlNode.setOffset( -htmlNode.getFullBoundsReference().getWidth() / 2, -htmlNode.getFullBoundsReference().getHeight() / 2 );
+        }
     }
 
     // Controls visibility of tick mark values
