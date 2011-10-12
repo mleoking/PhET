@@ -59,6 +59,7 @@ public class DilutionsResources {
         public static final String POTASSIUM_CHROMATE = ChemUtils.toSubscript( "K2CrO4" );
         public static final String POTASSIUM_DICHROMATE = ChemUtils.toSubscript( "K2Cr2O7" );
         public static final String POTASSIUM_PERMANGANATE = ChemUtils.toSubscript( "KMnO4" );
+        public static final String WATER = ChemUtils.toSubscript( "H2O" );
     }
 
     // Images
