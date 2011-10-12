@@ -1,18 +1,30 @@
 // Copyright 2002-2011, University of Colorado
+
 package edu.colorado.phet.dilutions.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.geom.Rectangle2D;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.dilutions.DilutionsColors;
-import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.model.Solution;
+import edu.colorado.phet.dilutions.model.Solute;
+import edu.colorado.phet.dilutions.model.Solute.KoolAid;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -20,84 +32,150 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Beaker used in the "Molarity" tab.
+ * BeakerNode is the visual representation of a beaker.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BeakerNode extends PComposite {
 
-    private final PDimension beakerSize;
-    private final Solution solution;
-    private final LinearFunction volumeFunction, concentrationFunction;
+    private static final String[] MAJOR_TICK_LABELS = { "\u00bd", "1" }; // 1/2L, 1L
 
-    private final PNode glassNode;
-    private final PPath solutionNode;
+    private static final Color TICK_COLOR = Color.BLACK;
+    private static final double MINOR_TICK_SPACING = 0.1; // L
+    private static final int MINOR_TICKS_PER_MAJOR_TICK = 5;
+    private static final double MAJOR_TICK_LENGTH = 20;
+    private static final double MINOR_TICK_LENGTH = 12;
+    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
+    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
+    private static final Font TICK_LABEL_FONT = new PhetFont( 20 );
+    private static final double TICK_LABEL_X_SPACING = 8;
+
+    private static final Stroke OUTLINE_STROKE = new BasicStroke( 6f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private static final Color OUTLINE_COLOR = Color.BLACK;
+
+    private static final double SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK = 0;
+    private static final Point2D BEAKER_LIP_OFFSET = new Point2D.Double( 20, 20 );
+
     private final HTMLNode labelNode;
-    private final PText saturatedNode;
+    private final ArrayList<PText> tickLabelNodes;
 
-    public BeakerNode( PDimension beakerSize, Solution solution, DoubleRange volumeRange, DoubleRange concentrationRange ) {
-
-        // this node is not interactive
+    public BeakerNode( final PDimension size, final double maxVolume, String units, final Property<Solute> solute, Property<Boolean> valuesVisible ) {
+        super();
         setPickable( false );
         setChildrenPickable( false );
 
-        this.beakerSize = beakerSize;
-        this.solution = solution;
-        this.volumeFunction = new LinearFunction( volumeRange.getMin(), volumeRange.getMax(),
-                                                  ( volumeRange.getMin() / volumeRange.getMax() ) * beakerSize.getHeight(), beakerSize.getHeight() );
-        this.concentrationFunction = new LinearFunction( concentrationRange.getMin(), concentrationRange.getMax(), 0, 1 );
+        // outline
+        final float width = (float) size.getWidth();
+        final float height = (float) size.getHeight();
 
-        // nodes
-        glassNode = new PPath( new Rectangle2D.Double( 0, 0, beakerSize.getWidth(), beakerSize.getHeight() ) );
-        solutionNode = new PPath() {{
-            setStroke( null );
-        }};
+        GeneralPath beakerPath = new GeneralPath();
+        beakerPath.reset();
+        beakerPath.moveTo( (float) -BEAKER_LIP_OFFSET.getX(), (float) -( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
+        beakerPath.lineTo( 0f, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
+        beakerPath.lineTo( 0f, height );
+        beakerPath.lineTo( width, height );
+        beakerPath.lineTo( width, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
+        beakerPath.lineTo( (float) ( width + BEAKER_LIP_OFFSET.getX() ), (float) -( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
+
+        PPath beakerNode = new PPath( beakerPath );
+        beakerNode.setPaint( null );
+        beakerNode.setStroke( OUTLINE_STROKE );
+        beakerNode.setStrokePaint( OUTLINE_COLOR );
+        addChild( beakerNode );
+
+        // tick marks
+        tickLabelNodes = new ArrayList<PText>();
+        PComposite ticksNode = new PComposite();
+        addChild( ticksNode );
+        int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
+        final double rightX = size.getWidth(); // don't use bounds or position will be off because of stroke width
+        final double bottomY = size.getHeight(); // don't use bounds or position will be off because of stroke width
+        double deltaY = size.getHeight() / numberOfTicks;
+        for ( int i = 1; i <= numberOfTicks; i++ ) {
+            final double y = bottomY - ( i * deltaY );
+            if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
+                // major tick
+                Shape tickPath = new Line2D.Double( rightX - MAJOR_TICK_LENGTH, y, rightX - 2, y );
+                PPath tickNode = new PPath( tickPath );
+                tickNode.setStroke( MAJOR_TICK_STROKE );
+                tickNode.setStrokePaint( TICK_COLOR );
+                ticksNode.addChild( tickNode );
+
+                int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
+                if ( labelIndex < MAJOR_TICK_LABELS.length ) {
+                    String label = MAJOR_TICK_LABELS[labelIndex] + units;
+                    PText textNode = new PText( label );
+                    textNode.setFont( TICK_LABEL_FONT );
+                    textNode.setTextPaint( TICK_COLOR );
+                    ticksNode.addChild( textNode );
+                    double xOffset = tickNode.getFullBounds().getMinX() - textNode.getFullBoundsReference().getWidth() - TICK_LABEL_X_SPACING;
+                    double yOffset = tickNode.getFullBounds().getMinY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
+                    textNode.setOffset( xOffset, yOffset );
+                    tickLabelNodes.add( textNode );
+                }
+            }
+            else {
+                // minor tick
+                Shape tickPath = new Line2D.Double( rightX - MINOR_TICK_LENGTH, y, rightX - 2, y );
+                PPath tickNode = new PPath( tickPath );
+                tickNode.setStroke( MINOR_TICK_STROKE );
+                tickNode.setStrokePaint( TICK_COLOR );
+                ticksNode.addChild( tickNode );
+            }
+        }
+
         labelNode = new HTMLNode() {{
             setFont( new PhetFont( Font.BOLD, 24 ) );
         }};
-        saturatedNode = new PText( Strings.SATURATED ) {{
-            setFont( new PhetFont( 20 ) );
-        }};
+        addChild( labelNode );
 
-        // rendering order
-        {
-            addChild( solutionNode );
-            addChild( glassNode );
-            addChild( labelNode );
-            addChild( saturatedNode );
-        }
-
-        // layout
-        saturatedNode.setOffset( ( beakerSize.getWidth() / 2 ) - ( saturatedNode.getFullBoundsReference().getWidth() / 2 ),
-                                 ( 0.90 * beakerSize.getHeight() ) - saturatedNode.getFullBoundsReference().getHeight() );
-
-        SimpleObserver observer = new SimpleObserver() {
+        solute.addObserver( new SimpleObserver() {
             public void update() {
-                updateNode();
+                // update solute label
+                labelNode.setHTML( solute.get().formula );
+                labelNode.setOffset( ( size.getWidth() / 2 ) - ( labelNode.getFullBoundsReference().getWidth() / 2 ),
+                                     ( 035 * size.getHeight() ) - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
             }
-        };
-        solution.addConcentrationObserver( observer );
-        solution.addPrecipitateAmountObserver( observer );
-        solution.solute.addObserver( observer );
-        solution.volume.addObserver( observer );
+        } );
+
+        valuesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setValuesVisible( visible );
+            }
+        } );
     }
 
-    private void updateNode() {
+    // Controls visibility of tick mark values
+    public void setValuesVisible( boolean visible ) {
+        for ( PNode node : tickLabelNodes ) {
+            node.setVisible( visible );
+        }
+    }
 
-        // update solute label
-        labelNode.setHTML( solution.solute.get().formula );
-        labelNode.setOffset( glassNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ),
-                             glassNode.getFullBoundsReference().getMinY() + ( 0.35 * glassNode.getFullBoundsReference().getHeight() ) - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
+    public static Point2D getLipOffset() {
+        return new Point2D.Double( BEAKER_LIP_OFFSET.getX(), BEAKER_LIP_OFFSET.getY() );
+    }
 
-        // update the color of the solution, based on solute and concentration
-        double colorScale = concentrationFunction.evaluate( solution.getConcentration() );
-        solutionNode.setPaint( ColorUtils.interpolateRBGA( DilutionsColors.WATER_COLOR, solution.solute.get().solutionColor, colorScale ) );
-
-        // update amount of stuff in the beaker, based on solution volume
-        double height = volumeFunction.evaluate( solution.volume.get() );
-        solutionNode.setPathTo( new Rectangle2D.Double( 0, beakerSize.getHeight() - height, beakerSize.getWidth(), height ) );
-
-        // show "Saturated!" if the solution is saturated
-        saturatedNode.setVisible( solution.getPrecipitateAmount() != 0 );
+    public static void main( String[] args ) {
+        Property<Solute> solute = new Property<Solute>( new KoolAid() );
+        Property<Boolean> valuesVisible = new Property<Boolean>( true );
+        // beaker
+        BeakerNode beakerNode = new BeakerNode( new PDimension( 300, 300 ), 1, "L", solute, valuesVisible );
+        beakerNode.setOffset( 100, 100 );
+        // red dot at beaker's origin
+        PPath originNode = new PPath( new Ellipse2D.Double( -3, -3, 6, 6 ) );
+        originNode.setPaint( Color.RED );
+        originNode.setOffset( beakerNode.getOffset() );
+        // canvas
+        PCanvas canvas = new PCanvas();
+        canvas.getLayer().addChild( beakerNode );
+        canvas.getLayer().addChild( originNode );
+        canvas.setPreferredSize( new Dimension( 600, 600 ) );
+        // frame
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.pack();
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }

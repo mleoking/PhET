@@ -1,3 +1,4 @@
+10/12/11 use beaker from ph-scale, show/hide tick mark values
 10/12/11 add moles-to-particles multiplier for precipitates
 10/12/11 create custom formatter with special handling of zero and ints
 10/12/11 add tick marks for min/max range labels on concentration display
