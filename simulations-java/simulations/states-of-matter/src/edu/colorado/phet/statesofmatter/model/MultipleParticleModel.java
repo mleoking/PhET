@@ -772,6 +772,13 @@ public class MultipleParticleModel implements Resettable {
                 atomPositions[2] = new Point2D.Double();
             }
 
+            if ( m_particles.size() == 1 ) {
+                // Adding the first particle is considered a temperature
+                // change, because (in this sim anyway), no particles means a
+                // temperature of zero.
+                notifyTemperatureChanged();
+            }
+
             syncParticlePositions();
         }
 
@@ -1322,6 +1329,11 @@ public class MultipleParticleModel implements Resettable {
      * Beale.
      */
     private double convertInternalTemperatureToKelvin() {
+
+        if ( m_particles.size() == 0 ) {
+            // Temperature is reported as 0 if there are no particles.
+            return 0;
+        }
 
         double temperatureInKelvin = 0;
         double triplePoint = 0;
