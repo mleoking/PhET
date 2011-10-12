@@ -8,7 +8,6 @@ DESIGN
 - better looking sliders
 
 HIGH
-- editable text fields above sliders
 
 MEDIUM
 - relative layout of Molarity tab
