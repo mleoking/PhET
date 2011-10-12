@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -70,7 +71,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     private static final Color TRACK_FILL_COLOR = Color.BLACK;
 
     // knob
-    private static final PDimension KNOB_SIZE = new PDimension( 30, 8 );
+    private static final PDimension KNOB_SIZE = new PDimension( 35, 10 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
     private static final Color KNOB_NORMAL_COLOR = new Color( 89, 156, 212 );
     private static final Color KNOB_HIGHLIGHT_COLOR = new Color( 214, 255, 255 );
@@ -281,7 +282,10 @@ public abstract class DilutionsSliderNode extends PhetPNode {
 
         public ThumbNode( PNode relativeNode, PNode trackNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
 
-            setPathTo( new Rectangle2D.Double( -KNOB_SIZE.getWidth() / 2, -KNOB_SIZE.getHeight() / 2, KNOB_SIZE.getWidth(), KNOB_SIZE.getHeight() ) );
+            final double arcWidth = 0.6 * KNOB_SIZE.getWidth();
+            setPathTo( new RoundRectangle2D.Double( -KNOB_SIZE.getWidth() / 2, -KNOB_SIZE.getHeight() / 2,
+                                                    KNOB_SIZE.getWidth(), KNOB_SIZE.getHeight(),
+                                                    arcWidth, arcWidth ) );
             setPaint( KNOB_NORMAL_COLOR );
             setStroke( KNOB_STROKE );
             setStrokePaint( KNOB_STROKE_COLOR );
