@@ -74,9 +74,11 @@ public class GeometryNameNode extends PNode {
     private double readoutHeight;
 
     private final MoleculeModel molecule;
+    private final boolean showElectronGeometry;
 
     public GeometryNameNode( MoleculeModel molecule, boolean showElectronGeometry ) {
         this.molecule = molecule;
+        this.showElectronGeometry = showElectronGeometry;
 
         /*---------------------------------------------------------------------------*
         * visibility checkboxes
@@ -98,7 +100,7 @@ public class GeometryNameNode extends PNode {
 
         // create a spacer, so that our control panel will never shrink below this amount of room
         final PNode spacer = new Spacer( 0, 0,
-                                         MAX_GEOMETRY_WIDTH + MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS,
+                                         MAX_GEOMETRY_WIDTH + ( showElectronGeometry ? ( MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS ) : 0 ),
                                          readoutHeight + MAX_TEXT_HEIGHT );
 
         addChild( spacer );
@@ -157,6 +159,9 @@ public class GeometryNameNode extends PNode {
     }
 
     public void updateElectronText() {
+        if ( !showElectronGeometry ) {
+            return;
+        }
         final String name = molecule.getConfiguration().geometry.name;
         final boolean visible = showElectronShapeName.get();
 
