@@ -89,14 +89,13 @@ public class BeakerNode extends PComposite {
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
         int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
-        final double rightX = size.getWidth(); // don't use bounds or position will be off because of stroke width
         final double bottomY = size.getHeight(); // don't use bounds or position will be off because of stroke width
         double deltaY = size.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
             if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
                 // major tick
-                Shape tickPath = new Line2D.Double( rightX - MAJOR_TICK_LENGTH, y, rightX - 2, y );
+                Shape tickPath = new Line2D.Double( 0, y, MAJOR_TICK_LENGTH, y );
                 PPath tickNode = new PPath( tickPath );
                 tickNode.setStroke( MAJOR_TICK_STROKE );
                 tickNode.setStrokePaint( TICK_COLOR );
@@ -109,7 +108,7 @@ public class BeakerNode extends PComposite {
                     textNode.setFont( TICK_LABEL_FONT );
                     textNode.setTextPaint( TICK_COLOR );
                     ticksNode.addChild( textNode );
-                    double xOffset = tickNode.getFullBounds().getMinX() - textNode.getFullBoundsReference().getWidth() - TICK_LABEL_X_SPACING;
+                    double xOffset = tickNode.getFullBounds().getMaxX() + TICK_LABEL_X_SPACING;
                     double yOffset = tickNode.getFullBounds().getMinY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
                     textNode.setOffset( xOffset, yOffset );
                     tickLabelNodes.add( textNode );
@@ -117,7 +116,7 @@ public class BeakerNode extends PComposite {
             }
             else {
                 // minor tick
-                Shape tickPath = new Line2D.Double( rightX - MINOR_TICK_LENGTH, y, rightX - 2, y );
+                Shape tickPath = new Line2D.Double( 0, y, MINOR_TICK_LENGTH, y );
                 PPath tickNode = new PPath( tickPath );
                 tickNode.setStroke( MINOR_TICK_STROKE );
                 tickNode.setStrokePaint( TICK_COLOR );
