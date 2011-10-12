@@ -6,13 +6,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
@@ -113,23 +111,9 @@ public class ParticleNode extends PNode {
         // Create the node that will represent this particle.  If we are
         // using a gradient, specify that an image should be used, since it
         // will be less computationally intensive to move it around.
-        if ( useStroke ) {
-            m_sphere = new SphericalNode( sphereDiameter, choosePaint( particle ), STROKE, Color.BLACK, useGradient );
-            // Workaround for a Piccolo bug: add a transparent background
-            // circle that is large enough that the edges of the stroke don't
-            // get cut off.
-            PhetPPath workaroundNode = new PhetPPath( new Ellipse2D.Double( -sphereDiameter / 2 - (double) STROKE_WIDTH * 2,
-                                                                            -sphereDiameter / 2 - (double) STROKE_WIDTH * 2,
-                                                                            sphereDiameter + (double) STROKE_WIDTH * 2,
-                                                                            sphereDiameter + (double) STROKE_WIDTH * 2 ),
-                                                      new Color( 0, 0, 0, 0 ) );
-            workaroundNode.setOffset( STROKE_WIDTH, STROKE_WIDTH );
-            addChild( workaroundNode );
-        }
-        else {
-            m_sphere = new SphericalNode( sphereDiameter, choosePaint( particle ), useGradient );
-        }
+        m_sphere = new SphericalNode( sphereDiameter, choosePaint( particle ), useGradient );
         addChild( m_sphere );
+        setStrokeEnabled( useStroke );
 
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
@@ -159,6 +143,17 @@ public class ParticleNode extends PNode {
                 m_sphere.setConvertToImage( false );
                 m_sphere.setPaint( chooseColor( m_particle ) );
             }
+        }
+    }
+
+    public void setStrokeEnabled( boolean strokeEnabled ) {
+        if ( strokeEnabled ) {
+            m_sphere.setStroke( STROKE );
+            m_sphere.setStrokePaint( Color.BLACK );
+        }
+        else {
+            m_sphere.setStroke( null );
+            m_sphere.setStrokePaint( null );
         }
     }
 
