@@ -61,8 +61,6 @@ public class FluidPressureAndFlowResources {
 
     //Images
     public static class Images {
-        public static final BufferedImage BUTTON_PRESSED = RESOURCES.getImage( "button_pressed.png" );
-        public static final BufferedImage BUTTON_UNPRESSED = RESOURCES.getImage( "button_unpressed.png" );
         public static final BufferedImage HANDLE = RESOURCES.getImage( "handle.png" );
         public static final BufferedImage HANDLE_T = RESOURCES.getImage( "handle_T.png" );
         public static final BufferedImage KNOB = RESOURCES.getImage( "knob.png" );
@@ -75,6 +73,5 @@ public class FluidPressureAndFlowResources {
         public static final BufferedImage PRESSURE_METER_CENTER = RESOURCES.getImage( "pressure_meter_center.png" );
         public static final BufferedImage PRESSURE_METER_LEFT = RESOURCES.getImage( "pressure_meter_left.png" );
         public static final BufferedImage PRESSURE_METER_RIGHT = RESOURCES.getImage( "pressure_meter_right.png" );
-        public static final BufferedImage SQUEEZER_BACKGROUND = RESOURCES.getImage( "squeezer_background.png" );
     }
 }
