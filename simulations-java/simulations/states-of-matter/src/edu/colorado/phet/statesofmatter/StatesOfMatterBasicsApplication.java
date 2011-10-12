@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
+import edu.colorado.phet.common.phetcommon.view.menu.TeacherMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.statesofmatter.developer.DeveloperControlsMenuItem;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
@@ -91,8 +92,13 @@ public class StatesOfMatterBasicsApplication extends PiccoloPhetApplication impl
                 celsiusRadioButton.setSelected( temperatureUnitsValue == TemperatureUnits.CELSIUS );
             }
         } );
-
         getPhetFrame().addMenu( optionsMenu );
+
+        // Add a Teacher menu with an item to change the background to white
+        // for use in making handouts, on projectors, etc.
+        getPhetFrame().addMenu( new TeacherMenu() {{
+            addWhiteBackgroundMenuItem( StatesOfMatterGlobalState.whiteBackground );
+        }} );
 
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
