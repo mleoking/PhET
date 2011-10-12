@@ -73,13 +73,13 @@ public abstract class Solute {
 
     public static class CopperSulfate extends Solute {
         public CopperSulfate() {
-            super( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 1.40, Color.BLUE, 0.5 );
+            super( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 1.40, Color.BLUE, 1 );
         }
     }
 
     public static class PotassiumDichromate extends Solute {
         public PotassiumDichromate() {
-            super( Strings.POTASSIUM_DICHROMATE, Symbols.POTASSIUM_DICHROMATE, 0.50, Color.ORANGE, 0.75 );
+            super( Strings.POTASSIUM_DICHROMATE, Symbols.POTASSIUM_DICHROMATE, 0.50, Color.ORANGE, 1 );
         }
     }
 
