@@ -1,3 +1,4 @@
+10/12/11 relative layout of Molarity tab
 10/12/11 move beaker ticks to left side of beaker, closer to volume control
 10/12/11 set columns in slider JTextFields based on number formatter pattern
 10/12/11 tweak location of precipitate particles to account for thickness of beaker walls
