@@ -66,6 +66,8 @@ public class TerrainNode extends Geometry {
             rock.setWrap( WrapMode.Repeat );
             setTexture( "Tex3", rock );
             setFloat( "Tex3Scale", 128f );
+
+//            setBoolean( "useTriPlanarMapping", true );
         }} );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {

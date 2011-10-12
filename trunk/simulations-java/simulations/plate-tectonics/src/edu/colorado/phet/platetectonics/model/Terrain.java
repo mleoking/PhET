@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
 /**
@@ -77,5 +78,14 @@ public class Terrain {
     // whether water should be displayed over this particular section of terrain
     public boolean hasWater() {
         return true;
+    }
+
+    public Vector2f[] getFrontVertices() {
+        Vector2f[] result = new Vector2f[numXSamples];
+        int zIndex = getFrontZIndex();
+        for ( int xIndex = 0; xIndex < numXSamples; xIndex++ ) {
+            result[xIndex] = new Vector2f( xData[xIndex], getElevation( xIndex, zIndex ) );
+        }
+        return result;
     }
 }
