@@ -35,8 +35,8 @@ public class GrabHandle extends PNode {
             controlPoint.point.addObserver( new SimpleObserver() {
                 public void update() {
 
-                    //REVIEW why does this use the pipe's EDGE_STROKE? seems like an odd coupling.
                     //Update the location on initialization and when the model changes
+                    //Move by one edge stroke width away so it will sit on the very edge of the pipe
                     final ImmutableVector2D modelPoint = transform.modelToView( controlPoint.point.get() );
                     double dy = top ?
                                 -getFullBounds().getHeight() - EDGE_STROKE.getLineWidth() :

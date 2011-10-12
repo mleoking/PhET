@@ -110,8 +110,9 @@ public class FluxMeterPanelNode extends PNode {
     //For strings that are HTML in one unit set but not the other, try to discover whether it is html or not so it can be vertically centered properly
     private Insets getInsets( String rateUnits ) {
 
-        //Assume that any string with a "<" symbol contains HTML.
-        final boolean isHTML = rateUnits.indexOf( "<" ) >= 0; //REVIEW BasicHTML.isHTMLString
+        //Assume that any string with a "<" symbol contains an html fragment HTML.
+        //Can't use BasicHTML.isHTMLString because this might just be a fragment
+        final boolean isHTML = rateUnits.indexOf( "<" ) >= 0;
         return isHTML ? HTML_INSETS : insets;
     }
 
