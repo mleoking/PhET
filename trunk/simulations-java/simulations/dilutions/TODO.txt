@@ -8,8 +8,6 @@ DESIGN
 HIGH
 - adjust gradients on concentration display to account for saturation point
 - add tick marks for min/max range labels on sliders and concentration display
-- add tick marks to beaker, labeled?
-- grab beaker from ph-scale
 
 MEDIUM
 - relative layout of Molarity tab
