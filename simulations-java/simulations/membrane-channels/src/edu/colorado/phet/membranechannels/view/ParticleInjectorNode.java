@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -22,13 +21,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.InjectorNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.membranechannels.model.InjectionMotionStrategy;
@@ -40,7 +37,6 @@ import edu.colorado.phet.membranechannels.model.SodiumIon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -64,11 +60,9 @@ public class ParticleInjectorNode extends InjectorNode {
 
     private final PNode particleTypeSelector;
     private final MembraneChannelsModel model;
-    private final ModelViewTransform2D mvt;
+    private final ModelViewTransform mvt;
     private ParticleType particleTypeToInject;
-    private Dimension2D injectionPointOffset = new PDimension();
     private Point2D injectionPointInModelCoords = new Point2D.Double();
-    private Vector2D nominalInjectionVelocityVector = new Vector2D( NOMINAL_ION_INJECTION_VELOCITY, 0 );
 
     // Count is incremented every time the simulation clock ticks, so that we can inject particles every ITERATIONS_BETWEEN_INJECTION steps 
     private int count;
@@ -95,9 +89,8 @@ public class ParticleInjectorNode extends InjectorNode {
      * @param rotationAngle       - Angle of rotation for the injection bulb.
      */
     public ParticleInjectorNode( ParticleType initialParticleType, final MembraneChannelsModel model,
-                                 ModelViewTransform2D mvt, double rotationAngle ) {
-        //TODO: rewrite sim to use ModelViewTransform instead of ModelViewTransform2D
-        super( ModelViewTransform.createRectangleInvertedYMapping( mvt.getModelBounds(), mvt.getViewBounds() ), rotationAngle, new SimpleObserver() {
+                                 ModelViewTransform mvt, double rotationAngle ) {
+        super( mvt, rotationAngle, new SimpleObserver() {
             public void update() {
             }
         } );
@@ -168,7 +161,7 @@ public class ParticleInjectorNode extends InjectorNode {
             // Should never get here, debug it if it does.
             System.err.println();
             System.err.println( getClass().getName() + " - Error: Particle not in reasonable location." );
-
+            // TODO: Add this back!!!
 //            assert false;
             particleMotionBounds = model.getLowerParticleChamberRect();
         }
@@ -178,9 +171,7 @@ public class ParticleInjectorNode extends InjectorNode {
     }
 
     private void updateInjectionPoint() {
-        double injectionPointX = mvt.viewToModelX( getFullBoundsReference().getCenter2D().getX() + injectionPointOffset.getWidth() );
-        double injectionPointY = mvt.viewToModelY( getFullBoundsReference().getCenter2D().getY() + injectionPointOffset.getHeight() );
-        injectionPointInModelCoords.setLocation( injectionPointX, injectionPointY );
+        injectionPointInModelCoords.setLocation( mvt.viewToModelX( getFullBoundsReference().getMaxX() ), mvt.viewToModelY( getFullBoundsReference().getCenterY() ) );
     }
 
     protected void setParticleTypeToInject( ParticleType particleType ) {
@@ -204,9 +195,8 @@ public class ParticleInjectorNode extends InjectorNode {
         private static final Color BACKGROUND_COLOR = new Color( 234, 228, 77 );
         private static final Stroke BORDER_STROKE = new BasicStroke( 1f );
         private static final Color BORDER_COLOR = BACKGROUND_COLOR;
-        private static final ModelViewTransform2D PARTICLE_MVT = new ModelViewTransform2D(
-                new Rectangle2D.Double( -1.0, -1.0, 2.0, 2.0 ), new Rectangle2D.Double( -10, -10, 20, 20 ) );
-
+        private static final ModelViewTransform PARTICLE_MVT = ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -1.0, -1.0, 2.0, 2.0 ),
+                                                                                                                   new Rectangle2D.Double( -10, -10, 20, 20 ) );
         private final ParticleInjectorNode particleInjectorNode;
         private final JRadioButton sodiumButton;
         private final JRadioButton potassiumButton;

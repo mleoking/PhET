@@ -4,9 +4,13 @@ package edu.colorado.phet.membranechannels.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.membranechannels.model.*;
+import edu.colorado.phet.membranechannels.model.MembraneChannel;
+import edu.colorado.phet.membranechannels.model.MembraneChannelOpennessStrategy;
+import edu.colorado.phet.membranechannels.model.MembraneChannelTypes;
+import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
+import edu.colorado.phet.membranechannels.model.TimedSettableOpennessStrategy;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -17,7 +21,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PotassiumGatedChannelToolBoxNode extends MembraneChannelToolBoxNode {
 
-    public PotassiumGatedChannelToolBoxNode( MembraneChannelsModel model, ModelViewTransform2D mvt, PhetPCanvas canvas ) {
+    public PotassiumGatedChannelToolBoxNode( MembraneChannelsModel model, ModelViewTransform mvt, PhetPCanvas canvas ) {
         super( model, mvt, canvas );
     }
 

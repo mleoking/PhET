@@ -4,7 +4,7 @@ package edu.colorado.phet.membranechannels.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.membranechannels.model.MembraneChannel;
 import edu.colorado.phet.membranechannels.model.MembraneChannelOpennessStrategy;
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PotassiumLeakageChannelToolBoxNode extends MembraneChannelToolBoxNode {
 
-    public PotassiumLeakageChannelToolBoxNode( MembraneChannelsModel model, ModelViewTransform2D mvt, PhetPCanvas canvas ) {
+    public PotassiumLeakageChannelToolBoxNode( MembraneChannelsModel model, ModelViewTransform mvt, PhetPCanvas canvas ) {
         super( model, mvt, canvas );
     }
 

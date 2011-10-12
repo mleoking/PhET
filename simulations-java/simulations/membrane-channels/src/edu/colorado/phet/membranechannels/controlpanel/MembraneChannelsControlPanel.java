@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.membranechannels.MembraneChannelsConstants;
@@ -42,16 +42,16 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class MembraneChannelsControlPanel extends ControlPanel {
 
-	//----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
 
-	//----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
-	private final JCheckBox showConcentrationsCheckBox;
-	private final MembraneChannelsModel model;
+    private final JCheckBox showConcentrationsCheckBox;
+    private final MembraneChannelsModel model;
 
     private final JButton sodiumGatedChannelControlButton;
     private final JButton potassiumGatedChannelControlButton;
@@ -68,14 +68,14 @@ public class MembraneChannelsControlPanel extends ControlPanel {
      */
     public MembraneChannelsControlPanel( PiccoloModule module, final MembraneChannelsModel model ) {
 
-    	this.model = model;
+        this.model = model;
 
-    	// Listen to the model for events that interest this class.
-    	model.addListener(new MembraneChannelsModel.Adapter(){
-    	    @Override
-    		public void concentrationGraphVisibilityChanged() {
-    			updateConcentrationsCheckBoxState();
-    		}
+        // Listen to the model for events that interest this class.
+        model.addListener( new MembraneChannelsModel.Adapter() {
+            @Override
+            public void concentrationGraphVisibilityChanged() {
+                updateConcentrationsCheckBoxState();
+            }
 
             @Override
             public void sodiumGateOpennessChanged() {
@@ -98,80 +98,80 @@ public class MembraneChannelsControlPanel extends ControlPanel {
                 updateClearParticlesButton();
                 particle.addListener( new ParticleRemovalListener( particle, MembraneChannelsControlPanel.this ) );
             }
-    	});
+        } );
 
-    	// Set the control panel's minimum width.
+        // Set the control panel's minimum width.
         int minimumWidth = MembraneChannelsResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
 
         // Put some space at the top of the panel.
-        addControlFullWidth(createVerticalSpacingPanel(20));
+        addControlFullWidth( createVerticalSpacingPanel( 20 ) );
 
         // Define the size of the buttons.  This is based on the width of the
         // control panel and a height value that just seemed to look
         // reasonable.
-        Dimension buttonSize = new Dimension((int)Math.round( minimumWidth * 0.9 ), 40);
+        Dimension buttonSize = new Dimension( (int) Math.round( minimumWidth * 0.9 ), 40 );
 
         // Create the buttons for stimulating the channels.
         sodiumGatedChannelControlButton = new JButton();
         sodiumGatedChannelControlButton.setPreferredSize( buttonSize );
-        sodiumGatedChannelControlButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			    model.setGatedSodiumChannelsOpen( model.getGatedSodiumChannelOpenness() < 0.5 );
-			}
-		});
+        sodiumGatedChannelControlButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.setGatedSodiumChannelsOpen( model.getGatedSodiumChannelOpenness() < 0.5 );
+            }
+        } );
 
         potassiumGatedChannelControlButton = new JButton();
         potassiumGatedChannelControlButton.setPreferredSize( buttonSize );
-        potassiumGatedChannelControlButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			    model.setGatedPotassiumChannelsOpen( model.getGatedPotassiumChannelOpenness() < 0.5 );
-			}
-		});
+        potassiumGatedChannelControlButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.setGatedPotassiumChannelsOpen( model.getGatedPotassiumChannelOpenness() < 0.5 );
+            }
+        } );
 
         updateMembraneChannelControlButtons();
 
         JPanel buttonPanel = new VerticalLayoutPanel();
-        buttonPanel.add(sodiumGatedChannelControlButton);
-        buttonPanel.add(createVerticalSpacingPanel(15));
-        buttonPanel.add(potassiumGatedChannelControlButton);
+        buttonPanel.add( sodiumGatedChannelControlButton );
+        buttonPanel.add( createVerticalSpacingPanel( 15 ) );
+        buttonPanel.add( potassiumGatedChannelControlButton );
 
         // Add the button panel to the control panel.
-        addControlFullWidth(createVerticalSpacingPanel(15));
-        addControl(buttonPanel);
+        addControlFullWidth( createVerticalSpacingPanel( 15 ) );
+        addControl( buttonPanel );
 
         // Add a button for removing all particles.
-        addControl(createVerticalSpacingPanel(15));
+        addControl( createVerticalSpacingPanel( 15 ) );
         JPanel clearButtonPanel = new JPanel();
-        clearParticlesButton = new JButton(MembraneChannelsStrings.CLEAR_PARTICLES);
+        clearParticlesButton = new JButton( MembraneChannelsStrings.CLEAR_PARTICLES );
         clearParticlesButton.setPreferredSize( buttonSize );
         clearParticlesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.removeAllParticles();
             }
-        });
+        } );
         clearButtonPanel.add( clearParticlesButton );
-        addControlFullWidth(clearButtonPanel);
+        addControlFullWidth( clearButtonPanel );
         updateClearParticlesButton();
 
         // Add the check box for hiding/showing the concentration graphs.  It
         // is in its own panel so that it can be centered.
-        addControlFullWidth(createVerticalSpacingPanel(15));
+        addControlFullWidth( createVerticalSpacingPanel( 15 ) );
         JPanel checkBoxPanel = new JPanel();
-        showConcentrationsCheckBox = new JCheckBox(MembraneChannelsStrings.SHOW_CONCENTRATIONS);
-        showConcentrationsCheckBox.setFont(MembraneChannelsConstants.CONTROL_PANEL_CONTROL_FONT);
-        showConcentrationsCheckBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				model.setConcentrationGraphsVisible(showConcentrationsCheckBox.isSelected());
-			}
-		});
-        showConcentrationsCheckBox.setAlignmentX(CENTER_ALIGNMENT);
-        checkBoxPanel.add(showConcentrationsCheckBox);
-        addControlFullWidth(checkBoxPanel);
+        showConcentrationsCheckBox = new JCheckBox( MembraneChannelsStrings.SHOW_CONCENTRATIONS );
+        showConcentrationsCheckBox.setFont( MembraneChannelsConstants.CONTROL_PANEL_CONTROL_FONT );
+        showConcentrationsCheckBox.addItemListener( new ItemListener() {
+            public void itemStateChanged( ItemEvent e ) {
+                model.setConcentrationGraphsVisible( showConcentrationsCheckBox.isSelected() );
+            }
+        } );
+        showConcentrationsCheckBox.setAlignmentX( CENTER_ALIGNMENT );
+        checkBoxPanel.add( showConcentrationsCheckBox );
+        addControlFullWidth( checkBoxPanel );
         updateConcentrationsCheckBoxState();
 
         // Add the reset all button.
-        addControlFullWidth(createVerticalSpacingPanel(70));
+        addControlFullWidth( createVerticalSpacingPanel( 70 ) );
         addResetAllButton( module );
     }
 
@@ -179,18 +179,18 @@ public class MembraneChannelsControlPanel extends ControlPanel {
     // Methods
     //----------------------------------------------------------------------------
 
-    private JPanel createVerticalSpacingPanel(int space){
+    private JPanel createVerticalSpacingPanel( int space ) {
         JPanel spacePanel = new JPanel();
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
         spacePanel.add( Box.createVerticalStrut( space ) );
         return spacePanel;
     }
 
-    private void updateConcentrationsCheckBoxState(){
-    	showConcentrationsCheckBox.setSelected(model.isConcentrationGraphsVisible());
+    private void updateConcentrationsCheckBoxState() {
+        showConcentrationsCheckBox.setSelected( model.isConcentrationGraphsVisible() );
     }
 
-    private void updateMembraneChannelControlButtons(){
+    private void updateMembraneChannelControlButtons() {
 
         // Update the enabled/disabled state.
         sodiumGatedChannelControlButton.setEnabled( model.getNumGatedSodiumChannels() > 0 );
@@ -198,13 +198,13 @@ public class MembraneChannelsControlPanel extends ControlPanel {
 
         // Update the icon and the text.
         sodiumGatedChannelControlButton.setIcon( new ChannelControlButtonIcon( MembraneChannelTypes.SODIUM_GATED_CHANNEL,
-                model.getGatedSodiumChannelOpenness() > 0.5 ) );
+                                                                               model.getGatedSodiumChannelOpenness() > 0.5 ) );
 
         potassiumGatedChannelControlButton.setIcon( new ChannelControlButtonIcon( MembraneChannelTypes.POTASSIUM_GATED_CHANNEL,
-                model.getGatedPotassiumChannelOpenness() > 0.5 ) );
+                                                                                  model.getGatedPotassiumChannelOpenness() > 0.5 ) );
     }
 
-    private void updateClearParticlesButton(){
+    private void updateClearParticlesButton() {
         clearParticlesButton.setEnabled( model.getParticles().size() > 0 );
     }
 
@@ -216,13 +216,13 @@ public class MembraneChannelsControlPanel extends ControlPanel {
      * Class that listens for removal of a membrane channel, updates the
      * control panel, and removes itself as a listener.
      */
-    private static class MembraneChannelRemovalListener extends MembraneChannel.Adapter{
+    private static class MembraneChannelRemovalListener extends MembraneChannel.Adapter {
 
         final private MembraneChannel membraneChannel;
         final private MembraneChannelsControlPanel membraneChannelsControlPanel;
 
         public MembraneChannelRemovalListener( MembraneChannel membraneChannel,
-                MembraneChannelsControlPanel membraneChannelsControlPanel ) {
+                                               MembraneChannelsControlPanel membraneChannelsControlPanel ) {
             this.membraneChannel = membraneChannel;
             this.membraneChannelsControlPanel = membraneChannelsControlPanel;
         }
@@ -238,7 +238,7 @@ public class MembraneChannelsControlPanel extends ControlPanel {
      * Class that listens for removal of a particle from the model and updates
      * the control panel appropriately.
      */
-    private static class ParticleRemovalListener extends Particle.Adapter{
+    private static class ParticleRemovalListener extends Particle.Adapter {
 
         final private Particle particle;
         final private MembraneChannelsControlPanel membraneChannelsControlPanel;
@@ -260,45 +260,45 @@ public class MembraneChannelsControlPanel extends ControlPanel {
      * whether the channels are open or closed.  This uses Piccolo2D as a
      * way to easily put text and images together into a single image.
      */
-    private static class ChannelControlButtonIcon extends ImageIcon{
-        ChannelControlButtonIcon( MembraneChannelTypes channelType, boolean open ){
+    private static class ChannelControlButtonIcon extends ImageIcon {
+        ChannelControlButtonIcon( MembraneChannelTypes channelType, boolean open ) {
             // Create the various pieces that make up the icon.
             String channelImageName;
             final PNode particleNode;
             String directionText;
-            ModelViewTransform2D mvt = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 7, false );
-            if (channelType == MembraneChannelTypes.POTASSIUM_GATED_CHANNEL ){
-                particleNode = new ParticleNode(new PotassiumIon(), mvt);
-                if ( open ){
+            ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 7 );
+            if ( channelType == MembraneChannelTypes.POTASSIUM_GATED_CHANNEL ) {
+                particleNode = new ParticleNode( new PotassiumIon(), mvt );
+                if ( open ) {
                     channelImageName = "blue_gate_close_icon.png";
                     directionText = MembraneChannelsStrings.CLOSE;
                 }
-                else{
+                else {
                     channelImageName = "blue_gate_open_icon.png";
                     directionText = MembraneChannelsStrings.OPEN;
                 }
             }
             else {
                 // Assume sodium.
-                particleNode = new ParticleNode(new SodiumIon(), mvt);
-                if ( open ){
+                particleNode = new ParticleNode( new SodiumIon(), mvt );
+                if ( open ) {
                     channelImageName = "green_gate_close_icon.png";
                     directionText = MembraneChannelsStrings.CLOSE;
                 }
-                else{
+                else {
                     channelImageName = "green_gate_open_icon.png";
                     directionText = MembraneChannelsStrings.OPEN;
                 }
             }
             final PNode channelImageNode = new PImage( MembraneChannelsResources.getImage( channelImageName ) );
-            final PNode directionTextNode = new PText( directionText ){{
+            final PNode directionTextNode = new PText( directionText ) {{
                 setFont( new PhetFont( 12 ) );
             }};
-            final PNode channelTextNode = new PText( MembraneChannelsStrings.CHANNELS ){{
+            final PNode channelTextNode = new PText( MembraneChannelsStrings.CHANNELS ) {{
                 setFont( new PhetFont( 12 ) );
             }};
 
-            PNode container = new PNode(){{
+            PNode container = new PNode() {{
                 // Put all the pieces together in one place.  There are some
                 // "tweak factors" in here, adjust as needed for optimal look.
                 addChild( channelImageNode );
@@ -308,7 +308,7 @@ public class MembraneChannelsControlPanel extends ControlPanel {
                 addChild( directionTextNode );
                 particleNode.setOffset(
                         directionTextNode.getFullBoundsReference().getMaxX() + 10,
-                        channelImageNode.getFullBoundsReference().getCenterY());
+                        channelImageNode.getFullBoundsReference().getCenterY() );
                 addChild( particleNode );
                 channelTextNode.setOffset(
                         particleNode.getFullBoundsReference().getMaxX() + 4,
