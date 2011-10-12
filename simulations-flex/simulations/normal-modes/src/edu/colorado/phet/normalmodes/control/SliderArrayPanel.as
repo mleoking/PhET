@@ -56,7 +56,7 @@ public class SliderArrayPanel extends Canvas {
     private var mode_str:String;
     private var amplitude_str:String;
     private var frequency_str:String;
-    private var omega0_str:String;
+    private var omega_str:String;
     private var phase_str:String;
     private var plusPi_str:String;
     private var minusPi_str:String;
@@ -134,7 +134,7 @@ public class SliderArrayPanel extends Canvas {
         this.mode_str = FlexSimStrings.get("normalMode:", "Normal Mode:");
         this.amplitude_str = FlexSimStrings.get("amplitude:", "Amplitude:");
         this.frequency_str = FlexSimStrings.get("frequency:", "Frequency:");
-        this.omega0_str = FlexSimStrings.get("omega", "\u03c9");
+        this.omega_str = FlexSimStrings.get("omega", "\u03c9");
         this.phase_str = FlexSimStrings.get("phase:", "Phase:");
         this.plusPi_str = FlexSimStrings.get("plusPi", "+\u03c0");
         this.minusPi_str = FlexSimStrings.get("minusPi", "-\u03c0");
@@ -234,7 +234,7 @@ public class SliderArrayPanel extends Canvas {
         for ( var i:int = 0; i < this.myModel1.N; i++ ){
             var freq_txt:TextField = this.ampliSlider_arr[i].getChildAt( this.freqLabelIndex );
             var freqValue_str:String = this.myModel1.freqDividedByOmega_arr[i].toFixed(2);
-            freq_txt.text =  freqValue_str + omega0_str; //FlexSimStrings.get("freq omega", "{0}w",[freqValue_str]);
+            freq_txt.text =  freqValue_str + omega_str; //FlexSimStrings.get("freq omega", "{0}w",[freqValue_str]);
             var tFormatArial:TextFormat = new TextFormat();
             tFormatArial.font = "Arial";
             tFormatArial.size = 15;

@@ -204,6 +204,7 @@ public class MassView2 extends Sprite{
     public function killArrowListeners():void{
         this.removeEventListener( MouseEvent.ROLL_OVER, this.showArrows );
         this.removeEventListener( MouseEvent.ROLL_OUT, this.removeArrows );
+        this.drawBorderZone(0,0);  //eliminate border zone
     }
 
 } //end class
