@@ -11,9 +11,11 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterGlobalState;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -116,15 +118,32 @@ public class ParticleContainerNode extends PhetPNode {
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter() {
             public void particleAdded( StatesOfMatterAtom particle ) {
+                final ParticleNode particleNode = new ParticleNode( particle, m_mvt );
                 if ( particle instanceof HydrogenAtom ) {
                     // Hydrogen atoms go on a lower layer so that water looks
                     // good.  Note there there are two types of hydrogen atoms,
-                    // so some go on top.
-                    m_lowerParticleLayer.addChild( new ParticleNode( particle, m_mvt ) );
+                    // so some will end up on the top layer.
+                    m_lowerParticleLayer.addChild( particleNode );
                 }
                 else {
-                    m_upperParticleLayer.addChild( new ParticleNode( particle, m_mvt ) );
+                    m_upperParticleLayer.addChild( particleNode );
                 }
+                // Since the particles can be hard to see against a white
+                // background, turn on their outlines if the background is
+                // set this way.
+                final VoidFunction1<Boolean> whiteBackgroundObserver = new VoidFunction1<Boolean>() {
+                    public void apply( Boolean whiteBackground ) {
+                        particleNode.setStrokeEnabled( whiteBackground );
+                    }
+                };
+                StatesOfMatterGlobalState.whiteBackground.addObserver( whiteBackgroundObserver );
+                // Avoid memory leaks be removing this observer when the
+                // particle goes away.
+                particle.addListener( new StatesOfMatterAtom.Adapter() {
+                    @Override public void particleRemoved( StatesOfMatterAtom particle ) {
+                        StatesOfMatterGlobalState.whiteBackground.removeObserver( whiteBackgroundObserver );
+                    }
+                } );
             }
 
             public void containerSizeChanged() {
