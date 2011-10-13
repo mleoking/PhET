@@ -48,6 +48,9 @@ public class PointingHandNode extends PNode {
     private double m_scale;
     private double m_mouseMovementAmount;
     private double m_containerSizeAtDragStart;
+    private boolean m_mouseOver = false;
+    private boolean m_beingDragged = false;
+    private PNode m_hintNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -79,24 +82,25 @@ public class PointingHandNode extends PNode {
         // Add the "hint" node that indicates to the user that this node can
         // be dragged up and down.  This is only shown when the user has
         // placed the mouse over the finger.
-        final PNode hintNode = new MovementHintNode() {{
+        m_hintNode = new MovementHintNode( m_model ) {{
             // Position this off to the side of the finger node.  The hard-
             // coded values were empirically determined.
             setOffset( m_fingerImageNode.getFullBoundsReference().getMaxX() + 150,
                        m_fingerImageNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().getHeight() - 1000 );
             setVisible( false );
         }};
-        addChild( hintNode );
+        addChild( m_hintNode );
 
-        // Create a listener that shows and hides the hint based on mouse over
-        // events for the finger node.
+        // Create a listener that tracks whether the user's mouse is over this node.
         m_fingerImageNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseEntered( PInputEvent event ) {
-                hintNode.setVisible( true );
+                m_mouseOver = true;
+                updateHintVisibility();
             }
 
             @Override public void mouseExited( PInputEvent event ) {
-                hintNode.setVisible( false );
+                m_mouseOver = false;
+                updateHintVisibility();
             }
         } );
 
@@ -142,14 +146,18 @@ public class PointingHandNode extends PNode {
     }
 
     private void handleMouseStartDragEvent( PInputEvent event ) {
+        m_beingDragged = true;
         m_mouseMovementAmount = 0;
         m_containerSizeAtDragStart = m_model.getParticleContainerHeight();
+        updateHintVisibility();
     }
 
     private void handleMouseEndDragEvent( PInputEvent event ) {
         // Set the target size to the current size, which will stop any change
         // in size that is currently underway.
         m_model.setTargetParticleContainerHeight( m_model.getParticleContainerHeight() );
+        m_beingDragged = false;
+        updateHintVisibility();
     }
 
     private void handleContainerSizeChanged() {
@@ -168,6 +176,10 @@ public class PointingHandNode extends PNode {
         }
     }
 
+    private void updateHintVisibility() {
+        m_hintNode.setVisible( m_mouseOver || m_beingDragged );
+    }
+
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
@@ -178,28 +190,58 @@ public class PointingHandNode extends PNode {
      */
     private static class MovementHintNode extends PNode {
         private static Color ARROW_COLOR = Color.GREEN;
+        private static Color INVISIBLE_ARROW_COLOR = new Color( 0, 0, 0, 0 );
         private static double ARROW_LENGTH = 1000;
         private static double ARROW_HEAD_WIDTH = 1000;
         private static double ARROW_HEAD_HEIGHT = 500;
         private static double ARROW_TAIL_WIDTH = 500;
         private static double DISTANCE_BETWEEN_ARROWS = 250;
+        private ArrowNode m_upArrowNode;
+        private ArrowNode m_downArrow;
+        private final MultipleParticleModel m_model;
 
-        private MovementHintNode() {
+        private MovementHintNode( MultipleParticleModel model ) {
+            m_model = model;
+
             // Add the up arrow.
-            addChild( new ArrowNode( new Point2D.Double( ARROW_HEAD_WIDTH / 2, ARROW_LENGTH ),
-                                     new Point2D.Double( ARROW_HEAD_WIDTH / 2, 0 ),
-                                     ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ) {{
+            m_upArrowNode = new ArrowNode( new Point2D.Double( ARROW_HEAD_WIDTH / 2, ARROW_LENGTH ),
+                                           new Point2D.Double( ARROW_HEAD_WIDTH / 2, 0 ),
+                                           ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ) {{
                 setPaint( ARROW_COLOR );
-            }} );
+            }};
+            addChild( m_upArrowNode );
             // Add the down arrow.
-            addChild( new ArrowNode( new Point2D.Double( ARROW_HEAD_WIDTH / 2, ARROW_LENGTH + DISTANCE_BETWEEN_ARROWS ),
-                                     new Point2D.Double( ARROW_HEAD_WIDTH / 2, ARROW_LENGTH * 2 + DISTANCE_BETWEEN_ARROWS ),
-                                     ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ) {{
+            m_downArrow = new ArrowNode( new Point2D.Double( ARROW_HEAD_WIDTH / 2, ARROW_LENGTH + DISTANCE_BETWEEN_ARROWS ),
+                                         new Point2D.Double( ARROW_HEAD_WIDTH / 2, ARROW_LENGTH * 2 + DISTANCE_BETWEEN_ARROWS ),
+                                         ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ) {{
                 setPaint( ARROW_COLOR );
-            }} );
+            }};
+            addChild( m_downArrow );
+            model.addListener( new MultipleParticleModel.Adapter() {
+                @Override public void containerSizeChanged() {
+                    updateArrowVisibility();
+                }
+            } );
             // Make sure this node doesn't intercept mouse events.
             setPickable( false );
             setChildrenPickable( false );
+        }
+
+        private void updateArrowVisibility() {
+            if ( m_model.getParticleContainerHeight() == StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT ) {
+                // At the height limit, so only show the down arrow.
+                m_upArrowNode.setPaint( ARROW_COLOR );
+                m_upArrowNode.setVisible( false );
+            }
+            else if ( m_model.getParticleContainerHeight() == 0 ) {
+                // Particle container all the way down, so show only the up arrow.
+                m_upArrowNode.setPaint( INVISIBLE_ARROW_COLOR );
+                m_upArrowNode.setVisible( false );
+            }
+            else {
+                m_upArrowNode.setVisible( true );
+                m_upArrowNode.setVisible( true );
+            }
         }
     }
 }
