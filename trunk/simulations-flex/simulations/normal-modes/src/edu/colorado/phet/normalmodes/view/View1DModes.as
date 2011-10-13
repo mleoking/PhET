@@ -6,6 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.view {
+import edu.colorado.phet.normalmodes.control.ShowHideButton;
 import edu.colorado.phet.normalmodes.model.Model1;
 
 import flash.display.Graphics;
@@ -29,6 +30,7 @@ public class View1DModes extends Sprite {
     private var _LinPix: Number;            //wall-to-wall distance in pixels
     private var _ySeparationOfGraphs;       //vertical pixel separation between adjacent graphs
 
+    private var showHideButton:ShowHideButton;
     private var walls_arr:Array;            //array of wall graphics, one for each mode
     private var sineWave_arr:Array;         //array of sine wave graphiscs, one for each mode
     private var nbrLabel_arr:Array;         //array of number labels
@@ -44,6 +46,8 @@ public class View1DModes extends Sprite {
         this.myMainView = myMainView;
         this.myModel1 = myModel1;
         this.myModel1.registerView( this );
+        this.showHideButton = new ShowHideButton( this );
+        this.addChild( showHideButton );
         this.initialize();
     }
 
@@ -134,9 +138,30 @@ public class View1DModes extends Sprite {
         var nMax = this.myModel1.nMax;
         this.normalModes_txt.y = -40;
         this.normalModes_txt.x = 0.5*_LinPix - 0.5*this.normalModes_txt.width;
+        this.showHideButton.y = -30;
+        this.showHideButton.x = this.normalModes_txt.x + this.normalModes_txt.width + 15;
         for( var i:int = 1; i <= nMax; i++ ){
             this.nbrLabel_arr[i].x = -nbrLabel_arr[i].width - 7;
             this.nbrLabel_arr[i].y = (i - 1)*this._ySeparationOfGraphs - 0.5*nbrLabel_arr[i].height;
+        }
+    }
+
+    //show() hide() functions required by ShowHideButton
+    public function show():void{
+        var nMax: int = this.myModel1.nMax;
+        for(var i:int = 1; i <= _N; i++ ){
+            this.walls_arr[i].visible = true;
+            this.sineWave_arr[i].visible = true;
+            this.nbrLabel_arr[i].visible = true;
+        }
+    }
+
+    public function hide():void{
+        var nMax: int = this.myModel1.nMax;
+        for(var i:int = 1; i <= _N; i++ ){
+            this.walls_arr[i].visible = false;
+            this.sineWave_arr[i].visible = false;
+            this.nbrLabel_arr[i].visible = false;
         }
     }
 
