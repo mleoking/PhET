@@ -9,7 +9,7 @@ varying vec2 texCoord;
 varying vec2 texCoord2;
 varying float lightStrength;
 
-float clamp( float value, float valueMin, float valueMax ) {
+float clampFloat( float value, float valueMin, float valueMax ) {
     if( value < valueMin ) {
         return valueMin;
     }
@@ -24,6 +24,6 @@ void main(){
     texCoord = inTexCoord;
     texCoord2 = inTexCoord2;
 
-    float oneLightStrength = clamp(dot(inNormal,normalize(vec3(-0.3,1,0.0))),0,1);
+    float oneLightStrength = clampFloat(dot(inNormal,normalize(vec3(-0.3,1,0.0))),0,1);
     lightStrength = oneLightStrength * oneLightStrength * 0.6 + 0.4;
 }
