@@ -51,7 +51,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     public static class SoluteAmountSliderNode extends DilutionsSliderNode {
         public SoluteAmountSliderNode( PDimension size, final Property<Double> soluteAmount, DoubleRange range, Property<Boolean> valuesVisible ) {
             super( Strings.SOLUTE_AMOUNT, size, soluteAmount, Strings.UNITS_MOLES, range, 0.01,
-                   new SmartDoubleFormat( "0.00" ), new SmartDoubleFormat( "0.00" ),
+                   new SmartDoubleFormat( "0.00" ), new SmartDoubleFormat( "0.00", false, true ),
                    Strings.LOTS, Strings.NONE, valuesVisible );
         }
     }
