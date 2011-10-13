@@ -1,0 +1,38 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: October 6-12, 2011
+
+Dilutions
+- design team meeting, solidified 1st tab, good progress on 2nd tab
+- implemented all features for Molarity tab
+- implemented change requests
+- published 0.00.01, 0.00.02, 0.00.03
+
+Faraday
+- published 2.07 to PhET website
+
+Molecule Polarity
+- #3100, replied to Sandor about terminology issue (closed)
+- #3016, tweaked one color to resolve colorblind issue (closed)
+- published 1.01 to PhET website
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+
+WHAT'S NEXT:
+
+- Dilutions: design and implementation
+- Capacitor Lab: #3012, change dielectric excess charge view
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- October 18-29 (out of town, working reduced hours)
+
+--
