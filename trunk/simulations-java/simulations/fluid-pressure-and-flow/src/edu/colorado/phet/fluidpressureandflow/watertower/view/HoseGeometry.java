@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.Hose;
 
 /**
- * Values for the shape of the hose.  Computed all at once for convenience and reusability.
+ * Values for the shape of the hose.  Computed all at once for convenience and re-usability.
  *
  * @author Sam Reid
  */

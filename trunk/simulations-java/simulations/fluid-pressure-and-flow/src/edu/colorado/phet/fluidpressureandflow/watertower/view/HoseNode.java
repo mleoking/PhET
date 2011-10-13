@@ -47,7 +47,7 @@ public class HoseNode extends PNode {
         final double hoseViewWidth = (float) Math.abs( transform.modelToViewDeltaY( hose.holeSize ) ) * 1.5;
 
         //Create the node that shows the nozzle and allows the user to rotate it
-        nozzleImageNode = new PImage( BufferedImageUtils.rescaleYMaintainAspectRatio( NOZZLE, (int) transform.modelToViewDeltaY( -hose.NOZZLE_HEIGHT ) ) ) {{
+        nozzleImageNode = new PImage( BufferedImageUtils.rescaleYMaintainAspectRatio( NOZZLE, (int) transform.modelToViewDeltaY( -Hose.NOZZLE_HEIGHT ) ) ) {{
 
             //When the hose angle or output point change, update the location and orientation of the nozzle image
             new RichSimpleObserver() {

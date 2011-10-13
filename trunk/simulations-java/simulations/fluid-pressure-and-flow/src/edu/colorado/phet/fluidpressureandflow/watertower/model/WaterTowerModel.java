@@ -70,7 +70,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
             public ImmutableVector2D apply() {
                 return new ImmutableVector2D( waterTower.getHoleLocation() );
             }
-        }, waterTower.tankBottomCenter ), waterTower.HOLE_SIZE );
+        }, waterTower.tankBottomCenter ), WaterTower.HOLE_SIZE );
     }
 
     //Update the simulation when the clock ticks

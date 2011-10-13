@@ -45,7 +45,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
     final static Color TRANSPARENT = new Color( 0, 0, 0, 0 );
 
     //Font size to use for "reset all" button and "fill" button
-    public static int FLOATING_BUTTON_FONT_SIZE = (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 );
+    public static final int FLOATING_BUTTON_FONT_SIZE = (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 );
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
         super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.225, STAGE_SIZE.height * 0.75 ), SCALE ) );
