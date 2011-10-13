@@ -120,7 +120,7 @@ public class StoveNode extends PNode {
         m_fireImage = StatesOfMatterResources.getImageNode( "flame.png" );
         m_fireImage.setScale( ( WIDTH * 0.6 ) / m_fireImage.getFullBoundsReference().getWidth() );
 
-        m_iceImage = StatesOfMatterResources.getImageNode( "ice.gif" );
+        m_iceImage = StatesOfMatterResources.getImageNode( "ice-cube-stack.png" );
         m_iceImage.setScale( ( WIDTH * 0.6 ) / m_iceImage.getFullBoundsReference().getWidth() );
 
         // Add the various components in the order needed to achieve the
