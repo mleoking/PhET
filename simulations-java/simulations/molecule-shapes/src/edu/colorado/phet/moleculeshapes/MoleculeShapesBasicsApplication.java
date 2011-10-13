@@ -83,6 +83,8 @@ public class MoleculeShapesBasicsApplication extends JMEPhetApplication {
         JMEUtils.initializeJME( args );
         JMEUtils.disableBufferTrackingPerformanceHack();
 
+        MoleculeShapesColor.switchToBasicColors();
+
         /*
         * If you want to customize your application (look-&-feel, window size, etc)
         * create your own PhetApplicationConfig and use one of the other launchSim methods

@@ -31,6 +31,7 @@ public class MoleculeShapesPanelNode extends TitledControlPanelNode {
             public void update() {
                 background.setPaint( MoleculeShapesColor.BACKGROUND.get() );
                 titleBackground.setPaint( MoleculeShapesColor.BACKGROUND.get() );
+                repaint();
             }
         } );
         MoleculeShapesColor.CONTROL_PANEL_BORDER.getProperty().addObserver( new SimpleObserver() {
