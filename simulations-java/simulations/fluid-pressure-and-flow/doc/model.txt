@@ -24,6 +24,10 @@ Hence flux = rate / area, and rate = flux * area, where the rate of fluid flow i
 Friction slows down particles closer to the edges of the pipe, but not to zero at the edge, otherwise an infinite amount of particles would pile up at the corners.
 Instead the flow rate falls off quadratically near the edges
 
+Note that when the velocity becomes too high, Bernoulli's equation gives a negative pressure.
+The pressure doesn't really go negative then, it just means Bernoulli's equation is inapplicable in that situation
+So we have to make sure the distance threshold is high enough that Bernoulli's equation never gives a negative pressure
+
 LEARNING GOALS
 p + 0.5 rho v^2 + rho g y = constant (16-17 = bernoulli's equation)
 Objects move faster when passageway is constricted

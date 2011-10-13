@@ -19,7 +19,10 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 public class PipeCrossSectionControl extends PNode {
 
     //Distance that must separate the points so the pipe cannot become too constricted (makes velocity too high)
-    private final double DISTANCE_THRESHOLD = 0.5;
+    //Note that when the velocity becomes too high, Bernoulli's equation gives a negative pressure.
+    //The pressure doesn't really go negative then, it just means Bernoulli's equation is inapplicable in that situation
+    //So we have to make sure the distance threshold is high enough that Bernoulli's equation never gives a negative pressure
+    private final double DISTANCE_THRESHOLD = 1;
 
     //make it so that the control point can't be dragged off-screen in the down direction
     public static final double MIN_DRAG_Y = -5;
