@@ -9,6 +9,16 @@ varying vec2 texCoord;
 varying vec2 texCoord2;
 varying float lightStrength;
 
+float clamp( float value, float valueMin, float valueMax ) {
+    if( value < valueMin ) {
+        return valueMin;
+    }
+    if( value > valueMax ) {
+        return valueMax;
+    }
+    return value;
+}
+
 void main(){
     gl_Position = g_WorldViewProjectionMatrix * vec4(inPosition, 1.0);
     texCoord = inTexCoord;
