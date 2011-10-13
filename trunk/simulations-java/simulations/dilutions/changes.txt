@@ -1,3 +1,5 @@
+# 0.00.03 (57572) Oct 12, 2011
+10/12/11 dev version with JC's change requests
 10/12/11 for solute amount slider, display min tick label as "0 mol" instead of "0.00 mol"
 10/12/11 use plain font for "M=mol/L", hide when show values is false
 10/12/11 change colors as requested by JC
