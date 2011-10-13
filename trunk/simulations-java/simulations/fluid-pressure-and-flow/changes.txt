@@ -1,3 +1,4 @@
+Addressed review issues, see #3097
 Switched to use piccolo slider instead of swing slider to avoid mac problems, see #3101 #3097
 # 0.00.32 (57091) Sep 30, 2011
 Water tower: Fixed: Sometimes repeated clicks on the "Fill" button don't work when the door is open

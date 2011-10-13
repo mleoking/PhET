@@ -68,11 +68,8 @@ public class PressureSensorNode extends SensorNode {
             translate( 0, -getFullBounds().getHeight() / 2 );
         }} );
         addInputEventListener( new RelativeDragHandler( this, transform, sensor.location, new Function1<Point2D, Point2D>() {
-            //TODO: Factor pool to subclass or general constraint method
             public Point2D apply( Point2D point2D ) {
-
                 Point2D pt = point2D;
-
                 //not allowed to go to negative Potential Energy in the pool
                 if ( pool != null ) {
                     pt = new Point2D.Double( point2D.getX(), Math.max( point2D.getY(), pool.getMinY() ) );
