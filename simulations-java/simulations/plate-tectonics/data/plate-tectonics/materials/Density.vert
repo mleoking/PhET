@@ -7,5 +7,5 @@ varying float density;
 void main(){
     density = inTexCoord[0];
 
-    gl_Position = g_WorldViewProjectionMatrix * vec4(inPosition, 1.0);
+    gl_Position = g_WorldViewProjectionMatrix * vec4 (inPosition, 1.0 );
 }
