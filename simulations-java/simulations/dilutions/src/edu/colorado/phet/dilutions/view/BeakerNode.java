@@ -6,7 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -72,6 +71,7 @@ public class BeakerNode extends PComposite {
         final float width = (float) beakerSize.getWidth();
         final float height = (float) beakerSize.getHeight();
 
+        // counterclockwise from top left
         GeneralPath beakerPath = new GeneralPath();
         beakerPath.reset();
         beakerPath.moveTo( (float) -BEAKER_LIP_OFFSET.getX(), (float) -( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
@@ -81,10 +81,11 @@ public class BeakerNode extends PComposite {
         beakerPath.lineTo( width, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
         beakerPath.lineTo( (float) ( width + BEAKER_LIP_OFFSET.getX() ), (float) -( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
 
-        PPath beakerNode = new PPath( beakerPath );
-        beakerNode.setPaint( null );
-        beakerNode.setStroke( OUTLINE_STROKE );
-        beakerNode.setStrokePaint( OUTLINE_COLOR );
+        PPath beakerNode = new PPath( beakerPath ) {{
+            setPaint( null );
+            setStroke( OUTLINE_STROKE );
+            setStrokePaint( OUTLINE_COLOR );
+        }};
         addChild( beakerNode );
 
         // tick marks
@@ -97,36 +98,39 @@ public class BeakerNode extends PComposite {
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
             if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
-                // major tick
-                Shape tickPath = new Line2D.Double( 0, y, MAJOR_TICK_LENGTH, y );
-                PPath tickNode = new PPath( tickPath );
-                tickNode.setStroke( MAJOR_TICK_STROKE );
-                tickNode.setStrokePaint( TICK_COLOR );
+
+                // major tick line
+                PPath tickNode = new PPath( new Line2D.Double( 0, y, MAJOR_TICK_LENGTH, y ) ) {{
+                    setStroke( MAJOR_TICK_STROKE );
+                    setStrokePaint( TICK_COLOR );
+                }};
                 ticksNode.addChild( tickNode );
 
+                // major tick label
                 int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
                 if ( labelIndex < MAJOR_TICK_LABELS.length ) {
                     String label = MAJOR_TICK_LABELS[labelIndex] + units;
-                    PText textNode = new PText( label );
-                    textNode.setFont( TICK_LABEL_FONT );
-                    textNode.setTextPaint( TICK_COLOR );
+                    PText textNode = new PText( label ) {{
+                        setFont( TICK_LABEL_FONT );
+                        setTextPaint( TICK_COLOR );
+                    }};
                     ticksNode.addChild( textNode );
-                    double xOffset = tickNode.getFullBounds().getMaxX() + TICK_LABEL_X_SPACING;
-                    double yOffset = tickNode.getFullBounds().getMinY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
-                    textNode.setOffset( xOffset, yOffset );
+                    textNode.setOffset( tickNode.getFullBounds().getMaxX() + TICK_LABEL_X_SPACING,
+                                        tickNode.getFullBounds().getMinY() - ( textNode.getFullBoundsReference().getHeight() / 2 ) );
                     tickLabelNodes.add( textNode );
                 }
             }
             else {
-                // minor tick
-                Shape tickPath = new Line2D.Double( 0, y, MINOR_TICK_LENGTH, y );
-                PPath tickNode = new PPath( tickPath );
-                tickNode.setStroke( MINOR_TICK_STROKE );
-                tickNode.setStrokePaint( TICK_COLOR );
+                // minor tick, no label
+                PPath tickNode = new PPath( new Line2D.Double( 0, y, MINOR_TICK_LENGTH, y ) ) {{
+                    setStroke( MINOR_TICK_STROKE );
+                    setStrokePaint( TICK_COLOR );
+                }};
                 ticksNode.addChild( tickNode );
             }
         }
 
+        // label on the beaker
         labelNode = new LabelNode( solution.solute.get().formula, beakerSize );
         addChild( labelNode );
 
