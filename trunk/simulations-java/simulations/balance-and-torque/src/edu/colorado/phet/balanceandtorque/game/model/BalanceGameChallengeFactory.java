@@ -25,6 +25,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallBucket;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Television;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Woman;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * This class is a factory pattern class that generates sets of challenges for
@@ -114,24 +115,8 @@ public class BalanceGameChallengeFactory {
             balanceChallengeList.add( generateSimpleBalanceChallenge() );
             balanceChallengeList.add( generateEasyBalanceChallenge() );
             balanceChallengeList.add( generateSimpleDeduceTheMassChallenge() );
-            for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                BalanceGameChallenge balanceChallenge = generateEasyBalanceChallenge();
-                if ( !balanceChallengeList.contains( balanceChallenge ) ) {
-                    // This is a unique one, so we're done.
-                    balanceChallengeList.add( balanceChallenge );
-                    break;
-                }
-                assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
-            }
-            for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
-                BalanceGameChallenge balanceChallenge = generateSimpleDeduceTheMassChallenge();
-                if ( !balanceChallengeList.contains( balanceChallenge ) ) {
-                    // This is a unique one, so we're done.
-                    balanceChallengeList.add( balanceChallenge );
-                    break;
-                }
-                assert j < MAX_GEN_ATTEMPTS - 1; // Catch it if we ever can't find a unique challenge.
-            }
+            balanceChallengeList.add( generateEasyBalanceChallenge() );
+            balanceChallengeList.add( generateSimpleDeduceTheMassChallenge() );
         }
         else if ( level == 2 ) {
             balanceChallengeList.add( generateEasyBalanceChallenge() );
@@ -575,6 +560,17 @@ public class BalanceGameChallengeFactory {
 
         // Combine into challenge.
         return new MassDeductionChallenge( mysteryMassDistancePair, knownMassesList, solution );
+    }
+
+    /**
+     * Method to generate a "unique" challenge, meaning one that the user
+     * either hasn't seen before or at least hasn't seen recently.
+     *
+     * @param challengeGeneratorFunction
+     * @return
+     */
+    private static BalanceGameChallenge generateUniqueChallenge( Function0<BalanceGameChallenge> challengeGeneratorFunction ) {
+        return challengeGeneratorFunction.apply();
     }
 
     /**
