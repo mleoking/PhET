@@ -61,7 +61,7 @@ public class RegionNode extends Node {
                                     float y = boundary[i].y;
                                     Vector3f position3d = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( x, y, z ) ) );
                                     vertices[i] = new Vector2f( position3d.x, position3d.y );
-                                    textureCoordinates[i] = new Vector2f( 0, 0 ); // TODO: handle texture coordinates depending on region type
+                                    textureCoordinates[i] = new Vector2f( region.getDensity( boundary[i] ), 0 ); // TODO: handle texture coordinates depending on region type
                                 }
 
                                 setVertices( vertices, textureCoordinates );
@@ -79,12 +79,13 @@ public class RegionNode extends Node {
 
     // various materials
     private static void initializeMaterials( final PlateTectonicsModule module ) {
+        final Material densityMaterial = new Material( module.getAssetManager(), "plate-tectonics/materials/Density.j3md" ) {{
+            setColor( "Color", new ColorRGBA( 0, 1, 0, 1f ) );
+        }};
         materialMap = new HashMap<Type, Material>() {{
-            put( Type.CRUST,
-                 new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0, 1, 0, 1f ) ) ) );
+            put( Type.CRUST, densityMaterial );
 
-            put( Type.UPPER_MANTLE,
-                 new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 1, 0, 0, 1f ) ) ) );
+            put( Type.UPPER_MANTLE, densityMaterial );
 
             put( Type.LOWER_MANTLE,
                  new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0.7f, 0.7f, 0, 1f ) ) ) );
