@@ -51,7 +51,9 @@ public class FluidPressureAndFlowRuler extends PNode {
         rulerNode.rotate( -Math.PI / 2 );
         rulerNode.setOffset( transform.modelToViewX( rulerModelOrigin.getX() ),
                              transform.modelToViewY( rulerModelOrigin.getY() ) + rulerNode.getInsetWidth() );
-        addChild( rulerNode );
+
+        //Was leaving "ghosting" lines on the play area, so wrap in a BiggerPNode
+        addChild( new PaddedNode( rulerNode ) );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {

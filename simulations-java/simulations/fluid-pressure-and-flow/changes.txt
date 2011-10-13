@@ -1,3 +1,4 @@
+Fixed: the ruler is leaving "ghosting" litter on the screen
 Fluid flow: Constrain the pipe so it can't become too wide or thin to reduce dye misshaping problems
 Fluid flow: Fixed: Pipe pressure can become negative
 # 0.00.33 (57585) Oct 12, 2011
