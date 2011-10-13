@@ -23,6 +23,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -66,7 +67,7 @@ public class LiquidExpansionThermometerNode extends PComposite {
     private static final Stroke OUTLINE_STROKE = createAreaStroke( 1f );
     private static final Color OUTLINE_COLOR = Color.BLACK;
 
-    private static final Color LIQUID_COLOR = Color.RED;
+    private static final Color LIQUID_COLOR = PhetColorScheme.RED_COLORBLIND;
 
     private static final double TICK_SPACING = 10;
     private static final float TICK_STROKE_WIDTH = 1f;
