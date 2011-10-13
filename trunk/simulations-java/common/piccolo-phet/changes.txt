@@ -1,3 +1,4 @@
+10/10/2011 Changed color in thermometer node to be the color-blind-friendly version of red.
 10/10/2011 Renamed "allowed" parameter to "enabled" in faucet classes
 10/6/2011 Added an invisible rectangle around the positions where the knob could be to improve layouts based on full bounds of the slider
 9/16/2011 Gray out the kit button nodes instead of making them invisible
