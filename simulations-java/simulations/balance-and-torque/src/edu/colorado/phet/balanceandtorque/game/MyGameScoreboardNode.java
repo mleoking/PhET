@@ -34,7 +34,10 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -120,8 +123,29 @@ public class MyGameScoreboardNode extends PhetPNode {
         // New Game button
         newGameButton = new HTMLImageButtonNode( BUTTON_NEW_GAME, BUTTON_FONT, BUTTON_COLOR );
         newGameButton.addActionListener( new ActionListener() {
+            ControlPanelNode dialog = new ControlPanelNode( new HBox( new PhetPText( "Are you sure?", new PhetFont( 16 ) ),
+                                                                      new HTMLImageButtonNode( "Yes", Color.yellow ) {{
+                                                                          addActionListener( new ActionListener() {
+                                                                              public void actionPerformed( ActionEvent e ) {
+                                                                                  fireNewGamePressed();
+                                                                                  MyGameScoreboardNode.this.removeChild( dialog );
+                                                                              }
+                                                                          } );
+                                                                      }},
+                                                                      new HTMLImageButtonNode( "No", Color.yellow ) {{
+                                                                          addActionListener( new ActionListener() {
+                                                                              public void actionPerformed( ActionEvent e ) {
+                                                                                  MyGameScoreboardNode.this.removeChild( dialog );
+                                                                              }
+                                                                          } );
+                                                                      }}
+            ) );
+
             public void actionPerformed( ActionEvent e ) {
-                handleNewGame();
+                dialog.setOffset( newGameButton.getFullBounds().getCenterX() - dialog.getFullBounds().getWidth() / 2, newGameButton.getFullBounds().getY() - dialog.getFullBounds().getHeight() );
+                if ( !getChildrenReference().contains( dialog ) ) {
+                    addChild( dialog );
+                }
             }
         } );
 
