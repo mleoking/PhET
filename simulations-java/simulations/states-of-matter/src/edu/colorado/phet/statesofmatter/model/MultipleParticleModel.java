@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -505,11 +506,10 @@ public class MultipleParticleModel implements Resettable {
      */
     public void setTargetParticleContainerHeight( double desiredContainerHeight ) {
 
-        if ( ( desiredContainerHeight <= StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT ) &&
-             ( desiredContainerHeight > m_minAllowableContainerHeight ) ) {
-            // This is a valid value.
-            m_targetContainerHeight = desiredContainerHeight;
-        }
+        desiredContainerHeight = MathUtil.clamp( m_minAllowableContainerHeight,
+                                                 desiredContainerHeight,
+                                                 StatesOfMatterConstants.PARTICLE_CONTAINER_INITIAL_HEIGHT );
+        m_targetContainerHeight = desiredContainerHeight;
     }
 
     /**
