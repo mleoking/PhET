@@ -1,3 +1,5 @@
+# 1.00.02 (57616) Oct 13, 2011
+10/13/11 Changed Basics colors
 # 1.00.01 (57533) Oct 12, 2011
 10/12/11 Added "Basics" simulation version
 Added Molecule Shapes: Basics
