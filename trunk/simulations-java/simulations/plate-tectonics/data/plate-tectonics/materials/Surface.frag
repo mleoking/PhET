@@ -28,8 +28,8 @@ void main(void) {
 	outColor = mix( outColor, tex3, alpha.b ); // Blue channel
 
 	float brightness = lightStrength * 1.2;
-	if( elevation < 0 ) {
-	    brightness *= 1 - clamp( elevation / -15000.0, 0.0, 1.0 );
+	if( elevation < 0.0 ) {
+	    brightness *= 1.0 - clamp( elevation / -15000.0, 0.0, 1.0 );
 	}
 	gl_FragColor = outColor * brightness;
 }
