@@ -1,3 +1,4 @@
+Changed the color of all border titles in the control panels to be black instead of gray.
 > Added a "Teacher" menu and added an option for setting the background to be white on all tabs.
 > Added an options menu and added options for selecting Celsius or Kelvin as the temperature units.
 # 1.08.04 (57476) Oct 11, 2011
