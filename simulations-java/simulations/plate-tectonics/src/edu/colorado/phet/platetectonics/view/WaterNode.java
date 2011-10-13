@@ -53,7 +53,9 @@ public class WaterNode extends Node {
                     positions[zIndex * columns + xIndex] = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( x, y, z ) ) );
                 }
             }
-            setMesh( new GridMesh( rows, columns, positions ) );
+            setMesh( new GridMesh( rows, columns, positions ) {{
+                setUpdateNormals( false );
+            }} );
 
             setMaterial( new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0.2f, 0.5f, 0.8f, 0.5f ) ) ) );
             setQueueBucket( Bucket.Transparent ); // allow it to be transparent
