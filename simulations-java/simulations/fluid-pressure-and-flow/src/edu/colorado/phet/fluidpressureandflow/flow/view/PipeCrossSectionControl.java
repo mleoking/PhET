@@ -22,13 +22,13 @@ public class PipeCrossSectionControl extends PNode {
     //Note that when the velocity becomes too high, Bernoulli's equation gives a negative pressure.
     //The pressure doesn't really go negative then, it just means Bernoulli's equation is inapplicable in that situation
     //So we have to make sure the distance threshold is high enough that Bernoulli's equation never gives a negative pressure
-    private final double DISTANCE_THRESHOLD = 1;
+    public static final double DISTANCE_THRESHOLD = 1;
 
     //make it so that the control point can't be dragged off-screen in the down direction
-    public static final double MIN_DRAG_Y = -5;
+    public static final double MIN_DRAG_Y = -4;
 
     //make it so that the control point can't be dragged off-screen in the up direction
-    public static final double MAX_DRAG_Y = 3;
+    public static final double MAX_DRAG_Y = 0;
 
     public PipeCrossSectionControl( final ModelViewTransform transform, final PipeCrossSection pipePosition ) {
         final PipeControlPoint top = new PipeControlPoint( pipePosition.top );
