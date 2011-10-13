@@ -109,7 +109,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
                                                                           TitledBorder.LEFT,
                                                                           TitledBorder.TOP,
                                                                           new PhetFont( Font.BOLD, 14 ),
-                                                                          Color.GRAY );
+                                                                          Color.BLACK );
 
             setBorder( titledBorder );
 
@@ -185,7 +185,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
                                                                           TitledBorder.LEFT,
                                                                           TitledBorder.TOP,
                                                                           new PhetFont( Font.BOLD, 14 ),
-                                                                          Color.GRAY );
+                                                                          Color.BLACK );
 
             setBorder( titledBorder );
 
@@ -261,99 +261,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
                     }
                 }
             } );
-        }
-    }
-
-    /**
-     * This class defines the selection panel that allows the user to choose
-     * the type of molecule.
-     */
-    private class MoleculeSelectionPanelOld extends JPanel {
-
-        private JRadioButton m_neonRadioButton;
-        private JRadioButton m_argonRadioButton;
-        private JRadioButton m_oxygenRadioButton;
-        private JRadioButton m_waterRadioButton;
-
-        MoleculeSelectionPanelOld() {
-
-            setLayout( new GridLayout( 0, 1 ) );
-
-            BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                                                                          StatesOfMatterStrings.MOLECULE_TYPE_SELECT_LABEL,
-                                                                          TitledBorder.LEFT,
-                                                                          TitledBorder.TOP,
-                                                                          new PhetFont( Font.BOLD, 14 ),
-                                                                          Color.GRAY );
-
-            setBorder( titledBorder );
-
-            m_oxygenRadioButton = new JRadioButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL );
-            m_oxygenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_oxygenRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if ( m_model.getMoleculeType() != StatesOfMatterConstants.DIATOMIC_OXYGEN ) {
-                        m_model.setMoleculeType( StatesOfMatterConstants.DIATOMIC_OXYGEN );
-                    }
-                }
-            } );
-            m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
-            m_neonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_neonRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if ( m_model.getMoleculeType() != StatesOfMatterConstants.NEON ) {
-                        m_model.setMoleculeType( StatesOfMatterConstants.NEON );
-                    }
-                }
-            } );
-            m_argonRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
-            m_argonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_argonRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if ( m_model.getMoleculeType() != StatesOfMatterConstants.ARGON ) {
-                        m_model.setMoleculeType( StatesOfMatterConstants.ARGON );
-                    }
-                }
-            } );
-            m_waterRadioButton = new JRadioButton( StatesOfMatterStrings.WATER_SELECTION_LABEL );
-            m_waterRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_waterRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if ( m_model.getMoleculeType() != StatesOfMatterConstants.WATER ) {
-                        m_model.setMoleculeType( StatesOfMatterConstants.WATER );
-                    }
-                }
-            } );
-
-            ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( m_neonRadioButton );
-            buttonGroup.add( m_argonRadioButton );
-            buttonGroup.add( m_oxygenRadioButton );
-            buttonGroup.add( m_waterRadioButton );
-            m_neonRadioButton.setSelected( true );
-
-            add( m_neonRadioButton );
-            add( m_argonRadioButton );
-            add( m_oxygenRadioButton );
-            add( m_waterRadioButton );
-        }
-
-        public void setMolecule( int molecule ) {
-            switch( molecule ) {
-                case StatesOfMatterConstants.ARGON:
-                    m_argonRadioButton.setSelected( true );
-                    break;
-                case StatesOfMatterConstants.NEON:
-                    m_neonRadioButton.setSelected( true );
-                    break;
-                case StatesOfMatterConstants.DIATOMIC_OXYGEN:
-                    m_oxygenRadioButton.setSelected( true );
-                    break;
-                case StatesOfMatterConstants.WATER:
-                    m_waterRadioButton.setSelected( true );
-                    break;
-            }
         }
     }
 }

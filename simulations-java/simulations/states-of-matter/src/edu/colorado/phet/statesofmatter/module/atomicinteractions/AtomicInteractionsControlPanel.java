@@ -63,7 +63,7 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
 
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final Font BOLD_LABEL_FONT = new PhetFont( Font.BOLD, 14 );
-    private static final Color ENABLED_TITLE_COLOR = new Color( 128, 128, 128 );
+    private static final Color ENABLED_TITLE_COLOR = Color.BLACK;
     private static final int PIN_ICON_WIDTH = 30; // In pixels.
     private static final int PIN_ICON_HEIGHT = 32; // In pixels.
 
@@ -173,7 +173,7 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
                                                                           TitledBorder.LEFT,
                                                                           TitledBorder.TOP,
                                                                           new PhetFont( Font.BOLD, 14 ),
-                                                                          Color.GRAY );
+                                                                          Color.BLACK );
 
             setBorder( titledBorder );
 
@@ -277,7 +277,7 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
                                                                           TitledBorder.LEFT,
                                                                           TitledBorder.TOP,
                                                                           new PhetFont( Font.BOLD, 14 ),
-                                                                          Color.GRAY );
+                                                                          Color.BLACK );
 
             setBorder( titledBorder );
 
@@ -516,7 +516,7 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
                                                                           TitledBorder.LEFT,
                                                                           TitledBorder.TOP,
                                                                           new PhetFont( Font.BOLD, 14 ),
-                                                                          Color.GRAY );
+                                                                          Color.BLACK );
 
             setBorder( titledBorder );
 
@@ -925,7 +925,7 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
                                                                           TitledBorder.LEFT,
                                                                           TitledBorder.TOP,
                                                                           new PhetFont( Font.BOLD, 14 ),
-                                                                          Color.GRAY );
+                                                                          Color.BLACK );
 
             setBorder( titledBorder );
 

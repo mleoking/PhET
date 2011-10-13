@@ -49,7 +49,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     // Class Data
     //----------------------------------------------------------------------------
     private static final Font BUTTON_LABEL_FONT = new PhetFont( 14 );
-    private static final Color ENABLED_TITLE_COLOR = new Color( 128, 128, 128 );
+    private static final Color ENABLED_TITLE_COLOR = Color.BLACK;
     private static final int INTERACTION_POTENTIAL_DIAGRAM_WIDTH = 200;
     private static final int INTERACTION_POTENTIAL_DIAGRAM_HEIGHT = (int) ( INTERACTION_POTENTIAL_DIAGRAM_WIDTH * 0.8 );
     private static final Color DIAGRAM_BUTTON_BACKGROUND_COLOR = Color.RED;
@@ -335,7 +335,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                                                                           TitledBorder.LEFT,
                                                                           TitledBorder.TOP,
                                                                           new PhetFont( Font.BOLD, 14 ),
-                                                                          Color.GRAY );
+                                                                          Color.BLACK );
 
             setBorder( titledBorder );
 

@@ -171,7 +171,7 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
                                                                       TitledBorder.LEFT,
                                                                       TitledBorder.TOP,
                                                                       new PhetFont( Font.BOLD, 14 ),
-                                                                      Color.GRAY );
+                                                                      Color.BLACK );
 
         infoPanel.setBorder( titledBorder );
         updateAdditionalInfo();
@@ -213,7 +213,7 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
                                                                           TitledBorder.LEFT,
                                                                           TitledBorder.TOP,
                                                                           new PhetFont( Font.BOLD, 14 ),
-                                                                          Color.GRAY );
+                                                                          Color.BLACK );
 
             setBorder( titledBorder );
 
