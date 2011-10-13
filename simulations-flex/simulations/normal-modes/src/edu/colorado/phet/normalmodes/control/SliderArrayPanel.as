@@ -36,6 +36,7 @@ public class SliderArrayPanel extends Canvas {
 
     private var myMainView: MainView;
     private var myModel1: Model1;
+    private var showHideButton:ShowHideButton;
     private var container: Sprite;
     private var boundingBox:Sprite;
     private var myPolarizationPanel: PolarizationPanel;
@@ -69,6 +70,7 @@ public class SliderArrayPanel extends Canvas {
         this.myMainView = myMainView;
         this.myModel1 = myModel1;
         this.myModel1.registerView( this );
+        this.showHideButton = new ShowHideButton( this );
         this.container = new Sprite();
         this.myPolarizationPanel = new PolarizationPanel( myMainView,  myModel1 );
         this.leftEdgeX = this.myMainView.myView1.leftEdgeX;
@@ -95,9 +97,13 @@ public class SliderArrayPanel extends Canvas {
         this.createFrequencyLabels();
         this.createModeIcons();
 
+
         this.addChild( this.myPolarizationPanel );
         this.myPolarizationPanel.x = this.container.width + 20;
         this.myPolarizationPanel.y = 0;
+        this.addChild( new SpriteUIComponent( this.showHideButton ) );
+        //this.showHideButton.x =  this.container.width + 40;
+        //this.showHideButton.y = -20;
         this.locateSlidersAndLabels();
     } //end constructor
 
@@ -321,6 +327,10 @@ public class SliderArrayPanel extends Canvas {
             h = -15 + ampliSlider_arr[0].y + ampliSlider_arr[1].height - container.y;
         }
         g.drawRoundRect( xPos, yPos, w, h, 20 );
+
+        //position showHideButton
+        this.showHideButton.x = xPos + w - this.showHideButton.width;
+        this.showHideButton.y = yPos + this.showHideButton.height;
         //Locate Main Label in top left of bounding box;
         //this.modeSpectrum_txt.x = xPos;
         //this.modeSpectrum_txt.x = yPos;
@@ -364,6 +374,17 @@ public class SliderArrayPanel extends Canvas {
             this.phaseSlider_arr[i].visible = false;
         }
         this.drawBoundingBox();
+    }
+
+    //show() hide() functions required by ShowHideButton
+    public function show():void{
+        this.container.visible = true;
+        this.myPolarizationPanel.visible = true;
+    }
+
+    public function hide():void{
+        this.container.visible = false;
+        this.myPolarizationPanel.visible = false;
     }
 
     public function update():void{
