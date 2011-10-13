@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.modules;
 import java.awt.*;
 
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.test.AnimatedPlateModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
@@ -40,7 +41,8 @@ public class PlateMotionModule extends PlateTectonicsModule {
                 256, 256, 32 );
 
         // create the model and terrain
-        model = new AnimatedPlateModel( grid );
+//        model = new AnimatedPlateModel( grid );
+        model = new PlateMotionModel( grid );
         mainView.getScene().attachChild( new PlateView( model, this, grid ) );
     }
 

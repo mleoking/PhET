@@ -6,8 +6,8 @@ package edu.colorado.phet.common.phetcommon.model.event;
  *
  * @author Jonathan Olson
  */
-public class VoidNotifier extends Notifier<Void> {
-    public void updateListeners() {
-        updateListeners( null );
+public class VoidNotifier extends ValueNotifier<Void> {
+    public VoidNotifier() {
+        super( null );
     }
 }
