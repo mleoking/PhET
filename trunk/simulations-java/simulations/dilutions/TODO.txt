@@ -6,8 +6,8 @@ DESIGN
 - various issues with black text on dark background colors
 
 HIGH
-- use PrecisionDecimal for solute amount and solution volume?
-- use plain font for "(M=mol/L)" on concentration display
+- use PrecisionDecimal in the model?
+- change sliders to use spinners (implement Piccolo spinner?)
 
 MEDIUM
 
