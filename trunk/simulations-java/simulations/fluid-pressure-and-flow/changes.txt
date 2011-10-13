@@ -1,3 +1,4 @@
+# 0.00.34 (57615) Oct 13, 2011
 Fixed: the ruler can be dragged off the canvas
 Fluid flow: Fixed: If the right hand pipe is fully expanded there is visual interference with the fluid density box.
 Fixed: the ruler is leaving "ghosting" litter on the screen
