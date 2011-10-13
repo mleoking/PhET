@@ -24,6 +24,6 @@ void main(){
     texCoord = inTexCoord;
     texCoord2 = inTexCoord2;
 
-    float oneLightStrength = clampFloat(dot(inNormal,normalize(vec3(-0.3,1,0.0))),0,1);
+    float oneLightStrength = clampFloat(dot(inNormal,normalize(vec3(-0.3,1,0.0))),0.0,1.0);
     lightStrength = oneLightStrength * oneLightStrength * 0.6 + 0.4;
 }

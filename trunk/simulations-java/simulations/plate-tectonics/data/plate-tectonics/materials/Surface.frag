@@ -39,7 +39,7 @@ void main(void) {
 
 	float brightness = lightStrength * 1.2;
 	if( elevation < 0 ) {
-	    brightness *= 1 - clampFloat(elevation / -15000.0,0,1);
+	    brightness *= 1 - clampFloat(elevation / -15000.0,0.0,1.0);
 	}
 	gl_FragColor = outColor * brightness;
 }
