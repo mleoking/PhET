@@ -159,18 +159,18 @@ public class CrustModel extends PlateModel {
                                                  }, new Vector2f[mantleTop.length] );
         Vector2f[] centerOfTheEarth = new Vector2f[] { new Vector2f( 0, -PlateModel.EARTH_RADIUS ) };
 
-        addRegion( new SimpleRegion( Type.CRUST,
+        addRegion( new SimpleConstantRegion( Type.CRUST,
                                      oceanTop,
                                      oceanCrustBottom,
                                      constantFunction( LEFT_OCEANIC_DENSITY ),
                                      constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
-        addRegion( new SimpleRegion( Type.UPPER_MANTLE,
+        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                      oceanCrustBottom,
                                      oceanSideMinY,
                                      constantFunction( MANTLE_DENSITY ),
                                      constantFunction( 0.0 ) ) ); // TODO: mandle temperatures!
 
-        addRegion( new SimpleRegion( Type.CRUST,
+        addRegion( new SimpleConstantRegion( Type.CRUST,
                                      middleTop,
                                      middleCrustBottom,
                                      new Function0<Double>() {
@@ -178,42 +178,42 @@ public class CrustModel extends PlateModel {
                                              return getCenterCrustDensity();
                                          }
                                      }, constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
-        addRegion( new SimpleRegion( Type.UPPER_MANTLE,
+        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                      middleCrustBottom,
                                      middleSideMinY,
                                      constantFunction( MANTLE_DENSITY ),
                                      constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
 
-        addRegion( new SimpleRegion( Type.CRUST,
+        addRegion( new SimpleConstantRegion( Type.CRUST,
                                      continentTop,
                                      continentCrustBottom,
                                      constantFunction( RIGHT_CONTINENTAL_DENSITY ),
                                      constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
-        addRegion( new SimpleRegion( Type.UPPER_MANTLE,
+        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                      continentCrustBottom,
                                      continentSideMinY,
                                      constantFunction( MANTLE_DENSITY ),
                                      constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
-        addRegion( new SimpleRegion( Type.UPPER_MANTLE,
+        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                      mantleTop,
                                      mantleMiddle,
                                      constantFunction( MANTLE_DENSITY ), // TODO: fix upper mantle density
                                      constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
-        addRegion( new SimpleRegion( Type.LOWER_MANTLE,
+        addRegion( new SimpleConstantRegion( Type.LOWER_MANTLE,
                                      mantleMiddle,
                                      mantleBottom,
                                      constantFunction( MANTLE_DENSITY ), // TODO: fix lower mantle density
                                      constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
-        addRegion( new SimpleRegion( Type.OUTER_CORE,
+        addRegion( new SimpleConstantRegion( Type.OUTER_CORE,
                                      mantleBottom,
                                      innerOuterCoreBoundary,
                                      constantFunction( MANTLE_DENSITY ), // TODO: fix core density
                                      constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
-        addRegion( new SimpleRegion( Type.INNER_CORE,
+        addRegion( new SimpleConstantRegion( Type.INNER_CORE,
                                      innerOuterCoreBoundary,
                                      centerOfTheEarth,
                                      constantFunction( MANTLE_DENSITY ), // TODO: fix core density
@@ -381,48 +381,4 @@ public class CrustModel extends PlateModel {
         return surfaceTemperature + simplifiedOceanicDifference.apply( depth );
     }
 
-    private static class SimpleRegion extends Region {
-        private final Vector2f[] top;
-        private final Vector2f[] bottom;
-        private final Function0<Double> density;
-        private final Function0<Double> temperature;
-        private final boolean aStatic;
-
-        public SimpleRegion( Type type, Vector2f[] top, Vector2f[] bottom, Function0<Double> density, Function0<Double> temperature ) {
-            this( type, top, bottom, density, temperature, false );
-        }
-
-        public SimpleRegion( Type type, Vector2f[] top, Vector2f[] bottom, Function0<Double> density, Function0<Double> temperature, boolean isStatic ) {
-            super( type );
-            this.top = top;
-            this.bottom = bottom;
-            this.density = density;
-            this.temperature = temperature;
-            aStatic = isStatic;
-        }
-
-        // constant density over the entire surface
-        @Override public float getDensity( Vector2f position ) {
-            return density.apply().floatValue();
-        }
-
-        // constant temperature over the entire surface
-        @Override public float getTemperature( Vector2f position ) {
-            return temperature.apply().floatValue();
-        }
-
-        @Override public boolean isStatic() {
-            return aStatic;
-        }
-
-        @Override public Vector2f[] getBoundary() {
-            int numVertices = top.length + bottom.length;
-            Vector2f[] vertices = new Vector2f[numVertices];
-            System.arraycopy( top, 0, vertices, 0, top.length );
-            for ( int i = 0; i < bottom.length; i++ ) {
-                vertices[numVertices - i - 1] = bottom[i];
-            }
-            return vertices;
-        }
-    }
 }

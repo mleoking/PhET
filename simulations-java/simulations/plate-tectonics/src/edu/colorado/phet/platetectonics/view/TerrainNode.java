@@ -21,7 +21,6 @@ import com.jme3.util.BufferUtils;
  * Displays the top terrain of a plate model, within the bounds of the specified grid
  */
 public class TerrainNode extends Geometry {
-    private final Terrain terrain;
     private final PlateTectonicsModule module;
 //    private TerrainNode.TerrainTextureImage image;
 
@@ -32,7 +31,6 @@ public class TerrainNode extends Geometry {
     private FloatBuffer texture2;
 
     public TerrainNode( final Terrain terrain, PlateModel model, final PlateTectonicsModule module ) {
-        this.terrain = terrain;
         this.module = module;
 
         Vector3f[] positions = computePositions( terrain );
@@ -71,7 +69,6 @@ public class TerrainNode extends Geometry {
                                                   public void update() {
                                                       gridMesh.updateGeometry( computePositions( terrain ) );
                                                       updateHeightmap( terrain, gridMesh );
-//                                                      image.updateTerrain();
                                                   }
                                               }, false );
     }
