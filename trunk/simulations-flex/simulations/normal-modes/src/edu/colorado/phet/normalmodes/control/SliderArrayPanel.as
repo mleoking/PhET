@@ -45,7 +45,7 @@ public class SliderArrayPanel extends Canvas {
     private var phaseSlider_arr:Array    //array of vertical Sliders for setting phase of mode
     private var nMax:int;                //maximum number of mobile masses = max nbr of normal modes
     private var phasesShown:Boolean;     //true if phases sliders are visible
-    //private var modeSpectrum_txt: TextField;
+    private var modeSpectrum_txt: TextField;
     private var modeLabel_txt: TextField
     private var amplitudeLabel_txt:TextField;
     private var frequency_txt:TextField;
@@ -55,7 +55,7 @@ public class SliderArrayPanel extends Canvas {
     private var zero_txt:TextField;
     private var minusPi_txt:TextField;
     //private var tFormat1:TextFormat;
-    //private var modeSpectrum_str:String;
+    private var modeSpectrum_str:String;
     private var mode_str:String;
     private var amplitude_str:String;
     private var frequency_str:String;
@@ -72,6 +72,7 @@ public class SliderArrayPanel extends Canvas {
         this.myModel1.registerView( this );
         this.showHideButton = new ShowHideButton( this );
         this.container = new Sprite();
+        this.boundingBox = new Sprite();
         this.myPolarizationPanel = new PolarizationPanel( myMainView,  myModel1 );
         this.leftEdgeX = this.myMainView.myView1.leftEdgeX;
         this.nMax = this.myModel1.nMax;
@@ -86,6 +87,7 @@ public class SliderArrayPanel extends Canvas {
         //this.slider_arr[0] = vertSlider;
 
         this.addChild( new SpriteUIComponent ( this.container ) );
+        this.addChild( new SpriteUIComponent ( this.boundingBox ));
         this.initializeSliderArray();
         this.initializeStrings();
 
@@ -139,7 +141,7 @@ public class SliderArrayPanel extends Canvas {
     }//end createSliderArray
 
     private function initializeStrings():void{
-        //this.modeSpectrum_str = FlexSimStrings.get("modeSpectrum", "Mode Spectrum");
+        this.modeSpectrum_str = FlexSimStrings.get("modeSpectrum", "Normal Mode Spectrum");
         this.mode_str = FlexSimStrings.get("normalMode:", "Normal Mode:");
         this.amplitude_str = FlexSimStrings.get("amplitude:", "Amplitude:");
         this.frequency_str = FlexSimStrings.get("frequency:", "Frequency:");
@@ -155,7 +157,7 @@ public class SliderArrayPanel extends Canvas {
         tFormat.size = 20;
         tFormat.font = "Arial";
         tFormat.color = 0x000000;
-        //this.modeSpectrum_txt = new TextField();
+        this.modeSpectrum_txt = new TextField();
         this.modeLabel_txt = new TextField();
         this.amplitudeLabel_txt = new TextField();
         this.frequency_txt = new TextField();
@@ -163,7 +165,7 @@ public class SliderArrayPanel extends Canvas {
         this.plusPi_txt = new TextField();
         this.zero_txt = new TextField();
         this.minusPi_txt = new TextField();
-        //this.modeSpectrum_txt.text = this.modeSpectrum_str;
+        this.modeSpectrum_txt.text = this.modeSpectrum_str;
         this.amplitudeLabel_txt.text = this.amplitude_str;
         this.frequency_txt.text = this.frequency_str;
         this.phaseLabel_txt.text = this.phase_str;
@@ -191,11 +193,12 @@ public class SliderArrayPanel extends Canvas {
         this.plusPi_txt.setTextFormat( tFormat );
         this.minusPi_txt.setTextFormat( tFormat );
         //Reset tFormat for Mode Spectrum label
-        tFormat.size = 25;
+        tFormat.size = 20;
         tFormat.font = "Arial";
-        //this.modeSpectrum_txt.autoSize = TextFieldAutoSize.LEFT;
-        //this.modeSpectrum_txt.setTextFormat( tFormat );
-        //container.addChild( modeSpectrum_txt )
+        this.modeSpectrum_txt.autoSize = TextFieldAutoSize.LEFT;
+        this.modeSpectrum_txt.setTextFormat( tFormat );
+        this.boundingBox.addChild( modeSpectrum_txt );
+        this.modeSpectrum_txt.visible = false;  //only visible when container hidden by ShowHide Button
         //this.plusPi_txt.border = true;    //for testing only
     }//end createLabels()
 
@@ -285,8 +288,8 @@ public class SliderArrayPanel extends Canvas {
         this.setFrequencyLabels();
         this.showPhaseSliders( this.phasesShown );
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
-        //this.modeSpectrum_txt.x = leftEdgeOfSliders - 100;
-        //this.modeSpectrum_txt.y = -40;
+        this.modeSpectrum_txt.x = leftEdgeOfSliders - 100;
+        this.modeSpectrum_txt.y = -10;
         this.modeLabel_txt.y = yOffset - 36;
         this.amplitudeLabel_txt.y = yOffset + 30;
         this.frequency_txt.y = yOffset + 118;
@@ -310,7 +313,8 @@ public class SliderArrayPanel extends Canvas {
     } //end positionSliders();
 
     public function drawBoundingBox():void{
-        var g:Graphics = this.container.graphics;
+        //var g:Graphics = this.container.graphics;
+        var g:Graphics = this.boundingBox.graphics;
         g.clear();
         g.lineStyle( 5, 0x999999, 1 );  //gray color
         var xPos:Number = Math.min( modeLabel_txt.x, frequency_txt.x ) - 15;
@@ -321,10 +325,13 @@ public class SliderArrayPanel extends Canvas {
         var w:int = rightEdgeOfSliders + polarizationPanelWidth + 20 - xPos;
         //trace("SliderArrayPanel.myPolarizationPanel.width = "+this.myPolarizationPanel.width) ;
         var h:int;
-        if(this.phasesShown){
+        if(this.phasesShown && this.container.visible ){
             h = 40 + phaseSlider_arr[0].y + phaseSlider_arr[1].height - container.y;
         } else{
             h = -15 + ampliSlider_arr[0].y + ampliSlider_arr[1].height - container.y;
+        }
+        if( !this.container.visible ){
+            h = 50;
         }
         g.drawRoundRect( xPos, yPos, w, h, 20 );
 
@@ -382,11 +389,15 @@ public class SliderArrayPanel extends Canvas {
     public function show():void{
         this.container.visible = true;
         this.myPolarizationPanel.visible = true;
+        this.modeSpectrum_txt.visible = false;
+        this.drawBoundingBox();
     }
 
     public function hide():void{
         this.container.visible = false;
         this.myPolarizationPanel.visible = false;
+        this.modeSpectrum_txt.visible = true;
+        this.drawBoundingBox();
     }
 
     public function update():void{
