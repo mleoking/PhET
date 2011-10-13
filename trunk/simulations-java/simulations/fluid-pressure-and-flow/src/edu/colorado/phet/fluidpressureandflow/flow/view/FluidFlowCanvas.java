@@ -100,9 +100,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + INSET * 2 );
         }} );
 
-        //Create and show the fluid density controls
-        addFluidDensityControl( module );
-
         //Ruler nodes, one for each unit set
         final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
         final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, model );
@@ -136,6 +133,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this last ensures that the draggable sensors will appear in front of everything else
         addSensorToolboxNode( model, controlPanelNode );
+
+        //Create and show the fluid density controls
+        addFluidDensityControl( module );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {
