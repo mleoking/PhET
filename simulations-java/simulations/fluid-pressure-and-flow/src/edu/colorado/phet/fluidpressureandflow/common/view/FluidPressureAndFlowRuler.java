@@ -12,11 +12,12 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Base class for draggable english/metric rules
@@ -55,11 +56,11 @@ public class FluidPressureAndFlowRuler extends PNode {
         //Was leaving "ghosting" lines on the play area, so wrap in a BiggerPNode
         addChild( new PaddedNode( rulerNode ) );
 
+        //Allow to drag, but not to leave the canvas
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseDragged( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( getParent() );
-                translate( delta.width, delta.height );
+        addInputEventListener( new CanvasBoundedDragHandler( this ) {
+            @Override protected void dragNode( DragEvent event ) {
+                translate( event.delta.getWidth(), event.delta.getHeight() );
             }
         } );
 
