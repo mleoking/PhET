@@ -55,6 +55,9 @@ public class ConcentrationDisplayNode extends PComposite {
 
         // nodes
         final TitleNode titleNode = new TitleNode();
+        final PText formulaNode = new PText( Strings.MOLARITY_FORMULA ) {{
+            setFont( VALUE_FONT );
+        }};
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration() );
         final TickMarkNode maxNode = new TickMarkNode( concentrationRange.getMax(), Strings.UNITS_MOLARITY, Strings.HIGH, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
@@ -64,6 +67,7 @@ public class ConcentrationDisplayNode extends PComposite {
         // rendering order
         {
             addChild( titleNode );
+            addChild( formulaNode );
             addChild( barNode );
             addChild( maxNode );
             addChild( minNode );
@@ -77,9 +81,12 @@ public class ConcentrationDisplayNode extends PComposite {
             maxNode.setOffset( 0, 0 );
             // min label at bottom of bar
             minNode.setOffset( 0, barSize.getHeight() );
-            // title centered above bar
+            // subtitle centered above bar
+            formulaNode.setOffset( barNode.getFullBounds().getCenterX() - ( formulaNode.getFullBoundsReference().getWidth() / 2 ),
+                                   -formulaNode.getFullBoundsReference().getHeight() - ( maxNode.getFullBoundsReference().getHeight() / 2 ) - 3 );
+            // title centered above subtitle
             titleNode.setOffset( barNode.getFullBounds().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 -titleNode.getFullBoundsReference().getHeight() - ( maxNode.getFullBoundsReference().getHeight() / 2 ) - 3 );
+                                 formulaNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 3 );
         }
 
         // Pointer position and value corresponds to the solution's concentration.
@@ -106,6 +113,7 @@ public class ConcentrationDisplayNode extends PComposite {
                 pointerNode.setValueVisible( visible );
                 maxNode.setValueVisible( visible );
                 minNode.setValueVisible( visible );
+                formulaNode.setVisible( visible );
             }
         } );
     }
