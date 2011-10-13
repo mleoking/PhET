@@ -21,7 +21,7 @@ public class ColorProfile<ColorKey extends Enum> {
         }
     }
 
-    public void add( ColorKey key, Color color ) {
+    public void put( ColorKey key, Color color ) {
         colorMap.put( key, color );
     }
 

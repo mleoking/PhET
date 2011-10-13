@@ -2,8 +2,6 @@
 package edu.colorado.phet.moleculeshapes;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -13,6 +11,9 @@ import edu.colorado.phet.moleculeshapes.util.JMEColorHandler;
 
 import com.jme3.math.ColorRGBA;
 
+/**
+ * TODO: in need of a rewrite to common-code color-profile handling. this code is showing multiple holes
+ */
 public enum MoleculeShapesColor {
     BACKGROUND,
     CONTROL_PANEL_BORDER,
@@ -36,51 +37,56 @@ public enum MoleculeShapesColor {
     MOON;
 
     public static ColorProfile<MoleculeShapesColor> DEFAULT = new ColorProfile<MoleculeShapesColor>( "Screen Mode" ) {{ // TODO: i18n
-        add( BACKGROUND, Color.BLACK );
-        add( CONTROL_PANEL_BORDER, new Color( 210, 210, 210 ) );
-        add( CONTROL_PANEL_TITLE, new Color( 240, 240, 240 ) );
-        add( CONTROL_PANEL_TEXT, new Color( 230, 230, 230 ) );
-        add( ATOM_CENTER, new Color( 159, 102, 218 ) );
-        add( ATOM, Color.WHITE );
-        add( BOND, Color.WHITE );
-        add( REAL_EXAMPLE_FORMULA, new Color( 230, 230, 230 ) );
-        add( REAL_EXAMPLE_BORDER, new Color( 60, 60, 60 ) );
-        add( LONE_PAIR_SHELL, new Color( 1, 1, 1, 0.7f ) );
-        add( LONE_PAIR_ELECTRON, new Color( 1, 1, 0, 0.8f ) );
-        add( MOLECULAR_GEOMETRY_NAME, new Color( 255, 255, 140 ) );
-        add( ELECTRON_GEOMETRY_NAME, new Color( 255, 204, 102 ) );
-        add( BOND_ANGLE_READOUT, Color.WHITE );
-        add( BOND_ANGLE_SWEEP, Color.GRAY );
-        add( BOND_ANGLE_ARC, Color.RED );
-        add( REMOVE_BUTTON_TEXT, Color.BLACK );
-        add( REMOVE_BUTTON_BACKGROUND, Color.ORANGE );
-        add( SUN, new Color( 0.8f, 0.8f, 0.8f ) );
-        add( MOON, new Color( 0.6f, 0.6f, 0.6f ) );
+        put( BACKGROUND, Color.BLACK );
+        put( CONTROL_PANEL_BORDER, new Color( 210, 210, 210 ) );
+        put( CONTROL_PANEL_TITLE, new Color( 240, 240, 240 ) );
+        put( CONTROL_PANEL_TEXT, new Color( 230, 230, 230 ) );
+        put( ATOM_CENTER, new Color( 159, 102, 218 ) );
+        put( ATOM, Color.WHITE );
+        put( BOND, Color.WHITE );
+        put( REAL_EXAMPLE_FORMULA, new Color( 230, 230, 230 ) );
+        put( REAL_EXAMPLE_BORDER, new Color( 60, 60, 60 ) );
+        put( LONE_PAIR_SHELL, new Color( 1, 1, 1, 0.7f ) );
+        put( LONE_PAIR_ELECTRON, new Color( 1, 1, 0, 0.8f ) );
+        put( MOLECULAR_GEOMETRY_NAME, new Color( 255, 255, 140 ) );
+        put( ELECTRON_GEOMETRY_NAME, new Color( 255, 204, 102 ) );
+        put( BOND_ANGLE_READOUT, Color.WHITE );
+        put( BOND_ANGLE_SWEEP, Color.GRAY );
+        put( BOND_ANGLE_ARC, Color.RED );
+        put( REMOVE_BUTTON_TEXT, Color.BLACK );
+        put( REMOVE_BUTTON_BACKGROUND, Color.ORANGE );
+        put( SUN, new Color( 0.8f, 0.8f, 0.8f ) );
+        put( MOON, new Color( 0.6f, 0.6f, 0.6f ) );
     }};
+
+    public static void switchToBasicColors() {
+        DEFAULT.put( BACKGROUND, new Color( 252, 216, 124 ) );
+        DEFAULT.put( CONTROL_PANEL_BORDER, new Color( 30, 30, 30 ) );
+        DEFAULT.put( CONTROL_PANEL_TITLE, Color.BLACK );
+        DEFAULT.put( CONTROL_PANEL_TEXT, Color.BLACK );
+        DEFAULT.put( SUN, new Color( 153, 153, 153 ) );
+        DEFAULT.put( MOLECULAR_GEOMETRY_NAME, new Color( 54, 47, 14 ) );
+        DEFAULT.put( BOND_ANGLE_READOUT, Color.BLACK );
+        DEFAULT.put( REMOVE_BUTTON_BACKGROUND, new Color( 204, 204, 204 ) );
+        DEFAULT.apply( handler );
+    }
 
     // TODO: better handling of non-specified colors!
     public static ColorProfile<MoleculeShapesColor> PROJECTOR = new ColorProfile<MoleculeShapesColor>( "Projector Mode" ) {{ // TODO: i18n
-        add( BACKGROUND, Color.WHITE );
-        add( CONTROL_PANEL_BORDER, new Color( 30, 30, 30 ) );
-        add( CONTROL_PANEL_TITLE, Color.BLACK );
-        add( CONTROL_PANEL_TEXT, Color.BLACK );
-        add( ATOM, new Color( 153, 153, 153 ) );
-        add( REAL_EXAMPLE_BORDER, new Color( 230, 230, 230 ) );
-        add( REAL_EXAMPLE_FORMULA, Color.BLACK );
-        add( LONE_PAIR_SHELL, new Color( 0.7f, 0.7f, 0.7f, 0.7f ) );
-        add( LONE_PAIR_ELECTRON, new Color( 0, 0, 0, 0.8f ) );
-        add( MOLECULAR_GEOMETRY_NAME, new Color( 102, 0, 204 ) );
-        add( ELECTRON_GEOMETRY_NAME, new Color( 0, 102, 102 ) );
-        add( BOND_ANGLE_READOUT, Color.BLACK );
-        add( BOND_ANGLE_SWEEP, Color.GRAY.brighter() );
-        add( BOND_ANGLE_ARC, Color.RED );
-    }};
-
-    // TODO: add high-contrast?
-
-    public static List<ColorProfile<MoleculeShapesColor>> PROFILES = new ArrayList<ColorProfile<MoleculeShapesColor>>() {{
-        add( DEFAULT );
-        add( PROJECTOR );
+        put( BACKGROUND, Color.WHITE );
+        put( CONTROL_PANEL_BORDER, new Color( 30, 30, 30 ) );
+        put( CONTROL_PANEL_TITLE, Color.BLACK );
+        put( CONTROL_PANEL_TEXT, Color.BLACK );
+        put( ATOM, new Color( 153, 153, 153 ) );
+        put( REAL_EXAMPLE_BORDER, new Color( 230, 230, 230 ) );
+        put( REAL_EXAMPLE_FORMULA, Color.BLACK );
+        put( LONE_PAIR_SHELL, new Color( 0.7f, 0.7f, 0.7f, 0.7f ) );
+        put( LONE_PAIR_ELECTRON, new Color( 0, 0, 0, 0.8f ) );
+        put( MOLECULAR_GEOMETRY_NAME, new Color( 102, 0, 204 ) );
+        put( ELECTRON_GEOMETRY_NAME, new Color( 0, 102, 102 ) );
+        put( BOND_ANGLE_READOUT, Color.BLACK );
+        put( BOND_ANGLE_SWEEP, Color.GRAY.brighter() );
+        put( BOND_ANGLE_ARC, Color.RED );
     }};
 
     public static JMEColorHandler<MoleculeShapesColor> handler = new JMEColorHandler<MoleculeShapesColor>() {{
