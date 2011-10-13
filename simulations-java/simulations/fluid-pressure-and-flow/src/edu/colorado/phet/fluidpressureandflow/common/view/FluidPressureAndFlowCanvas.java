@@ -2,16 +2,12 @@
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.MessageFormat;
-
-import javax.swing.JComponent;
-import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
@@ -86,19 +82,6 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         addWorldChild( rootNode );
 
         setBorder( null );
-    }
-
-    //Set alpha and opacity for the specified component (but not textfields) to make them integrate better with piccolo
-    public static void makeTransparent( JComponent component ) {
-        if ( !( component instanceof JTextComponent ) ) {
-            component.setBackground( new Color( 0, 0, 0, 0 ) );
-            component.setOpaque( false );
-        }
-        for ( Component component1 : component.getComponents() ) {
-            if ( component1 instanceof JComponent ) {
-                makeTransparent( (JComponent) component1 );
-            }
-        }
     }
 
     //Add the floating clock controls and sim speed slider at the bottom of the screen

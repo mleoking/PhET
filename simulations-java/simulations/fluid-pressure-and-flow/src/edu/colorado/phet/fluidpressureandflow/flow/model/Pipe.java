@@ -204,11 +204,7 @@ public class Pipe {
         if ( list.size() == 0 ) {
             throw new RuntimeException( "No pipe segments before x= " + x );
         }
-        return min( list, new Comparator<PipeCrossSection>() {
-            public int compare( PipeCrossSection o1, PipeCrossSection o2 ) {
-                return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
-            }
-        } );
+        return min( list, new PipeCrossSectionXComparator( x ) );
     }
 
     private Iterable<? extends PipeCrossSection> getCrossSections() {
@@ -224,11 +220,19 @@ public class Pipe {
                 }
             }
         }};
-        return Collections.min( list, new Comparator<PipeCrossSection>() {
-            public int compare( PipeCrossSection o1, PipeCrossSection o2 ) {
-                return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
-            }
-        } );
+        return Collections.min( list, new PipeCrossSectionXComparator( x ) );
+    }
+
+    static class PipeCrossSectionXComparator implements Comparator<PipeCrossSection> {
+        private final double x;
+
+        PipeCrossSectionXComparator( double x ) {
+            this.x = x;
+        }
+
+        public int compare( PipeCrossSection o1, PipeCrossSection o2 ) {
+            return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
+        }
     }
 
     public double getMaxX() {

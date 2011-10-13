@@ -19,7 +19,7 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 
 /**
- * Canvas for the "pressure" tab in FPAF.
+ * Canvas for the "pressure" tab in Fluid Pressure and Flow.
  *
  * @author Sam Reid
  */

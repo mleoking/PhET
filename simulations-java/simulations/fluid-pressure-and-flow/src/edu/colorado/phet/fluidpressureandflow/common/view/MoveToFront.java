@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class MoveToFront extends PBasicInputEventHandler {
-    private PNode node;
+    private final PNode node;
 
     public MoveToFront( PNode node ) {
         this.node = node;

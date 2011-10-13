@@ -78,7 +78,7 @@ public class PressureSensorNode extends SensorNode {
                     }
                 }
 
-                //Return the closest point within the visible model bounds, so it can't be dragged offscreen
+                //Return the closest point within the visible model bounds, so it can't be dragged off-screen
                 return visibleModelRect.apply().getClosestPoint( pt );
             }
         } ) );
