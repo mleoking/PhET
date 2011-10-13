@@ -110,9 +110,12 @@ public class Pipe {
             SerializablePoint2D bottomPt = bottomSpline.evaluate( alpha );
 
             //make sure pipe top doesn't go below pipe bottom
+            //Note that when the velocity becomes too high, Bernoulli's equation gives a negative pressure.
+            //The pressure doesn't really go negative then, it just means Bernoulli's equation is inapplicable in that situation
+            //So we have to make sure the distance threshold is high enough that Bernoulli's equation never gives a negative pressure
+            final double min = 0.75;
             double bottomY = bottomPt.getY();
             double topY = topPt.getY();
-            final double min = 0.5;
             if ( topY - bottomY < min ) {
                 double center = ( topY + bottomY ) / 2;
                 topY = center + min / 2;
