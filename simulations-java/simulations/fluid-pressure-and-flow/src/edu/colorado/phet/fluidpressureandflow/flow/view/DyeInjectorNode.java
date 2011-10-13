@@ -17,7 +17,9 @@ public class DyeInjectorNode extends InjectorNode {
 
         final SimpleObserver updateLocation = new SimpleObserver() {
             public void update() {
-                final Point2D site = mvt.modelToView( pipe.getSplineCrossSections().get( 11 ).getTop() );//TODO: make this a function of x instead of array index
+
+                //It might be better to rewrite this to be a function of x instead of array index
+                final Point2D site = mvt.modelToView( pipe.getSplineCrossSections().get( 11 ).getTop() );
                 setOffset( site.getX(), site.getY() - distanceCenterToTip + 5 );
             }
         };
