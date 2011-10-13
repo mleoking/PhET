@@ -11,10 +11,8 @@ import edu.umd.cs.piccolo.PNode;
 
 import static java.awt.Color.red;
 
-//REVIEW replace with (or subclass) piccolo-phet SphericalNode?
-
 /**
- * Graphic that shows a circular particle.
+ * Graphic that shows a circular particle.  Could be rewritten to use SphericalNode, but it's just 3 lines of implementation and I didn't want to introduce a dependency on SphericalNode.
  *
  * @author Sam Reid
  */
