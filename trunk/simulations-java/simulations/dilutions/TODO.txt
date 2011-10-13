@@ -4,6 +4,7 @@ DESIGN
 - sliders are accurate to 3 decimal places but we're only showing 2, so we see "0" and "0.00"
 - 1/2L vs 0.5L for beaker tick?
 - various issues with black text on dark background colors
+- layout and look of sliders is ugly
 
 HIGH
 - use PrecisionDecimal in the model?
