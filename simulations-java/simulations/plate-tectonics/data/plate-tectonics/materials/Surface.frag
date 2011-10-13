@@ -12,7 +12,7 @@ varying vec2 texCoord2;
 // our approximate light strength from the sun
 varying float lightStrength;
 
-float clamp( float value, float valueMin, float valueMax ) {
+float clampFloat( float value, float valueMin, float valueMax ) {
     if( value < valueMin ) {
         return valueMin;
     }
@@ -25,8 +25,8 @@ float clamp( float value, float valueMin, float valueMax ) {
 void main(void) {
 
     float elevation = texCoord2.x;
-    float stonyness = clamp( ( elevation - 3000.0 ) * ( 255.0 / 1000.0 ), 0.0,255.0 ); // tree line at 3400 km
-    float beachyness = clamp( -( elevation - 1500.0 ) / 3.0, 0.0,255.0 );
+    float stonyness = clampFloat( ( elevation - 3000.0 ) * ( 255.0 / 1000.0 ), 0.0,255.0 ); // tree line at 3400 km
+    float beachyness = clampFloat( -( elevation - 1500.0 ) / 3.0, 0.0,255.0 );
     vec4 alpha = vec4( ( 255.0 - stonyness - beachyness ), stonyness, beachyness, 1.0 ) / 255.0;
 
 	vec4 tex1    = texture2D( m_Tex1, texCoord.xy * m_TextureScale ); // grass
@@ -39,7 +39,7 @@ void main(void) {
 
 	float brightness = lightStrength * 1.2;
 	if( elevation < 0 ) {
-	    brightness *= 1 - clamp(elevation / -15000.0,0,1);
+	    brightness *= 1 - clampFloat(elevation / -15000.0,0,1);
 	}
 	gl_FragColor = outColor * brightness;
 }
