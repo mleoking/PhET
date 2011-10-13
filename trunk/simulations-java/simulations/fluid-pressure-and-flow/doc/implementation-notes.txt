@@ -9,6 +9,7 @@ Flow tab:
 Particles enter the pipe at the left side and flow to the right, see FluidFlowModel.updateParticle
 The pipe is modeled as a set of splines through each cross section of the pipe, see Pipe and CrossSection
 For the "food coloring" that the user can squirt in, it is modeled as a rectangular perimeter of particles which are propagated according to the same rules as particles
+See model.txt regarding negative pressure in Bernoulli's equation
 
 Water tower tab:
 Water flows in through the top faucet and out through the hole in the water tower (if open), which may connect to a hose
