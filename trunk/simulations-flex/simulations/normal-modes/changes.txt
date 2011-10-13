@@ -1,3 +1,5 @@
+# 0.00.45 (57591) Oct 13, 2011
+10/13/11 ShowHide buttons added.
 # 0.00.44 (57504) Oct 12, 2011
 10/12/11 Fixed greek letter omega (I hope).
 # 0.00.43 (57477) Oct 11, 2011
