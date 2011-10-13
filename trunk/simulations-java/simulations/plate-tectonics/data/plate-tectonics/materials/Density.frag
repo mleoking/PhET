@@ -5,6 +5,16 @@ uniform vec4 m_Color;
 
 varying float density;
 
+float clamp( float value, float valueMin, float valueMax ) {
+    if( value < valueMin ) {
+        return valueMin;
+    }
+    if( value > valueMax ) {
+        return valueMax;
+    }
+    return value;
+}
+
 void main(){
     vec4 color = vec4( 1.0 );
 

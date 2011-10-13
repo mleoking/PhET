@@ -12,6 +12,16 @@ varying vec2 texCoord2;
 // our approximate light strength from the sun
 varying float lightStrength;
 
+float clamp( float value, float valueMin, float valueMax ) {
+    if( value < valueMin ) {
+        return valueMin;
+    }
+    if( value > valueMax ) {
+        return valueMax;
+    }
+    return value;
+}
+
 void main(void) {
 
     float elevation = texCoord2.x;
