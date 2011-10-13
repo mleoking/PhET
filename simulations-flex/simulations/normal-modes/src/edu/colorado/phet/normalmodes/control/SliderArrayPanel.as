@@ -364,6 +364,8 @@ public class SliderArrayPanel extends Canvas {
         var nbrMasses:int = this.myModel1.N;
         this.phaseLabel_txt.visible = tOrF;
         this.plusPi_txt.visible = tOrF;
+
+
         this.zero_txt.visible = tOrF;
         this.minusPi_txt.visible = tOrF;
         for( var i:int = 0; i < nbrMasses; i++ ){
