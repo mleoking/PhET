@@ -7,20 +7,13 @@ attribute vec2 inTexCoord2;
 
 varying vec2 texCoord;
 varying vec2 texCoord2;
-
-//#ifdef TRI_PLANAR_MAPPING
-//  varying vec4 vVertex;
-//  varying vec3 vNormal;
-//#endif
+varying float lightStrength;
 
 void main(){
     gl_Position = g_WorldViewProjectionMatrix * vec4(inPosition, 1.0);
     texCoord = inTexCoord;
     texCoord2 = inTexCoord2;
 
-//#ifdef TRI_PLANAR_MAPPING
-//    vVertex = vec4(inPosition,0.0);
-//    vNormal = inNormal;
-//#endif
-
+    float oneLightStrength = clamp(dot(inNormal,normalize(vec3(-0.3,1,0.0))),0,1);
+    lightStrength = oneLightStrength * oneLightStrength * 0.6 + 0.4;
 }
