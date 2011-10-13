@@ -9,7 +9,7 @@ varying vec2 texCoord;
 varying vec2 texCoord2;
 varying float lightStrength;
 
-float clampFloat( float value, float valueMin, float valueMax ) {
+float clampFloat( in float value, in float valueMin, in float valueMax ) {
     if( value < valueMin ) {
         return valueMin;
     }

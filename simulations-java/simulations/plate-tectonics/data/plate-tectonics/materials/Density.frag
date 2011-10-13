@@ -5,7 +5,7 @@ uniform vec4 m_Color;
 
 varying float density;
 
-float clampFloat( float value, float valueMin, float valueMax ) {
+float clampFloat( in float value, in float valueMin, in float valueMax ) {
     if( value < valueMin ) {
         return valueMin;
     }

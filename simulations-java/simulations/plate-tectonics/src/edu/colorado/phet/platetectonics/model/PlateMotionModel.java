@@ -111,9 +111,9 @@ public class PlateMotionModel extends PlateModel {
             eruptZIndex = random.nextInt( terrain.numZSamples );
         }
 //        erupt( rightCrustOffset + 15, eruptZIndex );
-        erode();
+//        erode();
 //        smootheRightCrust();
-        randomCrustStuff();
+//        randomCrustStuff();
 
         modelChanged.updateListeners();
     }
