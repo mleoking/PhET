@@ -15,7 +15,7 @@ varying float lightStrength;
 void main(void) {
 
     float elevation = texCoord2.x;
-    float stonyness = clamp( ( elevation - 3200.0 ) * ( 255.0 / 400.0 ), 0.0,255.0 ); // tree line at 3400 km
+    float stonyness = clamp( ( elevation - 3000.0 ) * ( 255.0 / 1000.0 ), 0.0,255.0 ); // tree line at 3400 km
     float beachyness = clamp( -( elevation - 1500.0 ) / 3.0, 0.0,255.0 );
     vec4 alpha = vec4( ( 255.0 - stonyness - beachyness ), stonyness, beachyness, 1.0 ) / 255.0;
 
