@@ -197,22 +197,26 @@ public class BeakerNode extends PComposite {
         Solution solution = new Solution( new KoolAid(), 1, 0.5 );
         Property<Boolean> valuesVisible = new Property<Boolean>( true );
         // beaker
-        BeakerNode beakerNode = new BeakerNode( new PDimension( 300, 300 ), 1, "L", solution, valuesVisible );
-        beakerNode.setOffset( 100, 100 );
+        final BeakerNode beakerNode = new BeakerNode( new PDimension( 300, 300 ), 1, "L", solution, valuesVisible ) {{
+            setOffset( 100, 100 );
+        }};
         // red dot at beaker's origin
-        PPath originNode = new PPath( new Ellipse2D.Double( -3, -3, 6, 6 ) );
-        originNode.setPaint( Color.RED );
-        originNode.setOffset( beakerNode.getOffset() );
+        final PPath originNode = new PPath( new Ellipse2D.Double( -3, -3, 6, 6 ) ) {{
+            setPaint( Color.RED );
+            setOffset( beakerNode.getOffset() );
+        }};
         // canvas
-        PCanvas canvas = new PCanvas();
-        canvas.getLayer().addChild( beakerNode );
-        canvas.getLayer().addChild( originNode );
-        canvas.setPreferredSize( new Dimension( 600, 600 ) );
+        final PCanvas canvas = new PCanvas() {{
+            getLayer().addChild( beakerNode );
+            getLayer().addChild( originNode );
+            setPreferredSize( new Dimension( 600, 600 ) );
+        }};
         // frame
-        JFrame frame = new JFrame();
-        frame.setContentPane( canvas );
-        frame.pack();
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        JFrame frame = new JFrame() {{
+            setContentPane( canvas );
+            pack();
+            setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        }};
         frame.setVisible( true );
     }
 }
