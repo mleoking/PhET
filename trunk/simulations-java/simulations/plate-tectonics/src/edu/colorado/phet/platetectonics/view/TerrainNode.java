@@ -68,6 +68,7 @@ public class TerrainNode extends Geometry {
         model.modelChanged.addUpdateListener( new UpdateListener() {
                                                   public void update() {
                                                       gridMesh.updateGeometry( computePositions( terrain ) );
+                                                      updateSphericalCoordinates( gridMesh, terrain );
                                                       updateHeightmap( terrain, gridMesh );
                                                   }
                                               }, false );
