@@ -34,9 +34,9 @@ public class ShowHideButton extends Sprite {
         var R:Number = 6;  //half edge-length (radius) of button in pixels
         var gS: Graphics = this.showButton.graphics;
         gS.clear();
-        gS.lineStyle( 1.2, 0x339933, 1, false );
+        gS.lineStyle( 1.2, 0x225522, 1, false );
         gS.moveTo( 0, 0 );
-        gS.beginFill( 0x33ff33 );
+        gS.beginFill( 0x228822 );
         gS.drawRoundRect( -R, -R,  2*R, 2*R, 5 );
         gS.endFill();
         //white plus symbol
@@ -50,9 +50,9 @@ public class ShowHideButton extends Sprite {
         //draw hide button
         var gH: Graphics = this.hideButton.graphics;
         gH.clear();
-        gH.lineStyle( 1.2, 0x993333, 1.5, false );
+        gH.lineStyle( 1.2, 0x771111, 1.5, false );
         //gH.moveTo( 0, 0 );
-        gH.beginFill( 0xff3333 );
+        gH.beginFill( 0xEE3333 );
         gH.drawRoundRect( -R, -R,  2*R, 2*R, 5 );
         gH.endFill();
         //white minus symbol
