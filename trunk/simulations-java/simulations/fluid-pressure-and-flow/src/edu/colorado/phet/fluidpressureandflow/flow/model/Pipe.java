@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.spline.CubicSpline2D;
+import edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionControl;
 
 import static java.util.Collections.min;
 
@@ -113,7 +114,7 @@ public class Pipe {
             //Note that when the velocity becomes too high, Bernoulli's equation gives a negative pressure.
             //The pressure doesn't really go negative then, it just means Bernoulli's equation is inapplicable in that situation
             //So we have to make sure the distance threshold is high enough that Bernoulli's equation never gives a negative pressure
-            final double min = 0.75;
+            final double min = PipeCrossSectionControl.DISTANCE_THRESHOLD;
             double bottomY = bottomPt.getY();
             double topY = topPt.getY();
             if ( topY - bottomY < min ) {
