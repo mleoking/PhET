@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.fluidpressureandflow.flow.model.PipeControlPoint;
 import edu.colorado.phet.fluidpressureandflow.flow.model.PipeCrossSection;
 import edu.umd.cs.piccolo.PNode;
 
