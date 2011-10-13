@@ -3,7 +3,6 @@ package edu.colorado.phet.dilutions.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 
@@ -39,13 +38,13 @@ public abstract class Solute {
 
     public static class KoolAid extends Solute {
         public KoolAid() {
-            super( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, PhetColorScheme.RED_COLORBLIND, 1, 200 );
+            super( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, Color.RED, 1, 200 );
         }
     }
 
     public static class CobaltIINitrate extends Solute {
         public CobaltIINitrate() {
-            super( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 5.0, PhetColorScheme.RED_COLORBLIND, 1, 200 );
+            super( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 5.0, Color.RED, 1, 200 );
         }
     }
 
