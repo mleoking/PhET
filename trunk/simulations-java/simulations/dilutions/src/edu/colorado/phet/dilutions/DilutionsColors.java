@@ -10,5 +10,5 @@ import java.awt.Color;
  */
 public class DilutionsColors {
 
-    public static final Color WATER_COLOR = new Color( 193, 222, 227 );
+    public static final Color WATER_COLOR = new Color( 0xE0FFFF );
 }

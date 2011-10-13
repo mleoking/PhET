@@ -1,3 +1,4 @@
+10/12/11 change colors as requested by JC
 10/12/11 change request: change title on concentration display
 # 0.00.02 (57564) Oct 12, 2011
 10/12/11 up/down arrows in slider JTextField to increment/decrement
