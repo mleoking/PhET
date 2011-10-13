@@ -94,7 +94,7 @@ public abstract class PlateTectonicsModule extends JMEModule {
 
     public static void addLighting( Node node ) {
         final DirectionalLight sun = new DirectionalLight();
-        sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
+        sun.setDirection( new Vector3f( 1, 3f, -2 ).normalizeLocal() );
         sun.setColor( new ColorRGBA( 1, 1, 1, 1.3f ) );
         node.addLight( sun );
 

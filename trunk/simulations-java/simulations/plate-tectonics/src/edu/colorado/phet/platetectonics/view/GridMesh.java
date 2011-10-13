@@ -18,6 +18,9 @@ public class GridMesh extends Mesh {
 
     private FloatBuffer positionBuffer;
     private FloatBuffer normalBuffer;
+    private FloatBuffer textureBuffer;
+
+    private boolean updateNormals = true;
 
     private int rows;
     private int columns;
@@ -36,7 +39,7 @@ public class GridMesh extends Mesh {
         int vertexCount = columns * rows;
         positionBuffer = BufferUtils.createFloatBuffer( vertexCount * 3 );
         normalBuffer = BufferUtils.createFloatBuffer( vertexCount * 3 );
-        FloatBuffer textureBuffer = BufferUtils.createFloatBuffer( vertexCount * 2 );
+        textureBuffer = BufferUtils.createFloatBuffer( vertexCount * 2 );
 
         // we build it from strips. there are (rows-1) strips, each strip uses two full rows (columns*2),
         // and for the connections between strips (rows-2 of those), we need 2 extra indices
@@ -98,17 +101,20 @@ public class GridMesh extends Mesh {
      */
     public void updateGeometry( Vector3f[] positions ) {
         setPositions( positions );
-        updateBound();
-        updateCounts();
 
         getBuffer( Type.Position ).updateData( positionBuffer );
         getBuffer( Type.Normal ).updateData( normalBuffer );
+        updateBound();
+        updateCounts();
     }
 
     private void setPositions( Vector3f[] positions ) {
         // reset the buffers
         positionBuffer.clear();
-        normalBuffer.clear();
+
+        if ( updateNormals ) {
+            normalBuffer.clear();
+        }
 
         // fill them with data
         for ( int row = 0; row < rows; row++ ) {
@@ -124,40 +130,46 @@ public class GridMesh extends Mesh {
                 /*---------------------------------------------------------------------------*
                 * normal
                 *----------------------------------------------------------------------------*/
-                Vector3f up;
-                Vector3f down;
-                Vector3f left;
-                Vector3f right;
+                if ( updateNormals ) {
+                    Vector3f up;
+                    Vector3f down;
+                    Vector3f left;
+                    Vector3f right;
 
-                // calculate up/down vectors
-                if ( row > 0 ) {
-                    up = positions[( row - 1 ) * columns + col].subtract( position );
-                    down = ( row < rows - 1 ) ? positions[( row + 1 ) * columns + col].subtract( position ) : up.negate();
-                }
-                else {
-                    down = positions[( row + 1 ) * columns + col].subtract( position );
-                    up = down.negate();
-                }
+                    // calculate up/down vectors
+                    if ( row > 0 ) {
+                        up = positions[( row - 1 ) * columns + col].subtract( position );
+                        down = ( row < rows - 1 ) ? positions[( row + 1 ) * columns + col].subtract( position ) : up.negate();
+                    }
+                    else {
+                        down = positions[( row + 1 ) * columns + col].subtract( position );
+                        up = down.negate();
+                    }
 
-                // calculate left/right vectors
-                if ( col > 0 ) {
-                    left = positions[rowOffset + col - 1].subtract( position );
-                    right = ( col < columns - 1 ) ? positions[rowOffset + col + 1].subtract( position ) : left.negate();
-                }
-                else {
-                    right = positions[rowOffset + col + 1].subtract( position );
-                    left = right.negate();
-                }
+                    // calculate left/right vectors
+                    if ( col > 0 ) {
+                        left = positions[rowOffset + col - 1].subtract( position );
+                        right = ( col < columns - 1 ) ? positions[rowOffset + col + 1].subtract( position ) : left.negate();
+                    }
+                    else {
+                        right = positions[rowOffset + col + 1].subtract( position );
+                        left = right.negate();
+                    }
 
-                Vector3f normal = new Vector3f();
-                // basically, sum up the normals of each quad this vertex is part of, and take the average
-                normal.addLocal( right.cross( up ).normalizeLocal() );
-                normal.addLocal( up.cross( left ).normalizeLocal() );
-                normal.addLocal( left.cross( down ).normalizeLocal() );
-                normal.addLocal( down.cross( right ).normalizeLocal() );
-                normal.normalizeLocal();
-                normalBuffer.put( new float[] { normal.x, normal.y, normal.z } );
+                    Vector3f normal = new Vector3f();
+                    // basically, sum up the normals of each quad this vertex is part of, and take the average
+                    normal.addLocal( right.cross( up ).normalizeLocal() );
+                    normal.addLocal( up.cross( left ).normalizeLocal() );
+                    normal.addLocal( left.cross( down ).normalizeLocal() );
+                    normal.addLocal( down.cross( right ).normalizeLocal() );
+                    normal.normalizeLocal();
+                    normalBuffer.put( new float[] { normal.x, normal.y, normal.z } );
+                }
             }
         }
+    }
+
+    public void setUpdateNormals( boolean updateNormals ) {
+        this.updateNormals = updateNormals;
     }
 }
