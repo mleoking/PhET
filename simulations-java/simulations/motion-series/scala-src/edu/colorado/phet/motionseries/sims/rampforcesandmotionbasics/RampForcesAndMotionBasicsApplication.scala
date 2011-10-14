@@ -16,6 +16,7 @@ import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesDefaults,
 import edu.colorado.phet.motionseries.charts.RampForceChartNode
 import edu.colorado.phet.motionseries.sims.forcesandmotion.FrictionPlayAreaControlPanel
 import edu.umd.cs.piccolox.pswing.PSwing
+import edu.colorado.phet.motionseries.sims.forcesandmotionbasics.Settings
 
 /**
  * This is the parent class for the various Modules for the ramp simulation.
@@ -132,6 +133,9 @@ object RampForcesAndMotionBasicsApplication {
 
     //Set the flag indicating that we are running in basics mode, this will make all objects have the same coefficient of friction (and possibly other changes)
     RampForcesAndMotionBasicsSettings.basics = true
+
+    //Also set the flag in ForcesAndMotionBasics.Settings which will ensure using full words F_friction instead of abbreviations F_f
+    Settings.basicsMode = true
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion-basics".literal, Predef.classOf[RampForcesAndMotionBasicsApplication])
   }
 }
