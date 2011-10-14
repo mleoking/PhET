@@ -4,6 +4,7 @@ import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.common.phetcommon.math.Function
 import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesResources}
+import edu.colorado.phet.motionseries.sims.rampforcesandmotionbasics.RampForcesAndMotionBasicsSettings
 
 //immutable memento for recording
 case class MotionSeriesObjectTypeState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
@@ -68,6 +69,12 @@ class MotionSeriesObjectType(_name: String,
   }
 
   override def hashCode = mass.hashCode + name.hashCode * 17
+
+  //If the flag indicates that we are running in basics mode, this will make all objects have the same coefficient of friction
+  if ( RampForcesAndMotionBasicsSettings.basics ) {
+    _kineticFriction = 0.5
+    _staticFriction = 0.5
+  }
 }
 
 class CustomTextMotionSeriesObjectType(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, crashImageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
