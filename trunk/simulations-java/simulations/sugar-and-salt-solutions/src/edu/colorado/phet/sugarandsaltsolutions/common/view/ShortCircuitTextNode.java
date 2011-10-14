@@ -16,6 +16,7 @@ import static java.awt.Color.yellow;
 /**
  * A text label above the light bulb that indicates if the conductivity tester is short circuit (by having a bulb, wire or battery submerged)
  * For the short circuit message, use bold yellow text with no box and say "Short circuit!"
+ * However, it can only short out if the water is conducting (that is, if it contains any salt).
  * <p/>
  * One of the complications in this class is that it is supposed to show above (in z-ordering) the salt-shaker.
  * This means it cannot be a child of the conductivity tester node, and instead we convert coordinates
