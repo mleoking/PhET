@@ -6,5 +6,6 @@ package edu.colorado.phet.motionseries.sims.rampforcesandmotionbasics
  * @author Sam Reid
  */
 object RampForcesAndMotionBasicsSettings {
+  var FRICTIONLESS_DEFAULT = false
   var basics = false
 }
