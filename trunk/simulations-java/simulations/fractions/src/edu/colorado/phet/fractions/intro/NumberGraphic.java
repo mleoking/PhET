@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractions;
+package edu.colorado.phet.fractions.intro;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
