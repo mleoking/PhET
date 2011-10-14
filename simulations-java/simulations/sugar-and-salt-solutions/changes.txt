@@ -1,3 +1,4 @@
+# 1.01.00 (57627) Oct 13, 2011
 Macro tab: Fixed: The conductivity meter shouldn't short out if there is no salt in the water, see #3117
 Fixed: Remove salt and remove sugar buttons aren't translatable, see #3118
 # 1.00.00 (57482) Oct 11, 2011
