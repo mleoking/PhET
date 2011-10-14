@@ -1,1 +1,2 @@
+Added spinner control for fraction
 # 0.00.01 (57365) Oct 6, 2011
