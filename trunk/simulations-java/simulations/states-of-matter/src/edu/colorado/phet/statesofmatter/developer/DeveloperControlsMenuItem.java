@@ -12,7 +12,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
+import edu.colorado.phet.statesofmatter.view.AbstractStatesOfMatterApplication;
 
 /**
  * Menu item that provides access to developer controls.
@@ -40,7 +40,7 @@ public class DeveloperControlsMenuItem extends JCheckBoxMenuItem {
     private void handleDeveloperControls() {
         if ( isSelected() ) {
             Frame owner = PhetApplication.getInstance().getPhetFrame();
-            if ( _app instanceof StatesOfMatterApplication ) {
+            if ( _app instanceof AbstractStatesOfMatterApplication ) {
                 _developerControlsDialog = new StatesOfMaterDeveloperControlsDialog( owner, _app );
             }
             _developerControlsDialog.setVisible( true );
