@@ -39,20 +39,24 @@ public class FractionsIntroCanvas extends PhetPCanvas {
         }};
         addChild( fractionNode );
 
-        final RepresentationToolbox toolboxNode = new RepresentationToolbox( model.reducedFractionRepresentation, model.decimalRepresentation, model.wordsRepresentation, model.mixedRepresentation, model.cakeRepresentation, model.breadRepresentation, model.booksRepresentation ) {{
+        final RepresentationToolbox toolboxNode = new RepresentationToolbox( model.representations ) {{
             setOffset( INSET, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }};
         addChild( toolboxNode );
 
-        addChild( new DecimalFractionNode( model.fraction, model.decimalRepresentation ) {{
+        addChild( new DecimalFractionNode( model.fraction, model.decimalRepresentation.enabled ) {{
             setOffset( ( STAGE_SIZE.getWidth() - fractionNode.getFullBounds().getMaxX() ) / 2 + fractionNode.getFullBounds().getMaxX() - getFullBounds().getWidth() / 2, fractionNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
-        addChild( new ZeroOffsetNode( new ReducedFractionNode( model.reducedFraction, model.reducedFractionRepresentation ) ) {{
+        addChild( new ZeroOffsetNode( new ReducedFractionNode( model.reducedFraction, model.reducedFractionRepresentation.enabled ) ) {{
             setOffset( toolboxNode.getFullBounds().getMaxX() + 40, fractionNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
-        addChild( new WordsFractionNode( model.numerator, model.denominator, model.wordsRepresentation ) {{
+        addChild( new PercentNode( model.fraction, model.percentRepresentation.enabled ) {{
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, fractionNode.getFullBounds().getY() / 2 - getFullBounds().getHeight() / 2 );
+        }} );
+
+        addChild( new WordsFractionNode( model.numerator, model.denominator, model.wordsRepresentation.enabled ) {{
             new RichSimpleObserver() {
                 @Override public void update() {
                     setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - INSET * 2 );

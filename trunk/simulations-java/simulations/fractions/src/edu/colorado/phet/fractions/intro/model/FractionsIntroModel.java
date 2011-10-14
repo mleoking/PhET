@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -31,11 +33,19 @@ public class FractionsIntroModel {
     }, numerator, denominator );
 
     //Representations to show
-    public final Property<Boolean> reducedFractionRepresentation = new Property<Boolean>( false );
-    public final Property<Boolean> decimalRepresentation = new Property<Boolean>( false );
-    public final Property<Boolean> wordsRepresentation = new Property<Boolean>( false );
-    public final Property<Boolean> mixedRepresentation = new Property<Boolean>( false );
-    public final Property<Boolean> cakeRepresentation = new Property<Boolean>( false );
-    public final Property<Boolean> breadRepresentation = new Property<Boolean>( false );
-    public final Property<Boolean> booksRepresentation = new Property<Boolean>( false );
+    public final ArrayList<Representation> representations = new ArrayList<Representation>();
+    public final Representation reducedFractionRepresentation = add( "Reduced fraction" );
+    public final Representation decimalRepresentation = add( "Decimal" );
+    public final Representation wordsRepresentation = add( "Words" );
+    public final Representation percentRepresentation = add( "Percent" );
+    public final Representation mixedRepresentation = add( "Mixed" );
+    public final Representation cakeRepresentation = add( "Cake" );
+    public final Representation breadRepresentation = add( "Bread" );
+    public final Representation booksRepresentation = add( "Books" );
+
+    private Representation add( String representation ) {
+        Representation rep = new Representation( representation );
+        representations.add( rep );
+        return rep;
+    }
 }
