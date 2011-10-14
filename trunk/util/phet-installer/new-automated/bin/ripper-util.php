@@ -396,7 +396,9 @@
                 // Get a list of the jar files for this project.
                 $project_dir_contents = glob( $sim_dir.'/*.jar' );
                 foreach ( $project_dir_contents as $file_name ) {
-                    if (!preg_match('/.*_all.jar/', $file_name)){  // Make sure we don't move the "all" jar.
+                    // Move all JAR files EXCEPT that "all" JAR and the native
+                    // JARs required by JMonkeyEngine.
+                    if (!preg_match('/.*_all.jar/', $file_name) && !preg_match('/native_.*.jar/', $file_name)){
                         // Get the name of the file by itself (w/o rest of path).
                         $short_file_name_pos = strripos($file_name, "/") + 1;
                         $short_file_name = substr($file_name, $short_file_name_pos);
