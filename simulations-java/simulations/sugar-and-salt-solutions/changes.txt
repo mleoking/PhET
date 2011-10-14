@@ -1,3 +1,4 @@
+Fixed: Remove salt and remove sugar buttons aren't translatable, see #3118
 # 1.00.00 (57482) Oct 11, 2011
 # 0.00.130 (57448) Oct 11, 2011
 Water tab: Fixed: Shouldn't be able to drag in sugar/salt when the sim is paused

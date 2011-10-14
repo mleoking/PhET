@@ -39,6 +39,8 @@ public class SugarAndSaltSolutionsResources {
         public static final String PATTERN__MOLES_PER_LITER = RESOURCES.getLocalizedString( "pattern.molesPerLiter" );
         public static final String PATTERN__MOLES_PER_LITER_MULTILINE = RESOURCES.getLocalizedString( "pattern.molesPerLiterMultiline" );
         public static final String PERIODIC_TABLE = RESOURCES.getLocalizedString( "periodicTable" );
+        public static final String REMOVE_SALT = RESOURCES.getLocalizedString( "removeSalt" );
+        public static final String REMOVE_SUGAR = RESOURCES.getLocalizedString( "removeSugar" );
         public static final String SALT = RESOURCES.getLocalizedString( "salt" );
         public static final String SHORT_CIRCUIT = RESOURCES.getLocalizedString( "shortCircuit" );
         public static final String SHOW = RESOURCES.getLocalizedString( "show" );
