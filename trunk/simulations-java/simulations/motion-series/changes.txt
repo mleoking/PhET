@@ -1,4 +1,4 @@
-Ramp Forces and Motion Basics: Begin with "ice" as the default settting
+Ramp Forces and Motion Basics: Begin with "ice" as the default setting
 Ramp Forces and Motion Basics: Use full words instead of abbreviations for forces
 Ramp Forces and Motion Basics: Made all objects have a coefficient of static and kinetic friction of 0.5
 Ramp Forces and Motion Basics: Removed "friction" and "force graph" tabs
