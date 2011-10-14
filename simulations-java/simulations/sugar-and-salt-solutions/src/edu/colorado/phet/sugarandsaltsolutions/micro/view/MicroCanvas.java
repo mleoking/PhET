@@ -25,7 +25,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.Periodic
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PERIODIC_TABLE;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
 /**
  * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused by extending BeakerAndShakerCanvas.
@@ -65,10 +65,10 @@ public class MicroCanvas extends BeakerAndShakerCanvas implements Module.Listene
         //Control that shows the Remove Solute button, which appears when any solutes of any type are in solution
         //Show it to the right of the evaporation slider, below the beaker so it doesn't overlap (or get overlapped by) any solutes
         //Reads "remove solute" if one solute type, "remove solutes" if two solute types
-        addChild( new RemoveSolutesButton( "Remove solute", model.numberSoluteTypes.valueEquals( 1.0 ), model ) {{
+        addChild( new RemoveSolutesButton( REMOVE_SOLUTE, model.numberSoluteTypes.valueEquals( 1.0 ), model ) {{
             setOffset( evaporationSlider.getFullBounds().getMaxX() + INSET, evaporationSlider.getFullBounds().getY() );
         }} );
-        addChild( new RemoveSolutesButton( "Remove solutes", model.numberSoluteTypes.greaterThan( 1 ), model ) {{
+        addChild( new RemoveSolutesButton( REMOVE_SOLUTES, model.numberSoluteTypes.greaterThan( 1 ), model ) {{
             setOffset( evaporationSlider.getFullBounds().getMaxX() + INSET, evaporationSlider.getFullBounds().getY() );
         }} );
 
