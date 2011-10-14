@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.intro;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.fractions.intro.model.FractionsIntroModel;
+import edu.colorado.phet.fractions.intro.view.FractionsIntroCanvas;
 
 /**
  * Module for "Fractions Intro" sim
