@@ -139,7 +139,7 @@ public class View1DModes extends Sprite {
         this.normalModes_txt.y = -40;
         this.normalModes_txt.x = 0.5*_LinPix - 0.5*this.normalModes_txt.width;
         this.showHideButton.y = -30;
-        this.showHideButton.x = this.normalModes_txt.x + this.normalModes_txt.width + 15;
+        this.showHideButton.x = this.normalModes_txt.x - 15; //+ this.normalModes_txt.width + 15;
         for( var i:int = 1; i <= nMax; i++ ){
             this.nbrLabel_arr[i].x = -nbrLabel_arr[i].width - 7;
             this.nbrLabel_arr[i].y = (i - 1)*this._ySeparationOfGraphs - 0.5*nbrLabel_arr[i].height;

@@ -336,7 +336,7 @@ public class SliderArrayPanel extends Canvas {
         g.drawRoundRect( xPos, yPos, w, h, 20 );
 
         //position showHideButton
-        this.showHideButton.x = xPos + w - this.showHideButton.width;
+        this.showHideButton.x = xPos + this.showHideButton.width;
         this.showHideButton.y = yPos + this.showHideButton.height;
         //Locate Main Label in top left of bounding box;
         //this.modeSpectrum_txt.x = xPos;

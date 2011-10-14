@@ -31,7 +31,7 @@ public class ShowHideButton extends Sprite {
 
     private function drawButtons():void{
         //draw show button
-        var R:Number = 6;  //half edge-length (radius) of button in pixels
+        var R:Number = 8;  //half edge-length (radius) of button in pixels
         var gS: Graphics = this.showButton.graphics;
         gS.clear();
         gS.lineStyle( 1.2, 0x225522, 1, false );
