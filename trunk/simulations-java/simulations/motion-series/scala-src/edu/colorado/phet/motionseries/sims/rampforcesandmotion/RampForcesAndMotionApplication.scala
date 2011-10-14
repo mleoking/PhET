@@ -44,7 +44,7 @@ class BasicRampModule(frame: PhetFrame,
   setSimulationPanel(rampCanvas)
 
   //Create the control panel and set it as the simulation control panel
-  val rampControlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, resetRampModule, coordinateSystemEnabled, controlPanelObjectComboBox, motionSeriesModel, true, true, true, "more.controls.title".translate, audioEnabled)
+  val rampControlPanel = new MotionSeriesControlPanel(motionSeriesModel, fbdModel, coordinateSystemModel, vectorViewModel, () => resetRampModule(), coordinateSystemEnabled, controlPanelObjectComboBox, motionSeriesModel, true, true, true, "more.controls.title".translate, audioEnabled)
   setControlPanel(rampControlPanel)
 
   //Set the clock control panel to use one that has record and playback capabilities
@@ -101,7 +101,8 @@ class RampFrictionModule(frame: PhetFrame)
         extends BasicRampModule(frame, "ramp-forces-and-motion.module.friction.title".translate, true, false, true,
                                 -6, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false, false) {
   motionSeriesModel.selectedObject = MotionSeriesDefaults.custom
-  // so that it resizes
+
+  // so that it updates its size properly
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.motionSeriesObject))
   frictionPlayAreaControlPanel.scale(0.85) //so that the rest of the layout still fits without modification or overlap
   frictionPlayAreaControlPanel.setOffset(rampCanvas.stage.getWidth / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, rampCanvas.stage.getHeight - frictionPlayAreaControlPanel.getFullBounds.getHeight)
@@ -111,7 +112,9 @@ class RampFrictionModule(frame: PhetFrame)
 }
 
 object ForceGraphsApplication {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[ForceGraphsApplication])
+  def main(args: Array[String]) {
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, Predef.classOf[ForceGraphsApplication])
+  }
 }
 
 //For debugging, just shows the force graphs tab
@@ -125,7 +128,7 @@ class ForceGraphsApplication(config: PhetApplicationConfig) extends PiccoloPhetA
  */
 object RampForcesAndMotionApplication {
   def main(args: Array[String]) {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[RampForcesAndMotionApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, Predef.classOf[RampForcesAndMotionApplication])
   }
 }
 
@@ -142,8 +145,4 @@ class RampForcesAndMotionApplication(config: PhetApplicationConfig) extends Picc
   //  addModule(new WorkEnergyModule(getPhetFrame))
 
   addModule(new RobotMovingCompanyModule(getPhetFrame))
-}
-
-object Tester {
-  def main(args: Array[String]) = RampForcesAndMotionApplication.main(args)
 }
