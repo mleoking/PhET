@@ -138,12 +138,5 @@ object RampForcesAndMotionBasicsApplication {
  */
 class RampForcesAndMotionBasicsApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new IntroRampModule(getPhetFrame))
-  addModule(new RampFrictionModule(getPhetFrame))
-  addModule(new ForceGraphsModule(getPhetFrame))
-
-  //At 7-6-2010 Meeting we Decided to remove the Coordinate tab and Work/Energy tab, but keep the code for possible use in the future
-  //  addModule(new CoordinatesRampModule(getPhetFrame))
-  //  addModule(new WorkEnergyModule(getPhetFrame))
-
   addModule(new RobotMovingCompanyModule(getPhetFrame))
 }
