@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractions.intro;
+package edu.colorado.phet.fractions.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -7,7 +7,6 @@ import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractions.intro.view.FractionNumberNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**

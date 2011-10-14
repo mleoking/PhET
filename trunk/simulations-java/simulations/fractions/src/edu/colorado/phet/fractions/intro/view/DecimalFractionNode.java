@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractions.intro;
+package edu.colorado.phet.fractions.intro.view;
 
 import java.awt.Font;
 import java.text.DecimalFormat;
