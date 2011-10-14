@@ -28,12 +28,21 @@ import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.PFrame;
 
 /**
+ * A vertical slider that is implemented purely in Piccolo, i.e. Java Swing is
+ * not used.
+ *
  * @author Sam Reid
+ * @author John Blanco
  */
 public class VSliderNode extends SliderNode {
     private PhetPPath trackNode;
     private PNode knobNode;
     private int trackWidth;
+
+    // Root node to which all other nodes should be added.  This is done to
+    // allow the offset of this node to be at (0, 0).  Use this when adding
+    // children in subclasses if you want to keep the origin at (0, 0).
+    protected PNode rootNode = new PNode();
 
     public VSliderNode( final double min, final double max, final SettableProperty<Double> value ) {
         this( min, max, value, new Property<Boolean>( true ), 200 );
@@ -41,11 +50,12 @@ public class VSliderNode extends SliderNode {
 
     public VSliderNode( final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled, int trackHeight ) {
         super( min, max, value );
+        addChild( rootNode );
 
         trackWidth = 6;
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackWidth, trackHeight );
         trackNode = new PhetPPath( trackPath, getTrackFillPaint( trackWidth, trackHeight ), new BasicStroke( 1 ), getTrackStrokePaint( trackWidth, trackHeight ) );
-        addChild( trackNode );
+        rootNode.addChild( trackNode );
         knobNode = new ZeroOffsetNode( new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             rotate( Math.PI * 2 * 3.0 / 4.0 );
             enabled.addObserver( new VoidFunction1<Boolean>() {
@@ -87,7 +97,9 @@ public class VSliderNode extends SliderNode {
                 }
             } );
         }};
-        addChild( knobNode );
+        rootNode.addChild( knobNode );
+
+        adjustOrigin();
     }
 
     public Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
@@ -104,8 +116,19 @@ public class VSliderNode extends SliderNode {
 
     //Add a label to appear under the slider at the specified location
     public void addLabel( double value, PNode label ) {
-        addChild( label );
+        rootNode.addChild( label );
         label.setOffset( knobNode.getFullBounds().getWidth() / 2 + trackWidth / 2, getViewY( value ) - label.getFullBounds().getHeight() / 2 );
+        adjustOrigin();
+    }
+
+    /**
+     * Adjust the origin of this node so that it is at (0, 0) in screen
+     * coordinates.  This will only work if all items have been added to the
+     * root node.
+     */
+    private void adjustOrigin() {
+        removeAllChildren();
+        addChild( new ZeroOffsetNode( rootNode ) );
     }
 
     public static void main( String[] args ) {
