@@ -13,12 +13,13 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.motionseries.charts.MutableDouble
 import edu.colorado.phet.motionseries.util.{MutableRange, ScalaMutableBoolean}
 import MotionSeriesDefaults._
+import edu.colorado.phet.motionseries.sims.rampforcesandmotionbasics.RampForcesAndMotionBasicsSettings
 
 class MotionSeriesModel(defaultPosition: Double,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectSelectionModel with RampSurfaceModel {
   private val _walls = new ScalaMutableBoolean(true)
-  private val _frictionless = new ScalaMutableBoolean(false) //FRICTIONLESS_DEFAULT
+  private val _frictionless = new ScalaMutableBoolean(RampForcesAndMotionBasicsSettings.FRICTIONLESS_DEFAULT) //FRICTIONLESS_DEFAULT
   private val _wallsBounce = new ScalaMutableBoolean(false) //BOUNCE_DEFAULT 
   private var _objectType: MotionSeriesObjectType = objectTypes(0)
   private val resetListeners = new ArrayBuffer[() => Unit]

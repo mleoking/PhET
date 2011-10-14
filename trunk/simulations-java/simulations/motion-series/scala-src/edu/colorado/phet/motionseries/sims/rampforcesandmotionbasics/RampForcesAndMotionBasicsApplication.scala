@@ -133,6 +133,7 @@ object RampForcesAndMotionBasicsApplication {
 
     //Set the flag indicating that we are running in basics mode, this will make all objects have the same coefficient of friction (and possibly other changes)
     RampForcesAndMotionBasicsSettings.basics = true
+    RampForcesAndMotionBasicsSettings.FRICTIONLESS_DEFAULT = true
 
     //Also set the flag in ForcesAndMotionBasics.Settings which will ensure using full words F_friction instead of abbreviations F_f
     Settings.basicsMode = true
