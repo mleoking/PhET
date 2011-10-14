@@ -233,8 +233,8 @@ public class MacroModel extends SugarAndSaltSolutionModel {
         boolean batterySubmerged = conductivityTester.getBatteryRegion() != null && waterBounds.intersects( conductivityTester.getBatteryRegion().getBounds2D() );
         boolean bulbSubmerged = conductivityTester.getBulbRegion() != null && waterBounds.intersects( conductivityTester.getBulbRegion().getBounds2D() );
 
-        //The circuit should short out if the battery or bulb is submerged
-        boolean shortCircuited = batterySubmerged || bulbSubmerged;
+        //The circuit should short out if the battery or bulb is submerged, but only if the water is conducting due to having some salt
+        boolean shortCircuited = ( batterySubmerged || bulbSubmerged ) && saltConcentration.get() > 0;
 
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
         //Use a scale factor that matches up with the limits on saturation (manually sampled at runtime)
