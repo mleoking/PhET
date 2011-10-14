@@ -1,3 +1,4 @@
+> Micro tab: Fixed: "Remove solute" and "Remove solutes" strings not translatable
 # 1.01.00 (57629) Oct 13, 2011
 > Macro tab: Fixed: The conductivity meter shouldn't short out if there is no salt in the water, see #3117
 > Fixed: Remove salt and remove sugar buttons aren't translatable, see #3118
