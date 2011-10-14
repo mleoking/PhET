@@ -1,3 +1,4 @@
+Added percent representation
 # 0.00.02 (57653) Oct 14, 2011
 Added spinner control for fraction
 Added toolbox for multiple representations

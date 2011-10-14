@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -15,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.intro.model.Representation;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -48,14 +50,11 @@ public class RepresentationToolbox extends PNode {
         }
     }
 
-    public RepresentationToolbox( Property<Boolean> reducedFraction, Property<Boolean> decimal, Property<Boolean> words, Property<Boolean> mixedNumbers, Property<Boolean> cake, Property<Boolean> bread, Property<Boolean> books ) {
-        addChild( new ControlPanelNode( new VBox(
-                new Selector( "Reduced fraction", reducedFraction ),
-                new Selector( "Decimal", decimal ),
-                new Selector( "Words", words ),
-                new Selector( "Mixed numbers", mixedNumbers ),
-                new Selector( "Cake", cake ),
-                new Selector( "Bread", bread ),
-                new Selector( "Books", books ) ) ) );
+    public RepresentationToolbox( final List<Representation> representations ) {
+        addChild( new ControlPanelNode( new VBox() {{
+            for ( Representation representation : representations ) {
+                addChild( new Selector( representation.name, representation.enabled ) );
+            }
+        }} ) );
     }
 }
