@@ -129,6 +129,9 @@ class ForceGraphsApplication(config: PhetApplicationConfig) extends PiccoloPhetA
  */
 object RampForcesAndMotionBasicsApplication {
   def main(args: Array[String]) {
+
+    //Set the flag indicating that we are running in basics mode, this will make all objects have the same coefficient of friction (and possibly other changes)
+    RampForcesAndMotionBasicsSettings.basics = true
     new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion-basics".literal, Predef.classOf[RampForcesAndMotionBasicsApplication])
   }
 }
