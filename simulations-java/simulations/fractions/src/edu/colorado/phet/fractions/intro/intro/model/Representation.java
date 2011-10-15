@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractions.intro.model;
+package edu.colorado.phet.fractions.intro.intro.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 

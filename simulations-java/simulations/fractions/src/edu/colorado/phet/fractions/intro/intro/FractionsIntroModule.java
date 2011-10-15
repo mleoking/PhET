@@ -1,0 +1,19 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.fractions.intro.intro;
+
+import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
+import edu.colorado.phet.fractions.intro.intro.view.FractionsIntroCanvas;
+import edu.colorado.phet.fractions.intro.matchinggame.AbstractFractionsModule;
+
+/**
+ * Module for "Fractions Intro" sim
+ *
+ * @author Sam Reid
+ */
+public class FractionsIntroModule extends AbstractFractionsModule {
+    public FractionsIntroModule() {
+        super( "Intro" );
+        FractionsIntroModel model = new FractionsIntroModel();
+        setSimulationPanel( new FractionsIntroCanvas( model ) );
+    }
+}
