@@ -11,8 +11,7 @@ import java.awt.geom.Rectangle2D
  * @author Sam Reid
  */
 
-class CoordinateFrameVectors {
-}
+class CoordinateFrameVectors
 
 //Vector Components
 //Will be used in Coordinate Frames tab, and will need updating to match refactors of model if/when used
