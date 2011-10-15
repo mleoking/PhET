@@ -115,7 +115,7 @@ class RampFrictionModule(frame: PhetFrame)
 
 object ForceGraphsApplication {
   def main(args: Array[String]) {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, Predef.classOf[ForceGraphsApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[ForceGraphsApplication])
   }
 }
 
@@ -137,7 +137,7 @@ object RampForcesAndMotionBasicsApplication {
 
     //Also set the flag in ForcesAndMotionBasics.Settings which will ensure using full words F_friction instead of abbreviations F_f
     Settings.basicsMode = true
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion-basics".literal, Predef.classOf[RampForcesAndMotionBasicsApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion-basics".literal, classOf[RampForcesAndMotionBasicsApplication])
   }
 }
 

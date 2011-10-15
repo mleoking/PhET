@@ -102,6 +102,6 @@ object ForcesAndMotionBasicsApplication {
     //In "Basics" mode, the static friction should always equal the kinetic friction, so enable that here
     Settings.basicsMode = true
 
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion-basics".literal, Predef.classOf[ForcesAndMotionBasicsApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion-basics".literal, classOf[ForcesAndMotionBasicsApplication])
   }
 }

@@ -113,7 +113,7 @@ class RampFrictionModule(frame: PhetFrame)
 
 object ForceGraphsApplication {
   def main(args: Array[String]) {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, Predef.classOf[ForceGraphsApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[ForceGraphsApplication])
   }
 }
 
@@ -128,7 +128,7 @@ class ForceGraphsApplication(config: PhetApplicationConfig) extends PiccoloPhetA
  */
 object RampForcesAndMotionApplication {
   def main(args: Array[String]) {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, Predef.classOf[RampForcesAndMotionApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[RampForcesAndMotionApplication])
   }
 }
 
