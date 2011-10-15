@@ -6,6 +6,6 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public abstract class FractionRepresentation {
+public abstract class Representation {
     public abstract PNode toNode();
 }

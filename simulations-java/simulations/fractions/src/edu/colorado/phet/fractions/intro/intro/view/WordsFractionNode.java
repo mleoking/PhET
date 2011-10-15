@@ -18,7 +18,7 @@ public class WordsFractionNode extends VisibilityNode {
 
             new RichSimpleObserver() {
                 @Override public void update() {
-                    Fraction reduced = new Fraction( numerator.get(), denominator.get() );
+                    Fraction reduced = Fraction.reduced( numerator.get(), denominator.get() );
                     setText( lookup( reduced.numerator, reduced.denominator ) );
                 }
             }.observe( numerator, denominator );

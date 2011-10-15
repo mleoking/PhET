@@ -12,13 +12,17 @@ public class Fraction {
 
     //Reduces a fraction
     public Fraction( Integer num, Integer den ) {
+        this.numerator = num;
+        this.denominator = den;
+    }
+
+    public static Fraction reduced( int num, int den ) {
         int value = num;
         if ( num > den ) { value = gcd( num, den ); }
         else if ( num < den ) { value = gcd( den, num ); }
 
         // set result based on common factor derived from gcd
-        this.numerator = num / value;
-        this.denominator = den / value;
+        return new Fraction( num / value, den / value );
     }
 
     public static int gcd( int a, int b ) {
@@ -29,5 +33,9 @@ public class Fraction {
             a = factor;
         }
         return a;
+    }
+
+    public double getValue() {
+        return (double) numerator / denominator;
     }
 }
