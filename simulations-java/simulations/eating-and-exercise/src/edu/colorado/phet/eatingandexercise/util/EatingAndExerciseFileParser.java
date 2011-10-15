@@ -2,8 +2,11 @@
 package edu.colorado.phet.eatingandexercise.util;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
@@ -46,7 +49,7 @@ public class EatingAndExerciseFileParser {
             }
             return list.toArray( type );
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             throw new RuntimeException( e );
         }
     }
@@ -85,6 +88,36 @@ public class EatingAndExerciseFileParser {
                 image = st.nextToken().trim();
             }
             return new ExerciseItem( EatingAndExerciseResources.getString( "fifteen.minutes" ) + " " + EatingAndExerciseResources.getString( key ), image, baseCalories, weightDependence, referenceWeightPounds, human );
+        }
+    }
+
+    //utility to make sure there aren't any extra images in the image directory
+    //Written after clip art was replaced in 2011
+    public static void main( String[] args ) {
+        CaloricItem[] ex = EatingAndExerciseFileParser.getExerciseItems( new Human() );
+        ArrayList<String> names = new ArrayList<String>();
+        for ( CaloricItem caloricItem : ex ) {
+//            System.out.println( "caloricItem = " + caloricItem );
+            String image = caloricItem.getImage();
+            names.add( image );
+        }
+        for ( CaloricFoodItem item : getFoodItems( new Human() ) ) {
+            names.add( item.getImage() );
+        }
+        Collections.sort( names );
+        for ( String name : names ) {
+            System.out.println( name );
+        }
+
+        File[] f = new File( "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\eating-and-exercise\\data\\eating-and-exercise\\images" ).listFiles( new FileFilter() {
+            public boolean accept( File pathname ) {
+                return pathname.isFile() && pathname.getName().toLowerCase().endsWith( ".png" );
+            }
+        } );
+        for ( File file : f ) {
+            if ( !names.contains( file.getName() ) ) {
+                System.out.println( "file = " + file );
+            }
         }
     }
 }
