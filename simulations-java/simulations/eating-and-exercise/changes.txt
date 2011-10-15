@@ -1,4 +1,5 @@
-Removed unused images
+Reduced image sizes to reduce jar size, see #3066
+Removed unused images, see #3066
 # 1.03.03 (56411) Sep 12, 2011
 # 1.03.02 (53318) Jun 20, 2011
 Fixed: Height is quantized to be 1 or 2 meters in countries that use comma for decimal place, resolves #2644
