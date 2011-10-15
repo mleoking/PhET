@@ -1,10 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractions.intro.view;
+package edu.colorado.phet.fractions.intro.intro.view;
 
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractions.intro.model.FractionsIntroModel;
+import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 

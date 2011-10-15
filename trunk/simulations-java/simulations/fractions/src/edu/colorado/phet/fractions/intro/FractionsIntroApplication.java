@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.intro.fractionmakergame.FractionMakerGame;
+import edu.colorado.phet.fractions.intro.fractionslab.FractionsLabModule;
+import edu.colorado.phet.fractions.intro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractions.intro.matchinggame.MatchingGameModule;
 
 /**
