@@ -13,7 +13,7 @@ import edu.colorado.phet.fractions.intro.view.FractionsIntroCanvas;
  */
 public class FractionsIntroModule extends Module {
     public FractionsIntroModule() {
-        super( "Fractions Intro", new ConstantDtClock( 30 ) );
+        super( "Intro", new ConstantDtClock( 30 ) );
         FractionsIntroModel model = new FractionsIntroModel();
         setSimulationPanel( new FractionsIntroCanvas( model ) );
 
