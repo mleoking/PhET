@@ -90,7 +90,7 @@ class GraphingModule(frame: PhetFrame)
 
 object ForcesAndMotionApplication {
   def main(args: Array[String]) {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, Predef.classOf[ForcesAndMotionApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[ForcesAndMotionApplication])
   }
 }
 
@@ -120,13 +120,13 @@ class TestAllApplication(config: PhetApplicationConfig) extends PiccoloPhetAppli
 
 object TestAllApp {
   def main(args: Array[String]) {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, Predef.classOf[TestAllApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[TestAllApplication])
   }
 }
 
 object TestOneApp {
   def main(args: Array[String]) {
-    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, Predef.classOf[TestOneApplication])
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-motion".literal, classOf[TestOneApplication])
   }
 }
 
