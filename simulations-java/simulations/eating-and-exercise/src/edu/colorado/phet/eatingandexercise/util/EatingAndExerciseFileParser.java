@@ -1,14 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.eatingandexercise.util;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
+import javax.imageio.ImageIO;
+
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.control.ExerciseItem;
@@ -93,7 +98,7 @@ public class EatingAndExerciseFileParser {
 
     //utility to make sure there aren't any extra images in the image directory
     //Written after clip art was replaced in 2011
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
         CaloricItem[] ex = EatingAndExerciseFileParser.getExerciseItems( new Human() );
         ArrayList<String> names = new ArrayList<String>();
         for ( CaloricItem caloricItem : ex ) {
@@ -117,6 +122,15 @@ public class EatingAndExerciseFileParser {
         for ( File file : f ) {
             if ( !names.contains( file.getName() ) ) {
                 System.out.println( "file = " + file );
+            }
+            if ( names.contains( file.getName() ) ) {
+                System.out.println( "Processing " + file.getName() );
+                BufferedImage image = ImageIO.read( file );
+                if ( image.getWidth() > 150 ) {
+                    BufferedImage im = BufferedImageUtils.multiScaleToWidth( image, 150 );
+                    ImageIO.write( im, "PNG", file );
+                    System.out.println( "reduced it!!!!!" );
+                }
             }
         }
     }
