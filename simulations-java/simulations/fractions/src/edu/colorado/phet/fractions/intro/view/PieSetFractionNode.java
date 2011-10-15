@@ -1,0 +1,51 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.fractions.intro.view;
+
+import java.awt.Color;
+import java.awt.Rectangle;
+
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+
+/**
+ * Shows a fraction as a set of pies.
+ *
+ * @author Sam Reid
+ */
+public class PieSetFractionNode extends VisibilityNode {
+
+    private final Rectangle PIE_SIZE = new Rectangle( 0, 0, 120, 120 );
+
+    public PieSetFractionNode( final Property<Integer> numerator, final Property<Integer> denominator, Property<Boolean> enabled ) {
+        super( enabled );
+        new RichSimpleObserver() {
+            @Override public void update() {
+                removeAllChildren();
+                int numFullPies = numerator.get() / denominator.get();
+                int slicesInLastPie = numerator.get() % denominator.get();
+                int numSlices = denominator.get();
+                HBox box = new HBox();
+
+                for ( int i = 0; i < numFullPies; i++ ) {
+                    final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];
+                    for ( int j = 0; j < slices.length; j++ ) {
+                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, Color.orange );
+                    }
+                    box.addChild( new PieChartNode( slices, PIE_SIZE ) );
+                }
+
+                if ( slicesInLastPie > 0 ) {
+                    final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];
+                    for ( int j = 0; j < slices.length; j++ ) {
+                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, j < slicesInLastPie ? Color.orange : Color.white );
+                    }
+                    box.addChild( new PieChartNode( slices, new Rectangle( 0, 0, 100, 100 ) ) );
+                }
+
+                addChild( box );
+            }
+        }.observe( numerator, denominator );
+    }
+}

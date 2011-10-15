@@ -37,6 +37,7 @@ public class FractionsIntroModel {
     public final Representation decimalRepresentation = add( "Decimal" );
     public final Representation wordsRepresentation = add( "Words" );
     public final Representation percentRepresentation = add( "Percent" );
+    public final Representation piesRepresentation = add( "Pies" );
     public final Representation mixedRepresentation = add( "Mixed" );
     public final Representation cakeRepresentation = add( "Cake" );
     public final Representation breadRepresentation = add( "Bread" );

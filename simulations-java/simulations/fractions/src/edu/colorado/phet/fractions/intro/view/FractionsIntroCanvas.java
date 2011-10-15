@@ -63,6 +63,14 @@ public class FractionsIntroCanvas extends PhetPCanvas {
                 }
             }.observe( model.numerator, model.denominator );
         }} );
+
+        addChild( new PieSetFractionNode( model.numerator, model.denominator, model.piesRepresentation.enabled ) {{
+            new RichSimpleObserver() {
+                @Override public void update() {
+                    //TODO: set location
+                }
+            }.observe( model.numerator, model.denominator );
+        }} );
     }
 
     private void addChild( PNode node ) {
