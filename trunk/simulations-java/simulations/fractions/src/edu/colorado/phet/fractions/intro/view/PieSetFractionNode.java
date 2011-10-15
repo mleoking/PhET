@@ -41,7 +41,7 @@ public class PieSetFractionNode extends VisibilityNode {
                     for ( int j = 0; j < slices.length; j++ ) {
                         slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, j < slicesInLastPie ? Color.orange : Color.white );
                     }
-                    box.addChild( new PieChartNode( slices, new Rectangle( 0, 0, 100, 100 ) ) );
+                    box.addChild( new PieChartNode( slices, PIE_SIZE ) );
                 }
 
                 addChild( box );
