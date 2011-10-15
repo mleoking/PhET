@@ -27,7 +27,7 @@ public class FractionsIntroModel {
 
     public final ObservableProperty<Fraction> reducedFraction = new CompositeProperty<Fraction>( new Function0<Fraction>() {
         public Fraction apply() {
-            return new Fraction( numerator.get(), denominator.get() );
+            return Fraction.reduced( numerator.get(), denominator.get() );
         }
     }, numerator, denominator );
 
