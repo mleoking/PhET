@@ -1,1 +1,1 @@
-apple license=Custom Apple license licensefile=license.txt
+apple license=Custom Apple license licensefile=license.txt name=OSXAdapter description=Hooks existing preferences/about/quit functionality from an existing Java app into handlers for the Mac OS X application menu copyright=Apple Inc. website=http://developer.apple.com/library/mac/samplecode/OSXAdapter/index.html
