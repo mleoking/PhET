@@ -19,6 +19,7 @@ import edu.colorado.phet.jmephet.PhetJMEApplication.RenderPosition;
 import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.hud.HUDNode.HUDNodeCollision;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
+import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
 import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.control.RulerNode3D;
@@ -58,6 +59,7 @@ public class CrustModule extends PlateTectonicsModule {
     private Toolbox toolbox;
     private static final float RULER_Z = 0;
     private static final float THERMOMETER_Z = 1;
+    private static final float DENSITY_SENSOR_Z = 2;
 
     public CrustModule( Frame parentFrame ) {
         super( parentFrame, CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
@@ -180,7 +182,25 @@ public class CrustModule extends PlateTectonicsModule {
             }
         } );
 
-        //TODO: add 3d density sensor
+        toolboxState.densitySensorInToolbox.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( !toolboxState.densitySensorInToolbox.get() ) {
+
+                    // we just "removed" the ruler from the toolbox, so add it to our scene
+                    DensitySensorNode3D sensorNode = new DensitySensorNode3D( getModelViewTransform(), CrustModule.this, model );
+                    toolView.getScene().attachChild( sensorNode );
+
+                    // offset the ruler slightly from the mouse, and start the drag
+                    Vector2f mousePosition = getMousePositionOnZPlane();
+                    Vector2f initialMouseOffset = sensorNode.getInitialMouseOffset();
+                    sensorNode.setLocalTranslation( mousePosition.x - initialMouseOffset.x,
+                                                    mousePosition.y - initialMouseOffset.y,
+                                                    DENSITY_SENSOR_Z );
+
+                    toolDragHandler.startDragging( sensorNode, mousePosition );
+                }
+            }
+        } );
 
         /*---------------------------------------------------------------------------*
         * my crust

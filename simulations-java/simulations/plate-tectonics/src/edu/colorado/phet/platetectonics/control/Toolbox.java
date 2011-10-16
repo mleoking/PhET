@@ -1,15 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.text.DecimalFormat;
-
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
-import edu.colorado.phet.common.piccolophet.nodes.SensorNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
@@ -77,12 +70,8 @@ public class Toolbox extends PiccoloJMENode {
             }};
             addChild( thermometer );
 
-            final PNode densitySensor = new ZeroOffsetNode( new SensorNode<Double>( ModelViewTransform.createIdentity(), new PointSensor<Double>( 0, 0 ), new Property<Function1<Double, String>>( new Function1<Double, String>() {
-                public String apply( Double aDouble ) {
-                    return new DecimalFormat( "0.00" ).format( aDouble );
-                }
-            } ), "Density" ) ) {{
-                setOffset( thermometer.getFullBounds().getMaxX() + INSET, rulerNode2D.getFullBounds().getY() );
+            final PNode densitySensor = new ZeroOffsetNode( new DensitySensorNode2D( kmToViewUnit ) ) {{
+                setOffset( thermometer.getFullBounds().getMaxX() + INSET, rulerNode2D.getFullBounds().getMaxY() - getFullBounds().getHeight() );
 
                 // make it visible when it is in the toolbox
                 toolboxState.densitySensorInToolbox.addObserver( JMEUtils.swingObserver( new Runnable() {
