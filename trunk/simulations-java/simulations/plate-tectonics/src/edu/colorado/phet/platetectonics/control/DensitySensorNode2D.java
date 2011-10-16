@@ -25,7 +25,7 @@ public class DensitySensorNode2D extends SensorNode<Double> {
             public String apply( Double aDouble ) {
                 return new DecimalFormat( "0.00" ).format( aDouble );
             }
-        } ), "Density" );
+        } ), "Density (kg/m^3)" );
 
         // scale it so that we achieve adherence to the model scale
         scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
