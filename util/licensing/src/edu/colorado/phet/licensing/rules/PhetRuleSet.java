@@ -23,6 +23,7 @@ public class PhetRuleSet extends AbstractRuleSet {
                 new NameEndsWith( ".properties" ),
                 new NameEndsWith( ".txt" ),
                 new NameEndsWith( ".csv" ),
+                new NameEndsWith( ".mol2" ),//File Created by: Spartan '08 Export for molecule polarity
 
                 //suppress reporting duplicates
                 new LicenseStartsWith( "same as" ),
@@ -48,7 +49,13 @@ public class PhetRuleSet extends AbstractRuleSet {
                 //allowed clip art sources
 //microsoft clip art no longer approved for usage, see Unfuddle #1059
                 new SourceStartsWith( "clker.com" ),//open source clip art site, see #1080
-                new SourceStartsWith( "java" )//see http://java.sun.com/developer/techDocs/hi/repository/
+                new SourceStartsWith( "java" ),//see http://java.sun.com/developer/techDocs/hi/repository/
+                new SourceStartsWith( "Wikimedia Commons" ),
+                new SourceStartsWith( "Open Clip Art Library" ),
+                new SourceStartsWith( "Open Clip Art" ),
+                new SourceStartsWith( "Open Source Clip Art" ),
+                new SourceStartsWith( "homemade image created by Oliver Nix" ),
+                new SourceStartsWith( "created by ON" )
 //                new NotMicrosoftClipArt()
         } );
     }

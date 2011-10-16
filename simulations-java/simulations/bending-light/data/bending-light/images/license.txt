@@ -5,6 +5,7 @@ intensity_meter_probe.png author=phet notes=NP
 knob.png author=phet notes=NP, taken from laser_knob.png
 laser.png author=phet notes=NP
 laser_knob.png author=phet notes=NP
+protractor.png author=phet notes=SR generated with software
 wave_detector_box.png author=phet notes=NP
-wave_detector_box_dark.png author=phet notes=NP
-wave_detector_box_light.png author=phet notes=NP
+wave_detector_probe_dark.png author=phet notes=NP
+wave_detector_probe_light.png author=phet notes=NP
