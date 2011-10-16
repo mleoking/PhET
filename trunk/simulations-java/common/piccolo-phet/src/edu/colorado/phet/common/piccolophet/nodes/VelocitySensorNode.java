@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED;
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN;
 
 /**
@@ -23,10 +24,10 @@ import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.
  *
  * @author Sam Reid
  */
-public class VelocitySensorNode extends SensorNode {
+public class VelocitySensorNode extends DraggableSensorNode<ImmutableVector2D> {
     private final VelocitySensor velocitySensor;
 
-    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor, final double arrowScale, final ObservableProperty<Function1<Double, String>> formatter ) {
+    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor, final double arrowScale, final ObservableProperty<Function1<ImmutableVector2D, String>> formatter ) {
         this( transform, velocitySensor, arrowScale, formatter, new Function1.Identity<Point2D>(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN );
     }
 
@@ -35,12 +36,12 @@ public class VelocitySensorNode extends SensorNode {
 
                                //Scale to use for the vector--the length of the vector is the view value times this scale factor
                                final double arrowScale,
-                               final ObservableProperty<Function1<Double, String>> formatter,
+                               final ObservableProperty<Function1<ImmutableVector2D, String>> formatter,
                                final Function1<Point2D, Point2D> boundedConstraint,
 
                                //Text to display when the value is None
                                final String unknownDisplayString ) {
-        super( transform, velocitySensor, formatter, boundedConstraint, unknownDisplayString );
+        super( transform, velocitySensor, formatter, boundedConstraint, unknownDisplayString, PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED );
         this.velocitySensor = velocitySensor;
 
         //Add an arrow that points in the direction of the velocity, with a magnitude proportional to the speed

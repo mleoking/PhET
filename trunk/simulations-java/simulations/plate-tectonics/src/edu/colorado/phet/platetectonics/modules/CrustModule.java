@@ -1,9 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Frame;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -177,6 +180,7 @@ public class CrustModule extends PlateTectonicsModule {
             }
         } );
 
+        //TODO: add 3d density sensor
 
         /*---------------------------------------------------------------------------*
         * my crust
@@ -184,12 +188,12 @@ public class CrustModule extends PlateTectonicsModule {
         guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new MyCrustPanel( model ) ), getInputHandler(), this, canvasTransform ) {{
             // layout the panel if its size changes (and on startup)
             onResize.addUpdateListener( new UpdateListener() {
-                                            public void update() {
-                                                position.set( new ImmutableVector2D(
-                                                        Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
-                                                        getStageSize().height - getComponentHeight() - 10 ) ); // offset from top
-                                            }
-                                        }, true ); // TODO: default to this?
+                public void update() {
+                    position.set( new ImmutableVector2D(
+                            Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
+                            getStageSize().height - getComponentHeight() - 10 ) ); // offset from top
+                }
+            }, true ); // TODO: default to this?
         }} );
 
         /*---------------------------------------------------------------------------*
