@@ -176,8 +176,8 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }
     }
 
-    public Property<Function1<Double, String>> getVelocityFormatter( final FluidPressureAndFlowModel model ) {
-        return new Property<Function1<Double, String>>( createVelocityFormatter( model ) ) {{
+    public Property<Function1<ImmutableVector2D, String>> getVelocityFormatter( final FluidPressureAndFlowModel model ) {
+        return new Property<Function1<ImmutableVector2D, String>>( createVelocityFormatter( model ) ) {{
             model.units.addObserver( new SimpleObserver() {
                 public void update() {
                     set( createVelocityFormatter( model ) );
@@ -186,11 +186,11 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }};
     }
 
-    private Function1<Double, String> createVelocityFormatter( final FluidPressureAndFlowModel model ) {
-        return new Function1<Double, String>() {
-            public String apply( Double aDouble ) {
+    private Function1<ImmutableVector2D, String> createVelocityFormatter( final FluidPressureAndFlowModel model ) {
+        return new Function1<ImmutableVector2D, String>() {
+            public String apply( ImmutableVector2D aDouble ) {
                 final Unit unit = model.units.get().velocity;
-                return MessageFormat.format( VALUE_WITH_UNITS_PATTERN, unit.getDecimalFormat().format( unit.siToUnit( aDouble ) ), unit.getAbbreviation() );
+                return MessageFormat.format( VALUE_WITH_UNITS_PATTERN, unit.getDecimalFormat().format( unit.siToUnit( aDouble.getMagnitude() ) ), unit.getAbbreviation() );
             }
         };
     }
