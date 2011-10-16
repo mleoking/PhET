@@ -19,7 +19,7 @@ public class ResourceAnnotation implements ResourceAnnotationElement {
      */
     private static final String SOURCE_KEY = "source"; // where we found the resource (organization, URL, etc.)
     private static final String AUTHOR_KEY = "author"; // person or organization that created the resource
-    private static final String LICENSE_KEY = "license"; // the type of license, see PhetRuleSet for a list of recognized licenses
+    private static final String LICENSE_KEY = "license"; // the name of license, see PhetRuleSet for a list of recognized licenses
     private static final String NOTES_KEY = "notes"; // any misc notes that you want to include
     private static final String LICENSEFILE_KEY = "licensefile";  // file that contains the actual license text
 
