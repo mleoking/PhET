@@ -4,28 +4,18 @@ package edu.colorado.phet.common.piccolophet.nodes;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED;
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN;
-import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOURCES;
 
 /**
  * The VelocitySensorNode provides a draggable display of the velocity (speed and direction) of something.
@@ -33,74 +23,25 @@ import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOUR
  *
  * @author Sam Reid
  */
-public class VelocitySensorNode extends ToolNode {
-    private final ModelViewTransform transform;
+public class VelocitySensorNode extends SensorNode {
     private final VelocitySensor velocitySensor;
-    private ThreeImageNode bodyNode;
 
-    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor, final double arrowScale, final Property<Function1<Double, String>> formatter ) {
+    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor, final double arrowScale, final ObservableProperty<Function1<Double, String>> formatter ) {
         this( transform, velocitySensor, arrowScale, formatter, new Function1.Identity<Point2D>(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN );
     }
 
     public VelocitySensorNode( final ModelViewTransform transform,
                                final VelocitySensor velocitySensor,
-                               final double arrowScale,//Scale to use for the vector--the length of the vector is the view value times this scale factor
-                               final Property<Function1<Double, String>> formatter,
+
+                               //Scale to use for the vector--the length of the vector is the view value times this scale factor
+                               final double arrowScale,
+                               final ObservableProperty<Function1<Double, String>> formatter,
                                final Function1<Point2D, Point2D> boundedConstraint,
 
                                //Text to display when the value is None
                                final String unknownDisplayString ) {
-        this.transform = transform;
+        super( transform, velocitySensor, formatter, boundedConstraint, unknownDisplayString );
         this.velocitySensor = velocitySensor;
-        final int titleOffsetY = 7;
-        final int readoutOffsetY = 38;
-
-        //Add the body of the sensor, which is composed of 3 images
-        bodyNode = new ThreeImageNode( RESOURCES.getImage( "velocity_left.png" ), RESOURCES.getImage( "velocity_center.png" ), RESOURCES.getImage( "velocity_right.png" ) );
-        addChild( bodyNode );
-
-        //Add the title of the sensor, which remains centered in the top of the body
-        final PText titleNode = new PText( PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED ) {{
-            setFont( new PhetFont( 22 ) );
-            bodyNode.addCenterWidthObserver( new SimpleObserver() {
-                public void update() {
-                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, titleOffsetY );
-                }
-            } );
-        }};
-        addChild( titleNode );
-
-        //Add the text readout in the body of the sensor, which reads out the value of the VelocitySensor
-        addChild( new PText() {{
-            setFont( new PhetFont( 26 ) );
-            final SimpleObserver updateTextLocation = new SimpleObserver() {
-                public void update() {
-                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutOffsetY );
-                }
-            };
-            bodyNode.addCenterWidthObserver( updateTextLocation );
-            new RichSimpleObserver() {
-                public void update() {
-                    final Option<ImmutableVector2D> value = velocitySensor.value.get();
-                    setText( ( value.isNone() ) ? unknownDisplayString : formatter.get().apply( value.get().getMagnitude() ) );
-                    bodyNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
-                    updateTextLocation.update();
-                }
-            }.observe( formatter, velocitySensor.value );
-        }} );
-
-        //Show a triangular tip that points to the hot spot of the sensor, i.e. where the values are read from
-        final BufferedImage velocityPoint = RESOURCES.getImage( "velocity_point.png" );
-        final PImage velocityPointNode = new PImage( velocityPoint ) {{
-            final PropertyChangeListener updatePosition = new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getMaxY() );
-                }
-            };
-            bodyNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updatePosition );
-            updatePosition.propertyChange( null );
-        }};
-        addChild( velocityPointNode );
 
         //Add an arrow that points in the direction of the velocity, with a magnitude proportional to the speed
         //Set the fractionalHeadHeight to 0.75 so that when the arrow gets small (so that the arrowhead is 75% of the arrow itself), the head will start to shrink and so will the tail
@@ -135,27 +76,5 @@ public class VelocitySensorNode extends ToolNode {
                 }
             } );
         }} );
-
-        //Add interactivity
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new RelativeDragHandler( this, transform, velocitySensor.position, boundedConstraint ) );
-
-        //Update the entire location of this node based on the location of the model ViewSensor, keeping the hot spot at the specified location.
-        velocitySensor.position.addObserver( new SimpleObserver() {
-            public void update() {
-                final Point2D.Double viewPoint = transform.modelToView( velocitySensor.position.get() ).toPoint2D();
-                setOffset( viewPoint.getX() - bodyNode.getFullBounds().getWidth() / 2, viewPoint.getY() - bodyNode.getFullBounds().getHeight() - velocityPoint.getHeight() );
-            }
-        } );
-    }
-
-    //Drags all components of the velocity sensor--there is only one component, so it just translates the entire node
-    @Override public void dragAll( PDimension delta ) {
-        velocitySensor.translate( transform.viewToModelDelta( delta ) );
-    }
-
-    //Gets the PNode for the main body of the sensor, for intersection with the toolbox
-    public ThreeImageNode getBodyNode() {
-        return bodyNode;
     }
 }
