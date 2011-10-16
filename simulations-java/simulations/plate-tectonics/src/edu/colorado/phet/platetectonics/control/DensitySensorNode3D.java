@@ -3,9 +3,9 @@ package edu.colorado.phet.platetectonics.control;
 
 import java.awt.Cursor;
 
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.hud.SwingJMENode;
@@ -25,9 +25,6 @@ public class DensitySensorNode3D extends PiccoloJMENode implements DraggableTool
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
 
-    // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
-    public static final float PIXEL_SCALE = 3f;
-
     private final JMEModelViewTransform transform;
     private final PlateModel model;
 
@@ -39,6 +36,7 @@ public class DensitySensorNode3D extends PiccoloJMENode implements DraggableTool
         this.model = model;
 
         // scale the node to handle the subsampling
+        // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
 
         // allow antialiasing for a cleaner look
@@ -71,11 +69,12 @@ public class DensitySensorNode3D extends PiccoloJMENode implements DraggableTool
 
     private void updateReadout() {
         // get model coordinates
-        Vector3f modelSensorPosition = transform.viewToModel( getLocalTranslation() );
-        final Double temp = model.getTemperature( modelSensorPosition.getX(), modelSensorPosition.getY() );
-        double liquidHeight = new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp );
-//        System.out.println( "liquidHeight = " + liquidHeight );
-//        ( (LiquidExpansionThermometerNode) getNode() ).setLiquidHeight( liquidHeight );
+
+        Vector3f modelSensorPosition = transform.viewToModel( getLocalTranslation() );//TODO: is this the hot spot of the sensor?
+
+        final Double density = model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
+        DensitySensorNode2D node = (DensitySensorNode2D) getNode();
+        node.pointSensor.value.set( new Option.Some<Double>( density ) );
         repaint();
     }
 
