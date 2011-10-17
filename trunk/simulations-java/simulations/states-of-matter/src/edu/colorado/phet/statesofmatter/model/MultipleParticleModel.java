@@ -384,12 +384,9 @@ public class MultipleParticleModel implements Resettable {
         // Set the container to be unexploded.
         setContainerExploded( false );
 
-        // Set the thermostats to the current temperature.  This is necessary
-        // because otherwise the energy that was lost when the particles
-        // outside of the container were removed will get transferred to the
-        // remaining particles, which causes them to suddenly speed up.
-//        setTemperature( m_moleculeForceAndMotionCalculator.getTemperature() );
-
+        // Set the phase to be gas, since otherwise the extremely high
+        // kinetic energy of the particles causes an unreasonably high
+        // temperature for the particles that remain in the container.
         m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_GAS );
     }
 
