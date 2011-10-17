@@ -1,3 +1,4 @@
+10/17/2011 Reverted trial fix for rendering problems on 1.5, see #3122
 # 1.00.03 (57702) Oct 17, 2011
 10/17/2011 Trial fix for rendering problems on 1.5, see #3122
 # 1.00.02 (57616) Oct 13, 2011
