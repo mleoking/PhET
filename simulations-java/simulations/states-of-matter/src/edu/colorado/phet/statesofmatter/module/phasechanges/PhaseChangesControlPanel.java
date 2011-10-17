@@ -52,7 +52,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private static final Color ENABLED_TITLE_COLOR = Color.BLACK;
     private static final int INTERACTION_POTENTIAL_DIAGRAM_WIDTH = 200;
     private static final int INTERACTION_POTENTIAL_DIAGRAM_HEIGHT = (int) ( INTERACTION_POTENTIAL_DIAGRAM_WIDTH * 0.8 );
-    private static final Color DIAGRAM_BUTTON_BACKGROUND_COLOR = Color.RED;
 
     // Constants used when mapping the model pressure and temperature to the phase diagram.
     private static double TRIPLE_POINT_TEMPERATURE_IN_MODEL = MultipleParticleModel.TRIPLE_POINT_MODEL_TEMPERATURE;
@@ -161,7 +160,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_interactionDiagramCtrlButton = new JButton();
         m_interactionDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
         m_interactionDiagramCtrlButton.setText( StatesOfMatterStrings.INTERACTION_POTENTIAL_BUTTON_LABEL );
-        m_interactionDiagramCtrlButton.setBackground( DIAGRAM_BUTTON_BACKGROUND_COLOR );
         addControl( m_interactionDiagramCtrlButton );
         m_interactionDiagramCtrlButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -213,7 +211,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_phaseDiagramCtrlButton = new JButton();
         m_phaseDiagramCtrlButton.setFont( BUTTON_LABEL_FONT );
         m_phaseDiagramCtrlButton.setText( StatesOfMatterStrings.PHASE_DIAGRAM_BUTTON_LABEL );
-        m_interactionDiagramCtrlButton.setBackground( DIAGRAM_BUTTON_BACKGROUND_COLOR );
         addControl( m_phaseDiagramCtrlButton );
         m_phaseDiagramCtrlButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
