@@ -24,6 +24,7 @@ public class PhetRuleSet extends AbstractRuleSet {
                 new NameEndsWith( ".txt" ),
                 new NameEndsWith( ".csv" ),
                 new NameEndsWith( ".mol2" ),//File Created by: Spartan '08 Export for molecule polarity
+                new NameEndsWith( ".pdb" ),//Protein data base file such as sucrose.pdb used in sugar-and-salt-solutions for showing sugar in 3d
 
                 //suppress reporting duplicates
                 new LicenseStartsWith( "same as" ),
