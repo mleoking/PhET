@@ -126,8 +126,8 @@ public class IntroCanvas extends PhetPCanvas {
 
         // Add graphics for the plank, the fulcrum, the attachment bar, and the columns.
         nonMassLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
-        nonMassLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
         nonMassLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) );
+        nonMassLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
             nonMassLayer.addChild( new LevelSupportColumnNode( mvt, supportColumn, model.columnState ) );
         }
