@@ -122,9 +122,10 @@ public class HUDNode extends Geometry {
                 // run the full layout now that we have the size
                 layoutComponent( component );
 
+                component.paint( g );
+
                 //Trial fix for rendering problems on 1.5, see #3122
-//                component.paint( g );
-                component.printAll( g );
+//                component.printAll( g );
             }
         };
 
