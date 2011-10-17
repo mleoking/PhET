@@ -2,6 +2,7 @@ button_pressed.png source=PhET notes=copied from gene-network
 button_unpressed.png source=PhET notes=copied from gene-network
 handle.png source=PhET notes=drawn by NP
 handle_T.png source=PhET notes=drawn by NP
+knob.png source=PhET notes=drawn by NP
 nozzle.png source=PhET notes=created by SR based on work by NP
 panel.png source=PhET notes = created by SR
 pipe-left-back.png source=created by ON

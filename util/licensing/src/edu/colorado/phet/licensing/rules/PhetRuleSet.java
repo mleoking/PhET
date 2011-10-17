@@ -46,6 +46,12 @@ public class PhetRuleSet extends AbstractRuleSet {
                 new LicenseStartsWith( "LGPL" ),
                 new LicenseStartsWith( "zlib/libpng license" ),
                 new LicenseStartsWith( "Scala License (BSD-Style)" ),
+                new LicenseStartsWith( "Custom Apple license" ),
+                new LicenseStartsWith( "New BSD License" ),
+                new LicenseStartsWith( "MIT License" ),
+                new LicenseStartsWith( "Apache Software License 2.0" ),
+                new LicenseStartsWith( "Apache" ),
+                new LicenseStartsWith( "zlib" ),
 
                 //allowed clip art sources
 //microsoft clip art no longer approved for usage, see Unfuddle #1059
