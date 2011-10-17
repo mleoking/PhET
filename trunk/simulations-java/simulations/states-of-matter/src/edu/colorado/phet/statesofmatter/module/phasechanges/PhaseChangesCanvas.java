@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class PhaseChangesCanvas extends PhetPCanvas {
+public class PhaseChangesCanvas extends PhetPCanvas implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -66,6 +66,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private CompositeThermometerNode m_thermometerNode;
     private Random m_rand;
     private double m_rotationRate = 0;
+    private BooleanProperty m_clockRunning = new BooleanProperty( false );
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -162,7 +163,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         addWorldChild( stoveNode );
 
         // Add a "Reset All" button.
-        final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { multipleParticleModel }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { multipleParticleModel, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
             setOffset( stoveNode.getFullBoundsReference().getMinX() - getFullBoundsReference().width - 5000,
@@ -171,13 +172,12 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         addWorldChild( resetAllButton );
 
         // Add a floating clock control.
-        final BooleanProperty clockRunning = new BooleanProperty( false );
-        clockRunning.addObserver( new VoidFunction1<Boolean>() {
+        m_clockRunning.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean isRunning ) {
                 multipleParticleModel.getClock().setRunning( isRunning );
             }
         } );
-        final FloatingClockControlNode floatingClockControlNode = new FloatingClockControlNode( clockRunning, null,
+        final FloatingClockControlNode floatingClockControlNode = new FloatingClockControlNode( m_clockRunning, null,
                                                                                                 multipleParticleModel.getClock(), null,
                                                                                                 new Property<Color>( Color.white ) ) {{
             scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
@@ -217,7 +217,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         // clock gets started.
         multipleParticleModel.getClock().addClockListener( new ClockAdapter() {
             @Override public void clockStarted( ClockEvent clockEvent ) {
-                clockRunning.set( true );
+                m_clockRunning.set( true );
             }
         } );
     }
@@ -226,6 +226,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     // Public Methods
     //----------------------------------------------------------------------------
     public void reset() {
+        m_clockRunning.set( true );  // In case clock was paused prior to reset.
         m_particleContainer.reset();
     }
 

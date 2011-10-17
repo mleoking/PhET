@@ -53,6 +53,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
     private ParticleContainerNode m_particleContainer;
     private ModelViewTransform m_mvt;
     private CompositeThermometerNode m_thermometerNode;
+    private BooleanProperty m_clockRunning = new BooleanProperty( true );
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -121,7 +122,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
         addWorldChild( stoveNode );
 
         // Add a "Reset All" button.
-        final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { multipleParticleModel }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { multipleParticleModel, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
             setOffset( stoveNode.getFullBoundsReference().getMinX() - getFullBoundsReference().width - 5000,
@@ -130,13 +131,12 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
         addWorldChild( resetAllButton );
 
         // Add a floating clock control.
-        BooleanProperty clockRunning = new BooleanProperty( true );
-        clockRunning.addObserver( new VoidFunction1<Boolean>() {
+        m_clockRunning.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean isRunning ) {
                 multipleParticleModel.getClock().setRunning( isRunning );
             }
         } );
-        addWorldChild( new FloatingClockControlNode( clockRunning, null,
+        addWorldChild( new FloatingClockControlNode( m_clockRunning, null,
                                                      multipleParticleModel.getClock(), null,
                                                      new Property<Color>( Color.white ) ) {{
             scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
@@ -146,6 +146,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
     }
 
     public void reset() {
+        m_clockRunning.set( true );  // In case clock was paused prior to reset.
         m_particleContainer.reset();
     }
 

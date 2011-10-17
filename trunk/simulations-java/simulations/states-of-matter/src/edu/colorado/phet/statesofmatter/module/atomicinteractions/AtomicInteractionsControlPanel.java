@@ -96,13 +96,9 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
                 m_moleculeSelectionPanel.updateMoleculeType();
             }
 
-            ;
-
             public void movableAtomAdded( StatesOfMatterAtom particle ) {
                 m_moleculeSelectionPanel.updateMoleculeType();
             }
-
-            ;
         } );
 
         // Set the control panel's minimum width.
@@ -139,6 +135,11 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 m_model.reset();
+                if ( m_model.getClock().isPaused() ) {
+                    // If the clock was paused when the reset button was
+                    // pressed, it must be explicitly un-paused.
+                    m_model.getClock().setPaused( false );
+                }
                 m_forceControlPanel.reset();
             }
         } );
