@@ -24,6 +24,7 @@ import edu.colorado.phet.statesofmatter.model.engine.MoleculeForceAndMotionCalcu
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicAtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicPhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.MonatomicVerletAlgorithm;
+import edu.colorado.phet.statesofmatter.model.engine.NullMoleculeForceAndMotionCalculator;
 import edu.colorado.phet.statesofmatter.model.engine.PhaseStateChanger;
 import edu.colorado.phet.statesofmatter.model.engine.WaterAtomPositionUpdater;
 import edu.colorado.phet.statesofmatter.model.engine.WaterPhaseStateChanger;
@@ -148,7 +149,7 @@ public class MultipleParticleModel implements Resettable {
     // Strategy patterns that are applied to the data set in order to create
     // the overall behavior of the simulation.
     private AtomPositionUpdater m_atomPositionUpdater;
-    private MoleculeForceAndMotionCalculator m_moleculeForceAndMotionCalculator;
+    private MoleculeForceAndMotionCalculator m_moleculeForceAndMotionCalculator = new NullMoleculeForceAndMotionCalculator();
     private PhaseStateChanger m_phaseStateChanger;
     private Thermostat m_isoKineticThermostat;
     private Thermostat m_andersenThermostat;
@@ -299,12 +300,7 @@ public class MultipleParticleModel implements Resettable {
      * @return
      */
     public double getModelPressure() {
-        if ( m_moleculeForceAndMotionCalculator != null ) {
-            return m_moleculeForceAndMotionCalculator.getPressure();
-        }
-        else {
-            return 0;
-        }
+        return m_moleculeForceAndMotionCalculator.getPressure();
     }
 
     public int getMoleculeType() {
@@ -383,7 +379,8 @@ public class MultipleParticleModel implements Resettable {
 
         // Set the phase to be gas, since otherwise the extremely high
         // kinetic energy of the particles causes an unreasonably high
-        // temperature for the particles that remain in the container.
+        // temperature for the particles that remain in the container. Doing
+        // this generally cools them down into a more manageable state.
         m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_GAS );
     }
 
@@ -583,12 +580,7 @@ public class MultipleParticleModel implements Resettable {
                 break;
 
             case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
-                if ( m_moleculeForceAndMotionCalculator != null ) {
-                    epsilon = convertScaledEpsilonToEpsilon( m_moleculeForceAndMotionCalculator.getScaledEpsilon() );
-                }
-                else {
-                    epsilon = ConfigurableStatesOfMatterAtom.DEFAULT_INTERACTION_POTENTIAL;
-                }
+                epsilon = convertScaledEpsilonToEpsilon( m_moleculeForceAndMotionCalculator.getScaledEpsilon() );
                 break;
 
             default:
@@ -601,16 +593,14 @@ public class MultipleParticleModel implements Resettable {
 
     public void setEpsilon( double epsilon ) {
         if ( m_currentMolecule == StatesOfMatterConstants.USER_DEFINED_MOLECULE ) {
-            if ( m_moleculeForceAndMotionCalculator != null ) {
-                if ( epsilon < MIN_ADJUSTABLE_EPSILON ) {
-                    epsilon = MIN_ADJUSTABLE_EPSILON;
-                }
-                else if ( epsilon > MAX_ADJUSTABLE_EPSILON ) {
-                    epsilon = MAX_ADJUSTABLE_EPSILON;
-                }
-                m_moleculeForceAndMotionCalculator.setScaledEpsilon( convertEpsilonToScaledEpsilon( epsilon ) );
-                notifyInteractionStrengthChanged();
+            if ( epsilon < MIN_ADJUSTABLE_EPSILON ) {
+                epsilon = MIN_ADJUSTABLE_EPSILON;
             }
+            else if ( epsilon > MAX_ADJUSTABLE_EPSILON ) {
+                epsilon = MAX_ADJUSTABLE_EPSILON;
+            }
+            m_moleculeForceAndMotionCalculator.setScaledEpsilon( convertEpsilonToScaledEpsilon( epsilon ) );
+            notifyInteractionStrengthChanged();
         }
         else {
             // Epsilon cannot be set unless the user-defined molecule is being
