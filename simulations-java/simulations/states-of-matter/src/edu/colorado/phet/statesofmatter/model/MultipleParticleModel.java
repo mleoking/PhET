@@ -378,9 +378,6 @@ public class MultipleParticleModel implements Resettable {
             particle.removedFromModel();
         }
 
-        // Update the forces and motion after removing the particles.
-//        m_moleculeForceAndMotionCalculator.updateForcesAndMotion();
-
         // Set the container to be unexploded.
         setContainerExploded( false );
 
