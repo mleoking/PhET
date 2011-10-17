@@ -1,2 +1,3 @@
+10/17/2011 Trial fix for rendering problems on 1.5, see #3122
 09/27/11 add handler for Mac Quit (Cmd-Q) menu item
 09/21/10 Added jme-phet
