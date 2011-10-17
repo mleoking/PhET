@@ -290,14 +290,12 @@ public class PhetJMEApplication extends Application {
 
     @Override public void handleError( String errMsg, final Throwable t ) {
         super.handleError( errMsg, t );
-        if ( errMsg.equals( "Failed to initialize OpenGL context" ) ) {
-            SwingUtilities.invokeLater( new Runnable() {
-                public void run() {
-                    // TODO: i18n?
-                    PhetOptionPane.showMessageDialog( getParentFrame(), "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem.\nError information:\n" + t.getMessage() );
-                }
-            } );
-        }
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                // TODO: i18n?
+                PhetOptionPane.showMessageDialog( getParentFrame(), "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem.\nError information:\n" + t.getMessage() );
+            }
+        } );
     }
 
     public Frame getParentFrame() {
