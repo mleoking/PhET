@@ -1,6 +1,13 @@
 package edu.colorado.phet.licensing.reports;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -46,14 +53,14 @@ public class DependencyReport {
     }
 
     private void generateContribReport() {
-        ArrayList<File> f = new ArrayList<File>( ){{
+        ArrayList<File> f = new ArrayList<File>() {{
             addAll( Arrays.asList( listContribDirs( "simulations-java/contrib" ) ) );
             addAll( Arrays.asList( listContribDirs( "simulations-flex/contrib" ) ) );
             addAll( Arrays.asList( listContribDirs( "simulations-flash/contrib" ) ) );
         }};
         String content = "";
         for ( int i = 0; i < f.size(); i++ ) {
-            content += getContribHTML( f.get(i) ) + "\n";
+            content += getContribHTML( f.get( i ) ) + "\n";
         }
 
         String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
@@ -149,11 +156,13 @@ public class DependencyReport {
         }};
 
         ArrayList<SimHTML> simHTMLs = new ArrayList<SimHTML>();
-        int count =0;
+        int count = 0;
         for ( PhetProject simProject : simProjects ) {
-            final SimHTML info = visitSim( simProject );
-            simHTMLs.add( info );
-            count+=info.getIssues().getIssueCount();
+            if ( !simProject.getName().equalsIgnoreCase( "all-sims" ) ) {
+                final SimHTML info = visitSim( simProject );
+                simHTMLs.add( info );
+                count += info.getIssues().getIssueCount();
+            }
         }
         String content = "Sims with no known issues:<br>";
 
@@ -241,8 +250,8 @@ public class DependencyReport {
         }
     }
 
-    private SimHTML visitSim( PhetProject project) throws IOException {
-        SimInfo issues = new SimInfo(project).getIssues();
+    private SimHTML visitSim( PhetProject project ) throws IOException {
+        SimInfo issues = new SimInfo( project ).getIssues();
 
         String header = issues.getHTMLHeader();
         String body = issues.getHTMLBody() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";
