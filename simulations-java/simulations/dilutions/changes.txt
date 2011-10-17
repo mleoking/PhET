@@ -1,3 +1,4 @@
+10/17/11 rename tab "Dilution Equation" to "Dilution Intro"
 # 0.00.03 (57572) Oct 12, 2011
 10/12/11 dev version with JC's change requests
 10/12/11 for solute amount slider, display min tick label as "0 mol" instead of "0.00 mol"
