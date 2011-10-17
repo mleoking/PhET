@@ -22,7 +22,7 @@ public class DilutionsResources {
         public static final String COBALT_CHLORIDE = RESOURCES.getLocalizedString( "cobaltChloride" );
         public static final String CONCENTRATION_MOLARITY = RESOURCES.getLocalizedString( "concentrationMolarity" );
         public static final String COPPER_SULFATE = RESOURCES.getLocalizedString( "copperSulfate" );
-        public static final String DILUTION_EQUATION = RESOURCES.getLocalizedString( "dilutionEquation" );
+        public static final String DILUTION_INTRO = RESOURCES.getLocalizedString( "dilutionIntro" );
         public static final String FULL = RESOURCES.getLocalizedString( "full" );
         public static final String GOLD_III_CHLORIDE = RESOURCES.getLocalizedString( "goldIIIChloride" );
         public static final String HIGH = RESOURCES.getLocalizedString( "high" );
