@@ -284,7 +284,7 @@ public class DualAtomModel {
      * Set the epsilon value, a.k.a. the Interaction Strength Parameter, which
      * is one of the two parameters that describes the Lennard-Jones potential.
      *
-     * @param sigma - distance parameter
+     * @param epsilon - interaction strength parameter
      */
     public void setEpsilon( double epsilon ) {
 
@@ -644,6 +644,10 @@ public class DualAtomModel {
         for ( int i = 0; i < m_listeners.size(); i++ ) {
             ( (Listener) m_listeners.get( i ) ).movableAtomDiameterChanged();
         }
+    }
+
+    public ConstantDtClock getClock() {
+        return m_clock;
     }
 
     //------------------------------------------------------------------------

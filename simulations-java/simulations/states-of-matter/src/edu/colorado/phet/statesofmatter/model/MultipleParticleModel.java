@@ -161,7 +161,7 @@ public class MultipleParticleModel implements Resettable {
     private final List m_particles = new ArrayList();
     private boolean m_isExploded = false;
     ConstantDtClock m_clock;
-    private ArrayList _listeners = new ArrayList();
+    private ArrayList m_listeners = new ArrayList();
 
     // Data set containing the atom and molecule position, motion, and force information.
     private MoleculeForceAndMotionDataSet m_moleculeDataSet;
@@ -772,16 +772,16 @@ public class MultipleParticleModel implements Resettable {
 
     public void addListener( Listener listener ) {
 
-        if ( _listeners.contains( listener ) ) {
+        if ( m_listeners.contains( listener ) ) {
             // Don't bother re-adding.
             return;
         }
 
-        _listeners.add( listener );
+        m_listeners.add( listener );
     }
 
     public boolean removeListener( Listener listener ) {
-        return _listeners.remove( listener );
+        return m_listeners.remove( listener );
     }
 
     //----------------------------------------------------------------------------
@@ -1243,50 +1243,50 @@ public class MultipleParticleModel implements Resettable {
     }
 
     private void notifyResetOccurred() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (Listener) _listeners.get( i ) ).resetOccurred();
+        for ( int i = 0; i < m_listeners.size(); i++ ) {
+            ( (Listener) m_listeners.get( i ) ).resetOccurred();
         }
     }
 
     private void notifyParticleAdded( StatesOfMatterAtom particle ) {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (Listener) _listeners.get( i ) ).particleAdded( particle );
+        for ( int i = 0; i < m_listeners.size(); i++ ) {
+            ( (Listener) m_listeners.get( i ) ).particleAdded( particle );
         }
     }
 
     private void notifyTemperatureChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (Listener) _listeners.get( i ) ).temperatureChanged();
+        for ( int i = 0; i < m_listeners.size(); i++ ) {
+            ( (Listener) m_listeners.get( i ) ).temperatureChanged();
         }
     }
 
     private void notifyPressureChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (Listener) _listeners.get( i ) ).pressureChanged();
+        for ( int i = 0; i < m_listeners.size(); i++ ) {
+            ( (Listener) m_listeners.get( i ) ).pressureChanged();
         }
     }
 
     private void notifyContainerSizeChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (Listener) _listeners.get( i ) ).containerSizeChanged();
+        for ( int i = 0; i < m_listeners.size(); i++ ) {
+            ( (Listener) m_listeners.get( i ) ).containerSizeChanged();
         }
     }
 
     private void notifyMoleculeTypeChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (Listener) _listeners.get( i ) ).moleculeTypeChanged();
+        for ( int i = 0; i < m_listeners.size(); i++ ) {
+            ( (Listener) m_listeners.get( i ) ).moleculeTypeChanged();
         }
     }
 
     private void notifyContainerExplodedStateChanged( boolean containerExploded ) {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (Listener) _listeners.get( i ) ).containerExplodedStateChanged( containerExploded );
+        for ( int i = 0; i < m_listeners.size(); i++ ) {
+            ( (Listener) m_listeners.get( i ) ).containerExplodedStateChanged( containerExploded );
         }
     }
 
     private void notifyInteractionStrengthChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (Listener) _listeners.get( i ) ).interactionStrengthChanged();
+        for ( int i = 0; i < m_listeners.size(); i++ ) {
+            ( (Listener) m_listeners.get( i ) ).interactionStrengthChanged();
         }
     }
 
