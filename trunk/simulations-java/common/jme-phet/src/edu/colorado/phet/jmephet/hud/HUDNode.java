@@ -19,6 +19,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.RepaintManager;
 import javax.swing.SwingUtilities;
 
+import com.jme3.math.ColorRGBA;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -122,10 +123,8 @@ public class HUDNode extends Geometry {
                 // run the full layout now that we have the size
                 layoutComponent( component );
 
-                component.paint( g );
-
-                //Trial fix for rendering problems on 1.5, see #3122
-//                component.printAll( g );
+                //Fix for rendering problems on 1.5, see #3122
+                component.printAll( g );
             }
         };
 
@@ -196,7 +195,7 @@ public class HUDNode extends Geometry {
                         else {
                             // when the antialiasing hits this texture, make sure we use nearest-neighbor so that we don't get any blurring
                             setMagFilter( MagFilter.Nearest );
-                            setMinFilter( MinFilter.NearestNearestMipMap );
+                            setMinFilter( MinFilter.NearestNoMipMaps );
                         }
                     }
                 } );
