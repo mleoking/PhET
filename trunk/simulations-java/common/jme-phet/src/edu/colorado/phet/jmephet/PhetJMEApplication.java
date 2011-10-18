@@ -1,23 +1,22 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet;
 
-import java.awt.Dimension;
-import java.awt.Frame;
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JDialog;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module.Listener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.jmephet.input.WrappedInputManager;
@@ -317,15 +316,47 @@ public class PhetJMEApplication extends Application {
                                     "Renderer Capabilities:<br/>" + capabilities + "</body></html>";
 
                 JDialog frame = new JDialog( getParentFrame() ) {{
-                    setContentPane( new VerticalLayoutPanel() {{
-                        add( new JLabel( "<html><body>The simulation was unable to start.<br/>" +
-                                         "Upgrading your video card's drivers may fix the problem.<br/>" +
-                                         "For further information, visit phet.colorado.edu/jme-troubleshooting<br/>" +
-                                         "Or copy and paste the following in an email to phethelp@colorado.edu<br/></body></html>" ) );
-                        add( new JScrollPane( new JEditorPane( "text/html", text ) {{
-                            setCaretPosition( 0 );
-                        }} ) );
-                        setPreferredSize( new Dimension( 800, 600 ) );
+                    setContentPane( new JPanel( new GridLayout( 1, 1 ) ) {{
+                        add( new JPanel( new GridBagLayout() ) {{
+                            add( new VerticalLayoutPanel() {{
+                                     add( new JLabel( PhetCommonResources.getString( "Jme.thisSimulationWasUnableToStart" ) ) {{
+                                         setFont( new PhetFont( 20, true ) );
+                                         setForeground( Color.RED );
+                                     }} );
+                                     String troubleshootingUrl = "http://phet.colorado.edu/en/troubleshooting#3d-driver";
+                                     String troubleshootingLink = "<a href=\"" + troubleshootingUrl + "\">" + troubleshootingUrl + "</a>";
+                                     String email = "phethelp@colorado.edu";
+                                     String emailLink = "<a href=\"mailto:" + email + "\">" + email + "</a>";
+                                     String body = PhetCommonResources.getString( "Jme.moreInformation" );
+                                     add( new InteractiveHTMLPane( MessageFormat.format( body, troubleshootingLink, emailLink ) ) {{
+                                         setOpaque( false );
+                                         setFont( new PhetFont( 16, true ) );
+                                     }} );
+                                 }},
+                                 new GridBagConstraints() {{
+                                     fill = GridBagConstraints.HORIZONTAL;
+                                     insets = new Insets( 10, 10, 10, 10 );
+                                 }}
+                            );
+                            add( new JScrollPane( new JEditorPane( "text/html", text ) {{
+                                setCaretPosition( 0 );
+                            }} ), new GridBagConstraints() {{
+                                gridx = 0;
+                                gridy = 1;
+                                fill = GridBagConstraints.BOTH;
+                                weightx = 1;
+                                weighty = 1;
+                            }} );
+                            add( new JButton( PhetCommonResources.getString( "Jme.copyThisToTheClipboard" ) ) {{
+                                     setClipboard( text );
+                                 }}, new GridBagConstraints() {{
+                                gridy = 2;
+                                anchor = GridBagConstraints.LINE_END;
+                                insets = new Insets( 5, 5, 5, 5 );
+                            }}
+                            );
+                            setPreferredSize( new Dimension( 800, 600 ) );
+                        }} );
                     }} );
                     pack();
                 }};
@@ -334,6 +365,11 @@ public class PhetJMEApplication extends Application {
 //                PhetOptionPane.showMessageDialog( getParentFrame(), text );
             }
         } );
+    }
+
+    public static void setClipboard( String str ) {
+        StringSelection ss = new StringSelection( str );
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents( ss, null );
     }
 
     public Frame getParentFrame() {
