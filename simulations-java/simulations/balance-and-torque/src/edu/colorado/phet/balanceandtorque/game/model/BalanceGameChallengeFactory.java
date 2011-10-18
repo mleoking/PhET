@@ -56,14 +56,11 @@ public class BalanceGameChallengeFactory {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final Random RAND = new Random( 1 );
-
-    // Challenges per level.
-    private static final int CHALLENGES_PER_LEVEL = 5;
+    private static final Random RAND = new Random( 7 );
 
     // Parameters that control how many attempts are made to generate a unique
     // balance challenge.
-    private static final int MAX_GEN_ATTEMPTS = 10;
+    private static final int MAX_GEN_ATTEMPTS = 50;
     private static final int MAX_HALVING_OF_PAST_LIST = 3;
 
     // Tolerance value used when comparing floating-point calculations.
@@ -105,10 +102,10 @@ public class BalanceGameChallengeFactory {
     }};
 
     // Structures used to keep track of the challenges generated so far so that
-    // we can avoid created the same challenges multiple times.
-    private static final FiniteLengthList<BalanceGameChallenge> usedSimpleBalanceChallenges = new FiniteLengthList<BalanceGameChallenge>( CHALLENGES_PER_LEVEL );
-    private static final FiniteLengthList<BalanceGameChallenge> usedEasyBalanceChallenges = new FiniteLengthList<BalanceGameChallenge>( CHALLENGES_PER_LEVEL );
-    private static final FiniteLengthList<BalanceGameChallenge> usedSimpleMassDeductionChallenges = new FiniteLengthList<BalanceGameChallenge>( CHALLENGES_PER_LEVEL );
+    // we can avoid creating the same challenges multiple times.
+    private static final List<BalanceGameChallenge> usedSimpleBalanceChallenges = new ArrayList<BalanceGameChallenge>();
+    private static final List<BalanceGameChallenge> usedEasyBalanceChallenges = new ArrayList<BalanceGameChallenge>();
+    private static final List<BalanceGameChallenge> usedSimpleMassDeductionChallenges = new ArrayList<BalanceGameChallenge>();
 
     // Wrap several of the methods into function objects so that they can be
     // used in the method that assures the uniqueness of challenges.
@@ -130,8 +127,8 @@ public class BalanceGameChallengeFactory {
         }
     };
 
-    private static final Function2<BalanceGameChallenge, FiniteLengthList<BalanceGameChallenge>, Boolean> uniqueMassesTest = new Function2<BalanceGameChallenge, FiniteLengthList<BalanceGameChallenge>, Boolean>() {
-        public Boolean apply( BalanceGameChallenge balanceGameChallenge, FiniteLengthList<BalanceGameChallenge> balanceGameChallenges ) {
+    private static final Function2<BalanceGameChallenge, List<BalanceGameChallenge>, Boolean> uniqueMassesTest = new Function2<BalanceGameChallenge, List<BalanceGameChallenge>, Boolean>() {
+        public Boolean apply( BalanceGameChallenge balanceGameChallenge, List<BalanceGameChallenge> balanceGameChallenges ) {
             return usesUniqueMasses( balanceGameChallenge, balanceGameChallenges );
         }
     };
@@ -616,8 +613,8 @@ public class BalanceGameChallengeFactory {
      * @return
      */
     private static BalanceGameChallenge generateUniqueChallenge( Function0<BalanceGameChallenge> challengeGenerator,
-                                                                 Function2<BalanceGameChallenge, FiniteLengthList<BalanceGameChallenge>, Boolean> uniquenessTest,
-                                                                 FiniteLengthList<BalanceGameChallenge> previousChallenges ) {
+                                                                 Function2<BalanceGameChallenge, List<BalanceGameChallenge>, Boolean> uniquenessTest,
+                                                                 List<BalanceGameChallenge> previousChallenges ) {
         BalanceGameChallenge challenge = null;
         boolean uniqueChallengeGenerated = false;
 
@@ -640,10 +637,10 @@ public class BalanceGameChallengeFactory {
                 // to make it easier, and then try again.
                 // TODO: Remove debug statement eventually.
                 System.out.println( "generateUniqueChallenge - removing oldest challenges" );
-                previousChallenges.removeOldestHalfOfItems();
+                removeOldestHalfOfList( previousChallenges );
             }
         }
-        previousChallenges.addItem( challenge );
+        previousChallenges.add( challenge );
         return challenge;
     }
 
@@ -705,8 +702,8 @@ public class BalanceGameChallengeFactory {
      * @param usedChallengeList
      * @return
      */
-    private static boolean usesUniqueMasses( BalanceGameChallenge testChallenge, FiniteLengthList<BalanceGameChallenge> usedChallengeList ) {
-        for ( BalanceGameChallenge usedChallenge : usedChallengeList.getItemList() ) {
+    private static boolean usesUniqueMasses( BalanceGameChallenge testChallenge, List<BalanceGameChallenge> usedChallengeList ) {
+        for ( BalanceGameChallenge usedChallenge : usedChallengeList ) {
             if ( usedChallenge.usesSameMasses( testChallenge ) ) {
                 return false;
             }
@@ -755,45 +752,12 @@ public class BalanceGameChallengeFactory {
     }
 
     /**
-     * A collection that is limited in length, and when a new item is added
-     * that would make the list too long, the oldest item is removed.
-     *
-     * @param <T>
+     * Convenience function for removing the oldest half of a list.
      */
-    private static class FiniteLengthList<T> {
-        private final List<T> itemList;
-        private final int maxSize;
-
-        public FiniteLengthList( int maxSize ) {
-            this.maxSize = maxSize;
-            itemList = new ArrayList<T>( maxSize );
-        }
-
-        public void addItem( T item ) {
-            if ( itemList.size() == maxSize ) {
-                // Remove the oldest item.
-                itemList.remove( 0 );
-            }
-            itemList.add( item );
-        }
-
-        public void removeOldestHalfOfItems() {
-            int halfSize = itemList.size() / 2;
-            for ( int i = 0; i < halfSize; i++ ) {
-                itemList.remove( 0 );
-            }
-        }
-
-        public int getSize() {
-            return itemList.size();
-        }
-
-        public T getItem( int i ) {
-            return itemList.get( i );
-        }
-
-        public List<T> getItemList() {
-            return itemList;
+    private static void removeOldestHalfOfList( List list ) {
+        int halfLength = list.size() / 2;
+        for ( int i = 0; i < halfLength; i++ ) {
+            list.remove( 0 );
         }
     }
 
@@ -813,9 +777,11 @@ public class BalanceGameChallengeFactory {
 //            System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
 //        }
         for ( int i = 0; i < 100; i++ ) {
-            BalanceGameChallenge challenge = generateUniqueChallenge( simpleBalanceChallengeGenerator, uniqueMassesTest, usedSimpleBalanceChallenges );
+            BalanceGameChallenge challenge = generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedSimpleMassDeductionChallenges );
             System.out.println( "------" );
+            System.out.println( "Fixed mass = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getClass().getName() );
             System.out.println( "challenge.fixedMasses.get( 0 ) = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getMass() );
+            System.out.println( "Movable mass = " + challenge.movableMasses.get( 0 ).getClass().getName() );
             System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
         }
 

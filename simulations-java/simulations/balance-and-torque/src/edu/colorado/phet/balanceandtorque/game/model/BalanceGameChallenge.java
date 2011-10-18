@@ -56,26 +56,56 @@ public abstract class BalanceGameChallenge {
             return true;
         }
 
-        if ( movableMasses.size() != that.movableMasses.size() ) {
-            return false;
-        }
-
-        if ( !movableMasses.containsAll( that.movableMasses ) ) {
+        if ( !containsEquivalentMasses( movableMasses, that.movableMasses ) ) {
             return false;
         }
 
         List<Mass> thisFixedMasses = getFixedMassList();
         List<Mass> thatFixedMasses = that.getFixedMassList();
 
-        if ( thisFixedMasses.size() != thatFixedMasses.size() ) {
-            return false;
-        }
-
-        if ( !thisFixedMasses.containsAll( thatFixedMasses ) ) {
+        if ( !containsEquivalentMasses( thisFixedMasses, thatFixedMasses ) ) {
             return false;
         }
 
         // If we made it to here, all masses are the same.
+        return true;
+    }
+
+    /**
+     * Convenience function for determining whether an equivalent mass is
+     * contained on the list.  The 'contains' function for the mass list can't
+     * be used because it relies on the 'equals' function, which needs to be
+     * more specific than just matching class and mass value.
+     *
+     * @param mass
+     * @return
+     */
+    private boolean containsEquivalentMass( Mass mass, List<Mass> massList ) {
+        for ( Mass massFromList : massList ) {
+            if ( mass.getMass() == massFromList.getMass() && mass.getClass() == massFromList.getClass() ) {
+                // These masses are equivalent.
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Test two mass lists to see if they contain equivalent masses.
+     *
+     * @param massList1
+     * @param massList2
+     * @return
+     */
+    private boolean containsEquivalentMasses( List<Mass> massList1, List<Mass> massList2 ) {
+        if ( massList1.size() != massList2.size() ) {
+            return false;
+        }
+        for ( Mass mass : massList1 ) {
+            if ( !containsEquivalentMass( mass, massList2 ) ) {
+                return false;
+            }
+        }
         return true;
     }
 
