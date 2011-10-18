@@ -30,7 +30,7 @@ public class MassDeductionChallenge extends BalanceGameChallenge {
         List<MassDistancePair> fixedMassList = new ArrayList<MassDistancePair>() {{
             add( fixedMasses );
         }};
-        this.fixedMasses.addAll( fixedMassList );
+        this.fixedMassDistancePairs.addAll( fixedMassList );
         this.movableMasses.addAll( movableMasses );
         this.balancedConfiguration.addAll( solutionToDisplay );
     }

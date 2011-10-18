@@ -332,7 +332,7 @@ public class BalanceGameModel {
         movableMasses.clear();
 
         // Set up the new challenge.
-        for ( MassDistancePair massDistancePair : balanceChallenge.fixedMasses ) {
+        for ( MassDistancePair massDistancePair : balanceChallenge.fixedMassDistancePairs ) {
             // Add the fixed mass or masses to the plank.
             fixedMasses.add( massDistancePair );
             plank.addMassToSurface( massDistancePair.mass, massDistancePair.distance );
@@ -456,7 +456,7 @@ public class BalanceGameModel {
      */
     private double getTotalFixedMassValue() {
         double totalMass = 0;
-        for ( MassDistancePair massDistancePair : getCurrentChallenge().fixedMasses ) {
+        for ( MassDistancePair massDistancePair : getCurrentChallenge().fixedMassDistancePairs ) {
             totalMass += massDistancePair.mass.getMass();
         }
         return totalMass;
