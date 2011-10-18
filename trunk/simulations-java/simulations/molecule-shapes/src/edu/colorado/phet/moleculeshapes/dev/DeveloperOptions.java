@@ -4,7 +4,13 @@ package edu.colorado.phet.moleculeshapes.dev;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -26,17 +32,17 @@ public class DeveloperOptions {
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                             public void update() {
-                                 module.getApp().statistics.setDisplayFps( get() );
-                             }
-                         }, false );
+                public void update() {
+                    module.getApp().statistics.setDisplayFps( get() );
+                }
+            }, false );
         }} ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show Statistics", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                             public void update() {
-                                 module.getApp().statistics.setDisplayStatView( get() );
-                             }
-                         }, false );
+                public void update() {
+                    module.getApp().statistics.setDisplayStatView( get() );
+                }
+            }, false );
         }} ) );
         developerMenu.add( new JMenuItem( "Dump Direct Memory" ) {{
             addActionListener( new ActionListener() {
@@ -85,6 +91,13 @@ public class DeveloperOptions {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     new PerformanceFrame( module.getApp() );
+                }
+            } );
+        }} );
+        developerMenu.add( new JMenuItem( "Show Error Dialog" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.getApp().showErrorDialog( new Throwable( "Diagnostic error for testing error dialog" ) );
                 }
             } );
         }} );

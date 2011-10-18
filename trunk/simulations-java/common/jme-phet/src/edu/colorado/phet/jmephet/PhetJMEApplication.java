@@ -1,17 +1,24 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module.Listener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.jmephet.input.WrappedInputManager;
 
@@ -290,10 +297,41 @@ public class PhetJMEApplication extends Application {
 
     @Override public void handleError( String errMsg, final Throwable t ) {
         super.handleError( errMsg, t );
+        showErrorDialog( t );
+    }
+
+    public void showErrorDialog( final Throwable t ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 // TODO: i18n?
-                PhetOptionPane.showMessageDialog( getParentFrame(), "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem.\nError information:\n" + t.getMessage() );
+                String stackTrace = "";
+                for ( StackTraceElement element : t.getStackTrace() ) {
+                    stackTrace += element.toString() + "\n";
+                }
+                String capabilities = renderer != null ? renderer.getCaps().toString() : "null renderer";
+
+                final String text = "<html><body>Error information:<br/>" +
+                                    "" + t.getMessage() + "<br/>" +
+                                    "stack trace:<br/>" +
+                                    stackTrace + "<br/>" +
+                                    "Renderer Capabilities:<br/>" + capabilities + "</body></html>";
+
+                JDialog frame = new JDialog( getParentFrame() ) {{
+                    setContentPane( new VerticalLayoutPanel() {{
+                        add( new JLabel( "<html><body>The simulation was unable to start.<br/>" +
+                                         "Upgrading your video card's drivers may fix the problem.<br/>" +
+                                         "For further information, visit phet.colorado.edu/jme-troubleshooting<br/>" +
+                                         "Or copy and paste the following in an email to phethelp@colorado.edu<br/></body></html>" ) );
+                        add( new JScrollPane( new JEditorPane( "text/html", text ) {{
+                            setCaretPosition( 0 );
+                        }} ) );
+                        setPreferredSize( new Dimension( 800, 600 ) );
+                    }} );
+                    pack();
+                }};
+                SwingUtils.centerInParent( frame );
+                frame.setVisible( true );
+//                PhetOptionPane.showMessageDialog( getParentFrame(), text );
             }
         } );
     }
@@ -304,5 +342,16 @@ public class PhetJMEApplication extends Application {
 
     public JMEInputHandler getDirectInputHandler() {
         return directInputHandler;
+    }
+
+    public static void main( String[] args ) {
+        final Frame parentFrame1 = new JFrame() {{
+            setDefaultCloseOperation( EXIT_ON_CLOSE );
+        }};
+        SwingUtils.centerWindowOnScreen( parentFrame1 );
+        parentFrame1.setVisible( true );
+
+        new PhetJMEApplication( parentFrame1 ) {{
+        }}.showErrorDialog( new RuntimeException( "test" ) );
     }
 }
