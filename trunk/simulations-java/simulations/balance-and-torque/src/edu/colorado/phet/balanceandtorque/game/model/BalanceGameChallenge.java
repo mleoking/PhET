@@ -17,7 +17,7 @@ public abstract class BalanceGameChallenge {
 
     // List of masses that will initially be sitting on the balance, and which
     // the user will not manipulate.
-    public final List<MassDistancePair> fixedMasses = new ArrayList<MassDistancePair>();
+    public final List<MassDistancePair> fixedMassDistancePairs = new ArrayList<MassDistancePair>();
 
     // List of masses that the user will move into the appropriate positions
     // in order to balance out the other masses.
@@ -41,14 +41,52 @@ public abstract class BalanceGameChallenge {
         this.initialColumnState = initialColumnState;
     }
 
+    /**
+     * Returns true if the specified challenge uses the same masses as this
+     * challenge.  Note that "same masses" means the same classes, not just
+     * the same values.  For example, if both challenges have a movable mass
+     * that weigh 60kg but one is a rock and the other is a person, this will
+     * return false.
+     *
+     * @param that
+     * @return
+     */
+    public boolean usesSameMasses( BalanceGameChallenge that ) {
+        if ( this == that ) {
+            return true;
+        }
+
+        if ( movableMasses.size() != that.movableMasses.size() ) {
+            return false;
+        }
+
+        if ( !movableMasses.containsAll( that.movableMasses ) ) {
+            return false;
+        }
+
+        List<Mass> thisFixedMasses = getFixedMassList();
+        List<Mass> thatFixedMasses = that.getFixedMassList();
+
+        if ( thisFixedMasses.size() != thatFixedMasses.size() ) {
+            return false;
+        }
+
+        if ( !thisFixedMasses.containsAll( thatFixedMasses ) ) {
+            return false;
+        }
+
+        // If we made it to here, all masses are the same.
+        return true;
+    }
+
     @Override public boolean equals( Object o ) {
         if ( this == o ) { return true; }
         if ( o == null || getClass() != o.getClass() ) { return false; }
 
         BalanceGameChallenge that = (BalanceGameChallenge) o;
 
-        for ( MassDistancePair massDistancePair : fixedMasses ) {
-            if ( !that.fixedMasses.contains( massDistancePair ) ) {
+        for ( MassDistancePair massDistancePair : fixedMassDistancePairs ) {
+            if ( !that.fixedMassDistancePairs.contains( massDistancePair ) ) {
                 return false;
             }
         }
@@ -80,7 +118,27 @@ public abstract class BalanceGameChallenge {
         return true;
     }
 
+    /**
+     * Get configuration information about how this challenge should be
+     * displayed in the view.
+     *
+     * @return
+     */
     public abstract ChallengeViewConfig getChallengeViewConfig();
+
+    /**
+     * Get a list of the fixed masses for this challenge (without their
+     * distances).
+     *
+     * @return
+     */
+    public List<Mass> getFixedMassList() {
+        List<Mass> fixedMassList = new ArrayList<Mass>();
+        for ( MassDistancePair fixedMassDistancePair : fixedMassDistancePairs ) {
+            fixedMassList.add( fixedMassDistancePair.mass );
+        }
+        return fixedMassList;
+    }
 
     /**
      * Get the sum of the mass for all the fixed masses in this challenge.
@@ -89,7 +147,7 @@ public abstract class BalanceGameChallenge {
      */
     public double getFixedMassValueTotal() {
         double totalMass = 0;
-        for ( MassDistancePair massDistancePair : fixedMasses ) {
+        for ( MassDistancePair massDistancePair : fixedMassDistancePairs ) {
             totalMass += massDistancePair.mass.getMass();
         }
         return totalMass;

@@ -214,4 +214,28 @@ public abstract class Mass implements UserMovableModelElement {
     }
 
     public abstract Mass clone();
+
+    /**
+     * Override for equals, based only on mass and no other parameters (other
+     * than being the same class).
+     *
+     * @param o
+     * @return
+     */
+    @Override public boolean equals( Object o ) {
+        if ( this == o ) { return true; }
+        if ( o == null || getClass() != o.getClass() ) { return false; }
+
+        Mass mass1 = (Mass) o;
+
+        if ( Double.compare( mass1.mass, mass ) != 0 ) { return false; }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = mass != +0.0d ? Double.doubleToLongBits( mass ) : 0L;
+        return (int) ( temp ^ ( temp >>> 32 ) );
+    }
 }
