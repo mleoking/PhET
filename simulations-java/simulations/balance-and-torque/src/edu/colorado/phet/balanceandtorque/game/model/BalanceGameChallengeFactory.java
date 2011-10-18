@@ -735,6 +735,15 @@ public class BalanceGameChallengeFactory {
         return true;
     }
 
+    private static boolean usesUniqueFixedMasses( BalanceGameChallenge testChallenge, List<BalanceGameChallenge> usedChallengeList ) {
+        for ( BalanceGameChallenge usedChallenge : usedChallengeList ) {
+            if ( usedChallenge.usesSameFixedMasses( testChallenge ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * This class takes a list of items at construction and then, when asked
      * through the 'get' method will randomly pick an item from the original

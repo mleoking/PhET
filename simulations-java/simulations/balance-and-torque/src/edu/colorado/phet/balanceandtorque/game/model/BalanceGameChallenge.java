@@ -52,12 +52,12 @@ public abstract class BalanceGameChallenge {
      * @return
      */
     public boolean usesSameMasses( BalanceGameChallenge that ) {
+        return usesSameFixedMasses( that ) && usesSameMovableMasses( that );
+    }
+
+    public boolean usesSameFixedMasses( BalanceGameChallenge that ) {
         if ( this == that ) {
             return true;
-        }
-
-        if ( !containsEquivalentMasses( movableMasses, that.movableMasses ) ) {
-            return false;
         }
 
         List<Mass> thisFixedMasses = getFixedMassList();
@@ -67,8 +67,12 @@ public abstract class BalanceGameChallenge {
             return false;
         }
 
-        // If we made it to here, all masses are the same.
+        // If we made it to here, the masses are the same.
         return true;
+    }
+
+    public boolean usesSameMovableMasses( BalanceGameChallenge that ) {
+        return containsEquivalentMasses( movableMasses, that.movableMasses );
     }
 
     /**
