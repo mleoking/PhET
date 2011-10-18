@@ -1,3 +1,4 @@
+10/18/11 Added JME-related strings
 10/11/11 add ISimInfo.hasCommonLineArg
 10/4/11 Moved ColorDialogMenuItem to common as recommended in #3090
 9/23/11 #3046, rename ImmutableVector2D.createPolar
