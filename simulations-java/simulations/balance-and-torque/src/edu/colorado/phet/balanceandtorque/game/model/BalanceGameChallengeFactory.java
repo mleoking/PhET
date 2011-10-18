@@ -103,9 +103,8 @@ public class BalanceGameChallengeFactory {
 
     // Structures used to keep track of the challenges generated so far so that
     // we can avoid creating the same challenges multiple times.
-    private static final List<BalanceGameChallenge> usedSimpleBalanceChallenges = new ArrayList<BalanceGameChallenge>();
-    private static final List<BalanceGameChallenge> usedEasyBalanceChallenges = new ArrayList<BalanceGameChallenge>();
-    private static final List<BalanceGameChallenge> usedSimpleMassDeductionChallenges = new ArrayList<BalanceGameChallenge>();
+    private static final List<BalanceGameChallenge> usedBalanceChallenges = new ArrayList<BalanceGameChallenge>();
+    private static final List<BalanceGameChallenge> usedMassDeductionChallenges = new ArrayList<BalanceGameChallenge>();
 
     // Wrap several of the methods into function objects so that they can be
     // used in the method that assures the uniqueness of challenges.
@@ -124,6 +123,30 @@ public class BalanceGameChallengeFactory {
     private static final Function0<BalanceGameChallenge> easyBalanceChallengeGenerator = new Function0<BalanceGameChallenge>() {
         public BalanceGameChallenge apply() {
             return generateEasyBalanceChallenge();
+        }
+    };
+
+    private static final Function0<BalanceGameChallenge> easyMassDeductionChallengeGenerator = new Function0<BalanceGameChallenge>() {
+        public BalanceGameChallenge apply() {
+            return generateEasyMassDeductionChallenge();
+        }
+    };
+
+    private static final Function0<BalanceGameChallenge> moderateBalanceChallengeGenerator = new Function0<BalanceGameChallenge>() {
+        public BalanceGameChallenge apply() {
+            return generateModerateBalanceChallenge();
+        }
+    };
+
+    private static final Function0<BalanceGameChallenge> moderateMassDeductionChallengeGenerator = new Function0<BalanceGameChallenge>() {
+        public BalanceGameChallenge apply() {
+            return generateModerateMassDeductionChallenge();
+        }
+    };
+
+    private static final Function0<BalanceGameChallenge> advancedBalanceChallengeGenerator = new Function0<BalanceGameChallenge>() {
+        public BalanceGameChallenge apply() {
+            return generateMultiMassBalanceChallenge();
         }
     };
 
@@ -155,32 +178,32 @@ public class BalanceGameChallengeFactory {
     public static List<BalanceGameChallenge> generateChallengeSet( int level, int numChallenges ) {
         List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
         if ( level == 1 ) {
-            balanceChallengeList.add( generateUniqueChallenge( simpleBalanceChallengeGenerator, uniqueMassesTest, usedSimpleBalanceChallenges ) );
-            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedEasyBalanceChallenges ) );
-            balanceChallengeList.add( generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedEasyBalanceChallenges ) );
-            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedEasyBalanceChallenges ) );
-            balanceChallengeList.add( generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedEasyBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( simpleBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges ) );
         }
         else if ( level == 2 ) {
-            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedEasyBalanceChallenges ) );
-            balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
-            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedEasyBalanceChallenges ) );
-            balanceChallengeList.add( generateModerateBalanceChallenge() );
-            balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
+            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( easyMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( easyMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges ) );
         }
         else if ( level == 3 ) {
-            balanceChallengeList.add( generateModerateBalanceChallenge() );
-            balanceChallengeList.add( generateEasyDeduceTheMassChallenge() );
-            balanceChallengeList.add( generateModerateBalanceChallenge() );
-            balanceChallengeList.add( generateModerateBalanceChallenge() );
-            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
+            balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges ) );
         }
         else if ( level == 4 ) {
-            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
-            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
-            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
-            balanceChallengeList.add( generateModerateDeduceTheMassChallenge() );
-            balanceChallengeList.add( generateMultiMassBalanceChallenge() );
+            balanceChallengeList.add( generateUniqueChallenge( advancedBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( advancedBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( advancedBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
         }
         else {
             // This level is either out of range or not implemented yet.
@@ -278,9 +301,10 @@ public class BalanceGameChallengeFactory {
      */
     private static BalanceMassesChallenge generateModerateBalanceChallenge() {
 
-        int numBricksInFixedStack = 1;
-        int numBricksInMovableStack = 1;
+        int numBricksInFixedStack;
+        int numBricksInMovableStack;
 
+        // Create random challenges until a solvable one is created.
         do {
             // Randomly choose the number of bricks in the fixed stack.
             numBricksInFixedStack = RAND.nextInt( 4 ) + 1;
@@ -512,7 +536,7 @@ public class BalanceGameChallengeFactory {
      *
      * @return
      */
-    private static MassDeductionChallenge generateEasyDeduceTheMassChallenge() {
+    private static MassDeductionChallenge generateEasyMassDeductionChallenge() {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
         Mass knownMass = null;
         Mass mysteryMassPrototype = null;
@@ -540,7 +564,7 @@ public class BalanceGameChallengeFactory {
      *
      * @return
      */
-    private static MassDeductionChallenge generateModerateDeduceTheMassChallenge() {
+    private static MassDeductionChallenge generateModerateMassDeductionChallenge() {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
         Mass knownMass = null;
         Mass mysteryMassPrototype = null;
@@ -777,7 +801,7 @@ public class BalanceGameChallengeFactory {
 //            System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
 //        }
         for ( int i = 0; i < 100; i++ ) {
-            BalanceGameChallenge challenge = generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedSimpleMassDeductionChallenges );
+            BalanceGameChallenge challenge = generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges );
             System.out.println( "------" );
             System.out.println( "Fixed mass = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getClass().getName() );
             System.out.println( "challenge.fixedMasses.get( 0 ) = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getMass() );
