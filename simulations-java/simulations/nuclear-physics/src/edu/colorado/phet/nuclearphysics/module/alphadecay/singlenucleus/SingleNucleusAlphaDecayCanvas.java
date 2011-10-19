@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -26,7 +27,12 @@ import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
-import edu.colorado.phet.nuclearphysics.view.*;
+import edu.colorado.phet.nuclearphysics.view.AlphaDecayEnergyChart;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
+import edu.colorado.phet.nuclearphysics.view.AutoPressButtonNode;
+import edu.colorado.phet.nuclearphysics.view.NucleonModelNode;
+import edu.colorado.phet.nuclearphysics.view.NucleonNode;
+import edu.colorado.phet.nuclearphysics.view.SingleNucleusAlphaDecayTimeChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -181,24 +187,20 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
             public void componentResized( ComponentEvent e ) {
 
                 // Redraw the energy chart.
-                Rectangle2D energyChartRect = new Rectangle2D.Double( 0, 0, getWidth(),
-                                                                      getHeight() * ENERGY_CHART_FRACTION );
+                Rectangle2D energyChartRect = new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * ENERGY_CHART_FRACTION );
                 _alphaDecayEnergyChart.componentResized( energyChartRect );
 
                 // Position the energy chart.
-                _alphaDecayEnergyChart.setOffset( 0,
-                                                  getHeight() - _alphaDecayEnergyChart.getFullBoundsReference().height );
+                _alphaDecayEnergyChart.setOffset( 0, getHeight() - _alphaDecayEnergyChart.getFullBoundsReference().height - 4 );
 
                 // Redraw the time chart.
-                _alphaDecayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
-                                                                               getHeight() * TIME_CHART_FRACTION ) );
+                _alphaDecayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * TIME_CHART_FRACTION ) );
 
                 // Position the time chart.
                 _alphaDecayTimeChart.setOffset( 0, 0 );
 
                 // Position the reset button.
-                _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ),
-                                            0.30 * getHeight() );
+                _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ), 0.30 * getHeight() );
             }
         } );
     }
