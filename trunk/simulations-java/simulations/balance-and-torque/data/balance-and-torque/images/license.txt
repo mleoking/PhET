@@ -1,7 +1,6 @@
 blue-bucket.png source=PhET
 boy-sitting.png source=PhET
 boy-standing.png source=PhET
-cardboard-box.png source=PhET
 drink-with-straw.png source=PhET
 fire-extinguisher.png source=PhET
 fire-hydrant.png source=PhET
