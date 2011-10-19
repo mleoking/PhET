@@ -5,6 +5,7 @@ package edu.colorado.phet.gravityandorbits.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -27,10 +29,11 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 public class PathNode extends PNode {
     private final PNode pathNode;
     private ArrayList<ImmutableVector2D> points = new ArrayList<ImmutableVector2D>();//points in view space
+    public final int STROKE_WIDTH = 3;
 
     public PathNode( final Body body, final Property<ModelViewTransform> transform, final Property<Boolean> visible, final Color color ) {
         final int numFadePoints = 25;
-        final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        final BasicStroke stroke = new BasicStroke( STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
         //The part that draws the path
         pathNode = new PNode() {
@@ -65,8 +68,7 @@ public class PathNode extends PNode {
                 }
             }
         };
-        //Paints the whole screen at every update, but we can skip bounds computations for this node which is very expensive
-        pathNode.setBounds( new Rectangle2D.Double( -10000, -10000, 20000, 20000 ) );
+
         addChild( pathNode );
         visible.addObserver( new SimpleObserver() {
             public void update() {
@@ -83,8 +85,10 @@ public class PathNode extends PNode {
                 ImmutableVector2D pt = transform.get().modelToView( point );
                 points.add( pt );
                 if ( getVisible() ) {
+                    pathNode.setBounds( getBounds( points ) );
                     pathNode.repaint();
                 }
+
             }
 
             public void pointRemoved() {
@@ -92,12 +96,14 @@ public class PathNode extends PNode {
                     points.remove( 0 );
                 }
                 if ( getVisible() ) {
+                    pathNode.setBounds( getBounds( points ) );
                     pathNode.repaint();
                 }
             }
 
             public void cleared() {
                 points.clear();
+                pathNode.setBounds( getBounds( points ) );
                 pathNode.repaint();
             }
         };
@@ -107,5 +113,23 @@ public class PathNode extends PNode {
                 body.clearPath();
             }
         } );
+    }
+
+    //Compute the bounds that contains the path, for repainting
+    private Rectangle2D getBounds( ArrayList<ImmutableVector2D> points ) {
+        if ( points.size() == 0 ) {
+            return new Rectangle();
+        }
+        else {
+//            long start = System.currentTimeMillis();
+            Rectangle2D rect = new Rectangle2D.Double( points.get( 0 ).getX(), points.get( 0 ).getY(), 0, 0 );
+            for ( ImmutableVector2D point : points ) {
+                rect.add( point.getX(), point.getY() );
+            }
+//            long end = System.currentTimeMillis();
+//            long elapsed = end - start;
+//            System.out.println( "elapsed = " + elapsed );
+            return RectangleUtils.expand( rect, STROKE_WIDTH, STROKE_WIDTH );
+        }
     }
 }
