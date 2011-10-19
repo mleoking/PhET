@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--vector-addition-strings_iw.xml created Sat Jul 17 00:07:46 IDT 2010 using: vector-addition 2.01.00 (37326), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--vector-addition-strings_iw.xml created Mon Oct 17 15:04:48 MDT 2011 using: vector-addition 2.02.00 (52287), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
 <string key="showSum" value="הצג סכום"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="simTitle" value="חיבור וקטורים"/>
 <string key="grabOne" value="קח אחד"/>
 <string key="clearAll" value="נקה הכל"/>
