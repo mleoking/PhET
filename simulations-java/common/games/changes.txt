@@ -1,3 +1,4 @@
+10/19/11 Changed the GameSettingsPanel start button from a swing button to a piccolo button
 2/10/11 #2727, rewrite GameSettings to use properties exclusively, remove old-style constructors and accessor methods
 2/10/11 #2727, add GameSettings model class, and GameSettingsPanel constructor to wire it up
 10/23/10 migrated audio from RPAL
