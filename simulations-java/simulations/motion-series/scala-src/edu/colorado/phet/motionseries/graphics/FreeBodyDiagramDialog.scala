@@ -21,7 +21,9 @@ class FreeBodyDiagramDialog(frame: JFrame,
                             fbdListener: Point2D => Unit,
                             rampAngle: () => Double,
                             modelResumeFunction: () => Unit) extends VectorDisplay {
-  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) = freeBodyDiagramNode.addVector(vector, tailLocation, maxLabelDist, offsetPlayArea)
+  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) {
+    freeBodyDiagramNode.addVector(vector, tailLocation, maxLabelDist, offsetPlayArea)
+  }
 
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
   dialog.setSize(FREE_BODY_DIAGRAM_DIALOG_WIDTH, FREE_BODY_DIAGRAM_DIALOG_HEIGHT)
@@ -31,11 +33,13 @@ class FreeBodyDiagramDialog(frame: JFrame,
   freeBodyDiagramNode.addListener(fbdListener)
   val canvas = new PhetPCanvas
   canvas.addComponentListener(new ComponentAdapter {
-    override def componentResized(e: ComponentEvent) = updateNodeSize()
+    override def componentResized(e: ComponentEvent) {
+      updateNodeSize()
+    }
   })
   updateNodeSize()
 
-  def updateNodeSize() = {
+  def updateNodeSize() {
     if ( canvas.getWidth > 0 && canvas.getHeight > 0 ) {
       val w = Math.min(canvas.getWidth, canvas.getHeight)
       freeBodyDiagramNode.setSize(w - FBD_INSET * 2, w - FBD_INSET * 2)
@@ -57,7 +61,7 @@ class FreeBodyDiagramDialog(frame: JFrame,
                                                                 updateNodeSize()
                                                               }
   dialog.addWindowListener(new WindowAdapter {
-    override def windowClosing(e: WindowEvent) = {
+    override def windowClosing(e: WindowEvent) {
       if ( !freeBodyDiagramModel.closable ) {
         freeBodyDiagramModel.windowed = false
       }
@@ -67,7 +71,11 @@ class FreeBodyDiagramDialog(frame: JFrame,
     }
   })
 
-  def clearVectors() = freeBodyDiagramNode.clearVectors()
+  def clearVectors() {
+    freeBodyDiagramNode.clearVectors()
+  }
 
-  def removeVector(vector: Vector) = freeBodyDiagramNode.removeVector(vector)
+  def removeVector(vector: Vector) {
+    freeBodyDiagramNode.removeVector(vector)
+  }
 }
