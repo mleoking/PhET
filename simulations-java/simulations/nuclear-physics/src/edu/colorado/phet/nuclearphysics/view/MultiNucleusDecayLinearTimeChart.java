@@ -253,7 +253,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
                     _pieChartValues[1].setColor( postDecayDisplayInfo.getDisplayColor() );
                 }
 
-                updateLayout();
+                doLayout();
             }
 
             public void halfLifeChanged() {
@@ -414,7 +414,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     public void setTimeSpan( double timeSpan ) {
         _timeSpan = timeSpan;
         _msToPixelsFactor = ( ( _usableWidth - _graphOriginX ) * 0.98 ) / _timeSpan;
-        updateLayout();
+        doLayout();
     }
 
     /**
@@ -422,7 +422,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
      */
     public void reset() {
         // Redraw the chart.
-        updateLayout();
+        doLayout();
     }
 
     /**
@@ -443,7 +443,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     /**
      * Redraw the chart based on the current state.
      */
-    private void updateLayout() {
+    private void doLayout() {
         // Recalculate the usable area and origin for the chart.
         _usableAreaOriginX = NOMINAL_SIZE.getX() + BORDER_STROKE_WIDTH;
         _usableAreaOriginY = NOMINAL_SIZE.getY() + BORDER_STROKE_WIDTH;
