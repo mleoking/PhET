@@ -1,3 +1,4 @@
+# 1.00.02 (57732) Oct 18, 2011
 > Fixed: Material control panel doesn't handle out-of-range values, see #2834
 > Fixed: Material control panel doesn't always update to the correct value, see #2834
 Changed ExpandableProtractorNode to use Not instead of SettableNot, see #3045
