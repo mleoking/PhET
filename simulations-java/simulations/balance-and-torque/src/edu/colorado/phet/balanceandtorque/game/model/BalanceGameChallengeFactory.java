@@ -19,6 +19,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Man;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumBucket;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumRock;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumTrashCan;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.PottedPlant;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallBucket;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
@@ -91,6 +92,7 @@ public class BalanceGameChallengeFactory {
         add( new FireHydrant( true ) );
         add( new Television( true ) );
         add( new LargeTrashCan( true ) );
+        add( new MediumTrashCan( true ) );
         add( new FlowerPot( true ) );
         add( new SmallBucket( true ) );
         add( new MediumBucket( true ) );
