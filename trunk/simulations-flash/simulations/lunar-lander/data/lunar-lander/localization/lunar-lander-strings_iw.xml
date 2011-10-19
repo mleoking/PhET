@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--lunar-lander-strings_iw.xml created Thu Jul 08 22:24:02 IDT 2010 using: lunar-lander 2.02.00 (37307), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--lunar-lander-strings_iw.xml created Mon Oct 17 14:51:53 MDT 2011 using: lunar-lander 2.04.00 (53815), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
 <string key="empty" value="ריק"/>
 <string key="hardLanding" value="נחיתה קשה"/>
@@ -7,6 +7,7 @@
 <string key="unpause" value="המשך"/>
 <string key="range" value="(טווח (מטרים"/>
 <string key="fuel" value="(דלק (ק&quot;ג"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="altitude" value="(גובה (מטרים"/>
 <string key="help3" value="עצור"/>
 <string key="help2" value="אתחל"/>
