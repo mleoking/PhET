@@ -4,6 +4,7 @@ package edu.colorado.phet.common.games;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +29,10 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+
+import static edu.colorado.phet.common.games.GameConstants.BUTTON_START;
 
 /**
  * Control panel that provides settings for a game.
@@ -148,13 +152,27 @@ public class GameSettingsPanel extends GridPanel {
         buttonSeparator.setForeground( Color.BLACK );
 
         // Start! button
-        JButton startButton = new JButton( GameConstants.BUTTON_START );
-        startButton.setOpaque( false );
-        startButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                startFunction.apply();
-            }
-        } );
+        // Use a piccolo button instead of swing button here since it looks much nicer.
+        // JB said AP requested a piccolo button instead of a swing button here
+        // Embed the piccolo button in a PhetPCanvas.  Note that this is doubly-embedded, so the cursor won't change
+        PhetPCanvas startButton = new PhetPCanvas() {{
+
+            //Add the button and make sure the canvas is big enough to hold the depressed button
+            addScreenChild( new HTMLImageButtonNode( BUTTON_START ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        startFunction.apply();
+                    }
+                } );
+                setPreferredSize( new Dimension( (int) getFullBounds().getWidth() + getShadowOffset(), (int) getFullBounds().getHeight() + getShadowOffset() ) );
+            }} );
+
+            //Match the background color
+            setBackground( BACKGROUND_FILL_COLOR );
+
+            //Suppress the border on the PhetPCanvas so it will look seamless with the rest of the controls
+            setBorder( null );
+        }};
 
         // this panel
         int row = 0;
