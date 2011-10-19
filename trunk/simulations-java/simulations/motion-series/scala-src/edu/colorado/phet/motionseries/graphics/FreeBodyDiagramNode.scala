@@ -78,8 +78,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     removeInputEventListener(cursorHandler)
   }
 
-  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) {
-    addChild(new VectorNode(transform, vector, tailLocation, maxLabelDist, 1))
+  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double, alwaysVisible: Boolean) {
+    addChild(new VectorNode(transform, vector, tailLocation, maxLabelDist, 1, alwaysVisible))
   }
 
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
@@ -234,7 +234,7 @@ object TestFBD extends App {
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, new Vector2DModel(5, 5), (a, b) => b, PI / 2)
   val fbdNode = new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10, 10))), new AdjustableCoordinateModel,
                                         PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4, () => {})
-  fbdNode.addVector(vector, new Vector2DModel, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, 10)
+  fbdNode.addVector(vector, new Vector2DModel, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, 10, true)
   canvas.addScreenChild(fbdNode)
 
   frame.setContentPane(canvas)

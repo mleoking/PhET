@@ -4,7 +4,7 @@ package edu.colorado.phet.motionseries.graphics
 import edu.colorado.phet.motionseries.model._
 
 trait VectorDisplay {
-  def addVector(vector: Vector, offsetFBD: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double)
+  def addVector(vector: Vector, offsetFBD: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double, alwaysVisible: Boolean)
 
   def removeVector(vector: Vector)
 }

@@ -21,8 +21,8 @@ class FreeBodyDiagramDialog(frame: JFrame,
                             fbdListener: Point2D => Unit,
                             rampAngle: () => Double,
                             modelResumeFunction: () => Unit) extends VectorDisplay {
-  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) {
-    freeBodyDiagramNode.addVector(vector, tailLocation, maxLabelDist, offsetPlayArea)
+  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double, alwaysVisible: Boolean) {
+    freeBodyDiagramNode.addVector(vector, tailLocation, maxLabelDist, offsetPlayArea, alwaysVisible)
   }
 
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)

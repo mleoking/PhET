@@ -117,7 +117,12 @@ class RampControlPanelBody(model: MotionSeriesModel,
     add(Box.createRigidArea(new Dimension(10, 10)))
 
     //For "Basics" application, use the word "total" instead of "sum"
-    val string = if ( Settings.basicsMode ) "Total Force" else "vectors.sum-of-forces".translate
+    val string = if ( Settings.basicsMode ) {
+      "Total Force"
+    }
+    else {
+      "vectors.sum-of-forces".translate
+    }
     addWithIcon(createSumForceIcon, new MyCheckBox(string, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener).peer)
 
     //In the "Basics" application, gravity and normal forces aren't shown by default, but there is a control to allow the user to show them
@@ -134,9 +139,14 @@ class RampControlPanelBody(model: MotionSeriesModel,
       val rect = new Rectangle2D.Double(0, 0, 1, 1)
 
       //For "Basics" application, use the word "total" instead of "sum"
-      val string = if ( Settings.basicsMode ) "total" else "force.abbrev.total".translate
+      val string = if ( Settings.basicsMode ) {
+        "total"
+      }
+      else {
+        "force.abbrev.total".translate
+      }
       val vector = new Vector(MotionSeriesDefaults.sumForceColor, "totalForce".translate, string, new Vector2DModel(42, 0), (v: Vector2D, c: Color) => {c}, 0.0)
-      val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new Vector2DModel(-42, 0), 75, 1)
+      val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new Vector2DModel(-42, 0), 75, 1, true)
       val bufIm = BufferedImageUtils.toBufferedImage(vectorNode.toImage)
       BufferedImageUtils.multiScaleToHeight(bufIm, 35)
     }
