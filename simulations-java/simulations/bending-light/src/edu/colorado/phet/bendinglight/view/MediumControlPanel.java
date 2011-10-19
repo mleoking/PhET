@@ -1,13 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -17,6 +20,7 @@ import edu.colorado.phet.bendinglight.model.DispersionFunction;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -170,9 +174,13 @@ public class MediumControlPanel extends PNode {
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
                                 double value = Double.parseDouble( getText() );
-                                if ( value > MIN && value < MAX ) {
-                                    setCustomIndexOfRefraction( value );
-                                }
+
+                                //Set the value to be the closest value in range, see #2834
+                                final double newIndexOfRefraction = MathUtil.clamp( MIN, value, MAX );
+                                setCustomIndexOfRefraction( newIndexOfRefraction );
+
+                                //Set the value again since the first time it doesn't update properly, see comment 1 of #2834
+                                setCustomIndexOfRefraction( newIndexOfRefraction );
                             }
                         } );
 
