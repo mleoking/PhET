@@ -1,3 +1,4 @@
+> Performance improvements when path is selected, only repaint region that contains the path, see #2963
 # 2.04.01 (57748) Oct 19, 2011
 > Performance improvements when path is not selected, only repaint screen if path is visible, see #2963
 # 2.04.00 (56104) Sep 2, 2011
