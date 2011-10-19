@@ -1,3 +1,5 @@
+> Fixed: Material control panel doesn't handle out-of-range values, see #2834
+> Fixed: Material control panel doesn't always update to the correct value, see #2834
 Changed ExpandableProtractorNode to use Not instead of SettableNot, see #3045
 Switched to use common code version of buffering, see #2786
 # 1.00.01 (52896) Jun 9, 2011
