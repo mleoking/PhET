@@ -10,7 +10,6 @@ import javax.swing.JRadioButtonMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.TeacherMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.statesofmatter.StatesOfMatterGlobalState;
@@ -44,7 +43,6 @@ public class AbstractStatesOfMatterApplication extends PiccoloPhetApplication {
      */
     protected void initMenubar() {
         // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
         final JRadioButtonMenuItem kelvinRadioButton = new JRadioButtonMenuItem( StatesOfMatterStrings.KELVIN ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -52,7 +50,6 @@ public class AbstractStatesOfMatterApplication extends PiccoloPhetApplication {
                 }
             } );
         }};
-        optionsMenu.add( kelvinRadioButton );
 
         final JRadioButtonMenuItem celsiusRadioButton = new JRadioButtonMenuItem( StatesOfMatterStrings.CELSIUS ) {{
             addActionListener( new ActionListener() {
@@ -61,7 +58,7 @@ public class AbstractStatesOfMatterApplication extends PiccoloPhetApplication {
                 }
             } );
         }};
-        optionsMenu.add( celsiusRadioButton );
+
         StatesOfMatterGlobalState.temperatureUnitsProperty.addObserver( new VoidFunction1<TemperatureUnits>() {
             public void apply( TemperatureUnits temperatureUnitsValue ) {
                 kelvinRadioButton.setSelected( temperatureUnitsValue == TemperatureUnits.KELVIN );
@@ -69,11 +66,12 @@ public class AbstractStatesOfMatterApplication extends PiccoloPhetApplication {
             }
         } );
 
-        getPhetFrame().addMenu( optionsMenu );
-
         // Add a Teacher menu with an item to change the background to white
         // for use in making handouts, on projectors, etc.
         getPhetFrame().addMenu( new TeacherMenu() {{
+            add( kelvinRadioButton );
+            add( celsiusRadioButton );
+            addSeparator();
             addWhiteBackgroundMenuItem( StatesOfMatterGlobalState.whiteBackground );
         }} );
 
