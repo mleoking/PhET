@@ -2,7 +2,7 @@ blue-bucket.png source=PhET
 boy-sitting.png source=PhET
 boy-standing.png source=PhET
 drink-with-straw.png source=PhET
-fire-extinguisher.png source=PhET
+fire-extinguisher.png source=Open Clip Art notes=Modified by jblanco
 fire-hydrant.png source=PhET
 flower-pot.png source=PhET
 girl-sitting.png source=PhET
@@ -18,7 +18,7 @@ mystery-object-05.png source=PhET
 mystery-object-06.png source=PhET
 mystery-object-07.png source=PhET
 mystery-object-08.png source=PhET
-old-television.png source=PhET
+old-television.png source=Open Clip Art notes=Modified by jblanco
 potted-plant.png source=PhET
 rock_1.png source=PhET
 rock_4.png source=PhET
