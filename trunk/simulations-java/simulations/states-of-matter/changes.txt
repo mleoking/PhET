@@ -1,3 +1,4 @@
+# 1.08.06 (57793) Oct 19, 2011
 > Moved "Kelvin/Celsius" option from "Options" menu into "Teacher" menu
 > Made it so the selected atom/molecule changes when clicking on the image next to the radio button in the control panel
 > Changed Argon color from blue-green to pink
