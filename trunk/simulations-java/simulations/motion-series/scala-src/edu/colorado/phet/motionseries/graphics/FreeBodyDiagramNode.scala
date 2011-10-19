@@ -41,23 +41,23 @@ class AxisModel(private var _angle: Double,
 
   def unitVector = ( getEndPoint - startPoint ).normalize
 
-  def endPoint_=(newPt: Vector2D) = {
+  def endPoint_=(newPt: Vector2D) {
     angle = newPt.angle
     notifyListeners()
   }
 
-  override def angle_=(a: Double) = {
+  override def angle_=(a: Double) {
     if ( this._angle != a ) {
       this._angle = a
       notifyListeners()
     }
   }
 
-  def dropped() = {}
+  def dropped() {}
 
   override def pivot = new Vector2D
 
-  def startPoint_=(newPt: Vector2D) = {}
+  def startPoint_=(newPt: Vector2D) {}
 }
 
 class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -74,9 +74,13 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   private val cursorHandler = new CursorHandler
   addInputEventListener(cursorHandler)
 
-  def removeCursorHand() = removeInputEventListener(cursorHandler)
+  def removeCursorHand() {
+    removeInputEventListener(cursorHandler)
+  }
 
-  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) = addChild(new VectorNode(transform, vector, tailLocation, maxLabelDist, 1))
+  def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) {
+    addChild(new VectorNode(transform, vector, tailLocation, maxLabelDist, 1))
+  }
 
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
                                            new Rectangle2D.Double(0, 0, _width, _height), true)
@@ -87,7 +91,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png".literal))
   closeButton.addInputEventListener(new CursorHandler)
   closeButton.addInputEventListener(new PBasicInputEventHandler {
-    override def mousePressed(event: PInputEvent) = {
+    override def mousePressed(event: PInputEvent) {
       freeBodyDiagramModel.visible = false
     }
   })
@@ -100,7 +104,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   val windowedButton = new PImage(toggleWindowedButton) {
     addInputEventListener(new CursorHandler)
     addInputEventListener(new PBasicInputEventHandler {
-      override def mousePressed(event: PInputEvent) = {
+      override def mousePressed(event: PInputEvent) {
         freeBodyDiagramModel.windowed = !freeBodyDiagramModel.windowed
       }
     })
@@ -120,25 +124,31 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     listeners += listener
   }
 
-  override def setVisible(visible: Boolean) = {
+  override def setVisible(visible: Boolean) {
     super.setVisible(visible)
     setPickable(visible)
     setChildrenPickable(visible)
   }
 
   background.addInputEventListener(new PBasicInputEventHandler {
-    def sendEvent(event: PInputEvent) = {
+    def sendEvent(event: PInputEvent) {
       val viewPt = event.getPositionRelativeTo(FreeBodyDiagramNode.this)
       val modelPt = transform.viewToModel(viewPt)
       listeners.foreach(_(modelPt))
       modelResumeFunction()
     }
 
-    override def mouseDragged(event: PInputEvent) = sendEvent(event)
+    override def mouseDragged(event: PInputEvent) {
+      sendEvent(event)
+    }
 
-    override def mousePressed(event: PInputEvent) = sendEvent(event)
+    override def mousePressed(event: PInputEvent) {
+      sendEvent(event)
+    }
 
-    override def mouseReleased(event: PInputEvent) = listeners.foreach(_(new Point2D.Double(0, 0)))
+    override def mouseReleased(event: PInputEvent) {
+      listeners.foreach(_(new Point2D.Double(0, 0)))
+    }
   })
 
   val xAxisModel = new SynchronizedAxisModel(0.0, 0.0, 3.0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
@@ -159,7 +169,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     count
   }
 
-  def removeVector(vector: Vector) = {
+  def removeVector(vector: Vector) {
     clearVectors(vector eq _)
   }
 
@@ -167,7 +177,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     clearVectors(x => true)
   }
 
-  def clearVectors(query: Vector => Boolean) = {
+  def clearVectors(query: Vector => Boolean) {
     val removeList = new ArrayBuffer[PNode]
     for ( i <- 0 until getChildrenCount ) {
       getChild(i) match {
@@ -196,13 +206,13 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     removeChild(toRemove(0))
   }
 
-  def setSize(width: Double, height: Double) = {
+  def setSize(width: Double, height: Double) {
     this._width = width
     this._height = height
     updateSize()
   }
 
-  def updateSize() = {
+  def updateSize() {
     background.setPathTo(new Rectangle2D.Double(0, 0, _width, _height))
     transform.setViewBounds(new Rectangle2D.Double(0, 0, _width, _height))
     xAxisModel.notifyListeners()
@@ -218,7 +228,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   }
 }
 
-object TestFBD extends Application {
+object TestFBD extends App {
   val frame = new JFrame
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, new Vector2DModel(5, 5), (a, b) => b, PI / 2)
