@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--projectile-motion-strings_iw.xml created Tue Jun 22 00:13:55 IDT 2010 using: projectile-motion 2.02.00 (37323), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--projectile-motion-strings_iw.xml created Mon Oct 17 15:00:40 MDT 2011 using: projectile-motion 2.03.00 (52266), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
 <string key="dragLabel" value="גרור מקדם"/>
 <string key="userChoice" value="בחירת משתמש"/>
@@ -17,10 +17,11 @@
 <string key="piano" value="פסנתר"/>
 <string key="sound" value="קול"/>
 <string key="range" value="(טווח (מטר"/>
-<string key="mass" value="(מסה (ק&quot;ג"/>
 <string key="height" value="(גובה (מטרים"/>
+<string key="mass" value="(מסה (ק&quot;ג"/>
 <string key="pumpkin" value="דלעת"/>
 <string key="score" value="!פגיעה"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="angle" value="(זווית (מעלות"/>
 <string key="baseball" value="כדור בייסבול"/>
 <string key="airResistance" value="התנגדות האוויר"/>
