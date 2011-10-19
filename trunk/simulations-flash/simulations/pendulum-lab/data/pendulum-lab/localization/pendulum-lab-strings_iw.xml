@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--pendulum-lab-strings_iw.xml created Tue Jun 22 00:23:37 IDT 2010 using: pendulum-lab 2.02.00 (37319), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--pendulum-lab-strings_iw.xml created Mon Oct 17 14:58:33 MDT 2011 using: pendulum-lab 2.03.00 (52288), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
 <string key="resetStopwatch" value="אפס"/>
 <string key="earth" value="כדור הארץ"/>
@@ -8,6 +8,7 @@
 <string key="acceleration" value="תאוצה"/>
 <string key="showEnergyOf" value=":הצג אנרגית"/>
 <string key="velocity" value="מהירות"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="realTime" value="זמן אמיתי"/>
 <string key="length" value="אורך"/>
 <string key="lots" value="הרבה"/>
