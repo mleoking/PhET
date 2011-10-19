@@ -1,3 +1,4 @@
+> Fixed: "brick/bouncy" not played back during playback, see #3054
 Removed unnecessary versions of Predef. since there is a workaround for good code red problem: http://devnet.jetbrains.net/message/5322592#5322592
 # 2.02.03 (57640) Oct 14, 2011
 Ramp Forces and Motion Basics: Begin with "ice" as the default setting

@@ -88,7 +88,7 @@ class MotionSeriesModel(defaultPosition: Double,
     stepRecord()
     val mode = motionSeriesObject.motionStrategy.getMemento
     new RecordedState(new RampState(rampAngle),
-                      selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls.booleanValue, mode, getTime, frictionless)
+                      selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls.booleanValue, mode, getTime, frictionless, wallsBounce.value)
   }
 
   //Resume activity in the sim, starting it up when the user drags the object or the position slider or the FBD
@@ -158,6 +158,9 @@ class MotionSeriesModel(defaultPosition: Double,
 
     chartCursor.setTime(state.time)
     stepListeners.foreach(_())
+
+    //Restore whether the walls were bouncy in that time step, will be set back to the graphics in the play area and the radio buttons in the control panel
+    wallsBounce = state.wallsBouncy
   }
 
   def selectedObject = _objectType

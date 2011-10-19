@@ -9,6 +9,9 @@ case class RecordedState(rampState: RampState,
                          walls: Boolean,
                          motionStrategyMemento: MotionStrategyMemento,
                          time: Double,
-                         frictionless: Boolean)
+                         frictionless: Boolean,
+
+                         //Record whether the walls were bouncy in that time step, will be set back to the graphics in the play area and the radio buttons in the control panel
+                         wallsBouncy: Boolean)
 
 case class RampState(angle: Double)
