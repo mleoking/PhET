@@ -122,6 +122,10 @@ class MotionSeriesModel(defaultPosition: Double,
     returnMotionSeriesObject()
     motionSeriesObject.crashEnergy = 0.0
     motionSeriesObject.thermalEnergy = 0.0
+
+    //Set the velocity and friction force to zero so the friction force vector will disappear, see #3054
+    motionSeriesObject.velocity = 0.0
+    motionSeriesObject.frictionForce.value = new Vector2D(0, 0)
   }
 
   def addResetListener(listener: () => Unit) = resetListeners += listener
