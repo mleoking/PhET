@@ -28,7 +28,8 @@ class VectorNode(val transform: ModelViewTransform2D,
     setPaint(vector.getPaint)
   }
 
-  def alwaysVisible = true //overriden in subclass to allow vectors to be hidden (based on a user selection)
+  def alwaysVisible = false
+
   addChild(arrowNode)
   private val labelNode = {
     val html = new ShadowHTMLNode(vector.html) {
@@ -139,6 +140,4 @@ class BodyVectorNode(transform: ModelViewTransform2D,
 
   motionSeriesObject.positionProperty.addListener(doUpdate)
   doUpdate()
-
-  override def alwaysVisible = false //allows the user to hide the vector nodes shown on the play area object (but not in the FBDs)
 }
