@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--curve-fitting-strings_iw.xml created Tue Jul 20 00:50:47 IDT 2010 using: curve-fitting 2.01.00 (37297), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--curve-fitting-strings_iw.xml created Mon Oct 17 14:39:37 MDT 2011 using: curve-fitting 2.02.00 (52265), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
 <string key="clearAll" value="נקה הכל"/>
 <string key="deviations" value="הראה  התפלגויות"/>
@@ -24,5 +24,6 @@
 <string key="help" value="עזרה"/>
 <string key="chiSqHelp1" value="סטטיסטיקת חי בריבוע"/>
 <string key="adjustableFit" value="התאמה מתכווננת"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="linear" value="לינארי"/>
 </SimStrings>
