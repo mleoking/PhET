@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_iw.xml created Fri Jul 16 01:33:40 IDT 2010 using: arithmetic 2.02.00 (37294), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--arithmetic-strings_iw.xml created Mon Oct 17 14:32:18 MDT 2011 using: arithmetic 2.03.00 (51677), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
 <string key="level" value="רמה"/>
 <string key="typeAnswer" value="הקלד תשובה,\nלחץ על enter "/>
@@ -22,6 +22,7 @@
 <string key="mustTypeNbr" value="אתה חייב להקליד\nמספר"/>
 <string key="score" value="ניקוד:"/>
 <string key="scorePer" value="ניקוד"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="nbrWrong" value="מספר שגוי:"/>
 <string key="reset" value="נקה"/>
 <string key="clock" value="שעון"/>
