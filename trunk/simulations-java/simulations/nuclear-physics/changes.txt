@@ -1,3 +1,4 @@
+> Fixed an issue with the scaling of several of the charts that caused them to look bad on netbooks.
 # 3.24.01 (57067) Sep 29, 2011
 9/29/11 Dev version for testing Kannada translations
 5/4/11 #2846, rename AutoPressGradientButtonNode to AutoPressButtonNode
