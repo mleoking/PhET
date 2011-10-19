@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--estimation-strings_iw.xml created Fri Jul 16 01:19:50 IDT 2010 using: estimation 2.01.00 (37299), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--estimation-strings_iw.xml created Mon Oct 17 14:40:53 MDT 2011 using: estimation 2.02.00 (51675), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
 <string key="ratioOfAreasIs" value="יחס השטחים הוא"/>
 <string key="closeEnough" value=":מספיק קרוב! \nהתשובה המדוייקת היא"/>
@@ -18,6 +18,7 @@
 <string key="home" value="חזור"/>
 <string key="whatIsRatioOfVolumes" value="?מה יחס הנפחים"/>
 <string key="tooFarOff" value=":אתה רחוק מדי! \nהתשובה המדוייקת היא"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="scorePerTimeColon" value=":ניקוד/זמן"/>
 <string key="PleasePickANumber" value="בחר מספר בין 1 ל- 100000 בבקשה"/>
 <string key="answerIsOutside" value="התשובה מחוץ לגבולות אלו."/>
