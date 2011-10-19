@@ -60,9 +60,9 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     // Class Data
     //------------------------------------------------------------------------
 
-    // Nominal size of this chart.  It is scaled based on resizing information
-    // that comes in.  Nominal size is based on roughly what the size is when
-    // the sim starts up.
+    // Nominal size of this chart.  The chart is scaled based on resizing
+    // information that comes in.  Nominal size is based on roughly what the
+    // size is when the sim starts up.
     private static final Rectangle2D NOMINAL_SIZE = new Rectangle2D.Double( 0, 0, 800, 125 );
 
     // Default amount of time in milliseconds represented by this chart.
