@@ -243,7 +243,7 @@ public class ParticleNode extends PNode {
         Color baseColor;
 
         if ( atom instanceof ArgonAtom ) {
-            baseColor = new Color( 10, 125, 140 );
+            baseColor = Color.pink;
         }
         else if ( atom instanceof NeonAtom ) {
             baseColor = new Color( 112, 212, 255 );
