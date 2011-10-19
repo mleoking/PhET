@@ -1,3 +1,5 @@
+# 3.24.02 (57798) Oct 19, 2011
+10/19/11 Publishing to dev for review of fixes for several charts, see #3071.
 > Fixed an issue with the scaling of several of the charts that caused them to look bad on netbooks.
 # 3.24.01 (57067) Sep 29, 2011
 9/29/11 Dev version for testing Kannada translations
