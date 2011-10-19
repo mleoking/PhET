@@ -337,15 +337,15 @@ public class PhaseChangesControlPanel extends ControlPanel {
             setBorder( titledBorder );
 
             m_oxygenRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL, m_model, StatesOfMatterConstants.DIATOMIC_OXYGEN, true );
-            final JLabel oxygenImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN );
+            final JLabel oxygenImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN, m_model );
             m_neonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.NEON_SELECTION_LABEL, m_model, StatesOfMatterConstants.NEON, false );
-            final JLabel neonImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON );
+            final JLabel neonImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON, m_model );
             m_argonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL, m_model, StatesOfMatterConstants.ARGON, false );
-            final JLabel argonImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON );
+            final JLabel argonImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON, m_model );
             m_waterRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.WATER_SELECTION_LABEL, m_model, StatesOfMatterConstants.WATER, true );
-            final JLabel waterImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER );
+            final JLabel waterImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER, m_model );
             m_configurableRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.ADJUSTABLE_ATTRACTION_SELECTION_LABEL, m_model, StatesOfMatterConstants.USER_DEFINED_MOLECULE, true );
-            final JLabel configurableAtomImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.USER_DEFINED_MOLECULE );
+            final JLabel configurableAtomImageLabel = new MoleculeImageLabel( StatesOfMatterConstants.USER_DEFINED_MOLECULE, m_model );
 
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( m_neonRadioButton );
@@ -446,6 +446,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
                     break;
                 case StatesOfMatterConstants.WATER:
                     m_waterRadioButton.setSelected( true );
+                    break;
+                case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
+                    m_configurableRadioButton.setSelected( true );
                     break;
             }
         }
