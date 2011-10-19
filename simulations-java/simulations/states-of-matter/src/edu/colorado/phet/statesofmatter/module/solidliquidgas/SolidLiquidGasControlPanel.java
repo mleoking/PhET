@@ -190,13 +190,13 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             setBorder( titledBorder );
 
             m_oxygenRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL, model, StatesOfMatterConstants.DIATOMIC_OXYGEN );
-            final JLabel oxygenLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN );
+            final JLabel oxygenLabel = new MoleculeImageLabel( StatesOfMatterConstants.DIATOMIC_OXYGEN, model );
             m_neonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.NEON_SELECTION_LABEL, model, StatesOfMatterConstants.NEON );
-            final JLabel neonLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON );
+            final JLabel neonLabel = new MoleculeImageLabel( StatesOfMatterConstants.NEON, model );
             m_argonRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL, model, StatesOfMatterConstants.ARGON );
-            final JLabel argonLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON );
+            final JLabel argonLabel = new MoleculeImageLabel( StatesOfMatterConstants.ARGON, model );
             m_waterRadioButton = new MoleculeSelectorButton( StatesOfMatterStrings.WATER_SELECTION_LABEL, model, StatesOfMatterConstants.WATER );
-            final JLabel waterLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER );
+            final JLabel waterLabel = new MoleculeImageLabel( StatesOfMatterConstants.WATER, model );
 
             // Put the buttons into a button group.
             ButtonGroup buttonGroup = new ButtonGroup();

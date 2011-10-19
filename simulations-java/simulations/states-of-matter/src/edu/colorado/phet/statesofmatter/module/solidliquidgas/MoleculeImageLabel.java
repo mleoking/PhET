@@ -3,11 +3,14 @@ package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
 import java.awt.BasicStroke;
 import java.awt.Stroke;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.engine.WaterMoleculeStructure;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
@@ -26,7 +29,7 @@ public class MoleculeImageLabel extends JLabel {
     private static final double PARTICLE_SCALING_FACTOR = 0.05;
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1 );
 
-    public MoleculeImageLabel( int moleculeID ) {
+    public MoleculeImageLabel( final int moleculeID, final MultipleParticleModel model ) {
         PNode particleNode = null;
         switch( moleculeID ) {
             case StatesOfMatterConstants.ARGON:
@@ -67,5 +70,14 @@ public class MoleculeImageLabel extends JLabel {
         particleNode.setScale( PARTICLE_SCALING_FACTOR );
 
         setIcon( new ImageIcon( particleNode.toImage() ) );
+
+        //When the user clicks on the image label, also set the model to choose that atom/molecule
+        addMouseListener( new MouseAdapter() {
+            @Override public void mousePressed( MouseEvent e ) {
+                if ( model.getMoleculeType() != moleculeID ) {
+                    model.setMoleculeType( moleculeID );
+                }
+            }
+        } );
     }
 }
