@@ -1,3 +1,4 @@
+> Performance improvements when path is not selected, only repaint screen if path is visible, see #2963
 # 2.04.00 (56104) Sep 2, 2011
 # 2.03.03 (55650) Aug 22, 2011
 > Improve the smoothness of orbits, see #3050
