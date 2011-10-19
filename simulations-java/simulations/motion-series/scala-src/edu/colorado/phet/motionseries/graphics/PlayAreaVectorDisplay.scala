@@ -8,7 +8,7 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.PNode
 
 class PlayAreaVectorDisplay(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject) extends PNode with VectorDisplay {
-  def addVector(vector: Vector, offset2D: Vector2DModel, maxOffset: Int, offset: Double) {
+  def addVector(vector: Vector, offset2D: Vector2DModel, maxOffset: Int, offset: Double, alwaysVisible: Boolean) {
     val defaultCenter = motionSeriesObject.height / 2.0
     def getValue = motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) * ( offset + defaultCenter )
     val myoffset = new Vector2DModel(getValue)

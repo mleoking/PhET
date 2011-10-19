@@ -23,12 +23,11 @@ class VectorNode(val transform: ModelViewTransform2D,
                  val vector: Vector,
                  val tailLocation: Vector2DModel,
                  maxLabelDistance: Double,
-                 vectorLengthScale: Double) extends PNode {
+                 vectorLengthScale: Double,
+                 alwaysVisible: Boolean) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), VECTOR_ARROW_HEAD_WIDTH, VECTOR_ARROW_HEAD_WIDTH, VECTOR_ARROW_TAIL_WIDTH, 0.5, false) {
     setPaint(vector.getPaint)
   }
-
-  def alwaysVisible = false
 
   addChild(arrowNode)
   private val labelNode = {
@@ -135,7 +134,7 @@ class BodyVectorNode(transform: ModelViewTransform2D,
                      offset: Vector2DModel,
                      motionSeriesObject: MotionSeriesObject,
                      vectorLengthScale: Double)
-        extends VectorNode(transform, vector, offset, BODY_LABEL_MAX_OFFSET, vectorLengthScale) {
+        extends VectorNode(transform, vector, offset, BODY_LABEL_MAX_OFFSET, vectorLengthScale, false) {
   def doUpdate() = setOffset(motionSeriesObject.position2D)
 
   motionSeriesObject.positionProperty.addListener(doUpdate)

@@ -1,3 +1,4 @@
+Make sure all non-sum forces always appear in the FBD, see #3054
 > Fixed: Sum of forces vector should disappear from FBD when unchecked, see #3054
 > Fixed: Friction vector doesn't disappear on "reset all", see #3054
 > Fixed: "brick/bouncy" not played back during playback, see #3054
