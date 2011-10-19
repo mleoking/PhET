@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -63,7 +65,7 @@ public class PathNode extends PNode {
                 }
             }
         };
-        //Paints the whole screen at every update, but we can skip bounds computations for this node
+        //Paints the whole screen at every update, but we can skip bounds computations for this node which is very expensive
         pathNode.setBounds( new Rectangle2D.Double( -10000, -10000, 20000, 20000 ) );
         addChild( pathNode );
         visible.addObserver( new SimpleObserver() {
@@ -80,14 +82,18 @@ public class PathNode extends PNode {
             public void pointAdded( ImmutableVector2D point ) {
                 ImmutableVector2D pt = transform.get().modelToView( point );
                 points.add( pt );
-                pathNode.repaint();
+                if ( getVisible() ) {
+                    pathNode.repaint();
+                }
             }
 
             public void pointRemoved() {
                 if ( points.size() > 0 ) {
                     points.remove( 0 );
                 }
-                pathNode.repaint();
+                if ( getVisible() ) {
+                    pathNode.repaint();
+                }
             }
 
             public void cleared() {
