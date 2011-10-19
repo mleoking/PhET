@@ -1,4 +1,5 @@
 Matching Game tab: Fixed centering of fractions
+Added other tabs
 # 0.00.04 (57665) Oct 15, 2011
 Added pie representation
 # 0.00.03 (57658) Oct 14, 2011
