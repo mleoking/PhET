@@ -1,3 +1,4 @@
+> Changed Argon color from blue-green to pink
 # 1.08.05 (57713) Oct 17, 2011
 10/17/11 Deploying to dev for review.
 > Fixed an issue where the clock would remain paused after the reset button was pressed.  This was true on all tabs.
