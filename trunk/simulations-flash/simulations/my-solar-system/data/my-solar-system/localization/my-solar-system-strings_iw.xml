@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--my-solar-system-strings_iw.xml created Tue Jul 20 00:32:48 IDT 2010 using: my-solar-system 2.02.00 (37313), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--my-solar-system-strings_iw.xml created Mon Oct 17 14:56:08 MDT 2011 using: my-solar-system 2.03.00 (52285), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
 <string key="slingshot" value="קלע"/>
 <string key="binaryStarPlanet" value="כוכב בינרי, פלנטה"/>
@@ -11,6 +11,7 @@
 <string key="body1" value="גוף 1"/>
 <string key="velocity" value="מהירות"/>
 <string key="doubleDouble" value="כפול כפול"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="massEquals" value="מסה = "/>
 <string key="hyperbolics" value="היבפרבולות"/>
 <string key="help9" value="ואוניברסיטת קולרדו בבולדרPHET כל הזכיות שמורות לפרוייקט "/>
