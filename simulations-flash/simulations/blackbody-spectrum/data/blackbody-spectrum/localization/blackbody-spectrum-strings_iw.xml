@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--blackbody-spectrum-strings_iw.xml created Thu Jul 08 22:51:07 IDT 2010 using: blackbody-spectrum 2.01.00 (39582), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--blackbody-spectrum-strings_iw.xml created Mon Oct 17 14:37:10 MDT 2011 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="zoomIn" value="הגדל רזולוציה"/>
 <string key="intensity" value="עוצמה"/>
 <string key="simTitle" value="ספטרום של גוף שחור"/>
