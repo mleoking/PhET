@@ -22,6 +22,6 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, "fractions", FractionsIntroApplication.class );
+        new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroApplication.class );
     }
 }
