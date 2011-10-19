@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--mass-spring-lab-strings_iw.xml created Tue Jun 22 00:05:33 IDT 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<!--mass-spring-lab-strings_iw.xml created Mon Oct 17 14:53:44 MDT 2011 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.12.00 (57171) Oct 3, 2011-->
 <SimStrings>
 <string key="pause" value="עצור"/>
 <string key="earth" value="כדור הארץ"/>
@@ -14,6 +14,7 @@
 <string key="resetTimer" value="אפס"/>
 <string key="hard" value="קשה"/>
 <string key="mass7Label" value="100 גרם"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
 <string key="stopWatch" value="שעון עצר"/>
 <string key="none" value="כלום"/>
 <string key="realTime" value="זמן אמיתי"/>
