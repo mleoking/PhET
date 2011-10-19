@@ -292,11 +292,8 @@ public class AlphaDecayEnergyChart extends PNode implements SubatomicParticle.Li
 
             @Override
             public void mouseDragged( PInputEvent event ) {
-                PNode draggedNode = event.getPickedNode();
-                PDimension d = event.getDeltaRelativeTo( draggedNode );
-                draggedNode.localToParent( d );
-                double newEnergyValue =
-                        _totalEnergy + ( d.height * _totalEnergyHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight );
+                PDimension d = event.getDeltaRelativeTo( _totalEnergyHandle );
+                double newEnergyValue = _totalEnergy + ( -d.getHeight() * _totalEnergyHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight );
                 if ( ( newEnergyValue >= _energyWellBottom * 0.67 ) &&
                      ( convertEnergyToPixels( newEnergyValue ) > ( _usableAreaOriginY + BORDER_STROKE_WIDTH ) ) ) {
                     _totalEnergy = newEnergyValue;
@@ -326,11 +323,8 @@ public class AlphaDecayEnergyChart extends PNode implements SubatomicParticle.Li
 
             @Override
             public void mouseDragged( PInputEvent event ) {
-                PNode draggedNode = event.getPickedNode();
-                PDimension d = event.getDeltaRelativeTo( draggedNode );
-                draggedNode.localToParent( d );
-                double newEnergyValue = _potentialEnergyPeak
-                                        + ( d.height * _potentialEnergyPeakHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight );
+                PDimension d = event.getDeltaRelativeTo( _potentialEnergyPeakHandle );
+                double newEnergyValue = _potentialEnergyPeak + ( -d.getHeight() * _potentialEnergyPeakHandle.getScale() * NUM_Y_AXIS_UNITS / _usableHeight );
                 if ( ( newEnergyValue >= POLONIUM_INITIAL_MINIUMIM_POTENTIAL_ENERGY ) &&
                      ( convertEnergyToPixels( newEnergyValue ) > ( _usableAreaOriginY + BORDER_STROKE_WIDTH ) ) ) {
                     _potentialEnergyPeak = newEnergyValue;
