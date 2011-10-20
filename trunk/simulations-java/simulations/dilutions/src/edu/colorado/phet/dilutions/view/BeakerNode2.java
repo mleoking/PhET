@@ -1,5 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
 package edu.colorado.phet.dilutions.view;
 
 import java.awt.BasicStroke;
@@ -7,10 +6,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
@@ -23,26 +24,35 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.dilutions.DilutionsResources;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.model.Solute.KoolAid;
 import edu.colorado.phet.dilutions.model.Solution;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * BeakerNode is the visual representation of a beaker.
+ * XXX
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeakerNode extends PComposite {
+public class BeakerNode2 extends PComposite {
 
-    private static final String[] MAJOR_TICK_LABELS = { "\u00bd", "1" }; // 1/2L, 1L
+    public static final PDimension CYLINDER_SIZE = new PDimension( 280, 295 );
+    public static final double CYLINDER_END_HEIGHT = 30;
 
-    private static final Color TICK_COLOR = Color.BLACK;
+    private static final boolean CYLINDER_VISIBLE = false; // for debugging alignment with beaker image file
+    private static final Point2D CYLINDER_OFFSET = new Point2D.Double( 65, 125 );
+
+    private static final String[] MAJOR_TICK_LABELS = { "0.5", "1" };
+
+    private static final Color TICK_COLOR = Color.GRAY;
+    private static final Color TICK_LABEL_COLOR = Color.DARK_GRAY;
     private static final double MINOR_TICK_SPACING = 0.1; // L
     private static final int MINOR_TICKS_PER_MAJOR_TICK = 5;
     private static final double MAJOR_TICK_LENGTH = 20;
@@ -51,50 +61,45 @@ public class BeakerNode extends PComposite {
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Font TICK_LABEL_FONT = new PhetFont( 20 );
     private static final double TICK_LABEL_X_SPACING = 8;
-
-    public static final float STROKE_WIDTH = 6f;
-    private static final Stroke OUTLINE_STROKE = new BasicStroke( STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    private static final Color OUTLINE_COLOR = Color.BLACK;
-
-    private static final double SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK = 0;
-    private static final Point2D BEAKER_LIP_OFFSET = new Point2D.Double( 20, 20 );
+    private static final PDimension LABEL_SIZE = new PDimension( 180, 70 );
 
     private final LabelNode labelNode;
     private final ArrayList<PText> tickLabelNodes;
 
-    public BeakerNode( final PDimension beakerSize, final double maxVolume, String units, final Solution solution, Property<Boolean> valuesVisible ) {
-        super();
+    public BeakerNode2( final double maxVolume, String units, final Solution solution, Property<Boolean> valuesVisible ) {
+
+        // this node is not interactive
         setPickable( false );
         setChildrenPickable( false );
 
-        // outline
-        final float width = (float) beakerSize.getWidth();
-        final float height = (float) beakerSize.getHeight();
+        // cylinder that defines the inner part of the beaker that can be filled. Use this to manually align with beaker image file.
+        if ( CYLINDER_VISIBLE ) {
+            addChild( new CylinderNode( CYLINDER_SIZE ) );
+        }
 
-        // counterclockwise from top left
-        GeneralPath beakerPath = new GeneralPath();
-        beakerPath.reset();
-        beakerPath.moveTo( (float) -BEAKER_LIP_OFFSET.getX(), (float) -( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
-        beakerPath.lineTo( 0f, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
-        beakerPath.lineTo( 0f, height );
-        beakerPath.lineTo( width, height );
-        beakerPath.lineTo( width, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
-        beakerPath.lineTo( (float) ( width + BEAKER_LIP_OFFSET.getX() ), (float) -( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
-
-        PPath beakerNode = new PPath( beakerPath ) {{
-            setPaint( null );
-            setStroke( OUTLINE_STROKE );
-            setStrokePaint( OUTLINE_COLOR );
+        // inside bottom line
+        PPath bottomNode = new PPath() {{
+            setPathTo( new Arc2D.Double( 0, CYLINDER_SIZE.getHeight() - ( CYLINDER_END_HEIGHT / 2 ), CYLINDER_SIZE.getWidth(), CYLINDER_END_HEIGHT,
+                                         5, 170, Arc2D.OPEN ) );
+            setStroke( new BasicStroke( 3f ) );
+            setStrokePaint( new Color( 150, 150, 150, 100 ) );
         }};
-        addChild( beakerNode );
+        addChild( bottomNode );
+
+        // the glass beaker
+        PImage imageNode = new PImage( DilutionsResources.Images.BEAKER_IMAGE ) {{
+            scale( 0.65 ); //XXX
+            setOffset( -CYLINDER_OFFSET.getX(), -CYLINDER_OFFSET.getY() );
+        }};
+        addChild( imageNode );
 
         // tick marks
         tickLabelNodes = new ArrayList<PText>();
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
         int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
-        final double bottomY = beakerSize.getHeight(); // don't use bounds or position will be off because of stroke width
-        double deltaY = beakerSize.getHeight() / numberOfTicks;
+        final double bottomY = CYLINDER_SIZE.getHeight(); // don't use bounds or position will be off because of stroke width
+        double deltaY = CYLINDER_SIZE.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
             if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
@@ -112,7 +117,7 @@ public class BeakerNode extends PComposite {
                     String label = MAJOR_TICK_LABELS[labelIndex] + units;
                     PText textNode = new PText( label ) {{
                         setFont( TICK_LABEL_FONT );
-                        setTextPaint( TICK_COLOR );
+                        setTextPaint( TICK_LABEL_COLOR );
                     }};
                     ticksNode.addChild( textNode );
                     textNode.setOffset( tickNode.getFullBounds().getMaxX() + TICK_LABEL_X_SPACING,
@@ -131,14 +136,14 @@ public class BeakerNode extends PComposite {
         }
 
         // label on the beaker
-        labelNode = new LabelNode( solution.solute.get().formula, beakerSize );
+        labelNode = new LabelNode( solution.solute.get().formula, CYLINDER_SIZE );
         addChild( labelNode );
+        labelNode.setOffset( ( CYLINDER_SIZE.getWidth() / 2 ), ( 0.25 * CYLINDER_SIZE.getHeight() ) );
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
                 // update solute label
                 labelNode.setText( ( solution.getConcentration() == 0 ) ? Symbols.WATER : solution.solute.get().formula );
-                labelNode.setOffset( ( beakerSize.getWidth() / 2 ), ( 0.35 * beakerSize.getHeight() ) );
             }
         };
         solution.addConcentrationObserver( observer );
@@ -149,6 +154,18 @@ public class BeakerNode extends PComposite {
                 setValuesVisible( visible );
             }
         } );
+    }
+
+    //TODO relate this to SolutionNode
+    // Cylinder that defines the shape that can be filled in the beaker, used for debugging alignment with beaker image file.
+    private static class CylinderNode extends PPath {
+        public CylinderNode( PDimension size ) {
+            setStrokePaint( Color.RED );
+            Area area = new Area( new Rectangle2D.Double( 0, 0, size.width, size.height ) );
+            area.add( new Area( new Ellipse2D.Double( 0, -CYLINDER_END_HEIGHT / 2, size.width, CYLINDER_END_HEIGHT ) ) );
+            area.add( new Area( new Ellipse2D.Double( 0, size.height - ( CYLINDER_END_HEIGHT / 2 ), size.width, CYLINDER_END_HEIGHT ) ) );
+            setPathTo( area );
+        }
     }
 
     // Label that appears on the beaker in a frost, translucent frame. Origin at geometric center.
@@ -166,11 +183,7 @@ public class BeakerNode extends PComposite {
             backgroundNode = new PPath() {{
                 setPaint( ColorUtils.createColor( Color.WHITE, 150 ) );
                 setStrokePaint( Color.LIGHT_GRAY );
-                double width = 0.45 * beakerSize.getWidth();
-                double height = 2 * htmlNode.getFullBoundsReference().getHeight();
-                System.out.println( "width = " + width );
-                System.out.println( "height = " + height );
-                setPathTo( new RoundRectangle2D.Double( -width / 2, -height / 2, width, height, 10, 10 ) );
+                setPathTo( new RoundRectangle2D.Double( -LABEL_SIZE.getWidth() / 2, -LABEL_SIZE.getHeight() / 2, LABEL_SIZE.getWidth(), LABEL_SIZE.getHeight(), 10, 10 ) );
             }};
 
             // rendering order
@@ -199,8 +212,8 @@ public class BeakerNode extends PComposite {
         Solution solution = new Solution( new KoolAid(), 1, 0.5 );
         Property<Boolean> valuesVisible = new Property<Boolean>( true );
         // beaker
-        final BeakerNode beakerNode = new BeakerNode( new PDimension( 300, 300 ), 1, "L", solution, valuesVisible ) {{
-            setOffset( 100, 100 );
+        final BeakerNode2 beakerNode = new BeakerNode2( 1, "L", solution, valuesVisible ) {{
+            setOffset( 200, 200 );
         }};
         // red dot at beaker's origin
         final PPath originNode = new PPath( new Ellipse2D.Double( -3, -3, 6, 6 ) ) {{
