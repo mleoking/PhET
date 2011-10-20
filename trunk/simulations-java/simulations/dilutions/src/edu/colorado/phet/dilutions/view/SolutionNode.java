@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions.view;
 
+import java.awt.Shape;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
@@ -18,6 +21,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SolutionNode extends PPath {
+
+    private static final double CYLINDER_END_HEIGHT = BeakerNode.CYLINDER_END_HEIGHT; //XXX
 
     private final PDimension beakerSize;
     private final Solution solution;
@@ -56,6 +61,13 @@ public class SolutionNode extends PPath {
 
         // update amount of stuff in the beaker, based on solution volume
         double height = volumeFunction.evaluate( solution.volume.get() );
-        setPathTo( new Rectangle2D.Double( 0, beakerSize.getHeight() - height, beakerSize.getWidth(), height ) );
+        setPathTo( createCylinderShape( height ) );
+    }
+
+    private Shape createCylinderShape( double height ) {
+        Area area = new Area( new Rectangle2D.Double( 0, beakerSize.getHeight() - height, beakerSize.getWidth(), height ) );
+        area.add( new Area( new Ellipse2D.Double( 0, beakerSize.getHeight() - height - ( CYLINDER_END_HEIGHT / 2 ), beakerSize.getWidth(), CYLINDER_END_HEIGHT ) ) );
+        area.add( new Area( new Ellipse2D.Double( 0, beakerSize.getHeight() - ( CYLINDER_END_HEIGHT / 2 ), beakerSize.getWidth(), CYLINDER_END_HEIGHT ) ) );
+        return area;
     }
 }
