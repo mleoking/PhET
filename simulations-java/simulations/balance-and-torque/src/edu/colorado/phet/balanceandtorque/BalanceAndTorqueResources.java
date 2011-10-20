@@ -55,7 +55,6 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage BLUE_BUCKET = RESOURCES.getImage( "blue-bucket.png" );
         public static final BufferedImage BOY_SITTING = RESOURCES.getImage( "boy-sitting.png" );
         public static final BufferedImage BOY_STANDING = RESOURCES.getImage( "boy-standing.png" );
-        public static final BufferedImage CARDBOARD_BOX = RESOURCES.getImage( "cardboard-box.png" );
         public static final BufferedImage DRINK_WITH_STRAW = RESOURCES.getImage( "drink-with-straw.png" );
         public static final BufferedImage FIRE_EXTINGUISHER = RESOURCES.getImage( "fire-extinguisher.png" );
         public static final BufferedImage FIRE_HYDRANT = RESOURCES.getImage( "fire-hydrant.png" );
@@ -78,6 +77,8 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage ROCK_1 = RESOURCES.getImage( "rock_1.png" );
         public static final BufferedImage ROCK_4 = RESOURCES.getImage( "rock_4.png" );
         public static final BufferedImage ROCK_6 = RESOURCES.getImage( "rock_6.png" );
+        public static final BufferedImage SODA_BOTTLE = RESOURCES.getImage( "soda-bottle.png" );
+        public static final BufferedImage TINY_ROCK = RESOURCES.getImage( "tiny-rock.png" );
         public static final BufferedImage TRASH_CAN = RESOURCES.getImage( "trash-can.png" );
         public static final BufferedImage WOMAN_SITTING = RESOURCES.getImage( "woman-sitting.png" );
         public static final BufferedImage WOMAN_STANDING = RESOURCES.getImage( "woman-standing.png" );
