@@ -14,7 +14,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 public class Tire extends ImageMass {
 
     private static final double MASS = 15; // in kg
-    private static final double HEIGHT = 0.3; // In meters.
+    private static final double HEIGHT = 0.15; // In meters.
 
     public Tire( boolean isMystery ) {
         super( MASS, Images.TIRE, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
