@@ -13,7 +13,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
  */
 public class MediumBucket extends ImageMass {
 
-    private static final double MASS = 30; // in kg
+    private static final double MASS = 20; // in kg
     private static final double HEIGHT = 0.4; // In meters.
 
     public MediumBucket( boolean isMystery ) {

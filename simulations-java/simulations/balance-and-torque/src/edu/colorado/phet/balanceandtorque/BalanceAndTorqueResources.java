@@ -79,6 +79,7 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage ROCK_6 = RESOURCES.getImage( "rock_6.png" );
         public static final BufferedImage SODA_BOTTLE = RESOURCES.getImage( "soda-bottle.png" );
         public static final BufferedImage TINY_ROCK = RESOURCES.getImage( "tiny-rock.png" );
+        public static final BufferedImage TIRE = RESOURCES.getImage( "tire.png" );
         public static final BufferedImage TRASH_CAN = RESOURCES.getImage( "trash-can.png" );
         public static final BufferedImage WOMAN_SITTING = RESOURCES.getImage( "woman-sitting.png" );
         public static final BufferedImage WOMAN_STANDING = RESOURCES.getImage( "woman-standing.png" );
