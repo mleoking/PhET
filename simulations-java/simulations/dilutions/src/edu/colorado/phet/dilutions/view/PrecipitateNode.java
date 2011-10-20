@@ -36,7 +36,7 @@ public class PrecipitateNode extends PComposite {
         }};
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
             addChild( valueNode );
-            valueNode.setOffset( 0, beakerSize.getHeight() + 5 );
+            valueNode.setOffset( 0, beakerSize.getHeight() + 30 );
         }
 
         // when the saturation changes, update the number of precipitate particles

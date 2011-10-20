@@ -23,26 +23,24 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettable {
 
-    private static final PDimension BEAKER_SIZE = new PDimension( 400, 450 ); // the height of controls and displays is based on the height of the beaker
-
     private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
 
     public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
 
         // nodes
-        BeakerNode beakerNode = new BeakerNode( BEAKER_SIZE, model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, model.solution, valuesVisible );
-        SolutionNode solutionNode = new SolutionNode( BEAKER_SIZE, model.solution, model.getSolutionVolumeRange() );
-        PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, BEAKER_SIZE );
+        BeakerNode2 beakerNode = new BeakerNode2( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, model.solution, valuesVisible );
+        SolutionNode solutionNode = new SolutionNode( BeakerNode2.CYLINDER_SIZE, model.solution, model.getSolutionVolumeRange() );
+        PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, BeakerNode2.CYLINDER_SIZE );
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
         ShowValuesNode showValuesNode = new ShowValuesNode( valuesVisible );
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, Color.YELLOW ) {{
             setConfirmationEnabled( false );
         }};
-        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BEAKER_SIZE.getHeight() ),
+        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BeakerNode2.CYLINDER_SIZE.getHeight() ),
                                                                                           model.solution, model.getConcentrationRange(),
                                                                                           valuesVisible );
-        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( new PDimension( 5, BEAKER_SIZE.getHeight() ), model.solution.soluteAmount, model.getSoluteAmountRange(), valuesVisible );
-        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( new PDimension( 5, 0.8 * BEAKER_SIZE.getHeight() ), model.solution.volume, model.getSolutionVolumeRange(), valuesVisible );
+        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( new PDimension( 5, BeakerNode2.CYLINDER_SIZE.getHeight() ), model.solution.soluteAmount, model.getSoluteAmountRange(), valuesVisible );
+        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( new PDimension( 5, 0.8 * BeakerNode2.CYLINDER_SIZE.getHeight() ), model.solution.volume, model.getSolutionVolumeRange(), valuesVisible );
         SaturatedIndicatorNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
 
         // rendering order
@@ -61,10 +59,10 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
 
         // layout
         {
-            soluteControlNode.setOffset( 30, 30 );
+            soluteControlNode.setOffset( 30, 60 );
             soluteAmountSliderNode.setOffset( soluteControlNode.getXOffset() - PNodeLayoutUtils.getOriginXOffset( soluteAmountSliderNode ),
-                                              soluteControlNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( soluteAmountSliderNode ) + 20 );
-            solutionVolumeSliderNode.setOffset( soluteAmountSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 30,
+                                              soluteControlNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beakerNode ) + 40 );
+            solutionVolumeSliderNode.setOffset( soluteAmountSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 40,
                                                 soluteAmountSliderNode.getYOffset() );
             beakerNode.setOffset( solutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( beakerNode ) + 20,
                                   solutionVolumeSliderNode.getYOffset() );

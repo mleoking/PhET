@@ -1,3 +1,4 @@
+10/17/11 first pass at a more 3D-looking beaker, using image provided by NP. Solution and precipitate shapes have not been revised.
 10/17/11 make beaker label narrower
 10/17/11 rename tab "Dilution Equation" to "Dilution Intro"
 # 0.00.03 (57572) Oct 12, 2011

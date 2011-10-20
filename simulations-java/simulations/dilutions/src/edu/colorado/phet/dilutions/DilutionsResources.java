@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions;
 
+import java.awt.Image;
+
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
@@ -65,6 +67,6 @@ public class DilutionsResources {
 
     // Images
     public static class Images {
-        //XXX
+        public static final Image BEAKER_IMAGE = RESOURCES.getImage( "beaker.png" );
     }
 }
