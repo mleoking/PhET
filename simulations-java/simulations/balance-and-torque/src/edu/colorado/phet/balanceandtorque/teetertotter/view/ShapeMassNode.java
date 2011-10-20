@@ -48,8 +48,6 @@ public class ShapeMassNode extends PNode {
 
     private final PhetPPath shapeNode;
 
-//    private final PNode massLabel;
-
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -126,7 +124,7 @@ public class ShapeMassNode extends PNode {
 
     private static class MassLabelNode extends PNode {
         private static final Font FONT = new PhetFont( 14 );
-        private static final DecimalFormat FORMATTER = new DecimalFormat( "##" );
+        private static final DecimalFormat FORMATTER = new DecimalFormat( "##.#" );
 
         private MassLabelNode( final double mass ) {
             final PText massText = new PText( FORMATTER.format( mass ) );

@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author John Blanco
  */
 public class ImageMassNode extends PNode {
-    private static final Format MASS_VALUE_FORMAT = new DecimalFormat( "##" );
+    private static final Format MASS_VALUE_FORMAT = new DecimalFormat( "##.#" );
     private final ImageMass mass;
     private final ModelViewTransform mvt;
     protected final PImage imageNode = new PImage();
