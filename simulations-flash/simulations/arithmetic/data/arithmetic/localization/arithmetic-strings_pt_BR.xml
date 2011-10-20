@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_pt_BR.xml created Mon Nov 16 16:51:00 BRST 2009 using: arithmetic 2.00.00 (30671), translation-utility 2.02.00 (34911) Set 9, 2009-->
+<!--arithmetic-strings_pt_BR.xml created Thu Oct 20 15:49:41 BRST 2011 using: arithmetic 2.03.00 (51677), translation-utility 2.12.00 (57171) Out 3, 2011-->
 <SimStrings>
 <string key="level" value="nível"/>
 <string key="typeAnswer" value="Digite a resposta,\ne pressione Enter"/>
