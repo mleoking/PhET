@@ -11,12 +11,12 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
  *
  * @author John Blanco
  */
-public class TinyRock extends ImageMass {
+public class Tire extends ImageMass {
 
-    private static final double MASS = 2.5; // in kg
-    private static final double HEIGHT = 0.1; // In meters.
+    private static final double MASS = 15; // in kg
+    private static final double HEIGHT = 0.3; // In meters.
 
-    public TinyRock( boolean isMystery ) {
-        super( MASS, Images.TINY_ROCK, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
+    public Tire( boolean isMystery ) {
+        super( MASS, Images.TIRE, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
     }
 }

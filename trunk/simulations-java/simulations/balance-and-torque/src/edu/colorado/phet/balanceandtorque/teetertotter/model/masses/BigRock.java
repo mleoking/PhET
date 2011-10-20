@@ -13,7 +13,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
  */
 public class BigRock extends ImageMass {
 
-    private static final double MASS = 60; // in kg
+    private static final double MASS = 45; // in kg
     private static final double HEIGHT = 0.5; // In meters.
 
     public BigRock( boolean isMystery ) {

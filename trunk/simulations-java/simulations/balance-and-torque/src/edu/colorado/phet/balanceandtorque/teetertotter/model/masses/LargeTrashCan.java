@@ -13,7 +13,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
  */
 public class LargeTrashCan extends ImageMass {
 
-    private static final double MASS = 15; // in kg
+    private static final double MASS = 40; // in kg
     private static final double HEIGHT = 0.8; // In meters.
 
     public LargeTrashCan( boolean isMystery ) {
