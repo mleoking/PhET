@@ -159,6 +159,7 @@ public class GameSettingsPanel extends GridPanel {
 
             //Add the button and make sure the canvas is big enough to hold the depressed button
             addScreenChild( new HTMLImageButtonNode( BUTTON_START ) {{
+                setBackground( new Color( 235, 235, 235 ) );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         startFunction.apply();
