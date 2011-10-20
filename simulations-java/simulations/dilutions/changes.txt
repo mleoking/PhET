@@ -1,3 +1,4 @@
+10/17/11 change solution node to a cylinder
 10/17/11 change Reset All button from yellow to light gray, it shouldn't receive that much attention
 10/17/11 first pass at a more 3D-looking beaker, using image provided by NP. Solution and precipitate shapes have not been revised.
 10/17/11 make beaker label narrower
