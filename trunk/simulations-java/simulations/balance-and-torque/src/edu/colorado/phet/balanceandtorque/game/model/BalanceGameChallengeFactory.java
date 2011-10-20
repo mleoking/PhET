@@ -23,7 +23,9 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MediumTrashC
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.PottedPlant;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallBucket;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SodaBottle;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Television;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.TinyRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Woman;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -78,6 +80,7 @@ public class BalanceGameChallengeFactory {
         add( new BrickStack( 2 ) );
         add( new BrickStack( 3 ) );
         add( new BrickStack( 4 ) );
+        add( new TinyRock( false ) );
         add( new SmallRock( false ) );
         add( new BigRock( false ) );
         add( new Boy() );
@@ -99,6 +102,7 @@ public class BalanceGameChallengeFactory {
         add( new LargeBucket( true ) );
         add( new PottedPlant( true ) );
         add( new DrinkWithStraw( true ) );
+        add( new SodaBottle( true ) );
     }};
 
     // Structures used to keep track of the challenges generated so far so that
@@ -191,11 +195,18 @@ public class BalanceGameChallengeFactory {
             balanceChallengeList.add( generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueFixedMassesTest, usedMassDeductionChallenges ) );
         }
         else if ( level == 2 ) {
-            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
-            balanceChallengeList.add( generateUniqueChallenge( easyMassDeductionChallengeGenerator, uniqueFixedMassesTest, usedMassDeductionChallenges ) );
-            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
             balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
-            balanceChallengeList.add( generateUniqueChallenge( easyMassDeductionChallengeGenerator, uniqueFixedMassesTest, usedMassDeductionChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+            balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+
+
+//            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+//            balanceChallengeList.add( generateUniqueChallenge( easyMassDeductionChallengeGenerator, uniqueFixedMassesTest, usedMassDeductionChallenges ) );
+//            balanceChallengeList.add( generateUniqueChallenge( easyBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+//            balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
+//            balanceChallengeList.add( generateUniqueChallenge( easyMassDeductionChallengeGenerator, uniqueFixedMassesTest, usedMassDeductionChallenges ) );
         }
         else if ( level == 3 ) {
             balanceChallengeList.add( generateUniqueChallenge( moderateBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
@@ -305,7 +316,7 @@ public class BalanceGameChallengeFactory {
      *
      * @return
      */
-    private static BalanceMassesChallenge generateModerateBalanceChallenge() {
+    private static BalanceMassesChallenge generateModerateBalanceChallengeOld() {
 
         int numBricksInFixedStack;
         int numBricksInMovableStack;
@@ -333,6 +344,38 @@ public class BalanceGameChallengeFactory {
 
         // Create the challenge.
         return createTwoBrickStackChallenge( numBricksInFixedStack, fixedStackDistanceFromCenter, numBricksInMovableStack );
+    }
+
+    /**
+     * Create a challenge in which one fixed mass must be balanced by another,
+     * and the distance ratios can be more complex than in the simpler
+     * challenges, e.g. 3:2.
+     *
+     * @return
+     */
+    private static BalanceMassesChallenge generateModerateBalanceChallenge() {
+
+        Mass fixedMassPrototype;
+        Mass movableMass;
+
+        // Create random challenges until a solvable one is created.
+        do {
+            // Randomly choose a fixed mass.
+            fixedMassPrototype = BALANCE_CHALLENGE_MASSES.get( RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() ) );
+
+            // Choose a mass at one of the desired ratios.
+            movableMass = createMassByRatio( fixedMassPrototype.getMass(), 3.0 / 1.0, 1.0 / 3.0, 3.0 / 2.0, 2.0 / 3.0, 4.0 / 1.0, 1.0 / 4.0, 5.0 / 1.0, 1.0 / 5.0, 5.0 / 2.0, 2.0 / 5.0 );
+        }
+        while ( !isChallengeSolvable( fixedMassPrototype.getMass(),
+                                      movableMass.getMass(),
+                                      Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                      MAX_DISTANCE_FROM_BALANCE_CENTER_TO_MASS ) );
+
+        // Randomly choose a distance to use for the fixed mass position.
+        double fixedStackDistanceFromCenter = chooseRandomValidFixedMassDistance( fixedMassPrototype.getMass(), movableMass.getMass() );
+
+        // Create the challenge.
+        return createBalanceChallengeFromParts( fixedMassPrototype.clone(), fixedStackDistanceFromCenter, movableMass );
     }
 
     /**
@@ -566,7 +609,8 @@ public class BalanceGameChallengeFactory {
 
     /**
      * Generate a deduce-the-mass style challenge where the fixed mystery mass
-     * is either twice as heavy or half as heavy as the known mass.
+     * is related to the movable mass by a ratio that is more complicate than
+     * 2:1 or 1:2, e.g. 1:3.
      *
      * @return
      */
@@ -602,13 +646,15 @@ public class BalanceGameChallengeFactory {
      *                  acceptable.
      * @return
      */
-    private static Mass createMassByRatio( double massValue, double... ratios ) { // TODO: Not yet a list.
+    private static Mass createMassByRatio( double massValue, double... ratios ) {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
         for ( int i = 0; i < BALANCE_CHALLENGE_MASSES.size(); i++ ) {
             Mass candidateMassPrototype = BALANCE_CHALLENGE_MASSES.get( ( i + indexOffset ) % BALANCE_CHALLENGE_MASSES.size() );
             for ( Double ratio : ratios ) {
                 if ( candidateMassPrototype.getMass() * ratio == massValue ) {
                     // We have found a matching mass.  Clone it and return it.
+                    // TODO: Remove this printout.
+                    System.out.println( "ratio = " + ratio );
                     return candidateMassPrototype.clone();
                 }
             }
