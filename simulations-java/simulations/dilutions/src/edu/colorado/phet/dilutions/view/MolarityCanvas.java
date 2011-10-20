@@ -28,19 +28,19 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
     public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
 
         // nodes
-        BeakerNode2 beakerNode = new BeakerNode2( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, model.solution, valuesVisible );
-        SolutionNode solutionNode = new SolutionNode( BeakerNode2.CYLINDER_SIZE, model.solution, model.getSolutionVolumeRange() );
-        PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, BeakerNode2.CYLINDER_SIZE );
+        BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, model.solution, valuesVisible );
+        SolutionNode solutionNode = new SolutionNode( BeakerNode.CYLINDER_SIZE, model.solution, model.getSolutionVolumeRange() );
+        PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, BeakerNode.CYLINDER_SIZE );
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
         ShowValuesNode showValuesNode = new ShowValuesNode( valuesVisible );
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, Color.YELLOW ) {{
             setConfirmationEnabled( false );
         }};
-        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BeakerNode2.CYLINDER_SIZE.getHeight() ),
+        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BeakerNode.CYLINDER_SIZE.getHeight() ),
                                                                                           model.solution, model.getConcentrationRange(),
                                                                                           valuesVisible );
-        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( new PDimension( 5, BeakerNode2.CYLINDER_SIZE.getHeight() ), model.solution.soluteAmount, model.getSoluteAmountRange(), valuesVisible );
-        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( new PDimension( 5, 0.8 * BeakerNode2.CYLINDER_SIZE.getHeight() ), model.solution.volume, model.getSolutionVolumeRange(), valuesVisible );
+        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( new PDimension( 5, BeakerNode.CYLINDER_SIZE.getHeight() ), model.solution.soluteAmount, model.getSoluteAmountRange(), valuesVisible );
+        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( new PDimension( 5, 0.8 * BeakerNode.CYLINDER_SIZE.getHeight() ), model.solution.volume, model.getSolutionVolumeRange(), valuesVisible );
         SaturatedIndicatorNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
 
         // rendering order
