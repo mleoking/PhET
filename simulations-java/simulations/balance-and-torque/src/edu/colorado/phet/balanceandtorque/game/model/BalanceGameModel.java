@@ -36,9 +36,8 @@ public class BalanceGameModel {
 
     // Constants that define some of the attributes of the game.
     public static final int MAX_LEVELS = 4;
-    private static final int PROBLEMS_PER_SET = 5;
     private static final int MAX_POINTS_PER_PROBLEM = 2;
-    private static final int MAX_SCORE_PER_GAME = PROBLEMS_PER_SET * MAX_POINTS_PER_PROBLEM;
+    private static final int MAX_SCORE_PER_GAME = BalanceGameChallengeFactory.CHALLENGES_PER_SET * MAX_POINTS_PER_PROBLEM;
     private static final int MAX_ATTEMPTS_TO_ANSWER = 2;
 
     // Information about the relationship between the plank and fulcrum.
@@ -219,7 +218,7 @@ public class BalanceGameModel {
         clock.start();
 
         // Set up the challenges.
-        challengeList = BalanceGameChallengeFactory.generateChallengeSet( getLevel(), PROBLEMS_PER_SET );
+        challengeList = BalanceGameChallengeFactory.generateChallengeSet( getLevel() );
 
         //Set up the model for the next challenge
         setChallenge( getCurrentChallenge(), getCurrentChallenge().initialColumnState );
@@ -302,7 +301,7 @@ public class BalanceGameModel {
     public void nextChallenge() {
         challengeCount++;
         incorrectGuessesOnCurrentChallenge = 0;
-        if ( challengeCount < PROBLEMS_PER_SET ) {
+        if ( challengeCount < challengeList.size() ) {
             setChallenge( getCurrentChallenge(), getCurrentChallenge().initialColumnState );
             gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
         }

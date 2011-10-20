@@ -58,7 +58,10 @@ public class BalanceGameChallengeFactory {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final Random RAND = new Random();
+    private static final Random RAND = new Random( 1 );
+
+    // Challenges per challenge set.
+    public static final int CHALLENGES_PER_SET = 5;
 
     // Parameters that control how many attempts are made to generate a unique
     // balance challenge.
@@ -182,10 +185,9 @@ public class BalanceGameChallengeFactory {
      * Get a set of challenges for the provided level.
      *
      * @param level
-     * @param numChallenges
      * @return
      */
-    public static List<BalanceGameChallenge> generateChallengeSet( int level, int numChallenges ) {
+    public static List<BalanceGameChallenge> generateChallengeSet( int level ) {
         List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
         if ( level == 1 ) {
             balanceChallengeList.add( generateUniqueChallenge( simpleBalanceChallengeGenerator, uniqueMassesTest, usedBalanceChallenges ) );
@@ -219,6 +221,9 @@ public class BalanceGameChallengeFactory {
             // This level is either out of range or not implemented yet.
             throw new IllegalArgumentException( "Challenge level invalid, value = " + level );
         }
+
+        // Check that the appropriate number of challenges are in the set.
+        assert balanceChallengeList.size() == CHALLENGES_PER_SET;
 
         return balanceChallengeList;
     }
@@ -357,7 +362,14 @@ public class BalanceGameChallengeFactory {
             fixedMassPrototype = BALANCE_CHALLENGE_MASSES.get( RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() ) );
 
             // Choose a mass at one of the desired ratios.
+            if ( fixedMassPrototype == null ) {
+                System.out.println( "Good God!" );
+            }
+            assert fixedMassPrototype != null;
             movableMass = createMassByRatio( fixedMassPrototype.getMass(), 3.0 / 1.0, 1.0 / 3.0, 3.0 / 2.0, 2.0 / 3.0, 4.0 / 1.0, 1.0 / 4.0 );
+            if ( movableMass == null ) {
+                System.out.println( "Good God 2!" );
+            }
         }
         while ( !isChallengeSolvable( fixedMassPrototype.getMass(),
                                       movableMass.getMass(),
@@ -852,14 +864,22 @@ public class BalanceGameChallengeFactory {
 //            System.out.println( "challenge.fixedMasses.get( 0 ) = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getMass() );
 //            System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
 //        }
-        for ( int i = 0; i < 100; i++ ) {
-            BalanceGameChallenge challenge = generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges );
-            System.out.println( "------" );
-            System.out.println( "Fixed mass = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getClass().getName() );
-            System.out.println( "challenge.fixedMasses.get( 0 ) = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getMass() );
-            System.out.println( "Movable mass = " + challenge.movableMasses.get( 0 ).getClass().getName() );
-            System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
-        }
+//        for ( int i = 0; i < 100; i++ ) {
+//            BalanceGameChallenge challenge = generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges );
+//            System.out.println( "------" );
+//            System.out.println( "Fixed mass = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getClass().getName() );
+//            System.out.println( "challenge.fixedMasses.get( 0 ) = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getMass() );
+//            System.out.println( "Movable mass = " + challenge.movableMasses.get( 0 ).getClass().getName() );
+//            System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
+//        }
 
+        System.out.println( "---------------- Start --------------------" );
+        for ( int i = 0; i < 2; i++ ) {
+            BalanceGameChallengeFactory.generateChallengeSet( 1 );
+            BalanceGameChallengeFactory.generateChallengeSet( 2 );
+            BalanceGameChallengeFactory.generateChallengeSet( 3 );
+            BalanceGameChallengeFactory.generateChallengeSet( 4 );
+        }
+        System.out.println( "---------------- Finished --------------------" );
     }
 }
