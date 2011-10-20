@@ -73,10 +73,14 @@ public class GameSettingsPanel extends GridPanel {
      * @param startFunction
      */
     public GameSettingsPanel( GameSettings gameSettings, VoidFunction0 startFunction ) {
-        this( gameSettings, startFunction, new PhetFont( 24 ), new PhetFont(), new PhetFont() );
+        this( gameSettings, startFunction, new PhetFont( 24 ), new PhetFont(), new PhetFont(), new Color( 235, 235, 235 ) );
     }
 
-    public GameSettingsPanel( final GameSettings gameSettings, final VoidFunction0 startFunction, PhetFont titleFont, PhetFont labelFont, PhetFont controlFont ) {
+    public GameSettingsPanel( GameSettings gameSettings, VoidFunction0 startFunction, Color startButtonColor ) {
+        this( gameSettings, startFunction, new PhetFont( 24 ), new PhetFont(), new PhetFont(), startButtonColor );
+    }
+
+    public GameSettingsPanel( final GameSettings gameSettings, final VoidFunction0 startFunction, PhetFont titleFont, PhetFont labelFont, PhetFont controlFont, final Color startButtonColor ) {
         setBorder( BORDER );
         setBackground( BACKGROUND_FILL_COLOR );
 
@@ -157,7 +161,7 @@ public class GameSettingsPanel extends GridPanel {
 
             //Add the button and make sure the canvas is big enough to hold the depressed button
             addScreenChild( new HTMLImageButtonNode( BUTTON_START ) {{
-                setBackground( new Color( 235, 235, 235 ) );
+                setBackground( startButtonColor );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         startFunction.apply();

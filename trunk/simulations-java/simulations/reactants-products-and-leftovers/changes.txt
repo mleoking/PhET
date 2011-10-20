@@ -1,3 +1,4 @@
+10/20/11 set game "Start" button color to yellow, to be consistent with "attention" color used through game
 # 1.03.00 (52708) Jun 6, 2011
 6/6/11 > added new translation credits features
 # 1.02.02 (52602) Jun 2, 2011
