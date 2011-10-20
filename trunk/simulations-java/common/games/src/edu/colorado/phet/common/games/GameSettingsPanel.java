@@ -50,11 +50,9 @@ import static edu.colorado.phet.common.games.GameConstants.BUTTON_START;
 public class GameSettingsPanel extends GridPanel {
 
     // "look" properties
-    private static final PhetFont TITLE_FONT = new PhetFont( 24 );
-    private static final PhetFont LABEL_FONT = new PhetFont();
-    private static final PhetFont CONTROL_FONT = new PhetFont();
     private static final Border BORDER = new LineBorder( Color.BLACK, 1 );
     private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
+    private static final Color START_BUTTON_COLOR = new Color( 235, 235, 235 );
 
     // layout properties
     private static final int X_MARGIN = 5;
@@ -75,7 +73,7 @@ public class GameSettingsPanel extends GridPanel {
      * @param startFunction
      */
     public GameSettingsPanel( GameSettings gameSettings, VoidFunction0 startFunction ) {
-        this( gameSettings, startFunction, TITLE_FONT, LABEL_FONT, CONTROL_FONT );
+        this( gameSettings, startFunction, new PhetFont( 24 ), new PhetFont(), new PhetFont() );
     }
 
     public GameSettingsPanel( final GameSettings gameSettings, final VoidFunction0 startFunction, PhetFont titleFont, PhetFont labelFont, PhetFont controlFont ) {
@@ -84,7 +82,7 @@ public class GameSettingsPanel extends GridPanel {
 
         // Title
         JLabel titleLabel = new JLabel( GameConstants.TITLE_GAME_SETTINGS );
-        titleLabel.setFont( TITLE_FONT );
+        titleLabel.setFont( titleFont );
 
         // title separator
         JSeparator titleSeparator = new JSeparator();
@@ -92,13 +90,13 @@ public class GameSettingsPanel extends GridPanel {
 
         // Level control
         JLabel levelLabel = new JLabel( GameConstants.LABEL_LEVEL_CONTROL );
-        levelLabel.setFont( LABEL_FONT );
+        levelLabel.setFont( labelFont );
         JPanel levelPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         final ArrayList<PropertyRadioButton<Integer>> levelRadioButtons = new ArrayList<PropertyRadioButton<Integer>>();
         levelPanel.setOpaque( false );
         for ( int level = gameSettings.level.getMin(); level <= gameSettings.level.getMax(); level++ ) {
             PropertyRadioButton<Integer> button = new PropertyRadioButton<Integer>( String.valueOf( level ), gameSettings.level, level );
-            button.setFont( CONTROL_FONT );
+            button.setFont( controlFont );
             button.setOpaque( false );
             levelRadioButtons.add( button );
             levelPanel.add( button );
@@ -106,12 +104,12 @@ public class GameSettingsPanel extends GridPanel {
 
         // Timer control
         JLabel timerLabel = new JLabel( new ImageIcon( GameConstants.STOPWATCH_ICON ) );
-        timerLabel.setFont( LABEL_FONT );
+        timerLabel.setFont( labelFont );
         final PropertyRadioButton<Boolean> timerOnRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_ON, gameSettings.timerEnabled, true );
-        timerOnRadioButton.setFont( CONTROL_FONT );
+        timerOnRadioButton.setFont( controlFont );
         timerOnRadioButton.setOpaque( false );
         final PropertyRadioButton<Boolean> timerOffRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_OFF, gameSettings.timerEnabled, false );
-        timerOffRadioButton.setFont( CONTROL_FONT );
+        timerOffRadioButton.setFont( controlFont );
         timerOffRadioButton.setOpaque( false );
         ButtonGroup timerButtonGroup = new ButtonGroup();
         timerButtonGroup.add( timerOnRadioButton );
@@ -123,12 +121,12 @@ public class GameSettingsPanel extends GridPanel {
 
         // Sound control
         JLabel soundLabel = new JLabel( new ImageIcon( GameConstants.SOUND_ICON ) );
-        soundLabel.setFont( LABEL_FONT );
+        soundLabel.setFont( labelFont );
         final PropertyRadioButton<Boolean> soundOnRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_ON, gameSettings.soundEnabled, true );
-        soundOnRadioButton.setFont( CONTROL_FONT );
+        soundOnRadioButton.setFont( controlFont );
         soundOnRadioButton.setOpaque( false );
         final PropertyRadioButton<Boolean> soundOffRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_OFF, gameSettings.soundEnabled, false );
-        soundOffRadioButton.setFont( CONTROL_FONT );
+        soundOffRadioButton.setFont( controlFont );
         soundOffRadioButton.setOpaque( false );
         ButtonGroup soundButtonGroup = new ButtonGroup();
         soundButtonGroup.add( soundOnRadioButton );
