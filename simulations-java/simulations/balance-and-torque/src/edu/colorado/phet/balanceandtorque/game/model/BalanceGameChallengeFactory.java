@@ -58,7 +58,7 @@ public class BalanceGameChallengeFactory {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final Random RAND = new Random( 7 );
+    private static final Random RAND = new Random();
 
     // Parameters that control how many attempts are made to generate a unique
     // balance challenge.
