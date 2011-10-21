@@ -14,7 +14,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 public class FlowerPot extends ImageMass {
 
     private static final double MASS = 5; // in kg
-    private static final double HEIGHT = 0.45; // In meters.
+    private static final double HEIGHT = 0.55; // In meters.
 
     public FlowerPot( boolean isMystery ) {
         super( MASS, Images.FLOWER_POT, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
