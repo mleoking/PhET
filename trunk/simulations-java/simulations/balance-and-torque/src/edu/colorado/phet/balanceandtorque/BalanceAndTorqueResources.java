@@ -56,7 +56,6 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage BOY_SITTING = RESOURCES.getImage( "boy-sitting.png" );
         public static final BufferedImage BOY_STANDING = RESOURCES.getImage( "boy-standing.png" );
         public static final BufferedImage CINDER_BLOCK = RESOURCES.getImage( "cinder-block.png" );
-        public static final BufferedImage DRINK_WITH_STRAW = RESOURCES.getImage( "drink-with-straw.png" );
         public static final BufferedImage FIRE_EXTINGUISHER = RESOURCES.getImage( "fire-extinguisher.png" );
         public static final BufferedImage FIRE_HYDRANT = RESOURCES.getImage( "fire-hydrant.png" );
         public static final BufferedImage FLOWER_POT = RESOURCES.getImage( "flower-pot.png" );

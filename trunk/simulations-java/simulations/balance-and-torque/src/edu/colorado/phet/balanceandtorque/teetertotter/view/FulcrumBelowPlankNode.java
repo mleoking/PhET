@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.Color;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.FulcrumBelowPlank;
+import edu.colorado.phet.balanceandtorque.common.model.FulcrumBelowPlank;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
 /**
