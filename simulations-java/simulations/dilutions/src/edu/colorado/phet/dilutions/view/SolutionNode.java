@@ -49,7 +49,7 @@ public class SolutionNode extends PComposite {
         }};
         surfaceNode = new PPath() {{
             setStroke( new BasicStroke( 0.5f ) );
-            setStrokePaint( new Color( 0, 0, 0, 100 ) );
+            setStrokePaint( new Color( 0, 0, 0, 85 ) );
         }};
 
         // rendering order
