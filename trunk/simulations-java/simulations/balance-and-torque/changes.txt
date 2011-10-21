@@ -1,3 +1,4 @@
+Added a number of new masses and adjusted the mass values to maximize the number of potential challenges.
 Made the challenges in the game be unique, meaning that the user shouldn't see the same challenge until having played the game several times.
 Moved attachment bar in front of plank on first and second tabs so that it is consistent across all tabs.
 Changed label in "Show" control panel from "Distances" to "Rulers".
