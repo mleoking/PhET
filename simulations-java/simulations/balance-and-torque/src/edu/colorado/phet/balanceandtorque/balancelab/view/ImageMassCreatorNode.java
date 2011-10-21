@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.balancelab.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -16,11 +16,11 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  * @author John Blanco
  */
 public abstract class ImageMassCreatorNode extends MassCreatorNode {
-    public ImageMassCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public ImageMassCreatorNode( final BalanceLabModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
     }
 
-    public ImageMassCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, double mass ) {
+    public ImageMassCreatorNode( final BalanceLabModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, double mass ) {
         super( model, mvt, canvas, mass );
     }
 

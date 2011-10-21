@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -34,7 +34,7 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
         }
     }
 
-    public MassKitSelectionNode( final Property<Integer> selectedKit, final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public MassKitSelectionNode( final Property<Integer> selectedKit, final BalanceLabModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( selectedKit,
                new Kit<PNode>( new TitleNode( BalanceAndTorqueResources.Strings.BRICKS ),
                                new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{

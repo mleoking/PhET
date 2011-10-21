@@ -6,7 +6,7 @@ import java.text.Format;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
@@ -24,7 +24,7 @@ public abstract class MassCreatorNode extends ModelElementCreatorNode {
      * @param mvt
      * @param canvas
      */
-    public MassCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public MassCreatorNode( final BalanceLabModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
     }
 
@@ -36,7 +36,7 @@ public abstract class MassCreatorNode extends ModelElementCreatorNode {
      * @param canvas
      * @param mass
      */
-    public MassCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, double mass ) {
+    public MassCreatorNode( final BalanceLabModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, double mass ) {
         super( model, mvt, canvas );
         String valueText = MASS_FORMATTER.format( mass );
         setCaption( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, valueText, BalanceAndTorqueResources.Strings.KG ) );

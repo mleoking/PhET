@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.balancelab.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Girl;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -24,7 +24,7 @@ public class YoungGirlCreatorNode extends ImageMassCreatorNode {
     protected static final ModelViewTransform SCALING_MVT =
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 100 );
 
-    public YoungGirlCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public YoungGirlCreatorNode( final BalanceLabModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas, Girl.MASS );
         ImageMass youngGirl = new Girl();
         setSelectionNode( new ImageMassNode( SCALING_MVT, youngGirl, canvas, new BooleanProperty( false ) ) );

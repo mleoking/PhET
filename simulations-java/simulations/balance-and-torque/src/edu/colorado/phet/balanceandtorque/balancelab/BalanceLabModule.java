@@ -2,7 +2,7 @@
 package edu.colorado.phet.balanceandtorque.balancelab;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
 import edu.colorado.phet.balanceandtorque.balancelab.view.BalancingActCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
@@ -11,17 +11,17 @@ import edu.colorado.phet.common.phetcommon.application.Module;
  *
  * @author John Blanco
  */
-public class BalancingActModule extends Module {
+public class BalanceLabModule extends Module {
 
-    BalancingActModel model;
+    BalanceLabModel model;
 
-    public BalancingActModule() {
-        this( new BalancingActModel() );
+    public BalanceLabModule() {
+        this( new BalanceLabModel() );
         setClockControlPanel( null );
         getModulePanel().setLogoPanel( null );
     }
 
-    private BalancingActModule( BalancingActModel model ) {
+    private BalanceLabModule( BalanceLabModel model ) {
         super( BalanceAndTorqueResources.Strings.BALANCE_LAB, model.getClock() );
         this.model = model;
         setSimulationPanel( new BalancingActCanvas( model ) );
