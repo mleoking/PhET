@@ -85,7 +85,7 @@ public class BeakerNode extends PComposite {
         PPath bottomNode = new PPath() {{
             setPathTo( new Arc2D.Double( 0, CYLINDER_SIZE.getHeight() - ( CYLINDER_END_HEIGHT / 2 ), CYLINDER_SIZE.getWidth(), CYLINDER_END_HEIGHT,
                                          5, 170, Arc2D.OPEN ) );
-            setStroke( new BasicStroke( 3f ) );
+            setStroke( new BasicStroke( 2f ) );
             setStrokePaint( new Color( 150, 150, 150, 100 ) );
         }};
         addChild( bottomNode );
