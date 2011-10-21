@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_tk.xml created Thu Oct 13 16:51:39 PKT 2011 using: equation-grapher 2.02.00 (52283), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<SimStrings>
+<string key="showYEq" value="Görkez y ="/>
+<string key="erase" value="Bozmak"/>
+<string key="save" value="Ýatda saklamak"/>
+<string key="zero" value="Nol"/>
+<string key="simTitle" value="Grafik deňlemesi"/>
+</SimStrings>
