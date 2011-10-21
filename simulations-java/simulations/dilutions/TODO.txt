@@ -5,13 +5,24 @@ DESIGN
 - color scale issues in Molarity tab
 
 HIGH
-- distribute precipitate on bottom of 3D beaker
+- distribute precipitate on bottom of 3D beaker (random distribution of points inside an ellipse, see ABS MoleculeNode.getRandomPoint)
 - improve look of sliders
 
 MEDIUM
-- use PrecisionDecimal in the model, 2 decimal places (if we're showing values)
+Tab 2:
+Use beakers (as shown in mock up), layout similar to mock up shown
+except move the volume control for the small V1 beaker to be next to
+the beaker (similar to volume controls for the other beakers, so that
+the slider corresponds with solution level).  These beakers can have
+hash marks showing half, 1/4, 3/4 full, but no numerical values.
+Omit the plus sign.  Keep the equals sign.
+Make the concentration range for M1 and M2 both be the full range.
+See how this works out.  Since M2 is a read out, we shouldn't run into
+trouble.
 
 LOW
+- use PrecisionDecimal in the model, 2 decimal places (if we're showing values)
+- delete code related to "Show values" feature, if we decide it's gone for good (start with MolarityModule.SHOW_VALUE_FEATURE_ENABLED)
 - repackage
 
 MIGRATE TO COMMON
