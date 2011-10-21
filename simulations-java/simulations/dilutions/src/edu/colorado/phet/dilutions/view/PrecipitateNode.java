@@ -92,7 +92,7 @@ public class PrecipitateNode extends PComposite {
     private void updateValue() {
         double precipitateAmount = solution.getPrecipitateAmount();
         int numberOfParticles = getNumberOfParticles();
-        valueNode.setText( "precipitate: " + new DecimalFormat( "0.000" ).format( precipitateAmount ) + " " + Strings.UNITS_MOLES +
+        valueNode.setText( "precipitate: " + new DecimalFormat( "0.00000" ).format( precipitateAmount ) + " " + Strings.UNITS_MOLES +
                            " (" + numberOfParticles + " particles)" );
     }
 
