@@ -7,7 +7,6 @@ DESIGN
 HIGH
 - distribute precipitate on bottom of 3D beaker
 - improve look of sliders
-- grey out the unavailable portion of the concentration readout in saturated solutions
 
 MEDIUM
 - use PrecisionDecimal in the model, 2 decimal places (if we're showing values)

@@ -1,12 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
@@ -131,7 +129,7 @@ public class ConcentrationDisplayNode extends PComposite {
         }
     }
 
-    // A horizontal dashed line that shows where the saturation point is, drawn in the coordinate frame of the bar.
+    // A gray bar above the saturation point, drawn in the coordinate frame of the bar.
     private static class SaturationIndicatorNode extends PPath {
 
         private PDimension barSize;
@@ -140,13 +138,13 @@ public class ConcentrationDisplayNode extends PComposite {
         public SaturationIndicatorNode( PDimension barSize, double saturationPoint, double maxConcentration ) {
             this.barSize = barSize;
             this.maxConcentration = maxConcentration;
-            setStroke( new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 4, 3 }, 0 ) ); // dashed
+            setPaint( Color.LIGHT_GRAY );
             setSaturationPoint( saturationPoint );
         }
 
         public void setSaturationPoint( double saturationPoint ) {
-            double y = barSize.getHeight() - ( barSize.getHeight() * ( saturationPoint / maxConcentration ) );
-            setPathTo( new Line2D.Double( 0, y, barSize.getWidth(), y ) );
+            double height = barSize.getHeight() - ( barSize.getHeight() * ( saturationPoint / maxConcentration ) );
+            setPathTo( new Rectangle2D.Double( 0, 0, barSize.getWidth(), height ) );
         }
     }
 
