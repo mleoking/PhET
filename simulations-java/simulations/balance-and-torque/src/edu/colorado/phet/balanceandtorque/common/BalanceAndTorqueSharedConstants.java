@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.teetertotter;
+package edu.colorado.phet.balanceandtorque.common;
 
 /**
  * @author John Blanco
