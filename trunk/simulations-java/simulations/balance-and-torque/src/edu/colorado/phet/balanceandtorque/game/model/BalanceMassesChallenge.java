@@ -4,8 +4,8 @@ package edu.colorado.phet.balanceandtorque.game.model;
 import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 
 /**
  * A challenge, used in the balance game, in which the user must attempt to
