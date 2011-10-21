@@ -60,7 +60,7 @@ public class BalanceGameChallengeFactory {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final Random RAND = new Random( 3 );
+    private static final Random RAND = new Random();
 
     // Challenges per challenge set.
     public static final int CHALLENGES_PER_SET = 5;
