@@ -48,7 +48,7 @@ public class BeakerNode extends PComposite {
 
     // Layout depends on these properties of the image file.
     public static final PDimension CYLINDER_SIZE = new PDimension( 280, 295 ); // the cylindrical portion of the beaker.
-    public static final double CYLINDER_END_HEIGHT = 30; // 2D height of the cylinder's ends
+    public static final double CYLINDER_END_HEIGHT = 34; // 2D height of the cylinder's ends
     private static final Point2D CYLINDER_OFFSET = new Point2D.Double( 65, 125 ); // the upper right corner of the cylinder, in the image's coordinate frame
 
     private static final boolean CYLINDER_VISIBLE = false; // for debugging alignment with beaker image file
