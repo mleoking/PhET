@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.common.model.AttachmentBar;
+import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.FulcrumAbovePlank;
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
 import edu.colorado.phet.balanceandtorque.common.model.SupportColumn;

@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
@@ -25,7 +26,6 @@ import edu.colorado.phet.balanceandtorque.common.view.TiltedSupportColumnNode;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.ImageMassNode;
 import edu.colorado.phet.common.games.GameAudioPlayer;
