@@ -11,13 +11,13 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
+import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.ShapeMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;

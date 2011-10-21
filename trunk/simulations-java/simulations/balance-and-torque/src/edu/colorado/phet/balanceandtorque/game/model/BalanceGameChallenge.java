@@ -4,8 +4,8 @@ package edu.colorado.phet.balanceandtorque.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 
 /**
  * Base class for a single "challenge" (a.k.a. problem) that is presented to

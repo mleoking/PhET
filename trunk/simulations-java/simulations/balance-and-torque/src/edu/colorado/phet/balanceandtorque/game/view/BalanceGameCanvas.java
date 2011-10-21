@@ -11,14 +11,14 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.ShapeMass;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.BrickStackNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.FulcrumAbovePlankNode;

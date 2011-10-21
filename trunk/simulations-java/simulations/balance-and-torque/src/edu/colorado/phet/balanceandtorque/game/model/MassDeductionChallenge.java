@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 
 /**
  * A challenge, used in the balance game, in which the user attempts to

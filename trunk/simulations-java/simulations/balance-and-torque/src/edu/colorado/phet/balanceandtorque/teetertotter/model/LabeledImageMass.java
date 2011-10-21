@@ -4,7 +4,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.model;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 
 /**
  * This is an extension of the ImageMass class that adds a textual label.  This
