@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BigRock;
+import edu.colorado.phet.balanceandtorque.common.model.masses.BigRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Boy;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.CinderBlock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FireHydrant;
