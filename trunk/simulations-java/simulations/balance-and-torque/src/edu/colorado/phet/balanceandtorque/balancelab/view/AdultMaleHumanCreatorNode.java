@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.balancelab.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Man;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -24,7 +24,7 @@ public class AdultMaleHumanCreatorNode extends ImageMassCreatorNode {
     protected static final ModelViewTransform SCALING_MVT =
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 100 );
 
-    public AdultMaleHumanCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public AdultMaleHumanCreatorNode( final BalanceLabModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas, Man.MASS );
         ImageMass adultMaleHuman = new Man();
         setSelectionNode( new ImageMassNode( SCALING_MVT, adultMaleHuman, canvas, new BooleanProperty( false ) ) );

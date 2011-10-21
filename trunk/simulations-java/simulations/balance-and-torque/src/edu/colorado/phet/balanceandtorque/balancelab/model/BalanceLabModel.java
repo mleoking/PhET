@@ -27,7 +27,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
  *
  * @author John Blanco
  */
-public class BalancingActModel implements Resettable {
+public class BalanceLabModel implements Resettable {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
@@ -73,7 +73,7 @@ public class BalancingActModel implements Resettable {
     // Constructor(s)
     //------------------------------------------------------------------------
 
-    public BalancingActModel() {
+    public BalanceLabModel() {
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clock.getDt() );
