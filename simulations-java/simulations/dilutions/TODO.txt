@@ -6,7 +6,6 @@ DESIGN
 
 HIGH
 - distribute precipitate on bottom of 3D beaker
-- differentiate solution surface (line? color?)
 - improve look of sliders
 - grey out the unavailable portion of the concentration readout in saturated solutions
 
