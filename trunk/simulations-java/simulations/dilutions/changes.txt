@@ -1,3 +1,4 @@
+10/21/11 grey out the unavailable portion of the concentration readout in saturated solutions
 10/21/11 put a thin line around solution surface
 10/21/11 horizontally center the "Saturated!" indicator in the beaker's cylinder
 10/21/11 change request: remove "Show values" in Molarity tab (but feature may come back in future, so don't remove from code)
