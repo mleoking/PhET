@@ -5,14 +5,14 @@ import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.view.AbstractDilutionsCanvas;
 
 /**
- * The "Dilution Intro" module.
+ * The "Dilution" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DilutionIntroModule extends AbstractDilutionsModule {
+public class DilutionModule extends AbstractDilutionsModule {
 
-    public DilutionIntroModule() {
-        super( Strings.DILUTION_INTRO );
+    public DilutionModule() {
+        super( Strings.DILUTION );
         setSimulationPanel( new AbstractDilutionsCanvas() {
         } );
     }
