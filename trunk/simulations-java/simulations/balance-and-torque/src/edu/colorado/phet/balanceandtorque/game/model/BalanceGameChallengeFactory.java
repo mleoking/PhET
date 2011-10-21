@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BigRock;
+import edu.colorado.phet.balanceandtorque.common.model.masses.BigRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Boy;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.CinderBlock;
