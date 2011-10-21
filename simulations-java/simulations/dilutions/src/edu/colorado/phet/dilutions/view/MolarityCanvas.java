@@ -48,7 +48,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
         {
             addChild( solutionNode );
             addChild( beakerNode );
-            addChild( precipitateNode ); //TODO should be behind beaker so that precipitate looks like it's in solution, but solution needs to be transparent
+            addChild( precipitateNode ); //TODO should be behind beaker so that precipitate looks like it's in solution, but color interacts oddly with beaker
             addChild( saturatedIndicatorNode );
             addChild( concentrationDisplayNode );
             addChild( soluteAmountSliderNode );
