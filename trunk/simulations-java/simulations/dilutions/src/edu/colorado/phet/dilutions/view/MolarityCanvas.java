@@ -14,6 +14,7 @@ import edu.colorado.phet.dilutions.control.DilutionsSliderNode.SolutionVolumeSli
 import edu.colorado.phet.dilutions.control.ShowValuesNode;
 import edu.colorado.phet.dilutions.control.SoluteControlNode;
 import edu.colorado.phet.dilutions.model.MolarityModel;
+import edu.colorado.phet.dilutions.modules.MolarityModule;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -52,7 +53,9 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
             addChild( concentrationDisplayNode );
             addChild( soluteAmountSliderNode );
             addChild( solutionVolumeSliderNode );
-            addChild( showValuesNode );
+            if ( MolarityModule.SHOW_VALUE_FEATURE_ENABLED ) {
+                addChild( showValuesNode );
+            }
             addChild( resetAllButtonNode );
             addChild( soluteControlNode ); // combo box on top
         }

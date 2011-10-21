@@ -34,7 +34,6 @@ public class DilutionsResources {
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String MAKE_DILUTIONS = RESOURCES.getLocalizedString( "makeDilutions" );
         public static final String MOLARITY = RESOURCES.getLocalizedString( "molarity" );
-        public static final String MOLARITY_FORMULA = RESOURCES.getLocalizedString( "molarityFormula" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
         public static final String PATTERN_0VALUE_1UNITS = RESOURCES.getLocalizedString( "pattern.0value.1units" );
         public static final String POTASSIUM_CHROMATE = RESOURCES.getLocalizedString( "potassiumChromate" );
