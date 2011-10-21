@@ -71,8 +71,8 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
                                   solutionVolumeSliderNode.getYOffset() );
             solutionNode.setOffset( beakerNode.getOffset() );
             precipitateNode.setOffset( beakerNode.getOffset() );
-            saturatedIndicatorNode.setOffset( beakerNode.getFullBoundsReference().getCenterX() - ( saturatedIndicatorNode.getFullBoundsReference().getWidth() / 2 ),
-                                              beakerNode.getFullBoundsReference().getMinY() + ( 0.90 * beakerNode.getFullBoundsReference().getHeight() ) - saturatedIndicatorNode.getFullBoundsReference().getHeight() );
+            saturatedIndicatorNode.setOffset( beakerNode.getXOffset() + ( BeakerNode.CYLINDER_SIZE.getWidth() / 2 ) - ( saturatedIndicatorNode.getFullBoundsReference().getWidth() / 2 ),
+                                              beakerNode.getYOffset() + ( 0.9 * BeakerNode.CYLINDER_SIZE.getHeight() ) - saturatedIndicatorNode.getFullBoundsReference().getHeight() );
             concentrationDisplayNode.setOffset( beakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( concentrationDisplayNode ) + 50,
                                                 soluteAmountSliderNode.getYOffset() );
             resetAllButtonNode.setOffset( concentrationDisplayNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth() - 30,
