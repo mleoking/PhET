@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
+import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.AttachmentBar;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.FulcrumAbovePlank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ShapeModelElement;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
