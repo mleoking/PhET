@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.balancelab;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
-import edu.colorado.phet.balanceandtorque.balancelab.view.BalancingActCanvas;
+import edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
@@ -24,7 +24,7 @@ public class BalanceLabModule extends Module {
     private BalanceLabModule( BalanceLabModel model ) {
         super( BalanceAndTorqueResources.Strings.BALANCE_LAB, model.getClock() );
         this.model = model;
-        setSimulationPanel( new BalancingActCanvas( model ) );
+        setSimulationPanel( new BalanceLabCanvas( model ) );
         reset();
     }
 
