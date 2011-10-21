@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.balanceandtorque.balancelab.view.ImageMassNode;
 import edu.colorado.phet.balanceandtorque.common.model.masses.BigRock;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Boy;
 import edu.colorado.phet.balanceandtorque.common.model.masses.CinderBlock;
@@ -31,7 +32,6 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.Television;
 import edu.colorado.phet.balanceandtorque.common.model.masses.TinyRock;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Tire;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Woman;
-import edu.colorado.phet.balanceandtorque.teetertotter.view.ImageMassNode;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

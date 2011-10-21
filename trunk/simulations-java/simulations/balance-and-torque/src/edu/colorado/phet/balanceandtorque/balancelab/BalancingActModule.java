@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.balancelab;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
-import edu.colorado.phet.balanceandtorque.teetertotter.view.BalancingActCanvas;
+import edu.colorado.phet.balanceandtorque.balancelab.view.BalancingActCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
