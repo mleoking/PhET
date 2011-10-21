@@ -127,7 +127,7 @@ public class ConcentrationDisplayNode extends PComposite {
     // Title above the bar
     private static class TitleNode extends HTMLNode {
         public TitleNode() {
-            super( Strings.CONCENTRATION_MOLARITY );
+            super( Strings.SOLUTION_CONCENTRATION );
             setFont( TITLE_FONT );
         }
     }

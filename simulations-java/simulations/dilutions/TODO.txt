@@ -1,16 +1,17 @@
 TODO list for dilutions
 
 DESIGN
-- color for water?
+- color for water
 - color scale issues in Molarity tab
-- sliders are accurate to 3 decimal places but we're only showing 2, so we see "0" and "0.00"
-- 1/2L vs 0.5L for beaker tick?
-- various issues with black text on dark background colors
-- layout and look of sliders is ugly
 
 HIGH
-- use PrecisionDecimal in the model?
-- change sliders to use spinners (implement Piccolo spinner?)
+- distribute precipitate on bottom of 3D beaker
+- differentiate solution surface (line? color?)
+- use PrecisionDecimal in the model, 2 decimal places
+- improve look of sliders
+- remove "Show values" in Molarity tab (but feature may come back in future)
+- labels in Molarity tab: "Solute Amount / (Moles)" "Solution Volume / (Liters)" and "Solutions Concentration / (Molarity)"
+- grey out the unavailable portion of the concentration readout in saturated solutions
 
 MEDIUM
 
