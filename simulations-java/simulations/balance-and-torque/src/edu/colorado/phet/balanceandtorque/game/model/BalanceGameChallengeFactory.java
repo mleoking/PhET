@@ -874,14 +874,7 @@ public class BalanceGameChallengeFactory {
 //            System.out.println( "Movable mass = " + challenge.movableMasses.get( 0 ).getClass().getName() );
 //            System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
 //        }
-
-        System.out.println( "---------------- Start --------------------" );
-        for ( int i = 0; i < 2; i++ ) {
-            BalanceGameChallengeFactory.generateChallengeSet( 1 );
-            BalanceGameChallengeFactory.generateChallengeSet( 2 );
-            BalanceGameChallengeFactory.generateChallengeSet( 3 );
-            BalanceGameChallengeFactory.generateChallengeSet( 4 );
-        }
-        System.out.println( "---------------- Finished --------------------" );
+        return;
     }
+
 }

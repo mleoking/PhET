@@ -66,11 +66,15 @@ public class ImageMassNode extends PNode {
                 imageNode.setScale( 1 );
                 imageNode.setImage( image );
                 double scalingFactor = Math.abs( mvt.modelToViewDeltaY( mass.getHeight() ) ) / imageNode.getFullBoundsReference().height;
+                // Debug printouts for indicating whether the image for this
+                // node starts at a reasonable size.
                 if ( scalingFactor > 2 || scalingFactor < 0.5 ) {
                     System.out.println( getClass().getName() + " - Warning: Scaling factor is too large or small, drawing size should be adjusted.  Scaling factor = " + scalingFactor );
+                    System.out.println( "        Scaled class: " + mass.getClass().getName() );
                 }
                 if ( scalingFactor > 1 ) {
                     System.out.println( "Scaling up, factor = " + scalingFactor );
+                    System.out.println( "        Scaled class: " + mass.getClass().getName() );
                 }
                 imageNode.setScale( scalingFactor );
                 updatePositionAndAngle();
