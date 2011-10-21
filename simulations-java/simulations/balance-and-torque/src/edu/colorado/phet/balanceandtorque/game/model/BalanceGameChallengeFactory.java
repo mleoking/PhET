@@ -718,8 +718,6 @@ public class BalanceGameChallengeFactory {
                 // Several attempts did not yield a unique challenge, so
                 // reduce the number of past challenges on the list in order
                 // to make it easier, and then try again.
-                // TODO: Remove debug statement eventually.
-                System.out.println( "generateUniqueChallenge - removing oldest challenges" );
                 removeOldestHalfOfList( previousChallenges );
             }
         }
