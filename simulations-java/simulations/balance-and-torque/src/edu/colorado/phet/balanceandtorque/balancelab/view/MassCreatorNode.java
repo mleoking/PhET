@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.teetertotter.view;
+package edu.colorado.phet.balanceandtorque.balancelab.view;
 
 import java.text.DecimalFormat;
 import java.text.Format;
