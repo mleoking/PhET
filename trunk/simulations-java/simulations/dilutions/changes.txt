@@ -1,6 +1,7 @@
-10/17/11 change solution node to a cylinder
-10/17/11 change Reset All button from yellow to light gray, it shouldn't receive that much attention
-10/17/11 first pass at a more 3D-looking beaker, using image provided by NP. Solution and precipitate shapes have not been revised.
+10/21/11 change request: different labels on sliders and concentration display in Molarity tab
+10/20/11 change solution node to a cylinder
+10/20/11 change Reset All button from yellow to light gray, it shouldn't receive that much attention
+10/20/11 first pass at a more 3D-looking beaker, using image provided by NP. Solution and precipitate shapes have not been revised.
 10/17/11 make beaker label narrower
 10/17/11 rename tab "Dilution Equation" to "Dilution Intro"
 # 0.00.03 (57572) Oct 12, 2011
