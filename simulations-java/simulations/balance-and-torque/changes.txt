@@ -1,3 +1,5 @@
+# 0.00.15 (57885) Oct 21, 2011
+10/21/11 Deploying to dev for review and feedback.
 Added a number of new masses and adjusted the mass values to maximize the number of potential challenges.
 Made the challenges in the game be unique, meaning that the user shouldn't see the same challenge until having played the game several times.
 Moved attachment bar in front of plank on first and second tabs so that it is consistent across all tabs.
