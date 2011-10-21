@@ -202,10 +202,11 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 model.startGame();
             }
         };
-        gameSettingsNode = new PSwing( new GameSettingsPanel( model.gameSettings, startFunction ) ) {{
+        gameSettingsNode = new PSwing( new GameSettingsPanel( model.gameSettings, startFunction, Color.YELLOW ) ) {{
             scale( 1.5 );
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
                        STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
+
         }};
         rootNode.addChild( gameSettingsNode );
 
