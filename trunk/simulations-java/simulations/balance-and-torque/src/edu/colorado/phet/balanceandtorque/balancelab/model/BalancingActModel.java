@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.teetertotter.model;
+package edu.colorado.phet.balanceandtorque.balancelab.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
