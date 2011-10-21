@@ -1,3 +1,4 @@
+Added balance and weight model
 # 0.00.05 (57746) Oct 19, 2011
 Matching Game tab: Fixed centering of fractions
 Added other tabs
