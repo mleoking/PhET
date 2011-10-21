@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.game.model;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.ShapeModelElement;
+import edu.colorado.phet.balanceandtorque.common.model.ShapeModelElement;
 
 /**
  * This is a column that can be used to support one of the ends of the plank.

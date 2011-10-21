@@ -4,7 +4,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.Color;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.PositionedVector;
+import edu.colorado.phet.balanceandtorque.common.model.masses.PositionedVector;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;

@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.ShapeModelElement;
+import edu.colorado.phet.balanceandtorque.common.model.ShapeModelElement;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
