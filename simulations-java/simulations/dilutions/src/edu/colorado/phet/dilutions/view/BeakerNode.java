@@ -37,17 +37,21 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * XXX
+ * Visual representation of a beaker.
+ * 3D perspective is provided by an image file.
+ * Other elements (ticks,...) are added based on specific knowledge about the image file (size, location of spout, etc.)
+ * If you change the image file, you may need to adjust this code.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BeakerNode extends PComposite {
 
-    public static final PDimension CYLINDER_SIZE = new PDimension( 280, 295 );
-    public static final double CYLINDER_END_HEIGHT = 30;
+    // Layout depends on these properties of the image file.
+    public static final PDimension CYLINDER_SIZE = new PDimension( 280, 295 ); // the cylindrical portion of the beaker.
+    public static final double CYLINDER_END_HEIGHT = 30; // 2D height of the cylinder's ends
+    private static final Point2D CYLINDER_OFFSET = new Point2D.Double( 65, 125 ); // the upper right corner of the cylinder, in the image's coordinate frame
 
     private static final boolean CYLINDER_VISIBLE = false; // for debugging alignment with beaker image file
-    private static final Point2D CYLINDER_OFFSET = new Point2D.Double( 65, 125 );
 
     private static final String[] MAJOR_TICK_LABELS = { "0.5", "1" };
 
