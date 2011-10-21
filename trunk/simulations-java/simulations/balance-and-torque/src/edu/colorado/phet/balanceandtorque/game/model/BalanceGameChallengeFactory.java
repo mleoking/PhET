@@ -9,6 +9,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BigRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Boy;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.CinderBlock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FireHydrant;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.FlowerPot;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Girl;
@@ -23,6 +24,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.PottedPlant;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallBucket;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SmallRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.SodaBottle;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.StatueOfOdysseus;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Television;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.TinyRock;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Tire;
@@ -58,7 +60,7 @@ public class BalanceGameChallengeFactory {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final Random RAND = new Random( 1 );
+    private static final Random RAND = new Random( 3 );
 
     // Challenges per challenge set.
     public static final int CHALLENGES_PER_SET = 5;
@@ -91,6 +93,8 @@ public class BalanceGameChallengeFactory {
         add( new Girl() );
         add( new Woman() );
         add( new Man() );
+        add( new StatueOfOdysseus( false ) );
+        add( new CinderBlock( false ) );
     }};
 
     // List of mystery objects that the user has not seen on the other tab(s).
@@ -362,13 +366,13 @@ public class BalanceGameChallengeFactory {
             fixedMassPrototype = BALANCE_CHALLENGE_MASSES.get( RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() ) );
 
             // Choose a mass at one of the desired ratios.
-            if ( fixedMassPrototype == null ) {
-                System.out.println( "Good God!" );
-            }
-            assert fixedMassPrototype != null;
             movableMass = createMassByRatio( fixedMassPrototype.getMass(), 3.0 / 1.0, 1.0 / 3.0, 3.0 / 2.0, 2.0 / 3.0, 4.0 / 1.0, 1.0 / 4.0 );
             if ( movableMass == null ) {
-                System.out.println( "Good God 2!" );
+                // If this happens, it means that one of the fixed masses has
+                // no masses that match the provided ratios.  This should be
+                // fixed.
+                assert false;
+                continue;
             }
         }
         while ( !isChallengeSolvable( fixedMassPrototype.getMass(),
