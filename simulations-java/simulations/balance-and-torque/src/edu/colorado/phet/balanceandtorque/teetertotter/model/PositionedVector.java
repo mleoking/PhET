@@ -13,7 +13,7 @@ public class PositionedVector {
     public final ImmutableVector2D origin;
     public final ImmutableVector2D vector;
 
-    PositionedVector( ImmutableVector2D origin, ImmutableVector2D vector ) {
+    public PositionedVector( ImmutableVector2D origin, ImmutableVector2D vector ) {
         this.origin = new ImmutableVector2D( origin );
         this.vector = new ImmutableVector2D( vector );
     }
