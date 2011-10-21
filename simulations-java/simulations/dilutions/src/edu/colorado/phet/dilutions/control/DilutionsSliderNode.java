@@ -32,6 +32,7 @@ import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler.Orientation;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
+import edu.colorado.phet.dilutions.modules.MolarityModule;
 import edu.colorado.phet.dilutions.util.SmartDoubleFormat;
 import edu.colorado.phet.dilutions.view.TickMarkNode;
 import edu.umd.cs.piccolo.PNode;
@@ -108,7 +109,9 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         // rendering order
         {
             addChild( titleNode );
-            addChild( valueNode );
+            if ( MolarityModule.SHOW_VALUE_FEATURE_ENABLED ) {
+                addChild( valueNode );
+            }
             addChild( maxNode );
             addChild( minNode );
             addChild( trackNode );
@@ -121,12 +124,19 @@ public abstract class DilutionsSliderNode extends PhetPNode {
             maxNode.setOffset( 0, 0 );
             // min label at bottom of track
             minNode.setOffset( 0, trackSize.getHeight() );
-            // value centered above track
-            valueNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
-                                 trackNode.getFullBoundsReference().getMinY() - ( maxNode.getFullBoundsReference().getHeight() / 2 ) - 4 - valueNode.getFullBoundsReference().getHeight() );
-            // title centered above value
-            titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 valueNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 3 );
+            if ( MolarityModule.SHOW_VALUE_FEATURE_ENABLED ) {
+                // value centered above track
+                valueNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
+                                     trackNode.getFullBoundsReference().getMinY() - ( maxNode.getFullBoundsReference().getHeight() / 2 ) - 4 - valueNode.getFullBoundsReference().getHeight() );
+                // title centered above value
+                titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
+                                     valueNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 3 );
+            }
+            else {
+                // title centered above track
+                titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
+                                     trackNode.getFullBoundsReference().getMinY() - ( maxNode.getFullBoundsReference().getHeight() / 2 ) - 4 - titleNode.getFullBoundsReference().getHeight() );
+            }
             // thumb centered in track
             thumbNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
                                  trackNode.getFullBoundsReference().getCenterY() );

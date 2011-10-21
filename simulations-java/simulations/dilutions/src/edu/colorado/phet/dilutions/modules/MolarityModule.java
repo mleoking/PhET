@@ -14,6 +14,8 @@ import edu.colorado.phet.dilutions.view.MolarityCanvas;
  */
 public class MolarityModule extends AbstractDilutionsModule {
 
+    public static final boolean SHOW_VALUE_FEATURE_ENABLED = false; //TODO delete this when we're sure (one way or the other)
+
     public MolarityModule( Frame frame ) {
         super( Strings.MOLARITY );
         setSimulationPanel( new MolarityCanvas( new MolarityModel(), frame ) );

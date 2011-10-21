@@ -9,7 +9,6 @@ HIGH
 - differentiate solution surface (line? color?)
 - use PrecisionDecimal in the model, 2 decimal places
 - improve look of sliders
-- remove "Show values" in Molarity tab (but feature may come back in future)
 - labels in Molarity tab: "Solute Amount / (Moles)" "Solution Volume / (Liters)" and "Solutions Concentration / (Molarity)"
 - grey out the unavailable portion of the concentration readout in saturated solutions
 
