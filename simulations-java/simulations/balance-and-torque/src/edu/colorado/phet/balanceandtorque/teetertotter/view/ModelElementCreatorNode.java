@@ -5,8 +5,8 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

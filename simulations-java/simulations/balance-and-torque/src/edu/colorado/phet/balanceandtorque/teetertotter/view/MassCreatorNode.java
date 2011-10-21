@@ -6,7 +6,7 @@ import java.text.Format;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 

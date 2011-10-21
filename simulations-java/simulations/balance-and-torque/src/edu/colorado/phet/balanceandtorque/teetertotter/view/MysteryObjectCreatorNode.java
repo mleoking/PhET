@@ -3,11 +3,11 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.MysteryObjectFactory;
 import edu.colorado.phet.balanceandtorque.common.view.LabeledImageMassNode;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

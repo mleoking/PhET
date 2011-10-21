@@ -10,6 +10,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
@@ -24,7 +25,6 @@ import edu.colorado.phet.balanceandtorque.common.view.LevelIndicatorNode;
 import edu.colorado.phet.balanceandtorque.common.view.LevelSupportColumnNode;
 import edu.colorado.phet.balanceandtorque.common.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
