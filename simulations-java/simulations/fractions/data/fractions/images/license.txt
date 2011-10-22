@@ -1,0 +1,2 @@
+balance-base.png source=http://www.openclipart.org/detail/128839/balance--scale-by-lmproulx author=lmproulx license=public domain notes=split by sam reid
+balance-platform.png source=http://www.openclipart.org/detail/128839/balance--scale-by-lmproulx author=lmproulx license=public domain notes=split by sam reid
