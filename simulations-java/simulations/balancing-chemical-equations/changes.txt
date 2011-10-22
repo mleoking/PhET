@@ -1,5 +1,3 @@
-# 1.00.01 (57884) Oct 21, 2011
-10/21/11 Deploying to dev for review and feedback.
 4/26/11 move all developer code to a new developer package
 4/26/11 add "Developer->Preview molecules" menu item (used to be a separate app for previewing molecule colors on choosable background color)
 4/9/11 #2796, handled all REVIEW task tags that were added during code review, see ticket for changesets
