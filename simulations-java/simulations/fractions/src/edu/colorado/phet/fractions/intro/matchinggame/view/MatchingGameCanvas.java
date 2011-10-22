@@ -86,8 +86,14 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     final RepresentationNode right = getNode( balanceNode.rightPlatform );
                     left.solved();
                     right.solved();
-                    PTransformActivity transformRight = right.animateToPositionScaleRotation( 100, scoreY, right.getScale() / 2, 0, 1000 );
-                    PTransformActivity transformLeft = left.animateToPositionScaleRotation( 0, scoreY, left.getScale() / 2, 0, 1000 );
+                    double scaleFactor = 0.5;
+
+                    final PNode equalsSign = new PhetPText( "=" );
+
+                    double maxHeight = Math.max( left.getFullBounds().getHeight(), right.getFullBounds().getHeight() ) * scaleFactor;
+
+                    right.animateToPositionScaleRotation( left.getFullBounds().getWidth() * scaleFactor + 5 + equalsSign.getFullBounds().getWidth() + 5, scoreY + maxHeight / 2 - right.getFullBounds().getHeight() * scaleFactor / 2, right.getScale() * scaleFactor, 0, 1000 );
+                    PTransformActivity transformLeft = left.animateToPositionScaleRotation( 0, scoreY + maxHeight / 2 - left.getFullBounds().getHeight() * scaleFactor / 2, left.getScale() * scaleFactor, 0, 1000 );
                     transformLeft.setDelegate( new PActivity.PActivityDelegate() {
                         public void activityStarted( PActivity activity ) {
                         }
@@ -96,9 +102,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                         }
 
                         public void activityFinished( PActivity activity ) {
-                            addChild( new PhetPText( "=" ) {{
-                                setOffset( left.getFullBounds().getMaxX() + 4, left.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-                            }} );
+                            equalsSign.setOffset( left.getFullBounds().getMaxX() + 5, left.getFullBounds().getCenterY() - equalsSign.getFullBounds().getHeight() / 2 );
+                            addChild( equalsSign );
                             scoreY = Math.max( left.getFullBounds().getMaxY(), right.getFullBounds().getMaxY() );
                         }
                     } );
