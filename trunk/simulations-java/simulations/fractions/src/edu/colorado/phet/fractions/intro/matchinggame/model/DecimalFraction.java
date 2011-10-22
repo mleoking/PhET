@@ -24,6 +24,8 @@ public class DecimalFraction extends Representation {
     }
 
     @Override protected PNode toNode( ModelViewTransform transform ) {
-        return new DecimalFractionNode( transform, this );
+        return new DecimalFractionNode( transform, this ) {{
+            scale( 0.5 );
+        }};
     }
 }
