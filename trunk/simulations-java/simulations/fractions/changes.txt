@@ -1,3 +1,4 @@
+# 0.00.06 (57894) Oct 22, 2011
 Improved look and randomization of fraction representations
 Added balance and weight model
 # 0.00.05 (57746) Oct 19, 2011
