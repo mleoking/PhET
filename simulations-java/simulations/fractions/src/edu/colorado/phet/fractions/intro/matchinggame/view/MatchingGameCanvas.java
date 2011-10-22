@@ -1,9 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.matchinggame.view;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -15,6 +12,8 @@ import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.intro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractions.intro.matchinggame.model.Representation;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -87,19 +86,20 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     final RepresentationNode right = getNode( balanceNode.rightPlatform );
                     left.solved();
                     right.solved();
-                    right.animateToPositionScaleRotation( 100, scoreY, right.getScale() / 2, 0, 1000 );
-                    left.animateToPositionScaleRotation( 0, scoreY, left.getScale() / 2, 0, 1000 );
+                    PTransformActivity transformRight = right.animateToPositionScaleRotation( 100, scoreY, right.getScale() / 2, 0, 1000 );
+                    PTransformActivity transformLeft = left.animateToPositionScaleRotation( 0, scoreY, left.getScale() / 2, 0, 1000 );
+                    transformLeft.setDelegate( new PActivity.PActivityDelegate() {
+                        public void activityStarted( PActivity activity ) {
+                        }
 
-                    left.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
-                        public void propertyChange( PropertyChangeEvent evt ) {
-                            if ( left.getOffset().getX() == 0 && left.getOffset().getY() == scoreY ) {
-                                left.removePropertyChangeListener( this );
-                                addChild( new PhetPText( "=" ) {{
-                                    setOffset( left.getFullBounds().getMaxX() + 4, left.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-                                }} );
-                                scoreY = Math.max( left.getFullBounds().getMaxY(), right.getFullBounds().getMaxY() );
-                                System.out.println( "scoreY = " + scoreY );
-                            }
+                        public void activityStepped( PActivity activity ) {
+                        }
+
+                        public void activityFinished( PActivity activity ) {
+                            addChild( new PhetPText( "=" ) {{
+                                setOffset( left.getFullBounds().getMaxX() + 4, left.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+                            }} );
+                            scoreY = Math.max( left.getFullBounds().getMaxY(), right.getFullBounds().getMaxY() );
                         }
                     } );
                 }
