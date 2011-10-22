@@ -40,4 +40,8 @@ public class RepresentationNode extends PNode {
             }
         } );
     }
+
+    public void solved() {
+        representation.solved();
+    }
 }
