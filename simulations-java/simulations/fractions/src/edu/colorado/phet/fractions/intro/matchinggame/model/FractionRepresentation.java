@@ -24,6 +24,6 @@ public class FractionRepresentation extends Representation {
     }
 
     @Override protected PNode toNode( ModelViewTransform transform ) {
-        return new FractionRepresentationNode( transform, this );
+        return new FractionRepresentationNode( transform, this ) {{scale( 0.5 );}};
     }
 }

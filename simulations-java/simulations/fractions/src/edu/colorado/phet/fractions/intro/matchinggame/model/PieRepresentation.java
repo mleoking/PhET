@@ -16,6 +16,8 @@ public class PieRepresentation extends Representation {
     }
 
     @Override protected PNode toNode( ModelViewTransform transform ) {
-        return new PieNode( transform, this );
+        return new PieNode( transform, this ) {{
+            scale( 0.5 );
+        }};
     }
 }
