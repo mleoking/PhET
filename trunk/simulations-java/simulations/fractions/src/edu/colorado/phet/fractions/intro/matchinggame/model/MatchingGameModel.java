@@ -28,6 +28,7 @@ public class MatchingGameModel {
 
             fractionRepresentations.add( new DecimalFraction( transform, fraction, getPosition( new DecimalFraction( transform, fraction ), padding ) ) );
             fractionRepresentations.add( new FractionRepresentation( transform, fraction, getPosition( new FractionRepresentation( transform, fraction ), padding ) ) );
+            fractionRepresentations.add( new PieRepresentation( transform, fraction, getPosition( new FractionRepresentation( transform, fraction ), padding ) ) );
         }
     }
 
