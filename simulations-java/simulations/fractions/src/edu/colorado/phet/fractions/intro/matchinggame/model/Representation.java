@@ -29,6 +29,7 @@ public abstract class Representation {
         } );
     }};
     private PNode platform;
+    public final BooleanProperty scored = new BooleanProperty( false );
 
     protected Representation( ModelViewTransform transform, Fraction fraction, double x, double y ) {
         this.fraction = fraction;
@@ -56,5 +57,11 @@ public abstract class Representation {
 
     public double getWeight() {
         return fraction.getValue();
+    }
+
+    public void solved() {
+        scored.set( true );
+        setOverPlatform( null );
+        dragging.set( false );
     }
 }

@@ -1,11 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.matchinggame.view;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.intro.matchinggame.model.MatchingGameModel;
@@ -20,6 +24,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     private final PNode representationNodes = new PNode();
     public final BalanceNode balanceNode;
     double insetY = -10;
+    private int numFramesBalanced = 0;
+    private double scoreY = 0;
 
     public MatchingGameCanvas( MatchingGameModel model ) {
         for ( Representation representation : model.fractionRepresentations ) {
@@ -42,13 +48,13 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
                     double dt = clockEvent.getSimulationTimeChange();
 
-                    if ( node.representation.dropped.get() && !node.representation.dragging.get() && isOverBalancePlatform( node ) ) {
+                    if ( node.representation.dropped.get() && !node.representation.dragging.get() && isOverBalancePlatform( node ) && !node.representation.scored.get() ) {
                         ImmutableVector2D acceleration = node.representation.force.times( 1.0 / node.representation.mass );
                         node.representation.velocity.set( node.representation.velocity.get().plus( acceleration.times( dt ) ) );
                         node.representation.setOffset( node.representation.getOffset().plus( node.representation.velocity.get().times( dt ) ) );
                     }
 
-                    if ( !node.representation.dragging.get() && node.representation.dropped.get() ) {
+                    if ( !node.representation.dragging.get() && node.representation.dropped.get() && !node.representation.scored.get() ) {
                         if ( node.getGlobalFullBounds().getMaxY() > zeroOffsetBalanceNode.getGlobalFullBounds().getMinY() + insetY ) {
                             node.representation.dropped.set( false );
                             if ( isOverPlatform( node, balanceNode.leftPlatform ) ) {
@@ -68,6 +74,35 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 double rightWeight = getWeight( balanceNode.rightPlatform );
                 double deltaWeight = leftWeight - rightWeight;
                 balanceNode.update( deltaWeight * 5 );
+
+                if ( leftWeight == rightWeight && leftWeight > 0 ) {
+                    numFramesBalanced++;
+                }
+                else {
+                    numFramesBalanced = 0;
+                }
+
+                if ( numFramesBalanced > 30 ) {
+                    final RepresentationNode left = getNode( balanceNode.leftPlatform );
+                    final RepresentationNode right = getNode( balanceNode.rightPlatform );
+                    left.solved();
+                    right.solved();
+                    right.animateToPositionScaleRotation( 100, scoreY, right.getScale() / 2, 0, 1000 );
+                    left.animateToPositionScaleRotation( 0, scoreY, left.getScale() / 2, 0, 1000 );
+
+                    left.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
+                        public void propertyChange( PropertyChangeEvent evt ) {
+                            if ( left.getOffset().getX() == 0 && left.getOffset().getY() == scoreY ) {
+                                left.removePropertyChangeListener( this );
+                                addChild( new PhetPText( "=" ) {{
+                                    setOffset( left.getFullBounds().getMaxX() + 4, left.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+                                }} );
+                                scoreY = Math.max( left.getFullBounds().getMaxY(), right.getFullBounds().getMaxY() );
+                                System.out.println( "scoreY = " + scoreY );
+                            }
+                        }
+                    } );
+                }
             }
         } );
         clock.start();
@@ -89,6 +124,16 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             }
         }
         return leftWeight;
+    }
+
+    private RepresentationNode getNode( PImage platform ) {
+        for ( Object fractionRepresentation : representationNodes.getChildrenReference() ) {
+            RepresentationNode node = (RepresentationNode) fractionRepresentation;
+            if ( node.representation.getOverPlatform() == platform ) {
+                return node;
+            }
+        }
+        return null;
     }
 
     private boolean isOverBalancePlatform( RepresentationNode node ) {
