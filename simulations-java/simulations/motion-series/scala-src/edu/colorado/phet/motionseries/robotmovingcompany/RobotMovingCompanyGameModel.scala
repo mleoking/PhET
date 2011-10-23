@@ -154,12 +154,12 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
       }
     }
 
-    def objectStuck: Boolean = {
-      //only stuck if it is the fridge and it's on the ground and not moving (not on the ramp)
-      //doing this computation in general was difficult since the code for force computation in MotionSeriesObject's MotionStrategy wasn't sufficiently general-purpose
-      //The problem is that the friction force depends on the applied force
-      motionSeriesObject.mass == MotionSeriesDefaults.fridge.mass && motionSeriesObject.rampUnitVector.angle == 0
-    }
+    //only stuck if it is the fridge and it's on the ground and not moving (not on the ramp)
+    //doing this computation in general was difficult since the code for force computation in MotionSeriesObject's MotionStrategy wasn't sufficiently general-purpose
+    //The problem is that the friction force depends on the applied force
+    def objectStuck: Boolean = isFridgeMassOrMysteryMass && motionSeriesObject.rampUnitVector.angle == 0
+
+    def isFridgeMassOrMysteryMass = motionSeriesObject.mass == MotionSeriesDefaults.fridge.mass || motionSeriesObject.mass == MotionSeriesDefaults.mystery.mass
 
     motionSeriesObject.stepListeners += listener
 

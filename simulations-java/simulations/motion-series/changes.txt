@@ -1,3 +1,4 @@
+Ramp Forces and Motion Basics: Fixed: Mystery object can get stuck in the game tab
 # 2.03.00 (57799) Oct 19, 2011
 # 2.02.04 (57743) Oct 19, 2011
 Make sure all non-sum forces always appear in the FBD, see #3054
