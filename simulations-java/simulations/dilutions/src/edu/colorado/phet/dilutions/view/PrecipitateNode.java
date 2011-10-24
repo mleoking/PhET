@@ -124,7 +124,8 @@ public class PrecipitateNode extends PComposite {
     // Gets a random point inside an ellipse with origin at its center.
     private static Point2D getRandomPointInsideEllipse( double theta, double width, double height ) {
 
-        // Generate a random point inside a circle of radius 1
+        // Generate a random point inside a circle of radius 1.
+        // Since circle area is a function of radius^2, taking sqrt provides a uniform distribution.
         double x = Math.sqrt( Math.random() ) * Math.cos( theta );
         double y = Math.sqrt( Math.random() ) * Math.sin( theta );
 
