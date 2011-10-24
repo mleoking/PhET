@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
@@ -75,6 +77,10 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             updateOnPlatform( node, insetY );
 
         }
+
+        //If there are multiple weights on one platform, move off the one that arrived there first
+        moveMultipleWeightsOff();
+
         double leftWeight = getWeight( balanceNode.leftPlatform );
         double rightWeight = getWeight( balanceNode.rightPlatform );
         double deltaWeight = leftWeight - rightWeight;
@@ -116,6 +122,26 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         }
     }
 
+    private void moveMultipleWeightsOff() {
+        moveMultipleWeightsOff( balanceNode.leftPlatform );
+        moveMultipleWeightsOff( balanceNode.rightPlatform );
+    }
+
+    private void moveMultipleWeightsOff( PImage platform ) {
+        ObservableList<RepresentationNode> nodes = getNodesOnPlatform( platform );
+    }
+
+    private ObservableList<RepresentationNode> getNodesOnPlatform( final PImage platform ) {
+        return new ObservableList<RepresentationNode>() {{
+            for ( Object fractionRepresentation : representationNodes.getChildrenReference() ) {
+                RepresentationNode node = (RepresentationNode) fractionRepresentation;
+                if ( node.representation.getOverPlatform() == platform ) {
+                    add( node );
+                }
+            }
+        }};
+    }
+
     private void updateOnPlatform( RepresentationNode node, double insetY ) {
         if ( node.representation.getOverPlatform() != null ) {
             double deltaY = node.representation.getOverPlatform().getGlobalFullBounds().getMinY() - node.getGlobalFullBounds().getMaxY() - insetY;
@@ -124,14 +150,11 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     private double getWeight( PImage platform ) {
-        double leftWeight = 0.0;
-        for ( Object fractionRepresentation : representationNodes.getChildrenReference() ) {
-            RepresentationNode node = (RepresentationNode) fractionRepresentation;
-            if ( node.representation.getOverPlatform() == platform ) {
-                leftWeight += node.representation.getWeight();
+        return getNodesOnPlatform( platform ).foldLeft( 0.0, new Function2<RepresentationNode, Double, Double>() {
+            public Double apply( RepresentationNode node, Double sum ) {
+                return node.representation.getWeight() + sum;
             }
-        }
-        return leftWeight;
+        } );
     }
 
     private RepresentationNode getNode( PImage platform ) {
