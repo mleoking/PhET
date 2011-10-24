@@ -4,5 +4,5 @@ package edu.colorado.phet.testjavaproject;
 
 public class TestProjectConstants {
 
-    public static final String PROJECT_NAME = "test-project";
+    public static final String PROJECT_NAME = "test-java-project";
 }
