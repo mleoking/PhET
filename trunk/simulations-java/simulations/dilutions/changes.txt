@@ -1,3 +1,4 @@
+10/24/11 distribute precipitate on bottom of 3D beaker (random distribution of points inside an ellipse)
 10/24/11 adjust relative layout of Reset All button, document play area layout
 10/24/11 create "points of interest" via composition instead of inheritance
 10/24/11 NamedPointsNode for encapsulating information about "points of interest", used for beaker image

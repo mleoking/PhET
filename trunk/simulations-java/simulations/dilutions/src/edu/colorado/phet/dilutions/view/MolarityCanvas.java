@@ -30,9 +30,10 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
 
         // nodes
         BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, model.solution, valuesVisible );
-        PDimension cylinderSize = beakerNode.getCylinderSize();
-        SolutionNode solutionNode = new SolutionNode( cylinderSize, beakerNode.getCylinderEndHeight(), model.solution, model.getSolutionVolumeRange() );
-        PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, cylinderSize );
+        final PDimension cylinderSize = beakerNode.getCylinderSize();
+        final double cylinderEndHeight = beakerNode.getCylinderEndHeight();
+        SolutionNode solutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.solution, model.getSolutionVolumeRange() );
+        PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, cylinderSize, cylinderEndHeight );
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
         ShowValuesNode showValuesNode = new ShowValuesNode( valuesVisible );
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{

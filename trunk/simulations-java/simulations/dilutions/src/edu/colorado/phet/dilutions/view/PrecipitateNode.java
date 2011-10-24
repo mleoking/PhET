@@ -16,27 +16,30 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * This node manages the precipitate that forms on the bottom of the beaker when the solution is saturated.
- * Origin is at the upper-left corner of the beaker.
+ * It assumes that the beaker is represented as a cylinder, with elliptical top and bottom.
+ * Origin is at the upper-left corner of this cylinder.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PrecipitateNode extends PComposite {
 
     private final Solution solution;
-    private final PDimension beakerSize;
+    private final PDimension cylinderSize;
+    private final double cylinderEndHeight;
     private final ArrayList<PrecipitateParticleNode> particleNodes;
     private final PText valueNode;
 
-    public PrecipitateNode( Solution solution, PDimension beakerSize ) {
+    public PrecipitateNode( Solution solution, PDimension cylinderSize, double cylinderEndHeight ) {
         this.solution = solution;
-        this.beakerSize = beakerSize;
+        this.cylinderSize = cylinderSize;
+        this.cylinderEndHeight = cylinderEndHeight;
         this.particleNodes = new ArrayList<PrecipitateParticleNode>();
         valueNode = new PText( "?" ) {{
             setFont( new PhetFont( 12 ) );
         }};
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
             addChild( valueNode );
-            valueNode.setOffset( 0, beakerSize.getHeight() + 30 );
+            valueNode.setOffset( 0, cylinderSize.getHeight() + 30 );
         }
 
         // when the saturation changes, update the number of precipitate particles
@@ -64,6 +67,7 @@ public class PrecipitateNode extends PComposite {
         particleNodes.clear();
     }
 
+    // Updates the number of particles to match the saturation of the solution.
     private void updateParticles() {
         int numberOfParticles = getNumberOfParticles();
         if ( numberOfParticles == 0 ) {
@@ -89,6 +93,7 @@ public class PrecipitateNode extends PComposite {
         }
     }
 
+    // Updates the debug output to show how we're mapping saturation to number of particles.
     private void updateValue() {
         double precipitateAmount = solution.getPrecipitateAmount();
         int numberOfParticles = getNumberOfParticles();
@@ -96,6 +101,7 @@ public class PrecipitateNode extends PComposite {
                            " (" + numberOfParticles + " particles)" );
     }
 
+    // Gets the number of particles used to represent the solution's saturation.
     private int getNumberOfParticles() {
         int numberOfParticles = (int) ( solution.solute.get().precipitateParticlesMultiplier * solution.getPrecipitateAmount() );
         if ( numberOfParticles == 0 && solution.getPrecipitateAmount() > 0 ) {
@@ -104,17 +110,25 @@ public class PrecipitateNode extends PComposite {
         return numberOfParticles;
     }
 
-    // Gets a random position towards the bottom of the beaker.
-    private Point2D getRandomOffset( PrecipitateParticleNode particleNode ) {
-        // x offset
+    // Gets a random offset for a particle on the bottom of the beaker.
+    protected Point2D getRandomOffset( PrecipitateParticleNode particleNode ) {
         double xMargin = particleNode.getFullBoundsReference().getWidth();
-        double width = beakerSize.getWidth() - particleNode.getFullBoundsReference().getWidth() - ( 2 * xMargin );
-        double x = xMargin + ( Math.random() * width );
-        // y offset
         double yMargin = particleNode.getFullBoundsReference().getHeight();
-        double height = 0.02 * beakerSize.getHeight();
-        double y = beakerSize.getHeight() - yMargin - height + ( Math.random() * height );
-        // offset
+        double angle = Math.random() * 2 * Math.PI;
+        Point2D p = getRandomPointInsideEllipse( angle, cylinderSize.getWidth() - ( 2 * xMargin ), cylinderEndHeight - ( 2 * yMargin ) );
+        double x = ( cylinderSize.getWidth() / 2 ) + p.getX();
+        double y = cylinderSize.getHeight() - p.getY() - ( yMargin / 2 );
         return new Point2D.Double( x, y );
+    }
+
+    // Gets a random point inside an ellipse with origin at its center.
+    private static Point2D getRandomPointInsideEllipse( double theta, double width, double height ) {
+
+        // Generate a random point inside a circle of radius 1
+        double x = Math.sqrt( Math.random() ) * Math.cos( theta );
+        double y = Math.sqrt( Math.random() ) * Math.sin( theta );
+
+        // Scale x and y to the dimensions of the ellipse
+        return new Point2D.Double( x * width / 2, y * height / 2 );
     }
 }
