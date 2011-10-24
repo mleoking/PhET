@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.testproject;
+package edu.colorado.phet.testjavaproject;
 
 
 public class TestProjectConstants {
