@@ -117,7 +117,7 @@ public class IntroCanvas extends PhetPCanvas {
                 final PNode finalMassNode = massNode;
                 model.massList.addElementRemovedObserver( mass, new VoidFunction0() {
                     public void apply() {
-                        rootNode.removeChild( finalMassNode );
+                        massesLayer.removeChild( finalMassNode );
                     }
                 } );
             }
