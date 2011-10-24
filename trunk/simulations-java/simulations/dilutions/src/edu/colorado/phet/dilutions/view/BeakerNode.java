@@ -7,11 +7,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
@@ -44,10 +42,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BeakerNode extends PComposite {
 
-    private static final boolean CYLINDER_VISIBLE = false; // for debugging alignment with beaker image file
-
+    // tick mark properties
     private static final String[] MAJOR_TICK_LABELS = { "0.5", "1" };
-
     private static final Color TICK_COLOR = Color.GRAY;
     private static final Color TICK_LABEL_COLOR = Color.DARK_GRAY;
     private static final double MINOR_TICK_SPACING = 0.1; // L
@@ -58,6 +54,8 @@ public class BeakerNode extends PComposite {
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Font TICK_LABEL_FONT = new PhetFont( 20 );
     private static final double TICK_LABEL_X_SPACING = 8;
+
+    // frosty label properties
     private static final PDimension LABEL_SIZE = new PDimension( 180, 70 );
 
     private final BeakerImageNode beakerImageNode;
@@ -77,13 +75,7 @@ public class BeakerNode extends PComposite {
         final PDimension cylinderSize = beakerImageNode.getCylinderSize();
         final Point2D cylinderOffset = beakerImageNode.getCylinderOffset();
         final double cylinderEndHeight = beakerImageNode.getCylinderEndHeight();
-        System.out.println( "cylinderEndHeight = " + cylinderEndHeight ); //XXX
         beakerImageNode.setOffset( -cylinderOffset.getX(), -cylinderOffset.getY() );
-
-        // cylinder that defines the inner part of the beaker that can be filled. Use this to manually align with beaker image file.
-        if ( CYLINDER_VISIBLE ) {
-            addChild( new CylinderNode( cylinderSize, cylinderEndHeight ) );
-        }
 
         // inside bottom line
         PPath bottomNode = new PPath() {{
@@ -140,7 +132,7 @@ public class BeakerNode extends PComposite {
         }
 
         // label on the beaker
-        labelNode = new LabelNode( solution.solute.get().formula, cylinderSize );
+        labelNode = new LabelNode( solution.solute.get().formula );
         addChild( labelNode );
         labelNode.setOffset( ( cylinderSize.getWidth() / 2 ), ( 0.25 * cylinderSize.getHeight() ) );
 
@@ -168,25 +160,13 @@ public class BeakerNode extends PComposite {
         return beakerImageNode.getCylinderEndHeight();
     }
 
-    //TODO relate this to SolutionNode
-    // Cylinder that defines the shape that can be filled in the beaker, used for debugging alignment with beaker image file.
-    private static class CylinderNode extends PPath {
-        public CylinderNode( PDimension size, double cylinderEndHeight ) {
-            setStrokePaint( Color.RED );
-            Area area = new Area( new Rectangle2D.Double( 0, 0, size.width, size.height ) );
-            area.add( new Area( new Ellipse2D.Double( 0, -cylinderEndHeight / 2, size.width, cylinderEndHeight ) ) );
-            area.add( new Area( new Ellipse2D.Double( 0, size.height - ( cylinderEndHeight / 2 ), size.width, cylinderEndHeight ) ) );
-            setPathTo( area );
-        }
-    }
-
-    // Label that appears on the beaker in a frost, translucent frame. Origin at geometric center.
+    // Label that appears on the beaker in a frosty, translucent frame. Origin at geometric center.
     private static class LabelNode extends PComposite {
 
         private final HTMLNode htmlNode;
         private final PPath backgroundNode;
 
-        public LabelNode( String text, final PDimension beakerSize ) {
+        public LabelNode( String text ) {
 
             // nodes
             htmlNode = new HTMLNode( "?" ) {{

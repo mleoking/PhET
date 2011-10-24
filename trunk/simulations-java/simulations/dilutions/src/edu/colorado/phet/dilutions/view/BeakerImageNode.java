@@ -3,6 +3,8 @@ package edu.colorado.phet.dilutions.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -59,7 +61,7 @@ public class BeakerImageNode extends PImage {
         return points.getOffset( CYLINDER_END_FOREGROUND ).getY() - points.getOffset( CYLINDER_END_BACKGROUND ).getY();
     }
 
-    // test
+    // run this test to check alignment of cylinder with image file
     public static void main( String[] args ) {
         // beaker image
         final BeakerImageNode beakerNode = new BeakerImageNode() {{
@@ -67,17 +69,21 @@ public class BeakerImageNode extends PImage {
             scale( 0.75 );
         }};
         // draw the cylinder that represents the beaker's interior
-        final Point2D cylinderOffset = beakerNode.getCylinderOffset();
-        final PDimension cylinderSize = beakerNode.getCylinderSize();
         final PPath cylinderNode = new PPath() {{
-            setPathTo( new Rectangle2D.Double( cylinderOffset.getX(), cylinderOffset.getY(), cylinderSize.getWidth(), cylinderSize.getHeight() ) );
+            PDimension cylinderSize = beakerNode.getCylinderSize();
+            double cylinderEndHeight = beakerNode.getCylinderEndHeight();
+            Area area = new Area( new Rectangle2D.Double( 0, 0, cylinderSize.width, cylinderSize.height ) );
+            area.add( new Area( new Ellipse2D.Double( 0, -cylinderEndHeight / 2, cylinderSize.width, cylinderEndHeight ) ) );
+            area.add( new Area( new Ellipse2D.Double( 0, cylinderSize.height - ( cylinderEndHeight / 2 ), cylinderSize.width, cylinderEndHeight ) ) );
+            setPathTo( area );
             setStrokePaint( Color.RED );
+            setOffset( beakerNode.getCylinderOffset() );
         }};
         // canvas
         final PCanvas canvas = new PCanvas() {{
             getLayer().addChild( beakerNode );
             getLayer().addChild( cylinderNode );
-            setPreferredSize( new Dimension( 800, 800 ) );
+            setPreferredSize( new Dimension( 600, 600 ) );
         }};
         // frame
         JFrame frame = new JFrame() {{
