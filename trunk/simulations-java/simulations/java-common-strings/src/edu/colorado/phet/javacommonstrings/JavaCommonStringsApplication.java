@@ -25,5 +25,8 @@ public class JavaCommonStringsApplication {
                          "You can use this JAR file to translate common strings with Translation Utility." + "<br>" +
                          "But testing those translations is not currently supported." + "</html>";
         PhetOptionPane.showMessageDialog( null, message );
+
+        //Exit the VM after the dialog is closed, see #3127
+        System.exit( 0 );
     }
 }
