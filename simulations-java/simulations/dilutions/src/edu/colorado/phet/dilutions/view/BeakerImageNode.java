@@ -24,37 +24,39 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeakerImageNode extends NamedPointsNode {
+public class BeakerImageNode extends PImage {
 
     private static final String CYLINDER_UPPER_LEFT = "cylinderUpperLeft";
     private static final String CYLINDER_LOWER_RIGHT = "cylinderLowerRight";
     private static final String CYLINDER_END_BACKGROUND = "cylinderEndBackground";
     private static final String CYLINDER_END_FOREGROUND = "cylinderEndForeground";
 
-    public BeakerImageNode() {
+    private final NamedPoints points;
 
-        PImage imageNode = new PImage( Images.BEAKER_IMAGE );
-        addChild( imageNode );
+    public BeakerImageNode() {
+        super( Images.BEAKER_IMAGE );
 
         // points of interest in the untransformed image, get these via inspection in Photoshop or other image-editing program
-        addOffset( CYLINDER_UPPER_LEFT, new Point2D.Double( 102, 192 ) );
-        addOffset( CYLINDER_LOWER_RIGHT, new Point2D.Double( 530, 644 ) );
-        addOffset( CYLINDER_END_BACKGROUND, new Point2D.Double( 215, 166 ) );
-        addOffset( CYLINDER_END_FOREGROUND, new Point2D.Double( 215, 218 ) );
+        points = new NamedPoints( this ) {{
+            addOffset( CYLINDER_UPPER_LEFT, new Point2D.Double( 102, 192 ) );
+            addOffset( CYLINDER_LOWER_RIGHT, new Point2D.Double( 530, 644 ) );
+            addOffset( CYLINDER_END_BACKGROUND, new Point2D.Double( 215, 166 ) );
+            addOffset( CYLINDER_END_FOREGROUND, new Point2D.Double( 215, 218 ) );
+        }};
     }
 
     public PDimension getCylinderSize() {
-        Point2D pUpperLeft = getOffset( CYLINDER_UPPER_LEFT );
-        Point2D pLowerRight = getOffset( CYLINDER_LOWER_RIGHT );
+        Point2D pUpperLeft = points.getOffset( CYLINDER_UPPER_LEFT );
+        Point2D pLowerRight = points.getOffset( CYLINDER_LOWER_RIGHT );
         return new PDimension( pLowerRight.getX() - pUpperLeft.getX(), pLowerRight.getY() - pUpperLeft.getY() );
     }
 
     public Point2D getCylinderOffset() {
-        return getOffset( CYLINDER_UPPER_LEFT );
+        return points.getOffset( CYLINDER_UPPER_LEFT );
     }
 
     public double getCylinderEndHeight() {
-        return getOffset( CYLINDER_END_FOREGROUND ).getY() - getOffset( CYLINDER_END_BACKGROUND ).getY();
+        return points.getOffset( CYLINDER_END_FOREGROUND ).getY() - points.getOffset( CYLINDER_END_BACKGROUND ).getY();
     }
 
     // test

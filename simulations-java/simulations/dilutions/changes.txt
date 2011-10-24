@@ -1,3 +1,4 @@
+10/24/11 create "points of interest" via composition instead of inheritance
 10/24/11 NamedPointsNode for encapsulating information about "points of interest", used for beaker image
 10/24/11 make beaker larger
 10/24/11 improve slider thumbs

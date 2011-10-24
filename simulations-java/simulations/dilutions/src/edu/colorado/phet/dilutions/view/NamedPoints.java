@@ -4,28 +4,28 @@ package edu.colorado.phet.dilutions.view;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 
-import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
- * Provides the ability to name "points of interest" in the node.
+ * A map used to identify "points of interest" in a node.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NamedPointsNode extends PhetPNode {
+public class NamedPoints extends HashMap<String, Point2D> {
 
-    private final HashMap<String, Point2D> offsets;
+    private final PNode node;
 
-    public NamedPointsNode() {
-        offsets = new HashMap<String, Point2D>();
+    public NamedPoints( PNode node ) {
+        this.node = node;
     }
 
     // Adds a named point in the untransformed coordinate frame of the image.
     public void addOffset( String name, Point2D point ) {
-        offsets.put( name, point );
+        put( name, point );
     }
 
     // Gets a named point in the transformed coordinate frame of the image.
     public Point2D getOffset( String name ) {
-        return getTransform().transform( offsets.get( name ), null );
+        return node.getTransform().transform( get( name ), null );
     }
 }
