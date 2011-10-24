@@ -110,29 +110,6 @@ public class TestImageMassNodes {
         addNextImageMassNode( new SodaBottle( false ), canvas, mvt );
         addNextImageMassNode( new Tire( false ), canvas, mvt );
 
-        /*
-        BooleanProperty massLabelVisible = new BooleanProperty( true );
-        PNode node = new ImageMassNode( mvt, new TinyRock( false ), canvas, massLabelVisible );
-        System.out.println( "node.getFullBoundsReference() = " + node.getFullBoundsReference() );
-        node = new ImageMassNode( mvt, new SmallRock( false ), canvas, massLabelVisible );
-        System.out.println( "node.getFullBoundsReference() = " + node.getFullBoundsReference() );
-        node = new ImageMassNode( mvt, new MediumRock( false ), canvas, massLabelVisible );
-        System.out.println( "node.getFullBoundsReference() = " + node.getFullBoundsReference() );
-        node = new ImageMassNode( mvt, new BigRock( false ), canvas, massLabelVisible );
-        System.out.println( "node.getFullBoundsReference() = " + node.getFullBoundsReference() );
-        node = new ImageMassNode( mvt, new Boy(), canvas, massLabelVisible );
-        System.out.println( "node.getFullBoundsReference() = " + node.getFullBoundsReference() );
-        node = new ImageMassNode( mvt, new Girl(), canvas, massLabelVisible );
-        System.out.println( "node.getFullBoundsReference() = " + node.getFullBoundsReference() );
-        node = new ImageMassNode( mvt, new Woman(), canvas, massLabelVisible );
-        System.out.println( "node.getFullBoundsReference() = " + node.getFullBoundsReference() );
-        node = new ImageMassNode( mvt, new StatueOfOdysseus( false ), canvas, massLabelVisible );
-        System.out.println( "node.getFullBoundsReference() = " + node.getFullBoundsReference() );
-        node = new ImageMassNode( mvt, new CinderBlock( false ), canvas, massLabelVisible );
-        System.out.println( "node.getFullBoundsReference() = " + node.getFullBoundsReference() );
-        */
-
-
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
         frame.setContentPane( canvas );
@@ -141,5 +118,4 @@ public class TestImageMassNodes {
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
     }
-
 }

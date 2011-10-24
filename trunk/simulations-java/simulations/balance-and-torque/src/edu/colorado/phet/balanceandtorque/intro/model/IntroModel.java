@@ -16,7 +16,7 @@ import edu.colorado.phet.balanceandtorque.common.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.FireExtinguisher;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.common.model.masses.MediumTrashCan;
+import edu.colorado.phet.balanceandtorque.common.model.masses.SmallTrashCan;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -112,7 +112,7 @@ public class IntroModel implements Resettable {
         }};
         addMass( mass );
         mapMassesToInitialPositions.put( mass, mass.getPosition() );
-        mass = new MediumTrashCan( false ) {{
+        mass = new SmallTrashCan( false ) {{
             setPosition( 3.7, 0 );
         }};
         addMass( mass );
