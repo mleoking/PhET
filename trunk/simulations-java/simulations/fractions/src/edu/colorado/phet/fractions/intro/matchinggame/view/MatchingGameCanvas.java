@@ -25,6 +25,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     double insetY = -10;
     private int numFramesBalanced = 0;
     private double scoreY = 0;
+    private final ZeroOffsetNode zeroOffsetBalanceNode;
 
     public MatchingGameCanvas( MatchingGameModel model ) {
         for ( Representation representation : model.fractionRepresentations ) {
@@ -32,7 +33,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         }
 
         balanceNode = new BalanceNode();
-        final ZeroOffsetNode zeroOffsetBalanceNode = new ZeroOffsetNode( balanceNode ) {{
+        zeroOffsetBalanceNode = new ZeroOffsetNode( balanceNode ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }};
         addChild( zeroOffsetBalanceNode );
@@ -42,75 +43,77 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         Clock clock = new ConstantDtClock( 30 );
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                for ( Object fractionRepresentation : representationNodes.getChildrenReference() ) {
-                    RepresentationNode node = (RepresentationNode) fractionRepresentation;
-
-                    double dt = clockEvent.getSimulationTimeChange();
-
-                    if ( node.representation.dropped.get() && !node.representation.dragging.get() && isOverBalancePlatform( node ) && !node.representation.scored.get() ) {
-                        ImmutableVector2D acceleration = node.representation.force.times( 1.0 / node.representation.mass );
-                        node.representation.velocity.set( node.representation.velocity.get().plus( acceleration.times( dt ) ) );
-                        node.representation.setOffset( node.representation.getOffset().plus( node.representation.velocity.get().times( dt ) ) );
-                    }
-
-                    if ( !node.representation.dragging.get() && node.representation.dropped.get() && !node.representation.scored.get() ) {
-                        if ( node.getGlobalFullBounds().getMaxY() > zeroOffsetBalanceNode.getGlobalFullBounds().getMinY() + insetY ) {
-                            node.representation.dropped.set( false );
-                            if ( isOverPlatform( node, balanceNode.leftPlatform ) ) {
-                                node.representation.setOverPlatform( balanceNode.leftPlatform );
-                            }
-                            else if ( isOverPlatform( node, balanceNode.rightPlatform ) ) {
-                                node.representation.setOverPlatform( balanceNode.rightPlatform );
-                            }
-                            updateOnPlatform( node, insetY );
-                        }
-                    }
-
-                    updateOnPlatform( node, insetY );
-
-                }
-                double leftWeight = getWeight( balanceNode.leftPlatform );
-                double rightWeight = getWeight( balanceNode.rightPlatform );
-                double deltaWeight = leftWeight - rightWeight;
-                balanceNode.update( deltaWeight * 5 );
-
-                if ( leftWeight == rightWeight && leftWeight > 0 ) {
-                    numFramesBalanced++;
-                }
-                else {
-                    numFramesBalanced = 0;
-                }
-
-                if ( numFramesBalanced > 30 ) {
-                    final RepresentationNode left = getNode( balanceNode.leftPlatform );
-                    final RepresentationNode right = getNode( balanceNode.rightPlatform );
-                    left.solved();
-                    right.solved();
-                    double scaleFactor = 0.5;
-
-                    final PNode equalsSign = new PhetPText( "=" );
-
-                    double maxHeight = Math.max( left.getFullBounds().getHeight(), right.getFullBounds().getHeight() ) * scaleFactor;
-
-                    right.animateToPositionScaleRotation( left.getFullBounds().getWidth() * scaleFactor + 5 + equalsSign.getFullBounds().getWidth() + 5, scoreY + maxHeight / 2 - right.getFullBounds().getHeight() * scaleFactor / 2, right.getScale() * scaleFactor, 0, 1000 );
-                    PTransformActivity transformLeft = left.animateToPositionScaleRotation( 0, scoreY + maxHeight / 2 - left.getFullBounds().getHeight() * scaleFactor / 2, left.getScale() * scaleFactor, 0, 1000 );
-                    transformLeft.setDelegate( new PActivity.PActivityDelegate() {
-                        public void activityStarted( PActivity activity ) {
-                        }
-
-                        public void activityStepped( PActivity activity ) {
-                        }
-
-                        public void activityFinished( PActivity activity ) {
-                            equalsSign.setOffset( left.getFullBounds().getMaxX() + 5, left.getFullBounds().getCenterY() - equalsSign.getFullBounds().getHeight() / 2 );
-                            addChild( equalsSign );
-                            scoreY = Math.max( left.getFullBounds().getMaxY(), right.getFullBounds().getMaxY() );
-                        }
-                    } );
-                }
+                stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
         clock.start();
+    }
+
+    private void stepInTime( double dt ) {
+        for ( Object fractionRepresentation : representationNodes.getChildrenReference() ) {
+            RepresentationNode node = (RepresentationNode) fractionRepresentation;
+
+            if ( node.representation.dropped.get() && !node.representation.dragging.get() && isOverBalancePlatform( node ) && !node.representation.scored.get() ) {
+                ImmutableVector2D acceleration = node.representation.force.times( 1.0 / node.representation.mass );
+                node.representation.velocity.set( node.representation.velocity.get().plus( acceleration.times( dt ) ) );
+                node.representation.setOffset( node.representation.getOffset().plus( node.representation.velocity.get().times( dt ) ) );
+            }
+
+            if ( !node.representation.dragging.get() && node.representation.dropped.get() && !node.representation.scored.get() ) {
+                if ( node.getGlobalFullBounds().getMaxY() > zeroOffsetBalanceNode.getGlobalFullBounds().getMinY() + insetY ) {
+                    node.representation.dropped.set( false );
+                    if ( isOverPlatform( node, balanceNode.leftPlatform ) ) {
+                        node.representation.setOverPlatform( balanceNode.leftPlatform );
+                    }
+                    else if ( isOverPlatform( node, balanceNode.rightPlatform ) ) {
+                        node.representation.setOverPlatform( balanceNode.rightPlatform );
+                    }
+                    updateOnPlatform( node, insetY );
+                }
+            }
+
+            updateOnPlatform( node, insetY );
+
+        }
+        double leftWeight = getWeight( balanceNode.leftPlatform );
+        double rightWeight = getWeight( balanceNode.rightPlatform );
+        double deltaWeight = leftWeight - rightWeight;
+        balanceNode.update( deltaWeight * 5 );
+
+        if ( leftWeight == rightWeight && leftWeight > 0 ) {
+            numFramesBalanced++;
+        }
+        else {
+            numFramesBalanced = 0;
+        }
+
+        if ( numFramesBalanced > 30 ) {
+            final RepresentationNode left = getNode( balanceNode.leftPlatform );
+            final RepresentationNode right = getNode( balanceNode.rightPlatform );
+            left.solved();
+            right.solved();
+            double scaleFactor = 0.5;
+
+            final PNode equalsSign = new PhetPText( "=" );
+
+            double maxHeight = Math.max( left.getFullBounds().getHeight(), right.getFullBounds().getHeight() ) * scaleFactor;
+
+            right.animateToPositionScaleRotation( left.getFullBounds().getWidth() * scaleFactor + 5 + equalsSign.getFullBounds().getWidth() + 5, scoreY + maxHeight / 2 - right.getFullBounds().getHeight() * scaleFactor / 2, right.getScale() * scaleFactor, 0, 1000 );
+            PTransformActivity transformLeft = left.animateToPositionScaleRotation( 0, scoreY + maxHeight / 2 - left.getFullBounds().getHeight() * scaleFactor / 2, left.getScale() * scaleFactor, 0, 1000 );
+            transformLeft.setDelegate( new PActivity.PActivityDelegate() {
+                public void activityStarted( PActivity activity ) {
+                }
+
+                public void activityStepped( PActivity activity ) {
+                }
+
+                public void activityFinished( PActivity activity ) {
+                    equalsSign.setOffset( left.getFullBounds().getMaxX() + 5, left.getFullBounds().getCenterY() - equalsSign.getFullBounds().getHeight() / 2 );
+                    addChild( equalsSign );
+                    scoreY = Math.max( left.getFullBounds().getMaxY(), right.getFullBounds().getMaxY() );
+                }
+            } );
+        }
     }
 
     private void updateOnPlatform( RepresentationNode node, double insetY ) {
