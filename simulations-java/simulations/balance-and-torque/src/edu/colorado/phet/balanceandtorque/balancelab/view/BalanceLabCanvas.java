@@ -13,8 +13,8 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
-import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
 import edu.colorado.phet.balanceandtorque.common.model.SupportColumn;
+import edu.colorado.phet.balanceandtorque.common.model.masses.BrickStack;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
@@ -86,9 +86,8 @@ public class BalanceLabCanvas extends PhetPCanvas {
             public void apply( Mass mass ) {
                 // Create and add the view representation for this mass.
                 PNode massNode = null;
-                if ( mass instanceof ShapeMass ) {
-                    // TODO: Always bricks right now, may have to change in the future.
-                    massNode = new BrickStackNode( (ShapeMass) mass, mvt, BalanceLabCanvas.this, massLabelVisibilityProperty );
+                if ( mass instanceof BrickStack ) {
+                    massNode = new BrickStackNode( (BrickStack) mass, mvt, BalanceLabCanvas.this, massLabelVisibilityProperty );
                 }
                 else if ( mass instanceof LabeledImageMass ) {
                     // These are mystery objects.
