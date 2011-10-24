@@ -12,6 +12,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -39,6 +40,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -73,10 +75,10 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     private static final Color TRACK_FILL_COLOR = Color.BLACK;
 
     // knob
-    private static final PDimension KNOB_SIZE = new PDimension( 30, 10 );
+    private static final PDimension KNOB_SIZE = new PDimension( 45, 15 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
     private static final Color KNOB_NORMAL_COLOR = new Color( 89, 156, 212 );
-    private static final Color KNOB_HIGHLIGHT_COLOR = new Color( 214, 255, 255 );
+    private static final Color KNOB_HIGHLIGHT_COLOR = KNOB_NORMAL_COLOR.brighter();
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
 
     // tick marks
@@ -295,21 +297,30 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         }
     }
 
-    // The slider thumb, a simple rectangle. Origin is at the thumb's geometric center.
-    private static class ThumbNode extends PPath {
+    // The slider thumb, rounded rectangle with a horizontal line through the center. Origin is at the thumb's geometric center.
+    private static class ThumbNode extends PComposite {
 
         public ThumbNode( PNode relativeNode, PNode trackNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
 
-            final double arcWidth = 0.6 * KNOB_SIZE.getWidth();
-            setPathTo( new RoundRectangle2D.Double( -KNOB_SIZE.getWidth() / 2, -KNOB_SIZE.getHeight() / 2,
-                                                    KNOB_SIZE.getWidth(), KNOB_SIZE.getHeight(),
-                                                    arcWidth, arcWidth ) );
-            setPaint( KNOB_NORMAL_COLOR );
-            setStroke( KNOB_STROKE );
-            setStrokePaint( KNOB_STROKE_COLOR );
+            PPath pathNode = new PPath() {{
+                final double arcWidth = 0.25 * KNOB_SIZE.getWidth();
+                setPathTo( new RoundRectangle2D.Double( -KNOB_SIZE.getWidth() / 2, -KNOB_SIZE.getHeight() / 2,
+                                                        KNOB_SIZE.getWidth(), KNOB_SIZE.getHeight(),
+                                                        arcWidth, arcWidth ) );
+                setPaint( KNOB_NORMAL_COLOR );
+                setStroke( KNOB_STROKE );
+                setStrokePaint( KNOB_STROKE_COLOR );
+            }};
+            addChild( pathNode );
+
+            PPath lineNode = new PPath() {{
+                setPathTo( new Line2D.Double( -( KNOB_SIZE.getWidth() / 2 ) + 3, 0, ( KNOB_SIZE.getWidth() / 2 ) - 3, 0 ) );
+                setStrokePaint( Color.WHITE );
+            }};
+            addChild( lineNode );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PaintHighlightHandler( this, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
+            addInputEventListener( new PaintHighlightHandler( pathNode, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
             addInputEventListener( new SliderThumbDragHandler( Orientation.VERTICAL, relativeNode, trackNode, this, range, updateFunction ) );
         }
     }
