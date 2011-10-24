@@ -22,3 +22,4 @@ LOW
 
 MIGRATE TO COMMON
 - SmartDoubleFormat
+- NamedPointsNode

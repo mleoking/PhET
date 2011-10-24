@@ -1,3 +1,4 @@
+10/24/11 NamedPointsNode for encapsulating information about "points of interest", used for beaker image
 10/24/11 make beaker larger
 10/24/11 improve slider thumbs
 10/21/11 rename tab 2 to "Dilution"
