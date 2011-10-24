@@ -35,7 +35,7 @@ public class MainView extends Canvas {
     public var myView1DModes: View1DModes; //another view for Model1, showing individual modes
     public var myView2: View2;         //view for Model2
 
-    public var mySloMoStepControl: SloMoStepControl;
+    //public var mySloMoStepControl: SloMoStepControl;
     public var mySliderArrayPanel: SliderArrayPanel;
     public var myButtonArrayPanel: ButtonArrayPanel;
     public var myControlPanel: ControlPanel;
@@ -93,9 +93,9 @@ public class MainView extends Canvas {
         this.myView2.x = 0 * stageW;
         this.myView2.y = 0 * stageH;
 
-        this.mySloMoStepControl = new SloMoStepControl( this, myModel1 );
-        this.mySloMoStepControl.x = 0.93 * stageW ;           // hard-coded, unfortunately
-        this.mySloMoStepControl.y = 0.42 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
+        //this.mySloMoStepControl = new SloMoStepControl( this, myModel1 );
+        //this.mySloMoStepControl.x = 0.93 * stageW ;           // hard-coded, unfortunately
+        //this.mySloMoStepControl.y = 0.42 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
         //trace("MainView:  "+this.myPlayPauseButtons.width )
         this.mySliderArrayPanel = new SliderArrayPanel( this, this.myModel1 );
         this.mySliderArrayPanel.x = 0*stageW;
@@ -122,7 +122,7 @@ public class MainView extends Canvas {
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
         this.phetLogo.y = 0;// stageH - 1.5 * this.phetLogo.height;
 
-        this.addChild( this.mySloMoStepControl );
+        //this.addChild( this.mySloMoStepControl );
         this.addChild( myPausedSign );
         this.addChild( mySliderArrayPanel );
         //this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
@@ -165,7 +165,7 @@ public class MainView extends Canvas {
             this.mySliderArrayPanel.visible = true;
             this.myButtonArrayPanel.visible = false;
             this.myControlPanel.setModel( this.myModel1 );
-            this.mySloMoStepControl.setModel( this.myModel1 );
+            this.myControlPanel.mySloMoStepControl.setModel( this.myModel1 );
             this.myPausedSign.setModel( this.myModel1 );
             this.myControlPanel.setNbrMassesExternallyWithNoAction( this.myModel1.N );
             //this.myControlPanel.showPhasesVisible( true );
@@ -181,7 +181,7 @@ public class MainView extends Canvas {
             this.mySliderArrayPanel.visible = false;
             this.myButtonArrayPanel.visible = true;
             this.myControlPanel.setModel( this.myModel2 );
-            this.mySloMoStepControl.setModel( this.myModel2 );
+            this.myControlPanel.mySloMoStepControl.setModel( this.myModel2 );
             this.myPausedSign.setModel( this.myModel2 );
             this.myControlPanel.setNbrMassesExternallyWithNoAction( this.myModel2.N );
             //this.myControlPanel.showPhasesVisible( false );
@@ -196,8 +196,8 @@ public class MainView extends Canvas {
         this.myModel1.interrupted = false;
         this.myModel2.interrupted = false;
         this.myView1.initializeControls();
-        this.mySloMoStepControl.unPauseExternally();
-        this.mySloMoStepControl.setSliderExternally(1);
+        this.myControlPanel.mySloMoStepControl.unPauseExternally();
+        this.myControlPanel.mySloMoStepControl.setSliderExternally(1);
         this.myControlPanel.setNbrMassesExternally( 3 );    //this initializes Model1
         this.myModel2.setN( 2 );                            //this initializes Model2
         this.mySliderArrayPanel.drawBoundingBox();
