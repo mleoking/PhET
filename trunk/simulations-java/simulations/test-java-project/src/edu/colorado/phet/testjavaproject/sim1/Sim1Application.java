@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.testproject.sim1;
+package edu.colorado.phet.testjavaproject.sim1;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.testproject.EmptyModule;
-import edu.colorado.phet.testproject.TestProjectResources;
+import edu.colorado.phet.testjavaproject.EmptyModule;
+import edu.colorado.phet.testjavaproject.TestProjectResources;
 
 public class Sim1Application extends PiccoloPhetApplication {
 
