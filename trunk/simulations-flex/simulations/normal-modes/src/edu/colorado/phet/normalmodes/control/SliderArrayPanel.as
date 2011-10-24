@@ -373,6 +373,7 @@ public class SliderArrayPanel extends Canvas {
         this.plusPi_txt.visible = tOrF;
 
 
+
         this.zero_txt.visible = tOrF;
         this.minusPi_txt.visible = tOrF;
         for( var i:int = 0; i < nbrMasses; i++ ){
