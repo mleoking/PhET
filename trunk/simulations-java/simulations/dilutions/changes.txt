@@ -1,3 +1,4 @@
+10/24/11 improve slider thumbs
 10/21/11 rename tab 2 to "Dilution"
 # 0.00.04 (57838) Oct 21, 2011
 10/21/11 fix: if solution is saturated, show at least 1 precipitate particle
