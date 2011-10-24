@@ -230,7 +230,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
                         setTime( convertSecondsToMilliseconds( model.getTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ) );
                     }
                     else {
-                        // TODO: Should we even be setting the time here?  Can we get rid of this?
                         setTime( convertSecondsToMilliseconds( model.getTime() ) );
                     }
                 }
