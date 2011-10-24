@@ -3,6 +3,7 @@ TODO list for dilutions
 DESIGN
 - color for water
 - color scale issues in Molarity tab
+- if solute amount is "none", is it correct for concentration to be "low"?
 
 HIGH
 
