@@ -151,10 +151,10 @@ public class ConcentrationDisplayNode extends PComposite {
     // Arrow with a value next to it, drawn in the coordinate frame of the bar to simplifying filling with a gradient paint.
     private static class PointerNode extends PComposite {
 
-        private static final int ARROW_LENGTH = 28;
-        private static final int ARROW_HEAD_HEIGHT = 20;
-        private static final int ARROW_HEAD_WIDTH = 20;
-        private static final int ARROW_TAIL_WIDTH = 10;
+        private static final int ARROW_LENGTH = 35;
+        private static final int ARROW_HEAD_HEIGHT = 25;
+        private static final int ARROW_HEAD_WIDTH = 25;
+        private static final int ARROW_TAIL_WIDTH = 13;
 
         private final PDimension barSize;
         private final LinearFunction function;
