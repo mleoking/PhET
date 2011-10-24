@@ -1,3 +1,4 @@
+Added a small trash can mass object, which is being used in the first tab so as not to give away mass of medium trash can, which is being used as a mystery mass in the game.
 Changed show label from "Ruler" to "Rulers", since the ruler was split into two a while back.
 # 0.00.15 (57885) Oct 21, 2011
 10/21/11 Deploying to dev for review and feedback.

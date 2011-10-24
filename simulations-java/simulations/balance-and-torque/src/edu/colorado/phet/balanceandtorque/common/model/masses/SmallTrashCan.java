@@ -7,16 +7,16 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 
 
 /**
- * Model class that represents a medium size trash can.
+ * Model class that represents a smaller trash can.
  *
  * @author John Blanco
  */
-public class MediumTrashCan extends ImageMass {
+public class SmallTrashCan extends ImageMass {
 
-    private static final double MASS = 30; // in kg
-    private static final double HEIGHT = 0.65; // In meters.
+    private static final double MASS = 10; // in kg
+    private static final double HEIGHT = 0.55; // In meters.
 
-    public MediumTrashCan( boolean isMystery ) {
+    public SmallTrashCan( boolean isMystery ) {
         super( MASS, Images.TRASH_CAN, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
     }
 }
