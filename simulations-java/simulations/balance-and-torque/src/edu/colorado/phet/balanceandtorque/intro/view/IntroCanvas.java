@@ -10,6 +10,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.ImageMassNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.MysteryVectorNode;
@@ -28,7 +29,6 @@ import edu.colorado.phet.balanceandtorque.common.view.LevelIndicatorNode;
 import edu.colorado.phet.balanceandtorque.common.view.LevelSupportColumnNode;
 import edu.colorado.phet.balanceandtorque.common.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
-import edu.colorado.phet.balanceandtorque.intro.model.IntroModel;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -61,7 +61,7 @@ public class IntroCanvas extends PhetPCanvas {
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty levelIndicatorVisibleProperty = new BooleanProperty( false );
 
-    public IntroCanvas( final IntroModel model ) {
+    public IntroCanvas( final BalanceModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
@@ -99,7 +99,6 @@ public class IntroCanvas extends PhetPCanvas {
                 // Create and add the view representation for this mass.
                 PNode massNode = null;
                 if ( mass instanceof ShapeMass ) {
-                    // TODO: Always bricks right now, may have to change in the future.
                     massNode = new BrickStackNode( (ShapeMass) mass, mvt, IntroCanvas.this, massLabelVisibilityProperty );
                 }
                 else if ( mass instanceof LabeledImageMass ) {

@@ -10,7 +10,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.common.model.SupportColumn;
@@ -46,6 +46,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
+ * Main view class for the balance lab module.
+ *
  * @author John Blanco
  */
 public class BalanceLabCanvas extends PhetPCanvas {
@@ -58,10 +60,10 @@ public class BalanceLabCanvas extends PhetPCanvas {
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty levelIndicatorVisibleProperty = new BooleanProperty( false );
 
-    public BalanceLabCanvas( final BalanceLabModel model ) {
+    public BalanceLabCanvas( final BalanceModel model ) {
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
+        setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
 
         // Set up the model-canvas transform.
         //
@@ -80,6 +82,15 @@ public class BalanceLabCanvas extends PhetPCanvas {
 
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
+
+        // Set up a layer for the non-mass model elements.
+        final PNode nonMassLayer = new PNode();
+        rootNode.addChild( nonMassLayer );
+
+        // Set up a separate layer for the masses so that they will be out in
+        // front of the other elements of the model.
+        final PNode massesLayer = new PNode();
+        rootNode.addChild( massesLayer );
 
         // Whenever a mass is added to the model, create a graphic for it.
         model.massList.addElementAddedObserver( new VoidFunction1<Mass>() {
@@ -100,30 +111,30 @@ public class BalanceLabCanvas extends PhetPCanvas {
                     System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
                     assert false;
                 }
-                rootNode.addChild( massNode );
+                massesLayer.addChild( massNode );
                 // Add the removal listener for if and when this mass is removed from the model.
                 final PNode finalMassNode = massNode;
                 model.massList.addElementRemovedObserver( mass, new VoidFunction0() {
                     public void apply() {
-                        rootNode.removeChild( finalMassNode );
+                        massesLayer.removeChild( finalMassNode );
                     }
                 } );
             }
         } );
 
         // Add graphics for the plank, the fulcrum, the attachment bar, and the columns.
-        rootNode.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
-        rootNode.addChild( new PlankNode( mvt, model.getPlank(), this ) );
-        rootNode.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
+        nonMassLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
+        nonMassLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) );
+        nonMassLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
-            rootNode.addChild( new LevelSupportColumnNode( mvt, supportColumn, model.columnState ) );
+            nonMassLayer.addChild( new LevelSupportColumnNode( mvt, supportColumn, model.columnState ) );
         }
 
         // Add the ruler.
-        rootNode.addChild( new RotatingRulerNode( model.getPlank(), mvt, distancesVisibleProperty ) );
+        nonMassLayer.addChild( new RotatingRulerNode( model.getPlank(), mvt, distancesVisibleProperty ) );
 
         // Add the level indicator node which will show whether the plank is balanced or not
-        rootNode.addChild( new LevelIndicatorNode( mvt, model.getPlank() ) {{
+        nonMassLayer.addChild( new LevelIndicatorNode( mvt, model.getPlank() ) {{
             levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
@@ -146,13 +157,13 @@ public class BalanceLabCanvas extends PhetPCanvas {
                                                                 Color.WHITE,
                                                                 mvt );
                 }
-                rootNode.addChild( forceVectorNode );
+                nonMassLayer.addChild( forceVectorNode );
                 // Listen for removal of this vector and, if and when it is
                 // removed, remove the corresponding representation.
                 model.getPlank().forceVectorList.addElementRemovedObserver( new VoidFunction1<MassForceVector>() {
                     public void apply( MassForceVector removedMassForceVector ) {
                         if ( removedMassForceVector == addedMassForceVector ) {
-                            rootNode.removeChild( forceVectorNode );
+                            nonMassLayer.removeChild( forceVectorNode );
                         }
                     }
                 } );
@@ -183,7 +194,7 @@ public class BalanceLabCanvas extends PhetPCanvas {
                 }
             } );
         }};
-        rootNode.addChild( columnControlButton );
+        nonMassLayer.addChild( columnControlButton );
 
         // Add the control panel that will allow users to control the visibility
         // of the various indicators.
@@ -196,16 +207,16 @@ public class BalanceLabCanvas extends PhetPCanvas {
             addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.FORCES_FROM_OBJECTS, forceVectorsFromObjectsVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.LEVEL, levelIndicatorVisibleProperty ) );
         }} );
-        rootNode.addChild( controlPanel );
+        nonMassLayer.addChild( controlPanel );
 
         // Add the mass kit, which is the place where the user will get the
         // objects that can be placed on the balance.
         final MassKitSelectionNode massKitSelectionNode = new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this );
         ControlPanelNode massKit = new ControlPanelNode( massKitSelectionNode );
-        rootNode.addChild( massKit );
+        nonMassLayer.addChild( massKit );
 
         // Add the Reset All button.
-        rootNode.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        nonMassLayer.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             centerFullBoundsOnPoint( columnControlButton.getFullBoundsReference().getCenterX(),
                                      columnControlButton.getFullBoundsReference().getMaxY() + 30 );
             setConfirmationEnabled( false );

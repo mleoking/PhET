@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.balancelab.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.BrickStack;
 import edu.colorado.phet.balanceandtorque.common.view.BrickStackNode;
@@ -27,7 +27,7 @@ public class BrickStackCreatorNode extends MassCreatorNode {
 
     private final int numBricks;
 
-    public BrickStackCreatorNode( int numBricks, final BalanceLabModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public BrickStackCreatorNode( int numBricks, final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas, numBricks * BrickStack.BRICK_MASS );
         this.numBricks = numBricks;
         setSelectionNode( new BrickStackNode( new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ), SCALING_MVT, canvas, new BooleanProperty( false ) ) );
