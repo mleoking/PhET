@@ -30,6 +30,7 @@ public abstract class Representation {
     }};
     private PNode platform;
     public final BooleanProperty scored = new BooleanProperty( false );
+    private long timeArrivedOnPlatform = -1;
 
     protected Representation( ModelViewTransform transform, Fraction fraction, double x, double y ) {
         this.fraction = fraction;
@@ -49,6 +50,12 @@ public abstract class Representation {
 
     public void setOverPlatform( PNode platform ) {
         this.platform = platform;
+        if ( platform != null ) {
+            timeArrivedOnPlatform = System.currentTimeMillis();
+        }
+        else {
+            timeArrivedOnPlatform = -1;
+        }
     }
 
     public PNode getOverPlatform() {
