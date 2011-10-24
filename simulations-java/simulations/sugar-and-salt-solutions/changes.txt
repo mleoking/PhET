@@ -1,3 +1,4 @@
+Moved ItemList.foldLeft to ObservableList
 # 1.02.00 (57631) Oct 14, 2011
 > Micro tab: Fixed: "Remove solute" and "Remove solutes" strings not translatable
 # 1.01.00 (57629) Oct 13, 2011

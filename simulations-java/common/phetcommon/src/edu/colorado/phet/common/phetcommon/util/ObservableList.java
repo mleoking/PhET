@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -40,10 +41,10 @@ public class ObservableList<T> implements List<T> {
     /**
      * Constructor that copies another collection.
      *
-     * @param listToCopy
+     * @param collectionToCopy
      */
-    public ObservableList( ObservableList<T> listToCopy ) {
-        list.addAll( listToCopy );
+    public ObservableList( Collection<? extends T> collectionToCopy ) {
+        list.addAll( collectionToCopy );
         // Since this is a constructor, no notifications should need to be sent.
     }
 
@@ -232,6 +233,15 @@ public class ObservableList<T> implements List<T> {
 
     public List<T> subList( int fromIndex, int toIndex ) {
         return list.subList( fromIndex, toIndex );
+    }
+
+    //Combine the specified initial value with all elements from the list using the specified combination function
+    public <U> U foldLeft( final U initialValue, Function2<T, U, U> combiner ) {
+        U runningTotal = initialValue;
+        for ( T t : this ) {
+            runningTotal = combiner.apply( t, runningTotal );
+        }
+        return runningTotal;
     }
 
     /**
