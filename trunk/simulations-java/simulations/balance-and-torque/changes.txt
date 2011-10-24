@@ -1,3 +1,4 @@
+Changed show label from "Ruler" to "Rulers", since the ruler was split into two a while back.
 # 0.00.15 (57885) Oct 21, 2011
 10/21/11 Deploying to dev for review and feedback.
 Added a number of new masses and adjusted the mass values to maximize the number of potential challenges.
