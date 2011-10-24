@@ -132,7 +132,6 @@ public class ShapeMassNode extends PNode {
             addChild( massText );
             addChild( new PText( BalanceAndTorqueResources.Strings.KG ) {{
                 setFont( FONT );
-                // TODO: There is a tweak factor in the Y direction that may cause issues with translation.  Research better way to get label elements closer.
                 setOffset( massText.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
                            massText.getFullBoundsReference().getMaxY() - 5 );
             }} );
