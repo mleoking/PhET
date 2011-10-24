@@ -1,3 +1,4 @@
+Exit the VM after the dialog is closed, see #3127
 # 1.22.00 (57906) Oct 24, 2011
 # 1.21.00 (50404) Apr 7, 2011
 4/7/11 redeploy because of string change in #2789
