@@ -37,7 +37,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
             setConfirmationEnabled( false );
         }};
-        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BeakerNode.CYLINDER_SIZE.getHeight() ),
+        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( new PDimension( 40, BeakerNode.CYLINDER_SIZE.getHeight() + 50 ),
                                                                                           model.solution, model.getConcentrationRange(),
                                                                                           valuesVisible );
         SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( new PDimension( 5, BeakerNode.CYLINDER_SIZE.getHeight() ), model.solution.soluteAmount, model.getSoluteAmountRange(), valuesVisible );
@@ -74,8 +74,8 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
             saturatedIndicatorNode.setOffset( beakerNode.getXOffset() + ( BeakerNode.CYLINDER_SIZE.getWidth() / 2 ) - ( saturatedIndicatorNode.getFullBoundsReference().getWidth() / 2 ),
                                               beakerNode.getYOffset() + ( 0.9 * BeakerNode.CYLINDER_SIZE.getHeight() ) - saturatedIndicatorNode.getFullBoundsReference().getHeight() );
             concentrationDisplayNode.setOffset( beakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( concentrationDisplayNode ) + 50,
-                                                soluteAmountSliderNode.getYOffset() );
-            resetAllButtonNode.setOffset( concentrationDisplayNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth() - 30,
+                                                soluteAmountSliderNode.getYOffset() - 50 );
+            resetAllButtonNode.setOffset( concentrationDisplayNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth() - 60,
                                           soluteControlNode.getYOffset() );
             showValuesNode.setOffset( resetAllButtonNode.getFullBoundsReference().getMinX() - showValuesNode.getFullBoundsReference().getWidth() - 20,
                                       soluteControlNode.getYOffset() );
