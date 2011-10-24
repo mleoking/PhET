@@ -13,16 +13,17 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class JavaCommonStringsApplication {
-    
+
     private static final String VERSION_ID = new PhetResources( "java-common-strings" ).getVersion().formatForAboutDialog();
-    
-    private JavaCommonStringsApplication() {}
+
+    private JavaCommonStringsApplication() {
+    }
 
     public static void main( String[] args ) {
-        String message = "<html>PhET Java common strings" + " : " + "version " + VERSION_ID + "<br><br>" + 
-              "This JAR file contains common strings used by all PhET Java simulations." + "<br>" +
-              "You can use this JAR file to translate common strings with Translation Utility." + "<br>" +
-              "But testing those translations is not currently supported." + "</html>";
+        String message = "<html>PhET Java common strings" + " : " + "version " + VERSION_ID + "<br><br>" +
+                         "This JAR file contains common strings used by all PhET Java simulations." + "<br>" +
+                         "You can use this JAR file to translate common strings with Translation Utility." + "<br>" +
+                         "But testing those translations is not currently supported." + "</html>";
         PhetOptionPane.showMessageDialog( null, message );
     }
 }
