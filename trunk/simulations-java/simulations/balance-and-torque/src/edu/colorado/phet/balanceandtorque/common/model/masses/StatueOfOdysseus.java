@@ -18,6 +18,6 @@ public class StatueOfOdysseus extends ImageMass {
 
     public StatueOfOdysseus( boolean isMystery ) {
         super( MASS, Images.STATUE_OF_ODYSSEUS, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
-        setCenterOfMassXOffset( 0.2 );
+        setCenterOfMassXOffset( -0.1 );
     }
 }
