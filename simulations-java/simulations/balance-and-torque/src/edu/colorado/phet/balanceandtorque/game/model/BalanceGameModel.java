@@ -338,7 +338,6 @@ public class BalanceGameModel {
         }
 
         for ( final Mass mass : balanceChallenge.movableMasses ) {
-            // TODO: Put movable masses on the right side until tool box is in place.
             final Point2D initialPosition = new Point2D.Double( 3, 0 );
             mass.setPosition( initialPosition );
             mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
