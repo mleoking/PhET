@@ -16,7 +16,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.ImageMassNode;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.BrickStack;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
@@ -335,7 +335,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
         model.getPlank().massesOnSurface.addElementAddedObserver( checkAnswerButtonEnabledController );
         model.getPlank().massesOnSurface.addElementRemovedObserver( checkAnswerButtonEnabledController );
 
-        // TODO: Working this out.
+        // TODO: This doesn't yet function in the desired way, since one of the
+        // primary motives was to allow the user to hit "Enter" to go to the
+        // next challenge after entering a value in a mass deduction challenge,
+        // an issues related to focus are preventing this from working.
         addKeyListener( new KeyAdapter() {
             @Override public void keyTyped( KeyEvent event ) {
                 if ( event.getKeyChar() == KeyEvent.VK_ENTER ) {
@@ -541,9 +544,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     private PNode createMassNode( Mass mass ) {
         PNode massNode = null;
-        if ( mass instanceof ShapeMass ) {
-            // TODO: Always bricks right now, may have to change in the future.
-            massNode = new BrickStackNode( (ShapeMass) mass, mvt, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
+        if ( mass instanceof BrickStack ) {
+            massNode = new BrickStackNode( (BrickStack) mass, mvt, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
         }
         else if ( mass instanceof LabeledImageMass ) {
             massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
