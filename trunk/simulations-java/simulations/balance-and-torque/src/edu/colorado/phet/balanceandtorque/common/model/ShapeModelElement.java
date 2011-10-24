@@ -4,8 +4,6 @@ package edu.colorado.phet.balanceandtorque.common.model;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -19,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class ShapeModelElement {
     private final Property<Shape> shapeProperty;
-    public final BooleanProperty userControlled = new BooleanProperty( false );
 
     // The position handle is the point that is used as a reference when
     // setting the position of this object.  For the purposes this simulation,
@@ -43,10 +40,6 @@ public class ShapeModelElement {
         return shapeProperty.get();
     }
 
-//    public Property<Shape> getShapeProperty() {
-//        return shapeProperty;
-//    }
-
     /**
      * Set a new shape value.  This should only be done by subclasses.
      *
@@ -62,28 +55,6 @@ public class ShapeModelElement {
 
     public void addShapeObserver( SimpleObserver observer ) {
         shapeProperty.addObserver( observer );
-    }
-
-    public void removeShapeObserver( VoidFunction1<Shape> observer ) {
-        shapeProperty.removeObserver( observer );
-    }
-
-    public void removeShapeObserver( SimpleObserver observer ) {
-        shapeProperty.removeObserver( observer );
-    }
-
-    // TODO: Probably need to make this abstract, but it has a default implementation for now.
-    public void translate( ImmutableVector2D modelDelta ) {
-        // Does nothing by default.
-    }
-
-    public void setPosition( Point2D newPosition ) {
-        setPosition( newPosition.getX(), newPosition.getY() );
-    }
-
-    // TODO: Probably need to make this abstract, but it has a default implementation for now.
-    public void setPosition( double x, double y ) {
-        // Does nothing by default.
     }
 
     /**
