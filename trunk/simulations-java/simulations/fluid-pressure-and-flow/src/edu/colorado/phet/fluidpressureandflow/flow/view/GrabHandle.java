@@ -15,7 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.flow.model.PipeControlPoint;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.HANDLE_T;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.PIPE_HANDLE_1;
 import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeFrontNode.EDGE_STROKE;
 
 /**
@@ -28,7 +28,7 @@ public class GrabHandle extends PNode {
 
         //Showing a handle image.
         //The original image is pointing up, flip it if this is a drag handle on the bottom of the pipe
-        final BufferedImage sourceImage = BufferedImageUtils.multiScaleToWidth( HANDLE_T, 24 );
+        final BufferedImage sourceImage = BufferedImageUtils.multiScaleToWidth( PIPE_HANDLE_1, 34 );
         BufferedImage image = top ? sourceImage : BufferedImageUtils.flipY( sourceImage );
 
         //Add the image

@@ -62,8 +62,8 @@ public class HoseNode extends PNode {
         }};
 
         PNode hoseUpHandle = new PNode() {{
-            addChild( new PImage( HANDLE_T ) );
-            setScale( 1.3 );
+            addChild( new PImage( PIPE_HANDLE_1 ) );
+            setScale( 0.78 );
             new RichSimpleObserver() {
                 @Override public void update() {
                     final Point2D.Double viewPoint = transform.modelToView( new HoseGeometry( hose ).getHandlePoint() ).toPoint2D();

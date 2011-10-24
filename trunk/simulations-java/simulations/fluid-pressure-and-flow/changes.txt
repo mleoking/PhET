@@ -1,3 +1,4 @@
+Replaced T-handle with circle handle for pipe and hose
 # 0.00.35 (57619) Oct 13, 2011
 Fluid Flow: moved the density control in front of the pipe so it doesn't get overlapped
 # 0.00.34 (57615) Oct 13, 2011
