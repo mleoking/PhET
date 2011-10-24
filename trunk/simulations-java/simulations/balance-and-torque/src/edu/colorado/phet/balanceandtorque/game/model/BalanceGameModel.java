@@ -357,54 +357,6 @@ public class BalanceGameModel {
             movableMasses.add( mass );
         }
 
-        /*
-        // TODO: The team is vacillating on whether to make the balance
-        // challenges interactive.  The code below makes them start in the
-        // balanced state, so keep it until the team has made a final decision.
-        // TODO: I (jblanco) don't like this instanceof here, but it was requested by the team that the
-        // mass deduction challenges be initially balanced instead of requiring the user to
-        // balance them, and this is the quickest way to get that working.  Clean up if kept.
-        if ( balanceChallenge instanceof DeduceTheMassChallenge ) {
-            // Put the known masses on the plank.
-            assert balanceChallenge.movableMasses.size() == 1;
-            // Add the movable mass or masses to the plank according to the solution.
-            for ( final MassDistancePair solutionMassDistancePair : balanceChallenge.balancedConfiguration ) {
-                final Mass knownMass = solutionMassDistancePair.mass;
-                movableMasses.add( knownMass );
-                knownMass.userControlled.addObserver( new VoidFunction1<Boolean>() {
-                    public void apply( Boolean userControlled ) {
-                        if ( !userControlled ) {
-                            // Put the mass at the solution location.
-                            plank.addMassToSurface( knownMass, solutionMassDistancePair.distance );
-                        }
-                    }
-                } );
-            }
-        }
-        else {
-            for ( final Mass mass : balanceChallenge.movableMasses ) {
-                // TODO: Put movable masses on the right side until tool box is in place.
-                final Point2D initialPosition = new Point2D.Double( 3, 0 );
-                mass.setPosition( initialPosition );
-                mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
-                    public void apply( Boolean userControlled ) {
-                        if ( !userControlled ) {
-                            // The user has dropped this mass.
-                            if ( !plank.addMassToSurface( mass ) ) {
-                                // The attempt to add mass to surface of plank failed,
-                                // probably because the area below the mass is full,
-                                // or because the mass wasn't over the plank.
-                                mass.setPosition( initialPosition );
-                            }
-                        }
-                    }
-                } );
-
-                movableMasses.add( mass );
-            }
-        }
-        */
-
         // Set the column state.
         supportColumnState.set( columnState );
     }
