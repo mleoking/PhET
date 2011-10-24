@@ -16,6 +16,6 @@ public class Sim1Application extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( args, "test-project", "sim1" ), Sim1Application.class );
+        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( args, "test-java-project", "sim1" ), Sim1Application.class );
     }
 }
