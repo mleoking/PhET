@@ -92,15 +92,6 @@ public class IntroModel implements Resettable {
         } );
 
         // Add the initial masses and save their initial positions.
-//        Mass mass = new BrickStack( 1, new Point2D.Double( 2.7, 0 ) );
-//        addMass( mass );
-//        mapMassesToInitialPositions.put( mass, mass.getPosition() );
-//        mass = new BrickStack( 1, new Point2D.Double( 3.0, 0 ) );
-//        addMass( mass );
-//        mapMassesToInitialPositions.put( mass, mass.getPosition() );
-//        mass = new BrickStack( 2, new Point2D.Double( 3.3, 0 ) );
-//        addMass( mass );
-//        mapMassesToInitialPositions.put( mass, mass.getPosition() );
         Mass mass = new FireExtinguisher( false ) {{
             setPosition( 2.7, 0 );
         }};
