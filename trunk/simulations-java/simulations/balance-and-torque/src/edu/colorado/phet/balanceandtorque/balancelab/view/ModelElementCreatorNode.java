@@ -5,7 +5,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
+import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -44,7 +44,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    protected final BalanceLabModel model;
+    protected final BalanceModel model;
     private final PhetPCanvas canvas;
     private final ModelViewTransform mvt;
     private PNode selectionNode = null;
@@ -56,7 +56,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public ModelElementCreatorNode( final BalanceLabModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public ModelElementCreatorNode( final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
 
         this.model = model;
         this.mvt = mvt;
