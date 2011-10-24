@@ -25,23 +25,23 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class SolutionNode extends PComposite {
 
-    private static final double CYLINDER_END_HEIGHT = BeakerNode.CYLINDER_END_HEIGHT; //TODO remove this dependency
-
-    private final PDimension beakerSize;
+    private final PDimension cylinderSize;
+    private final double cylinderEndHeight;
     private final Solution solution;
     private final LinearFunction volumeFunction;
     private final PPath cylinderNode, surfaceNode;
 
-    public SolutionNode( PDimension beakerSize, Solution solution, DoubleRange volumeRange ) {
+    public SolutionNode( PDimension cylinderSize, double cylinderEndHeight, Solution solution, DoubleRange volumeRange ) {
 
         // this node is not interactive
         setPickable( false );
         setChildrenPickable( false );
 
-        this.beakerSize = beakerSize;
+        this.cylinderSize = cylinderSize;
+        this.cylinderEndHeight = cylinderEndHeight;
         this.solution = solution;
         this.volumeFunction = new LinearFunction( volumeRange.getMin(), volumeRange.getMax(),
-                                                  ( volumeRange.getMin() / volumeRange.getMax() ) * beakerSize.getHeight(), beakerSize.getHeight() );
+                                                  ( volumeRange.getMin() / volumeRange.getMax() ) * cylinderSize.getHeight(), cylinderSize.getHeight() );
 
         // nodes
         cylinderNode = new PPath() {{
@@ -83,13 +83,13 @@ public class SolutionNode extends PComposite {
     }
 
     private Shape createCylinderShape( double height ) {
-        Area area = new Area( new Rectangle2D.Double( 0, beakerSize.getHeight() - height, beakerSize.getWidth(), height ) );
-        area.add( new Area( new Ellipse2D.Double( 0, beakerSize.getHeight() - height - ( CYLINDER_END_HEIGHT / 2 ), beakerSize.getWidth(), CYLINDER_END_HEIGHT ) ) );
-        area.add( new Area( new Ellipse2D.Double( 0, beakerSize.getHeight() - ( CYLINDER_END_HEIGHT / 2 ), beakerSize.getWidth(), CYLINDER_END_HEIGHT ) ) );
+        Area area = new Area( new Rectangle2D.Double( 0, cylinderSize.getHeight() - height, cylinderSize.getWidth(), height ) );
+        area.add( new Area( new Ellipse2D.Double( 0, cylinderSize.getHeight() - height - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight ) ) );
+        area.add( new Area( new Ellipse2D.Double( 0, cylinderSize.getHeight() - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight ) ) );
         return area;
     }
 
     private Shape createSurfaceShape( double height ) {
-        return new Ellipse2D.Double( 0, beakerSize.getHeight() - height - ( CYLINDER_END_HEIGHT / 2 ), beakerSize.getWidth(), CYLINDER_END_HEIGHT );
+        return new Ellipse2D.Double( 0, cylinderSize.getHeight() - height - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight );
     }
 }

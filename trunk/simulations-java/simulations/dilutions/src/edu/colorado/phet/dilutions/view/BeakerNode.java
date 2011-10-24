@@ -24,13 +24,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.dilutions.DilutionsResources;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.model.Solute.KoolAid;
 import edu.colorado.phet.dilutions.model.Solution;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -45,11 +43,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BeakerNode extends PComposite {
-
-    // Layout depends on these properties of the image file.
-    public static final PDimension CYLINDER_SIZE = new PDimension( 322, 339 ); // the cylindrical portion of the beaker.
-    public static final double CYLINDER_END_HEIGHT = 39; // 2D height of the cylinder's ends
-    private static final Point2D CYLINDER_OFFSET = new Point2D.Double( 75, 144 ); // the upper right corner of the cylinder, in the image's coordinate frame
 
     private static final boolean CYLINDER_VISIBLE = false; // for debugging alignment with beaker image file
 
@@ -67,6 +60,7 @@ public class BeakerNode extends PComposite {
     private static final double TICK_LABEL_X_SPACING = 8;
     private static final PDimension LABEL_SIZE = new PDimension( 180, 70 );
 
+    private final BeakerImageNode beakerImageNode;
     private final LabelNode labelNode;
     private final ArrayList<PText> tickLabelNodes;
 
@@ -76,34 +70,40 @@ public class BeakerNode extends PComposite {
         setPickable( false );
         setChildrenPickable( false );
 
+        // the glass beaker
+        beakerImageNode = new BeakerImageNode() {{
+            scale( 0.75 );
+        }};
+        final PDimension cylinderSize = beakerImageNode.getCylinderSize();
+        final Point2D cylinderOffset = beakerImageNode.getCylinderOffset();
+        final double cylinderEndHeight = beakerImageNode.getCylinderEndHeight();
+        System.out.println( "cylinderEndHeight = " + cylinderEndHeight ); //XXX
+        beakerImageNode.setOffset( -cylinderOffset.getX(), -cylinderOffset.getY() );
+
         // cylinder that defines the inner part of the beaker that can be filled. Use this to manually align with beaker image file.
         if ( CYLINDER_VISIBLE ) {
-            addChild( new CylinderNode( CYLINDER_SIZE ) );
+            addChild( new CylinderNode( cylinderSize, cylinderEndHeight ) );
         }
 
         // inside bottom line
         PPath bottomNode = new PPath() {{
-            setPathTo( new Arc2D.Double( 0, CYLINDER_SIZE.getHeight() - ( CYLINDER_END_HEIGHT / 2 ), CYLINDER_SIZE.getWidth(), CYLINDER_END_HEIGHT,
+            setPathTo( new Arc2D.Double( 0, cylinderSize.getHeight() - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight,
                                          5, 170, Arc2D.OPEN ) );
             setStroke( new BasicStroke( 2f ) );
             setStrokePaint( new Color( 150, 150, 150, 100 ) );
         }};
-        addChild( bottomNode );
 
-        // the glass beaker
-        PImage imageNode = new PImage( DilutionsResources.Images.BEAKER_IMAGE ) {{
-            scale( 0.75 ); //XXX
-            setOffset( -CYLINDER_OFFSET.getX(), -CYLINDER_OFFSET.getY() );
-        }};
-        addChild( imageNode );
+
+        addChild( bottomNode );
+        addChild( beakerImageNode );
 
         // tick marks
         tickLabelNodes = new ArrayList<PText>();
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
         int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
-        final double bottomY = CYLINDER_SIZE.getHeight(); // don't use bounds or position will be off because of stroke width
-        double deltaY = CYLINDER_SIZE.getHeight() / numberOfTicks;
+        final double bottomY = cylinderSize.getHeight(); // don't use bounds or position will be off because of stroke width
+        double deltaY = cylinderSize.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
             if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
@@ -140,9 +140,9 @@ public class BeakerNode extends PComposite {
         }
 
         // label on the beaker
-        labelNode = new LabelNode( solution.solute.get().formula, CYLINDER_SIZE );
+        labelNode = new LabelNode( solution.solute.get().formula, cylinderSize );
         addChild( labelNode );
-        labelNode.setOffset( ( CYLINDER_SIZE.getWidth() / 2 ), ( 0.25 * CYLINDER_SIZE.getHeight() ) );
+        labelNode.setOffset( ( cylinderSize.getWidth() / 2 ), ( 0.25 * cylinderSize.getHeight() ) );
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
@@ -160,14 +160,22 @@ public class BeakerNode extends PComposite {
         } );
     }
 
+    public PDimension getCylinderSize() {
+        return beakerImageNode.getCylinderSize();
+    }
+
+    public double getCylinderEndHeight() {
+        return beakerImageNode.getCylinderEndHeight();
+    }
+
     //TODO relate this to SolutionNode
     // Cylinder that defines the shape that can be filled in the beaker, used for debugging alignment with beaker image file.
     private static class CylinderNode extends PPath {
-        public CylinderNode( PDimension size ) {
+        public CylinderNode( PDimension size, double cylinderEndHeight ) {
             setStrokePaint( Color.RED );
             Area area = new Area( new Rectangle2D.Double( 0, 0, size.width, size.height ) );
-            area.add( new Area( new Ellipse2D.Double( 0, -CYLINDER_END_HEIGHT / 2, size.width, CYLINDER_END_HEIGHT ) ) );
-            area.add( new Area( new Ellipse2D.Double( 0, size.height - ( CYLINDER_END_HEIGHT / 2 ), size.width, CYLINDER_END_HEIGHT ) ) );
+            area.add( new Area( new Ellipse2D.Double( 0, -cylinderEndHeight / 2, size.width, cylinderEndHeight ) ) );
+            area.add( new Area( new Ellipse2D.Double( 0, size.height - ( cylinderEndHeight / 2 ), size.width, cylinderEndHeight ) ) );
             setPathTo( area );
         }
     }
