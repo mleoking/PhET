@@ -274,11 +274,6 @@ public class BalanceGameChallengeFactory {
             // positioned to balance the movable stack.
             validFixedStackDistances.addAll( getPossibleDistanceList( numBricksInFixedStack * BrickStack.BRICK_MASS,
                                                                       numBricksInMovableStack * BrickStack.BRICK_MASS ) );
-
-            // TODO: For debug, remove eventually.
-            if ( validFixedStackDistances.size() == 0 ) {
-                System.out.println( "Warning: No solutions for this configuration, numBricksInFixedStack = " + numBricksInFixedStack + ", " + "numBricksInMovableStack = " + numBricksInMovableStack );
-            }
         }
 
         // Randomly choose a distance to use from the identified set.
