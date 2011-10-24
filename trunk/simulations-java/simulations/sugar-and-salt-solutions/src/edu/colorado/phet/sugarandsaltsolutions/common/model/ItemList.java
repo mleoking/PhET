@@ -153,15 +153,6 @@ public class ItemList<T> extends ObservableList<T> {
         }};
     }
 
-    //Combine the specified initial value with all elements from the list using the specified combination function
-    public <U> U foldLeft( final U initialValue, Function2<T, U, U> combiner ) {
-        U runningTotal = initialValue;
-        for ( T t : this ) {
-            runningTotal = combiner.apply( t, runningTotal );
-        }
-        return runningTotal;
-    }
-
     public static void main( String[] args ) {
         ItemList<Double> list = new ItemList<Double>( new Double[] { 1.0, 2.0, 3.0, 5.0 } );
         System.out.println( "sum " + list.foldLeft( 0.0, new Function2<Double, Double, Double>() {
