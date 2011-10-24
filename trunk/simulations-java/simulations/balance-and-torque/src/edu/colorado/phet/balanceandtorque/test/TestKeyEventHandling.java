@@ -3,6 +3,8 @@ package edu.colorado.phet.balanceandtorque.test;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -43,19 +45,39 @@ public class TestKeyEventHandling {
 
         canvas.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void keyTyped( PInputEvent event ) {
-                System.out.println( "keyTyped" );
+                System.out.println( "1 - keyTyped" );
             }
 
             @Override public void keyPressed( PInputEvent event ) {
-                System.out.println( "keyPressed" );
+                System.out.println( "1 - keyPressed" );
             }
 
             @Override public void keyReleased( PInputEvent event ) {
-                System.out.println( "keyReleased" );
+                System.out.println( "1 - keyReleased" );
             }
 
             @Override public void mouseClicked( PInputEvent event ) {
-                System.out.println( "mouse clicked" );
+                System.out.println( "1 - mouse clicked" );
+            }
+        } );
+
+        canvas.addKeyListener( new KeyAdapter() {
+            @Override public void keyTyped( KeyEvent event ) {
+                System.out.println( "2 - keyTyped" );
+                System.out.println( "event.getKeyChar() = " + event.getKeyChar() );
+                System.out.println( "event.getID() = " + event.getID() );
+                System.out.println( "event.getComponent() = " + event.getComponent() );
+                System.out.println( "event.getKeyCode() in hex = " + Integer.toHexString( event.getKeyCode() ) );
+                System.out.println( "event.getKeyCode() = " + event.getKeyCode() );
+                System.out.println( "event.getKeyCode() in hex = " + Integer.toHexString( event.getKeyCode() ) );
+            }
+
+            @Override public void keyPressed( KeyEvent e ) {
+                System.out.println( "2 - keyPressed" );
+            }
+
+            @Override public void keyReleased( KeyEvent e ) {
+                System.out.println( "2 - keyReleased" );
             }
         } );
 
@@ -67,5 +89,4 @@ public class TestKeyEventHandling {
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
     }
-
 }
