@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
@@ -103,7 +105,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private final MassValueEntryNode massValueEntryNode;
     private final MassValueEntryNode.DisplayAnswerNode massValueAnswerNode;
 
-    // Create the smiling and frowning faces and center them on the screen
+    // Create the smiling and frowning faces and center them on the screen.
     private final SmileFaceWithScoreNode smilingFace = new SmileFaceWithScoreNode();
     private final PNode frowningFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
         frown();
@@ -277,8 +279,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
         rootNode.addChild( massValueAnswerNode );
         Point2D massEntryDialogCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
                                                             titleNode.getFullBoundsReference().getMaxY() + massValueEntryNode.getFullBounds().height / 2 + 10 );
-//        Point2D massEntryDialogCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
-//                                                            titleNode.getFullBoundsReference().getMaxY() );
         massValueEntryNode.centerFullBoundsOnPoint( massEntryDialogCenter.getX(), massEntryDialogCenter.getY() );
         massValueAnswerNode.centerFullBoundsOnPoint( massEntryDialogCenter.getX(), massEntryDialogCenter.getY() );
 
@@ -335,6 +335,29 @@ public class BalanceGameCanvas extends PhetPCanvas {
         };
         model.getPlank().massesOnSurface.addElementAddedObserver( checkAnswerButtonEnabledController );
         model.getPlank().massesOnSurface.addElementRemovedObserver( checkAnswerButtonEnabledController );
+
+        // TODO: Working this out.
+        addKeyListener( new KeyAdapter() {
+            @Override public void keyTyped( KeyEvent event ) {
+                if ( event.getKeyChar() == KeyEvent.VK_ENTER ) {
+                    // The user pressed the Enter key.  If one of the game
+                    // control buttons is currently active, treat it as though
+                    // this button has been pressed.
+                    if ( nextChallengeButton.isVisible() && nextChallengeButton.isEnabled() ) {
+                        model.nextChallenge();
+                    }
+                    else if ( tryAgainButton.isVisible() && tryAgainButton.isEnabled() ) {
+                        model.tryAgain();
+                    }
+                    else if ( checkAnswerButton.isVisible() && checkAnswerButton.isEnabled() ) {
+                        model.checkAnswer();
+                    }
+                    else if ( displayCorrectAnswerButton.isVisible() && displayCorrectAnswerButton.isEnabled() ) {
+                        model.displayCorrectAnswer();
+                    }
+                }
+            }
+        } );
 
         // Register for changes to the game state and update accordingly.
         model.gameStateProperty.addObserver( new VoidFunction1<BalanceGameModel.GameState>() {
