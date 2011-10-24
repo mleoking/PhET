@@ -29,9 +29,6 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
  * Primary model class for the intro tab in the balancing act simulation.
  * This model depicts a plank on a fulcrum with a couple of masses that the
  * user can move around.
- * <p/>
- * TODO: When this tab (the intro tab) is fully accepted, this model should be
- * merged with the other balance model in order to consolidate the common code.
  *
  * @author John Blanco
  */
@@ -141,26 +138,6 @@ public class IntroModel implements Resettable {
         } );
         massList.add( mass );
         return mass;
-    }
-
-    /**
-     * Remove the mass from the model and animate its removal.
-     *
-     * @param mass
-     */
-    private void removeMassAnimated( final Mass mass ) {
-        // Register a listener for the completion of the removal animation sequence.
-        mass.addAnimationStateObserver( new ChangeObserver<Boolean>() {
-            public void update( Boolean isAnimating, Boolean wasAnimating ) {
-                if ( wasAnimating && !isAnimating ) {
-                    // Animation sequence has completed.
-                    mass.removeAnimationStateObserver( this );
-                    massList.remove( mass );
-                }
-            }
-        } );
-        // Kick off the animation back to the tool box.
-        mass.initiateAnimation();
     }
 
     /**
