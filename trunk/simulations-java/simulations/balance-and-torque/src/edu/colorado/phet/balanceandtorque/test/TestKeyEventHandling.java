@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * @author John Blanco
+ * Test app for key handling.
  */
 public class TestKeyEventHandling {
 
@@ -30,7 +30,7 @@ public class TestKeyEventHandling {
      */
     public static void main( String[] args ) {
 
-        Dimension2D stageSize = new PDimension( 200, 100 );
+        Dimension2D stageSize = new PDimension( 400, 300 );
 
         PhetPCanvas canvas = new PhetPCanvas();
         // Set up the canvas-screen transform.
@@ -41,7 +41,7 @@ public class TestKeyEventHandling {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new PhetPPath( new Rectangle2D.Double( -5, -5, 10, 10 ), Color.PINK ) );
+        canvas.getLayer().addChild( new PhetPPath( new Rectangle2D.Double( 100, 100, 10, 10 ), Color.PINK ) );
 
         canvas.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void keyTyped( PInputEvent event ) {
@@ -65,6 +65,7 @@ public class TestKeyEventHandling {
             @Override public void keyTyped( KeyEvent event ) {
                 System.out.println( "2 - keyTyped" );
                 System.out.println( "event.getKeyChar() = " + event.getKeyChar() );
+                System.out.println( "event.getKeyChar() in hex = " + Integer.toHexString( event.getKeyChar() ) );
                 System.out.println( "event.getID() = " + event.getID() );
                 System.out.println( "event.getComponent() = " + event.getComponent() );
                 System.out.println( "event.getKeyCode() in hex = " + Integer.toHexString( event.getKeyCode() ) );
