@@ -405,36 +405,6 @@ public class BalanceGameChallengeFactory {
         return solvableChallenges.get( RAND.nextInt( solvableChallenges.size() ) );
     }
 
-
-    /**
-     * Generate a challenge where there are multiple fixed masses that must be
-     * balanced.
-     *
-     * @return
-     */
-    private static BalanceMassesChallenge generateMultiMassBalanceChallengeOld() {
-
-        // TODO: Stubbed for now, always produces the same challenge.
-        // Add the first fixed mass and its distance from the center of the balance.
-        List<MassDistancePair> fixedMassesList = new ArrayList<MassDistancePair>();
-        MassDistancePair fixedMassDistancePair1 = new MassDistancePair( new BrickStack( 1 ), -1 );
-        MassDistancePair fixedMassDistancePair2 = new MassDistancePair( new BrickStack( 2 ), -0.5 );
-        fixedMassesList.add( fixedMassDistancePair1 );
-        fixedMassesList.add( fixedMassDistancePair2 );
-
-        // Add the movable mass.
-        List<Mass> movableMassesList = new ArrayList<Mass>();
-        Mass movableMass = new Boy();
-        movableMassesList.add( movableMass );
-
-        // Create a valid solution for the challenge.
-        List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
-        solution.add( new MassDistancePair( movableMass, 0.5 ) );
-
-        // And we're done.
-        return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solution );
-    }
-
     private static BalanceMassesChallenge createTwoBrickStackChallenge( int numBricksInFixedStack, double fixedStackDistanceFromCenter, int numBricksInMovableStack ) {
         return createBalanceChallengeFromParts( new BrickStack( numBricksInFixedStack ), fixedStackDistanceFromCenter, new BrickStack( numBricksInMovableStack ) );
     }
