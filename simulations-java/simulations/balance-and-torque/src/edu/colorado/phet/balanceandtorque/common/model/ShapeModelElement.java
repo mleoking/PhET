@@ -24,10 +24,7 @@ public class ShapeModelElement {
     // The position handle is the point that is used as a reference when
     // setting the position of this object.  For the purposes this simulation,
     // we always assume that the position handle is the center bottom of the
-    // shape.  TODO: This could be generalized by having a constructor where
-    // the position handle is explicitly specified, but this was not deemed
-    // necessary at initial design time.  Decide at some point whether it is
-    // worthwhile.
+    // shape.
     protected final Point2D positionHandle = new Point2D.Double();
 
     /**
