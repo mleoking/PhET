@@ -438,11 +438,6 @@ public class BalanceGameChallengeFactory {
         return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solution );
     }
 
-    // TODO: Created for duplicating a bug with the positioning of 5kg bricks, remove before final publication.
-    private static BalanceMassesChallenge generateProblematicChallenge() {
-        return createBalanceChallengeFromParts( new BrickStack( 1 ), 2, new BrickStack( 1 ), 1.75, new SmallRock( true ) );
-    }
-
     /**
      * Convenience method for assembling two fixed masses and one movable mass
      * into a balance challenge.  All distances should be positive values, and
