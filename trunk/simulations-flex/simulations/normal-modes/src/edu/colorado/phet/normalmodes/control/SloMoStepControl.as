@@ -355,8 +355,8 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
 
     private function positionFields(): void {
 
-        this.timeRateSlider.x = -1*this.timeRateSlider.width;
-        this.timeRateSlider.y = -0.5*this.timeRateSlider.height;
+        this.timeRateSlider.x = 0;//-1*this.timeRateSlider.width;
+        this.timeRateSlider.y = 0;//-0.5*this.timeRateSlider.height;
         this.simSpeed_txt.x = timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*simSpeed_txt.width;
         this.currentTime_txt.x = this.timeRateSlider.x;
         this.currentTime_txt.y = this.timeRateSlider.y - 1.5*this.currentTime_txt.height;
@@ -372,7 +372,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         //this.sloMo_txt.x = this.timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*this.sloMo_txt.width;
         //this.sloMo_txt.y = 0.4 * this.sloMo_txt.height;
 
-        this.stepButton.x = 1.0 * this.stepButton.width;
+        this.stepButton.x = this.timeRateSlider.width + 1.0 * this.stepButton.width;
         this.stepButton.y = 0;
         this.singleStep_txt.x = this.stepButton.x - 0.5 * this.singleStep_txt.width;
         this.singleStep_txt.y = 0.5 * this.stepButton.height;
