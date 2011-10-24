@@ -47,9 +47,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BeakerNode extends PComposite {
 
     // Layout depends on these properties of the image file.
-    public static final PDimension CYLINDER_SIZE = new PDimension( 280, 295 ); // the cylindrical portion of the beaker.
-    public static final double CYLINDER_END_HEIGHT = 34; // 2D height of the cylinder's ends
-    private static final Point2D CYLINDER_OFFSET = new Point2D.Double( 65, 125 ); // the upper right corner of the cylinder, in the image's coordinate frame
+    public static final PDimension CYLINDER_SIZE = new PDimension( 322, 339 ); // the cylindrical portion of the beaker.
+    public static final double CYLINDER_END_HEIGHT = 39; // 2D height of the cylinder's ends
+    private static final Point2D CYLINDER_OFFSET = new Point2D.Double( 75, 144 ); // the upper right corner of the cylinder, in the image's coordinate frame
 
     private static final boolean CYLINDER_VISIBLE = false; // for debugging alignment with beaker image file
 
@@ -92,7 +92,7 @@ public class BeakerNode extends PComposite {
 
         // the glass beaker
         PImage imageNode = new PImage( DilutionsResources.Images.BEAKER_IMAGE ) {{
-            scale( 0.65 ); //XXX
+            scale( 0.75 ); //XXX
             setOffset( -CYLINDER_OFFSET.getX(), -CYLINDER_OFFSET.getY() );
         }};
         addChild( imageNode );
