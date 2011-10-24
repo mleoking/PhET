@@ -45,7 +45,6 @@ public class Plank extends ShapeModelElement {
     public static final int NUM_SNAP_TO_LOCATIONS = (int) Math.floor( LENGTH / INTER_SNAP_TO_MARKER_DISTANCE - 1 );
 
     // Moment of inertia.
-    // TODO: I'm not certain that this is the correct formula, should check with Mike Dubson.
     private static final double MOMENT_OF_INERTIA = MASS * ( ( LENGTH * LENGTH ) + ( THICKNESS * THICKNESS ) ) / 12;
 
     //------------------------------------------------------------------------

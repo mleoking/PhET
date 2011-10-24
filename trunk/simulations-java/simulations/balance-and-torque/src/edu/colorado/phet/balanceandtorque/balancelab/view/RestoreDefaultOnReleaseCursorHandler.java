@@ -34,12 +34,10 @@ public class RestoreDefaultOnReleaseCursorHandler extends PBasicInputEventHandle
 
     // Some common cursors...
     public static final Cursor CROSSHAIR = Cursor.getPredefinedCursor( Cursor.CROSSHAIR_CURSOR );
-    public static final Cursor DEFAULT = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor HAND = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
 
     private static final CursorManager manager = new CursorManager();
 
-    //todo: should make 1 manager per JComponent?
     //the current implementation assumes state is global across all JPanels, may not work properly when moving from one JComponent to another
 
     /**
