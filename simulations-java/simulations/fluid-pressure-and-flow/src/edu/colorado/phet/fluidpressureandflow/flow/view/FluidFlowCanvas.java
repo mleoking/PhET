@@ -90,16 +90,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
             }
         } );
 
-        // Control Panel
-        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidFlowControlPanel( module ) ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, INSET );
-        }};
-        addChild( controlPanelNode );
-        addChild( new ResetAllButtonNode( module, this, (int) ( CONTROL_FONT.getSize() * 1.3 ), FOREGROUND, BACKGROUND ) {{
-            setConfirmationEnabled( false );
-            setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + INSET * 2 );
-        }} );
-
         //Ruler nodes, one for each unit set
         final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
         final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, model );
@@ -107,14 +97,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         synchronizeRulerLocations( meterStick, englishRuler );
         addChild( meterStick );
         addChild( englishRuler );
-
-        //Add the floating clock controls and sim speed slider at the bottom of the screen
-        addClockControls( module );
-
-        //Add a control for viewing and changing the fluid flow rate
-        addChild( new FluidPressureAndFlowControlPanelNode( new FluidFlowRateControl( module ) ) {{
-            setOffset( 10, 10 );
-        }} );
 
         //Add pipe front after other controls so the drag handles can't get lost behind clock control panel and other control panels
         addChild( new PipeFrontNode( transform, module.model.pipe ) );
@@ -130,12 +112,30 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, METRIC ) );
         addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, ENGLISH ) );
 
+        //Create and show the fluid density controls
+        addFluidDensityControl( module );
+
+        //Add the floating clock controls and sim speed slider at the bottom of the screen
+        addClockControls( module );
+
+        //Add a control for viewing and changing the fluid flow rate
+        addChild( new FluidPressureAndFlowControlPanelNode( new FluidFlowRateControl( module ) ) {{
+            setOffset( 10, 10 );
+        }} );
+
+        // Control Panel
+        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidFlowControlPanel( module ) ) {{
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, INSET );
+        }};
+        addChild( controlPanelNode );
+        addChild( new ResetAllButtonNode( module, this, (int) ( CONTROL_FONT.getSize() * 1.3 ), FOREGROUND, BACKGROUND ) {{
+            setConfirmationEnabled( false );
+            setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + INSET * 2 );
+        }} );
+
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this last ensures that the draggable sensors will appear in front of everything else
         addSensorToolboxNode( model, controlPanelNode );
-
-        //Create and show the fluid density controls
-        addFluidDensityControl( module );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {
