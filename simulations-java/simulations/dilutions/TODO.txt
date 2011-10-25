@@ -4,8 +4,10 @@ DESIGN
 - color for water
 - color scale issues in Molarity tab
 - if solute amount is "none", is it correct for concentration to be "low"?
+- layout problem in Dilution tab, too much stuff in horizontal dimension (move min/max labels to control ends? use tall skinny beakers?)
 
 HIGH
+- create a beaker base class that can be statically labeled and involves no observers
 - Dilution tab
 - curved tick marks on beakers (Arc2D)
 
