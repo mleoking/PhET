@@ -32,6 +32,7 @@ public class RepresentationNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 representation.dragging.set( true );
+                moveToFront();
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
