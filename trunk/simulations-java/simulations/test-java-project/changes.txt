@@ -1,3 +1,4 @@
+Changed the name of this project to be the test-java-project.
 # 2.31.01 (57063) Sep 29, 2011
 9/29/11 Testing Kannada preferred fonts
 # 2.31.00 (55553) Aug 19, 2011
