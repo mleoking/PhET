@@ -13,8 +13,7 @@ import edu.colorado.phet.fluidpressureandflow.flow.model.PipeControlPoint;
 import edu.colorado.phet.fluidpressureandflow.flow.model.PipeCrossSection;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionControl.MAX_DRAG_Y;
-import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionControl.MIN_DRAG_Y;
+import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionControl.*;
 
 /**
  * Translate a pipe cross section up and down, used on the leftmost and rightmost parts of the pipe to change the height.
@@ -45,7 +44,7 @@ public class PipeOffsetControl extends PNode {
         addChild( new GrabHandle( transform, new PipeControlPoint( point ),
                                   new Function1<Point2D, Point2D>() {
                                       public Point2D apply( Point2D proposedDragPoint ) {
-                                          return new Point2D.Double( x, MathUtil.clamp( MIN_DRAG_Y, proposedDragPoint.getY(), MAX_DRAG_Y ) );
+                                          return new Point2D.Double( x, MathUtil.clamp( MIN_DRAG_Y + DISTANCE_THRESHOLD, proposedDragPoint.getY(), MAX_DRAG_Y - DISTANCE_THRESHOLD ) );
                                       }
                                   }, true ) );
     }
