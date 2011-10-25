@@ -182,6 +182,11 @@ public class AttractorModel {
     }
 
     /**
+     * SRR Modified 10/24/2011
+     * JO said: In AttractorModel.java, change separateRepulsionCategories to return a list of two lists: the first a list of all indices for groups in molecule.getGroups that are lone pairs.
+     * The second is a list of all indices for groups in molecule.getGroups that are NOT lone pairs.
+     * <p/>
+     * OLD DOCS:
      * Separate out lists of indices for groups of differing bond orders. Relies on the molecule groups having been
      * sorted into repulsion categories
      *
@@ -189,25 +194,23 @@ public class AttractorModel {
      * @return List of index lists. each sub-list has the same bond order
      */
     private static List<List<Integer>> separateRepulsionCategories( final MoleculeModel molecule ) {
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-        List<Integer> current = new ArrayList<Integer>();
-        int lastBondOrder = 50;
+
+        final List<Integer> lonePairIndices = new ArrayList<Integer>();
+        final List<Integer> notLonePairIndices = new ArrayList<Integer>();
 
         for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
             PairGroup group = molecule.getGroups().get( i );
-            if ( group.bondOrder != lastBondOrder ) {
-                lastBondOrder = group.bondOrder;
-                if ( !current.isEmpty() ) {
-                    result.add( current );
-                }
-                current = new ArrayList<Integer>();
+            if ( group.isLonePair ) {
+                lonePairIndices.add( i );
             }
-            current.add( i );
+            else {
+                notLonePairIndices.add( i );
+            }
         }
-        if ( !current.isEmpty() ) {
-            result.add( current );
-        }
-        return result;
+        return new ArrayList<List<Integer>>() {{
+            add( lonePairIndices );
+            add( notLonePairIndices );
+        }};
     }
 
     /**
