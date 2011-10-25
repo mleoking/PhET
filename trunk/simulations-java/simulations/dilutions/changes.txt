@@ -1,3 +1,4 @@
+10/25/11 more fleshing out of Dilution model and canvas
 10/25/11 i18n of Dilution tab
 10/25/11 more fleshing out of Dilution canvas, generalization of components from Molarity tab
 10/25/11 start fleshing out Dilution model and canvas
