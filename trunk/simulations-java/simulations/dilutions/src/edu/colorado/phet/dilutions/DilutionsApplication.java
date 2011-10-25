@@ -21,12 +21,18 @@ public class DilutionsApplication extends PiccoloPhetApplication {
 
     public DilutionsApplication( PhetApplicationConfig config ) {
         super( config );
+
         Frame frame = getPhetFrame();
         addModule( new MolarityModule( frame ) );
         addModule( new DilutionModule( frame ) );
         addModule( new MakeDilutionsModule() );
         addModule( new BeersLawModule() );
         addModule( new BeersLawLabModule() );
+
+        //TODO remove this after development
+        if ( config.isDev() ) {
+            setStartModule( getModule( 1 ) );
+        }
     }
 
     public static void main( final String[] args ) {

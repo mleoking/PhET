@@ -30,12 +30,12 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettable {
 
-    private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
+    private final Property<Boolean> valuesVisible = new Property<Boolean>( false );//TODO delete this?
 
     public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
 
         // nodes
-        BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, model.solution, valuesVisible );
+        BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.75, model.solution, valuesVisible );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
         final double cylinderEndHeight = beakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.solution, model.getSolutionVolumeRange() );

@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
-import edu.colorado.phet.dilutions.common.model.Solute.KoolAid;
+import edu.colorado.phet.dilutions.common.model.Solute;
 import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -62,7 +62,7 @@ public class BeakerNode extends PComposite {
     private final LabelNode labelNode;
     private final ArrayList<PText> tickLabelNodes;
 
-    public BeakerNode( final double maxVolume, String units, final Solution solution, Property<Boolean> valuesVisible ) {
+    public BeakerNode( final double maxVolume, String units, final double imageScale, final Solution solution, Property<Boolean> valuesVisible ) {
 
         // this node is not interactive
         setPickable( false );
@@ -70,7 +70,7 @@ public class BeakerNode extends PComposite {
 
         // the glass beaker
         beakerImageNode = new BeakerImageNode() {{
-            scale( 0.75 );
+            scale( imageScale );
         }};
         final PDimension cylinderSize = beakerImageNode.getCylinderSize();
         final Point2D cylinderOffset = beakerImageNode.getCylinderOffset();
@@ -201,10 +201,11 @@ public class BeakerNode extends PComposite {
 
     // test
     public static void main( String[] args ) {
-        Solution solution = new Solution( new KoolAid(), 1, 0.5 );
+        Solute solute = new Solute( "MySolute", "MyFormula", 5.0, Color.RED, 1, 200 );
+        Solution solution = new Solution( solute, 1, 0.5 );
         Property<Boolean> valuesVisible = new Property<Boolean>( true );
         // beaker
-        final BeakerNode beakerNode = new BeakerNode( 1, "L", solution, valuesVisible ) {{
+        final BeakerNode beakerNode = new BeakerNode( 1, "L", 0.75, solution, valuesVisible ) {{
             setOffset( 200, 200 );
         }};
         // red dot at beaker's origin
