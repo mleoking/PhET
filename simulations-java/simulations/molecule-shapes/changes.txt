@@ -1,3 +1,4 @@
+# 1.00.04 (57962) Oct 24, 2011
 10/24/11 Treat 1-3 bonds equivalently in AttractorModel and MoleculeModel, see #3128
 # 1.00.03 (57720) Oct 17, 2011
 10/17/11 Error reporting tweak for JME
