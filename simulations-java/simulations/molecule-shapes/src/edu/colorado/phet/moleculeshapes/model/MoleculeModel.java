@@ -54,6 +54,7 @@ public class MoleculeModel {
         return groups.size();
     }
 
+    //TODO: Unused
     public int getNumberOfPairs() {
         int result = 0;
         for ( PairGroup group : groups ) {
@@ -99,9 +100,11 @@ public class MoleculeModel {
         onGroupAdded.updateListeners( pair );
     }
 
+    //SRR modified 10/24/2011
+    //JO said: Also for consistency, MoleculeModel.getSortingKey should not differentiate between different bonds (return what happens for bond order == 1).
+    //Original implementation was: return group.bondOrder > 1 ? -group.bondOrder : group.bondOrder;
     private int getSortingKey( PairGroup group ) {
-        // triple bonds lowest, then double bonds, then lone pairs, then single bonds
-        return group.bondOrder > 1 ? -group.bondOrder : group.bondOrder;
+        return group.bondOrder >= 1 ? 1 : 0;
     }
 
     public void removePair( PairGroup pair ) {

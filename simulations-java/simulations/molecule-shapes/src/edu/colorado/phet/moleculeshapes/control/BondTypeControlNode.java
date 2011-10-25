@@ -110,6 +110,7 @@ public class BondTypeControlNode extends PNode {
         return getLastMatchingGroup() != null;
     }
 
+    //SRR Suspicious use of bondOrder
     private PairGroup getLastMatchingGroup() {
         // find the last pair group that has the desired bond order
         java.util.List<PairGroup> groups = new ArrayList<PairGroup>( module.getMolecule().getGroups() );

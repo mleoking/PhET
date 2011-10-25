@@ -433,6 +433,8 @@ public class RealMolecule extends Molecule {
         int doubleBonds = 0;
         int tripleBonds = 0;
         for ( PairGroup group : model.getBondedGroups() ) {
+
+            //SRR Suspicious use of bond order, should this treat bonds equally?
             switch( group.bondOrder ) {
                 case 1:
                     singleBonds += 1;
