@@ -25,7 +25,9 @@ public class FluidFlowRateControl extends PNode {
         //Create one slider for each set of user-selectable units, and only show one at a time
         class UnitBasedSliderControl extends SliderControl {
             public UnitBasedSliderControl( String title, final UnitSet units ) {
-                super( title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1E-6 ), units.flowRate.siToUnit( 20 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, String>() );
+
+                //If the max flow rate is too high, can create negative pressure situations, which should not occur
+                super( title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1 ), units.flowRate.siToUnit( 10 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, String>() );
                 module.model.units.addObserver( new VoidFunction1<UnitSet>() {
                     public void apply( UnitSet unitSet ) {
                         setVisible( unitSet == units );

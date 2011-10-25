@@ -1,3 +1,6 @@
+Fluid flow: Restrict flow rate to be more than or equal to 1000 L/s, this prevents too many red dots from piling up
+Fluid flow: Restrict flow rate to be less than or equal to 10000 L/s, this prevents negative pressure situations
+Fluid flow: Update the pressure readout when the user changes the flow rate
 # 0.00.37 (57958) Oct 24, 2011
 Updated handle images for pipe and hose to have "grip" texture
 # 0.00.36 (57926) Oct 24, 2011
