@@ -21,8 +21,6 @@ the beaker (similar to volume controls for the other beakers, so that the slider
 LOW
 - improve look of sliders
 - use PrecisionDecimal in the model, 2 decimal places (if we're showing values)
-- delete code related to "Show values" feature, if we decide it's gone for good (start with MolarityModule.SHOW_VALUE_FEATURE_ENABLED)
-- repackage
 
 MIGRATE TO COMMON
 - SmartDoubleFormat

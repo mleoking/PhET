@@ -11,14 +11,11 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -26,9 +23,7 @@ import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.common.model.Solute;
 import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -60,9 +55,8 @@ public class BeakerNode extends PComposite {
 
     private final BeakerImageNode beakerImageNode;
     private final LabelNode labelNode;
-    private final ArrayList<PText> tickLabelNodes;
 
-    public BeakerNode( final double maxVolume, String units, final double imageScale, final Solution solution, Property<Boolean> valuesVisible ) {
+    public BeakerNode( final double maxVolume, String units, final double imageScale, final Solution solution ) {
 
         // this node is not interactive
         setPickable( false );
@@ -90,7 +84,6 @@ public class BeakerNode extends PComposite {
         addChild( beakerImageNode );
 
         // tick marks
-        tickLabelNodes = new ArrayList<PText>();
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
         int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
@@ -99,27 +92,12 @@ public class BeakerNode extends PComposite {
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
             if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
-
-                // major tick line
+                // major tick, no label
                 PPath tickNode = new PPath( new Line2D.Double( 0, y, MAJOR_TICK_LENGTH, y ) ) {{
                     setStroke( MAJOR_TICK_STROKE );
                     setStrokePaint( TICK_COLOR );
                 }};
                 ticksNode.addChild( tickNode );
-
-                // major tick label
-                int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
-                if ( labelIndex < MAJOR_TICK_LABELS.length ) {
-                    String label = MAJOR_TICK_LABELS[labelIndex] + units;
-                    PText textNode = new PText( label ) {{
-                        setFont( TICK_LABEL_FONT );
-                        setTextPaint( TICK_LABEL_COLOR );
-                    }};
-                    ticksNode.addChild( textNode );
-                    textNode.setOffset( tickNode.getFullBounds().getMaxX() + TICK_LABEL_X_SPACING,
-                                        tickNode.getFullBounds().getMinY() - ( textNode.getFullBoundsReference().getHeight() / 2 ) );
-                    tickLabelNodes.add( textNode );
-                }
             }
             else {
                 // minor tick, no label
@@ -144,12 +122,6 @@ public class BeakerNode extends PComposite {
         };
         solution.addConcentrationObserver( observer );
         solution.solute.addObserver( observer );
-
-        valuesVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                setValuesVisible( visible );
-            }
-        } );
     }
 
     public PDimension getCylinderSize() {
@@ -192,20 +164,12 @@ public class BeakerNode extends PComposite {
         }
     }
 
-    // Controls visibility of tick mark values
-    public void setValuesVisible( boolean visible ) {
-        for ( PNode node : tickLabelNodes ) {
-            node.setVisible( visible );
-        }
-    }
-
     // test
     public static void main( String[] args ) {
         Solute solute = new Solute( "MySolute", "MyFormula", 5.0, Color.RED, 1, 200 );
         Solution solution = new Solution( solute, 1, 0.5 );
-        Property<Boolean> valuesVisible = new Property<Boolean>( true );
         // beaker
-        final BeakerNode beakerNode = new BeakerNode( 1, "L", 0.75, solution, valuesVisible ) {{
+        final BeakerNode beakerNode = new BeakerNode( 1, "L", 0.75, solution ) {{
             setOffset( 200, 200 );
         }};
         // red dot at beaker's origin
