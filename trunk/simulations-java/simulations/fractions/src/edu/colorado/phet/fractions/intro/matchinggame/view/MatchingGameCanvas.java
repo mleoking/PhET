@@ -18,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.intro.matchinggame.model.MatchingGameModel;
-import edu.colorado.phet.fractions.intro.matchinggame.model.Representation;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
@@ -31,7 +30,7 @@ import static fj.Ord.ord;
  * @author Sam Reid
  */
 public class MatchingGameCanvas extends AbstractFractionsCanvas {
-    private final PNode representationNodes = new PNode();
+    private final PNode representationLayer = new PNode();
     public final BalanceNode balanceNode;
     double insetY = -10;
     private int numFramesBalanced = 0;
@@ -40,8 +39,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     public static final Random random = new Random();
 
     public MatchingGameCanvas( MatchingGameModel model ) {
-        for ( Representation representation : model.fractionRepresentations ) {
-            representationNodes.addChild( representation.node );
+        for ( RepresentationNode representation : model.nodes ) {
+            representationLayer.addChild( representation );
         }
 
         balanceNode = new BalanceNode();
@@ -50,7 +49,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         }};
         addChild( zeroOffsetBalanceNode );
 
-        addChild( representationNodes );
+        addChild( representationLayer );
 
         Clock clock = new ConstantDtClock( 30 );
         clock.addClockListener( new ClockAdapter() {
@@ -62,23 +61,23 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     private void stepInTime( double dt ) {
-        for ( Object fractionRepresentation : representationNodes.getChildrenReference() ) {
+        for ( Object fractionRepresentation : representationLayer.getChildrenReference() ) {
             RepresentationNode node = (RepresentationNode) fractionRepresentation;
 
-            if ( node.representation.dropped.get() && !node.representation.dragging.get() && isOverBalancePlatform( node ) && !node.representation.scored.get() ) {
-                ImmutableVector2D acceleration = node.representation.force.times( 1.0 / node.representation.mass );
-                node.representation.velocity.set( node.representation.velocity.get().plus( acceleration.times( dt ) ) );
-                node.representation.setOffset( node.representation.getOffset().plus( node.representation.velocity.get().times( dt ) ) );
+            if ( node.dropped.get() && !node.dragging.get() && isOverBalancePlatform( node ) && !node.scored.get() ) {
+                ImmutableVector2D acceleration = node.force.times( 1.0 / node.mass );
+                node.velocity.set( node.velocity.get().plus( acceleration.times( dt ) ) );
+                node.setOffset( new ImmutableVector2D( node.getOffset() ).plus( node.velocity.get().times( dt ) ) );
             }
 
-            if ( !node.representation.dragging.get() && node.representation.dropped.get() && !node.representation.scored.get() ) {
+            if ( !node.dragging.get() && node.dropped.get() && !node.scored.get() ) {
                 if ( node.getGlobalFullBounds().getMaxY() > zeroOffsetBalanceNode.getGlobalFullBounds().getMinY() + insetY ) {
-                    node.representation.dropped.set( false );
+                    node.dropped.set( false );
                     if ( isOverPlatform( node, balanceNode.leftPlatform ) ) {
-                        node.representation.setOverPlatform( balanceNode.leftPlatform );
+                        node.setOverPlatform( balanceNode.leftPlatform );
                     }
                     else if ( isOverPlatform( node, balanceNode.rightPlatform ) ) {
-                        node.representation.setOverPlatform( balanceNode.rightPlatform );
+                        node.setOverPlatform( balanceNode.rightPlatform );
                     }
                     updateOnPlatform( node, insetY );
                 }
@@ -148,22 +147,22 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     private void moveMultipleWeightsOff( PImage platform, double dx ) {
         List<RepresentationNode> sorted = getNodesOnPlatform( platform ).sort( ord( curry( new F2<RepresentationNode, RepresentationNode, Ordering>() {
             public Ordering f( final RepresentationNode u1, final RepresentationNode u2 ) {
-                return Ord.<Comparable>comparableOrd().compare( u1.representation.getTimeArrivedOnPlatform(), u2.representation.getTimeArrivedOnPlatform() );
+                return Ord.<Comparable>comparableOrd().compare( u1.getTimeArrivedOnPlatform(), u2.getTimeArrivedOnPlatform() );
             }
         } ) ) );
 
         //Move off the object that has been there for the longest time
         if ( sorted.length() > 1 ) {
-            sorted.head().representation.setOverPlatform( null );
+            sorted.head().setOverPlatform( null );
             sorted.head().animateToPositionScaleRotation( sorted.head().getXOffset() + dx, sorted.head().getYOffset() - 100 - random.nextDouble() * 300, sorted.head().getScale(), 0, 1000 );
         }
     }
 
     private List<RepresentationNode> getNodesOnPlatform( final PImage platform ) {
         return List.iterableList( new ArrayList<RepresentationNode>() {{
-            for ( Object fractionRepresentation : representationNodes.getChildrenReference() ) {
+            for ( Object fractionRepresentation : representationLayer.getChildrenReference() ) {
                 RepresentationNode node = (RepresentationNode) fractionRepresentation;
-                if ( node.representation.getOverPlatform() == platform ) {
+                if ( node.getOverPlatform() == platform ) {
                     add( node );
                 }
             }
@@ -171,24 +170,24 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     private void updateOnPlatform( RepresentationNode node, double insetY ) {
-        if ( node.representation.getOverPlatform() != null ) {
-            double deltaY = node.representation.getOverPlatform().getGlobalFullBounds().getMinY() - node.getGlobalFullBounds().getMaxY() - insetY;
-            node.representation.setOffset( new ImmutableVector2D( node.representation.getOffset().getX(), node.getOffset().getY() + deltaY ) );
+        if ( node.getOverPlatform() != null ) {
+            double deltaY = node.getOverPlatform().getGlobalFullBounds().getMinY() - node.getGlobalFullBounds().getMaxY() - insetY;
+            node.setOffset( new ImmutableVector2D( node.getOffset().getX(), node.getOffset().getY() + deltaY ) );
         }
     }
 
     private double getWeight( PImage platform ) {
         return getNodesOnPlatform( platform ).foldLeft( new F2<Double, RepresentationNode, Double>() {
             @Override public Double f( Double sum, RepresentationNode node ) {
-                return sum + node.representation.getWeight();
+                return sum + node.getWeight();
             }
         }, 0.0 );
     }
 
     private RepresentationNode getNode( PImage platform ) {
-        for ( Object fractionRepresentation : representationNodes.getChildrenReference() ) {
+        for ( Object fractionRepresentation : representationLayer.getChildrenReference() ) {
             RepresentationNode node = (RepresentationNode) fractionRepresentation;
-            if ( node.representation.getOverPlatform() == platform ) {
+            if ( node.getOverPlatform() == platform ) {
                 return node;
             }
         }
