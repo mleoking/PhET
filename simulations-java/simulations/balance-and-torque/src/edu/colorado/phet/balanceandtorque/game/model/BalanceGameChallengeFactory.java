@@ -318,7 +318,7 @@ public class BalanceGameChallengeFactory {
 
     /**
      * Generate a challenge where there are multiple fixed masses that must be
-     * balanced.
+     * balanced by a single movable mass.
      */
     private static BalanceGameChallenge generateMultiMassBalanceChallenge() {
 
@@ -630,15 +630,16 @@ public class BalanceGameChallengeFactory {
 
     /**
      * Get the list of solvable balance game challenges that can be created
-     * from the given set of fixed and movable masses.
+     * from the given set of two fixed masses and one movable mass.
      */
     private static List<BalanceGameChallenge> generateSolvableChallenges( Mass fixedMass1Prototype, Mass fixedMass2Prototype, Mass movableMassPrototype,
                                                                           double distanceIncrement, double maxDistance ) {
         List<BalanceGameChallenge> solvableChallenges = new ArrayList<BalanceGameChallenge>();
         for ( double fixedMass1Distance = distanceIncrement; fixedMass1Distance <= maxDistance; fixedMass1Distance += distanceIncrement ) {
             for ( double fixedMass2Distance = distanceIncrement; fixedMass2Distance <= maxDistance; fixedMass2Distance += distanceIncrement ) {
-                if ( fixedMass1Distance == fixedMass2Distance ) {
-                    // Skip these cases, since the masses can't be in the same place.
+                if ( fixedMass1Distance == fixedMass2Distance || Math.abs( fixedMass1Distance - fixedMass2Distance ) < 1.1 * distanceIncrement ) {
+                    // Skip cases where the fixed masses are at the same
+                    // location or just one increment apart.
                     continue;
                 }
                 double fixedMassTorque = fixedMass1Prototype.getMass() * fixedMass1Distance + fixedMass2Prototype.getMass() * fixedMass2Distance;
