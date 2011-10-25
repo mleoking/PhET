@@ -17,6 +17,10 @@ public class SmallTrashCan extends ImageMass {
     private static final double HEIGHT = 0.55; // In meters.
 
     public SmallTrashCan( boolean isMystery ) {
-        super( MASS, Images.TRASH_CAN, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
+        this( DEFAULT_INITIAL_LOCATION, isMystery );
+    }
+
+    public SmallTrashCan( Point2D initialPosition, boolean isMystery ) {
+        super( MASS, Images.TRASH_CAN, HEIGHT, initialPosition, isMystery );
     }
 }

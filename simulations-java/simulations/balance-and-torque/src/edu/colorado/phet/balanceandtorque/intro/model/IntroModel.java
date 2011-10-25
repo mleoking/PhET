@@ -3,8 +3,6 @@ package edu.colorado.phet.balanceandtorque.intro.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
@@ -23,34 +21,14 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 public class IntroModel extends BalanceModel {
 
     //------------------------------------------------------------------------
-    // Instance Data
-    //------------------------------------------------------------------------
-
-    // Map of the initial positions for the masses, used during resets.
-    Map<Mass, Point2D> mapMassesToInitialPositions = new HashMap<Mass, Point2D>();
-
-    //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
 
     public IntroModel() {
         // Add the initial masses and save their initial positions.
-        Mass mass = new FireExtinguisher( false ) {{
-            setPosition( 2.7, 0 );
-        }};
-        addMass( mass );
-        mapMassesToInitialPositions.put( mass, mass.getPosition() );
-        mass = new FireExtinguisher( false ) {{
-            setPosition( 3.2, 0 );
-
-        }};
-        addMass( mass );
-        mapMassesToInitialPositions.put( mass, mass.getPosition() );
-        mass = new SmallTrashCan( false ) {{
-            setPosition( 3.7, 0 );
-        }};
-        addMass( mass );
-        mapMassesToInitialPositions.put( mass, mass.getPosition() );
+        addMass( new FireExtinguisher( new Point2D.Double( 2.7, 0 ), false ) );
+        addMass( new FireExtinguisher( new Point2D.Double( 3.2, 0 ), false ) );
+        addMass( new SmallTrashCan( new Point2D.Double( 3.7, 0 ), false ) );
     }
 
     //------------------------------------------------------------------------
@@ -81,8 +59,7 @@ public class IntroModel extends BalanceModel {
 
         // Move each mass back to its original position.
         for ( Mass mass : new ArrayList<Mass>( massList ) ) {
-            assert mapMassesToInitialPositions.containsKey( mass );  // Should have initial positions for all masses.
-            mass.setPosition( mapMassesToInitialPositions.get( mass ) );
+            mass.resetPosition();
         }
     }
 }
