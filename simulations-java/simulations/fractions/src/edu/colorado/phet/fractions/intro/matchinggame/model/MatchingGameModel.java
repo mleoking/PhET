@@ -1,13 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.matchinggame.model;
 
+import fj.F2;
+
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fractions.intro.intro.model.Fraction;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -18,7 +19,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.RectangleUtils.expan
  * @author Sam Reid
  */
 public class MatchingGameModel {
-    public final ObservableList<Representation> fractionRepresentations = new ObservableList<Representation>();
+    public final ArrayList<Representation> fractionRepresentations = new ArrayList<Representation>();
     private final Random random = new Random();
 
     //Allow fractions to get closer together so it won't go into an infinite loop if they have to overlap
@@ -26,20 +27,20 @@ public class MatchingGameModel {
 
     public MatchingGameModel( ModelViewTransform transform ) {
 
-        final ArrayList<Function2<ModelViewTransform, Fraction, Representation>> representations = new ArrayList<Function2<ModelViewTransform, Fraction, Representation>>() {{
-            add( new Function2<ModelViewTransform, Fraction, Representation>() {
-                public Representation apply( ModelViewTransform modelViewTransform, Fraction fraction ) {
-                    return createDecimalRepresentation( modelViewTransform, fraction );
+        final ArrayList<F2<ModelViewTransform, Fraction, Representation>> representations = new ArrayList<F2<ModelViewTransform, Fraction, Representation>>() {{
+            add( new F2<ModelViewTransform, Fraction, Representation>() {
+                public Representation f( ModelViewTransform transform, Fraction fraction ) {
+                    return createDecimalRepresentation( transform, fraction );
                 }
             } );
-            add( new Function2<ModelViewTransform, Fraction, Representation>() {
-                public Representation apply( ModelViewTransform modelViewTransform, Fraction fraction ) {
-                    return createFractionRepresentation( modelViewTransform, fraction );
+            add( new F2<ModelViewTransform, Fraction, Representation>() {
+                public Representation f( ModelViewTransform transform, Fraction fraction ) {
+                    return createFractionRepresentation( transform, fraction );
                 }
             } );
-            add( new Function2<ModelViewTransform, Fraction, Representation>() {
-                public Representation apply( ModelViewTransform modelViewTransform, Fraction fraction ) {
-                    return createPieRepresentation( modelViewTransform, fraction );
+            add( new F2<ModelViewTransform, Fraction, Representation>() {
+                public Representation f( ModelViewTransform transform, Fraction fraction ) {
+                    return createPieRepresentation( transform, fraction );
                 }
             } );
         }};
@@ -47,13 +48,12 @@ public class MatchingGameModel {
         for ( int i = 0; i < 4; i++ ) {
             Fraction fraction = new Fraction( random.nextInt( 11 ) + 1, random.nextInt( 11 ) + 1 );
 
-            ArrayList<Function2<ModelViewTransform, Fraction, Representation>> remainingRepresentations = new ArrayList<Function2<ModelViewTransform, Fraction, Representation>>( representations );
+            ArrayList<F2<ModelViewTransform, Fraction, Representation>> remainingRepresentations = new ArrayList<F2<ModelViewTransform, Fraction, Representation>>( representations );
 
             for ( int k = 0; k < 2; k++ ) {
                 int selected = random.nextInt( remainingRepresentations.size() );
-                Function2<ModelViewTransform, Fraction, Representation> selectedRepresentation = remainingRepresentations.get( selected );
-
-                fractionRepresentations.add( selectedRepresentation.apply( transform, fraction ) );
+                F2<ModelViewTransform, Fraction, Representation> selectedRepresentation = remainingRepresentations.get( selected );
+                fractionRepresentations.add( selectedRepresentation.f( transform, fraction ) );
                 remainingRepresentations.remove( selectedRepresentation );
             }
         }
@@ -80,7 +80,7 @@ public class MatchingGameModel {
     }
 
     //Check to see if one node overlaps a pre-existing node, so it can be placed in an open area
-    private boolean hits( Representation representation, ObservableList<Representation> representations, double padding ) {
+    private boolean hits( Representation representation, List<Representation> representations, double padding ) {
         for ( Representation a : representations ) {
             final PBounds aBounds = a.node.getGlobalFullBounds();
             final PBounds bBounds = representation.node.getGlobalFullBounds();
