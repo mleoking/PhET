@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
@@ -25,21 +24,19 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettable {
 
-    private final Property<Boolean> valuesVisible = new Property<Boolean>( false );//TODO delete this?
-
     public DilutionCanvas( DilutionModel model, Frame parentFrame ) {
 
         // solution nodes
-        BeakerNode solutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.25, model.solution, valuesVisible );
+        BeakerNode solutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.25, model.solution );
         final PDimension solutionCylinderSize = solutionBeakerNode.getCylinderSize();
         final double solutionCylinderEndHeight = solutionBeakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( solutionCylinderSize, solutionCylinderEndHeight, model.solution, model.getSolutionVolumeRange() );
-        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V1, new PDimension( 5, 0.8 * solutionCylinderSize.getHeight() ),
-                                                                                          model.solution.volume, model.getSolutionVolumeRange(),
-                                                                                          Strings.VERY_SMALL, Strings.SMALL, valuesVisible );
+        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V1, Strings.VERY_SMALL, Strings.SMALL,
+                                                                                          new PDimension( 5, 0.8 * solutionCylinderSize.getHeight() ), //TODO 0.8 is based on specific volume range
+                                                                                          model.solution.volume, model.getSolutionVolumeRange() );
 
         // water nodes
-        BeakerNode waterBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.5, model.water, valuesVisible );
+        BeakerNode waterBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.5, model.water );
         final PDimension waterCylinderSize = waterBeakerNode.getCylinderSize();
         final double waterCylinderEndHeight = waterBeakerNode.getCylinderEndHeight();
         SolutionNode waterNode = new SolutionNode( waterCylinderSize, waterCylinderEndHeight, model.water, model.getSolutionVolumeRange() );
@@ -47,17 +44,16 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
         PNode equalsNode = new FancyEqualsNode();
 
         // dilution nodes
-        BeakerNode dilutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.5, model.dilution, valuesVisible );
+        BeakerNode dilutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.5, model.dilution );
         final PDimension dilutionCylinderSize = dilutionBeakerNode.getCylinderSize();
         final double dilutionCylinderEndHeight = dilutionBeakerNode.getCylinderEndHeight();
         SolutionNode dilutionNode = new SolutionNode( dilutionCylinderSize, dilutionCylinderEndHeight, model.dilution, model.getSolutionVolumeRange() );
-        SolutionVolumeSliderNode dilutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V2, new PDimension( 5, 0.8 * dilutionCylinderSize.getHeight() ),
-                                                                                          model.dilution.volume, model.getSolutionVolumeRange(),
-                                                                                          Strings.SMALL, Strings.BIG, valuesVisible );
+        SolutionVolumeSliderNode dilutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V2, Strings.SMALL, Strings.BIG,
+                                                                                          new PDimension( 5, 0.8 * dilutionCylinderSize.getHeight() ), //TODO 0.8 is based on specific volume range
+                                                                                          model.dilution.volume, model.getSolutionVolumeRange() );
         PDimension concentrationBarSize = new PDimension( 40, dilutionCylinderSize.getHeight() + 50 );
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.CONCENTRATION_M2, concentrationBarSize,
-                                                                                          model.dilution, model.getConcentrationRange(),
-                                                                                          valuesVisible );
+                                                                                          model.dilution, model.getConcentrationRange() );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
             setConfirmationEnabled( false );
@@ -104,6 +100,6 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
     }
 
     public void reset() {
-        valuesVisible.reset();
+        // do nothing
     }
 }

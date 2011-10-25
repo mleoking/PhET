@@ -7,30 +7,25 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.common.model.Solution;
-import edu.colorado.phet.dilutions.common.util.SmartDoubleFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Vertical bar that displays the concentration of a solution.
  * The bar is colored using a gradient that corresponds to the solute's color.
- * A pointer to the right of the bar indicates the concentration value.
+ * A pointer to the right of the bar indicates the concentration on the scale.
  * The pointer is color corresponds to its location on the bar.
  * Origin is at the upper-left corner of the bar.
  *
@@ -39,13 +34,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class ConcentrationDisplayNode extends PComposite {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
-    private static final PhetFont VALUE_FONT = new PhetFont( 16 );
     private static final PhetFont TICK_FONT = new PhetFont( 16 );
     private static final double TICK_LENGTH = 10;
-    private static final SmartDoubleFormat TICK_FORMAT = new SmartDoubleFormat( "0.00", true, true );
-    private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
 
-    public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution, final DoubleRange concentrationRange, Property<Boolean> valuesVisible ) {
+    public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution, final DoubleRange concentrationRange ) {
 
         // this node is not interactive
         setPickable( false );
@@ -55,8 +47,8 @@ public class ConcentrationDisplayNode extends PComposite {
         final TitleNode titleNode = new TitleNode( title );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration() );
-        final TickMarkNode maxNode = new TickMarkNode( concentrationRange.getMax(), Strings.UNITS_MOLARITY, Strings.HIGH, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
-        final TickMarkNode minNode = new TickMarkNode( concentrationRange.getMin(), Strings.UNITS_MOLARITY, Strings.LOW, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
+        final HorizontalTickMarkNode maxNode = new HorizontalTickMarkNode( Strings.HIGH, TICK_FONT, TICK_LENGTH );
+        final HorizontalTickMarkNode minNode = new HorizontalTickMarkNode( Strings.LOW, TICK_FONT, TICK_LENGTH );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -95,15 +87,6 @@ public class ConcentrationDisplayNode extends PComposite {
                 pointerNode.setArrowPaint( paint );
                 saturationIndicatorNode.setSaturationPoint( solution.getSaturatedConcentration() );
                 saturationIndicatorNode.setVisible( solution.getSaturatedConcentration() < concentrationRange.getMax() );
-            }
-        } );
-
-        // Show values
-        valuesVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                pointerNode.setValueVisible( visible );
-                maxNode.setValueVisible( visible );
-                minNode.setValueVisible( visible );
             }
         } );
     }
@@ -159,16 +142,11 @@ public class ConcentrationDisplayNode extends PComposite {
         private final PDimension barSize;
         private final LinearFunction function;
         private PNode arrowNode;
-        private final PText valueNode;
 
         public PointerNode( PDimension barSize, DoubleRange range, double value ) {
             this.barSize = barSize;
             this.function = new LinearFunction( range.getMin(), range.getMax(), barSize.getHeight(), 0 );
             this.arrowNode = new PNode();
-            this.valueNode = new PText() {{
-                setFont( VALUE_FONT );
-            }};
-            addChild( valueNode );
             setValue( value );
         }
 
@@ -187,16 +165,6 @@ public class ConcentrationDisplayNode extends PComposite {
                                        ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
             arrowNode.setPaint( paint );
             addChild( arrowNode );
-
-            // update the value
-            String valueString = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, VALUE_FORMAT.format( value ), Strings.UNITS_MOLARITY );
-            valueNode.setText( valueString );
-            valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
-                                 arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
-        }
-
-        public void setValueVisible( boolean visible ) {
-            valueNode.setVisible( visible );
         }
     }
 }
