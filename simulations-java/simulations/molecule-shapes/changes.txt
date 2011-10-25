@@ -1,3 +1,4 @@
+# 1.01.00 (57968) Oct 24, 2011
 # 1.00.04 (57962) Oct 24, 2011
 > Fixed: molecule shapes are sometimes incorrect because single, double and triple bonds are treated differently, see #3128
 10/24/11 Treat 1-3 bonds equivalently in AttractorModel and MoleculeModel, see #3128
