@@ -38,4 +38,24 @@ public class MassDeductionChallenge extends BalanceGameChallenge {
     @Override public ChallengeViewConfig getChallengeViewConfig() {
         return VIEW_CONFIG;
     }
+
+    /**
+     * Convenience function for create a mass deduction challenge.
+     */
+    public static MassDeductionChallenge create( Mass mysteryMass, double mysteryMassDistanceFromCenter, Mass knownMass ) {
+
+        // Create the mass-distance pair for the mystery object.
+        MassDistancePair mysteryMassDistancePair = new MassDistancePair( mysteryMass, mysteryMassDistanceFromCenter );
+
+        // Put the known mass on to a list.
+        List<Mass> knownMassesList = new ArrayList<Mass>();
+        knownMassesList.add( knownMass );
+
+        // Create a valid solution for the challenge.
+        List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
+        solution.add( new MassDistancePair( knownMass, -mysteryMass.getMass() * mysteryMassDistanceFromCenter / knownMass.getMass() ) );
+
+        // Combine into challenge.
+        return new MassDeductionChallenge( mysteryMassDistancePair, knownMassesList, solution );
+    }
 }
