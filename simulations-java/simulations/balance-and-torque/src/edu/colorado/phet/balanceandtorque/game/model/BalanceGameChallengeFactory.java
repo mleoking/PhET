@@ -229,7 +229,7 @@ public class BalanceGameChallengeFactory {
     }
 
     /**
-     * Create a simple challenge where brick stacks of equal mass appear on
+     * Generate a simple challenge where brick stacks of equal mass appear on
      * each side.
      */
     private static BalanceMassesChallenge generateSimpleBalanceChallenge() {
@@ -313,7 +313,7 @@ public class BalanceGameChallengeFactory {
         double fixedStackDistanceFromCenter = chooseRandomValidFixedMassDistance( fixedMassPrototype.getMass(), movableMass.getMass() );
 
         // Create the challenge.
-        return createBalanceChallengeFromParts( fixedMassPrototype.clone(), fixedStackDistanceFromCenter, movableMass );
+        return BalanceMassesChallenge.create( fixedMassPrototype.clone(), fixedStackDistanceFromCenter, movableMass );
     }
 
     /**
@@ -338,7 +338,7 @@ public class BalanceGameChallengeFactory {
     }
 
     private static BalanceMassesChallenge createTwoBrickStackChallenge( int numBricksInFixedStack, double fixedStackDistanceFromCenter, int numBricksInMovableStack ) {
-        return createBalanceChallengeFromParts( new BrickStack( numBricksInFixedStack ), fixedStackDistanceFromCenter, new BrickStack( numBricksInMovableStack ) );
+        return BalanceMassesChallenge.create( new BrickStack( numBricksInFixedStack ), fixedStackDistanceFromCenter, new BrickStack( numBricksInMovableStack ) );
     }
 
     private static double chooseRandomValidFixedMassDistance( double fixedMassValue, double movableMassValue ) {
@@ -346,58 +346,6 @@ public class BalanceGameChallengeFactory {
 
         // Randomly choose a distance to use from the identified set.
         return -validFixedMassDistances.get( RAND.nextInt( validFixedMassDistances.size() ) );
-    }
-
-    /**
-     * Convenience method for assembling one fixed mass and one movable mass
-     * into a balance challenge.
-     */
-    private static BalanceMassesChallenge createBalanceChallengeFromParts( Mass fixedMass, double fixedMassDistanceFromCenter, Mass movableMass ) {
-        // Add the fixed mass and its distance from the center of the balance.
-        List<MassDistancePair> fixedMassesList = new ArrayList<MassDistancePair>();
-        MassDistancePair fixedMassDistancePair = new MassDistancePair( fixedMass, fixedMassDistanceFromCenter );
-        fixedMassesList.add( fixedMassDistancePair );
-
-        // Add the movable mass.
-        List<Mass> movableMassesList = new ArrayList<Mass>();
-        movableMassesList.add( movableMass );
-
-        // Create a valid solution for the challenge.
-        List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
-        solution.add( new MassDistancePair( movableMass, -fixedMassDistancePair.mass.getMass() * fixedMassDistancePair.distance / movableMass.getMass() ) );
-
-        // And we're done.
-        return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solution );
-    }
-
-    /**
-     * Convenience method for assembling two fixed masses and one movable mass
-     * into a balance challenge.  All distances should be positive values, and
-     * the sign conversion happens when the challenge is created.
-     */
-    private static BalanceMassesChallenge createBalanceChallengeFromParts( Mass fixedMass1, double fixedMass1DistanceFromCenter,
-                                                                           Mass fixedMass2, double fixedMass2DistanceFromCenter, Mass movableMass ) {
-        // Add the fixed masses and their distances from the center of the balance.
-        List<MassDistancePair> fixedMassesList = new ArrayList<MassDistancePair>();
-        MassDistancePair fixedMassDistancePair1 = new MassDistancePair( fixedMass1, -fixedMass1DistanceFromCenter );
-        fixedMassesList.add( fixedMassDistancePair1 );
-        MassDistancePair fixedMassDistancePair2 = new MassDistancePair( fixedMass2, -fixedMass2DistanceFromCenter );
-        fixedMassesList.add( fixedMassDistancePair2 );
-
-        // Add the movable mass.
-        List<Mass> movableMassesList = new ArrayList<Mass>();
-        movableMassesList.add( movableMass );
-
-        // Create a valid solution for the challenge.
-        List<MassDistancePair> solutionList = new ArrayList<MassDistancePair>();
-        double fixedMassTorque = fixedMassDistancePair1.mass.getMass() * fixedMassDistancePair1.distance +
-                                 fixedMassDistancePair2.mass.getMass() * fixedMassDistancePair2.distance;
-        MassDistancePair solution = new MassDistancePair( movableMass, -fixedMassTorque / movableMass.getMass() );
-        assert solution.distance % Plank.INTER_SNAP_TO_MARKER_DISTANCE == 0; // Verify that this is really a workable solution.
-        solutionList.add( solution );
-
-        // Create the actual challenge.
-        return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solutionList );
     }
 
     /**
@@ -473,7 +421,7 @@ public class BalanceGameChallengeFactory {
         double mysteryMassDistanceFromCenter = -generateRandomValidPlankDistance();
 
         // Create the challenge.
-        return createMassDeductionChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+        return MassDeductionChallenge.create( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
@@ -499,7 +447,7 @@ public class BalanceGameChallengeFactory {
         double mysteryMassDistanceFromCenter = -possibleDistances.get( RAND.nextInt( possibleDistances.size() ) );
 
         // Create the challenge.
-        return createMassDeductionChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+        return MassDeductionChallenge.create( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
@@ -526,7 +474,7 @@ public class BalanceGameChallengeFactory {
         double mysteryMassDistanceFromCenter = -possibleDistances.get( RAND.nextInt( possibleDistances.size() ) );
 
         // Create the challenge.
-        return createMassDeductionChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+        return MassDeductionChallenge.create( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
@@ -553,25 +501,6 @@ public class BalanceGameChallengeFactory {
         // If we made it to here, that means that there is no mass that
         // matches the specified criterion.
         return null;
-    }
-
-    /**
-     * Convenience function for assembling a mass deduction challenge.
-     */
-    private static MassDeductionChallenge createMassDeductionChallengeFromParts( Mass mysteryMass, double mysteryMassDistanceFromCenter, Mass knownMass ) {
-        // Create the mass-distance pair for the mystery object.
-        MassDistancePair mysteryMassDistancePair = new MassDistancePair( mysteryMass, mysteryMassDistanceFromCenter );
-
-        // Put the known mass on to a list.
-        List<Mass> knownMassesList = new ArrayList<Mass>();
-        knownMassesList.add( knownMass );
-
-        // Create a valid solution for the challenge.
-        List<MassDistancePair> solution = new ArrayList<MassDistancePair>();
-        solution.add( new MassDistancePair( knownMass, -mysteryMass.getMass() * mysteryMassDistanceFromCenter / knownMass.getMass() ) );
-
-        // Combine into challenge.
-        return new MassDeductionChallenge( mysteryMassDistancePair, knownMassesList, solution );
     }
 
     /**
@@ -648,9 +577,9 @@ public class BalanceGameChallengeFactory {
                      movableMassDistance <= maxDistance &&
                      movableMassDistance % distanceIncrement == 0 ) {
                     // This is a solvable configuration.  Add it to the list.
-                    solvableChallenges.add( createBalanceChallengeFromParts( fixedMass1Prototype.clone(), fixedMass1Distance,
-                                                                             fixedMass2Prototype.clone(), fixedMass2Distance,
-                                                                             movableMassPrototype.clone() ) );
+                    solvableChallenges.add( BalanceMassesChallenge.create( fixedMass1Prototype.clone(), fixedMass1Distance,
+                                                                           fixedMass2Prototype.clone(), fixedMass2Distance,
+                                                                           movableMassPrototype.clone() ) );
                 }
             }
         }
