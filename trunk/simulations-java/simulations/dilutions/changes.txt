@@ -1,3 +1,4 @@
+10/25/11 new beaker image from NP, cleaned up wonkiness near the spout
 # 0.00.05 (57919) Oct 24, 2011
 10/24/11 make arrow slightly larger in concentration display
 10/24/11 distribute precipitate on bottom of 3D beaker (random distribution of points inside an ellipse)

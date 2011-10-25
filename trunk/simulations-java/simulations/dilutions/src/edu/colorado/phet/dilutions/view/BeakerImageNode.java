@@ -40,10 +40,10 @@ public class BeakerImageNode extends PImage {
 
         // points of interest in the untransformed image, get these via inspection in Photoshop or other image-editing program
         points = new NamedPoints( this ) {{
-            addOffset( CYLINDER_UPPER_LEFT, new Point2D.Double( 102, 192 ) );
-            addOffset( CYLINDER_LOWER_RIGHT, new Point2D.Double( 530, 644 ) );
-            addOffset( CYLINDER_END_BACKGROUND, new Point2D.Double( 215, 166 ) );
-            addOffset( CYLINDER_END_FOREGROUND, new Point2D.Double( 215, 218 ) );
+            addOffset( CYLINDER_UPPER_LEFT, new Point2D.Double( 98, 192 ) );
+            addOffset( CYLINDER_LOWER_RIGHT, new Point2D.Double( 526, 644 ) );
+            addOffset( CYLINDER_END_BACKGROUND, new Point2D.Double( 210, 166 ) );
+            addOffset( CYLINDER_END_FOREGROUND, new Point2D.Double( 210, 218 ) );
         }};
     }
 
