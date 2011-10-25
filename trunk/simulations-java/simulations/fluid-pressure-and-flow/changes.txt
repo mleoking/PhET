@@ -1,3 +1,4 @@
+Fluid flow: Account for the minimum pipe width when restricting the pipe y-offset, this prevents the pipe from being made too small
 # 0.00.39 (57964) Oct 24, 2011
 Fluid flow: Moved the control panels in front of the pipe so they can't be obscured by it
 # 0.00.38 (57960) Oct 24, 2011
