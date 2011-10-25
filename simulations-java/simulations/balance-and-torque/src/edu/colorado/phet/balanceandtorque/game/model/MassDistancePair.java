@@ -27,6 +27,7 @@ public class MassDistancePair {
         if ( that.distance != distance ) {
             return false;
         }
+
         if ( mass.getMass() != that.mass.getMass() ) {
             return false;
         }

@@ -170,8 +170,7 @@ public class PlankNode extends ModelObjectNode {
         private Point2D getModelPosition( Point2D canvasPos ) {
             Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
             canvas.getPhetRootNode().screenToWorld( worldPos );
-            Point2D modelPos = mvt.viewToModel( worldPos );
-            return modelPos;
+            return mvt.viewToModel( worldPos );
         }
 
         double getMouseToPlankCenterAngle( Point2D mouseCanvasPosition ) {

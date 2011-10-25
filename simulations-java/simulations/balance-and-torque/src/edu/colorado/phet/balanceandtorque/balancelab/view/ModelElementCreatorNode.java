@@ -49,7 +49,6 @@ public abstract class ModelElementCreatorNode extends PComposite {
     private final ModelViewTransform mvt;
     private PNode selectionNode = null;
     private PText caption = null;
-    private RestoreDefaultOnReleaseCursorHandler cursorHandler = new RestoreDefaultOnReleaseCursorHandler( Cursor.HAND_CURSOR );
     private final Vector2D positioningOffset = new Vector2D( 0, 0 ); // In view coordinate system.
 
     //-------------------------------------------------------------------------
@@ -63,7 +62,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
         this.canvas = canvas;
 
         // Set up handling of mouse events.
-        addInputEventListener( cursorHandler );
+        addInputEventListener( new RestoreDefaultOnReleaseCursorHandler( Cursor.HAND_CURSOR ) );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
@@ -130,8 +129,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
         Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
         canvas.getPhetRootNode().screenToWorld( worldPos );
         worldPos = new Vector2D( worldPos ).add( positioningOffset ).toPoint2D();
-        Point2D modelPos = mvt.viewToModel( worldPos );
-        return modelPos;
+        return mvt.viewToModel( worldPos );
     }
 
     private void updateLayout() {

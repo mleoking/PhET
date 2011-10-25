@@ -183,7 +183,7 @@ public class BalanceGameModel {
      */
     public double getBestTime( int level ) {
         assert level > 0 && level <= MAX_LEVELS;
-        return ( mapLevelToBestTime.containsKey( level ) ? mapLevelToBestTime.get( level ).doubleValue() : Double.POSITIVE_INFINITY );
+        return ( mapLevelToBestTime.containsKey( level ) ? mapLevelToBestTime.get( level ) : Double.POSITIVE_INFINITY );
     }
 
     public boolean isNewBestTime() {
@@ -233,7 +233,7 @@ public class BalanceGameModel {
      */
     public void checkAnswer() {
         // Verify that this method isn't being used inappropriately.
-        assert getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog == false;
+        assert !getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog;
 
         // Turn off the column so that the plank can move.
         supportColumnState.set( ColumnState.NONE );
@@ -250,7 +250,7 @@ public class BalanceGameModel {
      */
     public void checkAnswer( double mass ) {
         // Verify that this method isn't being used inappropriately.
-        assert getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog == true;
+        assert getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog;
 
         // Handle the user's proposed answer.
         handleProposedAnswer( mass == getTotalFixedMassValue() );
@@ -422,7 +422,7 @@ public class BalanceGameModel {
     public static enum GameState {
         OBTAINING_GAME_SETUP,                        // Getting the game setup information from the user, i.e. level, sound on/off, etc.
         PRESENTING_INTERACTIVE_CHALLENGE,            // Presenting the challenge that the user must interact with and then test their answer.
-        SHOWING_CORRECT_ANSWER_FEEDBACK,             // Showing the feedback that indicates a correct answer (e.g. a simley face).
+        SHOWING_CORRECT_ANSWER_FEEDBACK,             // Showing the feedback that indicates a correct answer (e.g. a smiley face).
         SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN, // Showing the feedback that indicates an incorrect answer (e.g. a frowny face) w opportunity to try again.
         SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON,   // Showing the feedback that indicates an incorrect answer (e.g. a frowny face), w opportunity to see correct answer.
         DISPLAYING_CORRECT_ANSWER,                   // Displaying the correct answer.

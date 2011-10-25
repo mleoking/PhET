@@ -29,7 +29,7 @@ public class AttachmentBarNode extends ModelObjectNode {
     public AttachmentBarNode( final ModelViewTransform mvt, final AttachmentBar attachmentBar ) {
         super( mvt, attachmentBar, createGradientPaint( mvt, attachmentBar ) );
         // Add a couple of nodes to create something that looks like a pivot.
-        double pivotWidth = mvt.modelToViewDeltaX( attachmentBar.WIDTH * 2 );
+        double pivotWidth = mvt.modelToViewDeltaX( AttachmentBar.WIDTH * 2 );
         PNode pivotNode = new PhetPPath( new Ellipse2D.Double( -pivotWidth / 2, -pivotWidth / 2, pivotWidth, pivotWidth ), BASE_COLOR, new BasicStroke( 1 ), Color.BLACK );
         pivotNode.setOffset( mvt.modelToView( attachmentBar.getPivotPoint() ) );
         pivotNode.addChild( new PhetPPath( new Ellipse2D.Double( -pivotWidth / 10, -pivotWidth / 10, pivotWidth / 5, pivotWidth / 5 ), Color.BLACK ) );

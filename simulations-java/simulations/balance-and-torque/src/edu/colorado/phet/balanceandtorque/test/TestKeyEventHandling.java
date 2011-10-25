@@ -2,16 +2,13 @@
 package edu.colorado.phet.balanceandtorque.test;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -35,11 +32,6 @@ public class TestKeyEventHandling {
         PhetPCanvas canvas = new PhetPCanvas();
         // Set up the canvas-screen transform.
         canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
-
-        ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
-                1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         canvas.getLayer().addChild( new PhetPPath( new Rectangle2D.Double( 100, 100, 10, 10 ), Color.PINK ) );
 

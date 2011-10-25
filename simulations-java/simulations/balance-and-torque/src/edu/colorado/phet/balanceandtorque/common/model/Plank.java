@@ -422,7 +422,7 @@ public class Plank extends ShapeModelElement {
 
     private void stepInTime( double dt ) {
         if ( !userControlled.get() ) {
-            double angularAcceleration = 0;
+            double angularAcceleration;
             updateNetTorque();
 
             // Update the angular acceleration and velocity.  There is some

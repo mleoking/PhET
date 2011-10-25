@@ -1,13 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.test;
 
-import java.awt.Point;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -36,13 +33,6 @@ public class PatternTest {
         PhetPCanvas canvas = new PhetPCanvas();
         // Set up the canvas-screen transform.
         canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
-
-        ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
-                1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
-
-        //
 
         PText patternLabeledPText = new PText() {{
             setText( "Blah" );
