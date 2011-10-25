@@ -1,3 +1,4 @@
+Added a constraint to the multi-mass challenges so that the fixed masses are at least two "ticks" apart.  This prevents issues with overlapping.
 Added a key handler on the game tab so that the user can move between steps of the challenges using the Enter key.
 Added a small trash can mass object, which is being used in the first tab so as not to give away mass of medium trash can, which is being used as a mystery mass in the game.
 Changed show label from "Ruler" to "Rulers", since the ruler was split into two a while back.
