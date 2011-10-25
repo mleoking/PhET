@@ -34,23 +34,16 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 
 /**
  * This class is a factory pattern class that generates sets of challenges for
- * the balance game.
- * <p/>
- * Note: In this class, the terminology used to distinguish between the various
- * levels of difficulty for the challenges are (in order of increasing
- * difficulty)
+ * use in the balance game.  In this class, the terminology used to distinguish
+ * between the various levels of difficulty for the challenges are (in order of
+ * increasing difficulty):
  * - Simple
  * - Easy
  * - Moderate
- * - Hard
+ * - Advanced
  * This is not to be confused with the numerical game levels, since there is
  * not necessarily a 1 to 1 correspondence between the numerical levels and
  * the difficulty of a given challenge.
- * <p/>
- * TODO: This class requires a lot of cleaning up, making the terminology
- * consistent (e.g. create versus generate), and consolidating duplicated code.
- * It's not worth the time now because the game is in such a state of flux, but
- * don't forget about it.
  *
  * @author John Blanco
  */
@@ -60,6 +53,7 @@ public class BalanceGameChallengeFactory {
     // Class Data
     //-------------------------------------------------------------------------
 
+    // Used for randomization of challenges.
     private static final Random RAND = new Random();
 
     // Challenges per challenge set.
@@ -78,8 +72,8 @@ public class BalanceGameChallengeFactory {
     private static final double MIN_DISTANCE_FROM_BALANCE_CENTER_TO_MASS = Plank.INTER_SNAP_TO_MARKER_DISTANCE;
     private static final double MAX_DISTANCE_FROM_BALANCE_CENTER_TO_MASS = ( Math.round( Plank.getLength() / Plank.INTER_SNAP_TO_MARKER_DISTANCE / 2 ) - 1 ) * Plank.INTER_SNAP_TO_MARKER_DISTANCE;
 
-    // List of masses that can be used in balance challenges or as the fixed
-    // masses in "deduce the mass" challenges.
+    // List of masses that can be used on either side of the balance challenges
+    // or as the fixed masses in mass deduction challenges.
     private static final List<Mass> BALANCE_CHALLENGE_MASSES = new ArrayList<Mass>() {{
         add( new BrickStack( 1 ) );
         add( new BrickStack( 2 ) );
@@ -97,7 +91,9 @@ public class BalanceGameChallengeFactory {
         add( new CinderBlock( false ) );
     }};
 
-    // List of mystery objects that the user has not seen on the other tab(s).
+    // List of masses that can be used as "mystery objects" in the mass
+    // deduction challenges.  These should not appear in other tabs, lest the
+    // user could already know their mass.
     private static final List<Mass> MYSTERY_MASSES = new ArrayList<Mass>() {{
         add( new FireHydrant( true ) );
         add( new Television( true ) );
@@ -112,8 +108,8 @@ public class BalanceGameChallengeFactory {
         add( new Tire( true ) );
     }};
 
-    // Structures used to keep track of the challenges generated so far so that
-    // we can avoid creating the same challenges multiple times.
+    // Lists used to keep track of the challenges generated so far so that we
+    // can avoid creating the same challenges multiple times.
     private static final List<BalanceGameChallenge> usedBalanceChallenges = new ArrayList<BalanceGameChallenge>();
     private static final List<BalanceGameChallenge> usedMassDeductionChallenges = new ArrayList<BalanceGameChallenge>();
 
@@ -186,7 +182,7 @@ public class BalanceGameChallengeFactory {
     //-------------------------------------------------------------------------
 
     /**
-     * Get a set of challenges for the provided level.
+     * Get a set of challenges for the specified level.
      *
      * @param level
      * @return
@@ -284,71 +280,9 @@ public class BalanceGameChallengeFactory {
     }
 
     /**
-     * Create a challenge where random masses are chosen, one for the fixed
-     * mass and one for the movable mass.
-     */
-    private static BalanceMassesChallenge generateChallengeRandomMasses() {
-
-        Mass fixedMass;
-        Mass movableMass;
-        // Iterate through randomly chosen pairs of masses until a combination
-        // is found that is solvable.
-        do {
-            fixedMass = getRandomMass( 0, Double.POSITIVE_INFINITY );
-            do {
-                movableMass = getRandomMass( fixedMass.getMass() * MIN_DISTANCE_FROM_BALANCE_CENTER_TO_MASS / MAX_DISTANCE_FROM_BALANCE_CENTER_TO_MASS,
-                                             fixedMass.getMass() * MAX_DISTANCE_FROM_BALANCE_CENTER_TO_MASS / MIN_DISTANCE_FROM_BALANCE_CENTER_TO_MASS );
-            }
-            while ( movableMass.getMass() == fixedMass.getMass() ); // Make sure that movable mass is different from fixed mass.
-        }
-        while ( !isChallengeSolvable( fixedMass.getMass(), movableMass.getMass(), Plank.INTER_SNAP_TO_MARKER_DISTANCE, Plank.getLength() / 2 ) );
-
-        return createBalanceChallengeFromParts( fixedMass, chooseRandomValidFixedMassDistance( fixedMass.getMass(), movableMass.getMass() ), movableMass );
-    }
-
-    /**
-     * Create a challenge in which one stack of bricks must be balanced by
-     * another, and the distance ratios can be more complex than in the
-     * simpler challenges, e.g. 3:2.
-     *
-     * @return
-     */
-    private static BalanceMassesChallenge generateModerateBalanceChallengeOld() {
-
-        int numBricksInFixedStack;
-        int numBricksInMovableStack;
-
-        // Create random challenges until a solvable one is created.
-        do {
-            // Randomly choose the number of bricks in the fixed stack.
-            numBricksInFixedStack = RAND.nextInt( 4 ) + 1;
-
-            // Randomly choose the number of bricks in the movable stack, but
-            // avoid the same number.
-            numBricksInMovableStack = numBricksInFixedStack;
-            while ( numBricksInMovableStack == numBricksInFixedStack ) {
-                numBricksInMovableStack = RAND.nextInt( 4 ) + 1;
-            }
-        }
-        while ( !isChallengeSolvable( numBricksInFixedStack * BrickStack.BRICK_MASS,
-                                      numBricksInMovableStack * BrickStack.BRICK_MASS,
-                                      Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                      MAX_DISTANCE_FROM_BALANCE_CENTER_TO_MASS ) );
-
-        // Randomly choose a distance to use for the fixed mass position.
-        double fixedStackDistanceFromCenter = chooseRandomValidFixedMassDistance( numBricksInFixedStack * BrickStack.BRICK_MASS,
-                                                                                  numBricksInMovableStack * BrickStack.BRICK_MASS );
-
-        // Create the challenge.
-        return createTwoBrickStackChallenge( numBricksInFixedStack, fixedStackDistanceFromCenter, numBricksInMovableStack );
-    }
-
-    /**
      * Create a challenge in which one fixed mass must be balanced by another,
      * and the distance ratios can be more complex than in the simpler
      * challenges, e.g. 3:2.
-     *
-     * @return
      */
     private static BalanceMassesChallenge generateModerateBalanceChallenge() {
 
@@ -385,8 +319,6 @@ public class BalanceGameChallengeFactory {
     /**
      * Generate a challenge where there are multiple fixed masses that must be
      * balanced.
-     *
-     * @return
      */
     private static BalanceGameChallenge generateMultiMassBalanceChallenge() {
 
@@ -491,8 +423,6 @@ public class BalanceGameChallengeFactory {
      * Convenience function that generates a valid random distance from the
      * center of the plank where a mass can be positioned.  The plank only
      * allows discrete distances, which is why this is needed.
-     *
-     * @return
      */
     private static double generateRandomValidPlankDistance() {
         double maxDistance = Plank.getLength() / 2;
@@ -520,10 +450,8 @@ public class BalanceGameChallengeFactory {
     }
 
     /**
-     * Generate a deduce-the-mass style challenge where the fixed mystery mass
+     * Generate a mass deduction style challenge where the fixed mystery mass
      * is the same value as the known mass.
-     *
-     * @return
      */
     private static MassDeductionChallenge generateSimpleMassDeductionChallenge() {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
@@ -545,14 +473,12 @@ public class BalanceGameChallengeFactory {
         double mysteryMassDistanceFromCenter = -generateRandomValidPlankDistance();
 
         // Create the challenge.
-        return createDeduceTheMassChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+        return createMassDeductionChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
-     * Generate a deduce-the-mass style challenge where the fixed mystery mass
+     * Generate a mass deduction style challenge where the fixed mystery mass
      * is either twice as heavy or half as heavy as the known mass.
-     *
-     * @return
      */
     private static MassDeductionChallenge generateEasyMassDeductionChallenge() {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
@@ -573,15 +499,13 @@ public class BalanceGameChallengeFactory {
         double mysteryMassDistanceFromCenter = -possibleDistances.get( RAND.nextInt( possibleDistances.size() ) );
 
         // Create the challenge.
-        return createDeduceTheMassChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+        return createMassDeductionChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
-     * Generate a deduce-the-mass style challenge where the fixed mystery mass
+     * Generate a mass deduction style challenge where the fixed mystery mass
      * is related to the movable mass by a ratio that is more complicate than
      * 2:1 or 1:2, e.g. 1:3.
-     *
-     * @return
      */
     private static MassDeductionChallenge generateModerateMassDeductionChallenge() {
         int indexOffset = RAND.nextInt( BALANCE_CHALLENGE_MASSES.size() );
@@ -602,7 +526,7 @@ public class BalanceGameChallengeFactory {
         double mysteryMassDistanceFromCenter = -possibleDistances.get( RAND.nextInt( possibleDistances.size() ) );
 
         // Create the challenge.
-        return createDeduceTheMassChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+        return createMassDeductionChallengeFromParts( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
@@ -631,8 +555,10 @@ public class BalanceGameChallengeFactory {
         return null;
     }
 
-    // TODO: If this is kept, move it into a constructor for the challenge.  Do for all similar convenience functions.
-    private static MassDeductionChallenge createDeduceTheMassChallengeFromParts( Mass mysteryMass, double mysteryMassDistanceFromCenter, Mass knownMass ) {
+    /**
+     * Convenience function for assembling a mass deduction challenge.
+     */
+    private static MassDeductionChallenge createMassDeductionChallengeFromParts( Mass mysteryMass, double mysteryMassDistanceFromCenter, Mass knownMass ) {
         // Create the mass-distance pair for the mystery object.
         MassDistancePair mysteryMassDistancePair = new MassDistancePair( mysteryMass, mysteryMassDistanceFromCenter );
 
@@ -650,10 +576,9 @@ public class BalanceGameChallengeFactory {
 
     /**
      * Method to generate a "unique" challenge, meaning one that the user
-     * either hasn't seen before or at least hasn't seen recently.
-     *
-     * @param challengeGenerator
-     * @return
+     * either hasn't seen before or at least hasn't seen recently.  The caller
+     * provides function objects for generating the challenges and testing its
+     * uniqueness, as well as a list of previous challenges to test against.
      */
     private static BalanceGameChallenge generateUniqueChallenge( Function0<BalanceGameChallenge> challengeGenerator,
                                                                  Function2<BalanceGameChallenge, List<BalanceGameChallenge>, Boolean> uniquenessTest,
@@ -705,7 +630,7 @@ public class BalanceGameChallengeFactory {
 
     /**
      * Get the list of solvable balance game challenges that can be created
-     * from the given parameters.
+     * from the given set of fixed and movable masses.
      */
     private static List<BalanceGameChallenge> generateSolvableChallenges( Mass fixedMass1Prototype, Mass fixedMass2Prototype, Mass movableMassPrototype,
                                                                           double distanceIncrement, double maxDistance ) {
@@ -733,7 +658,7 @@ public class BalanceGameChallengeFactory {
     }
 
     /**
-     * Test a challenge against a list of challenges to see if the text
+     * Test a challenge against a list of challenges to see if the given
      * challenge uses unique mass values for the movable and fixed masses.
      * Distances are ignored, so if a challenge is tested against a set that
      * contains one with the same masses but different distances, this will
@@ -762,46 +687,6 @@ public class BalanceGameChallengeFactory {
     }
 
     /**
-     * This class takes a list of items at construction and then, when asked
-     * through the 'get' method will randomly pick an item from the original
-     * list.  It will go through all items in the list before returning the
-     * same one again, at which point it will "reset" back to the original
-     * list.
-     *
-     * @param <T>
-     */
-    private static class RandomItemBag<T> {
-        private static Random RAND = new Random();
-
-        List<T> copyOfOriginalItems;
-        List<T> unusedItems;
-
-        private RandomItemBag( List<T> originalItemList ) {
-            copyOfOriginalItems = new ArrayList<T>( originalItemList );
-        }
-
-        public T getRandomItem() {
-            assert unusedItems.size() > 0; // There is a bug in the code if this happens.
-            T item = unusedItems.get( RAND.nextInt( unusedItems.size() ) );
-            unusedItems.remove( item );
-            if ( unusedItems.size() == 0 ) {
-                // All items have been used, time to reset the list.
-                unusedItems.addAll( copyOfOriginalItems );
-            }
-            return item;
-        }
-
-        public void returnItem( T item ) {
-            if ( unusedItems.contains( item ) ) {
-                assert false; // This is to catch misuse of this class.
-                System.out.println( getClass().getName() + " - Warning: Attempt to return an item that is already in the bag." );
-                return;
-            }
-            unusedItems.add( item );
-        }
-    }
-
-    /**
      * Convenience function for removing the oldest half of a list.
      */
     private static void removeOldestHalfOfList( List list ) {
@@ -810,31 +695,4 @@ public class BalanceGameChallengeFactory {
             list.remove( 0 );
         }
     }
-
-    // Test harness, changes as code evolves, not meant to test all aspects of
-    // this class.
-    public static void main( String[] args ) {
-//        for ( int i = 0; i < 100; i++ ) {
-//            BalanceGameChallenge challenge = generateSimpleBalanceChallenge();
-//            System.out.println( "------" );
-//            System.out.println( "challenge.fixedMasses.get( 0 ) = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getMass() );
-//            System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
-//        }
-//        for ( int i = 0; i < 100; i++ ) {
-//            BalanceGameChallenge challenge = generateEasyBalanceChallenge();
-//            System.out.println( "------" );
-//            System.out.println( "challenge.fixedMasses.get( 0 ) = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getMass() );
-//            System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
-//        }
-//        for ( int i = 0; i < 100; i++ ) {
-//            BalanceGameChallenge challenge = generateUniqueChallenge( simpleMassDeductionChallengeGenerator, uniqueMassesTest, usedMassDeductionChallenges );
-//            System.out.println( "------" );
-//            System.out.println( "Fixed mass = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getClass().getName() );
-//            System.out.println( "challenge.fixedMasses.get( 0 ) = " + challenge.fixedMassDistancePairs.get( 0 ).mass.getMass() );
-//            System.out.println( "Movable mass = " + challenge.movableMasses.get( 0 ).getClass().getName() );
-//            System.out.println( "challenge.movableMasses.get( 0 ) = " + challenge.movableMasses.get( 0 ).getMass() );
-//        }
-        return;
-    }
-
 }
