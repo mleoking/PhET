@@ -1,4 +1,4 @@
-10/25/11 delete code related to "Show values" feature, it was becoming too difficult to continue supporting it
+10/25/11 [57987] delete code related to "Show values" feature, it was becoming too difficult to continue supporting it
 10/25/11 more fleshing out of Dilution model and canvas
 10/25/11 i18n of Dilution tab
 10/25/11 more fleshing out of Dilution canvas, generalization of components from Molarity tab
