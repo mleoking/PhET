@@ -175,6 +175,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     public void addFluidChangeObserver( SimpleObserver updatePressure ) {
         super.addFluidChangeObserver( updatePressure );
         pipe.addShapeChangeListener( updatePressure );
+        pipe.flowRate.addObserver( updatePressure );
+        pipe.friction.addObserver( updatePressure );
     }
 
     public void pourFoodColoring() {
