@@ -61,7 +61,11 @@ public class MiscMenu extends JMenu {
                 PhetProject[] projects = PhetProject.getAllProjects( trunk );
                 for ( int i = 0; i < projects.length; i++ ) {
                     PhetProject project = projects[i];
-                    project.copyLicenseInfo();
+
+                    //skip "all-sims" when generating license info, otherwise causes exceptions
+                    if ( !project.getName().equals( "all-sims" ) ) {
+                        project.copyLicenseInfo();
+                    }
                 }
             }
         } );
