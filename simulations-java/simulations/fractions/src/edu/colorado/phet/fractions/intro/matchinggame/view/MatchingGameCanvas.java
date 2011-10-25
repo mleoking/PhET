@@ -107,6 +107,13 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
             double maxHeight = Math.max( left.getFullBounds().getHeight(), right.getFullBounds().getHeight() ) * scaleFactor;
 
+            //Make it so the nodes can't be dragged any more
+            left.setPickable( false );
+            left.setChildrenPickable( false );
+            right.setPickable( false );
+            right.setChildrenPickable( false );
+
+            //Make them fly to the summary board
             right.animateToPositionScaleRotation( left.getFullBounds().getWidth() * scaleFactor + 5 + equalsSign.getFullBounds().getWidth() + 5, scoreY + maxHeight / 2 - right.getFullBounds().getHeight() * scaleFactor / 2, right.getScale() * scaleFactor, 0, 1000 );
             PTransformActivity transformLeft = left.animateToPositionScaleRotation( 0, scoreY + maxHeight / 2 - left.getFullBounds().getHeight() * scaleFactor / 2, left.getScale() * scaleFactor, 0, 1000 );
             transformLeft.setDelegate( new PActivity.PActivityDelegate() {

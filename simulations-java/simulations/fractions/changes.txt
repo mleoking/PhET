@@ -1,3 +1,4 @@
+Matching game: Fixed: Scored nodes can be dragged
 # 0.00.06 (57894) Oct 22, 2011
 Improved look and randomization of fraction representations
 Added balance and weight model
