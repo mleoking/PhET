@@ -272,9 +272,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add the dialog node that is used in some challenges to enable the
         // user to submit specific mass values.
-        massValueEntryNode = new MassValueEntryNode( model );
+        massValueEntryNode = new MassValueEntryNode( model, this );
         rootNode.addChild( massValueEntryNode );
-        massValueAnswerNode = new MassValueEntryNode.DisplayAnswerNode( model );
+        massValueAnswerNode = new MassValueEntryNode.DisplayAnswerNode( model, this );
         rootNode.addChild( massValueAnswerNode );
         Point2D massEntryDialogCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
                                                             titleNode.getFullBoundsReference().getMaxY() + massValueEntryNode.getFullBounds().height / 2 + 10 );
@@ -335,10 +335,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
         model.getPlank().massesOnSurface.addElementAddedObserver( checkAnswerButtonEnabledController );
         model.getPlank().massesOnSurface.addElementRemovedObserver( checkAnswerButtonEnabledController );
 
-        // TODO: This doesn't yet function in the desired way, since one of the
-        // primary motives was to allow the user to hit "Enter" to go to the
-        // next challenge after entering a value in a mass deduction challenge,
-        // an issues related to focus are preventing this from working.
+        // Add a key listener that will allow the user to essentially press the
+        // active button by pressing the Enter key.
         addKeyListener( new KeyAdapter() {
             @Override public void keyTyped( KeyEvent event ) {
                 if ( event.getKeyChar() == KeyEvent.VK_ENTER ) {

@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
@@ -26,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -45,12 +47,14 @@ public class MassValueEntryNode extends PNode {
     private final JFormattedTextField numberEntryField;
     private final BalanceGameModel model;
     private TextButtonNode checkAnswerButton;
+    private final PCanvas canvas;
 
     /**
      * Constructor.
      */
-    public MassValueEntryNode( final BalanceGameModel balanceGameModel ) {
+    public MassValueEntryNode( final BalanceGameModel balanceGameModel, PCanvas canvas ) {
         this.model = balanceGameModel;
+        this.canvas = canvas;
 
         // Add the textual prompt.
         PText prompt = new PText( BalanceAndTorqueResources.Strings.MASS_EQUALS );
@@ -119,6 +123,15 @@ public class MassValueEntryNode extends PNode {
 
         // Submit the proposed answer to the model.
         model.checkAnswer( value );
+
+        // Once an answer is submitted, set the focus back to the canvas.
+        // This was needed in order to allow the user to use the Enter key to
+        // submit and answer and then use it again to go to the next challenge.
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                canvas.requestFocusInWindow();
+            }
+        } );
     }
 
     public static class DisplayAnswerNode extends PNode {
@@ -130,8 +143,8 @@ public class MassValueEntryNode extends PNode {
         /**
          * Constructor.
          */
-        public DisplayAnswerNode( final BalanceGameModel balanceGameModel ) {
-            massValueEntryNode = new MassValueEntryNode( balanceGameModel );
+        public DisplayAnswerNode( final BalanceGameModel balanceGameModel, PCanvas canvas ) {
+            massValueEntryNode = new MassValueEntryNode( balanceGameModel, canvas );
             addChild( massValueEntryNode );
             massValueEntryNode.checkAnswerButton.setVisible( false );
             massValueEntryNode.numberEntryField.setEnabled( false );
@@ -167,10 +180,10 @@ public class MassValueEntryNode extends PNode {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new MassValueEntryNode( new BalanceGameModel() ) {{
+        canvas.getLayer().addChild( new MassValueEntryNode( new BalanceGameModel(), canvas ) {{
             setOffset( 10, 10 );
         }} );
-        canvas.getLayer().addChild( new DisplayAnswerNode( new BalanceGameModel() ) {{
+        canvas.getLayer().addChild( new DisplayAnswerNode( new BalanceGameModel(), canvas ) {{
             setOffset( 10, 150 );
         }} );
 
