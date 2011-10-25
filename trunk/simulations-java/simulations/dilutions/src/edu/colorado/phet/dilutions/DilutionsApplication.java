@@ -6,9 +6,9 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.dilutions.dilution.DilutionModule;
 import edu.colorado.phet.dilutions.modules.BeersLawLabModule;
 import edu.colorado.phet.dilutions.modules.BeersLawModule;
-import edu.colorado.phet.dilutions.modules.DilutionModule;
 import edu.colorado.phet.dilutions.modules.MakeDilutionsModule;
 import edu.colorado.phet.dilutions.molarity.MolarityModule;
 
@@ -23,7 +23,7 @@ public class DilutionsApplication extends PiccoloPhetApplication {
         super( config );
         Frame frame = getPhetFrame();
         addModule( new MolarityModule( frame ) );
-        addModule( new DilutionModule() );
+        addModule( new DilutionModule( frame ) );
         addModule( new MakeDilutionsModule() );
         addModule( new BeersLawModule() );
         addModule( new BeersLawLabModule() );
