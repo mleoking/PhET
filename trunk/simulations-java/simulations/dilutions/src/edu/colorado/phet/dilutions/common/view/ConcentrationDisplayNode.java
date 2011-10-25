@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.view;
+package edu.colorado.phet.dilutions.common.view;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,8 +19,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.model.Solution;
-import edu.colorado.phet.dilutions.util.SmartDoubleFormat;
+import edu.colorado.phet.dilutions.common.util.SmartDoubleFormat;
+import edu.colorado.phet.dilutions.molarity.model.Solution;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.util;
+package edu.colorado.phet.dilutions.common.util;
 
 import java.awt.geom.Point2D;
 import java.util.HashMap;

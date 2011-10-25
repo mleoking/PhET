@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.modules;
+package edu.colorado.phet.dilutions.common;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-/* package private */ class AbstractDilutionsModule extends PiccoloModule {
+public class AbstractDilutionsModule extends PiccoloModule {
     protected AbstractDilutionsModule( String title ) {
         super( title, new ConstantDtClock( 25 ) );
         setLogoPanel( null );

@@ -10,7 +10,7 @@ import edu.colorado.phet.dilutions.modules.BeersLawLabModule;
 import edu.colorado.phet.dilutions.modules.BeersLawModule;
 import edu.colorado.phet.dilutions.modules.DilutionModule;
 import edu.colorado.phet.dilutions.modules.MakeDilutionsModule;
-import edu.colorado.phet.dilutions.modules.MolarityModule;
+import edu.colorado.phet.dilutions.molarity.MolarityModule;
 
 /**
  * Main class for the "Dilutions" application.
