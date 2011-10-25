@@ -226,5 +226,5 @@ public abstract class Mass implements UserMovableModelElement {
         // Default implementation does nothing.
     }
 
-    public abstract Mass clone() throws CloneNotSupportedException;
+    public abstract Mass clone();
 }
