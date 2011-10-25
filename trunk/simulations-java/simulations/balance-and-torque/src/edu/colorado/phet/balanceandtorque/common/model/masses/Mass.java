@@ -25,6 +25,7 @@ public abstract class Mass implements UserMovableModelElement {
 
     protected static final double MIN_ANIMATION_VELOCITY = 3; // In meters/sec.
     protected static final double MAX_REMOVAL_ANIMATION_DURATION = 0.75; // In seconds.
+    protected static final Point2D DEFAULT_INITIAL_LOCATION = new Point2D.Double( 0, 0 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -42,7 +43,7 @@ public abstract class Mass implements UserMovableModelElement {
     // Property that contains the position in model space.  By convention for
     // this simulation, the position of a mass is the center bottom of the
     // model object.
-    final public Property<Point2D> positionProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
+    final public Property<Point2D> positionProperty;
 
     // Property that contains the rotational angle, in radians, of the model
     // element.  By convention for this simulation, the point of rotation is
@@ -77,11 +78,16 @@ public abstract class Mass implements UserMovableModelElement {
     //-------------------------------------------------------------------------
 
     public Mass( double mass ) {
-        this( mass, false );
+        this( mass, DEFAULT_INITIAL_LOCATION, false );
     }
 
     public Mass( double mass, boolean isMystery ) {
+        this( mass, DEFAULT_INITIAL_LOCATION, isMystery );
+    }
+
+    public Mass( double mass, Point2D initialPosition, boolean isMystery ) {
         this.mass = mass;
+        this.positionProperty = new Property<Point2D>( new Point2D.Double( initialPosition.getX(), initialPosition.getY() ) );
         this.isMystery = isMystery;
     }
 
@@ -106,6 +112,13 @@ public abstract class Mass implements UserMovableModelElement {
 
     public Point2D getPosition() {
         return new Point2D.Double( positionProperty.get().getX(), positionProperty.get().getY() );
+    }
+
+    /**
+     * Set the position back to its original value, specified at construction.
+     */
+    public void resetPosition() {
+        positionProperty.reset();
     }
 
     public void translate( double x, double y ) {

@@ -61,9 +61,8 @@ public class ImageMass extends Mass {
      * Constructor.
      */
     public ImageMass( double mass, BufferedImage image, double height, Point2D initialPosition, boolean isMystery ) {
-        super( mass, isMystery );
+        super( mass, initialPosition, isMystery );
         heightProperty.set( height );
-        positionProperty.set( initialPosition );
         this.imageProperty = new Property<BufferedImage>( image );
     }
 
