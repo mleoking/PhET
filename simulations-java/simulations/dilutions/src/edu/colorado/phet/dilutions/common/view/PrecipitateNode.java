@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.view;
+package edu.colorado.phet.dilutions.common.view;
 
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.model.Solution;
+import edu.colorado.phet.dilutions.molarity.model.Solution;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;

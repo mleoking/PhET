@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.control;
+package edu.colorado.phet.dilutions.common.control;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -33,9 +33,9 @@ import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler.Orientation;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.modules.MolarityModule;
-import edu.colorado.phet.dilutions.util.SmartDoubleFormat;
-import edu.colorado.phet.dilutions.view.TickMarkNode;
+import edu.colorado.phet.dilutions.common.util.SmartDoubleFormat;
+import edu.colorado.phet.dilutions.common.view.TickMarkNode;
+import edu.colorado.phet.dilutions.molarity.MolarityModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

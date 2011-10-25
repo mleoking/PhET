@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.view;
+package edu.colorado.phet.dilutions.common.view;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.dilutions.model.Solute;
+import edu.colorado.phet.dilutions.molarity.model.Solute;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**

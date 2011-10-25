@@ -1,19 +1,19 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.model;
+package edu.colorado.phet.dilutions.molarity.model;
 
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.dilutions.model.Solute.CobaltChloride;
-import edu.colorado.phet.dilutions.model.Solute.CobaltIINitrate;
-import edu.colorado.phet.dilutions.model.Solute.CopperSulfate;
-import edu.colorado.phet.dilutions.model.Solute.GoldIIIChloride;
-import edu.colorado.phet.dilutions.model.Solute.KoolAid;
-import edu.colorado.phet.dilutions.model.Solute.NickelChloride;
-import edu.colorado.phet.dilutions.model.Solute.PotassiumChromate;
-import edu.colorado.phet.dilutions.model.Solute.PotassiumDichromate;
-import edu.colorado.phet.dilutions.model.Solute.PotassiumPermanganate;
+import edu.colorado.phet.dilutions.molarity.model.Solute.CobaltChloride;
+import edu.colorado.phet.dilutions.molarity.model.Solute.CobaltIINitrate;
+import edu.colorado.phet.dilutions.molarity.model.Solute.CopperSulfate;
+import edu.colorado.phet.dilutions.molarity.model.Solute.GoldIIIChloride;
+import edu.colorado.phet.dilutions.molarity.model.Solute.KoolAid;
+import edu.colorado.phet.dilutions.molarity.model.Solute.NickelChloride;
+import edu.colorado.phet.dilutions.molarity.model.Solute.PotassiumChromate;
+import edu.colorado.phet.dilutions.molarity.model.Solute.PotassiumDichromate;
+import edu.colorado.phet.dilutions.molarity.model.Solute.PotassiumPermanganate;
 
 /**
  * Model for the "Molarity" module.

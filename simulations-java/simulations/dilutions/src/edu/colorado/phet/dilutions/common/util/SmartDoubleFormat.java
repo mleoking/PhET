@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.util;
+package edu.colorado.phet.dilutions.common.util;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 

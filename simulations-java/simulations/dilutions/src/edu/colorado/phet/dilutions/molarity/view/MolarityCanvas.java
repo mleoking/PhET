@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.view;
+package edu.colorado.phet.dilutions.molarity.view;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -9,12 +9,18 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.control.DilutionsSliderNode.SoluteAmountSliderNode;
-import edu.colorado.phet.dilutions.control.DilutionsSliderNode.SolutionVolumeSliderNode;
-import edu.colorado.phet.dilutions.control.ShowValuesNode;
-import edu.colorado.phet.dilutions.control.SoluteControlNode;
-import edu.colorado.phet.dilutions.model.MolarityModel;
-import edu.colorado.phet.dilutions.modules.MolarityModule;
+import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.SoluteAmountSliderNode;
+import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.SolutionVolumeSliderNode;
+import edu.colorado.phet.dilutions.common.control.ShowValuesNode;
+import edu.colorado.phet.dilutions.common.control.SoluteControlNode;
+import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
+import edu.colorado.phet.dilutions.common.view.BeakerNode;
+import edu.colorado.phet.dilutions.common.view.ConcentrationDisplayNode;
+import edu.colorado.phet.dilutions.common.view.PrecipitateNode;
+import edu.colorado.phet.dilutions.common.view.SaturatedIndicatorNode;
+import edu.colorado.phet.dilutions.common.view.SolutionNode;
+import edu.colorado.phet.dilutions.molarity.MolarityModule;
+import edu.colorado.phet.dilutions.molarity.model.MolarityModel;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

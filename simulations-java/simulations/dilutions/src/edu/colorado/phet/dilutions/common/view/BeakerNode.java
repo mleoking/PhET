@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.view;
+package edu.colorado.phet.dilutions.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -23,8 +23,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
-import edu.colorado.phet.dilutions.model.Solute.KoolAid;
-import edu.colorado.phet.dilutions.model.Solution;
+import edu.colorado.phet.dilutions.molarity.model.Solute.KoolAid;
+import edu.colorado.phet.dilutions.molarity.model.Solution;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
