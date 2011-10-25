@@ -46,11 +46,15 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
             setConfirmationEnabled( false );
         }};
         PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
-        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( concentrationBarSize,
+        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION, concentrationBarSize,
                                                                                           model.solution, model.getConcentrationRange(),
                                                                                           valuesVisible );
-        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( new PDimension( 5, cylinderSize.getHeight() ), model.solution.soluteAmount, model.getSoluteAmountRange(), valuesVisible );
-        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( new PDimension( 5, 0.8 * cylinderSize.getHeight() ), model.solution.volume, model.getSolutionVolumeRange(), valuesVisible );
+        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( Strings.SOLUTE_AMOUNT, new PDimension( 5, cylinderSize.getHeight() ),
+                                                                                    model.solution.soluteAmount, model.getSoluteAmountRange(),
+                                                                                    Strings.LOTS, Strings.NONE, valuesVisible );
+        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.SOLUTION_VOLUME, new PDimension( 5, 0.8 * cylinderSize.getHeight() ),
+                                                                                          model.solution.volume, model.getSolutionVolumeRange(),
+                                                                                          Strings.LOW, Strings.FULL, valuesVisible );
         SaturatedIndicatorNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
 
         // rendering order

@@ -45,14 +45,14 @@ public class ConcentrationDisplayNode extends PComposite {
     private static final SmartDoubleFormat TICK_FORMAT = new SmartDoubleFormat( "0.00", true, true );
     private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
 
-    public ConcentrationDisplayNode( final PDimension barSize, final Solution solution, final DoubleRange concentrationRange, Property<Boolean> valuesVisible ) {
+    public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution, final DoubleRange concentrationRange, Property<Boolean> valuesVisible ) {
 
         // this node is not interactive
         setPickable( false );
         setChildrenPickable( false );
 
         // nodes
-        final TitleNode titleNode = new TitleNode();
+        final TitleNode titleNode = new TitleNode( title );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration() );
         final TickMarkNode maxNode = new TickMarkNode( concentrationRange.getMax(), Strings.UNITS_MOLARITY, Strings.HIGH, TICK_FONT, TICK_LENGTH, TICK_FORMAT );
@@ -116,8 +116,8 @@ public class ConcentrationDisplayNode extends PComposite {
 
     // Title above the bar
     private static class TitleNode extends HTMLNode {
-        public TitleNode() {
-            super( Strings.SOLUTION_CONCENTRATION );
+        public TitleNode( String title ) {
+            super( title );
             setFont( TITLE_FONT );
         }
     }
