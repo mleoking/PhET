@@ -51,7 +51,7 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 /**
  * @author John Blanco
  */
-public class IntroCanvas extends PhetPCanvas {
+public class BasicBalanceCanvas extends PhetPCanvas {
 
     protected static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     protected final ModelViewTransform mvt;
@@ -63,7 +63,7 @@ public class IntroCanvas extends PhetPCanvas {
     protected PNode nonMassLayer;
     protected PNode controlPanel;
 
-    public IntroCanvas( final BalanceModel model ) {
+    public BasicBalanceCanvas( final BalanceModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
@@ -101,14 +101,14 @@ public class IntroCanvas extends PhetPCanvas {
                 // Create and add the view representation for this mass.
                 PNode massNode = null;
                 if ( mass instanceof ShapeMass ) {
-                    massNode = new BrickStackNode( (ShapeMass) mass, mvt, IntroCanvas.this, massLabelVisibilityProperty );
+                    massNode = new BrickStackNode( (ShapeMass) mass, mvt, BasicBalanceCanvas.this, massLabelVisibilityProperty );
                 }
                 else if ( mass instanceof LabeledImageMass ) {
                     // These are mystery objects.
-                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, IntroCanvas.this, massLabelVisibilityProperty );
+                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BasicBalanceCanvas.this, massLabelVisibilityProperty );
                 }
                 else if ( mass instanceof ImageMass ) {
-                    massNode = new ImageMassNode( mvt, (ImageMass) mass, IntroCanvas.this, massLabelVisibilityProperty );
+                    massNode = new ImageMassNode( mvt, (ImageMass) mass, BasicBalanceCanvas.this, massLabelVisibilityProperty );
                 }
                 else {
                     System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
