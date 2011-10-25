@@ -1,3 +1,5 @@
+10/25/11 start fleshing out Dilution model and canvas
+10/25/11 move definition of real solutions into  MolarityModel
 10/25/11 create stubs for Dilution module
 10/25/11 new beaker image from NP, cleaned up wonkiness near the spout
 # 0.00.05 (57919) Oct 24, 2011

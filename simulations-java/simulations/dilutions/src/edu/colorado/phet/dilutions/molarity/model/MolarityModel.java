@@ -1,20 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions.molarity.model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.dilutions.DilutionsResources.Strings;
+import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.common.model.Solute;
-import edu.colorado.phet.dilutions.common.model.Solute.CobaltChloride;
-import edu.colorado.phet.dilutions.common.model.Solute.CobaltIINitrate;
-import edu.colorado.phet.dilutions.common.model.Solute.CopperSulfate;
-import edu.colorado.phet.dilutions.common.model.Solute.GoldIIIChloride;
-import edu.colorado.phet.dilutions.common.model.Solute.KoolAid;
-import edu.colorado.phet.dilutions.common.model.Solute.NickelChloride;
-import edu.colorado.phet.dilutions.common.model.Solute.PotassiumChromate;
-import edu.colorado.phet.dilutions.common.model.Solute.PotassiumDichromate;
-import edu.colorado.phet.dilutions.common.model.Solute.PotassiumPermanganate;
 import edu.colorado.phet.dilutions.common.model.Solution;
 
 /**
@@ -24,8 +18,8 @@ import edu.colorado.phet.dilutions.common.model.Solution;
  */
 public class MolarityModel implements Resettable {
 
-    public static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 );
-    public static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 );
+    private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
+    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Solution solution;
@@ -37,15 +31,15 @@ public class MolarityModel implements Resettable {
     private MolarityModel( double soluteAmount, double solutionVolume ) {
 
         this.solutes = new ArrayList<Solute>() {{
-            add( new KoolAid() );
-            add( new CobaltIINitrate() );
-            add( new NickelChloride() );
-            add( new CobaltChloride() );
-            add( new PotassiumChromate() );
-            add( new GoldIIIChloride() );
-            add( new CopperSulfate() );
-            add( new PotassiumDichromate() );
-            add( new PotassiumPermanganate() );
+            add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, Color.RED, 1, 200 ) );
+            add( new Solute( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 5.0, Color.RED, 1, 200 ) );
+            add( new Solute( Strings.NICKEL_II_CHLORIDE, Symbols.NICKEL_II_CHLORIDE, 5.0, new Color( 0x008000 ) /* green */, 1, 200 ) );
+            add( new Solute( Strings.COBALT_CHLORIDE, Symbols.COBALT_CHLORIDE, 4.35, new Color( 0xFF6A6A ) /* rose pink */, 1, 200 ) );
+            add( new Solute( Strings.POTASSIUM_CHROMATE, Symbols.POTASSIUM_CHROMATE, 3.35, Color.YELLOW, 1, 200 ) );
+            add( new Solute( Strings.GOLD_III_CHLORIDE, Symbols.GOLD_III_CHLORIDE, 2.25, new Color( 0xFFD700 ) /* yellow */, 1, 200 ) );
+            add( new Solute( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 1.40, new Color( 0x1E90FF ) /* blue */, 1, 200 ) );
+            add( new Solute( Strings.POTASSIUM_DICHROMATE, Symbols.POTASSIUM_DICHROMATE, 0.50, new Color( 0xFF7F00 ) /* orange */, 1, 200 ) );
+            add( new Solute( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 0.50, new Color( 0x8B008B ) /* purple */, Color.BLACK, 1, 200 ) );
         }};
 
         this.solution = new Solution( solutes.get( 0 ), SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
