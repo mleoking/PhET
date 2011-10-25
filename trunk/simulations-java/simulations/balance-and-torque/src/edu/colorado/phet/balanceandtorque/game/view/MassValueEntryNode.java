@@ -3,11 +3,9 @@ package edu.colorado.phet.balanceandtorque.game.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -20,7 +18,6 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -174,11 +171,6 @@ public class MassValueEntryNode extends PNode {
         PhetPCanvas canvas = new PhetPCanvas();
         // Set up the canvas-screen transform.
         canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
-
-        ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
-                1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         canvas.getLayer().addChild( new MassValueEntryNode( new BalanceGameModel(), canvas ) {{
             setOffset( 10, 10 );

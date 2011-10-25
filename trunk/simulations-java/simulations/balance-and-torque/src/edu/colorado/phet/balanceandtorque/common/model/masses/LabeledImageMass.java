@@ -19,7 +19,7 @@ public class LabeledImageMass extends ImageMass {
      */
     public LabeledImageMass( double mass, BufferedImage image, double height, Point2D initialPosition, String labelText, boolean isMystery ) {
         super( mass, image, height, initialPosition, isMystery );
-        this.labelText = new String( labelText );
+        this.labelText = labelText;
     }
 
     public String getLabelText() {

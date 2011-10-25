@@ -39,7 +39,7 @@ public class IntroModel extends BalanceModel {
     @Override public UserMovableModelElement addMass( final Mass mass ) {
         mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean newValue, Boolean oldValue ) {
-                if ( newValue == false && oldValue == true ) {
+                if ( oldValue && !newValue ) {
                     // The user has dropped this mass.
                     if ( !plank.addMassToSurface( mass ) ) {
                         // The attempt to add mass to surface of plank failed,

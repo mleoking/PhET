@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * Fulcrum (for lack of a better word) that has a pivot point that is above
- * the plank.  This looks sort of like a swingset, with angled legs that go
+ * the plank.  This looks sort of like a swing set, with angled legs that go
  * from the ground up to apex in a sort of A-frame arrangement.
  *
  * @author John Blanco

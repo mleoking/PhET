@@ -80,14 +80,11 @@ public abstract class BalanceGameChallenge {
      * contained on the list.  The 'contains' function for the mass list can't
      * be used because it relies on the 'equals' function, which needs to be
      * more specific than just matching class and mass value.
-     *
-     * @param mass
-     * @return
      */
     private boolean containsEquivalentMass( Mass mass, List<Mass> massList ) {
         for ( Mass massFromList : massList ) {
             if ( mass.getMass() == massFromList.getMass() && mass.getClass() == massFromList.getClass() ) {
-                // These masses are equivalent.
+                // These masses are equivalent, so the list contains an equivalent mass.
                 return true;
             }
         }
@@ -96,10 +93,6 @@ public abstract class BalanceGameChallenge {
 
     /**
      * Test two mass lists to see if they contain equivalent masses.
-     *
-     * @param massList1
-     * @param massList2
-     * @return
      */
     private boolean containsEquivalentMasses( List<Mass> massList1, List<Mass> massList2 ) {
         if ( massList1.size() != massList2.size() ) {
@@ -145,11 +138,7 @@ public abstract class BalanceGameChallenge {
             return false;
         }
 
-        if ( !balancedConfiguration.equals( that.balancedConfiguration ) ) {
-            return false;
-        }
-
-        return true;
+        return balancedConfiguration.equals( that.balancedConfiguration );
     }
 
     /**

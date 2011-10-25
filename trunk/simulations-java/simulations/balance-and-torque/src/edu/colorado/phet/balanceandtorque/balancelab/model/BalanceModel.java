@@ -96,7 +96,6 @@ public abstract class BalanceModel implements Resettable {
         }
     }
 
-
     /**
      * Add a mass to the model.  Subclasses handle this somewhat differently.
      *

@@ -301,7 +301,6 @@ public class BalanceGameChallengeFactory {
                 // no masses that match the provided ratios.  This should be
                 // fixed.
                 assert false;
-                continue;
             }
         }
         while ( !isChallengeSolvable( fixedMassPrototype.getMass(),
@@ -515,7 +514,7 @@ public class BalanceGameChallengeFactory {
         BalanceGameChallenge challenge = null;
         boolean uniqueChallengeGenerated = false;
 
-        for ( int i = 0; i < MAX_HALVING_OF_PAST_LIST && uniqueChallengeGenerated == false; i++ ) {
+        for ( int i = 0; i < MAX_HALVING_OF_PAST_LIST && !uniqueChallengeGenerated; i++ ) {
             for ( int j = 0; j < MAX_GEN_ATTEMPTS; j++ ) {
 
                 // Create a challenge.
@@ -550,11 +549,8 @@ public class BalanceGameChallengeFactory {
             return false;
         }
 
-        if ( ( fixedMassValue / movableMassValue ) % distanceIncrement > COMPARISON_TOLERANCE ) {
-            return false;
-        }
+        return ( fixedMassValue / movableMassValue ) % distanceIncrement <= COMPARISON_TOLERANCE;
 
-        return true;
     }
 
     /**
