@@ -1,13 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.matchinggame.view;
 
+import fj.F2;
+import fj.data.List;
+
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
@@ -128,18 +131,18 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     private void moveMultipleWeightsOff( PImage platform ) {
-        ObservableList<RepresentationNode> nodes = getNodesOnPlatform( platform );
+        List<RepresentationNode> nodes = getNodesOnPlatform( platform );
     }
 
-    private ObservableList<RepresentationNode> getNodesOnPlatform( final PImage platform ) {
-        return new ObservableList<RepresentationNode>() {{
+    private List<RepresentationNode> getNodesOnPlatform( final PImage platform ) {
+        return List.iterableList( new ArrayList<RepresentationNode>() {{
             for ( Object fractionRepresentation : representationNodes.getChildrenReference() ) {
                 RepresentationNode node = (RepresentationNode) fractionRepresentation;
                 if ( node.representation.getOverPlatform() == platform ) {
                     add( node );
                 }
             }
-        }};
+        }} );
     }
 
     private void updateOnPlatform( RepresentationNode node, double insetY ) {
@@ -150,11 +153,11 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     private double getWeight( PImage platform ) {
-        return getNodesOnPlatform( platform ).foldLeft( 0.0, new Function2<RepresentationNode, Double, Double>() {
-            public Double apply( RepresentationNode node, Double sum ) {
-                return node.representation.getWeight() + sum;
+        return getNodesOnPlatform( platform ).foldLeft( new F2<Double, RepresentationNode, Double>() {
+            @Override public Double f( Double sum, RepresentationNode node ) {
+                return sum + node.representation.getWeight();
             }
-        } );
+        }, 0.0 );
     }
 
     private RepresentationNode getNode( PImage platform ) {
