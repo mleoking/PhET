@@ -53,13 +53,15 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
  */
 public class IntroCanvas extends PhetPCanvas {
 
-    private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
-    private final ModelViewTransform mvt;
+    protected static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
+    protected final ModelViewTransform mvt;
 
     public final BooleanProperty massLabelVisibilityProperty = new BooleanProperty( true );
     public final BooleanProperty distancesVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty levelIndicatorVisibleProperty = new BooleanProperty( false );
+    protected PNode nonMassLayer;
+    protected PNode controlPanel;
 
     public IntroCanvas( final BalanceModel model ) {
 
@@ -85,7 +87,7 @@ public class IntroCanvas extends PhetPCanvas {
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
         // Set up a layer for the non-mass model elements.
-        final PNode nonMassLayer = new PNode();
+        nonMassLayer = new PNode();
         rootNode.addChild( nonMassLayer );
 
         // Set up a separate layer for the masses so that they will be out in
@@ -199,7 +201,7 @@ public class IntroCanvas extends PhetPCanvas {
 
         // Add the control panel that will allow users to control the visibility
         // of the various indicators.
-        PNode controlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 5, 1 ) ) {{
+        controlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 5, 1 ) ) {{
             addChild( new PText( BalanceAndTorqueResources.Strings.SHOW ) {{
                 setFont( new PhetFont( 18 ) );
             }} );
