@@ -126,6 +126,8 @@ public class ImageMass extends Mass {
     }
 
     @Override public Mass clone() {
-        return new ImageMass( this.getMass(), this.imageProperty.get(), this.getHeight(), this.getPosition(), this.isMystery() );
+        ImageMass clone = new ImageMass( this.getMass(), this.imageProperty.get(), this.getHeight(), this.getPosition(), this.isMystery() );
+        clone.setCenterOfMassXOffset( getCenterOfMassXOffset() );
+        return clone;
     }
 }
