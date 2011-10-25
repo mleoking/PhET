@@ -42,7 +42,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
         PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION, concentrationBarSize,
                                                                                           model.solution, model.getConcentrationRange() );
-        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( Strings.SOLUTE_AMOUNT, Strings.LOTS, Strings.NONE,
+        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
                                                                                     new PDimension( 5, cylinderSize.getHeight() ),
                                                                                     model.solution.soluteAmount, model.getSoluteAmountRange() );
         SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
