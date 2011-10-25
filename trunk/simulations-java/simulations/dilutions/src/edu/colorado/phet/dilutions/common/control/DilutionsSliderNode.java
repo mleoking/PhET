@@ -52,19 +52,21 @@ public abstract class DilutionsSliderNode extends PhetPNode {
 
     // Slider for controlling amount of solute
     public static class SoluteAmountSliderNode extends DilutionsSliderNode {
-        public SoluteAmountSliderNode( PDimension size, final Property<Double> soluteAmount, DoubleRange range, Property<Boolean> valuesVisible ) {
-            super( Strings.SOLUTE_AMOUNT, size, soluteAmount, Strings.UNITS_MOLES, range, 0.01,
+        public SoluteAmountSliderNode( String title, PDimension size, final Property<Double> soluteAmount,
+                                       DoubleRange range, String minLabel, String maxLabel, Property<Boolean> valuesVisible ) {
+            super( title, size, soluteAmount, Strings.UNITS_MOLES, range, 0.01,
                    new SmartDoubleFormat( "0.00" ), new SmartDoubleFormat( "0.00", false, true ),
-                   Strings.LOTS, Strings.NONE, valuesVisible );
+                   minLabel, maxLabel, valuesVisible );
         }
     }
 
     // Slider for controlling volume of solution
     public static class SolutionVolumeSliderNode extends DilutionsSliderNode {
-        public SolutionVolumeSliderNode( PDimension size, final Property<Double> solutionVolume, DoubleRange range, Property<Boolean> valuesVisible ) {
-            super( Strings.SOLUTION_VOLUME, size, solutionVolume, Strings.UNITS_LITERS, range, 0.01,
+        public SolutionVolumeSliderNode( String title, PDimension size, final Property<Double> solutionVolume,
+                                         DoubleRange range, String minLabel, String maxLabel, Property<Boolean> valuesVisible ) {
+            super( title, size, solutionVolume, Strings.UNITS_LITERS, range, 0.01,
                    new SmartDoubleFormat( "0.00" ), new SmartDoubleFormat( "0.00" ),
-                   Strings.FULL, Strings.LOW, valuesVisible );
+                   minLabel, maxLabel, valuesVisible );
         }
     }
 
@@ -92,7 +94,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
 
     public DilutionsSliderNode( String title, PDimension trackSize, final Property<Double> modelValue,
                                 String units, DoubleRange range, double delta, SmartDoubleFormat valueFormat, SmartDoubleFormat tickFormat,
-                                String maxQualityText, String minQualityText, Property<Boolean> valuesVisible ) {
+                                String minQualityText, String maxQualityText, Property<Boolean> valuesVisible ) {
 
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 

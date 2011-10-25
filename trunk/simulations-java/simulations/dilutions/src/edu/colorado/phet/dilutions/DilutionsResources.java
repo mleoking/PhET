@@ -20,8 +20,11 @@ public class DilutionsResources {
     public static class Strings {
         public static final String BEERS_LAW = RESOURCES.getLocalizedString( "beersLaw" );
         public static final String BEERS_LAW_LAB = RESOURCES.getLocalizedString( "beersLawLab" );
+        public static final String BIG = RESOURCES.getLocalizedString( "big" );
         public static final String COBALT_II_NITRATE = RESOURCES.getLocalizedString( "cobaltIINitrate" );
         public static final String COBALT_CHLORIDE = RESOURCES.getLocalizedString( "cobaltChloride" );
+        public static final String CONCENTRATION_M1 = RESOURCES.getLocalizedString( "concentrationM1" );
+        public static final String CONCENTRATION_M2 = RESOURCES.getLocalizedString( "concentrationM2" );
         public static final String COPPER_SULFATE = RESOURCES.getLocalizedString( "copperSulfate" );
         public static final String DILUTION = RESOURCES.getLocalizedString( "dilution" );
         public static final String FULL = RESOURCES.getLocalizedString( "full" );
@@ -40,7 +43,8 @@ public class DilutionsResources {
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
         public static final String POTASSIUM_PERMANGANATE = RESOURCES.getLocalizedString( "potassiumPermanganate" );
         public static final String SATURATED = RESOURCES.getLocalizedString( "saturated" );
-        public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
+        public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" ); //TODO delete?
+        public static final String SMALL = RESOURCES.getLocalizedString( "small" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SOLUTE_AMOUNT = RESOURCES.getLocalizedString( "soluteAmount" );
         public static final String SOLUTION_CONCENTRATION = RESOURCES.getLocalizedString( "solutionConcentration" );
@@ -48,6 +52,9 @@ public class DilutionsResources {
         public static final String UNITS_MOLARITY = RESOURCES.getLocalizedString( "units.molarity" );
         public static final String UNITS_MOLES = RESOURCES.getLocalizedString( "units.moles" );
         public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
+        public static final String VERY_SMALL = RESOURCES.getLocalizedString( "verySmall" );
+        public static final String VOLUME_V1 = RESOURCES.getLocalizedString( "volumeV2" );
+        public static final String VOLUME_V2 = RESOURCES.getLocalizedString( "volumeV2" );
     }
 
     // Symbols, no i18n needed
