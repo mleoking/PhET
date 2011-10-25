@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dilutions.dilution.view;
 
+import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.SolutionVolumeSliderNode;
@@ -27,11 +29,20 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
 
     public DilutionCanvas( DilutionModel model, Frame parentFrame ) {
 
+        // solution nodes
+        BeakerNode solutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.25, model.solution, valuesVisible );
+        final PDimension solutionCylinderSize = solutionBeakerNode.getCylinderSize();
+        final double solutionCylinderEndHeight = solutionBeakerNode.getCylinderEndHeight();
+        SolutionNode solutionNode = new SolutionNode( solutionCylinderSize, solutionCylinderEndHeight, model.solution, model.getSolutionVolumeRange() );
+        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V1, new PDimension( 5, 0.8 * solutionCylinderSize.getHeight() ),
+                                                                                          model.solution.volume, model.getSolutionVolumeRange(),
+                                                                                          Strings.VERY_SMALL, Strings.SMALL, valuesVisible );
+
         // water nodes
         BeakerNode waterBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.5, model.water, valuesVisible );
         final PDimension waterCylinderSize = waterBeakerNode.getCylinderSize();
         final double waterCylinderEndHeight = waterBeakerNode.getCylinderEndHeight();
-        SolutionNode waterSolutionNode = new SolutionNode( waterCylinderSize, waterCylinderEndHeight, model.water, model.getSolutionVolumeRange() );
+        SolutionNode waterNode = new SolutionNode( waterCylinderSize, waterCylinderEndHeight, model.water, model.getSolutionVolumeRange() );
 
         PNode equalsNode = new FancyEqualsNode();
 
@@ -39,7 +50,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
         BeakerNode dilutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.5, model.dilution, valuesVisible );
         final PDimension dilutionCylinderSize = dilutionBeakerNode.getCylinderSize();
         final double dilutionCylinderEndHeight = dilutionBeakerNode.getCylinderEndHeight();
-        SolutionNode dilutionSolutionNode = new SolutionNode( dilutionCylinderSize, dilutionCylinderEndHeight, model.dilution, model.getSolutionVolumeRange() );
+        SolutionNode dilutionNode = new SolutionNode( dilutionCylinderSize, dilutionCylinderEndHeight, model.dilution, model.getSolutionVolumeRange() );
         SolutionVolumeSliderNode dilutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V2, new PDimension( 5, 0.8 * dilutionCylinderSize.getHeight() ),
                                                                                           model.dilution.volume, model.getSolutionVolumeRange(),
                                                                                           Strings.SMALL, Strings.BIG, valuesVisible );
@@ -48,30 +59,47 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
                                                                                           model.dilution, model.getConcentrationRange(),
                                                                                           valuesVisible );
 
+        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
+            setConfirmationEnabled( false );
+        }};
+
         // rendering order
         {
-            addChild( waterSolutionNode );
+            addChild( solutionNode );
+            addChild( solutionBeakerNode );
+            addChild( solutionVolumeSliderNode );
+            addChild( waterNode );
             addChild( waterBeakerNode );
-            addChild( dilutionSolutionNode );
+            addChild( dilutionNode );
             addChild( dilutionBeakerNode );
             addChild( dilutionVolumeSliderNode );
             addChild( concentrationDisplayNode );
             addChild( equalsNode );
+            addChild( resetAllButtonNode );
         }
 
         // layout
         {
-            waterBeakerNode.setOffset( 200, 200 );
-            waterSolutionNode.setOffset( waterBeakerNode.getOffset() );
+            final double waterBeakerYOffset = 200;
+            solutionVolumeSliderNode.setOffset( 5,
+                                                waterBeakerYOffset + waterCylinderSize.getHeight() - solutionCylinderSize.getHeight() );
+            solutionBeakerNode.setOffset( solutionVolumeSliderNode.getFullBoundsReference().getMaxX() + 20,
+                                          solutionVolumeSliderNode.getYOffset() );
+            solutionNode.setOffset( solutionBeakerNode.getOffset() );
+            waterBeakerNode.setOffset( solutionBeakerNode.getFullBoundsReference().getMaxX() + 20,
+                                       waterBeakerYOffset );
+            waterNode.setOffset( waterBeakerNode.getOffset() );
             equalsNode.setOffset( waterBeakerNode.getFullBoundsReference().getMaxX() + 5,
                                   waterBeakerNode.getYOffset() + ( waterCylinderSize.getHeight() / 2 ) - ( equalsNode.getFullBoundsReference().getHeight() / 2 ) );
             dilutionBeakerNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 25,
                                           waterBeakerNode.getYOffset() );
-            dilutionSolutionNode.setOffset( dilutionBeakerNode.getOffset() );
+            dilutionNode.setOffset( dilutionBeakerNode.getOffset() );
             dilutionVolumeSliderNode.setOffset( dilutionBeakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( concentrationDisplayNode ) + 20,
                                                 dilutionBeakerNode.getYOffset() );
             concentrationDisplayNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( concentrationDisplayNode ) + 20,
                                                 dilutionBeakerNode.getFullBoundsReference().getMaxY() - concentrationDisplayNode.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( concentrationDisplayNode ) );
+            resetAllButtonNode.setOffset( ( getStageSize().getWidth() / 2 ) - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
+                                          getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - 15 );
         }
     }
 

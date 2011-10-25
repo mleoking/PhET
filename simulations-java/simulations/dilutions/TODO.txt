@@ -6,6 +6,8 @@ DESIGN
 - if solute amount is "none", is it correct for concentration to be "low"?
 
 HIGH
+- Dilution tab
+- curved tick marks on beakers (Arc2D)
 
 MEDIUM
 - Tab2: Use beakers (as shown in mock up), layout similar to mock up shown except move the volume control for the small V1 beaker to be next to

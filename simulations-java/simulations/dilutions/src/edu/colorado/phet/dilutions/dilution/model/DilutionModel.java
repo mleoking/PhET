@@ -20,11 +20,11 @@ public class DilutionModel implements Resettable {
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
 
     public final Solute solute;
-    public final Solution dilution, water;
+    public final Solution solution, dilution, water;
 
     public DilutionModel() {
-        //TODO setting the solute formula to "Dilution" is a lame way to make this label show up on the dilution beaker
-        this.solute = new Solute( Strings.SOLUTE, Strings.DILUTION, 5.0, Color.BLUE, 1, 200 );
+        this.solute = new Solute( Strings.SOLUTE, "?", 5.0, Color.BLUE, 1, 200 ); //TODO how to label the solute, since it appears on 2 beakers?
+        this.solution = new Solution( solute, 1, SOLUTION_VOLUME_RANGE.getDefault() );
         this.dilution = new Solution( solute, 1, SOLUTION_VOLUME_RANGE.getDefault() );
         this.water = new Solution( solute, 0, SOLUTION_VOLUME_RANGE.getDefault() );
     }
@@ -39,6 +39,8 @@ public class DilutionModel implements Resettable {
     }
 
     public void reset() {
+        solution.reset();
         dilution.reset();
+        water.reset();
     }
 }
