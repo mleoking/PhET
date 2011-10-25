@@ -20,9 +20,6 @@ public class MatchingGameModel {
     public final ArrayList<RepresentationNode> nodes = new ArrayList<RepresentationNode>();
     private final Random random = new Random();
 
-    //Allow fractions to get closer together so it won't go into an infinite loop if they have to overlap
-    private final double padding = 20;
-
     public MatchingGameModel( ModelViewTransform transform ) {
         ArrayList<Representation> representations = new ArrayList<Representation>() {{
             add( new Representation() {
@@ -62,27 +59,4 @@ public class MatchingGameModel {
             }
         }
     }
-
-//    private ImmutableVector2D getPosition( Representation decimalFraction, double padding ) {
-//        while ( hits( decimalFraction, fractionRepresentations, padding ) && padding > 0 ) {
-//            decimalFraction.setOffset( new ImmutableVector2D( random.nextInt( 1000 ), random.nextInt( 600 ) ) );
-//            padding = padding - 0.3;
-//        }
-//        return decimalFraction.getOffset();
-//    }
-
-    //Check to see if one node overlaps a pre-existing node, so it can be placed in an open area
-//    private boolean hits( Representation representation, List<Representation> representations, double padding ) {
-//        for ( Representation a : representations ) {
-//            final PBounds aBounds = a.node.getGlobalFullBounds();
-//            final PBounds bBounds = representation.node.getGlobalFullBounds();
-//            if ( expand( aBounds, padding / 2, padding / 2 ).intersects( expand( bBounds, padding / 2, padding / 2 ) ) ) {
-//                return true;
-//            }
-//            if ( !new Rectangle2D.Double( 0, 0, 1000, 600 ).contains( expand( bBounds, padding, padding ) ) ) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 }
