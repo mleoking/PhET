@@ -1,3 +1,4 @@
+Matching game: Prevent multiple objects from sitting on the same balance platform by moving off the object that has been there for the longest time
 Matching game: Fixed: Scored nodes can be dragged
 # 0.00.06 (57894) Oct 22, 2011
 Improved look and randomization of fraction representations

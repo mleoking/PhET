@@ -2,9 +2,12 @@
 package edu.colorado.phet.fractions.intro.matchinggame.view;
 
 import fj.F2;
+import fj.Ord;
+import fj.Ordering;
 import fj.data.List;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
@@ -21,6 +24,9 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static fj.Function.curry;
+import static fj.Ord.ord;
+
 /**
  * @author Sam Reid
  */
@@ -31,6 +37,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     private int numFramesBalanced = 0;
     private double scoreY = 0;
     private final ZeroOffsetNode zeroOffsetBalanceNode;
+    public static final Random random = new Random();
 
     public MatchingGameCanvas( MatchingGameModel model ) {
         for ( Representation representation : model.fractionRepresentations ) {
@@ -133,12 +140,23 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     private void moveMultipleWeightsOff() {
-        moveMultipleWeightsOff( balanceNode.leftPlatform );
-        moveMultipleWeightsOff( balanceNode.rightPlatform );
+        moveMultipleWeightsOff( balanceNode.leftPlatform, -150 );
+        moveMultipleWeightsOff( balanceNode.rightPlatform, 150 );
     }
 
-    private void moveMultipleWeightsOff( PImage platform ) {
-        List<RepresentationNode> nodes = getNodesOnPlatform( platform );
+    //Prevent weights from sitting on the same platform
+    private void moveMultipleWeightsOff( PImage platform, double dx ) {
+        List<RepresentationNode> sorted = getNodesOnPlatform( platform ).sort( ord( curry( new F2<RepresentationNode, RepresentationNode, Ordering>() {
+            public Ordering f( final RepresentationNode u1, final RepresentationNode u2 ) {
+                return Ord.<Comparable>comparableOrd().compare( u1.representation.getTimeArrivedOnPlatform(), u2.representation.getTimeArrivedOnPlatform() );
+            }
+        } ) ) );
+
+        //Move off the object that has been there for the longest time
+        if ( sorted.length() > 1 ) {
+            sorted.head().representation.setOverPlatform( null );
+            sorted.head().animateToPositionScaleRotation( sorted.head().getXOffset() + dx, sorted.head().getYOffset() - 100 - random.nextDouble() * 300, sorted.head().getScale(), 0, 1000 );
+        }
     }
 
     private List<RepresentationNode> getNodesOnPlatform( final PImage platform ) {

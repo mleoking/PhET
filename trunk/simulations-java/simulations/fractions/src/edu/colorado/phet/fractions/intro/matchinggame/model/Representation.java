@@ -55,6 +55,8 @@ public abstract class Representation {
         }
         else {
             timeArrivedOnPlatform = -1;
+            dropped.set( false );
+            dragging.set( false );
         }
     }
 
@@ -70,5 +72,9 @@ public abstract class Representation {
         scored.set( true );
         setOverPlatform( null );
         dragging.set( false );
+    }
+
+    public long getTimeArrivedOnPlatform() {
+        return timeArrivedOnPlatform;
     }
 }
