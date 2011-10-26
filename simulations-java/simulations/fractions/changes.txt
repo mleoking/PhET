@@ -1,3 +1,4 @@
+# 0.00.08 (58036) Oct 26, 2011
 Matching game: Removed decimals
 # 0.00.07 (58023) Oct 26, 2011
 Matching game: Added "six plus signs pattern"
