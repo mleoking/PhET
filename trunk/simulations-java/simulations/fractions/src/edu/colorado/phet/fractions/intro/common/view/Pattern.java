@@ -8,8 +8,10 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
+import static edu.colorado.phet.fractions.intro.common.view.Pattern.Direction.*;
 import static fj.data.List.iterableList;
 
 /**
@@ -26,37 +28,28 @@ public class Pattern {
         return new Rectangle2D.Double( x, y, length, length );
     }
 
+    public static class Direction {
+        public static Direction RIGHT = new Direction( 1, 0 );
+        public static Direction LEFT = new Direction( -1, 0 );
+        public static Direction DOWN = new Direction( 0, 1 );
+        public static Direction UP = new Direction( 0, -1 );
+        public final ImmutableVector2D vector;
+
+        public Direction( double x, double y ) {
+            this.vector = new ImmutableVector2D( x, y );
+        }
+    }
+
     public static GeneralPath plusSign( double gridX, double gridY, final double edgeLength ) {
         return new DoubleGeneralPath( gridX * edgeLength + edgeLength, gridY * edgeLength ) {
             {
-                right();
-                down();
-                right();
-                down();
-                left();
-                down();
-                left();
-                up();
-                left();
-                up();
-                right();
-                up();
+                move( RIGHT, DOWN, RIGHT, DOWN, LEFT, DOWN, LEFT, UP, LEFT, UP, RIGHT, UP );
             }
 
-            private void right() {
-                lineToRelative( edgeLength, 0 );
-            }
-
-            private void left() {
-                lineToRelative( -edgeLength, 0 );
-            }
-
-            private void up() {
-                lineToRelative( 0, -edgeLength );
-            }
-
-            private void down() {
-                lineToRelative( 0, edgeLength );
+            private void move( Direction... dir ) {
+                for ( Direction direction : dir ) {
+                    lineToRelative( direction.vector.times( edgeLength ) );
+                }
             }
         }.getGeneralPath();
     }
