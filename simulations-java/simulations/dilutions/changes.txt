@@ -1,3 +1,4 @@
+10/26/11 curved tick marks on beakers (Arc2D)
 10/26/11 make all beakers the same size in Dilution tab
 10/26/11 add temporary M1 display in Dilution tab, to demonstrate layout issues
 10/26/11 cleanup of slider code

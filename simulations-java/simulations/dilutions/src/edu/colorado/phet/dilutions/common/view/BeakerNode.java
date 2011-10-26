@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -40,8 +39,6 @@ public class BeakerNode extends PComposite {
     private static final Color TICK_COLOR = Color.GRAY;
     private static final double MINOR_TICK_SPACING = 0.1; // L
     private static final int MINOR_TICKS_PER_MAJOR_TICK = 5;
-    private static final double MAJOR_TICK_LENGTH = 20;
-    private static final double MINOR_TICK_LENGTH = 12;
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
 
@@ -89,17 +86,17 @@ public class BeakerNode extends PComposite {
         addChild( bottomNode );
         addChild( beakerImageNode );
 
-        // tick marks
+        // tick marks, arcs that wrap around the edge of the beaker's cylinder
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
         int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
         final double bottomY = cylinderSize.getHeight(); // don't use bounds or position will be off because of stroke width
         double deltaY = cylinderSize.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
-            final double y = bottomY - ( i * deltaY );
+            final double y = bottomY - ( i * deltaY ) - ( cylinderEndHeight / 2 );
             if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
                 // major tick, no label
-                PPath tickNode = new PPath( new Line2D.Double( 0, y, MAJOR_TICK_LENGTH, y ) ) {{
+                PPath tickNode = new PPath( new Arc2D.Double( 0, y, cylinderSize.getWidth(), cylinderEndHeight, 195, 30, Arc2D.OPEN ) ) {{
                     setStroke( MAJOR_TICK_STROKE );
                     setStrokePaint( TICK_COLOR );
                 }};
@@ -107,7 +104,7 @@ public class BeakerNode extends PComposite {
             }
             else {
                 // minor tick, no label
-                PPath tickNode = new PPath( new Line2D.Double( 0, y, MINOR_TICK_LENGTH, y ) ) {{
+                PPath tickNode = new PPath( new Arc2D.Double( 0, y, cylinderSize.getWidth(), cylinderEndHeight, 195, 15, Arc2D.OPEN ) ) {{
                     setStroke( MINOR_TICK_STROKE );
                     setStrokePaint( TICK_COLOR );
                 }};
