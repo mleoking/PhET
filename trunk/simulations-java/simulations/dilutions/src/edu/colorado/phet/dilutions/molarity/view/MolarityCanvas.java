@@ -30,7 +30,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
     public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
 
         // nodes
-        BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS, 0.75, model.solution );
+        BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.75, model.solution );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
         final double cylinderEndHeight = beakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.solution, model.getSolutionVolumeRange() );

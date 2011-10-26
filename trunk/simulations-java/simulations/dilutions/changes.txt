@@ -1,3 +1,4 @@
+10/25/11 delete more stuff related to "Show values" feature
 10/25/11 change min concentration label from "low" to "zero"
 10/25/11 [57987] delete code related to "Show values" feature, it was becoming too difficult to continue supporting it
 10/25/11 more fleshing out of Dilution model and canvas
