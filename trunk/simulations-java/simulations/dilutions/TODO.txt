@@ -4,9 +4,10 @@ DESIGN
 - color for water
 - color scale issues in Molarity tab
 - layout problem in Dilution tab, too much stuff in horizontal dimension (move min/max labels to control ends? use tall skinny beakers?)
+- Dilution tab: include a few other color options for solution "in Teacher menu"?
+- Dilution tab: layout is (left-to-right) M1*V1 = V2*M2, which is not M1*V1=M2*V2
 
 HIGH
-- create a beaker base class that can be statically labeled and involves no observers
 - M1 control in Dilution tab
 - curved tick marks on beakers (Arc2D)
 
@@ -14,7 +15,6 @@ MEDIUM
 
 LOW
 - i18n: beakers and their labels do not resize to accommodate longer text
-- improve look of sliders
 - use PrecisionDecimal in the model, 2 decimal places (if we're showing values)
 
 MIGRATE TO COMMON
