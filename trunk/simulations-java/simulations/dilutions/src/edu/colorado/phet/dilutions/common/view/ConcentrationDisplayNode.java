@@ -48,7 +48,7 @@ public class ConcentrationDisplayNode extends PComposite {
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration() );
         final HorizontalTickMarkNode maxNode = new HorizontalTickMarkNode( Strings.HIGH, TICK_FONT, TICK_LENGTH );
-        final HorizontalTickMarkNode minNode = new HorizontalTickMarkNode( Strings.LOW, TICK_FONT, TICK_LENGTH );
+        final HorizontalTickMarkNode minNode = new HorizontalTickMarkNode( Strings.ZERO, TICK_FONT, TICK_LENGTH );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
