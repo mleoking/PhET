@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.balancelab.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceModel;
+import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.MysteryObjectFactory;
