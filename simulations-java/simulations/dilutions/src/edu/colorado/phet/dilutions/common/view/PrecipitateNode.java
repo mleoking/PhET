@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -97,8 +96,7 @@ public class PrecipitateNode extends PComposite {
     private void updateValue() {
         double precipitateAmount = solution.getPrecipitateAmount();
         int numberOfParticles = getNumberOfParticles();
-        valueNode.setText( "precipitate: " + new DecimalFormat( "0.00000" ).format( precipitateAmount ) + " " + Strings.UNITS_MOLES +
-                           " (" + numberOfParticles + " particles)" );
+        valueNode.setText( "precipitate: " + new DecimalFormat( "0.00000" ).format( precipitateAmount ) + " mol (" + numberOfParticles + " particles)" );
     }
 
     // Gets the number of particles used to represent the solution's saturation.

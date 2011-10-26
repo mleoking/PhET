@@ -56,7 +56,7 @@ public class BeakerNode extends PComposite {
     private final BeakerImageNode beakerImageNode;
     private final LabelNode labelNode;
 
-    public BeakerNode( final double maxVolume, String units, final double imageScale, final Solution solution ) {
+    public BeakerNode( final double maxVolume, final double imageScale, final Solution solution ) {
 
         // this node is not interactive
         setPickable( false );
@@ -169,7 +169,7 @@ public class BeakerNode extends PComposite {
         Solute solute = new Solute( "MySolute", "MyFormula", 5.0, Color.RED, 1, 200 );
         Solution solution = new Solution( solute, 1, 0.5 );
         // beaker
-        final BeakerNode beakerNode = new BeakerNode( 1, "L", 0.75, solution ) {{
+        final BeakerNode beakerNode = new BeakerNode( 1, 0.75, solution ) {{
             setOffset( 200, 200 );
         }};
         // red dot at beaker's origin
