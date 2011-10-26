@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.intro.matchinggame.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -21,7 +22,47 @@ public class MatchingGameModel {
     private final Random random = new Random();
 
     public MatchingGameModel( ModelViewTransform transform ) {
-        ArrayList<Representation> representations = new ArrayList<Representation>() {{
+
+        boolean usedNine = false;
+        for ( int i = 0; i < 4; i++ ) {
+            Fraction fraction = new Fraction( !usedNine ? random.nextInt( 9 ) + 1 : random.nextInt( 11 ) + 1, !usedNine ? 9 : random.nextInt( 11 ) + 1 );
+            usedNine = true;
+
+            ArrayList<Representation> remainingRepresentations = new ArrayList<Representation>( getRepresentationsForFraction( fraction ) );
+
+            for ( int k = 0; k < 2; k++ ) {
+                int selected = random.nextInt( remainingRepresentations.size() );
+                Representation selectedRepresentation = remainingRepresentations.get( selected );
+                final RepresentationNode node = selectedRepresentation.createNode( transform, fraction );
+                node.setOffset( random.nextInt( 1000 ), random.nextInt( 600 ) );
+                nodes.add( node );
+                remainingRepresentations.remove( selectedRepresentation );
+            }
+        }
+    }
+
+    private Collection<? extends Representation> getRepresentationsForFraction( final Fraction fraction ) {
+        return new ArrayList<Representation>() {{
+
+            final boolean canUseNineGrid = fraction.denominator % 9 == 0 && fraction.getValue() < 1;
+
+            //For nine-grid, use that representation and one other at random
+            if ( canUseNineGrid ) {
+                add( new Representation() {
+                    public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                        return new PatternNode( transform, new Pattern.NineGrid(), fraction, fraction.numerator );
+                    }
+                } );
+                add( getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ) );
+            }
+            else {
+                addAll( getGenericRepresentations() );
+            }
+        }};
+    }
+
+    private ArrayList<? extends Representation> getGenericRepresentations() {
+        return new ArrayList<Representation>() {{
             add( new Representation() {
                 public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
                     return new DecimalFractionNode( transform, fraction );
@@ -37,26 +78,6 @@ public class MatchingGameModel {
                     return new PieNode( transform, fraction );
                 }
             } );
-            add( new Representation() {
-                public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
-                    return new PatternNode( transform, new Pattern.NineGrid(), fraction );
-                }
-            } );
         }};
-
-        for ( int i = 0; i < 4; i++ ) {
-            Fraction fraction = new Fraction( random.nextInt( 11 ) + 1, random.nextInt( 11 ) + 1 );
-
-            ArrayList<Representation> remainingRepresentations = new ArrayList<Representation>( representations );
-
-            for ( int k = 0; k < 2; k++ ) {
-                int selected = random.nextInt( remainingRepresentations.size() );
-                Representation selectedRepresentation = remainingRepresentations.get( selected );
-                final RepresentationNode node = selectedRepresentation.createNode( transform, fraction );
-                node.setOffset( random.nextInt( 1000 ), random.nextInt( 600 ) );
-                nodes.add( node );
-                remainingRepresentations.remove( selectedRepresentation );
-            }
-        }
     }
 }
