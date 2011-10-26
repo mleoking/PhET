@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fractions.intro.intro.model.Fraction;
 import edu.colorado.phet.fractions.intro.matchinggame.view.DecimalFractionNode;
@@ -24,14 +25,21 @@ public class MatchingGameModel {
     private final Random random = new Random();
 
     public MatchingGameModel( ModelViewTransform transform ) {
+        {
+            Fraction ninth = new Fraction( random.nextInt( 8 ) + 1, 9 );
+            nodes.add( new PatternNode( transform, new NineGrid(), ninth, ninth.numerator ) {{setOffset( randomLocation() );}} );
+            final RepresentationNode x = getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, ninth );
+            x.setOffset( randomLocation() );
+            nodes.add( x );
+        }
 
-        Fraction ninth = new Fraction( random.nextInt( 8 ) + 1, 9 );
-        nodes.add( new PatternNode( transform, new NineGrid(), ninth, ninth.numerator ) );
-        nodes.add( getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, ninth ) );
-
-        Fraction sixth = new Fraction( random.nextInt( 5 ) + 1, 6 );
-        nodes.add( new PatternNode( transform, new SixPlusSigns(), sixth, sixth.numerator ) );
-        nodes.add( getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, sixth ) );
+        {
+            Fraction sixth = new Fraction( random.nextInt( 5 ) + 1, 6 );
+            nodes.add( new PatternNode( transform, new SixPlusSigns(), sixth, sixth.numerator ) {{setOffset( randomLocation() );}} );
+            final RepresentationNode node = getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, sixth );
+            node.setOffset( randomLocation() );
+            nodes.add( node );
+        }
 
         for ( int i = 0; i < 4; i++ ) {
             Fraction fraction = new Fraction( random.nextInt( 11 ) + 1, random.nextInt( 11 ) + 1 );
@@ -41,11 +49,15 @@ public class MatchingGameModel {
                 int selected = random.nextInt( remainingRepresentations.size() );
                 Representation selectedRepresentation = remainingRepresentations.get( selected );
                 final RepresentationNode node = selectedRepresentation.createNode( transform, fraction );
-                node.setOffset( random.nextInt( 1000 ), random.nextInt( 600 ) );
+                node.setOffset( randomLocation() );
                 nodes.add( node );
                 remainingRepresentations.remove( selectedRepresentation );
             }
         }
+    }
+
+    private ImmutableVector2D randomLocation() {
+        return new ImmutableVector2D( random.nextInt( 1000 ), random.nextInt( 600 ) );
     }
 
     private Collection<? extends Representation> getRepresentationsForFraction( final Fraction fraction ) {
