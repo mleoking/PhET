@@ -2,12 +2,15 @@
 package edu.colorado.phet.dilutions.dilution.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
+import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.SolutionVolumeSliderNode;
 import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
 import edu.colorado.phet.dilutions.common.view.BeakerNode;
@@ -27,7 +30,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
     public DilutionCanvas( DilutionModel model, Frame parentFrame ) {
 
         // solution nodes
-        BeakerNode solutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.25, model.solution );
+        BeakerNode solutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.25, Strings.SOLUTION, new PDimension( 75, 30 ), new PhetFont( Font.BOLD, 14 ) );
         final PDimension solutionCylinderSize = solutionBeakerNode.getCylinderSize();
         final double solutionCylinderEndHeight = solutionBeakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( solutionCylinderSize, solutionCylinderEndHeight, model.solution, model.getSolutionVolumeRange() );
@@ -36,7 +39,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
                                                                                           model.solution.volume, model.getSolutionVolumeRange() );
 
         // water nodes
-        BeakerNode waterBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.5, model.water );
+        BeakerNode waterBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.5, Symbols.WATER, new PDimension( 120, 50 ), new PhetFont( Font.BOLD, 20 ) );
         final PDimension waterCylinderSize = waterBeakerNode.getCylinderSize();
         final double waterCylinderEndHeight = waterBeakerNode.getCylinderEndHeight();
         SolutionNode waterNode = new SolutionNode( waterCylinderSize, waterCylinderEndHeight, model.water, model.getSolutionVolumeRange() );
@@ -44,7 +47,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
         PNode equalsNode = new FancyEqualsNode();
 
         // dilution nodes
-        BeakerNode dilutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.5, model.dilution );
+        BeakerNode dilutionBeakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.5, Strings.DILUTION, new PDimension( 120, 50 ), new PhetFont( Font.BOLD, 20 ) );
         final PDimension dilutionCylinderSize = dilutionBeakerNode.getCylinderSize();
         final double dilutionCylinderEndHeight = dilutionBeakerNode.getCylinderEndHeight();
         SolutionNode dilutionNode = new SolutionNode( dilutionCylinderSize, dilutionCylinderEndHeight, model.dilution, model.getSolutionVolumeRange() );
