@@ -13,6 +13,7 @@ HIGH
 MEDIUM
 
 LOW
+- i18n: beakers and their labels do not resize to accommodate longer text
 - improve look of sliders
 - use PrecisionDecimal in the model, 2 decimal places (if we're showing values)
 
