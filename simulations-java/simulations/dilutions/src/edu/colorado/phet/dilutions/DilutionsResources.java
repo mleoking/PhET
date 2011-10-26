@@ -45,6 +45,7 @@ public class DilutionsResources {
         public static final String SMALL = RESOURCES.getLocalizedString( "small" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SOLUTE_AMOUNT = RESOURCES.getLocalizedString( "soluteAmount" );
+        public static final String SOLUTION = RESOURCES.getLocalizedString( "solution" );
         public static final String SOLUTION_CONCENTRATION = RESOURCES.getLocalizedString( "solutionConcentration" );
         public static final String SOLUTION_VOLUME = RESOURCES.getLocalizedString( "solutionVolume" );
         public static final String VERY_SMALL = RESOURCES.getLocalizedString( "verySmall" );
