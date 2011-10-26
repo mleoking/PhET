@@ -25,7 +25,7 @@ public class DilutionModel implements Resettable {
     public final Solution solution, dilution, water;
 
     public DilutionModel() {
-        this.solute = new Solute( Strings.SOLUTE, "?", 5.0, Color.BLUE, 1, 200 ); //TODO how to label the solute, since it appears on 2 beakers?
+        this.solute = new Solute( Strings.SOLUTE, "?", 5.0, Color.BLUE, 1, 200 ); // hypothetical solute with unknown formula
         this.solution = new Solution( solute, 1, SOLUTION_VOLUME_RANGE.getDefault() );
         this.dilution = new Solution( solute, 1, DILUTION_VOLUME_RANGE.getDefault() );
         this.water = new Solution( solute, 0, DILUTION_VOLUME_RANGE.getDefault() );
