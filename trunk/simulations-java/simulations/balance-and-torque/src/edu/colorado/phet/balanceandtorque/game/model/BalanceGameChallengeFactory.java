@@ -69,7 +69,6 @@ public class BalanceGameChallengeFactory {
 
     // Determine the min and max distances from the center of the plank where
     // masses may be positioned.
-    private static final double MIN_DISTANCE_FROM_BALANCE_CENTER_TO_MASS = Plank.INTER_SNAP_TO_MARKER_DISTANCE;
     private static final double MAX_DISTANCE_FROM_BALANCE_CENTER_TO_MASS = ( Math.round( Plank.getLength() / Plank.INTER_SNAP_TO_MARKER_DISTANCE / 2 ) - 1 ) * Plank.INTER_SNAP_TO_MARKER_DISTANCE;
 
     // List of masses that can be used on either side of the balance challenges
