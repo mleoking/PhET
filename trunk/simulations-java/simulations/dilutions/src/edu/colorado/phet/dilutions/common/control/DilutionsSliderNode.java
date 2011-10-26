@@ -49,19 +49,9 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     }
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
-
-    // track
     private static final Color TRACK_FILL_COLOR = Color.BLACK;
-
-    // knob
-    private static final PDimension KNOB_SIZE = new PDimension( 45, 15 );
-    private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
-    private static final Color KNOB_NORMAL_COLOR = new Color( 89, 156, 212 );
-    private static final Color KNOB_HIGHLIGHT_COLOR = KNOB_NORMAL_COLOR.brighter();
-    private static final Color KNOB_STROKE_COLOR = Color.BLACK;
-
-    // tick marks
-    private static final double TICK_LENGTH = ( KNOB_SIZE.getWidth() / 2 ) + 3;
+    private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
+    private static final double TICK_LENGTH = ( THUMB_SIZE.getWidth() / 2 ) + 3;
     private static final PhetFont TICK_FONT = new PhetFont( 14 );
 
     private final LinearFunction function;
@@ -74,9 +64,9 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
         // nodes
-        TitleNode titleNode = new TitleNode( title );
+        PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
         trackNode = new TrackNode( trackSize, TRACK_FILL_COLOR );
-        thumbNode = new ThumbNode( this, trackNode, range, new VoidFunction1<Double>() {
+        thumbNode = new ThumbNode( THUMB_SIZE, this, trackNode, range, new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 modelValue.set( value );
             }
@@ -120,14 +110,6 @@ public abstract class DilutionsSliderNode extends PhetPNode {
         thumbNode.setOffset( thumbNode.getXOffset(), function.evaluate( value ) );
     }
 
-    // Title above the slider
-    private static class TitleNode extends HTMLNode {
-        public TitleNode( String html ) {
-            super( html );
-            setFont( TITLE_FONT );
-        }
-    }
-
     // The track that the thumb moves in. Origin is at upper-left corner.
     private static class TrackNode extends PPath {
         public TrackNode( PDimension size, Color fillColor ) {
@@ -139,27 +121,33 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     // The slider thumb, rounded rectangle with a horizontal line through the center. Origin is at the thumb's geometric center.
     private static class ThumbNode extends PComposite {
 
-        public ThumbNode( PNode relativeNode, PNode trackNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
+        private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
+        private static final Color THUMB_NORMAL_COLOR = new Color( 89, 156, 212 );
+        private static final Color THUMB_HIGHLIGHT_COLOR = THUMB_NORMAL_COLOR.brighter();
+        private static final Color THUMB_STROKE_COLOR = Color.BLACK;
+        private static final Color THUMB_CENTER_LINE_COLOR = Color.WHITE;
 
-            PPath pathNode = new PPath() {{
-                final double arcWidth = 0.25 * KNOB_SIZE.getWidth();
-                setPathTo( new RoundRectangle2D.Double( -KNOB_SIZE.getWidth() / 2, -KNOB_SIZE.getHeight() / 2,
-                                                        KNOB_SIZE.getWidth(), KNOB_SIZE.getHeight(),
+        public ThumbNode( final PDimension size, PNode relativeNode, PNode trackNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
+
+            PPath bodyNode = new PPath() {{
+                final double arcWidth = 0.25 * size.getWidth();
+                setPathTo( new RoundRectangle2D.Double( -size.getWidth() / 2, -size.getHeight() / 2,
+                                                        size.getWidth(), size.getHeight(),
                                                         arcWidth, arcWidth ) );
-                setPaint( KNOB_NORMAL_COLOR );
-                setStroke( KNOB_STROKE );
-                setStrokePaint( KNOB_STROKE_COLOR );
+                setPaint( THUMB_NORMAL_COLOR );
+                setStroke( THUMB_STROKE );
+                setStrokePaint( THUMB_STROKE_COLOR );
             }};
-            addChild( pathNode );
+            addChild( bodyNode );
 
-            PPath lineNode = new PPath() {{
-                setPathTo( new Line2D.Double( -( KNOB_SIZE.getWidth() / 2 ) + 3, 0, ( KNOB_SIZE.getWidth() / 2 ) - 3, 0 ) );
-                setStrokePaint( Color.WHITE );
+            PPath centerLineNode = new PPath() {{
+                setPathTo( new Line2D.Double( -( size.getWidth() / 2 ) + 3, 0, ( size.getWidth() / 2 ) - 3, 0 ) );
+                setStrokePaint( THUMB_CENTER_LINE_COLOR );
             }};
-            addChild( lineNode );
+            addChild( centerLineNode );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PaintHighlightHandler( pathNode, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
+            addInputEventListener( new PaintHighlightHandler( bodyNode, THUMB_NORMAL_COLOR, THUMB_HIGHLIGHT_COLOR ) );
             addInputEventListener( new SliderThumbDragHandler( Orientation.VERTICAL, relativeNode, trackNode, this, range, updateFunction ) );
         }
     }

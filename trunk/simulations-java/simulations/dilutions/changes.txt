@@ -1,3 +1,4 @@
+10/26/11 cleanup of slider code
 10/26/11 further generalization of beaker node, so it can be reused in Dilution tab
 10/25/11 [58016] delete more stuff related to "Show values" feature
 10/25/11 change min concentration label from "low" to "zero"
