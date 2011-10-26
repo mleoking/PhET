@@ -9,7 +9,6 @@ DESIGN
 
 HIGH
 - M1 control in Dilution tab
-- curved tick marks on beakers (Arc2D)
 
 MEDIUM
 

@@ -21,6 +21,11 @@ public class DilutionModel implements Resettable {
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.05, 0.2, 0.05 ); // liters
     private static final DoubleRange DILUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
 
+    static {
+        assert ( SOLUTION_VOLUME_RANGE.getMax() <= MAX_BEAKER_VOLUME );
+        assert ( DILUTION_VOLUME_RANGE.getMax() <= MAX_BEAKER_VOLUME );
+    }
+
     public final Solute solute;
     public final Solution solution, dilution, water;
 
