@@ -85,14 +85,14 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
         // layout
         {
             final double waterBeakerYOffset = 200;
-            solutionConcentrationNode.setOffset( 5,
+            solutionConcentrationNode.setOffset( 5 - PNodeLayoutUtils.getOriginXOffset( solutionConcentrationNode ),
                                                  waterBeakerYOffset + waterCylinderSize.getHeight() - concentrationBarSize.getHeight() );
-            solutionVolumeSliderNode.setOffset( solutionConcentrationNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 10,
+            solutionVolumeSliderNode.setOffset( solutionConcentrationNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 5,
                                                 waterBeakerYOffset + waterCylinderSize.getHeight() - solutionCylinderSize.getHeight() );
-            solutionBeakerNode.setOffset( solutionVolumeSliderNode.getFullBoundsReference().getMaxX() + 20,
+            solutionBeakerNode.setOffset( solutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionBeakerNode ) + 5,
                                           solutionVolumeSliderNode.getYOffset() );
             solutionNode.setOffset( solutionBeakerNode.getOffset() );
-            waterBeakerNode.setOffset( solutionBeakerNode.getFullBoundsReference().getMaxX() + 20,
+            waterBeakerNode.setOffset( solutionBeakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( waterBeakerNode ) + 5,
                                        waterBeakerYOffset );
             waterNode.setOffset( waterBeakerNode.getOffset() );
             equalsNode.setOffset( waterBeakerNode.getFullBoundsReference().getMaxX() + 5,
@@ -100,9 +100,9 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
             dilutionBeakerNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 25,
                                           waterBeakerNode.getYOffset() );
             dilutionNode.setOffset( dilutionBeakerNode.getOffset() );
-            dilutionVolumeSliderNode.setOffset( dilutionBeakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 20,
+            dilutionVolumeSliderNode.setOffset( dilutionBeakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionVolumeSliderNode ) + 5,
                                                 dilutionBeakerNode.getYOffset() );
-            dilutionConcentrationNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 20,
+            dilutionConcentrationNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 5,
                                                  dilutionBeakerNode.getFullBoundsReference().getMaxY() - dilutionConcentrationNode.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( dilutionConcentrationNode ) );
             resetAllButtonNode.setOffset( ( getStageSize().getWidth() / 2 ) - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - 15 );
