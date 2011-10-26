@@ -48,10 +48,10 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
  * the actual diameter of the particles being simulated (e.g. Argon).
  * Throughout the comments and in the variable naming, I've tried to use the
  * terminology of "normalized data set" (or sometimes simply "normalized
- * set" for the former and "model data set" for the latter.  When the
- * simulation is running, the molecule data set is updated first, since that
+ * set") for the former and "model data set" for the latter.  When the
+ * simulation is running, the normalized data set is updated first, since that
  * is where the hardcore calculations are performed, and then the model data
- * set is synchronized with the molecule data.  It is the model data set that
+ * set is synchronized with the normalized data.  It is the model data set that
  * is monitored by the view components that actually display the molecule
  * positions to the user.
  *
