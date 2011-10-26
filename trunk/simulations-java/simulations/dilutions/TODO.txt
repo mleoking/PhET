@@ -7,15 +7,10 @@ DESIGN
 
 HIGH
 - create a beaker base class that can be statically labeled and involves no observers
-- Dilution tab
+- M1 control in Dilution tab
 - curved tick marks on beakers (Arc2D)
 
 MEDIUM
-- Tab2: Use beakers (as shown in mock up), layout similar to mock up shown except move the volume control for the small V1 beaker to be next to
-the beaker (similar to volume controls for the other beakers, so that the slider corresponds with solution level).
-- Tab2: These beakers can have hash marks showing half, 1/4, 3/4 full, but no numerical values.
-- Tab2: Omit the plus sign. Keep the equals sign.
-- Tab2: Make the concentration range for M1 and M2 both be the full range. See how this works out. Since M2 is a read out, we shouldn't run into trouble.
 
 LOW
 - improve look of sliders
