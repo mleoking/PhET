@@ -8,7 +8,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fractions.intro.intro.model.Fraction;
-import edu.colorado.phet.fractions.intro.matchinggame.view.DecimalFractionNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.FractionRepresentationNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.PatternNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.PieNode;
@@ -90,11 +89,12 @@ public class MatchingGameModel {
 
     private ArrayList<? extends Representation> getGenericRepresentations() {
         return new ArrayList<Representation>() {{
-            add( new Representation() {
-                public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
-                    return new DecimalFractionNode( transform, fraction );
-                }
-            } );
+            //Don't use decimals in matching game
+//            add( new Representation() {
+//                public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+//                    return new DecimalFractionNode( transform, fraction );
+//                }
+//            } );
             add( new Representation() {
                 public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
                     return new FractionRepresentationNode( transform, fraction );
