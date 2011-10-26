@@ -1,3 +1,5 @@
+Fixed an issue where the center of gravity could be off for some of the masses used on the game tab.
+Made sure all masses fit between the two tick marks to the right and left of their position on the balance.
 Added a constraint to the multi-mass challenges so that the fixed masses are at least two "ticks" apart.  This prevents issues with overlapping.
 Added a key handler on the game tab so that the user can move between steps of the challenges using the Enter key.
 Added a small trash can mass object, which is being used in the first tab so as not to give away mass of medium trash can, which is being used as a mystery mass in the game.
