@@ -3,6 +3,7 @@ package edu.colorado.phet.balanceandtorque.balancelab.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -16,13 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
  * @author John Blanco
  */
 public class BalanceLabModel extends BalanceModel {
-    //------------------------------------------------------------------------
-    // Class Data
-    //------------------------------------------------------------------------
-
-    //------------------------------------------------------------------------
-    // Instance Data
-    //------------------------------------------------------------------------
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -67,8 +61,8 @@ public class BalanceLabModel extends BalanceModel {
     }
 
     /**
-     * Remove the mass from the model, but move it and scale it first so that
-     * it looks like it returns to the tool box..
+     * Remove the mass from the model, but move it and scale it as it moves so
+     * that it looks like it returns to the tool box.
      *
      * @param mass
      */

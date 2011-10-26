@@ -4,7 +4,7 @@ package edu.colorado.phet.balanceandtorque.intro.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceModel;
+import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.FireExtinguisher;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;

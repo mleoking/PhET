@@ -10,11 +10,11 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.ImageMassNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.MysteryVectorNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.PositionedVectorNode;
+import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
@@ -49,6 +49,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
+ * Canvas that displays items in the balance model, primarily the balance
+ * beam (i.e. the plank), the various masses, and a floating control panel
+ * for controlling the visibility of labels, rulers, etc.
+ *
  * @author John Blanco
  */
 public class BasicBalanceCanvas extends PhetPCanvas {
@@ -230,7 +234,7 @@ public class BasicBalanceCanvas extends PhetPCanvas {
         }} );
     }
 
-    // Convenience class for avoiding code duplication.
+    // Convenience class for check boxes, prevents code duplication.
     private static class PropertyCheckBoxNode extends PNode {
         private PropertyCheckBoxNode( String text, BooleanProperty property ) {
             PropertyCheckBox checkBox = new PropertyCheckBox( text, property );
