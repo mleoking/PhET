@@ -6,13 +6,15 @@ import java.util.Collection;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.fractions.intro.common.view.Pattern;
 import edu.colorado.phet.fractions.intro.intro.model.Fraction;
 import edu.colorado.phet.fractions.intro.matchinggame.view.DecimalFractionNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.FractionRepresentationNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.PatternNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.PieNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.RepresentationNode;
+
+import static edu.colorado.phet.fractions.intro.common.view.Pattern.NineGrid;
+import static edu.colorado.phet.fractions.intro.common.view.Pattern.SixPlusSigns;
 
 /**
  * @author Sam Reid
@@ -23,11 +25,16 @@ public class MatchingGameModel {
 
     public MatchingGameModel( ModelViewTransform transform ) {
 
-        boolean usedNine = false;
-        for ( int i = 0; i < 4; i++ ) {
-            Fraction fraction = new Fraction( !usedNine ? random.nextInt( 9 ) + 1 : random.nextInt( 11 ) + 1, !usedNine ? 9 : random.nextInt( 11 ) + 1 );
-            usedNine = true;
+        Fraction ninth = new Fraction( random.nextInt( 8 ) + 1, 9 );
+        nodes.add( new PatternNode( transform, new NineGrid(), ninth, ninth.numerator ) );
+        nodes.add( getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, ninth ) );
 
+        Fraction sixth = new Fraction( random.nextInt( 5 ) + 1, 6 );
+        nodes.add( new PatternNode( transform, new SixPlusSigns(), sixth, sixth.numerator ) );
+        nodes.add( getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, sixth ) );
+
+        for ( int i = 0; i < 4; i++ ) {
+            Fraction fraction = new Fraction( random.nextInt( 11 ) + 1, random.nextInt( 11 ) + 1 );
             ArrayList<Representation> remainingRepresentations = new ArrayList<Representation>( getRepresentationsForFraction( fraction ) );
 
             for ( int k = 0; k < 2; k++ ) {
@@ -45,12 +52,20 @@ public class MatchingGameModel {
         return new ArrayList<Representation>() {{
 
             final boolean canUseNineGrid = fraction.denominator % 9 == 0 && fraction.getValue() < 1;
-
+            final boolean canUseSixPlusSigns = fraction.denominator % 6 == 0 && fraction.getValue() < 1;
             //For nine-grid, use that representation and one other at random
             if ( canUseNineGrid ) {
                 add( new Representation() {
                     public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
-                        return new PatternNode( transform, new Pattern.NineGrid(), fraction, fraction.numerator );
+                        return new PatternNode( transform, new NineGrid(), fraction, fraction.numerator );
+                    }
+                } );
+                add( getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ) );
+            }
+            else if ( canUseSixPlusSigns ) {
+                add( new Representation() {
+                    public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                        return new PatternNode( transform, new SixPlusSigns(), fraction, fraction.numerator );
                     }
                 } );
                 add( getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ) );
