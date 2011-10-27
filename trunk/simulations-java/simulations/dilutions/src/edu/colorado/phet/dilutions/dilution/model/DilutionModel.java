@@ -18,7 +18,7 @@ public class DilutionModel implements Resettable {
 
     private static final double MAX_BEAKER_VOLUME = 1; // liter
     private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
-    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.05, 0.2, 0.05 ); // liters
+    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.0, 0.2, 0.1 ); // liters
     private static final DoubleRange DILUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
 
     static {

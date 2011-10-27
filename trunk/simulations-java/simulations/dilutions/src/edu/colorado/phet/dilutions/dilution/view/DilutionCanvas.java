@@ -34,8 +34,8 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
         final PDimension solutionCylinderSize = solutionBeakerNode.getCylinderSize();
         final double solutionCylinderEndHeight = solutionBeakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( solutionCylinderSize, solutionCylinderEndHeight, model.solution, model.getDiutionVolumeRange() );
-        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V1, Strings.VERY_SMALL, Strings.SMALL,
-                                                                                          new PDimension( 5, 0.15 * solutionCylinderSize.getHeight() ), //TODO 0.15 is based on solution volume range
+        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V1, Strings.EMPTY, Strings.SMALL,
+                                                                                          new PDimension( 5, 0.2 * solutionCylinderSize.getHeight() ), //TODO 0.2 is based on solution volume range
                                                                                           model.solution.volume, model.getSolutionVolumeRange() );
 
         // water nodes
