@@ -17,8 +17,7 @@ public class PrecipitateParticleNode extends PPath {
     public PrecipitateParticleNode( Solute solute ) {
         setPaint( solute.precipitateColor );
         setStrokePaint( solute.precipitateColor.darker() );
-        setPathTo( new Rectangle2D.Double( 0, 0, 5, 5 ) ); //TODO make this look like a grain of sand (whatever that looks like...)
-        setScale( solute.precipitateScale );
+        setPathTo( new Rectangle2D.Double( 0, 0, solute.precipitateSize, solute.precipitateSize ) ); // square
         setRotation( Math.random() * 2 * Math.PI );
     }
 }

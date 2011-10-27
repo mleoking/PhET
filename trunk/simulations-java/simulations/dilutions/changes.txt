@@ -1,3 +1,4 @@
+10/27/11 change some terminology in Solute model (precipitateSize, precipitateParticlesPerMole)
 10/27/11 Molarity: center precipitate dev display
 10/27/11 common: center root node on the stage
 10/27/11 common: move range labels above/below vertical sliders and concentration display
