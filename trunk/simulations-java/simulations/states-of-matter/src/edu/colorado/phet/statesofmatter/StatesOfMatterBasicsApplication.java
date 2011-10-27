@@ -39,7 +39,7 @@ public class StatesOfMatterBasicsApplication extends AbstractStatesOfMatterAppli
     private void initModules() {
         Frame parentFrame = getPhetFrame();
 
-        addModule( new SolidLiquidGasModule( parentFrame ) );
+        addModule( new SolidLiquidGasModule() );
         addModule( new PhaseChangesModule( false ) );
     }
 

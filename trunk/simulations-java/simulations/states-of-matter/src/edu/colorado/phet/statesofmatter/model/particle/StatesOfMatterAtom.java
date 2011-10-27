@@ -25,7 +25,6 @@ public abstract class StatesOfMatterAtom implements Cloneable {
     private Vector2D m_accel = new Vector2D(); // In meters/(sec * sec)
     protected double m_radius;                   // In picometers.
     private final double m_mass;         // In atomic mass units.
-    private double m_inverseMass;
     private final ArrayList m_listeners = new ArrayList();
 
     //----------------------------------------------------------------------------
@@ -133,9 +132,6 @@ public abstract class StatesOfMatterAtom implements Cloneable {
 
         StatesOfMatterAtom that = (StatesOfMatterAtom) o;
 
-        if ( Double.compare( that.m_inverseMass, m_inverseMass ) != 0 ) {
-            return false;
-        }
         if ( Double.compare( that.m_mass, m_mass ) != 0 ) {
             return false;
         }
