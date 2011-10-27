@@ -19,6 +19,7 @@ import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -34,8 +35,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class ConcentrationDisplayNode extends PComposite {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
-    private static final PhetFont TICK_FONT = new PhetFont( 16 );
-    private static final double TICK_LENGTH = 10;
+    private static final PhetFont MIN_MAX_FONT = new PhetFont( 16 );
 
     public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution, final DoubleRange concentrationRange ) {
 
@@ -44,11 +44,15 @@ public class ConcentrationDisplayNode extends PComposite {
         setChildrenPickable( false );
 
         // nodes
-        final TitleNode titleNode = new TitleNode( title );
+        final PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration() );
-        final HorizontalTickMarkNode maxNode = new HorizontalTickMarkNode( Strings.HIGH, TICK_FONT, TICK_LENGTH );
-        final HorizontalTickMarkNode minNode = new HorizontalTickMarkNode( Strings.ZERO, TICK_FONT, TICK_LENGTH );
+        final PNode maxNode = new PText( Strings.HIGH ) {{
+            setFont( MIN_MAX_FONT );
+        }};
+        final PNode minNode = new PText( Strings.ZERO ) {{
+            setFont( MIN_MAX_FONT );
+        }};
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -63,13 +67,15 @@ public class ConcentrationDisplayNode extends PComposite {
 
         // layout
         {
-            // max label at top of bar
-            maxNode.setOffset( 0, 0 );
-            // min label at bottom of bar
-            minNode.setOffset( 0, barSize.getHeight() );
-            // title centered above subtitle
+            // max label centered above the bar
+            maxNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( maxNode.getFullBoundsReference().getWidth() / 2 ),
+                               barNode.getFullBoundsReference().getMinY() - maxNode.getFullBoundsReference().getHeight() - 3 );
+            // min label centered below the bar
+            minNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( minNode.getFullBoundsReference().getWidth() / 2 ),
+                               barNode.getFullBoundsReference().getMaxY() + 3 );
+            // title centered above max label
             titleNode.setOffset( barNode.getFullBounds().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 -titleNode.getFullBoundsReference().getHeight() - ( maxNode.getFullBoundsReference().getHeight() / 2 ) - 3 );
+                                 maxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 5 );
         }
 
         // Pointer position and value corresponds to the solution's concentration.
@@ -95,14 +101,6 @@ public class ConcentrationDisplayNode extends PComposite {
     private static final GradientPaint createGradient( Color soluteColor, double barHeight, double saturatedConcentration, double maxConcentration ) {
         double y = barHeight - ( barHeight * ( saturatedConcentration / maxConcentration ) );
         return new GradientPaint( 0f, (float) y, soluteColor, 0f, (float) barHeight, DilutionsColors.WATER_COLOR );
-    }
-
-    // Title above the bar
-    private static class TitleNode extends HTMLNode {
-        public TitleNode( String title ) {
-            super( title );
-            setFont( TITLE_FONT );
-        }
     }
 
     // Vertical bar. Origin at upper left.

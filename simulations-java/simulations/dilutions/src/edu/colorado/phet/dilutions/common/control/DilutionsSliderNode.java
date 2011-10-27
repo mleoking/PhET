@@ -20,9 +20,9 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighligh
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler.Orientation;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.dilutions.common.view.HorizontalTickMarkNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -51,8 +51,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color TRACK_FILL_COLOR = Color.BLACK;
     private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
-    private static final double TICK_LENGTH = ( THUMB_SIZE.getWidth() / 2 ) + 3;
-    private static final PhetFont TICK_FONT = new PhetFont( 14 );
+    private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
 
     private final LinearFunction function;
     private final TrackNode trackNode;
@@ -71,8 +70,12 @@ public abstract class DilutionsSliderNode extends PhetPNode {
                 modelValue.set( value );
             }
         } );
-        final HorizontalTickMarkNode maxNode = new HorizontalTickMarkNode( maxLabel, TICK_FONT, TICK_LENGTH );
-        final HorizontalTickMarkNode minNode = new HorizontalTickMarkNode( minLabel, TICK_FONT, TICK_LENGTH );
+        final PNode maxNode = new PText( maxLabel ) {{
+            setFont( MIN_MAX_FONT );
+        }};
+        final PNode minNode = new PText( minLabel ) {{
+            setFont( MIN_MAX_FONT );
+        }};
 
         // rendering order
         {
@@ -85,13 +88,15 @@ public abstract class DilutionsSliderNode extends PhetPNode {
 
         // layout
         {
-            // max label at top of track
-            maxNode.setOffset( 0, 0 );
-            // min label at bottom of track
-            minNode.setOffset( 0, trackSize.getHeight() );
-            // title centered above track
+            // max label centered above the bar
+            maxNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( maxNode.getFullBoundsReference().getWidth() / 2 ),
+                               trackNode.getFullBoundsReference().getMinY() - ( thumbNode.getFullBoundsReference().getHeight() / 2 ) - maxNode.getFullBoundsReference().getHeight() - 1 );
+            // min label centered below the bar
+            minNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( minNode.getFullBoundsReference().getWidth() / 2 ),
+                               trackNode.getFullBoundsReference().getMaxY() + ( thumbNode.getFullBoundsReference().getHeight() / 2 ) + 1 );
+            // title centered above max label
             titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 trackNode.getFullBoundsReference().getMinY() - ( maxNode.getFullBoundsReference().getHeight() / 2 ) - 4 - titleNode.getFullBoundsReference().getHeight() );
+                                 maxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 5 );
             // thumb centered in track
             thumbNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
                                  trackNode.getFullBoundsReference().getCenterY() );
