@@ -6,7 +6,6 @@ DESIGN
 - Dilution: should V1 go to zero? What happens to M1 when this happens?
 
 HIGH
-- common: move range labels above/below vertical sliders
 - Dilution: M1 control
 - Dilution: tall skinny beakers (3:1), labels above
 
