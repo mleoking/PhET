@@ -510,7 +510,7 @@ public class MultipleParticleModel implements Resettable {
      */
     public double getSigma() {
 
-        double sigma = 0;
+        double sigma;
 
         switch( m_currentMolecule ) {
 
@@ -554,7 +554,7 @@ public class MultipleParticleModel implements Resettable {
      */
     public double getEpsilon() {
 
-        double epsilon = 0;
+        double epsilon;
 
         switch( m_currentMolecule ) {
 
@@ -1318,7 +1318,7 @@ public class MultipleParticleModel implements Resettable {
             return 0;
         }
 
-        double temperatureInKelvin = 0;
+        double temperatureInKelvin;
         double triplePoint = 0;
         double criticalPoint = 0;
 
@@ -1387,7 +1387,7 @@ public class MultipleParticleModel implements Resettable {
      */
     public double getPressureInAtmospheres() {
 
-        double pressureInAtmospheres = 0;
+        double pressureInAtmospheres;
 
         switch( m_currentMolecule ) {
 

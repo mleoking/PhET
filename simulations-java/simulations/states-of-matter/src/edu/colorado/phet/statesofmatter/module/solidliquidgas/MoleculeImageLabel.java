@@ -30,7 +30,7 @@ public class MoleculeImageLabel extends JLabel {
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1 );
 
     public MoleculeImageLabel( final int moleculeID, final MultipleParticleModel model ) {
-        PNode particleNode = null;
+        PNode particleNode;
         switch( moleculeID ) {
             case StatesOfMatterConstants.ARGON:
                 particleNode = new ParticleNode( new ArgonAtom( 0, 0 ), PARTICLE_MVT, false, true, false );
