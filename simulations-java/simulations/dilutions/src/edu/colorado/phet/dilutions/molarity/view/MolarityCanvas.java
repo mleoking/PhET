@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -27,7 +26,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettable {
+public class MolarityCanvas extends AbstractDilutionsCanvas {
 
     public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
 
@@ -38,7 +37,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
         SolutionNode solutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.solution, model.getSolutionVolumeRange() );
         PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, cylinderSize, cylinderEndHeight );
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
+        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
             setConfirmationEnabled( false );
         }};
         PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
@@ -68,7 +67,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
         // layout
         {
             // upper left
-            soluteControlNode.setOffset( 30, 30 );
+            soluteControlNode.setOffset( 0, 0 );
             // below the Solute selector
             soluteAmountSliderNode.setOffset( soluteControlNode.getXOffset() - PNodeLayoutUtils.getOriginXOffset( soluteAmountSliderNode ),
                                               soluteControlNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beakerNode ) + 40 );
@@ -92,9 +91,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas implements Resettabl
             resetAllButtonNode.setOffset( concentrationDisplayNode.getXOffset() + ( concentrationBarSize.getWidth() / 2 ) - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                           soluteControlNode.getYOffset() );
         }
-    }
-
-    public void reset() {
-        // do nothing
+        centerRootNode();
     }
 }
+
