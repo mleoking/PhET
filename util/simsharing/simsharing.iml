@@ -19,7 +19,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="gravity-and-orbits" />
     <orderEntry type="module" module-name="simsharing-test-sim" />
-    <orderEntry type="module" module-name="simsharing-cassandra" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
