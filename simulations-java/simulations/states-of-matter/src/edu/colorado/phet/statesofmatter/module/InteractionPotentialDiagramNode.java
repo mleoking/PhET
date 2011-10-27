@@ -307,14 +307,6 @@ public class InteractionPotentialDiagramNode extends PNode {
         }
     }
 
-    protected DoubleArrowNode getEpsilonArrow() {
-        return m_epsilonArrow;
-    }
-
-    protected DoubleArrowNode getSigmaArrow() {
-        return m_sigmaArrow;
-    }
-
     protected double getGraphHeight() {
         return m_graphHeight;
     }

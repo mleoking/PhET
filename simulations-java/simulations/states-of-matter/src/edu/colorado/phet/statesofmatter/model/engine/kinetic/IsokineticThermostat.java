@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -23,9 +21,6 @@ public class IsokineticThermostat implements Thermostat {
 
     final MoleculeForceAndMotionDataSet m_moleculeDataSet;
     final Vector2D[] m_moleculeVelocities;
-    final Point2D[] m_moleculeCenterOfMassPositions;
-    final Vector2D[] m_moleculeForces;
-    final Vector2D[] m_nextMoleculeForces;
     final double[] m_moleculeRotationRates;
 
     double m_targetTemperature;   // Target temperature in normalized model units.
@@ -50,10 +45,7 @@ public class IsokineticThermostat implements Thermostat {
 
         // Set up references to the various arrays within the data set so that
         // the calculations can be performed as fast as is possible.
-        m_moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
         m_moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
-        m_moleculeForces = moleculeDataSet.getMoleculeForces();
-        m_nextMoleculeForces = moleculeDataSet.getNextMoleculeForces();
         m_moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
     }
 

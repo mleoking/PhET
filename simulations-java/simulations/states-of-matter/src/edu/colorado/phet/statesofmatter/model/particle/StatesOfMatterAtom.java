@@ -17,12 +17,6 @@ import edu.colorado.phet.statesofmatter.model.AtomType;
 public abstract class StatesOfMatterAtom implements Cloneable {
 
     //----------------------------------------------------------------------------
-    // Class Data
-    //----------------------------------------------------------------------------
-
-    protected static AtomType ATOM_TYPE = AtomType.UNDEFINED;
-
-    //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
@@ -111,14 +105,6 @@ public abstract class StatesOfMatterAtom implements Cloneable {
 
     public double getRadius() {
         return m_radius;
-    }
-
-    public double getInverseMass() {
-        if ( m_inverseMass == 0.0 ) {
-            m_inverseMass = m_mass == 0.0 ? Double.MAX_VALUE : 1.0 / m_mass;
-        }
-
-        return m_inverseMass;
     }
 
     public Point2D getPositionReference() {

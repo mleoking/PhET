@@ -33,11 +33,7 @@ public class ParticleContainerNode extends PhetPNode {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final int MULTI_IMAGE_CONTAINER = 2;   // Container is made of multiple pieces.
     public static final boolean LOAD_CONTAINER_BACKGROUND_IMAGE = false;
-
-    // Constants that control the appearance of the drawn container.
-    private static final float CONTAINER_LINE_WIDTH = 100;
 
     // Constants that control the appearance of the image.
     private static final String CONTAINER_FRONT_LEFT_IMAGE_NAME = "cup_3D_front_70_split_left.png";

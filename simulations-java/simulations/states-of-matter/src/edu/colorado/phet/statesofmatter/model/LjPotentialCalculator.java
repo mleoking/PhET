@@ -44,10 +44,6 @@ public class LjPotentialCalculator {
         m_epsilonForCalcs = m_epsilon * StatesOfMatterConstants.K_BOLTZMANN;
     }
 
-    public LjPotentialCalculator() {
-        this( DEFAULT_SIGMA, DEFAULT_EPSLON );
-    }
-
     //-----------------------------------------------------------------------------
     // Accessor Methods
     //-----------------------------------------------------------------------------
@@ -85,19 +81,6 @@ public class LjPotentialCalculator {
     public double calculateLjPotential( double distance ) {
         double distanceRatio = m_sigma / distance;
         return ( 4 * m_epsilonForCalcs * ( Math.pow( distanceRatio, 12 ) - Math.pow( distanceRatio, 6 ) ) );
-    }
-
-    /**
-     * Calculate the Lennard-Jones force for the specified distance.  Recall
-     * that force can be calculated as the first derivative of potential
-     * energy.
-     *
-     * @param distance - Distance between interacting molecules in picometers.
-     * @return - Force in newtons.
-     */
-    public double calculateLjForce( double distance ) {
-        return ( ( 48 * m_epsilonForCalcs * Math.pow( m_sigma, 12 ) / Math.pow( distance, 13 ) ) -
-                 ( 24 * m_epsilonForCalcs * Math.pow( m_sigma, 6 ) / Math.pow( distance, 7 ) ) );
     }
 
     /**

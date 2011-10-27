@@ -50,7 +50,7 @@ public class AtomicInteractionsModule extends PiccoloModule {
         setSimulationPanel( m_canvas );
 
         // Control panel
-        setControlPanel( new AtomicInteractionsControlPanel( this, parentFrame, enableHeterogeneousAtoms ) );
+        setControlPanel( new AtomicInteractionsControlPanel( this, enableHeterogeneousAtoms ) );
 
         // Add a slider for controlling speed to the clock controls.
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );

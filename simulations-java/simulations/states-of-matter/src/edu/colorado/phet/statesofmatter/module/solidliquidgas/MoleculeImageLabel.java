@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
-import java.awt.BasicStroke;
-import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -27,7 +25,6 @@ import edu.umd.cs.piccolo.PNode;
 public class MoleculeImageLabel extends JLabel {
     private static final ModelViewTransform PARTICLE_MVT = new ModelViewTransform( 300, 300, 0, 0, false, true );
     private static final double PARTICLE_SCALING_FACTOR = 0.05;
-    private static final Stroke OUTLINE_STROKE = new BasicStroke( 1 );
 
     public MoleculeImageLabel( final int moleculeID, final MultipleParticleModel model ) {
         PNode particleNode;
