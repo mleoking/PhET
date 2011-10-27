@@ -23,7 +23,6 @@ public class SolidLiquidGasModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private MultipleParticleModel m_model;
-    private SolidLiquidGasCanvas m_canvas;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -38,8 +37,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
         m_model = new MultipleParticleModel( (ConstantDtClock) getClock() );
 
         // Canvas
-        m_canvas = new SolidLiquidGasCanvas( m_model );
-        setSimulationPanel( m_canvas );
+        setSimulationPanel( new SolidLiquidGasCanvas( m_model ) );
 
         // Control panel
         setControlPanel( new SolidLiquidGasControlPanel( this, parentFrame ) );

@@ -104,8 +104,6 @@ public class InteractionPotentialDiagramNode extends PNode {
     private PText m_horizontalAxisLabel;
     private LjPotentialCalculator m_LjPotentialCalculator;
     private ArrayList _listeners = new ArrayList();
-    private JButton m_closeButton;
-    private PSwing m_closePSwing;
 
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.
@@ -231,19 +229,19 @@ public class InteractionPotentialDiagramNode extends PNode {
 
         if ( closable ) {
             // Add the button that will allow the user to close the diagram.
-            m_closeButton = new JButton(
+            JButton closeButton = new JButton(
                     new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) );
-            m_closeButton.addActionListener( new ActionListener() {
+            closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     notifyCloseRequestReceived();
                 }
             } );
 
-            m_closePSwing = new PSwing( m_closeButton );
-            m_closePSwing.setScale( getFullBoundsReference().height * CLOSE_BUTTON_PROPORTION /
-                                    m_closePSwing.getFullBoundsReference().height );
-            m_closePSwing.setOffset( m_width - m_closePSwing.getFullBoundsReference().width, 0 );
-            addChild( m_closePSwing );
+            PSwing closePSwing = new PSwing( closeButton );
+            closePSwing.setScale( getFullBoundsReference().height * CLOSE_BUTTON_PROPORTION /
+                                  closePSwing.getFullBoundsReference().height );
+            closePSwing.setOffset( m_width - closePSwing.getFullBoundsReference().width, 0 );
+            addChild( closePSwing );
         }
 
         // Create and add the horizontal axis line for the graph.

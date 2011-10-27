@@ -51,9 +51,7 @@ public class StoveNode extends PNode {
 
     private PImage m_fireImage;
     private PImage m_iceImage;
-    private PNode m_stoveControlBackground;
     private MultipleParticleModel m_model;
-    private StoveControlSliderNode m_stoveControlSlider;
 
     // Heat value, ranges from -1 to +1.
     private Property<Double> m_heat = new Property<Double>( 0.0 );
@@ -102,7 +100,7 @@ public class StoveNode extends PNode {
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
         // Create the slider.
-        m_stoveControlSlider = new StoveControlSliderNode( m_heat ) {{
+        StoveControlSliderNode stoveControlSlider = new StoveControlSliderNode( m_heat ) {{
             setScale( ( WIDTH - 20 ) / getFullBoundsReference().width );
         }};
 
@@ -112,9 +110,9 @@ public class StoveNode extends PNode {
 
         // Create the bottom area of the stove, which is where the control resides.
         Shape controlBackgroundShape = new RoundRectangle2D.Double( 0, 0, WIDTH,
-                                                                    m_stoveControlSlider.getFullBoundsReference().height + sliderTitle.getFullBoundsReference().height + 10,
+                                                                    stoveControlSlider.getFullBoundsReference().height + sliderTitle.getFullBoundsReference().height + 10,
                                                                     10, 10 );
-        m_stoveControlBackground = new PhetPPath( controlBackgroundShape, BASE_COLOR );
+        PNode stoveControlBackground = new PhetPPath( controlBackgroundShape, BASE_COLOR );
 
         // Create the images that comprise the stove.
         m_fireImage = StatesOfMatterResources.getImageNode( "flame.png" );
@@ -128,21 +126,21 @@ public class StoveNode extends PNode {
         addChild( burnerInterior );
         addChild( m_fireImage );
         addChild( m_iceImage );
-        addChild( m_stoveControlBackground );
+        addChild( stoveControlBackground );
         addChild( m_burner );
         addChild( sliderTitle );
-        addChild( m_stoveControlSlider );
+        addChild( stoveControlSlider );
 
         // Do the layout.
-        double centerX = Math.max( m_burner.getFullBoundsReference().width, m_stoveControlBackground.getFullBoundsReference().width ) / 2;
+        double centerX = Math.max( m_burner.getFullBoundsReference().width, stoveControlBackground.getFullBoundsReference().width ) / 2;
         burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 );
         m_burner.setOffset( centerX - m_burner.getFullBoundsReference().width / 2, 0 );
-        m_stoveControlBackground.setOffset( centerX - m_stoveControlBackground.getFullBoundsReference().width / 2,
-                                            m_burner.getFullBoundsReference().getMaxY() );
-        m_stoveControlSlider.setOffset( centerX - m_stoveControlSlider.getFullBoundsReference().width / 2,
-                                        m_stoveControlBackground.getFullBoundsReference().getMaxY() - m_stoveControlSlider.getFullBoundsReference().height - 10 );
+        stoveControlBackground.setOffset( centerX - stoveControlBackground.getFullBoundsReference().width / 2,
+                                          m_burner.getFullBoundsReference().getMaxY() );
+        stoveControlSlider.setOffset( centerX - stoveControlSlider.getFullBoundsReference().width / 2,
+                                      stoveControlBackground.getFullBoundsReference().getMaxY() - stoveControlSlider.getFullBoundsReference().height - 10 );
         sliderTitle.setOffset( centerX - sliderTitle.getFullBoundsReference().width / 2,
-                               m_stoveControlSlider.getFullBoundsReference().getMinY() - sliderTitle.getFullBoundsReference().height );
+                               stoveControlSlider.getFullBoundsReference().getMinY() - sliderTitle.getFullBoundsReference().height );
 
         // Observe the heat value and set the model heating/cooling amount
         // accordingly.

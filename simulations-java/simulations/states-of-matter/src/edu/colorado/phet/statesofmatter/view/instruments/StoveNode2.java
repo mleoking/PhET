@@ -31,7 +31,11 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * This class is the graphical representation of a stove that can be used to
- * heat or cool things.
+ * heat or cool things.  This version has a control panel on the side, as
+ * opposed to underneath.  It was prototyped in October 2011 to see if people
+ * liked it better, but decided against.  This can be kept for a while in case
+ * the team changes their collective mind, and deleted after 6 months or so if
+ * still unused at that point in time.
  */
 public class StoveNode2 extends PNode {
 
@@ -62,9 +66,7 @@ public class StoveNode2 extends PNode {
 
     private PImage m_fireImage;
     private PImage m_iceImage;
-    private PNode m_stoveBase;
     private MultipleParticleModel m_model;
-    private StoveControlSliderNode2 m_stoveControlSlider;
 
     // Heat value, ranges from -1 to +1.
     private Property<Double> m_heat = new Property<Double>( 0.0 );
@@ -116,7 +118,7 @@ public class StoveNode2 extends PNode {
         // Create the bottom area of the stove, upon which the burner rests.
         // The height is chosen to look good, adjust as needed.
         RoundRectangle2D stoveBaseShape = new RoundRectangle2D.Double( 0, 0, BURNER_WIDTH, BURNER_WIDTH * 0.2, 10, 10 );
-        m_stoveBase = new PhetPPath( stoveBaseShape, STOVE_BASIC_COLOR, STROKE, Color.BLACK );
+        PNode stoveBase = new PhetPPath( stoveBaseShape, STOVE_BASIC_COLOR, STROKE, Color.BLACK );
 
         // Need this var for sizing things below.
         final double totalHeight = stoveBaseShape.getHeight() + m_burner.getFullBoundsReference().getHeight();
@@ -125,21 +127,21 @@ public class StoveNode2 extends PNode {
         final PhetPText controlPanelTitle = new PhetPText( StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE, new PhetFont( 18, true ), Color.white );
 
         // Create the slider that controls heating and cooling.
-        m_stoveControlSlider = new StoveControlSliderNode2( m_heat ) {{
+        StoveControlSliderNode2 stoveControlSlider = new StoveControlSliderNode2( m_heat ) {{
             setScale( ( totalHeight - controlPanelTitle.getFullBoundsReference().height ) * 0.9 / getFullBoundsReference().height );
         }};
 
         // Create the control panel.
-        double controlPanelWidth = Math.max( controlPanelTitle.getFullBoundsReference().width * 1.1, m_stoveControlSlider.getFullBoundsReference().width ) * 1.1;
+        double controlPanelWidth = Math.max( controlPanelTitle.getFullBoundsReference().width * 1.1, stoveControlSlider.getFullBoundsReference().width ) * 1.1;
         final RoundRectangle2D controlPanelShape = new RoundRectangle2D.Double( 0, 0, controlPanelWidth, totalHeight, 10, 10 );
         PNode m_controlPanel = new PhetPPath( controlPanelShape, STOVE_BASIC_COLOR, STROKE, Color.BLACK );
 
         // Layout the control panel.
         controlPanelTitle.setOffset( controlPanelWidth / 2 - controlPanelTitle.getFullBoundsReference().width / 2, 0 );
         m_controlPanel.addChild( controlPanelTitle );
-        m_stoveControlSlider.setOffset( controlPanelWidth / 2 - m_stoveControlSlider.getFullBoundsReference().width / 2,
-                                        controlPanelTitle.getFullBoundsReference().getMaxY() );
-        m_controlPanel.addChild( m_stoveControlSlider );
+        stoveControlSlider.setOffset( controlPanelWidth / 2 - stoveControlSlider.getFullBoundsReference().width / 2,
+                                      controlPanelTitle.getFullBoundsReference().getMaxY() );
+        m_controlPanel.addChild( stoveControlSlider );
 
         // Create the connector that goes from the control panel to the burner.
         Paint connectorPaint = new GradientPaint( 0, 0, ColorUtils.brighterColor( CONNECTOR_BASIC_COLOR, 0.5 ), 0, (float) CONNECTOR_HEIGHT, ColorUtils.darkerColor( CONNECTOR_BASIC_COLOR, 0.5 ) );
@@ -157,27 +159,21 @@ public class StoveNode2 extends PNode {
         addChild( burnerInterior );
         addChild( m_fireImage );
         addChild( m_iceImage );
-        addChild( m_stoveBase );
+        addChild( stoveBase );
         addChild( m_controlPanel );
         addChild( m_connector );
         addChild( m_burner );
-//        addChild( sliderTitle );
-//        addChild( m_stoveControlSlider );
 
         // Do the layout.
-        double centerX = Math.max( m_burner.getFullBoundsReference().width, m_stoveBase.getFullBoundsReference().width ) / 2;
+        double centerX = Math.max( m_burner.getFullBoundsReference().width, stoveBase.getFullBoundsReference().width ) / 2;
         burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 );
         m_burner.setOffset( centerX - m_burner.getFullBoundsReference().width / 2, 0 );
-        m_stoveBase.setOffset( centerX - m_stoveBase.getFullBoundsReference().width / 2,
-                               m_burner.getFullBoundsReference().getMaxY() );
-        m_connector.setOffset( m_stoveBase.getFullBoundsReference().getMaxX(),
-                               m_stoveBase.getFullBoundsReference().getCenterY() - m_connector.getFullBoundsReference().height / 2 );
+        stoveBase.setOffset( centerX - stoveBase.getFullBoundsReference().width / 2,
+                             m_burner.getFullBoundsReference().getMaxY() );
+        m_connector.setOffset( stoveBase.getFullBoundsReference().getMaxX(),
+                               stoveBase.getFullBoundsReference().getCenterY() - m_connector.getFullBoundsReference().height / 2 );
         m_controlPanel.setOffset( m_connector.getFullBoundsReference().getMaxX(),
-                                  m_stoveBase.getFullBoundsReference().getMaxY() - m_controlPanel.getFullBoundsReference().height );
-//        m_stoveControlSlider.setOffset( centerX - m_stoveControlSlider.getFullBoundsReference().width / 2,
-//                                        m_stoveBase.getFullBoundsReference().getMaxY() - m_stoveControlSlider.getFullBoundsReference().height - 10 );
-//        sliderTitle.setOffset( centerX - sliderTitle.getFullBoundsReference().width / 2,
-//                               m_stoveControlSlider.getFullBoundsReference().getMinY() - sliderTitle.getFullBoundsReference().height );
+                                  stoveBase.getFullBoundsReference().getMaxY() - m_controlPanel.getFullBoundsReference().height );
 
         // Observe the heat value and set the model heating/cooling amount
         // accordingly.

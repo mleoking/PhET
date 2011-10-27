@@ -21,17 +21,7 @@ import edu.colorado.phet.statesofmatter.module.atomicinteractions.AtomicInteract
 public class AtomicInteractionsApplication extends PiccoloPhetApplication implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
-    // Class Data
-    //----------------------------------------------------------------------------
-
-    //----------------------------------------------------------------------------
-    // Instance Data
-    //----------------------------------------------------------------------------
-
-    private AtomicInteractionsModule m_interactionPotentialModule;
-
-    //----------------------------------------------------------------------------
-    // Sole Constructor
+    // Constructor(s)
     //----------------------------------------------------------------------------
 
     public AtomicInteractionsApplication( PhetApplicationConfig config ) {
@@ -40,7 +30,7 @@ public class AtomicInteractionsApplication extends PiccoloPhetApplication implem
     }
 
     //----------------------------------------------------------------------------
-    // Initialization
+    // Methods
     //----------------------------------------------------------------------------
 
     /**
@@ -50,8 +40,7 @@ public class AtomicInteractionsApplication extends PiccoloPhetApplication implem
 
         Frame parentFrame = getPhetFrame();
 
-        m_interactionPotentialModule = new AtomicInteractionsModule( parentFrame, true );
-        addModule( m_interactionPotentialModule );
+        addModule( new AtomicInteractionsModule( parentFrame, true ) );
     }
 
     //----------------------------------------------------------------------------

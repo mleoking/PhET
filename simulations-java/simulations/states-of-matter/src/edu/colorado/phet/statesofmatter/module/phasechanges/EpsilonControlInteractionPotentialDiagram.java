@@ -48,7 +48,6 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     private ResizeArrowNode m_epsilonResizeHandle;
     private PPath m_epsilonLine;
     private boolean m_interactionEnabled;
-    private PBasicInputEventHandler m_epsilonChangeHandler;
 
     //-----------------------------------------------------------------------------
     // Constructor(s)
@@ -80,7 +79,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
 
         // Create the handler for events that indicate that the user is
         // changing the value of epsilon.
-        m_epsilonChangeHandler = new PBasicInputEventHandler() {
+        PBasicInputEventHandler epsilonChangeHandler = new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 PNode draggedNode = event.getPickedNode();
                 PDimension d = event.getDeltaRelativeTo( draggedNode );
@@ -96,7 +95,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         m_epsilonLine.setStroke( EPSILON_LINE_STROKE );
         m_epsilonLine.setStrokePaint( EPSILON_LINE_COLOR );
         m_epsilonLine.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        m_epsilonLine.addInputEventListener( m_epsilonChangeHandler );
+        m_epsilonLine.addInputEventListener( epsilonChangeHandler );
         m_ljPotentialGraph.addChild( m_epsilonLine );
 
         // Add the arrow node that will allow the user to control the value of
@@ -104,7 +103,7 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
         m_epsilonResizeHandle = new ResizeArrowNode( RESIZE_HANDLE_SIZE_PROPORTION * m_width, Math.PI / 2,
                                                      RESIZE_HANDLE_NORMAL_COLOR, RESIZE_HANDLE_HIGHLIGHTED_COLOR );
         m_ljPotentialGraph.addChild( m_epsilonResizeHandle );
-        m_epsilonResizeHandle.addInputEventListener( m_epsilonChangeHandler );
+        m_epsilonResizeHandle.addInputEventListener( epsilonChangeHandler );
 
         // Update interactivity state.
         updateInteractivityState();
