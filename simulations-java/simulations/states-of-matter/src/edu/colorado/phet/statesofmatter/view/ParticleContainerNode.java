@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.statesofmatter.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
@@ -35,34 +33,19 @@ public class ParticleContainerNode extends PhetPNode {
     // Class Data
     //----------------------------------------------------------------------------
 
-    // Constants that control whether the container is drawn using Java2D,
-    // whether it is loaded as a single image, or whether it is loaded as
-    // several image pieces.  TODO:  JPB TBD - This has been implemented to
-    // ease the comparison of these options and make sure it will work on all
-    // platforms.  Once a final decision is made, some or all of this can
-    // probably be removed.
-    public static final int DRAWN_CONTAINER = 0;
-    public static final int SINGLE_IMAGE_CONTAINER = 1;
     public static final int MULTI_IMAGE_CONTAINER = 2;   // Container is made of multiple pieces.
-    public static final int CONTAINER_TYPE = MULTI_IMAGE_CONTAINER;
     public static final boolean LOAD_CONTAINER_BACKGROUND_IMAGE = false;
 
     // Constants that control the appearance of the drawn container.
-    private static final Color CONTAINER_EDGE_COLOR = Color.YELLOW;
     private static final float CONTAINER_LINE_WIDTH = 100;
-    private static final Stroke CONTAINER_EDGE_STROKE = new BasicStroke( CONTAINER_LINE_WIDTH );
-    private static final Stroke HIDDEN_CONTAINER_EDGE_STROKE = new BasicStroke( CONTAINER_LINE_WIDTH / 4,
-                                                                                BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { CONTAINER_LINE_WIDTH, CONTAINER_LINE_WIDTH }, 0 );
 
     // Constants that control the appearance of the image.
-    private static final String CONTAINER_FRONT_IMAGE_NAME = "cup_3D_front_70_split.png";
     private static final String CONTAINER_FRONT_LEFT_IMAGE_NAME = "cup_3D_front_70_split_left.png";
     private static final String CONTAINER_FRONT_RIGHT_IMAGE_NAME = "cup_3D_front_70_split_right.png";
     private static final String CONTAINER_FRONT_TOP_IMAGE_NAME = "cup_3D_front_70_split_top.png";
     private static final String CONTAINER_FRONT_BOTTOM_IMAGE_NAME = "cup_3D_front_70_split_bottom.png";
     private static final String CONTAINER_BACK_TOP_IMAGE_NAME = "cup_3D_top_70_fragment.png";
     private static final String LID_IMAGE_NAME = "cup_3D_cap_70.png";
-    //    private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_solid_light.png";
     private static final String CONTAINER_BACK_IMAGE_NAME = "cup_3D_back_light.jpg";
     private static final double LID_POSITION_TWEAK_FACTOR = 65; // Empirically determined value for aligning lid and container body.
     private static final double FRONT_TOP_IMAGE_OFFSET_TWEAK = 19; // Empirically determined value for position corresponding fragment.
