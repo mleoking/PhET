@@ -96,7 +96,7 @@ public abstract class DilutionsSliderNode extends PhetPNode {
                                trackNode.getFullBoundsReference().getMaxY() + ( thumbNode.getFullBoundsReference().getHeight() / 2 ) + 1 );
             // title centered above max label
             titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 maxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 5 );
+                                 maxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 8 );
             // thumb centered in track
             thumbNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
                                  trackNode.getFullBoundsReference().getCenterY() );

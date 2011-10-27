@@ -75,7 +75,7 @@ public class ConcentrationDisplayNode extends PComposite {
                                barNode.getFullBoundsReference().getMaxY() + 3 );
             // title centered above max label
             titleNode.setOffset( barNode.getFullBounds().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 maxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 5 );
+                                 maxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 8 );
         }
 
         // Pointer position and value corresponds to the solution's concentration.
