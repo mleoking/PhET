@@ -20,15 +20,13 @@ public class MolarityModel implements Resettable {
 
     private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
+    private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / SOLUTION_VOLUME_RANGE.getMax(),
+                                                                            SOLUTE_AMOUNT_RANGE.getMax() / SOLUTION_VOLUME_RANGE.getMin() );
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Solution solution;
 
     public MolarityModel() {
-        this( SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
-    }
-
-    private MolarityModel( double soluteAmount, double solutionVolume ) {
 
         this.solutes = new ArrayList<Solute>() {{
             add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, Color.RED, 1, 200 ) );
@@ -41,6 +39,9 @@ public class MolarityModel implements Resettable {
             add( new Solute( Strings.POTASSIUM_DICHROMATE, Symbols.POTASSIUM_DICHROMATE, 0.50, new Color( 0xFF7F00 ) /* orange */, 1, 200 ) );
             add( new Solute( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 0.50, new Color( 0x8B008B ) /* purple */, Color.BLACK, 1, 200 ) );
         }};
+        for ( Solute solute : solutes ) {
+            assert ( CONCENTRATION_RANGE.contains( solute.saturatedConcentration ) );
+        }
 
         this.solution = new Solution( solutes.get( 0 ), SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
     }
@@ -58,8 +59,7 @@ public class MolarityModel implements Resettable {
     }
 
     public DoubleRange getConcentrationRange() {
-        assert ( SOLUTION_VOLUME_RANGE.getMin() != 0 && SOLUTION_VOLUME_RANGE.getMax() != 0 );
-        return new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / SOLUTION_VOLUME_RANGE.getMax(), SOLUTE_AMOUNT_RANGE.getMax() / SOLUTION_VOLUME_RANGE.getMin() );
+        return CONCENTRATION_RANGE;
     }
 
     public void reset() {
