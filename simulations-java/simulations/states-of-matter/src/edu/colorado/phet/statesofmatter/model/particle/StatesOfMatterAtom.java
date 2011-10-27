@@ -273,7 +273,7 @@ public abstract class StatesOfMatterAtom implements Cloneable {
         /**
          * Inform listeners that the position of this particle has changed.
          */
-        public void positionChanged() throws CloneNotSupportedException;
+        public void positionChanged();
 
         /**
          * Inform listeners that the velocity of this particle has changed.
@@ -299,29 +299,19 @@ public abstract class StatesOfMatterAtom implements Cloneable {
     }
 
     public static class Adapter implements Listener {
-        public void positionChanged() throws CloneNotSupportedException {
+        public void positionChanged() {
         }
-
-        ;
 
         public void velocityChanged() {
         }
 
-        ;
-
         public void accelerationChanged() {
         }
-
-        ;
 
         public void particleRemoved( StatesOfMatterAtom particle ) {
         }
 
-        ;
-
         public void radiusChanged() {
         }
-
-        ;
     }
 }
