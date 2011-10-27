@@ -114,7 +114,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
 
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
-        final StoveNode stoveNode = new StoveNode( m_model, this.getBackground() );
+        final StoveNode stoveNode = new StoveNode( m_model );
         stoveNode.setScale( BURNER_NODE_HEIGHT / stoveNode.getFullBoundsReference().height );
         stoveNode.setOffset( m_particleContainer.getFullBoundsReference().getCenterX() - stoveNode.getFullBoundsReference().width / 2,
                              m_particleContainer.getFullBoundsReference().getMaxY() + 600 );

@@ -40,7 +40,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
         setSimulationPanel( new SolidLiquidGasCanvas( m_model ) );
 
         // Control panel
-        setControlPanel( new SolidLiquidGasControlPanel( this, parentFrame ) );
+        setControlPanel( new SolidLiquidGasControlPanel( this ) );
 
         // Turn off the clock control panel - a floating node is used for clock control.
         setClockControlPanel( null );

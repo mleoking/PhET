@@ -108,7 +108,7 @@ public class PointingHandNode extends PNode {
 
             public void startDrag( PInputEvent event ) {
                 super.startDrag( event );
-                handleMouseStartDragEvent( event );
+                handleMouseStartDragEvent();
             }
 
             public void drag( PInputEvent event ) {
@@ -117,7 +117,7 @@ public class PointingHandNode extends PNode {
 
             public void endDrag( PInputEvent event ) {
                 super.endDrag( event );
-                handleMouseEndDragEvent( event );
+                handleMouseEndDragEvent();
             }
         } );
 
@@ -144,14 +144,14 @@ public class PointingHandNode extends PNode {
         m_model.setTargetParticleContainerHeight( m_containerSizeAtDragStart - m_mouseMovementAmount );
     }
 
-    private void handleMouseStartDragEvent( PInputEvent event ) {
+    private void handleMouseStartDragEvent() {
         m_beingDragged = true;
         m_mouseMovementAmount = 0;
         m_containerSizeAtDragStart = m_model.getParticleContainerHeight();
         updateHintVisibility();
     }
 
-    private void handleMouseEndDragEvent( PInputEvent event ) {
+    private void handleMouseEndDragEvent() {
         // Set the target size to the current size, which will stop any change
         // in size that is currently underway.
         m_model.setTargetParticleContainerHeight( m_model.getParticleContainerHeight() );
