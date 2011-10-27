@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.moleculeshapes.dev.SimSharingEvents.addPropertyListener;
+import static edu.colorado.phet.common.simsharingcore.SimSharingEvents.addPropertyListener;
 
 /**
  * Shows the molecular and electron geometry names, and has checkboxes which allow toggling their visibility

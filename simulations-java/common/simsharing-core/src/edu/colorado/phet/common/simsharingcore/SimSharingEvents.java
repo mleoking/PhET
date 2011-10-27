@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.dev;
+package edu.colorado.phet.common.simsharingcore;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +10,13 @@ import java.security.SecureRandom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.simsharingcore.DefaultActor;
-import edu.colorado.phet.common.simsharingcore.ThreadedActor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
+ * Central access point for action-oriented message delivery for user usage studies.
+ *
  * @author Sam Reid
  */
 public class SimSharingEvents {
@@ -27,16 +27,10 @@ public class SimSharingEvents {
     //Flag to indicate whether the columns have been printed to the data source
     private static boolean printedColumns;
 
-    public static void registerMouseReleasedListener( PNode node, final String action ) {
-        node.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseReleased( PInputEvent event ) {
-                actionPerformed( action );
-            }
-        } );
-    }
-
+    //Actor for sending messages to the server
     public static ThreadedActor client;
 
+    //Create the actor, but fail gracefully if cannot connect
     static {
         try {
             client = new ThreadedActor( new DefaultActor() );
@@ -47,34 +41,59 @@ public class SimSharingEvents {
         catch ( IOException e ) {
             e.printStackTrace();
         }
-    }
-
-    public static void actionPerformed( String action ) {
-        if ( !printedColumns ) {
-            write( "Session ID" + "\t" + "Event time (ms)" + "\t" + "Action" );
-            printedColumns = true;
-        }
-        write( SESSION_ID + "\t" + System.currentTimeMillis() + "\t" + action );
-    }
-
-    private static void write( String s ) {
-        System.out.println( s );
-        try {
-            client.tell( s );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
+        catch ( Throwable t ) {
+            t.printStackTrace();
         }
     }
 
-    public static void addActionListener( ButtonNode textButtonNode, final String s ) {
-        textButtonNode.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                SimSharingEvents.actionPerformed( s );
+    //Fire an action when the mouse is released on the specified PNode
+    public static void registerMouseReleasedListener( PNode node, final String action ) {
+        node.addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseReleased( PInputEvent event ) {
+                actionPerformed( action );
             }
         } );
     }
 
+    //Signify that an action has occurred by writing it to the appropriate sources
+    public static void actionPerformed( String action ) {
+
+        //Print the columns before the first message
+        if ( !printedColumns ) {
+            write( "Session ID" + "\t" + "Event time (ms)" + "\t" + "Action" );
+            printedColumns = true;
+        }
+
+        //Send the message to the destination
+        write( SESSION_ID + "\t" + System.currentTimeMillis() + "\t" + action );
+    }
+
+    //Write the message to the console and to the server
+    private static void write( String s ) {
+        System.out.println( s );
+        if ( client != null ) {
+            try {
+                client.tell( s );
+            }
+            catch ( IOException e ) {
+                e.printStackTrace();
+            }
+            catch ( Throwable t ) {
+                t.printStackTrace();
+            }
+        }
+    }
+
+    //Write the specified message when the button is pressed
+    public static void addActionListener( ButtonNode textButtonNode, final String message ) {
+        textButtonNode.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                SimSharingEvents.actionPerformed( message );
+            }
+        } );
+    }
+
+    //Write a message indicating that a property changed (whether the user or model changes the property)
     public static void addPropertyListener( final Property<Boolean> property, final String name ) {
 
         //Observe when the value changes whether by sim or by user, but don't notify about the initial value
