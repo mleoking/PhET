@@ -18,6 +18,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.moleculeshapes.dev.SimSharingEvents.actionPerformed;
+
 /**
  * Displays a graphic showing a bonding type (single/double/triple/lone pair) where dragging the graphic
  * creates the real bond in 3D. Also has a button to remove a bond of that same type from play.
@@ -57,6 +59,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removePair( candidate );
+                            actionPerformed( "Removed bond, bondOrder = " + bondOrder );
                         }
                     }
                 } );
@@ -101,6 +104,7 @@ public class BondTypeControlNode extends PNode {
             @Override public void mousePressed( final PInputEvent event ) {
                 if ( enabled.get() && event.getButton() == MouseEvent.BUTTON1 ) {
                     JMEUtils.invoke( runnable );
+                    actionPerformed( "Created bond, bondOrder = " + bondOrder );
                 }
             }
         } );

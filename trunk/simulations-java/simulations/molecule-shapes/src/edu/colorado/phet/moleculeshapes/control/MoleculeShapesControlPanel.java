@@ -15,9 +15,12 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
+import edu.colorado.phet.moleculeshapes.dev.SimSharingEvents;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+
+import static edu.colorado.phet.moleculeshapes.dev.SimSharingEvents.addPropertyListener;
 
 /**
  * The main Molecule Shapes control panel on the right hand side. It is composed of multiple sub-panels,
@@ -120,6 +123,7 @@ public class MoleculeShapesControlPanel extends PNode {
                     module.getMolecule().removeAllPairs();
                 }
             } ) );
+            SimSharingEvents.addActionListener( this, "Remove All: Removed all bonds and lone pairs" );
 
             MoleculeShapesColor.REMOVE_BUTTON_BACKGROUND.addColorObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
@@ -158,6 +162,7 @@ public class MoleculeShapesControlPanel extends PNode {
                     }
                 };
                 module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
+                addPropertyListener( MoleculeShapesModule.showLonePairs, "Show lone pairs" );
 
                 /*
                  * Run this in the current thread. should be in EDT for construction. Needed since the other call
@@ -182,6 +187,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 };
                 module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
                 MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JMEUtils.swingObserver( updateEnabled ) );
+                addPropertyListener( MoleculeShapesProperties.showBondAngles, "Show bond angles" );
 
                 if ( !module.isBasicsVersion() ) {
                     setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );
