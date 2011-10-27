@@ -615,44 +615,44 @@ public class DualAtomModel {
     }
 
     private void notifyFixedAtomAdded( StatesOfMatterAtom atom ) {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).fixedAtomAdded( atom );
+        for ( Listener listener : m_listeners ) {
+            ( listener ).fixedAtomAdded( atom );
         }
     }
 
     private void notifyMovableAtomAdded( StatesOfMatterAtom particle ) {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).movableAtomAdded( particle );
+        for ( Listener listener : m_listeners ) {
+            listener.movableAtomAdded( particle );
         }
     }
 
     private void notifyFixedAtomRemoved( StatesOfMatterAtom particle ) {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).fixedAtomRemoved( particle );
+        for ( Listener listener : m_listeners ) {
+            listener.fixedAtomRemoved( particle );
         }
     }
 
     private void notifyMovableAtomRemoved( StatesOfMatterAtom atom ) {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).movableAtomRemoved( atom );
+        for ( Listener listener : m_listeners ) {
+            listener.movableAtomRemoved( atom );
         }
     }
 
     private void notifyInteractionPotentialChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).interactionPotentialChanged();
+        for ( Listener listener : m_listeners ) {
+            listener.interactionPotentialChanged();
         }
     }
 
     private void notifyFixedAtomDiameterChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).fixedAtomDiameterChanged();
+        for ( Listener listener : m_listeners ) {
+            listener.fixedAtomDiameterChanged();
         }
     }
 
     private void notifyMovableAtomDiameterChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).movableAtomDiameterChanged();
+        for ( Listener listener : m_listeners ) {
+            listener.movableAtomDiameterChanged();
         }
     }
 

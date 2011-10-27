@@ -69,10 +69,10 @@ public class GravityControlPanel extends JPanel {
         Hashtable gravityControlLabelTable = new Hashtable();
         JLabel leftLabel = new JLabel( StatesOfMatterStrings.GRAVITY_CONTROL_NONE );
         leftLabel.setFont( LABEL_FONT );
-        gravityControlLabelTable.put( new Double( m_gravityControl.getMinimum() ), leftLabel );
+        gravityControlLabelTable.put( m_gravityControl.getMinimum(), leftLabel );
         JLabel rightLabel = new JLabel( StatesOfMatterStrings.GRAVITY_CONTROL_LOTS );
         rightLabel.setFont( LABEL_FONT );
-        gravityControlLabelTable.put( new Double( m_gravityControl.getMaximum() ), rightLabel );
+        gravityControlLabelTable.put( m_gravityControl.getMaximum(), rightLabel );
         m_gravityControl.setTickLabels( gravityControlLabelTable );
 
         // Register as a listener with the model so that we know when it gets

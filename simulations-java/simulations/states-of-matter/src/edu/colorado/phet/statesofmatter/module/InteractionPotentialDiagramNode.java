@@ -498,8 +498,8 @@ public class InteractionPotentialDiagramNode extends PNode {
      * Notify listeners about a request to close this diagram.
      */
     private void notifyCloseRequestReceived() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (CloseRequestListener) _listeners.get( i ) ).closeRequestReceived();
+        for ( Object _listener : _listeners ) {
+            ( (CloseRequestListener) _listener ).closeRequestReceived();
         }
     }
 }

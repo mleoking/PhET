@@ -235,32 +235,32 @@ public abstract class StatesOfMatterAtom implements Cloneable {
     }
 
     private void notifyPositionChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).positionChanged();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).positionChanged();
         }
     }
 
     private void notifyVelocityChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).velocityChanged();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).velocityChanged();
         }
     }
 
     private void notifyAccelerationChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).accelerationChanged();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).accelerationChanged();
         }
     }
 
     private void notifyParticleRemoved() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).particleRemoved( this );
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).particleRemoved( this );
         }
     }
 
     protected void notifyRadiusChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).radiusChanged();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).radiusChanged();
         }
     }
 

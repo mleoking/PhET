@@ -791,10 +791,10 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
             Hashtable diameterControlLabelTable = new Hashtable();
             m_leftLabel = new JLabel( StatesOfMatterStrings.ATOM_DIAMETER_SMALL );
             m_leftLabel.setFont( LABEL_FONT );
-            diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMinimum() ), m_leftLabel );
+            diameterControlLabelTable.put( m_atomDiameterControl.getMinimum(), m_leftLabel );
             m_rightLabel = new JLabel( StatesOfMatterStrings.ATOM_DIAMETER_LARGE );
             m_rightLabel.setFont( LABEL_FONT );
-            diameterControlLabelTable.put( new Double( m_atomDiameterControl.getMaximum() ), m_rightLabel );
+            diameterControlLabelTable.put( m_atomDiameterControl.getMaximum(), m_rightLabel );
             m_atomDiameterControl.setTickLabels( diameterControlLabelTable );
             m_atomDiameterControl.setValue( m_model.getSigma() );
             add( m_atomDiameterControl );
@@ -879,10 +879,10 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
             Hashtable diameterControlLabelTable = new Hashtable();
             m_leftLabel = new JLabel( StatesOfMatterStrings.INTERACTION_STRENGTH_WEAK );
             m_leftLabel.setFont( LABEL_FONT );
-            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMinimum() ), m_leftLabel );
+            diameterControlLabelTable.put( m_interactionStrengthControl.getMinimum(), m_leftLabel );
             m_rightLabel = new JLabel( StatesOfMatterStrings.INTERACTION_STRENGTH_STRONG );
             m_rightLabel.setFont( LABEL_FONT );
-            diameterControlLabelTable.put( new Double( m_interactionStrengthControl.getMaximum() ), m_rightLabel );
+            diameterControlLabelTable.put( m_interactionStrengthControl.getMaximum(), m_rightLabel );
             m_interactionStrengthControl.setTickLabels( diameterControlLabelTable );
 
             // Register as a listener with the model so that we know when the

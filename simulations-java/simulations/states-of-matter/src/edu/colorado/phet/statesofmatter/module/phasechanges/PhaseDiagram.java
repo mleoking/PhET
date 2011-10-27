@@ -439,8 +439,8 @@ public class PhaseDiagram extends PhetPCanvas {
      * Notify listeners about a request to close this diagram.
      */
     private void notifyCloseRequestReceived() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (CloseRequestListener) _listeners.get( i ) ).closeRequestReceived();
+        for ( Object listener : _listeners ) {
+            ( (CloseRequestListener) listener ).closeRequestReceived();
         }
     }
 }
