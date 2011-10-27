@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ResetAllDelegate;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.simsharingcore.SimSharingEvents;
 import edu.umd.cs.piccolo.PCanvas;
 
 /**
@@ -63,6 +64,9 @@ public class ResetAllButtonNode extends TextButtonNode {
         this.delegate = new ResetAllDelegate( resettables, parent );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+
+                //Fire reset all before any of the other events because properties that reset should show up afterwards so they can easily be grouped together conceptually
+                SimSharingEvents.actionPerformed( "Reset all" );
                 delegate.resetAll();
             }
         } );

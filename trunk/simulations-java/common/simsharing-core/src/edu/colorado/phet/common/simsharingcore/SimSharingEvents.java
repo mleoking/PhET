@@ -6,11 +6,15 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -35,6 +39,7 @@ public class SimSharingEvents {
     //Flag indicating whether messages should be sent to the server
     private static boolean connect = false;
     private static Option<Long> simStartedTime = new Option.None<Long>();
+    private static Collection<String> queue = Collections.synchronizedCollection( new ArrayList<String>() );
 
     //Fire an action when the mouse is released on the specified PNode
     public static void registerMouseReleasedListener( PNode node, final String action ) {
@@ -65,16 +70,28 @@ public class SimSharingEvents {
     //Write the message to the console and to the server
     private static void write( String s ) {
         System.out.println( s );
-        if ( client != null ) {
-            try {
-                client.tell( s );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-            catch ( Throwable t ) {
-                t.printStackTrace();
-            }
+
+        boolean shouldDeliver = connect;
+        boolean canDeliver = client != null;
+
+        if ( shouldDeliver && canDeliver ) {
+            tellWithErrorHandling( s );
+        }
+
+        else if ( shouldDeliver && !canDeliver ) {
+            queue.add( s );
+        }
+    }
+
+    private static void tellWithErrorHandling( String s ) {
+        try {
+            client.tell( s );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+        catch ( Throwable t ) {
+            t.printStackTrace();
         }
     }
 
@@ -104,21 +121,53 @@ public class SimSharingEvents {
         connect = Arrays.asList( args ).contains( "-study" );
         if ( connect ) {
 
-            //Create the actor, but fail gracefully if cannot connect
-            try {
-                client = new ThreadedActor( new DefaultActor() );
-            }
-            catch ( ClassNotFoundException e ) {
-                e.printStackTrace();
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-            catch ( Throwable t ) {
-                t.printStackTrace();
+            new Thread( new Runnable() {
+                public void run() {
+                    //Create the actor, but fail gracefully if cannot connect
+                    try {
+                        client = new ThreadedActor( new DefaultActor() );
+                    }
+                    catch ( ClassNotFoundException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( IOException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( Throwable t ) {
+                        t.printStackTrace();
+                    }
+
+                    actionPerformed( "Sim started at time: " + simStartedTime );
+                    actionPerformed( "Sim connected to server" );
+
+                    //Report on any messages that were collected while we were trying to connect to the server
+                    if ( client != null ) {
+                        deliverQueue();
+                    }
+                    else {
+                        System.out.println( "Weren't able to connect to the server even though we really wanted to." );
+                    }
+                }
+            } ).start();
+        }
+    }
+
+    private static synchronized void deliverQueue() {
+        for ( String s : queue ) {
+            tellWithErrorHandling( s );
+        }
+        queue.clear();
+    }
+
+    public static void addDragSequenceListener( PNode node, final Function0<String> message ) {
+        node.addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseDragged( PInputEvent event ) {
+                actionPerformed( "Mouse dragged: " + message.apply() );
             }
 
-            actionPerformed( "Sim started at time: " + simStartedTime );
-        }
+            @Override public void mouseReleased( PInputEvent event ) {
+                actionPerformed( "Mouse released: " + message.apply() );
+            }
+        } );
     }
 }

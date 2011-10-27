@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -28,6 +29,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.common.simsharingcore.SimSharingEvents;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
@@ -266,6 +268,13 @@ public class ElectronegativityControlNode extends PhetPNode {
                                                                  atom.electronegativity.set( value );
                                                              }
                                                          } ) );
+
+            //Record changes on the slider
+            SimSharingEvents.addDragSequenceListener( this, new Function0<String>() {
+                public String apply() {
+                    return "Atom " + atom.getName() + " electronegativity: " + atom.electronegativity.get();
+                }
+            } );
         }
     }
 

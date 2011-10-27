@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.simsharingcore.SimSharingProperty;
 
 /**
  * Properties that control things in the view.
@@ -26,13 +27,15 @@ public class ViewProperties implements Resettable {
     public ViewProperties( SurfaceType surfaceType, boolean bondDipolesVisible, boolean molecularDipoleVisible,
                            boolean partialChargesVisible, boolean bondCharacterVisible, boolean atomLabelsVisible,
                            boolean electronegativityTableVisible ) {
-        this.surfaceType = new Property<SurfaceType>( surfaceType );
-        this.bondDipolesVisible = new Property<Boolean>( bondDipolesVisible );
-        this.molecularDipoleVisible = new Property<Boolean>( molecularDipoleVisible );
-        this.partialChargesVisible = new Property<Boolean>( partialChargesVisible );
-        this.bondCharacterVisible = new Property<Boolean>( bondCharacterVisible );
-        this.atomLabelsVisible = new Property<Boolean>( atomLabelsVisible );
-        this.electronegativityTableVisible = new Property<Boolean>( electronegativityTableVisible );
+
+        //Use SimSharingProperties so the values can be recorded for user interface studies
+        this.surfaceType = new SimSharingProperty<SurfaceType>( "Surface type", surfaceType );
+        this.bondDipolesVisible = new SimSharingProperty<Boolean>( "Bond dipoles visible", bondDipolesVisible );
+        this.molecularDipoleVisible = new SimSharingProperty<Boolean>( "Molecular dipole visible", molecularDipoleVisible );
+        this.partialChargesVisible = new SimSharingProperty<Boolean>( "Partial Charges Visible", partialChargesVisible );
+        this.bondCharacterVisible = new SimSharingProperty<Boolean>( "Bond character visible", bondCharacterVisible );
+        this.atomLabelsVisible = new SimSharingProperty<Boolean>( "Atom labels visible", atomLabelsVisible );
+        this.electronegativityTableVisible = new SimSharingProperty<Boolean>( "Electronegativity table visible", electronegativityTableVisible );
     }
 
     public void reset() {
