@@ -1,3 +1,4 @@
+Added messages for several actions
 Added dependency on simsharing-core
 # 1.01.00 (57391) Oct 7, 2011
 # 1.00.01 (57379) Oct 7, 2011
