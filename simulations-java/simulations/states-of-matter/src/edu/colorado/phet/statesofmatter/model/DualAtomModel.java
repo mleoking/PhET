@@ -92,7 +92,13 @@ public class DualAtomModel {
                 if ( m_motionPaused == true ) {
                     // The user must be moving the atom from the view.
                     // Update the forces correspondingly.
-                    m_shadowMovableAtom = (StatesOfMatterAtom) m_movableAtom.clone();
+                    try {
+                        m_shadowMovableAtom = (StatesOfMatterAtom) m_movableAtom.clone();
+                    }
+                    catch ( CloneNotSupportedException e ) {
+                        e.printStackTrace();
+                        return;
+                    }
                     updateForces();
                 }
             }
@@ -402,7 +408,13 @@ public class DualAtomModel {
 
     private void handleClockTicked( ClockEvent clockEvent ) {
 
-        m_shadowMovableAtom = (StatesOfMatterAtom) m_movableAtom.clone();
+        try {
+            m_shadowMovableAtom = (StatesOfMatterAtom) m_movableAtom.clone();
+        }
+        catch ( CloneNotSupportedException e ) {
+            e.printStackTrace();
+            return;
+        }
         updateTimeStep();
 
         // Update the forces and motion of the atoms.
