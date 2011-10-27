@@ -69,7 +69,6 @@ public class DialGaugeNode extends PNode {
     private double m_needleAngle;
     private PhetPPath m_connector;
     private double m_needleLength;
-    private PText m_gaugeTitle;
     private PText m_textualReadout;
     private double m_minValue;
     private double m_maxValue;
@@ -78,7 +77,6 @@ public class DialGaugeNode extends PNode {
     private GeneralPath m_connectorPath;
     private boolean m_elbowEnabled;
     private double m_elbowHeight;
-    private Paint m_connectorPaint;
     private PNode m_dialComponentsNode;
 
     //------------------------------------------------------------------------
@@ -120,13 +118,13 @@ public class DialGaugeNode extends PNode {
         }
 
         // Add the title.
-        m_gaugeTitle = new PText();
-        m_gaugeTitle.setText( title );
-        m_gaugeTitle.setFont( new PhetFont( 12 ) );
-        m_gaugeTitle.scale( ( m_dialComponentsNode.getFullBoundsReference().width * 0.6 ) / m_gaugeTitle.getFullBoundsReference().width );
-        m_gaugeTitle.setOffset( diameter / 2 - m_gaugeTitle.getFullBoundsReference().width / 2,
-                                diameter / 4 );
-        m_dialComponentsNode.addChild( m_gaugeTitle );
+        PText gaugeTitle = new PText();
+        gaugeTitle.setText( title );
+        gaugeTitle.setFont( new PhetFont( 12 ) );
+        gaugeTitle.scale( ( m_dialComponentsNode.getFullBoundsReference().width * 0.6 ) / gaugeTitle.getFullBoundsReference().width );
+        gaugeTitle.setOffset( diameter / 2 - gaugeTitle.getFullBoundsReference().width / 2,
+                              diameter / 4 );
+        m_dialComponentsNode.addChild( gaugeTitle );
 
         // Add the textual readout display.
         m_textualReadoutBoxShape = new RoundRectangle2D.Double( 0, 0,
@@ -249,6 +247,7 @@ public class DialGaugeNode extends PNode {
         // Create a different gradient if the elbow is enabled.
         float width = (float) ( CONNECTOR_WIDTH_PROPORATION * m_diameter );
         float length = (float) ( CONNECTOR_LENGTH_PROPORATION * m_diameter );
+        Paint m_connectorPaint;
         if ( m_elbowEnabled ) {
             m_connectorPaint = new GradientPaint( length, width / 2, Color.BLUE, length + width, width / 2,
                                                   Color.LIGHT_GRAY );

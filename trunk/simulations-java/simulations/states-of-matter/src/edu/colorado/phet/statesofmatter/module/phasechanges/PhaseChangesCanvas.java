@@ -62,7 +62,6 @@ public class PhaseChangesCanvas extends PhetPCanvas implements Resettable {
 
     private MultipleParticleModel m_model;
     private ParticleContainerNode m_particleContainer;
-    private ModelViewTransform m_mvt;
     private CompositeThermometerNode m_thermometerNode;
     private Random m_rand;
     private double m_rotationRate = 0;
@@ -78,7 +77,7 @@ public class PhaseChangesCanvas extends PhetPCanvas implements Resettable {
         m_rand = new Random();
 
         // Create the Model-View transform that we will be using.
-        m_mvt = new ModelViewTransform( 1.0, 1.0, 0.0, 0.0, false, true );
+        ModelViewTransform mvt = new ModelViewTransform( 1.0, 1.0, 0.0, 0.0, false, true );
 
         // Set the transform strategy so that the particle container is in a
         // reasonable place given that point (0,0) on the canvas represents
@@ -127,7 +126,7 @@ public class PhaseChangesCanvas extends PhetPCanvas implements Resettable {
         } );
 
         // Create the particle container.
-        m_particleContainer = new ParticleContainerNode( m_model, m_mvt, true, true );
+        m_particleContainer = new ParticleContainerNode( m_model, mvt, true, true );
 
         // Get the rectangle that describes the position of the particle
         // container within the model, since the various nodes below will

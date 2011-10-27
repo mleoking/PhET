@@ -15,7 +15,6 @@ public class PhaseChangesModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private MultipleParticleModel m_model;
-    private PhaseChangesCanvas m_canvas;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -30,8 +29,7 @@ public class PhaseChangesModule extends PiccoloModule {
         m_model = new MultipleParticleModel( (ConstantDtClock) getClock() );
 
         // Canvas
-        m_canvas = new PhaseChangesCanvas( m_model );
-        setSimulationPanel( m_canvas );
+        setSimulationPanel( new PhaseChangesCanvas( m_model ) );
 
         // Control panel
         setControlPanel( new PhaseChangesControlPanel( this, advanced ) );

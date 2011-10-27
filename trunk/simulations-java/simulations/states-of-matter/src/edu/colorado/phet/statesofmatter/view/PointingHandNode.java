@@ -45,7 +45,6 @@ public class PointingHandNode extends PNode {
 
     private PImage m_fingerImageNode;
     private MultipleParticleModel m_model;
-    private double m_scale;
     private double m_mouseMovementAmount;
     private double m_containerSizeAtDragStart;
     private boolean m_mouseOver = false;
@@ -71,8 +70,8 @@ public class PointingHandNode extends PNode {
 
         // Load and scale the image.
         m_fingerImageNode = StatesOfMatterResources.getImageNode( PRIMARY_IMAGE );
-        m_scale = desiredHandWidth / m_fingerImageNode.getFullBoundsReference().width;
-        m_fingerImageNode.scale( m_scale );
+        double scale = desiredHandWidth / m_fingerImageNode.getFullBoundsReference().width;
+        m_fingerImageNode.scale( scale );
 
         // Set up a cursor handler so that the user will get an indication
         // that the node can be moved.

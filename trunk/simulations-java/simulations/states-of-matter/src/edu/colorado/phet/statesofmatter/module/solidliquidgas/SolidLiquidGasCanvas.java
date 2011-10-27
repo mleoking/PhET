@@ -35,15 +35,15 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 23000;
-    private final double CANVAS_HEIGHT = CANVAS_WIDTH * ( 3.0d / 4.0d );
+    private static final double CANVAS_WIDTH = 23000;
+    private static final double CANVAS_HEIGHT = CANVAS_WIDTH * ( 3.0d / 4.0d );
 
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 0.3;  // 0 to 1, 0 is left and 1 is right.
-    private final double HEIGHT_TRANSLATION_FACTOR = 0.72; // 0 to 1, 0 is up and 1 is down.
+    private static final double WIDTH_TRANSLATION_FACTOR = 0.3;  // 0 to 1, 0 is left and 1 is right.
+    private static final double HEIGHT_TRANSLATION_FACTOR = 0.72; // 0 to 1, 0 is up and 1 is down.
 
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
-    private final double BURNER_NODE_HEIGHT = CANVAS_WIDTH * 0.15;
+    private static final double BURNER_NODE_HEIGHT = CANVAS_WIDTH * 0.15;
 
     //----------------------------------------------------------------------------
     // Instance Data

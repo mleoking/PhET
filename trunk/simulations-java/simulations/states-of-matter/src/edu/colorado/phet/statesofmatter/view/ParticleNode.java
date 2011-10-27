@@ -42,7 +42,6 @@ public class ParticleNode extends PNode {
     //----------------------------------------------------------------------------
 
     protected StatesOfMatterAtom m_particle;
-    private final StatesOfMatterAtom.Listener m_particleListener;
     private ModelViewTransform m_mvt;
     private Point2D.Double m_position;
     private SphericalNode m_sphere;
@@ -83,8 +82,7 @@ public class ParticleNode extends PNode {
         m_position = new Point2D.Double();
 
         // Set ourself up to listen to this particle.
-        m_particleListener = new StatesOfMatterAtom.Adapter() {
-
+        particle.addListener( new StatesOfMatterAtom.Adapter() {
             public void positionChanged() {
                 updatePosition();
             }
@@ -96,8 +94,7 @@ public class ParticleNode extends PNode {
             public void radiusChanged() {
                 handleParticleRadiusChanged();
             }
-        };
-        particle.addListener( m_particleListener );
+        } );
 
         // Decide of the diameter of the sphere/circle.
         double sphereDiameter = particle.getRadius() * 2;

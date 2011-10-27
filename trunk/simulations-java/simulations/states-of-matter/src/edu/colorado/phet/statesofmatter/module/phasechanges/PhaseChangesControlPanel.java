@@ -86,8 +86,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private JPanel m_postInteractionButtonSpacer;
     private JPanel m_prePhaseButtonSpacer;
     private JPanel m_postPhaseButtonSpacer;
-    private CloseRequestListener m_phaseDiagramCloseListener;
-    private CloseRequestListener m_interactionPotentialDiagramCloseListener;
 
     private final boolean m_advanced;
 
@@ -192,7 +190,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_interactionDiagramPanel.setVisible( m_interactionDiagramVisible );
 
         // Create and register the handler for user requests to close the interaction potential diagram.
-        m_interactionPotentialDiagramCloseListener = new CloseRequestListener() {
+        CloseRequestListener interactionPotentialDiagramCloseListener = new CloseRequestListener() {
             public void closeRequestReceived() {
                 // Note that we don't actually make it go away, we just make
                 // it invisible.
@@ -200,7 +198,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 updateVisibilityStates();
             }
         };
-        m_interactionPotentialDiagram.addListener( m_interactionPotentialDiagramCloseListener );
+        m_interactionPotentialDiagram.addListener( interactionPotentialDiagramCloseListener );
 
         // Add additional spacing before the phase diagram control button.
         m_prePhaseButtonSpacer = createVerticalSpacerPanel( 20 );
@@ -240,7 +238,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_phaseDiagramPanel.setVisible( m_phaseDiagramVisible );
 
         // Create and register the handler for user requests to close the phase diagram.
-        m_phaseDiagramCloseListener = new CloseRequestListener() {
+        CloseRequestListener phaseDiagramCloseListener = new CloseRequestListener() {
             public void closeRequestReceived() {
                 // Note that we don't actually make it go away, we just make
                 // it invisible.
@@ -248,7 +246,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
                 updateVisibilityStates();
             }
         };
-        m_phaseDiagram.addListener( m_phaseDiagramCloseListener );
+        m_phaseDiagram.addListener( phaseDiagramCloseListener );
 
         // Update the visibility of the controls based on current model state.
         updateVisibilityStates();
