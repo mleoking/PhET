@@ -57,20 +57,20 @@ public class HibernateUtils {
 
             return new Result<T>( true, ret, null );
         }
-        catch ( TaskException e ) {
+        catch ( Exception e ) {
             // TODO: check current levels of TaskExceptions
             tryRollback( tx );
             return new Result<T>( false, ret, e );
         }
-        catch ( RuntimeException e ) {
-            tryRollback( tx );
-            if ( throwHibernateExceptions ) {
-                throw e;
-            }
-            else {
-                return new Result<T>( false, ret, e );
-            }
-        }
+//        catch ( RuntimeException e ) {
+//            tryRollback( tx );
+//            if ( throwHibernateExceptions ) {
+//                throw e;
+//            }
+//            else {
+//                return new Result<T>( false, ret, e );
+//            }
+//        }
     }
 
     public static void tryRollback( Transaction tx ) {
