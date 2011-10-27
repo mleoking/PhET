@@ -20,6 +20,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.moleculeshapes.dev.SimSharingEvents.addPropertyListener;
+
 /**
  * Shows the molecular and electron geometry names, and has checkboxes which allow toggling their visibility
  */
@@ -87,11 +89,13 @@ public class GeometryNameNode extends PNode {
         final PSwing molecularCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__MOLECULE_GEOMETRY, showMolecularShapeName, MoleculeShapesColor.MOLECULAR_GEOMETRY_NAME ) {{
             // center within it's "column"
             setOffset( ( MAX_SHAPE_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
+            addPropertyListener( showMolecularShapeName, "Show molecule geometry" );
         }};
 
         PSwing electronCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__ELECTRON_GEOMETRY, showElectronShapeName, MoleculeShapesColor.ELECTRON_GEOMETRY_NAME ) {{
             // center within it's "column"
             setOffset( MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS + ( MAX_GEOMETRY_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
+            addPropertyListener( showElectronShapeName, "Show electron geometry" );
         }};
 
 
