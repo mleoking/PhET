@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
+ * Message handler is an abstraction for how to handle a given message.
+ *
  * @author Sam Reid
  */
 public interface MessageHandler {
