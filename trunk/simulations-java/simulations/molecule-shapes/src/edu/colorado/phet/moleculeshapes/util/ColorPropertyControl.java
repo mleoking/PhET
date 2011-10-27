@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.util;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Frame;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

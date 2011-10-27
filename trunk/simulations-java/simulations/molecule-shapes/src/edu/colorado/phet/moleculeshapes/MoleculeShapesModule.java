@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
@@ -297,12 +301,12 @@ public class MoleculeShapesModule extends JMEModule {
 
         JMEView realMoleculeOverlayView = createRegularView( "Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
                                                                                            new CanvasTransformedBounds( canvasTransform, realMoleculeOverlayStageBounds ) ) {
-                                                                 @Override public void positionMe() {
-                                                                     setFrustumPerspective( 45f, 1, 1f, 1000f );
-                                                                     setLocation( new Vector3f( 0, 0, 40 ) );
-                                                                     lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-                                                                 }
-                                                             }, RenderPosition.MAIN );
+            @Override public void positionMe() {
+                setFrustumPerspective( 45f, 1, 1f, 1000f );
+                setLocation( new Vector3f( 0, 0, 40 ) );
+                lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+            }
+        }, RenderPosition.MAIN );
 
         realMoleculeOverlayNode = new RealMoleculeOverlayNode( this, realMoleculeOverlayView.getCamera() );
         realMoleculeOverlayView.getScene().attachChild( realMoleculeOverlayNode );
@@ -323,12 +327,12 @@ public class MoleculeShapesModule extends JMEModule {
                 return createRegularView( name + " Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
                                                                                 new CanvasTransformedBounds( canvasTransform,
                                                                                                              rectangle2DProperty ) ) {
-                                              @Override public void positionMe() {
-                                                  setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
-                                                  setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
-                                                  lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-                                              }
-                                          }, RenderPosition.MAIN );
+                    @Override public void positionMe() {
+                        setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
+                        setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
+                        lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+                    }
+                }, RenderPosition.MAIN );
             }
         };
 
