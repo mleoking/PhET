@@ -34,6 +34,7 @@ import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
+import edu.colorado.phet.moleculeshapes.dev.SimSharingEvents;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.util.CanvasTransformedBounds;
@@ -469,6 +470,12 @@ public class MoleculeShapesModule extends JMEModule {
     public void startOverlayMoleculeDrag() {
         dragging = true;
         dragMode = DragMode.REAL_MOLECULE_ROTATE;
+        draggingChanged();
+    }
+
+    //Signify to the sim sharing feature that dragging state changed, should be called whenever dragging or dragMode changes (but batch together when both change)
+    private void draggingChanged() {
+        SimSharingEvents.actionPerformed( "Dragging = " + dragging + "\t+" + "dragMode = " + dragMode );
     }
 
     private void onLeftMouseDown() {
@@ -492,6 +499,7 @@ public class MoleculeShapesModule extends JMEModule {
                                 // set up default drag mode
                                 dragMode = DragMode.MODEL_ROTATE;
                             }
+                            draggingChanged();
                         }
                     } );
                 }
@@ -507,6 +515,7 @@ public class MoleculeShapesModule extends JMEModule {
         if ( dragMode == DragMode.PAIR_FRESH_PLANAR || dragMode == DragMode.PAIR_EXISTING_SPHERICAL ) {
             draggedParticle.userControlled.set( false );
         }
+        draggingChanged();
     }
 
     public void startNewInstanceDrag( int bondOrder ) {
@@ -533,6 +542,7 @@ public class MoleculeShapesModule extends JMEModule {
         if ( !globalLeftMouseDown ) {
             onLeftMouseUp();
         }
+        draggingChanged();
     }
 
     public static void addLighting( Node node ) {

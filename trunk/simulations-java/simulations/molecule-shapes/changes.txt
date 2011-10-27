@@ -1,3 +1,4 @@
+Added sim sharing events for dragging atoms, electron pairs or rotating the view
 Added SimSharingEvents and reporting from creating/destroying bonds and all checkboxes
 # 1.01.00 (57968) Oct 24, 2011
 # 1.00.04 (57962) Oct 24, 2011
