@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * This runs the actor code in a separate thread for one-way-messages so the code won't block.
+ *
  * @author Sam Reid
  */
 public class ThreadedActor implements IActor {

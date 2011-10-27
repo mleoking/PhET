@@ -1,1 +1,2 @@
 This package provides classes for clients to connect to the server for data sharing.
+Note, the classes named *actors are not full-blown-actors in the Erlang, Scala or Akka sense, but minimal representations for sending messages.
