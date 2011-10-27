@@ -3,12 +3,12 @@ TODO list for dilutions
 DESIGN
 - color for water
 - color scale issues in Molarity tab
-- layout problem in Dilution tab, too much stuff in horizontal dimension (move min/max labels to control ends? use tall skinny beakers?)
-- Dilution tab: include a few other color options for solution "in Teacher menu"?
-- Dilution tab: layout is (left-to-right) M1*V1 = V2*M2, which is not M1*V1=M2*V2
+- Dilution: should V1 go to zero? What happens to M1 when this happens?
 
 HIGH
-- M1 control in Dilution tab
+- common: move range labels above/below vertical sliders
+- Dilution: M1 control
+- Dilution: tall skinny beakers (3:1), labels above
 
 MEDIUM
 
