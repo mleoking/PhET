@@ -38,7 +38,6 @@ public class PrecipitateNode extends PComposite {
         }};
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
             addChild( valueNode );
-            valueNode.setOffset( 0, cylinderSize.getHeight() + 30 );
         }
 
         // when the saturation changes, update the number of precipitate particles
@@ -57,6 +56,10 @@ public class PrecipitateNode extends PComposite {
                 updateValue();
             }
         } );
+
+        // layout after value has been set
+        valueNode.setOffset( ( cylinderSize.getWidth() - valueNode.getFullBoundsReference().getWidth() ) / 2,
+                             cylinderSize.getHeight() + cylinderEndHeight );
     }
 
     private void removeAllParticles() {
@@ -96,7 +99,7 @@ public class PrecipitateNode extends PComposite {
     private void updateValue() {
         double precipitateAmount = solution.getPrecipitateAmount();
         int numberOfParticles = getNumberOfParticles();
-        valueNode.setText( "precipitate: " + new DecimalFormat( "0.00000" ).format( precipitateAmount ) + " mol (" + numberOfParticles + " particles)" );
+        valueNode.setText( "precipitate: " + new DecimalFormat( "0.00000" ).format( precipitateAmount ) + " mol = " + numberOfParticles + " particles" );
     }
 
     // Gets the number of particles used to represent the solution's saturation.
