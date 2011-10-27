@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.common.simsharingcore.Client;
+import edu.colorado.phet.common.simsharingcore.DefaultActor;
 import edu.colorado.phet.simsharing.Sim;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
@@ -26,11 +26,11 @@ import edu.colorado.phet.simsharing.messages.SessionRecord;
 public class RecordingView extends JPanel {
     public JList recordingList;
     private SessionRecord lastShownRecording = new SessionRecord( new SessionID( -1, "hello", "test" ), 0 );//dummy data so comparisons don't need to use null checks
-    private Client client;
+    private DefaultActor actor;
 
-    public RecordingView( final Client client ) {
+    public RecordingView( final DefaultActor actor ) {
         super( new BorderLayout() );
-        this.client = client;
+        this.actor = actor;
         add( new JLabel( "All Sessions" ), BorderLayout.NORTH );
         recordingList = new JList() {{
             addListSelectionListener( new ListSelectionListener() {
@@ -49,7 +49,7 @@ public class RecordingView extends JPanel {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     try {
-                        client.tell( new ClearSessions() );
+                        actor.tell( new ClearSessions() );
                     }
                     catch ( IOException e1 ) {
                         e1.printStackTrace();
@@ -67,7 +67,7 @@ public class RecordingView extends JPanel {
                         //Allow a long timeout here since it may take a long time to deliver a large list of recordings
                         Thread.sleep( 1000 );
                         final SessionList[] list = new SessionList[1];
-                        list[0] = (SessionList) client.ask( new ListAllSessions() );
+                        list[0] = (SessionList) actor.ask( new ListAllSessions() );
                         SwingUtilities.invokeAndWait( new Runnable() {
                             public void run() {
                                 recordingList.setListData( list[0].toArray() );//TODO: remember user selection when list is refreshed

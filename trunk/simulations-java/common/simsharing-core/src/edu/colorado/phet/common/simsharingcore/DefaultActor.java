@@ -11,7 +11,7 @@ import java.net.Socket;
  *
  * @author Sam Reid
  */
-public class Client implements IActor {
+public class DefaultActor implements IActor {
     private final Socket socket;
     public final ObjectOutputStream writeToServer;
     public final ObjectInputStream readFromServer;
@@ -22,11 +22,11 @@ public class Client implements IActor {
     //On phet-server, port must be in a specific range of allowed ports, see Unfuddle ticket
     public static int PORT = 44101;
 
-    public Client() throws ClassNotFoundException, IOException {
+    public DefaultActor() throws ClassNotFoundException, IOException {
         this( HOST_IP_ADDRESS, PORT );
     }
 
-    public Client( String host, int port ) throws IOException, ClassNotFoundException {
+    public DefaultActor( String host, int port ) throws IOException, ClassNotFoundException {
         socket = new Socket( host, port );
 
         //Create streams for communicating with the server

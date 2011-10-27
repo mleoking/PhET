@@ -10,7 +10,7 @@ import java.security.SecureRandom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.simsharingcore.Client;
+import edu.colorado.phet.common.simsharingcore.DefaultActor;
 import edu.colorado.phet.common.simsharingcore.ThreadedActor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -39,7 +39,7 @@ public class SimSharingEvents {
 
     static {
         try {
-            client = new ThreadedActor( new Client() );
+            client = new ThreadedActor( new DefaultActor() );
         }
         catch ( ClassNotFoundException e ) {
             e.printStackTrace();

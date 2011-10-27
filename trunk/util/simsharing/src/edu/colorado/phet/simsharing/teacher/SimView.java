@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.simsharingcore.Client;
+import edu.colorado.phet.common.simsharingcore.DefaultActor;
 import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
@@ -70,9 +70,9 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
         thread = new Thread( new Runnable() {
             public void run() {
                 //Create a new Client (including a new thread on the server) to avoid synchronization problems with other client
-                Client client = null;
+                DefaultActor actor = null;
                 try {
-                    client = new Client();
+                    actor = new DefaultActor();
                 }
                 catch ( Exception e ) {
                     e.printStackTrace();
@@ -84,7 +84,7 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                         if ( states.size() > 0 ) {
                             index = states.get( states.size() - 1 ).getIndex();
                         }
-                        final SampleBatch<U> sample = (SampleBatch<U>) client.ask( new GetSamplesAfter( sessionID, index ) );
+                        final SampleBatch<U> sample = (SampleBatch<U>) actor.ask( new GetSamplesAfter( sessionID, index ) );
 
                         timeControl.numFrames.set( sample.totalNumberStates );
 

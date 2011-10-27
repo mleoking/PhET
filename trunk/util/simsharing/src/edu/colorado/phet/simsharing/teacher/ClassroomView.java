@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.simsharingcore.Client;
+import edu.colorado.phet.common.simsharingcore.DefaultActor;
 import edu.colorado.phet.simsharing.Sim;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
@@ -25,7 +25,7 @@ public class ClassroomView extends PSwingCanvas {
     private final PNode studentThumbnailNode;
     private PNode summaryNode;
 
-    public ClassroomView( final Client client ) {
+    public ClassroomView( final DefaultActor actor ) {
         summaryNode = new PNode() {
             @Override public void addChild( PNode child ) {
                 child.setOffset( child.getOffset().getX(), getFullBounds().getMaxY() + 2 );
@@ -44,7 +44,7 @@ public class ClassroomView extends PSwingCanvas {
                 while ( true ) {
                     try {
                         Thread.sleep( 1000 );
-                        final StudentList list = (StudentList) client.ask( new GetActiveStudentList() );
+                        final StudentList list = (StudentList) actor.ask( new GetActiveStudentList() );
                         SwingUtilities.invokeLater( new Runnable() {
                             public void run() {
                                 summaryNode.removeAllChildren();
