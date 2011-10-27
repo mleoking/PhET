@@ -40,7 +40,7 @@ public class AtomicInteractionsApplication extends PiccoloPhetApplication implem
 
         Frame parentFrame = getPhetFrame();
 
-        addModule( new AtomicInteractionsModule( parentFrame, true ) );
+        addModule( new AtomicInteractionsModule( true ) );
     }
 
     //----------------------------------------------------------------------------

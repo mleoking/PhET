@@ -15,14 +15,6 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 public class LjPotentialCalculator {
 
     //-----------------------------------------------------------------------------
-    // Class Data
-    //-----------------------------------------------------------------------------
-
-    // Arbitrarily (but somewhat reasonable) default values for sigma and epsilon.
-    private static final double DEFAULT_SIGMA = 300;
-    private static final double DEFAULT_EPSLON = 100;
-
-    //-----------------------------------------------------------------------------
     // Instance Data
     //-----------------------------------------------------------------------------
 

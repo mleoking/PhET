@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
-import java.awt.Frame;
-
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -28,7 +26,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public SolidLiquidGasModule( Frame parentFrame ) {
+    public SolidLiquidGasModule() {
 
         super( StatesOfMatterStrings.TITLE_SOLID_LIQUID_GAS_MODULE,
                new ConstantDtClock( SolidLiquidGasDefaults.CLOCK_FRAME_DELAY, SolidLiquidGasDefaults.CLOCK_DT ) );

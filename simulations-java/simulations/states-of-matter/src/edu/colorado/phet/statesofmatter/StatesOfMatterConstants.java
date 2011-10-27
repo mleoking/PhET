@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * This class is a collection of constants that configure global properties.
@@ -21,13 +20,6 @@ public class StatesOfMatterConstants {
     }
 
     //----------------------------------------------------------------------------
-    // Debugging
-    //----------------------------------------------------------------------------
-
-    // enable debug output for canvas layout updates
-    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
-
-    //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
 
@@ -38,13 +30,6 @@ public class StatesOfMatterConstants {
     public static final String FLAVOR_INTERACTION_POTENTIAL = "atomic-interactions";
 
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
-
-    //----------------------------------------------------------------------------
-    // Fonts
-    //----------------------------------------------------------------------------
-
-    // Default font properties
-    public static final String DEFAULT_FONT_NAME = PhetFont.getDefaultFontName();
 
     //----------------------------------------------------------------------------
     // Paints

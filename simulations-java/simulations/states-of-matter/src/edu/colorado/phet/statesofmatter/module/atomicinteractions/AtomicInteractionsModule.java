@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.statesofmatter.module.atomicinteractions;
 
-import java.awt.Frame;
-
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.clock.SimSpeedControl;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -31,7 +29,7 @@ public class AtomicInteractionsModule extends PiccoloModule {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public AtomicInteractionsModule( Frame parentFrame, boolean enableHeterogeneousAtoms ) {
+    public AtomicInteractionsModule( boolean enableHeterogeneousAtoms ) {
 
         super( StatesOfMatterStrings.TITLE_INTERACTION_POTENTIAL_MODULE,
                new ConstantDtClock( AtomicInteractionDefaults.CLOCK_FRAME_DELAY,
