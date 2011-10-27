@@ -141,8 +141,8 @@ public class InteractionPotentialDiagramNode extends PNode {
             m_width = NARROW_VERSION_WIDTH;
             m_height = m_width * 0.8;
         }
-        m_graphXOrigin = 0.10 * (double) m_width;
-        m_graphYOrigin = 0.85 * (double) m_height;
+        m_graphXOrigin = 0.10 * m_width;
+        m_graphYOrigin = 0.85 * m_height;
         m_graphWidth = m_width - m_graphXOrigin - AXES_ARROW_HEAD_HEIGHT;
         if ( closable ) {
             m_graphHeight = m_height * ( VERT_AXIS_SIZE_PROPORTION - CLOSE_BUTTON_PROPORTION );

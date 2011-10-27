@@ -72,7 +72,7 @@ public class IsokineticThermostat implements Thermostat {
     public void adjustTemperature() {
 
         // Calculate the internal temperature of the system from the kinetic energy.
-        double measuredTemperature = 0;
+        double measuredTemperature;
         int numberOfMolecules = m_moleculeDataSet.getNumberOfMolecules();
         if ( m_moleculeDataSet.getAtomsPerMolecule() > 1 ) {
             // Include rotational inertia in the calculation.

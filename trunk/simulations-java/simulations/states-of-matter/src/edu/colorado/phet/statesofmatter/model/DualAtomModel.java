@@ -228,7 +228,6 @@ public class DualAtomModel {
 
             System.err.println( "Error: Unsupported atom type." );
             assert false;
-            atomType = AtomType.NEON;
         }
     }
 
