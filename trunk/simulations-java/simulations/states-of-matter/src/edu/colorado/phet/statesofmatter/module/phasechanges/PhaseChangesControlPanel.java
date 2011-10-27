@@ -54,38 +54,38 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private static final int INTERACTION_POTENTIAL_DIAGRAM_HEIGHT = (int) ( INTERACTION_POTENTIAL_DIAGRAM_WIDTH * 0.8 );
 
     // Constants used when mapping the model pressure and temperature to the phase diagram.
-    private static double TRIPLE_POINT_TEMPERATURE_IN_MODEL = MultipleParticleModel.TRIPLE_POINT_MODEL_TEMPERATURE;
-    private static double TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM = 0.375;
-    private static double CRITICAL_POINT_TEMPERATURE_IN_MODEL = MultipleParticleModel.CRITICAL_POINT_MODEL_TEMPERATURE;
-    private static double CRITICAL_POINT_TEMPERATURE_ON_DIAGRAM = 0.8;
-    private static double SLOPE_IN_1ST_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM / TRIPLE_POINT_TEMPERATURE_IN_MODEL;
-    private static double SLOPE_IN_2ND_REGION =
+    private static final double TRIPLE_POINT_TEMPERATURE_IN_MODEL = MultipleParticleModel.TRIPLE_POINT_MODEL_TEMPERATURE;
+    private static final double TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM = 0.375;
+    private static final double CRITICAL_POINT_TEMPERATURE_IN_MODEL = MultipleParticleModel.CRITICAL_POINT_MODEL_TEMPERATURE;
+    private static final double CRITICAL_POINT_TEMPERATURE_ON_DIAGRAM = 0.8;
+    private static final double SLOPE_IN_1ST_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM / TRIPLE_POINT_TEMPERATURE_IN_MODEL;
+    private static final double SLOPE_IN_2ND_REGION =
             ( CRITICAL_POINT_TEMPERATURE_ON_DIAGRAM - TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM ) /
             ( CRITICAL_POINT_TEMPERATURE_IN_MODEL - TRIPLE_POINT_TEMPERATURE_IN_MODEL );
-    private static double OFFSET_IN_2ND_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM -
-                                                 ( SLOPE_IN_2ND_REGION * TRIPLE_POINT_TEMPERATURE_IN_MODEL );
+    private static final double OFFSET_IN_2ND_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM -
+                                                       ( SLOPE_IN_2ND_REGION * TRIPLE_POINT_TEMPERATURE_IN_MODEL );
 
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private MultipleParticleModel m_model;
-    private JPanel m_phaseDiagramPanel;
+    private final MultipleParticleModel m_model;
+    private final JPanel m_phaseDiagramPanel;
     private boolean m_phaseDiagramVisible;
-    private JButton m_phaseDiagramCtrlButton;
-    private PhaseDiagram m_phaseDiagram;
+    private final JButton m_phaseDiagramCtrlButton;
+    private final PhaseDiagram m_phaseDiagram;
     private MoleculeSelectionPanel m_moleculeSelectionPanel;
 
-    private JPanel m_interactionDiagramPanel;
+    private final JPanel m_interactionDiagramPanel;
     private boolean m_interactionDiagramVisible;
-    private JButton m_interactionDiagramCtrlButton;
+    private final JButton m_interactionDiagramCtrlButton;
     private EpsilonControlInteractionPotentialDiagram m_interactionPotentialDiagram;
-    private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
+    private final InteractionStrengthControlPanel m_interactionStrengthControlPanel;
 
-    private JPanel m_preInteractionButtonSpacer;
-    private JPanel m_postInteractionButtonSpacer;
-    private JPanel m_prePhaseButtonSpacer;
-    private JPanel m_postPhaseButtonSpacer;
+    private final JPanel m_preInteractionButtonSpacer;
+    private final JPanel m_postInteractionButtonSpacer;
+    private final JPanel m_prePhaseButtonSpacer;
+    private final JPanel m_postPhaseButtonSpacer;
 
     private final boolean m_advanced;
 
@@ -317,11 +317,11 @@ public class PhaseChangesControlPanel extends ControlPanel {
 
     private class MoleculeSelectionPanel extends JPanel {
 
-        private JRadioButton m_neonRadioButton;
-        private JRadioButton m_argonRadioButton;
-        private JRadioButton m_oxygenRadioButton;
-        private JRadioButton m_waterRadioButton;
-        private JRadioButton m_configurableRadioButton;
+        private final JRadioButton m_neonRadioButton;
+        private final JRadioButton m_argonRadioButton;
+        private final JRadioButton m_oxygenRadioButton;
+        private final JRadioButton m_waterRadioButton;
+        private final JRadioButton m_configurableRadioButton;
 
         MoleculeSelectionPanel( boolean showConfigurableAtom ) {
             BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
@@ -501,11 +501,11 @@ public class PhaseChangesControlPanel extends ControlPanel {
 
         private final Font LABEL_FONT = new PhetFont( 14, false );
 
-        private LinearValueControl m_interactionStrengthControl;
-        private MultipleParticleModel m_model;
-        private TitledBorder m_titledBorder;
-        private JLabel m_leftLabel;
-        private JLabel m_rightLabel;
+        private final LinearValueControl m_interactionStrengthControl;
+        private final MultipleParticleModel m_model;
+        private final TitledBorder m_titledBorder;
+        private final JLabel m_leftLabel;
+        private final JLabel m_rightLabel;
 
         public InteractionStrengthControlPanel( MultipleParticleModel model ) {
 

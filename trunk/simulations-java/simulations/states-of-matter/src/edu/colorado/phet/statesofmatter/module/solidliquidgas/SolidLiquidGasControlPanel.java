@@ -49,8 +49,8 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    MultipleParticleModel m_model;
-    ChangeStateControlPanel m_stateSelectionPanel;
+    final MultipleParticleModel m_model;
+    final ChangeStateControlPanel m_stateSelectionPanel;
     MoleculeSelectionPanel m_moleculeSelectionPanel;
 
     //----------------------------------------------------------------------------
@@ -98,9 +98,9 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
      */
     private class ChangeStateControlPanel extends VerticalLayoutPanel {
 
-        private JButton m_solidButton;
-        private JButton m_liquidButton;
-        private JButton m_gasButton;
+        private final JButton m_solidButton;
+        private final JButton m_liquidButton;
+        private final JButton m_gasButton;
 
         ChangeStateControlPanel() {
             BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
@@ -173,10 +173,10 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
      */
     private static class MoleculeSelectionPanel extends JPanel {
 
-        private JRadioButton m_neonRadioButton;
-        private JRadioButton m_argonRadioButton;
-        private JRadioButton m_oxygenRadioButton;
-        private JRadioButton m_waterRadioButton;
+        private final JRadioButton m_neonRadioButton;
+        private final JRadioButton m_argonRadioButton;
+        private final JRadioButton m_oxygenRadioButton;
+        private final JRadioButton m_waterRadioButton;
 
         MoleculeSelectionPanel( final MultipleParticleModel model ) {
             BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();

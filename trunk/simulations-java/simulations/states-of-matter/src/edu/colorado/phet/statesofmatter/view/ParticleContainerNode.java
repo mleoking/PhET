@@ -45,7 +45,7 @@ public class ParticleContainerNode extends PhetPNode {
     public static final int SINGLE_IMAGE_CONTAINER = 1;
     public static final int MULTI_IMAGE_CONTAINER = 2;   // Container is made of multiple pieces.
     public static final int CONTAINER_TYPE = MULTI_IMAGE_CONTAINER;
-    public static boolean LOAD_CONTAINER_BACKGROUND_IMAGE = false;
+    public static final boolean LOAD_CONTAINER_BACKGROUND_IMAGE = false;
 
     // Constants that control the appearance of the drawn container.
     private static final Color CONTAINER_EDGE_COLOR = Color.YELLOW;
@@ -83,16 +83,16 @@ public class ParticleContainerNode extends PhetPNode {
     // Instance Data
     //----------------------------------------------------------------------------
     private final MultipleParticleModel m_model;
-    private ModelViewTransform m_mvt;
-    private double m_containmentAreaWidth;
-    private double m_containmentAreaHeight;
+    private final ModelViewTransform m_mvt;
+    private final double m_containmentAreaWidth;
+    private final double m_containmentAreaHeight;
     private PNode m_lowerParticleLayer;
     private PNode m_upperParticleLayer;
-    private PNode m_topContainerLayer;
-    private PNode m_middleContainerLayer;
-    private PNode m_bottomContainerLayer;
+    private final PNode m_topContainerLayer;
+    private final PNode m_middleContainerLayer;
+    private final PNode m_bottomContainerLayer;
     private PNode m_containerLid;
-    private Random m_rand;
+    private final Random m_rand;
     private double m_rotationAmount;
     private DialGaugeNode m_pressureMeter;
     private double m_pressureMeterElbowOffset;

@@ -49,13 +49,13 @@ public class StoveNode extends PNode {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private PImage m_fireImage;
-    private PImage m_iceImage;
-    private MultipleParticleModel m_model;
+    private final PImage m_fireImage;
+    private final PImage m_iceImage;
+    private final MultipleParticleModel m_model;
 
     // Heat value, ranges from -1 to +1.
-    private Property<Double> m_heat = new Property<Double>( 0.0 );
-    private PNode m_burner;
+    private final Property<Double> m_heat = new Property<Double>( 0.0 );
+    private final PNode m_burner;
 
     //-------------------------------------------------------------------------
     // Constructor(s)

@@ -14,8 +14,8 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 public class WaterMoleculeStructure {
 
     private static WaterMoleculeStructure instance;
-    double[] m_moleculeStructureX = new double[3];
-    double[] m_moleculeStructureY = new double[3];
+    final double[] m_moleculeStructureX = new double[3];
+    final double[] m_moleculeStructureY = new double[3];
 
     /**
      * Constructor, which is private to force it to be created via the

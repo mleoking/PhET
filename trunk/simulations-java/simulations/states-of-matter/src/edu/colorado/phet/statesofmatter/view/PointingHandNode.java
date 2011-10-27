@@ -43,13 +43,13 @@ public class PointingHandNode extends PNode {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private PImage m_fingerImageNode;
-    private MultipleParticleModel m_model;
+    private final PImage m_fingerImageNode;
+    private final MultipleParticleModel m_model;
     private double m_mouseMovementAmount;
     private double m_containerSizeAtDragStart;
     private boolean m_mouseOver = false;
     private boolean m_beingDragged = false;
-    private PNode m_hintNode;
+    private final PNode m_hintNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -188,15 +188,15 @@ public class PointingHandNode extends PNode {
      * that the hand can be moved up and down.
      */
     private static class MovementHintNode extends PNode {
-        private static Color ARROW_COLOR = Color.GREEN;
-        private static Color INVISIBLE_ARROW_COLOR = new Color( 0, 0, 0, 0 );
-        private static double ARROW_LENGTH = 1000;
-        private static double ARROW_HEAD_WIDTH = 1000;
-        private static double ARROW_HEAD_HEIGHT = 500;
-        private static double ARROW_TAIL_WIDTH = 500;
+        private static final Color ARROW_COLOR = Color.GREEN;
+        private static final Color INVISIBLE_ARROW_COLOR = new Color( 0, 0, 0, 0 );
+        private static final double ARROW_LENGTH = 1000;
+        private static final double ARROW_HEAD_WIDTH = 1000;
+        private static final double ARROW_HEAD_HEIGHT = 500;
+        private static final double ARROW_TAIL_WIDTH = 500;
         private static double DISTANCE_BETWEEN_ARROWS = 250;
-        private ArrowNode m_upArrowNode;
-        private ArrowNode m_downArrow;
+        private final ArrowNode m_upArrowNode;
+        private final ArrowNode m_downArrow;
         private final MultipleParticleModel m_model;
 
         private MovementHintNode( MultipleParticleModel model ) {

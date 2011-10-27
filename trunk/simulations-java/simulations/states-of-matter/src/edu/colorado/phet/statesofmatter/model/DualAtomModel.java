@@ -41,16 +41,16 @@ public class DualAtomModel {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private ArrayList<Listener> m_listeners = new ArrayList<Listener>();
+    private final ArrayList<Listener> m_listeners = new ArrayList<Listener>();
     private StatesOfMatterAtom m_fixedAtom;
     private StatesOfMatterAtom m_movableAtom;
     private StatesOfMatterAtom m_shadowMovableAtom;
     private double m_attractiveForce;
     private double m_repulsiveForce;
     private boolean m_motionPaused;
-    private LjPotentialCalculator m_ljPotentialCalculator;
+    private final LjPotentialCalculator m_ljPotentialCalculator;
     private double m_timeStep;
-    private StatesOfMatterAtom.Adapter m_movableAtomListener;
+    private final StatesOfMatterAtom.Adapter m_movableAtomListener;
     private boolean m_settingBothAtomTypes = false;  // Flag used to prevent getting in disallowed state.
     private int m_bondingState = BONDING_STATE_UNBONDED; // Tracks whether the atoms have formed a chemical bond.
     private int m_vibrationCounter = 0; // Used to vibrate fixed atom during bonding.
@@ -59,7 +59,7 @@ public class DualAtomModel {
     private double m_bondedOscillationRightDistance;
     private double m_bondedOscillationLeftDistance;
     private double m_minPotentialDistance;
-    private ConstantDtClock m_clock;
+    private final ConstantDtClock m_clock;
 
     //----------------------------------------------------------------------------
     // Constructor

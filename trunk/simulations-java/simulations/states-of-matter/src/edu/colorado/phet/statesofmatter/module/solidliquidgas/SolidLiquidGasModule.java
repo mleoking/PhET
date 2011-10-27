@@ -22,7 +22,7 @@ public class SolidLiquidGasModule extends PiccoloModule {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private MultipleParticleModel m_model;
+    private final MultipleParticleModel m_model;
 
     //----------------------------------------------------------------------------
     // Constructor

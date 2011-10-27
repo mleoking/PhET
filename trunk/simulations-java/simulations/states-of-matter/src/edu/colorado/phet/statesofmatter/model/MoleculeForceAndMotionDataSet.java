@@ -25,7 +25,7 @@ public class MoleculeForceAndMotionDataSet {
     private int m_numberOfSafeMolecules;
 
     // Attributes that apply to all elements of the data set.
-    private int m_atomsPerMolecule;
+    private final int m_atomsPerMolecule;
     private double m_moleculeMass;
     private double m_moleculeRotationalInertia;
 

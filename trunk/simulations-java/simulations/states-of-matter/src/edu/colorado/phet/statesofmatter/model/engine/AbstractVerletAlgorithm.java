@@ -49,7 +49,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
     // Instance Data
     //----------------------------------------------------------------------------
 
-    protected MultipleParticleModel m_model;
+    protected final MultipleParticleModel m_model;
     protected double m_potentialEnergy;
     protected double m_pressure;
     protected double m_temperature;

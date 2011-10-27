@@ -49,10 +49,10 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private MultipleParticleModel m_model;
-    private ParticleContainerNode m_particleContainer;
-    private CompositeThermometerNode m_thermometerNode;
-    private BooleanProperty m_clockRunning = new BooleanProperty( true );
+    private final MultipleParticleModel m_model;
+    private final ParticleContainerNode m_particleContainer;
+    private final CompositeThermometerNode m_thermometerNode;
+    private final BooleanProperty m_clockRunning = new BooleanProperty( true );
 
     //----------------------------------------------------------------------------
     // Constructor

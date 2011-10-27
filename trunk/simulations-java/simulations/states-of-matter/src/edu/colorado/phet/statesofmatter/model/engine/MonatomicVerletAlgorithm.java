@@ -25,7 +25,7 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private AtomPositionUpdater m_positionUpdater = new MonatomicAtomPositionUpdater();
+    private final AtomPositionUpdater m_positionUpdater = new MonatomicAtomPositionUpdater();
     private double m_epsilon = 1; // Controls the strength of particle interaction.
 
     //----------------------------------------------------------------------------

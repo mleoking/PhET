@@ -87,23 +87,23 @@ public class InteractionPotentialDiagramNode extends PNode {
     protected final double m_height;
     private double m_sigma;
     private double m_epsilon;
-    private double m_graphXOrigin;
-    private double m_graphYOrigin;
-    private double m_graphWidth;
-    private double m_graphHeight;
-    private PPath m_background;
-    private PPath m_potentialEnergyLine;
-    private DoubleArrowNode m_epsilonArrow;
-    private PText m_epsilonLabel;
-    private PText m_sigmaLabel;
-    private DoubleArrowNode m_sigmaArrow;
-    private double m_verticalScalingFactor;
-    private Point2D m_graphMin;
-    private Point2D m_zeroCrossingPoint;
+    private final double m_graphXOrigin;
+    private final double m_graphYOrigin;
+    private final double m_graphWidth;
+    private final double m_graphHeight;
+    private final PPath m_background;
+    private final PPath m_potentialEnergyLine;
+    private final DoubleArrowNode m_epsilonArrow;
+    private final PText m_epsilonLabel;
+    private final PText m_sigmaLabel;
+    private final DoubleArrowNode m_sigmaArrow;
+    private final double m_verticalScalingFactor;
+    private final Point2D m_graphMin;
+    private final Point2D m_zeroCrossingPoint;
     private double m_markerDistance;
-    private PText m_horizontalAxisLabel;
-    private LjPotentialCalculator m_LjPotentialCalculator;
-    private ArrayList _listeners = new ArrayList();
+    private final PText m_horizontalAxisLabel;
+    private final LjPotentialCalculator m_LjPotentialCalculator;
+    private final ArrayList _listeners = new ArrayList();
 
     // Variables for controlling the appearance, visibility, and location of
     // the position marker.

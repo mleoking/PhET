@@ -30,9 +30,9 @@ public abstract class StatesOfMatterAtom implements Cloneable {
     private Vector2D m_velocity = new Vector2D(); // In meters/sec
     private Vector2D m_accel = new Vector2D(); // In meters/(sec * sec)
     protected double m_radius;                   // In picometers.
-    private double m_mass;         // In atomic mass units.
+    private final double m_mass;         // In atomic mass units.
     private double m_inverseMass;
-    private ArrayList m_listeners = new ArrayList();
+    private final ArrayList m_listeners = new ArrayList();
 
     //----------------------------------------------------------------------------
     // Constructor

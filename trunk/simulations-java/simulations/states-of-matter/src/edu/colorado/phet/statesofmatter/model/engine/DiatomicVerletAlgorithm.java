@@ -25,7 +25,7 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    AtomPositionUpdater m_positionUpdater = new DiatomicAtomPositionUpdater();
+    final AtomPositionUpdater m_positionUpdater = new DiatomicAtomPositionUpdater();
 
     //----------------------------------------------------------------------------
     // Constructor

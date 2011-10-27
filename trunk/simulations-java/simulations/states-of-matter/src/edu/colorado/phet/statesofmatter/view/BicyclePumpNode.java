@@ -61,11 +61,11 @@ public class BicyclePumpNode extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
-    MultipleParticleModel m_model;
-    PPath m_pumpHandle;
+    final MultipleParticleModel m_model;
+    final PPath m_pumpHandle;
     double m_currentHandleOffset;
-    double m_maxHandleOffset;
-    double m_pumpingRequiredToInject;
+    final double m_maxHandleOffset;
+    final double m_pumpingRequiredToInject;
     double m_currentPumpingAmount;
     PPath m_pumpShaft;
 

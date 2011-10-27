@@ -159,15 +159,15 @@ public class MultipleParticleModel implements Resettable {
     private double m_minAllowableContainerHeight;
     private final List m_particles = new ArrayList();
     private boolean m_isExploded = false;
-    ConstantDtClock m_clock;
-    private ArrayList m_listeners = new ArrayList();
+    final ConstantDtClock m_clock;
+    private final ArrayList m_listeners = new ArrayList();
 
     // Data set containing the atom and molecule position, motion, and force information.
     private MoleculeForceAndMotionDataSet m_moleculeDataSet;
 
     private double m_normalizedContainerWidth;
     private double m_normalizedContainerHeight;
-    private Random m_rand = new Random();
+    private final Random m_rand = new Random();
     private double m_temperatureSetPoint;
     private double m_gravitationalAcceleration;
     private double m_heatingCoolingAmount;

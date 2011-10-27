@@ -32,7 +32,7 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    AtomPositionUpdater m_positionUpdater = new WaterAtomPositionUpdater();
+    final AtomPositionUpdater m_positionUpdater = new WaterAtomPositionUpdater();
 
     //----------------------------------------------------------------------------
     // Constructor

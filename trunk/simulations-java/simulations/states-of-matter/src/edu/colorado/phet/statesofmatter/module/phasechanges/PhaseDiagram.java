@@ -105,34 +105,34 @@ public class PhaseDiagram extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Variables that define the appearance of the phase diagram.
-    private PPath m_triplePoint;
-    private PPath m_criticalPoint;
-    private PPath m_solidLiquidLine;
-    private PPath m_solidGasLine;
-    private PPath m_solidAreaBackground;
-    private PPath m_liquidGasLine;
-    private PPath m_liquidAreaBackground;
-    private PText m_solidLabel;
-    private PText m_liquidLabel;
-    private PText m_gasLabel;
-    private PPath m_gasAreaBackground;
-    private PPath m_superCriticalAreaBackground;
-    private HTMLNode m_triplePointLabel;
-    private HTMLNode m_criticalPointLabel;
-    private PPath m_currentStateMarker;
-    private Point2D m_topOfSolidLiquidLine;
+    private final PPath m_triplePoint;
+    private final PPath m_criticalPoint;
+    private final PPath m_solidLiquidLine;
+    private final PPath m_solidGasLine;
+    private final PPath m_solidAreaBackground;
+    private final PPath m_liquidGasLine;
+    private final PPath m_liquidAreaBackground;
+    private final PText m_solidLabel;
+    private final PText m_liquidLabel;
+    private final PText m_gasLabel;
+    private final PPath m_gasAreaBackground;
+    private final PPath m_superCriticalAreaBackground;
+    private final HTMLNode m_triplePointLabel;
+    private final HTMLNode m_criticalPointLabel;
+    private final PPath m_currentStateMarker;
+    private final Point2D m_topOfSolidLiquidLine;
 
     // Variable that defines the normalized position of the current phase
     // state marker.
-    Point2D m_currentStateMarkerPos;
+    final Point2D m_currentStateMarkerPos;
 
     // Variables for implementing a button that can be used to hide the diagram.
     // Add the button that will allow the user to close (actually hide) the diagram.
-    JButton m_closeButton;
-    PSwing m_closePSwing;
+    final JButton m_closeButton;
+    final PSwing m_closePSwing;
 
     // Et cetera
-    private ArrayList _listeners = new ArrayList();
+    private final ArrayList _listeners = new ArrayList();
 
     //----------------------------------------------------------------------------
     // Constructor(s)
