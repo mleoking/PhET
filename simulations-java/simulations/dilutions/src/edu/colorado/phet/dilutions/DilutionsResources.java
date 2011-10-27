@@ -27,6 +27,7 @@ public class DilutionsResources {
         public static final String CONCENTRATION_M2 = RESOURCES.getLocalizedString( "concentrationM2" );
         public static final String COPPER_SULFATE = RESOURCES.getLocalizedString( "copperSulfate" );
         public static final String DILUTION = RESOURCES.getLocalizedString( "dilution" );
+        public static final String EMPTY = RESOURCES.getLocalizedString( "empty" );
         public static final String FULL = RESOURCES.getLocalizedString( "full" );
         public static final String GOLD_III_CHLORIDE = RESOURCES.getLocalizedString( "goldIIIChloride" );
         public static final String HIGH = RESOURCES.getLocalizedString( "high" );
@@ -48,7 +49,6 @@ public class DilutionsResources {
         public static final String SOLUTION = RESOURCES.getLocalizedString( "solution" );
         public static final String SOLUTION_CONCENTRATION = RESOURCES.getLocalizedString( "solutionConcentration" );
         public static final String SOLUTION_VOLUME = RESOURCES.getLocalizedString( "solutionVolume" );
-        public static final String VERY_SMALL = RESOURCES.getLocalizedString( "verySmall" );
         public static final String VOLUME_V1 = RESOURCES.getLocalizedString( "volumeV1" );
         public static final String VOLUME_V2 = RESOURCES.getLocalizedString( "volumeV2" );
         public static final String ZERO = RESOURCES.getLocalizedString( "zero" );
