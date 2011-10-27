@@ -107,6 +107,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
             resetAllButtonNode.setOffset( ( getStageSize().getWidth() / 2 ) - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - 15 );
         }
+        centerRootNode();
     }
 
     public void reset() {
