@@ -51,7 +51,6 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
 
     private MultipleParticleModel m_model;
     private ParticleContainerNode m_particleContainer;
-    private ModelViewTransform m_mvt;
     private CompositeThermometerNode m_thermometerNode;
     private BooleanProperty m_clockRunning = new BooleanProperty( true );
 
@@ -64,7 +63,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
         m_model = multipleParticleModel;
 
         // Create the Model-View transform that we will be using.
-        m_mvt = new ModelViewTransform( 1.0, 1.0, 0.0, 0.0, false, true );
+        ModelViewTransform m_mvt = new ModelViewTransform( 1.0, 1.0, 0.0, 0.0, false, true );
 
         // Set the transform strategy so that the particle container is in a
         // reasonable place given that point (0,0) on the canvas represents
