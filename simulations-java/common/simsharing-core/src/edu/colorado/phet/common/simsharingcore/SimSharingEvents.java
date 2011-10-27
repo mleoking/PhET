@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -30,21 +32,9 @@ public class SimSharingEvents {
     //Actor for sending messages to the server
     public static ThreadedActor client;
 
-    //Create the actor, but fail gracefully if cannot connect
-    static {
-        try {
-            client = new ThreadedActor( new DefaultActor() );
-        }
-        catch ( ClassNotFoundException e ) {
-            e.printStackTrace();
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        catch ( Throwable t ) {
-            t.printStackTrace();
-        }
-    }
+    //Flag indicating whether messages should be sent to the server
+    private static boolean connect = false;
+    private static Option<Long> simStartedTime = new Option.None<Long>();
 
     //Fire an action when the mouse is released on the specified PNode
     public static void registerMouseReleasedListener( PNode node, final String action ) {
@@ -55,17 +45,21 @@ public class SimSharingEvents {
         } );
     }
 
-    //Signify that an action has occurred by writing it to the appropriate sources
+    //Signify that an action has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
     public static void actionPerformed( String action ) {
 
-        //Print the columns before the first message
-        if ( !printedColumns ) {
-            write( "Session ID" + "\t" + "Event time (ms)" + "\t" + "Action" );
-            printedColumns = true;
-        }
+        if ( connect ) {
 
-        //Send the message to the destination
-        write( SESSION_ID + "\t" + System.currentTimeMillis() + "\t" + action );
+            //Print the columns before the first message
+            if ( !printedColumns ) {
+                write( "Session ID" + "\t" + "Event time (ms)" + "\t" + "Action" );
+                printedColumns = true;
+            }
+
+            //Send the message to the destination
+            String timestamp = simStartedTime.isSome() ? ( System.currentTimeMillis() - simStartedTime.get() ) + "" : "@" + System.currentTimeMillis();
+            write( SESSION_ID + "\t" + timestamp + "\t" + action );
+        }
     }
 
     //Write the message to the console and to the server
@@ -102,5 +96,29 @@ public class SimSharingEvents {
                 actionPerformed( name + ": " + property.get() );
             }
         }, false );
+    }
+
+    //Called from the first line of main(), connects to the server and sends a start message
+    public static void simStarted( String[] args ) {
+        simStartedTime = new Option.Some<Long>( System.currentTimeMillis() );
+        connect = Arrays.asList( args ).contains( "-study" );
+        if ( connect ) {
+
+            //Create the actor, but fail gracefully if cannot connect
+            try {
+                client = new ThreadedActor( new DefaultActor() );
+            }
+            catch ( ClassNotFoundException e ) {
+                e.printStackTrace();
+            }
+            catch ( IOException e ) {
+                e.printStackTrace();
+            }
+            catch ( Throwable t ) {
+                t.printStackTrace();
+            }
+
+            actionPerformed( "Sim started at time: " + simStartedTime );
+        }
     }
 }
