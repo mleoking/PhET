@@ -1,0 +1,1 @@
+This package provides classes for clients to connect to the server for data sharing.
