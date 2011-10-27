@@ -41,8 +41,12 @@ public abstract class StatesOfMatterAtom implements Cloneable {
     public StatesOfMatterAtom( double x, double y, double radius, double mass ) {
         this( x, y, radius, mass, 0.0, 0.0, 0.0, 0.0 );
 
-        if ( mass <= 0.0 ) { throw new IllegalArgumentException( "Mass is out of range" ); }
-        if ( radius <= 0.0 ) { throw new IllegalArgumentException( "Radius is out of range" ); }
+        if ( mass <= 0.0 ) {
+            throw new IllegalArgumentException( "Mass is out of range" );
+        }
+        if ( radius <= 0.0 ) {
+            throw new IllegalArgumentException( "Radius is out of range" );
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -174,7 +178,7 @@ public abstract class StatesOfMatterAtom implements Cloneable {
         return true;
     }
 
-    public Object clone() {
+    public Object clone() throws CloneNotSupportedException {
         try {
             StatesOfMatterAtom p = (StatesOfMatterAtom) super.clone();
 
@@ -269,7 +273,7 @@ public abstract class StatesOfMatterAtom implements Cloneable {
         /**
          * Inform listeners that the position of this particle has changed.
          */
-        public void positionChanged();
+        public void positionChanged() throws CloneNotSupportedException;
 
         /**
          * Inform listeners that the velocity of this particle has changed.
@@ -295,7 +299,7 @@ public abstract class StatesOfMatterAtom implements Cloneable {
     }
 
     public static class Adapter implements Listener {
-        public void positionChanged() {
+        public void positionChanged() throws CloneNotSupportedException {
         }
 
         ;
