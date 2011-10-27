@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdatesManager;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.simsharingcore.SimSharingEvents;
 
 /**
  * This launcher solves the following problems:
@@ -117,6 +118,10 @@ public class PhetApplicationLauncher {
     }
 
     public void launchSim( final PhetApplicationConfig config, final ApplicationConstructor applicationConstructor ) {
+
+        //Signify to the SimSharingEvents that the sim is started, in case start time is supposed to be relayout to another machine or stored.
+        //Nothing happens unless the "-study" flag is provided on the command line
+        SimSharingEvents.simStarted( config.getCommandLineArgs() );
 
         /*
          * Wrap the body of main in invokeAndWait, so that all initialization occurs
