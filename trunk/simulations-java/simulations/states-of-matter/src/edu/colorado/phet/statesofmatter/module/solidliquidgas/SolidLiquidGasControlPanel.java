@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,9 +60,8 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
      * Constructor.
      *
      * @param solidLiquidGasModule
-     * @param parentFrame          parent frame, for creating dialogs
      */
-    public SolidLiquidGasControlPanel( SolidLiquidGasModule solidLiquidGasModule, Frame parentFrame ) {
+    public SolidLiquidGasControlPanel( SolidLiquidGasModule solidLiquidGasModule ) {
 
         super();
         m_model = solidLiquidGasModule.getMultiParticleModel();

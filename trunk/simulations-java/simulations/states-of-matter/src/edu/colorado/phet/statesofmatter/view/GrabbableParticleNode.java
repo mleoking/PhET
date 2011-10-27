@@ -65,7 +65,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
 
             public void startDrag( PInputEvent event ) {
                 super.startDrag( event );
-                handleMouseStartDragEvent( event );
+                handleMouseStartDragEvent();
             }
 
             public void drag( PInputEvent event ) {
@@ -74,7 +74,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
 
             public void endDrag( PInputEvent event ) {
                 super.endDrag( event );
-                handleMouseEndDragEvent( event );
+                handleMouseEndDragEvent();
             }
         } );
     }
@@ -106,7 +106,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
     // Private Methods
     //----------------------------------------------------------------------------
 
-    private void handleMouseStartDragEvent( PInputEvent event ) {
+    private void handleMouseStartDragEvent() {
         // Stop the model from moving the particle at the same time the user
         // is moving it.
         m_model.setMotionPaused( true );
@@ -139,7 +139,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
 
     }
 
-    private void handleMouseEndDragEvent( PInputEvent event ) {
+    private void handleMouseEndDragEvent() {
         // Let the model move the particles again.  Note that this happens
         // even if the motion was paused by some other means.
         m_model.setMotionPaused( false );

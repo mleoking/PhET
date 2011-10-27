@@ -76,7 +76,7 @@ public class StoveNode2 extends PNode {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public StoveNode2( MultipleParticleModel model, Paint backgroundPaint ) {
+    public StoveNode2( MultipleParticleModel model ) {
 
         m_model = model;
 
@@ -213,7 +213,7 @@ public class StoveNode2 extends PNode {
             public void run() {
                 new PiccoloTestFrame( "Stove Node Test" ) {{
                     addNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 1000, 1000 ), Color.black ) );
-                    addNode( new StoveNode2( null, Color.WHITE ) {{
+                    addNode( new StoveNode2( null ) {{
                         setOffset( 100, 200 );
                     }} );
                     setBackground( Color.black );

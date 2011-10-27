@@ -88,7 +88,7 @@ public class ParticleNode extends PNode {
             }
 
             public void particleRemoved( StatesOfMatterAtom particle ) {
-                handleParticleRemoved( particle );
+                handleParticleRemoved();
             }
 
             public void radiusChanged() {
@@ -170,10 +170,8 @@ public class ParticleNode extends PNode {
      * represented in the view by this particle node.  This is done by
      * removing ourself from the canvas and by cleaning up any memory
      * references so that we can be garbage collected.
-     *
-     * @param particle
      */
-    private void handleParticleRemoved( StatesOfMatterAtom particle ) {
+    private void handleParticleRemoved() {
 
         // Remove ourself from the canvas.
         PNode parent = getParent();
