@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.simsharingcore.Client;
+import edu.colorado.phet.common.simsharingcore.DefaultActor;
 import edu.colorado.phet.simsharing.server.Server;
 import edu.colorado.phet.simsharing.teacher.ClassroomView;
 import edu.colorado.phet.simsharing.teacher.RecordingView;
@@ -17,14 +17,14 @@ import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWin
 
 public class Teacher {
     private void start() throws IOException, ClassNotFoundException {
-        final Client client = new Client();
+        final DefaultActor actor = new DefaultActor();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame( "Students" ) {{
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
                     setContentPane( new JPanel( new BorderLayout() ) {{
-                        add( new ClassroomView( client ), BorderLayout.CENTER );
-                        add( new RecordingView( client ), BorderLayout.EAST );
+                        add( new ClassroomView( actor ), BorderLayout.CENTER );
+                        add( new RecordingView( actor ), BorderLayout.EAST );
                     }} );
                     setSize( 800, 600 );
                     centerWindowOnScreen( this );
