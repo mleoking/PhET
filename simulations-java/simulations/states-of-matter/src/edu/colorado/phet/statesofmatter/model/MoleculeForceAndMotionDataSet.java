@@ -258,9 +258,7 @@ public class MoleculeForceAndMotionDataSet {
         }
 
         // Add the information for this molecule to the data set.
-        for ( int i = 0; i < m_atomsPerMolecule; i++ ) {
-            m_atomPositions[i + m_numberOfAtoms] = atomPositions[i];
-        }
+        System.arraycopy( atomPositions, 0, m_atomPositions, 0 + m_numberOfAtoms, m_atomsPerMolecule );
 
         int numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
         m_moleculeCenterOfMassPositions[numberOfMolecules] = moleculeCenterOfMassPosition;
@@ -311,9 +309,7 @@ public class MoleculeForceAndMotionDataSet {
 
         // Handle all data arrays that are maintained on a per-atom basis.
         for ( int i = moleculeIndex * m_atomsPerMolecule; i < m_numberOfAtoms - m_atomsPerMolecule; i += m_atomsPerMolecule ) {
-            for ( int j = 0; j < m_atomsPerMolecule; j++ ) {
-                m_atomPositions[i + j] = m_atomPositions[i + m_atomsPerMolecule + j];
-            }
+            System.arraycopy( m_atomPositions, i + m_atomsPerMolecule + 0, m_atomPositions, i + 0, m_atomsPerMolecule );
         }
 
         // Reduce the atom count.
