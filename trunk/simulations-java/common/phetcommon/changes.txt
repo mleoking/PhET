@@ -1,3 +1,4 @@
+10/27/11 Added message when active module changes
 10/27/11 Moved sim start time tracking to PhetApplicationLauncher
 10/24/11 Moved ItemList.foldLeft to ObservableList
 10/18/11 Added JME-related strings
