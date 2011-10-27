@@ -100,7 +100,6 @@ public abstract class DilutionsSliderNode extends PhetPNode {
             // thumb centered in track
             thumbNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
                                  trackNode.getFullBoundsReference().getCenterY() );
-
         }
 
         modelValue.addObserver( new VoidFunction1<Double>() {
