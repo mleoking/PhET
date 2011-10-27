@@ -4,7 +4,6 @@ package edu.colorado.phet.statesofmatter.module.atomicinteractions;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -85,7 +84,7 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
     /**
      * Constructor.
      */
-    public AtomicInteractionsControlPanel( AtomicInteractionsModule solidLiquidGasModule, Frame parentFrame,
+    public AtomicInteractionsControlPanel( AtomicInteractionsModule solidLiquidGasModule,
                                            boolean enableHeterogeneousAtoms ) {
 
         m_model = solidLiquidGasModule.getDualParticleModel();

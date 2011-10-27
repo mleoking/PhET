@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.statesofmatter;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -48,21 +45,6 @@ public class StatesOfMatterConstants {
 
     // Default font properties
     public static final String DEFAULT_FONT_NAME = PhetFont.getDefaultFontName();
-    public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
-    public static final int DEFAULT_FONT_SIZE = 16;
-
-    public static final Font CONTROL_PANEL_TITLE_FONT = new Font( StatesOfMatterConstants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
-    public static final Font CONTROL_PANEL_CONTROL_FONT = new Font( StatesOfMatterConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
-
-    public static final Font PLAY_AREA_TITLE_FONT = new Font( StatesOfMatterConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
-    public static final Font PLAY_AREA_CONTROL_FONT = new Font( StatesOfMatterConstants.DEFAULT_FONT_NAME, Font.PLAIN, 16 );
-
-    //----------------------------------------------------------------------------
-    // Strokes
-    //----------------------------------------------------------------------------
-
-    public static final Stroke DASHED_STROKE =
-            new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3, 3 }, 0 );
 
     //----------------------------------------------------------------------------
     // Paints
@@ -72,13 +54,7 @@ public class StatesOfMatterConstants {
     public static final Color CANVAS_BACKGROUND = Color.BLACK;
 
     // Color of labels placed directly on the play area
-    public static final Color CANVAS_LABELS_COLOR = Color.WHITE;
-
-    // Color of labels placed directly on the play area
     public static final Color CONTROL_PANEL_COLOR = new Color( 210, 210, 210 );
-
-    // Generic transparent color
-    public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
 
     //----------------------------------------------------------------------------
     // Simulation Control

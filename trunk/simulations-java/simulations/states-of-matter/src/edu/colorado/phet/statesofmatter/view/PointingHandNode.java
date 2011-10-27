@@ -194,7 +194,7 @@ public class PointingHandNode extends PNode {
         private static final double ARROW_HEAD_WIDTH = 1000;
         private static final double ARROW_HEAD_HEIGHT = 500;
         private static final double ARROW_TAIL_WIDTH = 500;
-        private static double DISTANCE_BETWEEN_ARROWS = 250;
+        private static final double DISTANCE_BETWEEN_ARROWS = 250;
         private final ArrowNode m_upArrowNode;
         private final ArrowNode m_downArrow;
         private final MultipleParticleModel m_model;

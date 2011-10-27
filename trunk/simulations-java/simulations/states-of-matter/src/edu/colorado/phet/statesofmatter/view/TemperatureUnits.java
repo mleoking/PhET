@@ -5,5 +5,5 @@ package edu.colorado.phet.statesofmatter.view;
  * @author John Blanco
  */
 public enum TemperatureUnits {
-    KELVIN, CELSIUS, FAHRENHEIT
+    KELVIN, CELSIUS
 }
