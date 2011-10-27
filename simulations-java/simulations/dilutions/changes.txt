@@ -1,3 +1,4 @@
+10/27/11 change request: order solutes by "rainbow color" (ROYGBIV) in Molarity tab
 # 0.00.07 (58077) Oct 27, 2011
 10/27/11 change some terminology in Solute model (precipitateSize, precipitateParticlesPerMole)
 10/27/11 Molarity: center precipitate dev display
