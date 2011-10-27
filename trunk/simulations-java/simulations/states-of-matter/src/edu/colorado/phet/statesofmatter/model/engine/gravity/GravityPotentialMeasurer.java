@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.statesofmatter.model.engine.gravity;
 
-import java.util.Iterator;
 import java.util.List;
 
 import edu.colorado.phet.statesofmatter.model.engine.Measurable;
@@ -21,9 +20,8 @@ public class GravityPotentialMeasurer implements Measurable {
     public double measure() {
         double potential = 0.0;
 
-        for ( Iterator iterator = particles.iterator(); iterator.hasNext(); ) {
-            StatesOfMatterAtom particle = (StatesOfMatterAtom) iterator.next();
-
+        for ( Object particle1 : particles ) {
+            StatesOfMatterAtom particle = (StatesOfMatterAtom) particle1;
             potential += ( floor - particle.getY() ) * g * particle.getMass();
         }
 

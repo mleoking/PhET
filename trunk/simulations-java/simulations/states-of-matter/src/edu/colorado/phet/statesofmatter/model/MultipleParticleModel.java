@@ -5,7 +5,6 @@ package edu.colorado.phet.statesofmatter.model;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -791,8 +790,8 @@ public class MultipleParticleModel implements Resettable {
     private void removeAllParticles() {
 
         // Get rid of any existing particles from the model set.
-        for ( Iterator iter = m_particles.iterator(); iter.hasNext(); ) {
-            StatesOfMatterAtom particle = (StatesOfMatterAtom) iter.next();
+        for ( Object m_particle : m_particles ) {
+            StatesOfMatterAtom particle = (StatesOfMatterAtom) m_particle;
             // Tell the particle that it is being removed so that it can do
             // any necessary cleanup.
             particle.removedFromModel();
@@ -1243,50 +1242,50 @@ public class MultipleParticleModel implements Resettable {
     }
 
     private void notifyResetOccurred() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).resetOccurred();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).resetOccurred();
         }
     }
 
     private void notifyParticleAdded( StatesOfMatterAtom particle ) {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).particleAdded( particle );
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).particleAdded( particle );
         }
     }
 
     private void notifyTemperatureChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).temperatureChanged();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).temperatureChanged();
         }
     }
 
     private void notifyPressureChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).pressureChanged();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).pressureChanged();
         }
     }
 
     private void notifyContainerSizeChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).containerSizeChanged();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).containerSizeChanged();
         }
     }
 
     private void notifyMoleculeTypeChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).moleculeTypeChanged();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).moleculeTypeChanged();
         }
     }
 
     private void notifyContainerExplodedStateChanged( boolean containerExploded ) {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).containerExplodedStateChanged( containerExploded );
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).containerExplodedStateChanged( containerExploded );
         }
     }
 
     private void notifyInteractionStrengthChanged() {
-        for ( int i = 0; i < m_listeners.size(); i++ ) {
-            ( (Listener) m_listeners.get( i ) ).interactionStrengthChanged();
+        for ( Object listener : m_listeners ) {
+            ( (Listener) listener ).interactionStrengthChanged();
         }
     }
 
