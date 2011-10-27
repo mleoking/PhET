@@ -89,7 +89,7 @@ public class DualAtomModel {
         // directly by the user.
         m_movableAtomListener = new StatesOfMatterAtom.Adapter() {
             public void positionChanged() {
-                if ( m_motionPaused == true ) {
+                if ( m_motionPaused ) {
                     // The user must be moving the atom from the view.
                     // Update the forces correspondingly.
                     try {
@@ -102,8 +102,6 @@ public class DualAtomModel {
                     updateForces();
                 }
             }
-
-            ;
         };
 
         // Put the model into its initial state.

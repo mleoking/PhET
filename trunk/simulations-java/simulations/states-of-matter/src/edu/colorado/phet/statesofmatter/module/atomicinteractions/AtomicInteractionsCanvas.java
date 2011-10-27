@@ -176,8 +176,6 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
             public void radiusChanged() {
                 handleParticleRadiusChanged();
             }
-
-            ;
         };
 
         // Add the interaction potential diagram.  IMPORTANT NOTE: The diagram

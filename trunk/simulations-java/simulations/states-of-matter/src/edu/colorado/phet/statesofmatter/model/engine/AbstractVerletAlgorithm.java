@@ -231,32 +231,31 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
                     }
 
                     int firstUnsafeMoleculeIndex = numberOfSafeMolecules;
-                    int safeMoleculeIndex = i;
 
                     Point2D tempMoleculeCenterOfMassPosition;
                     tempMoleculeCenterOfMassPosition = moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex];
-                    moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex] = moleculeCenterOfMassPositions[safeMoleculeIndex];
-                    moleculeCenterOfMassPositions[safeMoleculeIndex] = tempMoleculeCenterOfMassPosition;
+                    moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex] = moleculeCenterOfMassPositions[i];
+                    moleculeCenterOfMassPositions[i] = tempMoleculeCenterOfMassPosition;
 
                     Vector2D tempMoleculeVelocity;
                     tempMoleculeVelocity = moleculeVelocities[firstUnsafeMoleculeIndex];
-                    moleculeVelocities[firstUnsafeMoleculeIndex] = moleculeVelocities[safeMoleculeIndex];
-                    moleculeVelocities[safeMoleculeIndex] = tempMoleculeVelocity;
+                    moleculeVelocities[firstUnsafeMoleculeIndex] = moleculeVelocities[i];
+                    moleculeVelocities[i] = tempMoleculeVelocity;
 
                     Vector2D tempMoleculeForce;
                     tempMoleculeForce = moleculeForces[firstUnsafeMoleculeIndex];
-                    moleculeForces[firstUnsafeMoleculeIndex] = moleculeForces[safeMoleculeIndex];
-                    moleculeForces[safeMoleculeIndex] = tempMoleculeForce;
+                    moleculeForces[firstUnsafeMoleculeIndex] = moleculeForces[i];
+                    moleculeForces[i] = tempMoleculeForce;
 
                     double tempMoleculeRotationAngle;
                     tempMoleculeRotationAngle = moleculeRotationAngles[firstUnsafeMoleculeIndex];
-                    moleculeRotationAngles[firstUnsafeMoleculeIndex] = moleculeRotationAngles[safeMoleculeIndex];
-                    moleculeRotationAngles[safeMoleculeIndex] = tempMoleculeRotationAngle;
+                    moleculeRotationAngles[firstUnsafeMoleculeIndex] = moleculeRotationAngles[i];
+                    moleculeRotationAngles[i] = tempMoleculeRotationAngle;
 
                     double tempMoleculeRotationRate;
                     tempMoleculeRotationRate = moleculeRotationRates[firstUnsafeMoleculeIndex];
-                    moleculeRotationRates[firstUnsafeMoleculeIndex] = moleculeRotationRates[safeMoleculeIndex];
-                    moleculeRotationRates[safeMoleculeIndex] = tempMoleculeRotationRate;
+                    moleculeRotationRates[firstUnsafeMoleculeIndex] = moleculeRotationRates[i];
+                    moleculeRotationRates[i] = tempMoleculeRotationRate;
 
                     // Note: Don't worry about torque, since there isn't any until the molecules become "safe".
                 }
