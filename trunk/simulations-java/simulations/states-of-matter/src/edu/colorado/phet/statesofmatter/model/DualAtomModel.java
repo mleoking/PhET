@@ -702,16 +702,10 @@ public class DualAtomModel {
         public void interactionPotentialChanged() {
         }
 
-        ;
-
         public void fixedAtomDiameterChanged() {
         }
 
-        ;
-
         public void movableAtomDiameterChanged() {
         }
-
-        ;
     }
 }
