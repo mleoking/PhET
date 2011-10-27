@@ -87,7 +87,7 @@ public class DialGaugeNode extends PNode {
 
         m_minValue = minValue;
         m_maxValue = maxValue;
-        m_unitsLabel = new String( unitsLabel );
+        m_unitsLabel = unitsLabel;
         m_elbowEnabled = false;
         m_diameter = diameter;
 
@@ -220,7 +220,7 @@ public class DialGaugeNode extends PNode {
 
         // Set the textual readout.
         if ( !overload ) {
-            m_textualReadout.setText( new String( NUMBER_FORMATTER.format( value ) + " " + m_unitsLabel ) );
+            m_textualReadout.setText( NUMBER_FORMATTER.format( value ) + " " + m_unitsLabel );
             m_textualReadout.setTextPaint( Color.BLACK );
             m_textualReadout.setOffset(
                     m_textualReadoutBoxShape.getWidth() / 2 - m_textualReadout.getFullBoundsReference().width / 2,
