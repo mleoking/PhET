@@ -24,8 +24,8 @@ public class AtomicInteractionsModule extends PiccoloModule {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private DualAtomModel m_model;
-    private AtomicInteractionsCanvas m_canvas;
+    private final DualAtomModel m_model;
+    private final AtomicInteractionsCanvas m_canvas;
 
     //----------------------------------------------------------------------------
     // Constructor

@@ -82,23 +82,23 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private DualAtomModel m_model;
-    private ModelViewTransform m_mvt;
+    private final DualAtomModel m_model;
+    private final ModelViewTransform m_mvt;
     private StatesOfMatterAtom m_fixedParticle;
     private StatesOfMatterAtom m_movableParticle;
     private ParticleForceNode m_fixedParticleNode;
     private GrabbableParticleNode m_movableParticleNode;
-    private InteractionPotentialDiagramNode m_interactionPotentialDiagram;
-    private StatesOfMatterAtom.Listener m_atomListener;
+    private final InteractionPotentialDiagramNode m_interactionPotentialDiagram;
+    private final StatesOfMatterAtom.Listener m_atomListener;
     private boolean m_showAttractiveForces;
     private boolean m_showRepulsiveForces;
     private boolean m_showTotalForces;
-    private HTMLImageButtonNode m_retrieveAtomButtonNode;
+    private final HTMLImageButtonNode m_retrieveAtomButtonNode;
     private DefaultWiggleMe m_wiggleMe;
     private boolean m_wiggleMeShown;
-    private PushpinNode m_pushPinNode;
-    private PNode m_fixedParticleLayer;
-    private PNode m_movableParticleLayer;
+    private final PushpinNode m_pushPinNode;
+    private final PNode m_fixedParticleLayer;
+    private final PNode m_movableParticleLayer;
 
     //----------------------------------------------------------------------------
     // Constructor

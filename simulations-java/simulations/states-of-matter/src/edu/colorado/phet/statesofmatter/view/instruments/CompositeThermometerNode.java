@@ -30,9 +30,9 @@ public class CompositeThermometerNode extends PNode {
     private static final double THERMOMETER_WIDTH_PROPORTION = 0.38;
     private static final double LIQUID_THERMOMETER_SCALE_FACTOR = 20;
 
-    private LiquidExpansionThermometerNode m_liquidThermometer;
-    private double m_maxTemp;
-    private DigitalReadoutNode m_digitalReadout;
+    private final LiquidExpansionThermometerNode m_liquidThermometer;
+    private final double m_maxTemp;
+    private final DigitalReadoutNode m_digitalReadout;
 
     private enum Units {KELVIN, CELSIUS}
 
@@ -96,9 +96,9 @@ public class CompositeThermometerNode extends PNode {
 
         private TemperatureUnits m_temperatureUnits = TemperatureUnits.KELVIN;
         private double m_valueInKelvin = 0;
-        private PText m_text;
+        private final PText m_text;
         private String m_units;
-        private PPath m_foregroundNode;
+        private final PPath m_foregroundNode;
         private double m_defaultTextScale = 1;
 
         /**

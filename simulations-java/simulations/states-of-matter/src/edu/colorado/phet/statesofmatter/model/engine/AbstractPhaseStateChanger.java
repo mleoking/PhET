@@ -27,7 +27,7 @@ public abstract class AbstractPhaseStateChanger implements PhaseStateChanger {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    protected MultipleParticleModel m_model;
+    protected final MultipleParticleModel m_model;
 
     //----------------------------------------------------------------------------
     // Constructor(s)

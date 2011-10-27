@@ -23,8 +23,8 @@ public class WaterAtomPositionUpdater implements AtomPositionUpdater {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-    double[] structureX;
-    double[] structureY;
+    final double[] structureX;
+    final double[] structureY;
 
     //----------------------------------------------------------------------------
     // Constructor(s)

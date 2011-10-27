@@ -52,32 +52,32 @@ public class DialGaugeNode extends PNode {
     private static final double TEXTUAL_READOUT_WIDTH_SCALE_FACTOR = 0.6;     // Width of textual readout box wrt overall diameter. 
     private static final double TEXTUAL_READOUT_STROKE_SCALE_FACTOR = 0.010;  // Stroke width textual readout box wrt overall diameter. 
     private static final int NUM_TICKMARKS = 19;
-    private static double GAUGE_START_ANGLE = -Math.PI * 1.15; // In radians.
-    private static double GAUGE_END_ANGLE = Math.PI * 0.15;    // In radians.
-    private static double GAUGE_ANGLE_RANGE = GAUGE_END_ANGLE - GAUGE_START_ANGLE;
-    private static double NEEDLE_SHIFT_PROPORTION = 0.75;      // Proportion of needle used as pointer.
-    private static double CONNECTOR_LENGTH_PROPORATION = 0.30; // Length of non-elbowed connector wrt overall diameter.
-    private static double CONNECTOR_WIDTH_PROPORATION = 0.15;  // Width of connector wrt overall diameter.
-    private static DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.00" );
+    private static final double GAUGE_START_ANGLE = -Math.PI * 1.15; // In radians.
+    private static final double GAUGE_END_ANGLE = Math.PI * 0.15;    // In radians.
+    private static final double GAUGE_ANGLE_RANGE = GAUGE_END_ANGLE - GAUGE_START_ANGLE;
+    private static final double NEEDLE_SHIFT_PROPORTION = 0.75;      // Proportion of needle used as pointer.
+    private static final double CONNECTOR_LENGTH_PROPORATION = 0.30; // Length of non-elbowed connector wrt overall diameter.
+    private static final double CONNECTOR_WIDTH_PROPORATION = 0.15;  // Width of connector wrt overall diameter.
+    private static final DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.00" );
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
-    private double m_diameter;
-    private PPath m_needle;
+    private final double m_diameter;
+    private final PPath m_needle;
     private double m_needleAngle;
-    private PhetPPath m_connector;
-    private double m_needleLength;
-    private PText m_textualReadout;
-    private double m_minValue;
-    private double m_maxValue;
-    private String m_unitsLabel;
-    private RoundRectangle2D m_textualReadoutBoxShape;
-    private GeneralPath m_connectorPath;
+    private final PhetPPath m_connector;
+    private final double m_needleLength;
+    private final PText m_textualReadout;
+    private final double m_minValue;
+    private final double m_maxValue;
+    private final String m_unitsLabel;
+    private final RoundRectangle2D m_textualReadoutBoxShape;
+    private final GeneralPath m_connectorPath;
     private boolean m_elbowEnabled;
     private double m_elbowHeight;
-    private PNode m_dialComponentsNode;
+    private final PNode m_dialComponentsNode;
 
     //------------------------------------------------------------------------
     // Constructor(s)

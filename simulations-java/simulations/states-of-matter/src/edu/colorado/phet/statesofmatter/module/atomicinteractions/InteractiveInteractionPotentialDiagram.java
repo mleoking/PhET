@@ -41,17 +41,17 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
     private static final Color RESIZE_HANDLE_NORMAL_COLOR = new Color( 51, 204, 51 );
     private static final Color RESIZE_HANDLE_HIGHLIGHTED_COLOR = new Color( 153, 255, 0 );
     private static final float EPSILON_LINE_WIDTH = 1f;
-    private static Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH );
+    private static final Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH );
     private static final Color EPSILON_LINE_COLOR = RESIZE_HANDLE_NORMAL_COLOR;
 
     //-----------------------------------------------------------------------------
     // Instance Data
     //-----------------------------------------------------------------------------
 
-    private DualAtomModel m_model;
-    private ResizeArrowNode m_sigmaResizeHandle;
-    private ResizeArrowNode m_epsilonResizeHandle;
-    private PPath m_epsilonLine;
+    private final DualAtomModel m_model;
+    private final ResizeArrowNode m_sigmaResizeHandle;
+    private final ResizeArrowNode m_epsilonResizeHandle;
+    private final PPath m_epsilonLine;
     private boolean m_interactionEnabled;
 
     //-----------------------------------------------------------------------------

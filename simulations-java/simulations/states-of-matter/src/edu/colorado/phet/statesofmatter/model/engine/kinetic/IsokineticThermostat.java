@@ -21,15 +21,15 @@ public class IsokineticThermostat implements Thermostat {
     // Instance Data
     //------------------------------------------------------------------------
 
-    MoleculeForceAndMotionDataSet m_moleculeDataSet;
-    Vector2D[] m_moleculeVelocities;
-    Point2D[] m_moleculeCenterOfMassPositions;
-    Vector2D[] m_moleculeForces;
-    Vector2D[] m_nextMoleculeForces;
-    double[] m_moleculeRotationRates;
+    final MoleculeForceAndMotionDataSet m_moleculeDataSet;
+    final Vector2D[] m_moleculeVelocities;
+    final Point2D[] m_moleculeCenterOfMassPositions;
+    final Vector2D[] m_moleculeForces;
+    final Vector2D[] m_nextMoleculeForces;
+    final double[] m_moleculeRotationRates;
 
     double m_targetTemperature;   // Target temperature in normalized model units.
-    double m_minModelTemperature; // Minimum temperature in normalized model units, below this is considered absolute 0;
+    final double m_minModelTemperature; // Minimum temperature in normalized model units, below this is considered absolute 0;
 
     //------------------------------------------------------------------------
     // Constructor

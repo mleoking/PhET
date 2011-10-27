@@ -71,12 +71,12 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private DualAtomModel m_model;
-    private AtomicInteractionsCanvas m_canvas;
+    private final DualAtomModel m_model;
+    private final AtomicInteractionsCanvas m_canvas;
     private AtomSelectionPanel m_moleculeSelectionPanel;
-    private AtomDiameterControlPanel m_atomDiameterControlPanel;
-    private InteractionStrengthControlPanel m_interactionStrengthControlPanel;
-    private ForceControlPanel m_forceControlPanel;
+    private final AtomDiameterControlPanel m_atomDiameterControlPanel;
+    private final InteractionStrengthControlPanel m_interactionStrengthControlPanel;
+    private final ForceControlPanel m_forceControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -160,9 +160,9 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
      */
     private class HomogeneousAtomSelectionPanel extends JPanel implements AtomSelectionPanel {
 
-        private JRadioButton m_neonRadioButton;
-        private JRadioButton m_argonRadioButton;
-        private JRadioButton m_adjustableAttractionRadioButton;
+        private final JRadioButton m_neonRadioButton;
+        private final JRadioButton m_argonRadioButton;
+        private final JRadioButton m_adjustableAttractionRadioButton;
 
         HomogeneousAtomSelectionPanel() {
 
@@ -259,13 +259,13 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
      */
     private class HeterogeneousAtomSelectionPanel extends VerticalLayoutPanel implements AtomSelectionPanel {
 
-        private JRadioButton m_neonNeonRadioButton;
-        private JRadioButton m_argonArgonRadioButton;
-        private JRadioButton m_oxygenOxygenRadioButton;
-        private JRadioButton m_neonArgonRadioButton;
-        private JRadioButton m_neonOxygenRadioButton;
-        private JRadioButton m_argonOxygenRadioButton;
-        private JRadioButton m_adjustableInteractionRadioButton;
+        private final JRadioButton m_neonNeonRadioButton;
+        private final JRadioButton m_argonArgonRadioButton;
+        private final JRadioButton m_oxygenOxygenRadioButton;
+        private final JRadioButton m_neonArgonRadioButton;
+        private final JRadioButton m_neonOxygenRadioButton;
+        private final JRadioButton m_argonOxygenRadioButton;
+        private final JRadioButton m_adjustableInteractionRadioButton;
 
         /**
          * Constructor.
@@ -495,16 +495,16 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
      */
     private class HeterogeneousAtomSelectionPanel2 extends VerticalLayoutPanel implements AtomSelectionPanel {
 
-        private JRadioButton m_neonFixedRadioButton;
-        private JRadioButton m_argonFixedRadioButton;
-        private JRadioButton m_oxygenFixedRadioButton;
-        private JRadioButton m_adjustableFixedRadioButton;
-        private JRadioButton m_neonMovableRadioButton;
-        private JRadioButton m_argonMovableRadioButton;
-        private JRadioButton m_oxygenMovableRadioButton;
-        private JRadioButton m_adjustableMovableRadioButton;
-        private JRadioButton m_adjustableAttractionRadioButton;
-        private JRadioButton m_adjustableAttractionNotSelectedRadioButton;
+        private final JRadioButton m_neonFixedRadioButton;
+        private final JRadioButton m_argonFixedRadioButton;
+        private final JRadioButton m_oxygenFixedRadioButton;
+        private final JRadioButton m_adjustableFixedRadioButton;
+        private final JRadioButton m_neonMovableRadioButton;
+        private final JRadioButton m_argonMovableRadioButton;
+        private final JRadioButton m_oxygenMovableRadioButton;
+        private final JRadioButton m_adjustableMovableRadioButton;
+        private final JRadioButton m_adjustableAttractionRadioButton;
+        private final JRadioButton m_adjustableAttractionNotSelectedRadioButton;
 
         /**
          * Constructor.
@@ -746,11 +746,11 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
 
         private final Font LABEL_FONT = new PhetFont( 14, false );
 
-        private LinearValueControl m_atomDiameterControl;
-        private DualAtomModel m_model;
-        private TitledBorder m_titledBorder;
-        private JLabel m_leftLabel;
-        private JLabel m_rightLabel;
+        private final LinearValueControl m_atomDiameterControl;
+        private final DualAtomModel m_model;
+        private final TitledBorder m_titledBorder;
+        private final JLabel m_leftLabel;
+        private final JLabel m_rightLabel;
 
         public AtomDiameterControlPanel( DualAtomModel model ) {
 
@@ -833,11 +833,11 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
 
         private final Font LABEL_FONT = new PhetFont( 14, false );
 
-        private LinearValueControl m_interactionStrengthControl;
-        private DualAtomModel m_model;
-        private TitledBorder m_titledBorder;
-        private JLabel m_leftLabel;
-        private JLabel m_rightLabel;
+        private final LinearValueControl m_interactionStrengthControl;
+        private final DualAtomModel m_model;
+        private final TitledBorder m_titledBorder;
+        private final JLabel m_leftLabel;
+        private final JLabel m_rightLabel;
 
         public InteractionStrengthControlPanel( DualAtomModel model ) {
 
@@ -912,11 +912,11 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
 
     private class ForceControlPanel extends VerticalLayoutPanel {
 
-        private JRadioButton m_noForcesButton;
-        private JRadioButton m_totalForcesButton;
-        private JRadioButton m_componentForceButton;
-        private JLabel m_attractiveForceLegendEntry;
-        private JLabel m_repulsiveForceLegendEntry;
+        private final JRadioButton m_noForcesButton;
+        private final JRadioButton m_totalForcesButton;
+        private final JRadioButton m_componentForceButton;
+        private final JLabel m_attractiveForceLegendEntry;
+        private final JLabel m_repulsiveForceLegendEntry;
 
         public ForceControlPanel() {
 

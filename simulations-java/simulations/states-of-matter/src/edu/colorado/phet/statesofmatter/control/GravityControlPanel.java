@@ -35,9 +35,9 @@ public class GravityControlPanel extends JPanel {
 
     private static final Font LABEL_FONT = new PhetFont( 14, true );
 
-    private LinearValueControl m_gravityControl;
+    private final LinearValueControl m_gravityControl;
 
-    private MultipleParticleModel m_model;
+    private final MultipleParticleModel m_model;
 
     public GravityControlPanel( MultipleParticleModel model ) {
 

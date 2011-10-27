@@ -37,16 +37,16 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     private static final Color RESIZE_HANDLE_NORMAL_COLOR = Color.GREEN;
     private static final Color RESIZE_HANDLE_HIGHLIGHTED_COLOR = Color.YELLOW;
     private static final float EPSILON_LINE_WIDTH = 1f;
-    private static Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH );
+    private static final Stroke EPSILON_LINE_STROKE = new BasicStroke( EPSILON_LINE_WIDTH );
     private static final Color EPSILON_LINE_COLOR = RESIZE_HANDLE_NORMAL_COLOR;
 
     //-----------------------------------------------------------------------------
     // Instance Data
     //-----------------------------------------------------------------------------
 
-    private MultipleParticleModel m_model;
-    private ResizeArrowNode m_epsilonResizeHandle;
-    private PPath m_epsilonLine;
+    private final MultipleParticleModel m_model;
+    private final ResizeArrowNode m_epsilonResizeHandle;
+    private final PPath m_epsilonLine;
     private boolean m_interactionEnabled;
 
     //-----------------------------------------------------------------------------

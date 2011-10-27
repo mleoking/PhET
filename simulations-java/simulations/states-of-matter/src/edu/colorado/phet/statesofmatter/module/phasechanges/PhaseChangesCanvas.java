@@ -60,12 +60,12 @@ public class PhaseChangesCanvas extends PhetPCanvas implements Resettable {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private MultipleParticleModel m_model;
-    private ParticleContainerNode m_particleContainer;
-    private CompositeThermometerNode m_thermometerNode;
-    private Random m_rand;
+    private final MultipleParticleModel m_model;
+    private final ParticleContainerNode m_particleContainer;
+    private final CompositeThermometerNode m_thermometerNode;
+    private final Random m_rand;
     private double m_rotationRate = 0;
-    private BooleanProperty m_clockRunning = new BooleanProperty( false );
+    private final BooleanProperty m_clockRunning = new BooleanProperty( false );
 
     //----------------------------------------------------------------------------
     // Constructor

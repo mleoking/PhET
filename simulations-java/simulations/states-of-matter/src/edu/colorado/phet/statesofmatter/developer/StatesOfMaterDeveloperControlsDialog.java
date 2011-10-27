@@ -49,7 +49,7 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-    private static DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.000" );
+    private static final DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.000" );
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -198,10 +198,10 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
      */
     private class ThermostatSelectionPanel extends JPanel {
 
-        private JRadioButton m_noThermostatRadioButton;
-        private JRadioButton m_isokineticThermostatRadioButton;
-        private JRadioButton m_andersenThermostatRadioButton;
-        private JRadioButton m_adaptiveThermostatRadioButton;
+        private final JRadioButton m_noThermostatRadioButton;
+        private final JRadioButton m_isokineticThermostatRadioButton;
+        private final JRadioButton m_andersenThermostatRadioButton;
+        private final JRadioButton m_adaptiveThermostatRadioButton;
 
         ThermostatSelectionPanel() {
 

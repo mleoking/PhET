@@ -28,7 +28,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    DualAtomModel m_model;
+    final DualAtomModel m_model;
     double m_minX; // The minimum value allowed in the x direction.
     double m_maxX; // The minimum value allowed in the x direction.
 

@@ -39,10 +39,10 @@ public class ParticleForceNode extends ParticleNode {
     //-----------------------------------------------------------------------------
 
     private double m_attractiveForce;
-    private Vector2DNode m_attractiveForceVectorNode;
+    private final Vector2DNode m_attractiveForceVectorNode;
     private double m_repulsiveForce;
-    private Vector2DNode m_repulsiveForceVectorNode;
-    private Vector2DNode m_totalForceVectorNode;
+    private final Vector2DNode m_repulsiveForceVectorNode;
+    private final Vector2DNode m_totalForceVectorNode;
 
     //-----------------------------------------------------------------------------
     // Constructor(s)

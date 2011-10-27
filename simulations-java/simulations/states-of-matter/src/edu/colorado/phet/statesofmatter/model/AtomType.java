@@ -11,7 +11,7 @@ package edu.colorado.phet.statesofmatter.model;
  */
 public class AtomType {
 
-    private String m_name;
+    private final String m_name;
 
     public static final AtomType NEON = new AtomType( "Neon" );
     public static final AtomType ARGON = new AtomType( "Argon" );
