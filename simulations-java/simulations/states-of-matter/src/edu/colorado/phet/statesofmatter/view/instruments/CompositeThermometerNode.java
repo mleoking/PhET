@@ -165,10 +165,10 @@ public class CompositeThermometerNode extends PNode {
         private void update() {
             String valueString;
             if ( m_temperatureUnits == TemperatureUnits.CELSIUS ) {
-                valueString = new String( numberFormatter.format( Math.round( m_valueInKelvin - 273.15 ) ) );
+                valueString = numberFormatter.format( Math.round( m_valueInKelvin - 273.15 ) );
             }
             else {
-                valueString = new String( numberFormatter.format( Math.round( m_valueInKelvin ) ) );
+                valueString = numberFormatter.format( Math.round( m_valueInKelvin ) );
             }
 
             if ( m_units != null ) {
