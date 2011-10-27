@@ -49,7 +49,7 @@ public class DilutionsResources {
         public static final String SOLUTION_CONCENTRATION = RESOURCES.getLocalizedString( "solutionConcentration" );
         public static final String SOLUTION_VOLUME = RESOURCES.getLocalizedString( "solutionVolume" );
         public static final String VERY_SMALL = RESOURCES.getLocalizedString( "verySmall" );
-        public static final String VOLUME_V1 = RESOURCES.getLocalizedString( "volumeV2" );
+        public static final String VOLUME_V1 = RESOURCES.getLocalizedString( "volumeV1" );
         public static final String VOLUME_V2 = RESOURCES.getLocalizedString( "volumeV2" );
         public static final String ZERO = RESOURCES.getLocalizedString( "zero" );
     }
