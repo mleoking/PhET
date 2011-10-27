@@ -59,10 +59,8 @@ public class WaterMoleculeStructure {
     }
 
     public double getRotationalInertia() {
-        double rotationalInertia = ( Math.pow( m_moleculeStructureX[0], 2 ) + Math.pow( m_moleculeStructureY[0], 2 ) )
-                                   + 0.25 * ( Math.pow( m_moleculeStructureX[1], 2 ) + Math.pow( m_moleculeStructureY[1], 2 ) )
-                                   + 0.25 * ( Math.pow( m_moleculeStructureX[2], 2 ) + Math.pow( m_moleculeStructureY[2], 2 ) );
-
-        return rotationalInertia;
+        return ( Math.pow( m_moleculeStructureX[0], 2 ) + Math.pow( m_moleculeStructureY[0], 2 ) )
+               + 0.25 * ( Math.pow( m_moleculeStructureX[1], 2 ) + Math.pow( m_moleculeStructureY[1], 2 ) )
+               + 0.25 * ( Math.pow( m_moleculeStructureX[2], 2 ) + Math.pow( m_moleculeStructureY[2], 2 ) );
     }
 }

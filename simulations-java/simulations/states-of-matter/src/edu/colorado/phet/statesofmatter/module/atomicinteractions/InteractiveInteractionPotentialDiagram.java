@@ -231,11 +231,6 @@ public class InteractiveInteractionPotentialDiagram extends InteractionPotential
     //-----------------------------------------------------------------------------
 
     private void updateInteractivityState() {
-        if ( m_model.getFixedAtomType() != AtomType.ADJUSTABLE ) {
-            m_interactionEnabled = false;
-        }
-        else {
-            m_interactionEnabled = true;
-        }
+        m_interactionEnabled = m_model.getFixedAtomType() == AtomType.ADJUSTABLE;
     }
 }

@@ -1557,8 +1557,7 @@ public class MultipleParticleModel implements Resettable {
         // to a scaled value for the motion calculator object was
         // determined empirically such that the resulting behavior
         // roughly matched that of the existing monatomic molecules.
-        double scaledEpsilon = epsilon / ( StatesOfMatterConstants.MAX_EPSILON / 2 );
-        return scaledEpsilon;
+        return epsilon / ( StatesOfMatterConstants.MAX_EPSILON / 2 );
     }
 
     private double convertScaledEpsilonToEpsilon( double scaledEpsilon ) {

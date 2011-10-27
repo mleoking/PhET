@@ -147,11 +147,6 @@ public class EpsilonControlInteractionPotentialDiagram extends InteractionPotent
     //-----------------------------------------------------------------------------
 
     private void updateInteractivityState() {
-        if ( m_model.getMoleculeType() != StatesOfMatterConstants.USER_DEFINED_MOLECULE ) {
-            m_interactionEnabled = false;
-        }
-        else {
-            m_interactionEnabled = true;
-        }
+        m_interactionEnabled = m_model.getMoleculeType() == StatesOfMatterConstants.USER_DEFINED_MOLECULE;
     }
 }
