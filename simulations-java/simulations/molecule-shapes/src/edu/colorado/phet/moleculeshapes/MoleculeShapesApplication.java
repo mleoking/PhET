@@ -3,9 +3,9 @@
 package edu.colorado.phet.moleculeshapes;
 
 
-import java.awt.*;
+import java.awt.Frame;
 
-import javax.swing.*;
+import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
