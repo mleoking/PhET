@@ -1,12 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.socketutil;
+package edu.colorado.phet.common.simsharingcore;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-import edu.colorado.phet.simsharing.server.Server;
 
 /**
  * Fairly general-purpose class for communicating with a server over sockets.
@@ -18,8 +16,14 @@ public class Client implements IActor {
     public final ObjectOutputStream writeToServer;
     public final ObjectInputStream readFromServer;
 
+    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
+//    public static String HOST_IP_ADDRESS = "localhost";//Settings for running locally
+
+    //On phet-server, port must be in a specific range of allowed ports, see Unfuddle ticket
+    public static int PORT = 44101;
+
     public Client() throws ClassNotFoundException, IOException {
-        this( Server.HOST_IP_ADDRESS, Server.PORT );
+        this( HOST_IP_ADDRESS, PORT );
     }
 
     public Client( String host, int port ) throws IOException, ClassNotFoundException {
