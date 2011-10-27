@@ -58,8 +58,8 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
     private final PhetApplication m_app;
     private MultipleParticleModel m_model;
     private LinearValueControl m_temperatureControl;
-    private JLabel m_containterWidthInfo;
-    private JLabel m_containterHeightInfo;
+    private JLabel m_containerWidthInfo;
+    private JLabel m_containerHeightInfo;
     private JLabel m_numParticles;
 
     //----------------------------------------------------------------------------
@@ -159,10 +159,10 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
 
         // Create the "Additional Information" panel.
         JPanel infoPanel = new JPanel();
-        m_containterWidthInfo = new JLabel();
-        infoPanel.add( m_containterWidthInfo );
-        m_containterHeightInfo = new JLabel();
-        infoPanel.add( m_containterHeightInfo );
+        m_containerWidthInfo = new JLabel();
+        infoPanel.add( m_containerWidthInfo );
+        m_containerHeightInfo = new JLabel();
+        infoPanel.add( m_containerHeightInfo );
         m_numParticles = new JLabel();
         infoPanel.add( m_numParticles );
         BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
@@ -278,8 +278,8 @@ public class StatesOfMaterDeveloperControlsDialog extends PaintImmediateDialog {
     }
 
     private void updateAdditionalInfo() {
-        m_containterWidthInfo.setText( "Lx = " + NUMBER_FORMATTER.format( m_model.getNormalizedContainerWidth() ) );
-        m_containterHeightInfo.setText( "Ly = " + NUMBER_FORMATTER.format( m_model.getNormalizedContainerHeight() ) );
+        m_containerWidthInfo.setText( "Lx = " + NUMBER_FORMATTER.format( m_model.getNormalizedContainerWidth() ) );
+        m_containerHeightInfo.setText( "Ly = " + NUMBER_FORMATTER.format( m_model.getNormalizedContainerHeight() ) );
         m_numParticles.setText( "N = " + m_model.getNumMolecules() );
     }
 }

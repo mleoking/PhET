@@ -307,7 +307,7 @@ public class DualAtomModel {
     }
 
     /**
-     * Get the epsilon value, a.k.a. the Interaction Strength Paramter, which
+     * Get the epsilon value, a.k.a. the Interaction Strength Parameter, which
      * is one of the two parameters that describes the Lennard-Jones potential.
      *
      * @return

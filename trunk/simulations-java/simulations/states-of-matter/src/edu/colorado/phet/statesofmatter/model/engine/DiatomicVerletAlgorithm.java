@@ -158,9 +158,9 @@ public class DiatomicVerletAlgorithm extends AbstractVerletAlgorithm {
                             // Calculate the Lennard-Jones interaction forces.
                             double r2inv = 1 / distanceSquared;
                             double r6inv = r2inv * r2inv * r2inv;
-                            double forceScaler = 48 * r2inv * r6inv * ( r6inv - 0.5 );
-                            double fx = dx * forceScaler;
-                            double fy = dy * forceScaler;
+                            double forceScalar = 48 * r2inv * r6inv * ( r6inv - 0.5 );
+                            double fx = dx * forceScalar;
+                            double fy = dy * forceScalar;
                             force.setComponents( fx, fy );
                             nextMoleculeForces[i].add( force );
                             nextMoleculeForces[j].subtract( force );

@@ -36,7 +36,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
 
     // Parameters that control the increasing of gravity as the temperature
     // approaches zero.  This is done to counteract the tendency of the
-    // thermostat to slow falling molecules noticably at low temps.  This is
+    // thermostat to slow falling molecules noticeably at low temps.  This is
     // a "hollywooding" thing.
     protected static final double TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES = 0.10;
     protected static final double LOW_TEMPERATURE_GRAVITY_INCREASE_RATE = 50;

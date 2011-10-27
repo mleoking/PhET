@@ -79,15 +79,6 @@ public class GrabbableParticleNode extends ParticleForceNode {
         } );
     }
 
-    /**
-     * Constructor
-     */
-    public GrabbableParticleNode( DualAtomModel model, StatesOfMatterAtom particle, ModelViewTransform mvt,
-                                  boolean useGradient ) {
-
-        this( model, particle, mvt, useGradient, true, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY );
-    }
-
     //----------------------------------------------------------------------------
     // Accessor Methods
     //----------------------------------------------------------------------------
