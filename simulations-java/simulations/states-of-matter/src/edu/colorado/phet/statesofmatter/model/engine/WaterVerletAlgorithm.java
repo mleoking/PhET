@@ -234,9 +234,9 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
                         repulsiveForceScalingFactor = MAX_REPULSIVE_SCALING_FACTOR_FOR_WATER
                                                       - ( temperatureFactor * ( MAX_REPULSIVE_SCALING_FACTOR_FOR_WATER - 1 ) );
                     }
-                    double forceScaler = 48 * r2inv * r6inv * ( ( r6inv * repulsiveForceScalingFactor ) - 0.5 );
-                    force.setX( dx * forceScaler );
-                    force.setY( dy * forceScaler );
+                    double forceScalar = 48 * r2inv * r6inv * ( ( r6inv * repulsiveForceScalingFactor ) - 0.5 );
+                    force.setX( dx * forceScalar );
+                    force.setY( dy * forceScalar );
                     nextMoleculeForces[i].add( force );
                     nextMoleculeForces[j].subtract( force );
                     m_potentialEnergy += 4 * r6inv * ( r6inv - 1 ) + 0.016316891136;
@@ -258,9 +258,9 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
                             dx = atomPositions[3 * i + ii].getX() - atomPositions[3 * j + jj].getX();
                             dy = atomPositions[3 * i + ii].getY() - atomPositions[3 * j + jj].getY();
                             double r2inv = 1 / ( dx * dx + dy * dy );
-                            double forceScaler = chargesA[ii] * chargesB[jj] * r2inv * r2inv;
-                            force.setX( dx * forceScaler );
-                            force.setY( dy * forceScaler );
+                            double forceScalar = chargesA[ii] * chargesB[jj] * r2inv * r2inv;
+                            force.setX( dx * forceScalar );
+                            force.setY( dy * forceScalar );
 
                             nextMoleculeForces[i].add( force );
                             nextMoleculeForces[j].subtract( force );

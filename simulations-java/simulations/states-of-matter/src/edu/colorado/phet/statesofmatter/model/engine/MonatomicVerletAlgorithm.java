@@ -164,9 +164,9 @@ if (m_model.getTemperatureSetPoint() < TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES
                     }
                     double r2inv = 1 / distanceSqrd;
                     double r6inv = r2inv * r2inv * r2inv;
-                    double forceScaler = 48 * r2inv * r6inv * ( r6inv - 0.5 ) * m_epsilon;
-                    force.setX( dx * forceScaler );
-                    force.setY( dy * forceScaler );
+                    double forceScalar = 48 * r2inv * r6inv * ( r6inv - 0.5 ) * m_epsilon;
+                    force.setX( dx * forceScalar );
+                    force.setY( dy * forceScalar );
                     nextMoleculeForces[i].add( force );
                     nextMoleculeForces[j].subtract( force );
                     potentialEnergy += 4 * r6inv * ( r6inv - 1 ) + 0.016316891136;

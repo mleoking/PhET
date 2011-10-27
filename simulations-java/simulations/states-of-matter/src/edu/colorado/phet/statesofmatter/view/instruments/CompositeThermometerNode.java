@@ -34,8 +34,6 @@ public class CompositeThermometerNode extends PNode {
     private final double m_maxTemp;
     private final DigitalReadoutNode m_digitalReadout;
 
-    private enum Units {KELVIN, CELSIUS}
-
     /**
      * Constructor.
      *

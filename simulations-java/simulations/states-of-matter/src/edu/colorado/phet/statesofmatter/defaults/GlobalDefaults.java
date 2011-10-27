@@ -20,7 +20,4 @@ package edu.colorado.phet.statesofmatter.defaults;
 
     // Clock
     public static final boolean CLOCK_RUNNING = true;
-    public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-    public static final double CLOCK_DT = 1;
-    public static final int CLOCK_TIME_COLUMNS = 10;
 }
