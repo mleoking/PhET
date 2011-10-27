@@ -13,10 +13,10 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.simsharingcore.Client;
 import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
-import edu.colorado.phet.simsharing.socketutil.Client;
 
 /**
  * @author Sam Reid

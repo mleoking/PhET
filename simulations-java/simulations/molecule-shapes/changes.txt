@@ -1,3 +1,4 @@
+Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
 Added simsharing project as a dependency of molecule-shapes for testing, should be removed before any more public deploys of this sim
 Added sim sharing events for dragging atoms, electron pairs or rotating the view
 Added SimSharingEvents and reporting from creating/destroying bonds and all checkboxes

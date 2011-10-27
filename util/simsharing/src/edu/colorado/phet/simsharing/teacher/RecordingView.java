@@ -15,10 +15,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import edu.colorado.phet.common.simsharingcore.Client;
 import edu.colorado.phet.simsharing.Sim;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
-import edu.colorado.phet.simsharing.socketutil.Client;
 
 /**
  * @author Sam Reid

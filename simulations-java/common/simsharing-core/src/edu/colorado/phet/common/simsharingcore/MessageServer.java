@@ -1,4 +1,4 @@
-package edu.colorado.phet.simsharing.socketutil;
+package edu.colorado.phet.common.simsharingcore;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

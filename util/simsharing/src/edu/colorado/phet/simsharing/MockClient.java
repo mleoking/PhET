@@ -3,9 +3,9 @@ package edu.colorado.phet.simsharing;
 
 import java.io.IOException;
 
+import edu.colorado.phet.common.simsharingcore.IActor;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StartSession;
-import edu.colorado.phet.simsharing.socketutil.IActor;
 
 /**
  * @author Sam Reid

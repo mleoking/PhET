@@ -8,6 +8,8 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.colorado.phet.common.simsharingcore.MessageHandler;
+import edu.colorado.phet.common.simsharingcore.MessageServer;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
@@ -15,8 +17,6 @@ import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StartSession;
 import edu.colorado.phet.simsharing.server.file.FileStorage;
-import edu.colorado.phet.simsharing.socketutil.MessageHandler;
-import edu.colorado.phet.simsharing.socketutil.MessageServer;
 import edu.colorado.phet.simsharing.teacher.ClearSessions;
 import edu.colorado.phet.simsharing.teacher.ListAllSessions;
 

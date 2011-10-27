@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.simsharingcore.Client;
 import edu.colorado.phet.simsharing.server.Server;
-import edu.colorado.phet.simsharing.socketutil.Client;
 import edu.colorado.phet.simsharing.teacher.ClassroomView;
 import edu.colorado.phet.simsharing.teacher.RecordingView;
 

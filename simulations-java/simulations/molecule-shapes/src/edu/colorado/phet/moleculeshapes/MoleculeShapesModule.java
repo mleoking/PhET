@@ -473,9 +473,17 @@ public class MoleculeShapesModule extends JMEModule {
         draggingChanged();
     }
 
+
+    boolean lastDragging = false;
+
     //Signify to the sim sharing feature that dragging state changed, should be called whenever dragging or dragMode changes (but batch together when both change)
     private void draggingChanged() {
-        SimSharingEvents.actionPerformed( "Dragging = " + dragging + "\t+" + "dragMode = " + dragMode );
+
+        //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
+        if ( lastDragging != dragging ) {
+            SimSharingEvents.actionPerformed( "Dragging = " + dragging + "\t+" + "dragMode = " + dragMode );
+        }
+        lastDragging = dragging;
     }
 
     private void onLeftMouseDown() {

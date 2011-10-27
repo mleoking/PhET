@@ -20,7 +20,7 @@
     <orderEntry type="module" module-name="chemistry" />
     <orderEntry type="module" module-name="Jama" />
     <orderEntry type="module" module-name="jme-phet" />
-    <orderEntry type="module" module-name="simsharing" />
+    <orderEntry type="module" module-name="simsharing-core" />
   </component>
 </module>
 
