@@ -104,8 +104,8 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
                                                 dilutionBeakerNode.getYOffset() );
             dilutionConcentrationNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 5,
                                                  dilutionBeakerNode.getFullBoundsReference().getMaxY() - dilutionConcentrationNode.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( dilutionConcentrationNode ) );
-            resetAllButtonNode.setOffset( ( getStageSize().getWidth() / 2 ) - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
-                                          getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - 15 );
+            resetAllButtonNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMinX(),
+                                          waterBeakerNode.getFullBoundsReference().getMaxY() + 30 );
         }
         centerRootNode();
     }
