@@ -32,15 +32,16 @@ public class MolarityModel implements Resettable {
 
     public MolarityModel() {
 
+        // solutes, in rainbow (ROYBIV) order
         this.solutes = new ArrayList<Solute>() {{
             add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, Color.RED, 5, 200 ) );
             add( new Solute( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 5.0, Color.RED, 5, 200 ) );
-            add( new Solute( Strings.NICKEL_II_CHLORIDE, Symbols.NICKEL_II_CHLORIDE, 5.0, new Color( 0x008000 ) /* green */, 5, 200 ) );
             add( new Solute( Strings.COBALT_CHLORIDE, Symbols.COBALT_CHLORIDE, 4.35, new Color( 0xFF6A6A ) /* rose pink */, 5, 200 ) );
-            add( new Solute( Strings.POTASSIUM_CHROMATE, Symbols.POTASSIUM_CHROMATE, 3.35, Color.YELLOW, 5, 200 ) );
-            add( new Solute( Strings.GOLD_III_CHLORIDE, Symbols.GOLD_III_CHLORIDE, 2.25, new Color( 0xFFD700 ) /* yellow */, 5, 200 ) );
-            add( new Solute( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 1.40, new Color( 0x1E90FF ) /* blue */, 5, 200 ) );
             add( new Solute( Strings.POTASSIUM_DICHROMATE, Symbols.POTASSIUM_DICHROMATE, 0.50, new Color( 0xFF7F00 ) /* orange */, 5, 200 ) );
+            add( new Solute( Strings.GOLD_III_CHLORIDE, Symbols.GOLD_III_CHLORIDE, 2.25, new Color( 0xFFD700 ) /* yellow */, 5, 200 ) );
+            add( new Solute( Strings.POTASSIUM_CHROMATE, Symbols.POTASSIUM_CHROMATE, 3.35, Color.YELLOW, 5, 200 ) );
+            add( new Solute( Strings.NICKEL_II_CHLORIDE, Symbols.NICKEL_II_CHLORIDE, 5.0, new Color( 0x008000 ) /* green */, 5, 200 ) );
+            add( new Solute( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 1.40, new Color( 0x1E90FF ) /* blue */, 5, 200 ) );
             add( new Solute( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 0.50, new Color( 0x8B008B ) /* purple */, Color.BLACK, 5, 200 ) );
         }};
         for ( Solute solute : solutes ) {
