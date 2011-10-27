@@ -5,9 +5,6 @@ package edu.colorado.phet.statesofmatter.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
@@ -24,7 +21,6 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * This class is the "view" for the particle container.  This is where the
@@ -191,15 +187,7 @@ public class ParticleContainerNode extends PhetPNode {
         addChild( m_topContainerLayer );
 
         // Create the visual representation of the container.
-        if ( CONTAINER_TYPE == SINGLE_IMAGE_CONTAINER ) {
-            loadSingleContainerImage();
-        }
-        else if ( CONTAINER_TYPE == MULTI_IMAGE_CONTAINER ) {
-            loadMultipleContainerImages();
-        }
-        else {
-            drawContainer();
-        }
+        loadMultipleContainerImages();
 
         if ( volumeControlEnabled ) {
             // Add the finger for pressing down on the top of the container.
@@ -283,94 +271,6 @@ public class ParticleContainerNode extends PhetPNode {
         }
 
         updatePressureGauge();
-    }
-
-    private void drawContainer() {
-        // Create the bottom of the container, which will appear below (or
-        // behind) the particles in the Z-order.
-
-        double ellipseHeight = m_containmentAreaHeight * ELLIPSE_HEIGHT_PROPORTION;
-
-        // Create the bottom of the container.
-        PPath hiddenContainerEdge = new PPath( new Ellipse2D.Double( 0, 0, m_containmentAreaWidth, ellipseHeight ) );
-        hiddenContainerEdge.setStroke( HIDDEN_CONTAINER_EDGE_STROKE );
-        hiddenContainerEdge.setStrokePaint( CONTAINER_EDGE_COLOR );
-        m_bottomContainerLayer.addChild( hiddenContainerEdge );
-
-        Ellipse2D outerEllipse = new Ellipse2D.Double( -CONTAINER_LINE_WIDTH / 2, -CONTAINER_LINE_WIDTH / 2,
-                                                       m_containmentAreaWidth + CONTAINER_LINE_WIDTH, ellipseHeight + CONTAINER_LINE_WIDTH );
-        Ellipse2D innerEllipse = new Ellipse2D.Double( CONTAINER_LINE_WIDTH / 2, CONTAINER_LINE_WIDTH / 2,
-                                                       m_containmentAreaWidth - CONTAINER_LINE_WIDTH, ellipseHeight - CONTAINER_LINE_WIDTH );
-        Rectangle2D topHalfRect = new Rectangle2D.Double( -CONTAINER_LINE_WIDTH / 2, -CONTAINER_LINE_WIDTH / 2,
-                                                          m_containmentAreaWidth + CONTAINER_LINE_WIDTH, ellipseHeight / 2 );
-        Area bottomEdgeArea = new Area( outerEllipse );
-        bottomEdgeArea.subtract( new Area( innerEllipse ) );
-        bottomEdgeArea.subtract( new Area( topHalfRect ) );
-        PPath bottomFrontContainerEdge = new PPath( bottomEdgeArea );
-        bottomFrontContainerEdge.setPaint( CONTAINER_EDGE_COLOR );
-        m_bottomContainerLayer.addChild( bottomFrontContainerEdge );
-
-        m_bottomContainerLayer.setOffset( 0, m_containmentAreaHeight - ( ellipseHeight / 2 ) );
-
-        // Create the lid of the container, which will appear above the
-        // particles in the Z-order.
-
-        PPath containerTop = new PPath( new Ellipse2D.Double( 0, 0, m_containmentAreaWidth, ellipseHeight ) );
-        containerTop.setStroke( CONTAINER_EDGE_STROKE );
-        containerTop.setStrokePaint( CONTAINER_EDGE_COLOR );
-        HandleNode containerTopHandle = new HandleNode( m_containmentAreaWidth * 0.18, m_containmentAreaHeight * 0.05, Color.RED );
-        m_containerLid = new PNode();
-        m_containerLid.setPickable( false );
-        m_containerLid.setChildrenPickable( false );
-        m_containerLid.addChild( containerTop );
-        m_containerLid.addChild( containerTopHandle );
-        m_middleContainerLayer.addChild( m_containerLid );
-        m_containerLid.setOffset( 0, -ellipseHeight / 2 );
-
-        // Create the left and right edges of the container.
-
-        PPath containerLeftSide = new PPath( new Line2D.Double( 0, 0, 0, m_containmentAreaHeight ) );
-        containerLeftSide.setStroke( CONTAINER_EDGE_STROKE );
-        containerLeftSide.setStrokePaint( CONTAINER_EDGE_COLOR );
-        m_topContainerLayer.addChild( containerLeftSide );
-
-        PPath containerRightSide =
-                new PPath( new Line2D.Double( m_containmentAreaWidth, 0, m_containmentAreaWidth, m_containmentAreaHeight ) );
-        containerRightSide.setStroke( CONTAINER_EDGE_STROKE );
-        containerRightSide.setStrokePaint( CONTAINER_EDGE_COLOR );
-        m_topContainerLayer.addChild( containerRightSide );
-    }
-
-    private void loadSingleContainerImage() {
-
-        // Load the image that will be used for the front of the container.
-        PImage containerImageNode = StatesOfMatterResources.getImageNode( CONTAINER_FRONT_IMAGE_NAME );
-
-        // Scale the container image based on the size of the container.
-        containerImageNode.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
-
-        // Add the image to the top layer node.
-        m_topContainerLayer.addChild( containerImageNode );
-        containerImageNode.setOffset( 0, 0 );
-
-        // Add the lid of the container.
-        m_containerLid = StatesOfMatterResources.getImageNode( LID_IMAGE_NAME );
-        m_containerLid.setScale( m_containmentAreaWidth / containerImageNode.getWidth() );
-        m_containerLid.setPickable( false );
-        m_middleContainerLayer.addChild( m_containerLid );
-        m_containerLid.setOffset( 0, ( -m_containerLid.getFullBoundsReference().height / 2 ) + LID_POSITION_TWEAK_FACTOR );
-
-        if ( LOAD_CONTAINER_BACKGROUND_IMAGE ) {
-            // Load the image that will be used for the back of the container.
-            PImage containerBackImageNode = StatesOfMatterResources.getImageNode( CONTAINER_BACK_IMAGE_NAME );
-
-            // Scale the container image based on the size of the container.
-            containerBackImageNode.setScale( m_containmentAreaWidth / containerBackImageNode.getFullBoundsReference().width );
-
-            // Add the image to the bottom layer node.
-            m_bottomContainerLayer.addChild( containerBackImageNode );
-            containerBackImageNode.setOffset( 0, -( m_model.getParticleContainerHeight() * ELLIPSE_HEIGHT_PROPORTION / 2 ) );
-        }
     }
 
     private void loadMultipleContainerImages() {
