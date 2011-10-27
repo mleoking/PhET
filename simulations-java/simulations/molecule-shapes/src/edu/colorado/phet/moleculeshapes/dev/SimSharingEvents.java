@@ -3,12 +3,15 @@ package edu.colorado.phet.moleculeshapes.dev;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.simsharing.socketutil.Client;
+import edu.colorado.phet.simsharing.socketutil.ThreadedActor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -32,12 +35,36 @@ public class SimSharingEvents {
         } );
     }
 
+    public static ThreadedActor client;
+
+    static {
+        try {
+            client = new ThreadedActor( new Client() );
+        }
+        catch ( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
     public static void actionPerformed( String action ) {
         if ( !printedColumns ) {
-            System.out.println( "Session ID" + "\t" + "Event time (ms)" + "\t" + "Action" );
+            write( "Session ID" + "\t" + "Event time (ms)" + "\t" + "Action" );
             printedColumns = true;
         }
-        System.out.println( SESSION_ID + "\t" + System.currentTimeMillis() + "\t" + action );
+        write( SESSION_ID + "\t" + System.currentTimeMillis() + "\t" + action );
+    }
+
+    private static void write( String s ) {
+        System.out.println( s );
+        try {
+            client.tell( s );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     public static void addActionListener( ButtonNode textButtonNode, final String s ) {
