@@ -23,6 +23,10 @@ public class MolarityModel implements Resettable {
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / SOLUTION_VOLUME_RANGE.getMax(),
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / SOLUTION_VOLUME_RANGE.getMin() );
 
+    static {
+        assert ( SOLUTION_VOLUME_RANGE.getMin() > 0 );
+    }
+
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Solution solution;
 
