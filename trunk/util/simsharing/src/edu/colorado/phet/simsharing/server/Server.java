@@ -80,6 +80,9 @@ public class Server implements MessageHandler {
             final GetSamplesAfter request = (GetSamplesAfter) message;
             writeToClient.writeObject( storage.getSamplesAfter( request.id, request.index ) );
         }
+        else {
+            System.out.println( message );
+        }
     }
 
     private void debugSampleCount() {
