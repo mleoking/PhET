@@ -47,6 +47,10 @@
     <!-- src dependencies -->
     <property name="phetbuild-src" location="${dir.build-tools}/src"/>
     <property name="phetcommon-src" location="${dir.common}/phetcommon/src"/>
+    <property name="simsharing-core-src" location="${dir.common}/simsharing-core/src"/>
+    <property name="piccolo2d-src" location="${dir.contrib}/piccolo2d/core/src/main/java"/>
+    <property name="piccolo2d-extras-src" location="${dir.contrib}/piccolo2d/extras/src/main/java"/>
+    <property name="piccolo-phet-src" location="${dir.common}/piccolo-phet/src"/>
     <property name="flash-launcher-src" location="${trunk}/simulations-flash/flash-launcher/src"/>
     <property name="scf-src" value="${dir.build-tools}/contrib/securechannelfacade/src/main/java"/>
     <property name="licensing-src" location="${trunk}/util/licensing/src"/>
@@ -64,7 +68,7 @@
     <!-- build tools dependencies -->
     <property name="dir.build-contrib" value="${dir.build-tools}/contrib"/>
     <property name="dir.ant-lib" value="${dir.build-contrib}/apache-ant/lib"/>
-    
+
     <property name="ant.jar" location="${dir.ant-lib}/ant.jar"/>
     <property name="ant-launcher.jar" location="${dir.ant-lib}/ant-launcher.jar"/>
     <property name="ant-antlr.jar" location="${dir.ant-lib}/ant-antlr.jar"/>
@@ -117,7 +121,7 @@
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes-dir}"/>
 
-        <javac srcdir="${phetbuild-src}:${phetcommon-src}:${scf-src}:${flash-launcher-src}:${licensing-src}"
+        <javac srcdir="${phetbuild-src}:${phetcommon-src}:${scf-src}:${flash-launcher-src}:${licensing-src}:${simsharing-core-src}:${piccolo2d-src}:${piccolo-phet-src}:${piccolo2d-extras-src}"
                destdir="${phetbuild-classes-dir}"
                classpath="${phetbuild-classpath-jars}" debug="true"
                source="1.5"
