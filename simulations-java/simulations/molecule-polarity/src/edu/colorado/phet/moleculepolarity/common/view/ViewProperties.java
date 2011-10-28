@@ -3,7 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.simsharingcore.SimSharingProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 
 /**
  * Properties that control things in the view.

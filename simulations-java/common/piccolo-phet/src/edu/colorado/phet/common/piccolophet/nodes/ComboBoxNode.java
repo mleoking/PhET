@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -20,7 +21,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.simsharingcore.SimSharingProperty;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.PNode;

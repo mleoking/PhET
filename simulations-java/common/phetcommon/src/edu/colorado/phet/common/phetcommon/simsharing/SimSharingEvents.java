@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.simsharingcore;
+package edu.colorado.phet.common.phetcommon.simsharing;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -20,10 +18,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Central access point for action-oriented message delivery for user usage studies.
@@ -45,15 +39,6 @@ public class SimSharingEvents {
     private static boolean connect = false;
     private static Option<Long> simStartedTime = new Option.None<Long>();
     private static Collection<String> queue = Collections.synchronizedCollection( new ArrayList<String>() );
-
-    //Fire an action when the mouse is released on the specified PNode
-    public static void registerMouseReleasedListener( PNode node, final String action ) {
-        node.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseReleased( PInputEvent event ) {
-                actionPerformed( action );
-            }
-        } );
-    }
 
     //Signify that an action has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
     public static void actionPerformed( String action ) {
@@ -98,15 +83,6 @@ public class SimSharingEvents {
         catch ( Throwable t ) {
             t.printStackTrace();
         }
-    }
-
-    //Write the specified message when the button is pressed
-    public static void addActionListener( ButtonNode textButtonNode, final String message ) {
-        textButtonNode.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                SimSharingEvents.actionPerformed( message );
-            }
-        } );
     }
 
     //Write a message indicating that a property changed (whether the user or model changes the property)
@@ -162,18 +138,6 @@ public class SimSharingEvents {
             tellWithErrorHandling( s );
         }
         queue.clear();
-    }
-
-    public static void addDragSequenceListener( PNode node, final Function0<String> message ) {
-        node.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseDragged( PInputEvent event ) {
-                actionPerformed( "Mouse dragged: " + message.apply() );
-            }
-
-            @Override public void mouseReleased( PInputEvent event ) {
-                actionPerformed( "Mouse released: " + message.apply() );
-            }
-        } );
     }
 
     public static void addDragSequenceListener( JComponent component, final Function0<String> message ) {
