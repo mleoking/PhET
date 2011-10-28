@@ -65,8 +65,7 @@ public class BrickStack extends ShapeMass {
             // Move the origin to the next brick.
             brickOrigin.setLocation( brickOrigin.getX(), brickOrigin.getY() + BRICK_HEIGHT );
         }
-        Shape scaledShape = AffineTransform.getScaleInstance( scale, scale ).createTransformedShape( brickPath.getGeneralPath() );
-        return scaledShape;
+        return AffineTransform.getScaleInstance( scale, scale ).createTransformedShape( brickPath.getGeneralPath() );
     }
 
     @Override public void initiateAnimation() {
