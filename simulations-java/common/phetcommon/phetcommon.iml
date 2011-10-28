@@ -35,7 +35,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="think-tank-maths" exported="" />
-    <orderEntry type="module" module-name="simsharing-core" exported="" />
   </component>
 </module>
 
