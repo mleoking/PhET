@@ -21,7 +21,6 @@
     <orderEntry type="module" module-name="jmol" />
     <orderEntry type="module" module-name="chemistry" />
     <orderEntry type="module" module-name="jmol-phet" />
-    <orderEntry type="module" module-name="simsharing-core" />
   </component>
 </module>
 
