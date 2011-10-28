@@ -1,3 +1,4 @@
+10/28/11 Added event reporting for end of game, see #3136
 10/20/11 make game "Start" button color configurable, so that sims can use a consistent "attention" color throughout game
 10/19/11 Changed the GameSettingsPanel start button from a swing button to a piccolo button
 2/10/11 #2727, rewrite GameSettings to use properties exclusively, remove old-style constructors and accessor methods
