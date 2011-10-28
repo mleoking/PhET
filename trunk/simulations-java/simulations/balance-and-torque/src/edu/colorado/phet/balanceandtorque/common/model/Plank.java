@@ -512,12 +512,7 @@ public class Plank extends ShapeModelElement {
 
     public boolean isPointAbovePlank( Point2D p ) {
         Rectangle2D plankBounds = getShape().getBounds2D();
-        if ( p.getX() >= plankBounds.getMinX() && p.getX() <= plankBounds.getMaxX() && p.getY() > getSurfaceYValue( p.getX() ) ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return p.getX() >= plankBounds.getMinX() && p.getX() <= plankBounds.getMaxX() && p.getY() > getSurfaceYValue( p.getX() );
     }
 
     /**

@@ -542,8 +542,7 @@ public class BalanceGameChallengeFactory {
      * movable masses and the given constraints on the plank can be solved.
      */
     private static boolean isChallengeSolvable( double fixedMassValue, double movableMassValue, double distanceIncrement, double maxDistance ) {
-        double minDistance = distanceIncrement;
-        if ( fixedMassValue * minDistance > movableMassValue * maxDistance || fixedMassValue * maxDistance < movableMassValue * minDistance ) {
+        if ( fixedMassValue * distanceIncrement > movableMassValue * maxDistance || fixedMassValue * maxDistance < movableMassValue * distanceIncrement ) {
             // The balance is not long enough to allow these masses to be balanced.
             return false;
         }
