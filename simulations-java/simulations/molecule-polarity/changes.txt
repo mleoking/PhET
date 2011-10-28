@@ -1,3 +1,4 @@
+# 1.01.01 (58108) Oct 28, 2011
 Added messages for dragging in the play area
 Added messages for several actions
 Added dependency on simsharing-core
