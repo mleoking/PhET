@@ -1,3 +1,4 @@
+Fixed build.xml to not require piccolo, see #3135, #3156
 Updated build.xml to accommodate new phetcommon dependency on simsharing-core
 Search in util/ for some projects like simsharing, fixes a problem generating the license info from PBG
 Prevent duplicate license entries from appearing in the credits dialog
