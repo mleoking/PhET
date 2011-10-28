@@ -12,11 +12,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.dialogs.CreditsDialog;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdatesManager;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.simsharingcore.SimSharingEvents;
 
 /**
  * This launcher solves the following problems:

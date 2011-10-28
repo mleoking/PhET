@@ -4,10 +4,10 @@ package edu.colorado.phet.moleculeshapes.control;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.common.simsharingcore.SimSharingEvents;
 import edu.colorado.phet.jmephet.JMEActionListener;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static edu.colorado.phet.common.simsharingcore.SimSharingEvents.addPropertyListener;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.addPropertyListener;
 
 /**
  * The main Molecule Shapes control panel on the right hand side. It is composed of multiple sub-panels,

@@ -13,9 +13,9 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.view.ResetAllDelegate;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.simsharingcore.SimSharingEvents;
 import edu.umd.cs.piccolo.PCanvas;
 
 /**

@@ -5,7 +5,7 @@ package edu.colorado.phet.common.phetcommon.application;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.simsharingcore.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 
 /**
  * The ModuleManager keeps track of a list of Modules in a PhetApplication, and which one is active.

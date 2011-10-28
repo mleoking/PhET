@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.simsharingcore.DefaultActor;
+import edu.colorado.phet.common.phetcommon.simsharing.DefaultActor;
 import edu.colorado.phet.simsharing.server.Server;
 import edu.colorado.phet.simsharing.teacher.ClassroomView;
 import edu.colorado.phet.simsharing.teacher.RecordingView;
