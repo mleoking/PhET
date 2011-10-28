@@ -3,9 +3,9 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
@@ -28,12 +28,12 @@ public class MessengerRnaDestroyer extends MobileBiomolecule {
     }
 
     private static Shape createShape() {
-        GeneralPath path = new GeneralPath();
+        DoubleGeneralPath path = new DoubleGeneralPath();
         // Start from top center.  This is a triangle.
         path.moveTo( 0, HEIGHT * 0.5 );
         path.lineTo( WIDTH * 0.5, -HEIGHT * 0.5 );
         path.lineTo( -WIDTH * 0.5, -HEIGHT * 0.5 );
         path.closePath();
-        return path;
+        return path.getGeneralPath();
     }
 }
