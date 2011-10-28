@@ -1,3 +1,4 @@
+# 1.01.02 (58110) Oct 28, 2011
 Fixed build
 # 1.01.01 (58108) Oct 28, 2011
 Added messages for dragging in the play area
