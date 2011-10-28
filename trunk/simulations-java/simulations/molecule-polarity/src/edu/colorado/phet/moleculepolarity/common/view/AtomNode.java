@@ -19,7 +19,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class AtomNode extends PComposite {
 
+    public final Atom atom;
+
     public AtomNode( Atom atom ) {
+        this.atom = atom;
 
         // shaded sphere
         final ShadedSphereNode sphereNode = new ShadedSphereNode( atom.getDiameter(), atom.getColor() );
