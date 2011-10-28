@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -82,6 +83,8 @@ public class GameOverNode extends PhetPNode {
      */
     public GameOverNode( int level, double score, double perfectScore, NumberFormat scoreFormat, long time, long bestTime, boolean isNewBestTime, boolean timerVisible ) {
         super();
+
+        SimSharingEvents.actionPerformed( "Game Over: level = " + level + ", score = " + score + ", perfectScore = " + perfectScore + ", time=" + time + ", bestTime = " + bestTime + ", isNewBestTime = " + isNewBestTime + ", timerVisible = " + timerVisible );
 
         this.scoreFormat = scoreFormat;
         this.listeners = new EventListenerList();
