@@ -5,6 +5,7 @@ import java.awt.event.InputEvent;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.simsharingcore.SimSharingEvents;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.colorado.phet.moleculepolarity.common.view.AtomNode;
 import edu.colorado.phet.moleculepolarity.common.view.BondAngleArrowsNode;
@@ -62,6 +63,7 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
         arrowsNode.setVisible( false );
+        SimSharingEvents.actionPerformed( "Started drag to change bond angle for atom: " + atomNode.atom.getName() );
     }
 
     // Drag to rotate the molecule.
@@ -70,11 +72,13 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
         double angle = getAngle( event );
         bondAngle.set( bondAngle.get() + angle - previousAngle );
         previousAngle = angle;
+        SimSharingEvents.actionPerformed( "Dragged to change bond angle for atom: " + atomNode.atom.getName() + ", angle=" + bondAngle.get() );
     }
 
     @Override public void endDrag( PInputEvent event ) {
         super.endDrag( event );
         molecule.setDragging( false );
+        SimSharingEvents.actionPerformed( "Ended drag to change bond angle for atom: " + atomNode.atom.getName() );
     }
 
     // Find the angle about the molecule's location.

@@ -3,6 +3,9 @@ package edu.colorado.phet.common.simsharingcore;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -10,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
@@ -167,6 +172,22 @@ public class SimSharingEvents {
 
             @Override public void mouseReleased( PInputEvent event ) {
                 actionPerformed( "Mouse released: " + message.apply() );
+            }
+        } );
+    }
+
+    public static void addDragSequenceListener( JComponent component, final Function0<String> message ) {
+        component.addMouseListener( new MouseAdapter() {
+            @Override public void mousePressed( MouseEvent e ) {
+                actionPerformed( "Mouse pressed: " + message.apply() );
+            }
+        } );
+        component.addMouseMotionListener( new MouseMotionListener() {
+            public void mouseDragged( MouseEvent e ) {
+                actionPerformed( "Mouse dragged: " + message.apply() );
+            }
+
+            public void mouseMoved( MouseEvent e ) {
             }
         } );
     }
