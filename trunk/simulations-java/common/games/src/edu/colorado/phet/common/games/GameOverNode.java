@@ -84,6 +84,7 @@ public class GameOverNode extends PhetPNode {
     public GameOverNode( int level, double score, double perfectScore, NumberFormat scoreFormat, long time, long bestTime, boolean isNewBestTime, boolean timerVisible ) {
         super();
 
+        //Report on the game over, assumes that this node is only created at the end of a game (a safe assumption because the constructor args are only available at end of game)
         SimSharingEvents.actionPerformed( "Game Over: level = " + level + ", score = " + score + ", perfectScore = " + perfectScore + ", time=" + time + ", bestTime = " + bestTime + ", isNewBestTime = " + isNewBestTime + ", timerVisible = " + timerVisible );
 
         this.scoreFormat = scoreFormat;
