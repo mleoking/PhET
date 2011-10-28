@@ -14,6 +14,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -26,7 +27,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class TestMrnaWinding {
 
-    private static final int NUM_POINTS = 20;
+    private static final int NUM_POINTS = 3;
     private static final double INTER_POINT_DISTANCE = 100; // Model coords, which are nanometers.
     private static final double CONTAINMENT_RECT_WIDTH = 1000;
     private static final double CONTAINMENT_RECT_HEIGHT = 1000;
@@ -73,12 +74,7 @@ public class TestMrnaWinding {
         }
 
         // Position the points in the containment rectangle.
-        currentPoint = firstPoint;
-        while ( currentPoint != null ) {
-            currentPoint.setPosition( containmentRect.getMinX() + RAND.nextDouble() * CONTAINMENT_RECT_WIDTH,
-                                      containmentRect.getMinY() + RAND.nextDouble() * CONTAINMENT_RECT_HEIGHT );
-            currentPoint = currentPoint.getNextPoint();
-        }
+        positionPoints02( firstPoint, containmentRect );
 
         // Draw the line defined by the points.
         canvas.addWorldChild( new SquiggleNode( firstPoint, mvt ) );
@@ -90,6 +86,90 @@ public class TestMrnaWinding {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
+    }
+
+    /**
+     * Position randomly in rect.
+     */
+    private static void positionPoints01( LinkablePoint firstPointOnList, Rectangle2D containmentRect ) {
+        assert firstPointOnList != null;
+        LinkablePoint currentPoint = firstPointOnList;
+        while ( currentPoint != null ) {
+            currentPoint.setPosition( containmentRect.getMinX() + RAND.nextDouble() * containmentRect.getWidth(),
+                                      containmentRect.getMinY() + RAND.nextDouble() * containmentRect.getHeight() );
+            currentPoint = currentPoint.getNextPoint();
+        }
+    }
+
+    /**
+     * Position by first placing points randomly in the rect, then running the
+     * spring algorithm.  Hooke's law: F = -kx, where x is displacement from
+     * equilibrium position.
+     */
+    private static void positionPoints02( final LinkablePoint firstPointOnList, Rectangle2D containmentRect ) {
+        assert firstPointOnList != null;
+
+        // Place the points randomly within the rectangle, but with the first
+        // and last points and the corners of the rect.
+//        firstPointOnList.setPosition( containmentRect.getMinX(), containmentRect.getMaxY() );
+//        LinkablePoint currentPoint = firstPointOnList.getNextPoint();
+//        while ( currentPoint != null ) {
+//            if ( currentPoint.getNextPoint() != null ){
+//                currentPoint.setPosition( containmentRect.getMinX() + RAND.nextDouble() * containmentRect.getWidth(),
+//                                          containmentRect.getMinY() + RAND.nextDouble() * containmentRect.getHeight() );
+//            }
+//            else{
+//                // Last point on list, put it in the lower right of the
+//                // containment rect.
+//                currentPoint.setPosition( containmentRect.getMaxX(), containmentRect.getMinY() );
+//            }
+//            currentPoint = currentPoint.getNextPoint();
+//        }
+
+        // Test - 3 points only, with middle on in center.
+        firstPointOnList.setPosition( containmentRect.getMinX(), containmentRect.getMaxY() );
+        LinkablePoint currentPoint = firstPointOnList.getNextPoint();
+        currentPoint.setPosition( containmentRect.getMinX() + containmentRect.getWidth() / 2,
+                                  containmentRect.getMinY() + containmentRect.getHeight() / 2 );
+        currentPoint = currentPoint.getNextPoint();
+        currentPoint.setPosition( containmentRect.getMaxX(), containmentRect.getMinY() );
+
+        // Run an algorithm that treats each pair of points as though there
+        // is a spring between them, but doesn't allow the first or last
+        // points to be moved.
+        currentPoint = firstPointOnList;
+        while ( currentPoint != null ) {
+            currentPoint.clearVelocity();
+            currentPoint = currentPoint.getNextPoint();
+        }
+        double springConstant = 10; // In Newtons/m
+        double dampingConstant = 2;
+        double pointMass = 1; // In kg.
+        double timeSlice = 0.01; // In seconds.
+        for ( int i = 0; i < 100; i++ ) {
+            LinkablePoint previousPoint = firstPointOnList;
+            currentPoint = firstPointOnList.getNextPoint();
+            while ( currentPoint != null ) {
+                if ( currentPoint.getNextPoint() != null ) {
+                    LinkablePoint nextPoint = currentPoint.getNextPoint();
+                    // This is not the last point on the list, so go ahead and
+                    // run the spring algorithm on it.
+                    // TODO: Check for performance and, if needed, all the memory allocations could be done once and reused.
+                    ImmutableVector2D vectorToPreviousPoint = new ImmutableVector2D( previousPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
+                    double scalarForceDueToPreviousPoint = ( -springConstant ) * ( currentPoint.targetDistanceToPreviousPoint - currentPoint.distance( previousPoint ) );
+                    ImmutableVector2D forceDueToPreviousPoint = vectorToPreviousPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToPreviousPoint );
+                    ImmutableVector2D vectorToNextPoint = new ImmutableVector2D( nextPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
+                    double scalarForceDueToNextPoint = ( -springConstant ) * ( currentPoint.targetDistanceToPreviousPoint - currentPoint.distance( nextPoint ) );
+                    ImmutableVector2D forceDueToNextPoint = vectorToNextPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToNextPoint );
+                    ImmutableVector2D dampingForce = currentPoint.getVelocity().getScaledInstance( -dampingConstant );
+                    ImmutableVector2D totalForce = forceDueToPreviousPoint.getAddedInstance( forceDueToNextPoint ).getAddedInstance( dampingForce );
+                    ImmutableVector2D acceleration = totalForce.getScaledInstance( pointMass );
+                    currentPoint.setAcceleration( acceleration );
+                    currentPoint.update( timeSlice );
+                }
+                currentPoint = currentPoint.getNextPoint();
+            }
+        }
     }
 
     /**
@@ -142,6 +222,8 @@ public class TestMrnaWinding {
         private final Point2D position = new Point2D.Double( 0, 0 );
         private LinkablePoint previousPointMass = null;
         private LinkablePoint nextPointMass = null;
+        private final Vector2D velocity = new Vector2D( 0, 0 );
+        private final Vector2D acceleration = new Vector2D( 0, 0 );
 
         private final double targetDistanceToPreviousPoint;
 
@@ -184,6 +266,23 @@ public class TestMrnaWinding {
 
         public double getTargetDistanceToPreviousPoint() {
             return targetDistanceToPreviousPoint;
+        }
+
+        public void clearVelocity() {
+            velocity.setComponents( 0, 0 );
+        }
+
+        public ImmutableVector2D getVelocity() {
+            return new ImmutableVector2D( velocity );
+        }
+
+        public void setAcceleration( ImmutableVector2D acceleration ) {
+            this.acceleration.setValue( acceleration );
+        }
+
+        public void update( double deltaTime ) {
+            velocity.setValue( velocity.getAddedInstance( acceleration.getScaledInstance( deltaTime ) ) );
+            position.setLocation( position.getX() + velocity.getX() * deltaTime, position.getY() + velocity.getY() * deltaTime );
         }
 
         public double distance( LinkablePoint p ) {
