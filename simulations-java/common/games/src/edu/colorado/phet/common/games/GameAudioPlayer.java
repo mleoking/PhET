@@ -19,10 +19,10 @@ public class GameAudioPlayer extends AudioResourcePlayer {
         init();
     }
 
-    //Play a blank audio file to initialize the sound system so that subsequent sounds will play faster
+    //TODO: Consider playing a blank audio file to initialize the sound system so that subsequent sounds will play faster
+    //There is an unfuddle ticket for this, but it didn't work out so well, so it is omitted for now.  Search in unfuddle.
     public void init() {
         if ( !inited ) {
-            System.out.println( "GameAudioPlayer.init" );
             inited = true;
         }
     }
