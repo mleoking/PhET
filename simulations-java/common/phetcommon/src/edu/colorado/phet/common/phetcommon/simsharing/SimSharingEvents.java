@@ -14,11 +14,14 @@ import java.util.Collections;
 
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Central access point for action-oriented message delivery for user usage studies.
@@ -100,9 +103,9 @@ public class SimSharingEvents {
     }
 
     //Called from the first line of main(), connects to the server and sends a start message
-    public static void simStarted( String[] args ) {
+    public static void simStarted( final PhetApplicationConfig config ) {
         simStartedTime = new Option.Some<Long>( System.currentTimeMillis() );
-        connect = Arrays.asList( args ).contains( "-study" );
+        connect = Arrays.asList( config.getCommandLineArgs() ).contains( "-study" );
         if ( connect ) {
 
             new Thread( new Runnable() {
@@ -121,7 +124,14 @@ public class SimSharingEvents {
                         t.printStackTrace();
                     }
 
-                    actionPerformed( "Sim started at time: " + simStartedTime );
+                    actionPerformed( "Sim started",
+                                     param( "time", simStartedTime.get() ),
+                                     param( "name", config.getName() ),
+                                     param( "version", config.getVersion().formatForAboutDialog() ),
+                                     param( "project", config.getProjectName() ),
+                                     param( "flavor", config.getFlavor() ),
+                                     param( "locale", config.getLocale().toString() ),
+                                     param( "distribution tag", config.getDistributionTag() ) );
                     actionPerformed( "Sim connected to server" );
 
                     //Report on any messages that were collected while we were trying to connect to the server

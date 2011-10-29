@@ -121,7 +121,7 @@ public class PhetApplicationLauncher {
 
         //Signify to the SimSharingEvents that the sim is started, in case start time is supposed to be relayout to another machine or stored.
         //Nothing happens unless the "-study" flag is provided on the command line
-        SimSharingEvents.simStarted( config.getCommandLineArgs() );
+        SimSharingEvents.simStarted( config );
 
         /*
          * Wrap the body of main in invokeAndWait, so that all initialization occurs
