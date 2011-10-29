@@ -3,15 +3,17 @@
 package edu.colorado.phet.common.phetcommon.model.property;
 
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
+
 /**
  * Base class for properties that have constraints on their values.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class ConstrainedProperty<T> extends Property<T> {
+public abstract class ConstrainedProperty<T> extends SimSharingProperty<T> {
 
-    public ConstrainedProperty( T value ) {
-        super( value );
+    public ConstrainedProperty( String name, T value ) {
+        super( name, value );
     }
 
     /**

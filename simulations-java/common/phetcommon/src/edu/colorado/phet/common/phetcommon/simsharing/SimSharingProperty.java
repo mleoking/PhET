@@ -6,7 +6,17 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
- * Property that can record its value with the sim sharing features.
+ * Property that can record its value with the sim sharing features.  Use of this class makes it easy to report values, in many cases I just need to change this:
+ * <p/>
+ * selectedLevel = new Property<Integer>(1);
+ * <p/>
+ * to this:
+ * <p/>
+ * selectedLevel = new SimSharingProperty<Integer>("Selected level",1);
+ * <p/>
+ * And it will report any changes.
+ * Note that this reports any changes to the property, so should not be used with model properties that change automatically (though the values often will change after the user presses "reset all").
+ * Also, it does not report the initial value of the property, just subsequent changes.
  *
  * @author Sam Reid
  */
