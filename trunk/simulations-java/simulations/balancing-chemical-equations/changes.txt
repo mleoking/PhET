@@ -1,3 +1,4 @@
+10/28/11 Report when radio button properties change, see #3136
 10/28/11 Report values for equation coefficients and balancing, see #3136
 10/28/11 Added event reporting for end of game, see #3136
 4/26/11 move all developer code to a new developer package
