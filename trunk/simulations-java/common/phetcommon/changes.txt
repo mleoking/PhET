@@ -1,3 +1,4 @@
+10/28/11 Added a way to identify if the student is running the sim in data reporting mode, see #3136
 10/28/11 Added messages for sim name, version etc. on sim startup
 10/27/11 Added message when active module changes
 10/27/11 Moved sim start time tracking to PhetApplicationLauncher

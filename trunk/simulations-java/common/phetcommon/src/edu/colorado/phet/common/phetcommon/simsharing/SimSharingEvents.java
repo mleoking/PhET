@@ -44,6 +44,11 @@ public class SimSharingEvents {
     private static Option<Long> simStartedTime = new Option.None<Long>();
     private static Collection<String> queue = Collections.synchronizedCollection( new ArrayList<String>() );
 
+    //Determine whether the sim should try to send event messages to the server
+    public static boolean shouldConnect() {
+        return connect;
+    }
+
     //Signify that an action has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
     public static void actionPerformed( String action, Parameter... parameters ) {
 

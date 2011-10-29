@@ -26,6 +26,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingJMenuBar;
 import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
@@ -75,9 +77,10 @@ public class PhetFrame extends JFrame {
             }
         } );
 
-        // menu bar
-        JMenuBar menuBar = new JMenuBar();
+        // menu bar, also indicates whether connected to sim sharing
+        JMenuBar menuBar = SimSharingEvents.shouldConnect() ? new SimSharingJMenuBar() : new JMenuBar();
         setJMenuBar( menuBar );
+
         // File menu
         defaultFileMenu = new PhetFileMenu( this, application.getSimInfo() );
         menuBar.add( defaultFileMenu );
