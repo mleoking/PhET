@@ -9,9 +9,18 @@ import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.control.BalancedRepresentationChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.control.EquationChoiceNode;
-import edu.colorado.phet.balancingchemicalequations.view.*;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
+import edu.colorado.phet.balancingchemicalequations.view.BalanceScalesNode;
+import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
+import edu.colorado.phet.balancingchemicalequations.view.BarChartsNode;
+import edu.colorado.phet.balancingchemicalequations.view.BoxesNode;
+import edu.colorado.phet.balancingchemicalequations.view.DevAnswerNode;
+import edu.colorado.phet.balancingchemicalequations.view.EquationNode;
+import edu.colorado.phet.balancingchemicalequations.view.HorizontalAligner;
+import edu.colorado.phet.balancingchemicalequations.view.IntroductionFaceNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
@@ -33,7 +42,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
-        balanceChoiceProperty = new Property<BalancedRepresentation>( BalancedRepresentation.NONE );
+        balanceChoiceProperty = new SimSharingProperty<BalancedRepresentation>( "Balanced Representation", BalancedRepresentation.NONE );
 
         // control for choosing an equation
         EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.currentEquation, globalProperties.canvasColor );
@@ -45,7 +54,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
         // boxes that show molecules corresponding to the equation coefficients
         boxesNode = new BoxesNode( model.currentEquation, model.getCoefficientsRange(), aligner,
-                globalProperties.boxColor, globalProperties.moleculesVisible );
+                                   globalProperties.boxColor, globalProperties.moleculesVisible );
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
