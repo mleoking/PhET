@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -46,6 +47,10 @@ public class ObservableList<T> implements List<T> {
     public ObservableList( Collection<? extends T> collectionToCopy ) {
         list.addAll( collectionToCopy );
         // Since this is a constructor, no notifications should need to be sent.
+    }
+
+    public ObservableList( T[] parameters ) {
+        list.addAll( Arrays.asList( parameters ) );
     }
 
 
@@ -251,5 +256,26 @@ public class ObservableList<T> implements List<T> {
      */
     @Override public String toString() {
         return list.toString();
+    }
+
+    /**
+     * Returns a string representation of the list with the specified delimiter between items, using the toString method on each item
+     *
+     * @param delimiter text that will appear between items
+     * @return
+     */
+    public String mkString( String delimiter ) {
+        StringBuffer result = new StringBuffer();
+        for ( int i = 0; i < size(); i++ ) {
+            result.append( get( i ) );
+            if ( i < size() - 1 ) {
+                result.append( delimiter );
+            }
+        }
+        return result.toString();
+    }
+
+    public static void main( String[] args ) {
+        System.out.println( "new ObservableList<String>( new String[] { \"Hello\", \"There\", \"World\" } ).mkString( \" !! \" ) = " + new ObservableList<String>( new String[] { "Hello", "There", "World" } ).mkString( " !! " ) );
     }
 }

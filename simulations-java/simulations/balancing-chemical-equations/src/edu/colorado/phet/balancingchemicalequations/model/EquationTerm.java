@@ -3,6 +3,7 @@
 package edu.colorado.phet.balancingchemicalequations.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 
 /**
  * A term in a chemical equation.
@@ -24,7 +25,9 @@ public class EquationTerm {
     private EquationTerm( int balancedCoefficient, Molecule molecule, int actualCoefficient ) {
         this.molecule = molecule;
         this.balancedCoefficient = balancedCoefficient;
-        this.userCoefficientProperty =  new Property<Integer>( actualCoefficient );
+
+        //Use SimSharingProperties to report changes to the server
+        this.userCoefficientProperty = new SimSharingProperty<Integer>( "coefficient for " + molecule.getSymbol(), actualCoefficient );
     }
 
     public void reset() {

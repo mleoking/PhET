@@ -15,6 +15,7 @@ import java.util.Collections;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -41,19 +42,21 @@ public class SimSharingEvents {
     private static Collection<String> queue = Collections.synchronizedCollection( new ArrayList<String>() );
 
     //Signify that an action has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
-    public static void actionPerformed( String action ) {
+    public static void actionPerformed( String action, Parameter... parameters ) {
 
         if ( connect ) {
 
             //Print the columns before the first message
             if ( !printedColumns ) {
-                write( "Session ID" + "\t" + "Event time (ms)" + "\t" + "Action" );
+                write( "Session ID" + "\t" + "Event time (ms)" + "\t" + "Action" + "\t" + "Parameter List" );
                 printedColumns = true;
             }
 
             //Send the message to the destination
             String timestamp = simStartedTime.isSome() ? ( System.currentTimeMillis() - simStartedTime.get() ) + "" : "@" + System.currentTimeMillis();
-            write( SESSION_ID + "\t" + timestamp + "\t" + action );
+
+            String parameterText = new ObservableList<Parameter>( parameters ).mkString( ", " );
+            write( SESSION_ID + "\t" + timestamp + "\t" + action + "\t" + parameterText );
         }
     }
 
