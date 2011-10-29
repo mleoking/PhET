@@ -4,10 +4,10 @@ package edu.colorado.phet.moleculeshapes.control;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.common.piccolophet.simsharing.PiccoloPhetSimSharingEvents;
 import edu.colorado.phet.jmephet.JMEActionListener;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
@@ -123,7 +123,7 @@ public class MoleculeShapesControlPanel extends PNode {
                     module.getMolecule().removeAllPairs();
                 }
             } ) );
-            SimSharingEvents.addActionListener( this, "Remove All: Removed all bonds and lone pairs" );
+            PiccoloPhetSimSharingEvents.addActionListener( this, "Remove All: Removed all bonds and lone pairs" );
 
             MoleculeShapesColor.REMOVE_BUTTON_BACKGROUND.addColorObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {

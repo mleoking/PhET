@@ -13,12 +13,12 @@ public class ConstrainedIntegerProperty extends ConstrainedProperty<Integer> {
 
     private final int min, max;
 
-    public ConstrainedIntegerProperty( IntegerRange range ) {
-        this( range.getMin(), range.getMax(), range.getDefault() );
+    public ConstrainedIntegerProperty( String name, IntegerRange range ) {
+        this( name, range.getMin(), range.getMax(), range.getDefault() );
     }
 
-    public ConstrainedIntegerProperty( int min, int max, int value ) {
-        super( value );
+    public ConstrainedIntegerProperty( String name, int min, int max, int value ) {
+        super( name, value );
         this.min = min;
         this.max = max;
         if ( !isValid( value ) ) {

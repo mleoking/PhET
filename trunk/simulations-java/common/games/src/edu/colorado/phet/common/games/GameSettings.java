@@ -4,6 +4,7 @@ package edu.colorado.phet.common.games;
 
 import edu.colorado.phet.common.phetcommon.model.property.ConstrainedIntegerProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
@@ -18,9 +19,9 @@ public class GameSettings {
     public final Property<Boolean> timerEnabled;
 
     public GameSettings( IntegerRange levelsRange, boolean soundEnabled, boolean timerEnabled ) {
-        this.level = new ConstrainedIntegerProperty( levelsRange );
-        this.soundEnabled = new Property<Boolean>( soundEnabled );
-        this.timerEnabled = new Property<Boolean>( timerEnabled );
+        this.level = new ConstrainedIntegerProperty( "Selected Level", levelsRange );
+        this.soundEnabled = new SimSharingProperty<Boolean>( "Sound Enabled", soundEnabled );
+        this.timerEnabled = new SimSharingProperty<Boolean>( "Timer Enabled", timerEnabled );
     }
 
     public int getNumberOfLevels() {

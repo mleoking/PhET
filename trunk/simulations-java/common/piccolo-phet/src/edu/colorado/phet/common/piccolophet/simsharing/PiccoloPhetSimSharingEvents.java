@@ -4,6 +4,7 @@ package edu.colorado.phet.common.piccolophet.simsharing;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
@@ -27,10 +28,10 @@ public class PiccoloPhetSimSharingEvents {
     }
 
     //Write the specified message when the button is pressed
-    public static void addActionListener( ButtonNode textButtonNode, final String message ) {
+    public static void addActionListener( ButtonNode textButtonNode, final String message, final Parameter... parameters ) {
         textButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingEvents.actionPerformed( message );
+                SimSharingEvents.actionPerformed( message, parameters );
             }
         } );
     }

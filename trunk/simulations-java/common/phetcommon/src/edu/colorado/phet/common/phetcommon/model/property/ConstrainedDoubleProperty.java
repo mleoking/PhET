@@ -13,12 +13,12 @@ public class ConstrainedDoubleProperty extends ConstrainedProperty<Double> {
 
     private final double min, max;
 
-    public ConstrainedDoubleProperty( DoubleRange range ) {
-        this( range.getMin(), range.getMax(), range.getDefault() );
+    public ConstrainedDoubleProperty( String name, DoubleRange range ) {
+        this( name, range.getMin(), range.getMax(), range.getDefault() );
     }
 
-    public ConstrainedDoubleProperty( double min, double max, double value ) {
-        super( value );
+    public ConstrainedDoubleProperty( String name, double min, double max, double value ) {
+        super( name, value );
         this.min = min;
         this.max = max;
         if ( !isValid( value ) ) {
