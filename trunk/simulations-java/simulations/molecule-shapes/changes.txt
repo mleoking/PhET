@@ -1,3 +1,4 @@
+Added a separate flavor for sim event reporting, see #3136
 # 1.01.02 (58068) Oct 27, 2011
 # 1.01.01 (58066) Oct 27, 2011
 Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
