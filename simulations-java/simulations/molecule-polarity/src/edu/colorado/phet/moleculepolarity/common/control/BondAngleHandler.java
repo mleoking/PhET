@@ -12,6 +12,8 @@ import edu.colorado.phet.moleculepolarity.common.view.BondAngleArrowsNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+
 /**
  * Drag handler for manipulating a bond angle.
  * The atom being dragged is popped to the front.
@@ -63,7 +65,7 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
         arrowsNode.setVisible( false );
-        SimSharingEvents.actionPerformed( "Started drag to change bond angle for atom: " + atomNode.atom.getName() );
+        SimSharingEvents.actionPerformed( "Drag started to change bond angle", param( "atom", atomNode.atom.getName() ) );
     }
 
     // Drag to rotate the molecule.
@@ -72,13 +74,13 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
         double angle = getAngle( event );
         bondAngle.set( bondAngle.get() + angle - previousAngle );
         previousAngle = angle;
-        SimSharingEvents.actionPerformed( "Dragged to change bond angle for atom: " + atomNode.atom.getName() + ", angle=" + bondAngle.get() );
+        SimSharingEvents.actionPerformed( "Dragged to change bond angle", param( "atom", atomNode.atom.getName() ), param( "angle", bondAngle.get() ) );
     }
 
     @Override public void endDrag( PInputEvent event ) {
         super.endDrag( event );
         molecule.setDragging( false );
-        SimSharingEvents.actionPerformed( "Ended drag to change bond angle for atom: " + atomNode.atom.getName() );
+        SimSharingEvents.actionPerformed( "Ended drag to change bond angle", param( "atom", atomNode.atom.getName() ) );
     }
 
     // Find the angle about the molecule's location.

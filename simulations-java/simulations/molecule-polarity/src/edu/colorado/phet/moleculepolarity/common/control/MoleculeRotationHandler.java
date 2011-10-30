@@ -8,6 +8,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+
 /**
  * Drag handler for rotating a molecule.
  * Adapted from PrismNode in bending-light.
@@ -44,7 +46,7 @@ public class MoleculeRotationHandler extends PDragSequenceEventHandler {
         double angle = getAngle( event );
         molecule.angle.set( molecule.angle.get() + angle - previousAngle );
         previousAngle = angle;
-        SimSharingEvents.actionPerformed( "Dragged in MoleculeRotationHandler, angle: " + angle );
+        SimSharingEvents.actionPerformed( "Dragged in MoleculeRotationHandler", param( "angle", angle ) );
     }
 
     // Find the angle about the molecule's location.

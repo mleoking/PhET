@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.actionPerformed;
 
 /**
@@ -59,7 +60,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removePair( candidate );
-                            actionPerformed( "Removed bond, bondOrder = " + bondOrder );
+                            actionPerformed( "Bond removed", param( "bondOrder", bondOrder ) );
                         }
                     }
                 } );
@@ -104,7 +105,7 @@ public class BondTypeControlNode extends PNode {
             @Override public void mousePressed( final PInputEvent event ) {
                 if ( enabled.get() && event.getButton() == MouseEvent.BUTTON1 ) {
                     JMEUtils.invoke( runnable );
-                    actionPerformed( "Created bond, bondOrder = " + bondOrder );
+                    actionPerformed( "Created bond", param( "bondOrder", bondOrder ) );
                 }
             }
         } );

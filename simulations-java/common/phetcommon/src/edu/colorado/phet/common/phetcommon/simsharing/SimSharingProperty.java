@@ -35,7 +35,7 @@ public class SimSharingProperty<T> extends Property<T> {
         //Observe changes but do not notify about the initial value//TODO: Or should we notify about the initial value for purposes of knowing how the sim started up in case it is changed later?
         addObserver( new SimpleObserver() {
             public void update() {
-                SimSharingEvents.actionPerformed( name + ": " + toString.apply( get() ) );
+                SimSharingEvents.actionPerformed( name, Parameter.param( "value", toString.apply( get() ) ) );
             }
         }, false );
     }
