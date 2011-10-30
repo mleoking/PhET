@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view;
 
-
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
@@ -29,6 +29,10 @@ public class PhetExit {
      * then exits the application by closing the VM with System.exit(0)
      */
     public static void exit() {
+
+        // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
+        SimSharingEvents.actionPerformed( "Exit" );
+
         for ( VoidFunction0 exitListener : exitListeners ) {
             exitListener.apply();
         }
