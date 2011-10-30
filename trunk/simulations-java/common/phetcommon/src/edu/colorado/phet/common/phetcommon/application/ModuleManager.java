@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+
 /**
  * The ModuleManager keeps track of a list of Modules in a PhetApplication, and which one is active.
  * Notification events are sent to registered listeners when modules are added or removed, or when
@@ -171,7 +173,7 @@ class ModuleManager {
             deactivateCurrentModule();
             activate( module );
             notifyActiveModuleChanged( new ModuleEvent( getPhetApplication(), module ) );
-            SimSharingEvents.actionPerformed( "Module activated: " + module.getName() );
+            SimSharingEvents.actionPerformed( "Module activated", param( "name", module.getName() ) );
             verifyActiveState();
         }
     }
