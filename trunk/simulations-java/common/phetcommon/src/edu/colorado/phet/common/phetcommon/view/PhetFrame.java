@@ -34,6 +34,8 @@ import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+
 /**
  * The PhetFrame is the JFrame for the PhetApplication.
  *
@@ -61,6 +63,8 @@ public class PhetFrame extends JFrame {
 
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
+
+                SimSharingEvents.actionPerformed( "Window close button pressed" );
                 application.exit();
             }
         } );
@@ -68,12 +72,24 @@ public class PhetFrame extends JFrame {
 
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
+
+                SimSharingEvents.actionPerformed( "Window iconified", param( "title", getTitle() ) );
                 application.pause();
             }
 
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
+
+                SimSharingEvents.actionPerformed( "Window deiconified", param( "title", getTitle() ) );
                 application.resume();
+            }
+
+            @Override public void windowActivated( WindowEvent e ) {
+                SimSharingEvents.actionPerformed( "Window activated", param( "title", getTitle() ) );
+            }
+
+            @Override public void windowDeactivated( WindowEvent e ) {
+                SimSharingEvents.actionPerformed( "Window deactivated", param( "title", getTitle() ) );
             }
         } );
 

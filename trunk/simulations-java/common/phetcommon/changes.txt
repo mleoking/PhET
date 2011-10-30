@@ -1,3 +1,4 @@
+10/30/11 Added messages for frame activated/deactivated, iconified/deiconified, see #3136
 10/30/11 Added a message for sim exit, work for both frame closing and File->Exit (but not application kill)
 10/28/11 Added a way to identify if the student is running the sim in data reporting mode, see #3136
 10/28/11 Added messages for sim name, version etc. on sim startup
