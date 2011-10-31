@@ -1,3 +1,4 @@
+Redeploy after changing message output style, see #3136
 Added a separate flavor for sim event reporting, see #3136
 # 1.01.02 (58068) Oct 27, 2011
 # 1.01.01 (58066) Oct 27, 2011
