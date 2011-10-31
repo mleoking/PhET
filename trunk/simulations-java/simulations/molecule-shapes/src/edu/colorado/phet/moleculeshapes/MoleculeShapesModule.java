@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -67,6 +66,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.JmeCanvasContext;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
 
 /**
@@ -483,7 +483,9 @@ public class MoleculeShapesModule extends JMEModule {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingEvents.actionPerformed( "Dragging state changed", Parameter.param( "dragging", dragging ), Parameter.param( "dragMode", dragMode.toString() ) );
+            SimSharingEvents.actionPerformed( "Dragging state changed",
+                                              param( "dragging", dragging ),
+                                              param( "dragMode", dragMode.toString() ) );
         }
         lastDragging = dragging;
     }
