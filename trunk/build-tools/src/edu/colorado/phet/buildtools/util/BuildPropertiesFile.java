@@ -113,6 +113,16 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
         return securityProperty != null && securityProperty.equals( "all-permissions" );
     }
 
+    /*
+     * Returns true if "all-permissions" is requested for a specific flavor, used for simsharing flavors.
+     *
+     * @param simulationName name of the simulation (flavor) within a project
+     */
+    public boolean requestAllPermissions( String simulationName ) {
+        final String securityProperty = getProperty( "project.flavor." + simulationName + ".security" );
+        return securityProperty != null && securityProperty.equals( "all-permissions" );
+    }
+
     /**
      * Retrieves the build properties file for the dir and project name. This
      * file may not exist, if the directory does not describe a project.

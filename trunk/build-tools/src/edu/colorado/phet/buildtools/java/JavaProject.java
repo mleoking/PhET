@@ -180,7 +180,7 @@ public abstract class JavaProject extends PhetProject {
                 title = getName();
             }
 
-            return new Simulation( simulationName, title, mainclass, args );
+            return new Simulation( simulationName, title, mainclass, args, buildPropertiesFile.requestAllPermissions( simulationName ) );
         }
         catch ( IOException e ) {
             e.printStackTrace();
