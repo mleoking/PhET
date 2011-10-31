@@ -1,3 +1,4 @@
+10/31/11 Dilution: make beakers slightly wider
 10/31/11 Dilution: because horizontal layout is so tight, scale rootNode to ensure that translated versions fit in the play area
 10/31/11 Dilution: move Reset All button to same location as Molarity tab (upper right)
 # 0.00.08 (58172) Oct 31, 2011
