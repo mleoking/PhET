@@ -1,3 +1,4 @@
+10/31/11 Dilution: move Reset All button to same location as Molarity tab (upper right)
 # 0.00.08 (58172) Oct 31, 2011
 10/31/11 version for discussion with JC
 10/31/11 Dilution: make beakers tall-and-skinny
