@@ -20,8 +20,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.addPropertyListener;
-
 /**
  * The main Molecule Shapes control panel on the right hand side. It is composed of multiple sub-panels,
  * namely "bonding", "lone pair", "options" and "real examples".
@@ -162,7 +160,6 @@ public class MoleculeShapesControlPanel extends PNode {
                     }
                 };
                 module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
-                addPropertyListener( MoleculeShapesModule.showLonePairs, "Show lone pairs" );
 
                 /*
                  * Run this in the current thread. should be in EDT for construction. Needed since the other call
@@ -187,7 +184,6 @@ public class MoleculeShapesControlPanel extends PNode {
                 };
                 module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
                 MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JMEUtils.swingObserver( updateEnabled ) );
-                addPropertyListener( MoleculeShapesProperties.showBondAngles, "Show bond angles" );
 
                 if ( !module.isBasicsVersion() ) {
                     setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
@@ -19,8 +20,6 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.addPropertyListener;
 
 /**
  * Shows the molecular and electron geometry names, and has checkboxes which allow toggling their visibility
@@ -66,8 +65,8 @@ public class GeometryNameNode extends PNode {
     // vertical padding between the checkboxes and the labels
     private static final double VERTICAL_PADDING = 0; // currently 0, since it looks nice on Windows
 
-    public final Property<Boolean> showMolecularShapeName = new Property<Boolean>( false );
-    public final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
+    public final Property<Boolean> showMolecularShapeName = new SimSharingProperty<Boolean>( "Show molecular shape name", false );
+    public final Property<Boolean> showElectronShapeName = new SimSharingProperty<Boolean>( "Show electron shape name", false );
 
     private PText molecularText;
     private PText electronText;
@@ -89,15 +88,12 @@ public class GeometryNameNode extends PNode {
         final PSwing molecularCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__MOLECULE_GEOMETRY, showMolecularShapeName, MoleculeShapesColor.MOLECULAR_GEOMETRY_NAME ) {{
             // center within it's "column"
             setOffset( ( MAX_SHAPE_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
-            addPropertyListener( showMolecularShapeName, "Show molecule geometry" );
         }};
 
         PSwing electronCheckbox = new PropertyCheckBoxNode( Strings.CONTROL__ELECTRON_GEOMETRY, showElectronShapeName, MoleculeShapesColor.ELECTRON_GEOMETRY_NAME ) {{
             // center within it's "column"
             setOffset( MAX_SHAPE_WIDTH + PADDING_BETWEEN_LABELS + ( MAX_GEOMETRY_WIDTH - getFullBounds().getWidth() ) / 2, 0 );
-            addPropertyListener( showElectronShapeName, "Show electron geometry" );
         }};
-
 
         // calculate where we should put our labels vertically
         readoutHeight = Math.max( molecularCheckbox.getFullBounds().getHeight(), electronCheckbox.getFullBounds().getHeight() ) + VERTICAL_PADDING;

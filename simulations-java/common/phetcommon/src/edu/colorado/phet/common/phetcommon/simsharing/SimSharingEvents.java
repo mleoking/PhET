@@ -23,10 +23,8 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
@@ -109,17 +107,6 @@ public class SimSharingEvents {
         catch ( Throwable t ) {
             t.printStackTrace();
         }
-    }
-
-    //Write a message indicating that a property changed (whether the user or model changes the property)
-    public static void addPropertyListener( final Property<Boolean> property, final String name ) {
-
-        //Observe when the value changes whether by sim or by user, but don't notify about the initial value
-        property.addObserver( new SimpleObserver() {
-            public void update() {
-                actionPerformed( name + ": " + property.get() );
-            }
-        }, false );
     }
 
     //Called from the first line of main(), connects to the server and sends a start message
