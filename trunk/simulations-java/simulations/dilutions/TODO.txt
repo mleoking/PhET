@@ -6,7 +6,7 @@ DESIGN
 HIGH
 - Dilution: M1 control, no need to gray out part of track as in mockup
 - Dilution: smaller font and variable label size on beakers
-- Dilution: beakers slightly wider, spreak things out in play area, scale rootNode to ensure that translated versions fit
+- Dilution: beakers slightly wider, spread things out in play area
 - Dilution: provide dev versions with 2 alternate layouts (left-to-right): 1=V2,Beaker,M2 2=M2,V2,Beaker
 - Molarity: more convincing gradients for Kool-Aid and KMnO4, as in design doc beaker photos
 

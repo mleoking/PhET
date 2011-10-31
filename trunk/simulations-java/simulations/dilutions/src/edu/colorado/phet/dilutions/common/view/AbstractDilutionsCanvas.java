@@ -45,8 +45,18 @@ public class AbstractDilutionsCanvas extends PhetPCanvas {
         return STAGE_SIZE;
     }
 
-    protected void centerRootNode() {
+    // Centers the root node on the stage.
+    protected void centerRootNodeOnStage() {
         rootNode.setOffset( ( ( STAGE_SIZE.getWidth() - rootNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeLayoutUtils.getOriginXOffset( rootNode ),
                             ( ( STAGE_SIZE.getHeight() - rootNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeLayoutUtils.getOriginYOffset( rootNode ) );
+    }
+
+    // Scales the root node to fit in the bounds of the stage.
+    protected void scaleRootNodeToFitStage() {
+        double xScale = STAGE_SIZE.getWidth() / rootNode.getFullBoundsReference().getWidth();
+        double yScale = STAGE_SIZE.getHeight() / rootNode.getFullBoundsReference().getHeight();
+        if ( xScale < 1 || yScale < 1 ) {
+            rootNode.scale( Math.min( xScale, yScale ) );
+        }
     }
 }

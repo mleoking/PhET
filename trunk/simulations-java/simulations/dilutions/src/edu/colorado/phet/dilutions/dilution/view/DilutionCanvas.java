@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettable {
+public class DilutionCanvas extends AbstractDilutionsCanvas {
 
     public DilutionCanvas( DilutionModel model, Frame parentFrame ) {
 
@@ -62,7 +62,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
         ConcentrationDisplayNode dilutionConcentrationNode = new ConcentrationDisplayNode( Strings.CONCENTRATION_M2, concentrationBarSize,
                                                                                            model.dilution, model.getConcentrationRange() );
 
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
+        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
             setConfirmationEnabled( false );
         }};
 
@@ -107,10 +107,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
             // upper-right corner of stage
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - 50, 50 );
         }
-        centerRootNode();
-    }
-
-    public void reset() {
-        // do nothing
+        scaleRootNodeToFitStage();
+        centerRootNodeOnStage();
     }
 }
