@@ -64,7 +64,7 @@ public class PhetFrame extends JFrame {
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
 
-                SimSharingEvents.actionPerformed( "Window close button pressed" );
+                SimSharingEvents.actionPerformed( "Window close button pressed", param( "title", getTitle() ) );
                 application.exit();
             }
         } );
