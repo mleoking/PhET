@@ -58,6 +58,9 @@ public class SimSharingEvents {
     //Call it "cookie" instead of "id" so it doesn't sound so scary to end users
     private static final String MACHINE_ID_KEY = "machine.cookie";
 
+    public static final String OBJECT_SIM = "sim";
+    public static final String ACTION_EXITED = "exited";
+
     //Determine whether the sim should try to send event messages to the server
     public static boolean shouldConnect() {
         return connect;
@@ -140,7 +143,7 @@ public class SimSharingEvents {
                         t.printStackTrace();
                     }
 
-                    actionPerformed( "sim", "started",
+                    actionPerformed( OBJECT_SIM, "started",
                                      param( "time", simStartedTime.get() ),
                                      param( "name", config.getName() ),
                                      param( "version", config.getVersion().formatForAboutDialog() ),
@@ -148,7 +151,7 @@ public class SimSharingEvents {
                                      param( "flavor", config.getFlavor() ),
                                      param( "locale", config.getLocale().toString() ),
                                      param( "distribution tag", config.getDistributionTag() ) );
-                    actionPerformed( "sim", "connected to server" );
+                    actionPerformed( OBJECT_SIM, "connected to server" );
 
                     //Report on any messages that were collected while we were trying to connect to the server
                     if ( client != null ) {
