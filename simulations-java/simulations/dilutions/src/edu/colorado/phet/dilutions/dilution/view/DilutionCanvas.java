@@ -87,28 +87,39 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
             addWorldChild( resetAllButtonNode ); // don't add to root node, so this button isn't involved in centering of rootNode
         }
 
-        // layout
+        // layout, all beakers vertically aligned
         {
-            final double waterBeakerYOffset = 200;
+            final double waterBeakerYOffset = 0;
+            // far left, vertically aligned with bottom of beakers
             solutionConcentrationNode.setOffset( 5 - PNodeLayoutUtils.getOriginXOffset( solutionConcentrationNode ),
                                                  waterBeakerYOffset + waterCylinderSize.getHeight() - concentrationBarSize.getHeight() );
+            // to right of M1, vertically aligned with ticks on Solution beaker
             solutionVolumeSliderNode.setOffset( solutionConcentrationNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 5,
                                                 waterBeakerYOffset + waterCylinderSize.getHeight() - ( 0.2 * solutionCylinderSize.getHeight() ) ); //TODO 0.2 is based on solution volume range
+            // to right of V1
             solutionBeakerNode.setOffset( solutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionBeakerNode ) + 5,
                                           waterBeakerYOffset );
+            // in the same coordinate frame as the Solution beaker
             solutionNode.setOffset( solutionBeakerNode.getOffset() );
+            // to right of the Solution beaker
             waterBeakerNode.setOffset( solutionBeakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( waterBeakerNode ) + 5,
                                        waterBeakerYOffset );
+            // in the same coordinate frame as the Water beaker
             waterNode.setOffset( waterBeakerNode.getOffset() );
+            // to right of the Water beaker
             equalsNode.setOffset( waterBeakerNode.getFullBoundsReference().getMaxX() + 5,
                                   waterBeakerNode.getYOffset() + ( waterCylinderSize.getHeight() / 2 ) - ( equalsNode.getFullBoundsReference().getHeight() / 2 ) );
-            dilutionVolumeSliderNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionVolumeSliderNode ) + 8,
+            // to right of Water equals sign, vertically aligned with bottom of beakers
+            dilutionConcentrationNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 5,
+                                                 waterBeakerNode.getFullBoundsReference().getMaxY() - dilutionConcentrationNode.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( dilutionConcentrationNode ) );
+            // to right of M2, vertically aligned with ticks on Dilution beaker
+            dilutionVolumeSliderNode.setOffset( dilutionConcentrationNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionVolumeSliderNode ) + 8,
                                                 waterBeakerNode.getYOffset() );
+            // to right of V2
             dilutionBeakerNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionBeakerNode ) + 5,
                                           waterBeakerNode.getYOffset() );
+            // in the same coordinate frame as the Dilution beaker
             dilutionNode.setOffset( dilutionBeakerNode.getOffset() );
-            dilutionConcentrationNode.setOffset( dilutionBeakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 5,
-                                                 dilutionBeakerNode.getFullBoundsReference().getMaxY() - dilutionConcentrationNode.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( dilutionConcentrationNode ) );
             // upper-right corner of stage
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - 50, 50 );
         }
