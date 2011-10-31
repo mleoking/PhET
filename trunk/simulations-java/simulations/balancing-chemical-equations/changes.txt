@@ -1,3 +1,4 @@
+10/31/11 Updated message formatting, see #3136
 # 1.00.02 (58148) Oct 30, 2011
 10/30/11 Only try to load machine cookie if sim-sharing is enabled, see #3136
 # 1.00.01 (58146) Oct 30, 2011
