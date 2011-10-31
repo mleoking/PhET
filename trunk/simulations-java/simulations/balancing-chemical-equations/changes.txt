@@ -1,3 +1,4 @@
+# 1.00.01 (58146) Oct 30, 2011
 10/30/11 Report events when game state changes, see #3136
 10/28/11 Report when radio button properties change, see #3136
 10/28/11 Report values for equation coefficients and balancing, see #3136
