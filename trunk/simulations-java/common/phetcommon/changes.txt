@@ -1,3 +1,4 @@
+10/30/11 Replaced usages of SimSharingEvents.addPropertyListener with SimSharingProperty and removed SimSharingEvents.addPropertyListener, see #3136
 10/30/11 Store a cookie on the user's machine to identify when the same machine is using different sims, see #3136
 10/30/11 Added a message when the reset all confirmation dialog is shown and accepted/cancelled, see #3136
 10/30/11 Fixed: Reset all sends a message even when cancel is pressed, see #3136

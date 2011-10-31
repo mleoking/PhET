@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculeshapes;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 
 /**
  * Global properties. Of particular interest, properties that are modified by developer controls
@@ -14,7 +15,7 @@ public class MoleculeShapesProperties {
     public static final Property<Boolean> useRotationCursor = new Property<Boolean>( true );
 
     // whether bond angles should be shown
-    public static final Property<Boolean> showBondAngles = new Property<Boolean>( false );
+    public static final Property<Boolean> showBondAngles = new SimSharingProperty<Boolean>( "Show bond angles", false );
 
     // whether bonds should be colorized in the real molecule view
     public static final Property<Boolean> useColoredBonds = new Property<Boolean>( false );
