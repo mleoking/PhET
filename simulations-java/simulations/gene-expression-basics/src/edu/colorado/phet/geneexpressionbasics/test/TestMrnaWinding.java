@@ -30,8 +30,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class TestMrnaWinding {
 
-    private static final int NUM_POINTS = 4;
-    private static final double INTER_POINT_DISTANCE = 100; // Model coords, which are nanometers.
+    private static final int NUM_POINTS = 50;
+    private static final double INTER_POINT_DISTANCE = 200; // Model coords, which are nanometers.
     private static final double CONTAINMENT_RECT_WIDTH = 1000;
     private static final double CONTAINMENT_RECT_HEIGHT = 1000;
     private static final Random RAND = new Random();
@@ -68,20 +68,20 @@ public class TestMrnaWinding {
         assert firstPointOnList != null;
         // Place the points randomly within the rectangle, but with the first
         // and last points and the corners of the rect.
-//        firstPointOnList.setPosition( containmentRect.getMinX(), containmentRect.getMaxY() );
-//        LinkablePoint currentPoint = firstPointOnList.getNextPoint();
-//        while ( currentPoint != null ) {
-//            if ( currentPoint.getNextPoint() != null ){
-//                currentPoint.setPosition( containmentRect.getMinX() + RAND.nextDouble() * containmentRect.getWidth(),
-//                                          containmentRect.getMinY() + RAND.nextDouble() * containmentRect.getHeight() );
-//            }
-//            else{
-//                // Last point on list, put it in the lower right of the
-//                // containment rect.
-//                currentPoint.setPosition( containmentRect.getMaxX(), containmentRect.getMinY() );
-//            }
-//            currentPoint = currentPoint.getNextPoint();
-//        }
+        firstPointOnList.setPosition( containmentRect.getMinX(), containmentRect.getMaxY() );
+        LinkablePoint currentPoint = firstPointOnList.getNextPoint();
+        while ( currentPoint != null ) {
+            if ( currentPoint.getNextPoint() != null ) {
+                currentPoint.setPosition( containmentRect.getMinX() + RAND.nextDouble() * containmentRect.getWidth(),
+                                          containmentRect.getMinY() + RAND.nextDouble() * containmentRect.getHeight() );
+            }
+            else {
+                // Last point on list, put it in the lower right of the
+                // containment rect.
+                currentPoint.setPosition( containmentRect.getMaxX(), containmentRect.getMinY() );
+            }
+            currentPoint = currentPoint.getNextPoint();
+        }
 
         // Test - 3 points only, with middle in center.
 //        firstPointOnList.setPosition( containmentRect.getMinX(), containmentRect.getMaxY() );
@@ -100,15 +100,15 @@ public class TestMrnaWinding {
 //        currentPoint.setPosition( containmentRect.getMaxX(), containmentRect.getMinY() );
 
         // Test - 4 points only, with 2nd in upper right, 3rd in lower left.
-        firstPointOnList.setPosition( containmentRect.getMinX(), containmentRect.getMaxY() );
-        LinkablePoint currentPoint = firstPointOnList.getNextPoint();
-        currentPoint.setPosition( containmentRect.getMaxX(),
-                                  containmentRect.getMaxY() );
-        currentPoint = currentPoint.getNextPoint();
-        currentPoint.setPosition( containmentRect.getMinX(),
-                                  containmentRect.getMinY() );
-        currentPoint = currentPoint.getNextPoint();
-        currentPoint.setPosition( containmentRect.getMaxX(), containmentRect.getMinY() );
+//        firstPointOnList.setPosition( containmentRect.getMinX(), containmentRect.getMaxY() );
+//        LinkablePoint currentPoint = firstPointOnList.getNextPoint();
+//        currentPoint.setPosition( containmentRect.getMaxX(),
+//                                  containmentRect.getMaxY() );
+//        currentPoint = currentPoint.getNextPoint();
+//        currentPoint.setPosition( containmentRect.getMinX(),
+//                                  containmentRect.getMinY() );
+//        currentPoint = currentPoint.getNextPoint();
+//        currentPoint.setPosition( containmentRect.getMaxX(), containmentRect.getMinY() );
     }
 
     /**
@@ -127,9 +127,9 @@ public class TestMrnaWinding {
             currentPoint.clearVelocity();
             currentPoint = currentPoint.getNextPoint();
         }
-        double springConstant = 1; // In Newtons/m
+        double springConstant = 2; // In Newtons/m
         double dampingConstant = 1;
-        double pointMass = 0.1; // In kg.
+        double pointMass = 0.01; // In kg.
         LinkablePoint previousPoint = firstPointOnList;
         currentPoint = firstPointOnList.getNextPoint();
         while ( currentPoint != null ) {
@@ -156,7 +156,7 @@ public class TestMrnaWinding {
     }
 
     /**
-     * Takes link list of point and draws both points and lines between them.
+     * Takes linked list of point and depicts both points and lines between them.
      */
     private static class SquiggleNode extends PNode {
         private static final Stroke STROKE = new BasicStroke( 1 );
