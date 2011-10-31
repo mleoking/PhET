@@ -483,7 +483,7 @@ public class MoleculeShapesModule extends JMEModule {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingEvents.actionPerformed( "Dragging state changed",
+            SimSharingEvents.actionPerformed( "dragging state", "changed",
                                               param( "dragging", dragging ),
                                               param( "dragMode", dragMode.toString() ) );
         }

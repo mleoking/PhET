@@ -64,13 +64,13 @@ public class SimSharingEvents {
     }
 
     //Signify that an action has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
-    public static void actionPerformed( String action, Parameter... parameters ) {
+    public static void actionPerformed( String object, String action, Parameter... parameters ) {
 
         if ( connect ) {
 
             //Print the columns before the first message
             if ( !printedColumns ) {
-                write( "Machine ID" + "\t" + "Session ID" + "\t" + "Event time (ms)" + "\t" + "Action" + "\t" + "Parameter List" );
+                write( "Machine ID" + "\t" + "Session ID" + "\t" + "Event time (ms)" + "\t" + "Object" + "\t" + "Action" + "\t" + "Parameter List" );
                 printedColumns = true;
             }
 
@@ -78,7 +78,7 @@ public class SimSharingEvents {
             String timestamp = simStartedTime.isSome() ? ( System.currentTimeMillis() - simStartedTime.get() ) + "" : "@" + System.currentTimeMillis();
 
             String parameterText = new ObservableList<Parameter>( parameters ).mkString( ", " );
-            write( MACHINE_ID + "\t" + SESSION_ID + "\t" + timestamp + "\t" + action + "\t" + parameterText );
+            write( MACHINE_ID + "\t" + SESSION_ID + "\t" + timestamp + "\t" + object + "\t" + action + "\t" + parameterText );
         }
     }
 
@@ -140,7 +140,7 @@ public class SimSharingEvents {
                         t.printStackTrace();
                     }
 
-                    actionPerformed( "Sim started",
+                    actionPerformed( "sim", "started",
                                      param( "time", simStartedTime.get() ),
                                      param( "name", config.getName() ),
                                      param( "version", config.getVersion().formatForAboutDialog() ),
@@ -148,7 +148,7 @@ public class SimSharingEvents {
                                      param( "flavor", config.getFlavor() ),
                                      param( "locale", config.getLocale().toString() ),
                                      param( "distribution tag", config.getDistributionTag() ) );
-                    actionPerformed( "Sim connected to server" );
+                    actionPerformed( "sim", "connected to server" );
 
                     //Report on any messages that were collected while we were trying to connect to the server
                     if ( client != null ) {
@@ -204,12 +204,14 @@ public class SimSharingEvents {
     public static void addDragSequenceListener( JComponent component, final Function0<String> message ) {
         component.addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
-                actionPerformed( "Mouse pressed: " + message.apply() );
+
+                //TODO: consider moving the message.apply to be params
+                actionPerformed( "mouse", "pressed: " + message.apply() );
             }
         } );
         component.addMouseMotionListener( new MouseMotionListener() {
             public void mouseDragged( MouseEvent e ) {
-                actionPerformed( "Mouse dragged: " + message.apply() );
+                actionPerformed( "mouse", "dragged: " + message.apply() );
             }
 
             public void mouseMoved( MouseEvent e ) {

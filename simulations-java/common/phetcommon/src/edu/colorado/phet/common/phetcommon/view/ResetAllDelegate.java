@@ -63,7 +63,7 @@ public class ResetAllDelegate {
         if ( !confirmationEnabled || confirmReset() ) {
 
             //Fire reset all before any of the other events because properties that reset should show up afterwards so they can easily be grouped together conceptually
-            SimSharingEvents.actionPerformed( "Reset all" );
+            SimSharingEvents.actionPerformed( "module", "reset all" );
 
             for ( Resettable resettable : resettables ) {
                 resettable.reset();
@@ -77,14 +77,15 @@ public class ResetAllDelegate {
     private boolean confirmReset() {
         //Show a message that reset confirmation was requested--this allows us to keep track of how many times the user pressed cancel vs ok,
         //And helps correlate the window activated/deactivated with this feature (otherwise you wouldn't be able to tell that the user wasn't going to another application)
-        SimSharingEvents.actionPerformed( "Reset all confirmation dialog shown" );
+        final String key = "Reset all confirmation dialog";
+        SimSharingEvents.actionPerformed( key, "shown" );
 
         String message = getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
         String title = getInstance().getLocalizedString( "Common.title.confirm" );
         int option = PhetOptionPane.showYesNoDialog( parent, message, title );
         final boolean shouldReset = option == JOptionPane.YES_OPTION;
 
-        SimSharingEvents.actionPerformed( "User selected option in reset confirmation dialog", param( "should reset", shouldReset ) );
+        SimSharingEvents.actionPerformed( key, "user selected option", param( "should reset", shouldReset ) );
         return shouldReset;
     }
 }

@@ -31,7 +31,7 @@ public class PhetExit {
     public static void exit() {
 
         // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
-        SimSharingEvents.actionPerformed( "Exit" );
+        SimSharingEvents.actionPerformed( "sim", "exited" );
 
         for ( VoidFunction0 exitListener : exitListeners ) {
             exitListener.apply();

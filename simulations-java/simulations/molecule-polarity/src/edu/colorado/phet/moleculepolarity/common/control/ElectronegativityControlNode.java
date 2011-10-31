@@ -18,6 +18,7 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -270,10 +271,9 @@ public class ElectronegativityControlNode extends PhetPNode {
                                                          } ) );
 
             //Record changes on the slider
-            //TODO: args unparseable
-            PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<String>() {
-                public String apply() {
-                    return "Atom " + atom.getName() + " electronegativity: " + atom.electronegativity.get();
+            PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<Parameter[]>() {
+                public Parameter[] apply() {
+                    return new Parameter[] { new Parameter( "atom", atom.getName() ), new Parameter( "electronegativity", atom.electronegativity.get() ) };
                 }
             } );
         }
@@ -309,10 +309,10 @@ public class ElectronegativityControlNode extends PhetPNode {
     }
 
     /*
-     * Base class for tick marks.
-     * A tick mark is a vertical line with optional label below it.
-     * Origin is at the top center of line.
-     */
+    * Base class for tick marks.
+    * A tick mark is a vertical line with optional label below it.
+    * Origin is at the top center of line.
+    */
     private abstract static class TickMarkNode extends PComposite {
 
         public TickMarkNode( double length, final Stroke stroke, String label ) {
@@ -354,6 +354,7 @@ public class ElectronegativityControlNode extends PhetPNode {
     }
 
     // test
+
     public static void main( String[] args ) {
 
         DiatomicMolecule molecule = new DiatomicMolecule( new ImmutableVector2D(), 0 );

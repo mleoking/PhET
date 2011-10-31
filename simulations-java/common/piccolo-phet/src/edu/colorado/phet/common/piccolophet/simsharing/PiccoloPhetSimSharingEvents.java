@@ -18,32 +18,24 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.ac
  * @author Sam Reid
  */
 public class PiccoloPhetSimSharingEvents {
-    //Fire an action when the mouse is released on the specified PNode
-    public static void registerMouseReleasedListener( PNode node, final String action ) {
-        node.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseReleased( PInputEvent event ) {
-                actionPerformed( action );
-            }
-        } );
-    }
 
     //Write the specified message when the button is pressed
-    public static void addActionListener( ButtonNode textButtonNode, final String message, final Parameter... parameters ) {
+    public static void addActionListener( ButtonNode textButtonNode, final String object, final String action, final Parameter... parameters ) {
         textButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingEvents.actionPerformed( message, parameters );
+                SimSharingEvents.actionPerformed( object, action, parameters );
             }
         } );
     }
 
-    public static void addDragSequenceListener( PNode node, final Function0<String> message ) {
+    public static void addDragSequenceListener( PNode node, final Function0<Parameter[]> message ) {
         node.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
-                actionPerformed( "Mouse dragged: " + message.apply() );
+                actionPerformed( "mouse", "dragged", message.apply() );
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
-                actionPerformed( "Mouse released: " + message.apply() );
+                actionPerformed( "mouse", "released", message.apply() );
             }
         } );
     }
