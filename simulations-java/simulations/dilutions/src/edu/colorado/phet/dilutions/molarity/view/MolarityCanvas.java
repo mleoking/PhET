@@ -91,7 +91,8 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
             resetAllButtonNode.setOffset( concentrationDisplayNode.getXOffset() + ( concentrationBarSize.getWidth() / 2 ) - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                           soluteControlNode.getYOffset() );
         }
-        centerRootNode();
+        scaleRootNodeToFitStage();
+        centerRootNodeOnStage();
     }
 }
 
