@@ -1,3 +1,5 @@
+# 0.00.09 (58198) Oct 31, 2011
+10/31/11 version to demo alternative layout of Dilution play area
 10/31/11 Dilution: try alternative layout of things to right of "=" sign, left-to-right order is: V2,Beaker,M2
 10/31/11 Dilution: smaller font and size for beaker labels
 10/31/11 Dilution: make beakers slightly wider
