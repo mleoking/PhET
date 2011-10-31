@@ -556,7 +556,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
     }
 
     public Simulation getSimulation( String simulationName, Locale locale ) {
-        return new Simulation( simulationName, getSimulationTitle( simulationName, locale ), "mainclass", new String[0] );
+        return new Simulation( simulationName, getSimulationTitle( simulationName, locale ), "mainclass", new String[0], false );
     }
 
     public Locale[] getLocales() {

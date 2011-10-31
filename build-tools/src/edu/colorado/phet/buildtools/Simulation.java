@@ -10,12 +10,14 @@ public class Simulation {
     private String[] args;
     private String mainclass;
     private String title;
+    private final boolean requestAllPermissions;
 
-    public Simulation( String name, String title, String mainclass, String[] args ) {
+    public Simulation( String name, String title, String mainclass, String[] args, boolean requestAllPermissions ) {
         this.name = name;
         this.args = args;
         this.mainclass = mainclass;
         this.title = title;
+        this.requestAllPermissions = requestAllPermissions;
     }
 
     public String getName() {
@@ -50,5 +52,9 @@ public class Simulation {
 
     private String upperCaseFirst( String s ) {
         return s.substring( 0, 1 ).toUpperCase() + s.substring( 1 );
+    }
+
+    public boolean requestAllPermissions() {
+        return requestAllPermissions;
     }
 }

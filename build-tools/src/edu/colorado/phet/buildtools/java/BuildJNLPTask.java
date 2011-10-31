@@ -50,12 +50,15 @@ public class BuildJNLPTask {
         map.put( "PROJECT.PROPERTIES", getJNLPProperties( locale ) );
         map.put( "PROJECT.DEPLOY.PATH", codebase );
         map.put( "ADDITIONAL.RESOURCES", project.getAdditionalJnlpResources() );
-        map.put( "SECURITY", getSecurity( project ) );
+        map.put( "SECURITY", getSecurity( project, simulation ) );
         return map;
     }
 
-    private String getSecurity( PhetProject phetProject ) {
-        if ( phetProject.requestAllPermissions() ) {
+    /*
+     * Determine whether the "all-permissions" tag should be used for the combination of project/simulation
+     */
+    private String getSecurity( PhetProject phetProject, Simulation simulation ) {
+        if ( phetProject.requestAllPermissions() || simulation.requestAllPermissions() ) {
             return "<security>\n" +
                    "      <all-permissions/>\n" +
                    "</security>";
