@@ -1,3 +1,4 @@
+10/31/11 since size of beakers labels is static, scale text to fit
 # 0.00.10 (58200) Oct 31, 2011
 10/31/11 version to demo alternative layout of Dilution play area
 10/31/11 Dilution: try alternative layout of things to right of "=" sign, left-to-right order is: M2,V2,Beaker

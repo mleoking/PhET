@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -34,6 +35,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BeakerNode extends PComposite {
+
+    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( BeakerNode.class.getCanonicalName() );
 
     // tick mark properties
     private static final Color TICK_COLOR = Color.GRAY;
@@ -126,7 +129,11 @@ public class BeakerNode extends PComposite {
         return beakerImageNode.getCylinderEndHeight();
     }
 
-    // Label that appears on the beaker in a frosty, translucent frame. Origin at geometric center.
+    /*
+     * Label that appears on the beaker in a frosty, translucent frame.
+     * Since we're very tight on horizontal space in the play area, and the label size is static, text is scaled to fit.
+     * Origin at geometric center.
+     */
     private static class LabelNode extends PComposite {
 
         private final HTMLNode htmlNode;
@@ -152,8 +159,17 @@ public class BeakerNode extends PComposite {
         }
 
         public void setText( String text ) {
-            // label, centered
             htmlNode.setHTML( text );
+            // scale to fit the background with some margin
+            final double margin = 2;
+            final double scaleX = ( backgroundNode.getFullBoundsReference().getWidth() - ( 2 * margin ) ) / htmlNode.getFullBoundsReference().getWidth();
+            final double scaleY = ( backgroundNode.getFullBoundsReference().getHeight() - ( 2 * margin ) ) / htmlNode.getFullBoundsReference().getHeight();
+            if ( scaleX < 1 || scaleY < 1 ) {
+                double scale = Math.min( scaleX, scaleY );
+                LOGGER.info( "text \"" + text + "\" won't fit in beaker label, scaling by " + scale );
+                htmlNode.setScale( scale );
+            }
+            // center in the background
             htmlNode.setOffset( -htmlNode.getFullBoundsReference().getWidth() / 2, -htmlNode.getFullBoundsReference().getHeight() / 2 );
         }
     }
