@@ -1,3 +1,4 @@
+10/31/11 Dilution: try alternative layout of things to right of "=" sign, left-to-right order is: V2,Beaker,M2
 10/31/11 Dilution: smaller font and size for beaker labels
 10/31/11 Dilution: make beakers slightly wider
 10/31/11 Dilution: because horizontal layout is so tight, scale rootNode to ensure that translated versions fit in the play area

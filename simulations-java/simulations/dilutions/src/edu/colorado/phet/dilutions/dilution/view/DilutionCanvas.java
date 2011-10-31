@@ -102,12 +102,12 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
             waterNode.setOffset( waterBeakerNode.getOffset() );
             equalsNode.setOffset( waterBeakerNode.getFullBoundsReference().getMaxX() + 5,
                                   waterBeakerNode.getYOffset() + ( waterCylinderSize.getHeight() / 2 ) - ( equalsNode.getFullBoundsReference().getHeight() / 2 ) );
-            dilutionBeakerNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 25,
+            dilutionVolumeSliderNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionVolumeSliderNode ) + 8,
+                                                waterBeakerNode.getYOffset() );
+            dilutionBeakerNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionBeakerNode ) + 5,
                                           waterBeakerNode.getYOffset() );
             dilutionNode.setOffset( dilutionBeakerNode.getOffset() );
-            dilutionVolumeSliderNode.setOffset( dilutionBeakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionVolumeSliderNode ) + 5,
-                                                dilutionBeakerNode.getYOffset() );
-            dilutionConcentrationNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 5,
+            dilutionConcentrationNode.setOffset( dilutionBeakerNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 5,
                                                  dilutionBeakerNode.getFullBoundsReference().getMaxY() - dilutionConcentrationNode.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( dilutionConcentrationNode ) );
             // upper-right corner of stage
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - 50, 50 );
