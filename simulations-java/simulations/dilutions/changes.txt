@@ -1,4 +1,5 @@
-10/31/11 add ability to specify independent x and y scale for beaker image, so we can make beakers skinny in Dilution tab
+10/31/11 Dilution: make beakers tall-and-skinny
+10/31/11 add ability to specify independent x and y scale for beaker image
 10/27/11 change request: order solutes by "rainbow color" (ROYGBIV) in Molarity tab
 # 0.00.07 (58077) Oct 27, 2011
 10/27/11 change some terminology in Solute model (precipitateSize, precipitateParticlesPerMole)
