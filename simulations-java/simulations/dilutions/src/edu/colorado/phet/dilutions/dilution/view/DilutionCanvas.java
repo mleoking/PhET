@@ -79,7 +79,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
             addChild( dilutionVolumeSliderNode );
             addChild( dilutionConcentrationNode );
             addChild( equalsNode );
-            addChild( resetAllButtonNode );
+            addWorldChild( resetAllButtonNode ); // don't add to root node, so this button isn't involved in centering of rootNode
         }
 
         // layout
@@ -104,8 +104,8 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
                                                 dilutionBeakerNode.getYOffset() );
             dilutionConcentrationNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 5,
                                                  dilutionBeakerNode.getFullBoundsReference().getMaxY() - dilutionConcentrationNode.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( dilutionConcentrationNode ) );
-            resetAllButtonNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMinX(),
-                                          waterBeakerNode.getFullBoundsReference().getMaxY() + 30 );
+            // upper-right corner of stage
+            resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - 50, 50 );
         }
         centerRootNode();
     }
