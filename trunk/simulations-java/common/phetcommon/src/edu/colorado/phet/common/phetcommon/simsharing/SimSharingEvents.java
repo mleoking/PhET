@@ -68,9 +68,9 @@ public class SimSharingEvents {
 
         if ( connect ) {
 
-            //Print the columns before the first message
+            //Print the columns before the first message, but only to the local console, not to the server
             if ( !printedColumns ) {
-                write( "Machine ID" + "\t" + "Session ID" + "\t" + "Event time (ms)" + "\t" + "Object" + "\t" + "Action" + "\t" + "Parameter List" );
+                System.out.println( "Machine ID" + "\t" + "Session ID" + "\t" + "Event time (ms)" + "\t" + "Object" + "\t" + "Action" + "\t" + "Parameter List" );
                 printedColumns = true;
             }
 
