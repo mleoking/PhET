@@ -73,7 +73,7 @@ public class SimSharingEvents {
 
             //Print the columns before the first message, but only to the local console, not to the server
             if ( !printedColumns ) {
-                System.out.println( "Machine ID" + "\t" + "Session ID" + "\t" + "Event time (ms)" + "\t" + "Object" + "\t" + "Action" + "\t" + "Parameter List" );
+                System.out.println( getColumnHeaders() );
                 printedColumns = true;
             }
 
@@ -83,6 +83,10 @@ public class SimSharingEvents {
             String parameterText = new ObservableList<Parameter>( parameters ).mkString( ", " );
             write( MACHINE_ID + "\t" + SESSION_ID + "\t" + timestamp + "\t" + object + "\t" + action + "\t" + parameterText );
         }
+    }
+
+    public static String getColumnHeaders() {
+        return "Machine ID" + "\t" + "Session ID" + "\t" + "Event time (ms)" + "\t" + "Object" + "\t" + "Action" + "\t" + "Parameter List";
     }
 
     //Write the message to the console and to the server

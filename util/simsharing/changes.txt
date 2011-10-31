@@ -1,3 +1,4 @@
+Removed machine cookie and session id from output, see #3136
 # 00.00.47 (58174) Oct 31, 2011
 Added file i/o for message storing, see #3136
 # 00.00.46 (58158) Oct 31, 2011
