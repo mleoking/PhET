@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.ACTION_EXITED;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.OBJECT_SIM;
+
 /**
  * PhetExit encapsulates the various ways of exiting a sim.  It also sends out notifications before System.exit(0) is
  * called in case any final work needs to be done, as in the case of sim sharing.
@@ -31,7 +34,7 @@ public class PhetExit {
     public static void exit() {
 
         // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
-        SimSharingEvents.actionPerformed( "sim", "exited" );
+        SimSharingEvents.actionPerformed( OBJECT_SIM, ACTION_EXITED );
 
         for ( VoidFunction0 exitListener : exitListeners ) {
             exitListener.apply();
