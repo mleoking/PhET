@@ -48,7 +48,7 @@ public class EventServer implements MessageHandler {
             String action = st.nextToken();
 
             BufferedWriter bufferedWriter = getBufferedWriter( machineID, sessionID );
-            bufferedWriter.write( m );
+            bufferedWriter.write( stripMachineAndUserID( m, machineID, sessionID ) );
             bufferedWriter.newLine();
             bufferedWriter.flush();
 
@@ -63,6 +63,17 @@ public class EventServer implements MessageHandler {
         }
     }
 
+    private String stripMachineAndUserID( String m, String machineID, String sessionID ) {
+        String prefix = machineID + "\t" + sessionID + "\t";
+        if ( m.startsWith( prefix ) ) {
+            return m.substring( prefix.length() );
+        }
+        else {
+            System.out.println( "Bogus prefix for message, returning full string: " + m );
+            return m;
+        }
+    }
+
     private BufferedWriter getBufferedWriter( String machineID, String sessionID ) throws IOException {
         String key = getKey( machineID, sessionID );
 
@@ -73,6 +84,9 @@ public class EventServer implements MessageHandler {
             File file = new File( "/home/phet/eventserver/data/" + key + ".txt" );
             file.getParentFile().mkdirs();
             BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file, true ) );
+            bufferedWriter.write( "machineID = " + machineID + "\n" + "sessionID = " + sessionID + "\n" + "serverTime = " + System.currentTimeMillis() );
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
             map.put( key, bufferedWriter );
             return bufferedWriter;
         }
