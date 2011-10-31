@@ -67,7 +67,7 @@ public class BeakerImageNode extends PImage {
         // beaker image
         final BeakerImageNode beakerNode = new BeakerImageNode() {{
             setOffset( 30, 30 );
-            scale( 0.75 );
+            getTransformReference( true ).scale( 0.5, 1 );
         }};
         // draw the cylinder that represents the beaker's interior
         final PPath cylinderNode = new PPath() {{

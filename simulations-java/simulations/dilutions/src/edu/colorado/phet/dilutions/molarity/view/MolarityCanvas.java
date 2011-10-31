@@ -31,7 +31,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
     public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
 
         // nodes
-        BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.75, model.solution, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) );
+        BeakerNode beakerNode = new BeakerNode( model.solution, model.getSolutionVolumeRange().getMax(), 0.75, 0.75, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
         final double cylinderEndHeight = beakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.solution, model.getSolutionVolumeRange() );

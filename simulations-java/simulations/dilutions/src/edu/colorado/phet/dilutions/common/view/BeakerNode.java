@@ -46,8 +46,8 @@ public class BeakerNode extends PComposite {
     private final LabelNode labelNode;
 
     // Beaker with a label that dynamically updates to match a solution's solute.
-    public BeakerNode( double maxVolume, double imageScale, final Solution solution, PDimension labelSize, Font labelFont ) {
-        this( maxVolume, imageScale, solution.solute.get().formula, labelSize, labelFont );
+    public BeakerNode( final Solution solution, double maxVolume, double imageScaleX, double imageScaleY, PDimension labelSize, Font labelFont ) {
+        this( maxVolume, imageScaleX, imageScaleY, solution.solute.get().formula, labelSize, labelFont );
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
@@ -60,7 +60,7 @@ public class BeakerNode extends PComposite {
     }
 
     // Beaker with a static label.
-    public BeakerNode( double maxVolume, final double imageScale, String labelText, PDimension labelSize, Font labelFont ) {
+    public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont ) {
 
         // this node is not interactive
         setPickable( false );
@@ -68,7 +68,7 @@ public class BeakerNode extends PComposite {
 
         // the glass beaker
         beakerImageNode = new BeakerImageNode() {{
-            scale( imageScale );
+            getTransformReference( true ).scale( imageScaleX, imageScaleY );
         }};
         final PDimension cylinderSize = beakerImageNode.getCylinderSize();
         final Point2D cylinderOffset = beakerImageNode.getCylinderOffset();
@@ -163,7 +163,7 @@ public class BeakerNode extends PComposite {
         Solute solute = new Solute( "MySolute", "MyFormula", 5.0, Color.RED, 1, 200 );
         Solution solution = new Solution( solute, 1, 0.5 );
         // beaker
-        final BeakerNode beakerNode = new BeakerNode( 1, 0.75, solution, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) ) {{
+        final BeakerNode beakerNode = new BeakerNode( solution, 1, 0.75, 0.75, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) ) {{
             setOffset( 200, 200 );
         }};
         // red dot at beaker's origin

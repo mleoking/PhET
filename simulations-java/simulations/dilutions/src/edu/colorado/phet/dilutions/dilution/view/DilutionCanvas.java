@@ -30,7 +30,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
     public DilutionCanvas( DilutionModel model, Frame parentFrame ) {
 
         // solution nodes
-        BeakerNode solutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), 0.5, Strings.SOLUTION, new PDimension( 120, 50 ), new PhetFont( Font.BOLD, 20 ) );
+        BeakerNode solutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), 0.30, 0.50, Strings.SOLUTION, new PDimension( 120, 50 ), new PhetFont( Font.BOLD, 20 ) );
         final PDimension solutionCylinderSize = solutionBeakerNode.getCylinderSize();
         final double solutionCylinderEndHeight = solutionBeakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( solutionCylinderSize, solutionCylinderEndHeight, model.solution, model.getDiutionVolumeRange() );
@@ -39,7 +39,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
                                                                                           model.solution.volume, model.getSolutionVolumeRange() );
 
         // water nodes
-        BeakerNode waterBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), 0.5, Symbols.WATER, new PDimension( 120, 50 ), new PhetFont( Font.BOLD, 20 ) );
+        BeakerNode waterBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), 0.30, 0.50, Symbols.WATER, new PDimension( 120, 50 ), new PhetFont( Font.BOLD, 20 ) );
         final PDimension waterCylinderSize = waterBeakerNode.getCylinderSize();
         final double waterCylinderEndHeight = waterBeakerNode.getCylinderEndHeight();
         SolutionNode waterNode = new SolutionNode( waterCylinderSize, waterCylinderEndHeight, model.water, model.getDiutionVolumeRange() );
@@ -47,7 +47,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas implements Resettabl
         PNode equalsNode = new FancyEqualsNode();
 
         // dilution nodes
-        BeakerNode dilutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), 0.5, Strings.DILUTION, new PDimension( 120, 50 ), new PhetFont( Font.BOLD, 20 ) );
+        BeakerNode dilutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), 0.30, 0.50, Strings.DILUTION, new PDimension( 120, 50 ), new PhetFont( Font.BOLD, 20 ) );
         final PDimension dilutionCylinderSize = dilutionBeakerNode.getCylinderSize();
         final double dilutionCylinderEndHeight = dilutionBeakerNode.getCylinderEndHeight();
         SolutionNode dilutionNode = new SolutionNode( dilutionCylinderSize, dilutionCylinderEndHeight, model.dilution, model.getDiutionVolumeRange() );
