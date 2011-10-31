@@ -1,13 +1,15 @@
 TODO list for dilutions
 
 DESIGN
-- color for water
-- color scale issues in Molarity tab
-- Dilution: should V1 go to zero? What happens to M1 when this happens?
+- Tab 3 (Making Dilutions)
 
 HIGH
-- Dilution: M1 control
-- Dilution: tall skinny beakers (3:1), labels above
+- Dilution: M1 control, no need to gray out part of track as in mockup
+- Dilution: smaller font and variable label size on beakers
+- Dilution: beakers slightly wider, spreak things out in play area, scale rootNode to ensure that translated versions fit
+- Dilution: move Reset All button to same location as Molarity tab (upper right)
+- Dilution: provide dev versions with 2 alternate layouts (left-to-right): 1=V2,Beaker,M2 2=M2,V2,Beaker
+- Molarity: more convincing gradients for Kool-Aid and KMnO4, as in design doc beaker photos
 
 MEDIUM
 
