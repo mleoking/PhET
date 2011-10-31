@@ -1,5 +1,3 @@
-# 0.00.08 (58161) Oct 31, 2011
-10/31/11 version for design discussion with JC 
 10/31/11 Dilution: make beakers tall-and-skinny
 10/31/11 add ability to specify independent x and y scale for beaker image
 10/27/11 change request: order solutes by "rainbow color" (ROYGBIV) in Molarity tab
