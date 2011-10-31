@@ -270,6 +270,7 @@ public class ElectronegativityControlNode extends PhetPNode {
                                                          } ) );
 
             //Record changes on the slider
+            //TODO: args unparseable
             PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<String>() {
                 public String apply() {
                     return "Atom " + atom.getName() + " electronegativity: " + atom.electronegativity.get();
