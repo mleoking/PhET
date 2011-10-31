@@ -5,6 +5,7 @@ DESIGN
 
 HIGH
 - Dilution: M1 control, no need to gray out part of track as in mockup
+- Dilution: implementation of M1*V1=M2*V2
 - Molarity: more convincing gradients for Kool-Aid and KMnO4, as in design doc beaker photos
 
 MEDIUM
