@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -16,6 +17,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class AbstractDilutionsCanvas extends PhetPCanvas {
+
+    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( AbstractDilutionsCanvas.class.getCanonicalName() );
 
     private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private static final Color CANVAS_COLOR = Color.WHITE;
@@ -56,7 +59,9 @@ public class AbstractDilutionsCanvas extends PhetPCanvas {
         double xScale = STAGE_SIZE.getWidth() / rootNode.getFullBoundsReference().getWidth();
         double yScale = STAGE_SIZE.getHeight() / rootNode.getFullBoundsReference().getHeight();
         if ( xScale < 1 || yScale < 1 ) {
-            rootNode.scale( Math.min( xScale, yScale ) );
+            double scale = Math.min( xScale, yScale );
+            LOGGER.info( "rootNode won't fit in the play area, scaling rootNode by " + scale + " for " + getClass().getName() );
+            rootNode.scale( scale );
         }
     }
 }
