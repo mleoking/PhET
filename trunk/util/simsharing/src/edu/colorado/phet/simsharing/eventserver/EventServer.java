@@ -44,6 +44,7 @@ public class EventServer implements MessageHandler {
             String machineID = st.nextToken();
             String sessionID = st.nextToken();
 
+            String time = st.nextToken();
             String object = st.nextToken();
             String action = st.nextToken();
 
