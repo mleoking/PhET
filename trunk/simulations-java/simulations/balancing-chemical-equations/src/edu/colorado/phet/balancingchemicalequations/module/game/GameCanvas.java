@@ -315,7 +315,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
      * See the javadoc for GameState for the semantics of states and the significance of their names.
      */
     private void handleGameStateChange( GameState state ) {
-        SimSharingEvents.actionPerformed( "Game state changed", param( "main action user can take in this state", state.toString() ) );
+        SimSharingEvents.actionPerformed( "game state", "changed", param( "main action user can take in this state", state.toString() ) );
         if ( state == GameState.START_GAME ) {
             initStartGame();
         }

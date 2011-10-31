@@ -121,7 +121,7 @@ public class MoleculeShapesControlPanel extends PNode {
                     module.getMolecule().removeAllPairs();
                 }
             } ) );
-            PiccoloPhetSimSharingEvents.addActionListener( this, "Remove All: Removed all bonds and lone pairs" );
+            PiccoloPhetSimSharingEvents.addActionListener( this, "bonds and lone pairs", "removed all" );
 
             MoleculeShapesColor.REMOVE_BUTTON_BACKGROUND.addColorObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {

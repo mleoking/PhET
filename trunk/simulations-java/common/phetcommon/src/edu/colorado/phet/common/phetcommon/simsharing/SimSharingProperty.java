@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+
 /**
  * Property that can record its value with the sim sharing features.  Use of this class makes it easy to report values, in many cases I just need to change this:
  * <p/>
@@ -35,7 +37,7 @@ public class SimSharingProperty<T> extends Property<T> {
         //Observe changes but do not notify about the initial value//TODO: Or should we notify about the initial value for purposes of knowing how the sim started up in case it is changed later?
         addObserver( new SimpleObserver() {
             public void update() {
-                SimSharingEvents.actionPerformed( name, Parameter.param( "value", toString.apply( get() ) ) );
+                SimSharingEvents.actionPerformed( name, "changed", param( "value", toString.apply( get() ) ) );
             }
         }, false );
     }

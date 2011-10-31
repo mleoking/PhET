@@ -173,7 +173,7 @@ class ModuleManager {
             deactivateCurrentModule();
             activate( module );
             notifyActiveModuleChanged( new ModuleEvent( getPhetApplication(), module ) );
-            SimSharingEvents.actionPerformed( "Module activated", param( "name", module.getName() ) );
+            SimSharingEvents.actionPerformed( "module", "activated", param( "name", module.getName() ) );
             verifyActiveState();
         }
     }

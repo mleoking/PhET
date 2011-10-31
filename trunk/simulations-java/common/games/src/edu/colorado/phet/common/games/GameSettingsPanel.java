@@ -170,7 +170,7 @@ public class GameSettingsPanel extends GridPanel {
                 } );
                 setPreferredSize( new Dimension( (int) getFullBounds().getWidth() + getShadowOffset(), (int) getFullBounds().getHeight() + getShadowOffset() ) );
 
-                PiccoloPhetSimSharingEvents.addActionListener( this, "Game started" );
+                PiccoloPhetSimSharingEvents.addActionListener( this, "game", "started" );
             }} );
 
             //Match the background color

@@ -60,7 +60,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removePair( candidate );
-                            actionPerformed( "Bond removed", param( "bondOrder", bondOrder ) );
+                            actionPerformed( "bond", "removed", param( "bondOrder", bondOrder ) );
                         }
                     }
                 } );
@@ -105,7 +105,7 @@ public class BondTypeControlNode extends PNode {
             @Override public void mousePressed( final PInputEvent event ) {
                 if ( enabled.get() && event.getButton() == MouseEvent.BUTTON1 ) {
                     JMEUtils.invoke( runnable );
-                    actionPerformed( "Created bond", param( "bondOrder", bondOrder ) );
+                    actionPerformed( "bond", "created", param( "bondOrder", bondOrder ) );
                 }
             }
         } );

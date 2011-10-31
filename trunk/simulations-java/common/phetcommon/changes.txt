@@ -1,3 +1,4 @@
+10/31/11 Changed events from "message" to "object" + "action", see #3136
 10/30/11 Only try to load machine cookie if sim-sharing is enabled, see #3136
 10/30/11 Replaced usages of SimSharingEvents.addPropertyListener with SimSharingProperty and removed SimSharingEvents.addPropertyListener, see #3136
 10/30/11 Store a cookie on the user's machine to identify when the same machine is using different sims, see #3136
