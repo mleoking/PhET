@@ -2,28 +2,39 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.SwingConstants;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameState;
-import edu.colorado.phet.balancingchemicalequations.view.*;
-import edu.colorado.phet.balancingchemicalequations.view.game.*;
+import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
+import edu.colorado.phet.balancingchemicalequations.view.BoxesNode;
+import edu.colorado.phet.balancingchemicalequations.view.DevAnswerNode;
+import edu.colorado.phet.balancingchemicalequations.view.EquationNode;
+import edu.colorado.phet.balancingchemicalequations.view.HorizontalAligner;
+import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNotSimplifiedNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.GameRewardNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.NotBalancedTerseNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.NotBalancedVerboseNode;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
 import edu.colorado.phet.common.games.GameSettingsPanel;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -34,6 +45,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Canvas for the "Game" module.
@@ -302,6 +315,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      * See the javadoc for GameState for the semantics of states and the significance of their names.
      */
     private void handleGameStateChange( GameState state ) {
+        SimSharingEvents.actionPerformed( "Game state changed", param( "main action user can take in this state", state.toString() ) );
         if ( state == GameState.START_GAME ) {
             initStartGame();
         }
