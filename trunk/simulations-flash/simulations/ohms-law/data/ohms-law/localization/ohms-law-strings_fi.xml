@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_fi.xml created Mon Mar 09 16:04:13 EET 2009 using: ohms-law 1.00.00 (22498), translation-utility 1.12.00 (29256)-->
+<!--ohms-law-strings_fi.xml created Sat Oct 29 21:29:04 EEST 2011 using: ohms-law 2.03.00 (51206), translation-utility 2.12.00 (57171) loka 3, 2011-->
 <SimStrings>
-<string key="currentEq" value="Virta eli  current = "/>
-<string key="resistance" value="Resistanssi "/>
-<string key="sound" value="Ääni päälle"/>
-<string key="voltage" value="Jännite (voltage)"/>
+<string key="currentEq" value="virta = "/>
+<string key="resistance" value="resistanssi "/>
+<string key="simTitle" value="Ohmin laki"/>
+<string key="sound" value="ääni"/>
+<string key="voltage" value="jännite"/>
 </SimStrings>
