@@ -24,12 +24,12 @@ public class Processor {
     private void processFile( File file ) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
 
-        ParseState parseState = new ParseState();
+        EventLog eventLog = new EventLog();
         for ( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
-            parseState.parseLine( line );
+            eventLog.parseLine( line );
         }
 
-        parseState.parseFinished();
+        new PostProcessor().process( eventLog );
     }
 
     public static void main( String[] args ) throws IOException {
