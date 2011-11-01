@@ -124,8 +124,6 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
         final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { multipleParticleModel, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
-            setOffset( stoveNode.getFullBoundsReference().getMinX() - getFullBoundsReference().width - 5000,
-                       stoveNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().height );
         }};
         addWorldChild( resetAllButton );
 
@@ -135,13 +133,22 @@ public class SolidLiquidGasCanvas extends PhetPCanvas implements Resettable {
                 multipleParticleModel.getClock().setRunning( isRunning );
             }
         } );
-        addWorldChild( new FloatingClockControlNode( m_clockRunning, null,
-                                                     multipleParticleModel.getClock(), null,
-                                                     new Property<Color>( Color.white ) ) {{
+        FloatingClockControlNode floatingClockControlNode = new FloatingClockControlNode( m_clockRunning, null,
+                                                                                          multipleParticleModel.getClock(), null,
+                                                                                          new Property<Color>( Color.white ) ) {{
             scale( 30 ); // Scale to reasonable size.  Scale factor was empirically determined.
-            setOffset( resetAllButton.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
-                       resetAllButton.getFullBoundsReference().getMinY() - getFullBoundsReference().height - 200 );
-        }} );
+        }};
+        addWorldChild( floatingClockControlNode );
+
+        // Lay out the reset button and floating clock control.
+        {
+            // Recall that (0,0) is the lower left corner of the particle container, which is why this works.
+            double centerXOffset = -Math.max( resetAllButton.getFullBoundsReference().width, floatingClockControlNode.getFullBoundsReference().width ) / 2;
+            resetAllButton.setOffset( centerXOffset - resetAllButton.getFullBoundsReference().width / 2,
+                                      stoveNode.getFullBoundsReference().getMaxY() - resetAllButton.getFullBoundsReference().height );
+            floatingClockControlNode.setOffset( resetAllButton.getFullBoundsReference().getCenterX() - floatingClockControlNode.getFullBoundsReference().width / 2,
+                                                resetAllButton.getFullBoundsReference().getMinY() - floatingClockControlNode.getFullBoundsReference().height - 200 );
+        }
     }
 
     public void reset() {

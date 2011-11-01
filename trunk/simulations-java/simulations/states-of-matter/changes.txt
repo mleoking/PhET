@@ -1,3 +1,4 @@
+Fixed an issue with translated versions where long strings could cause the "Reset All" button to be pushed off the left edge of the canvas.
 Changed repulsive force arrow on the Atomic Interactions tab to be magenta to make it more distinct from the attractive force arrow.
 # 1.08.07 (58112) Oct 28, 2011
 10/28/11 Deploying as a release candidate for review by the team.
