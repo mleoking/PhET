@@ -9,8 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.SoluteAmountSliderNode;
-import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.SolutionVolumeSliderNode;
+import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
 import edu.colorado.phet.dilutions.common.control.SoluteControlNode;
 import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
 import edu.colorado.phet.dilutions.common.view.BeakerNode;
@@ -43,12 +42,12 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION, concentrationBarSize,
                                                                                           model.solution, model.getConcentrationRange() );
-        SoluteAmountSliderNode soluteAmountSliderNode = new SoluteAmountSliderNode( Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
-                                                                                    new PDimension( 5, cylinderSize.getHeight() ),
-                                                                                    model.solution.soluteAmount, model.getSoluteAmountRange() );
-        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
-                                                                                          new PDimension( 5, 0.8 * cylinderSize.getHeight() ), //TODO 0.8 is based on specific volume range
-                                                                                          model.solution.volume, model.getSolutionVolumeRange() );
+        DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
+                                                                              new PDimension( 5, cylinderSize.getHeight() ),
+                                                                              model.solution.soluteAmount, model.getSoluteAmountRange() );
+        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
+                                                                                new PDimension( 5, 0.8 * cylinderSize.getHeight() ), //TODO 0.8 is based on specific volume range
+                                                                                model.solution.volume, model.getSolutionVolumeRange() );
         SaturatedIndicatorNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
 
         // rendering order

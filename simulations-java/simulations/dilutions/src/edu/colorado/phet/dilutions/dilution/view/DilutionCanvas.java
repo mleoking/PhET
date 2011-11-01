@@ -11,8 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
-import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.ConcentrationSliderNode;
-import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.SolutionVolumeSliderNode;
+import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
 import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
 import edu.colorado.phet.dilutions.common.view.BeakerNode;
 import edu.colorado.phet.dilutions.common.view.ConcentrationDisplayNode;
@@ -40,9 +39,9 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         final PDimension solutionCylinderSize = solutionBeakerNode.getCylinderSize();
         final double solutionCylinderEndHeight = solutionBeakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( solutionCylinderSize, solutionCylinderEndHeight, model.solution, model.getDiutionVolumeRange() );
-        SolutionVolumeSliderNode solutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V1, Strings.EMPTY, Strings.SMALL,
-                                                                                          new PDimension( 5, 0.2 * solutionCylinderSize.getHeight() ), //TODO 0.2 is based on solution volume range
-                                                                                          model.solution.volume, model.getSolutionVolumeRange() );
+        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( Strings.VOLUME_V1, Strings.EMPTY, Strings.SMALL,
+                                                                                new PDimension( 5, 0.2 * solutionCylinderSize.getHeight() ), //TODO 0.2 is based on solution volume range
+                                                                                model.solution.volume, model.getSolutionVolumeRange() );
 
         // water nodes
         BeakerNode waterBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Symbols.WATER, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
@@ -57,13 +56,13 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         final PDimension dilutionCylinderSize = dilutionBeakerNode.getCylinderSize();
         final double dilutionCylinderEndHeight = dilutionBeakerNode.getCylinderEndHeight();
         SolutionNode dilutionNode = new SolutionNode( dilutionCylinderSize, dilutionCylinderEndHeight, model.dilution, model.getDiutionVolumeRange() );
-        SolutionVolumeSliderNode dilutionVolumeSliderNode = new SolutionVolumeSliderNode( Strings.VOLUME_V2, Strings.SMALL, Strings.BIG,
-                                                                                          new PDimension( 5, 0.8 * dilutionCylinderSize.getHeight() ), //TODO 0.8 is based on dilution volume range
-                                                                                          model.dilution.volume, model.getDiutionVolumeRange() );
+        DilutionsSliderNode dilutionVolumeSliderNode = new DilutionsSliderNode( Strings.VOLUME_V2, Strings.SMALL, Strings.BIG,
+                                                                                new PDimension( 5, 0.8 * dilutionCylinderSize.getHeight() ), //TODO 0.8 is based on dilution volume range
+                                                                                model.dilution.volume, model.getDiutionVolumeRange() );
 
         PDimension concentrationBarSize = new PDimension( 20, dilutionCylinderSize.getHeight() + 50 );
-        ConcentrationSliderNode concentrationSliderNode = new ConcentrationSliderNode( Strings.CONCENTRATION_M1, Strings.ZERO, Strings.HIGH,
-                                                                                       concentrationBarSize, model.solutionConcentration, model.getConcentrationRange() );
+        DilutionsSliderNode concentrationSliderNode = new DilutionsSliderNode( Strings.CONCENTRATION_M1, Strings.ZERO, Strings.HIGH,
+                                                                               concentrationBarSize, model.solutionConcentration, model.getConcentrationRange() );
         ConcentrationDisplayNode dilutionConcentrationNode = new ConcentrationDisplayNode( Strings.CONCENTRATION_M2,
                                                                                            concentrationBarSize, model.dilution, model.getConcentrationRange() );
 
