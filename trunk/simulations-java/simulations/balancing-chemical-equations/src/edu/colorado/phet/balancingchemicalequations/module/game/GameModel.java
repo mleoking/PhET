@@ -12,7 +12,10 @@ import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.view.game.IBalancedRepresentationStrategy;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Model for the "Game" module.
@@ -27,13 +30,17 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      * the user can take in that state.  For example. the CHECK state is where the user
      * can enter coefficients and press the "Check" button to check their answer.
      */
-    public static enum GameState { START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME };
+    public static enum GameState {
+        START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME
+    }
+
+    ;
 
     /*
      * Strategies for selecting the "balanced representation" that is displayed by the "Not Balanced" popup.
      * This is a map from level to strategy.
      */
-    private static HashMap<Integer,IBalancedRepresentationStrategy> BALANCED_REPRESENTATION_STRATEGIES = new HashMap<Integer,IBalancedRepresentationStrategy>() {{
+    private static HashMap<Integer, IBalancedRepresentationStrategy> BALANCED_REPRESENTATION_STRATEGIES = new HashMap<Integer, IBalancedRepresentationStrategy>() {{
         put( 1, new IBalancedRepresentationStrategy.Constant( BalancedRepresentation.BALANCE_SCALES ) );
         put( 2, new IBalancedRepresentationStrategy.Random() );
         put( 3, new IBalancedRepresentationStrategy.Constant( BalancedRepresentation.BAR_CHARTS ) );
@@ -53,7 +60,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     public final GameTimer timer;
 
     private final GameFactory equationsFactory; // generates problem sets
-    private final HashMap<Integer,Long> bestTimes; // best times, maps level to time in ms
+    private final HashMap<Integer, Long> bestTimes; // best times, maps level to time in ms
 
     private ArrayList<Equation> equations; // the current set of equations to be balanced
     private int currentEquationIndex; // index of the current equation that the user is working on
@@ -64,6 +71,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
     /**
      * Constructor
+     *
      * @param globalProperties global properties, many of which are accessed via the menu bar
      */
     public GameModel( final BCEGlobalProperties globalProperties ) {
@@ -71,7 +79,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
         points = new Property<Integer>( 0 );
         equationsFactory = new GameFactory( globalProperties.playAllEquations );
         settings = new GameSettings( LEVELS_RANGE, true /* sound */, true /* timer */ );
-        bestTimes = new HashMap<Integer,Long>();
+        bestTimes = new HashMap<Integer, Long>();
         for ( int i = settings.level.getMin(); i <= settings.level.getMax(); i++ ) {
             bestTimes.put( i, 0L );
         }
@@ -102,6 +110,11 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      */
     public void check() {
         attempts++;
+        SimSharingEvents.actionPerformed( "system-response", "guess checked",
+                                          param( "equation", currentEquation.get().getName() ),
+                                          param( "attempts", attempts ),
+                                          param( "isBalancedAndSimplified", currentEquation.get().isBalancedAndSimplified() ),
+                                          param( "isBalanced", currentEquation.get().isBalanced() ) );
         if ( currentEquation.get().isBalancedAndSimplified() ) {
 
             // award points
@@ -183,6 +196,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     /**
      * Gets the best time for a specified level.
      * If this returns zero, then there is no best time for the level.
+     *
      * @param level
      * @return
      */
@@ -196,6 +210,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
     /**
      * Gets the number of points earned for the current equation.
+     *
      * @return
      */
     public int getCurrentPoints() {
@@ -204,6 +219,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
     /**
      * Gets the range of the user coefficients.
+     *
      * @return
      */
     public IntegerRange getCoefficientsRange() {
@@ -212,6 +228,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
     /**
      * Gets the current equation, which is the equation that is being played.
+     *
      * @return
      */
     public int getCurrentEquationIndex() {
@@ -220,6 +237,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
     /**
      * Gets the number of equations in the current game.
+     *
      * @return
      */
     public int getNumberOfEquations() {
@@ -229,6 +247,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     /**
      * Gets the number of points in a perfect score, which occurs when the user
      * balances every equation in the game correctly on the first attempt.
+     *
      * @return
      */
     public int getPerfectScore() {
@@ -239,6 +258,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      * Is the current score a perfect score?
      * This can be called at any time during the game, but can't possibly
      * return true until the game has been completed.
+     *
      * @return
      */
     public boolean isPerfectScore() {
@@ -248,6 +268,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     /**
      * Gets the "balanced" representation that corresponds to the current equation.
      * This representation determines what is displayed by the "Not Balanced" popup.
+     *
      * @return
      */
     public BalancedRepresentation getBalancedRepresentation() {

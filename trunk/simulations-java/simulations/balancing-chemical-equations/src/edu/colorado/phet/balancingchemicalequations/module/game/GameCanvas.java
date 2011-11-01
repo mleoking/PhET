@@ -34,7 +34,6 @@ import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
 import edu.colorado.phet.common.games.GameSettingsPanel;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -45,8 +44,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Canvas for the "Game" module.
@@ -315,7 +312,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
      * See the javadoc for GameState for the semantics of states and the significance of their names.
      */
     private void handleGameStateChange( GameState state ) {
-        SimSharingEvents.actionPerformed( "game state", "changed", param( "main action user can take in this state", state.toString() ) );
         if ( state == GameState.START_GAME ) {
             initStartGame();
         }
