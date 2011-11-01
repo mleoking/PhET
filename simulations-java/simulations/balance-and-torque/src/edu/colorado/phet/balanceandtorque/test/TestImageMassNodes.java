@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.balanceandtorque.balancelab.view.ImageMassNode;
+import edu.colorado.phet.balanceandtorque.common.model.masses.Barrel;
 import edu.colorado.phet.balanceandtorque.common.model.masses.BigRock;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Boy;
 import edu.colorado.phet.balanceandtorque.common.model.masses.CinderBlock;
@@ -27,7 +28,6 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.PottedPlant;
 import edu.colorado.phet.balanceandtorque.common.model.masses.SmallBucket;
 import edu.colorado.phet.balanceandtorque.common.model.masses.SmallRock;
 import edu.colorado.phet.balanceandtorque.common.model.masses.SodaBottle;
-import edu.colorado.phet.balanceandtorque.common.model.masses.StatueOfOdysseus;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Television;
 import edu.colorado.phet.balanceandtorque.common.model.masses.TinyRock;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Tire;
@@ -95,7 +95,7 @@ public class TestImageMassNodes {
         addNextImageMassNode( new Man(), canvas, mvt );
         addNextImageMassNode( new Woman(), canvas, mvt );
 
-        addNextImageMassNode( new StatueOfOdysseus( false ), canvas, mvt );
+        addNextImageMassNode( new Barrel( false ), canvas, mvt );
         addNextImageMassNode( new CinderBlock( false ), canvas, mvt );
 
         addNextImageMassNode( new FireHydrant( false ), canvas, mvt );
