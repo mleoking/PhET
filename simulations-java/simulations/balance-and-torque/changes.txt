@@ -1,3 +1,4 @@
+Fixed an issue where the mass kit was not being set when Reset All was pressed.
 # 0.00.16 (58042) Oct 26, 2011
 10/26/11 Deploying to dev for feedback and review.
 Fixed an issue where the center of gravity could be off for some of the masses used on the game tab.

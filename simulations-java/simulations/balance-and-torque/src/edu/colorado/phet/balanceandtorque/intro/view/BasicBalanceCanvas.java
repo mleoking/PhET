@@ -4,8 +4,6 @@ package edu.colorado.phet.balanceandtorque.intro.view;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -29,6 +27,7 @@ import edu.colorado.phet.balanceandtorque.common.view.LevelIndicatorNode;
 import edu.colorado.phet.balanceandtorque.common.view.LevelSupportColumnNode;
 import edu.colorado.phet.balanceandtorque.common.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -55,7 +54,7 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
  *
  * @author John Blanco
  */
-public class BasicBalanceCanvas extends PhetPCanvas {
+public class BasicBalanceCanvas extends PhetPCanvas implements Resettable {
 
     protected static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     protected final ModelViewTransform mvt;
@@ -218,20 +217,20 @@ public class BasicBalanceCanvas extends PhetPCanvas {
         nonMassLayer.addChild( controlPanel );
 
         // Add the Reset All button.
-        nonMassLayer.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        Resettable[] resettables = new Resettable[] { this, model };
+        nonMassLayer.addChild( new ResetAllButtonNode( resettables, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             centerFullBoundsOnPoint( columnControlButton.getFullBoundsReference().getCenterX(),
                                      columnControlButton.getFullBoundsReference().getMaxY() + 30 );
             setConfirmationEnabled( false );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    // Reset properties that control vector visibility.
-                    distancesVisibleProperty.reset();
-                    forceVectorsFromObjectsVisibleProperty.reset();
-                    massLabelVisibilityProperty.reset();
-                    levelIndicatorVisibleProperty.reset();
-                }
-            } );
         }} );
+    }
+
+    public void reset() {
+        // Reset the various properties the control the visibility of various indicators.
+        distancesVisibleProperty.reset();
+        forceVectorsFromObjectsVisibleProperty.reset();
+        massLabelVisibilityProperty.reset();
+        levelIndicatorVisibleProperty.reset();
     }
 
     // Convenience class for check boxes, prevents code duplication.
