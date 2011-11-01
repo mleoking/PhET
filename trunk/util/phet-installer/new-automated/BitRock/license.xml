@@ -1,12 +1,12 @@
 <license>
-    <issueDate>2008-06-04</issueDate>
+    <issueDate>2011-10-26</issueDate>
     <licenseSchemaVersion>1.2</licenseSchemaVersion>
     <licenseType>standard</licenseType>
-    <majorVersion>5</majorVersion>
-    <minorVersion>4</minorVersion>
+    <majorVersion>7</majorVersion>
+    <minorVersion>2</minorVersion>
     <organization>John Blanco - Open Source License</organization>
-    <patchVersion>8</patchVersion>
+    <patchVersion>6</patchVersion>
     <product>BitRock InstallBuilder Multiplatform Enterprise</product>
-    <project>PhET</project>
-    <signature>80431b3ab0246611fdc47b66d2ff6e13</signature>
+    <project>PhET*</project>
+    <signature>7094e22f3d3685dc2df96bcee3553dce</signature>
 </license>
