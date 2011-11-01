@@ -20,6 +20,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.actionPerformed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.systemResponse;
 
 /**
  * Displays a graphic showing a bonding type (single/double/triple/lone pair) where dragging the graphic
@@ -61,6 +62,7 @@ public class BondTypeControlNode extends PNode {
                         if ( candidate != null ) {
                             module.getMolecule().removePair( candidate );
                             actionPerformed( "bond", "removed", param( "bondOrder", bondOrder ) );
+                            systemResponse( "removed pair", param( "vseprConfigurationName", module.getMolecule().getConfiguration().name ) );
                         }
                     }
                 } );
@@ -106,6 +108,7 @@ public class BondTypeControlNode extends PNode {
                 if ( enabled.get() && event.getButton() == MouseEvent.BUTTON1 ) {
                     JMEUtils.invoke( runnable );
                     actionPerformed( "bond", "created", param( "bondOrder", bondOrder ) );
+                    systemResponse( "created bond", param( "vseprConfigurationName", module.getMolecule().getConfiguration().name ) );
                 }
             }
         } );
