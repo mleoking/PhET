@@ -119,6 +119,18 @@ public class ObservableList<T> implements List<T> {
         return new ObservableList<T>( toKeep );
     }
 
+    //Creates a list copy keeping only the matching items
+    public ObservableList<T> keepItems( final Function1<T, Boolean> o ) {
+
+        ArrayList<T> toKeep = new ArrayList<T>();
+        for ( T t : this ) {
+            if ( o.apply( t ) ) {
+                toKeep.add( t );
+            }
+        }
+        return new ObservableList<T>( toKeep );
+    }
+
     public boolean remove( Object o ) {
         boolean result = list.remove( o );
         elementRemovedObservers.notifyObservers( (T) o );
