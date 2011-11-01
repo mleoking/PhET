@@ -30,7 +30,7 @@ public class PostProcessor extends Predef {
         sort( pairs );
         reverse( pairs );
         for ( EntryPair pair : pairs ) {
-            println( "elapsed time: " + format( pair.elapsedTime ) + ", " + pair._1.brief() + " -> " + pair._2.brief() );
+            println( "elapsed time: " + format( pair.elapsedTime / 1000.0 ) + " sec, " + pair._1.brief() + " -> " + pair._2.brief() );
         }
 
         println();

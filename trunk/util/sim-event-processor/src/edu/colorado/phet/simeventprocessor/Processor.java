@@ -33,6 +33,7 @@ public class Processor {
     }
 
     public static void main( String[] args ) throws IOException {
-        new Processor().process( new File( "C:\\Users\\Sam\\Desktop\\biglog1.txt" ) );
+//        new Processor().process( new File( "C:\\Users\\Sam\\Desktop\\biglog1.txt" ) );
+        new Processor().process( new File( "C:\\Users\\Sam\\Desktop\\biglog2.txt" ) );
     }
 }
