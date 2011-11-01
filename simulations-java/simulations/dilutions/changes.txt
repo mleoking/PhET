@@ -1,3 +1,4 @@
+11/01/11 add a subtle background to sliders, so they look more like sliders
 11/01/11 repackage
 11/01/11 Dilution: clean up canvas constructor, address open issues
 11/01/11 Molarity: clean up canvas constructor, address open issues
