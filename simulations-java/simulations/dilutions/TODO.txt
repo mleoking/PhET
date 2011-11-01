@@ -5,7 +5,6 @@ DESIGN
 - Dilution: do we really want all 3 beakers labeled "H2O" when concentrations are zero?
 
 HIGH
-- address TODO tasks in MolarityCanvas and DilutionCanvas
 - multi-color gradients for solutes, specifically for Kool-Aid and KMnO4 (as in design doc beaker photos)
 
 MEDIUM
