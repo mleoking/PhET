@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
@@ -65,8 +64,8 @@ public class GeometryNameNode extends PNode {
     // vertical padding between the checkboxes and the labels
     private static final double VERTICAL_PADDING = 0; // currently 0, since it looks nice on Windows
 
-    public final Property<Boolean> showMolecularShapeName = new SimSharingProperty<Boolean>( "Show molecular shape name", false );
-    public final Property<Boolean> showElectronShapeName = new SimSharingProperty<Boolean>( "Show electron shape name", false );
+    public final Property<Boolean> showMolecularShapeName = new Property<Boolean>( "Show molecular shape name", false );
+    public final Property<Boolean> showElectronShapeName = new Property<Boolean>( "Show electron shape name", false );
 
     private PText molecularText;
     private PText electronText;

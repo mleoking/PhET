@@ -1,27 +1,33 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JCheckBox;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 
 public class JMEPropertyCheckBox extends JCheckBox {
     private final SettableProperty<Boolean> property;
     private final SimpleObserver propertyObserver;
 
-    public JMEPropertyCheckBox( String text, final SettableProperty<Boolean> property ) {
+    public JMEPropertyCheckBox( final String text, final SettableProperty<Boolean> property ) {
         super( text );
 
         this.property = property;
 
         // update the model when the check box changes
-        this.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+        this.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 JMEUtils.invoke( new Runnable() {
                     public void run() {
+
+                        PropertyCheckBox.notifyActionPerformed( JMEPropertyCheckBox.this, property );
+
                         property.set( isSelected() );
                     }
                 } );

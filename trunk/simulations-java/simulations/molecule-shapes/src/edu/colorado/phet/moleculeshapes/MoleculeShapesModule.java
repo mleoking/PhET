@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -95,7 +94,7 @@ public class MoleculeShapesModule extends JMEModule {
 
     private MoleculeModel molecule = new MoleculeModel();
 
-    public static final Property<Boolean> showLonePairs = new SimSharingProperty<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
+    public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
 
     public final Property<Boolean> addSingleBondEnabled = new Property<Boolean>( true );
     public final Property<Boolean> addDoubleBondEnabled = new Property<Boolean>( true );
