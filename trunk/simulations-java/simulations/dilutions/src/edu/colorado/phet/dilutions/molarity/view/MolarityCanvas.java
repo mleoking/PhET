@@ -29,27 +29,36 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
 
     public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
 
-        // nodes
+        // beaker, with solution and precipitate inside of it
         BeakerNode beakerNode = new BeakerNode( model.solution, model.getSolutionVolumeRange().getMax(), 0.75, 0.75, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
-        final double cylinderEndHeight = beakerNode.getCylinderEndHeight();
-        SolutionNode solutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.solution, model.getSolutionVolumeRange() );
-        PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, cylinderSize, cylinderEndHeight );
+        SolutionNode solutionNode = new SolutionNode( cylinderSize, beakerNode.getCylinderEndHeight(), model.solution, model.getSolutionVolumeRange() );
+        PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, cylinderSize, beakerNode.getCylinderEndHeight() );
+        SaturatedIndicatorNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
+
+        // control for selecting solute
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
-            setConfirmationEnabled( false );
-        }};
-        PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
-        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION, concentrationBarSize,
-                                                                                          model.solution, model.getConcentrationRange() );
+
+        // slider for controlling amount of solute
         DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
                                                                               new PDimension( 5, cylinderSize.getHeight() ), Color.BLACK,
                                                                               model.solution.soluteAmount, model.getSoluteAmountRange() );
+
+        // slider for controlling volume of solution, sized to match tick marks on the beaker
+        final double volumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getSolutionVolumeRange().getMax() ) * cylinderSize.getHeight();
         DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
-                                                                                new PDimension( 5, 0.8 * cylinderSize.getHeight() ), //TODO 0.8 is based on specific volume range
-                                                                                Color.BLACK,
+                                                                                new PDimension( 5, volumeSliderHeight ), Color.BLACK,
                                                                                 model.solution.volume, model.getSolutionVolumeRange() );
-        SaturatedIndicatorNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
+
+        // concentration display
+        PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
+        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION, concentrationBarSize,
+                                                                                          model.solution, model.getConcentrationRange() );
+
+        // Reset All button
+        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
+            setConfirmationEnabled( false );
+        }};
 
         // rendering order
         {
