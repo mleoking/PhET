@@ -71,17 +71,25 @@ public class SimSharingEvents {
 
         if ( connect ) {
 
-            //Print the columns before the first message, but only to the local console, not to the server
+            //Print the columns in the same format as the server to simplify processing
             if ( !printedColumns ) {
-                System.out.println( getColumnHeaders() );
+                //System.out.println( getColumnHeaders() );
+
+                System.out.println( "machineID = " + MACHINE_ID );
+                System.out.println( "sessionID = " + SESSION_ID );
+                System.out.println( "serverTime = " + System.currentTimeMillis() );
+
                 printedColumns = true;
             }
 
             //Send the message to the destination
             String timestamp = simStartedTime.isSome() ? ( System.currentTimeMillis() - simStartedTime.get() ) + "" : "@" + System.currentTimeMillis();
 
+            //Deliver the machine id + session id + message, but only print the message since that is all the server will log
             String parameterText = new ObservableList<Parameter>( parameters ).mkString( ", " );
-            write( MACHINE_ID + "\t" + SESSION_ID + "\t" + timestamp + "\t" + object + "\t" + action + "\t" + parameterText );
+            String message = timestamp + "\t" + object + "\t" + action + "\t" + parameterText;
+            System.out.println( message );
+            deliverMessage( MACHINE_ID + "\t" + SESSION_ID + "\t" + timestamp + "\t" + object + "\t" + action + "\t" + parameterText );
         }
     }
 
@@ -90,8 +98,7 @@ public class SimSharingEvents {
     }
 
     //Write the message to the console and to the server
-    private static void write( String s ) {
-        System.out.println( s );
+    private static void deliverMessage( String s ) {
 
         boolean shouldDeliver = connect;
         boolean canDeliver = client != null;
