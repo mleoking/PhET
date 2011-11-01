@@ -38,7 +38,7 @@ public class DilutionsSliderNode extends PhetPNode {
     private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
 
-    private final LinearFunction function;
+    private final LinearFunction function; // maps model value to a track position
     private final TrackNode trackNode;
     private final ThumbNode thumbNode;
 
@@ -94,6 +94,7 @@ public class DilutionsSliderNode extends PhetPNode {
                                  trackNode.getFullBoundsReference().getCenterY() );
         }
 
+        // adjust the slider to reflect the model value
         modelValue.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 updateNode( value );

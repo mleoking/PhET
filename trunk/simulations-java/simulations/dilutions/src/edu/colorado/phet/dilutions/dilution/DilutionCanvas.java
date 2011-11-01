@@ -30,6 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class DilutionCanvas extends AbstractDilutionsCanvas {
 
+    // properties common to all 3 beakers
     private static final double BEAKER_SCALE_X = 0.33;
     private static final double BEAKER_SCALE_Y = 0.50;
     private static final PhetFont BEAKER_LABEL_FONT = new PhetFont( Font.BOLD, 16 );

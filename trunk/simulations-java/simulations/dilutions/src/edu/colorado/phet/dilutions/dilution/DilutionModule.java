@@ -15,6 +15,7 @@ public class DilutionModule extends AbstractDilutionsModule {
 
     public DilutionModule( Frame frame ) {
         super( Strings.DILUTION );
+        setClockRunningWhenActive( false ); // no animation in this module
         setSimulationPanel( new DilutionCanvas( new DilutionModel(), frame ) );
     }
 }

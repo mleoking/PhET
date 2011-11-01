@@ -90,7 +90,7 @@ public class SoluteControlNode extends PhetPNode {
             }};
             addChild( labelNode );
 
-            // layout
+            // layout, color chip to left of label, centers vertically aligned
             colorNode.setOffset( 0, Math.max( 0, ( labelNode.getFullBoundsReference().getHeight() - colorNode.getFullBoundsReference().getHeight() ) / 2 ) );
             labelNode.setOffset( colorNode.getFullBoundsReference().getMaxX() + 5,
                                  Math.max( 0, ( colorNode.getFullBoundsReference().getHeight() - labelNode.getFullBoundsReference().getHeight() ) / 2 ) );

@@ -20,7 +20,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Soution shown in the beaker in the "Molarity" tab.
+ * Solution shown in a beaker.
+ * Assumes that the beaker is represented as a cylinder, with elliptical top and bottom.
+ * Origin is at the upper-left corner of this cylinder.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

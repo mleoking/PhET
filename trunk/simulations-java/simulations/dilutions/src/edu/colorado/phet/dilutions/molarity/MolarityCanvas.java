@@ -20,7 +20,7 @@ import edu.colorado.phet.dilutions.common.view.SolutionNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Canvas for the "Molarity" tab.
+ * Canvas for the "Molarity" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
