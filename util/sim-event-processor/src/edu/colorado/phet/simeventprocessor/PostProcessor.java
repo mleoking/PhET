@@ -12,6 +12,8 @@ import static java.util.Collections.reverse;
 import static java.util.Collections.sort;
 
 /**
+ * Example code for processing the results of simulation runs.
+ *
  * @author Sam Reid
  */
 public class PostProcessor extends Processor {
@@ -32,7 +34,7 @@ public class PostProcessor extends Processor {
         final ArrayList<EntryPair> pairs = new PairwiseProcessor().process( eventLog.removeSystemEvents() );
         sort( pairs );
         reverse( pairs );
-        for ( EntryPair pair : pairs ) {
+        for ( EntryPair pair : pairs.subList( 0, 10 ) ) {
             println( "elapsed time: " + format( pair.elapsedTime / 1000.0 ) + " sec, " + pair._1.brief() + " -> " + pair._2.brief() );
         }
 
@@ -40,25 +42,7 @@ public class PostProcessor extends Processor {
         println( "#########################" );
         println( "######### Processing coverage" );
 
-        plot( "Events vs time", "Time (sec)", "Events", new XYSeries( "Alice" ) {{
-            for ( long time = 0; time < eventLog.getLastTime(); time += 1000 ) {
-                int events = eventLog.getNumberOfEvents( time );
-                System.out.println( time + "\t" + events );
-                add( time / 1000.0, events );
-            }
-        }} );
-
-        //Events to search for in Molecule Polarity Tab 1
         final EntryList eventsOfInterest = getMoleculePolarityEventsOfInterest();
-
-        plot( "Events of interest", "Time (sec)", "Events", new XYSeries( "Alice" ) {{
-            for ( long time = 0; time < eventLog.getLastTime(); time += 1000 ) {
-                int events = eventLog.getNumberOfEvents( time, eventsOfInterest );
-                System.out.println( time + "\t" + events );
-                add( time / 1000.0, events );
-            }
-        }} );
-
         EntryList events = eventLog.getEvents( eventsOfInterest );
         System.out.println( "At the end of the sim, the user had played with " + events.size() + " / " + eventsOfInterest.size() + " interesting events: " + events );
 
@@ -67,6 +51,7 @@ public class PostProcessor extends Processor {
         System.out.println( "Things the user didn't do: " + copy );
     }
 
+    //Events to search for in Molecule Polarity Tab 1
     private EntryList getMoleculePolarityEventsOfInterest() {
         return new EntryList() {{
             add( "check box", "pressed", param( "text", "Bond Dipole" ) );
@@ -86,17 +71,26 @@ public class PostProcessor extends Processor {
     }
 
     @Override public void process( final ArrayList<EventLog> all ) {
-        //Events to search for in Molecule Polarity Tab 1
-        final EntryList eventsOfInterest = getMoleculePolarityEventsOfInterest();
+        ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>() {{
+            for ( final EventLog eventLog : all ) {
+                final XYSeries xySeries = new XYSeries( "Student " + all.indexOf( eventLog ) ) {{
+                    for ( long time = 0; time < eventLog.getLastTime(); time += 1000 ) {
+                        int events = eventLog.getNumberOfEvents( time );
+                        add( time / 1000.0, events );
+                    }
+                }};
+                add( xySeries );
+            }
+        }};
 
-        final int[] id = { 0 };
-        ArrayList<XYSeries> serieses = new ArrayList<XYSeries>() {{
+        plot( "Events vs time", "Time (sec)", "Events", seriesList.toArray( new XYSeries[seriesList.size()] ) );
+
+        ArrayList<XYSeries> xySeriesList = new ArrayList<XYSeries>() {{
             for ( final EventLog eventLog : all ) {
 
-                final XYSeries series = new XYSeries( "Student " + ( id[0]++ ) ) {{
+                final XYSeries series = new XYSeries( "Student " + all.indexOf( eventLog ) ) {{
                     for ( long time = 0; time < eventLog.getLastTime(); time += 1000 ) {
-                        int events = eventLog.getNumberOfEvents( time, eventsOfInterest );
-                        System.out.println( time + "\t" + events );
+                        int events = eventLog.getNumberOfEvents( time, getMoleculePolarityEventsOfInterest() );
                         add( time / 1000.0, events );
                     }
                 }};
@@ -104,7 +98,7 @@ public class PostProcessor extends Processor {
             }
         }};
 
-        plot( "Events of interest", "Time (sec)", "Events", serieses.toArray( new XYSeries[serieses.size()] ) );
+        plot( "Events of interest", "Time (sec)", "Events", xySeriesList.toArray( new XYSeries[xySeriesList.size()] ) );
     }
 
     public static void main( String[] args ) throws IOException {
