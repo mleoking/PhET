@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.molarity.view;
+package edu.colorado.phet.dilutions.molarity;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -17,7 +17,6 @@ import edu.colorado.phet.dilutions.common.view.ConcentrationDisplayNode;
 import edu.colorado.phet.dilutions.common.view.PrecipitateNode;
 import edu.colorado.phet.dilutions.common.view.SaturatedIndicatorNode;
 import edu.colorado.phet.dilutions.common.view.SolutionNode;
-import edu.colorado.phet.dilutions.molarity.model.MolarityModel;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.dilution.model;
+package edu.colorado.phet.dilutions.dilution;
 
 import java.awt.Color;
 
