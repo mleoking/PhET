@@ -1,0 +1,8 @@
+<component>
+    <name>apache</name>
+    <description>Apache</description>
+    <detailedDescription>Select to include Apache Web Server.</detailedDescription>
+    <canBeEdited>0</canBeEdited>
+    <selected>1</selected>
+    <folderList></folderList>
+</component>

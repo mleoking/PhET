@@ -1,0 +1,8 @@
+<component>
+    <name>java</name>
+    <description>Java</description>
+    <detailedDescription>Select to include Java.</detailedDescription>
+    <canBeEdited>0</canBeEdited>
+    <selected>0</selected>
+    <folderList></folderList>
+</component>
