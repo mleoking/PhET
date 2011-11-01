@@ -17,11 +17,16 @@ class Entry {
     public final String event;
     public final Parameter[] parameters;
 
+    //Use this constructor for matching only
+    public Entry( String object, String event, Parameter... parameters ) {
+        this( -1, object, event, parameters );
+    }
+
     public Entry( long time, String object, String event, Parameter[] parameters ) {
-        this.time = time;
         this.object = object;
         this.event = event;
         this.parameters = parameters;
+        this.time = time;
     }
 
     @Override public String toString() {
@@ -33,8 +38,25 @@ class Entry {
                '}';
     }
 
-    public boolean matches( String obj, String act ) {
+    public boolean matches( String obj, String act, Parameter... params ) {
+        for ( Parameter param : params ) {
+            if ( !hasParameter( param ) ) {
+                return false;
+            }
+        }
         return object.equals( obj ) && event.equals( act );
+    }
+
+    private boolean hasParameter( Parameter param ) {
+        return hasParameterKey( param.name ) && get( param.name ).equals( param.value );
+    }
+
+    private boolean hasParameterKey( String name ) {
+
+        for ( Parameter parameter : parameters ) {
+            if ( parameter.name.equals( name ) ) { return true; }
+        }
+        return false;
     }
 
     public String get( String key ) {

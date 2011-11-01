@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author Sam Reid
  */
-public class Processor {
+public abstract class Processor extends Predef {
 
     //Process a collection of files. Might be nice to plot multiple sessions together
     void process( File... files ) throws IOException {
@@ -29,6 +29,8 @@ public class Processor {
             eventLog.parseLine( line );
         }
 
-        new PostProcessor().process( eventLog );
+        process( eventLog );
     }
+
+    public abstract void process( EventLog eventLog );
 }

@@ -76,16 +76,60 @@ public class EventLog implements Iterable<Entry> {
     }
 
     public int getNumberOfEvents( final long time ) {
+        return getNumberOfEvents( time, new Function1.Constant<Entry, Boolean>( true ) );
+    }
+
+    public int getNumberOfEvents( final long time, Function1<Entry, Boolean> matches ) {
         EventLog log = removeItems( new Function1<Entry, Boolean>() {
             public Boolean apply( Entry entry ) {
                 return entry.time > time;
             }
         } );
         EventLog user = log.removeSystemEvents();
-        return user.size();
+        EventLog keep = user.keepItems( matches );
+        return keep.size();
+    }
+
+    private EventLog keepItems( Function1<Entry, Boolean> matches ) {
+        return new EventLog( machineID, sessionID, serverTime, new ObservableList<Entry>( lines ).keepItems( matches ) );
     }
 
     private int size() {
         return lines.size();
+    }
+
+    //How many events in the list happened in the log
+    public int getNumberOfEvents( final long time, EntryList eventsOfInterest ) {
+        EventLog log = removeItems( new Function1<Entry, Boolean>() {
+            public Boolean apply( Entry entry ) {
+                return entry.time > time;
+            }
+        } );
+        EventLog user = log.removeSystemEvents();
+        int count = 0;
+        for ( Entry eventOfInterest : eventsOfInterest ) {
+            if ( user.containsMatch( eventOfInterest ) ) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private boolean containsMatch( Entry event ) {
+        for ( Entry line : lines ) {
+            if ( line.matches( event.object, event.event, event.parameters ) ) { return true; }
+        }
+        return false;
+    }
+
+    //Which of the specified events of interest are in our list?
+    public EntryList getEvents( EntryList eventsOfInterest ) {
+        EntryList list = new EntryList();
+        for ( Entry entry : eventsOfInterest ) {
+            if ( containsMatch( entry ) ) {
+                list.add( entry );
+            }
+        }
+        return list;
     }
 }
