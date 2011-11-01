@@ -55,7 +55,7 @@ public class BeakerNode extends PComposite {
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
                 // update solute label
-                labelNode.setText( ( solution.getConcentration() == 0 ) ? Symbols.WATER : solution.solute.get().formula );
+                setLabelText( ( solution.getConcentration() == 0 ) ? Symbols.WATER : solution.solute.get().formula );
             }
         };
         solution.addConcentrationObserver( observer );
@@ -119,6 +119,11 @@ public class BeakerNode extends PComposite {
         labelNode = new LabelNode( labelText, labelSize, labelFont );
         addChild( labelNode );
         labelNode.setOffset( ( cylinderSize.getWidth() / 2 ), ( 0.25 * cylinderSize.getHeight() ) );
+    }
+
+    // Sets the label text on the beaker
+    public void setLabelText( String text ) {
+        labelNode.setText( text );
     }
 
     public PDimension getCylinderSize() {
