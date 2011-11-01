@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
+import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.ConcentrationSliderNode;
 import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode.SolutionVolumeSliderNode;
 import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
 import edu.colorado.phet.dilutions.common.view.BeakerNode;
@@ -60,12 +61,11 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
                                                                                           new PDimension( 5, 0.8 * dilutionCylinderSize.getHeight() ), //TODO 0.8 is based on dilution volume range
                                                                                           model.dilution.volume, model.getDiutionVolumeRange() );
 
-        PDimension concentrationBarSize = new PDimension( 40, dilutionCylinderSize.getHeight() + 50 );
-        //TODO this display is temporary, replace with a custom slider control
-        ConcentrationDisplayNode solutionConcentrationNode = new ConcentrationDisplayNode( Strings.CONCENTRATION_M1, concentrationBarSize,
-                                                                                           model.solution, model.getConcentrationRange() );
-        ConcentrationDisplayNode dilutionConcentrationNode = new ConcentrationDisplayNode( Strings.CONCENTRATION_M2, concentrationBarSize,
-                                                                                           model.dilution, model.getConcentrationRange() );
+        PDimension concentrationBarSize = new PDimension( 20, dilutionCylinderSize.getHeight() + 50 );
+        ConcentrationSliderNode concentrationSliderNode = new ConcentrationSliderNode( Strings.CONCENTRATION_M1, Strings.ZERO, Strings.HIGH,
+                                                                                       concentrationBarSize, model.solutionConcentration, model.getConcentrationRange() );
+        ConcentrationDisplayNode dilutionConcentrationNode = new ConcentrationDisplayNode( Strings.CONCENTRATION_M2,
+                                                                                           concentrationBarSize, model.dilution, model.getConcentrationRange() );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
             setConfirmationEnabled( false );
@@ -73,7 +73,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
 
         // rendering order
         {
-            addChild( solutionConcentrationNode );
+            addChild( concentrationSliderNode );
             addChild( solutionNode );
             addChild( solutionBeakerNode );
             addChild( solutionVolumeSliderNode );
@@ -91,10 +91,10 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         {
             final double waterBeakerYOffset = 0;
             // far left, vertically aligned with bottom of beakers
-            solutionConcentrationNode.setOffset( 5 - PNodeLayoutUtils.getOriginXOffset( solutionConcentrationNode ),
-                                                 waterBeakerYOffset + waterCylinderSize.getHeight() - concentrationBarSize.getHeight() );
+            concentrationSliderNode.setOffset( 5 - PNodeLayoutUtils.getOriginXOffset( concentrationSliderNode ),
+                                               waterBeakerYOffset + waterCylinderSize.getHeight() - concentrationBarSize.getHeight() );
             // to right of M1, vertically aligned with ticks on Solution beaker
-            solutionVolumeSliderNode.setOffset( solutionConcentrationNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 5,
+            solutionVolumeSliderNode.setOffset( concentrationSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 5,
                                                 waterBeakerYOffset + waterCylinderSize.getHeight() - ( 0.2 * solutionCylinderSize.getHeight() ) ); //TODO 0.2 is based on solution volume range
             // to right of V1
             solutionBeakerNode.setOffset( solutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionBeakerNode ) + 5,
