@@ -2,7 +2,7 @@
     <shortName>PhET</shortName>
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
-    <installerFilename>${product_shortname}-Installer_${platform_name}.${platform_exec_suffix}</installerFilename>
+    <installerFilename>${product_shortname}-Installer_${platform_name}.${custom_platform_exec_suffix}</installerFilename>
     <readmeFile>$INSTALLER_RESOURCES_DIR$/${platform_name}/readme.txt</readmeFile>
     <licenseFile>$INSTALLER_RESOURCES_DIR$/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
@@ -35,6 +35,16 @@
     <validatorProgram></validatorProgram>
     <vendor>PhET</vendor>
     <enableRollback>0</enableRollback>
+    <preBuildActionList>
+        <setInstallerVariable name="custom_platform_exec_suffix" value="${platform_exec_suffix}"/>
+        <!-- Override the default ".run" suffix with ".bin" for linux.  See issue #3108 for information about why. -->
+        <setInstallerVariable name="custom_platform_exec_suffix" value="bin">
+            <ruleList>
+                <compareText text="${platform_name}" logic="does_not_equal" value="windows"/>
+                <compareText text="${platform_name}" logic="does_not_equal" value="osx"/>
+            </ruleList>
+        </setInstallerVariable>
+    </preBuildActionList>
     <componentList>
         <component>
             <name>default</name>
@@ -140,8 +150,6 @@
                                 <platformTest type="windows"/>
                             </ruleList>
                         </substitute>
-                    </actionList>
-                    <actionList>
                         <substitute>
                             <files>*/*.jnlp</files>
                             <substitutionList>
@@ -154,8 +162,6 @@
                                 <platformTest type="linux"/>
                             </ruleList>
                         </substitute>
-                    </actionList>
-                    <actionList>
                         <substitute>
                             <files>*/*.jnlp</files>
                             <substitutionList>
@@ -212,7 +218,6 @@
             </startMenuShortcutList>
         </component>
     </componentList>
-    <customLanguageFileList/>
     <fileList/>
     <finalPageActionList/>
     <initializationActionList/>
@@ -339,7 +344,6 @@
     </postInstallationActionList>
 
     <postUninstallationActionList/>
-    <preBuildActionList/>
     <preInstallationActionList/>
     <preUninstallationActionList/>
     <readyToInstallActionList/>

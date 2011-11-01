@@ -134,8 +134,6 @@
                                 <platformTest type="windows"/>
                             </ruleList>
                         </substitute>
-                    </actionList>
-                    <actionList>
                         <substitute>
                             <files>*/*.jnlp</files>
                             <substitutionList>
@@ -148,8 +146,6 @@
                                 <platformTest type="linux"/>
                             </ruleList>
                         </substitute>
-                    </actionList>
-                    <actionList>
                         <substitute>
                             <files>*/*.jnlp</files>
                             <substitutionList>
@@ -206,7 +202,6 @@
             </startMenuShortcutList>
         </component>
     </componentList>
-    <customLanguageFileList/>
     <fileList/>
     <finalPageActionList/>
     <initializationActionList/>
