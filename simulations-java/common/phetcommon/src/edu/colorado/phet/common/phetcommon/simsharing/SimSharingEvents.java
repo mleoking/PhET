@@ -66,6 +66,10 @@ public class SimSharingEvents {
         return connect;
     }
 
+    public static void systemResponse( String action, Parameter... parameters ) {
+        actionPerformed( OBJECT_SYSTEM, action, parameters );
+    }
+
     //Signify that an action has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
     public static void actionPerformed( String object, String action, Parameter... parameters ) {
 
@@ -154,18 +158,18 @@ public class SimSharingEvents {
                         t.printStackTrace();
                     }
 
-                    actionPerformed( OBJECT_SYSTEM, "started",
-                                     param( "time", simStartedTime.get() ),
-                                     param( "name", config.getName() ),
-                                     param( "version", config.getVersion().formatForAboutDialog() ),
-                                     param( "project", config.getProjectName() ),
-                                     param( "flavor", config.getFlavor() ),
-                                     param( "locale", config.getLocale().toString() ),
-                                     param( "distribution tag", config.getDistributionTag() ),
+                    systemResponse( "started",
+                                    param( "time", simStartedTime.get() ),
+                                    param( "name", config.getName() ),
+                                    param( "version", config.getVersion().formatForAboutDialog() ),
+                                    param( "project", config.getProjectName() ),
+                                    param( "flavor", config.getFlavor() ),
+                                    param( "locale", config.getLocale().toString() ),
+                                    param( "distribution tag", config.getDistributionTag() ),
 
-                                     //Can't have commas in args because of the parser, but can look up the study argument
-                                     param( "study", getArgAfter( config.getCommandLineArgs(), "-study" ) ) );
-                    actionPerformed( OBJECT_SYSTEM, "connected to server" );
+                                    //Can't have commas in args because of the parser, but can look up the study argument
+                                    param( "study", getArgAfter( config.getCommandLineArgs(), "-study" ) ) );
+                    systemResponse( "connected to server" );
 
                     //Report on any messages that were collected while we were trying to connect to the server
                     if ( client != null ) {

@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.common.piccolophet.simsharing.PiccoloPhetSimSharingEvents;
 import edu.colorado.phet.jmephet.JMEActionListener;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
@@ -19,6 +18,9 @@ import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.systemResponse;
 
 /**
  * The main Molecule Shapes control panel on the right hand side. It is composed of multiple sub-panels,
@@ -119,9 +121,10 @@ public class MoleculeShapesControlPanel extends PNode {
             addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
                     module.getMolecule().removeAllPairs();
+
+                    systemResponse( "removed all", param( "vseprConfigurationName", module.getMolecule().getConfiguration().name ) );
                 }
             } ) );
-            PiccoloPhetSimSharingEvents.addActionListener( this, "bonds and lone pairs", "removed all" );
 
             MoleculeShapesColor.REMOVE_BUTTON_BACKGROUND.addColorObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
