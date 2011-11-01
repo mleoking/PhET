@@ -4,7 +4,6 @@ DESIGN
 - Tab 3 (Making Dilutions)
 
 HIGH
-- Dilution: gradient in M1 control
 - Molarity: more convincing gradients for Kool-Aid and KMnO4, as in design doc beaker photos
 
 MEDIUM

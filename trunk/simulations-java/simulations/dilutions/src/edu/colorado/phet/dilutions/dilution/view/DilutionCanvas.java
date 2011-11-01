@@ -4,11 +4,13 @@ package edu.colorado.phet.dilutions.dilution.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GradientPaint;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
@@ -41,6 +43,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         SolutionNode solutionNode = new SolutionNode( solutionCylinderSize, solutionCylinderEndHeight, model.solution, model.getDiutionVolumeRange() );
         DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( Strings.VOLUME_V1, Strings.EMPTY, Strings.SMALL,
                                                                                 new PDimension( 5, 0.2 * solutionCylinderSize.getHeight() ), //TODO 0.2 is based on solution volume range
+                                                                                Color.BLACK,
                                                                                 model.solution.volume, model.getSolutionVolumeRange() );
 
         // water nodes
@@ -58,11 +61,14 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         SolutionNode dilutionNode = new SolutionNode( dilutionCylinderSize, dilutionCylinderEndHeight, model.dilution, model.getDiutionVolumeRange() );
         DilutionsSliderNode dilutionVolumeSliderNode = new DilutionsSliderNode( Strings.VOLUME_V2, Strings.SMALL, Strings.BIG,
                                                                                 new PDimension( 5, 0.8 * dilutionCylinderSize.getHeight() ), //TODO 0.8 is based on dilution volume range
+                                                                                Color.BLACK,
                                                                                 model.dilution.volume, model.getDiutionVolumeRange() );
 
         PDimension concentrationBarSize = new PDimension( 20, dilutionCylinderSize.getHeight() + 50 );
         DilutionsSliderNode concentrationSliderNode = new DilutionsSliderNode( Strings.CONCENTRATION_M1, Strings.ZERO, Strings.HIGH,
-                                                                               concentrationBarSize, model.solutionConcentration, model.getConcentrationRange() );
+                                                                               concentrationBarSize,
+                                                                               new GradientPaint( 0f, 0f, model.solute.solutionColor, 0f, (float) concentrationBarSize.getHeight(), DilutionsColors.WATER_COLOR ),
+                                                                               model.solutionConcentration, model.getConcentrationRange() );
         ConcentrationDisplayNode dilutionConcentrationNode = new ConcentrationDisplayNode( Strings.CONCENTRATION_M2,
                                                                                            concentrationBarSize, model.dilution, model.getConcentrationRange() );
 

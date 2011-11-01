@@ -43,10 +43,11 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION, concentrationBarSize,
                                                                                           model.solution, model.getConcentrationRange() );
         DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
-                                                                              new PDimension( 5, cylinderSize.getHeight() ),
+                                                                              new PDimension( 5, cylinderSize.getHeight() ), Color.BLACK,
                                                                               model.solution.soluteAmount, model.getSoluteAmountRange() );
         DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
                                                                                 new PDimension( 5, 0.8 * cylinderSize.getHeight() ), //TODO 0.8 is based on specific volume range
+                                                                                Color.BLACK,
                                                                                 model.solution.volume, model.getSolutionVolumeRange() );
         SaturatedIndicatorNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
 
