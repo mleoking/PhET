@@ -4,7 +4,8 @@ DESIGN
 - Tab 3 (Making Dilutions)
 
 HIGH
-- Molarity: more convincing gradients for Kool-Aid and KMnO4, as in design doc beaker photos
+- address TODO tasks in MolarityCanvas and DilutionCanvas
+- multi-color gradients for solutes, specifically for Kool-Aid and KMnO4 (as in design doc beaker photos)
 
 MEDIUM
 
