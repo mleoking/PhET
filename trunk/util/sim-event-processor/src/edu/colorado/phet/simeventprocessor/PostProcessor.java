@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventprocessor;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.jfree.data.xy.XYSeries;
@@ -44,5 +46,10 @@ public class PostProcessor extends Predef {
                 add( time / 1000.0, events );
             }
         }} );
+    }
+
+    public static void main( String[] args ) throws IOException {
+        new Processor().process( new File( "C:\\Users\\Sam\\Desktop\\biglog1.txt" ) );
+        //        new Processor().process( new File( "C:\\Users\\Sam\\Desktop\\biglog2.txt" ) );
     }
 }
