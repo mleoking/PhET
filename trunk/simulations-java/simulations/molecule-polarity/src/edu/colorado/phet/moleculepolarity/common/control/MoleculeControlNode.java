@@ -60,17 +60,13 @@ public class MoleculeControlNode extends PhetPNode {
     private static class MoleculeComboBoxNode extends ComboBoxNode<Molecule3D> {
         public MoleculeComboBoxNode( ArrayList<Molecule3D> molecules, Molecule3D selectedMolecule ) {
             super( molecules, selectedMolecule, new Function1<Molecule3D, PNode>() {
-                       public PNode apply( final Molecule3D molecule ) {
-                           return new HTMLNode() {{
-                               setHTML( MessageFormat.format( "{0} ({1})", molecule.getSymbol(), molecule.getName() ) );
-                               setFont( new PhetFont( 14 ) );
-                           }};
-                       }
-                   }, "Molecule", new Function1<Molecule3D, String>() {
-                public String apply( Molecule3D molecule3D ) {
-                    return molecule3D.getName();
+                public PNode apply( final Molecule3D molecule ) {
+                    return new HTMLNode() {{
+                        setHTML( MessageFormat.format( "{0} ({1})", molecule.getSymbol(), molecule.getName() ) );
+                        setFont( new PhetFont( 14 ) );
+                    }};
                 }
-            }
+            }, "Molecule"
             );
         }
     }
