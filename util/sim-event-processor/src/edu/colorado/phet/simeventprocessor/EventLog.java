@@ -60,10 +60,32 @@ public class EventLog implements Iterable<Entry> {
     }
 
     public EventLog removeSystemEvents() {
-        return new EventLog( machineID, sessionID, serverTime, new ObservableList<Entry>( lines ).removeItems( new Function1<Entry, Boolean>() {
+        return removeItems( new Function1<Entry, Boolean>() {
             public Boolean apply( Entry entry ) {
                 return entry.object.toLowerCase().startsWith( "system" );
             }
-        } ) );
+        } );
+    }
+
+    public EventLog removeItems( Function1<Entry, Boolean> filter ) {
+        return new EventLog( machineID, sessionID, serverTime, new ObservableList<Entry>( lines ).removeItems( filter ) );
+    }
+
+    public long getLastTime() {
+        return lines.get( lines.size() - 1 ).time;
+    }
+
+    public int getNumberOfEvents( final long time ) {
+        EventLog log = removeItems( new Function1<Entry, Boolean>() {
+            public Boolean apply( Entry entry ) {
+                return entry.time > time;
+            }
+        } );
+        EventLog user = log.removeSystemEvents();
+        return user.size();
+    }
+
+    private int size() {
+        return lines.size();
     }
 }
