@@ -1,10 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventprocessor;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 
 /**
  * State for a single parse run.
@@ -15,6 +18,8 @@ public class ParseState {
     private String machineID;
     private String sessionID;
     private long serverTime;
+    private EventLine lastEventLine = null;
+    private HashMap<Long, Pair<EventLine, EventLine>> times = new HashMap<Long, Pair<EventLine, EventLine>>();
 
     //Parse a single line
     public void parseLine( String line ) {
@@ -28,19 +33,16 @@ public class ParseState {
             serverTime = Long.parseLong( readValue( line ) );
         }
         else {
-            parseEventLine( line );
-        }
-    }
+            EventLine eventLine = EventLine.parse( line );
+            if ( eventLine.matches( "module", "activated" ) ) {
+                System.out.println( "Switched tab to: " + eventLine.getParameter( "name" ) + " after " + eventLine.time / 1000 + " sec" );
+            }
+            if ( lastEventLine != null ) {
+                times.put( lastEventLine.time - eventLine.time, new Pair<EventLine, EventLine>( lastEventLine, eventLine ) );
+            }
 
-    //Parse a line that is an event
-    private void parseEventLine( String line ) {
-        StringTokenizer tokenizer = new StringTokenizer( line, "\t" );
-        long time = Long.parseLong( tokenizer.nextToken() );
-        String object = tokenizer.nextToken();
-        String event = tokenizer.nextToken();
-        Parameter[] parameters = tokenizer.hasMoreTokens() ? Parameter.parseParameters( tokenizer.nextToken() ) : new Parameter[0];
-        EventLine eventLine = new EventLine( time, object, event, parameters );
-        System.out.println( "eventLine = " + eventLine );
+            lastEventLine = eventLine;
+        }
     }
 
     //Read the third token, the value in a "name = value" list
@@ -51,27 +53,16 @@ public class ParseState {
         return stringTokenizer.nextToken();
     }
 
-    //A single line that represents an event.
-    private class EventLine {
-        public final long time;
-        public final String object;
-        public final String event;
-        public final Parameter[] parameters;
-
-        public EventLine( long time, String object, String event, Parameter[] parameters ) {
-            this.time = time;
-            this.object = object;
-            this.event = event;
-            this.parameters = parameters;
-        }
-
-        @Override public String toString() {
-            return "EventLine{" +
-                   "time=" + time +
-                   ", object='" + object + '\'' +
-                   ", event='" + event + '\'' +
-                   ", parameters=" + ( parameters == null ? null : Arrays.asList( parameters ) ) +
-                   '}';
-        }
+    public void parseFinished() {
+        ArrayList<Long> keys = new ArrayList<Long>( times.keySet() );
+        Collections.sort( keys, new Comparator<Long>() {
+            public int compare( Long a, Long b ) {
+                return Double.compare( a, b );
+            }
+        } );
+//        Collections.reverse( keys );
+        System.out.println( "longest time: " + times.get( keys.get( 0 ) ) );
+        System.out.println( "second longest time: " + times.get( keys.get( 1 ) ) );
+        System.out.println( "third longest time: " + times.get( keys.get( 2 ) ) );
     }
 }

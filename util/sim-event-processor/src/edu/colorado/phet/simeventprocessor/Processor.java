@@ -28,6 +28,8 @@ public class Processor {
         for ( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
             parseState.parseLine( line );
         }
+
+        parseState.parseFinished();
     }
 
     public static void main( String[] args ) throws IOException {
