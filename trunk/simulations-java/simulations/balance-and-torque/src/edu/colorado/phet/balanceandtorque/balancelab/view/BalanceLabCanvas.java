@@ -13,12 +13,14 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
  */
 public class BalanceLabCanvas extends BasicBalanceCanvas {
 
+    protected MassKitSelectionNode massKitSelectionNode;
+
     public BalanceLabCanvas( final BalanceModel model ) {
         super( model );
 
         // Add the mass kit, which is the place where the user will get the
         // objects that can be placed on the balance.
-        final MassKitSelectionNode massKitSelectionNode = new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this );
+        massKitSelectionNode = new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this );
         ControlPanelNode massKit = new ControlPanelNode( massKitSelectionNode );
         nonMassLayer.addChild( massKit );
 
@@ -30,5 +32,10 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
                            mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().height - 10 );
         controlPanel.setOffset( controlPanelCenterX - controlPanel.getFullBoundsReference().width / 2,
                                 massKit.getFullBoundsReference().getMinY() - controlPanel.getFullBoundsReference().height - 10 );
+    }
+
+    @Override public void reset() {
+        super.reset();
+        massKitSelectionNode.reset();
     }
 }
