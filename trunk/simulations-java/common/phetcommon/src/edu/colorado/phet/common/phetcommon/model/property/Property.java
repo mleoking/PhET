@@ -19,8 +19,23 @@ public class Property<T> extends SettableProperty<T> {
     private T value;
     private final T initialValue;
 
+    /**
+     * Create a property with the specified initial value and no description.
+     *
+     * @param value
+     */
     public Property( T value ) {
-        super( value );
+        this( null, value );
+    }
+
+    /**
+     * Create a property with the specified initial value and the specified description.
+     *
+     * @param value
+     * @param description for use in sim data collection/processing
+     */
+    public Property( String description, T value ) {
+        super( description, value );
         this.initialValue = value;
         this.value = value;
     }
