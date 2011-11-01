@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>9. Rules</title><link rel="stylesheet" href="docbook-xsl.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.75.2" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 7" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 7" /><link rel="prev" href="ar01s08.html" title="8. Actions" /><link rel="next" href="ar01s10.html" title="10. User Interface" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9. Rules</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s08.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s10.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section" title="9. Rules"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_rules"></a>9. Rules</h2></div></div></div><div class="section" title="9.1. What is a Rule?"><div class="titlepage"><div><div><h3 class="title"><a id="_what_is_a_rule"></a>9.1. What is a Rule?</h3></div></div></div><p>BitRock InstallBuilder allows you to control whether certain actions take place, pages are shown or files are installed. You can include a <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> section in action, parameter, component and folder sections. Each <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> contains a set of rules or conditions that are evaluated, and depending on the result and the element it is attached to, the following occurs:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+Action: The action is executed, otherwise it is ignored.
+</li><li class="listitem">
+Parameter: The associated page is displayed, otherwise it is hidden.
+</li><li class="listitem">
+Component: The component is installed. If the rule list evaluates to false, then no file belonging to that component will be installed, but none of the associated actions or parameters will be executed or displayed.
+</li><li class="listitem">
+Folder: Files belonging to that folder are installed.
+</li><li class="listitem">
+Shortcut: The shortcut will be created.
+</li></ul></div><p>Examples of rules include checking if ports are in use, if a file exists, if a process is running or comparing texts. A complete list of supported rules can be found in the <a class="link" href="apb.html" title="B. Rules">rules</a> appendix.</p><p>By default, rules are evaluated with <span class="emphasis"><em>and</em></span> logic; that is, all rules must be true for the result of the evaluation to be true. You can change that by
+adding a <code class="literal">&lt;ruleEvaluationLogic&gt;or&lt;/ruleEvaluationLogic&gt;</code> section. In that case it will only be necessary for one of the rules to be true for the
+result of the evaluation to be true.</p><p>Rules can be negated using the <a class="link" href="apb.html#rule.negate"><code class="literal">&lt;negate&gt;</code></a> tag. For example, the following rule will resolve to "true":</p><p><a id="snip1315906"></a></p><pre class="programlisting">   &lt;ruleList&gt;
+     &lt;isTrue value="1"/&gt;
+   &lt;/ruleList&gt;</pre><p>While this will resolve to "false"</p><p><a id="snip6433582"></a></p><pre class="programlisting">   &lt;ruleList&gt;
+     &lt;isTrue value="1" negate="1" /&gt;
+   &lt;/ruleList&gt;</pre><p>Each <code class="literal">&lt;ruleList&gt;</code> can contain one or more rules. The order of execution of the rules will be the same in which they are listed (from top to bottom) and
+once a definitive result is obtained, the rule evaluation process stops:</p><p><a id="snip9214969"></a></p><pre class="programlisting"> &lt;showInfo text="Should I be displayed?" ruleEvaluationLogic="or"&gt;
+   &lt;ruleList&gt;
+     &lt;isTrue value="1"/&gt;
+     &lt;!-- The remaining rules are not even considered
+     as the result is already "1" --&gt;
+     ...
+     &lt;compareText text="a" logic="equals" value="b"/&gt;
+     &lt;platformTest type="linux"/&gt;
+   &lt;/ruleList&gt;
+ &lt;/showInfo&gt;</pre><p>You can apply this for example when checking whether a directory exists. You can first check if the target exists, and if so, check if it is a directory:</p><p><a id="snip6000691"></a></p><pre class="programlisting"> &lt;deleteFile path="some/directory" ruleEvaluationLogic="and"&gt;
+   &lt;ruleList&gt;
+     &lt;fileExists path="some/directory"/&gt;
+     &lt;!-- If the file does not exists, InstallBuilder will not check
+     if it is a directory --&gt;
+     &lt;fileTest path="some/directory" condition="is_directory"/&gt;
+   &lt;/ruleList&gt;
+ &lt;/deleteFile&gt;</pre><p>You can find a detailed list of all supported rules in the <a class="link" href="apb.html" title="B. Rules">rules</a> appendix.</p></div><div class="section" title="9.2. Rule Groups"><div class="titlepage"><div><div><h3 class="title"><a id="_rule_groups"></a>9.2. Rule Groups</h3></div></div></div><p>A <a class="link" href="apb.html#ruleGroup"><code class="literal">&lt;ruleGroup&gt;</code></a> is a special type of rule that can contain other rules and perform complex tests. For example, if you want to execute an action
+only on Windows 64bit and only if it is neither XP nor Vista:</p><p><a id="snip3620733"></a></p><pre class="programlisting"> &lt;runProgram program="myExec.exe" programArguments="--mode unattended"&gt;
+   &lt;ruleList&gt;
+      &lt;platformTest type="windows-x64"/&gt;
+      &lt;ruleGroup ruleEvaluationLogic="or" negate="1"&gt;
+        &lt;ruleList&gt;
+          &lt;platformTest type="windows-xp"/&gt;
+          &lt;platformTest type="windows-vista"/&gt;
+        &lt;/ruleList&gt;
+      &lt;/ruleGroup&gt;
+   &lt;/ruleList&gt;
+ &lt;/runProgram&gt;</pre><p>In the above example you have created a new rule "Neither XP nor Windows Vista". Please note the <a class="link" href="apb.html#ruleGroup"><code class="literal">&lt;ruleGroup&gt;</code></a> also accepts the <a class="link" href="ape.html#ruleEvaluationLogic"><code class="literal">&lt;ruleEvaluationLogic&gt;</code></a> and <a class="link" href="apb.html#rule.negate"><code class="literal">&lt;negate&gt;</code></a> tags.</p><p>Using it you can achieve any kind of logic test like <code class="literal">if (A and !(B or ((C or !D) and !E)))</code></p><p><a id="snip3675515"></a></p><pre class="programlisting">&lt;ruleList&gt;
+  &lt;isTrue value="${A}"/&gt;
+  &lt;ruleGroup negate="1" ruleEvaluationLogic="or"&gt;
+    &lt;ruleList&gt;
+      &lt;isTrue value="${B}"/&gt;
+      &lt;ruleGroup&gt;
+        &lt;ruleList&gt;
+          &lt;isTrue value="${E}" negate="1"/&gt;
+          &lt;ruleGroup ruleEvaluationLogic="or"&gt;
+            &lt;ruleList&gt;
+              &lt;isTrue value="${C}"/&gt;
+              &lt;isTrue value="${D}" negate="1"/&gt;
+            &lt;/ruleList&gt;
+          &lt;/ruleGroup&gt;
+        &lt;/ruleList&gt;
+      &lt;/ruleGroup&gt;
+    &lt;/ruleList&gt;
+  &lt;/ruleGroup&gt;
+&lt;/ruleList&gt;</pre></div><div class="section" title="9.3. Additional Rule Lists"><div class="titlepage"><div><div><h3 class="title"><a id="_additional_rule_lists"></a>9.3. Additional Rule Lists</h3></div></div></div><p>In addition to the standard <code class="literal">&lt;ruleList&gt;</code>, there are flow-control actions, such as <code class="literal">&lt;while&gt;</code> and <code class="literal">&lt;if&gt;</code> that allow specifying a <code class="literal">&lt;conditionRuleList&gt;</code> that controls evaluation logic. There is also
+a <code class="literal">&lt;shouldPackActionList&gt;</code> that is evaluated at build time and can be added to components, folders and shortcuts. If the rule set in <code class="literal">&lt;shouldPackActionList&gt;</code> evaluates to false, then the component,
+folder or shortcut will not be included in the generated installer.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s08.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s10.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">8. Actions </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 10. User Interface</td></tr></table></div></body></html>
