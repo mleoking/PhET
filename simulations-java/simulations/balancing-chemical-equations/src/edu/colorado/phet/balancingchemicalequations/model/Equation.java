@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -42,9 +41,9 @@ public abstract class Equation {
         this.reactants = reactants;
         this.products = products;
 
-        //Use SimSharingProperties to report changes to the server
-        this.balancedProperty = new SimSharingProperty<Boolean>( "balanced", false );
-        this.balancedAndSimplifiedProperty = new SimSharingProperty<Boolean>( "balanced-and-simplified", false );
+        //Use description to report changes to the server
+        this.balancedProperty = new Property<Boolean>( "balanced", false );
+        this.balancedAndSimplifiedProperty = new Property<Boolean>( "balanced-and-simplified", false );
 
         // equation is balanced if all terms are balanced.
         {
@@ -277,5 +276,10 @@ public abstract class Equation {
             }
         }
         return b.toString();
+    }
+
+    //For sim data processing/collection
+    @Override public String toString() {
+        return getName();
     }
 }

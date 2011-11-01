@@ -11,6 +11,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -22,6 +23,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+
 /**
  * Displays a chemical equation.
  * Reactants are on the left-hand size, products are on the right-hand side.
@@ -30,7 +33,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EquationNode extends PhetPNode  {
+public class EquationNode extends PhetPNode {
 
     private static final PhetFont FONT = new PhetFont( 30 );
     private static final Color SYMBOL_COLOR = Color.BLACK;
@@ -51,9 +54,10 @@ public class EquationNode extends PhetPNode  {
 
     /**
      * Constructor.
+     *
      * @param equationProperty
      * @param coefficientRange
-     * @param aligner specifies horizontal layout, for aligning with other user-interface components
+     * @param aligner          specifies horizontal layout, for aligning with other user-interface components
      */
     public EquationNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner ) {
 
@@ -95,6 +99,7 @@ public class EquationNode extends PhetPNode  {
 
     /**
      * Controls whether the coefficients are editable (spinner) or read-only (labels).
+     *
      * @param editable
      */
     public void setEditable( boolean editable ) {
@@ -110,6 +115,7 @@ public class EquationNode extends PhetPNode  {
      * Enables or disables the highlighting feature.
      * When enabled, the arrow between the left and right sides of the equation will light up when the equation is balanced.
      * This is enabled by default, but we want to disable in the Game until the user presses the "Check" button.
+     *
      * @param enabled
      */
     public void setBalancedHighlightEnabled( boolean enabled ) {
@@ -141,7 +147,7 @@ public class EquationNode extends PhetPNode  {
      * This allows us to align the baselines of HTML-formatted text.
      */
     private void updateSideOfEquation( EquationTerm[] terms, double[] xOffsets ) {
-        assert( terms.length == xOffsets.length );
+        assert ( terms.length == xOffsets.length );
         for ( int i = 0; i < terms.length; i++ ) {
 
             // term
@@ -230,6 +236,8 @@ public class EquationNode extends PhetPNode  {
             spinner.setValue( coefficientProperty.get() );
             spinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
+                    SimSharingEvents.actionPerformed( "spinner", "changed", param( "description", coefficientProperty.getDescription() ), param( "value", spinner.getIntValue() ) );
+
                     coefficientProperty.set( spinner.getIntValue() );
                 }
             } );
