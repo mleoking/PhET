@@ -35,7 +35,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DilutionsSliderNode extends PhetPNode {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
-    private static final Color TRACK_FILL_COLOR = Color.BLACK;
     private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
 
@@ -43,13 +42,21 @@ public class DilutionsSliderNode extends PhetPNode {
     private final TrackNode trackNode;
     private final ThumbNode thumbNode;
 
-    public DilutionsSliderNode( String title, String minLabel, String maxLabel, PDimension trackSize, Paint trackPaint, final Property<Double> modelValue, DoubleRange range ) {
+    // Slider with a default track fill and background color.
+    public DilutionsSliderNode( String title, String minLabel, String maxLabel, final PDimension trackSize,
+                                final Property<Double> modelValue, DoubleRange range ) {
+        this( title, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range );
+    }
+
+    public DilutionsSliderNode( String title, String minLabel, String maxLabel,
+                                PDimension trackSize, Paint trackPaint, Paint trackBackgroundPaint,
+                                final Property<Double> modelValue, DoubleRange range ) {
 
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
         // nodes
         PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
-        trackNode = new TrackNode( trackSize, trackPaint );
+        trackNode = new TrackNode( trackSize, trackPaint, trackBackgroundPaint );
         thumbNode = new ThumbNode( THUMB_SIZE, this, trackNode, range, new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 modelValue.set( value );
@@ -99,11 +106,24 @@ public class DilutionsSliderNode extends PhetPNode {
         thumbNode.setOffset( thumbNode.getXOffset(), function.evaluate( value ) );
     }
 
-    // The track that the thumb moves in. Origin is at upper-left corner.
+    // The track that the thumb moves in. Origin is at upper-left corner of the track's center line.
     private static class TrackNode extends PPath {
-        public TrackNode( PDimension size, Paint fillPaint ) {
-            setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-            setPaint( fillPaint );
+        public TrackNode( final PDimension size, final Paint fillPaint, final Paint backgroundPaint ) {
+
+            // background
+            addChild( new PPath() {{
+                final double xMargin = 7;
+                final double yMargin = 7;
+                setPathTo( new RoundRectangle2D.Double( -xMargin, -yMargin, size.getWidth() + ( 2 * xMargin ), size.getHeight() + ( 2 * yMargin ), 10, 10 ) );
+                setPaint( backgroundPaint );
+                setStroke( null );
+            }} );
+
+            // vertical center line, thumb moves in this
+            addChild( new PPath() {{
+                setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
+                setPaint( fillPaint );
+            }} );
         }
     }
 

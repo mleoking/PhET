@@ -43,19 +43,19 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         final double cylinderEndHeight = solutionBeakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.solution, model.getDiutionVolumeRange() );
 
-        // V1 control (Solution volume), sized to match tick marks on the beaker
-        final double solutionVolumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getMaxBeakerVolume() ) * cylinderSize.getHeight();
-        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( Strings.VOLUME_V1, Strings.EMPTY, Strings.SMALL,
-                                                                                new PDimension( 5, solutionVolumeSliderHeight ), Color.BLACK,
-                                                                                model.solution.volume, model.getSolutionVolumeRange() );
-
-
         // M1 control (Solution concentration)
         PDimension concentrationBarSize = new PDimension( 20, cylinderSize.getHeight() + 50 );
         DilutionsSliderNode concentrationSliderNode = new DilutionsSliderNode( Strings.CONCENTRATION_M1, Strings.ZERO, Strings.HIGH,
                                                                                concentrationBarSize,
                                                                                new GradientPaint( 0f, 0f, model.solute.solutionColor, 0f, (float) concentrationBarSize.getHeight(), DilutionsColors.WATER_COLOR ),
+                                                                               new Color( 0, 0, 0, 0 ), /* invisible track background */
                                                                                model.solutionConcentration, model.getConcentrationRange() );
+
+        // V1 control (Solution volume), sized to match tick marks on the beaker
+        final double solutionVolumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getMaxBeakerVolume() ) * cylinderSize.getHeight();
+        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( Strings.VOLUME_V1, Strings.EMPTY, Strings.SMALL,
+                                                                                new PDimension( 5, solutionVolumeSliderHeight ),
+                                                                                model.solution.volume, model.getSolutionVolumeRange() );
 
         // Water beaker, with water inside of it
         BeakerNode waterBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Symbols.WATER, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
@@ -70,15 +70,15 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         final BeakerNode dilutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.DILUTION, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
         SolutionNode dilutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.dilution, model.getDiutionVolumeRange() );
 
-        // V2 control (Dilution volume), sized to match tick marks on the beaker
-        final double dilutionVolumeSlider = ( model.getDiutionVolumeRange().getLength() / model.getMaxBeakerVolume() ) * cylinderSize.getHeight();
-        DilutionsSliderNode dilutionVolumeSliderNode = new DilutionsSliderNode( Strings.VOLUME_V2, Strings.SMALL, Strings.BIG,
-                                                                                new PDimension( 5, dilutionVolumeSlider ), Color.BLACK,
-                                                                                model.dilution.volume, model.getDiutionVolumeRange() );
-
         // M2 display (Dilution concentration)
         ConcentrationDisplayNode dilutionConcentrationNode = new ConcentrationDisplayNode( Strings.CONCENTRATION_M2, concentrationBarSize,
                                                                                            model.dilution, model.getConcentrationRange() );
+
+        // V2 control (Dilution volume), sized to match tick marks on the beaker
+        final double dilutionVolumeSlider = ( model.getDiutionVolumeRange().getLength() / model.getMaxBeakerVolume() ) * cylinderSize.getHeight();
+        DilutionsSliderNode dilutionVolumeSliderNode = new DilutionsSliderNode( Strings.VOLUME_V2, Strings.SMALL, Strings.BIG,
+                                                                                new PDimension( 5, dilutionVolumeSlider ),
+                                                                                model.dilution.volume, model.getDiutionVolumeRange() );
 
         // Reset All button
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{

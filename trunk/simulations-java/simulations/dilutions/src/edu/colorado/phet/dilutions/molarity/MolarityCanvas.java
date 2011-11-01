@@ -40,13 +40,13 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
 
         // slider for controlling amount of solute
         DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
-                                                                              new PDimension( 5, cylinderSize.getHeight() ), Color.BLACK,
+                                                                              new PDimension( 5, cylinderSize.getHeight() ),
                                                                               model.solution.soluteAmount, model.getSoluteAmountRange() );
 
         // slider for controlling volume of solution, sized to match tick marks on the beaker
         final double volumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getSolutionVolumeRange().getMax() ) * cylinderSize.getHeight();
         DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
-                                                                                new PDimension( 5, volumeSliderHeight ), Color.BLACK,
+                                                                                new PDimension( 5, volumeSliderHeight ),
                                                                                 model.solution.volume, model.getSolutionVolumeRange() );
 
         // concentration display
