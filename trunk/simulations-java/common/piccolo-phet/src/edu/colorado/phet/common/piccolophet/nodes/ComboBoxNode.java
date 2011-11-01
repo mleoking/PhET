@@ -217,18 +217,20 @@ public class ComboBoxNode<T> extends PNode {
 
                     //Register a listener that will make the popup disappear when the user clicks away
                     //Have to schedule this for later or the popup never shows (because of how we are handling dismissing the popup when clicking else where in the canvas).
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            PComponent component = event.getComponent();
-                            if ( component instanceof PCanvas ) {
-                                PCanvas canvas = (PCanvas) component;
-                                if ( !listeningTo.contains( canvas ) ) {
-                                    listeningTo.add( canvas );
-                                    canvas.addInputEventListener( dismissPopup );
+                    if ( popup.getVisible() ) {
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                PComponent component = event.getComponent();
+                                if ( component instanceof PCanvas ) {
+                                    PCanvas canvas = (PCanvas) component;
+                                    if ( !listeningTo.contains( canvas ) ) {
+                                        listeningTo.add( canvas );
+                                        canvas.addInputEventListener( dismissPopup );
+                                    }
                                 }
                             }
-                        }
-                    } );
+                        } );
+                    }
                 }
             } );
             addInputEventListener( new CursorHandler() );
