@@ -1,3 +1,5 @@
+# 0.00.11 (58264) Nov 1, 2011
+11/1/11 version with first functionally-complete Diluton tab
 11/01/11 add a subtle background to sliders, so they look more like sliders
 11/01/11 repackage
 11/01/11 Dilution: clean up canvas constructor, address open issues
