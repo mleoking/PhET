@@ -4,6 +4,7 @@ package edu.colorado.phet.dilutions.common.control;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -42,14 +43,13 @@ public class DilutionsSliderNode extends PhetPNode {
     private final TrackNode trackNode;
     private final ThumbNode thumbNode;
 
-    public DilutionsSliderNode( String title, String minLabel, String maxLabel, PDimension trackSize, final Property<Double> modelValue,
-                                DoubleRange range ) {
+    public DilutionsSliderNode( String title, String minLabel, String maxLabel, PDimension trackSize, Paint trackPaint, final Property<Double> modelValue, DoubleRange range ) {
 
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
         // nodes
         PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
-        trackNode = new TrackNode( trackSize, TRACK_FILL_COLOR );
+        trackNode = new TrackNode( trackSize, trackPaint );
         thumbNode = new ThumbNode( THUMB_SIZE, this, trackNode, range, new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 modelValue.set( value );
@@ -101,9 +101,9 @@ public class DilutionsSliderNode extends PhetPNode {
 
     // The track that the thumb moves in. Origin is at upper-left corner.
     private static class TrackNode extends PPath {
-        public TrackNode( PDimension size, Color fillColor ) {
+        public TrackNode( PDimension size, Paint fillPaint ) {
             setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-            setPaint( fillColor );
+            setPaint( fillPaint );
         }
     }
 
