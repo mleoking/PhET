@@ -3,7 +3,6 @@ package edu.colorado.phet.moleculepolarity.common.model;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 
 /**
  * Model of the electric field.
@@ -12,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
  */
 public class EField implements Resettable {
 
-    //Use SimSharingProperties so the values can be recorded for user interface studies
-    public final Property<Boolean> enabled = new SimSharingProperty<Boolean>( "Electric field on", false );
+    //Give property description for use in Sim data collection/processing
+    public final Property<Boolean> enabled = new Property<Boolean>( "Electric field on", false );
 
     public void reset() {
         enabled.reset();

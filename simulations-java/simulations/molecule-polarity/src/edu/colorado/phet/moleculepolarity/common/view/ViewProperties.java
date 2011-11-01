@@ -3,7 +3,6 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 
 /**
  * Properties that control things in the view.
@@ -28,14 +27,14 @@ public class ViewProperties implements Resettable {
                            boolean partialChargesVisible, boolean bondCharacterVisible, boolean atomLabelsVisible,
                            boolean electronegativityTableVisible ) {
 
-        //Use SimSharingProperties so the values can be recorded for user interface studies
-        this.surfaceType = new SimSharingProperty<SurfaceType>( "Surface type", surfaceType );
-        this.bondDipolesVisible = new SimSharingProperty<Boolean>( "Bond dipoles visible", bondDipolesVisible );
-        this.molecularDipoleVisible = new SimSharingProperty<Boolean>( "Molecular dipole visible", molecularDipoleVisible );
-        this.partialChargesVisible = new SimSharingProperty<Boolean>( "Partial Charges Visible", partialChargesVisible );
-        this.bondCharacterVisible = new SimSharingProperty<Boolean>( "Bond character visible", bondCharacterVisible );
-        this.atomLabelsVisible = new SimSharingProperty<Boolean>( "Atom labels visible", atomLabelsVisible );
-        this.electronegativityTableVisible = new SimSharingProperty<Boolean>( "Electronegativity table visible", electronegativityTableVisible );
+        //Give property description for use in Sim data collection/processing
+        this.surfaceType = new Property<SurfaceType>( "Surface type", surfaceType );
+        this.bondDipolesVisible = new Property<Boolean>( "Bond dipoles visible", bondDipolesVisible );
+        this.molecularDipoleVisible = new Property<Boolean>( "Molecular dipole visible", molecularDipoleVisible );
+        this.partialChargesVisible = new Property<Boolean>( "Partial Charges Visible", partialChargesVisible );
+        this.bondCharacterVisible = new Property<Boolean>( "Bond character visible", bondCharacterVisible );
+        this.atomLabelsVisible = new Property<Boolean>( "Atom labels visible", atomLabelsVisible );
+        this.electronegativityTableVisible = new Property<Boolean>( "Electronegativity table visible", electronegativityTableVisible );
     }
 
     public void reset() {

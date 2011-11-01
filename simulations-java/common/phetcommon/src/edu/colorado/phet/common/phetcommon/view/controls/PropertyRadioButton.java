@@ -7,7 +7,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * PropertyRadioButton wires up a JRadioButton to a property of type T in an enum-style Property<T>.
@@ -21,8 +24,8 @@ public class PropertyRadioButton<T> extends JRadioButton {
     private final SettableProperty<T> property;
     private final SimpleObserver propertyObserver;
 
-    public PropertyRadioButton( String title, final SettableProperty<T> property, final T value ) {
-        super( title );
+    public PropertyRadioButton( final String text, final SettableProperty<T> property, final T value ) {
+        super( text );
 
         this.property = property;
 
@@ -31,6 +34,7 @@ public class PropertyRadioButton<T> extends JRadioButton {
             public void actionPerformed( ActionEvent e ) {
                 property.set( value );
                 propertyObserver.update();//make sure radio buttons don't toggle off, in case they're not in a button group
+                SimSharingEvents.actionPerformed( "radio button", "pressed", param( "text", text ), param( "description", property.getDescription() ), param( "value", value.toString() ) );
             }
         } );
 
