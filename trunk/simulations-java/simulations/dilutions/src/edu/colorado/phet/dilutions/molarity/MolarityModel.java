@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.molarity.model;
+package edu.colorado.phet.dilutions.molarity;
 
 import java.awt.Color;
 import java.util.ArrayList;

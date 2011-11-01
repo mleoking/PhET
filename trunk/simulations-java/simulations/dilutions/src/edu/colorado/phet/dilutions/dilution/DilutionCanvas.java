@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.dilution.view;
+package edu.colorado.phet.dilutions.dilution;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -18,8 +18,8 @@ import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
 import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
 import edu.colorado.phet.dilutions.common.view.BeakerNode;
 import edu.colorado.phet.dilutions.common.view.ConcentrationDisplayNode;
+import edu.colorado.phet.dilutions.common.view.FancyEqualsNode;
 import edu.colorado.phet.dilutions.common.view.SolutionNode;
-import edu.colorado.phet.dilutions.dilution.model.DilutionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 

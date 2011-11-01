@@ -5,8 +5,6 @@ import java.awt.Frame;
 
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.common.AbstractDilutionsModule;
-import edu.colorado.phet.dilutions.dilution.model.DilutionModel;
-import edu.colorado.phet.dilutions.dilution.view.DilutionCanvas;
 
 /**
  * The "Dilution" module.
