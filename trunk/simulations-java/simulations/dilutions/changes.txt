@@ -1,3 +1,5 @@
+11/01/11 Dilution: update moles of solute when M1 or V1 changes
+11/01/11 Dilution: update water volume when V1 or V2 changes
 11/01/11 handle zero-volume Solution properly
 10/31/11 since size of beakers labels is static, scale text to fit
 # 0.00.10 (58200) Oct 31, 2011
