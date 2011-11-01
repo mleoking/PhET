@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -104,6 +105,18 @@ public class ObservableList<T> implements List<T> {
         boolean result = list.add( t );
         elementAddedObservers.notifyObservers( t );
         return result;
+    }
+
+    //Creates a list copy omitting the matching items
+    public ObservableList<T> removeItems( final Function1<T, Boolean> o ) {
+
+        ArrayList<T> toKeep = new ArrayList<T>();
+        for ( T t : this ) {
+            if ( !o.apply( t ) ) {
+                toKeep.add( t );
+            }
+        }
+        return new ObservableList<T>( toKeep );
     }
 
     public boolean remove( Object o ) {
