@@ -3,6 +3,8 @@ package edu.colorado.phet.simeventprocessor;
 
 import java.util.ArrayList;
 
+import org.jfree.data.xy.XYSeries;
+
 import static java.util.Collections.reverse;
 import static java.util.Collections.sort;
 
@@ -10,7 +12,7 @@ import static java.util.Collections.sort;
  * @author Sam Reid
  */
 public class PostProcessor extends Predef {
-    public void process( EventLog eventLog ) {
+    public void process( final EventLog eventLog ) {
 
         println( "#########################" );
         println( "######### Processing tabs" );
@@ -30,5 +32,17 @@ public class PostProcessor extends Predef {
         for ( EntryPair pair : pairs ) {
             println( "elapsed time: " + format( pair.elapsedTime ) + ", " + pair._1.brief() + " -> " + pair._2.brief() );
         }
+
+        println();
+        println( "#########################" );
+        println( "######### Processing coverage" );
+
+        plot( "Events vs time", "Time (sec)", "Events", new XYSeries( "Alice" ) {{
+            for ( long time = 0; time < eventLog.getLastTime(); time += 1000 ) {
+                int events = eventLog.getNumberOfEvents( time );
+                System.out.println( time + "\t" + events );
+                add( time / 1000.0, events );
+            }
+        }} );
     }
 }

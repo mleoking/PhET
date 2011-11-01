@@ -16,7 +16,9 @@ import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.simsharing.MessageHandler;
 import edu.colorado.phet.common.phetcommon.simsharing.MessageServer;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.ACTION_EXITED;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.OBJECT_SYSTEM;
 
 /**
  * Server that stores messages sent from SimSharingEvents.
@@ -53,7 +55,7 @@ public class EventServer implements MessageHandler {
             bufferedWriter.newLine();
             bufferedWriter.flush();
 
-            if ( object.equals( SimSharingEvents.OBJECT_SIM ) && action.equals( SimSharingEvents.ACTION_EXITED ) ) {
+            if ( object.equals( OBJECT_SYSTEM ) && action.equals( ACTION_EXITED ) ) {
                 bufferedWriter.close();
 
                 String key = getKey( machineID, sessionID );
