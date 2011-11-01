@@ -58,6 +58,11 @@ public class Molecule3D {
         return s;
     }
 
+    //For simsharing, getting the name in the ComboBoxNode
+    @Override public String toString() {
+        return getName();
+    }
+
     // Reads an input stream and returns a string.
     protected static String readStream( InputStream istream ) throws IOException {
         BufferedReader structureReader = new BufferedReader( new InputStreamReader( istream ) );

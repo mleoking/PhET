@@ -61,10 +61,6 @@ public class ResetAllDelegate {
      */
     public void resetAll() {
         if ( !confirmationEnabled || confirmReset() ) {
-
-            //Fire reset all before any of the other events because properties that reset should show up afterwards so they can easily be grouped together conceptually
-            SimSharingEvents.actionPerformed( "module", "reset all" );
-
             for ( Resettable resettable : resettables ) {
                 resettable.reset();
             }
