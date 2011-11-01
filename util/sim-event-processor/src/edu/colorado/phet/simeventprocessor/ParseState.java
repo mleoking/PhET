@@ -34,8 +34,8 @@ public class ParseState {
         }
         else {
             EventLine eventLine = EventLine.parse( line );
-            if ( eventLine.matches( "module", "activated" ) ) {
-                System.out.println( "Switched tab to: " + eventLine.getParameter( "name" ) + " after " + eventLine.time / 1000 + " sec" );
+            if ( eventLine.matches( "tab", "pressed" ) ) {
+                System.out.println( "Switched tab to: " + eventLine.getParameter( "text" ) + " after " + eventLine.time / 1000 + " sec" );
             }
             if ( lastEventLine != null ) {
                 times.put( lastEventLine.time - eventLine.time, new Pair<EventLine, EventLine>( lastEventLine, eventLine ) );
