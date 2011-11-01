@@ -7,6 +7,7 @@ import java.awt.Frame;
 import java.awt.GradientPaint;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -34,10 +35,10 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
     private static final PhetFont BEAKER_LABEL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PDimension BEAKER_LABEL_SIZE = new PDimension( 100, 50 );
 
-    public DilutionCanvas( DilutionModel model, Frame parentFrame ) {
+    public DilutionCanvas( final DilutionModel model, Frame parentFrame ) {
 
         // solution nodes
-        BeakerNode solutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.SOLUTION, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
+        final BeakerNode solutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.SOLUTION, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
         final PDimension solutionCylinderSize = solutionBeakerNode.getCylinderSize();
         final double solutionCylinderEndHeight = solutionBeakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( solutionCylinderSize, solutionCylinderEndHeight, model.solution, model.getDiutionVolumeRange() );
@@ -55,7 +56,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         PNode equalsNode = new FancyEqualsNode();
 
         // dilution nodes
-        BeakerNode dilutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.DILUTION, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
+        final BeakerNode dilutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.DILUTION, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
         final PDimension dilutionCylinderSize = dilutionBeakerNode.getCylinderSize();
         final double dilutionCylinderEndHeight = dilutionBeakerNode.getCylinderEndHeight();
         SolutionNode dilutionNode = new SolutionNode( dilutionCylinderSize, dilutionCylinderEndHeight, model.dilution, model.getDiutionVolumeRange() );
@@ -130,5 +131,29 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         }
         scaleRootNodeToFitStage();
         centerRootNodeOnStage();
+
+        // If concentration is zero, label Solution beaker as H2O.
+        model.solution.addConcentrationObserver( new SimpleObserver() {
+            public void update() {
+                if ( model.solution.getConcentration() == 0 ) {
+                    solutionBeakerNode.setLabelText( Symbols.WATER );
+                }
+                else {
+                    solutionBeakerNode.setLabelText( Strings.SOLUTION );
+                }
+            }
+        } );
+
+        // If concentration is zero, label Dilution beaker as H2O.
+        model.dilution.addConcentrationObserver( new SimpleObserver() {
+            public void update() {
+                if ( model.dilution.getConcentration() == 0 ) {
+                    dilutionBeakerNode.setLabelText( Symbols.WATER );
+                }
+                else {
+                    dilutionBeakerNode.setLabelText( Strings.DILUTION );
+                }
+            }
+        } );
     }
 }
