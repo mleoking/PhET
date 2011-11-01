@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
+import edu.colorado.phet.balanceandtorque.common.model.masses.Barrel;
 import edu.colorado.phet.balanceandtorque.common.model.masses.BigRock;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Boy;
 import edu.colorado.phet.balanceandtorque.common.model.masses.BrickStack;
@@ -24,7 +25,6 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.PottedPlant;
 import edu.colorado.phet.balanceandtorque.common.model.masses.SmallBucket;
 import edu.colorado.phet.balanceandtorque.common.model.masses.SmallRock;
 import edu.colorado.phet.balanceandtorque.common.model.masses.SodaBottle;
-import edu.colorado.phet.balanceandtorque.common.model.masses.StatueOfOdysseus;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Television;
 import edu.colorado.phet.balanceandtorque.common.model.masses.TinyRock;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Tire;
@@ -86,7 +86,7 @@ public class BalanceGameChallengeFactory {
         add( new Girl() );
         add( new Woman() );
         add( new Man() );
-        add( new StatueOfOdysseus( false ) );
+        add( new Barrel( false ) );
         add( new CinderBlock( false ) );
     }};
 

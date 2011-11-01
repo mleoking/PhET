@@ -1,3 +1,4 @@
+Replaced the statue of Odysseus with a barrel, since the statue was too tall and the label could get obscured behind the mass entry dialog.
 Fixed an issue where the mass kit was not being set when Reset All was pressed.
 # 0.00.16 (58042) Oct 26, 2011
 10/26/11 Deploying to dev for feedback and review.

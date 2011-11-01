@@ -52,6 +52,7 @@ public class BalanceAndTorqueResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage BARREL = RESOURCES.getImage( "barrel.png" );
         public static final BufferedImage BLUE_BUCKET = RESOURCES.getImage( "blue-bucket.png" );
         public static final BufferedImage BOY_SITTING = RESOURCES.getImage( "boy-sitting.png" );
         public static final BufferedImage BOY_STANDING = RESOURCES.getImage( "boy-standing.png" );
