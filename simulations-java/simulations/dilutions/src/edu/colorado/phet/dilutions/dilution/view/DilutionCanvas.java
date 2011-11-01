@@ -109,13 +109,13 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
             equalsNode.setOffset( waterBeakerNode.getFullBoundsReference().getMaxX() + 5,
                                   waterBeakerNode.getYOffset() + ( waterCylinderSize.getHeight() / 2 ) - ( equalsNode.getFullBoundsReference().getHeight() / 2 ) );
             // to right of Water equals sign, vertically aligned with bottom of beakers
-            dilutionConcentrationNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionConcentrationNode ) + 5,
+            dilutionConcentrationNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 20,
                                                  waterBeakerNode.getFullBoundsReference().getMaxY() - dilutionConcentrationNode.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( dilutionConcentrationNode ) );
             // to right of M2, vertically aligned with ticks on Dilution beaker
             dilutionVolumeSliderNode.setOffset( dilutionConcentrationNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionVolumeSliderNode ) + 8,
                                                 waterBeakerNode.getYOffset() );
             // to right of V2
-            dilutionBeakerNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionBeakerNode ) + 5,
+            dilutionBeakerNode.setOffset( dilutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( dilutionBeakerNode ) + 15,
                                           waterBeakerNode.getYOffset() );
             // in the same coordinate frame as the Dilution beaker
             dilutionNode.setOffset( dilutionBeakerNode.getOffset() );
