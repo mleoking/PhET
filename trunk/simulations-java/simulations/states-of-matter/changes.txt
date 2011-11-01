@@ -1,3 +1,4 @@
+Changed repulsive force arrow on the Atomic Interactions tab to be magenta to make it more distinct from the attractive force arrow.
 # 1.08.07 (58112) Oct 28, 2011
 10/28/11 Deploying as a release candidate for review by the team.
 # 1.08.06 (57793) Oct 19, 2011

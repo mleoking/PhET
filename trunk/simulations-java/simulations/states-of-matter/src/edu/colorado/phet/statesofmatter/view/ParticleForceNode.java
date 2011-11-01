@@ -24,7 +24,15 @@ public class ParticleForceNode extends ParticleNode {
     // the force arrows.  The values are arbitrary and are chosen to look good
     // in this particular sim, so tweak them as needed for optimal appearance.
     public static final Color ATTRACTIVE_FORCE_COLOR = new Color( 255, 255, 0, 175 );
-    public static final Color REPULSIVE_FORCE_COLOR = new Color( 255, 200, 0, 175 );
+    //    public static final Color REPULSIVE_FORCE_COLOR = new Color( 255, 200, 0, 175 );
+//    public static final Color REPULSIVE_FORCE_COLOR = new Color( 64, 224, 208, 175 );  // Cyanish, but a little too much like the initial atom color.
+//    public static final Color REPULSIVE_FORCE_COLOR = new Color( 199, 21, 133, 175 );  // Purpleish, not bad, a little dark IMO
+//    public static final Color REPULSIVE_FORCE_COLOR = new Color( 255, 105, 180, 175 ); // Hot pink. Not bad.  Looks kind of purple when transparent.
+//    public static final Color REPULSIVE_FORCE_COLOR = new Color( 255, 182, 193, 175 ); // Light pink. Not bad. Looks kind of purple when transparent.
+//    public static final Color REPULSIVE_FORCE_COLOR = PhetColorScheme.RED_COLORBLIND;
+//    public static final Color REPULSIVE_FORCE_COLOR = new Color( 222, 184, 135, 175 );
+//    public static final Color REPULSIVE_FORCE_COLOR = Color.WHITE;
+    public static final Color REPULSIVE_FORCE_COLOR = new Color( 255, 0, 255, 175 ); // Magenta.
     public static final Color TOTAL_FORCE_COLOR = new Color( 0, 255, 0, 125 );
     private static final double COMPONENT_FORCE_ARROW_REFERENCE_LENGTH = 500;
     private static final double COMPONENT_FORCE_ARROW_REFERENCE_MAGNITUDE = 1E-22;
