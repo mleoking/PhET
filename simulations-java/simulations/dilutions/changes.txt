@@ -1,3 +1,4 @@
+11/01/11 Molarity: clean up canvas constructor, address open issues
 11/01/11 Dilution: if a beaker's concentration is zero, label it as H2O
 11/01/11 Dilution: add gradient to M1 slider
 11/01/11 common: remove unnecessary subclassing of DilutionsSliderNode
