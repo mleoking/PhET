@@ -20,6 +20,7 @@ public class Solution implements Resettable {
     private final Property<Double> precipitateAmount; // moles (derived property)
 
     public Solution( Solute solute, double soluteAmount, double volume ) {
+
         this.solute = new Property<Solute>( solute );
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );

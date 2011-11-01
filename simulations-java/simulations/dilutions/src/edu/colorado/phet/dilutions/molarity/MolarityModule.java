@@ -15,6 +15,7 @@ public class MolarityModule extends AbstractDilutionsModule {
 
     public MolarityModule( Frame frame ) {
         super( Strings.MOLARITY );
+        setClockRunningWhenActive( false ); // no animation in this module
         setSimulationPanel( new MolarityCanvas( new MolarityModel(), frame ) );
     }
 }
