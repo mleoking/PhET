@@ -26,7 +26,7 @@ public class Predef {
         System.out.println( string );
     }
 
-    public static String format( long vaule ) {
+    public static String format( double vaule ) {
         return new DecimalFormat( "0.00" ).format( vaule );
     }
 
