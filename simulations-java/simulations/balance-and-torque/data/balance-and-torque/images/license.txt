@@ -1,3 +1,4 @@
+barrel.png source=PhET
 blue-bucket.png source=PhET
 boy-sitting.png source=PhET
 boy-standing.png source=PhET
@@ -26,7 +27,6 @@ rock_4.png source=PhET
 rock_6.png source=PhET
 tiny-rock.png source=PhET
 soda-bottle.png source=PhET
-statue-of-odysseus.png source=Open Clip Art notes=Modified by jblanco
 tire.png source=PhET
 trash-can.png source=PhET
 woman-sitting.png source=PhET
