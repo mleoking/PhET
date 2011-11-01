@@ -1,3 +1,4 @@
+10/31/2011 Use param() instead of new Parameter(), see #3136
 # 1.01.05 (58185) Oct 31, 2011
 # 1.01.04 (58184) Oct 31, 2011
 10/31/11 Updated message formatting, see #3136

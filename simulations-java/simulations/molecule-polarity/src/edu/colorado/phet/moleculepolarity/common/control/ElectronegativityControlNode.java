@@ -43,6 +43,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+
 /**
  * Slider control for electronegativity.
  * Dragging the slider continuously updates an atom's electronegativity.
@@ -273,7 +275,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             //Record changes on the slider
             PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<Parameter[]>() {
                 public Parameter[] apply() {
-                    return new Parameter[] { new Parameter( "atom", atom.getName() ), new Parameter( "electronegativity", atom.electronegativity.get() ) };
+                    return new Parameter[] { param( "atom", atom.getName() ), param( "electronegativity", atom.electronegativity.get() ) };
                 }
             } );
         }
