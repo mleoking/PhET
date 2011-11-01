@@ -19,7 +19,7 @@ import edu.colorado.phet.dilutions.common.model.Solution;
 public class DilutionModel implements Resettable {
 
     private static final double MAX_BEAKER_VOLUME = 1; // liter
-    private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 0.2, 0.1 ); // moles
+    private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 0.2, 0.05 ); // moles
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.0, 0.2, 0.1 ); // liters
     private static final DoubleRange DILUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / DILUTION_VOLUME_RANGE.getMax(),

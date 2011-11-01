@@ -42,9 +42,15 @@ public abstract class DilutionsSliderNode extends PhetPNode {
 
     // Slider for controlling volume of solution
     public static class SolutionVolumeSliderNode extends DilutionsSliderNode {
-        public SolutionVolumeSliderNode( String title, String minLabel, String maxLabel, PDimension trackSize, final Property<Double> solutionVolume,
-                                         DoubleRange range ) {
+        public SolutionVolumeSliderNode( String title, String minLabel, String maxLabel, PDimension trackSize, final Property<Double> solutionVolume, DoubleRange range ) {
             super( title, minLabel, maxLabel, trackSize, solutionVolume, range );
+        }
+    }
+
+    // Slider for controlling concentration
+    public static class ConcentrationSliderNode extends DilutionsSliderNode {
+        public ConcentrationSliderNode( String title, String minLabel, String maxLabel, PDimension trackSize, final Property<Double> concentration, DoubleRange range ) {
+            super( title, minLabel, maxLabel, trackSize, concentration, range );
         }
     }
 
