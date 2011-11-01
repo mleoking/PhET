@@ -27,32 +27,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for vertical sliders in the Dilutions simulation.
+ * Vertical sliders in the Dilutions simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class DilutionsSliderNode extends PhetPNode {
-
-    // Slider for controlling amount of solute
-    public static class SoluteAmountSliderNode extends DilutionsSliderNode {
-        public SoluteAmountSliderNode( String title, String minLabel, String maxLabel, PDimension trackSize, final Property<Double> soluteAmount, DoubleRange range ) {
-            super( title, minLabel, maxLabel, trackSize, soluteAmount, range );
-        }
-    }
-
-    // Slider for controlling volume of solution
-    public static class SolutionVolumeSliderNode extends DilutionsSliderNode {
-        public SolutionVolumeSliderNode( String title, String minLabel, String maxLabel, PDimension trackSize, final Property<Double> solutionVolume, DoubleRange range ) {
-            super( title, minLabel, maxLabel, trackSize, solutionVolume, range );
-        }
-    }
-
-    // Slider for controlling concentration
-    public static class ConcentrationSliderNode extends DilutionsSliderNode {
-        public ConcentrationSliderNode( String title, String minLabel, String maxLabel, PDimension trackSize, final Property<Double> concentration, DoubleRange range ) {
-            super( title, minLabel, maxLabel, trackSize, concentration, range );
-        }
-    }
+public class DilutionsSliderNode extends PhetPNode {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color TRACK_FILL_COLOR = Color.BLACK;

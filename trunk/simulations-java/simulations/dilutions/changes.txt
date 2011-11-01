@@ -1,3 +1,4 @@
+11/01/11 common: remove unnecessary subclassing of DilutionsSliderNode
 11/01/11 Dilution: first pass at M1 slider, missing gradient
 11/01/11 Dilution: update moles of solute when M1 or V1 changes
 11/01/11 Dilution: update water volume when V1 or V2 changes
