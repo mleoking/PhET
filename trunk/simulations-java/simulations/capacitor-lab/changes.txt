@@ -1,3 +1,4 @@
+# 2.01.00 (58222) Nov 1, 2011
 10/17/11 in DielectricExcessChargeNode, rename yMargin to yOffset (because it's an offset, not a margin)
 # 2.00.02 (57052) Sep 29, 2011
 9/29/11 #3012, make dielectric excess charges use same z-margin as plate charges so that they end up with the same grid dimensions
