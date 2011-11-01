@@ -2,6 +2,7 @@ TODO list for dilutions
 
 DESIGN
 - Tab 3 (Making Dilutions)
+- Dilution: do we really want all 3 beakers labeled "H2O" when concentrations are zero?
 
 HIGH
 - address TODO tasks in MolarityCanvas and DilutionCanvas
