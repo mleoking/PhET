@@ -1,6 +1,7 @@
+
 ==========================================================================
                           RELEASE NOTES FOR
-                Bitrock InstallBuilder Multiplatform 5.1.1
+                Bitrock InstallBuilder Multiplatform
 ==========================================================================
 
   This Release Notes document is for Bitrock InstallBuilder Multiplatform. This
@@ -45,10 +46,9 @@
                         Installation Instructions
 ==========================================================================
 
-  Please consult the BitRock InstallBuilder user guide for detailed 
-  step-to-step instructions on installation and usage. This guide can be
-  accessed online at http://www.bitrock.com and is included as part of the
-  installation in the docs/ directory.
+  Please consult the BitRock InstallBuilder user and reference guides for
+  step-to-step instructions on installation and usage. The guides are
+  included as part of the installation in the docs/ directory.
 
 ==========================================================================
                             Technical Support
@@ -59,12 +59,863 @@
   Bitrock Technical Support is available by e-mail and from our website.
 
   For technical support for BitRock InstallerBuilder, go to:
-  http://www.bitrock.com/support/
+  http://bitrock.com/support_installbuilder_overview.html
 
 
 ==========================================================================
                                ChangeLog
 ==========================================================================
+
+Version 7.2.6 (2011-10-18)
+* Updated documentation
+* Fixed qt mode text widget not properly wrapping its content on Windows
+* Added support for tcsh shell in environment variable actions
+* Fixed <platformTest> rule not properly recognizing osx-intel type on some 64bit environments
+* Improved Italian translation
+* Improved .password suffix to support nested variables
+* Speed up uninstaller creation on Windows
+* Now aborting the installation when canceling the language selection also triggers the <installationAbortedActionList>
+* Improved AutoUpdate to support the <removeLogFile> feature
+* Fixed builder crashing in some Windows environments when browsing for image files
+* Fixed OS X bundles launcher script encoding not being properly configured
+* Fixed Java launchers not being properly created on OS X
+* Fixed <globalVariables> action not properly handling parameters
+
+Version 7.2.5 (2011-09-05)
+* Updated documentation
+* Improved Dutch language support
+* Fixed language files not being properly loaded when including a BOM
+* Improved <addUser> action to properly deal with SELinux
+* Fixed packed folders not being deleted when using multiple hierarchy <destination> tags.
+* Improved Installer.RebootRequired string to allow variables
+* Fixed custom uninstaller directory not being deleted in some environments
+
+Version 7.2.4 (2011-08-09)
+* Updated documentation
+* Allow executing .cmd scripts on Windows
+* Added contextual menu to GUI entry widgets to allow restoring the original value being edited
+* Fixed installers not deleting the current file being unpacked when canceling the installation in some environments
+* Improved <project> properties editor dialog to validate user input
+* Fixed <httpGet> and <httpPost> actions failing in some Windows environments because of the download file being locked
+* Improved registry actions to work with <foreach> and <while> actions
+
+Version 7.2.3 (2011-07-29)
+* Improved Italian, Czech and Russian language support
+* Added support for HTTP redirects in <httpPost> and <httpGet> actions
+* New --verbose command line flag added to command line builder
+* Added new <endOfLineConversion> tag to file manipulation actions to allow configuring the EOL handling
+* New <fileIsLocked> rule
+* Improved performance of <unpackDirectory> action
+* Improved AutoUpdate to allow configuring its output directory and filename
+* Improved built-in pages language strings to support variables modified at any point at runtime
+* Improved widget alignment in nested parameter groups in qt mode
+* Fixed <addScheduledTask> action failing in some environments
+* Dropped Windows 98 support
+* Added examples for all actions to the documentation
+* Improved deb generation to allow providing custom conffiles files
+* Improved <autodetectJava> action to properly work on OS X 10.7
+* Fixed <shutdown> action failing in some environments
+* Fixed installers failing on OS X with some thirdparty system fonts configuration
+* Improved the file packing filters to support semicolon separated patterns
+* Improved command line builder to support displaying text mode popups when building
+* Improved GUI builder to accept the information provided through the --setvars flag
+* Added new built-in variable installbuilder_ui 
+* Allow Arabic language to be selectable through the GUI builder
+* Allow providing short version of registry root keys to registry actions
+* Allow launching scrips from directories containing "&" characters
+* Improved final page text wrapping
+* Fixed some environment variable actions now properly working in some Windows environments
+
+Version 7.2.2 (2011-06-20)
+* Updated documentation
+* New Search dialog for GUI Builder XML editor
+* Disabled "Save" and "Save As" menu entries in GUI Builder when no project is loaded
+* Fixed <addEnvironmentVariable> action not properly registering variables in some scenarios.
+* Skipped mirror selection page in AutoUpdate tool when just one option is available
+* New <pathManipulation> action to create absolute paths
+* Fixed <showPasswordQuestion> not saving the password when accepting the dialog by pressing enter
+* Improved <firewallTest> rule to also include default Windows firewall
+* Improved Russian language support
+* New <createWindowsARPEntry> project setting to allow disabling the creation of the Add Remove Programs entry on windows
+* Improved <addScheduledTask> action to support latest Windows versions
+* Added Support for shiftjis encoding on HP-UX in text mode
+
+Version 7.2.1 (2011-06-03)
+* Improved Albanian, Bulgarian, Croatian, Danish, Finnish, Argentine Spanish, Slovak, Swedish and Turkish language support
+* Updated documentation
+* Speed up installer startup time when being launched from a network drive
+* New <addWindowsAccountRights> and <removeWindowsAccountRights> actions
+* Improved administrator user check in HP-UX platform 
+* Improved <abortOnError> and <showMessageOnError> action settings to support variables
+* Improved minimalWithDialogs mode look and feel
+* Fixed text not being correctly wrapped in some <choiceParameters> in osx and win32 modes
+* Improved environment actions on Unix
+* Fixed <passwordParameter> entries misaligned in some languages
+* Fixed GUI "Files" tree not being updated when manually deleting <distributionFile> elements from the XML editor
+* Fixed <globalVariables> action not properly handling case insensitivity
+
+Version 7.2.0 (2011-05-18)
+* Improved packing filters to allow excluding files to pack at any depth of the directory hierarchy
+* Added Albanian, Bulgarian, Croatian, Danish, Finnish, Argentine Spanish, Slovak, Swedish and Turkish language support
+* Allow modifying the exit code in the <installationAbortedActionList>
+* Allow disabling Xft fonts support in xwindow mode to reduce installers size
+* Improved language autodetection on Windows
+* Updated documentation
+* Fixed 32bit installers crashing in Ubuntu 11.04 64bit when running in gtk mode
+* Allow executing .cmd scripts on Windows
+* Added new variable installation_aborted_by_user
+* Removed --enable-components, --disable-components and --optionfile options from uninstaller help menu
+* Improved <showProgressDialog> refresh rate to allow properly displaying quick actions progress text
+* Fixed <launchBrowser> throwing warnings to console in some corrupt Linux environments
+* Fixed default installation language not being properly resolved in uninstaller help menu
+* Fixed error in GUI builder when using file dialogs in some scenarios
+* Fixed scope issue in custom actions
+* Replaced missing occurrences of "Ok" text in buttons to all uppercase "OK"  per UI guidelines 
+* Fixed <enableLinuxLegacySupport> setting failing in some environments 
+* Fixed some graphic glitches in osx mode
+
+Version 7.1.1 (2011-05-05)
+* Fixed <unzip> action failing in some environments
+* Fixed InstallBuilder license registration dialog failing on OS X
+* Improved look and feel of <showProgressDialog> on OS X 
+
+Version 7.1.0 (2011-04-27)
+* Fixed installer startup failing in some scenarios when being launched from a symbolic link
+* Fixed <processTest> rule failing in some environments
+* Fixed installation log containing unnecessary empty new lines when using disabling the file unpacking process
+* Fixed comboboxes not being properly displayed in Windows Vista and 7 in win32 mode
+* Improved look and feel of the Builder and installers in OS X and Windows
+* Improved <getWindowsACL> to properly handle invalid SID provided as username 
+* New <languageSelectionStyle> project property to configure the style of the language selection dialog
+* Improved reported errors when loading invalid XML files
+* Updated documentation
+* Fixed uninstaller not being removed on HP-UX
+
+Version 7.0.5 (2011-04-18)
+* New split HTML version of the documentation
+* Significantly improved <unzip> action performance
+* Improved installers to allow variables in most of the project tags
+* Improved GUI to accept variables in choice and boolean-like properties
+* New <osxBundlesAreFiles> property added configure how <fileParameter> and <directoryParameter> should validate bundles in OS X
+* Allow <linkParameters> to receive keyboard focus on Qt mode
+* Improved OS X bundle launcher script to support projects with UTF-8 characters in their full name
+* Improved Polish translation
+* Fixed <windowsResourceProductVersion> not properly working
+* Removed outdated syntax from demo projects
+* Updated command line builder icon on Windows
+* Fixed <globalVariables> action not properly handling project references
+* Show more verbose errors in <break> and <continue> actions when invoked outside loop
+* Fixed XML comments not being preserved in the GUI editor in some scenarios
+* Fixed installers failing on HP-UX, AIX and FreeBSD 4 in some system language configurations
+
+Version 7.0.4 (2011-03-31)
+* Updated documentation
+* Added <selectionOrder> to the <autodetectJava> action to allow specifying the order of the detected Java versions
+* Added <checkFreeDiskSpace> rule
+* Added <clearWindowsACL> action
+* Added <osxUninstallerApplicationBundleIcon> to configure uninstaller icon on OS X
+* Added <osxPlatforms> project tag to configure the OS X runtimes to build
+* Improved Italian, French, Norwegian, Korean and Spanish translations
+* Included English language file in the installers as a reference
+* Improved build performance in Solaris, FreeBSD, AIX, HP-UX and IRIX
+* Fixed <httpPost> action failing when providing an empty <queryParameterList>
+* Fixed main progress bar not properly configured in some scenarios
+* Fixed <portTest> rule throwing an error when providing a malformed port
+* Changed "Ok" buttons text to all uppercase "OK"  per UI guidelines
+* Fixed registered estimated size on Windows 7 not being properly calculated
+* Fixed RPM database registration not honoring files removed from uninstaller
+* Fixed environment variables not being properly registered in some OS X terminal shells
+* Fixed rollback functionality not properly handling the original drive
+
+Version 7.0.3 (2011-03-07)
+* Added Czech language support
+* Added Norwegian language support
+* Updated documentation
+* New <globalVariables> action to allow custom actions to modify project level variables
+* Reduced installer startup time on OS X when running in qt mode
+* Provided a default value for installer-language command line flag in the help menu
+* Improved <writeFile> action to accept variables in the <encoding> tag
+* Improved <run> and <show> action properties to accept variables
+* Added support for Bourne shell (sh) in actions related to environment variables
+* Fixed installer refreshing issue when quickly pushing 'next' button multiple times on Windows
+* Fixed installer not properly loading images in some environments
+* Properly handle standard streams redirection on Windows Java launchers
+* Fixed AutoUpdate <requireInstallationByRootUser> property not properly working on OS X
+* Improved regular installer registration with RPM database
+* Fixed qt mode post-uninstallation popups not displaying any icon on OS X
+* Fixed GUI XML editor not properly preserving comments
+
+Version 7.0.2 (2011-01-27)
+* Updated documentation
+* Allow the <scope> tag of the <addEnvironmentVariable> action to contain variables
+* Provide more verbose error when the builder does not have permissions to write in the output directory
+* Improved look and feel of the "custom" <style>
+* Improved wrapping of <choiceParamter> text when using radiobuttons style in gtk mode
+* Added new built-in variable machine_cpu_count
+* Improved <unpackFile> action performance
+* Added <requestedExecutionLevel> tag to the Autoupdate tool to allow configuring its execution level
+* Improved quickbuild in GUI mode to pack differences in packed files in addition to project changes
+* Added machine_cpu_speed and machine_total_memory built-in variables to OS X platform
+* Fixed popup XML editor failing in some scenarios
+* Fixed gtk buttons not being properly localized after the language selection when using <overrideGtkButtonText>
+* Fixed <enableLinuxLegacySupport> setting failing with the new compression system
+* Fixed builder crashing on some OS X environments when using Asian languages
+* Fixed command line quickbuild not properly working in some environments with the new compression system
+* Fixed <getFreeDiskSpace> reporting incorrect data in some OS X environments
+* Fixed <addEnvironmentVariable> not properly working when used in the <foreach> action
+
+Version 7.0.1 (2010-12-14)
+* Fixed XML Editor failing to load some projects
+* Improved XML editor performance when editing big XML projects
+* Remove incorrect validation in <distributionFile> and <distributionDirectory> elements
+
+Version 7.0.0 (2010-12-12)
+* Ability to create custom actions to reuse code snippets
+* New <createJavaLaunchers> action to create Java launchers
+* New in depth documentation
+* Allow downloading ready to use JREs from the GUI builder
+* Added built-in variables inspector to the builder
+* Added search functionality to builder actions dialog
+* New built-in XML editor in the GUI builder
+* Improved <windowsAccountTest> to work on Windows domains
+* Improved continuous progress popup layout
+* Fixed <waitForPort> action not properly working on some Windows 64bit environments
+* Display component selection default description in Qt and Gtk modes
+* Localize OS X translucent menu bar
+* Fixed Korean and Chinese languages not being properly autodetected on some Windows environments
+* Fixed ${machine_ipaddr} not being properly resolved in some Windows 64bit environments
+* Asynchronously check for updates in the builder
+* Making permissions errors when building more verbose
+* Moved language selection dialog after the <initializationActionList>
+* Make sure the log contains all the information after an error
+* Improved packing method to improve packing and unpacking speed and reduce installers size and memory consume
+* Fixed multidisk cdrom installers not retrying asking the first disk after a failed try
+* POTENTIAL INCOMPATIBILITY: Changed Unix installer extension from .bin to .run to make installers recognized as executable in some environments such as latest versions of Ubuntu
+* Fixed <createBackupFile> destination field validation
+* Fixed <getFreeDiskSpace> failing on OS X if the disk volume tested contains spaces
+
+Version 6.5.6 (2010-10-27)
+* Improve administrator user check in Solaris platform
+* Added Xft font support in Solaris
+* Added <windowsAccountTest> rule
+* Fixed dialog buttons not being localized in qt mode
+* <autodetectDotNetFramework> is now accessible through the GUI
+* Allow created OS X environment variables to be accessible from GUI applications
+* Fixed Autoupdate tool not properly launching the downloaded installers in some OS X scenarios
+* Fixed key bindings not properly working on xwindow, osx and win32 modes when selecting some languages
+* java_autodetected and dotnet_autodetected are now set to 0 if the detection fails
+* Fixed UI becoming not responsive when using <unpackDirectory> to unpack big directories
+* Fixed <choiceParameter> not properly representing its value in some UI modes when using variables
+* Support zh_HK as valid language code
+* Fixed errors when trying to overwrite hidden files on Windows
+* Now in_empty and is_not_empty rules conditions in <fileTest> rule now take into account hidden files
+
+Version 6.5.5 (2010-10-04)
+* New <registryFind> action
+* New options is_type and is_not_type to registryTest rule
+* Implemented new <osxApplicationBundleIcon> project property to configure the icon on OS X
+* Added Java Web Start binary to the list of autodetected targets in <autodetectJava> action
+* Upgrade Autoupdate tool to support high color depth icons
+* Allow viewing XML code of elements from the GUI
+* Fixed <compareText> description in the GUI
+* Fixed popups sometimes not working when being resized in Solaris
+* Modified position of "Created with an evaluation version" text in unregistered installers
+* Fixed Chinese and Brazillian language autodetection on Unix 
+* Fixed wrapping in welcome and installation finished pages in Qt installers on Windows and OS X
+* Fixed integer validation in <exit> action
+* Fixed GUI context menu on OS X
+* Improved page wrapping in Gtk custom style
+* Properly deal with incorrect paths when creating the rollback directory
+* Fixed Suse version autodetection failing in some environments
+
+Version 6.5.4 (2010-09-17)
+* Implemented drag and drop of nodes in the GUI builder
+* Make folders' <actionList>  accessible through the GUI
+* Added OS X service manipulation actions <createOSXService>, <deleteOSXService>, <startOSXService> and <stopOSXService>
+* Added <osxServiceTest> rule to check OS X services state
+* Fixed XML load errors displaying an incorrect line number in some unicode files
+* Implemented new <xmlFileCommentElement> action
+* Improved language autodetection in OS X
+* Added <ordering> tag in <choiceParameter> to specify the display order of the elements
+* Added is_windows_admin_account, is_windows_user_account, is_windows_guest_account to <userTest> rule
+* Properly wrap <booleanParameter> descriptions when used inside a <parameterGroup> on xwindow, win32 and osx modes
+* Improved error when loading an incorrect project to display line number and file
+* Wrap all text mode pages
+* Allow resolving environment variables with parentheses
+* Make <zip> action recursive
+* Fixed InstallBuilder RELAX NG schema
+* Improved keyboard navigation on xwindow mode
+* Fixed incorrect font used in Chinese and Korean languages on Windows
+* Fixed <showQuestionString> failing on OS X
+* Make sure all actions defining variables resolve variables in the variable name
+* Fixed deb/rpm helper binaries permissions
+* Fixed <iniFileGet> action requiring write permissions over the target .ini file
+* Properly handled errors retrieving available disk space
+* Clean unnecessary helper binaries when upgrading Debian packages
+* Added monthly date type in <addScheduledTask> action
+* Make Autoupdate tool to also look for the license in user directory on Windows
+
+Version 6.5.3 (2010-08-24)
+* Added Korean language support
+* Now any icon resolution is accepted for Windows installers
+* Fixed OS X installers failing when requiring Admininstrator privileges and containing invalid characters in its <fullName>
+* Make keyboard focus visible on xwindow mode
+* Fixed uninstaller not being properly created in some scenarios when launched with a symbolic link
+* Added support for symbolic links in unzip action
+* Allow component names to contain underscores
+* Fix integers validation failing dealing with large integers
+* Allow <permissions> tag in <changePermissions> action to contain variables
+
+Version 6.5.2 (2010-08-13)
+* Properly localize --help menu
+* Fixed GUI Builder failing when adding <throwError> actions
+
+Version 6.5.1 (2010-08-12)
+* Updated Brazilian Portugese language
+* Fixed dialogs not being correctly centered on Windows in qt mode
+* Fixed --version and --help Windows popups not being displayed
+* Fixed minimal unattended ui mode not being correctly detected on Solaris
+* Fixed Japanese and Chinese languages not being correctly displayed in xwindow mode
+
+Version 6.5.0 (2010-08-05)
+* New <consoleWrite> action
+* New mechanism to escape variable references
+* Allow configuring Autoupdate tool proxy through the configuration file
+* New <antivirusTest> and <firewallTest> rules
+* Added --help menu to the builder
+* Added --license command line flag to the builder to provide an alternative license file
+* Added --debugtrace command line flag to the builder
+* Added --project command line flag to specify a project to load in the GUI builder
+* Improved unattendedModeUI mode to support gtk and qt mode
+* Added <delay> tag to <stopWindowsService> action
+* New windows-x86  platform type check added to <platformTest> rule
+* Fixed refresh issue that affected download rate in Autoupdate Tool, specially on OS X
+* New <runAsAdmin> tag added to shortcuts to mark Windows shortcuts to run as Administrator
+* Improved validation of boolean and integer type settings
+* Added OS detection support for RHEL 6
+* Use default Unix permissions in <unzip> action running on Unix when unpacking files created on Windows
+* Added <htmlText> tag to <showText> action and <htmlValue> to <infoParameter> to display HTML text in Qt mode
+* Fixed "Test Run" button on GUI builder not correctly launching generated Windows installers in UAC environments
+* Added <title> tag to <showQuestion>, <showInfo> and <showWarning> actions
+* Added <ruleList> tag to <startMenuFolder> elements
+* New windows_os_uac_enabled built-in variable to check the state of the UAC on Windows
+* New warnings to report command line flags that are provided multiple times
+* Properly deal with multiple installation mode command line flags
+* Fixed <zip> action failing in some scenarios when packing directories
+* Enforce executable permissions in Unix shortcuts
+* Added file and line number to duplicated tags warnings
+* Fixed tcsh not being recognized as a valid shell by environment actions on Unix
+* Added <askForConfirmationOnUninstall> tag to disable the built-in confirmation popup on uninstallation
+* Fixed uninstaller not being deleted on unattended mode on Windows in some scenarios
+* Fixed <showProgressDialog> title not being configurable in some UI modes
+* Include <negate> state in rule description in GUI builder
+* Added double click binding in "Files" section in the GUI builder
+* Fixed <httpGet>/<httpPost> and <setWindowsACL> actions being affected by the state of the Wow64 filesystem redirection
+* Fixed crash on GUI builder when the <platforms> tag of folder contains incorrect values
+* Clean /opt/bitrock directory after deb/rpm uninstallation
+* Fixed installer failing on Windows when TEMP environment variable containing multiple directories
+* Fixed creation of symbolic links on OS X failing when target is an existing link to a non empty directory
+
+Version 6.4.0 (2010-06-11)
+* Added support for nested variables
+* Now all variable references are case insensitive
+* New <creacteShortcuts> action
+* Prevent GUI builder from accepting incorrect values in its dialogs
+* Added new <while> and <break> actions
+* New <autodetectDotNetFramework> action
+* New <locate> action
+* Added new <zip> action
+* Added matchHiddenFiles flag to <touchFile>, <copyFile> and <deleteFile> actions
+* Added OS X support for user and group manipulation actions
+* Added new built-in variable windows_os_flavor
+* Allow <foreach> and <if> actions to be accessed through the GUI
+* Fixed Qt installer abnormaly resizing in "custom" mode
+* Fixed patterns in folders' inclusion filters not resolved when using backslashes
+* Allow <showProgressDialog> to display a download progress bar when containing a single <httpGet> child action
+* Normalize all relative paths to reference project directory in Autoupdate tool
+* New validation of duplicated project tags
+* Disabled RPM registration in platforms with non-native RPM support
+* Increase size of builder project properties dialog
+* Allow empty user and password to be provided in <addScheduledTask> action
+* New <runOnlyIfLoggedOn> tag in <addScheduledTask> action
+* Disable language selection dialog when a value is provided through command line
+* Allow InstallBuilder license to be saved to and loaded from user personal directory on Windows
+* Added Japanese string for Installer.DirectorySelection built-in string
+* Fixed glitch in button states after installation page
+* Allow task name with spaces in <addScheduledTask> action
+
+Version 6.3.1 (2010-05-04)
+* New <sha1> action
+* New <md4> action
+* New <addDirectoriesToUninstaller> action
+* Added <password> tag to <addUser> action
+* Improved <httpProxyInit> to autodetect system proxy settings
+* Improved RPM integration
+* Improved Qt look and feel on Windows and OS X
+* Validate user provided input for parmeters while creating them.
+* Added Windows support for user and group manipulation actions
+* Fixed <registryDelete> failing to delete keys on Windows 64bit
+* Documented windows_os_service_pack
+* Prevent fileTest rule from failing when testing a non-existent link
+* Fixed autoupdate returning update available when check_for_updates was set to '0'
+* Fixed Windows 7 not being recognized when Windows 7 Logo Toolkit is installed
+* Fixed symbolic links not being properly packed when included as <distributionFile>
+* Fixed variables not being resolved in some Autoupdate project tags.
+* Fixed error parsing Autoupdate projects containing utf-8 BOM
+* Built-in registry keys are now created in the 64bit view when <windows64bitMode> is enabled
+* Fixed Windows 2008 autodetection failing in some environments
+
+Version 6.3.0 (2010-02-23)
+* Now Windows installers set the default installation language from a previous installation when updating
+* Reduced memory consumption when unpacking large single-file installers
+* Multiple improvements in CDROM installers
+* Allow HTML licenses file in Qt mode
+* New installer_builder_version and installer_builder_timestamp built-in variables
+* License parameters now accept multiple localized licenses
+* New <httpProxyInit> action to configure proxy to use with http actions
+* New <xmlFileGet> and <xmlFileSet> actions
+* New <addScheduledTask> and <deleteScheduledTask> Windows actions
+* New <getWindowsFileVersionInfo> action
+* New <foreach> and <if> actions
+* New .password suffix to mask passwords in log messages
+* Support for osx-intel and osx-pcc in platform test
+* Fixed proxy configuration in autoupdate failing in some environments
+* Fixed autoupdate failing on OS X when using minimalWithDialog ui mode
+* Properly set default output and project directory on Windows 7
+* Prevent downloaded installers to by launched in text mode by the autoupdater
+* New tag to match hidden files on Windows
+* Fixed <installerFilename> property being empty during build time
+* FreeBSD 8 support
+* Improve RPM removal process
+* Fixed <singleInstanceCheck> failing on Windows when using <windows64bitMode>
+* Fixed unpacking errors in some environments
+
+Version 6.2.7 (2010-01-22)
+* File selection crashes if third-party Explorer extensions change locale
+* Fixed unpacking error in some Windows environments due to antivirus software locking files
+* New <useMSDOSPath> property in <runProgram> action to configure whether to use or not 8.3 format in the <program> path
+* Added encoding property in <addTextToFile> action and <fileContentTest> rule
+* New <unix2dos> action
+* Allow file type filters in <fileParameter> dialogs for xwindow, osx and win32 modes
+* Include InstallBuilder version by default in the generated installers version info
+
+Version 6.2.6 (2009-12-21)
+* New <showStringQuestion> dialog
+* New <getWindowsACL> action to retrieve ACLs on Windows
+* New <changeExecutableResources> action
+* Added project property <replaceLockedFilesOnReboot> to mark locked files on Windows to be renamed instead of prompting the end-user to abort/retry/ignore
+* Fixed build-time memory errors produced by the usage of <requestedExecutionLevel> with big executables
+* Allow Autoupdate strings to be localized
+* Added <excludeFiles> and <includeFiles> tags to <deleteFile> action
+* Actions that modify the environment variables and PATH can now be applied to a particular user (Unix only)
+* Fixed <onErrorActionList> masking the the original error
+* Fixed .desktop files on Unix not correctly working on some scenarios
+* Avoid locked files error when unpacking on Unix
+* Use SID for user default value on <setWindowsACL> action
+* Added is_empty and is_not_empty tests to <registryTest> rule
+* Fixed registry actions not correctly resolving variables in their errors
+* Fixed Autoupdate tool not modifying Windows executable resources
+* Fixed some minor bugs in Autoupdate tool
+* Improved windows-x64 rule
+* Allow uninstaller icon to be customized
+* Fixed <rollbackBackupDirectory> not being deleted after a successful rollback
+* Fixed <fileParameter> validation failing in some environments
+* Fixed software version registry key not being updated after an upgrade
+* Give executable permissions to serialized .desktop files on Unix
+
+Version 6.2.5 (2009-11-09)
+* Allow file filtering in folders
+* Fix glitch in action popup on OS X builder
+* New <setWindowsACL> action to modify Windows permissions
+* New <restoreRollback> action
+* New <windowsARPRegistryPrefix> project property
+* Fixed "Administrator privileges required" string not shown in all languages
+* Fixed <findFile> action always following symbolic links
+* Improved text entry field in GUI builder
+
+Version 6.2.4 (2009-10-05)
+* Improved builder tool on OS X x86
+
+Version 6.2.3 (2009-10-02)
+* Improved builder tool on OS X x86
+* Added new windows_os_service_pack built-in variable
+* Allow <addTextToFile> action to also insert text at the beginning
+* Allow autoupdate to run and install installers in unattended mode
+* New <deleteLockedFilesOnReboot> action.
+* Fixed <kill> action not accepting paths as arguments on Windows 64bits
+* Fixed <autodetectJava> action not correctly detecting 64bit Java installations on Windows
+* Fix OS X installers Info.plist not correctly created when non-ASCII characters were used in the installer name
+* Open file button fails on OS X if initial directory does not exist.
+* addLibraryToPath action does not resolve variables in its path tag
+* addLibraryToPath not working correctly on Linux x64 and OS X
+* platformTest can now distinguish between hpux-ia64 and hpux-parisc
+* addDirectoryToPath not working correctly on OS X
+* launchBrowser action fails in some environments
+
+Version 6.2.2 (2009-09-04)
+* Fixed <showText>  and Readme file not correctly resized on Windows
+* New <compareVersions> rule
+* Added additional information to autoupdate guide
+* Expanded entry fields on builder GUI
+* Fixed Unix services related actions not working correctly on some distributions
+
+Version 6.2.1 (2009-08-26)
+* Added Windows 2008 R2 platform to platformTest rule
+* Add SME linux to linux_distribution built-in variables
+* Allow deleting nodes on OS X from the GUI
+* Added windows64bitMode project property to allow installer behave as 64bit applications on Windows
+* Fixed OSX version of the autoupdate not properly launching the downloaded installer
+* Added windows64bitMode project property to allow installers to behave as 64bit applications on Windows
+* Fixed installation step of installers launched by the autoupdate being skipped in some environments
+* New if/else action
+* Added <height> and <width> properties to showText dialog action
+* Allow Windows UAC level to be changed at built-time with <requestedExecutionLevel> property
+* Validation of parameters' leftImage file at build time
+* Component selection page resizable for Qt
+* Added installer_ui_detail built-in variable to get the detailed installation mode
+* Added aditional tests to componentTest rule
+* Fixed platformTest type=windows-x64 not working
+* Removed alpha channel from leftSide image to prevent some crashes on Solaris
+* Fixed rules not being evaluated for onErrorActionLists
+
+Version 6.2.0 (2009-07-20)
+* Added <debugLevel> project property and --debugLevel flag to control the verbosity level in installation log file
+* Added new <postUninstallerCreationActionList>
+* Added windows-xp, windows-2003,windows-2008 and windows-7 to <platformTest> rule
+* Fixed uninstaller failing because of missing DLL in some scenarios
+* Fixed  <runProgram>'s <customErrorMessage> not being used in the installationLog
+* Fixed stringTest ascii and digit types.
+* Added Hebrew and Greek language support.
+* Fixed Linux installers unable to launch from a directory containing non-ASCII characters
+* Added osx_version and osx_major_version built-in variables.
+* Fixed choiceParameter combobox style not correctly working when using variables in its 'value' and 'default' tags
+
+Version 6.1.3 (2009-07-05)
+* Added "hidden" and "readonly" attributes to <changeOSXAttributes> action
+* Relative installation paths not always working in interactive mode
+* Added <changeWindowsAttributes> action
+* Fixed showQuestion dialogs not working when <overrideGtkButtonText> enabled
+* Display warnings on project load when incorrect choice parameters 
+* Fixed error loading a project with no components.
+* Enabled optional timestamp in logMessage action.
+* Fixed uninstaller on OSX when installing as root.
+* Consider directories containing .DS_Store file as empty
+* Added autoupdate support for OS X
+
+Version 6.1.2 (2009-06-19)
+* Fixed autoupdate customization utility
+
+Version 6.1.1 (2009-06-17)
+* Show the default components to install and allowed components in the help menu
+* Add support for excluding files in many actions
+* Fix upgrade installers on OS X not modifying uninstaller
+* Fix deleteEnvironmentVariable not working correctly on Unix systems
+* New negate option for all rules, allows negating any rule
+* Fix builds from shared drives on Windows and VMWare mapped drives
+* File readable test failed in some shared drives under Windows
+* addDirectoryToPath action did not honor insertAt on Windows systems
+* Fixed resizing of component selection screen in some GUI modes
+* New unattended mode ui command line option
+* Allow component selection page to resize horizontally
+* Fix sometimes uninstaller failing when files where in use
+* Support Windows x64 test in platformTest
+* Fix linux-x64 not having GUI builder mode
+* Fixed runAs failing when arguments contain quotes
+
+Version 6.1.0 (2009-05-30)
+* Support for IBM iSeries, OS/400  Use existing AIX target.
+* Builder tool GUI mode is only available now for Linux x86/x64, Windows and OSX. Rest of platforms can still use command line build tool
+* Fixed crashes when current Linux distribution version could not be determined
+* Resizable component selection for X-window mode
+* Added Windows 2008 and Windows 7 platforms to  windows_os_* built-in variables
+* Fixed paths always being relativized when saving project using the GUI
+* Fixed symbolic links not being correctly registered in the uninstaller log
+* New <showChoiceQuestion> dialog
+* Fixed "Open Project.." in GUI not opening last used directory
+* Fixed <showPasswordQuestion> dialog in Qt
+* Added a delay option to <shutdown> action
+* Added suport for UTF-8 encoding on .desktop files
+* Added new <getSymLinkTarget>
+* Added is_symlink and is_symlink conditions to fileTest rule
+* <runAs> property in <runProgram> action no supports scripts with spaces.
+* <wowMode> in Windows registry related actions and rules now admits variables
+* Now the GUI allows nested startMenuFolders
+* Fixed installed shortcuts on common Desktop not being refreshed properly on Windows Vista
+
+Version 6.0.3 (2009-04-27)
+* Fix error in Unix systems when the HOME environment variable was not set
+* Fix autoupdate failing to download updates when a file already existed
+* The installer now returns an error code if an error occurs in 
+postInstallationActionList even if the error does not stop the installer
+* A new action list, preShowHelpActionList allows the content of the 
+--help output to be dynamically modified
+* Fix choice parameter combobox not supporting a default value that contains 
+variable references
+* New variables machine_total_memory and machine_cpu_speed
+* LC_ALL takes precedence over LANG when determining system language in 
+Unix systems
+* Fix distro detection on RedHat derivatives like Red Flag Linux or 
+Scientific Linux
+* Fix validation action lists been run twice for parameter groups on Qt mode
+
+Version 6.0.2 (2009-03-18)
+* Added support for FreeBSD 7 x86/x64
+* Fix locale autodetection on OS X
+* Building Windows autoupdate from Linux was broken
+* GTK mode not initialized when path had spaces
+* addEnvironmentVariable breaks if the variable is already defined
+* Fix crash in builder when folder added to wrong element
+
+Version 6.0.1 (2009-03-13)
+* Add support for OpenJDK in autodetect Java action
+* Fix unzip action causing the InstallBuilder GUI to crash
+* Fix allowedLanguages functionality showing empty language selection window
+* Fix substitute action modifying binary files even if a match was not present
+
+Version 6.0 (2009-03-05)
+* Autoupdate functionality available for Windows and Linux
+* Quickbuild functionality now can do incremental builds and only repackage new
+or changed files
+* Support for right to left languages in Qt mode, in particular Arabic is
+now included
+* Enhanced keyboard navigaton on Qt mode
+* New <shouldPackRuleList> rule for components, folders and shortcuts,
+  allows specifying at build time whether to pack or not the given element
+* New <mathExpression> action, allows to perform basic arithmetic
+  calculations
+* New <wow64FsRedirection> action, allows configuring the file system
+  redirection behavior on Windows 64-bit systems
+* New <registryTest> rule, allows checking whether a key or value exists
+  on the Windows registry
+* New <windowsSoftwareRegistryPrefix> property, allows customizing the
+  application entry under HKEY_LOCAL_MACHINE\Software
+* Ability to change the version information of generated Windows
+  installers. This is the information that appears when you position the
+  mouse over the icon.
+* Custom style installers were not showing left image with parameter
+  groups
+* Fix typo in Dutch localization	
+* Fix addUnixDesktopStartUpItem not working on latest Ubuntu 8.10
+* Fix InstallBuilder problems as admin when running on Mac OS X Snow Leopard
+* Using runProgram with runAs option will now bring a graphical prompt on
+Linux systems with gksu or kdesu available when the installer is not
+already running with admin privileges
+* External included files will now be serialized to separate files on disk when
+using the GUI
+* New java_autodetected variable. Set to 0 unless autodetectJava action is
+successful and sets it to 1.
+* Fix issue with builder CLI on Windows not working properly
+* New .escape_backslashes suffix for escaping backslashes in values. Useful
+when dealing with Java properties
+* New shutdown action to reboot the machine on Windows
+* Fix addDirectoryToPath not working in previous version of InstallBuilder
+
+Version 6.0pre2 (2009-01-02)
+* Fix an error on GTK choice parameter which was causing the installer to
+  halt
+* Linux legacy installers do no longer have GTK graphic mode available
+  (they directly fall back to xwindow mode). This is required due to
+  incompatibilities with GTK releases in recent distributions.
+
+Version 6.0pre1 (2008-12-31)
+* New Advanced Builder Editing mode, allow to access most of the
+  InstallBuilder functionality through the Builder Graphical Interface
+* Fix GTK segmentation fault on Linux installers on recent Linux
+  distributions
+* Do not support by default distributions with GLIBC versions previous
+  to 2.3.2. That means the installer will work for example with Red Hat
+  9 but not earlier distributions. For most customers, this will have no
+  impact (Red Hat 9 was released in 2003 and reached end-of-life in
+  2004) but if you need to support earlier glibc versions you can do so
+  by setting <enableLinuxLegacySupport>1</enableLinuxLegacySupport> in
+  your project.
+* Enhanced support for Windows installers running under Wine
+* Enhanced keyboard navigation for Qt installers
+* Fixed issue with transparent images on Solaris Intel that could cause
+  the installer to exit with an X_GetImage error
+* New <shouldPackRuleList> rule for components, folders and shortcuts,
+  allows specifying at build time whether to pack or not the give element
+* New <enableTimestamp> action. By default, installers store a
+  timestamp of when they were created. The timestamp will be displayed
+  when executing the installer with --version.  However, this will mean
+  that packing the same set of files at different points in time will
+  create installers that are slightly different (and will have a
+  different md5 sum, for example). If this is important to you, you can
+  now set enableTimestamp to 0, allowing you to create completely
+  identical installers as long as the files being packed are the same.
+* New <mathExpression> action, allows to perform basic arithmetic
+  calculations in the XML
+* New <wow64FsRedirection> action, allows configuring the file system
+  redirection behavior on Windows 64-bit systems
+* New <registryTest> rule, allows checking whether a key or value exists
+  on the Windows registry
+* New <windowsSoftwareRegistryPrefix> property, allows customizing the
+  application entry under HKEY_LOCAL_MACHINE\Software
+* Installers now ignore packing .DS_Store files on OS X
+* Fix temporary images folder creation on Qt installers
+* Password parameters are now reset if validation fails
+* Ability to change the version information of generated Windows
+  installers. This is the information that appears when you position the
+  mouse over the icon.
+* Custom style installers were not showing left image with parameter
+  groups
+* Fix uninstaller generation error when debug trace was enabled on big
+  installers
+* <stringTest> now handles correctly empty strings
+* <portTest> now handles correctly an unspecified port
+* Fix updating the installdir parameter from the keyboard on Qt installers
+* Fix <linkParameter> on Qt mode, it was not accepting installer variables
+
+Version 5.4.15 (2009-02-13)
+* Fix GTK segmentation fault on Linux installers on recent Linux distributions. 
+* New enableLinuxLegacySupport project property. You will now need to manually enable this setting if you need to support Linux versions older than 2.3 (older than Red Hat 9)
+* Add --version info to the windows right-click menu properties
+* Included progressText for all actions
+* Added console command line builder to Windows
+* Added support for HTTP basic auth (username & password) in httpGet and httpPost actions
+* Do not create a file to save a request result if no file was specified in httpGet
+* New registryTest rule to check for the existence of registry keys
+* Enable or disable automatic filesystem redirection on Windows x64
+* New shouldPackRuleList rule for components, folders and shortcuts
+* Disable storage of installer creation time, to allow having binary-identical installers if built from the same files
+* New installer variables to easily retrieve Linux Distribution data based on lsb_release: linux_distribution_id,linux_distribution_codename, linux_distribution_release, linux_distribution_description
+* Force defaultLanguage to be in the list of allowed languages even when allowLanguageSelection is disabled
+* Let the user customize the "Uninstallation did not complete successfully" string
+* Let the user overwrite readonly files on Windows during installation by automatically changing the permissions
+* Password field is reset to empty in all modes in case a validation fails
+* Language selection window shows language in native spelling
+* Fixed error with registerWithPackageDatabase on Fedora Core 10
+* Fixed showProgressDialog in text mode overwriting the progressbar
+* Fixed portTest throwing internal error when port is empty
+* Fixed stringTest not working correctly with empty strings
+* Fixed X Windows error on Solaris Intel 10
+* Fixed uninstaller breaking due to installationLog initialization
+* Fixed the issue with Qt installers creating the temporary images directory on CWD
+* Fixed Qt installers not able to use enter/return key to navigate
+* Fixed the issue with Installers that should not pack .DS_Store files on OS X
+* Fixed Parameter group not showing left image
+* Fixed GTK choice parameter freezeing the installer on some circumstances
+* Fixed registryDelete that should silently ignore deleting non-existing keys
+* Fixed Tk password parameter retype field not accepting enter key to show next page
+
+Version 5.4.14 (2008-11-07)
+* Installers are now able to register Windows file extensions at the user
+  scope
+* New actions 'encodeBase64' and 'decodeBase64' allow to encode/decode any
+  string using base64
+* New 'componentTest' rule, allow to check the presence of a component on
+  the current project
+* Link creation now supports abort/retry/ignore
+* Fixed issue in OS X case-sensitive HFS+ file systems
+* Fix 'showProgressDialog' action for Linux 64-bit platforms
+* POTENTIAL INCOMPATIBILITY:  Japanese language code is now 'ja' instead
+  of the current 'jp'. Most customers will not be affected because 'jp'
+  is also recognized automatically, but there may be an issue is you
+  explicitly use variable 'installation_language_code' in you code.
+* Fixed issue with 'registryGetKey' and 'registryGetMatch' not being
+  case-insensitive in certain cases
+* Fix missing text messages on OS X root installations
+* Fix OS X firewall warning being thrown when running the installers
+* New 'uninstallationLogFile' project property, allow to configure the
+  path for the log file during uninstallation.
+* Installers now show a meaningful error message when the specified
+  encoding is incorrect or not supported
+* New convenience 'isTrue' and 'isFalse' rules
+
+Version 5.4.13 (2008-09-18)
+* Significant performance improvement for Windows installers when a large
+  number of small files are being installed
+* Cancel button is now disabled during uninstallation
+* Installers now preserve the working directory along its execution life
+* Improved error message for corrupted installers on Qt Linux
+
+Version 5.4.12 (2008-09-10)
+* Windows userTest action now supports Windows domains
+* New unattended UI mode minimalWithDialogs
+* Action processTest now supports process names with spaces
+* Windows shortcuts now support the comment property
+* Fix an error when the path contained spaces in the file selection dialog
+  on GTK mode
+* Better display text-mode infoParameter pages
+* Improved uninstaller startup time when containing large number of files
+
+Version 5.4.11 (2008-08-08)
+* Fixes incorrect LZMA decompression issue when installing a 32-bit
+  installer on a 64-bit machine in 32-bit compatibility mode
+* Project XML files now support Latin and Unicode encodings
+* New 'debianCustomPackageDirectory' property, allow using customized DEB
+  scripts
+* Action 'createWindowsService' now allow configuring runas information
+* Components can now specify custom language files
+* Enhanced Desktop path retrieval on Windows and Linux
+* Fixes visual error on GTK mode with 'infoParameter' inside a
+  'parameterGroup'
+* New 'urlDecode' action, converts to regular text an URL-encoded string
+* Builder application now supports '--version' command line switch
+* Improved error handling when a folder destination path is empty
+* Language, Readme and License file paths can now contain installer
+  variables at build time
+
+Version 5.4.10 (2008-06-27)
+* New built-in unzip action to uncompress external ZIP files
+* Fixed word wrapping for the showInfo, showWarning, etc dialogs in Qt mode
+* New encoding property for the substitute action, allows performing
+  substitutions on files with non-ASCII encodings
+* Fixed error when trying to perform LZMA compression on unsupported
+  platforms (linux-x64)
+* New exitCode property for the exit action
+* New variable build_project_directory, contains the location of
+  project XML file during build time
+* Fix error on Solaris Intel installers when the variable HOME is not set
+* Improved associateWindowsFileExtension, now it is able to update
+  friendlyName property
+* New action <removeWindowsFileAssociation>, allows unregistering a
+  file extension on Windows
+* New windowsIconIndex property for shortcuts, allow specifying the
+  icon index for Windows shortcuts
+
+Version 5.4.9 (2008-06-13)
+* New overwritePolicy property controls the installer behavior when
+  overwriting files. Possible values are onlyIfNewer, always, never.
+* DEB packages now support the –purge option for uninstallation
+* Fixed segmentation fault on Fedora Core 9 with GTK mode
+* Fixed removeChoiceOption action, it was generating an error when the
+  "options" property was set
+* Fixed an error on OS X, "--help" info was not being shown when
+  requireInstallationByRootUser was enabled
+
+Version 5.4.8 (2008-05-29)
+* New action getFreePort for selecting a free port from a given range.
+* New action addUnixDesktopStartUpItem for executing set a program to be
+  executed on a KDE or GNOME session start up
+* RPM integration now available on AIX
+* Improved the display of progress dialog on Suse 10
+* Fixed component selection problem on InstallBuilder for Qt
+* Corrected Readme file display on Windows
+* Deb package generation is now available for Linux 64-bit
+* General action lists can now be set also in components
+* Fixed 64-bit RPM packages shipping 32-bit files issue
+* Rollback directory can now contain variable substitutions
+* Installers now return an appropriate error in all scenarios when an
+  installation is canceled
+
+Version 5.4.7 (2008-04-25)
+* New showProgressDialog action, allows showing an indeterminate progress
+  bar when executing actions
+* New Relax-NG schema included with InstallBuilder
+* New examples for actions, components and parameters included with
+  InstallBuilder
+* Ability to generate 64-bit RPM packages from a Linux-x64 machine
+* Improved display of slide show images on GTK mode
+* Fixed uninstaller creation when defaultUnixOwner and
+  requireInstallationByRootUser are set
+* Improved feedback to the user when an unknown error is detected during
+  the postInstallationActionList
+* Fixed an error on machine_ipaddr, it was returning multiple addresses
+  on Windows on certain scenarios
+* New addChoiceOptionsFromText action allows to obtain a list of options
+  from a text source to be inserted into a choice parameter
+
 Version 5.4.6 (2008-04-18)
 * Improved file copying speed on UNIX machines
 * New command line option --setvars allows to set the installer variable
@@ -607,7 +1458,7 @@ Version 1.0 (2004-02-09)
 
   Bitrock InstallBuilder Multiplatform
 
-  Copyright (c) 2003-2007 Bitrock SL. All Rights Reserved.
+  Copyright (c) 2003-2009 Bitrock SL. All Rights Reserved.
  
   BitRock InstallBuilder uses a number of third party components, which
   have separate license agreements that can be found in the docs/

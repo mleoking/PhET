@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>5. Components</title><link rel="stylesheet" href="docbook-xsl.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.75.2" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 7" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 7" /><link rel="prev" href="ar01s04.html" title="4. Variables" /><link rel="next" href="ar01s06.html" title="6. Working with Files and Folders" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5. Components</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s04.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s06.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section" title="5. Components"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="components"></a>5. Components</h2></div></div></div><p>Depending on the complexity of your software, you may need to split your project into several components. Components are a bundle of <a class="link" href="ar01s06.html" title="6. Working with Files and Folders">folders</a> and
+associated installation logic and are able to execute actions (include <a class="link" href="ar01s08.html#actionlist" title="8.5. Action Lists">Action Lists</a>), copy files and prompt the user for data (display <a class="link" href="ar01s07.html#parameters" title="7.1. Parameters">Parameters</a>), as the project does:</p><p><a id="snip5453595"></a></p><pre class="programlisting">&lt;component&gt;
+    &lt;name&gt;component&lt;/name&gt;
+    &lt;description&gt;component&lt;/description&gt;
+    &lt;detailedDescription&gt;This is a component&lt;/detailedDescription&gt;
+    &lt;initializationActionList&gt;
+        &lt;setInstallerVariable name="my_variable" value="1" /&gt;
+    &lt;/initializationActionList&gt;
+    &lt;parameterList&gt;
+        &lt;booleanParameter&gt;
+            &lt;name&gt;boolean_question&lt;/name&gt;
+            &lt;title&gt;Boolean Question&lt;/title&gt;
+            &lt;description&gt;Please answer yes or no&lt;/description&gt;
+        &lt;/booleanParameter&gt;
+    &lt;/parameterList&gt;
+    &lt;folderList&gt;
+        &lt;folder&gt;
+            &lt;description&gt;Program Files&lt;/description&gt;
+            &lt;destination&gt;${installdir}&lt;/destination&gt;
+            &lt;name&gt;programfiles&lt;/name&gt;
+            &lt;platforms&gt;all&lt;/platforms&gt;
+            &lt;distributionFileList&gt;
+                &lt;distributionDirectory origin="program" /&gt;
+            &lt;/distributionFileList&gt;
+        &lt;/folder&gt;
+    &lt;/folderList&gt;
+&lt;/component&gt;</pre><p>The ability to enable / disable components at buildtime and runtime allows your installer to provide as many setup combinations as you need.</p><p>The basic properties you should configure when adding a component are:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+<a class="link" href="ape.html#name"><code class="literal">&lt;name&gt;</code></a>: Name of the Component. This name must be unique and just contain alphanumeric characters and underscores.
+</li><li class="listitem">
+<a class="link" href="apd.html#description"><code class="literal">&lt;description&gt;</code></a>: Description of the Component. This description will be included in the list of the visible components presented to the user.
+</li><li class="listitem">
+<a class="link" href="ape.html#detailedDescription"><code class="literal">&lt;detailedDescription&gt;</code></a>: A detailed description of the component. This detailed description will be displayed when clicking in the component description in the component selection page.
+</li><li class="listitem">
+<a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a>: Whether or not the component is selected. If the component is not selected, its action lists won’t be executed and its folders won’t be unpacked.
+</li><li class="listitem">
+<a class="link" href="ape.html#show"><code class="literal">&lt;show&gt;</code></a>: Whether or not the component is visible in the component selection page.
+</li><li class="listitem">
+<a class="link" href="ape.html#canBeEdited"><code class="literal">&lt;canBeEdited&gt;</code></a>: Whether or not the component can be edited in the component selection page.
+</li><li class="listitem">
+<a class="link" href="ape.html#requiredSize"><code class="literal">&lt;requiredSize&gt;</code></a>: Required disk space in the target system. If 0, then it will automatically be calculated based on the size of the packed files. The sum of the sizes of all the installed components can be later accessed through the built-in variable <code class="literal">${required_diskspace}</code>.
+</li></ul></div><p>Components are defined in the project <a class="link" href="apd.html#componentList"><code class="literal">&lt;componentList&gt;</code></a> and presented to the end user as in the Figure 20:</p><div class="figure"><a id="id3119856"></a><p class="title"><b>Figure 20. Component Selection Page</b></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/component-selection.png" align="middle" alt="Component Selection Page" /></div></div></div><br class="figure-break" /><p>As mentioned above, depending on the value of <a class="link" href="ape.html#show"><code class="literal">&lt;show&gt;</code></a>, the component will be visible or not, and if so, the <a class="link" href="ape.html#canBeEdited"><code class="literal">&lt;canBeEdited&gt;</code></a> property will decide if the user will be able to select and deselect them.</p><p>The example below illustrates some of the possible combinations when including components:</p><p><a id="snip8574218"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;!-- Shows the component selection page --&gt;
+    &lt;allowComponentSelection&gt;1&lt;/allowComponentSelection&gt;
+    ...
+    &lt;componentList&gt;
+        &lt;!-- Main base component, it must be always
+        installed. We hide it  --&gt;
+        &lt;component&gt;
+            ...
+            &lt;name&gt;main&lt;/name&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;show&gt;0&lt;/show&gt;
+            ...
+        &lt;/component&gt;
+        ...
+        &lt;!-- Important required component. We show it
+        in the component selection but made it mandatory
+        to install --&gt;
+        &lt;component&gt;
+            ...
+            &lt;name&gt;core&lt;/name&gt;
+            &lt;description&gt;Core product&lt;/description&gt;
+            &lt;detailedDescription&gt;This is the base of the application.&lt;/detailedDescription&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;show&gt;1&lt;/show&gt;
+            &lt;canBeEdited&gt;0&lt;/canBeEdited&gt;
+            ...
+        &lt;/component&gt;
+        ...
+        &lt;!-- Optional Useful Component. We allow deselecting it but we suggest it
+        by default setting show=1 --&gt;
+        &lt;component&gt;
+            ...
+            &lt;name&gt;docs&lt;/name&gt;
+            &lt;description&gt;Documentation&lt;/description&gt;
+            &lt;detailedDescription&gt;Documentation of the product&lt;/detailedDescription&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;show&gt;1&lt;/show&gt;
+            &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+            ...
+        &lt;/component&gt;
+
+        &lt;!-- Additional Optional Component. It is not very important so
+        we do not include it by default (show=0)  --&gt;
+        &lt;component&gt;
+            ...
+            &lt;name&gt;extra&lt;/name&gt;
+            &lt;description&gt;Extra files&lt;/description&gt;
+            &lt;detailedDescription&gt;Extra files including images
+            and translation files&lt;/detailedDescription&gt;
+            &lt;selected&gt;0&lt;/selected&gt;
+            &lt;show&gt;1&lt;/show&gt;
+            &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+            ...
+        &lt;/component&gt;
+    &lt;/componentList&gt;
+    ...
+&lt;/project&gt;</pre><p>Please also note that the code also enables <code class="literal">&lt;allowComponentSelection&gt;1&lt;/allowComponentSelection&gt;</code>. This setting makes the component selection, hidden by default, visible to the end user.</p><div class="section" title="5.1. Enabling and disabling components"><div class="titlepage"><div><div><h3 class="title"><a id="_enabling_and_disabling_components"></a>5.1. Enabling and disabling components</h3></div></div></div><p>The easiest way of configuring if a component will be selected or not is by modifying its <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> property:</p><p><a id="snip6888180"></a></p><pre class="programlisting">&lt;componentList&gt;
+   &lt;!-- This component is selected --&gt;
+   &lt;component&gt;
+     ...
+     &lt;name&gt;component1&lt;/name&gt;
+     ...
+     &lt;selected&gt;1&lt;/selected&gt;
+     ...
+   &lt;/component&gt;
+   &lt;!-- This component is not selected --&gt;
+   &lt;component&gt;
+     ...
+     &lt;name&gt;component2&lt;/name&gt;
+     ...
+     &lt;selected&gt;0&lt;/selected&gt;
+     ...
+   &lt;/component&gt;
+&lt;/componentList&gt;</pre><p>However, in most of the cases you will need to decide whether to select or not components at runtime, based on certain conditions. For this purpose, InstallBuilder includes a <a class="link" href="apa.html#componentSelection"><code class="literal">&lt;componentSelection&gt;</code></a> action. For example, if you detect and existing installation of your product, you may want to deselect your <code class="literal">core</code> component and select the <code class="literal">update</code> component:</p><p><a id="snip9653566"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;core&lt;/name&gt;
+      ...
+      &lt;selected&gt;1&lt;/selected&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;update&lt;/name&gt;
+      ...
+      &lt;selected&gt;0&lt;/selected&gt;
+      ...
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  &lt;readyToInstallActionList&gt;
+     &lt;componentSelection&gt;
+        &lt;deselect&gt;core&lt;/deselect&gt;
+        &lt;select&gt;update&lt;/select&gt;
+        &lt;ruleList&gt;
+           &lt;fileExists path="${installdir}/wellKnown/file"/&gt;
+        &lt;/ruleList&gt;
+     &lt;/componentSelection&gt;
+  &lt;/readyToInstallActionList&gt;
+  ...
+&lt;/project&gt;</pre><p>The <a class="link" href="apa.html#componentSelection"><code class="literal">&lt;componentSelection&gt;</code></a> also accepts multiple components to select or deselect, separated by commas, in its <a class="link" href="apa.html#componentSelection.deselect"><code class="literal">&lt;deselect&gt;</code></a> and <a class="link" href="apa.html#componentSelection.select"><code class="literal">&lt;select&gt;</code></a> tags. This way you can change the behavior of the installer with a single action. The code below explains how to prompt the user to select between a <code class="literal">minimal</code> (core components), <code class="literal">standard</code> (core and useful components)  and <code class="literal">full</code> installation (also include documentation and videos):</p><p><a id="snip7487829"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;allowComponentSelection&gt;0&lt;/allowComponentSelection&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;core&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;xmlEditor&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;debugger&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;documentation&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;videos&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+  &lt;parameterList&gt;
+     &lt;choiceParameter&gt;
+        &lt;name&gt;installationMode&lt;/name&gt;
+        &lt;ask&gt;1&lt;/ask&gt;
+        &lt;default&gt;normal&lt;/default&gt;
+        &lt;description&gt;Please select the installation mode&lt;/description&gt;
+        &lt;title&gt;Installation Mode&lt;/title&gt;
+        &lt;optionList&gt;
+           &lt;option&gt;
+             &lt;value&gt;minimal&lt;/value&gt;
+             &lt;text&gt;Minimal&lt;/text&gt;
+           &lt;/option&gt;
+           &lt;option&gt;
+             &lt;value&gt;standard&lt;/value&gt;
+             &lt;text&gt;Standard&lt;/text&gt;
+           &lt;/option&gt;
+           &lt;option&gt;
+             &lt;value&gt;full&lt;/value&gt;
+             &lt;text&gt;Full&lt;/text&gt;
+           &lt;/option&gt;
+        &lt;/optionList&gt;
+        &lt;postShowPageActionList&gt;
+           &lt;componentSelection&gt;
+              &lt;deselect&gt;xmlEditor,debugger,documentation,videos&lt;/deselect&gt;
+              &lt;select&gt;core&lt;/select&gt;
+              &lt;ruleList&gt;
+                 &lt;compareText&gt;
+                   &lt;text&gt;${installationMode}&lt;/text&gt;
+                   &lt;logic&gt;equals&lt;/logic&gt;
+                   &lt;value&gt;minimal&lt;/value&gt;
+                 &lt;/compareText&gt;
+              &lt;/ruleList&gt;
+           &lt;/componentSelection&gt;
+           &lt;componentSelection&gt;
+              &lt;deselect&gt;documentation,videos&lt;/deselect&gt;
+              &lt;select&gt;core,mlEditor,debugger&lt;/select&gt;
+              &lt;ruleList&gt;
+                 &lt;compareText&gt;
+                   &lt;text&gt;${installationMode}&lt;/text&gt;
+                   &lt;logic&gt;equals&lt;/logic&gt;
+                   &lt;value&gt;standard&lt;/value&gt;
+                 &lt;/compareText&gt;
+              &lt;/ruleList&gt;
+           &lt;/componentSelection&gt;
+           &lt;componentSelection&gt;
+              &lt;deselect&gt;&lt;/deselect&gt;
+              &lt;select&gt;core,xmlEditor,debugger,documentation,videos&lt;/select&gt;
+              &lt;ruleList&gt;
+                 &lt;compareText&gt;
+                   &lt;text&gt;${installationMode}&lt;/text&gt;
+                   &lt;logic&gt;equals&lt;/logic&gt;
+                   &lt;value&gt;full&lt;/value&gt;
+                 &lt;/compareText&gt;
+              &lt;/ruleList&gt;
+           &lt;/componentSelection&gt;
+        &lt;/postShowPageActionList&gt;
+     &lt;/choiceParameter&gt;
+  &lt;/parameterList&gt;
+  ...
+&lt;/project&gt;</pre><p>Another way of selecting or deselecting a component is to directly modify the <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> property using the <a class="link" href="apa.html#setInstallerVariable"><code class="literal">&lt;setInstallerVariable&gt;</code></a> action as explained in the <a class="link" href="ar01s04.html#advanced_syntax" title="4.4. Advanced syntax">Advanced Syntax</a> section:</p><p><a id="snip7956645"></a></p><pre class="programlisting">  &lt;setInstallerVariable name="project.component(core).selected" value="0"/&gt;</pre><p>The same way, you can check if a component is selected (or any other of its properties):</p><p><a id="snip7347365"></a></p><pre class="programlisting">&lt;directoryParameter&gt;
+   &lt;name&gt;installdir&lt;/name&gt;
+   &lt;validationActionList&gt;
+      &lt;actionGroup&gt;
+         &lt;actionList&gt;
+            &lt;getFreeDiskSpace path="${installdir}" units="KB" variable="diskSpace"/&gt;
+            &lt;throwError&gt;
+              &lt;text&gt;You don't have enough disk space to install
+              ${project.component(bigComponent).description}&lt;/text&gt;
+              &lt;ruleList&gt;
+                &lt;compareValues&gt;
+                  &lt;value1&gt;${project.component(bigComponent).requiredSize}&lt;/value1&gt;
+                  &lt;logic&gt;greater&lt;/logic&gt;
+                  &lt;value2&gt;${diskSpace}&lt;/value2&gt;
+                &lt;/compareValues&gt;
+              &lt;/ruleList&gt;
+            &lt;/throwError&gt;
+         &lt;/actionList&gt;
+         &lt;ruleList&gt;
+           &lt;isTrue value="${project.component(bigComponent).selected}"/&gt;
+         &lt;/ruleList&gt;
+      &lt;/actionGroup&gt;
+   &lt;/validationActionList&gt;
+&lt;/directoryParameter&gt;</pre><p>Finally, visible and editable components can also be selected and deselected using the command line:</p><pre class="programlisting">$&gt; /path/to/installer --disable-components windowsdata,unixdata --enable-components osxdata</pre><p>Where <code class="literal">--disable-components</code> and <code class="literal">--enable-components</code> accept a comma-separated list of components. Just visible components (<code class="literal">&lt;show&gt;1&lt;/show&gt;</code>) will be displayed in the help menu and just those which are also editable (<code class="literal">&lt;canBeEdited&gt;1&lt;/canBeEdited&gt;</code>) will be configurable using these flags. For example, if your project has the below component list:</p><p><a id="snip7174621"></a></p><pre class="programlisting"> &lt;componentList&gt;
+    &lt;!-- Main base component, it must be always
+    installed. We hide it  --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;main&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;0&lt;/show&gt;
+       ...
+    &lt;/component&gt;
+    ...
+    &lt;!-- Important required component. We show it
+    in the component selection but made it mandatory
+    to install --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;core&lt;/name&gt;
+       &lt;description&gt;Core product&lt;/description&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;1&lt;/show&gt;
+       &lt;canBeEdited&gt;0&lt;/canBeEdited&gt;
+       ...
+    &lt;/component&gt;
+    ...
+    &lt;!-- Optional Useful Component. We allow deselecting it but we suggest it
+    by default setting show=1 --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;docs&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;1&lt;/show&gt;
+       &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+       ...
+    &lt;/component&gt;
+    &lt;!-- Additional Optional Component. It is not very important so
+    we do not include it by default (show=0)  --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;extra&lt;/name&gt;
+       &lt;selected&gt;0&lt;/selected&gt;
+       &lt;show&gt;1&lt;/show&gt;
+       &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+       ...
+    &lt;/component&gt;
+ &lt;/componentList&gt;</pre><p>The output in the help menu will be:</p><pre class="screen"> --enable-components &lt;enable-components&gt; Comma-separated list of components
+                                Default: core,docs
+                                Allowed: docs extra
+
+ --disable-components &lt;disable-components&gt; Comma-separated list of components
+                                Default: extra
+                                Allowed: docs extra</pre><p>In this output, <code class="literal">main</code> is not mentioned, as it was configured as hidden, and just <code class="literal">docs</code> and <code class="literal">extra</code> are allowed values, as <code class="literal">core</code> was configured as a non-editable component and always selected.</p><p>These command line options are just available if <a class="link" href="apd.html#allowComponentSelection"><code class="literal">&lt;allowComponentSelection&gt;</code></a> is enabled.</p><div class="note" title="Just the hardcoded state of the components is considered when displaying the help menu" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Just the hardcoded state of the components is considered when displaying the help menu"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Just the hardcoded state of the components is considered when displaying the help menu</th></tr><tr><td align="left" valign="top"><p>As the help menu is completely independent from regular action lists, even if you are changing the components properties in the <a class="link" href="apd.html#initializationActionList"><code class="literal">&lt;initializationActionList&gt;</code></a> using a <a class="link" href="apa.html#setInstallerVariable"><code class="literal">&lt;setInstallerVariable&gt;</code></a> action, the changes won’t be visible. For example, the below code:</p><p><a id="snip3858035"></a></p><pre class="programlisting"> &lt;componentList&gt;
+    &lt;!-- Main base component, it must be always
+    installed. We hide it  --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;A&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;0&lt;/show&gt;
+       ...
+    &lt;/component&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;B&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;0&lt;/show&gt;
+       ...
+    &lt;/component&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;C&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;0&lt;/show&gt;
+       ...
+    &lt;/component&gt;
+ &lt;/componentList&gt;
+ &lt;initializationActionList&gt;
+   &lt;setInstallerVariable name="component(A).show" value="1"/&gt;
+   &lt;setInstallerVariable name="component(B).show" value="1"/&gt;
+   &lt;setInstallerVariable name="component(C).show" value="1"/&gt;
+ &lt;/initializationActionList&gt;</pre><p>Will result in an empty list of components in the help menu:</p><pre class="screen"> --enable-components &lt;enable-components&gt; Comma-separated list of components
+                                Default:
+
+ --disable-components &lt;disable-components&gt; Comma-separated list of components
+                                Default:</pre><p>But all of them will be visible and editable in the graphical component selection.</p></td></tr></table></div><div class="note" title="The &lt;selected&gt; property cannot contain variables" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: The &lt;selected&gt; property cannot contain variables"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">The <code class="literal">&lt;selected&gt;</code> property cannot contain variables</th></tr><tr><td align="left" valign="top"><p>The component <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> tag cannot contain variables. The below component will always be deselected, regardless of the value of the variable:</p><p><a id="snip2003229"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;documentation&lt;/name&gt;
+       ...
+       &lt;!-- The variable won't be resolved, so it will
+       be considered false --&gt;
+       &lt;selected&gt;${installDocumentation}&lt;/selected&gt;
+       ...
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>If you need to bind a boolean variable to the <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> tag, you should modify the property using a <a class="link" href="apa.html#setInstallerVariable"><code class="literal">&lt;setInstallerVariable&gt;</code></a> instead:</p><p><a id="snip8274039"></a></p><pre class="programlisting">&lt;booleanParameter&gt;
+    &lt;name&gt;installDocumentation&lt;/name&gt;
+    &lt;title&gt;Documentation&lt;/title&gt;
+    &lt;description&gt;Would you like to install the documentation files?&lt;/description&gt;
+    &lt;postShowPageActionList&gt;
+       &lt;setInstallerVariable&gt;
+          &lt;name&gt;project.component(documentation).selected&lt;/name&gt;
+          &lt;value&gt;${installDocumentation}&lt;/value&gt;
+       &lt;/setInstallerVariable&gt;
+    &lt;/postShowPageActionList&gt;
+&lt;/booleanParameter&gt;</pre></td></tr></table></div></div><div class="section" title="5.2. Component Action Lists"><div class="titlepage"><div><div><h3 class="title"><a id="_component_action_lists"></a>5.2. Component Action Lists</h3></div></div></div><p>Components can include the same <a class="link" href="ar01s08.html#actionlist" title="8.5. Action Lists">Action Lists</a> available for the main <a class="link" href="apd.html" title="D. Project Properties and Lists"><code class="literal">project</code></a> with the only exception of the <code class="literal">&lt;preShowHelpActionList&gt;</code>. In addition, components include a new action list, the <a class="link" href="ape.html#componentSelectionValidationActionList"><code class="literal">&lt;componentSelectionValidationActionList&gt;</code></a>.</p><p>The <code class="literal">&lt;componentSelectionValidationActionList&gt;</code> is executed right after clicking next in the component selection page and allow checking if the provided components configuration is valid. It works the same way as the <code class="literal">&lt;validationActionList&gt;</code>, if an error is thrown inside it, instead of aborting the installation, the error message is displayed and the page redrawn.</p><p>This is really useful when implementing dependencies between components:</p><p><a id="snip1780930"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;allowComponentSelection&gt;1&lt;/allowComponentSelection&gt;
+    ...
+    &lt;componentList&gt;
+      &lt;component&gt;
+        ...
+        &lt;name&gt;A&lt;/name&gt;
+        ...
+      &lt;/component&gt;
+      &lt;component&gt;
+        ...
+        &lt;name&gt;B&lt;/name&gt;
+        ...
+      &lt;/component&gt;
+      &lt;component&gt;
+        &lt;name&gt;C&lt;/name&gt;
+        &lt;description&gt;Component C&lt;/description&gt;
+        &lt;detailedDescription&gt;This component depends on 'A' and 'B'&lt;/detailedDescription&gt;
+        ...
+        &lt;componentSelectionValidationActionList&gt;
+          &lt;throwError&gt;
+            &lt;text&gt;Component 'C' cannot be installed if you have not selected both 'A' and 'B'.&lt;/text&gt;
+            &lt;ruleList&gt;
+              &lt;isFalse value="${component(A).selected}"/&gt;
+              &lt;isFalse value="${component(B).selected}" /&gt;
+            &lt;/ruleList&gt;
+          &lt;/throwError&gt;
+        &lt;/componentSelectionValidationActionList&gt;
+        ...
+      &lt;/component&gt;
+      ...
+    &lt;/componentList&gt;
+    ...
+&lt;/project&gt;</pre><p>The <a class="link" href="ape.html#componentSelectionValidationActionList"><code class="literal">&lt;componentSelectionValidationActionList&gt;</code></a> is just executed when the component selection page is displayed and the component defining the validation is selected (regardless of if it is visible or not). This could be an issue if, for example, you need to validate that at least one of two optional components are selected as if the user deselects them, none of the validations will be executed. In these cases, you can use a hidden component, just used to validate the others:</p><p>How to establish dependencies between components</p><p><a id="snip2097777"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;allowComponentSelection&gt;1&lt;/allowComponentSelection&gt;
+    ...
+    &lt;componentList&gt;
+      &lt;component&gt;
+        ...
+        &lt;name&gt;A&lt;/name&gt;
+        ...
+      &lt;/component&gt;
+      &lt;component&gt;
+        ...
+        &lt;name&gt;B&lt;/name&gt;
+        ...
+      &lt;/component&gt;
+      &lt;component&gt;
+        &lt;name&gt;validatorComponent&lt;/name&gt;
+        &lt;selected&gt;1&lt;/selected&gt;
+        &lt;show&gt;0&lt;/show&gt;
+        ...
+        &lt;componentSelectionValidationActionList&gt;
+          &lt;throwError&gt;
+            &lt;text&gt;You have to select at least one component.&lt;/text&gt;
+            &lt;ruleList&gt;
+              &lt;isFalse value="${component(A).selected}"/&gt;
+              &lt;isFalse value="${component(B).selected}" /&gt;
+            &lt;/ruleList&gt;
+          &lt;/throwError&gt;
+        &lt;/componentSelectionValidationActionList&gt;
+        ...
+      &lt;/component&gt;
+      ...
+    &lt;/componentList&gt;
+    ...
+&lt;/project&gt;</pre></div><div class="section" title="5.3. Adding files and directories"><div class="titlepage"><div><div><h3 class="title"><a id="_adding_files_and_directories"></a>5.3. Adding files and directories</h3></div></div></div><p>Components can also contain a list of <a class="link" href="ape.html#folder"><code class="literal">&lt;folder&gt;</code></a> elements, which are mainly used to define files to pack:</p><p><a id="snip7340758"></a></p><pre class="programlisting">&lt;component&gt;
+   ...
+   &lt;name&gt;default&lt;/name&gt;
+   ...
+   &lt;folderList&gt;
+     &lt;!-- The installation directory --&gt;
+     &lt;folder&gt;
+        &lt;name&gt;programfiles&lt;/name&gt;
+        &lt;description&gt;Program Files&lt;/description&gt;
+        &lt;destination&gt;${installdir}&lt;/destination&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;distributionFileList&gt;
+          &lt;distributionFile&gt;
+            &lt;origin&gt;/path/to/file.txt&lt;/origin&gt;
+          &lt;/distributionFile&gt;
+          ...
+          &lt;distributionDirectory&gt;
+            &lt;origin&gt;/path/to/directory&lt;/origin&gt;
+          &lt;/distributionDirectory&gt;
+          ...
+        &lt;/distributionFileList&gt;
+     &lt;/folder&gt;
+
+     &lt;!-- Configuration files that should be installed inside
+     /etc, and for linux only --&gt;
+     &lt;folder&gt;
+        &lt;name&gt;linuxconfigfiles&lt;/name&gt;
+        &lt;description&gt;Linux Configuration Files&lt;/description&gt;
+        &lt;destination&gt;/etc&lt;/destination&gt;
+        &lt;platforms&gt;linux&lt;/platforms&gt;
+        &lt;distributionFileList&gt;
+           ...
+        &lt;/distributionFileList&gt;
+     &lt;/folder&gt;
+   &lt;/folderList&gt;
+   ...
+&lt;/component&gt;</pre><p>The <a class="link" href="ar01s06.html" title="6. Working with Files and Folders">next</a> section explains in detail how to work with folders.</p></div><div class="section" title="5.4. Adding shortcuts to the components"><div class="titlepage"><div><div><h3 class="title"><a id="_adding_shortcuts_to_the_components"></a>5.4. Adding shortcuts to the components</h3></div></div></div><p>Each component has three shortcut lists which can be used to create shortcuts:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+<a class="link" href="ape.html#desktopShortcutList"><code class="literal">&lt;desktopShortcutList&gt;</code></a>: Shortcuts to be placed in the Desktop. Its available shortcuts are: <a class="link" href="apf.html#shortcut"><code class="literal">&lt;shortcut&gt;</code></a>, <a class="link" href="apf.html#linkShortcut"><code class="literal">&lt;linkShortcut&gt;</code></a> and <a class="link" href="apf.html#fileShortcut"><code class="literal">&lt;fileShortcut&gt;</code></a>
+</li></ul></div><p><a id="snip6123919"></a></p><pre class="programlisting"> &lt;component&gt;
+   &lt;name&gt;default&lt;/name&gt;
+   ...
+   &lt;desktopShortcutList&gt;
+     &lt;!-- Intended to launch an application --&gt;
+     &lt;shortcut&gt;
+        &lt;comment&gt;Launch My Program&lt;/comment&gt;
+        &lt;exec&gt;${installdir}/bin/myprogram&lt;/exec&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program&lt;/name&gt;
+        &lt;path&gt;${installdir}/bin&lt;/path&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsExec&gt;${installdir}/bin/myprogram.exe&lt;/windowsExec&gt;
+        &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+        &lt;windowsPath&gt;${installdir}/bin&lt;/windowsPath&gt;
+     &lt;/shortcut&gt;
+
+     &lt;!-- Intended to launch a web browser pointing to a specific url --&gt;
+     &lt;linkShortcut&gt;
+        &lt;comment&gt;Launch a web browser pointing to My Program website&lt;/comment&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;Visit My Program website&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;url&gt;http://www.example.com/myprogram&lt;/url&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/linkShortcut&gt;
+
+     &lt;!-- Intended to launch a viewer for a specific file --&gt;
+     &lt;fileShortcut&gt;
+        &lt;comment&gt;Check the user guide&lt;/comment&gt;
+        &lt;filePath&gt;${installdir}/doc/userguide.pdf&lt;/filePath&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program User Guide&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/fileShortcut&gt;
+     ...
+   &lt;/desktopShortcutList&gt;
+   ...
+ &lt;/component&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+<a class="link" href="ape.html#startMenuShortcutList"><code class="literal">&lt;startMenuShortcutList&gt;</code></a>: Link to applications, documents or URL for the Windows Start menu. Its available shortcuts are: <a class="link" href="apf.html#startMenuShortcut"><code class="literal">&lt;startMenuShortcut&gt;</code></a>, <a class="link" href="apf.html#startMenuLinkShortcut"><code class="literal">&lt;startMenuLinkShortcut&gt;</code></a> and <a class="link" href="apf.html#startMenuFileShortcut"><code class="literal">&lt;startMenuFileShortcut&gt;</code></a>:
+</li></ul></div><p><a id="snip4720735"></a></p><pre class="programlisting"> &lt;component&gt;
+   &lt;name&gt;default&lt;/name&gt;
+   ...
+   &lt;startMenuShortcutList&gt;
+     &lt;!-- Intended to launch an application --&gt;
+     &lt;startMenuShortcut&gt;
+        &lt;comment&gt;Launch My Program&lt;/comment&gt;
+        &lt;exec&gt;${installdir}/bin/myprogram&lt;/exec&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program&lt;/name&gt;
+        &lt;path&gt;${installdir}/bin&lt;/path&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsExec&gt;${installdir}/bin/myprogram.exe&lt;/windowsExec&gt;
+        &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+        &lt;windowsPath&gt;${installdir}/bin&lt;/windowsPath&gt;
+     &lt;/startMenuShortcut&gt;
+
+     &lt;!-- Intended to launch a web browser pointing to a specific url --&gt;
+     &lt;startMenuLinkShortcut&gt;
+        &lt;comment&gt;Launch a web browser pointing to My Program website&lt;/comment&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;Visit My Program website&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;url&gt;http://www.example.com/myprogram&lt;/url&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/startMenuLinkShortcut&gt;
+
+     &lt;!-- Intended to launch a viewer for a specific file --&gt;
+     &lt;startMenuFileShortcut&gt;
+        &lt;comment&gt;Check the user guide&lt;/comment&gt;
+        &lt;filePath&gt;${installdir}/doc/userguide.pdf&lt;/filePath&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program User Guide&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/startMenuFileShortcut&gt;
+     ...
+   &lt;/startMenuShortcutList&gt;
+   ...
+ &lt;/component&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+<a class="link" href="ape.html#quickLaunchShortcutList"><code class="literal">&lt;quickLaunchShortcutList&gt;</code></a>: Shortcuts to be placed in the Windows Quick Launch toolbar. Its available shortcuts are: <a class="link" href="apf.html#startMenuShortcut"><code class="literal">&lt;startMenuShortcut&gt;</code></a>, <a class="link" href="apf.html#startMenuLinkShortcut"><code class="literal">&lt;startMenuLinkShortcut&gt;</code></a> and <a class="link" href="apf.html#startMenuFileShortcut"><code class="literal">&lt;startMenuFileShortcut&gt;</code></a>:
+</li></ul></div><p><a id="snip1405007"></a></p><pre class="programlisting"> &lt;component&gt;
+   &lt;name&gt;default&lt;/name&gt;
+   ...
+   &lt;quickLaunchShortcutList&gt;
+     &lt;!-- Intended to launch an application --&gt;
+     &lt;quickLaunchShortcut&gt;
+        &lt;comment&gt;Launch My Program&lt;/comment&gt;
+        &lt;exec&gt;${installdir}/bin/myprogram&lt;/exec&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program&lt;/name&gt;
+        &lt;path&gt;${installdir}/bin&lt;/path&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsExec&gt;${installdir}/bin/myprogram.exe&lt;/windowsExec&gt;
+        &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+        &lt;windowsPath&gt;${installdir}/bin&lt;/windowsPath&gt;
+     &lt;/quickLaunchShortcut&gt;
+
+     &lt;!-- Intended to launch a web browser pointing to a specific url --&gt;
+     &lt;quickLaunchLinkShortcut&gt;
+        &lt;comment&gt;Launch a web browser pointing to My Program website&lt;/comment&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;Visit My Program website&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;url&gt;http://www.example.com/myprogram&lt;/url&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/quickLaunchLinkShortcut&gt;
+
+     &lt;!-- Intended to launch a viewer for a specific file --&gt;
+     &lt;quickLaunchFileShortcut&gt;
+        &lt;comment&gt;Check the user guide&lt;/comment&gt;
+        &lt;filePath&gt;${installdir}/doc/userguide.pdf&lt;/filePath&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program User Guide&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/quickLaunchFileShortcut&gt;
+     ...
+   &lt;/quickLaunchShortcutList&gt;
+   ...
+ &lt;/component&gt;</pre></div><div class="section" title="5.5. Adding components from external files"><div class="titlepage"><div><div><h3 class="title"><a id="_adding_components_from_external_files"></a>5.5. Adding components from external files</h3></div></div></div><p>Components can also be extracted to a different file, making them usable as modules between different projects. To include a component that is placed in an external xml file into the project, you have to use the <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> directive under the <a class="link" href="apd.html#componentList"><code class="literal">&lt;componentList&gt;</code></a>, as seen in the code below:</p><pre class="programlisting">&lt;componentList&gt;
+    &lt;include file="my_external_component.xml" /&gt;
+&lt;/componentList&gt;</pre><p>Of course, you can mix external and internal components in the project file</p><pre class="programlisting">&lt;componentList&gt;
+    &lt;component&gt;
+        &lt;name&gt;internal&lt;/name&gt;
+    &lt;/component&gt;
+    &lt;include file="my_external_component.xml" /&gt;
+&lt;/componentList&gt;</pre><p>In fact, the <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> directive can be used to include any external piece of XML code in any place of the project if some conditions are met:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+The inserted code is valid in the insertion point. For example, trying to include a file containing a <a class="link" href="apa.html#showInfo"><code class="literal">&lt;showInfo&gt;</code></a> action in a <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> will fail.
+</li><li class="listitem">
+The inserted XML code is grouped in a single element. For example, inserting a code containing two <a class="link" href="apa.html#runProgram"><code class="literal">&lt;runProgram&gt;</code></a> actions will fail but inserting an <a class="link" href="apa.html#actionGroup"><code class="literal">&lt;actionGroup&gt;</code></a> with multiple actions on it will work.
+</li><li class="listitem">
+The parent XML node is a <code class="literal">&lt;*List&gt;</code> tag: <a class="link" href="ape.html#actionList"><code class="literal">&lt;actionList&gt;</code></a>, <a class="link" href="apd.html#parameterList"><code class="literal">&lt;parameterList&gt;</code></a>, <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a>…
+</li></ul></div><pre class="programlisting">&lt;project&gt;
+    &lt;shortName&gt;sample&lt;/shortName&gt;
+    &lt;fullName&gt;Sample Project&lt;/fullName&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+    &lt;enableRollback&gt;1&lt;/enableRollback&gt;
+    &lt;enableTimestamp&gt;1&lt;/enableTimestamp&gt;
+    &lt;componentList&gt;
+        &lt;!-- component.xml contains a component --&gt;
+        &lt;include file="path/to/component.xml"/&gt;
+        &lt;component&gt;
+            &lt;name&gt;default&lt;/name&gt;
+            &lt;description&gt;Default Component&lt;/description&gt;
+            &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;show&gt;1&lt;/show&gt;
+            &lt;folderList&gt;
+              &lt;!-- folder.xml contains a folder --&gt;
+              &lt;include file="path/to/folder.xml"/&gt;
+            &lt;/folderList&gt;
+        &lt;/component&gt;
+    &lt;/componentList&gt;
+    &lt;parameterList&gt;
+        &lt;!-- installdir.xml contains a directory parameter --&gt;
+        &lt;include file="path/to/installdir.xml"/&gt;
+        &lt;booleanParameter&gt;
+            &lt;name&gt;boolean_question&lt;/name&gt;
+            &lt;title&gt;Boolean Question&lt;/title&gt;
+            &lt;description&gt;Please answer yes or no&lt;/description&gt;
+            &lt;validationActionList&gt;
+               &lt;!-- validationActions.xml contains an actionGroup --&gt;
+               &lt;include file="path/to/validationActions.xml"/&gt;
+               &lt;throwError text="You must click yes!" &gt;
+                  &lt;ruleList&gt;
+                     &lt;!-- isTrue.xml contains a set of rules in a ruleGroup --&gt;
+                     &lt;include file="path/to/isTrue.xml"/&gt;
+                  &lt;/ruleList&gt;
+               &lt;/throwError&gt;
+            &lt;/validationActionList&gt;
+        &lt;/booleanParameter&gt;
+       ...
+    &lt;/parameterList&gt;
+    ...
+&lt;/project&gt;</pre><p>The <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> directives are evaluated when loading the project so they cannot contain variables.</p></div><div class="section" title="5.6. Excluding components at build time"><div class="titlepage"><div><div><h3 class="title"><a id="_excluding_components_at_build_time"></a>5.6. Excluding components at build time</h3></div></div></div><p>Although a component can be disabled and hidden at runtime by modifying its <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> and <a class="link" href="ape.html#show"><code class="literal">&lt;show&gt;</code></a> properties, sometimes is desirable to do not bundle them at all. In these situations, you can use the <a class="link" href="ape.html#shouldPackRuleList"><code class="literal">&lt;shouldPackRuleList&gt;</code></a>. This set of rules is evaluated at build time and will decide if the component containing them will be packed or not. For example, to just pack a component when building for OS X:</p><p><a id="snip3957138"></a></p><pre class="programlisting">   &lt;component&gt;
+       &lt;name&gt;osxComponent&lt;/name&gt;
+       &lt;description&gt;OS X Component&lt;/description&gt;
+       &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;1&lt;/show&gt;
+       ...
+       &lt;shouldPackRuleEvaluationLogic&gt;and&lt;/shouldPackRuleEvaluationLogic&gt;
+       &lt;shouldPackRuleList&gt;
+           &lt;compareText&gt;
+               &lt;logic&gt;equals&lt;/logic&gt;
+               &lt;text&gt;${platform_name}&lt;/text&gt;
+               &lt;value&gt;osx&lt;/value&gt;
+           &lt;/compareText&gt;
+       &lt;/shouldPackRuleList&gt;
+   &lt;/component&gt;</pre><p>Please not the usage of the <a class="link" href="ar01s04.html#built_in_variables" title="4.8. Built-in variables">built-in variable</a> <code class="literal">${platform_name}</code>, which contains the build target at built time.</p><p>The same way as a <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a>, the <a class="link" href="ape.html#shouldPackRuleList"><code class="literal">&lt;shouldPackRuleList&gt;</code></a> can contain <a class="link" href="apb.html#ruleGroup"><code class="literal">&lt;ruleGroup&gt;</code></a> rules to create complex conditions. You can also configure its rule evaluation logic using the <a class="link" href="ape.html#shouldPackRuleEvaluationLogic"><code class="literal">&lt;shouldPackRuleEvaluationLogic&gt;</code></a> property.</p></div><div class="section" title="5.7. Uninstallable Components"><div class="titlepage"><div><div><h3 class="title"><a id="_uninstallable_components"></a>5.7. Uninstallable Components</h3></div></div></div><p>Although InstallBuilder does not currently allow uninstalling components separately as a built-in feature, it is possible to work around this limitation by creating subinstallers. Assume you have 3 modules and you would like to allow your users to uninstall only some of them. The first step is to create a <a class="link" href="ape.html" title="E. Component and Folder Properties and Lists"><code class="literal">&lt;component&gt;</code></a> for each module which bundles its files, and include it in its own project. The project must also include the <code class="literal">installdir</code> parameter:</p><p title="Module A"><b>Module A. </b><a id="snip7619117"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;shortName&gt;moduleA&lt;/shortName&gt;
+  &lt;fullName&gt;Module A&lt;/fullName&gt;
+  &lt;uninstallerDirectory&gt;${installdir}/.uninstallers&lt;/uninstallerDirectory&gt;
+  &lt;uninstallerName&gt;.uninstall-moduleA&lt;/uninstallerName&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentA&lt;/name&gt;
+      &lt;description&gt;Component A&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Wraps module A&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+      &lt;folderList&gt;
+        &lt;folder&gt;
+            &lt;description&gt;Module A files&lt;/description&gt;
+            &lt;destination&gt;${installdir}/moduleA&lt;/destination&gt;
+            &lt;name&gt;moduleAFiles&lt;/name&gt;
+            &lt;platforms&gt;all&lt;/platforms&gt;
+            &lt;distributionFileList&gt;
+              &lt;distributionDirectory&gt;
+                 &lt;origin&gt;path/to/moduleA&lt;/origin&gt;
+              &lt;/distributionDirectory&gt;
+            &lt;/distributionFileList&gt;
+        &lt;/folder&gt;
+      &lt;/folderList&gt;
+      &lt;parameterList&gt;
+         &lt;!-- This is required to control the installation directory --&gt;
+         &lt;directoryParameter&gt;
+           &lt;name&gt;installdir&lt;/name&gt;
+           &lt;value&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/value&gt;
+         &lt;/directoryParameter&gt;
+      &lt;/parameterList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p title="Module B"><b>Module B. </b><a id="snip4515211"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;shortName&gt;moduleB&lt;/shortName&gt;
+  &lt;fullName&gt;Module B&lt;/fullName&gt;
+  &lt;uninstallerDirectory&gt;${installdir}/.uninstallers&lt;/uninstallerDirectory&gt;
+  &lt;uninstallerName&gt;.uninstall-moduleB&lt;/uninstallerName&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentB&lt;/name&gt;
+      &lt;description&gt;Component B&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Wraps module B&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+      &lt;folderList&gt;
+        &lt;folder&gt;
+          &lt;description&gt;Module B files&lt;/description&gt;
+          &lt;destination&gt;${installdir}/moduleB&lt;/destination&gt;
+          &lt;name&gt;moduleBFiles&lt;/name&gt;
+          &lt;platforms&gt;all&lt;/platforms&gt;
+          &lt;distributionFileList&gt;
+            &lt;distributionDirectory&gt;
+               &lt;origin&gt;path/to/moduleB&lt;/origin&gt;
+            &lt;/distributionDirectory&gt;
+          &lt;/distributionFileList&gt;
+        &lt;/folder&gt;
+      &lt;/folderList&gt;
+      &lt;parameterList&gt;
+         &lt;!-- This is required to control the installation directory --&gt;
+         &lt;directoryParameter&gt;
+           &lt;name&gt;installdir&lt;/name&gt;
+           &lt;value&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/value&gt;
+         &lt;/directoryParameter&gt;
+      &lt;/parameterList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p title="Module C"><b>Module C. </b><a id="snip7167906"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;shortName&gt;moduleC&lt;/shortName&gt;
+  &lt;fullName&gt;Module C&lt;/fullName&gt;
+  &lt;uninstallerDirectory&gt;${installdir}/.uninstallers&lt;/uninstallerDirectory&gt;
+  &lt;uninstallerName&gt;.uninstall-moduleC&lt;/uninstallerName&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentC&lt;/name&gt;
+      &lt;description&gt;Component C&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Wraps module C&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+      &lt;folderList&gt;
+        &lt;folder&gt;
+           &lt;description&gt;Module C files&lt;/description&gt;
+           &lt;destination&gt;${installdir}/moduleC&lt;/destination&gt;
+           &lt;name&gt;moduleCFiles&lt;/name&gt;
+           &lt;platforms&gt;all&lt;/platforms&gt;
+           &lt;distributionFileList&gt;
+             &lt;distributionDirectory&gt;
+                &lt;origin&gt;path/to/moduleC&lt;/origin&gt;
+             &lt;/distributionDirectory&gt;
+           &lt;/distributionFileList&gt;
+        &lt;/folder&gt;
+      &lt;/folderList&gt;
+      &lt;parameterList&gt;
+         &lt;!-- This is required to control the installation directory --&gt;
+         &lt;directoryParameter&gt;
+           &lt;name&gt;installdir&lt;/name&gt;
+           &lt;value&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/value&gt;
+         &lt;/directoryParameter&gt;
+      &lt;/parameterList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>If the installed modules require asking for information from the end user, you can include additional parameters. You can also add actions to configure or start the installed application:</p><p title="Module C"><b>Module C. </b><a id="snip996860"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;shortName&gt;moduleC&lt;/shortName&gt;
+  &lt;fullName&gt;Module C&lt;/fullName&gt;
+  &lt;uninstallerDirectory&gt;${installdir}/.uninstallers&lt;/uninstallerDirectory&gt;
+  &lt;uninstallerName&gt;.uninstall-moduleC&lt;/uninstallerName&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentC&lt;/name&gt;
+      &lt;description&gt;Component C&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Wraps module C&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+      &lt;folderList&gt;
+        ...
+      &lt;/folderList&gt;
+      &lt;parameterList&gt;
+         &lt;!-- This is required to control the installation directory --&gt;
+         &lt;directoryParameter&gt;
+           &lt;name&gt;installdir&lt;/name&gt;
+           &lt;value&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/value&gt;
+         &lt;/directoryParameter&gt;
+         &lt;stringParameter name="port" value="5000"/&gt;
+      &lt;/parameterList&gt;
+      &lt;postInstallationActionList&gt;
+         &lt;runProgram program="${installdir}/moduleCFiles/yourApp" programArguments="--start"/&gt;
+      &lt;/postInstallationActionList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>The <a class="link" href="apd.html#uninstallerDirectory"><code class="literal">&lt;uninstallerDirectory&gt;</code></a> and <a class="link" href="apd.html#uninstallerName"><code class="literal">&lt;uninstallerName&gt;</code></a> settings have been modified so uninstallers are created in a hidden folder inside the installation directory with a specific name:</p><p><a id="snip4229398"></a></p><pre class="programlisting">  &lt;project&gt;
+    ...
+    &lt;uninstallerDirectory&gt;${installdir}/.uninstallers&lt;/uninstallerDirectory&gt;
+    &lt;uninstallerName&gt;.uninstall-moduleA&lt;/uninstallerName&gt;
+    ...
+  &lt;/project&gt;</pre><p>Next, you have to build the module installers:</p><pre class="programlisting">$&gt; builder build ~/moduleA.xml
+
+ Building Module A linux
+ 0% ______________ 50% ______________ 100%
+ #########################################
+
+$&gt; builder build ~/moduleB.xml
+
+ Building Module B linux
+ 0% ______________ 50% ______________ 100%
+ #########################################
+
+$&gt; builder build ~/moduleC.xml
+
+ Building Module C linux
+ 0% ______________ 50% ______________ 100%
+ #########################################</pre><p>Although these installers can be run on their own, they are intended to be executed from a main installer process (that is why <code class="literal">&lt;uninstallerDirectory&gt;</code> and <code class="literal">&lt;uninstallerName&gt;</code> were modified).
+To create this main installer, you can create a new project, with as many components as sub installers were defined for the modules. These components will pack
+the module installers just built as distribution files. They will also include actions to install those components in unattended mode:</p><p title="Main Installer"><b>Main Installer. </b><a id="snip3496634"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;shortName&gt;mainInstaller&lt;/shortName&gt;
+  &lt;fullName&gt;Main Installer&lt;/fullName&gt;
+  &lt;createUninstaller&gt;0&lt;/createUninstaller&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentA&lt;/name&gt;
+      &lt;description&gt;Module A&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Module A&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+      &lt;folderList&gt;
+        &lt;folder&gt;
+           &lt;description&gt;Module A Installer&lt;/description&gt;
+           &lt;destination&gt;${installdir}/.tmpInstallers&lt;/destination&gt;
+           &lt;name&gt;moduleAInstaller&lt;/name&gt;
+           &lt;platforms&gt;all&lt;/platforms&gt;
+           &lt;distributionFileList&gt;
+             &lt;!-- Our module A subinstaller --&gt;
+             &lt;distributionFile&gt;
+                &lt;origin&gt;path/to/moduleA.bin&lt;/origin&gt;
+             &lt;/distributionFile&gt;
+           &lt;/distributionFileList&gt;
+           &lt;actionList&gt;
+             &lt;showProgressDialog&gt;
+               &lt;title&gt;Installing module B&lt;/title&gt;
+               &lt;actionList&gt;
+                 &lt;runProgram&gt;
+                   &lt;program&gt;${installdir}/.tmpInstallers/moduleA.bin&lt;/program&gt;
+                   &lt;programArguments&gt;--mode unattended --prefix ${installdir}&lt;/programArguments&gt;
+                 &lt;/runProgram&gt;
+               &lt;/actionList&gt;
+             &lt;/showProgressDialog&gt;
+             &lt;deleteFile path="${installdir}/.tmpInstallers/moduleA.bin"/&gt;
+           &lt;/actionList&gt;
+        &lt;/folder&gt;
+      &lt;/folderList&gt;
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentB&lt;/name&gt;
+      &lt;description&gt;Module B&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Module B&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+      &lt;folderList&gt;
+        &lt;folder&gt;
+          &lt;description&gt;Module B Installer&lt;/description&gt;
+          &lt;destination&gt;${installdir}/.tmpInstallers&lt;/destination&gt;
+          &lt;name&gt;moduleBInstaller&lt;/name&gt;
+          &lt;platforms&gt;all&lt;/platforms&gt;
+          &lt;distributionFileList&gt;
+            &lt;!-- Our module B subinstaller --&gt;
+            &lt;distributionFile&gt;
+               &lt;origin&gt;path/to/moduleB.bin&lt;/origin&gt;
+            &lt;/distributionFile&gt;
+          &lt;/distributionFileList&gt;
+          &lt;actionList&gt;
+            &lt;showProgressDialog&gt;
+              &lt;title&gt;Installing module B&lt;/title&gt;
+              &lt;actionList&gt;
+                &lt;runProgram&gt;
+                  &lt;program&gt;${installdir}/.tmpInstallers/moduleB.bin&lt;/program&gt;
+                  &lt;programArguments&gt;--mode unattended --prefix ${installdir}&lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+              &lt;/actionList&gt;
+            &lt;/showProgressDialog&gt;
+            &lt;deleteFile path="${installdir}/.tmpInstallers/moduleB.bin"/&gt;
+          &lt;/actionList&gt;
+        &lt;/folder&gt;
+      &lt;/folderList&gt;
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentC&lt;/name&gt;
+      &lt;description&gt;Module C&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Module C&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+      &lt;folderList&gt;
+        &lt;folder&gt;
+          &lt;description&gt;Module C Installer&lt;/description&gt;
+          &lt;destination&gt;${installdir}/.tmpInstallers&lt;/destination&gt;
+          &lt;name&gt;moduleCInstaller&lt;/name&gt;
+          &lt;platforms&gt;all&lt;/platforms&gt;
+          &lt;distributionFileList&gt;
+            &lt;!-- Our module C subinstaller --&gt;
+            &lt;distributionFile&gt;
+               &lt;origin&gt;path/to/moduleC.bin&lt;/origin&gt;
+            &lt;/distributionFile&gt;
+          &lt;/distributionFileList&gt;
+          &lt;actionList&gt;
+            &lt;showProgressDialog&gt;
+              &lt;title&gt;Installing module C&lt;/title&gt;
+              &lt;actionList&gt;
+                &lt;runProgram&gt;
+                  &lt;program&gt;${installdir}/.tmpInstallers/moduleC.bin&lt;/program&gt;
+                  &lt;programArguments&gt;--mode unattended --prefix ${installdir} --port ${port}&lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+              &lt;/actionList&gt;
+            &lt;/showProgressDialog&gt;
+            &lt;deleteFile path="${installdir}/.tmpInstallers/moduleC.bin"/&gt;
+          &lt;/actionList&gt;
+        &lt;/folder&gt;
+      &lt;/folderList&gt;
+      &lt;parameterList&gt;
+        &lt;stringParameter&gt;
+          &lt;name&gt;port&lt;/name&gt;
+          &lt;value&gt;5000&lt;/value&gt;
+          &lt;description&gt;Please select the port for Module C&lt;/description&gt;
+        &lt;/stringParameter&gt;
+      &lt;/parameterList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+  &lt;parameterList&gt;
+    &lt;directoryParameter&gt;
+       &lt;name&gt;installdir&lt;/name&gt;
+       &lt;value&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/value&gt;
+    &lt;/directoryParameter&gt;
+  &lt;/parameterList&gt;
+  ...
+&lt;/project&gt;</pre><p>In <code class="literal">componentC</code> the parameters of the module installer are replicated. These parameters will be presented to the end user and their values will be passed to the sub-installer when calling it in the <code class="literal">&lt;runProgram&gt;</code>.</p><p>At this point, you have a working installer that asks the end user which components to install and installs them. Each of these modules will create its own
+uninstaller in a subdirectory in the installation directory. You also have prevented the main installer from creating its own uninstaller:</p><p><a id="snip7929011"></a></p><pre class="programlisting">  &lt;project&gt;
+    ...
+    &lt;createUninstaller&gt;0&lt;/createUninstaller&gt;
+    ...
+  &lt;/project&gt;</pre><p>Although each sub-uninstaller is fully functional and allows users to separately uninstall the components, it is better to have a new wizard that presents
+the user with a choice of which components to uninstall:</p><p title="Main Uninstaller"><b>Main Uninstaller. </b><a id="snip2890934"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;shortName&gt;mainUnstaller&lt;/shortName&gt;
+  &lt;fullName&gt;Main Uninstaller&lt;/fullName&gt;
+  &lt;createUninstaller&gt;0&lt;/createUninstaller&gt;
+  ...
+  &lt;initializationActionList&gt;
+    &lt;!-- Do not show components to uninstall if they were not installed --&gt;
+    &lt;foreach&gt;
+      &lt;variables&gt;component uninstaller&lt;/variables&gt;
+      &lt;values&gt;componentA .uninstall-moduleA componentB .uninstall-moduleB componentC .uninstall-moduleC&lt;/values&gt;
+      &lt;actionList&gt;
+        &lt;actionGroup&gt;
+          &lt;actionList&gt;
+            &lt;setInstallerVariable name="project.component(${component}).show" value="0"/&gt;
+            &lt;setInstallerVariable name="project.component(${component}).selected" value="0"/&gt;
+          &lt;/actionList&gt;
+          &lt;ruleList&gt;
+             &lt;fileExists path="${installer_directory}/.uninstallers/${uninstaller}" negate="1"/&gt;
+          &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+      &lt;/actionList&gt;
+    &lt;/foreach&gt;
+  &lt;/initializationActionList&gt;
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentA&lt;/name&gt;
+      &lt;description&gt;Module A&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Uninstall Module A&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentB&lt;/name&gt;
+      &lt;description&gt;Module B&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Uninstall Module B&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;componentC&lt;/name&gt;
+      &lt;description&gt;Module C&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Uninstall Module C&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;hiddenParameter&lt;/name&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Executes the subinstallers&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;0&lt;/show&gt;
+      &lt;componentSelectionValidationActionList&gt;
+        &lt;!-- Uninstall the selected components --&gt;
+        &lt;foreach&gt;
+          &lt;variables&gt;component uninstaller&lt;/variables&gt;
+          &lt;values&gt;componentA .uninstall-moduleA componentB .uninstall-moduleB componentC .uninstall-moduleC&lt;/values&gt;
+          &lt;actionList&gt;
+            &lt;showProgressDialog&gt;
+              &lt;title&gt;Uninstalling module ${component}&lt;/title&gt;
+              &lt;actionList&gt;
+                &lt;runProgram&gt;
+                  &lt;program&gt;${installer_directory}/.uninstallers/${uninstaller}&lt;/program&gt;
+                  &lt;programArguments&gt;--mode unattended&lt;/programArguments&gt;
+                  &lt;ruleList&gt;
+                    &lt;isTrue value="${project.component(${component}).selected}"/&gt;
+                  &lt;/ruleList&gt;
+                &lt;/runProgram&gt;
+              &lt;/actionList&gt;
+            &lt;/showProgressDialog&gt;
+          &lt;/actionList&gt;
+        &lt;/foreach&gt;
+        &lt;!-- If all the modules were uninstalled, delete the installdir and
+        temporary directories --&gt;
+        &lt;deleteFile path="${installer_directory}/.uninstallers"&gt;
+           &lt;ruleList&gt;
+             &lt;fileTest condition="is_empty" path="${installer_directory}"/&gt;
+           &lt;/ruleList&gt;
+        &lt;/deleteFile&gt;
+        &lt;exit/&gt;
+      &lt;/componentSelectionValidationActionList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+  &lt;customLanguageFileList&gt;
+    &lt;language&gt;
+      &lt;code&gt;en&lt;/code&gt;
+      &lt;file&gt;custom.lng&lt;/file&gt;
+    &lt;/language&gt;
+  &lt;/customLanguageFileList&gt;
+  ...
+&lt;/project&gt;</pre><p>This wizard provides the end user with a choice to delete modules present in the system. It also includes a <code class="literal">custom.lng</code> reference, redefining some of the built-in strings to simulate a <span class="emphasis"><em>standard</em></span>
+uninstaller:</p><p title="Built-in strings in custom.lng"><b>Built-in strings in <span class="strong"><strong>custom.lng</strong></span>. </b>
+</p><pre class="screen">...
+Installer.Welcome.Title=Uninstall %1$s
+Installer.Welcome.Text=Welcome to the %1$s Uninstaller.
+...</pre><p title="Built-in strings in custom.lng">
+</p><p>The final step is to build this wizard and bundle it in the main installer with the modules as a hidden parameter:</p><pre class="programlisting">$&gt; builder build ~/mainUninstaller.xml
+
+ Building Main Uninstaller linux
+ 0% ______________ 50% ______________ 100%
+ #########################################</pre><p><a id="snip7929619"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;shortName&gt;mainInstaller&lt;/shortName&gt;
+  &lt;fullName&gt;Main Installer&lt;/fullName&gt;
+  &lt;createUninstaller&gt;0&lt;/createUninstaller&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;mainUninstaller&lt;/name&gt;
+      &lt;description&gt;Main Uninstaller&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;detailedDescription&gt;Main Uninstaller Wizard&lt;/detailedDescription&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;0&lt;/show&gt;
+      &lt;folderList&gt;
+        &lt;folder&gt;
+           &lt;description&gt;Main Uninstaller&lt;/description&gt;
+           &lt;destination&gt;${installdir}&lt;/destination&gt;
+           &lt;name&gt;mainUninstaller&lt;/name&gt;
+           &lt;platforms&gt;all&lt;/platforms&gt;
+           &lt;distributionFileList&gt;
+             &lt;distributionFile&gt;
+                &lt;origin&gt;path/to/mainUninstaller.bin&lt;/origin&gt;
+             &lt;/distributionFile&gt;
+           &lt;/distributionFileList&gt;
+        &lt;/folder&gt;
+      &lt;/folderList&gt;
+    &lt;/component&gt;
+    ...
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s04.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s06.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">4. Variables </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 6. Working with Files and Folders</td></tr></table></div></body></html>
