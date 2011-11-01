@@ -161,7 +161,10 @@ public class SimSharingEvents {
                                      param( "project", config.getProjectName() ),
                                      param( "flavor", config.getFlavor() ),
                                      param( "locale", config.getLocale().toString() ),
-                                     param( "distribution tag", config.getDistributionTag() ) );
+                                     param( "distribution tag", config.getDistributionTag() ),
+
+                                     //Can't have commas in args because of the parser, but can look up the study argument
+                                     param( "study", getArgAfter( config.getCommandLineArgs(), "-study" ) ) );
                     actionPerformed( OBJECT_SYSTEM, "connected to server" );
 
                     //Report on any messages that were collected while we were trying to connect to the server
@@ -173,6 +176,17 @@ public class SimSharingEvents {
                     }
                 }
             } ).start();
+        }
+    }
+
+    //Find the argument after the specified key, for purposes of finding a command line argument like "-study colorado"
+    private static String getArgAfter( String[] commandLineArgs, String key ) {
+        int s = Arrays.asList( commandLineArgs ).indexOf( key );
+        if ( s >= 0 && s <= commandLineArgs.length - 2 ) {
+            return commandLineArgs[s + 1];
+        }
+        else {
+            return "?";
         }
     }
 
