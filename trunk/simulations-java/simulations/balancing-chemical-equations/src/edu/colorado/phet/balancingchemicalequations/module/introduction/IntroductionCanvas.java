@@ -20,7 +20,6 @@ import edu.colorado.phet.balancingchemicalequations.view.HorizontalAligner;
 import edu.colorado.phet.balancingchemicalequations.view.IntroductionFaceNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
@@ -42,7 +41,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
-        balanceChoiceProperty = new SimSharingProperty<BalancedRepresentation>( "Balanced Representation", BalancedRepresentation.NONE );
+        balanceChoiceProperty = new Property<BalancedRepresentation>( "Balanced Representation", BalancedRepresentation.NONE );
 
         // control for choosing an equation
         EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.currentEquation, globalProperties.canvasColor );
