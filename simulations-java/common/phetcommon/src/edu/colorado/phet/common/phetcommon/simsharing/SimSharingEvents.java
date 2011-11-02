@@ -3,7 +3,6 @@ package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -37,17 +36,17 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 public class SimSharingEvents {
 
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java
-    public static final String SESSION_ID = generateIDString();
+    private static final String SESSION_ID = generateIDString();
 
     //Identify the machine ID (or create it if it did not already exist)
     //Only do this if permissions are enabled
-    public static String MACHINE_ID;
+    private static String MACHINE_ID;
 
     //Flag to indicate whether the columns have been printed to the data source
     private static boolean printedColumns;
 
     //Actor for sending messages to the server
-    public static ThreadedActor client;
+    private static ThreadedActor client;
 
     //Flag indicating whether messages should be sent to the server
     private static boolean connect = false;
@@ -66,11 +65,12 @@ public class SimSharingEvents {
         return connect;
     }
 
+    //A direct response to something the user did.
     public static void systemResponse( String action, Parameter... parameters ) {
         actionPerformed( OBJECT_SYSTEM, action, parameters );
     }
 
-    //Signify that an action has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
+    //Signify that an action performed by the user has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
     public static void actionPerformed( String object, String action, Parameter... parameters ) {
 
         if ( connect ) {
@@ -131,7 +131,7 @@ public class SimSharingEvents {
     //Called from the first line of main(), connects to the server and sends a start message
     public static void simStarted( final PhetApplicationConfig config ) {
         simStartedTime = new Option.Some<Long>( System.currentTimeMillis() );
-        connect = Arrays.asList( config.getCommandLineArgs() ).contains( "-study" );
+        connect = config.hasCommandLineArg( "-study" );
         if ( connect ) {
 
             //Create or load the machine id
@@ -233,20 +233,15 @@ public class SimSharingEvents {
         queue.clear();
     }
 
-    public static void addDragSequenceListener( JComponent component, final Function0<String> message ) {
+    //Attach to components that users can drag, so we see when the drag starts and ends.
+    public static void addDragSequenceListener( JComponent component, final Function0<Parameter[]> message ) {
         component.addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
-
-                //TODO: consider moving the message.apply to be params
-                actionPerformed( "mouse", "pressed: " + message.apply() );
-            }
-        } );
-        component.addMouseMotionListener( new MouseMotionListener() {
-            public void mouseDragged( MouseEvent e ) {
-                actionPerformed( "mouse", "dragged: " + message.apply() );
+                actionPerformed( "mouse", "startDrag", message.apply() );
             }
 
-            public void mouseMoved( MouseEvent e ) {
+            @Override public void mouseReleased( MouseEvent e ) {
+                actionPerformed( "mouse", "endDrag", message.apply() );
             }
         } );
     }

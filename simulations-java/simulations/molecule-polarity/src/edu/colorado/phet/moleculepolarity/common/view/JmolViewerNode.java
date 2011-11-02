@@ -21,6 +21,7 @@ import org.jmol.util.Logger;
 import edu.colorado.phet.common.jmolphet.JmolUtil;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -94,9 +95,9 @@ public class JmolViewerNode extends PhetPNode {
     public JmolViewerNode( Property<Molecule3D> currentMolecule, Color background, Dimension size ) {
 
         viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
-        SimSharingEvents.addDragSequenceListener( viewerPanel, new Function0<String>() {
-            public String apply() {
-                return ": on jmol canvas";
+        SimSharingEvents.addDragSequenceListener( viewerPanel, new Function0<Parameter[]>() {
+            public Parameter[] apply() {
+                return new Parameter[] { new Parameter( "component", "jmolViewerNode" ) };
             }
         } );
         addChild( new PSwing( viewerPanel ) );
