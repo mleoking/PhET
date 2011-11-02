@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public abstract class Processor extends Predef {
 
     //Process a collection of files. Might be nice to plot multiple sessions together
-    void process( File... files ) throws IOException {
+    public void process( File... files ) throws IOException {
 
         ArrayList<EventLog> all = new ArrayList<EventLog>();
 
