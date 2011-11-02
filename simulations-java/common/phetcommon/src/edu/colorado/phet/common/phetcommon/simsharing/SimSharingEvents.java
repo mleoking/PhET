@@ -97,6 +97,7 @@ public class SimSharingEvents {
         }
     }
 
+    //TODO get rid of this? Excel treats the first row of tab-delimited data as column headers, so this would be nice if processing data in Excel.
     public static String getColumnHeaders() {
         return "Machine ID" + "\t" + "Session ID" + "\t" + "Event time (ms)" + "\t" + "Object" + "\t" + "Action" + "\t" + "Parameter List";
     }
