@@ -30,17 +30,26 @@ public abstract class Processor extends Predef {
     public abstract void process( ArrayList<EventLog> all );
 
     //Process a single file
-    private EventLog processFile( File file ) throws IOException {
+    public EventLog processFile( File file ) throws IOException {
+        EventLog eventLog = parse( file );
+
+        process( eventLog );
+
+        return eventLog;
+    }
+
+    public static EventLog parse( File file ) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
 
         EventLog eventLog = new EventLog();
         for ( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
             eventLog.parseLine( line );
         }
-
-        process( eventLog );
-
         return eventLog;
+    }
+
+    public static ArrayList<EntryPair> pairs( EventLog eventLog ) {
+        return new PairwiseProcessor().process( eventLog.getWithoutSystemEvents() );
     }
 
     public abstract void process( EventLog eventLog );

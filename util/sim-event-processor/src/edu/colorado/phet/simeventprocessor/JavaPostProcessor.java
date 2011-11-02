@@ -16,9 +16,10 @@ import static java.util.Collections.sort;
  *
  * @author Sam Reid
  */
-public class PostProcessor extends Processor {
+public class JavaPostProcessor extends Processor {
     public void process( final EventLog eventLog ) {
 
+        //See how often users switched tabs
         println( "#########################" );
         println( "######### Processing tabs" );
         for ( Entry entry : eventLog ) {
@@ -27,17 +28,19 @@ public class PostProcessor extends Processor {
             }
         }
 
+        //See how long the user paused between doing things
         println();
         println( "#########################" );
         println( "######### Processing deltas" );
 
-        final ArrayList<EntryPair> pairs = new PairwiseProcessor().process( eventLog.getWithoutSystemEvents() );
-        sort( pairs );
-        reverse( pairs );
-        for ( EntryPair pair : pairs.subList( 0, 10 ) ) {
-            println( "elapsed time: " + format( pair.elapsedTimeMillis / 1000.0 ) + " sec, " + pair._1.brief() + " -> " + pair._2.brief() );
+        ArrayList<EntryPair> list = pairs( eventLog );
+        sort( list );
+        reverse( list );
+        for ( EntryPair pair : list.subList( 0, 10 ) ) {
+            println( "elapsed time: " + pair.time + " sec, " + pair.brief );
         }
 
+        //See if the user used lots of the important controls
         println();
         println( "#########################" );
         println( "######### Processing coverage" );
@@ -51,6 +54,7 @@ public class PostProcessor extends Processor {
         System.out.println( "Things the user didn't do: " + userMissed );
     }
 
+    //Show plots of the numbers of controls used vs time.
     @Override public void process( final ArrayList<EventLog> all ) {
         ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>() {{
             for ( final EventLog eventLog : all ) {
@@ -83,7 +87,7 @@ public class PostProcessor extends Processor {
     }
 
     public static void main( String[] args ) throws IOException {
-        new PostProcessor().process(
+        new JavaPostProcessor().process(
                 new File( "C:\\Users\\Sam\\Desktop\\biglog4.txt" ),
                 new File( "C:\\Users\\Sam\\Desktop\\biglog5.txt" ),
                 new File( "C:\\Users\\Sam\\Desktop\\biglog6.txt" ) );
