@@ -18,7 +18,7 @@ public class EventLog implements Iterable<Entry> {
     private String machineID;
     private String sessionID;
     private long serverTime;
-    private List<Entry> lines = new ArrayList<Entry>();
+    public List<Entry> lines = new ArrayList<Entry>();
 
     public EventLog() {
     }
@@ -62,7 +62,7 @@ public class EventLog implements Iterable<Entry> {
     public EventLog getWithoutSystemEvents() {
         return removeItems( new Function1<Entry, Boolean>() {
             public Boolean apply( Entry entry ) {
-                return entry.object.toLowerCase().startsWith( "system" );
+                return entry.actor.toLowerCase().startsWith( "system" );
             }
         } );
     }
@@ -94,7 +94,7 @@ public class EventLog implements Iterable<Entry> {
         return new EventLog( machineID, sessionID, serverTime, new ObservableList<Entry>( lines ).keepItems( matches ) );
     }
 
-    private int size() {
+    public int size() {
         return lines.size();
     }
 
@@ -117,7 +117,7 @@ public class EventLog implements Iterable<Entry> {
 
     private boolean containsMatch( Entry event ) {
         for ( Entry line : lines ) {
-            if ( line.matches( event.object, event.event, event.parameters ) ) { return true; }
+            if ( line.matches( event.actor, event.event, event.parameters ) ) { return true; }
         }
         return false;
     }

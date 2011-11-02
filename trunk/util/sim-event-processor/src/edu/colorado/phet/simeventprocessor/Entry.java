@@ -13,18 +13,18 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
  */
 public class Entry {
     public final long timeMilliSec;
-    public final String object;
+    public final String actor;
     public final String event;
     public final Parameter[] parameters;
     public final double time;
 
     //Use this constructor for matching only
-    public Entry( String object, String event, Parameter... parameters ) {
-        this( -1, object, event, parameters );
+    public Entry( String actor, String event, Parameter... parameters ) {
+        this( -1, actor, event, parameters );
     }
 
-    public Entry( long timeMilliSec, String object, String event, Parameter[] parameters ) {
-        this.object = object;
+    public Entry( long timeMilliSec, String actor, String event, Parameter[] parameters ) {
+        this.actor = actor;
         this.event = event;
         this.parameters = parameters;
         this.timeMilliSec = timeMilliSec;
@@ -34,7 +34,7 @@ public class Entry {
     @Override public String toString() {
         return "EventLine{" +
                "time=" + timeMilliSec +
-               ", object='" + object + '\'' +
+               ", object='" + actor + '\'' +
                ", event='" + event + '\'' +
                ", parameters=" + ( parameters == null ? null : Arrays.asList( parameters ) ) +
                '}';
@@ -46,7 +46,7 @@ public class Entry {
                 return false;
             }
         }
-        return object.equals( obj ) && event.equals( act );
+        return actor.equals( obj ) && event.equals( act );
     }
 
     private boolean hasParameter( Parameter param ) {
@@ -93,7 +93,7 @@ public class Entry {
 
         if ( timeMilliSec != entry.timeMilliSec ) { return false; }
         if ( event != null ? !event.equals( entry.event ) : entry.event != null ) { return false; }
-        if ( object != null ? !object.equals( entry.object ) : entry.object != null ) { return false; }
+        if ( actor != null ? !actor.equals( entry.actor ) : entry.actor != null ) { return false; }
         if ( !Arrays.equals( parameters, entry.parameters ) ) { return false; }
 
         return true;
@@ -102,13 +102,13 @@ public class Entry {
     @Override
     public int hashCode() {
         int result = (int) ( timeMilliSec ^ ( timeMilliSec >>> 32 ) );
-        result = 31 * result + ( object != null ? object.hashCode() : 0 );
+        result = 31 * result + ( actor != null ? actor.hashCode() : 0 );
         result = 31 * result + ( event != null ? event.hashCode() : 0 );
         result = 31 * result + ( parameters != null ? Arrays.hashCode( parameters ) : 0 );
         return result;
     }
 
     public String brief() {
-        return object + " " + event + ( object.equals( "button node" ) ? ": " + get( "actionCommand" ) : "" );
+        return actor + " " + event + ( actor.equals( "button node" ) ? ": " + get( "actionCommand" ) : "" );
     }
 }
