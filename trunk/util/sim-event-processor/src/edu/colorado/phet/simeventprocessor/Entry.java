@@ -11,27 +11,29 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
  *
  * @author Sam Reid
  */
-class Entry {
-    public final long time;
+public class Entry {
+    public final long timeMilliSec;
     public final String object;
     public final String event;
     public final Parameter[] parameters;
+    public final double time;
 
     //Use this constructor for matching only
     public Entry( String object, String event, Parameter... parameters ) {
         this( -1, object, event, parameters );
     }
 
-    public Entry( long time, String object, String event, Parameter[] parameters ) {
+    public Entry( long timeMilliSec, String object, String event, Parameter[] parameters ) {
         this.object = object;
         this.event = event;
         this.parameters = parameters;
-        this.time = time;
+        this.timeMilliSec = timeMilliSec;
+        this.time = timeMilliSec / 1000.0;
     }
 
     @Override public String toString() {
         return "EventLine{" +
-               "time=" + time +
+               "time=" + timeMilliSec +
                ", object='" + object + '\'' +
                ", event='" + event + '\'' +
                ", parameters=" + ( parameters == null ? null : Arrays.asList( parameters ) ) +
@@ -57,6 +59,10 @@ class Entry {
             if ( parameter.name.equals( name ) ) { return true; }
         }
         return false;
+    }
+
+    public String apply( String key ) {
+        return get( key );
     }
 
     public String get( String key ) {
@@ -85,7 +91,7 @@ class Entry {
 
         Entry entry = (Entry) o;
 
-        if ( time != entry.time ) { return false; }
+        if ( timeMilliSec != entry.timeMilliSec ) { return false; }
         if ( event != null ? !event.equals( entry.event ) : entry.event != null ) { return false; }
         if ( object != null ? !object.equals( entry.object ) : entry.object != null ) { return false; }
         if ( !Arrays.equals( parameters, entry.parameters ) ) { return false; }
@@ -95,7 +101,7 @@ class Entry {
 
     @Override
     public int hashCode() {
-        int result = (int) ( time ^ ( time >>> 32 ) );
+        int result = (int) ( timeMilliSec ^ ( timeMilliSec >>> 32 ) );
         result = 31 * result + ( object != null ? object.hashCode() : 0 );
         result = 31 * result + ( event != null ? event.hashCode() : 0 );
         result = 31 * result + ( parameters != null ? Arrays.hashCode( parameters ) : 0 );

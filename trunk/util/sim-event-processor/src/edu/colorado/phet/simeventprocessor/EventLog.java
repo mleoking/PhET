@@ -59,7 +59,7 @@ public class EventLog implements Iterable<Entry> {
         return lines.iterator();
     }
 
-    public EventLog removeSystemEvents() {
+    public EventLog getWithoutSystemEvents() {
         return removeItems( new Function1<Entry, Boolean>() {
             public Boolean apply( Entry entry ) {
                 return entry.object.toLowerCase().startsWith( "system" );
@@ -71,8 +71,8 @@ public class EventLog implements Iterable<Entry> {
         return new EventLog( machineID, sessionID, serverTime, new ObservableList<Entry>( lines ).removeItems( filter ) );
     }
 
-    public long getLastTime() {
-        return lines.get( lines.size() - 1 ).time;
+    public int getLastTime() {
+        return (int) lines.get( lines.size() - 1 ).timeMilliSec;
     }
 
     public int getNumberOfEvents( final long time ) {
@@ -82,10 +82,10 @@ public class EventLog implements Iterable<Entry> {
     public int getNumberOfEvents( final long time, Function1<Entry, Boolean> matches ) {
         EventLog log = removeItems( new Function1<Entry, Boolean>() {
             public Boolean apply( Entry entry ) {
-                return entry.time > time;
+                return entry.timeMilliSec > time;
             }
         } );
-        EventLog user = log.removeSystemEvents();
+        EventLog user = log.getWithoutSystemEvents();
         EventLog keep = user.keepItems( matches );
         return keep.size();
     }
@@ -102,10 +102,10 @@ public class EventLog implements Iterable<Entry> {
     public int getNumberOfEvents( final long time, EntryList eventsOfInterest ) {
         EventLog log = removeItems( new Function1<Entry, Boolean>() {
             public Boolean apply( Entry entry ) {
-                return entry.time > time;
+                return entry.timeMilliSec > time;
             }
         } );
-        EventLog user = log.removeSystemEvents();
+        EventLog user = log.getWithoutSystemEvents();
         int count = 0;
         for ( Entry eventOfInterest : eventsOfInterest ) {
             if ( user.containsMatch( eventOfInterest ) ) {
@@ -123,7 +123,7 @@ public class EventLog implements Iterable<Entry> {
     }
 
     //Which of the specified events of interest are in our list?
-    public EntryList getEvents( EntryList eventsOfInterest ) {
+    public EntryList find( EntryList eventsOfInterest ) {
         EntryList list = new EntryList();
         for ( Entry entry : eventsOfInterest ) {
             if ( containsMatch( entry ) ) {

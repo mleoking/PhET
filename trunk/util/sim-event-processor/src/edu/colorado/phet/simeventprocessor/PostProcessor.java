@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import org.jfree.data.xy.XYSeries;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.simeventprocessor.MoleculePolarityEventsOfInterest.getMoleculePolarityEventsOfInterest;
 import static java.util.Collections.reverse;
 import static java.util.Collections.sort;
 
@@ -23,7 +23,7 @@ public class PostProcessor extends Processor {
         println( "######### Processing tabs" );
         for ( Entry entry : eventLog ) {
             if ( entry.matches( "tab", "pressed" ) ) {
-                println( "Switched tab to: " + entry.get( "text" ) + " after " + format( entry.time / 1000 ) + " sec" );
+                println( "Switched tab to: " + entry.get( "text" ) + " after " + entry.time + " sec" );
             }
         }
 
@@ -31,11 +31,11 @@ public class PostProcessor extends Processor {
         println( "#########################" );
         println( "######### Processing deltas" );
 
-        final ArrayList<EntryPair> pairs = new PairwiseProcessor().process( eventLog.removeSystemEvents() );
+        final ArrayList<EntryPair> pairs = new PairwiseProcessor().process( eventLog.getWithoutSystemEvents() );
         sort( pairs );
         reverse( pairs );
         for ( EntryPair pair : pairs.subList( 0, 10 ) ) {
-            println( "elapsed time: " + format( pair.elapsedTime / 1000.0 ) + " sec, " + pair._1.brief() + " -> " + pair._2.brief() );
+            println( "elapsed time: " + format( pair.elapsedTimeMillis / 1000.0 ) + " sec, " + pair._1.brief() + " -> " + pair._2.brief() );
         }
 
         println();
@@ -43,31 +43,12 @@ public class PostProcessor extends Processor {
         println( "######### Processing coverage" );
 
         final EntryList eventsOfInterest = getMoleculePolarityEventsOfInterest();
-        EntryList events = eventLog.getEvents( eventsOfInterest );
-        System.out.println( "At the end of the sim, the user had played with " + events.size() + " / " + eventsOfInterest.size() + " interesting events: " + events );
+        EntryList userEvents = eventLog.find( eventsOfInterest );
+        System.out.println( "At the end of the sim, the user had played with " + userEvents.size() + " / " + eventsOfInterest.size() + " interesting events." );
 
-        ArrayList<Entry> copy = new ArrayList<Entry>( eventsOfInterest );
-        copy.removeAll( events );
-        System.out.println( "Things the user didn't do: " + copy );
-    }
-
-    //Events to search for in Molecule Polarity Tab 1
-    private EntryList getMoleculePolarityEventsOfInterest() {
-        return new EntryList() {{
-            add( "check box", "pressed", param( "text", "Bond Dipole" ) );
-            add( "check box", "pressed", param( "text", "Partial Charges" ) );
-            add( "check box", "pressed", param( "text", "Bond Character" ) );
-
-            add( "radio button", "pressed", param( "description", "Surface type" ), param( "value", "ELECTROSTATIC_POTENTIAL" ) );
-            add( "radio button", "pressed", param( "description", "Surface type" ), param( "value", "ELECTROSTATIC_POTENTIAL" ) );
-            add( "radio button", "pressed", param( "description", "Surface type" ), param( "value", "NONE" ) );
-
-            add( "radio button", "pressed", param( "description", "Electric field on" ), param( "value", "true" ) );
-            add( "radio button", "pressed", param( "description", "Electric field on" ), param( "value", "false" ) );
-
-            add( "mouse", "dragged", param( "atom", "A" ) );
-            add( "mouse", "dragged", param( "atom", "B" ) );
-        }};
+        ArrayList<Entry> userMissed = new ArrayList<Entry>( eventsOfInterest );
+        userMissed.removeAll( userEvents );
+        System.out.println( "Things the user didn't do: " + userMissed );
     }
 
     @Override public void process( final ArrayList<EventLog> all ) {
