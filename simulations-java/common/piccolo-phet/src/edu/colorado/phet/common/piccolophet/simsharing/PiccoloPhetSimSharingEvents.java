@@ -1,13 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.simsharing;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -19,23 +17,23 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.ac
  */
 public class PiccoloPhetSimSharingEvents {
 
-    //Write the specified message when the button is pressed
-    public static void addActionListener( ButtonNode textButtonNode, final String object, final String action, final Parameter... parameters ) {
-        textButtonNode.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                SimSharingEvents.actionPerformed( object, action, parameters );
-            }
-        } );
-    }
-
     public static void addDragSequenceListener( PNode node, final Function0<Parameter[]> message ) {
         node.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseDragged( PInputEvent event ) {
-                actionPerformed( "mouse", "dragged", message.apply() );
+
+            @Override public void mousePressed( final PInputEvent event ) {
+                actionPerformed( "mouse", "startDrag", addCanvasPosition( message, event ) );
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
-                actionPerformed( "mouse", "released", message.apply() );
+                actionPerformed( "mouse", "endDrag", addCanvasPosition( message, event ) );
+            }
+
+            //Adds the canvas position to an array of message parameters
+            private Parameter[] addCanvasPosition( Function0<Parameter[]> message, final PInputEvent event ) {
+                return new ArrayList<Parameter>( Arrays.asList( message.apply() ) ) {{
+                    add( new Parameter( "canvasPositionX", event.getCanvasPosition().getX() ) );
+                    add( new Parameter( "canvasPositionY", event.getCanvasPosition().getY() ) );
+                }}.toArray( new Parameter[0] );
             }
         } );
     }
