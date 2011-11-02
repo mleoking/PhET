@@ -7,13 +7,11 @@ import java.awt.Frame;
 import java.awt.GradientPaint;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
 import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
 import edu.colorado.phet.dilutions.common.view.BeakerNode;
@@ -39,7 +37,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
     public DilutionCanvas( final DilutionModel model, Frame parentFrame ) {
 
         // Solution beaker, with solution inside of it
-        final BeakerNode solutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.SOLUTION, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
+        final BeakerNode solutionBeakerNode = new BeakerNode( model.solution, model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, Strings.SOLUTION );
         final PDimension cylinderSize = solutionBeakerNode.getCylinderSize();
         final double cylinderEndHeight = solutionBeakerNode.getCylinderEndHeight();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.solution, model.getDiutionVolumeRange() );
@@ -59,7 +57,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
                                                                                 model.solution.volume, model.getSolutionVolumeRange() );
 
         // Water beaker, with water inside of it
-        BeakerNode waterBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Symbols.WATER, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
+        final BeakerNode waterBeakerNode = new BeakerNode( model.water, model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
         final PDimension waterCylinderSize = waterBeakerNode.getCylinderSize();
         final double waterCylinderEndHeight = waterBeakerNode.getCylinderEndHeight();
         SolutionNode waterNode = new SolutionNode( waterCylinderSize, waterCylinderEndHeight, model.water, model.getDiutionVolumeRange() );
@@ -68,7 +66,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         PNode equalsNode = new FancyEqualsNode();
 
         // dilution beaker, with solution inside of it
-        final BeakerNode dilutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.DILUTION, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT );
+        final BeakerNode dilutionBeakerNode = new BeakerNode( model.dilution, model.getMaxBeakerVolume(), BEAKER_SCALE_X, BEAKER_SCALE_Y, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, Strings.DILUTION );
         SolutionNode dilutionNode = new SolutionNode( cylinderSize, cylinderEndHeight, model.dilution, model.getDiutionVolumeRange() );
 
         // M2 display (Dilution concentration)
@@ -140,29 +138,5 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         }
         scaleRootNodeToFitStage();
         centerRootNodeOnStage();
-
-        // If concentration is zero, label Solution beaker as H2O.
-        model.solution.addConcentrationObserver( new SimpleObserver() {
-            public void update() {
-                if ( model.solution.getConcentration() == 0 ) {
-                    solutionBeakerNode.setLabelText( Symbols.WATER );
-                }
-                else {
-                    solutionBeakerNode.setLabelText( Strings.SOLUTION );
-                }
-            }
-        } );
-
-        // If concentration is zero, label Dilution beaker as H2O.
-        model.dilution.addConcentrationObserver( new SimpleObserver() {
-            public void update() {
-                if ( model.dilution.getConcentration() == 0 ) {
-                    dilutionBeakerNode.setLabelText( Symbols.WATER );
-                }
-                else {
-                    dilutionBeakerNode.setLabelText( Strings.DILUTION );
-                }
-            }
-        } );
     }
 }
