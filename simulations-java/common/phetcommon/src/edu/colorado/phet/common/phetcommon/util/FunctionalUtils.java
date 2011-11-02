@@ -106,10 +106,10 @@ public class FunctionalUtils {
     // Scala-style mkString
     public static <T> String mkString( Collection<T> collection, String separator ) {
         return mkString( collection, new Function1<T, String>() {
-                             public String apply( T t ) {
-                                 return t.toString();
-                             }
-                         }, separator );
+            public String apply( T t ) {
+                return t.toString();
+            }
+        }, separator );
     }
 
     // Standard functional map function
