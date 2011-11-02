@@ -1,3 +1,5 @@
+# 0.00.19 (58296) Nov 2, 2011
+11/2/11 Deploying to dev with a fix for an issue found during testing of previous version.
 # 0.00.18 (58294) Nov 2, 2011
 11/2/11 Deploying with a fix for an issue found during testing of previous version.
 Added screen shot.
