@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -14,6 +15,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -24,6 +26,8 @@ import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE;
@@ -44,6 +48,9 @@ public class StoveNode extends PNode {
 
     // Basic color used for the stove.
     private static final Color BASE_COLOR = new Color( 159, 182, 205 );
+
+    // Valid range of heat values.
+    private static DoubleRange heatRange = new DoubleRange( -1, 1 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -149,6 +156,42 @@ public class StoveNode extends PNode {
                 update();
                 if ( m_model != null ) {
                     m_model.setHeatingCoolingAmount( heat );
+                }
+            }
+        } );
+
+        // Add a key handler that will allow the user to use the arrow keys to
+        // add and remove heat.
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mousePressed( PInputEvent event ) {
+                // Get the keyboard focus.
+                event.getInputManager().setKeyboardFocus( event.getPath() );
+            }
+
+            @Override public void keyPressed( PInputEvent event ) {
+                double numIncrements = 50;
+                switch( event.getKeyCode() ) {
+                    case KeyEvent.VK_UP:
+                    case KeyEvent.VK_RIGHT:
+                    case KeyEvent.VK_KP_RIGHT:
+                        // case KeyEvent.VK_KP_UP: - For some odd reason, the compiler doesn't like this.
+                        m_heat.set( Math.min( m_heat.get() + heatRange.getLength() / numIncrements, 1 ) );
+                        break;
+                    case KeyEvent.VK_DOWN:
+                    case KeyEvent.VK_LEFT:
+                    case KeyEvent.VK_KP_DOWN:
+                    case KeyEvent.VK_KP_LEFT:
+                        m_heat.set( Math.max( m_heat.get() - heatRange.getLength() / numIncrements, -1 ) );
+                        break;
+                    case KeyEvent.VK_ESCAPE:
+                    case KeyEvent.VK_0:
+                    case KeyEvent.VK_NUMPAD0:
+                    case KeyEvent.VK_ENTER:
+                        m_heat.set( 0.0 );
+                        break;
+                    default:
+                        // Ignore the key.
+                        break;
                 }
             }
         } );
