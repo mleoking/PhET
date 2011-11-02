@@ -19,8 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.systemResponse;
+import static edu.colorado.phet.moleculeshapes.control.BondTypeControlNode.systemResponseForGeometries;
 
 /**
  * The main Molecule Shapes control panel on the right hand side. It is composed of multiple sub-panels,
@@ -122,7 +121,8 @@ public class MoleculeShapesControlPanel extends PNode {
                 public void run() {
                     module.getMolecule().removeAllPairs();
 
-                    systemResponse( "removed all", param( "vseprConfigurationName", module.getMolecule().getConfiguration().name ) );
+                    //System response for electron and molecule geometry names, copied from code in GeometryNameNode
+                    systemResponseForGeometries( module.getMolecule() );
                 }
             } ) );
 

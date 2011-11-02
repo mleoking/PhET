@@ -11,7 +11,9 @@ import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMECursorHandler;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesResources;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
+import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -62,7 +64,9 @@ public class BondTypeControlNode extends PNode {
                         if ( candidate != null ) {
                             module.getMolecule().removePair( candidate );
                             actionPerformed( "bond", "removed", param( "bondOrder", bondOrder ) );
-                            systemResponse( "removed pair", param( "vseprConfigurationName", module.getMolecule().getConfiguration().name ) );
+
+                            //System response for electron and molecule geometry names, copied from code in GeometryNameNode
+                            systemResponseForGeometries( module.getMolecule() );
                         }
                     }
                 } );
@@ -108,10 +112,22 @@ public class BondTypeControlNode extends PNode {
                 if ( enabled.get() && event.getButton() == MouseEvent.BUTTON1 ) {
                     JMEUtils.invoke( runnable );
                     actionPerformed( "bond", "created", param( "bondOrder", bondOrder ) );
-                    systemResponse( "created bond", param( "vseprConfigurationName", module.getMolecule().getConfiguration().name ) );
+
+                    //System response for electron and molecule geometry names, copied from code in GeometryNameNode
+                    systemResponseForGeometries( module.getMolecule() );
                 }
             }
         } );
+    }
+
+    //System response for electron and molecule geometry names, copied from code in GeometryNameNode
+    public static void systemResponseForGeometries( MoleculeModel molecule ) {
+        String electronGeometry = molecule.getConfiguration().geometry.name;
+        String electronGeometryName = electronGeometry == null ? MoleculeShapesResources.Strings.GEOMETRY__EMPTY : electronGeometry;
+
+        final String moleculeGeometry = molecule.getConfiguration().name;
+        String moleculeGeometryName = moleculeGeometry == null ? MoleculeShapesResources.Strings.SHAPE__EMPTY : moleculeGeometry;
+        systemResponse( "created bond", param( "electronGeometry", electronGeometryName ), param( "moleculeGeometry", moleculeGeometryName ) );
     }
 
     private boolean hasMatchingGroup() {
