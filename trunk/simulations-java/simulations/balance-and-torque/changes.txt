@@ -1,3 +1,4 @@
+Fixed an issue where the masses could be dragged out of view and lost on the "Intro" tab.
 # 0.00.17 (58289) Nov 2, 2011
 11/2/11 Deploying to dev for review.
 Added credits.

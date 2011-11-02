@@ -29,6 +29,7 @@ import edu.colorado.phet.balanceandtorque.common.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -100,7 +101,7 @@ public class BasicBalanceCanvas extends PhetPCanvas implements Resettable {
 
         // Whenever a mass is added to the model, create a graphic for it.
         model.massList.addElementAddedObserver( new VoidFunction1<Mass>() {
-            public void apply( Mass mass ) {
+            public void apply( final Mass mass ) {
                 // Create and add the view representation for this mass.
                 PNode massNode = null;
                 if ( mass instanceof ShapeMass ) {
@@ -118,11 +119,36 @@ public class BasicBalanceCanvas extends PhetPCanvas implements Resettable {
                     assert false;
                 }
                 massesLayer.addChild( massNode );
+
                 // Add the removal listener for if and when this mass is removed from the model.
                 final PNode finalMassNode = massNode;
                 model.massList.addElementRemovedObserver( mass, new VoidFunction0() {
                     public void apply() {
                         massesLayer.removeChild( finalMassNode );
+                    }
+                } );
+
+                // Add a listener for when the user drops the mass.
+                mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
+                    public void update( Boolean newValue, Boolean oldValue ) {
+                        if ( oldValue && !newValue ) {
+                            // The user has dropped this mass.
+                            if ( !model.getPlank().addMassToSurface( mass ) ) {
+                                // The attempt to add mass to surface of plank failed,
+                                // probably because mass was dropped somewhere other
+                                // than over the plank.
+                                if ( mvt.modelToView( mass.getPosition() ).getX() > 0 && mvt.modelToView( mass.getPosition() ).getX() < STAGE_SIZE.getWidth() ) {
+                                    // Mass is in the visible area, so just
+                                    // drop it on the ground.
+                                    mass.setPosition( mass.getPosition().getX(), 0 );
+                                }
+                                else {
+                                    // Mass is off stage.  Return it to its
+                                    // original position.
+                                    mass.positionProperty.reset();
+                                }
+                            }
+                        }
                     }
                 } );
             }
