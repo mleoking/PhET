@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.io.IOException;
@@ -22,18 +23,18 @@ public class TestMessageServer {
         ObjectInputStream readFromServer = new ObjectInputStream( server.getInputStream() );
 
         //Read the initial message from the server to verify communication is working properly
-        Object fromServer = readFromServer.readObject();
+        Object fromServer = readFromServer.readUTF();
         System.out.println( "MessageServer: " + fromServer );
 
         //Send a command to the server and process the result
         for ( int i = 0; i < numQuestions; i++ ) {
-            writeToServer.writeObject( "Add these numbers: 3,6" );
-            fromServer = readFromServer.readObject();
+            writeToServer.writeUTF( "Add these numbers: 3,6" );
+            fromServer = readFromServer.readUTF();
             System.out.println( "fromServer = " + fromServer );
         }
 
         //Done with commands, so issue a logout command to the server thread.  Doesn't kill all connections, just this one.
-        writeToServer.writeObject( "logout" );
+        writeToServer.writeUTF( "logout" );
         writeToServer.flush();
 
         //All done with the server, so close our connections
