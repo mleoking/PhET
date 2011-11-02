@@ -1,3 +1,4 @@
+11/2/2011 Report when the user tries to click on the non-interactive Bond Character node, see #3136
 # 1.01.07 (58277) Nov 2, 2011
 # 1.01.06 (58220) Nov 1, 2011
 11/1/2011 Changed from SimSharingProperty to track UI control changes, see #3136

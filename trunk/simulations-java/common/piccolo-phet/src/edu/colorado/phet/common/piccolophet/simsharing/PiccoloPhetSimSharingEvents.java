@@ -13,11 +13,14 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.actionPerformed;
 
 /**
+ * Utility class for attaching listeners to PNodes.
+ *
  * @author Sam Reid
  */
 public class PiccoloPhetSimSharingEvents {
 
     //TODO SimSharingEvents.addDragSequenceListener should send the same type of message, unify these
+    //Report when the mouse starts or stops a drag, and its canvas positions for start and stop
     public static void addDragSequenceListener( PNode node, final Function0<Parameter[]> message ) {
         node.addInputEventListener( new PBasicInputEventHandler() {
 

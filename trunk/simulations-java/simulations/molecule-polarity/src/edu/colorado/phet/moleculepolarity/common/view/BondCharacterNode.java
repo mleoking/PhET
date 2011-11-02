@@ -10,8 +10,11 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.simsharing.PiccoloPhetSimSharingEvents;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
@@ -20,6 +23,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Displays the bond type, by placing a marker on a continuum whose extremes are "covalent" and "ionic".
@@ -93,6 +98,13 @@ public class BondCharacterNode extends PComposite {
         molecule.bond.dipole.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D dipole ) {
                 pointerNode.setOffset( xOffsetFunction.evaluate( dipole.getMagnitude() ), pointerNode.getYOffset() );
+            }
+        } );
+
+        //Report when the user tries to click on this non-interactive control
+        PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<Parameter[]>() {
+            public Parameter[] apply() {
+                return new Parameter[] { param( "node", "BondCharacterNode" ), param( "interactive", "false" ) };
             }
         } );
     }
