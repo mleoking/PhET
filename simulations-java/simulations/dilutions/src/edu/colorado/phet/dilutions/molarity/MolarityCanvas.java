@@ -5,10 +5,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
+import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
 import edu.colorado.phet.dilutions.common.control.SoluteControlNode;
 import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
@@ -26,10 +28,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MolarityCanvas extends AbstractDilutionsCanvas {
 
-    public MolarityCanvas( MolarityModel model, Frame parentFrame ) {
+    public MolarityCanvas( final MolarityModel model, Frame parentFrame ) {
 
         // beaker, with solution and precipitate inside of it
-        BeakerNode beakerNode = new BeakerNode( model.solution, model.getSolutionVolumeRange().getMax(), 0.75, 0.75, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) );
+        final BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.75, 0.75, model.solution.solute.get().formula, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, beakerNode.getCylinderEndHeight(), model.solution, model.getSolutionVolumeRange() );
         PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, cylinderSize, beakerNode.getCylinderEndHeight() );
@@ -101,6 +103,26 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         }
         scaleRootNodeToFitStage();
         centerRootNodeOnStage();
+
+        // manage dynamic beaker label
+        SimpleObserver labelUpdater = new SimpleObserver() {
+            public void update() {
+                String labelText;
+                if ( model.solution.volume.get() == 0 ) {
+                    labelText = "";
+                }
+                else if ( model.solution.getConcentration() == 0 ) {
+                    labelText = Symbols.WATER;
+                }
+                else {
+                    labelText = model.solution.solute.get().formula;
+                }
+                beakerNode.setLabelText( labelText );
+            }
+        };
+        model.solution.addConcentrationObserver( labelUpdater );
+        model.solution.volume.addObserver( labelUpdater );
+        model.solution.solute.addObserver( labelUpdater );
     }
 }
 

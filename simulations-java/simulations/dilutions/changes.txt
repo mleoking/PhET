@@ -1,3 +1,5 @@
+11/2/11 Dilution: display "Solution" on right-most beaker when V2-V1=0
+11/2/11 remove general beaker label updater from BeakerNode, since requirements are different for every beaker
 11/2/11 try red solute in Dilution tab
 11/2/11 change request: revert color change to "=" in Dilution
 # 0.00.12 (58273) Nov 1, 2011

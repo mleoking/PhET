@@ -14,14 +14,10 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
-import edu.colorado.phet.dilutions.common.model.Solute;
-import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -48,38 +44,7 @@ public class BeakerNode extends PComposite {
     private final BeakerImageNode beakerImageNode;
     private final LabelNode labelNode;
 
-    public BeakerNode( final Solution solution, double maxVolume, double imageScaleX, double imageScaleY, PDimension labelSize, Font labelFont ) {
-        this( solution, maxVolume, imageScaleX, imageScaleY, labelSize, labelFont, null );
-    }
-
-    // Beaker with a label that dynamically updates to match a solution's solute.
-    public BeakerNode( final Solution solution, double maxVolume, double imageScaleX, double imageScaleY, PDimension labelSize, Font labelFont, final String alternateLabel ) {
-        this( maxVolume, imageScaleX, imageScaleY, labelSize, labelFont, "" );
-
-        SimpleObserver observer = new SimpleObserver() {
-            public void update() {
-                // update solute label
-                if ( solution.volume.get() == 0 ) {
-                    setLabelText( "" );
-                }
-                else if ( solution.getConcentration() == 0 ) {
-                    setLabelText( Symbols.WATER );
-                }
-                else if ( alternateLabel != null ) {
-                    setLabelText( alternateLabel );
-                }
-                else {
-                    setLabelText( solution.solute.get().formula );
-                }
-            }
-        };
-        solution.addConcentrationObserver( observer );
-        solution.volume.addObserver( observer );
-        solution.solute.addObserver( observer );
-    }
-
-    // Beaker with a static label.
-    private BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, PDimension labelSize, Font labelFont, String labelText ) {
+    public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont ) {
 
         // this node is not interactive
         setPickable( false );
@@ -197,13 +162,11 @@ public class BeakerNode extends PComposite {
 
     // test
     public static void main( String[] args ) {
-        Solute solute = new Solute( "MySolute", "MyFormula", 5.0, Color.RED, 1, 200 );
-        Solution solution = new Solution( solute, 1, 0.5 );
         // beaker
-        final BeakerNode beakerNode = new BeakerNode( solution, 1, 0.75, 0.75, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) ) {{
+        final BeakerNode beakerNode = new BeakerNode( 1, 0.75, 0.75, "Rat Poison", new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) ) {{
             setOffset( 200, 200 );
         }};
-        // red dot at beaker's origin
+        // red dot at beaker cylinder's origin
         final PPath originNode = new PPath( new Ellipse2D.Double( -3, -3, 6, 6 ) ) {{
             setPaint( Color.RED );
             setOffset( beakerNode.getOffset() );
