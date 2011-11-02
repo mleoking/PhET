@@ -32,9 +32,9 @@ public class PropertyRadioButton<T> extends JRadioButton {
         // update the model when the check box changes
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                SimSharingEvents.actionPerformed( "radio button", "pressed", param( "text", text ), param( "description", property.getDescription() ), param( "value", value.toString() ) );
                 property.set( value );
                 propertyObserver.update();//make sure radio buttons don't toggle off, in case they're not in a button group
-                SimSharingEvents.actionPerformed( "radio button", "pressed", param( "text", text ), param( "description", property.getDescription() ), param( "value", value.toString() ) );
             }
         } );
 
