@@ -1,3 +1,4 @@
+Report on both electron and molecule geometry when they change, see #3136
 # 1.01.06 (58278) Nov 2, 2011
 Added system response for structure change, see #3136
 # 1.01.05 (58221) Nov 1, 2011
