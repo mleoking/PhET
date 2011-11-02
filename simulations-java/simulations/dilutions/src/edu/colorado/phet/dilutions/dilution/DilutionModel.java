@@ -38,7 +38,7 @@ public class DilutionModel implements Resettable {
 
     public DilutionModel() {
 
-        this.solute = new Solute( Strings.SOLUTE, "?", CONCENTRATION_RANGE.getMax(), Color.BLUE, 5, 200 ); // hypothetical solute with unknown formula
+        this.solute = new Solute( Strings.SOLUTE, "?", CONCENTRATION_RANGE.getMax(), Color.RED, 5, 200 ); // hypothetical solute with unknown formula
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
         this.dilution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), DILUTION_VOLUME_RANGE.getDefault() );
         this.water = new Solution( solute, 0, dilution.volume.get() - solution.volume.get() );
