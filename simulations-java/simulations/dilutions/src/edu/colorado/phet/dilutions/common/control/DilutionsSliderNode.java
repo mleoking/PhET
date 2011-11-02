@@ -39,7 +39,7 @@ public class DilutionsSliderNode extends PhetPNode {
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
 
     private final LinearFunction function; // maps model value to a track position
-    private final TrackNode trackNode;
+    private final PNode trackNode;
     private final ThumbNode thumbNode;
 
     // Slider with a default track fill and background color.
@@ -49,23 +49,42 @@ public class DilutionsSliderNode extends PhetPNode {
     }
 
     public DilutionsSliderNode( String title, String minLabel, String maxLabel,
-                                PDimension trackSize, Paint trackPaint, Paint trackBackgroundPaint,
+                                final PDimension trackSize, final Paint trackPaint, final Paint trackBackgroundPaint,
                                 final Property<Double> modelValue, DoubleRange range ) {
 
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
-        // nodes
+        // title
         PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
-        trackNode = new TrackNode( trackSize, trackPaint, trackBackgroundPaint );
+
+        // track that the thumb moves in, origin at upper left
+        trackNode = new PPath() {{
+            setPathTo( new Rectangle2D.Double( 0, 0, trackSize.getWidth(), trackSize.getHeight() ) );
+            setPaint( trackPaint );
+        }};
+
+        // background that surrounds the track
+        PNode backgroundNode = new PPath() {{
+            final double xMargin = 7;
+            final double yMargin = 7;
+            setPathTo( new RoundRectangle2D.Double( -xMargin, -yMargin, trackSize.getWidth() + ( 2 * xMargin ), trackSize.getHeight() + ( 2 * yMargin ), 10, 10 ) );
+            setPaint( trackBackgroundPaint );
+            setStroke( null );
+
+        }};
+
+        // thumb that moves in the track
         thumbNode = new ThumbNode( THUMB_SIZE, this, trackNode, range, new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 modelValue.set( value );
             }
         } );
-        final PNode maxNode = new PText( maxLabel ) {{
+
+        // min and max labels
+        final PNode minNode = new PText( minLabel ) {{
             setFont( MIN_MAX_FONT );
         }};
-        final PNode minNode = new PText( minLabel ) {{
+        final PNode maxNode = new PText( maxLabel ) {{
             setFont( MIN_MAX_FONT );
         }};
 
@@ -74,6 +93,7 @@ public class DilutionsSliderNode extends PhetPNode {
             addChild( titleNode );
             addChild( maxNode );
             addChild( minNode );
+            addChild( backgroundNode );
             addChild( trackNode );
             addChild( thumbNode );
         }
@@ -105,27 +125,6 @@ public class DilutionsSliderNode extends PhetPNode {
     private void updateNode( double value ) {
         // knob location
         thumbNode.setOffset( thumbNode.getXOffset(), function.evaluate( value ) );
-    }
-
-    // The track that the thumb moves in. Origin is at upper-left corner of the track's center line.
-    private static class TrackNode extends PPath {
-        public TrackNode( final PDimension size, final Paint fillPaint, final Paint backgroundPaint ) {
-
-            // background
-            addChild( new PPath() {{
-                final double xMargin = 7;
-                final double yMargin = 7;
-                setPathTo( new RoundRectangle2D.Double( -xMargin, -yMargin, size.getWidth() + ( 2 * xMargin ), size.getHeight() + ( 2 * yMargin ), 10, 10 ) );
-                setPaint( backgroundPaint );
-                setStroke( null );
-            }} );
-
-            // vertical center line, thumb moves in this
-            addChild( new PPath() {{
-                setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-                setPaint( fillPaint );
-            }} );
-        }
     }
 
     // The slider thumb, rounded rectangle with a horizontal line through the center. Origin is at the thumb's geometric center.

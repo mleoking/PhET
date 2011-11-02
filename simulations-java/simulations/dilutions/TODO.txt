@@ -6,6 +6,7 @@ DESIGN
 - default values in all tabs
 
 HIGH
+- bug: in Dilutions tab, initial volume of H2O beaker is off by 1 tick on some platforms
 - multi-color gradients for solutes, specifically for Kool-Aid and KMnO4 (as in design doc beaker photos)
 
 MEDIUM
