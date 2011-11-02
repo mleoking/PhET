@@ -31,7 +31,6 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
-import edu.colorado.phet.common.piccolophet.simsharing.PiccoloPhetSimSharingEvents;
 
 import static edu.colorado.phet.common.games.GameConstants.BUTTON_START;
 
@@ -169,8 +168,6 @@ public class GameSettingsPanel extends GridPanel {
                     }
                 } );
                 setPreferredSize( new Dimension( (int) getFullBounds().getWidth() + getShadowOffset(), (int) getFullBounds().getHeight() + getShadowOffset() ) );
-
-                PiccoloPhetSimSharingEvents.addActionListener( this, "game", "started" );
             }} );
 
             //Match the background color
