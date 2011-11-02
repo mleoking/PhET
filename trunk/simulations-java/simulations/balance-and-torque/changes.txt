@@ -1,3 +1,5 @@
+# 0.00.18 (58294) Nov 2, 2011
+11/2/11 Deploying with a fix for an issue found during testing of previous version.
 Added screen shot.
 Fixed an issue where the masses could be dragged out of view and lost on the "Intro" tab.
 # 0.00.17 (58289) Nov 2, 2011
