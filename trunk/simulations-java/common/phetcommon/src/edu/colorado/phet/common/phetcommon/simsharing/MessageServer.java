@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.io.IOException;
@@ -53,14 +54,14 @@ public class MessageServer {
                         final ObjectInputStream readFromClient = new ObjectInputStream( socket.getInputStream() );
 
                         //Send an initial message to test the connection
-                        writeToClient.writeObject( "Greetings from the server" );
+                        writeToClient.writeUTF( "Greetings from the server" );
 
                         //Loop as long as no 'logout' command was given, and process the commands
                         while ( threadAlive ) {
 
                             //Read the object from the client
                             try {
-                                Object fromClient = readFromClient.readObject();
+                                Object fromClient = readFromClient.readUTF();
 
                                 //allow any custom handling
                                 messageHandler.handle( fromClient, writeToClient, readFromClient );
@@ -70,7 +71,7 @@ public class MessageServer {
                                     StringTokenizer st = new StringTokenizer( fromClient.toString().substring( fromClient.toString().indexOf( ":" ) + 1 ), ", " );
                                     int x = Integer.parseInt( st.nextToken() );
                                     int y = Integer.parseInt( st.nextToken() );
-                                    writeToClient.writeObject( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );
+                                    writeToClient.writeUTF( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );
                                 }
 
                                 //Handle logout commands.  Sometimes null for unknown reason, so have to check for null here
@@ -108,6 +109,14 @@ public class MessageServer {
 
     public static Socket connect() throws IOException {
         return new Socket( DEFAULT_HOST, DEFAULT_PORT );
+    }
+
+    //See http://stackoverflow.com/questions/4009157/java-socket-writeutf-and-readutf
+    //The maximum length of Strings that can be handled this way is 65535 for pure ASCII, less if you use non-ASCII characters - and you cannot easily predict the limit in that case, other than conservatively assuming 3 bytes per character. So if you're sure you'll never send Strings longer than about 20k, you'll be fine.
+    public static void checkSize( String question ) {
+        if ( question.length() > 20000 ) {
+            System.out.println( "String probably too long to send over writeUTF, length = " + question.length() );
+        }
     }
 
     public static void main( String[] args ) throws IOException {

@@ -34,20 +34,21 @@ public class DefaultActor implements IActor {
         readFromServer = new ObjectInputStream( socket.getInputStream() );
 
         //Read the initial message from the server to verify communication is working properly
-        Object fromServer = readFromServer.readObject();
+        Object fromServer = readFromServer.readUTF();
         System.out.println( "MessageServer: " + fromServer );
     }
 
     //Must be synchronized because multiple threads may use this client to communicate with the server
     //If not synchronized, the messages could get mixed up and you could get exceptions like in:
     //http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6554519
-    public synchronized Object ask( Object question ) throws IOException, ClassNotFoundException {
-        writeToServer.writeObject( question );
+    public synchronized String ask( String question ) throws IOException, ClassNotFoundException {
+        MessageServer.checkSize( question );
+        writeToServer.writeUTF( question );
         writeToServer.flush();
 
         //Prevent multiple threads from using the read object simultaneously.  This was a problem before we created a new Client for that thread in SimView
         synchronized ( readFromServer ) {
-            Object result = readFromServer.readObject();
+            String result = readFromServer.readUTF();
             return result;
         }
     }
@@ -55,8 +56,9 @@ public class DefaultActor implements IActor {
     //Must be synchronized because multiple threads may use this client to communicate with the server
     //If not synchronized, the messages could get mixed up and you could get exceptions like in:
     //http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6554519
-    public synchronized void tell( Object statement ) throws IOException {
-        writeToServer.writeObject( statement );
+    public synchronized void tell( String statement ) throws IOException {
+        MessageServer.checkSize( statement );
+        writeToServer.writeUTF( statement );
         writeToServer.flush();
     }
 }
