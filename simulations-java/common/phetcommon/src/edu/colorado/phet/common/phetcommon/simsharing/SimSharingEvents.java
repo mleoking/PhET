@@ -90,7 +90,7 @@ public class SimSharingEvents {
             String timestamp = simStartedTime.isSome() ? ( System.currentTimeMillis() - simStartedTime.get() ) + "" : "@" + System.currentTimeMillis();
 
             //Deliver the machine id + session id + message, but only print the message since that is all the server will log
-            String parameterText = new ObservableList<Parameter>( parameters ).mkString( ", " );
+            String parameterText = new ObservableList<Parameter>( parameters ).mkString( Parameter.DELIMITER );
             String message = timestamp + "\t" + object + "\t" + action + "\t" + parameterText;
             System.out.println( message );
             deliverMessage( MACHINE_COOKIE + "\t" + SESSION_ID + "\t" + timestamp + "\t" + object + "\t" + action + "\t" + parameterText );

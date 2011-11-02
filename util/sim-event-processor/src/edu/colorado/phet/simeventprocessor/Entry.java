@@ -79,9 +79,18 @@ public class Entry {
         long time = Long.parseLong( tokenizer.nextToken() );
         String object = tokenizer.nextToken();
         String event = tokenizer.nextToken();
-        Parameter[] parameters = tokenizer.hasMoreTokens() ? Parameter.parseParameters( tokenizer.nextToken() ) : new Parameter[0];
-        Entry entry = new Entry( time, object, event, parameters );
-        return entry;
+
+        //Transform the end of the line back into a parseable version
+        StringBuffer remainderOfLineBuf = new StringBuffer();
+        while ( tokenizer.hasMoreTokens() ) {
+            remainderOfLineBuf.append( tokenizer.nextToken() );
+            remainderOfLineBuf.append( Parameter.DELIMITER );
+        }
+        String remainderOfLine = remainderOfLineBuf.toString().trim();
+        Parameter[] parameters = Parameter.parseParameters( remainderOfLine );
+
+        //Return the new entry
+        return new Entry( time, object, event, parameters );
     }
 
     @Override

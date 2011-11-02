@@ -1,3 +1,4 @@
+11/2/2011 Use tab instead of comma as parameter delimiter, see #3136
 11/1/2011 Changed from SimSharingProperty to track UI control changes, see #3136
 11/1/2011 Changed PropertyCheckBox to use actionPerformed instead of ChangeListener to suppress multiple event notifications, see #3136
 10/31/11 Changed events from "message" to "object" + "action", see #3136
