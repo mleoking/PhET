@@ -9,7 +9,6 @@ import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.FireExtinguisher;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.SmallTrashCan;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 
 /**
  * Primary model class for the intro tab in the balancing act simulation.
@@ -37,19 +36,19 @@ public class IntroModel extends BalanceModel {
 
     // Adds a mass to the model.
     @Override public UserMovableModelElement addMass( final Mass mass ) {
-        mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
-            public void update( Boolean newValue, Boolean oldValue ) {
-                if ( oldValue && !newValue ) {
-                    // The user has dropped this mass.
-                    if ( !plank.addMassToSurface( mass ) ) {
-                        // The attempt to add mass to surface of plank failed,
-                        // probably because mass was dropped somewhere other
-                        // than over the plank.  Put the mass on the ground.
-                        mass.setPosition( mass.getPosition().getX(), 0 );
-                    }
-                }
-            }
-        } );
+//        mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
+//            public void update( Boolean newValue, Boolean oldValue ) {
+//                if ( oldValue && !newValue ) {
+//                    // The user has dropped this mass.
+//                    if ( !plank.addMassToSurface( mass ) ) {
+//                        // The attempt to add mass to surface of plank failed,
+//                        // probably because mass was dropped somewhere other
+//                        // than over the plank.
+//                        mass.setPosition( mass.getPosition().getX(), 0 );
+//                    }
+//                }
+//            }
+//        } );
         massList.add( mass );
         return mass;
     }
