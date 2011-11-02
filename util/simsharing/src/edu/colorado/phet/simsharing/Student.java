@@ -18,10 +18,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.simsharing.ThreadedActor;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.simsharing.messages.AddSamples;
-import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.SessionID;
-import edu.colorado.phet.simsharing.messages.StartSession;
 import edu.colorado.phet.simsharing.server.Server;
 
 /**
@@ -57,7 +54,8 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
                 if ( sessionID != null ) {
                     try {
                         //Record the session end
-                        actor.tell( new EndSession( sessionID ) );
+                        //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
+                        //actor.tell( new EndSession( sessionID ) );
 
                         //Allow the server thread to exit gracefully.  Blocks to ensure it happens before we exit
                         actor.tell( "logout" );
@@ -102,13 +100,14 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
                         finishedMessage = true;
                     }
                     if ( stateCache.size() >= batchSize ) {
-                        try {
-                            //Copy the state cache because it is cleared in the next step
-                            nonBlockingClient.tell( new AddSamples( sessionID, new ArrayList<SimState>( stateCache ) ) );
-                        }
-                        catch ( IOException e ) {
-                            e.printStackTrace();
-                        }
+//                        try {
+                        //Copy the state cache because it is cleared in the next step
+                        //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
+                        //nonBlockingClient.tell( new AddSamples( sessionID, new ArrayList<SimState>( stateCache ) ) );
+//                        }
+//                        catch ( IOException e ) {
+//                            e.printStackTrace();
+//                        }
                         stateCache.clear();
                     }
                 }
@@ -127,15 +126,17 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
         new Thread( new Runnable() {
             public void run() {
                 //be careful, this part blocks:
-                try {
-                    sessionID = (SessionID) nonBlockingClient.ask( new StartSession( sim.name, sim.project, sim.flavor, studentID ) );
-                }
-                catch ( IOException e ) {
-                    e.printStackTrace();
-                }
-                catch ( ClassNotFoundException e ) {
-                    e.printStackTrace();
-                }
+//                try {
+//
+                //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
+                //sessionID = (SessionID) nonBlockingClient.ask( new StartSession( sim.name, sim.project, sim.flavor, studentID ) );
+//                }
+//                catch ( IOException e ) {
+//                    e.printStackTrace();
+//                }
+//                catch ( ClassNotFoundException e ) {
+//                    e.printStackTrace();
+//                }
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ", id = " + sessionID );

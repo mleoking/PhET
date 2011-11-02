@@ -4,7 +4,6 @@ package edu.colorado.phet.simsharing.teacher;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -48,12 +47,14 @@ public class RecordingView extends JPanel {
         add( new JButton( "Clear" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    try {
-                        actor.tell( new ClearSessions() );
-                    }
-                    catch ( IOException e1 ) {
-                        e1.printStackTrace();
-                    }
+//                    try {
+
+                    //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
+//                        actor.tell( new ClearSessions() );
+//                    }
+//                    catch ( IOException e1 ) {
+//                        e1.printStackTrace();
+//                    }
                 }
             } );
         }}, BorderLayout.SOUTH );
@@ -67,7 +68,9 @@ public class RecordingView extends JPanel {
                         //Allow a long timeout here since it may take a long time to deliver a large list of recordings
                         Thread.sleep( 1000 );
                         final SessionList[] list = new SessionList[1];
-                        list[0] = (SessionList) actor.ask( new ListAllSessions() );
+
+                        //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
+//                        list[0] = (SessionList) actor.ask( new ListAllSessions() );
                         SwingUtilities.invokeAndWait( new Runnable() {
                             public void run() {
                                 recordingList.setListData( list[0].toArray() );//TODO: remember user selection when list is refreshed

@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.teacher;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -11,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.DefaultActor;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.Sim;
-import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
 import edu.umd.cs.piccolo.PNode;
@@ -44,7 +42,11 @@ public class ClassroomView extends PSwingCanvas {
                 while ( true ) {
                     try {
                         Thread.sleep( 1000 );
-                        final StudentList list = (StudentList) actor.ask( new GetActiveStudentList() );
+
+                        //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
+//                        final StudentList list = (StudentList) actor.ask( new GetActiveStudentList() );
+                        final StudentList list = null;
+
                         SwingUtilities.invokeLater( new Runnable() {
                             public void run() {
                                 summaryNode.removeAllChildren();
@@ -102,12 +104,12 @@ public class ClassroomView extends PSwingCanvas {
                     catch ( InterruptedException e ) {
                         e.printStackTrace();
                     }
-                    catch ( ClassNotFoundException e ) {
-                        e.printStackTrace();
-                    }
-                    catch ( IOException e ) {
-                        e.printStackTrace();
-                    }
+//                    catch ( ClassNotFoundException e ) {
+//                        e.printStackTrace();
+//                    }
+//                    catch ( IOException e ) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
         } ).start();
