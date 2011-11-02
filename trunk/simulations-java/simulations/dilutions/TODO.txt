@@ -6,6 +6,7 @@ DESIGN
 - default values in all tabs
 
 HIGH
+- Dilution: display "Solution" on right-most beaker when V1=V2
 - multi-color gradients for solutes, specifically for Kool-Aid and KMnO4 (as in design doc beaker photos)
 
 MEDIUM
