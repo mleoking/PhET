@@ -41,7 +41,7 @@ public class DilutionModel implements Resettable {
         this.solute = new Solute( Strings.SOLUTE, "?", CONCENTRATION_RANGE.getMax(), Color.BLUE, 5, 200 ); // hypothetical solute with unknown formula
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
         this.dilution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), DILUTION_VOLUME_RANGE.getDefault() );
-        this.water = new Solution( solute, 0, DILUTION_VOLUME_RANGE.getDefault() );
+        this.water = new Solution( solute, 0, dilution.volume.get() - solution.volume.get() );
 
         double initialConcentration = ( solution.volume.get() == 0 ) ? 0 : solution.soluteAmount.get() / solution.volume.get();
         this.solutionConcentration = new Property<Double>( initialConcentration );
@@ -82,9 +82,9 @@ public class DilutionModel implements Resettable {
     }
 
     public void reset() {
+        water.reset();
         solution.reset();
         dilution.reset();
-        water.reset();
         solutionConcentration.reset();
     }
 }
