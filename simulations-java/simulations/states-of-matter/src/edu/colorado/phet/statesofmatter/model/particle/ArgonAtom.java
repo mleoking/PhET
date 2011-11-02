@@ -5,7 +5,7 @@ package edu.colorado.phet.statesofmatter.model.particle;
 import edu.colorado.phet.statesofmatter.model.AtomType;
 
 /**
- * The class represents a single atom of neon in the model.
+ * The class represents a single atom of argon in the model.
  *
  * @author John Blanco
  */
