@@ -1,3 +1,4 @@
+# 00.00.49 (58305) Nov 2, 2011
 Fixed exit detection, see #3136
 # 00.00.48 (58180) Oct 31, 2011
 Removed machine cookie and session id from output, see #3136
