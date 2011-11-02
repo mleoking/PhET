@@ -17,7 +17,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class FancyEqualsNode extends PComposite {
 
     public FancyEqualsNode() {
-        this( new PDimension( 50, 35 ), new Color( 225, 225, 225 ), new Color( 200, 200, 200 ) );
+        this( new PDimension( 50, 35 ), Color.YELLOW, new Color( 200, 200, 200 ) );
     }
 
     public FancyEqualsNode( PDimension size, Color color, Color shadowColor ) {
