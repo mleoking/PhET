@@ -142,6 +142,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         scaleRootNodeToFitStage();
         centerRootNodeOnStage();
 
+        //TODO investigate ways to generalize this, or at least make it more integrated with BeakerNode
         // manage dynamic beaker labels, all have slightly different requirements
         {
             // Solution beaker
