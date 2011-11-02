@@ -8,6 +8,7 @@ HIGH
 - multi-color gradients for solutes, specifically for Kool-Aid and KMnO4 (as in design doc beaker photos)
 
 MEDIUM
+- generalize the mechanism for managing dynamic beaker labels
 
 LOW
 - use PrecisionDecimal in the model, 2 decimal places (if we're showing values)
