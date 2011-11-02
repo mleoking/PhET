@@ -1,3 +1,5 @@
+# 1.08.08 (58303) Nov 2, 2011
+11/2/11 Deploying to dev for review by design team.
 Added a key handler that allows the user to make use of the arrow keys to control the amount of heating or cooling.
 Fixed an issue with translated versions where long strings could cause the "Reset All" button to be pushed off the left edge of the canvas.
 Changed repulsive force arrow on the Atomic Interactions tab to be magenta to make it more distinct from the attractive force arrow.
