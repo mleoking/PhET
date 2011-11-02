@@ -17,6 +17,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.ac
  */
 public class PiccoloPhetSimSharingEvents {
 
+    //TODO SimSharingEvents.addDragSequenceListener should send the same type of message, unify these
     public static void addDragSequenceListener( PNode node, final Function0<Parameter[]> message ) {
         node.addInputEventListener( new PBasicInputEventHandler() {
 
