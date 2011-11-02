@@ -1,3 +1,4 @@
+11/2/11 change request: revert color change to "=" in Dilution
 # 0.00.12 (58273) Nov 1, 2011
 11/1/11 version to address fixes and change requests
 11/01/11 fix problem with water volume in Dilution tab after Reset All
