@@ -61,6 +61,7 @@ public class HSliderNode extends SliderNode {
         trackNode = new PhetPPath( trackPath, getTrackFillPaint( trackPath ),
                                    new BasicStroke( 1 ), new GradientPaint( 0, 0, Color.gray, 0, trackHeight, Color.black, false ) );
         rootNode.addChild( trackNode );
+
         knobNode = new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean enabled ) {
