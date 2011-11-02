@@ -1,3 +1,4 @@
+11/01/11 fix problem with water volume in Dilution tab after Reset All
 11/01/11 fix drag handler for slider thumbs so they don't jump when initially dragged
 11/01/11 change request: used yellow for "=" in Dilutions
 11/01/11 change request: when a beaker's volume goes to zero, show no label on the beaker
