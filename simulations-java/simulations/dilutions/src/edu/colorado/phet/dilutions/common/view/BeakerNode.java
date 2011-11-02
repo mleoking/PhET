@@ -48,22 +48,38 @@ public class BeakerNode extends PComposite {
     private final BeakerImageNode beakerImageNode;
     private final LabelNode labelNode;
 
-    // Beaker with a label that dynamically updates to match a solution's solute.
     public BeakerNode( final Solution solution, double maxVolume, double imageScaleX, double imageScaleY, PDimension labelSize, Font labelFont ) {
-        this( maxVolume, imageScaleX, imageScaleY, solution.solute.get().formula, labelSize, labelFont );
+        this( solution, maxVolume, imageScaleX, imageScaleY, labelSize, labelFont, null );
+    }
+
+    // Beaker with a label that dynamically updates to match a solution's solute.
+    public BeakerNode( final Solution solution, double maxVolume, double imageScaleX, double imageScaleY, PDimension labelSize, Font labelFont, final String alternateLabel ) {
+        this( maxVolume, imageScaleX, imageScaleY, labelSize, labelFont, "" );
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
                 // update solute label
-                setLabelText( ( solution.getConcentration() == 0 ) ? Symbols.WATER : solution.solute.get().formula );
+                if ( solution.volume.get() == 0 ) {
+                    setLabelText( "" );
+                }
+                else if ( solution.getConcentration() == 0 ) {
+                    setLabelText( Symbols.WATER );
+                }
+                else if ( alternateLabel != null ) {
+                    setLabelText( alternateLabel );
+                }
+                else {
+                    setLabelText( solution.solute.get().formula );
+                }
             }
         };
         solution.addConcentrationObserver( observer );
+        solution.volume.addObserver( observer );
         solution.solute.addObserver( observer );
     }
 
     // Beaker with a static label.
-    public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont ) {
+    private BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, PDimension labelSize, Font labelFont, String labelText ) {
 
         // this node is not interactive
         setPickable( false );

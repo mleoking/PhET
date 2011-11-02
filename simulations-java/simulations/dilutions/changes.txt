@@ -1,3 +1,4 @@
+11/01/11 when a beaker's volume goes to zero, show no label on the beaker
 11/01/11 doc
 11/01/11 pause the clock in the first 2 tabs, since there's nothing dynamic here
 # 0.00.11 (58264) Nov 1, 2011
