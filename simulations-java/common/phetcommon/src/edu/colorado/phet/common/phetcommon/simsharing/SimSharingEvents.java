@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
@@ -140,59 +141,67 @@ public class SimSharingEvents {
     public static void simStarted( final PhetApplicationConfig config ) {
         simStartedTime = new Option.Some<Long>( System.currentTimeMillis() );
         enabled = config.hasCommandLineArg( "-study" );
+
         if ( enabled ) {
+            final String studyName = getArgAfter( config.getCommandLineArgs(), "-study" );
 
-            //Create or load the machine id
-            try {
-                MACHINE_COOKIE = getMachineID();
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-
-            new Thread( new Runnable() {
-                public void run() {
-                    //Create the actor, but fail gracefully if cannot connect
-                    try {
-                        client = new ThreadedActor( new DefaultActor() );
-                    }
-                    catch ( ClassNotFoundException e ) {
-                        e.printStackTrace();
-                    }
-                    catch ( IOException e ) {
-                        e.printStackTrace();
-                    }
-                    catch ( Throwable t ) {
-                        t.printStackTrace();
-                    }
-
-                    sendSystemEvent( "started",
-                                     param( "time", simStartedTime.get() ),
-                                     param( "name", config.getName() ),
-                                     param( "version", config.getVersion().formatForAboutDialog() ),
-                                     param( "project", config.getProjectName() ),
-                                     param( "flavor", config.getFlavor() ),
-                                     param( "locale", config.getLocale().toString() ),
-                                     param( "distributionTag", config.getDistributionTag() ),
-                                     param( "javaVersion", System.getProperty( "java.version" ) ),
-                                     param( "osName", System.getProperty( "os.name" ) ),
-                                     param( "osVersion", System.getProperty( "os.version" ) ),
-                                     param( "parserVersion", PARSER_VERSION ),
-
-                                     //Can't have commas in args because of the parser, but can look up the study argument
-                                     param( "study", getArgAfter( config.getCommandLineArgs(), "-study" ) ) );
-                    sendSystemEvent( "connected to server" );
-
-                    //Report on any messages that were collected while we were trying to connect to the server
-                    if ( client != null ) {
-                        deliverQueue();
-                    }
-                    else {
-                        System.out.println( "Weren't able to connect to the server even though we really wanted to." );
-                    }
-                }
-            } ).start();
+            final String id = JOptionPane.showInputDialog( null, studyName.equals( "colorado" ) ? "Welcome to PhET!\nEnter your computer number:" : "Enter your audio recorder number:" );
+            finishInit( config, studyName, id );
         }
+    }
+
+    private static void finishInit( final PhetApplicationConfig config, final String studyName, final String id ) {
+        //Create or load the machine id
+        try {
+            MACHINE_COOKIE = getMachineID();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+
+        new Thread( new Runnable() {
+            public void run() {
+                //Create the actor, but fail gracefully if cannot connect
+                try {
+                    client = new ThreadedActor( new DefaultActor() );
+                }
+                catch ( ClassNotFoundException e ) {
+                    e.printStackTrace();
+                }
+                catch ( IOException e ) {
+                    e.printStackTrace();
+                }
+                catch ( Throwable t ) {
+                    t.printStackTrace();
+                }
+
+                sendSystemEvent( "started",
+                                 param( "time", simStartedTime.get() ),
+                                 param( "name", config.getName() ),
+                                 param( "version", config.getVersion().formatForAboutDialog() ),
+                                 param( "project", config.getProjectName() ),
+                                 param( "flavor", config.getFlavor() ),
+                                 param( "locale", config.getLocale().toString() ),
+                                 param( "distributionTag", config.getDistributionTag() ),
+                                 param( "javaVersion", System.getProperty( "java.version" ) ),
+                                 param( "osName", System.getProperty( "os.name" ) ),
+                                 param( "osVersion", System.getProperty( "os.version" ) ),
+                                 param( "parserVersion", PARSER_VERSION ),
+
+                                 //Can't have commas in args because of the parser, but can look up the study argument
+                                 param( "study", studyName ),
+                                 param( "id", id ) );
+                sendSystemEvent( "connected to server" );
+
+                //Report on any messages that were collected while we were trying to connect to the server
+                if ( client != null ) {
+                    deliverQueue();
+                }
+                else {
+                    System.out.println( "Weren't able to connect to the server even though we really wanted to." );
+                }
+            }
+        } ).start();
     }
 
     //Find the argument after the specified key, for purposes of finding a command line argument like "-study colorado"
