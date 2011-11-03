@@ -87,10 +87,10 @@ public class GameOverNode extends PhetPNode {
         super();
 
         //Report on the game over, assumes that this node is only created at the end of a game (a safe assumption because the constructor args are only available at end of game)
-        SimSharingEvents.systemResponse( "game ended",
+        SimSharingEvents.systemResponse( "gameEnded",
                                          param( "level", level ),
                                          param( "score", score ),
-                                         param( "perfect score", perfectScore ),
+                                         param( "perfectScore", perfectScore ),
                                          param( "time", time ),
                                          param( "bestTime", bestTime ),
                                          param( "isNewBestTime", isNewBestTime ),
