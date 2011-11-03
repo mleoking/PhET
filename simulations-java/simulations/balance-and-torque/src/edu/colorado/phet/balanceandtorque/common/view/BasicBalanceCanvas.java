@@ -47,7 +47,7 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
  *
  * @author John Blanco
  */
-public class BasicBalanceCanvas extends PhetPCanvas implements Resettable {
+public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettable {
 
     protected static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     protected final ModelViewTransform mvt;
