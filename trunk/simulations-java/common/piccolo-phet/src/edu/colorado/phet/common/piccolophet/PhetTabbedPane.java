@@ -906,7 +906,7 @@ public class PhetTabbedPane extends JPanel {
         public void mouseReleased( PInputEvent e ) {
             if ( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
 
-                SimSharingEvents.actionPerformed( "tab", "pressed", Parameter.param( "text", tab.getText() ) );
+                SimSharingEvents.sendEvent( "tab", "pressed", Parameter.param( "text", tab.getText() ) );
 
                 setSelectedTab( tab );
             }

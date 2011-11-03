@@ -49,7 +49,7 @@ public class SimSharingEvents {
     private static ThreadedActor client;
 
     //Flag indicating whether messages should be sent to the server
-    private static boolean connect = false;
+    private static boolean enabled = false;
     private static Option<Long> simStartedTime = new Option.None<Long>();
     private static Collection<String> queue = Collections.synchronizedCollection( new ArrayList<String>() );
 
@@ -62,18 +62,18 @@ public class SimSharingEvents {
 
     //Determine whether the sim should try to send event messages to the server
     public static boolean isEnabled() {
-        return connect;
+        return enabled;
     }
 
     //A direct response to something the user did.
-    public static void systemResponse( String action, Parameter... parameters ) {
-        actionPerformed( OBJECT_SYSTEM, action, parameters );
+    public static void sendSystemEvent( String action, Parameter... parameters ) {
+        sendEvent( OBJECT_SYSTEM, action, parameters );
     }
 
     //Signify that an action performed by the user has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
-    public static void actionPerformed( String object, String action, Parameter... parameters ) {
+    public static void sendEvent( String object, String action, Parameter... parameters ) {
 
-        if ( connect ) {
+        if ( enabled ) {
 
             //Print the columns in the same format as the server to simplify processing
             if ( !printedColumns ) {
@@ -105,7 +105,7 @@ public class SimSharingEvents {
     //Write the message to the console and to the server
     private static void deliverMessage( String s ) {
 
-        boolean shouldDeliver = connect;
+        boolean shouldDeliver = enabled;
         boolean canDeliver = client != null;
 
         if ( shouldDeliver && canDeliver ) {
@@ -132,8 +132,8 @@ public class SimSharingEvents {
     //Called from the first line of main(), connects to the server and sends a start message
     public static void simStarted( final PhetApplicationConfig config ) {
         simStartedTime = new Option.Some<Long>( System.currentTimeMillis() );
-        connect = config.hasCommandLineArg( "-study" );
-        if ( connect ) {
+        enabled = config.hasCommandLineArg( "-study" );
+        if ( enabled ) {
 
             //Create or load the machine id
             try {
@@ -159,18 +159,21 @@ public class SimSharingEvents {
                         t.printStackTrace();
                     }
 
-                    systemResponse( "started",
-                                    param( "time", simStartedTime.get() ),
-                                    param( "name", config.getName() ),
-                                    param( "version", config.getVersion().formatForAboutDialog() ),
-                                    param( "project", config.getProjectName() ),
-                                    param( "flavor", config.getFlavor() ),
-                                    param( "locale", config.getLocale().toString() ),
-                                    param( "distribution tag", config.getDistributionTag() ),
+                    sendSystemEvent( "started",
+                                     param( "time", simStartedTime.get() ),
+                                     param( "name", config.getName() ),
+                                     param( "version", config.getVersion().formatForAboutDialog() ),
+                                     param( "project", config.getProjectName() ),
+                                     param( "flavor", config.getFlavor() ),
+                                     param( "locale", config.getLocale().toString() ),
+                                     param( "distributionTag", config.getDistributionTag() ),
+                                     param( "javaVersion", System.getProperty( "java.version" ) ),
+                                     param( "osName", System.getProperty( "os.name" ) ),
+                                     param( "osVersion", System.getProperty( "os.version" ) ),
 
-                                    //Can't have commas in args because of the parser, but can look up the study argument
-                                    param( "study", getArgAfter( config.getCommandLineArgs(), "-study" ) ) );
-                    systemResponse( "connected to server" );
+                                     //Can't have commas in args because of the parser, but can look up the study argument
+                                     param( "study", getArgAfter( config.getCommandLineArgs(), "-study" ) ) );
+                    sendSystemEvent( "connected to server" );
 
                     //Report on any messages that were collected while we were trying to connect to the server
                     if ( client != null ) {
@@ -238,11 +241,11 @@ public class SimSharingEvents {
     public static void addDragSequenceListener( JComponent component, final Function0<Parameter[]> message ) {
         component.addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
-                actionPerformed( "mouse", "startDrag", message.apply() );
+                sendEvent( "mouse", "startDrag", message.apply() );
             }
 
             @Override public void mouseReleased( MouseEvent e ) {
-                actionPerformed( "mouse", "endDrag", message.apply() );
+                sendEvent( "mouse", "endDrag", message.apply() );
             }
         } );
     }

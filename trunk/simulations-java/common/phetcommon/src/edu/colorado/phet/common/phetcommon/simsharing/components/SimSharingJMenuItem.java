@@ -40,7 +40,7 @@ public class SimSharingJMenuItem extends JMenuItem {
     }
 
     protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingEvents.actionPerformed( "menuItem", "selected", Parameter.param( "text", getText() ) );
+        SimSharingEvents.sendEvent( "menuItem", "selected", Parameter.param( "text", getText() ) );
         super.fireActionPerformed( event );
     }
 }

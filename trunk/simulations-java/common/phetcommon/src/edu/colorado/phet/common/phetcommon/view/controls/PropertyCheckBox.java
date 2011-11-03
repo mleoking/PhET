@@ -52,6 +52,6 @@ public class PropertyCheckBox extends JCheckBox {
 
     //Send a message to the sim sharing event collector that the user toggled the check box
     public static void notifyActionPerformed( JCheckBox checkBox, SettableProperty<Boolean> property ) {
-        SimSharingEvents.actionPerformed( "check box", "pressed", param( "text", checkBox.getText() ), param( "description", property.getDescription() ), param( "isSelected", checkBox.isSelected() ) );
+        SimSharingEvents.sendEvent( "checkBox", "pressed", param( "text", checkBox.getText() ), param( "description", property.getDescriptionOrElseQuestion() ), param( "isSelected", checkBox.isSelected() ) );
     }
 }

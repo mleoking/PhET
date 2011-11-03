@@ -29,7 +29,7 @@ public class SimSharingJMenu extends JMenu {
     }
 
     @Override protected void fireMenuSelected() {
-        SimSharingEvents.actionPerformed( "menu", "selected", Parameter.param( "text", getText() ) );
+        SimSharingEvents.sendEvent( "menu", "selected", Parameter.param( "text", getText() ) );
         super.fireMenuSelected();
     }
 }

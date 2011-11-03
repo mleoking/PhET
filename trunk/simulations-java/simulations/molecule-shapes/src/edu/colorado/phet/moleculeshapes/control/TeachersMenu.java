@@ -25,7 +25,7 @@ public class TeachersMenu extends SimSharingJMenu {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
 
-                    SimSharingEvents.actionPerformed( "backgroundColor", "changed", param( "color", isSelected() ? "White" : "Black" ) );
+                    SimSharingEvents.sendEvent( "backgroundColor", "changed", param( "color", isSelected() ? "White" : "Black" ) );
 
                     if ( isSelected() ) {
                         MoleculeShapesColor.PROJECTOR.apply( MoleculeShapesColor.handler );

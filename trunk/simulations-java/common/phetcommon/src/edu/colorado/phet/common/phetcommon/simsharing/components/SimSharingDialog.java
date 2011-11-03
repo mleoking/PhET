@@ -60,6 +60,6 @@ public class SimSharingDialog extends JDialog {
 
     //Send the ID to the server
     private void submitText( JTextField textField ) {
-        SimSharingEvents.actionPerformed( "id", "submitted", Parameter.param( "id", textField.getText() ) );
+        SimSharingEvents.sendEvent( "id", "submitted", Parameter.param( "id", textField.getText() ) );
     }
 }
