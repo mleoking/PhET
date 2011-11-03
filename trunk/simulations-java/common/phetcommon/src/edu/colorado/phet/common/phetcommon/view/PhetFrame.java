@@ -29,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuBar;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
@@ -95,7 +96,7 @@ public class PhetFrame extends JFrame {
         } );
 
         // menu bar, also indicates whether connected to sim sharing
-        JMenuBar menuBar = SimSharingEvents.shouldConnect() ? new SimSharingJMenuBar() : new JMenuBar();
+        JMenuBar menuBar = SimSharingEvents.isEnabled() ? new SimSharingJMenuBar() : new JMenuBar();
         setJMenuBar( menuBar );
 
         // File menu
@@ -106,6 +107,12 @@ public class PhetFrame extends JFrame {
         if ( application.isDeveloperControlsEnabled() ) {
             menuBar.add( developerMenu );
         }
+
+        //If sim sharing is on, show a menu for isolating and identifying sessions, see #3145
+        if ( SimSharingEvents.isEnabled() ) {
+            menuBar.add( new SimSharingMenu( this ) );
+        }
+
         // Help menu
         helpMenu = new HelpMenu( application );
         menuBar.add( helpMenu );
