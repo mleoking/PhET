@@ -110,11 +110,11 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
      */
     public void check() {
         attempts++;
-        SimSharingEvents.systemResponse( "guess checked",
-                                         param( "equation", currentEquation.get().getName() ),
-                                         param( "attempts", attempts ),
-                                         param( "isBalancedAndSimplified", currentEquation.get().isBalancedAndSimplified() ),
-                                         param( "isBalanced", currentEquation.get().isBalanced() ) );
+        SimSharingEvents.sendSystemEvent( "guessChecked",
+                                          param( "equation", currentEquation.get().getName() ),
+                                          param( "attempts", attempts ),
+                                          param( "isBalancedAndSimplified", currentEquation.get().isBalancedAndSimplified() ),
+                                          param( "isBalanced", currentEquation.get().isBalanced() ) );
         if ( currentEquation.get().isBalancedAndSimplified() ) {
 
             // award points

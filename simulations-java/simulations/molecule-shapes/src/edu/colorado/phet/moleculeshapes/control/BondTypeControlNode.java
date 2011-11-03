@@ -21,8 +21,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.actionPerformed;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.systemResponse;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.sendEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.sendSystemEvent;
 
 /**
  * Displays a graphic showing a bonding type (single/double/triple/lone pair) where dragging the graphic
@@ -63,7 +63,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removePair( candidate );
-                            actionPerformed( "bond", "removed", param( "bondOrder", bondOrder ) );
+                            sendEvent( "bond", "removed", param( "bondOrder", bondOrder ) );
 
                             //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                             systemResponseForGeometries( module.getMolecule() );
@@ -111,7 +111,7 @@ public class BondTypeControlNode extends PNode {
             @Override public void mousePressed( final PInputEvent event ) {
                 if ( enabled.get() && event.getButton() == MouseEvent.BUTTON1 ) {
                     JMEUtils.invoke( runnable );
-                    actionPerformed( "bond", "created", param( "bondOrder", bondOrder ) );
+                    sendEvent( "bond", "created", param( "bondOrder", bondOrder ) );
 
                     //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                     systemResponseForGeometries( module.getMolecule() );
@@ -127,7 +127,7 @@ public class BondTypeControlNode extends PNode {
 
         final String moleculeGeometry = molecule.getConfiguration().name;
         String moleculeGeometryName = moleculeGeometry == null ? MoleculeShapesResources.Strings.SHAPE__EMPTY : moleculeGeometry;
-        systemResponse( "created bond", param( "electronGeometry", electronGeometryName ), param( "moleculeGeometry", moleculeGeometryName ) );
+        sendSystemEvent( "createdBond", param( "electronGeometry", electronGeometryName ), param( "moleculeGeometry", moleculeGeometryName ) );
     }
 
     private boolean hasMatchingGroup() {

@@ -53,6 +53,7 @@ public class PhetFrame extends JFrame {
     private JMenu defaultFileMenu;
     private JMenu developerMenu;
     private HelpMenu helpMenu;
+    private final String OBJECT_WINDOW = "window";
 
     /**
      * Constructs a PhetFrame for the specified PhetApplication.
@@ -66,7 +67,7 @@ public class PhetFrame extends JFrame {
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
 
-                SimSharingEvents.actionPerformed( "window", "close button pressed", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( OBJECT_WINDOW, "closeButtonPressed", param( "title", getTitle() ) );
                 application.exit();
             }
         } );
@@ -75,23 +76,23 @@ public class PhetFrame extends JFrame {
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
 
-                SimSharingEvents.actionPerformed( "window", "iconified", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( OBJECT_WINDOW, "iconified", param( "title", getTitle() ) );
                 application.pause();
             }
 
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
 
-                SimSharingEvents.actionPerformed( "window", "deiconified", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( OBJECT_WINDOW, "deiconified", param( "title", getTitle() ) );
                 application.resume();
             }
 
             @Override public void windowActivated( WindowEvent e ) {
-                SimSharingEvents.actionPerformed( "window", "activated", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( OBJECT_WINDOW, "activated", param( "title", getTitle() ) );
             }
 
             @Override public void windowDeactivated( WindowEvent e ) {
-                SimSharingEvents.actionPerformed( "window", "deactivated", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( OBJECT_WINDOW, "deactivated", param( "title", getTitle() ) );
             }
         } );
 

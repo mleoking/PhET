@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.actionPerformed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.sendEvent;
 
 /**
  * Utility class for attaching listeners to PNodes.
@@ -25,11 +25,11 @@ public class PiccoloPhetSimSharingEvents {
         node.addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( final PInputEvent event ) {
-                actionPerformed( "mouse", "startDrag", addCanvasPosition( message, event ) );
+                sendEvent( "mouse", "startDrag", addCanvasPosition( message, event ) );
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
-                actionPerformed( "mouse", "endDrag", addCanvasPosition( message, event ) );
+                sendEvent( "mouse", "endDrag", addCanvasPosition( message, event ) );
             }
 
             //Adds the canvas position to an array of message parameters
