@@ -1,3 +1,4 @@
+Changed "bondsRemoved" to "bondsChanged", see #3144
 # 1.01.07 (58331) Nov 3, 2011
 Added a message for background color change, see #3144
 Report on both electron and molecule geometry when they change, see #3136

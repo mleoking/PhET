@@ -127,7 +127,7 @@ public class BondTypeControlNode extends PNode {
 
         final String moleculeGeometry = molecule.getConfiguration().name;
         String moleculeGeometryName = moleculeGeometry == null ? MoleculeShapesResources.Strings.SHAPE__EMPTY : moleculeGeometry;
-        sendSystemEvent( "createdBond", param( "electronGeometry", electronGeometryName ), param( "moleculeGeometry", moleculeGeometryName ) );
+        sendSystemEvent( "bondsChanged", param( "electronGeometry", electronGeometryName ), param( "moleculeGeometry", moleculeGeometryName ) );
     }
 
     private boolean hasMatchingGroup() {
