@@ -21,9 +21,12 @@ import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.components.ResearchMenu;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 /**
@@ -35,7 +38,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 public class HelpMenu extends SimSharingJMenu implements ModuleObserver {
     private final JMenuItem onscreenHelp;
 
-    public HelpMenu( final PhetApplication phetApplication ) {
+    public HelpMenu( final PhetApplication phetApplication, PhetFrame phetFrame ) {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Title" ) );
         this.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         phetApplication.addModuleObserver( this );
@@ -80,6 +83,12 @@ public class HelpMenu extends SimSharingJMenu implements ModuleObserver {
         } );
         megaHelpItem.setVisible( phetApplication.getActiveModule() != null && phetApplication.getActiveModule().hasMegaHelp() );
         add( megaHelpItem );
+
+        //If in sim sharing, show a menu item that allows the user to access the event log in case they need to send it manually
+        if ( SimSharingEvents.isEnabled() ) {
+            addSeparator();
+            add( new ResearchMenu( phetFrame ) );
+        }
 
         //----------------------------------------------------------------------
         // Separator

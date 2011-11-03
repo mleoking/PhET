@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -64,6 +65,9 @@ public class SimSharingEvents {
     //This number should be increased when the data format changes so that a different parser must be used
     private static final int PARSER_VERSION = 1;
 
+    //Keep track of the log for purposes of storing locally or allowing the user to submit.
+    public static Property<String> log = new Property<String>( "" );
+
     //Determine whether the sim should try to send event messages to the server
     public static boolean isEnabled() {
         return enabled;
@@ -98,6 +102,7 @@ public class SimSharingEvents {
             String parameterText = new ObservableList<Parameter>( parameters ).mkString( Parameter.DELIMITER );
             String message = timestamp + "\t" + object + "\t" + action + "\t" + parameterText;
             System.out.println( message );
+            log.set( log.get() + "\n" + message );
             deliverMessage( MACHINE_COOKIE + "\t" + SESSION_ID + "\t" + timestamp + "\t" + object + "\t" + action + "\t" + parameterText );
 
             return message;
