@@ -5,13 +5,14 @@ package edu.colorado.phet.common.phetcommon.view.menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
@@ -20,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  *
  * @author ?
  */
-public class PhetFileMenu extends JMenu {
+public class PhetFileMenu extends SimSharingJMenu {
 
     public PhetFileMenu( final PhetFrame phetFrame, final ISimInfo simInfo ) {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Title" ) );
@@ -31,7 +32,7 @@ public class PhetFileMenu extends JMenu {
             addSeparator();
         }
 
-        JMenuItem exitMI = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Exit" ) );
+        JMenuItem exitMI = new SimSharingJMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Exit" ) );
         exitMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 phetFrame.getApplication().exit();
@@ -42,7 +43,7 @@ public class PhetFileMenu extends JMenu {
     }
 
     private void addPreferencesMenuItem( final PhetFrame phetFrame, final ISimInfo simInfo ) {
-        JMenuItem preferencesMenuItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
+        JMenuItem preferencesMenuItem = new SimSharingJMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
         preferencesMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 new PreferencesDialog( phetFrame,

@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -22,6 +21,8 @@ import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
@@ -31,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
  * @author ?
  * @version $Revision:14677 $
  */
-public class HelpMenu extends JMenu implements ModuleObserver {
+public class HelpMenu extends SimSharingJMenu implements ModuleObserver {
     private final JMenuItem onscreenHelp;
 
     public HelpMenu( final PhetApplication phetApplication ) {
@@ -53,7 +54,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "MegaHelp" menu item
-        final JMenuItem megaHelpItem = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.MegaHelp" ) );
+        final JMenuItem megaHelpItem = new SimSharingJMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.MegaHelp" ) );
         megaHelpItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
         megaHelpItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -89,7 +90,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "About" menu item
-        final JMenuItem about = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.About" ) );
+        final JMenuItem about = new SimSharingJMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.About" ) );
         about.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -129,7 +130,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //noop
     }
 
-    private class CheckForSimUpdateMenuItem extends JMenuItem {
+    private class CheckForSimUpdateMenuItem extends SimSharingJMenuItem {
         private CheckForSimUpdateMenuItem() {
             super( PhetCommonResources.getInstance().getLocalizedString( "Common.updates.checkForSimUpdate" ) );
             addActionListener( new ActionListener() {

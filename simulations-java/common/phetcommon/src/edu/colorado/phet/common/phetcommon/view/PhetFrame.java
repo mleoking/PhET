@@ -27,7 +27,8 @@ import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingJMenuBar;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuBar;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
@@ -375,7 +376,7 @@ public class PhetFrame extends JFrame {
      */
     public void addFileSaveLoadMenuItems() {
 
-        JMenuItem saveItem = new JMenuItem( PhetCommonResources.getString( "Common.FileMenu.Save" ) );
+        JMenuItem saveItem = new SimSharingJMenuItem( PhetCommonResources.getString( "Common.FileMenu.Save" ) );
         saveItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Save.mnemonic", 'S' ) );
         saveItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -383,7 +384,7 @@ public class PhetFrame extends JFrame {
             }
         } );
 
-        JMenuItem loadItem = new JMenuItem( PhetCommonResources.getString( "Common.FileMenu.Load" ) );
+        JMenuItem loadItem = new SimSharingJMenuItem( PhetCommonResources.getString( "Common.FileMenu.Load" ) );
         loadItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Load.mnemonic", 'L' ) );
         loadItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
