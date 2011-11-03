@@ -1,3 +1,4 @@
+11/3/2011 Added a parameter for JMolViewerNode currentMolecule, see #3136
 # 1.01.08 (58330) Nov 3, 2011
 11/2/2011 Removed fine-grained drag events, just report on start and stop to save bandwidth, see #3136
 11/2/2011 Report on student usage for rainbow potential in molecule-polarity, see #3144
