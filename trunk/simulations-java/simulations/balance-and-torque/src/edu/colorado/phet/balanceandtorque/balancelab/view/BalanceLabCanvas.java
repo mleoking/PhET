@@ -2,7 +2,7 @@
 package edu.colorado.phet.balanceandtorque.balancelab.view;
 
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.intro.view.BasicBalanceCanvas;
+import edu.colorado.phet.balanceandtorque.common.view.BasicBalanceCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 

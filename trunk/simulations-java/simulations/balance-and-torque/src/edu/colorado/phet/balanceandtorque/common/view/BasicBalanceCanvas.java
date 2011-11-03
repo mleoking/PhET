@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.intro.view;
+package edu.colorado.phet.balanceandtorque.common.view;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -20,16 +20,8 @@ import edu.colorado.phet.balanceandtorque.common.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.common.view.BrickStackNode;
-import edu.colorado.phet.balanceandtorque.common.view.FulcrumAbovePlankNode;
-import edu.colorado.phet.balanceandtorque.common.view.LabeledImageMassNode;
-import edu.colorado.phet.balanceandtorque.common.view.LevelIndicatorNode;
-import edu.colorado.phet.balanceandtorque.common.view.LevelSupportColumnNode;
-import edu.colorado.phet.balanceandtorque.common.view.PlankNode;
-import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -125,30 +117,6 @@ public class BasicBalanceCanvas extends PhetPCanvas implements Resettable {
                 model.massList.addElementRemovedObserver( mass, new VoidFunction0() {
                     public void apply() {
                         massesLayer.removeChild( finalMassNode );
-                    }
-                } );
-
-                // Add a listener for when the user drops the mass.
-                mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
-                    public void update( Boolean newValue, Boolean oldValue ) {
-                        if ( oldValue && !newValue ) {
-                            // The user has dropped this mass.
-                            if ( !model.getPlank().addMassToSurface( mass ) ) {
-                                // The attempt to add mass to surface of plank failed,
-                                // probably because mass was dropped somewhere other
-                                // than over the plank.
-                                if ( mvt.modelToView( mass.getPosition() ).getX() > 0 && mvt.modelToView( mass.getPosition() ).getX() < STAGE_SIZE.getWidth() ) {
-                                    // Mass is in the visible area, so just
-                                    // drop it on the ground.
-                                    mass.setPosition( mass.getPosition().getX(), 0 );
-                                }
-                                else {
-                                    // Mass is off stage.  Return it to its
-                                    // original position.
-                                    mass.positionProperty.reset();
-                                }
-                            }
-                        }
                     }
                 } );
             }
