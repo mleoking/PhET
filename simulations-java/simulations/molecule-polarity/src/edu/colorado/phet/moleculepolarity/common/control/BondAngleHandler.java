@@ -65,7 +65,7 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
         arrowsNode.setVisible( false );
-        SimSharingEvents.actionPerformed( "bond angle drag", "started", param( "atom", atomNode.atom.getName() ) );
+        SimSharingEvents.actionPerformed( "bond angle drag", "started", param( "atom", atomNode.atom.getName() ), param( "angle", bondAngle.get() ) );
     }
 
     // Drag to rotate the molecule.
@@ -74,13 +74,12 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
         double angle = getAngle( event );
         bondAngle.set( bondAngle.get() + angle - previousAngle );
         previousAngle = angle;
-        SimSharingEvents.actionPerformed( "bond angle drag", "dragged", param( "atom", atomNode.atom.getName() ), param( "angle", bondAngle.get() ) );
     }
 
     @Override public void endDrag( PInputEvent event ) {
         super.endDrag( event );
         molecule.setDragging( false );
-        SimSharingEvents.actionPerformed( "bond angle drag", "ended", param( "atom", atomNode.atom.getName() ) );
+        SimSharingEvents.actionPerformed( "bond angle drag", "ended", param( "atom", atomNode.atom.getName() ), param( "angle", bondAngle.get() ) );
     }
 
     // Find the angle about the molecule's location.
