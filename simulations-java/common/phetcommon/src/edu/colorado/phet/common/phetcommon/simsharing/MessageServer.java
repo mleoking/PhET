@@ -11,11 +11,11 @@ import java.util.StringTokenizer;
 
 public class MessageServer {
 
-    //Default host the server will run on, must be a publicly accessible IP address so clients can connect to it
-    public static String DEFAULT_HOST = "localhost";
+    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
+//    public static String HOST_IP_ADDRESS = "localhost";//Settings for running locally
 
-    //Default port the server will use for listening
-    public static int DEFAULT_PORT = 1234;
+    //On phet-server, port must be in a specific range of allowed ports, see Unfuddle ticket
+    public static int PORT = 44101;
 
     //Flag to indicate the server is ready to accept new connections
     private boolean listening = true;
@@ -55,6 +55,7 @@ public class MessageServer {
 
                         //Send an initial message to test the connection
                         writeToClient.writeUTF( "Greetings from the server" );
+                        writeToClient.flush();
 
                         //Loop as long as no 'logout' command was given, and process the commands
                         while ( threadAlive ) {
@@ -72,6 +73,7 @@ public class MessageServer {
                                     int x = Integer.parseInt( st.nextToken() );
                                     int y = Integer.parseInt( st.nextToken() );
                                     writeToClient.writeUTF( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );
+                                    writeToClient.flush();
                                 }
 
                                 //Handle logout commands.  Sometimes null for unknown reason, so have to check for null here
@@ -108,7 +110,7 @@ public class MessageServer {
     }
 
     public static Socket connect() throws IOException {
-        return new Socket( DEFAULT_HOST, DEFAULT_PORT );
+        return new Socket( HOST_IP_ADDRESS, PORT );
     }
 
     //See http://stackoverflow.com/questions/4009157/java-socket-writeutf-and-readutf
@@ -120,7 +122,7 @@ public class MessageServer {
     }
 
     public static void main( String[] args ) throws IOException {
-        new MessageServer( DEFAULT_PORT, new MessageHandler() {
+        new MessageServer( PORT, new MessageHandler() {
             public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) {
             }
         } ).start();

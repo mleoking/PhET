@@ -29,6 +29,7 @@ public class TestMessageServer {
         //Send a command to the server and process the result
         for ( int i = 0; i < numQuestions; i++ ) {
             writeToServer.writeUTF( "Add these numbers: 3,6" );
+            writeToServer.flush();
             fromServer = readFromServer.readUTF();
             System.out.println( "fromServer = " + fromServer );
         }
