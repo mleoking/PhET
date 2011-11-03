@@ -1,3 +1,4 @@
+# 1.00.06 (58329) Nov 3, 2011
 # 1.00.05 (58276) Nov 2, 2011
 # 1.00.04 (58219) Nov 1, 2011
 11/1/11 deployed by SR for something having to do with #3136
