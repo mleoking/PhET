@@ -1,10 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view.menu;
 
-import javax.swing.JMenu;
-
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 
 /**
@@ -12,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuIte
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TeacherMenu extends JMenu {
+public class TeacherMenu extends SimSharingJMenu {
 
     public TeacherMenu() {
         super( PhetCommonResources.getString( "Common.TeacherMenu" ) );

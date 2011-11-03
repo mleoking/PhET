@@ -7,11 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
-import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory.Listener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  *
  * @author Sam Reid
  */
-public class ColorDialogMenuItem extends JMenuItem {
+public class ColorDialogMenuItem extends SimSharingJMenuItem {
     public ColorDialogMenuItem( Component parent, String title, final Property<Color> colorProperty ) {
         super( title );
 
