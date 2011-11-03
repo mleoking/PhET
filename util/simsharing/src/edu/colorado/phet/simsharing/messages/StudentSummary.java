@@ -4,7 +4,7 @@ package edu.colorado.phet.simsharing.messages;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SerializableBufferedImage;
 
 /**
  * @author Sam Reid

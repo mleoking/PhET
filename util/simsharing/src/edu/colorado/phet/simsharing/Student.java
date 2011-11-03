@@ -14,9 +14,9 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.simsharing.DefaultActor;
 import edu.colorado.phet.common.phetcommon.simsharing.IActor;
-import edu.colorado.phet.common.phetcommon.simsharing.SimState;
-import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.simsharing.ThreadedActor;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.server.Server;

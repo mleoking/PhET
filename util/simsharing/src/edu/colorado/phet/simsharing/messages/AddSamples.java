@@ -4,7 +4,7 @@ package edu.colorado.phet.simsharing.messages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimState;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 
 /**
  * This class is used to send samples to the server, they can be batched up or sent one at a time.

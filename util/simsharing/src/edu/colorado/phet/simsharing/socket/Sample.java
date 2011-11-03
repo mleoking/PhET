@@ -3,7 +3,7 @@ package edu.colorado.phet.simsharing.socket;
 
 import java.io.Serializable;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimState;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 
 /**
  * @author Sam Reid

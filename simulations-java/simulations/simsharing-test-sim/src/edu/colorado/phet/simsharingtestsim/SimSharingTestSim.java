@@ -5,9 +5,9 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.simsharing.ImageFactory;
-import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
-import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
+import edu.colorado.phet.common.phetcommon.simsharing.state.ImageFactory;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SerializableBufferedImage;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 

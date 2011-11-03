@@ -3,8 +3,8 @@ package edu.colorado.phet.simsharing;
 
 import java.util.HashMap;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimState;
-import edu.colorado.phet.common.phetcommon.simsharing.SimsharingApplication;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
