@@ -1,3 +1,4 @@
+11/2/2011 Send an event when the user resizes the sim window, and on the initial window sizing, see #3136
 11/2/2011 Added a parser version, see #3136
 11/2/2011 If sim sharing is on, show a menu for isolating and identifying sessions, see #3145
 11/2/2011 Report on student usage for menus and menu items, see #3144

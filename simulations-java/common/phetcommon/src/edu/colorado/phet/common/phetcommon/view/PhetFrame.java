@@ -3,9 +3,12 @@
 package edu.colorado.phet.common.phetcommon.view;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -55,6 +58,9 @@ public class PhetFrame extends JFrame {
     private HelpMenu helpMenu;
     private final String OBJECT_WINDOW = "window";
 
+    //Store the previous size in component listener so we only notify about changes
+    private Dimension prevSize = new Dimension( -1, -1 );
+
     /**
      * Constructs a PhetFrame for the specified PhetApplication.
      *
@@ -93,6 +99,17 @@ public class PhetFrame extends JFrame {
 
             @Override public void windowDeactivated( WindowEvent e ) {
                 SimSharingEvents.sendEvent( OBJECT_WINDOW, "deactivated", param( "title", getTitle() ) );
+            }
+        } );
+
+        //Send an event when the window resizes.  This will tell us the initial size and whenever the user changes the size.
+        //The initial size is valuable so we know how many students are running at less than 1024x768
+        addComponentListener( new ComponentAdapter() {
+            @Override public void componentResized( ComponentEvent e ) {
+                if ( !getSize().equals( prevSize ) ) {
+                    SimSharingEvents.sendEvent( OBJECT_WINDOW, "resized", param( "width", getWidth() ), param( "height", getHeight() ) );
+                    prevSize = new Dimension( getSize() );
+                }
             }
         } );
 
