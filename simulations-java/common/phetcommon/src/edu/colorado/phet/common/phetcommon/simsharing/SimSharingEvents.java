@@ -36,11 +36,11 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 public class SimSharingEvents {
 
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java
-    private static final String SESSION_ID = generateIDString();
+    public static final String SESSION_ID = generateIDString();
 
     //Identify the machine cookie (or create it if it did not already exist)
     //Only do this if permissions are enabled
-    private static String MACHINE_COOKIE;
+    public static String MACHINE_COOKIE;
 
     //Flag to indicate whether the columns have been printed to the data source
     private static boolean printedColumns;
@@ -61,7 +61,7 @@ public class SimSharingEvents {
     public static final String ACTION_EXITED = "exited";
 
     //Determine whether the sim should try to send event messages to the server
-    public static boolean shouldConnect() {
+    public static boolean isEnabled() {
         return connect;
     }
 
