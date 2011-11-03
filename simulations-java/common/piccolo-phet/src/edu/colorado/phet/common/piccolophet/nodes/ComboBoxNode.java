@@ -82,26 +82,40 @@ public class ComboBoxNode<T> extends PNode {
         this( items,
 
               //Default to use the first item as the selected item
-              items.get( 0 ), new ToString<T>( DEFAULT_FONT ), "Combo Box Item" );
+              items.get( 0 ), new ToString<T>( DEFAULT_FONT ), new Function1<T, String>() {
+            public String apply( T t ) {
+                return t.toString();
+            }
+        } );
     }
 
     public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator ) {
-        this( items, initialItem, nodeGenerator, "Selected" );
+        this( items, initialItem, nodeGenerator, new Function1<T, String>() {
+            public String apply( T t ) {
+                return t.toString();
+            }
+        } );
+    }
+
+    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator, final Function1<T, String> toString ) {
+        this( items, initialItem, nodeGenerator, "Selected", toString );
     }
 
     /**
      * Create a ComboBoxNode with the specified items and specified way to convert the items to strings
      *
      * @param items         items the items to show in the combo box
+     * @param initialItem
      * @param nodeGenerator the function to use to convert the T items to PNodes to show in the drop down box or in the selection region
-     * @param selectionName used in Sim Sharing reports
+     * @param description   used in Sim Sharing reports
+     * @param toString      for Sim Sharing, the way to get a string from the T for reporting it
      */
-    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator, String selectionName ) {
+    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator, final String description, final Function1<T, String> toString ) {
 
         //Make sure the initial item is in the list
         assert items.contains( initialItem );
 
-        selectedItem = new Property<T>( selectionName, initialItem );
+        selectedItem = new Property<T>( description, initialItem );
 
         //Create the text nodes for the drop down box for determining their metrics (so they can all be created with equal widths)
         PNode[] itemNodes = new PNode[items.size()];
@@ -123,7 +137,7 @@ public class ComboBoxNode<T> extends PNode {
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
 
-                        SimSharingEvents.sendEvent( "comboBoxItem", "selected", Parameter.param( "item", item.toString() ) );
+                        SimSharingEvents.sendEvent( "comboBoxItem", "selected", Parameter.param( "description", description ), Parameter.param( "item", toString.apply( item ) ) );
 
                         selectedItem.set( item );
                     }
@@ -323,7 +337,12 @@ public class ComboBoxNode<T> extends PNode {
                     public PNode apply( Integer integer ) {
                         return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
                     }
-                }, "number" ) {{
+                }, "number", new Function1<Integer, String>() {
+                    public String apply( Integer integer ) {
+                        return integer.toString();
+                    }
+                }
+                ) {{
                     setOffset( 100, 300 );
                 }} );
                 setZoomEventHandler( getZoomEventHandler() );

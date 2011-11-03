@@ -1,3 +1,4 @@
+11/2/2011 Fixed ComboBoxNode constructor cascading, see #3146
 11/1/2011 fix for #3141, only dismiss ComboBoxNode popup if it was actually visible
 11/1/2011 Changed from SimSharingProperty to track UI control changes, see #3136
 10/16/2011 Extracted SensorNode superclass from VelocitySensorNode for reuse in plate-tectonics
