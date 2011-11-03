@@ -10,6 +10,7 @@ import javax.swing.JCheckBoxMenuItem;
 import edu.colorado.phet.common.jmolphet.JmolConsole;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.DialogCheckBoxMenuItem;
@@ -40,7 +41,9 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
 
         // Options menu
         parentFrame.addMenu( new OptionsMenu() {{
-            add( new JCheckBoxMenuItem( MPStrings.RAINBOW_OPTION, JmolViewerNode.RAINBOW_MEP.get() ) {{
+
+            //Report on student usage for menus and menu items, see #3144
+            add( new SimSharingJCheckBoxMenuItem( MPStrings.RAINBOW_OPTION, JmolViewerNode.RAINBOW_MEP.get() ) {{
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         JmolViewerNode.RAINBOW_MEP.set( ( (JCheckBoxMenuItem) e.getSource() ).isSelected() );
