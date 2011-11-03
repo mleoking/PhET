@@ -2,8 +2,8 @@
 package edu.colorado.phet.balanceandtorque.intro;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.common.view.BasicBalanceCanvas;
 import edu.colorado.phet.balanceandtorque.intro.model.IntroModel;
-import edu.colorado.phet.balanceandtorque.intro.view.BasicBalanceCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
