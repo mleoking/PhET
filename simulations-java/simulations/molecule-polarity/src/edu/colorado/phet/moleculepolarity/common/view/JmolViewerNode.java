@@ -38,6 +38,8 @@ import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+
 /**
  * Piccolo node that displays a Jmol viewer.
  * Jmol scripting language is documented at http://chemapps.stolaf.edu/jmol/docs
@@ -92,12 +94,12 @@ public class JmolViewerNode extends PhetPNode {
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
     private SurfaceType surfaceType;
 
-    public JmolViewerNode( Property<Molecule3D> currentMolecule, Color background, Dimension size ) {
+    public JmolViewerNode( final Property<Molecule3D> currentMolecule, Color background, Dimension size ) {
 
         viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
         SimSharingEvents.addDragSequenceListener( viewerPanel, new Function0<Parameter[]>() {
             public Parameter[] apply() {
-                return new Parameter[] { new Parameter( "component", "jmolViewerNode" ) };
+                return new Parameter[] { param( "component", "jmolViewerNode" ), param( "currentMolecule", currentMolecule.get().getName() ) };
             }
         } );
         addChild( new PSwing( viewerPanel ) );
