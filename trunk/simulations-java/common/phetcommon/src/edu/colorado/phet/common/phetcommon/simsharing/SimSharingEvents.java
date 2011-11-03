@@ -74,7 +74,8 @@ public class SimSharingEvents {
     }
 
     //Signify that an action performed by the user has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server
-    public static void sendEvent( String object, String action, Parameter... parameters ) {
+    //Return the message for logging/debugging purposes
+    public static String sendEvent( String object, String action, Parameter... parameters ) {
 
         if ( enabled ) {
 
@@ -97,7 +98,10 @@ public class SimSharingEvents {
             String message = timestamp + "\t" + object + "\t" + action + "\t" + parameterText;
             System.out.println( message );
             deliverMessage( MACHINE_COOKIE + "\t" + SESSION_ID + "\t" + timestamp + "\t" + object + "\t" + action + "\t" + parameterText );
+
+            return message;
         }
+        return null;
     }
 
     //TODO get rid of this? Excel treats the first row of tab-delimited data as column headers, so this would be nice if processing data in Excel.

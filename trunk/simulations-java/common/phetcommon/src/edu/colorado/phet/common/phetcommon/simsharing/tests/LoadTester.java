@@ -3,6 +3,10 @@ package edu.colorado.phet.common.phetcommon.simsharing.tests;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -26,13 +30,29 @@ public class LoadTester {
     private final int initialDelayMillis;
     int eventCount = 0;
     private static final Random random = new Random();
+    private static long count = 0;
+    private final BufferedWriter bufferedWriter;
+
+    private static final File dir = new File( System.getProperty( "user.home" ), "simsharing-load-testing/" + System.currentTimeMillis() );
+    private int messageIndex = 0;
+
+    static {
+        dir.mkdirs();
+        System.out.println( "DIR = " + dir.getAbsolutePath() );
+    }
 
     public LoadTester( int eventsPerMinute,
 
                        //Don't all burst at the same time, but wait so that they are spaced out like real users
-                       int initialDelayMillis ) {
+                       int initialDelayMillis ) throws IOException {
         this.eventsPerMinute = eventsPerMinute;
         this.initialDelayMillis = initialDelayMillis;
+
+        count++;
+
+        File dest = new File( dir, "log_" + count + ".txt" );
+
+        bufferedWriter = new BufferedWriter( new FileWriter( dest, true ) );
     }
 
     private void start( String[] args ) {
@@ -57,15 +77,30 @@ public class LoadTester {
     private void sendEvent() {
         eventCount++;
 
-        SimSharingEvents.sendEvent( "loadTester", "sentTest", rand() );
+        String message = SimSharingEvents.sendEvent( "loadTester", "sentTest", rand() );
         System.out.println( "LoadTester.sendEvent, eventCount = " + eventCount );
+
+        try {
+            bufferedWriter.write( message );
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private Parameter[] rand() {
         int numParams = random.nextInt( 10 );
         Parameter[] p = new Parameter[numParams];
         for ( int i = 0; i < p.length; i++ ) {
-            p[i] = randomParam( i );
+            if ( i == 0 ) {
+                p[i] = Parameter.param( "messageIndex", messageIndex );
+                messageIndex++;
+            }
+            else {
+                p[i] = randomParam( i );
+            }
         }
         return p;
     }
@@ -75,19 +110,22 @@ public class LoadTester {
     }
 
     public static void main( final String[] args ) {
+        System.out.println( System.getProperty( "java.class.path" ) );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                int numClients = parseInt( args[0] );
-                for ( int i = 0; i < numClients; i++ ) {
 
-                    int eventsPerMinute = parseInt( args[1] );
+                int eventsPerMinute = parseInt( args[0] );
+                try {
                     new LoadTester( eventsPerMinute, random.nextInt( 1000 ) ).start( args );
-                    new JFrame( "Control frame" ) {{
-                        setDefaultCloseOperation( EXIT_ON_CLOSE );
-                        setContentPane( new JLabel( "running..." ) );
-                        setLocation( random.nextInt( 800 ), random.nextInt( 600 ) );
-                    }}.setVisible( true );
                 }
+                catch ( IOException e ) {
+                    e.printStackTrace();
+                }
+                new JFrame( "Control frame" ) {{
+                    setDefaultCloseOperation( EXIT_ON_CLOSE );
+                    setContentPane( new JLabel( "running..." ) );
+                    setLocation( random.nextInt( 800 ), random.nextInt( 600 ) );
+                }}.setVisible( true );
             }
         } );
     }
