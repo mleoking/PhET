@@ -119,7 +119,7 @@ public class PhetApplicationLauncher {
 
     public void launchSim( final PhetApplicationConfig config, final ApplicationConstructor applicationConstructor ) {
 
-        //Signify to the SimSharingEvents that the sim is started, in case start time is supposed to be relayout to another machine or stored.
+        //Initializes the sim-sharing subsystem.
         //Nothing happens unless the "-study" flag is provided on the command line
         SimSharingEvents.simStarted( config );
 
