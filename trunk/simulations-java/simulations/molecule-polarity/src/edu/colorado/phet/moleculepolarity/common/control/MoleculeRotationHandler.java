@@ -2,13 +2,12 @@
 package edu.colorado.phet.moleculepolarity.common.control;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Drag handler for rotating a molecule.
@@ -31,13 +30,13 @@ public class MoleculeRotationHandler extends PDragSequenceEventHandler {
         super.startDrag( event );
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
-        SimSharingEvents.actionPerformed( "molecule rotation drag", "started" );
+        SimSharingEvents.actionPerformed( "molecule rotation drag", "started", Parameter.param( "angle", molecule.angle.get() ) );
     }
 
     @Override public void endDrag( PInputEvent event ) {
         super.endDrag( event );
         molecule.setDragging( false );
-        SimSharingEvents.actionPerformed( "molecule rotation drag", "ended" );
+        SimSharingEvents.actionPerformed( "molecule rotation drag", "ended", Parameter.param( "angle", molecule.angle.get() ) );
     }
 
     // Drag to rotate the molecule.
@@ -46,7 +45,6 @@ public class MoleculeRotationHandler extends PDragSequenceEventHandler {
         double angle = getAngle( event );
         molecule.angle.set( molecule.angle.get() + angle - previousAngle );
         previousAngle = angle;
-        SimSharingEvents.actionPerformed( "molecule rotation drag", "dragged", param( "angle", angle ) );
     }
 
     // Find the angle about the molecule's location.
