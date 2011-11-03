@@ -5,15 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Displays a "Teacher" menu that allows the user to select between normal colors and a "White Background" mode
  */
-public class TeachersMenu extends JMenu {
+public class TeachersMenu extends SimSharingJMenu {
     public TeachersMenu() {
         super( PhetCommonResources.getString( "Common.TeacherMenu" ) );
         setMnemonic( PhetCommonResources.getChar( "Common.TeacherMenu.mnemonic", 'T' ) );
@@ -21,6 +24,9 @@ public class TeachersMenu extends JMenu {
             setSelected( false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
+
+                    SimSharingEvents.actionPerformed( "backgroundColor", "changed", param( "color", isSelected() ? "White" : "Black" ) );
+
                     if ( isSelected() ) {
                         MoleculeShapesColor.PROJECTOR.apply( MoleculeShapesColor.handler );
                     }
