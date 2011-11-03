@@ -1,0 +1,50 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: October 27 - November 2, 2011
+
+Capacitor Lab
+- published 2.01 to PhET website
+
+Dilutions
+- Skype call with JC to discuss misc issues
+- Dilution (2nd) tab is functionally complete
+- change requests and fixes
+- published 0.00.07 through 0.00.13
+
+Molecule Polarity
+- quick functionality test after fixing #3141 (combo box bug)
+
+Sim-Sharing (aka Data Collection and Processing)
+- created #3136 to track decisions and changes
+- reviewed client-side design and implementation
+- reviewed changes to common code
+- suggested long-term goals for data processing
+
+Common Code
+- fixed bug in Piccolo combo box (ComboBoxNode), #3141
+
+Installer
+- investigated issues with launching sims on Mac OS 10.7, #3137
+- tested new installer on Mac
+
+Administrative
+- status meeting
+- weekly reports
+- misc developer discussions via email
+
+WHAT'S NEXT:
+
+- Balancing Act: code review, #3134
+- Dilutions: design and implementation
+- Simsharing: cleanup and reorganization, after upcoming studies
+- Java 7: some sims crash in common code at startup, see #3109 (Glaciers), #3138 (Gravity & Orbits)
+- Jmol: common code generalization, #3104
+
+ISSUES:
+
+- PhET is falling behind in sim design (eg, Dilutions, Fractions)
+
+DATES UNAVAILABLE:
+
+--
