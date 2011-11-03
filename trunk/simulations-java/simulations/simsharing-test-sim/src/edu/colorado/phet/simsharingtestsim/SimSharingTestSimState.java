@@ -2,8 +2,8 @@
 package edu.colorado.phet.simsharingtestsim;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.SerializableBufferedImage;
-import edu.colorado.phet.common.phetcommon.simsharing.SimState;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SerializableBufferedImage;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 
 /**
  * @author Sam Reid

@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.simsharing;
+package edu.colorado.phet.common.phetcommon.simsharing.tests;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import edu.colorado.phet.common.phetcommon.simsharing.MessageServer;
 
 public class TestMessageServer {
     private int numQuestions;

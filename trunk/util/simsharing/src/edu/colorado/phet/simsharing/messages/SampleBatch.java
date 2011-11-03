@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimState;
+import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 
 /**
  * A batch of states retrieved from the server to be played in SimView

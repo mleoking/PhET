@@ -19,7 +19,7 @@
 //import java.util.Collections;
 //import java.util.Comparator;
 //
-//import edu.colorado.phet.common.phetcommon.simsharing.SimState;
+//import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 //import edu.colorado.phet.simsharing.messages.AddSamples;
 //import edu.colorado.phet.simsharing.messages.SampleBatch;
 //import edu.colorado.phet.simsharing.messages.SessionID;
