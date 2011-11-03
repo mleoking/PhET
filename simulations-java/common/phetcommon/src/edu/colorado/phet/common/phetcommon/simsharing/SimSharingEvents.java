@@ -60,6 +60,9 @@ public class SimSharingEvents {
     public static final String OBJECT_SYSTEM = "system";
     public static final String ACTION_EXITED = "exited";
 
+    //This number should be increased when the data format changes so that a different parser must be used
+    private static final int PARSER_VERSION = 1;
+
     //Determine whether the sim should try to send event messages to the server
     public static boolean isEnabled() {
         return enabled;
@@ -170,6 +173,7 @@ public class SimSharingEvents {
                                      param( "javaVersion", System.getProperty( "java.version" ) ),
                                      param( "osName", System.getProperty( "os.name" ) ),
                                      param( "osVersion", System.getProperty( "os.version" ) ),
+                                     param( "parserVersion", PARSER_VERSION ),
 
                                      //Can't have commas in args because of the parser, but can look up the study argument
                                      param( "study", getArgAfter( config.getCommandLineArgs(), "-study" ) ) );
