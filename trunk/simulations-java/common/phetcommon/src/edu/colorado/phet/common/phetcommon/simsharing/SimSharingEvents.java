@@ -223,6 +223,10 @@ public class SimSharingEvents {
     //Identify the machine ID (or create it if it did not already exist)
     private static String getMachineID() throws IOException {
         PhetPersistenceDir phetPersistenceDir = new PhetPersistenceDir();
+
+        //You have to create the directory if it didn't exist, otherwise MachineID always comes back as null.
+        boolean madeDirs = phetPersistenceDir.mkdirs();
+
         final File simsharingFile = new File( phetPersistenceDir, "sim-sharing.properties" );
         if ( simsharingFile.exists() ) {
             Properties p = new Properties() {{
