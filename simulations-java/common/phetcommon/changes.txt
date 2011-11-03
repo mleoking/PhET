@@ -1,3 +1,4 @@
+11/3/2011 Added a research menu item in the about menu, see #3136
 11/3/2011 Added an input dialog for id, see #3136
 11/2/2011 Repackaged classes under phetcommon/simsharing, see #3136
 11/2/2011 Send an event when the user resizes the sim window, and on the initial window sizing, see #3136

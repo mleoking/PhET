@@ -1,20 +1,23 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing.components;
 
+import java.awt.BorderLayout;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -24,42 +27,30 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class SimSharingDialog extends JDialog {
     public SimSharingDialog( JFrame parent ) {
-        super( parent, "About Sim Sharing" );
-        setContentPane( new VerticalLayoutPanel() {{
-
-            //Show the machine cookie and session id, call it a cookie so it is not intimidating
-            add( new JTextArea( "cookie\n" + SimSharingEvents.MACHINE_COOKIE + "\n\n" +
-                                "session id\n" + SimSharingEvents.SESSION_ID ) {{
+        super( parent, "Sim sharing event log" );
+        setContentPane( new JPanel( new BorderLayout() ) {{
+            add( new JScrollPane( new JTextArea( 20, 40 ) {{
                 setEditable( false );
-            }} );
-
-            //Add a place where the user can submit their own custom ID
+                SimSharingEvents.log.addObserver( new VoidFunction1<String>() {
+                    public void apply( String s ) {
+                        setText( s );
+                        scrollRectToVisible( new Rectangle( 0, getHeight() - 1, 1, 1 ) );
+                    }
+                } );
+            }} ), BorderLayout.CENTER );
             add( new JPanel() {{
-                add( new JLabel( "id" ) );
-                final JTextField textField = new JTextField( 10 ) {{
-                    final JTextField t = this;
+                add( new JButton( "Copy to clipboard" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            submitText( t );
-                        }
-                    } );
-                }};
-                add( textField );
-                add( new JButton( "Submit" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            submitText( textField );
+                            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                            final StringSelection contents = new StringSelection( SimSharingEvents.log.get() );
+                            clipboard.setContents( contents, contents );
                         }
                     } );
                 }} );
-            }} );
+            }}, BorderLayout.SOUTH );
         }} );
         pack();
         SwingUtils.centerInParent( this );
-    }
-
-    //Send the ID to the server
-    private void submitText( JTextField textField ) {
-        SimSharingEvents.sendEvent( "id", "submitted", Parameter.param( "id", textField.getText() ) );
     }
 }
