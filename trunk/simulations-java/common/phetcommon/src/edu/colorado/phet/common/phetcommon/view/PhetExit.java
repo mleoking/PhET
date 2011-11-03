@@ -31,13 +31,11 @@ public class PhetExit {
      * then exits the application by closing the VM with System.exit(0)
      */
     public static void exit() {
-
-        // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
-        systemResponse( ACTION_EXITED );
-
         for ( VoidFunction0 exitListener : exitListeners ) {
             exitListener.apply();
         }
+        // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
+        systemResponse( ACTION_EXITED );
         System.exit( 0 );
     }
 }
