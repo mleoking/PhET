@@ -1,17 +1,33 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module.Listener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -296,6 +312,7 @@ public class PhetJMEApplication extends Application {
 
     @Override public void handleError( String errMsg, final Throwable t ) {
         super.handleError( errMsg, t );
+        SimSharingEvents.sendSystemEvent( "erred", Parameter.param( "errMsg", errMsg ) );
         showErrorDialog( t );
     }
 
