@@ -1,3 +1,4 @@
+# 1.01.08 (58345) Nov 3, 2011
 Fixed threading issue for message sending when bonds created by dragging, see #3136
 Changed "bondsRemoved" to "bondsChanged", see #3144
 # 1.01.07 (58331) Nov 3, 2011
