@@ -34,9 +34,15 @@ import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.STOVE_CONTR
 
 /**
  * This class is the graphical representation of a stove that can be used to
- * heat or cool things.
+ * heat or cool things.  This version has a horizontal slider on the bottom
+ * of the stove.
+ * TODO: This version was created, but then the team decided that they wanted
+ * on with the slider on the stove (not to the side), so this one is obsolete
+ * as of Nov 4, 2011.  This should be kept around for a while in case the
+ * team changes their collective mind again.  After, say, a year it can and
+ * should be deleted.
  */
-public class StoveNode extends PNode {
+public class StoveNode3 extends PNode {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -45,7 +51,6 @@ public class StoveNode extends PNode {
     // Width of the burner output - much of the rest of the size of the stove
     // derives from this value.
     private static final double WIDTH = 200; // In screen coords, which are close to pixels.
-    private static final double HEIGHT = WIDTH; // In screen coords, which are close to pixels.
 
     // Basic color used for the stove.
     private static final Color BASE_COLOR = new Color( 159, 182, 205 );
@@ -69,7 +74,7 @@ public class StoveNode extends PNode {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public StoveNode( MultipleParticleModel model ) {
+    public StoveNode3( MultipleParticleModel model ) {
 
         m_model = model;
 
@@ -90,20 +95,19 @@ public class StoveNode extends PNode {
             } );
         }
 
-        // Create the body of the stove.
-        DoubleGeneralPath stoveBodyShape = new DoubleGeneralPath() {{
-            double bottomWidth = WIDTH * 0.9;
-            moveTo( 0, 0 ); // Start in upper left corner.
-            lineTo( WIDTH, 0 ); // Line to upper right corner.
-            lineTo( bottomWidth, -HEIGHT ); // Line to lower right corner.
-            lineTo( WIDTH - bottomWidth / 2, -HEIGHT ); // Line to lower left corner.
-            lineTo( 0, 0 ); // Line back to the upper left corner.
-            closePath(); // Just to be sure.
+        // Create the burner, which is somewhat bowl-shaped.
+        DoubleGeneralPath burnerShape = new DoubleGeneralPath( 0, 0 ) {{
+            double burnerHeight = WIDTH * 0.3;
+            lineTo( WIDTH * 0.20, burnerHeight );
+            lineTo( WIDTH * 0.80, burnerHeight );
+            lineTo( WIDTH, 0 );
+            curveTo( WIDTH * 0.75, burnerHeight * 0.07, WIDTH * 0.25, burnerHeight * 0.07, 0, 0 );
+            closePath();
         }};
-        Paint stoveBodyPaint = new GradientPaint( 0, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ), (float) WIDTH, 0, ColorUtils.darkerColor( BASE_COLOR, 0.5 ) );
-        m_burner = new PhetPPath( stoveBodyShape.getGeneralPath(), stoveBodyPaint, new BasicStroke( 1 ), Color.BLACK );
+        Paint burnerPaint = new GradientPaint( 0, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ), (float) WIDTH, 0, ColorUtils.darkerColor( BASE_COLOR, 0.5 ) );
+        m_burner = new PhetPPath( burnerShape.getGeneralPath(), burnerPaint, new BasicStroke( 1 ), Color.BLACK );
 
-        // Create the inside bowl of the burner, which is an ellipse.
+        // Create the inside of the burner, which is an ellipse.
         Shape burnerInteriorShape = new Ellipse2D.Double( 0, 0, WIDTH, WIDTH * 0.05 );
         Paint burnerInteriorPaint = new GradientPaint( 0, 0, ColorUtils.darkerColor( BASE_COLOR, 0.25 ), (float) WIDTH, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ) );
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
@@ -225,7 +229,7 @@ public class StoveNode extends PNode {
             public void run() {
                 new PiccoloTestFrame( "Stove Node Test" ) {{
                     addNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 1000, 1000 ), Color.black ) );
-                    addNode( new StoveNode( null ) {{
+                    addNode( new StoveNode3( null ) {{
                         setOffset( 100, 200 );
                     }} );
                     setBackground( Color.black );
