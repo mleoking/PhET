@@ -7,7 +7,7 @@ import java.awt.Shape;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
- * Base class for proteins.
+ * Base class for proteins.  Defines the methods used for growing a protein.
  *
  * @author John Blanco
  */
