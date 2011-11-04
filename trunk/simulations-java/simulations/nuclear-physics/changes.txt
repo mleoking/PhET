@@ -1,3 +1,4 @@
+> Made the default half life of the custom nucleus for Beta Decay a small amount longer so that the half life line on the decaty chart will be more distinctly different from the non-custom nucleus, and hence more noticeable by users.
 > Made the default half life of the custom nucleus for Alpha Decay longer so that the half life line on the decaty chart will be more distinctly different from the non-custom nucleus, and hence more noticeable by users.
 > Made the arrow that the user manipulates on the charts a bit bigger and changed the shape somewhat in order to make it more noticeable.
 # 3.24.03 (57801) Oct 19, 2011
