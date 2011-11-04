@@ -192,8 +192,8 @@ public class Plank extends ShapeModelElement {
         boolean massAdded = false;
         Point2D closestOpenLocation = getOpenMassDroppedLocation( mass.getPosition() );
         if ( isPointAbovePlank( mass.getMiddlePoint() ) && closestOpenLocation != null ) {
-            mass.setOnPlank( true );
             mass.setPosition( closestOpenLocation );
+            mass.setOnPlank( true );
             double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) *
                                         ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
             mapMassToDistFromCenter.put( mass, distanceFromCenter );
