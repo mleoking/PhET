@@ -39,8 +39,9 @@ public class StoveNode extends PNode {
 
     // Width of the burner output - much of the rest of the size of the stove
     // derives from this value.
-    private static final double WIDTH = 200; // In screen coords, which are close to pixels.
-    private static final double HEIGHT = WIDTH; // In screen coords, which are close to pixels.
+    private static final double WIDTH = 250; // In screen coords, which are close to pixels.
+    private static final double HEIGHT = WIDTH * 0.75; // In screen coords, which are close to pixels.
+    private static final double BURNER_OPENING_HEIGHT = WIDTH * 0.1; // In screen coords, which are close to pixels.
 
     // Basic color used for the stove.
     private static final Color BASE_COLOR = new Color( 159, 182, 205 );
@@ -87,11 +88,15 @@ public class StoveNode extends PNode {
 
         // Create the body of the stove.
         DoubleGeneralPath stoveBodyShape = new DoubleGeneralPath() {{
-            double bottomWidth = WIDTH * 0.9;
+            double bottomWidth = WIDTH * 0.8;
             moveTo( 0, 0 ); // Start in upper left corner.
-            lineTo( WIDTH, 0 ); // Line to upper right corner.
-            lineTo( bottomWidth, -HEIGHT ); // Line to lower right corner.
-            lineTo( WIDTH - bottomWidth / 2, -HEIGHT ); // Line to lower left corner.
+            curveTo( 0, BURNER_OPENING_HEIGHT / 2, WIDTH, BURNER_OPENING_HEIGHT / 2, WIDTH, 0 ); // Curve to upper right corner.
+            lineTo( ( WIDTH + bottomWidth ) / 2, HEIGHT ); // Line to lower right corner.
+            curveTo( ( WIDTH + bottomWidth ) / 2,
+                     HEIGHT + BURNER_OPENING_HEIGHT / 2,
+                     ( WIDTH - bottomWidth ) / 2,
+                     HEIGHT + BURNER_OPENING_HEIGHT / 2,
+                     ( WIDTH - bottomWidth ) / 2, HEIGHT ); // Curve to lower left corner.
             lineTo( 0, 0 ); // Line back to the upper left corner.
             closePath(); // Just to be sure.
         }};
@@ -99,23 +104,27 @@ public class StoveNode extends PNode {
         m_burner = new PhetPPath( stoveBodyShape.getGeneralPath(), stoveBodyPaint, new BasicStroke( 1 ), Color.BLACK );
 
         // Create the inside bowl of the burner, which is an ellipse.
-        Shape burnerInteriorShape = new Ellipse2D.Double( 0, 0, WIDTH, WIDTH * 0.05 );
+        Shape burnerInteriorShape = new Ellipse2D.Double( 0, 0, WIDTH, BURNER_OPENING_HEIGHT );
         Paint burnerInteriorPaint = new GradientPaint( 0, 0, ColorUtils.darkerColor( BASE_COLOR, 0.25 ), (float) WIDTH, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ) );
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
         // Create the slider.
-        StoveControlSliderNode stoveControlSlider = new StoveControlSliderNode( m_heat );
-
-        // Scale the slider to look reasonable on the body of the stove.  It
-        // may be scaled differently for different translations.
-
+        StoveControlSliderNode stoveControlSlider = new StoveControlSliderNode( m_heat ) {{
+            // Scale the slider to look reasonable on the body of the stove.  It
+            // may be scaled differently for different translations.
+            double maxWidth = WIDTH * 0.8;
+            double maxHeight = HEIGHT * 0.8;
+            double scale = Math.min( maxWidth / getFullBoundsReference().width,
+                                     maxHeight / getFullBoundsReference().height );
+            setScale( scale );
+        }};
 
         // Add the images for fire and ice that come out of the stove.
         m_fireImage = StatesOfMatterResources.getImageNode( "flame.png" );
-        m_fireImage.setScale( ( WIDTH * 0.6 ) / m_fireImage.getFullBoundsReference().getWidth() );
+        m_fireImage.setScale( ( WIDTH * 0.8 ) / m_fireImage.getFullBoundsReference().getWidth() );
 
         m_iceImage = StatesOfMatterResources.getImageNode( "ice-cube-stack.png" );
-        m_iceImage.setScale( ( WIDTH * 0.6 ) / m_iceImage.getFullBoundsReference().getWidth() );
+        m_iceImage.setScale( ( WIDTH * 0.8 ) / m_iceImage.getFullBoundsReference().getWidth() );
 
         // Add the various components in the order needed to achieve the
         // desired layering.
@@ -126,10 +135,9 @@ public class StoveNode extends PNode {
         addChild( stoveControlSlider );
 
         // Do the layout.
-        double centerX = WIDTH / 2;
         burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 ); // Note - Goes a little negative in Y direction.
         stoveControlSlider.setOffset( WIDTH / 2 - stoveControlSlider.getFullBoundsReference().width / 2,
-                                      HEIGHT / 2 - stoveControlSlider.getFullBoundsReference().height );
+                                      HEIGHT / 2 - stoveControlSlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
 
         // Observe the heat value and set the model heating/cooling amount
         // accordingly.
@@ -154,15 +162,11 @@ public class StoveNode extends PNode {
                 double numIncrements = 50;
                 switch( event.getKeyCode() ) {
                     case KeyEvent.VK_UP:
-                    case KeyEvent.VK_RIGHT:
-                    case KeyEvent.VK_KP_RIGHT:
-                        // case KeyEvent.VK_KP_UP: - For some odd reason, the compiler doesn't like this.
+                    case KeyEvent.VK_KP_UP:
                         m_heat.set( Math.min( m_heat.get() + heatRange.getLength() / numIncrements, 1 ) );
                         break;
                     case KeyEvent.VK_DOWN:
-                    case KeyEvent.VK_LEFT:
                     case KeyEvent.VK_KP_DOWN:
-                    case KeyEvent.VK_KP_LEFT:
                         m_heat.set( Math.max( m_heat.get() - heatRange.getLength() / numIncrements, -1 ) );
                         break;
                     case KeyEvent.VK_ESCAPE:
