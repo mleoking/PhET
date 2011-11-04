@@ -1,3 +1,4 @@
+> Made the arrow that the user manipulates on the charts a bit bigger and changed the shape somewhat in order to make it more noticeable.
 # 3.24.03 (57801) Oct 19, 2011
 10/19/11 Fixed an issue with the movement of the energy handles on the alpha particle energy graph.
 # 3.24.02 (57798) Oct 19, 2011

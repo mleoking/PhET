@@ -88,7 +88,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
     private static final Color HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
     private static final Font HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color TIME_LINE_BASE_COLOR = Color.BLUE;
-    private static final double RESIZE_HANDLE_SIZE = 35;
+    private static final double RESIZE_HANDLE_SIZE = 45;
     private static final double MAX_ISOTOPE_LABEL_WIDTH_PROPORTION = 0.05;
     private static final double MAX_ISOTOPE_LABEL_HEIGHT_PROPORTION = 0.2;
 

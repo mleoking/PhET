@@ -272,7 +272,7 @@ public class AlphaDecayEnergyChart extends PNode implements SubatomicParticle.Li
         // Add the handles that will allow the user to change the total
         // energy and potential energy peak.  These are initially arbitrarily
         // sized, then resized when the diagram is updated.
-        _totalEnergyHandle = new ResizeArrowNode( 10, Math.PI / 2, Color.GREEN, Color.YELLOW );
+        _totalEnergyHandle = new ResizeArrowNode( 20, Math.PI / 2, Color.GREEN, Color.YELLOW );
         _totalEnergyHandle.setPickable( true );
         _totalEnergyHandle.setChildrenPickable( true );
         _totalEnergyHandle.setStroke( CONTROL_HANDLE_STROKE );
@@ -303,7 +303,7 @@ public class AlphaDecayEnergyChart extends PNode implements SubatomicParticle.Li
             }
         } );
 
-        _potentialEnergyPeakHandle = new ResizeArrowNode( 10, Math.PI / 2, Color.GREEN, Color.YELLOW );
+        _potentialEnergyPeakHandle = new ResizeArrowNode( 20, Math.PI / 2, Color.GREEN, Color.YELLOW );
         _potentialEnergyPeakHandle.setPickable( true );
         _potentialEnergyPeakHandle.setChildrenPickable( true );
         _potentialEnergyPeakHandle.setStroke( CONTROL_HANDLE_STROKE );
