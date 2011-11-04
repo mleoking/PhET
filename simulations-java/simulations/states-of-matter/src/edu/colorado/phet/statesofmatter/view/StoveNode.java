@@ -10,7 +10,6 @@ import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.SwingUtilities;
 
@@ -19,9 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
@@ -29,8 +26,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE;
 
 /**
  * This class is the graphical representation of a stove that can be used to
@@ -109,21 +104,13 @@ public class StoveNode extends PNode {
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
         // Create the slider.
-        StoveControlSliderNode stoveControlSlider = new StoveControlSliderNode( m_heat ) {{
-            setScale( ( WIDTH - 20 ) / getFullBoundsReference().width );
-        }};
+        StoveControlSliderNode stoveControlSlider = new StoveControlSliderNode( m_heat );
 
-        // Create the title label that goes above the slider.
-        PhetPText sliderTitle = new PhetPText( STOVE_CONTROL_PANEL_TITLE, new PhetFont( 18, true ), Color.white );
-        addChild( sliderTitle );
+        // Scale the slider to look reasonable on the body of the stove.  It
+        // may be scaled differently for different translations.
 
-        // Create the bottom area of the stove, which is where the control resides.
-        Shape controlBackgroundShape = new RoundRectangle2D.Double( 0, 0, WIDTH,
-                                                                    stoveControlSlider.getFullBoundsReference().height + sliderTitle.getFullBoundsReference().height + 10,
-                                                                    10, 10 );
-        PNode stoveControlBackground = new PhetPPath( controlBackgroundShape, BASE_COLOR );
 
-        // Create the images that comprise the stove.
+        // Add the images for fire and ice that come out of the stove.
         m_fireImage = StatesOfMatterResources.getImageNode( "flame.png" );
         m_fireImage.setScale( ( WIDTH * 0.6 ) / m_fireImage.getFullBoundsReference().getWidth() );
 
@@ -135,21 +122,14 @@ public class StoveNode extends PNode {
         addChild( burnerInterior );
         addChild( m_fireImage );
         addChild( m_iceImage );
-        addChild( stoveControlBackground );
         addChild( m_burner );
-        addChild( sliderTitle );
         addChild( stoveControlSlider );
 
         // Do the layout.
-        double centerX = Math.max( m_burner.getFullBoundsReference().width, stoveControlBackground.getFullBoundsReference().width ) / 2;
-        burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 );
-        m_burner.setOffset( centerX - m_burner.getFullBoundsReference().width / 2, 0 );
-        stoveControlBackground.setOffset( centerX - stoveControlBackground.getFullBoundsReference().width / 2,
-                                          m_burner.getFullBoundsReference().getMaxY() );
-        stoveControlSlider.setOffset( centerX - stoveControlSlider.getFullBoundsReference().width / 2,
-                                      stoveControlBackground.getFullBoundsReference().getMaxY() - stoveControlSlider.getFullBoundsReference().height - 10 );
-        sliderTitle.setOffset( centerX - sliderTitle.getFullBoundsReference().width / 2,
-                               stoveControlSlider.getFullBoundsReference().getMinY() - sliderTitle.getFullBoundsReference().height );
+        double centerX = WIDTH / 2;
+        burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 ); // Note - Goes a little negative in Y direction.
+        stoveControlSlider.setOffset( WIDTH / 2 - stoveControlSlider.getFullBoundsReference().width / 2,
+                                      HEIGHT / 2 - stoveControlSlider.getFullBoundsReference().height );
 
         // Observe the heat value and set the model heating/cooling amount
         // accordingly.
