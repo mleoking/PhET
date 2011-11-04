@@ -203,6 +203,7 @@ public class MoleculeShapesModule extends JMEModule {
                             if ( pair != null ) {
                                 molecule.removePair( pair );
                             }
+                            SimSharingEvents.sendEvent( "mouse middle button", "pressed", param( "removedPair", pair != null ) );
                         }
                     }
                 }, MAP_LMB, MAP_MMB );
