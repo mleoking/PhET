@@ -2,11 +2,13 @@
 package edu.colorado.phet.simeventprocessor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
@@ -131,5 +133,35 @@ public class EventLog implements Iterable<Entry> {
             }
         }
         return list;
+    }
+
+    public long getServerStartTime() {
+        return serverTime;
+    }
+
+    public String brief() {
+        final Entry startMessage = getStartMessage();
+        return startMessage.get( "name" ) + " " + startMessage.get( "version" ).get() + " startTime = " + new Date( serverTime ) + ", epoch = " + serverTime + ", userID = " + startMessage.get( "id" ) + ", events = " + size() + ", timeUsed = " + minutesUsed() + " minutes";
+    }
+
+    public int minutesUsed() {
+        return getLastTime() / 1000 / 60;
+    }
+
+    private Entry getStartMessage() {
+        return getFirstEntry( "system", "started" );
+    }
+
+    private Entry getFirstEntry( String system, String started ) {
+        for ( Entry line : lines ) {
+            if ( line.matches( system, started ) ) {
+                return line;
+            }
+        }
+        return null;
+    }
+
+    public Option<String> getID() {
+        return getStartMessage().get( "id" );
     }
 }
