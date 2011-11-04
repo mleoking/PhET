@@ -96,6 +96,11 @@ public class BondTypeControlNode extends PNode {
         addDragEvent( new Runnable() {
             public void run() {
                 module.startNewInstanceDrag( bondOrder );
+
+                sendEvent( "bond", "created", param( "bondOrder", bondOrder ) );
+
+                //System response for electron and molecule geometry names, copied from code in GeometryNameNode
+                systemResponseForGeometries( module.getMolecule() );
             }
         } );
     }
@@ -111,10 +116,6 @@ public class BondTypeControlNode extends PNode {
             @Override public void mousePressed( final PInputEvent event ) {
                 if ( enabled.get() && event.getButton() == MouseEvent.BUTTON1 ) {
                     JMEUtils.invoke( runnable );
-                    sendEvent( "bond", "created", param( "bondOrder", bondOrder ) );
-
-                    //System response for electron and molecule geometry names, copied from code in GeometryNameNode
-                    systemResponseForGeometries( module.getMolecule() );
                 }
             }
         } );
