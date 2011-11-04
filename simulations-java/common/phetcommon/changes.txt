@@ -1,3 +1,4 @@
+11/4/2011 Overrode Some.equals, Some.hashCode and None.equals
 11/3/2011 Create .phet directory if it did not exist in sim sharing cookie creation, see #3136
 11/3/2011 Added a research menu item in the about menu, see #3136
 11/3/2011 Added an input dialog for id, see #3136

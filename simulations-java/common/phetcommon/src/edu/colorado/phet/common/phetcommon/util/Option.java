@@ -47,6 +47,11 @@ public abstract class Option<T> implements Iterable<T> {
         public Iterator<T> iterator() {
             return new ArrayList<T>().iterator();
         }
+
+        @Override public boolean equals( Object obj ) {
+            return obj instanceof None;
+        }
+
     }
 
     public static class Some<T> extends Option<T> {
@@ -72,6 +77,23 @@ public abstract class Option<T> implements Iterable<T> {
             return new ArrayList<T>() {{
                 add( value );
             }}.iterator();
+        }
+
+        @Override
+        public boolean equals( Object o ) {
+            if ( this == o ) { return true; }
+            if ( o == null || getClass() != o.getClass() ) { return false; }
+
+            Some some = (Some) o;
+
+            if ( value != null ? !value.equals( some.value ) : some.value != null ) { return false; }
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return value != null ? value.hashCode() : 0;
         }
     }
 }
