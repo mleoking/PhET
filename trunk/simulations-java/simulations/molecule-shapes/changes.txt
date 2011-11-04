@@ -1,3 +1,4 @@
+# 1.01.09 (58349) Nov 4, 2011
 Added a message for middle-button press, see #3136
 # 1.01.08 (58345) Nov 3, 2011
 Fixed threading issue for message sending when bonds created by dragging, see #3136
