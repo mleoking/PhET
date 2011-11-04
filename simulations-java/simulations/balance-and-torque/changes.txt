@@ -1,3 +1,4 @@
+Fixed a minor issue where people placed near the center of the plank could be pointed the wrong direction.
 # 0.00.20 (58335) Nov 3, 2011
 11/3/11 Deploying to dev for review by the design team.
 Fixed an issue with mass placement that was introduced as a result of the previous fix.
