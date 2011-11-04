@@ -164,4 +164,8 @@ public class EventLog implements Iterable<Entry> {
     public Option<String> getID() {
         return getStartMessage().get( "id" );
     }
+
+    public String getSimName() {
+        return getStartMessage().get( "name" ).get();
+    }
 }
