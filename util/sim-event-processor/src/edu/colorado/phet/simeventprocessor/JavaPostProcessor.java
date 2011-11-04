@@ -87,8 +87,6 @@ public class JavaPostProcessor extends Processor {
     }
 
     public static void main( String[] args ) throws IOException {
-        new JavaPostProcessor().process(
-                new File( "C:\\Users\\Sam\\Desktop\\tablog-1.txt" )
-        );
+        new JavaPostProcessor().process( new File( "C:\\Users\\Sam\\Desktop\\tarred" ).listFiles() );
     }
 }

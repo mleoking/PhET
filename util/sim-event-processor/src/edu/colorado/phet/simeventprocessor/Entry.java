@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
  * A single line that represents an event.
@@ -61,15 +62,16 @@ public class Entry {
         return false;
     }
 
-    public String apply( String key ) {
+    public Option<String> apply( String key ) {
         return get( key );
     }
 
-    public String get( String key ) {
+    public Option<String> get( String key ) {
         for ( Parameter parameter : parameters ) {
-            if ( parameter.name.equals( key ) ) { return parameter.value; }
+            if ( parameter.name.equals( key ) ) { return new Option.Some<String>( parameter.value ); }
         }
-        throw new RuntimeException( "Parameter not found: " + key );
+//        new RuntimeException( "Parameter not found: " + key + " in parameters: " + Arrays.asList( parameters ) ).printStackTrace();
+        return new Option.None<String>();
     }
 
 
