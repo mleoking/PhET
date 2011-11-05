@@ -141,7 +141,7 @@ public class EventLog implements Iterable<Entry> {
 
     public String brief() {
         final Entry startMessage = getStartMessage();
-        return startMessage.get( "name" ) + " " + startMessage.get( "version" ).get() + " startTime = " + new Date( serverTime ) + ", epoch = " + serverTime + ", userID = " + startMessage.get( "id" ) + ", events = " + size() + ", timeUsed = " + minutesUsed() + " minutes";
+        return startMessage.get( "name" ) + " " + startMessage.get( "version" ).get() + " startTime = " + new Date( serverTime ) + ", epoch = " + serverTime + ", userID = " + startMessage.get( "id" ) + ", events = " + size() + ", timeUsed = " + minutesUsed() + " minutes, machineID = " + machineID + ", sessionID = " + sessionID;
     }
 
     public int minutesUsed() {
