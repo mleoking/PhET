@@ -68,6 +68,9 @@ public class SimSharingEvents {
     //Keep track of the log for purposes of storing locally or allowing the user to submit.
     public static Property<String> log = new Property<String>( "" );
 
+    //Number of delivered messages, for cross-checking that no messages were dropped
+    public static int messageCount = 0;
+
     //Determine whether the sim should try to send event messages to the server
     public static boolean isEnabled() {
         return enabled;
@@ -104,6 +107,12 @@ public class SimSharingEvents {
             System.out.println( message );
             log.set( log.get() + "\n" + message );
             deliverMessage( MACHINE_COOKIE + "\t" + SESSION_ID + "\t" + timestamp + "\t" + object + "\t" + action + "\t" + parameterText );
+
+            //Every 100 messages, send a message that says how many messages have been sent.  This way we can check to see that no messages were dropped.
+            messageCount++;
+            if ( messageCount % 100 == 0 && messageCount > 0 ) {
+                sendSystemEvent( "messageCount", param( "messageCount", messageCount ) );
+            }
 
             return message;
         }
