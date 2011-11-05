@@ -30,10 +30,12 @@ public class SummarizeData extends Processor {
         List<EventLog> recent = list.filter( new F<EventLog, Boolean>() {
             @Override public Boolean f( EventLog entry ) {
                 return entry.getServerStartTime() >= 1320434917933L &&
-                       !entry.getID().equals( new Option.Some<String>( "samreid" ) ) && entry.minutesUsed() >= 2;
-//                &&
+                       !entry.getID().equals( new Option.Some<String>( "samreid" ) )
+//                       &&
+//                       entry.minutesUsed() >= 0
+                       &&
 //                       entry.getSimName().equals( "Molecule Shapes" );
-//                       entry.getSimName().equals( "Molecule Polarity" );
+                       entry.getSimName().equals( "Molecule Polarity" );
 
             }
         } );
