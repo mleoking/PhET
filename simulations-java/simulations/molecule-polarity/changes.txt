@@ -1,4 +1,5 @@
 # 1.01.10 (58370) Nov 5, 2011
+11/3/11 deployed by SR for something having to do with shimsharing #3136
 # 1.01.09 (58343) Nov 3, 2011
 11/3/2011 Added a parameter for JMolViewerNode currentMolecule, see #3136
 # 1.01.08 (58330) Nov 3, 2011
@@ -6,11 +7,13 @@
 11/2/2011 Report on student usage for rainbow potential in molecule-polarity, see #3144
 11/2/2011 Report when the user tries to click on the non-interactive Bond Character node, see #3136
 # 1.01.07 (58277) Nov 2, 2011
+11/3/11 deployed by SR for something having to do with shimsharing #3136
 # 1.01.06 (58220) Nov 1, 2011
 11/1/2011 Changed from SimSharingProperty to track UI control changes, see #3136
 11/1/2011 Changed PropertyCheckBox to use actionPerformed instead of ChangeListener to suppress multiple event notifications, see #3136
 10/31/2011 Use param() instead of new Parameter(), see #3136
 # 1.01.05 (58185) Oct 31, 2011
+11/3/11 deployed by SR for something having to do with shimsharing #3136
 # 1.01.04 (58184) Oct 31, 2011
 10/31/11 Updated message formatting, see #3136
 # 1.01.03 (58150) Oct 31, 2011
@@ -22,6 +25,7 @@ Added messages for dragging in the play area
 Added messages for several actions
 Added dependency on simsharing-core
 # 1.01.00 (57391) Oct 7, 2011
+10/7/11 same as 1.00.01, deployed to PhET website
 # 1.00.01 (57379) Oct 7, 2011
 > change color of atom A to address colorblindness issue
 10/07/11 #3106, make atom A a slightly less saturated yellow, so it's more distinct for people with deuteranope colorblindness
