@@ -5,12 +5,15 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -193,6 +196,25 @@ public class MoleculeModelNode extends Node {
         // start handling angle nodes from the beginning
         angleIndex = 0;
 
+        // calculate position changes due to taking lone-pair distances into account
+        boolean hasLonePair = !molecule.getLonePairs().isEmpty();
+        final double timeEpsilon = 0.1; // a small amount of time to consider the forces
+        Map<PairGroup, ImmutableVector3D> lonePairModifiedPositions = new HashMap<PairGroup, ImmutableVector3D>();
+        if ( hasLonePair ) {
+            for ( PairGroup group : molecule.getBondedGroups() ) {
+                ImmutableVector3D position = group.position.get();
+                for ( PairGroup otherGroup : molecule.getGroups() ) {
+                    if ( otherGroup == group ) { continue; }
+
+                    double lonePairFactor = otherGroup.isLonePair ? 1.2 : 1;
+
+                    // add in impulse calculated with true from-central-atom distances
+                    position = position.plus( group.getRepulsionImpulse( otherGroup, timeEpsilon, 1 ) ).times( lonePairFactor );
+                }
+                lonePairModifiedPositions.put( group, position.normalized() );
+            }
+        }
+
         // TODO: separate out bond angle feature
         if ( MoleculeShapesProperties.showBondAngles.get() ) {
             for ( BondAngleNode bondAngleNode : angleNodes ) {
@@ -219,7 +241,35 @@ public class MoleculeModelNode extends Node {
                 final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
 
                 double angle = aDir.angleBetweenInDegrees( bDir );
-                showAngleLabel( MessageFormat.format( Strings.ANGLE__DEGREES, angleFormat.format( angle ) ), brightness, displayPoint );
+                String labelText;
+                if ( hasLonePair ) {
+                    final double angleEpsilon = 0.05; // the change in angle due to lone pairs should have a difference larger than this for us to show a difference
+
+                    double modifiedAngle = lonePairModifiedPositions.get( a ).angleBetweenInDegrees( lonePairModifiedPositions.get( b ) );
+                    String formatString = Strings.ANGLE__DEGREES;
+
+                    // for the Colorado and Utah studies, enable the "less than" and "greater than" text
+                    if ( SimSharingEvents.isEnabled() ) {
+                        if ( modifiedAngle - angle > angleEpsilon ) {
+                            // lone-pair angle version is larger
+                            formatString = Strings.ANGLE__GREATER_THAN_DEGREES;
+                        }
+                        else if ( modifiedAngle - angle < -angleEpsilon ) {
+                            // lone-pair angle version is smaller
+                            formatString = Strings.ANGLE__LESS_THAN_DEGREES;
+                        }
+                        else {
+                            // close enough to report no difference
+                            formatString = Strings.ANGLE__DEGREES;
+                        }
+                    }
+                    labelText = MessageFormat.format( formatString, angleFormat.format( angle ) );
+                }
+                else {
+                    labelText = MessageFormat.format( Strings.ANGLE__DEGREES, angleFormat.format( angle ) );
+                }
+
+                showAngleLabel( labelText, brightness, displayPoint );
             }
         }
 
