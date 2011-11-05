@@ -1,3 +1,4 @@
+# 1.01.10 (58368) Nov 4, 2011
 For the Colorado and Utah studies, enable the "less than" and "greater than" text.
 # 1.01.09 (58349) Nov 4, 2011
 Added a message for middle-button press, see #3136
