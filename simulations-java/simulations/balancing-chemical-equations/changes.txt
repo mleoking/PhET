@@ -1,11 +1,15 @@
 # 1.00.08 (58369) Nov 5, 2011
+11/5/11 deployed by SR for something having to do with shimsharing #3136
 # 1.00.07 (58346) Nov 3, 2011
+11/3/11 deployed by SR for something having to do with shimsharing #3136
 # 1.00.06 (58329) Nov 3, 2011
+11/3/11 deployed by SR for something having to do with shimsharing #3136
 # 1.00.05 (58276) Nov 2, 2011
+11/2/11 deployed by SR for something having to do with shimsharing #3136
 # 1.00.04 (58219) Nov 1, 2011
-11/1/11 deployed by SR for something having to do with #3136
+11/1/11 deployed by SR for something having to do with shimsharing #3136
 # 1.00.03 (58183) Oct 31, 2011
-10/31/11 Updated message formatting, see #3136
+10/31/11 Updated message formatting, see shimsharing #3136
 # 1.00.02 (58148) Oct 30, 2011
 10/30/11 Only try to load machine cookie if sim-sharing is enabled, see #3136
 # 1.00.01 (58146) Oct 30, 2011
