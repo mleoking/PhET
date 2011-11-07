@@ -19,7 +19,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * A PNode that represents a box where the user can collect protein molecules.
+ * A PNode that represents a labeled box where the user can collect protein
+ * molecules.
  *
  * @author John Blanco
  */
@@ -51,6 +52,13 @@ public class ProteinCollectionNode extends PNode {
         addChild( new ControlPanelNode( contents, BACKGROUND_COLOR ) );
     }
 
+    // Indicator of the number of proteins that the user has collected so
+    // far.  This monitors the model and update automatically.
+
+    /**
+     * PNode that indicates the number of proteins that the user has collected
+     * so far.  This monitors the model and updates automatically.
+     */
     private static class CollectionCountIndicator extends PNode {
         private CollectionCountIndicator( ManualGeneExpressionModel model ) {
             model.collectedProteinCount.addObserver( new VoidFunction1<Integer>() {
@@ -58,6 +66,7 @@ public class ProteinCollectionNode extends PNode {
                     removeAllChildren();
                     VBox collectionCountIndicator = new VBox(
                             5,
+                            // TODO: i18n.
                             new HBox( 4, new ReadoutPText( "You have: " ), new IntegerBox( numCollectedProteins ) ),
                             new ReadoutPText( "of 3 proteins." ) {{
                                 setFont( READOUT_FONT );
@@ -74,6 +83,10 @@ public class ProteinCollectionNode extends PNode {
         }
     }
 
+    /**
+     * Convenience class for putting an integer in a box, kind of like a
+     * grayed out edit box.
+     */
     private static class IntegerBox extends PNode {
         private static final Color BACKGROUND_COLOR = new Color( 240, 240, 240 );
 
@@ -87,6 +100,9 @@ public class ProteinCollectionNode extends PNode {
         }
     }
 
+    /**
+     * Convenience class for the text used in the readout.
+     */
     private static class ReadoutPText extends PText {
         private ReadoutPText( String text ) {
             super( text );
