@@ -3,7 +3,6 @@ blue-bucket.png source=PhET
 boy-sitting.png source=PhET
 boy-standing.png source=PhET
 cinder-block.png source=PhET
-drink-with-straw.png source=PhET
 fire-extinguisher.png source=Open Clip Art notes=Modified by jblanco
 fire-hydrant.png source=PhET
 flower-pot.png source=PhET
@@ -25,8 +24,8 @@ potted-plant.png source=PhET
 rock_1.png source=PhET
 rock_4.png source=PhET
 rock_6.png source=PhET
-tiny-rock.png source=PhET
 soda-bottle.png source=PhET
+tiny-rock.png source=PhET
 tire.png source=PhET
 trash-can.png source=PhET
 woman-sitting.png source=PhET
