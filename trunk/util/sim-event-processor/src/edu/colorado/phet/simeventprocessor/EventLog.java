@@ -141,7 +141,7 @@ public class EventLog implements Iterable<Entry> {
 
     public String brief() {
         final Entry startMessage = getStartMessage();
-        return startMessage.get( "name" ) + " " + startMessage.get( "version" ).get() + " startTime = " + new Date( serverTime ) + ", epoch = " + serverTime + ", userID = " + startMessage.get( "id" ) + ", events = " + size() + ", timeUsed = " + minutesUsed() + " minutes, machineID = " + machineID + ", sessionID = " + sessionID;
+        return startMessage.get( "name" ) + " " + startMessage.get( "version" ).get() + " startTime = " + new Date( serverTime ) + ", epoch = " + serverTime + ", study = " + startMessage.get( "study" ) + ", userID = " + startMessage.get( "id" ) + ", events = " + size() + ", timeUsed = " + minutesUsed() + " minutes, machineID = " + machineID + ", sessionID = " + sessionID;
     }
 
     public int minutesUsed() {
@@ -167,5 +167,13 @@ public class EventLog implements Iterable<Entry> {
 
     public String getSimName() {
         return getStartMessage().get( "name" ).get();
+    }
+
+    public String getMachineID() {
+        return machineID;
+    }
+
+    public String getStudy() {
+        return getStartMessage().get( "study" ).get();
     }
 }
