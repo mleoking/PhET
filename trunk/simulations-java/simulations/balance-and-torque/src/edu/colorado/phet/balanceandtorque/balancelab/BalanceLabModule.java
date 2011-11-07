@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
  */
 public class BalanceLabModule extends Module {
 
-    BalanceLabModel model;
+    private BalanceLabModel model;
 
     public BalanceLabModule() {
         this( new BalanceLabModel() );

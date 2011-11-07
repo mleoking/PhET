@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
  */
 public class IntroModule extends Module {
 
-    IntroModel model;
+    private IntroModel model;
 
     public IntroModule() {
         this( new IntroModel() );
