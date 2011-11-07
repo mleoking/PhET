@@ -14,8 +14,6 @@ import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.STOVE_CONTROL_PANEL_ZERO_LABEL;
-
 /**
  * This class is the slider that is used to control the StoveNode, causing it
  * to add heat or cooling to the simulated system.
@@ -35,7 +33,7 @@ public class StoveControlSliderNode extends VSliderNode {
 
         // Show labels for add, zero, and remove.
         addLabel( +1, new PhetPText( "Heat", LABEL_FONT ) );
-        addLabel( 0.0, new PhetPText( STOVE_CONTROL_PANEL_ZERO_LABEL, LABEL_FONT ) );
+        addLabel( 0.0, new PhetPText( "-", LABEL_FONT ) );
         addLabel( -1, new PhetPText( "Cool", LABEL_FONT ) );
 
         // Return to 0 when the user releases the slider.
