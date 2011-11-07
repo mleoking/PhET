@@ -15,7 +15,8 @@ import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.*;
+import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.STOVE_CONTROL_PANEL_ADD_LABEL;
+import static edu.colorado.phet.statesofmatter.StatesOfMatterStrings.STOVE_CONTROL_PANEL_REMOVE_LABEL;
 
 /**
  * This class is the slider that is used to control the StoveNode, causing it
@@ -43,7 +44,7 @@ public class StoveControlSliderNode3 extends HSliderNode {
 
         // Show labels for add, zero and remove.
         addLabel( +1, new PhetPText( STOVE_CONTROL_PANEL_ADD_LABEL, LABEL_FONT ) );
-        addLabel( 0.0, new PhetPText( STOVE_CONTROL_PANEL_ZERO_LABEL, LABEL_FONT ) );
+//        addLabel( 0.0, new PhetPText( STOVE_CONTROL_PANEL_ZERO_LABEL, LABEL_FONT ) );
         addLabel( -1, new PhetPText( STOVE_CONTROL_PANEL_REMOVE_LABEL, LABEL_FONT ) );
 
         // Return to 0 when the user releases the slider.
