@@ -44,7 +44,6 @@ public abstract class Protein extends MobileBiomolecule {
 
     public void setGrowthFactor( double growthFactor ) {
         this.growthFactor = growthFactor;
-        updateShape();
     }
 
     public double getGrowthFactor() {
@@ -59,11 +58,6 @@ public abstract class Protein extends MobileBiomolecule {
         }
         setGrowthFactor( Math.min( growthFactor + growthAmount, 1 ) );
     }
-
-    /**
-     * Update the shape based on the current growth factor setting.
-     */
-    protected abstract void updateShape();
 
     protected abstract Shape getShape( double growthFactor );
 
