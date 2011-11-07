@@ -11,12 +11,13 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * @author Sam Reid
  */
-public class Predef {
+public class Predef implements IProguardKeepClass {
 
     public static void println() {
         println( "" );
@@ -26,8 +27,8 @@ public class Predef {
         System.out.println( string );
     }
 
-    public static String format( double vaule ) {
-        return new DecimalFormat( "0.00" ).format( vaule );
+    public static String format( double value ) {
+        return new DecimalFormat( "0.00" ).format( value );
     }
 
     public static void plot( String title, String domainAxis, String rangeAxis, final XYSeries... xySeries ) {
