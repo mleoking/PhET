@@ -14,6 +14,9 @@ import java.util.HashSet;
 
 import org.jfree.data.xy.XYSeries;
 
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+
 import static fj.Function.curry;
 import static fj.data.List.iterableList;
 
@@ -22,26 +25,45 @@ import static fj.data.List.iterableList;
  */
 public class SummarizeData extends Processor {
 
-    private final long EPOCH_START = 1320696880999L;
+    private final long EPOCH_START = 0L;
 
     public static void main( String[] args ) throws IOException {
         new SummarizeData().processDir( new File( "C:\\Users\\Sam\\Desktop\\file-vi" ) );
     }
 
+    public static class EMMondayFilter extends F<EventLog, Boolean> {
+        long startTime = 1320692751844L;
+        long endTime = 1320696963181L;
+        String simName = "Molecule Shapes";
+
+        @Override public Boolean f( EventLog entry ) {
+            return
+                    entry.getServerStartTime() >= startTime && entry.getServerStartTime() <= endTime
+                    && entry.getSimName().equals( simName )
+                    && entry.getStudy().equals( "utah" )
+                    && !entry.getMachineID().startsWith( "samreid" )
+                    && !entry.getID().getOrElse( "?" ).startsWith( "samreid" )
+                    ;
+        }
+    }
+
     @Override public void process( ArrayList<EventLog> all ) {
         System.out.println( "Found " + all.size() + " event logs" );
         List<EventLog> list = iterableList( all );
-        List<EventLog> recent = list.filter( new F<EventLog, Boolean>() {
-            @Override public Boolean f( EventLog entry ) {
-                return entry.getServerStartTime() >= EPOCH_START
-                       && entry.getStudy().equals( "colorado" )
-//                       && !entry.getID().equals( new Option.Some<String>( "samreid" ) )
-//                       && entry.minutesUsed() >= 0
-//                       && entry.getSimName().equals( "Molecule Shapes" )
-//                       && entry.getSimName().equals( "Molecule Polarity" )
-                        ;
-            }
-        } );
+
+        List<EventLog> recent = list.filter( new EMMondayFilter() );
+
+//        List<EventLog> recent = list.filter( new F<EventLog, Boolean>() {
+//            @Override public Boolean f( EventLog entry ) {
+//                return entry.getServerStartTime() >= EPOCH_START
+//                       && entry.getStudy().equals( "utah" )
+////                       && !entry.getID().equals( new Option.Some<String>( "samreid" ) )
+////                       && entry.minutesUsed() >= 0
+////                       && entry.getSimName().equals( "Molecule Shapes" )
+////                       && entry.getSimName().equals( "Molecule Polarity" )
+//                        ;
+//            }
+//        } );
 
         recent = recent.sort( Ord.ord( curry( new SimpleComparator<EventLog>( new F<EventLog, Comparable>() {
             @Override public Comparable f( EventLog e ) {
@@ -49,6 +71,18 @@ public class SummarizeData extends Processor {
 //                return e.getID().get();
             }
         } ) ) ) );
+
+        File destDir = new File( "C:/Users/Sam/Desktop/destDir1" );
+        destDir.mkdirs();
+        for ( EventLog entry : recent ) {
+            try {
+                FileUtils.copyToDir( entry.sourceFile, destDir );
+                System.out.println( "Copied " + entry.sourceFile + ", to " + destDir );
+            }
+            catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
 
         for ( EventLog entry : recent ) {
             System.out.println( entry.brief() );
@@ -65,7 +99,7 @@ public class SummarizeData extends Processor {
             int count = 0;
             for ( final EventLog eventLog : finalRecent ) {
                 count++;
-                final XYSeries xySeries = new XYSeries( "Student " + eventLog.getID().get() ) {{
+                final XYSeries xySeries = new XYSeries( "Student " + eventLog.getID().getOrElse( "?" ) ) {{
                     for ( long time = 0; time < eventLog.getLastTime(); time += 500 ) {
                         int events = eventLog.getNumberOfEvents( time );
                         add( time / 1000.0 / 60.0, events );
@@ -103,6 +137,24 @@ public class SummarizeData extends Processor {
                     println( "\t" + entry.getID().getOrElse( "?" ) );
                 }
             }
+        }
+
+        HashSet<String> errSystem = new HashSet<String>();
+        for ( EventLog entry : recent ) {
+            EventLog out = entry.keepItems( new Function1<Entry, Boolean>() {
+                public Boolean apply( Entry entry ) {
+                    return entry.matches( "system", "erred" );
+                }
+            } );
+            if ( out.size() > 0 ) {
+                System.out.println( "erred on machine: " + entry.getMachineID() + ": " + out );
+                errSystem.add( entry.getMachineID() );
+            }
+        }
+        System.out.println( "erred on machines: " + errSystem );
+        ArrayList<String> s = new ArrayList<String>( errSystem );
+        for ( int i = 0; i < errSystem.size(); i++ ) {
+            System.out.println( ( i + 1 ) + ": " + s.get( i ) );
         }
     }
 
