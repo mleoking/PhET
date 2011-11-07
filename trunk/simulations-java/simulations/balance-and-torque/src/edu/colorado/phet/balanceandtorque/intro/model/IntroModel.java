@@ -36,6 +36,7 @@ public class IntroModel extends BalanceModel {
 
     // Adds a mass to the model.
     @Override public UserMovableModelElement addMass( final Mass mass ) {
+        //REVIEW delete dead code
 //        mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
 //            public void update( Boolean newValue, Boolean oldValue ) {
 //                if ( oldValue && !newValue ) {
