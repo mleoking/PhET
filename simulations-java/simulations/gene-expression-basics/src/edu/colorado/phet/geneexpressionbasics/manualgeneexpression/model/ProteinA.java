@@ -3,7 +3,9 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * @author John Blanco
@@ -11,21 +13,32 @@ import java.awt.geom.Ellipse2D;
 public class ProteinA extends Protein {
 
     private static final Color BASE_COLOR = Color.YELLOW;
+    private static final double FULL_GROWN_WIDTH = 300;
 
     protected ProteinA( GeneExpressionModel model ) {
         super( model, createInitialShape(), BASE_COLOR );
     }
 
-    @Override protected void updateShape() {
-        // TODO: Stubbed.
-    }
-
     @Override protected Shape getShape( double growthFactor ) {
-        // TODO: Stubbed.
-        return createInitialShape();
+        return createShape( growthFactor );
     }
 
     private static Shape createInitialShape() {
-        return new Ellipse2D.Double( -1, -1, 2, 2 );
+//        return createShape( 0 );
+        return createShape( 1 );
+    }
+
+    private static Shape createShape( double growthFactor ) {
+        final double currentWidth = MathUtil.clamp( 0.01, growthFactor, 1 ) * FULL_GROWN_WIDTH;
+        DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 ) {{
+            moveTo( -currentWidth / 2, 0 );
+            lineTo( 0, -currentWidth / 2 );
+            lineTo( currentWidth / 2, 0 );
+            lineTo( 0, currentWidth / 2 );
+            lineTo( -currentWidth / 2, 0 );
+            closePath();
+        }};
+
+        return path.getGeneralPath();
     }
 }
