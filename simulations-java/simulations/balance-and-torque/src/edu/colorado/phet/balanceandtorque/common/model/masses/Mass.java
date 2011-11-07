@@ -226,5 +226,11 @@ public abstract class Mass implements UserMovableModelElement {
         // Default implementation does nothing.
     }
 
+    //REVIEW: There are many problems with overriding Object.clone, as enumerated in Effective Java, Item 11 (Joshua Bloch).
+    // You can download the relevant chapter at java.sun.com/developer/Books/effectivejava/Chapter3.pdf
+    // To make a long story short, it's usually better to avoid clone unless you really need to.
+    // Instead, use a copy constructor or copy factory - and your 2 implementations of this are in
+    // fact similar to copy constructors (BrickStack) and copy factories (ImageMass).
+    // So I would rename this to something other than "clone" to avoid the issue.
     public abstract Mass clone();
 }
