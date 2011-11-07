@@ -19,7 +19,6 @@ public class StatesOfMatterStrings {
     public static final String STOVE_CONTROL_PANEL_TITLE = StatesOfMatterResources.getString( "Stove.Title" );
     public static final String STOVE_CONTROL_PANEL_ADD_LABEL = StatesOfMatterResources.getString( "Stove.Add" );
     public static final String STOVE_CONTROL_PANEL_REMOVE_LABEL = StatesOfMatterResources.getString( "Stove.Remove" );
-    public static final String STOVE_CONTROL_PANEL_ZERO_LABEL = StatesOfMatterResources.getString( "Stove.Zero" );
 
     public static final String PRESSURE_GAUGE_TITLE = StatesOfMatterResources.getString( "PressureGauge.Title" );
     public static final String PRESSURE_GAUGE_UNITS = StatesOfMatterResources.getString( "PressureGauge.Units" );
