@@ -16,6 +16,10 @@ public class ProteinC extends Protein {
     private static final Color BASE_COLOR = Color.YELLOW;
     private static final double FULL_GROWN_WIDTH = 300;
 
+    public ProteinC() {
+        this( new StubGeneExpressionModel() );
+    }
+
     protected ProteinC( GeneExpressionModel model ) {
         super( model, createInitialShape(), BASE_COLOR );
     }
