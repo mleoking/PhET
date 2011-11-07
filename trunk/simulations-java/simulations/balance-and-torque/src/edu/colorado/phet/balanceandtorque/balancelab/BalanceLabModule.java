@@ -15,6 +15,7 @@ public class BalanceLabModule extends Module {
 
     private BalanceLabModel model;
 
+    //REVIEW move setClockControlPanel and setLogoPanel to private constructor
     public BalanceLabModule() {
         this( new BalanceLabModel() );
         setClockControlPanel( null );
