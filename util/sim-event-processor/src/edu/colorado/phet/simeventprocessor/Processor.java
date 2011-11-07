@@ -14,6 +14,11 @@ import java.util.ArrayList;
  */
 public abstract class Processor extends Predef {
 
+    //Process all files in the specified directory, but not recursively
+    public void processDir( File dir ) throws IOException {
+        process( dir.listFiles() );
+    }
+
     //Process a collection of files. Might be nice to plot multiple sessions together
     public void process( File... files ) throws IOException {
 

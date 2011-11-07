@@ -21,7 +21,7 @@ import static fj.data.List.iterableList;
  */
 public class SummarizeData extends Processor {
     public static void main( String[] args ) throws IOException {
-        new SummarizeData().process( new File( "C:\\Users\\Sam\\Desktop\\tarred" ).listFiles() );
+        new SummarizeData().processDir( new File( args[0] ) );
     }
 
     @Override public void process( ArrayList<EventLog> all ) {
