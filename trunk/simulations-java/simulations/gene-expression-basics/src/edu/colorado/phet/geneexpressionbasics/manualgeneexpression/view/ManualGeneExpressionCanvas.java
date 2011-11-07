@@ -40,6 +40,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     // Stage size, based on default screen size.
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
+    // Inset for several of the controls.
+    private static final double INSET = 15;
+
     // Debug variable for turning on the visibility of the motion bounds.
     private static final boolean SHOW_MOTION_BOUNDS = false;
 
@@ -79,6 +82,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // Add the representation of the DNA strand.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
         modelRootNode.addChild( dnaMoleculeNode );
+
+        // Add the protein collection box.
+        controlsRootNode.addChild( new ProteinCollectionNode( model, mvt ) {{
+            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - INSET, INSET );
+        }} );
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
@@ -176,7 +184,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // into the active area of the sim.
         for ( final Gene gene : model.getDnaMolecule().getGenes() ) {
             BiomoleculeToolBoxNode biomoleculeToolBoxNode = new BiomoleculeToolBoxNode( model, this, mvt, gene.identifier ) {{
-                setOffset( mvt.modelToViewX( gene.getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
+                setOffset( mvt.modelToViewX( gene.getCenterX() ) - STAGE_SIZE.getWidth() / 2 + INSET, INSET );
             }};
             biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode );
             modelRootNode.addChild( biomoleculeToolBoxNode );
