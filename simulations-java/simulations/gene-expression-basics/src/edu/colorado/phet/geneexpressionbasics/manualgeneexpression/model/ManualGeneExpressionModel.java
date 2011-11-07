@@ -76,6 +76,9 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // wandering over the tool boxes and such.
     private final List<Shape> offLimitMotionSpaces = new ArrayList<Shape>();
 
+    // Property that tracks the number of proteins that the user has collected.
+    public final Property<Integer> collectedProteinCount = new Property<Integer>( 0 );
+
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
