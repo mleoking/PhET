@@ -7,7 +7,7 @@ import edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
- * Main module for this tab.
+ * The "Balance Lab" module.
  *
  * @author John Blanco
  */

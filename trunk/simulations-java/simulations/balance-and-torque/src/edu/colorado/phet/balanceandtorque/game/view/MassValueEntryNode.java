@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * This class presents a dialog to the user and allows them to enter a value.
+ * This class presents a dialog to the user and allows them to enter a mass value.
  *
  * @author John Blanco
  */

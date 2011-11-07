@@ -17,6 +17,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * <p/>
  * To make this run as an RTL language, choose one and set the appropriate
  * value as a parameter to the VM.  For example:
+ * //REVIEW where's the example?...
  *
  * @author John Blanco
  */

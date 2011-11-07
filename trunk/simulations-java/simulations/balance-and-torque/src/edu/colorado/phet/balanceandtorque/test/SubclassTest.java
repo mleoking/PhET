@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.test;
 
+//REVIEW Consider deleting this, I usually keep only the tests that have some long-term value.
+
 /**
  * Created to test a question that I had about subclassing and overrides.  Not
  * specific to the enclosing sim.

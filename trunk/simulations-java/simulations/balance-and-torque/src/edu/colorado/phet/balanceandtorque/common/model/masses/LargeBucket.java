@@ -7,7 +7,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 
 
 /**
- * Model class that represents a medium size bucket.
+ * Model class that represents a large-size bucket.
  *
  * @author John Blanco
  */

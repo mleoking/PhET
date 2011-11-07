@@ -15,6 +15,10 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+//REVIEW I don't see RestoreDefaultOnReleaseCursorHandler in any common code, so what are you referring to?
+// I see that this (identical?) class is also duplicated in membrane-channels.
+// Should features & fixes be contributed back to common code, so this duplication can be eliminated?
+
 /**
  * Piccolo event handler that shows a different Cursor when entering a PNode.
  * This version is a variation of the one that was in the common area as of

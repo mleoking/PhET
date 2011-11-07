@@ -7,7 +7,7 @@ import edu.colorado.phet.balanceandtorque.game.view.BalanceGameCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
- * Main module class for the balancing game.
+ * The "Game" module.
  *
  * @author John Blanco
  */

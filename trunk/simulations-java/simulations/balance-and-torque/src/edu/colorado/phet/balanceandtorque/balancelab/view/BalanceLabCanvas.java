@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 
 /**
- * Main view class for the balance lab module.
+ * Main view class for the "Balance Lab" module.
  *
  * @author John Blanco
  */
