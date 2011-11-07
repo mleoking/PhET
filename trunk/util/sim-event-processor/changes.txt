@@ -1,3 +1,4 @@
+Added build information and entry point for sim event processing for server monitoring
 Added IProguardKeepClass for potential library use
 Use tab instead of comma as parameter delimiter, see #3136
 Added multi-plots for post-processing, see #3136
