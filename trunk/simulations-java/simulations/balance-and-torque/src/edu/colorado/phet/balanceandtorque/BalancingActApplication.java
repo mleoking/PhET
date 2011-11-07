@@ -15,7 +15,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * @author John Blanco
  */
 public class BalancingActApplication extends PiccoloPhetApplication {
-    public static final String NAME = "balance-and-torque";
 
     public BalancingActApplication( PhetApplicationConfig config ) {
         super( config );
@@ -27,6 +26,6 @@ public class BalancingActApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, NAME, "balancing-act", BalancingActApplication.class );
+        new PhetApplicationLauncher().launchSim( args, BalanceAndTorqueResources.NAME, "balancing-act", BalancingActApplication.class );
     }
 }
