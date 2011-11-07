@@ -10,7 +10,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 
 /**
- * This class creates mystery objects.  A mystery object is an mass that the
+ * This class creates mystery objects.  A mystery object is a mass that the
  * user does not know the mass of.
  *
  * @author John Blanco

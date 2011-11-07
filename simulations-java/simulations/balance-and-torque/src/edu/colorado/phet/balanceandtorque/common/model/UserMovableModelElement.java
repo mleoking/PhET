@@ -13,5 +13,6 @@ public interface UserMovableModelElement {
 
     void setPosition( Point2D p );
 
+    //REVIEW the other methods are obvious, but this one is not, please doc
     void release();
 }

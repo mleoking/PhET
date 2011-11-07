@@ -15,6 +15,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
+//REVIEW Consider deleting this, I usually keep only the tests that have some long-term value.
+
 /**
  * Test app for key handling.
  */

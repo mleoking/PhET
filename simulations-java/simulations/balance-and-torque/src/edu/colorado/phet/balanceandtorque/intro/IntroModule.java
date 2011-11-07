@@ -7,7 +7,7 @@ import edu.colorado.phet.balanceandtorque.intro.view.IntroCanvas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
- * Main module for this tab.
+ * The "Intro" module.
  *
  * @author John Blanco
  */

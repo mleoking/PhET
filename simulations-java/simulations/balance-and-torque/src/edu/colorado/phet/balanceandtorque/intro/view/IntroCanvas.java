@@ -8,6 +8,8 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
+ * Canvas for the "Intro" module.
+ *
  * @author John Blanco
  */
 public class IntroCanvas extends BasicBalanceCanvas {

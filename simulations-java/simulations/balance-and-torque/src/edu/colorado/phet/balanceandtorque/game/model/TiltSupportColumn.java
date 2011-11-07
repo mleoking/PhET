@@ -5,6 +5,8 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.ShapeModelElement;
 
+//REVIEW class unused, delete?
+
 /**
  * This is a column that can be used to support one of the ends of the plank.
  *
@@ -13,7 +15,7 @@ import edu.colorado.phet.balanceandtorque.common.model.ShapeModelElement;
 public class TiltSupportColumn extends ShapeModelElement {
 
     // Length of the base of the column
-    public static final double WIDTH = 0.35;
+    private static final double WIDTH = 0.35;
 
     /**
      * Constructor.

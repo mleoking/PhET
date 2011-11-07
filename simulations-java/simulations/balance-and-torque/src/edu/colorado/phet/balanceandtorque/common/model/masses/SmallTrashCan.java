@@ -7,7 +7,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 
 
 /**
- * Model class that represents a smaller trash can.
+ * Model class that represents a small trash can.
  *
  * @author John Blanco
  */

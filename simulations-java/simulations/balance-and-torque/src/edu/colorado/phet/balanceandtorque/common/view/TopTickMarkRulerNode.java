@@ -5,7 +5,8 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 
 /**
- * TopTickMarkRulerNode draws a ruler without showing the bottom tick marks, because we wanted to put a label such as "meters" on the bottom instead.
+ * TopTickMarkRulerNode draws a ruler without showing the bottom tick marks,
+ * because we wanted to put a label such as "meters" on the bottom instead.
  *
  * @author John Blanco
  * @author Sam Reid

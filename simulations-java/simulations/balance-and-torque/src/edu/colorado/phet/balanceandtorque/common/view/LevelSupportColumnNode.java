@@ -17,8 +17,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+//REVIEW does this represent columns or one column? I suspect one, but didn't confirm.
+
 /**
- * Node the represents the support columns in the view.
+ * Node that represents the support columns in the view.
  *
  * @author John Blanco
  */

@@ -6,6 +6,8 @@ import java.awt.Color;
 import edu.colorado.phet.balanceandtorque.common.model.FulcrumBelowPlank;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
+//REVIEW class unused, and I expected the class doc to be similar to FulcrumAbovePlankNode
+
 /**
  * Graphic for the fulcrum, a triangle that the plank pivots about.
  *

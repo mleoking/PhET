@@ -10,6 +10,8 @@ import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
+//REVIEW missing class doc
+
 /**
  * @author John Blanco
  */

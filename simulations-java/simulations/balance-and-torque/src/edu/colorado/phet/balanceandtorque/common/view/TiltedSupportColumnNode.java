@@ -11,8 +11,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 
+//REVIEW does this represent columns or one column? I suspect one, but didn't confirm.
+
 /**
- * Node the represents the support columns in the view.
+ * Node that represents the support columns in the view.
  *
  * @author John Blanco
  */

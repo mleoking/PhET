@@ -3,6 +3,8 @@ package edu.colorado.phet.balanceandtorque.common.model;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
+//REVIEW I expected this class doc to be similar to FulcrumAbovePlank, but it's not. And is "teeter-totter" stale terminology?
+
 /**
  * This is the fulcrum upon which the teeter-totter is balanced.  This is the
  * fulcrum that is used when the balance point is on the underside of the

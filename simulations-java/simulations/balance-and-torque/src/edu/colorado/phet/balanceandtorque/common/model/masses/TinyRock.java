@@ -7,7 +7,7 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 
 
 /**
- * Model class that represents a rock.
+ * Model class that represents a tiny rock.
  *
  * @author John Blanco
  */
