@@ -1,12 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventprocessor;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * @author Sam Reid
  */
-public class MoleculePolarityEventsOfInterest {
+public class MoleculePolarityEventsOfInterest implements IProguardKeepClass {
     //Events to search for in Molecule Polarity Tab 1
     public static EntryList getMoleculePolarityEventsOfInterest() {
         return new EntryList() {{

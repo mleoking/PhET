@@ -3,10 +3,12 @@ package edu.colorado.phet.simeventprocessor;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+
 /**
  * @author Sam Reid
  */
-public class PairwiseProcessor {
+public class PairwiseProcessor implements IProguardKeepClass {
     public ArrayList<EntryPair> process( EventLog eventLog ) {
         ArrayList<EntryPair> entries = new ArrayList<EntryPair>();
         Entry last = null;

@@ -3,12 +3,13 @@ package edu.colorado.phet.simeventprocessor;
 
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 
 /**
  * @author Sam Reid
  */
-public class EntryPair extends Pair<Entry, Entry> implements Comparable<EntryPair> {
+public class EntryPair extends Pair<Entry, Entry> implements Comparable<EntryPair>, IProguardKeepClass {
     public Long elapsedTimeMillis;
 
     //Elapsed time in seconds

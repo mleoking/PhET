@@ -6,10 +6,12 @@ import fj.F2;
 import fj.Ord;
 import fj.Ordering;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+
 /**
  * @author Sam Reid
  */
-class SimpleComparator<T> extends F2<T, T, Ordering> {
+class SimpleComparator<T> extends F2<T, T, Ordering> implements IProguardKeepClass {
 
     private final F<T, Comparable> f;
 
