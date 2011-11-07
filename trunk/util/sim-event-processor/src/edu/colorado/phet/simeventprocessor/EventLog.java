@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventprocessor;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -21,15 +22,18 @@ public class EventLog implements Iterable<Entry> {
     private String sessionID;
     private long serverTime;
     public List<Entry> lines = new ArrayList<Entry>();
+    public final File sourceFile;
 
-    public EventLog() {
+    public EventLog( File sourceFile ) {
+        this.sourceFile = sourceFile;
     }
 
-    public EventLog( String machineID, String sessionID, long serverTime, List<Entry> lines ) {
+    public EventLog( String machineID, String sessionID, long serverTime, List<Entry> lines, File sourceFile ) {
         this.machineID = machineID;
         this.sessionID = sessionID;
         this.serverTime = serverTime;
         this.lines = lines;
+        this.sourceFile = sourceFile;
     }
 
     //Parse a single line
@@ -70,7 +74,7 @@ public class EventLog implements Iterable<Entry> {
     }
 
     public EventLog removeItems( Function1<Entry, Boolean> filter ) {
-        return new EventLog( machineID, sessionID, serverTime, new ObservableList<Entry>( lines ).removeItems( filter ) );
+        return new EventLog( machineID, sessionID, serverTime, new ObservableList<Entry>( lines ).removeItems( filter ), sourceFile );
     }
 
     public int getLastTime() {
@@ -92,8 +96,8 @@ public class EventLog implements Iterable<Entry> {
         return keep.size();
     }
 
-    private EventLog keepItems( Function1<Entry, Boolean> matches ) {
-        return new EventLog( machineID, sessionID, serverTime, new ObservableList<Entry>( lines ).keepItems( matches ) );
+    public EventLog keepItems( Function1<Entry, Boolean> matches ) {
+        return new EventLog( machineID, sessionID, serverTime, new ObservableList<Entry>( lines ).keepItems( matches ), sourceFile );
     }
 
     public int size() {
@@ -175,5 +179,15 @@ public class EventLog implements Iterable<Entry> {
 
     public String getStudy() {
         return getStartMessage().get( "study" ).get();
+    }
+
+    @Override public String toString() {
+        return "EventLog{" +
+               "machineID='" + machineID + '\'' +
+               ", sessionID='" + sessionID + '\'' +
+               ", serverTime=" + serverTime +
+               ", lines=" + lines +
+               ", sourceFile=" + sourceFile +
+               '}';
     }
 }

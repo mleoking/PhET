@@ -46,7 +46,7 @@ public abstract class Processor extends Predef {
     public static EventLog parse( File file ) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
 
-        EventLog eventLog = new EventLog();
+        EventLog eventLog = new EventLog( file );
         for ( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
             eventLog.parseLine( line );
         }
