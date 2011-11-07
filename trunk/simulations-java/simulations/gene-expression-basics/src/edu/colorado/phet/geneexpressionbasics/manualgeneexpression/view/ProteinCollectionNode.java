@@ -15,6 +15,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinA;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinB;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinC;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -37,6 +40,7 @@ public class ProteinCollectionNode extends PNode {
 
     public ProteinCollectionNode( ManualGeneExpressionModel model, ModelViewTransform mvt ) {
 
+        // Create the title and scale it if needed.
         // TODO: i18n
         PNode title = new HTMLNode( "<center>Your Protein<br>Collection:</center>", Color.BLACK, TITLE_FONT ) {{
             if ( getFullBoundsReference().getWidth() > MAX_CONTENT_WIDTH ) {
@@ -45,15 +49,17 @@ public class ProteinCollectionNode extends PNode {
             }
         }};
 
+        // Create the collection area.
+        PNode collectionArea = new ProteinCollectionArea( mvt );
+        assert collectionArea.getFullBoundsReference().width <= MAX_CONTENT_WIDTH; // Need to make some adjustments if this gets hit.
+
         PNode contents = new VBox(
                 title,
+                collectionArea,
                 new CollectionCountIndicator( model )
         );
         addChild( new ControlPanelNode( contents, BACKGROUND_COLOR ) );
     }
-
-    // Indicator of the number of proteins that the user has collected so
-    // far.  This monitors the model and update automatically.
 
     /**
      * PNode that indicates the number of proteins that the user has collected
@@ -107,6 +113,16 @@ public class ProteinCollectionNode extends PNode {
         private ReadoutPText( String text ) {
             super( text );
             setFont( READOUT_FONT );
+        }
+    }
+
+    private static class ProteinCollectionArea extends PNode {
+        private ProteinCollectionArea( ModelViewTransform mvt ) {
+            addChild( new HBox(
+                    new PhetPPath( mvt.modelToView( new ProteinA().getFullyGrownShape() ), Color.BLACK ),
+                    new PhetPPath( mvt.modelToView( new ProteinB().getFullyGrownShape() ), Color.BLACK ),
+                    new PhetPPath( mvt.modelToView( new ProteinC().getFullyGrownShape() ), Color.BLACK )
+            ) );
         }
     }
 }

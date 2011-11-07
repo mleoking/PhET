@@ -15,7 +15,11 @@ public class ProteinA extends Protein {
     private static final Color BASE_COLOR = Color.YELLOW;
     private static final double FULL_GROWN_WIDTH = 300;
 
-    protected ProteinA( GeneExpressionModel model ) {
+    public ProteinA() {
+        this( new StubGeneExpressionModel() );
+    }
+
+    public ProteinA( GeneExpressionModel model ) {
         super( model, createInitialShape(), BASE_COLOR );
     }
 
