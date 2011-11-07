@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 import org.jfree.data.xy.XYSeries;
 
-import edu.colorado.phet.common.phetcommon.util.Option;
-
 import static fj.Function.curry;
 import static fj.data.List.iterableList;
 
@@ -29,13 +27,14 @@ public class SummarizeData extends Processor {
         List<EventLog> list = iterableList( all );
         List<EventLog> recent = list.filter( new F<EventLog, Boolean>() {
             @Override public Boolean f( EventLog entry ) {
-                return entry.getServerStartTime() >= 1320434917933L &&
-                       !entry.getID().equals( new Option.Some<String>( "samreid" ) )
+                return entry.getServerStartTime() >= 1320692703233L;
 //                       &&
-//                       entry.minutesUsed() >= 0
-                       &&
-//                       entry.getSimName().equals( "Molecule Shapes" );
-                       entry.getSimName().equals( "Molecule Polarity" );
+//                       !entry.getID().equals( new Option.Some<String>( "samreid" ) )
+////                       &&
+////                       entry.minutesUsed() >= 0
+//                       &&
+////                       entry.getSimName().equals( "Molecule Shapes" );
+//                       entry.getSimName().equals( "Molecule Polarity" );
 
             }
         } );
