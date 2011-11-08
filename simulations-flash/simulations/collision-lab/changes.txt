@@ -1,3 +1,4 @@
+# 1.00.14 (58407) Nov 7, 2011
 > Disabled "back" control when elasticity has gone under 100%, due to buggy behavior
 > Increased size of zoom in/out buttons
 > Slider thumb colors changed to blue for increased visibility
