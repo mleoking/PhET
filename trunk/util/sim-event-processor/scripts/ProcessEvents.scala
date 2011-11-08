@@ -53,7 +53,7 @@ val whoUsedWhat = for ( event <- simToUse ) yield {
 }
 println(whoUsedWhat mkString "\n")
 
-val allEvents = selected.flatMap(_.events)
+val allEvents = selected.flatMap(_.entries)
 
 //See all the system events
 //println("Distinct system events")
@@ -61,5 +61,8 @@ val allEvents = selected.flatMap(_.events)
 //println(systemEvents mkString "\n")
 
 println("Distinct window sizes")
-val sizes = all.flatMap(_.events).filter(entry => entry.actor == "window" && entry.event = "resized").map(event => event.get("width") + ", " + event.get("height")).distinct
+val sizes = all.flatMap(_.entries).filter(entry => entry.actor == "window" && entry.event == "resized").map(event => event("width") + ", " + event("height")).distinct
 println(sizes mkString "\n")
+
+println(all.flatMap(_.entries).filter(_.actor == "menu").map(_("text")).distinct mkString "\n")
+println(all.flatMap(_.entries).filter(_.actor == "menuItem").map(_("text")).distinct mkString "\n")

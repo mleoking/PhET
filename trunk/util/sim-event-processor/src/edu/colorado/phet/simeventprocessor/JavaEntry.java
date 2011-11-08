@@ -87,7 +87,6 @@ public class JavaEntry {
         return new Option.None<String>();
     }
 
-
     //Parse a line that is an event
     public static JavaEntry parse( String line ) {
         StringTokenizer tokenizer = new StringTokenizer( line, "\t" );
