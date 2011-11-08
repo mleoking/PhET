@@ -1,12 +1,15 @@
 import edu.colorado.phet.simeventprocessor.scala._
 import phet._
 
-val all = phet load "C:\\Users\\Sam\\Desktop\\all-11-8-2011-iii"
+val all = phet load "C:\\Users\\Sam\\Desktop\\all-11-8-2011-iv"
 
 //def jcNov8Morning(log: EventLog) = log.day == "11-08-2011" && log.study == "colorado" && log.user != "null" && log.user != "samreid"
 //def emNov7Filter(log: EventLog) = log.day == "11-07-2011" && log.study == "utah" && log.user != "null" && log.user != "samreid"
 
-val selected = all.filter(log => log.day == "11-08-2011" && log.epoch >= 1320770161752L).sortBy(_.userNumber)
+val selected = all.filter(log =>
+                            log.day == "11-08-2011" &&
+                            log.study == "colorado" &&
+                            log.epoch > 1320783060834L).sortBy(_.epoch)
 println("found: " + selected.length + " logs")
 selected.print
 
@@ -16,7 +19,7 @@ println("Total events: " + totalEvents)
 val machines = selected.map(_.machine).distinct
 println("Number of unique machines: " + machines.size)
 
-val users = selected.map(_.user).distinct
+val users = selected.map(_.user).distinct.sortBy(numerical)
 println("Unique userIDs: " + users.size + ": " + users)
 
 val allEvents = selected.map(log => timeSeries(log, log.countEvents(_)))
