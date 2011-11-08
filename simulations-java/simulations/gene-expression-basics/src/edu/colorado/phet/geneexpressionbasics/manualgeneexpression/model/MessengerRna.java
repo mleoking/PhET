@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -87,6 +88,8 @@ public class MessengerRna extends MobileBiomolecule {
     private PointMass lastShapeDefiningPoint = null;
 
     public final PlacementHint ribosomePlacementHint;
+
+    private final ArrayList<ShapeSegment> shapeSegments = new ArrayList<ShapeSegment>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -883,6 +886,75 @@ public class MessengerRna extends MobileBiomolecule {
 
         public void translate( ImmutableVector2D translationVector ) {
             setPosition( position.getX() + translationVector.getX(), position.getY() + translationVector.getY() );
+        }
+    }
+
+    private abstract static class ShapeSegment {
+
+        protected Rectangle2D bounds = new Rectangle2D.Double();
+
+        // Interface.
+        public Point2D getLowerRightCornerPos() {
+            return new Point2D.Double( bounds.getMaxX(), bounds.getMinY() );
+        }
+
+        public void translate( ImmutableVector2D translationVector ) {
+            bounds.setRect( AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( bounds ).getBounds() );
+        }
+
+        public abstract void setLowerRightCornerPos();
+
+        public abstract Point2D getUpperLeftCornerPos();
+
+        public Rectangle2D getBounds() {
+            // TODO: Test this.  Not sure it will work correctly.
+            return (Rectangle2D) bounds.clone();
+        }
+
+        public boolean isFlat() {
+            return getBounds().getHeight() == 0;
+        }
+
+        public static class HorizontalSegment extends ShapeSegment {
+
+            public HorizontalSegment( Point2D left, double length ) {
+                bounds.setFrame( left.getX(), left.getY(), length, 0 );
+            }
+
+            @Override public Point2D getLowerRightCornerPos() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override public void setLowerRightCornerPos() {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override public Point2D getUpperLeftCornerPos() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override public Rectangle2D getBounds() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        }
+
+        public static class DiagonalSegment extends ShapeSegment {
+
+            @Override public Point2D getLowerRightCornerPos() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override public void setLowerRightCornerPos() {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override public Point2D getUpperLeftCornerPos() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override public Rectangle2D getBounds() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
         }
     }
 
