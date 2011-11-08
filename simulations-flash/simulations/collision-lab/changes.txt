@@ -1,3 +1,4 @@
+> Increased size of zoom in/out buttons
 > Slider thumb colors changed to blue for increased visibility
 # 1.00.13 (55388) Aug 17, 2011
 Fixed momenta diagram with advanced 1d/2d modes
