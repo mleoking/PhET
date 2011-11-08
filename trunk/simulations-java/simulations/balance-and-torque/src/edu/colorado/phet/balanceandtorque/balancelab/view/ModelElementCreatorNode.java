@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -62,7 +63,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
         this.canvas = canvas;
 
         // Set up handling of mouse events.
-        addInputEventListener( new RestoreDefaultOnReleaseCursorHandler( Cursor.HAND_CURSOR ) );
+        addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
