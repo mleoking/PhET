@@ -107,6 +107,8 @@ public class BalanceGameChallengeFactory {
         add( new Tire( true ) );
     }};
 
+    //REVIEW all of these constants (static final) should have uppercase name.
+
     // Lists used to keep track of the challenges generated so far so that we
     // can avoid creating the same challenges multiple times.
     private static final List<BalanceGameChallenge> usedBalanceChallenges = new ArrayList<BalanceGameChallenge>();
