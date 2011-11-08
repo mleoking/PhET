@@ -47,11 +47,36 @@ public class SummarizeData extends Processor {
         }
     }
 
+    public static class KLMondayFilter extends F<EventLog, Boolean> {
+        long startTime = 1320692751844L;
+        private String simName;
+
+        //        long endTime = 1320696963181L;
+        public KLMondayFilter( String simName ) {
+            this.simName = simName;
+        }
+
+        @Override public Boolean f( EventLog entry ) {
+            return
+                    entry.getServerStartTime() >= startTime
+//                    && entry.getServerStartTime() <= endTime
+                    && entry.getSimName().equals( simName )
+                    && entry.getStudy().equals( "colorado" )
+                    && !entry.getMachineID().startsWith( "samreid" )
+                    && !entry.getID().getOrElse( "?" ).startsWith( "samreid" )
+                    && !entry.getID().getOrElse( "?" ).equals( "" )
+                    && !entry.getID().getOrElse( "?" ).equals( "null" )
+                    ;
+        }
+    }
+
     @Override public void process( ArrayList<EventLog> all ) {
         System.out.println( "Found " + all.size() + " event logs" );
         List<EventLog> list = iterableList( all );
 
-        List<EventLog> recent = list.filter( new EMMondayFilter() );
+//        final String simName = "Molecule Shapes";
+        final String simName = "Molecule Polarity";
+        List<EventLog> recent = list.filter( new KLMondayFilter( simName ) );
 
 //        List<EventLog> recent = list.filter( new F<EventLog, Boolean>() {
 //            @Override public Boolean f( EventLog entry ) {
@@ -72,7 +97,7 @@ public class SummarizeData extends Processor {
             }
         } ) ) ) );
 
-        File destDir = new File( "C:/Users/Sam/Desktop/destDir1" );
+        File destDir = new File( "C:/Users/Sam/Desktop/destDir2-" + simName );
         destDir.mkdirs();
         for ( EventLog entry : recent ) {
             try {
@@ -109,7 +134,7 @@ public class SummarizeData extends Processor {
             }
         }};
 
-        plot( "Events vs time", "Time (minutes)", "Events", seriesList.toArray( new XYSeries[seriesList.size()] ) );
+        plot( "Events vs time for " + simName, "Time (minutes)", "Events", seriesList.toArray( new XYSeries[seriesList.size()] ) );
 
         //count unique machine ID's
         HashSet<String> machineIDs = new HashSet<String>();
