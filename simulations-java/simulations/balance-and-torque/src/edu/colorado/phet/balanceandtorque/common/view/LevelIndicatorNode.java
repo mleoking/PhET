@@ -24,10 +24,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class LevelIndicatorNode extends PNode {
     public LevelIndicatorNode( ModelViewTransform mvt, final Plank plank ) {
 
-        //Locations for left and right edge
-        final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( plank.getPlankSurfaceCenter().getX() - Plank.LENGTH / 2,
+        // Locations for left and right edge
+        final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( plank.getPivotPoint().getX() - Plank.LENGTH / 2,
                                                                              plank.getPlankSurfaceCenter().getY() ) );
-        final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( plank.getPlankSurfaceCenter().getX() + Plank.LENGTH / 2,
+        final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( plank.getPivotPoint().getX() + Plank.LENGTH / 2,
                                                                               plank.getPlankSurfaceCenter().getY() ) );
 
         // Draw a sort of arrow head shape.
