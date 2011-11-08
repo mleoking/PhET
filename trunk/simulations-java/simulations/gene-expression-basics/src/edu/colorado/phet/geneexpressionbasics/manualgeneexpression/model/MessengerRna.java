@@ -48,10 +48,14 @@ public class MessengerRna extends MobileBiomolecule {
     // generic biomolecule classes.
     private static final Color NOMINAL_COLOR = new Color( 0, 0, 0, 0 );
 
-    // Minimum distance between points that define the shape.  This is done so
-    // that this doesn't end up defined by so many points that the shape is
-    // strange looking.
-    private static final double MIN_DISTANCE_BETWEEN_POINTS = 20; // In picometers, empirically determined.
+    // Standard distance between points that define the shape.  This is done to
+    // keep the number of points reasonable and make the shape-defining
+    // algorithm consistent.
+    private static final double INTER_POINT_DISTANCE = 20; // In picometers, empirically determined.
+
+    // Length of the "leader segment", which is the portion of the mRNA that
+    // sticks out on the upper left side so that a ribosome can be attached.
+    private static final double LEADER_LENGTH = INTER_POINT_DISTANCE * 4;
 
     // Random number generator used for creating "curviness" in the shape of
     // the RNA.
@@ -105,8 +109,15 @@ public class MessengerRna extends MobileBiomolecule {
      */
     public MessengerRna( GeneExpressionModel model, Point2D position ) {
         super( model, new DoubleGeneralPath( position ).getGeneralPath(), NOMINAL_COLOR );
+
+        // Add first shape defining point to the point list.
         firstShapeDefiningPoint = new PointMass( position, 0 );
         lastShapeDefiningPoint = firstShapeDefiningPoint;
+
+        // Add the first segment to the shape segment list.  This segment will
+        // contain the "leader" for the mRNA.
+        shapeSegments.add( new ShapeSegment.HorizontalSegment( position, 0 ) );
+
         // Explicitly set the state to idle, so that this won't move (other
         // than growing) until it is released.
         behaviorState = new IdleState( this );
@@ -130,7 +141,11 @@ public class MessengerRna extends MobileBiomolecule {
     @Override public void translate( ImmutableVector2D translationVector ) {
         // Translate the current shape user the superclass facility.
         super.translate( translationVector );
-        // Move each of the shape-defining points.
+        // Translate each of the shape segments that define the outline shape.
+        for ( ShapeSegment shapeSegment : shapeSegments ) {
+            shapeSegment.translate( translationVector );
+        }
+        // Translate each of the points that define the curly mRNA shape.
         PointMass thisPoint = firstShapeDefiningPoint;
         while ( thisPoint != null ) {
             thisPoint.translate( translationVector );
@@ -191,7 +206,7 @@ public class MessengerRna extends MobileBiomolecule {
             // There are enough points to start winding up the mRNA.  Set the
             // size of the rectangle that contains the wound up portion to a
             // value that is shorter than the unfurled length.
-            double diagonalLength = MIN_DISTANCE_BETWEEN_POINTS * ( Math.pow( currentUnfurledLength / MIN_DISTANCE_BETWEEN_POINTS, 0.5 ) );
+            double diagonalLength = INTER_POINT_DISTANCE * ( Math.pow( currentUnfurledLength / INTER_POINT_DISTANCE, 0.5 ) );
 
             double squareSideLength = diagonalLength * Math.cos( Math.PI / 4 );
             woundUpRect = new Rectangle2D.Double( newEndPosition.getX() - squareSideLength,
@@ -262,12 +277,139 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
+     * Add the specified amount of mRNA length to the tail end of the mRNA.
+     * Adding a length will cause the winding algorithm to be re-run.
+     *
+     * @param length - Length of mRNA to add in picometers.
+     */
+    public void addLength( double length ) {
+
+        // At least for now, the mRNA can't be grown by more than the inter-
+        // point distance at one time.  This is a simplifying assumption that
+        // can be changed if necessary.
+        assert length <= INTER_POINT_DISTANCE;
+
+        if ( firstShapeDefiningPoint == lastShapeDefiningPoint ) {
+            // This is the first length added to the strand.
+            addPointToEnd( lastShapeDefiningPoint.getPosition(), length );
+            assert getLastShapeSegment().isFlat(); // Should be creating the leader at this point.
+            // Grow the leader segment to accommodate the additional length.
+            getLastShapeSegment().growLeft( length );
+        }
+        else if ( lastShapeDefiningPoint.getTargetDistanceToPreviousPoint() < INTER_POINT_DISTANCE ) {
+            double prevDistance = lastShapeDefiningPoint.getTargetDistanceToPreviousPoint();
+            if ( prevDistance + length <= INTER_POINT_DISTANCE ) {
+                // No need to add a new point - just set the distance of the
+                // current last point to be further away from the previous.
+                lastShapeDefiningPoint.setTargetDistanceToPreviousPoint( prevDistance + length );
+            }
+            else {
+                // Set the last point to be at the prescribed inter-point
+                // distance, and then add a new point.
+                lastShapeDefiningPoint.setTargetDistanceToPreviousPoint( INTER_POINT_DISTANCE );
+                assert length - ( INTER_POINT_DISTANCE - prevDistance ) > 0; // If this fires, this code is wrong and needs to be fixed.
+                addPointToEnd( lastShapeDefiningPoint.getPosition(), length - ( INTER_POINT_DISTANCE - prevDistance ) );
+            }
+        }
+        else {
+            // Just add a new point to the end.
+            addPointToEnd( lastShapeDefiningPoint.getPosition(), length );
+        }
+
+        if ( getLastShapeSegment().isFlat() ) {
+            // The leader portion is still being constructed.  Grow it to
+            // accommodate the new length.
+            ShapeSegment lastShapeSegment = getLastShapeSegment();
+            assert lastShapeSegment.getLength() < LEADER_LENGTH;
+            if ( lastShapeSegment.getLength() + length <= LEADER_LENGTH ) {
+                // Just grow the leader segment.
+                lastShapeSegment.growLeft( length );
+            }
+            else {
+                // Time to max out the leader segment and add a diagonal
+                // segment where the mRNA can curl up.
+                lastShapeSegment.growLeft( LEADER_LENGTH - lastShapeSegment.getLength() );
+                assert getLength() > LEADER_LENGTH; // If this fires, this code is wrong and needs to be fixed.
+                shapeSegments.add( new ShapeSegment.DiagonalSegment( lastShapeSegment.getLowerRightCornerPos(), getLength() - LEADER_LENGTH ) );
+            }
+        }
+        else {
+            // The leader segment is full and the winding segment is growing.
+            // Set its size as a function of the current length that is
+            // contained within it.
+            double currentDiagonalLength = getLastShapeSegment().getLength();
+            double desiredDiagonalLength = INTER_POINT_DISTANCE * ( Math.pow( getLength() / INTER_POINT_DISTANCE, 0.5 ) );
+            assert desiredDiagonalLength > currentDiagonalLength; // If this fires, something is wrong with this algorithm.
+            getLastShapeSegment().growLeft( desiredDiagonalLength - currentDiagonalLength );
+        }
+
+        // Now that the length has been added, rerun the winding algorithm.
+        windPointsThroughSegments();
+    }
+
+    /**
+     * This is the "winding algorithm" that positions the points within the
+     * shape segments in order to look like a wound up piece of mRNA.  The
+     * combination of this algorithm and the shape segments allow the mRNA to
+     * look reasonable when it is being synthesized and when it is being
+     * transcribed.
+     */
+    private void windPointsThroughSegments() {
+        assert shapeSegments.size() > 0;
+        ShapeSegment currentShapeSegment = shapeSegments.get( 0 );
+        // TODO: This isn't "real" yet - it's just something that is good enough to start testing.
+        Point2D leaderOrigin = currentShapeSegment.getUpperLeftCornerPos();
+        PointMass currentPoint = firstShapeDefiningPoint;
+        for ( double leaderLength = 0;
+              leaderLength <= currentShapeSegment.getLength() && currentPoint != null;
+              leaderLength += ( currentPoint == null ? 0 : currentPoint.getTargetDistanceToPreviousPoint() ) ) {
+
+            currentPoint.setPosition( leaderOrigin.getX() + leaderLength, leaderOrigin.getY() );
+            currentPoint = currentPoint.getNextPointMass();
+        }
+        if ( currentPoint == null ) {
+            // We're done.
+            return;
+        }
+        if ( shapeSegments.size() < 2 ) {
+            // Shouldn't happen that we have more points but no segment in which to position them.
+            assert false;
+        }
+        currentShapeSegment = shapeSegments.get( 1 );
+        Rectangle2D boundsForSegment = currentShapeSegment.getBounds();
+        while ( currentPoint != null ) {
+            // Randomly position the points within the segment.
+            currentPoint.setPosition( boundsForSegment.getMinX() + RAND.nextDouble() * boundsForSegment.getWidth(),
+                                      boundsForSegment.getMinY() + RAND.nextDouble() * boundsForSegment.getHeight() );
+            currentPoint = currentPoint.getNextPointMass();
+        }
+    }
+
+    private ShapeSegment getLastShapeSegment() {
+        return shapeSegments.get( shapeSegments.size() - 1 );
+    }
+
+    /**
+     * Add a point to the end of the list of shape defining points.  Note that
+     * this will alter the last point on the list.
+     *
+     * @param position
+     * @param targetDistanceToPreviousPoint
+     */
+    private void addPointToEnd( Point2D position, double targetDistanceToPreviousPoint ) {
+        PointMass newPoint = new PointMass( position, targetDistanceToPreviousPoint );
+        lastShapeDefiningPoint.nextPointMass = newPoint;
+        newPoint.previousPointMass = lastShapeDefiningPoint;
+        lastShapeDefiningPoint = newPoint;
+    }
+
+    /**
      * Add a length to the mRNA from its current end point to the specified end
      * point.  This is usually done in small amounts, and is likely to look
      * weird if an attempt is made to grow to a distant point.  As a length is
      * added, the mRNA shape "curls up".
      */
-    public void addLength( Point2D newEndPosition ) {
+    public void addLengthOld( Point2D newEndPosition ) {
 
         if ( newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) == 0 ) {
             // Don't bother adding redundant points.
@@ -312,7 +454,7 @@ public class MessengerRna extends MobileBiomolecule {
             // There are enough points to start winding up the mRNA.  Set the
             // size of the rectangle that contains the wound up portion to a
             // value that is shorter than the unfurled length.
-            double diagonalLength = MIN_DISTANCE_BETWEEN_POINTS * ( Math.pow( currentUnfurledLength / MIN_DISTANCE_BETWEEN_POINTS, 0.5 ) );
+            double diagonalLength = INTER_POINT_DISTANCE * ( Math.pow( currentUnfurledLength / INTER_POINT_DISTANCE, 0.5 ) );
 
             double squareSideLength = diagonalLength * Math.cos( Math.PI / 4 );
             woundUpRect = new Rectangle2D.Double( newEndPosition.getX() - squareSideLength,
@@ -485,7 +627,7 @@ public class MessengerRna extends MobileBiomolecule {
         // to last point, remove the current last point.  This prevents having
         // zillions of shape-defining points, which is harder to work with.
         if ( lastShapeDefiningPoint != firstShapeDefiningPoint &&
-             lastShapeDefiningPoint.targetDistanceToPreviousPoint < MIN_DISTANCE_BETWEEN_POINTS ) {
+             lastShapeDefiningPoint.targetDistanceToPreviousPoint < INTER_POINT_DISTANCE ) {
             // If the current last point is less than the min distance from
             // the 2nd to last point, remove the current last point.  This
             // prevents having zillions of shape-defining points, which is
@@ -526,7 +668,7 @@ public class MessengerRna extends MobileBiomolecule {
             // There are enough points to start winding up the mRNA.  Create a
             // rectangle that will define the area where the strand must
             // within (except for the stick-out area).
-            double diagonalLength = MIN_DISTANCE_BETWEEN_POINTS * ( Math.pow( currentUnfurledLength / MIN_DISTANCE_BETWEEN_POINTS, 0.5 ) );
+            double diagonalLength = INTER_POINT_DISTANCE * ( Math.pow( currentUnfurledLength / INTER_POINT_DISTANCE, 0.5 ) );
             double squareSideLength = diagonalLength * Math.cos( Math.PI / 4 );
             containmentRect = new Rectangle2D.Double( newEndPosition.getX() - squareSideLength,
                                                       newEndPosition.getY(),
@@ -675,10 +817,6 @@ public class MessengerRna extends MobileBiomolecule {
         return thisPoint;
     }
 
-    public void addLength( double x, double y ) {
-        addLength( new Point2D.Double( x, y ) );
-    }
-
     public void clearAllPointMassVelocities() {
         PointMass thisPoint = firstShapeDefiningPoint;
         while ( thisPoint != null ) {
@@ -819,7 +957,7 @@ public class MessengerRna extends MobileBiomolecule {
         private PointMass previousPointMass = null;
         private PointMass nextPointMass = null;
 
-        private final double targetDistanceToPreviousPoint;
+        private double targetDistanceToPreviousPoint;
 
         private PointMass( Point2D initialPosition, double targetDistanceToPreviousPoint ) {
             setPosition( initialPosition );
@@ -889,6 +1027,10 @@ public class MessengerRna extends MobileBiomolecule {
         public void translate( ImmutableVector2D translationVector ) {
             setPosition( position.getX() + translationVector.getX(), position.getY() + translationVector.getY() );
         }
+
+        public void setTargetDistanceToPreviousPoint( double targetDistance ) {
+            targetDistanceToPreviousPoint = targetDistance;
+        }
     }
 
     /**
@@ -901,9 +1043,12 @@ public class MessengerRna extends MobileBiomolecule {
 
         public final Property<Rectangle2D> bounds = new Property<Rectangle2D>( new Rectangle2D.Double() );
 
-        // Interface.
         public Point2D getLowerRightCornerPos() {
             return new Point2D.Double( bounds.get().getMaxX(), bounds.get().getMinY() );
+        }
+
+        public Point2D getUpperLeftCornerPos() {
+            return new Point2D.Double( bounds.get().getMinX(), bounds.get().getMaxY() );
         }
 
         public void translate( ImmutableVector2D translationVector ) {
@@ -919,10 +1064,29 @@ public class MessengerRna extends MobileBiomolecule {
             return getBounds().getHeight() == 0;
         }
 
+        public double getLength() {
+            Point2D upperLeft = new Point2D.Double( bounds.get().getX(), bounds.get().getMaxY() );
+            Point2D lowerRight = new Point2D.Double( bounds.get().getMaxX(), bounds.get().getMinY() );
+            return upperLeft.distance( lowerRight );
+        }
+
+        /**
+         * Grow the the left if a horizontal segment, or up and to the left if
+         * a diagonal segment, by the specified length.
+         *
+         * @param length
+         */
+        public abstract void growLeft( double length );
+
         public static class HorizontalSegment extends ShapeSegment {
 
             public HorizontalSegment( Point2D origin, double length ) {
                 bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), length, 0 ) );
+            }
+
+            @Override public void growLeft( double length ) {
+                Rectangle2D newBounds = new Rectangle2D.Double( bounds.get().getMinX() - length, bounds.get().getY(), bounds.get().getWidth() + length, 0 );
+                bounds.set( newBounds );
             }
         }
 
@@ -933,6 +1097,17 @@ public class MessengerRna extends MobileBiomolecule {
                                                     origin.getY(),
                                                     origin.getX() + vectorToLowerRightCorner.getX(),
                                                     origin.getY() + vectorToLowerRightCorner.getY() ) );
+            }
+
+            // Strictly speaking, this actually grows UP and to the left, not
+            // just to the left.
+            @Override public void growLeft( double length ) {
+                double growthAmount = length * Math.cos( Math.PI / 4 );
+                Rectangle2D newBounds = new Rectangle2D.Double( bounds.get().getMinX() - growthAmount,
+                                                                bounds.get().getY() + growthAmount,
+                                                                bounds.get().getWidth() + growthAmount,
+                                                                bounds.get().getHeight() + growthAmount );
+                bounds.set( newBounds );
             }
         }
     }
@@ -968,7 +1143,7 @@ public class MessengerRna extends MobileBiomolecule {
         MessengerRna messengerRna = new MessengerRna( new ManualGeneExpressionModel(), mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
         canvas.addWorldChild( new MobileBiomoleculeNode( mvt, messengerRna ) );
         for ( int i = 0; i < 200; i++ ) {
-            messengerRna.addLength( mvt.modelToView( i * 200, 0 ) );
+            messengerRna.addLength( INTER_POINT_DISTANCE );
             try {
                 Thread.sleep( 500 );
             }
