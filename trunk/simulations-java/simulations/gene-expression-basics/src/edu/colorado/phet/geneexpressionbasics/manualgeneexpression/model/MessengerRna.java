@@ -16,6 +16,8 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -89,7 +91,7 @@ public class MessengerRna extends MobileBiomolecule {
 
     public final PlacementHint ribosomePlacementHint;
 
-    private final ArrayList<ShapeSegment> shapeSegments = new ArrayList<ShapeSegment>();
+    public final ObservableList<ShapeSegment> shapeSegments = new ObservableList<ShapeSegment>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -889,26 +891,28 @@ public class MessengerRna extends MobileBiomolecule {
         }
     }
 
-    private abstract static class ShapeSegment {
+    /**
+     * A shape the encloses a segment of the mRNA.  These segments, connected
+     * together, are used to define the outline shape of the mRNA strand.
+     * The path of the strand within these shape segments is worked out
+     * elsewhere.
+     */
+    public abstract static class ShapeSegment {
 
-        protected Rectangle2D bounds = new Rectangle2D.Double();
+        public final Property<Rectangle2D> bounds = new Property<Rectangle2D>( new Rectangle2D.Double() );
 
         // Interface.
         public Point2D getLowerRightCornerPos() {
-            return new Point2D.Double( bounds.getMaxX(), bounds.getMinY() );
+            return new Point2D.Double( bounds.get().getMaxX(), bounds.get().getMinY() );
         }
 
         public void translate( ImmutableVector2D translationVector ) {
-            bounds.setRect( AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( bounds ).getBounds() );
+            bounds.set( AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( bounds.get() ).getBounds() );
         }
-
-        public abstract void setLowerRightCornerPos();
-
-        public abstract Point2D getUpperLeftCornerPos();
 
         public Rectangle2D getBounds() {
             // TODO: Test this.  Not sure it will work correctly.
-            return (Rectangle2D) bounds.clone();
+            return (Rectangle2D) bounds.get().clone();
         }
 
         public boolean isFlat() {
@@ -917,43 +921,18 @@ public class MessengerRna extends MobileBiomolecule {
 
         public static class HorizontalSegment extends ShapeSegment {
 
-            public HorizontalSegment( Point2D left, double length ) {
-                bounds.setFrame( left.getX(), left.getY(), length, 0 );
-            }
-
-            @Override public Point2D getLowerRightCornerPos() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            @Override public void setLowerRightCornerPos() {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            @Override public Point2D getUpperLeftCornerPos() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            @Override public Rectangle2D getBounds() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            public HorizontalSegment( Point2D origin, double length ) {
+                bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), length, 0 ) );
             }
         }
 
         public static class DiagonalSegment extends ShapeSegment {
-
-            @Override public Point2D getLowerRightCornerPos() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            @Override public void setLowerRightCornerPos() {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            @Override public Point2D getUpperLeftCornerPos() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            @Override public Rectangle2D getBounds() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            public DiagonalSegment( Point2D origin, double length ) {
+                ImmutableVector2D vectorToLowerRightCorner = new ImmutableVector2D( length, 0 ).getRotatedInstance( -Math.PI / 4 );
+                bounds.set( new Rectangle2D.Double( origin.getX(),
+                                                    origin.getY(),
+                                                    origin.getX() + vectorToLowerRightCorner.getX(),
+                                                    origin.getY() + vectorToLowerRightCorner.getY() ) );
             }
         }
     }
