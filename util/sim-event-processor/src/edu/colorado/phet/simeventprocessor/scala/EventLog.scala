@@ -24,6 +24,9 @@ class EventLog(log: JavaEventLog) {
   val startDate = new Date(epoch)
   val day = new SimpleDateFormat("MM-dd-yyyy").format(startDate)
   val lastTime = log.getLastTime
+  val events = {
+    (for (elm <- log) yield elm).toList
+  }
   lazy val userNumber = {
     try {
       user.toInt
@@ -60,4 +63,10 @@ class EventLog(log: JavaEventLog) {
   def findEvents(matcher: Match): List[JavaEntry] = log.filter(matcher.matches(_)).toList
 
   def findEvents(actor: String): List[JavaEntry] = log.filter(ActorRule(actor).matches(_)).toList
+
+  def foreach[U](f: ( JavaEntry ) => U) {
+    for (elm <- log) {
+      f(elm)
+    }
+  }
 }
