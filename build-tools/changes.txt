@@ -1,3 +1,4 @@
+Used as a library project from the command line, so do not discard any classes
 Added ability to specify "all-permissions" for individual flavors, see #3136
 Fixed build.xml to not require piccolo, see #3135, #3156
 Updated build.xml to accommodate new phetcommon dependency on simsharing-core
