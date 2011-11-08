@@ -167,8 +167,8 @@ public class SummarizeData extends Processor {
 
         HashSet<String> errSystem = new HashSet<String>();
         for ( EventLog entry : recent ) {
-            EventLog out = entry.keepItems( new Function1<Entry, Boolean>() {
-                public Boolean apply( Entry entry ) {
+            EventLog out = entry.keepItems( new Function1<JavaEntry, Boolean>() {
+                public Boolean apply( JavaEntry entry ) {
                     return entry.matches( "system", "erred" );
                 }
             } );

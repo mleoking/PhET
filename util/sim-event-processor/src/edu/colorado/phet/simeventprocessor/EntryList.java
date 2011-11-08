@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 /**
  * @author Sam Reid
  */
-public class EntryList extends ArrayList<Entry> {
+public class EntryList extends ArrayList<JavaEntry> {
     public void add( String object, String action, Parameter... parameters ) {
-        add( new Entry( object, action, parameters ) );
+        add( new JavaEntry( object, action, parameters ) );
     }
 }

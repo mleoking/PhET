@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
  *
  * @author Sam Reid
  */
-public class Entry {
+public class JavaEntry {
     public final long timeMilliSec;
     public final String actor;
     public final String event;
@@ -20,11 +20,11 @@ public class Entry {
     public final double time;
 
     //Use this constructor for matching only
-    public Entry( String actor, String event, Parameter... parameters ) {
+    public JavaEntry( String actor, String event, Parameter... parameters ) {
         this( -1, actor, event, parameters );
     }
 
-    public Entry( long timeMilliSec, String actor, String event, Parameter[] parameters ) {
+    public JavaEntry( long timeMilliSec, String actor, String event, Parameter[] parameters ) {
         this.actor = actor;
         this.event = event;
         this.parameters = parameters;
@@ -76,7 +76,7 @@ public class Entry {
 
 
     //Parse a line that is an event
-    public static Entry parse( String line ) {
+    public static JavaEntry parse( String line ) {
         StringTokenizer tokenizer = new StringTokenizer( line, "\t" );
         long time = Long.parseLong( tokenizer.nextToken() );
         String object = tokenizer.nextToken();
@@ -92,7 +92,7 @@ public class Entry {
         Parameter[] parameters = Parameter.parseParameters( remainderOfLine );
 
         //Return the new entry
-        return new Entry( time, object, event, parameters );
+        return new JavaEntry( time, object, event, parameters );
     }
 
     @Override
@@ -100,7 +100,7 @@ public class Entry {
         if ( this == o ) { return true; }
         if ( o == null || getClass() != o.getClass() ) { return false; }
 
-        Entry entry = (Entry) o;
+        JavaEntry entry = (JavaEntry) o;
 
         if ( timeMilliSec != entry.timeMilliSec ) { return false; }
         if ( event != null ? !event.equals( entry.event ) : entry.event != null ) { return false; }

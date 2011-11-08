@@ -4,8 +4,8 @@ package edu.colorado.phet.simeventprocessor.scala
 import java.util.Date
 import java.text.SimpleDateFormat
 import collection.mutable.HashMap
-import edu.colorado.phet.simeventprocessor.{Entry, EventLog}
 import scala.collection.JavaConversions._
+import edu.colorado.phet.simeventprocessor.{JavaEntry, EventLog}
 
 /**
  * Adds scala-convenient interface for REPL.
@@ -30,10 +30,20 @@ class ScalaEventLog(log: EventLog) {
 
   lazy val histogramByObject = {
     val map = new HashMap[String, Int]
-    for ( elm: Entry <- log ) {
+    for ( elm: JavaEntry <- log ) {
       val currentValue = map.getOrElse(elm.actor, 0)
       map.put(elm.actor, currentValue + 1)
     }
     map
   }
+
+  //  def find(eventsOfInterest: ScalaEventLog): ScalaEventLog = {
+  //    val list: ScalaEventLog = new ScalaEventLog
+  //    for ( entry <- eventsOfInterest ) {
+  //      if ( containsMatch(entry) ) {
+  //        list.add(entry)
+  //      }
+  //    }
+  //    list
+  //  }
 }

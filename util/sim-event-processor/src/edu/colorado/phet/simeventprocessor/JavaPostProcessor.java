@@ -22,7 +22,7 @@ public class JavaPostProcessor extends Processor {
         //See how often users switched tabs
         println( "#########################" );
         println( "######### Processing tabs" );
-        for ( Entry entry : eventLog ) {
+        for ( JavaEntry entry : eventLog ) {
             if ( entry.matches( "tab", "pressed" ) ) {
                 println( "Switched tab to: " + entry.get( "text" ) + " after " + entry.time + " sec" );
             }
@@ -49,7 +49,7 @@ public class JavaPostProcessor extends Processor {
         EntryList userEvents = eventLog.find( eventsOfInterest );
         System.out.println( "At the end of the sim, the user had played with " + userEvents.size() + " / " + eventsOfInterest.size() + " interesting events." );
 
-        ArrayList<Entry> userMissed = new ArrayList<Entry>( eventsOfInterest );
+        ArrayList<JavaEntry> userMissed = new ArrayList<JavaEntry>( eventsOfInterest );
         userMissed.removeAll( userEvents );
         System.out.println( "Things the user didn't do: " + userMissed );
     }
