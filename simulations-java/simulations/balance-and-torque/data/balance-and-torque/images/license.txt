@@ -21,9 +21,9 @@ mystery-object-07.png source=PhET
 mystery-object-08.png source=PhET
 old-television.png source=Open Clip Art notes=Modified by jblanco
 potted-plant.png source=PhET
-rock_1.png source=PhET
-rock_4.png source=PhET
-rock_6.png source=PhET
+rock_1.png source=PhET notes=Reused from Radioactive Dating Game sim
+rock_4.png source=PhET notes=Reused from Radioactive Dating Game sim
+rock_6.png source=PhET notes=Reused from Radioactive Dating Game sim
 soda-bottle.png source=PhET
 tiny-rock.png source=PhET
 tire.png source=PhET
