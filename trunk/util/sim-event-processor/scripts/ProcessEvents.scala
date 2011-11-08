@@ -22,8 +22,8 @@ println("Number of unique machines: " + machines.size)
 val users = selected.map(_.user).distinct.sortBy(numerical)
 println("Unique userIDs: " + users.size + ": " + users)
 
-val allEvents = selected.map(log => timeSeries(log, log.countEvents(_)))
-xyplot("Events vs time", "Time (minutes)", "Events", allEvents)
+val eventCountData = selected.map(log => timeSeries(log, log.countEvents(_)))
+xyplot("Events vs time", "Time (minutes)", "Events", eventCountData)
 
 for ( log <- selected ) {
   println(log.histogramByObject)
@@ -53,9 +53,13 @@ val whoUsedWhat = for ( event <- simToUse ) yield {
 }
 println(whoUsedWhat mkString "\n")
 
-//See all the spinners that were used
-//println("Spinners")
-//for ( log: EventLog <- selected ) {
-//  val events = log findEvents "spinner"
-//  println(events mkString "\n")
-//}
+val allEvents = selected.flatMap(_.events)
+
+//See all the system events
+//println("Distinct system events")
+//val systemEvents = allEvents.filter(_.actor == "system").distinct
+//println(systemEvents mkString "\n")
+
+println("Distinct window sizes")
+val sizes = all.flatMap(_.events).filter(entry => entry.actor == "window" && entry.event = "resized").map(event => event.get("width") + ", " + event.get("height")).distinct
+println(sizes mkString "\n")
