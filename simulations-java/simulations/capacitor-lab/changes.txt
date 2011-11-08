@@ -1,3 +1,4 @@
+# 2.01.01 (58422) Nov 8, 2011
 11/8/11 #3151, fix charge and voltage model for the series portion of the "2 in Series + 1 in Parallel" circuit
 # 2.01.00 (58222) Nov 1, 2011
 10/17/11 in DielectricExcessChargeNode, rename yMargin to yOffset (because it's an offset, not a margin)
