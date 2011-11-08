@@ -42,7 +42,7 @@ public class JavaPredef implements IProguardKeepClass {
         }};
         xyPlot.setDataset( dataset );
         JFreeChart plot = ChartFactory.createScatterPlot( title, domainAxis, rangeAxis, dataset, PlotOrientation.VERTICAL, true, false, false );
-        ChartFrame frame = new ChartFrame( "Events vs Time", plot );
+        ChartFrame frame = new ChartFrame( title, plot );
         frame.setSize( 900, 600 );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
