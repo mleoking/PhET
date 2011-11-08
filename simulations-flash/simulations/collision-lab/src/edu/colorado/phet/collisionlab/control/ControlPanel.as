@@ -3,6 +3,7 @@ import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.collisionlab.view.BallImage;
 import edu.colorado.phet.collisionlab.view.MainView;
+import edu.colorado.phet.flashcommon.AboutDialog;
 import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
@@ -201,8 +202,14 @@ public class ControlPanel extends Sprite {
     }
 
     public function setElasticity( evt: SliderEvent ): void {
-        trace( "elasticity = " + evt.target.value )
-        this.myModel.setElasticity( evt.target.value );
+        var elasticity: Number = evt.target.value;
+        trace( "elasticity = " + elasticity );
+        this.myModel.setElasticity( elasticity );
+
+        // disable the "back" button if we go under 100% elasticity
+        if( elasticity < 1 ) {
+            myMainView.myTableView.playButtons.setBackEnabled( false );
+        }
         updateElasticityValueLabel();
     }
 

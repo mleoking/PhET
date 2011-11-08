@@ -63,6 +63,12 @@ public class PlayPauseButtons extends Sprite {
         TextFieldUtils.resizeText( this.buttonView.stepLabel, TextFieldAutoSize.LEFT );
     }
 
+    public function setBackEnabled( enabled: Boolean ): void {
+        var alpha: Number = enabled ? 1 : 0.5;
+        this.buttonView.stepBackLabel.alpha = alpha;
+        this.buttonView.myStepBackButton.alpha = alpha;
+    }
+
     public function rewind( evt: MouseEvent ): void {
         this.paused = true;
         this.myModel.stopMotion();
@@ -76,6 +82,7 @@ public class PlayPauseButtons extends Sprite {
     public function resetAllCalled(): void {
         this.paused = true;
         this.myModel.stopMotion();
+        setBackEnabled( true );
         this.buttonView.myPlayPauseButton.gotoAndStop( 1 );
         setPlayText();
         //this.myModel.initializePositions();
