@@ -49,6 +49,8 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
  */
 public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettable {
 
+    //REVIEW These magic numbers are repeated in many sim, and with no documentation about how they were derived.
+    // Consider creating a new CenteredStage constructor that uses these as the default dimensions?
     protected static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     protected final ModelViewTransform mvt;
 
@@ -82,10 +84,12 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
+        //REVIEW This is not a layer; this is a node that delineates a branch of the scenegraph.
         // Set up a layer for the non-mass model elements.
         nonMassLayer = new PNode();
         rootNode.addChild( nonMassLayer );
 
+        //REVIEW This is not a layer; this is a node that delineates a branch of the scenegraph.
         // Set up a separate layer for the masses so that they will be out in
         // front of the other elements of the model.
         final PNode massesLayer = new PNode();
@@ -94,6 +98,10 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         // Whenever a mass is added to the model, create a graphic for it.
         model.massList.addElementAddedObserver( new VoidFunction1<Mass>() {
             public void apply( final Mass mass ) {
+                //REVIEW especially since this is a base class, it would be nice to encapsulate this conditional logic and casting in a MassFactory.
+                //  public MassFactory(mvt,this,massLabelVisibilityProperty)
+                //  public PNode createMassNode(mass)
+
                 // Create and add the view representation for this mass.
                 PNode massNode = null;
                 if ( mass instanceof ShapeMass ) {
@@ -220,7 +228,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
     }
 
     public void reset() {
-        // Reset the various properties the control the visibility of various indicators.
+        // Reset the various properties that control the visibility of various indicators.
         distancesVisibleProperty.reset();
         forceVectorsFromObjectsVisibleProperty.reset();
         massLabelVisibilityProperty.reset();

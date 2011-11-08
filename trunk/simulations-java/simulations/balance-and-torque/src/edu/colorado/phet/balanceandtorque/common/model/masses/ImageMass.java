@@ -79,6 +79,9 @@ public class ImageMass extends Mass {
         observer.apply( imageProperty.get() );
     }
 
+
+    //REVIEW Why do you need this when positionProperty is public? Or should positionProperty be protected?
+    // And positionProperty is a field in the superclass, so why isn't this method in the superclass?
     public void addPositionChangeObserver( VoidFunction1<Point2D> observer ) {
         positionProperty.addObserver( observer );
     }
@@ -100,6 +103,7 @@ public class ImageMass extends Mass {
         animationMotionVector.setComponents( velocity, 0 );
         double animationAngle = Math.atan2( animationDestination.getY() - getPosition().getY(), animationDestination.getX() - getPosition().getX() );
         animationMotionVector.rotate( animationAngle );
+        //REVIEW what scaling factor is the comment below talking about? Does this comment belong in stepInTime, where animationScale is computed?
         // Calculate the scaling factor such that the object is about 10% of
         // its usual size when it reaches the destination.
         // Update the property that tracks the animation state.

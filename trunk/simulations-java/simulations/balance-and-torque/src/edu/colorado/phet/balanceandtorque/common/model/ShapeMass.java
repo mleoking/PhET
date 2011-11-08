@@ -35,6 +35,8 @@ public abstract class ShapeMass extends Mass {
         return middlePoint.toPoint2D();
     }
 
+    //REVIEW delete unused method?
+
     /**
      * Get the basic, untranslated shape of this mass.
      *

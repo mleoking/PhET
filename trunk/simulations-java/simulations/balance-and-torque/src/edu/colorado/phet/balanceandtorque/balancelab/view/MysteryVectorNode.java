@@ -25,6 +25,8 @@ public class MysteryVectorNode extends PNode {
     private static final int FONT_SIZE = 36;
     private static final double Y_DIST_FROM_POSITION = 15; // In screen units.
 
+    //REVIEW missing param fillColor in javadoc, fillColor is not used.
+
     /**
      * Constructor.
      *

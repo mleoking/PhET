@@ -42,9 +42,11 @@ public class KitSelectionNode<T extends PNode> extends PNode {
     //Animation activity that scrolls between kits
     private PTransformActivity activity;
 
+    //REVIEW this is not a layer; it's a node that delineates a branch of the scenegraph
     //Layer that contains all the kits side by side horizontally
     protected final PNode kitLayer;
 
+    //REVIEW this is not a layer; it's a node that delineates a branch of the scenegraph
     //Border and background, used for layout
     protected final PhetPPath background;
 
@@ -103,6 +105,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         Rectangle2D titleBounds = getBoundingRectangle( zeroOffsetTitleNodes );
 
         //The bounds of the smallest possible KitControlNode, used to ensure the rest of the control is at least this big
+        //REVIEW: does this need to be addressed? what might be wrong with the layout?
         //TODO: This value is hard coded, could have a better layout
         //Larger inset is necessary when using HTMLButtonImageNode since with a small inset the button will be touching the title
         double controlWidth = new KitControlNode( getKitCount(), selectedKit, titleNode, 13 ).getFullBounds().getWidth();
@@ -154,6 +157,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         } );
 
         //Add the KitControlNode which has the optional title and forward/back buttons
+        //REVIEW: What's wrong with the heuristic? If it's not right, why hasn't it been addressed?
         //TODO: This heuristic is not exactly right for making sure the KitControlNode is spaced properly
         double width = background.getFullBounds().getWidth();
         double extraSpace = width - controlWidth;
