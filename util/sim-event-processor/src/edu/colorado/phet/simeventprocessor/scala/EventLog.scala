@@ -5,13 +5,13 @@ import java.util.Date
 import java.text.SimpleDateFormat
 import collection.mutable.HashMap
 import scala.collection.JavaConversions._
-import edu.colorado.phet.simeventprocessor.{JavaEntry, EventLog}
+import edu.colorado.phet.simeventprocessor.{JavaEntry, JavaEventLog}
 
 /**
  * Adds scala-convenient interface for REPL.
  * @author Sam Reid
  */
-class ScalaEventLog(log: EventLog) {
+class EventLog(log: JavaEventLog) {
   val machine = log.getMachineID
   val simName = log.getSimName
   val epoch = log.getServerStartTime
@@ -37,13 +37,7 @@ class ScalaEventLog(log: EventLog) {
     map
   }
 
-  //  def find(eventsOfInterest: ScalaEventLog): ScalaEventLog = {
-  //    val list: ScalaEventLog = new ScalaEventLog
-  //    for ( entry <- eventsOfInterest ) {
-  //      if ( containsMatch(entry) ) {
-  //        list.add(entry)
-  //      }
-  //    }
-  //    list
-  //  }
+  def containsMatch(entry:Match):Boolean = log.filter(entry.matches(_)).size>0
+
+  def find(matcher: Seq[Match])= (for ( m <- matcher if containsMatch(m) ) yield m).toList
 }

@@ -23,60 +23,60 @@ public abstract class Processor extends JavaPredef {
     //Process a collection of files. Might be nice to plot multiple sessions together
     public void process( File... files ) throws IOException {
 
-        ArrayList<EventLog> all = new ArrayList<EventLog>();
+        ArrayList<JavaEventLog> all = new ArrayList<JavaEventLog>();
 
         for ( File file : files ) {
-            EventLog log = processFile( file );
+            JavaEventLog log = processFile( file );
             all.add( log );
         }
 
         process( all );
     }
 
-    public abstract void process( ArrayList<EventLog> all );
+    public abstract void process( ArrayList<JavaEventLog> all );
 
     //Process a single file
-    public EventLog processFile( File file ) throws IOException {
-        EventLog eventLog = parse( file );
+    public JavaEventLog processFile( File file ) throws IOException {
+        JavaEventLog eventLog = parse( file );
 
         process( eventLog );
 
         return eventLog;
     }
 
-    public static EventLog[] load( String file ) throws IOException {
+    public static JavaEventLog[] load( String file ) throws IOException {
         return load( new File( file ) );
     }
 
     //Loads all logs from a directory, recursively
-    public static EventLog[] load( File file ) throws IOException {
-        ArrayList<EventLog> all = new ArrayList<EventLog>();
+    public static JavaEventLog[] load( File file ) throws IOException {
+        ArrayList<JavaEventLog> all = new ArrayList<JavaEventLog>();
         File[] f = file.listFiles();
         for ( File aFile : f ) {
             if ( aFile.isFile() ) {
-                EventLog parsed = parse( aFile );
+                JavaEventLog parsed = parse( aFile );
                 all.add( parsed );
             }
             else {
                 all.addAll( Arrays.asList( load( aFile ) ) );
             }
         }
-        return all.toArray( new EventLog[all.size()] );
+        return all.toArray( new JavaEventLog[all.size()] );
     }
 
-    public static EventLog parse( File file ) throws IOException {
+    public static JavaEventLog parse( File file ) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
 
-        EventLog eventLog = new EventLog( file );
+        JavaEventLog eventLog = new JavaEventLog( file );
         for ( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
             eventLog.parseLine( line );
         }
         return eventLog;
     }
 
-    public static ArrayList<EntryPair> pairs( EventLog eventLog ) {
+    public static ArrayList<EntryPair> pairs( JavaEventLog eventLog ) {
         return new PairwiseProcessor().process( eventLog.getWithoutSystemEvents() );
     }
 
-    public abstract void process( EventLog eventLog );
+    public abstract void process( JavaEventLog eventLog );
 }

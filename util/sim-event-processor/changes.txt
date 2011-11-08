@@ -1,3 +1,4 @@
+Added checking for desired events
 Started adding support for filtering based on relevant events
 Changes to support scala repl prototype
 Added instrumentation for monitoring server data as it is being collected

@@ -16,18 +16,18 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  *
  * @author Sam Reid
  */
-public class EventLog implements Iterable<JavaEntry> {
+public class JavaEventLog implements Iterable<JavaEntry> {
     private String machineID;
     private String sessionID;
     private long serverTime;
     public List<JavaEntry> lines = new ArrayList<JavaEntry>();
     public final File sourceFile;
 
-    public EventLog( File sourceFile ) {
+    public JavaEventLog( File sourceFile ) {
         this.sourceFile = sourceFile;
     }
 
-    public EventLog( String machineID, String sessionID, long serverTime, List<JavaEntry> lines, File sourceFile ) {
+    public JavaEventLog( String machineID, String sessionID, long serverTime, List<JavaEntry> lines, File sourceFile ) {
         this.machineID = machineID;
         this.sessionID = sessionID;
         this.serverTime = serverTime;
@@ -64,7 +64,7 @@ public class EventLog implements Iterable<JavaEntry> {
         return lines.iterator();
     }
 
-    public EventLog getWithoutSystemEvents() {
+    public JavaEventLog getWithoutSystemEvents() {
         return removeItems( new Function1<JavaEntry, Boolean>() {
             public Boolean apply( JavaEntry entry ) {
                 return entry.actor.toLowerCase().startsWith( "system" );
@@ -72,8 +72,8 @@ public class EventLog implements Iterable<JavaEntry> {
         } );
     }
 
-    public EventLog removeItems( Function1<JavaEntry, Boolean> filter ) {
-        return new EventLog( machineID, sessionID, serverTime, new ObservableList<JavaEntry>( lines ).removeItems( filter ), sourceFile );
+    public JavaEventLog removeItems( Function1<JavaEntry, Boolean> filter ) {
+        return new JavaEventLog( machineID, sessionID, serverTime, new ObservableList<JavaEntry>( lines ).removeItems( filter ), sourceFile );
     }
 
     public int getLastTime() {
@@ -85,18 +85,18 @@ public class EventLog implements Iterable<JavaEntry> {
     }
 
     public int getNumberOfEvents( final long time, Function1<JavaEntry, Boolean> matches ) {
-        EventLog log = removeItems( new Function1<JavaEntry, Boolean>() {
+        JavaEventLog log = removeItems( new Function1<JavaEntry, Boolean>() {
             public Boolean apply( JavaEntry entry ) {
                 return entry.timeMilliSec > time;
             }
         } );
-        EventLog user = log.getWithoutSystemEvents();
-        EventLog keep = user.keepItems( matches );
+        JavaEventLog user = log.getWithoutSystemEvents();
+        JavaEventLog keep = user.keepItems( matches );
         return keep.size();
     }
 
-    public EventLog keepItems( Function1<JavaEntry, Boolean> matches ) {
-        return new EventLog( machineID, sessionID, serverTime, new ObservableList<JavaEntry>( lines ).keepItems( matches ), sourceFile );
+    public JavaEventLog keepItems( Function1<JavaEntry, Boolean> matches ) {
+        return new JavaEventLog( machineID, sessionID, serverTime, new ObservableList<JavaEntry>( lines ).keepItems( matches ), sourceFile );
     }
 
     public int size() {
@@ -105,12 +105,12 @@ public class EventLog implements Iterable<JavaEntry> {
 
     //How many events in the list happened in the log
     public int getNumberOfEvents( final long time, EntryList eventsOfInterest ) {
-        EventLog log = removeItems( new Function1<JavaEntry, Boolean>() {
+        JavaEventLog log = removeItems( new Function1<JavaEntry, Boolean>() {
             public Boolean apply( JavaEntry entry ) {
                 return entry.timeMilliSec > time;
             }
         } );
-        EventLog user = log.getWithoutSystemEvents();
+        JavaEventLog user = log.getWithoutSystemEvents();
         int count = 0;
         for ( JavaEntry eventOfInterest : eventsOfInterest ) {
             if ( user.containsMatch( eventOfInterest ) ) {
