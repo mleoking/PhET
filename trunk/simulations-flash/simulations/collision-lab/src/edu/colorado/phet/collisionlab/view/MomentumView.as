@@ -210,11 +210,11 @@ public class MomentumView extends Sprite {
         this.scale_slider.x = 0.93 * this.borderWidth;
         this.scale_slider.y = 0.5 * this.borderHeight - this.scale_slider.height;// - this.scale_slider.height/2;
         this.scale_slider.addEventListener( Event.CHANGE, sliderChangeListener );
-        var signSize: int = 15;
+        var signSize: int = 19;
         this.minusSign.width = this.minusSign.height = signSize;
         this.plusSign.width = this.plusSign.height = signSize;
-        this.minusSign.x = this.plusSign.x = this.scale_slider.x - 2;
-        this.minusSign.y = this.scale_slider.y + 2 * this.scale_slider.height;
+        this.minusSign.x = this.plusSign.x = this.scale_slider.x - 1;
+        this.minusSign.y = this.scale_slider.y + 2 * this.scale_slider.height + 4;
         this.plusSign.y = this.scale_slider.y - 0.8 * signSize;
         this.minusSign.buttonMode = true;
         this.minusSign.addEventListener( MouseEvent.MOUSE_DOWN, zoomOut );
