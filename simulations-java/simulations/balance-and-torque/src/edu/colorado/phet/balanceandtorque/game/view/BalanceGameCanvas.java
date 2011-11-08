@@ -49,7 +49,6 @@ import edu.colorado.phet.common.piccolophet.nodes.OutlinePText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -578,23 +577,22 @@ public class BalanceGameCanvas extends PhetPCanvas {
      */
     private static class SmileFaceWithScoreNode extends PNode {
 
-        private static final Font SCORE_FONT = new PhetFont( 20, true );
-        private PText scoreNode;
+        private static final Font SCORE_FONT = new PhetFont( 60, true );
+        private OutlinePText scoreNode;
         private FaceNode faceNode;
 
         private SmileFaceWithScoreNode() {
             faceNode = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR );
             addChild( faceNode );
-            scoreNode = new PText();
-            scoreNode.setFont( SCORE_FONT );
+            scoreNode = new OutlinePText( "X", SCORE_FONT, Color.YELLOW, Color.BLACK, 1 );
             addChild( scoreNode );
         }
 
         public void setScore( int score ) {
             if ( score >= 0 ) {
                 scoreNode.setText( "+" + Integer.toString( score ) );
-                scoreNode.setOffset( faceNode.getFullBoundsReference().getCenterX() - scoreNode.getFullBoundsReference().width / 2,
-                                     faceNode.getFullBoundsReference().getMaxY() );
+                scoreNode.setOffset( faceNode.getFullBoundsReference().getMaxX() - scoreNode.getFullBoundsReference().width,
+                                     faceNode.getFullBoundsReference().getMaxY() - scoreNode.getFullBoundsReference().height );
             }
             else {
                 System.out.println( getClass().getName() + " - Warning: Attempt to set zero or negative score." );
