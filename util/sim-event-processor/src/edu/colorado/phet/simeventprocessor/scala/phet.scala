@@ -29,7 +29,11 @@ object phet {
       }
     }
 
-  def plot(title: String, domainAxis: String, rangeAxis: String, xySeries: Seq[XYSeries]) {
+  def xyplot(title: String, domainAxis: String, rangeAxis: String, xySeries: Seq[XYSeries]) {
+    JavaPredef.plot(title, domainAxis, rangeAxis, xySeries.toArray)
+  }
+
+  def barchart(title: String, domainAxis: String, rangeAxis: String, xySeries: Seq[XYSeries]) {
     JavaPredef.plot(title, domainAxis, rangeAxis, xySeries.toArray)
   }
 }
