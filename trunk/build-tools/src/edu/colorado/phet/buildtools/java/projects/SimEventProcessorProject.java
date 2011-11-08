@@ -14,4 +14,9 @@ public class SimEventProcessorProject extends JavaSimulationProject {
     public File getTrunkAbsolute() {
         return getProjectDir().getParentFile().getParentFile(); // ../../trunk/
     }
+
+    //Used as a library project from the command line, so do not discard any classes
+    @Override public boolean isShrink() {
+        return false;
+    }
 }
