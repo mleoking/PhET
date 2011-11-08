@@ -121,6 +121,8 @@ public class MassValueEntryNode extends PNode {
         // Submit the proposed answer to the model.
         model.checkAnswer( value );
 
+        //REVIEW I don't understand the problem that this is solving, please elaborate.
+
         // Once an answer is submitted, set the focus back to the canvas.
         // This was needed in order to allow the user to use the Enter key to
         // submit and answer and then use it again to go to the next challenge.
@@ -158,6 +160,8 @@ public class MassValueEntryNode extends PNode {
             }
         }
     }
+
+    //REVIEW If I enter a value, then Enter or press "Check Answer", this test throws NullPointerException
 
     /**
      * Test harness.

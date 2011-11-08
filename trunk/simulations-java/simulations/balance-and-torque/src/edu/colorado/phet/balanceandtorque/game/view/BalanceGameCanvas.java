@@ -92,6 +92,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // Scoreboard that tracks user's score while playing the game.
     private final GameScoreboardNode scoreboard;
 
+    //REVIEW These are not layers; they are nodes that delineate a branch of the scenegraph.
     // Canvas layers.
     private PNode rootNode;
     private final PNode challengeLayer = new PNode();
@@ -105,18 +106,21 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private final MassValueEntryNode massValueEntryNode;
     private final MassValueEntryNode.DisplayAnswerNode massValueAnswerNode;
 
+    //REVIEW Why combine the smiling face and score?  You not have one face that can smile/frown, and a separate score? This complicates addressing #3150.
     // Create the smiling and frowning faces and center them on the screen.
     private final SmileFaceWithScoreNode smilingFace = new SmileFaceWithScoreNode();
     private final PNode frowningFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
         frown();
     }};
 
+    //REVIEW Extract constant for button color.
     // Buttons.
     private TextButtonNode checkAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.CHECK_ANSWER, BUTTON_FONT, Color.YELLOW );
     private TextButtonNode tryAgainButton = new TextButtonNode( BalanceAndTorqueResources.Strings.TRY_AGAIN, BUTTON_FONT, Color.YELLOW );
     private TextButtonNode nextChallengeButton = new TextButtonNode( BalanceAndTorqueResources.Strings.NEXT, BUTTON_FONT, Color.YELLOW );
     private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.DISPLAY_CORRECT_ANSWER, BUTTON_FONT, Color.YELLOW );
 
+    //REVIEW A little confusing at first... This isn't the game title, it's the tile of the current challenge, correct? Maybe change the name to qualify (challengeTitleNode?)
     private OutlinePText titleNode;
 
     private ModelViewTransform mvt;
