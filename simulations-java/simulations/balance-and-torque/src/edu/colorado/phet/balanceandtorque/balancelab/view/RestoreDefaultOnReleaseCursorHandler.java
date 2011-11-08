@@ -20,15 +20,15 @@ import edu.umd.cs.piccolo.nodes.PPath;
 // Should features & fixes be contributed back to common code, so this duplication can be eliminated?
 
 /**
- * Piccolo event handler that shows a different Cursor when entering a PNode.
- * This version is a variation of the one that was in the common area as of
- * Aug 24 2010.  The main difference with this one is that the default cursor
- * is restored when the user releases the mouse.  This was needed for some
- * PNodes in this sim because the PNode could move away from point at which it
- * was released, leaving the cursor in an incorrect state.  This also fixes an
- * issue where the cursor would be incorrect if the user clicked on a PNode
- * and it cause an error dialog to be shown (see Unfuddle #2475 for more
- * information on this one).
+ * Piccolo event handler that shows a different cursor when entering a PNode.
+ * This version is a variation of the CursorHandler class that was in the
+ * common area as of Aug 24 2010.  The main difference with this one is that
+ * the default cursor is restored when the user releases the mouse.  This was
+ * needed for some PNodes in this sim because the PNode could move away from
+ * point at which it was released, leaving the cursor in an incorrect state.
+ * This also fixes an issue where the cursor would be incorrect if the user
+ * clicked on a PNode and it cause an error dialog to be shown (see Unfuddle
+ * #2475 for more information on this one).
  */
 public class RestoreDefaultOnReleaseCursorHandler extends PBasicInputEventHandler {
 
