@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.capacitorlab.model.circuit;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
@@ -32,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  * </p>
  * At first glance, this class appears to duplicate code from Combination2Circuit. But there are subtle
  * differences, and the commonalities are only due to coincidences in the how the components are numbered
- * in the circuit diagram.  It would be a mistake to extra common functionality based on these factors,
+ * in the circuit diagram.  It would be a mistake to extract common functionality based on these factors,
  * since one or the other circuit could change in the future. Unlike the other circuits, these 2 circuit
  * are very specific, one-of-a-kind, and there's really no meaningful base class that safely describes them both.
  *
@@ -78,7 +78,8 @@ public class Combination1Circuit extends AbstractCircuit {
                            add( new WireBatteryToCapacitorsBottom( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, battery, c2, c3 ) );
                        }};
                    }
-               } );
+               }
+        );
 
         c1 = getCapacitors().get( 0 );
         c2 = getCapacitors().get( 1 );
