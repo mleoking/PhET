@@ -37,7 +37,10 @@ class EventLog(log: JavaEventLog) {
     map
   }
 
-  def containsMatch(entry:Match):Boolean = log.filter(entry.matches(_)).size>0
+  def matches(entry:Match):Boolean = log.filter(entry.matches(_)).size>0
 
-  def find(matcher: Seq[Match])= (for ( m <- matcher if containsMatch(m) ) yield m).toList
+  def findMatches(matcher: Seq[Match]):List[Match]= (for ( m <- matcher if matches(m) ) yield m).toList
+
+  def findEvents(matcher:Match):List[JavaEntry] = log.filter( matcher.matches(_)).toList
+  def findEvents(actor:String):List[JavaEntry] = log.filter( ActorRule(actor).matches(_)).toList
 }
