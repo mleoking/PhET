@@ -1,7 +1,10 @@
 import edu.colorado.phet.simeventprocessor.scala._
 import phet._
 
-val all = phet load "C:\\Users\\Sam\\Desktop\\file-vi"
+val all = phet load "C:\\Users\\Sam\\Desktop\\all-11-8-2011-i"
+
+def jcNov8Morning(log: EventLog) = log.day == "11-08-2011" && log.study == "colorado" && log.user != "null" && log.user != "samreid"
+
 val selected = all.filter(log =>
                             log.day == "11-07-2011" &&
                             log.study == "utah" &&
@@ -27,26 +30,28 @@ for ( log <- selected ) {
   println(histogram)
 }
 
-val importantMoleculeShapesEvents = Entry("draggingState", "changed", "dragging" -> "true", "dragMode" -> "PAIR_EXISTING_SPHERICAL") ::
-                                    Entry("draggingState", "changed", "dragging" -> "true", "dragMode" -> "MODEL_ROTATE") ::
-                                    Entry("checkBox", "pressed", "text" -> "Molecule Geometry") ::
-                                    Entry("checkBox", "pressed", "text" -> "Show Bond Angles") ::
-                                    Entry("checkBox", "pressed", "text" -> "Show Lone Pairs") ::
-                                    Entry("buttonNode", "pressed", "actionCommand" -> "Remove All") ::
-                                    Entry("bond", "created", "bondOrder" -> "0") ::
-                                    Entry("bond", "created", "bondOrder" -> "1") ::
-                                    Entry("bond", "created", "bondOrder" -> "2") ::
-                                    Entry("bond", "created", "bondOrder" -> "3") ::
-                                    Entry("bond", "removed", "bondOrder" -> "0") ::
-                                    Entry("bond", "removed", "bondOrder" -> "1") ::
-                                    Entry("bond", "removed", "bondOrder" -> "2") ::
-                                    Entry("bond", "removed", "bondOrder" -> "3") ::
-                                    Nil
+val moleculeShapes = Rule("draggingState", "changed", "dragging" -> "true", "dragMode" -> "PAIR_EXISTING_SPHERICAL") ::
+                     Rule("draggingState", "changed", "dragging" -> "true", "dragMode" -> "MODEL_ROTATE") ::
+                     Rule("checkBox", "pressed", "text" -> "Molecule Geometry") ::
+                     Rule("checkBox", "pressed", "text" -> "Show Bond Angles") ::
+                     Rule("checkBox", "pressed", "text" -> "Show Lone Pairs") ::
+                     Rule("buttonNode", "pressed", "actionCommand" -> "Remove All") ::
+                     Rule("bond", "created", "bondOrder" -> "0") ::
+                     Rule("bond", "created", "bondOrder" -> "1") ::
+                     Rule("bond", "created", "bondOrder" -> "2") ::
+                     Rule("bond", "created", "bondOrder" -> "3") ::
+                     Rule("bond", "removed", "bondOrder" -> "0") ::
+                     Rule("bond", "removed", "bondOrder" -> "1") ::
+                     Rule("bond", "removed", "bondOrder" -> "2") ::
+                     Rule("bond", "removed", "bondOrder" -> "3") ::
+                     Nil
 
-for ( log: ScalaEventLog <- selected ) {
-  //  println("log: " + log)
-  //  val userEvents = log find moleculePolarityEvents
-  //  println("At the end of the sim, the user had played with " + userEvents.size + " / " + moleculePolarityEvents.size + " interesting events.")
-  //  val userMissed = moleculePolarityEvents -- userEvents
+val sorted = selected.sortBy(_.find(moleculeShapes).size)
+
+for ( log: EventLog <- sorted ) {
+  val userEvents = log find moleculeShapes
+  println("user " + log.user + " matched " + userEvents.size + "/" + moleculeShapes.size)
+
+  //  val userMissed = importantMoleculeShapesEvents -- userEvents
   //  println("Things the user didn't do: " + userMissed)
 }

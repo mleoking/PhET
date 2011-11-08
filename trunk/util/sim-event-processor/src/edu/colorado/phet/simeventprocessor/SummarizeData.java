@@ -31,12 +31,12 @@ public class SummarizeData extends Processor {
         new SummarizeData().processDir( new File( "C:\\Users\\Sam\\Desktop\\file-vi" ) );
     }
 
-    public static class EMMondayFilter extends F<EventLog, Boolean> {
+    public static class EMMondayFilter extends F<JavaEventLog, Boolean> {
         long startTime = 1320692751844L;
         long endTime = 1320696963181L;
         String simName = "Molecule Shapes";
 
-        @Override public Boolean f( EventLog entry ) {
+        @Override public Boolean f( JavaEventLog entry ) {
             return
                     entry.getServerStartTime() >= startTime && entry.getServerStartTime() <= endTime
                     && entry.getSimName().equals( simName )
@@ -47,7 +47,7 @@ public class SummarizeData extends Processor {
         }
     }
 
-    public static class KLMondayFilter extends F<EventLog, Boolean> {
+    public static class KLMondayFilter extends F<JavaEventLog, Boolean> {
         long startTime = 1320692751844L;
         private String simName;
 
@@ -56,7 +56,7 @@ public class SummarizeData extends Processor {
             this.simName = simName;
         }
 
-        @Override public Boolean f( EventLog entry ) {
+        @Override public Boolean f( JavaEventLog entry ) {
             return
                     entry.getServerStartTime() >= startTime
 //                    && entry.getServerStartTime() <= endTime
@@ -71,13 +71,13 @@ public class SummarizeData extends Processor {
         }
     }
 
-    @Override public void process( ArrayList<EventLog> all ) {
+    @Override public void process( ArrayList<JavaEventLog> all ) {
         System.out.println( "Found " + all.size() + " event logs" );
-        List<EventLog> list = iterableList( all );
+        List<JavaEventLog> list = iterableList( all );
 
 //        final String simName = "Molecule Shapes";
         final String simName = "Molecule Polarity";
-        List<EventLog> recent = list.filter( new KLMondayFilter( simName ) );
+        List<JavaEventLog> recent = list.filter( new KLMondayFilter( simName ) );
 
 //        List<EventLog> recent = list.filter( new F<EventLog, Boolean>() {
 //            @Override public Boolean f( EventLog entry ) {
@@ -91,8 +91,8 @@ public class SummarizeData extends Processor {
 //            }
 //        } );
 
-        recent = recent.sort( Ord.ord( curry( new SimpleComparator<EventLog>( new F<EventLog, Comparable>() {
-            @Override public Comparable f( EventLog e ) {
+        recent = recent.sort( Ord.ord( curry( new SimpleComparator<JavaEventLog>( new F<JavaEventLog, Comparable>() {
+            @Override public Comparable f( JavaEventLog e ) {
                 return e.getServerStartTime();
 //                return e.getID().get();
             }
@@ -100,7 +100,7 @@ public class SummarizeData extends Processor {
 
         File destDir = new File( "C:/Users/Sam/Desktop/destDir2-" + simName );
         destDir.mkdirs();
-        for ( EventLog entry : recent ) {
+        for ( JavaEventLog entry : recent ) {
             try {
                 FileUtils.copyToDir( entry.sourceFile, destDir );
                 System.out.println( "Copied " + entry.sourceFile + ", to " + destDir );
@@ -110,20 +110,20 @@ public class SummarizeData extends Processor {
             }
         }
 
-        for ( EventLog entry : recent ) {
+        for ( JavaEventLog entry : recent ) {
             System.out.println( entry.brief() );
         }
 
         int count = 0;
-        for ( EventLog entry : recent ) {
+        for ( JavaEventLog entry : recent ) {
             count = count + entry.size();
         }
         System.out.println( "count = " + count );
 
-        final List<EventLog> finalRecent = recent;
+        final List<JavaEventLog> finalRecent = recent;
         ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>() {{
             int count = 0;
-            for ( final EventLog eventLog : finalRecent ) {
+            for ( final JavaEventLog eventLog : finalRecent ) {
                 count++;
                 final XYSeries xySeries = new XYSeries( "Student " + eventLog.getID() ) {{
                     for ( long time = 0; time < eventLog.getLastTime(); time += 500 ) {
@@ -139,13 +139,13 @@ public class SummarizeData extends Processor {
 
         //count unique machine ID's
         HashSet<String> machineIDs = new HashSet<String>();
-        for ( EventLog entry : recent ) {
+        for ( JavaEventLog entry : recent ) {
             machineIDs.add( entry.getMachineID() );
         }
         System.out.println( "Since " + new Date( EPOCH_START ) + ", received " + machineIDs.size() + " different machine ID's" );
 
         HashSet<String> ids = new HashSet<String>();
-        for ( EventLog entry : recent ) {
+        for ( JavaEventLog entry : recent ) {
             ids.add( entry.getID() );
         }
         System.out.println( "Received " + ids.size() + " ids: " + ids );
@@ -158,7 +158,7 @@ public class SummarizeData extends Processor {
 
         for ( String machineID : machineIDs ) {
             System.out.println( "Machine ID: " + machineID );
-            for ( EventLog entry : recent ) {
+            for ( JavaEventLog entry : recent ) {
                 if ( entry.getMachineID().equals( machineID ) ) {
                     println( "\t" + entry.getID() );
                 }
@@ -166,8 +166,8 @@ public class SummarizeData extends Processor {
         }
 
         HashSet<String> errSystem = new HashSet<String>();
-        for ( EventLog entry : recent ) {
-            EventLog out = entry.keepItems( new Function1<JavaEntry, Boolean>() {
+        for ( JavaEventLog entry : recent ) {
+            JavaEventLog out = entry.keepItems( new Function1<JavaEntry, Boolean>() {
                 public Boolean apply( JavaEntry entry ) {
                     return entry.matches( "system", "erred" );
                 }
@@ -184,6 +184,6 @@ public class SummarizeData extends Processor {
         }
     }
 
-    @Override public void process( EventLog eventLog ) {
+    @Override public void process( JavaEventLog eventLog ) {
     }
 }

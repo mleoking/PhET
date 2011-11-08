@@ -11,16 +11,16 @@ import edu.colorado.phet.simeventprocessor.{JavaPredef, Processor}
 object phet {
   def load(s: String) = {
     val list = Processor.load(s).toList
-    list.map(s => new ScalaEventLog(s))
+    list.map(s => new EventLog(s))
   }
 
-  def print(list: Seq[ScalaEventLog]) {
+  def print(list: Seq[EventLog]) {
     println(list mkString "\n")
   }
 
-  implicit def wrapLogSeq(i: Seq[ScalaEventLog]) = new LogSeqWrapper(i)
+  implicit def wrapLogSeq(i: Seq[EventLog]) = new LogSeqWrapper(i)
 
-  def series(log: ScalaEventLog, all: Seq[ScalaEventLog], value: Int => Double): XYSeries = seqSeries("Student " + all.indexOf(log), 0 to log.lastTime by 1000, value)
+  def series(log: EventLog, all: Seq[EventLog], value: Int => Double): XYSeries = seqSeries("Student " + all.indexOf(log), 0 to log.lastTime by 1000, value)
 
   def seqSeries(name: String, time: Seq[Int], value: Int => Double): XYSeries =
     new XYSeries(name) {
@@ -34,7 +34,7 @@ object phet {
   }
 }
 
-class LogSeqWrapper(log: Seq[ScalaEventLog]) {
+class LogSeqWrapper(log: Seq[EventLog]) {
   def print() {
     println(log mkString "\n")
   }

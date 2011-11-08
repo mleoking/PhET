@@ -41,7 +41,11 @@ public class JavaEntry {
                '}';
     }
 
-    public boolean matches( String obj, String act, Parameter... params ) {
+    public boolean matches( String obj, String act ) {
+        return matches( obj, act, new Parameter[0] );
+    }
+
+    public boolean matches( String obj, String act, Parameter[] params ) {
         for ( Parameter param : params ) {
             if ( !hasParameter( param ) ) {
                 return false;
@@ -51,7 +55,7 @@ public class JavaEntry {
     }
 
     private boolean hasParameter( Parameter param ) {
-        return hasParameterKey( param.name ) && get( param.name ).equals( param.value );
+        return hasParameterKey( param.name ) && get( param.name ).get().equals( param.value );
     }
 
     private boolean hasParameterKey( String name ) {

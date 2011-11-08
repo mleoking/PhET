@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import org.jfree.data.xy.XYSeries;
 
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+
 import static edu.colorado.phet.simeventprocessor.MoleculePolarityEventsOfInterest.getMoleculePolarityEventsOfInterest;
 import static java.util.Collections.reverse;
 import static java.util.Collections.sort;
@@ -17,13 +19,13 @@ import static java.util.Collections.sort;
  * @author Sam Reid
  */
 public class JavaPostProcessor extends Processor {
-    public void process( final EventLog eventLog ) {
+    public void process( final JavaEventLog eventLog ) {
 
         //See how often users switched tabs
         println( "#########################" );
         println( "######### Processing tabs" );
         for ( JavaEntry entry : eventLog ) {
-            if ( entry.matches( "tab", "pressed" ) ) {
+            if ( entry.matches( "tab", "pressed") ) {
                 println( "Switched tab to: " + entry.get( "text" ) + " after " + entry.time + " sec" );
             }
         }
@@ -55,9 +57,9 @@ public class JavaPostProcessor extends Processor {
     }
 
     //Show plots of the numbers of controls used vs time.
-    @Override public void process( final ArrayList<EventLog> all ) {
+    @Override public void process( final ArrayList<JavaEventLog> all ) {
         ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>() {{
-            for ( final EventLog eventLog : all ) {
+            for ( final JavaEventLog eventLog : all ) {
                 final XYSeries xySeries = new XYSeries( "Student " + all.indexOf( eventLog ) ) {{
                     for ( long time = 0; time < eventLog.getLastTime(); time += 1000 ) {
                         int events = eventLog.getNumberOfEvents( time );
@@ -71,7 +73,7 @@ public class JavaPostProcessor extends Processor {
         plot( "Events vs time", "Time (sec)", "Events", seriesList.toArray( new XYSeries[seriesList.size()] ) );
 
         ArrayList<XYSeries> xySeriesList = new ArrayList<XYSeries>() {{
-            for ( final EventLog eventLog : all ) {
+            for ( final JavaEventLog eventLog : all ) {
 
                 final XYSeries series = new XYSeries( "Student " + all.indexOf( eventLog ) ) {{
                     for ( long time = 0; time < eventLog.getLastTime(); time += 1000 ) {
