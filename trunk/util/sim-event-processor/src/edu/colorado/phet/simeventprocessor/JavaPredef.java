@@ -8,6 +8,8 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -41,6 +43,19 @@ public class JavaPredef implements IProguardKeepClass {
         xyPlot.setDataset( dataset );
         JFreeChart plot = ChartFactory.createScatterPlot( title, domainAxis, rangeAxis, dataset, PlotOrientation.VERTICAL, true, false, false );
         ChartFrame frame = new ChartFrame( "Events vs Time", plot );
+        frame.setSize( 900, 600 );
+        SwingUtils.centerWindowOnScreen( frame );
+        frame.setVisible( true );
+    }
+
+    public static void plotBarChart( String title, String domainAxis, String rangeAxis, final JavaCategoricalValue[] xySeries ) {
+        final CategoryDataset dataset = new DefaultCategoryDataset() {{
+            for ( JavaCategoricalValue value : xySeries ) {
+                addValue( value.value, value.row, value.column );
+            }
+        }};
+        JFreeChart plot = ChartFactory.createBarChart( title, domainAxis, rangeAxis, dataset, PlotOrientation.VERTICAL, true, false, false );
+        ChartFrame frame = new ChartFrame( title, plot );
         frame.setSize( 900, 600 );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
