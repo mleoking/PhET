@@ -85,17 +85,17 @@ val balancingChemicalEquations =
   Rule("radioButton", "pressed", "text" -> "None") ::
   Rule("radioButton", "pressed", "text" -> "Balance Scales") ::
   Rule("radioButton", "pressed", "text" -> "Bar Charts") ::
-  Rule("radioButton", "pressed", "text" -> "Make Ammonia") ::
-  Rule("radioButton", "pressed", "text" -> "Separate Water") ::
-  Rule("radioButton", "pressed", "text" -> "Combust Methane") ::
+  Rule("radioButton", "pressed", "text" -> "<html>Make Ammonia</html>") ::
+  Rule("radioButton", "pressed", "text" -> "<html>Separate Water</html>") ::
+  Rule("radioButton", "pressed", "text" -> "<html>Combust Methane</html>") ::
   Rule("buttonNode", "pressed", "actionCommand" -> "Reset All") ::
-  Rule("spinner", "changed", "title" -> "N<sub>2</sub>") ::
-  Rule("spinner", "changed", "title" -> "H<sub>2</sub>") ::
-  Rule("spinner", "changed", "title" -> "NH<sub>3</sub>") ::
-  Rule("spinner", "changed", "title" -> "H<sub>2</sub>O") ::
-  Rule("spinner", "changed", "title" -> "O<sub>2</sub>") ::
-  Rule("spinner", "changed", "title" -> "CH<sub>4</sub>") ::
-  Rule("spinner", "changed", "title" -> "CO<sub>2</sub>") ::
+  Rule("spinner", "changed", "description" -> "coefficient for N<sub>2</sub>") ::
+  Rule("spinner", "changed", "description" -> "coefficient for H<sub>2</sub>") ::
+  Rule("spinner", "changed", "description" -> "coefficient for NH<sub>3</sub>") ::
+  Rule("spinner", "changed", "description" -> "coefficient for H<sub>2</sub>O") ::
+  Rule("spinner", "changed", "description" -> "coefficient for O<sub>2</sub>") ::
+  Rule("spinner", "changed", "description" -> "coefficient for CH<sub>4</sub>") ::
+  Rule("spinner", "changed", "description" -> "coefficient for CO<sub>2</sub>") ::
   Rule("buttonNode", "pressed", "actionCommand" -> "Start") ::
   Rule("buttonNode", "pressed", "actionCommand" -> "Check") ::
   Rule("buttonNode", "pressed", "actionCommand" -> "Show Answer") ::
@@ -106,14 +106,32 @@ val balancingChemicalEquations =
 
 val simToUse = balancingChemicalEquations
 
-val sorted = selected.sortBy(_.find(simToUse).size)
+val sorted = selected.sortBy(_.findMatches(simToUse).size)
 
-for ( log: EventLog <- sorted ) {
-  val userEvents = log find simToUse
-  println("user " + log.user + " matched " + userEvents.size + "/" + moleculeShapes.size)
+for ( log <- sorted ) {
+  val userEvents = log findMatches simToUse
+  println("user " + log.user + " matched " + userEvents.size + "/" + simToUse.size)
 
   //  val userMissed = importantMoleculeShapesEvents -- userEvents
   //  println("Things the user didn't do: " + userMissed)
 }
 
-//xyplot("Histogram of events in Molecule Shapes", "events", "users",)
+println("unused features")
+//val unusedFeatures = for (event <- simToUse if selected.filter(log => (log find (event :: Nil))).size==0) yield event
+val unusedFeatures = simToUse.filter(event => selected.filter(_.matches(event)).size == 0)
+println(unusedFeatures mkString "\n")
+
+println("who used what")
+//val whoUsedWhat = simToUse.map(event => selected.filter(_.matches(event)))
+val whoUsedWhat = for ( event <- simToUse ) yield {
+  val used = selected.filter(_.matches(event)).map(_.user)
+  used -> event
+}
+println(whoUsedWhat mkString "\n")
+
+//See all the spinners that were used
+//println("Spinners")
+//for ( log: EventLog <- selected ) {
+//  val events = log findEvents "spinner"
+//  println(events mkString "\n")
+//}

@@ -45,6 +45,15 @@ public class JavaEntry {
         return matches( obj, act, new Parameter[0] );
     }
 
+    public boolean matches( String obj, Parameter[] params ) {
+        for ( Parameter param : params ) {
+            if ( !hasParameter( param ) ) {
+                return false;
+            }
+        }
+        return actor.equals( obj );
+    }
+
     public boolean matches( String obj, String act, Parameter[] params ) {
         for ( Parameter param : params ) {
             if ( !hasParameter( param ) ) {
