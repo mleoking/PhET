@@ -41,10 +41,10 @@ public class MessengerRnaTest {
                 0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         MessengerRna messengerRna = new MessengerRna( new StubGeneExpressionModel(), new Point2D.Double( 0, 0 ) );
-        messengerRna.addLength( 100, 0 );
-        messengerRna.addLength( 100, 100 );
-        messengerRna.addLength( 200, 100 );
-        messengerRna.addLength( 200, 200 );
+        messengerRna.addLength( 100 );
+        messengerRna.addLength( 100 );
+        messengerRna.addLength( 100 );
+        messengerRna.addLength( 100 );
         canvas.addWorldChild( new MobileBiomoleculeNode( mvt, messengerRna ) );
 
         // Boiler plate app stuff.
