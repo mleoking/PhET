@@ -1,3 +1,4 @@
+Fixed bug to prevent the disabled "back" button from activating when clicked
 # 1.00.14 (58407) Nov 7, 2011
 > Disabled "back" control when elasticity has gone under 100%, due to buggy behavior
 > Increased size of zoom in/out buttons

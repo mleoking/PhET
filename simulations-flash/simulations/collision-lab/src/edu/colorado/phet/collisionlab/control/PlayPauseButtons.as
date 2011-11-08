@@ -16,6 +16,7 @@ public class PlayPauseButtons extends Sprite {
     var playText: String;
     var pauseText: String;
     var stepText: String;
+    var backEnabled: Boolean = true;
 
     public function PlayPauseButtons( myModel: Model ) {
         this.myModel = myModel;
@@ -64,6 +65,9 @@ public class PlayPauseButtons extends Sprite {
     }
 
     public function setBackEnabled( enabled: Boolean ): void {
+        backEnabled = enabled;
+
+        // grey-out the button and label
         var alpha: Number = enabled ? 1 : 0.5;
         this.buttonView.stepBackLabel.alpha = alpha;
         this.buttonView.myStepBackButton.alpha = alpha;
@@ -124,6 +128,9 @@ public class PlayPauseButtons extends Sprite {
     }
 
     public function stepBack( evt: MouseEvent ): void {
+        if( !backEnabled ) {
+            return;
+        }
         this.paused = true;
         this.buttonView.myPlayPauseButton.gotoAndStop( 1 );
         setPlayText();
