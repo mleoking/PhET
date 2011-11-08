@@ -1,3 +1,4 @@
+Changes to support scala repl prototype
 Added instrumentation for monitoring server data as it is being collected
 Added build information and entry point for sim event processing for server monitoring
 Added IProguardKeepClass for potential library use

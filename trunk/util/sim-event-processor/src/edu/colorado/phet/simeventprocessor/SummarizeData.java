@@ -42,7 +42,7 @@ public class SummarizeData extends Processor {
                     && entry.getSimName().equals( simName )
                     && entry.getStudy().equals( "utah" )
                     && !entry.getMachineID().startsWith( "samreid" )
-                    && !entry.getID().getOrElse( "?" ).startsWith( "samreid" )
+                    && !entry.getID().startsWith( "samreid" )
                     ;
         }
     }
@@ -63,9 +63,10 @@ public class SummarizeData extends Processor {
                     && entry.getSimName().equals( simName )
                     && entry.getStudy().equals( "colorado" )
                     && !entry.getMachineID().startsWith( "samreid" )
-                    && !entry.getID().getOrElse( "?" ).startsWith( "samreid" )
-                    && !entry.getID().getOrElse( "?" ).equals( "" )
-                    && !entry.getID().getOrElse( "?" ).equals( "null" )
+                    && !entry.getID().startsWith( "samreid" )
+                    && !entry.getID().equals( "" )
+                    && !entry.getID().equals( "null" )
+                    && !entry.getID().equals( "None" )
                     ;
         }
     }
@@ -124,7 +125,7 @@ public class SummarizeData extends Processor {
             int count = 0;
             for ( final EventLog eventLog : finalRecent ) {
                 count++;
-                final XYSeries xySeries = new XYSeries( "Student " + eventLog.getID().getOrElse( "?" ) ) {{
+                final XYSeries xySeries = new XYSeries( "Student " + eventLog.getID() ) {{
                     for ( long time = 0; time < eventLog.getLastTime(); time += 500 ) {
                         int events = eventLog.getNumberOfEvents( time );
                         add( time / 1000.0 / 60.0, events );
@@ -145,7 +146,7 @@ public class SummarizeData extends Processor {
 
         HashSet<String> ids = new HashSet<String>();
         for ( EventLog entry : recent ) {
-            ids.add( entry.getID().getOrElse( "?" ) );
+            ids.add( entry.getID() );
         }
         System.out.println( "Received " + ids.size() + " ids: " + ids );
 
@@ -159,7 +160,7 @@ public class SummarizeData extends Processor {
             System.out.println( "Machine ID: " + machineID );
             for ( EventLog entry : recent ) {
                 if ( entry.getMachineID().equals( machineID ) ) {
-                    println( "\t" + entry.getID().getOrElse( "?" ) );
+                    println( "\t" + entry.getID() );
                 }
             }
         }
