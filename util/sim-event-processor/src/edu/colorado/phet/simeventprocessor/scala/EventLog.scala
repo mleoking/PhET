@@ -24,7 +24,7 @@ class EventLog(log: JavaEventLog) {
   val startDate = new Date(epoch)
   val day = new SimpleDateFormat("MM-dd-yyyy").format(startDate)
   val lastTime = log.getLastTime
-  val events = {
+  val entries = {
     (for (elm <- log) yield elm).toList
   }
   lazy val userNumber = {
