@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat
 import collection.mutable.HashMap
 import scala.collection.JavaConversions._
 import edu.colorado.phet.simeventprocessor.{JavaEntry, JavaEventLog}
-import edu.colorado.phet.common.phetcommon.util.function.Function1
 import java.lang.Boolean
 
 /**
@@ -25,12 +24,20 @@ class EventLog(log: JavaEventLog) {
   val startDate = new Date(epoch)
   val day = new SimpleDateFormat("MM-dd-yyyy").format(startDate)
   val lastTime = log.getLastTime
+  lazy val userNumber = {
+    try {
+      user.toInt
+    }
+    catch {
+      case nfe: NumberFormatException => -1;
+    }
+  }
 
-  def countEvents(until: Long):Int = log.getNumberOfEvents(until)
+  def countEvents(until: Long): Int = log.getNumberOfEvents(until)
 
-  def countMatches(matcher:Seq[Match], until:Long):Int = {
+  def countMatches(matcher: Seq[Match], until: Long): Int = {
     val earlyEnoughEvents = log.filter(_.timeMilliSec < until)
-    matcher.filter( matchItem => earlyEnoughEvents.find( matchItem.matches( _ )).isDefined).size
+    matcher.filter(matchItem => earlyEnoughEvents.find(matchItem.matches(_)).isDefined).size
   }
 
   override def toString = simName + " " + simVersion + " " + new Date(epoch) + " (" + epoch + "), study = " + study + ", user = " + user + ", events = " + size + ", machineID = " + machine + ", sessionID = " + session
@@ -44,10 +51,13 @@ class EventLog(log: JavaEventLog) {
     map
   }
 
-  def matches(entry:Match):Boolean = log.filter(entry.matches(_)).size>0
+  def matches(entry: Match): Boolean = log.filter(entry.matches(_)).size > 0
 
-  def findMatches(matcher: Seq[Match]):List[Match]= (for ( m <- matcher if matches(m) ) yield m).toList
+  def findMatches(matcher: Seq[Match]): List[Match] = ( for ( m <- matcher if matches(m) ) yield {
+    m
+  } ).toList
 
-  def findEvents(matcher:Match):List[JavaEntry] = log.filter( matcher.matches(_)).toList
-  def findEvents(actor:String):List[JavaEntry] = log.filter( ActorRule(actor).matches(_)).toList
+  def findEvents(matcher: Match): List[JavaEntry] = log.filter(matcher.matches(_)).toList
+
+  def findEvents(actor: String): List[JavaEntry] = log.filter(ActorRule(actor).matches(_)).toList
 }

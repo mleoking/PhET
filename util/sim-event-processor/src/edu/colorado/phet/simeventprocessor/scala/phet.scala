@@ -18,9 +18,19 @@ object phet {
     println(list mkString "\n")
   }
 
+  //Use this method for printing user id's in numerical instead of alphabetical order
+  def numerical(value:String) = {
+    try {
+      value.toInt
+    }
+    catch {
+      case nfe: NumberFormatException => -1;
+    }
+  }
+
   implicit def wrapLogSeq(i: Seq[EventLog]) = new LogSeqWrapper(i)
 
-  def timeSeries(log: EventLog, all: Seq[EventLog], value: Int => Double): XYSeries = seqSeries("Student " + all.indexOf(log), 0 to log.lastTime by 1000, value)
+  def timeSeries(log: EventLog, value: Int => Double): XYSeries = seqSeries("ID " + log.user, 0 to log.lastTime by 1000, value)
 
   def seqSeries(name: String, time: Seq[Int], value: Int => Double): XYSeries =
     new XYSeries(name) {
