@@ -1,3 +1,4 @@
+Plot filtered events vs time
 Added events for balancing-chemical-equations
 Added checking for desired events
 Started adding support for filtering based on relevant events

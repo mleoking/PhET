@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat
 import collection.mutable.HashMap
 import scala.collection.JavaConversions._
 import edu.colorado.phet.simeventprocessor.{JavaEntry, JavaEventLog}
+import edu.colorado.phet.common.phetcommon.util.function.Function1
+import java.lang.Boolean
 
 /**
  * Adds scala-convenient interface for REPL.
@@ -24,7 +26,12 @@ class EventLog(log: JavaEventLog) {
   val day = new SimpleDateFormat("MM-dd-yyyy").format(startDate)
   val lastTime = log.getLastTime
 
-  def countEvents(until: Long) = log.getNumberOfEvents(until)
+  def countEvents(until: Long):Int = log.getNumberOfEvents(until)
+
+  def countMatches(matcher:Seq[Match], until:Long):Int = {
+    val earlyEnoughEvents = log.filter(_.timeMilliSec < until)
+    matcher.filter( matchItem => earlyEnoughEvents.find( matchItem.matches( _ )).isDefined).size
+  }
 
   override def toString = simName + " " + simVersion + " " + new Date(epoch) + " (" + epoch + "), study = " + study + ", user = " + user + ", events = " + size + ", machineID = " + machine + ", sessionID = " + session
 
