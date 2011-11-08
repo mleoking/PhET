@@ -13,7 +13,7 @@ import java.util.Arrays;
  *
  * @author Sam Reid
  */
-public abstract class Processor extends Predef {
+public abstract class Processor extends JavaPredef {
 
     //Process all files in the specified directory, but not recursively
     public void processDir( File dir ) throws IOException {

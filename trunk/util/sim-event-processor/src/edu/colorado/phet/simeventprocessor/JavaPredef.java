@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 /**
  * @author Sam Reid
  */
-public class Predef implements IProguardKeepClass {
+public class JavaPredef implements IProguardKeepClass {
 
     public static void println() {
         println( "" );
@@ -31,7 +31,7 @@ public class Predef implements IProguardKeepClass {
         return new DecimalFormat( "0.00" ).format( value );
     }
 
-    public static void plot( String title, String domainAxis, String rangeAxis, final XYSeries... xySeries ) {
+    public static void plot( String title, String domainAxis, String rangeAxis, final XYSeries[] xySeries ) {
         XYPlot xyPlot = new XYPlot();
         final XYSeriesCollection dataset = new XYSeriesCollection() {{
             for ( XYSeries series : xySeries ) {
