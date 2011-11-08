@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 public class PairwiseProcessor implements IProguardKeepClass {
     public ArrayList<EntryPair> process( EventLog eventLog ) {
         ArrayList<EntryPair> entries = new ArrayList<EntryPair>();
-        Entry last = null;
-        for ( Entry eventLine : eventLog ) {
+        JavaEntry last = null;
+        for ( JavaEntry eventLine : eventLog ) {
             if ( last != null ) {
                 entries.add( new EntryPair( last, eventLine ) );
             }

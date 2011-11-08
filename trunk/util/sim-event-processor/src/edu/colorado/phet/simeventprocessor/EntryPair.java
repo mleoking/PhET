@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 /**
  * @author Sam Reid
  */
-public class EntryPair extends Pair<Entry, Entry> implements Comparable<EntryPair>, IProguardKeepClass {
+public class EntryPair extends Pair<JavaEntry, JavaEntry> implements Comparable<EntryPair>, IProguardKeepClass {
     public Long elapsedTimeMillis;
 
     //Elapsed time in seconds
@@ -17,7 +17,7 @@ public class EntryPair extends Pair<Entry, Entry> implements Comparable<EntryPai
 
     public final String brief;
 
-    public EntryPair( Entry _1, Entry _2 ) {
+    public EntryPair( JavaEntry _1, JavaEntry _2 ) {
         super( _1, _2 );
         elapsedTimeMillis = _2.timeMilliSec - _1.timeMilliSec;
         time = elapsedTimeMillis / 1000.0;
