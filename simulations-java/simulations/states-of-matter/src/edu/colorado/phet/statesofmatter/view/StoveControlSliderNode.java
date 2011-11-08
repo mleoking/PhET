@@ -58,14 +58,15 @@ public class StoveControlSliderNode extends VSliderNode {
 
     // Convenience class for create a tick mark that works for this slider.
     private static class TickMark extends PNode {
+        private static final double INDENT = 4;
         private static final double LENGTH = 10;
-        private static final Stroke STROKE = new BasicStroke( 1 );
+        private static final float STROKE_WIDTH = 2;
+        private static final Stroke STROKE = new BasicStroke( STROKE_WIDTH );
 
         private TickMark() {
-            DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 ) {
-                {
-                    lineTo( LENGTH, 0 );
-                } };
+            DoubleGeneralPath path = new DoubleGeneralPath( INDENT, STROKE_WIDTH / 2 ) {{
+                lineTo( INDENT + LENGTH, STROKE_WIDTH / 2 );
+            }};
             addChild( new PhetPPath( path.getGeneralPath(), STROKE, Color.BLACK ) );
         }
     }
