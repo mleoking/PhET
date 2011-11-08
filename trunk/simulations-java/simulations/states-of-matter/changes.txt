@@ -1,3 +1,5 @@
+# 1.08.09 (58432) Nov 8, 2011
+11/8/11 Deploying to dev for review by the design team.
 > Changed the "0" label on the middle of the stove to be just a tick mark.
 > Changed labels on stove to say "Heat" and "Cool" and internationalized these labels.
 > Modified the stove to be one large unit with a vertical slider on the front.
