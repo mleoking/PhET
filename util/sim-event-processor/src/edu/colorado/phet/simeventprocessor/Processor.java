@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Main entry point for post-processing collected data from sim events.
@@ -41,6 +42,26 @@ public abstract class Processor extends Predef {
         process( eventLog );
 
         return eventLog;
+    }
+
+    public static EventLog[] load( String file ) throws IOException {
+        return load( new File( file ) );
+    }
+
+    //Loads all logs from a directory, recursively
+    public static EventLog[] load( File file ) throws IOException {
+        ArrayList<EventLog> all = new ArrayList<EventLog>();
+        File[] f = file.listFiles();
+        for ( File aFile : f ) {
+            if ( aFile.isFile() ) {
+                EventLog parsed = parse( aFile );
+                all.add( parsed );
+            }
+            else {
+                all.addAll( Arrays.asList( load( aFile ) ) );
+            }
+        }
+        return all.toArray( new EventLog[all.size()] );
     }
 
     public static EventLog parse( File file ) throws IOException {

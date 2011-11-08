@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
@@ -165,16 +164,24 @@ public class EventLog implements Iterable<Entry> {
         return null;
     }
 
-    public Option<String> getID() {
-        return getStartMessage().get( "id" );
+    public String getID() {
+        return getStartMessage().get( "id" ).getOrElse( "None" );
     }
 
     public String getSimName() {
         return getStartMessage().get( "name" ).get();
     }
 
+    public String getSimVersion() {
+        return getStartMessage().get( "version" ).get();
+    }
+
     public String getMachineID() {
         return machineID;
+    }
+
+    public String getSessionID() {
+        return sessionID;
     }
 
     public String getStudy() {
