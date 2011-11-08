@@ -1,16 +1,22 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.statesofmatter.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
+import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -32,9 +38,9 @@ public class StoveControlSliderNode extends VSliderNode {
         super( -1, 1, value, new BooleanProperty( true ), 75 );
 
         // Show labels for add, zero, and remove.
-        addLabel( +1, new PhetPText( "Heat", LABEL_FONT ) );
-        addLabel( 0.0, new PhetPText( "-", LABEL_FONT ) );
-        addLabel( -1, new PhetPText( "Cool", LABEL_FONT ) );
+        addLabel( +1, new PhetPText( StatesOfMatterStrings.STOVE_CONTROL_PANEL_HEAT_LABEL, LABEL_FONT ) );
+        addLabel( 0.0, new TickMark() );
+        addLabel( -1, new PhetPText( StatesOfMatterStrings.STOVE_CONTROL_PANEL_COOL_LABEL, LABEL_FONT ) );
 
         // Return to 0 when the user releases the slider.
         addInputEventListener( new PBasicInputEventHandler() {
@@ -48,5 +54,19 @@ public class StoveControlSliderNode extends VSliderNode {
     // indicate the heat/coolness setting.
     @Override public Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
         return new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) trackHeight, BOTTOM_SIDE_TRACK_COLOR, false );
+    }
+
+    // Convenience class for create a tick mark that works for this slider.
+    private static class TickMark extends PNode {
+        private static final double LENGTH = 10;
+        private static final Stroke STROKE = new BasicStroke( 1 );
+
+        private TickMark() {
+            DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 ) {
+                {
+                    lineTo( LENGTH, 0 );
+                } };
+            addChild( new PhetPPath( path.getGeneralPath(), STROKE, Color.BLACK ) );
+        }
     }
 }
