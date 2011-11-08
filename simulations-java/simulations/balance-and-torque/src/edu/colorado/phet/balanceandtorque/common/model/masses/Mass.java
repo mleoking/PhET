@@ -66,7 +66,7 @@ public abstract class Mass implements UserMovableModelElement {
     final protected Vector2D animationMotionVector = new Vector2D( 0, 0 );
     // Scale factor, used primarily during animation.
     protected double animationScale = 1;
-    // Expected duration of an in-progress animation.
+    // Expected duration of an in-progress animation. //REVIEW in what time units? clock ticks?
     protected double expectedAnimationTime = 0;
 
     // Flag that indicates whether this mass should be a "mystery", meaning
@@ -162,6 +162,7 @@ public abstract class Mass implements UserMovableModelElement {
         // In the default implementation, the signal is sent that says that
         // the animation is complete, but no actual animation is done.
         // Override to implement the subclass-specific animation.
+        //REVIEW confusing, why is it necessary to do this instead of nothing?
         animatingProperty.set( true );
         animatingProperty.set( false );
     }
@@ -216,6 +217,8 @@ public abstract class Mass implements UserMovableModelElement {
     public void setAnimationDestination( Point2D animationDestination ) {
         setAnimationDestination( animationDestination.getX(), animationDestination.getY() );
     }
+
+    //REVIEW Nothing is using the default implementation, make this method abstract.
 
     /**
      * Implements any time-dependent behavior of the mass.

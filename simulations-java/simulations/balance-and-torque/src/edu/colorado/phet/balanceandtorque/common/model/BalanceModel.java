@@ -51,7 +51,7 @@ public abstract class BalanceModel implements Resettable {
         add( new SupportColumn( PLANK_HEIGHT, 1.625 ) );
     }};
 
-    // Property that controls whether two, one or zero columns are supporting the plank.
+    // Property that controls how many columns are supporting the plank.
     public final Property<ColumnState> columnState = new Property<ColumnState>( ColumnState.DOUBLE_COLUMNS );
 
     // Plank upon which the various masses can be placed.
@@ -89,6 +89,9 @@ public abstract class BalanceModel implements Resettable {
             mass.stepInTime( dt );
         }
     }
+
+    //REVIEW both subclasses do massList.add(mass), and BalanceLabModel only adds an additional observer to massList.
+    //  Make this a concrete class that calls massList.add(mass), delete IntroModel.addMass, and make BalanceModel.addMass call super.addMass.
 
     /**
      * Add a mass to the model.  Subclasses handle this somewhat differently.
