@@ -26,12 +26,19 @@ public class MonthlyReportFilter {
         allList.add( "balloons-and-static-electricity" );
         allList.add( "solutions" );
         allList.add( "licensing" );
-        allList.add( "leave:sick:family" );
-        allList.add( "leave:sick:personal" );
-        allList.add( "leave:vacation" );
+        allList.add( "ti" );
+        allList.add( "Sim data collection/processing" );
+
         allList.add( "forces-and-motion-basics" );
         allList.add( "energy-skate-park-basics" );
-        allList.add( "ti" );
+        allList.add( "balance-and-torque" );
+        allList.add( "forces-and-motion" );
+        allList.add( "fractions-intro" );
+
+        allList.add( "leave:sick:family" );
+        allList.add( "leave:sick:personal" );
+        allList.add( "leave:sick" );
+        allList.add( "leave:vacation" );
     }
 
     public ArrayList<String> getAllCategories() {
