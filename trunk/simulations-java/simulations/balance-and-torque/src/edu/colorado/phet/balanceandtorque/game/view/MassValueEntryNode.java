@@ -121,11 +121,13 @@ public class MassValueEntryNode extends PNode {
         // Submit the proposed answer to the model.
         model.checkAnswer( value );
 
-        //REVIEW I don't understand the problem that this is solving, please elaborate.
-
-        // Once an answer is submitted, set the focus back to the canvas.
-        // This was needed in order to allow the user to use the Enter key to
-        // submit and answer and then use it again to go to the next challenge.
+        // Once an answer is submitted, set the focus back to the canvas.  This
+        // was added because several users used the "Enter" key to submit their
+        // answer, and then tried to use that key again to go to the next
+        // challenge.  Without this explicit focus change, the second "Enter"
+        // key gets consumed by this node and has no effect.  By setting focus
+        // back to the canvas, the "Enter" key will work for moving to the next
+        // challenge.
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 canvas.requestFocusInWindow();
