@@ -1,9 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.test;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;

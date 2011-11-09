@@ -73,6 +73,7 @@
       <module fileurl="file://$PROJECT_DIR$/util/licensing/licensing.iml" filepath="$PROJECT_DIR$/util/licensing/licensing.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/localization-strings/localization-strings.iml" filepath="$PROJECT_DIR$/util/localization-strings/localization-strings.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/log4j/log4j.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/log4j/log4j.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/lwjgl/lwjgl.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/lwjgl/lwjgl.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/maze-game/maze-game.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/maze-game/maze-game.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" filepath="$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" />
@@ -131,6 +132,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/states-of-matter/states-of-matter.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/states-of-matter/states-of-matter.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/test-java-project/test-java-project.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/test-java-project/test-java-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/test-lwjgl-project/test-lwjgl-project.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/test-lwjgl-project/test-lwjgl-project.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/testing/testing.iml" filepath="$PROJECT_DIR$/util/testing/testing.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/the-ramp/the-ramp.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/the-ramp/the-ramp.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" />
