@@ -10,9 +10,9 @@ import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
-//REVIEW missing class doc
-
 /**
+ * Base class for PNodes that create masses in the model when clicked upon.
+ *
  * @author John Blanco
  */
 public abstract class MassCreatorNode extends ModelElementCreatorNode {
