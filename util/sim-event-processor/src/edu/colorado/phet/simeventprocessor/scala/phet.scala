@@ -3,6 +3,7 @@ package edu.colorado.phet.simeventprocessor.scala
 
 import org.jfree.data.xy.XYSeries
 import edu.colorado.phet.simeventprocessor.{JavaPredef, Processor}
+import edu.colorado.phet.simeventprocessor.scala.phet._
 
 /**
  * Functions and implicits to make the REPL easier to use
@@ -19,7 +20,7 @@ object phet {
   }
 
   //Use this method for printing user id's in numerical instead of alphabetical order
-  def numerical(value:String) = {
+  def numerical(value: String) = {
     try {
       value.toInt
     }
@@ -30,7 +31,8 @@ object phet {
 
   implicit def wrapLogSeq(i: Seq[EventLog]) = new LogSeqWrapper(i)
 
-  def timeSeries(log: EventLog, value: Int => Double): XYSeries = seqSeries("ID " + log.user, 0 to log.lastTime by 1000, value)
+  //Turning this number too high can cause it to take too long.  1000 was a good granularity, but took a bit too long for large data sets
+  def timeSeries(log: EventLog, value: Int => Double): XYSeries = seqSeries("ID " + log.user, 0 to log.lastTime by 10000, value)
 
   def seqSeries(name: String, time: Seq[Int], value: Int => Double): XYSeries =
     new XYSeries(name) {
@@ -39,8 +41,8 @@ object phet {
       }
     }
 
-  def xyplot(title: String, domainAxis: String, rangeAxis: String, xySeries: Seq[XYSeries]) {
-    JavaPredef.plot(title, domainAxis, rangeAxis, xySeries.toArray)
+  def xyplot(title: String="", domainAxis: String="", rangeAxis: String="", dataSets: Seq[XYSeries]) {
+    JavaPredef.plot(title, domainAxis, rangeAxis, dataSets.toArray)
   }
 
   def barchart(title: String, domainAxis: String, rangeAxis: String, xySeries: Seq[XYSeries]) {
@@ -48,8 +50,8 @@ object phet {
   }
 }
 
-class LogSeqWrapper(log: Seq[EventLog]) {
+class LogSeqWrapper(selectedLogs: Seq[EventLog]) {
   def print() {
-    println(log mkString "\n")
+    println(selectedLogs mkString "\n")
   }
 }
