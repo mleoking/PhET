@@ -99,7 +99,7 @@ public abstract class BalanceModel implements Resettable {
      * @param mass
      * @return
      */
-    public abstract UserMovableModelElement addMass( final Mass mass );
+    public abstract void addMass( final Mass mass );
 
     /**
      * Removes a mass right from the mass list.

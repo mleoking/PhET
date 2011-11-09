@@ -4,7 +4,6 @@ package edu.colorado.phet.balanceandtorque.balancelab.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -34,9 +33,7 @@ public class BalanceLabModel extends BalanceModel {
     // Methods
     //------------------------------------------------------------------------
 
-    //REVIEW return values is never used, and it's odd that this returns the same thing it was passed but with a less-specific type. Recommend returning void.
-    @Override public UserMovableModelElement addMass( final Mass mass ) {
-        //REVIEW this update method is fired on registration, so shouldn't you add the mass to the list before adding the observer?
+    @Override public void addMass( final Mass mass ) {
         mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
                 if ( !isUserControlled && wasUserControlled ) {
@@ -51,7 +48,6 @@ public class BalanceLabModel extends BalanceModel {
             }
         } );
         massList.add( mass );
-        return mass;
     }
 
     @Override public void reset() {

@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.FireExtinguisher;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.SmallTrashCan;
@@ -35,23 +34,8 @@ public class IntroModel extends BalanceModel {
     //------------------------------------------------------------------------
 
     // Adds a mass to the model.
-    @Override public UserMovableModelElement addMass( final Mass mass ) {
-        //REVIEW delete dead code
-//        mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
-//            public void update( Boolean newValue, Boolean oldValue ) {
-//                if ( oldValue && !newValue ) {
-//                    // The user has dropped this mass.
-//                    if ( !plank.addMassToSurface( mass ) ) {
-//                        // The attempt to add mass to surface of plank failed,
-//                        // probably because mass was dropped somewhere other
-//                        // than over the plank.
-//                        mass.setPosition( mass.getPosition().getX(), 0 );
-//                    }
-//                }
-//            }
-//        } );
+    @Override public void addMass( final Mass mass ) {
         massList.add( mass );
-        return mass;
     }
 
     public void reset() {
