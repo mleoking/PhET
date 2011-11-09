@@ -12,9 +12,12 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
-//REVIEW missing javadoc
-
 /**
+ * Common drag handler for mass nodes.  Positions the corresponding model
+ * element based on the movement of the mouse, and also sets and clears the
+ * property that indicates whether or not the mass is being controlled by the
+ * user.
+ *
  * @author John Blanco
  */
 public class MassDragHandler extends PDragEventHandler {
