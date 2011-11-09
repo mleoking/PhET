@@ -25,4 +25,8 @@ public class LabeledImageMass extends ImageMass {
     public String getLabelText() {
         return labelText;
     }
+
+    @Override public Mass createCopy() {
+        return new LabeledImageMass( getMass(), imageProperty.get(), heightProperty.get(), positionProperty.get(), labelText, isMystery() );
+    }
 }

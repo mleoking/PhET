@@ -4,7 +4,6 @@ package edu.colorado.phet.balanceandtorque.balancelab.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.MysteryObjectFactory;
 import edu.colorado.phet.balanceandtorque.common.view.LabeledImageMassNode;
@@ -21,22 +20,14 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  */
 public class MysteryObjectCreatorNode extends ImageMassCreatorNode {
 
-    private final int mysteryObjectID;
-
     // Model-view transform for scaling the node used in the tool box.  This
     // may scale the node differently than what is used in the model.
     protected static final ModelViewTransform SCALING_MVT =
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 200 );
 
     public MysteryObjectCreatorNode( int mysteryObjectID, final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas );
-        this.mysteryObjectID = mysteryObjectID;
-        LabeledImageMass mysteryObject = MysteryObjectFactory.createLabeledMysteryObject( mysteryObjectID );
-        setSelectionNode( new LabeledImageMassNode( SCALING_MVT, mysteryObject, canvas, new BooleanProperty( false ) ) );
-        setPositioningOffset( 0, -mvt.modelToViewDeltaY( mysteryObject.getHeight() / 2 ) );
-    }
-
-    @Override protected ImageMass createImageMassInstance() {
-        return MysteryObjectFactory.createLabeledMysteryObject( mysteryObjectID );
+        super( model, mvt, canvas, MysteryObjectFactory.createLabeledMysteryObject( mysteryObjectID ), false );
+        setSelectionNode( new LabeledImageMassNode( SCALING_MVT, (LabeledImageMass) prototypeImageMass, canvas, new BooleanProperty( false ) ) );
+        setPositioningOffset( 0, -mvt.modelToViewDeltaY( prototypeImageMass.getHeight() / 2 ) );
     }
 }
