@@ -9,16 +9,12 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
-import edu.colorado.phet.balanceandtorque.balancelab.view.ImageMassNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.MysteryVectorNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.PositionedVectorNode;
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
-import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
 import edu.colorado.phet.balanceandtorque.common.model.SupportColumn;
-import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
-import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -96,26 +92,8 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         // Whenever a mass is added to the model, create a graphic for it.
         model.massList.addElementAddedObserver( new VoidFunction1<Mass>() {
             public void apply( final Mass mass ) {
-                //REVIEW especially since this is a base class, it would be nice to encapsulate this conditional logic and casting in a MassFactory.
-                //  public MassFactory(mvt,this,massLabelVisibilityProperty)
-                //  public PNode createMassNode(mass)
-
                 // Create and add the view representation for this mass.
-                PNode massNode = null;
-                if ( mass instanceof ShapeMass ) {
-                    massNode = new BrickStackNode( (ShapeMass) mass, mvt, BasicBalanceCanvas.this, massLabelVisibilityProperty );
-                }
-                else if ( mass instanceof LabeledImageMass ) {
-                    // These are mystery objects.
-                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BasicBalanceCanvas.this, massLabelVisibilityProperty );
-                }
-                else if ( mass instanceof ImageMass ) {
-                    massNode = new ImageMassNode( mvt, (ImageMass) mass, BasicBalanceCanvas.this, massLabelVisibilityProperty );
-                }
-                else {
-                    System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
-                    assert false;
-                }
+                PNode massNode = MassNodeFactory.createMassNode( mass, massLabelVisibilityProperty, mvt, BasicBalanceCanvas.this );
                 massesLayer.addChild( massNode );
 
                 // Add the removal listener for if and when this mass is removed from the model.
