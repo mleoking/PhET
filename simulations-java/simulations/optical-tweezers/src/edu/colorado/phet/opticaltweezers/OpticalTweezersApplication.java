@@ -13,7 +13,11 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.opticaltweezers.module.dna.DNAModule;
 import edu.colorado.phet.opticaltweezers.module.motors.MotorsModule;
 import edu.colorado.phet.opticaltweezers.module.physics.PhysicsModule;
-import edu.colorado.phet.opticaltweezers.persistence.*;
+import edu.colorado.phet.opticaltweezers.persistence.DNAConfig;
+import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
+import edu.colorado.phet.opticaltweezers.persistence.MotorsConfig;
+import edu.colorado.phet.opticaltweezers.persistence.OpticalTweezersConfig;
+import edu.colorado.phet.opticaltweezers.persistence.PhysicsConfig;
 
 /**
  * OpticalTweezersApplication is the main application for the "Optical Tweezers" flavor.
@@ -37,11 +41,6 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
     // Constructors
     //----------------------------------------------------------------------------
 
-    /**
-     * Sole constructor.
-     *
-     * @param args command line arguments
-     */
     public OpticalTweezersApplication( PhetApplicationConfig config ) {
         super( config );
     }
@@ -56,7 +55,7 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
     protected void initModules() {
 
         final PhetFrame frame = getPhetFrame();
-        
+
         _physicsModule = new PhysicsModule( frame );
         addModule( _physicsModule );
 
@@ -77,23 +76,23 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
     public void save() {
 
         OpticalTweezersConfig appConfig = new OpticalTweezersConfig();
-        
+
         GlobalConfig globalConfig = appConfig.getGlobalConfig();
         globalConfig.setVersionString( getSimInfo().getVersion().toString() );
         globalConfig.setVersionMajor( getSimInfo().getVersion().getMajor() );
         globalConfig.setVersionMinor( getSimInfo().getVersion().getMinor() );
         globalConfig.setVersionDev( getSimInfo().getVersion().getDev() );
         globalConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
-        
+
         PhysicsConfig physicsConfig = _physicsModule.save();
         appConfig.setPhysicsConfig( physicsConfig );
-        
+
         DNAConfig dnaConfig = _dnaModule.save();
         appConfig.setDNAConfig( dnaConfig );
-        
+
         MotorsConfig motorsConfig = _motorsModule.save();
         appConfig.setMotorsConfig( motorsConfig );
-        
+
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( getPhetFrame() );
         }
@@ -108,7 +107,7 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( getPhetFrame() );
         }
-        
+
         Object object = _persistenceManager.load();
         if ( object != null ) {
             if ( object instanceof OpticalTweezersConfig ) {
@@ -129,13 +128,13 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) {
-        
+
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new OpticalTweezersApplication( config );
             }
         };
-        
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, OTConstants.PROJECT_NAME, OTConstants.FLAVOR_OPTICAL_TWEEZERS );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
