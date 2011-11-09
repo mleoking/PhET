@@ -693,8 +693,21 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
      * @author John Blanco
      */
     public static class CenteredStage implements TransformStrategy {
+
+        // The default stage size is for a sim with menu bar, tabs, and no
+        // control panel.  It was determined by running a sim that was set up
+        // in this way and measuring (programmatically) the resulting canvas
+        // dimensions.
+        public static final Dimension2D DEFAULT_STAGE_SIZE = new PDimension( 1008, 679 );
+
         private PhetPCanvas canvas;
         private Dimension2D stageSize;
+
+        public CenteredStage( PhetPCanvas canvas ) {
+            // Create this strategy using the default stage size.
+            this( canvas, DEFAULT_STAGE_SIZE );
+
+        }
 
         public CenteredStage( PhetPCanvas canvas, Dimension2D stageSize ) {
             this.canvas = canvas;

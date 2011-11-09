@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
@@ -44,10 +43,10 @@ import edu.colorado.phet.common.piccolophet.nodes.OutlinePText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.*;
+import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
 /**
  * Canvas for the balance game.
@@ -60,12 +59,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // Class Data
     //-------------------------------------------------------------------------
 
-    // Overall size of the "stage", which is essentially the play area.
-    private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
-
     // Constants that control the appearance of the happy and sad faces, used
     // to provide feedback to the user.
-    private static final double FACE_DIAMETER = STAGE_SIZE.getWidth() * 0.30;
+    private static final double FACE_DIAMETER = DEFAULT_STAGE_SIZE.getWidth() * 0.30;
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     private static final Color EYE_AND_MOUTH_COLOR = new Color( 0, 0, 0, 100 ); // translucent gray
 
@@ -130,7 +126,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         this.model = model;
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
+        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this ) );
 
         // Set up the model-canvas transform.  The multiplier factors for the
         // 2nd point can be adjusted to shift the center right or left, and the
@@ -138,7 +134,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // out, larger ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.40 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
+                new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.40 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.75 ) ),
                 150 );
 
         // Root of our scene graph
@@ -202,8 +198,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
         };
         gameSettingsNode = new PSwing( new GameSettingsPanel( model.gameSettings, startFunction, Color.YELLOW ) ) {{
             scale( 1.5 );
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
-                       STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
+            setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
+                       DEFAULT_STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
 
         }};
         rootNode.addChild( gameSettingsNode );
@@ -218,7 +214,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Create and add the game scoreboard.
         scoreboard = new GameScoreboardNode( BalanceGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
             setConfirmNewGame( false );
-            setBackgroundWidth( STAGE_SIZE.getWidth() * 0.85 );
+            setBackgroundWidth( DEFAULT_STAGE_SIZE.getWidth() * 0.85 );
             model.getClock().addClockListener( new ClockAdapter() {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
@@ -256,8 +252,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
         } );
 
         // Add the scoreboard.
-        scoreboard.setOffset( STAGE_SIZE.getWidth() / 2 - scoreboard.getFullBoundsReference().width / 2,
-                              STAGE_SIZE.getHeight() - scoreboard.getFullBoundsReference().height - 20 );
+        scoreboard.setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - scoreboard.getFullBoundsReference().width / 2,
+                              DEFAULT_STAGE_SIZE.getHeight() - scoreboard.getFullBoundsReference().height - 20 );
         rootNode.addChild( scoreboard );
 
         // Add the title.  It is blank to start with, and is updated later at
@@ -494,7 +490,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
             challengeTitleNode.setText( "No challenge available." );
         }
         challengeTitleNode.setOffset( mvt.modelToViewX( 0 ) - challengeTitleNode.getFullBoundsReference().width / 2,
-                                      STAGE_SIZE.getHeight() * 0.15 - challengeTitleNode.getFullBoundsReference().height / 2 );
+                                      DEFAULT_STAGE_SIZE.getHeight() * 0.15 - challengeTitleNode.getFullBoundsReference().height / 2 );
     }
 
     private void hideChallenge() {
@@ -523,8 +519,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
                                          convertSecondsToMilliseconds( model.getTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ),
                                          model.isNewBestTime(), model.gameSettings.timerEnabled.get() ) {{
             scale( 1.5 );
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
-                       STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
+            setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
+                       DEFAULT_STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
             addGameOverListener( new GameOverNode.GameOverListener() {
                 public void newGamePressed() {
                     model.showGameInitDialog();
