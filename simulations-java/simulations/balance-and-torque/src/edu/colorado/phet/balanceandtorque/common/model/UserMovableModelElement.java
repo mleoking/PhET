@@ -13,6 +13,9 @@ public interface UserMovableModelElement {
 
     void setPosition( Point2D p );
 
-    //REVIEW the other methods are obvious, but this one is not, please doc
+    /**
+     * Method that is called when the user releases the element, i.e. they had
+     * been dragging it with the mouse and then let it go.
+     */
     void release();
 }
