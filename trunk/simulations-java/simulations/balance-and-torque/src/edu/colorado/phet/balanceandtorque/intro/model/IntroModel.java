@@ -33,11 +33,6 @@ public class IntroModel extends BalanceModel {
     // Methods
     //------------------------------------------------------------------------
 
-    // Adds a mass to the model.
-    @Override public void addMass( final Mass mass ) {
-        massList.add( mass );
-    }
-
     public void reset() {
         super.reset();
 
