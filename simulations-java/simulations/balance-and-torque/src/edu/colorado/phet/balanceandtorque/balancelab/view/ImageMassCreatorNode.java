@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
@@ -16,16 +17,15 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  * @author John Blanco
  */
 public abstract class ImageMassCreatorNode extends MassCreatorNode {
-    public ImageMassCreatorNode( final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas );
-    }
+    protected final ImageMass prototypeImageMass;
 
-    public ImageMassCreatorNode( final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, double mass ) {
-        super( model, mvt, canvas, mass );
+    public ImageMassCreatorNode( final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, ImageMass prototypeImageMass, boolean showMassLabel ) {
+        super( model, mvt, canvas, prototypeImageMass.getMass(), showMassLabel );
+        this.prototypeImageMass = prototypeImageMass;
     }
 
     @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
-        ImageMass imageMassModelElement = createImageMassInstance();
+        Mass imageMassModelElement = createImageMassInstance();
         imageMassModelElement.setPosition( position );
         imageMassModelElement.setAnimationDestination( position );
         imageMassModelElement.userControlled.set( true );
@@ -39,5 +39,7 @@ public abstract class ImageMassCreatorNode extends MassCreatorNode {
      *
      * @return
      */
-    protected abstract ImageMass createImageMassInstance();
+    protected Mass createImageMassInstance() {
+        return prototypeImageMass.createCopy();
+    }
 }

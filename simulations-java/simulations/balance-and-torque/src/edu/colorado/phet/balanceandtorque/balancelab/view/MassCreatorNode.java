@@ -20,27 +20,19 @@ public abstract class MassCreatorNode extends ModelElementCreatorNode {
     private static Format MASS_FORMATTER = new DecimalFormat( "###" );
 
     /**
-     * Constructor that creates a version that is unlabeled.
-     *
-     * @param model
-     * @param mvt
-     * @param canvas
-     */
-    public MassCreatorNode( final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas );
-    }
-
-    /**
      * Constructor that creates a version that is labeled with the mass.
      *
      * @param model
      * @param mvt
      * @param canvas
      * @param mass
+     * @param showMassLabel
      */
-    public MassCreatorNode( final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, double mass ) {
+    public MassCreatorNode( final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas, double mass, boolean showMassLabel ) {
         super( model, mvt, canvas );
-        String valueText = MASS_FORMATTER.format( mass );
-        setCaption( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, valueText, BalanceAndTorqueResources.Strings.KG ) );
+        if ( showMassLabel ) {
+            String valueText = MASS_FORMATTER.format( mass );
+            setCaption( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, valueText, BalanceAndTorqueResources.Strings.KG ) );
+        }
     }
 }

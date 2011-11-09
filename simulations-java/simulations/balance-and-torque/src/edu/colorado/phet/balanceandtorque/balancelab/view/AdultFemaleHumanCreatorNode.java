@@ -25,12 +25,11 @@ public class AdultFemaleHumanCreatorNode extends ImageMassCreatorNode {
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 120 );
 
     public AdultFemaleHumanCreatorNode( final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas, Woman.MASS );
-        ImageMass adultFemaleHuman = new Woman();
-        setSelectionNode( new ImageMassNode( SCALING_MVT, adultFemaleHuman, canvas, new BooleanProperty( false ) ) );
+        super( model, mvt, canvas, new Woman(), true );
+        setSelectionNode( new ImageMassNode( SCALING_MVT, prototypeImageMass, canvas, new BooleanProperty( false ) ) );
         // Set the positioning offset slightly off center so users don't appear
-        // to be holding him in a - well - sensitive area.
-        setPositioningOffset( 0, -mvt.modelToViewDeltaY( adultFemaleHuman.getHeight() * 0.6 ) );
+        // to be holding her in a - well - sensitive area.
+        setPositioningOffset( 0, -mvt.modelToViewDeltaY( prototypeImageMass.getHeight() * 0.6 ) );
     }
 
     @Override protected ImageMass createImageMassInstance() {

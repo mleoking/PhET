@@ -46,7 +46,7 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                ),
                new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.PEOPLE, "1" ) ),
                                new HBox(
-                                       new AdolescentBoyCreatorNode( model, mvt, canvas ),
+                                       new BoyCreatorNode( model, mvt, canvas ),
                                        new AdultMaleHumanCreatorNode( model, mvt, canvas )
                                )
                ),

@@ -28,7 +28,7 @@ public class BrickStackCreatorNode extends MassCreatorNode {
     private final int numBricks;
 
     public BrickStackCreatorNode( int numBricks, final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas, numBricks * BrickStack.BRICK_MASS );
+        super( model, mvt, canvas, numBricks * BrickStack.BRICK_MASS, true );
         this.numBricks = numBricks;
         setSelectionNode( new BrickStackNode( new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ), SCALING_MVT, canvas, new BooleanProperty( false ) ) );
         setPositioningOffset( 0, -mvt.modelToViewDeltaY( BrickStack.BRICK_HEIGHT * numBricks / 2 ) );
