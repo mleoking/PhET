@@ -25,8 +25,6 @@ public class MysteryVectorNode extends PNode {
     private static final int FONT_SIZE = 36;
     private static final double Y_DIST_FROM_POSITION = 15; // In screen units.
 
-    //REVIEW missing param fillColor in javadoc, fillColor is not used.
-
     /**
      * Constructor.
      *
@@ -35,7 +33,7 @@ public class MysteryVectorNode extends PNode {
      * @param mvt
      */
     public MysteryVectorNode( final Property<PositionedVector> positionedVectorProperty,
-                              BooleanProperty visibilityProperty, final Color fillColor, final ModelViewTransform mvt ) {
+                              BooleanProperty visibilityProperty, final ModelViewTransform mvt ) {
         // Create the label and add it as a child.
         final OutlinePText mysterySymbolNode = new OutlinePText( BalanceAndTorqueResources.Strings.UNKNOWN_MASS_LABEL, new PhetFont( FONT_SIZE, true ), Color.WHITE, Color.BLACK, 1 );
         addChild( mysterySymbolNode );
