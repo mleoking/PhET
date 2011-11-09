@@ -8,9 +8,10 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
-//REVIEW missing class doc
-
 /**
+ * Class that defines the attachment bar, which is the model element that
+ * attaches the pivot point to the plank.
+ *
  * @author John Blanco
  */
 public class AttachmentBar extends ShapeModelElement {
