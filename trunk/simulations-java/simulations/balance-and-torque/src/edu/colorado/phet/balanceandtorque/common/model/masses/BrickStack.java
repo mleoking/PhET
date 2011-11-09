@@ -98,7 +98,7 @@ public class BrickStack extends ShapeMass {
         }
     }
 
-    @Override public Mass clone() {
+    @Override public Mass createCopy() {
         return new BrickStack( numBricks, getPosition() );
     }
 }

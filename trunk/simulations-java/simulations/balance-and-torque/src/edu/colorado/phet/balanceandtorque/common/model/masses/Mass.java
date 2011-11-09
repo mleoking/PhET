@@ -235,5 +235,5 @@ public abstract class Mass implements UserMovableModelElement {
     // Instead, use a copy constructor or copy factory - and your 2 implementations of this are in
     // fact similar to copy constructors (BrickStack) and copy factories (ImageMass).
     // So I would rename this to something other than "clone" to avoid the issue.
-    public abstract Mass clone();
+    public abstract Mass createCopy();
 }
