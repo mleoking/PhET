@@ -1,3 +1,4 @@
+11/9/2011 Simsharing, added flag ALLOW_CONNECTION for debugging, if this is set to false, then it won't send messages to the server, but will still print them to the console
 11/8/2011 Added NullClient for offline testing, see #3136
 11/4/2011 Report on the number of messages sent for purposes of error-checking and verifying that no messages were dropped, see #3136
 11/4/2011 Overrode Some.equals, Some.hashCode and None.equals

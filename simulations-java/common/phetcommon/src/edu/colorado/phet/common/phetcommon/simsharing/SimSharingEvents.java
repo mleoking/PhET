@@ -48,7 +48,7 @@ public class SimSharingEvents {
     private static boolean printedColumns;
 
     //Actor for sending messages to the server
-    private static ThreadedActor client;
+    private static IActor client;
 
     //Flag indicating whether messages should be sent to the server
     private static boolean enabled = false;
@@ -70,6 +70,9 @@ public class SimSharingEvents {
 
     //Number of delivered messages, for cross-checking that no messages were dropped
     public static int messageCount = 0;
+
+    //Flag for debugging, if this is set to false, then it won't send messages to the server, but will still print them to the console
+    private static final boolean ALLOW_CONNECTION = true;
 
     //Determine whether the sim should try to send event messages to the server
     public static boolean isEnabled() {
@@ -177,7 +180,9 @@ public class SimSharingEvents {
             public void run() {
                 //Create the actor, but fail gracefully if cannot connect
                 try {
-                    client = new ThreadedActor( new DefaultActor() );
+                    client = ( !ALLOW_CONNECTION ?
+                               new NullClient() :
+                               new ThreadedActor( new DefaultActor() ) );
                 }
                 catch ( ClassNotFoundException e ) {
                     e.printStackTrace();
