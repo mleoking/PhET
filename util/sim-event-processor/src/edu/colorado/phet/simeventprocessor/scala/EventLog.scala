@@ -7,7 +7,6 @@ import collection.mutable.HashMap
 import scala.collection.JavaConversions._
 import edu.colorado.phet.simeventprocessor.{JavaEntry, JavaEventLog}
 import java.lang.Boolean
-import edu.colorado.phet.simeventprocessor.scala.phet._
 
 /**
  * Adds scala-convenient interface for REPL.
@@ -25,6 +24,8 @@ class EventLog(log: JavaEventLog) {
   val startDate = new Date(epoch)
   val day = new SimpleDateFormat("MM-dd-yyyy").format(startDate)
   val lastTime = log.getLastTime
+  val osName = log.getOSName
+  val osVersion = log.getOSVersion
   val entries = {
     ( for ( elm <- log ) yield {
       elm
@@ -75,16 +76,18 @@ class EventLog(log: JavaEventLog) {
 
   lazy val eventCountData = phet.timeSeries(this, countEvents(_))
 
-//  val importantEvents = simLogs.map(log => timeSeries(log, log.countMatches(simEventMap(sim), _)))
-  def countEvents(matcher:Seq[Match]) = phet.timeSeries(this,countMatches(matcher,_))
+  //  val importantEvents = simLogs.map(log => timeSeries(log, log.countMatches(simEventMap(sim), _)))
+  def countEvents(matcher: Seq[Match]) = phet.timeSeries(this, countMatches(matcher, _))
 
-  private def containsParameters(e:JavaEntry, pairs:Seq[Pair[String,String]]):Boolean = {
+  private def containsParameters(e: JavaEntry, pairs: Seq[Pair[String, String]]): Boolean = {
     for ( p <- pairs ) {
-      if (!e.hasParameter(p._1,p._2)) return false
+      if ( !e.hasParameter(p._1, p._2) ) {
+        return false
+      }
     }
     true
   }
 
-  def contains(actor:String,event:String, pairs:Pair[String,String]*) = log.find( (e:JavaEntry)  => e.actor==actor && e.event==event && containsParameters(e,pairs) ).isDefined
+  def contains(actor: String, event: String, pairs: Pair[String, String]*) = log.find((e: JavaEntry) => e.actor == actor && e.event == event && containsParameters(e, pairs)).isDefined
 
 }
