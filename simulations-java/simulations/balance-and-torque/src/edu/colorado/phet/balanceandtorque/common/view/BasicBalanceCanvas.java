@@ -156,7 +156,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
                 // Add a representation for the new vector.
                 final PNode forceVectorNode;
                 if ( addedMassForceVector.isObfuscated() ) {
-                    forceVectorNode = new MysteryVectorNode( addedMassForceVector.forceVectorProperty, forceVectorsFromObjectsVisibleProperty, Color.WHITE, mvt );
+                    forceVectorNode = new MysteryVectorNode( addedMassForceVector.forceVectorProperty, forceVectorsFromObjectsVisibleProperty, mvt );
                 }
                 else {
                     forceVectorNode = new PositionedVectorNode( addedMassForceVector.forceVectorProperty,

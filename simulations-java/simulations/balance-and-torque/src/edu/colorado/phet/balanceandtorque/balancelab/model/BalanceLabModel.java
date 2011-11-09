@@ -34,6 +34,7 @@ public class BalanceLabModel extends BalanceModel {
     //------------------------------------------------------------------------
 
     @Override public void addMass( final Mass mass ) {
+        super.addMass( mass );
         mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
                 if ( !isUserControlled && wasUserControlled ) {
@@ -47,7 +48,6 @@ public class BalanceLabModel extends BalanceModel {
                 }
             }
         } );
-        massList.add( mass );
     }
 
     @Override public void reset() {
