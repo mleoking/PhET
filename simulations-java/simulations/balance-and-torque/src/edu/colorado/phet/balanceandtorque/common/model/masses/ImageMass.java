@@ -79,13 +79,6 @@ public class ImageMass extends Mass {
         observer.apply( imageProperty.get() );
     }
 
-
-    //REVIEW Why do you need this when positionProperty is public? Or should positionProperty be protected?
-    // And positionProperty is a field in the superclass, so why isn't this method in the superclass?
-    public void addPositionChangeObserver( VoidFunction1<Point2D> observer ) {
-        positionProperty.addObserver( observer );
-    }
-
     public void addHeightChangeObserver( VoidFunction1<Double> observer ) {
         heightProperty.addObserver( observer );
     }
