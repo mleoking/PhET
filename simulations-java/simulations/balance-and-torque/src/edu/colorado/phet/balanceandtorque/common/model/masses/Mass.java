@@ -229,9 +229,7 @@ public abstract class Mass implements UserMovableModelElement {
      *
      * @param dt - Time change since last call.
      */
-    public void stepInTime( double dt ) {
-        // Default implementation does nothing.
-    }
+    public abstract void stepInTime( double dt );
 
     //REVIEW: There are many problems with overriding Object.clone, as enumerated in Effective Java, Item 11 (Joshua Bloch).
     // You can download the relevant chapter at java.sun.com/developer/Books/effectivejava/Chapter3.pdf
