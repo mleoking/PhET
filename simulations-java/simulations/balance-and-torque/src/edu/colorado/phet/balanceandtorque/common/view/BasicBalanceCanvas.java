@@ -84,12 +84,10 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
-        //REVIEW This is not a layer; this is a node that delineates a branch of the scenegraph.
         // Set up a layer for the non-mass model elements.
         nonMassLayer = new PNode();
         rootNode.addChild( nonMassLayer );
 
-        //REVIEW This is not a layer; this is a node that delineates a branch of the scenegraph.
         // Set up a separate layer for the masses so that they will be out in
         // front of the other elements of the model.
         final PNode massesLayer = new PNode();
