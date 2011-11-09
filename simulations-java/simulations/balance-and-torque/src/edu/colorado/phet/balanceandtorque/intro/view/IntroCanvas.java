@@ -24,7 +24,6 @@ public class IntroCanvas extends BasicBalanceCanvas {
                 // "stage" so that it isn't permanently dragged off of the screen.
                 mass.userControlled.addObserver( new ChangeObserver<Boolean>() {
                     public void update( Boolean newValue, Boolean oldValue ) {
-                        //REVIEW possible bug? shouldn't this be (( oldValue && !newValue ) && !newValue)
                         if ( oldValue && !newValue ) {
                             // The user has dropped this mass.
                             if ( !model.getPlank().addMassToSurface( mass ) ) {
