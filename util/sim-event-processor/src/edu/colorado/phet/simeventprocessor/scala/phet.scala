@@ -41,7 +41,11 @@ object phet {
       }
     }
 
-  def xyplot(title: String="", domainAxis: String="", rangeAxis: String="", dataSets: Seq[XYSeries]) {
+  def xyplot(dataSets: Seq[XYSeries]) {
+    xyplot("Title","x-axis","y-axis",dataSets)
+  }
+
+  def xyplot(title: String, domainAxis: String, rangeAxis: String, dataSets: Seq[XYSeries]) {
     JavaPredef.plot(title, domainAxis, rangeAxis, dataSets.toArray)
   }
 
