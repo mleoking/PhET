@@ -222,8 +222,6 @@ public abstract class Mass implements UserMovableModelElement {
         setAnimationDestination( animationDestination.getX(), animationDestination.getY() );
     }
 
-    //REVIEW Nothing is using the default implementation, make this method abstract.
-
     /**
      * Implements any time-dependent behavior of the mass.
      *
