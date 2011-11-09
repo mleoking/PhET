@@ -13,15 +13,13 @@ import edu.colorado.phet.common.phetcommon.application.Module;
  */
 public class BalanceGameModule extends Module {
 
-    //REVIEW move setClockControlPanel to private constructor
     public BalanceGameModule() {
         this( new BalanceGameModel() );
-        setClockControlPanel( null );
     }
 
-    //REVIEW why is there no call to getModulePanel().setLogoPanel( null ), as in other modules?
     private BalanceGameModule( BalanceGameModel model ) {
         super( BalanceAndTorqueResources.Strings.GAME, model.getClock() );
+        setClockControlPanel( null );
         setSimulationPanel( new BalanceGameCanvas( model ) );
     }
 }
