@@ -4,7 +4,6 @@ package edu.colorado.phet.balanceandtorque.common.view;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
@@ -32,9 +31,10 @@ import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNo
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
+
+import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
 /**
  * Canvas that displays items in the balance model, primarily the balance
@@ -45,9 +45,6 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
  */
 public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettable {
 
-    //REVIEW These magic numbers are repeated in many sim, and with no documentation about how they were derived.
-    // Consider creating a new CenteredStage constructor that uses these as the default dimensions?
-    protected static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     protected final ModelViewTransform mvt;
 
     public final BooleanProperty massLabelVisibilityProperty = new BooleanProperty( true );
@@ -60,7 +57,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
     public BasicBalanceCanvas( final BalanceModel model ) {
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
+        setWorldTransformStrategy( new CenteredStage( this ) );
 
         // Set up the model-canvas transform.
         //
@@ -70,7 +67,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.4 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
+                new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.4 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.75 ) ),
                 150 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set up a root node for our scene graph.
@@ -191,7 +188,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
             addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.FORCES_FROM_OBJECTS, forceVectorsFromObjectsVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.LEVEL, levelIndicatorVisibleProperty ) );
         }} );
-        controlPanel.setOffset( STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width - 20, 100 );
+        controlPanel.setOffset( DEFAULT_STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width - 20, 100 );
         nonMassLayer.addChild( controlPanel );
 
         // Add the Reset All button.
