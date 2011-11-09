@@ -66,7 +66,8 @@ public abstract class Mass implements UserMovableModelElement {
     final protected Vector2D animationMotionVector = new Vector2D( 0, 0 );
     // Scale factor, used primarily during animation.
     protected double animationScale = 1;
-    // Expected duration of an in-progress animation. //REVIEW in what time units? clock ticks?
+    // Expected duration of an in-progress animation in sim time, which should
+    // be seconds.
     protected double expectedAnimationTime = 0;
 
     // Flag that indicates whether this mass should be a "mystery", meaning
