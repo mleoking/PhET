@@ -14,16 +14,11 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
-import edu.colorado.phet.balanceandtorque.balancelab.view.ImageMassNode;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.masses.BrickStack;
-import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
-import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.common.view.BrickStackNode;
 import edu.colorado.phet.balanceandtorque.common.view.FulcrumAbovePlankNode;
-import edu.colorado.phet.balanceandtorque.common.view.LabeledImageMassNode;
 import edu.colorado.phet.balanceandtorque.common.view.LevelIndicatorNode;
+import edu.colorado.phet.balanceandtorque.common.view.MassNodeFactory;
 import edu.colorado.phet.balanceandtorque.common.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
 import edu.colorado.phet.balanceandtorque.common.view.TiltedSupportColumnNode;
@@ -544,21 +539,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }
 
     private PNode createMassNode( Mass mass ) {
-        PNode massNode = null;
-        if ( mass instanceof BrickStack ) {
-            massNode = new BrickStackNode( (BrickStack) mass, mvt, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
-        }
-        else if ( mass instanceof LabeledImageMass ) {
-            massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
-        }
-        else if ( mass instanceof ImageMass ) {
-            massNode = new ImageMassNode( mvt, (ImageMass) mass, BalanceGameCanvas.this, new BooleanProperty( !mass.isMystery() ) );
-        }
-        else {
-            System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
-            assert false;
-        }
-        return massNode;
+        return MassNodeFactory.createMassNode( mass, new BooleanProperty( !mass.isMystery() ), mvt, this );
     }
 
     // Utility method for converting seconds to milliseconds, which is needed
