@@ -90,9 +90,6 @@ public abstract class BalanceModel implements Resettable {
         }
     }
 
-    //REVIEW both subclasses do massList.add(mass), and BalanceLabModel only adds an additional observer to massList.
-    //  Make this a concrete class that calls massList.add(mass), delete IntroModel.addMass, and make BalanceModel.addMass call super.addMass.
-
     /**
      * Add a mass to the model.  Subclasses handle this somewhat differently.
      *
