@@ -43,7 +43,7 @@ public abstract class Mass implements UserMovableModelElement {
     // Property that contains the position in model space.  By convention for
     // this simulation, the position of a mass is the center bottom of the
     // model object.
-    final public Property<Point2D> positionProperty;
+    final protected Property<Point2D> positionProperty;
 
     // Property that contains the rotational angle, in radians, of the model
     // element.  By convention for this simulation, the point of rotation is

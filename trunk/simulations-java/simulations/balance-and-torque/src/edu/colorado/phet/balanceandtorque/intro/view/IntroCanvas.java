@@ -39,7 +39,7 @@ public class IntroCanvas extends BasicBalanceCanvas {
                                 else {
                                     // Mass is off stage.  Return it to its
                                     // original position.
-                                    mass.positionProperty.reset();
+                                    mass.resetPosition();
                                 }
                             }
                         }
