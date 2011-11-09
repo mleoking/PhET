@@ -34,15 +34,4 @@ public abstract class ShapeMass extends Mass {
         middlePoint.add( new ImmutableVector2D( getPosition() ) );
         return middlePoint.toPoint2D();
     }
-
-    //REVIEW delete unused method?
-
-    /**
-     * Get the basic, untranslated shape of this mass.
-     *
-     * @return
-     */
-    public Shape getShape() {
-        return shape;
-    }
 }
