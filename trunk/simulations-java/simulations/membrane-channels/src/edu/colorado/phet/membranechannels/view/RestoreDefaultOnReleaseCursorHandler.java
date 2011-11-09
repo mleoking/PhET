@@ -2,10 +2,13 @@
 
 package edu.colorado.phet.membranechannels.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -14,14 +17,14 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Piccolo event handler that shows a different Cursor when entering a PNode.
- * This version is a variation of the one that was in the common area as of
- * Aug 24 2010.  The main difference with this one is that the default cursor
- * is restored when the user releases the mouse.  This was needed for some
- * PNodes in this sim because the PNode could move away from point at which it
- * was released, leaving the cursor in an incorrect state.  This also fixes an
- * issue where the cursor would be incorrect if the user clicked on a PNode
- * and it cause an error dialog to be shown (see Unfuddle #2475 for more
- * information on this one).
+ * This version is a variation of the CursorHandler class that was in the
+ * common code area as of Aug 24 2010.  The main difference with this one is
+ * that the default cursor is restored when the user releases the mouse.  This
+ * was needed for some PNodes in this sim because the PNode could move away
+ * from point at which it was released, leaving the cursor in an incorrect
+ * state.  This also fixes an issue where the cursor would be incorrect if the
+ * user clicked on a PNode and it cause an error dialog to be shown (see
+ * Unfuddle #2475 for more information on this one).
  */
 public class RestoreDefaultOnReleaseCursorHandler extends PBasicInputEventHandler {
 
@@ -38,32 +41,33 @@ public class RestoreDefaultOnReleaseCursorHandler extends PBasicInputEventHandle
 
     //todo: should make 1 manager per JComponent?
     //the current implementation assumes state is global across all JPanels, may not work properly when moving from one JComponent to another
+
     /**
      * This class manages global state for the cursor.  Consider the following scenario:
      * 1. The cursor enters Node A
-     *      >The cursor becomes a hand
+     * >The cursor becomes a hand
      * 2. The cursor is pressed and dragged out of Node A into Node B
-     *      >The cursor should remain a hand
-     *
+     * >The cursor should remain a hand
+     * <p/>
      * This is difficult (or impossible) to do without maintaining global state about which
      * nodes have been entered and dragged.
      */
     private static class CursorManager {
-        
+
         public void mousePressed( PInputEvent event, Cursor cursor ) {
-            Component component = (JComponent)event.getComponent();
+            Component component = (JComponent) event.getComponent();
             // Usually, the cursor would have been set when the mouseEntered
             // event was received.  However, it is possible that the user
             // pressed, released, and is now pressing again, and in that case
             // the altered cursor should be set.
-            if (component.getCursor() != cursor){
+            if ( component.getCursor() != cursor ) {
                 component.setCursor( cursor );
             }
         }
 
         public void mouseEntered( PInputEvent event, Cursor cursor ) {
             if ( !event.isLeftMouseButton() ) {
-                ((JComponent)event.getComponent()).setCursor( cursor );
+                ( (JComponent) event.getComponent() ).setCursor( cursor );
             }
         }
 
@@ -73,7 +77,7 @@ public class RestoreDefaultOnReleaseCursorHandler extends PBasicInputEventHandle
 
         public void mouseExited( PInputEvent event ) {
             if ( !event.isLeftMouseButton() ) {
-                ((JComponent)event.getComponent()).setCursor( Cursor.getDefaultCursor() );
+                ( (JComponent) event.getComponent() ).setCursor( Cursor.getDefaultCursor() );
             }
         }
     }
@@ -132,7 +136,7 @@ public class RestoreDefaultOnReleaseCursorHandler extends PBasicInputEventHandle
     public void mouseExited( PInputEvent event ) {
         manager.mouseExited( event );
     }
-    
+
     //----------------------------------------------------------------------------
     // test
     //----------------------------------------------------------------------------
