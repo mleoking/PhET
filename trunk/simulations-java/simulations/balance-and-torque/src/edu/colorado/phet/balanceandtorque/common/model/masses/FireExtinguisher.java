@@ -16,11 +16,6 @@ public class FireExtinguisher extends ImageMass {
     private static final double MASS = 5; // in kg
     private static final double HEIGHT = 0.5; // In meters.
 
-    //REVIEW unused constructor, delete?
-    public FireExtinguisher( boolean isMystery ) {
-        this( DEFAULT_INITIAL_LOCATION, isMystery );
-    }
-
     public FireExtinguisher( Point2D initialPosition, boolean isMystery ) {
         super( MASS, Images.FIRE_EXTINGUISHER, HEIGHT, initialPosition, isMystery );
         setCenterOfMassXOffset( 0.04 );
