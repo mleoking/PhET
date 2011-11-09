@@ -103,9 +103,6 @@ public class ImageMass extends Mass {
         animationMotionVector.setComponents( velocity, 0 );
         double animationAngle = Math.atan2( animationDestination.getY() - getPosition().getY(), animationDestination.getX() - getPosition().getX() );
         animationMotionVector.rotate( animationAngle );
-        //REVIEW what scaling factor is the comment below talking about? Does this comment belong in stepInTime, where animationScale is computed?
-        // Calculate the scaling factor such that the object is about 10% of
-        // its usual size when it reaches the destination.
         // Update the property that tracks the animation state.
         animatingProperty.set( true );
         // Save starting height - needed as a reference.
@@ -123,6 +120,8 @@ public class ImageMass extends Mass {
             else {
                 // Do a step of the linear animation towards the destination.
                 translate( animationMotionVector.getScaledInstance( dt ) );
+                // Calculate the scaling factor such that the object is about
+                // 10% of its usual size when it reaches the destination.
                 animationScale = Math.max( animationScale - ( dt / expectedAnimationTime ) * 0.5, 0.1 );
                 heightProperty.set( animationScale * animationStartHeight );
             }
