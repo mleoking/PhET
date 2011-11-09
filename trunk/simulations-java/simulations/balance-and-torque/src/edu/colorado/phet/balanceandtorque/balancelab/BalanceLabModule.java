@@ -24,7 +24,6 @@ public class BalanceLabModule extends Module {
         this.model = model;
         setSimulationPanel( new BalanceLabCanvas( model ) );
         setClockControlPanel( null );
-        getModulePanel().setLogoPanel( null );
         reset();
     }
 
