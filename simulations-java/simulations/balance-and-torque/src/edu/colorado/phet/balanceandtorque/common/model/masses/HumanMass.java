@@ -63,7 +63,7 @@ public class HumanMass extends ImageMass {
         }
     }
 
-    @Override public Mass clone() {
+    @Override public Mass createCopy() {
         return new HumanMass( this.getMass(), this.standingImage, this.standingHeight, this.sittingImage,
                               this.sittingHeight, this.getPosition(), this.sittingCenterOfMassXOffset, this.isMystery() );
     }

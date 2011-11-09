@@ -313,7 +313,7 @@ public class BalanceGameChallengeFactory {
         double fixedStackDistanceFromCenter = chooseRandomValidFixedMassDistance( fixedMassPrototype.getMass(), movableMass.getMass() );
 
         // Create the challenge.
-        return BalanceMassesChallenge.create( fixedMassPrototype.clone(), fixedStackDistanceFromCenter, movableMass );
+        return BalanceMassesChallenge.create( fixedMassPrototype.createCopy(), fixedStackDistanceFromCenter, movableMass );
     }
 
     /**
@@ -390,7 +390,7 @@ public class BalanceGameChallengeFactory {
 
         if ( candidateMasses.size() > 0 ) {
             // Choose randomly from the list.
-            return candidateMasses.get( RAND.nextInt( candidateMasses.size() ) ).clone();
+            return candidateMasses.get( RAND.nextInt( candidateMasses.size() ) ).createCopy();
         }
 
         // No matching masses.
@@ -421,7 +421,7 @@ public class BalanceGameChallengeFactory {
         double mysteryMassDistanceFromCenter = -generateRandomValidPlankDistance();
 
         // Create the challenge.
-        return MassDeductionChallenge.create( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+        return MassDeductionChallenge.create( mysteryMassPrototype.createCopy(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
@@ -447,7 +447,7 @@ public class BalanceGameChallengeFactory {
         double mysteryMassDistanceFromCenter = -possibleDistances.get( RAND.nextInt( possibleDistances.size() ) );
 
         // Create the challenge.
-        return MassDeductionChallenge.create( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+        return MassDeductionChallenge.create( mysteryMassPrototype.createCopy(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
@@ -474,7 +474,7 @@ public class BalanceGameChallengeFactory {
         double mysteryMassDistanceFromCenter = -possibleDistances.get( RAND.nextInt( possibleDistances.size() ) );
 
         // Create the challenge.
-        return MassDeductionChallenge.create( mysteryMassPrototype.clone(), mysteryMassDistanceFromCenter, knownMass );
+        return MassDeductionChallenge.create( mysteryMassPrototype.createCopy(), mysteryMassDistanceFromCenter, knownMass );
     }
 
     /**
@@ -494,7 +494,7 @@ public class BalanceGameChallengeFactory {
             for ( Double ratio : ratios ) {
                 if ( candidateMassPrototype.getMass() * ratio == massValue ) {
                     // We have found a matching mass.  Clone it and return it.
-                    return candidateMassPrototype.clone();
+                    return candidateMassPrototype.createCopy();
                 }
             }
         }
@@ -573,9 +573,9 @@ public class BalanceGameChallengeFactory {
                      movableMassDistance <= maxDistance &&
                      movableMassDistance % distanceIncrement == 0 ) {
                     // This is a solvable configuration.  Add it to the list.
-                    solvableChallenges.add( BalanceMassesChallenge.create( fixedMass1Prototype.clone(), fixedMass1Distance,
-                                                                           fixedMass2Prototype.clone(), fixedMass2Distance,
-                                                                           movableMassPrototype.clone() ) );
+                    solvableChallenges.add( BalanceMassesChallenge.create( fixedMass1Prototype.createCopy(), fixedMass1Distance,
+                                                                           fixedMass2Prototype.createCopy(), fixedMass2Distance,
+                                                                           movableMassPrototype.createCopy() ) );
                 }
             }
         }
