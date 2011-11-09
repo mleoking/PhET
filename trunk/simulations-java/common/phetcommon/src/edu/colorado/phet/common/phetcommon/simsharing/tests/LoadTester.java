@@ -56,7 +56,7 @@ public class LoadTester {
     }
 
     private void start( String[] args ) {
-        SimSharingEvents.simStarted( new PhetApplicationConfig( args, "test-lwjgl-project" ) );
+        SimSharingEvents.simStarted( new PhetApplicationConfig( args, "test-java-project" ) );
 
         System.out.println( "Started loadTester at " + eventsPerMinute + " events per minute" );
         double eventsPerSecond = eventsPerMinute / 60.0;
