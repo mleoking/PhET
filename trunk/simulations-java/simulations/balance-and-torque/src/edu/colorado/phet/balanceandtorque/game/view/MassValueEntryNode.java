@@ -5,13 +5,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -19,7 +17,6 @@ import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -27,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -162,36 +158,4 @@ public class MassValueEntryNode extends PNode {
             }
         }
     }
-
-    //REVIEW If I enter a value, then Enter or press "Check Answer", this test throws NullPointerException
-
-    /**
-     * Test harness.
-     *
-     * @param args
-     */
-    public static void main( String[] args ) {
-
-        Dimension2D stageSize = new PDimension( 400, 300 );
-
-        PhetPCanvas canvas = new PhetPCanvas();
-        // Set up the canvas-screen transform.
-        canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
-
-        canvas.getLayer().addChild( new MassValueEntryNode( new BalanceGameModel(), canvas ) {{
-            setOffset( 10, 10 );
-        }} );
-        canvas.getLayer().addChild( new DisplayAnswerNode( new BalanceGameModel(), canvas ) {{
-            setOffset( 10, 150 );
-        }} );
-
-        // Boiler plate app stuff.
-        JFrame frame = new JFrame();
-        frame.setContentPane( canvas );
-        frame.setSize( (int) stageSize.getWidth(), (int) stageSize.getHeight() );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setLocationRelativeTo( null ); // Center.
-        frame.setVisible( true );
-    }
-
 }
