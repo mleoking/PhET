@@ -591,7 +591,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         public void setScore( int score ) {
             if ( score >= 0 ) {
                 scoreNode.setText( "+" + Integer.toString( score ) );
-                scoreNode.setOffset( faceNode.getFullBoundsReference().getMaxX() - scoreNode.getFullBoundsReference().width,
+                scoreNode.setOffset( faceNode.getFullBoundsReference().getMaxX() - scoreNode.getFullBoundsReference().width + 10,
                                      faceNode.getFullBoundsReference().getMaxY() - scoreNode.getFullBoundsReference().height );
             }
             else {
