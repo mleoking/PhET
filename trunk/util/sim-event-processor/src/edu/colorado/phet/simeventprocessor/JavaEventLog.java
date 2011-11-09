@@ -142,6 +142,14 @@ public class JavaEventLog implements Iterable<JavaEntry> {
         return serverTime;
     }
 
+    public String getOSName() {
+        return getStartMessage().get( "osName" ).getOrElse( "?" );
+    }
+
+    public String getOSVersion() {
+        return getStartMessage().get( "osVersion" ).getOrElse( "?" );
+    }
+
     public String brief() {
         final JavaEntry startMessage = getStartMessage();
         return startMessage.get( "name" ) + " " + startMessage.get( "version" ).get() + " startTime = " + new Date( serverTime ) + ", epoch = " + serverTime + ", study = " + startMessage.get( "study" ) + ", userID = " + startMessage.get( "id" ) + ", events = " + size() + ", timeUsed = " + minutesUsed() + " minutes, machineID = " + machineID + ", sessionID = " + sessionID;
@@ -151,7 +159,7 @@ public class JavaEventLog implements Iterable<JavaEntry> {
         return getLastTime() / 1000 / 60;
     }
 
-    private JavaEntry getStartMessage() {
+    public JavaEntry getStartMessage() {
         return getFirstEntry( "system", "started" );
     }
 

@@ -16,9 +16,11 @@ val fileExitPressed = logs.flatMap(_.entries).count(entry => entry.actor == "men
 println("Number that pressed close button: " + closeButtonPressed + ", " + "Number that pressed file->exit: " + fileExitPressed)
 
 //How many different machines had JME crashes?
-val numberMachinesCrashed = logs.filter(_.contains("system", "erred")).distinct.size
+val crashedLogs = logs.filter(_.contains("system", "erred", "errMsg" -> "Failed to create display"))
+val numberMachinesCrashed = crashedLogs.map(_.machine).distinct.size
 val totalNumberMachines = logs.map(_.machine).distinct.size
 println("crashed with system erred " + numberMachinesCrashed + " / " + totalNumberMachines)
 
-val systemErred = logs.filter(_.contains("system","erred", "errMsg" -> "Failed to create display")).flatMap(_.entries).filter( e => e.actor=="system" && e("errMsg") == "Failed to create display")
-println(systemErred mkString "\n")
+crashedLogs.map(log => log.osName +"\t"+log.osVersion).foreach(println)
+
+//crashedLogs.flatMap(_.entries).foreach(println)
