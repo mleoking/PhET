@@ -15,17 +15,16 @@ public class BalanceLabModule extends Module {
 
     private BalanceLabModel model;
 
-    //REVIEW move setClockControlPanel and setLogoPanel to private constructor
     public BalanceLabModule() {
         this( new BalanceLabModel() );
-        setClockControlPanel( null );
-        getModulePanel().setLogoPanel( null );
     }
 
     private BalanceLabModule( BalanceLabModel model ) {
         super( BalanceAndTorqueResources.Strings.BALANCE_LAB, model.getClock() );
         this.model = model;
         setSimulationPanel( new BalanceLabCanvas( model ) );
+        setClockControlPanel( null );
+        getModulePanel().setLogoPanel( null );
         reset();
     }
 
