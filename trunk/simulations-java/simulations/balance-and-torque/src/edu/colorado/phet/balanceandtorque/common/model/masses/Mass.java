@@ -160,10 +160,13 @@ public abstract class Mass implements UserMovableModelElement {
      * that point, it is generally removed from the model.
      */
     public void initiateAnimation() {
-        // In the default implementation, the signal is sent that says that
+        // In this default implementation the signal is sent that says that
         // the animation is complete, but no actual animation is done.
-        // Override to implement the subclass-specific animation.
-        //REVIEW confusing, why is it necessary to do this instead of nothing?
+        // Override to implement the subclass-specific animation.  This is
+        // done because the animated removal relies on the transition of the
+        // animation property from true to false in order to remove the mass
+        // from the model, so if a removal animation is initiated and the
+        // transition doesn't happen the mass will never go away.
         animatingProperty.set( true );
         animatingProperty.set( false );
     }
