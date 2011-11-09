@@ -112,8 +112,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private TextButtonNode nextChallengeButton = new TextButtonNode( BalanceAndTorqueResources.Strings.NEXT, BUTTON_FONT, ACTIVE_BUTTON_COLOR );
     private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.DISPLAY_CORRECT_ANSWER, BUTTON_FONT, ACTIVE_BUTTON_COLOR );
 
-    //REVIEW A little confusing at first... This isn't the game title, it's the tile of the current challenge, correct? Maybe change the name to qualify (challengeTitleNode?)
-    private OutlinePText titleNode;
+    // Challenge title, may change for different challenge types.
+    private OutlinePText challengeTitleNode;
 
     private ModelViewTransform mvt;
 
@@ -262,9 +262,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add the title.  It is blank to start with, and is updated later at
         // the appropriate state change.
-        titleNode = new OutlinePText( "Blank", new PhetFont( 64, true ), Color.WHITE, Color.BLACK, 1 );
+        challengeTitleNode = new OutlinePText( "Blank", new PhetFont( 64, true ), Color.WHITE, Color.BLACK, 1 );
         updateTitle();
-        rootNode.addChild( titleNode );
+        rootNode.addChild( challengeTitleNode );
 
         // Add the dialog node that is used in some challenges to enable the
         // user to submit specific mass values.
@@ -273,7 +273,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         massValueAnswerNode = new MassValueEntryNode.DisplayAnswerNode( model, this );
         rootNode.addChild( massValueAnswerNode );
         Point2D massEntryDialogCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
-                                                            titleNode.getFullBoundsReference().getMaxY() + massValueEntryNode.getFullBounds().height / 2 + 10 );
+                                                            challengeTitleNode.getFullBoundsReference().getMaxY() + massValueEntryNode.getFullBounds().height / 2 + 10 );
         massValueEntryNode.centerFullBoundsOnPoint( massEntryDialogCenter.getX(), massEntryDialogCenter.getY() );
         massValueAnswerNode.centerFullBoundsOnPoint( massEntryDialogCenter.getX(), massEntryDialogCenter.getY() );
 
@@ -406,7 +406,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // Utility method for hiding all of the game nodes whose visibility changes
     // during the course of a challenge.
     private void hideAllGameNodes() {
-        setVisible( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, titleNode, checkAnswerButton, tryAgainButton,
+        setVisible( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, challengeTitleNode, checkAnswerButton, tryAgainButton,
                     nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode );
     }
 
@@ -429,7 +429,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
         else if ( newState == PRESENTING_INTERACTIVE_CHALLENGE ) {
             updateTitle();
-            show( scoreboard, titleNode );
+            show( scoreboard, challengeTitleNode );
             if ( model.getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog ) {
                 massValueEntryNode.clear();
                 show( massValueEntryNode );
@@ -486,15 +486,15 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private void updateTitle() {
         BalanceGameChallenge balanceGameChallenge = model.getCurrentChallenge();
         if ( balanceGameChallenge != null ) {
-            titleNode.setText( model.getCurrentChallenge().getChallengeViewConfig().title );
+            challengeTitleNode.setText( model.getCurrentChallenge().getChallengeViewConfig().title );
         }
         else {
             // Set the value to something so that layout can be done.  This
             // string doesn't need to be translated - user should never see it.
-            titleNode.setText( "No challenge available." );
+            challengeTitleNode.setText( "No challenge available." );
         }
-        titleNode.setOffset( mvt.modelToViewX( 0 ) - titleNode.getFullBoundsReference().width / 2,
-                             STAGE_SIZE.getHeight() * 0.15 - titleNode.getFullBoundsReference().height / 2 );
+        challengeTitleNode.setOffset( mvt.modelToViewX( 0 ) - challengeTitleNode.getFullBoundsReference().width / 2,
+                                      STAGE_SIZE.getHeight() * 0.15 - challengeTitleNode.getFullBoundsReference().height / 2 );
     }
 
     private void hideChallenge() {
