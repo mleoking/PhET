@@ -77,4 +77,14 @@ class EventLog(log: JavaEventLog) {
 
 //  val importantEvents = simLogs.map(log => timeSeries(log, log.countMatches(simEventMap(sim), _)))
   def countEvents(matcher:Seq[Match]) = phet.timeSeries(this,countMatches(matcher,_))
+
+  private def containsParameters(e:JavaEntry, pairs:Seq[Pair[String,String]]):Boolean = {
+    for ( p <- pairs ) {
+      if (!e.hasParameter(p._1,p._2)) return false
+    }
+    true
+  }
+
+  def contains(actor:String,event:String, pairs:Pair[String,String]*) = log.find( (e:JavaEntry)  => e.actor==actor && e.event==event && containsParameters(e,pairs) ).isDefined
+
 }
