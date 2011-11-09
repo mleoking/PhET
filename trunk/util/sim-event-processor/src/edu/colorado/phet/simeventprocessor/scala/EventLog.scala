@@ -7,6 +7,7 @@ import collection.mutable.HashMap
 import scala.collection.JavaConversions._
 import edu.colorado.phet.simeventprocessor.{JavaEntry, JavaEventLog}
 import java.lang.Boolean
+import edu.colorado.phet.simeventprocessor.scala.phet._
 
 /**
  * Adds scala-convenient interface for REPL.
@@ -25,7 +26,9 @@ class EventLog(log: JavaEventLog) {
   val day = new SimpleDateFormat("MM-dd-yyyy").format(startDate)
   val lastTime = log.getLastTime
   val entries = {
-    (for (elm <- log) yield elm).toList
+    ( for ( elm <- log ) yield {
+      elm
+    } ).toList
   }
   lazy val userNumber = {
     try {
@@ -43,7 +46,7 @@ class EventLog(log: JavaEventLog) {
     matcher.filter(matchItem => earlyEnoughEvents.find(matchItem.matches(_)).isDefined).size
   }
 
-  override def toString = simName + " " + simVersion + " " + new Date(epoch) + " (" + epoch + "), study = " + study + ", user = " + user + ", events = " + size + ", machineID = " + machine + ", sessionID = " + session
+  override def toString = simName + " " + new Date(epoch) + " (" + epoch + "), study = " + study + ", user = " + user + ", events = " + size + ", machine = " + machine + ", session = " + session
 
   lazy val histogramByObject = {
     val map = new HashMap[String, Int]
@@ -65,8 +68,13 @@ class EventLog(log: JavaEventLog) {
   def findEvents(actor: String): List[JavaEntry] = log.filter(ActorRule(actor).matches(_)).toList
 
   def foreach[U](f: ( JavaEntry ) => U) {
-    for (elm <- log) {
+    for ( elm <- log ) {
       f(elm)
     }
   }
+
+  lazy val eventCountData = phet.timeSeries(this, countEvents(_))
+
+//  val importantEvents = simLogs.map(log => timeSeries(log, log.countMatches(simEventMap(sim), _)))
+  def countEvents(matcher:Seq[Match]) = phet.timeSeries(this,countMatches(matcher,_))
 }
