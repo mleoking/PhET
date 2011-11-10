@@ -1,0 +1,45 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: November 3-9, 2011
+
+Balancing Act:
+- reported minor issues (#3149, 3150)
+- completed code review, #3134
+
+Capacitor Lab
+- fixed a bug in "2 series + 1 parallel" circuit, #3151
+- published 2.02 to PhET website
+
+Dilutions
+- (re)design meeting
+
+Common Code
+- #3153, encapsulate default stage size in CenteredStage (in progress, with JB and SR)
+- #3148, discussed issues with equals and hashCode in Options
+
+Sim-Sharing
+- discuss data processing
+
+Unfuddle
+- verified and closed misc tickets
+
+Administrative
+- status meeting
+- weekly reports
+- misc developer discussions via email
+
+WHAT'S NEXT:
+
+- Dilutions: redesign? repackage existing implementation as some other sim?
+- Jmol: common code generalization, #3104
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- Nov 21-25, reduced hours due to guests in town for Thanksgiving holiday
+
+--
