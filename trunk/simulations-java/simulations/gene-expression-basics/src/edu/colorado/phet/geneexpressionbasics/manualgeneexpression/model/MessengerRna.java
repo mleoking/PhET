@@ -295,6 +295,8 @@ public class MessengerRna extends MobileBiomolecule {
             assert getLastShapeSegment().isFlat(); // Should be creating the leader at this point.
             // Grow the leader segment to accommodate the additional length.
             getLastShapeSegment().growLeft( length );
+            // Nothing else to do.
+            return;
         }
         else if ( lastShapeDefiningPoint.getTargetDistanceToPreviousPoint() < INTER_POINT_DISTANCE ) {
             double prevDistance = lastShapeDefiningPoint.getTargetDistanceToPreviousPoint();
@@ -320,7 +322,7 @@ public class MessengerRna extends MobileBiomolecule {
             // The leader portion is still being constructed.  Grow it to
             // accommodate the new length.
             ShapeSegment lastShapeSegment = getLastShapeSegment();
-            assert lastShapeSegment.getLength() < LEADER_LENGTH;
+            assert lastShapeSegment.getLength() <= LEADER_LENGTH;
             if ( lastShapeSegment.getLength() + length <= LEADER_LENGTH ) {
                 // Just grow the leader segment.
                 lastShapeSegment.growLeft( length );
@@ -338,7 +340,7 @@ public class MessengerRna extends MobileBiomolecule {
             // Set its size as a function of the current length that is
             // contained within it.
             double currentDiagonalLength = getLastShapeSegment().getLength();
-            double desiredDiagonalLength = INTER_POINT_DISTANCE * ( Math.pow( getLength() / INTER_POINT_DISTANCE, 0.5 ) );
+            double desiredDiagonalLength = INTER_POINT_DISTANCE * ( Math.pow( ( getLength() - LEADER_LENGTH ) / INTER_POINT_DISTANCE, 0.5 ) );
             assert desiredDiagonalLength > currentDiagonalLength; // If this fires, something is wrong with this algorithm.
             getLastShapeSegment().growLeft( desiredDiagonalLength - currentDiagonalLength );
         }
@@ -383,6 +385,9 @@ public class MessengerRna extends MobileBiomolecule {
                                       boundsForSegment.getMinY() + RAND.nextDouble() * boundsForSegment.getHeight() );
             currentPoint = currentPoint.getNextPointMass();
         }
+
+        // Update the shape.
+        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
     }
 
     private ShapeSegment getLastShapeSegment() {
@@ -1065,7 +1070,7 @@ public class MessengerRna extends MobileBiomolecule {
         }
 
         public double getLength() {
-            Point2D upperLeft = new Point2D.Double( bounds.get().getX(), bounds.get().getMaxY() );
+            Point2D upperLeft = new Point2D.Double( bounds.get().getMinX(), bounds.get().getMaxY() );
             Point2D lowerRight = new Point2D.Double( bounds.get().getMaxX(), bounds.get().getMinY() );
             return upperLeft.distance( lowerRight );
         }
@@ -1092,19 +1097,27 @@ public class MessengerRna extends MobileBiomolecule {
 
         public static class DiagonalSegment extends ShapeSegment {
             public DiagonalSegment( Point2D origin, double length ) {
-                ImmutableVector2D vectorToLowerRightCorner = new ImmutableVector2D( length, 0 ).getRotatedInstance( -Math.PI / 4 );
+                ImmutableVector2D diagonalVector = new ImmutableVector2D( length, 0 ).getRotatedInstance( Math.PI / 4 );
                 bounds.set( new Rectangle2D.Double( origin.getX(),
                                                     origin.getY(),
-                                                    origin.getX() + vectorToLowerRightCorner.getX(),
-                                                    origin.getY() + vectorToLowerRightCorner.getY() ) );
+                                                    diagonalVector.getX(),
+                                                    diagonalVector.getY() ) );
             }
 
             // Strictly speaking, this actually grows UP and to the left, not
             // just to the left.
+
+            /**
+             * Grow diagonally by the specified amount.  Despite the name, this
+             * actually grows UP and to the left, not just to the left.
+             *
+             * @param length
+             */
             @Override public void growLeft( double length ) {
+                assert length >= 0;
                 double growthAmount = length * Math.cos( Math.PI / 4 );
                 Rectangle2D newBounds = new Rectangle2D.Double( bounds.get().getMinX() - growthAmount,
-                                                                bounds.get().getY() + growthAmount,
+                                                                bounds.get().getY(),
                                                                 bounds.get().getWidth() + growthAmount,
                                                                 bounds.get().getHeight() + growthAmount );
                 bounds.set( newBounds );
