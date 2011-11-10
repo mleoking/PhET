@@ -29,7 +29,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BeingTranslatedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.DetachingState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.IdleState;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -1154,7 +1154,7 @@ public class MessengerRna extends MobileBiomolecule {
         frame.setVisible( true );
 
         MessengerRna messengerRna = new MessengerRna( new ManualGeneExpressionModel(), mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
-        canvas.addWorldChild( new MobileBiomoleculeNode( mvt, messengerRna ) );
+        canvas.addWorldChild( new MessengerRnaNode( mvt, messengerRna ) );
         for ( int i = 0; i < 200; i++ ) {
             messengerRna.addLength( INTER_POINT_DISTANCE );
             try {
