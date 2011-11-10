@@ -1,5 +1,4 @@
 import edu.colorado.phet.simeventprocessor.scala._
-import phet._
 
 val all = phet load "C:\\Users\\Sam\\Desktop\\0all-11-8-2011-v"
 
@@ -21,6 +20,6 @@ val numberMachinesCrashed = crashedLogs.map(_.machine).distinct.size
 val totalNumberMachines = logs.map(_.machine).distinct.size
 println("crashed with system erred " + numberMachinesCrashed + " / " + totalNumberMachines)
 
-crashedLogs.map(log => log.osName +"\t"+log.osVersion).foreach(println)
+crashedLogs.map(log => log.osName + "\t" + log.osVersion).distinct.foreach(println)
 
 //crashedLogs.flatMap(_.entries).foreach(println)
