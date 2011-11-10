@@ -7,6 +7,8 @@ import edu.colorado.phet.balanceandtorque.common.view.BasicBalanceCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
+import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
+
 /**
  * Canvas for the "Intro" module.
  *
@@ -30,7 +32,7 @@ public class IntroCanvas extends BasicBalanceCanvas {
                                 // The attempt to add mass to surface of plank failed,
                                 // probably because mass was dropped somewhere other
                                 // than over the plank.
-                                if ( mvt.modelToView( mass.getPosition() ).getX() > 0 && mvt.modelToView( mass.getPosition() ).getX() < STAGE_SIZE.getWidth() ) {
+                                if ( mvt.modelToView( mass.getPosition() ).getX() > 0 && mvt.modelToView( mass.getPosition() ).getX() < DEFAULT_STAGE_SIZE.getWidth() ) {
                                     // Mass is in the visible area, so just
                                     // drop it on the ground.
                                     mass.setPosition( mass.getPosition().getX(), 0 );

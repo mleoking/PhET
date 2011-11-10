@@ -6,6 +6,9 @@ import edu.colorado.phet.balanceandtorque.common.view.BasicBalanceCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 
+import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
+
+
 /**
  * Main view class for the "Balance Lab" module.
  *
@@ -26,8 +29,8 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
         // Lay out the control panels.
         double minDistanceToEdge = 20; // Value chosen based on visual appearance.
-        double controlPanelCenterX = Math.min( STAGE_SIZE.getWidth() - massKit.getFullBoundsReference().width / 2 - minDistanceToEdge,
-                                               STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width / 2 - minDistanceToEdge );
+        double controlPanelCenterX = Math.min( DEFAULT_STAGE_SIZE.getWidth() - massKit.getFullBoundsReference().width / 2 - minDistanceToEdge,
+                                               DEFAULT_STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width / 2 - minDistanceToEdge );
         massKit.setOffset( controlPanelCenterX - massKit.getFullBoundsReference().width / 2,
                            mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().height - 10 );
         controlPanel.setOffset( controlPanelCenterX - controlPanel.getFullBoundsReference().width / 2,
