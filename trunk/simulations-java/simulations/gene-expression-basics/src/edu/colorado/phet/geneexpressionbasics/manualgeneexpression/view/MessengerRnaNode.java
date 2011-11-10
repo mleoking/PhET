@@ -10,7 +10,6 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.umd.cs.piccolo.PNode;
@@ -46,6 +45,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
 
                 public void apply( final MessengerRna.ShapeSegment addedShapeSegment ) {
                     final ShapeSegmentNode shapeSegmentNode = new ShapeSegmentNode( addedShapeSegment, mvt );
+                    addChild( shapeSegmentNode );
 
                     // Watch for removal of this shape segment.  If it goes
                     // away, remove the corresponding node.
@@ -68,9 +68,13 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
      */
     private static class ShapeSegmentNode extends PNode {
 
-        private static final Color FILL_COLOR = new Color( 150, 150, 150, 150 );
-        private static final Color STROKE_COLOR = new Color( 150, 150, 150, 150 );
+        private static final Color FILL_COLOR = new Color( 200, 100, 150, 150 );
+        private static final Color STROKE_COLOR = Color.RED;
         private static final Stroke STROKE = new BasicStroke( 1 );
+
+        // Need to give flat segments an arbitrary height so that they can be
+        // visualized.  This is in screen units.
+        private static final double FLAT_SEGMENT_NODE_HEIGHT = 5;
 
         private ShapeSegmentNode( final MessengerRna.ShapeSegment shapeSegment, final ModelViewTransform mvt ) {
 
@@ -83,19 +87,21 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
                 Shape shape;
 
                 public void apply( Rectangle2D bounds ) {
-                    // TODO: This assumes I can't create a PPath with zero height.  Verify true and if not, if clause may be removed.
                     if ( bounds.getHeight() == 0 ) {
-                        // This is a horizontal segment, so just make it a line.
-                        DoubleGeneralPath path = new DoubleGeneralPath( bounds.getMinX(), bounds.getMinY() );
-                        path.lineTo( bounds.getMaxX(), bounds.getMinY() );
-                        shape = path.getGeneralPath();
+                        // This is a horizontal (i.e. flat) segment, so create
+                        // a rect that matches the width and has an arbitrary
+                        // height.
+                        shape = new Rectangle2D.Double( mvt.modelToViewX( bounds.getMinX() ),
+                                                        mvt.modelToViewY( bounds.getMinY() ) - FLAT_SEGMENT_NODE_HEIGHT / 2,
+                                                        mvt.modelToViewDeltaX( bounds.getWidth() ),
+                                                        FLAT_SEGMENT_NODE_HEIGHT );
                     }
                     else {
                         // This is a diagonal segment, so make it a rect.
-                        shape = getBounds();
+                        shape = mvt.modelToView( bounds );
                     }
                     // Update the shape.
-                    shapeSegmentNode.setPathTo( mvt.modelToView( shape ) );
+                    shapeSegmentNode.setPathTo( shape );
                 }
             } );
         }
