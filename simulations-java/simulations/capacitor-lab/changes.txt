@@ -1,3 +1,4 @@
+# 2.02.00 (58494) Nov 9, 2011
 > fixed the charge and voltage model for "2 in Series + 1 in Parallel" circuit
 # 2.01.01 (58422) Nov 8, 2011
 11/8/11 #3151, fix charge and voltage model for the series portion of the "2 in Series + 1 in Parallel" circuit
