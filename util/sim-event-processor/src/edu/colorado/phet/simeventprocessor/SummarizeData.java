@@ -102,8 +102,8 @@ public class SummarizeData extends Processor {
         destDir.mkdirs();
         for ( JavaEventLog entry : recent ) {
             try {
-                FileUtils.copyToDir( entry.sourceFile, destDir );
-                System.out.println( "Copied " + entry.sourceFile + ", to " + destDir );
+                FileUtils.copyToDir( entry.file, destDir );
+                System.out.println( "Copied " + entry.file + ", to " + destDir );
             }
             catch ( IOException e ) {
                 e.printStackTrace();
