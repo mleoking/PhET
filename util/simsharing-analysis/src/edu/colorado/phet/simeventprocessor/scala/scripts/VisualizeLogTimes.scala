@@ -2,7 +2,6 @@
 package edu.colorado.phet.simeventprocessor.scala.scripts
 
 import edu.colorado.phet.simeventprocessor.scala.phet
-import org.jfree.data.xy.XYSeries
 import phet._
 
 /**
@@ -19,23 +18,9 @@ object VisualizeLogTimes extends App {
 
   println("first log:\n" + firstLog.date + "\nlast log:\n" + lastLog.date)
 
-  val seriesCO = new XYSeries("colorado") {
+  val range = firstLog.epoch to lastLog.epoch by 10000
+  val countCO = for ( time <- range; count = logs.count(log => log.running(time) && log.study == "colorado"); if count > 0 ) yield {( time - firstLog.epoch ) / 1000 / 60 -> count}
+  val countUT = for ( time <- range; count = logs.count(log => log.running(time) && log.study == "utah"); if count > 0 ) yield {( time - firstLog.epoch ) / 1000 / 60 -> count}
 
-  }
-  val seriesUT = new XYSeries("utah") {
-
-  }
-
-  for ( time <- firstLog.epoch to lastLog.epoch by 10000 ) {
-    val numberCOLogs = logs.filter(_.running(time)).count(_.study == "colorado")
-    val numberUTLogs = logs.filter(_.running(time)).count(_.study == "utah")
-    if ( numberCOLogs != 0 ) {
-      seriesCO.add(time, numberCOLogs)
-    }
-    if ( numberUTLogs != 0 ) {
-      seriesUT.add(time, numberUTLogs)
-    }
-  }
-
-  xyplot(seriesCO, seriesUT)
+  xyplot("Number sims running", "Time (minutes)", "sims running", countCO.toXYSeries("Colorado"), countUT.toXYSeries("Utah"))
 }
