@@ -1,19 +1,19 @@
 import edu.colorado.phet.simeventprocessor.scala._
 import phet._
 
-val all = phet load "C:\\Users\\Sam\\Desktop\\data-11-10-2011-iv~"
+val logs = phet load "C:\\Users\\Sam\\Desktop\\data-11-10-2011-iv~"
 
 //def jcNov8Morning(log: EventLog) = log.day == "11-08-2011" && log.study == "colorado" && log.user != "null" && log.user != "samreid"
 //def emNov7Filter(log: EventLog) = log.day == "11-07-2011" && log.study == "utah" && log.user != "null" && log.user != "samreid"
 
-val selected = all.filter(log =>
-                            log.day == "11-09-2011" &&
-                            log.study == "utah" &&
-                            //                            log.study == "utah" &&
-                            //                            log.epoch > 1320792019874L &&
-                            log.user != "samreid" &&
-                            !log.machine.startsWith("samreid") &&
-                            !log.machine.startsWith("chrismalley")).sortBy(_.epoch)
+val selected = logs.filter(log =>
+                             log.day == "11-09-2011" &&
+                             log.study == "utah" &&
+                             //                            log.study == "utah" &&
+                             //                            log.epoch > 1320792019874L &&
+                             log.user != "samreid" &&
+                             !log.machine.startsWith("samreid") &&
+                             !log.machine.startsWith("chrismalley")).sortBy(_.epoch)
 println("found: " + selected.length + " logs")
 selected.print
 
@@ -74,8 +74,8 @@ val allEvents = selected.flatMap(_.entries)
 //println(systemEvents mkString "\n")
 
 println("Distinct window sizes")
-val sizes = all.flatMap(_.entries).filter(entry => entry.actor == "window" && entry.event == "resized").map(event => event("width") + ", " + event("height")).distinct
+val sizes = logs.flatMap(_.entries).filter(entry => entry.actor == "window" && entry.event == "resized").map(event => event("width") + ", " + event("height")).distinct
 println(sizes mkString "\n")
 
-println(all.flatMap(_.entries).filter(_.actor == "menu").map(_("text")).distinct mkString "\n")
-println(all.flatMap(_.entries).filter(_.actor == "menuItem").map(_("text")).distinct mkString "\n")
+println(logs.flatMap(_.entries).filter(_.actor == "menu").map(_("text")).distinct mkString "\n")
+println(logs.flatMap(_.entries).filter(_.actor == "menuItem").map(_("text")).distinct mkString "\n")
