@@ -1,11 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventprocessor.scala
 
-import java.util.StringTokenizer
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter
-import collection.mutable.HashMap
-import java.lang.RuntimeException
-
 case class Entry(time: Long, //Time since sim started in millisec
                  actor: String,
                  event: String,
@@ -48,31 +43,5 @@ case class Entry(time: Long, //Time since sim started in millisec
       }
     }
     false
-  }
-}
-
-object Entry {
-  def parse(line: String): Entry = {
-    val tokenizer = new StringTokenizer(line, "\t")
-    val time = java.lang.Long.parseLong(tokenizer.nextToken)
-    val obj = tokenizer.nextToken
-    val event = tokenizer.nextToken
-    val remainderOfLineBuf = new StringBuffer
-    while ( tokenizer.hasMoreTokens ) {
-      remainderOfLineBuf.append(tokenizer.nextToken)
-      remainderOfLineBuf.append(Parameter.DELIMITER)
-    }
-    val remainderOfLine = remainderOfLineBuf.toString.trim
-    val parameters = Parameter.parseParameters(remainderOfLine)
-    val map = new HashMap[String, String]()
-    for ( p <- parameters ) {
-      if ( map.contains(p.name) ) {
-        throw new RuntimeException("Duplicate string key for " + p.name)
-      }
-      map.put(p.name, p.value)
-    }
-
-    //make map immutable
-    new Entry(time, obj, event, map.toMap)
   }
 }
