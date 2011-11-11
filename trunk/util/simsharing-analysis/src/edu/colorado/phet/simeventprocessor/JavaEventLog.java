@@ -104,7 +104,7 @@ public class JavaEventLog implements Iterable<JavaEntry> {
     }
 
     //How many events in the list happened in the log
-    public int getNumberOfEvents( final long time, EntryList eventsOfInterest ) {
+    public int getNumberOfEvents( final long time, ArrayList<JavaEntry> eventsOfInterest ) {
         JavaEventLog log = removeItems( new Function1<JavaEntry, Boolean>() {
             public Boolean apply( JavaEntry entry ) {
                 return entry.timeMilliSec > time;
@@ -128,8 +128,8 @@ public class JavaEventLog implements Iterable<JavaEntry> {
     }
 
     //Which of the specified events of interest are in our list?
-    public EntryList find( EntryList eventsOfInterest ) {
-        EntryList list = new EntryList();
+    public ArrayList<JavaEntry> find( ArrayList<JavaEntry> eventsOfInterest ) {
+        ArrayList<JavaEntry> list = new ArrayList<JavaEntry>();
         for ( JavaEntry entry : eventsOfInterest ) {
             if ( containsMatch( entry ) ) {
                 list.add( entry );
