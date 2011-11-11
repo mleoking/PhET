@@ -8,6 +8,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -345,6 +346,9 @@ public class MessengerRna extends MobileBiomolecule {
             getLastShapeSegment().growLeft( desiredDiagonalLength - currentDiagonalLength );
         }
 
+        // Realign the segments, since some growth probably occurred.
+        realignSegmentsFromEnd();
+
         // Now that the length has been added, rerun the winding algorithm.
         windPointsThroughSegments();
     }
@@ -388,6 +392,21 @@ public class MessengerRna extends MobileBiomolecule {
 
         // Update the shape.
         shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
+    }
+
+    /**
+     * Realign all the segments, making sure that the end of one connects to
+     * the beginning of another, using the last segment on the list as the
+     * starting point.
+     */
+    private void realignSegmentsFromEnd() {
+        ArrayList<ShapeSegment> copyOfShapeSegments = new ArrayList<ShapeSegment>( shapeSegments );
+        Collections.reverse( copyOfShapeSegments );
+        for ( int i = 0; i < copyOfShapeSegments.size() - 1; i++ ) {
+            // Assumes that the shape segments attach to one another in such
+            // a way that they chain from the upper left to the lower right.
+            copyOfShapeSegments.get( i + 1 ).setLowerRightCornerPos( copyOfShapeSegments.get( i ).getUpperLeftCornerPos() );
+        }
     }
 
     private ShapeSegment getLastShapeSegment() {
@@ -1051,6 +1070,15 @@ public class MessengerRna extends MobileBiomolecule {
         public Point2D getLowerRightCornerPos() {
             return new Point2D.Double( bounds.get().getMaxX(), bounds.get().getMinY() );
         }
+
+        public void setLowerRightCornerPos( Point2D newLowerRightCornerPos ) {
+            ImmutableVector2D currentLowerRightCornerPos = new ImmutableVector2D( getLowerRightCornerPos() );
+            ImmutableVector2D delta = new ImmutableVector2D( newLowerRightCornerPos ).getSubtractedInstance( currentLowerRightCornerPos );
+            Rectangle2D newBounds = AffineTransform.getTranslateInstance( delta.getX(), delta.getY() ).createTransformedShape( bounds.get() ).getBounds2D();
+            bounds.set( newBounds );
+        }
+
+        ;
 
         public Point2D getUpperLeftCornerPos() {
             return new Point2D.Double( bounds.get().getMinX(), bounds.get().getMaxY() );
