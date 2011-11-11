@@ -9,9 +9,11 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fractions.intro.intro.model.Fraction;
 import edu.colorado.phet.fractions.intro.matchinggame.view.FractionRepresentationNode;
+import edu.colorado.phet.fractions.intro.matchinggame.view.HorizontalBarsNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.PatternNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.PieNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.RepresentationNode;
+import edu.colorado.phet.fractions.intro.matchinggame.view.VerticalBarsNode;
 
 import static edu.colorado.phet.fractions.intro.common.view.Pattern.NineGrid;
 import static edu.colorado.phet.fractions.intro.common.view.Pattern.SixPlusSigns;
@@ -103,6 +105,16 @@ public class MatchingGameModel {
             add( new Representation() {
                 public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
                     return new PieNode( transform, fraction );
+                }
+            } );
+            add( new Representation() {
+                public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                    return new HorizontalBarsNode( transform, fraction );
+                }
+            } );
+            add( new Representation() {
+                public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                    return new VerticalBarsNode( transform, fraction );
                 }
             } );
         }};
