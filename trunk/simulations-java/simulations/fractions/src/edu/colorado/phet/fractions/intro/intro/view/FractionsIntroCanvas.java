@@ -26,6 +26,12 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( toolboxNode );
 
+        //TODO: Start here to work on AbstractFractionNode
+//        addChild( new AbstractFractionNode( model.fraction, model.decimalRepresentation.enabled, new Function2<Double, Double, PNode>() {
+//            public PNode apply( Double numerator, Double denominator ) {
+//                return new ConcreteDecimalFractionNode( numerator, denominator );
+//            }
+//        } ) );
         addChild( new DecimalFractionNode( model.fraction, model.decimalRepresentation.enabled ) {{
             setOffset( ( STAGE_SIZE.getWidth() - fractionNode.getFullBounds().getMaxX() ) / 2 + fractionNode.getFullBounds().getMaxX() - getFullBounds().getWidth() / 2, fractionNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
