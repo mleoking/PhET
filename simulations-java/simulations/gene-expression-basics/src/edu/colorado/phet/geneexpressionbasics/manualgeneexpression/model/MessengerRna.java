@@ -373,18 +373,16 @@ public class MessengerRna extends MobileBiomolecule {
             currentPoint.setPosition( leaderOrigin.getX() + leaderLength, leaderOrigin.getY() );
             currentPoint = currentPoint.getNextPointMass();
         }
-        if ( currentPoint == null ) {
-            // All points have been positioned - we're done.
-            return;
+        if ( currentPoint != null ) {
+            if ( shapeSegments.size() < 2 ) {
+                // Shouldn't happen that we have more points but no segment in which to position them.
+                assert false;
+            }
+            currentShapeSegment = shapeSegments.get( 1 );
+            Rectangle2D boundsForSegment = currentShapeSegment.getBounds();
+            randomizePointPositionsInRectangle( currentPoint, lastShapeDefiningPoint, boundsForSegment );
+            runSpringAlgorithm( currentPoint, lastShapeDefiningPoint, boundsForSegment );
         }
-        if ( shapeSegments.size() < 2 ) {
-            // Shouldn't happen that we have more points but no segment in which to position them.
-            assert false;
-        }
-        currentShapeSegment = shapeSegments.get( 1 );
-        Rectangle2D boundsForSegment = currentShapeSegment.getBounds();
-        randomizePointPositionsInRectangle( currentPoint, lastShapeDefiningPoint, boundsForSegment );
-        runSpringAlgorithm( currentPoint, lastShapeDefiningPoint, boundsForSegment );
 
         // Update the shape.
         shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
