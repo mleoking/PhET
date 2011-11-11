@@ -33,9 +33,6 @@ case class Entry(time: Long, //Time since sim started in millisec
     }
   }
 
-  def brief = actor + " " + event + ( if ( ( actor == "button node" ) ) {": " + apply("actionCommand")}
-  else {""} )
-
   def hasParameter(key: String, value: String): Boolean = {
     for ( parameter <- parameters ) {
       if ( ( parameter._1 == key ) && ( parameter._2 == value ) ) {
