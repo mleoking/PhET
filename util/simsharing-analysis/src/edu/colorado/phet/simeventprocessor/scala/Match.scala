@@ -1,11 +1,6 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventprocessor.scala
-
-import edu.colorado.phet.simeventprocessor.JavaEntry
 
 /**
  * @author Sam Reid
  */
-
-trait Match {
-  def matches(entry: JavaEntry): Boolean
-}

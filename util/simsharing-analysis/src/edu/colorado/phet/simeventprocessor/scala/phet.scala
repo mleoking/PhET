@@ -1,20 +1,28 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventprocessor.scala
 
-import org.jfree.data.xy.XYSeries
-import edu.colorado.phet.simeventprocessor.{JavaPredef, Processor}
+import collection.Seq
+import org.jfree.data.xy.{XYSeriesCollection, XYSeries}
+import org.jfree.chart.plot.{PlotOrientation, XYPlot}
+import org.jfree.chart.{ChartFrame, ChartFactory}
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
+import java.io.File
+import collection.mutable.{ArrayBuffer, HashMap}
 
 /**
  * Functions and implicits to make the REPL easier to use
  * @author Sam Reid
  */
 object phet {
-  def load(s: String) = {
-    val list = Processor.load(s).toList
-    list.map(s => new EventLog(s))
+  def toMap(seq: Pair[String, String]*): Map[String, String] = {
+    val map = new HashMap[String, String]
+    for ( elm <- seq ) {
+      map.put(elm._1, elm._2)
+    }
+    map.toMap
   }
 
-  def print(list: Seq[EventLog]) {
+  def print(list: Seq[Log]) {
     println(list mkString "\n")
   }
 
@@ -28,12 +36,12 @@ object phet {
     }
   }
 
-  implicit def wrapLogSeq(i: Seq[EventLog]) = new LogSeqWrapper(i)
+  implicit def wrapLogSeq(i: Seq[Log]) = new LogSeqWrapper(i)
 
   //Turning this number too high can cause it to take too long.  1000 was a good granularity, but took a bit too long for large data sets
-  def timeSeries(log: EventLog, value: Int => Double): XYSeries = seqSeries("ID " + log.user, 0 to log.lastTime by 10000, value)
+  def timeSeries(log: Log, value: Int => Double): XYSeries = seqSeries("ID " + log.user, 0 to log.lastTime by 10000, value)
 
-  def seqSeries(name: String, time: Seq[Int], value: Int => Double): XYSeries =
+  def seqSeries(name: String, time: Seq[Int], value: Int => Double) =
     new XYSeries(name) {
       for ( t <- time ) {
         add(t / 1000.0 / 60.0, value(t))
@@ -45,15 +53,45 @@ object phet {
   }
 
   def xyplot(title: String, domainAxis: String, rangeAxis: String, dataSets: Seq[XYSeries]) {
-    JavaPredef.plot(title, domainAxis, rangeAxis, dataSets.toArray)
+    plot(title, domainAxis, rangeAxis, dataSets.toArray)
   }
 
   def barchart(title: String, domainAxis: String, rangeAxis: String, xySeries: Seq[XYSeries]) {
-    JavaPredef.plot(title, domainAxis, rangeAxis, xySeries.toArray)
+    plot(title, domainAxis, rangeAxis, xySeries.toArray)
   }
+
+  def plot(title: String, domainAxis: String, rangeAxis: String, xySeries: Array[XYSeries]) {
+    val xyPlot = new XYPlot
+    val dataset = new XYSeriesCollection {xySeries.foreach(addSeries(_))}
+    xyPlot.setDataset(dataset)
+    val plot = ChartFactory.createScatterPlot(title, domainAxis, rangeAxis, dataset, PlotOrientation.VERTICAL, true, false, false)
+    val frame = new ChartFrame(title, plot)
+    frame.setSize(900, 600)
+    SwingUtils.centerWindowOnScreen(frame)
+    frame.setVisible(true)
+  }
+
+  //Load all Logs within a directory recursively
+  def load(file: String): List[Log] = load(new File(file))
+
+  def load(file: File): List[Log] = {
+    val all = new ArrayBuffer[Log]
+    for ( file <- file.listFiles ) {
+      if ( file.isFile ) {
+        val parsed = parse(file)
+        all += parsed
+      }
+      else {
+        all ++= load(file)
+      }
+    }
+    all.toList
+  }
+
+  def parse(file: File): Log = new Parser().parse(file)
 }
 
-class LogSeqWrapper(selectedLogs: Seq[EventLog]) {
+class LogSeqWrapper(selectedLogs: Seq[Log]) {
   def print() {
     println(selectedLogs mkString "\n")
   }
