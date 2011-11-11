@@ -21,18 +21,18 @@ public class JavaEventLog implements Iterable<JavaEntry> {
     private String sessionID;
     private long serverTime;
     public List<JavaEntry> lines = new ArrayList<JavaEntry>();
-    public final File sourceFile;
+    public final File file;
 
-    public JavaEventLog( File sourceFile ) {
-        this.sourceFile = sourceFile;
+    public JavaEventLog( File file ) {
+        this.file = file;
     }
 
-    public JavaEventLog( String machineID, String sessionID, long serverTime, List<JavaEntry> lines, File sourceFile ) {
+    public JavaEventLog( String machineID, String sessionID, long serverTime, List<JavaEntry> lines, File file ) {
         this.machineID = machineID;
         this.sessionID = sessionID;
         this.serverTime = serverTime;
         this.lines = lines;
-        this.sourceFile = sourceFile;
+        this.file = file;
     }
 
     //Parse a single line
@@ -73,7 +73,7 @@ public class JavaEventLog implements Iterable<JavaEntry> {
     }
 
     public JavaEventLog removeItems( Function1<JavaEntry, Boolean> filter ) {
-        return new JavaEventLog( machineID, sessionID, serverTime, new ObservableList<JavaEntry>( lines ).removeItems( filter ), sourceFile );
+        return new JavaEventLog( machineID, sessionID, serverTime, new ObservableList<JavaEntry>( lines ).removeItems( filter ), file );
     }
 
     public int getLastTime() {
@@ -96,7 +96,7 @@ public class JavaEventLog implements Iterable<JavaEntry> {
     }
 
     public JavaEventLog keepItems( Function1<JavaEntry, Boolean> matches ) {
-        return new JavaEventLog( machineID, sessionID, serverTime, new ObservableList<JavaEntry>( lines ).keepItems( matches ), sourceFile );
+        return new JavaEventLog( machineID, sessionID, serverTime, new ObservableList<JavaEntry>( lines ).keepItems( matches ), file );
     }
 
     public int size() {
@@ -202,7 +202,7 @@ public class JavaEventLog implements Iterable<JavaEntry> {
                ", sessionID='" + sessionID + '\'' +
                ", serverTime=" + serverTime +
                ", lines=" + lines +
-               ", sourceFile=" + sourceFile +
+               ", sourceFile=" + file +
                '}';
     }
 }
