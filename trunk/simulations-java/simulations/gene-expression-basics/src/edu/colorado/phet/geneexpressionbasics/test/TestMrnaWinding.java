@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class TestMrnaWinding {
 
-    private static final int NUM_POINTS = 50;
+    private static final int NUM_POINTS = 20;
     private static final double INTER_POINT_DISTANCE = 200; // Model coords, which are nanometers.
     private static final double CONTAINMENT_RECT_WIDTH = 1000;
     private static final double CONTAINMENT_RECT_HEIGHT = 1000;
@@ -112,9 +112,7 @@ public class TestMrnaWinding {
     }
 
     /**
-     * Position by first placing points randomly in the rect, then running the
-     * spring algorithm.  Hooke's law: F = -kx, where x is displacement from
-     * equilibrium position.
+     * Update the positions of the points.
      */
     private static void updatePointPositions01( final LinkablePoint firstPointOnList, Rectangle2D containmentRect, double dt ) {
         assert firstPointOnList != null;
