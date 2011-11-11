@@ -37,14 +37,8 @@ case class Entry(
     }
   }
 
-  def brief: String = {
-    actor + " " + event + ( if ( ( actor == "button node" ) ) {
-      ": " + apply("actionCommand")
-    }
-    else {
-      ""
-    } )
-  }
+  def brief = actor + " " + event + ( if ( ( actor == "button node" ) ) {": " + apply("actionCommand")}
+  else {""} )
 
   def hasParameter(key: String, value: String): Boolean = {
     for ( parameter <- parameters ) {
