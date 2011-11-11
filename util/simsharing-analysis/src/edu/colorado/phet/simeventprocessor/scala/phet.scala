@@ -49,19 +49,19 @@ object phet {
       }
     }
 
-  def xyplot(dataSets: Seq[XYSeries]) {
-    xyplot("Title", "x-axis", "y-axis", dataSets)
+  def xyplot(dataSets: XYSeries*) {
+    xyplot("Title", "x-axis", "y-axis", dataSets: _*)
   }
 
-  def xyplot(title: String, domainAxis: String, rangeAxis: String, dataSets: Seq[XYSeries]) {
-    plot(title, domainAxis, rangeAxis, dataSets.toArray)
+  def xyplot(title: String, domainAxis: String, rangeAxis: String, dataSets: XYSeries*) {
+    plot(title, domainAxis, rangeAxis, dataSets: _*)
   }
 
-  def barchart(title: String, domainAxis: String, rangeAxis: String, xySeries: Seq[XYSeries]) {
-    plot(title, domainAxis, rangeAxis, xySeries.toArray)
+  def barchart(title: String, domainAxis: String, rangeAxis: String, xySeries: XYSeries*) {
+    plot(title, domainAxis, rangeAxis, xySeries: _*)
   }
 
-  def plot(title: String, domainAxis: String, rangeAxis: String, xySeries: Array[XYSeries]) {
+  def plot(title: String, domainAxis: String, rangeAxis: String, xySeries: XYSeries*) {
     val dataSet = new XYSeriesCollection {xySeries.foreach(addSeries(_))}
     val plot = ChartFactory.createScatterPlot(title, domainAxis, rangeAxis, dataSet, PlotOrientation.VERTICAL, true, false, false)
     new ChartFrame(title, plot) {

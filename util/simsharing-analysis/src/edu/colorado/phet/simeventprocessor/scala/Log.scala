@@ -11,18 +11,17 @@ import collection.mutable.{ArrayBuffer, HashMap}
  * @author Sam Reid
  */
 case class Log(file: File, machine: String, session: String, epoch: Long, entries: List[Entry]) {
-
   val startMessage = getFirstEntry("system", "started")
   val study = startMessage("study")
   val simName = startMessage("name")
   val simVersion = startMessage("version")
   val user = startMessage("id")
-  val startDate = new java.util.Date(epoch)
-  val day = new SimpleDateFormat("MM-dd-yyyy").format(startDate)
+  val date = new Date(epoch)
+  val day = new SimpleDateFormat("MM-dd-yyyy").format(date)
   val osName = startMessage("osName")
   val osVersion = startMessage("osVersion")
   val size = entries.size
-  val lastTime = entries(entries.size - 1).time.asInstanceOf[Int]
+  val lastTime = entries(entries.size - 1).time.asInstanceOf[Int] //Time since the beginning of the sim to the last event
   lazy val minutesUsed: Int = lastTime / 1000 / 60
   lazy val eventCountData = phet.timeSeries(this, countEvents(_))
   lazy val firstUserEvent = entries.find(log => log.actor != "system" && log.actor != "window") //Millis
@@ -34,6 +33,9 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
       case nfe: NumberFormatException => -1;
     }
   }
+
+  //Determine if the sim was running at the specified server time
+  def running(time: Long) = time >= epoch && time <= epoch + lastTime
 
   override def toString = simName + " " + new Date(epoch) + " (" + epoch + "), study = " + study + ", user = " + user + ", events = " + size + ", machine = " + machine + ", session = " + session
 
@@ -52,7 +54,7 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
 
   def findEvents(criteria: Match): List[Entry] = entries.filter(criteria(_)).toList
 
-  def findEvents(actor: String): List[Entry] = entries.filter(ActorRule(actor, Map()).apply(_)).toList
+  def findEvents(actor: String): List[Entry] = entries.filter(_.actor == actor)
 
   def countEvents(matcher: Seq[Match]) = phet.timeSeries(this, countMatches(matcher, _))
 
