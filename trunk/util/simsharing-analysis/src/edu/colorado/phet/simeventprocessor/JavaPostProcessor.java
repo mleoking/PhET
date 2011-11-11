@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 import org.jfree.data.xy.XYSeries;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-
 import static edu.colorado.phet.simeventprocessor.MoleculePolarityEventsOfInterest.getMoleculePolarityEventsOfInterest;
 import static java.util.Collections.reverse;
 import static java.util.Collections.sort;
@@ -25,7 +23,7 @@ public class JavaPostProcessor extends Processor {
         println( "#########################" );
         println( "######### Processing tabs" );
         for ( JavaEntry entry : eventLog ) {
-            if ( entry.matches( "tab", "pressed") ) {
+            if ( entry.matches( "tab", "pressed" ) ) {
                 println( "Switched tab to: " + entry.get( "text" ) + " after " + entry.time + " sec" );
             }
         }

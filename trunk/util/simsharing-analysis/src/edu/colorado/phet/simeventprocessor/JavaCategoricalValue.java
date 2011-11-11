@@ -1,8 +1,8 @@
 package edu.colorado.phet.simeventprocessor;
 
 /**
-* @author Sam Reid
-*/
+ * @author Sam Reid
+ */
 public class JavaCategoricalValue {
     double value;
     String row;

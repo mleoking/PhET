@@ -135,9 +135,9 @@ public class JavaEntry {
         return actor + " " + event + ( actor.equals( "button node" ) ? ": " + get( "actionCommand" ) : "" );
     }
 
-    public boolean hasParameter(String key,String value){
+    public boolean hasParameter( String key, String value ) {
         for ( Parameter parameter : parameters ) {
-            if (parameter.name.equals( key )&& parameter.value.equals( value )) return true;
+            if ( parameter.name.equals( key ) && parameter.value.equals( value ) ) { return true; }
         }
         return false;
     }
