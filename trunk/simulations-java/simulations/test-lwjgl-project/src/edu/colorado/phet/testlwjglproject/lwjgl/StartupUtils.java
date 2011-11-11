@@ -10,12 +10,17 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JPopupMenu;
+
 /**
  * Responsible for extracting the native libraries into the correct place, if needed.
  */
 public class StartupUtils {
 
     public static void setupLibraries() throws IOException {
+
+        JPopupMenu.setDefaultLightWeightPopupEnabled( false ); // potential solution for menu-over-OpenGL canvas issue. see http://lwjgl.org/forum/index.php?topic=2365.0;wap2
+
         boolean webstart = System.getProperty( "javawebstart.version" ) != null;
 
         if ( !webstart ) {
