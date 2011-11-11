@@ -2,8 +2,6 @@
 package edu.colorado.phet.simeventprocessor.comparison;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import edu.colorado.phet.simeventprocessor.JavaEventLog;
 import edu.colorado.phet.simeventprocessor.Processor;

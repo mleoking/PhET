@@ -3,7 +3,6 @@ package edu.colorado.phet.simeventprocessor.scala
 
 import org.jfree.data.xy.XYSeries
 import edu.colorado.phet.simeventprocessor.{JavaPredef, Processor}
-import edu.colorado.phet.simeventprocessor.scala.phet._
 
 /**
  * Functions and implicits to make the REPL easier to use
@@ -42,7 +41,7 @@ object phet {
     }
 
   def xyplot(dataSets: Seq[XYSeries]) {
-    xyplot("Title","x-axis","y-axis",dataSets)
+    xyplot("Title", "x-axis", "y-axis", dataSets)
   }
 
   def xyplot(title: String, domainAxis: String, rangeAxis: String, dataSets: Seq[XYSeries]) {

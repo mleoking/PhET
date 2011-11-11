@@ -8,8 +8,8 @@ val all = phet load "C:\\Users\\Sam\\Desktop\\0all-11-8-2011-v"
 
 val selected = all.filter(log =>
                           //                            log.day == "11-08-2011" &&
-                                                      log.study == "colorado" &&
-//                            log.study == "utah" &&
+                            log.study == "colorado" &&
+                            //                            log.study == "utah" &&
                             //                            log.epoch > 1320792019874L &&
                             log.user != "samreid" &&
                             !log.machine.startsWith("samreid") &&
@@ -52,12 +52,12 @@ for ( sim <- simEventMap.keys; simLogs = selected.filter(_.simName == sim); if s
     println("user " + log.user + " matched " + userEvents.size + "/" + simEvents.size)
   }
 
-  println("unused features in "+sim)
+  println("unused features in " + sim)
   //val unusedFeatures = for (event <- simToUse if selected.filter(log => (log find (event :: Nil))).size==0) yield event
   val unusedFeatures = simEvents.filter(event => selected.filter(_.matches(event)).size == 0)
   println(unusedFeatures mkString "\n")
 
-  println("who used what in "+sim)
+  println("who used what in " + sim)
   val whoUsedWhat = for ( event <- simEvents ) yield {
     val used = selected.filter(_.matches(event)).map(_.user)
     used -> event
