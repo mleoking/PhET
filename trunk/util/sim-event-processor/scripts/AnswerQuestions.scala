@@ -1,6 +1,6 @@
 import edu.colorado.phet.simeventprocessor.scala._
 
-val all = phet load "C:\\Users\\Sam\\Desktop\\0all-11-8-2011-v"
+val all = phet load "C:\\Users\\Sam\\Desktop\\data-11-10-2011-i"
 
 val logs = all.filter(log =>
                       //                        log.study == "utah" &&
