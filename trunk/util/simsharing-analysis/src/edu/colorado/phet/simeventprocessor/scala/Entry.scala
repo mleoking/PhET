@@ -4,11 +4,12 @@ package edu.colorado.phet.simeventprocessor.scala
 import java.util.StringTokenizer
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter
 import collection.mutable.HashMap
+import java.lang.RuntimeException
 
-case class Entry(
-                        //Time since sim started in millisec
-                        time: Long,
-                        actor: String, event: String, parameters: Map[String, String]) {
+case class Entry(time: Long, //Time since sim started in millisec
+                 actor: String,
+                 event: String,
+                 parameters: Map[String, String]) {
 
   def matches(actor: String, event: String, params: Map[String, String]): Boolean = {
     for ( key <- params.keys ) {
@@ -50,7 +51,6 @@ case class Entry(
   }
 }
 
-//TODO: Check for duplicate keys
 object Entry {
   def parse(line: String): Entry = {
     val tokenizer = new StringTokenizer(line, "\t")
@@ -66,6 +66,9 @@ object Entry {
     val parameters = Parameter.parseParameters(remainderOfLine)
     val map = new HashMap[String, String]()
     for ( p <- parameters ) {
+      if ( map.contains(p.name) ) {
+        throw new RuntimeException("Duplicate string key for " + p.name)
+      }
       map.put(p.name, p.value)
     }
 
