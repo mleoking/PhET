@@ -40,19 +40,24 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
 
         if ( SHOW_SHAPE_SEGMENTS ) {
 
+            // Add a layer for the segment shapes.
+            final PNode segmentShapeLayer = new PNode();
+            addChild( segmentShapeLayer );
+            segmentShapeLayer.moveToBack();
+
             // Observe the mRNA and add new shape segments as they come into existence.
             messengerRna.shapeSegments.addElementAddedObserver( new VoidFunction1<MessengerRna.ShapeSegment>() {
 
                 public void apply( final MessengerRna.ShapeSegment addedShapeSegment ) {
                     final ShapeSegmentNode shapeSegmentNode = new ShapeSegmentNode( addedShapeSegment, mvt );
-                    addChild( shapeSegmentNode );
+                    segmentShapeLayer.addChild( shapeSegmentNode );
 
                     // Watch for removal of this shape segment.  If it goes
                     // away, remove the corresponding node.
                     messengerRna.shapeSegments.addElementRemovedObserver( new VoidFunction1<MessengerRna.ShapeSegment>() {
                         public void apply( MessengerRna.ShapeSegment removedShapeSegment ) {
                             if ( removedShapeSegment == addedShapeSegment ) {
-                                removeChild( shapeSegmentNode );
+                                segmentShapeLayer.removeChild( shapeSegmentNode );
                             }
                         }
                     } );
@@ -68,7 +73,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
      */
     private static class ShapeSegmentNode extends PNode {
 
-        private static final Color FILL_COLOR = new Color( 200, 100, 150, 150 );
+        private static final Color FILL_COLOR = Color.ORANGE;
         private static final Color STROKE_COLOR = Color.RED;
         private static final Stroke STROKE = new BasicStroke( 1 );
 
