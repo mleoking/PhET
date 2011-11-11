@@ -280,14 +280,26 @@ public abstract class JavaProject extends PhetProject {
         return false;
     }
 
+    /**
+     * @return Whether the project depends on LWJGL (directly. the indirect dependency via JME3 should return false).
+     */
+    public boolean containsLWJGLDependency() {
+        for ( File file : getAllJarFiles() ) {
+            if ( file.getAbsolutePath().contains( "lwjgl" ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String getAdditionalJnlpResources() {
-        if ( containsJME3Dependency() ) {
-            System.out.println( "Contains JME3, adding in addition JNLP resources" );
+        if ( containsJME3Dependency() || containsLWJGLDependency() ) {
+            System.out.println( "Contains JME3/LWJGL, adding in addition JNLP resources" );
             try {
-                return FileUtils.loadFileAsString( new File( getTrunk(), BuildToolsPaths.JME3_JNLP_RESOURCES ) );
+                return FileUtils.loadFileAsString( new File( getTrunk(), BuildToolsPaths.LWJGL_JNLP_RESOURCES ) );
             }
             catch ( IOException e ) {
-                throw new RuntimeException( "Problem with JME3 JNLP resource file", e );
+                throw new RuntimeException( "Problem with JME3/LWJGL JNLP resource file", e );
             }
         }
         else {
@@ -298,16 +310,17 @@ public abstract class JavaProject extends PhetProject {
     @Override public void copyAssets() throws IOException {
         super.copyAssets();
 
-        // copy over JME3 native libraries to our deploy directory, so that they can be accessed online through their JNLP dependencies
-        if ( containsJME3Dependency() ) {
-            File jme3NativesDir = new File( getTrunk(), BuildToolsPaths.JME3_NATIVES );
+        // copy over LWJGL native libraries to our deploy directory, so that they can be accessed online through their JNLP dependencies
+        if ( containsJME3Dependency() || containsLWJGLDependency() ) {
+            // pick the variety of native libs that we use depending on whether it is JME3 or straight LWJGL
+            File nativesDir = new File( getTrunk(), containsJME3Dependency() ? BuildToolsPaths.JME3_NATIVES : BuildToolsPaths.LWJGL_NATIVES );
 
             PhetJarSigner jarSigner = new PhetJarSigner( BuildLocalProperties.getInstance() );
 
-            System.out.println( "Copying JME3 native JARs into the deploy directory" );
-            for ( File file : jme3NativesDir.listFiles( new FilenameFilter() {
+            System.out.println( "Copying LWJGL native JARs into the deploy directory" );
+            for ( File file : nativesDir.listFiles( new FilenameFilter() {
                 public boolean accept( File dir, String name ) {
-                    return !name.startsWith( "." ) && name.endsWith( ".jar" );
+                    return name.startsWith( "native_" ) && name.endsWith( ".jar" );
                 }
             } ) ) {
                 File destinationFile = new File( getDeployDir(), file.getName() );
