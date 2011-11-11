@@ -8,41 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Main entry point for post-processing collected data from sim events.
- *
- * @author Sam Reid
- */
-public abstract class Processor extends JavaPredef {
-
-    //Process all files in the specified directory, but not recursively
-    public void processDir( File dir ) throws IOException {
-        process( dir.listFiles() );
-    }
-
-    //Process a collection of files. Might be nice to plot multiple sessions together
-    public void process( File... files ) throws IOException {
-
-        ArrayList<JavaEventLog> all = new ArrayList<JavaEventLog>();
-
-        for ( File file : files ) {
-            JavaEventLog log = processFile( file );
-            all.add( log );
-        }
-
-        process( all );
-    }
-
-    public abstract void process( ArrayList<JavaEventLog> all );
-
-    //Process a single file
-    public JavaEventLog processFile( File file ) throws IOException {
-        JavaEventLog eventLog = parse( file );
-
-        process( eventLog );
-
-        return eventLog;
-    }
+public class Processor extends JavaPredef {
 
     public static JavaEventLog[] load( String file ) throws IOException {
         return load( new File( file ) );
@@ -74,9 +40,4 @@ public abstract class Processor extends JavaPredef {
         return eventLog;
     }
 
-    public static ArrayList<EntryPair> pairs( JavaEventLog eventLog ) {
-        return new PairwiseProcessor().process( eventLog.getWithoutSystemEvents() );
-    }
-
-    public abstract void process( JavaEventLog eventLog );
 }
