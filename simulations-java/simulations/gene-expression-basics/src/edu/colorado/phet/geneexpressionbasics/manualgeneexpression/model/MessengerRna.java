@@ -374,7 +374,7 @@ public class MessengerRna extends MobileBiomolecule {
             currentPoint = currentPoint.getNextPointMass();
         }
         if ( currentPoint == null ) {
-            // We're done.
+            // All points have been positioned - we're done.
             return;
         }
         if ( shapeSegments.size() < 2 ) {
@@ -383,15 +383,136 @@ public class MessengerRna extends MobileBiomolecule {
         }
         currentShapeSegment = shapeSegments.get( 1 );
         Rectangle2D boundsForSegment = currentShapeSegment.getBounds();
-        while ( currentPoint != null ) {
-            // Randomly position the points within the segment.
-            currentPoint.setPosition( boundsForSegment.getMinX() + RAND.nextDouble() * boundsForSegment.getWidth(),
-                                      boundsForSegment.getMinY() + RAND.nextDouble() * boundsForSegment.getHeight() );
-            currentPoint = currentPoint.getNextPointMass();
-        }
+        randomizePointPositionsInRectangle( currentPoint, lastShapeDefiningPoint, boundsForSegment );
+        runSpringAlgorithm( currentPoint, lastShapeDefiningPoint, boundsForSegment );
 
         // Update the shape.
         shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
+    }
+
+    /**
+     * Randomly position a set of points inside a rectangle.  The first point
+     * is positioned at the upper left, the last at the lower right, and all
+     * points in between are randomly placed.
+     *
+     * @param firstPoint
+     * @param lastPoint
+     */
+    private void randomizePointPositionsInRectangle( PointMass firstPoint, PointMass lastPoint, Rectangle2D bounds ) {
+        assert bounds.getHeight() != 0; // Only segments with some space in them should be used.
+        assert firstPoint != null;
+        if ( firstPoint == null ) {
+            // Defensive programming.
+            return;
+        }
+
+        // Position the first point at the upper left.
+        firstPoint.setPosition( bounds.getMinX(), bounds.getMinY() + bounds.getHeight() );
+        if ( firstPoint == lastPoint ) {
+            // Nothing more to do.
+            return;
+        }
+
+        // Position the last point at the lower right.
+        lastPoint.setPosition( bounds.getMaxX(), bounds.getMinY() );
+
+        PointMass currentPoint = firstPoint;
+        do {
+            // Randomly position the points within the segment.
+            currentPoint.setPosition( bounds.getMinX() + RAND.nextDouble() * bounds.getWidth(),
+                                      bounds.getMinY() + RAND.nextDouble() * bounds.getHeight() );
+            currentPoint = currentPoint.getNextPointMass();
+        } while ( currentPoint != lastPoint && currentPoint != null );
+    }
+
+    /**
+     * Position a set of points within a rectangle.  The first point stays at the
+     * upper left, the last point stays at the lower right, and the points in
+     * between are initially positioned randomly, then a spring algorithm is
+     * run to position them such that each point is the appropriate distance
+     * from the previous and next points.
+     *
+     * @param firstPoint
+     * @param lastPoint
+     * @param bounds
+     */
+    private static void runSpringAlgorithm( final PointMass firstPoint, final PointMass lastPoint, Rectangle2D bounds ) {
+        assert firstPoint != null;
+        if ( firstPoint == null ) {
+            // Defensive programming.
+            return;
+        }
+
+        // Position the first point at the upper left.
+        firstPoint.setPosition( bounds.getMinX(), bounds.getMinY() + bounds.getHeight() );
+        if ( firstPoint == lastPoint ) {
+            // Nothing more to do.
+            return;
+        }
+
+        // Position the last point at the lower right.
+        lastPoint.setPosition( bounds.getMaxX(), bounds.getMinY() );
+
+        // Run an algorithm that treats each pair of points as though there
+        // is a spring between them, but doesn't allow the first or last
+        // points to be moved.
+        PointMass currentPoint = firstPoint;
+        while ( currentPoint != null ) {
+            currentPoint.clearVelocity();
+            currentPoint = currentPoint.getNextPointMass();
+        }
+        double springConstant = 2; // In Newtons/m
+        double dampingConstant = 1;
+        double pointMass = PointMass.MASS;
+        double dt = 0.025; // In seconds.
+        int numUpdates = 20;
+        for ( int i = 0; i < numUpdates; i++ ) {
+            PointMass previousPoint = firstPoint;
+            currentPoint = firstPoint.getNextPointMass();
+            while ( currentPoint != null ) {
+                if ( currentPoint.getNextPointMass() != null ) {
+                    PointMass nextPoint = currentPoint.getNextPointMass();
+                    // This is not the last point on the list, so go ahead and
+                    // run the spring algorithm on it.
+                    // TODO: Check for performance and, if needed, all the memory allocations could be done once and reused.
+                    ImmutableVector2D vectorToPreviousPoint = new ImmutableVector2D( previousPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
+                    double scalarForceDueToPreviousPoint = ( -springConstant ) * ( currentPoint.targetDistanceToPreviousPoint - currentPoint.distance( previousPoint ) );
+                    ImmutableVector2D forceDueToPreviousPoint = vectorToPreviousPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToPreviousPoint );
+                    ImmutableVector2D vectorToNextPoint = new ImmutableVector2D( nextPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
+                    double scalarForceDueToNextPoint = ( -springConstant ) * ( currentPoint.targetDistanceToPreviousPoint - currentPoint.distance( nextPoint ) );
+                    ImmutableVector2D forceDueToNextPoint = vectorToNextPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToNextPoint );
+                    ImmutableVector2D dampingForce = currentPoint.getVelocity().getScaledInstance( -dampingConstant );
+                    ImmutableVector2D totalForce = forceDueToPreviousPoint.getAddedInstance( forceDueToNextPoint ).getAddedInstance( dampingForce );
+                    ImmutableVector2D acceleration = totalForce.getScaledInstance( 1 / pointMass );
+                    currentPoint.setAcceleration( acceleration );
+                    currentPoint.update( dt );
+                }
+                previousPoint = currentPoint;
+                currentPoint = currentPoint.getNextPointMass();
+            }
+        }
+    }
+
+    /**
+     * Count the number of points between two points on a list.  Endpoints are
+     * included in the total.
+     *
+     * @param firstPoint
+     * @param lastPoint
+     * @return
+     */
+    private int countPoints( PointMass firstPoint, PointMass lastPoint ) {
+        int count = 1;
+        PointMass currentPoint = firstPoint;
+        while ( currentPoint != lastPoint && currentPoint != null ) {
+            count++;
+            currentPoint = currentPoint.getNextPointMass();
+        }
+        if ( currentPoint != null ) {
+            System.out.println( getClass().getName() + " Warning: End point never encountered when counting points." );
+            return Integer.MAX_VALUE;
+        }
+        return count;
     }
 
     /**
@@ -978,6 +1099,7 @@ public class MessengerRna extends MobileBiomolecule {
         public static final double MASS = 0.25; // In kg.  Arbitrarily chosen to get the desired behavior.
         private final Point2D position = new Point2D.Double( 0, 0 );
         private final Vector2D velocity = new Vector2D( 0, 0 );
+        private final Vector2D acceleration = new Vector2D( 0, 0 );
         private PointMass previousPointMass = null;
         private PointMass nextPointMass = null;
 
@@ -1016,6 +1138,10 @@ public class MessengerRna extends MobileBiomolecule {
             return new ImmutableVector2D( velocity.getX(), velocity.getY() );
         }
 
+        public void setAcceleration( ImmutableVector2D acceleration ) {
+            this.acceleration.setValue( acceleration );
+        }
+
         public PointMass getPreviousPointMass() {
             return previousPointMass;
         }
@@ -1048,12 +1174,21 @@ public class MessengerRna extends MobileBiomolecule {
             setPosition( position.getX() + velocity.getX() * time, position.getY() + velocity.getY() * time );
         }
 
+        public void update( double deltaTime ) {
+            velocity.setValue( velocity.getAddedInstance( acceleration.getScaledInstance( deltaTime ) ) );
+            position.setLocation( position.getX() + velocity.getX() * deltaTime, position.getY() + velocity.getY() * deltaTime );
+        }
+
         public void translate( ImmutableVector2D translationVector ) {
             setPosition( position.getX() + translationVector.getX(), position.getY() + translationVector.getY() );
         }
 
         public void setTargetDistanceToPreviousPoint( double targetDistance ) {
             targetDistanceToPreviousPoint = targetDistance;
+        }
+
+        public void clearVelocity() {
+            velocity.setComponents( 0, 0 );
         }
     }
 
