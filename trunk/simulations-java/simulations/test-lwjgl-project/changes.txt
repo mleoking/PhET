@@ -1,2 +1,4 @@
+# 0.00.02 (58520) Nov 11, 2011
+11/11/11 Test fixes, test rename
 # 0.00.01 (58518) Nov 11, 2011
 11/11/11 Initial test version (for JNLP test)
