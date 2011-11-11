@@ -6,6 +6,7 @@ case class Entry(time: Long, //Time since sim started in millisec
                  event: String,
                  parameters: Map[String, String]) {
 
+  //Checks for a match for actor, event and optional params
   def matches(actor: String, event: String, params: Map[String, String]): Boolean = {
     for ( key <- params.keys ) {
       if ( !hasParameter(key, params(key)) ) {
@@ -15,30 +16,34 @@ case class Entry(time: Long, //Time since sim started in millisec
     this.actor == actor && this.event == event
   }
 
-  def matches(_actor: String, params: Map[String, String]): Boolean = {
+  //Checks for a match for actor (event omitted) and optional params
+  def matches(actor: String, params: Map[String, String]): Boolean = {
     for ( param <- params ) {
       if ( !hasParameter(param._1, param._2) ) {
         return false
       }
     }
-    actor == _actor
+    this.actor == actor
   }
 
-  def apply(key: String): Option[String] = {
+  //Get the specified parameter value, if it exists, otherwise "?"
+  def apply(key: String): String = {
     if ( parameters.contains(key) ) {
-      Some(parameters(key))
+      parameters(key)
     }
     else {
-      None
+      "?"
     }
   }
 
-  def hasParameter(key: String, value: String): Boolean = {
-    for ( parameter <- parameters ) {
-      if ( ( parameter._1 == key ) && ( parameter._2 == value ) ) {
-        return true
+  def hasParameter(key: String, value: String): Boolean = parameters.contains(key) && parameters(key) == value
+
+  def hasParameters(e: Entry, pairs: Seq[Pair[String, String]]): Boolean = {
+    for ( p <- pairs ) {
+      if ( !hasParameter(p._1, p._2) ) {
+        return false
       }
     }
-    false
+    true
   }
 }

@@ -3,11 +3,11 @@ package edu.colorado.phet.simeventprocessor.scala
 
 import collection.Seq
 import org.jfree.data.xy.{XYSeriesCollection, XYSeries}
-import org.jfree.chart.plot.{PlotOrientation, XYPlot}
+import org.jfree.chart.plot.PlotOrientation
 import org.jfree.chart.{ChartFrame, ChartFactory}
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
 import java.io.File
 import collection.mutable.{ArrayBuffer, HashMap}
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
 
 /**
  * Functions and implicits to make the REPL easier to use
@@ -36,6 +36,7 @@ object phet {
     }
   }
 
+  //Implicit to add .print command to a sequence of logs
   implicit def wrapLogSeq(i: Seq[Log]) = new LogSeqWrapper(i)
 
   //Turning this number too high can cause it to take too long.  1000 was a good granularity, but took a bit too long for large data sets
@@ -61,14 +62,12 @@ object phet {
   }
 
   def plot(title: String, domainAxis: String, rangeAxis: String, xySeries: Array[XYSeries]) {
-    val xyPlot = new XYPlot
-    val dataset = new XYSeriesCollection {xySeries.foreach(addSeries(_))}
-    xyPlot.setDataset(dataset)
-    val plot = ChartFactory.createScatterPlot(title, domainAxis, rangeAxis, dataset, PlotOrientation.VERTICAL, true, false, false)
-    val frame = new ChartFrame(title, plot)
-    frame.setSize(900, 600)
-    SwingUtils.centerWindowOnScreen(frame)
-    frame.setVisible(true)
+    val dataSet = new XYSeriesCollection {xySeries.foreach(addSeries(_))}
+    val plot = ChartFactory.createScatterPlot(title, domainAxis, rangeAxis, dataSet, PlotOrientation.VERTICAL, true, false, false)
+    new ChartFrame(title, plot) {
+      setSize(900, 600)
+      SwingUtils.centerWindowOnScreen(this)
+    }.setVisible(true)
   }
 
   //Load all Logs within a directory recursively
