@@ -39,6 +39,9 @@ object phet {
   //Implicit to add .print command to a sequence of logs
   implicit def wrapLogSeq(i: Seq[Log]) = new LogSeqWrapper(i)
 
+  //Implicit to add toXYSeries("plot") method
+  implicit def wrapPointPair(i: Seq[Pair[Long, Int]]) = new SeqPairPointWrapper(i)
+
   //Turning this number too high can cause it to take too long.  1000 was a good granularity, but took a bit too long for large data sets
   def timeSeries(log: Log, value: Int => Double): XYSeries = seqSeries("ID " + log.user, 0 to log.lastTime by 10000, value)
 
@@ -93,5 +96,13 @@ object phet {
 class LogSeqWrapper(selectedLogs: Seq[Log]) {
   def print() {
     println(selectedLogs mkString "\n")
+  }
+}
+
+class SeqPairPointWrapper(pairs: Seq[Pair[Long, Int]]) {
+  def toXYSeries(name: String) = new XYSeries(name) {
+    for ( p <- pairs ) {
+      add(p._1, p._2)
+    }
   }
 }
