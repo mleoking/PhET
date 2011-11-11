@@ -1,14 +1,14 @@
 import edu.colorado.phet.simeventprocessor.scala._
 import phet._
 
-val all = phet load "C:\\Users\\Sam\\Desktop\\0all-11-8-2011-v"
+val all = phet load "C:\\Users\\Sam\\Desktop\\data-11-10-2011-iv~"
 
 //def jcNov8Morning(log: EventLog) = log.day == "11-08-2011" && log.study == "colorado" && log.user != "null" && log.user != "samreid"
 //def emNov7Filter(log: EventLog) = log.day == "11-07-2011" && log.study == "utah" && log.user != "null" && log.user != "samreid"
 
 val selected = all.filter(log =>
-                          //                            log.day == "11-08-2011" &&
-                            log.study == "colorado" &&
+                            log.day == "11-09-2011" &&
+                            log.study == "utah" &&
                             //                            log.study == "utah" &&
                             //                            log.epoch > 1320792019874L &&
                             log.user != "samreid" &&

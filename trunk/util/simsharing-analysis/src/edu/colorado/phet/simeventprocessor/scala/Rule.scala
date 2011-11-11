@@ -1,18 +1,37 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventprocessor.scala
 
-import edu.colorado.phet.simeventprocessor.JavaEntry
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter
 
 /**
  * @author Sam Reid
  */
 
-case class Rule(actor: String, action: String, pair: Pair[String, String]*) extends Match {
-  def matches(entry: JavaEntry) = entry.matches(actor, action, pair.map(s => new Parameter(s._1, s._2)).toArray)
+case class Rule(actor: String, event: String, params: Map[String, String]) extends Match {
 
-  override def toString = actor + "\t" + action + "\t" + {
-    ( for ( elm <- pair ) yield {
+  def matches(entry: Entry) = entry.matches(actor, event, params)
+
+  override def toString = actor + "\t" + event + "\t" + {
+    ( for ( elm <- params ) yield {
       elm._1 + " = " + elm._2
     } ).mkString("\t")
   }
+}
+
+object Rule {
+  def apply(actor: String, event: String, params: Pair[String, String]*): Rule = Rule(actor, event, phet.toMap(params: _*))
+}
+
+case class ActorRule(actor: String, params: Map[String, String]) extends Match {
+  def matches(entry: Entry) = entry.matches(actor, params)
+
+  override def toString = actor + "\t" + "<any>" + "\t" + {
+    ( for ( elm <- params ) yield {
+      elm._1 + " = " + elm._2
+    } ).mkString("\t")
+  }
+}
+
+
+trait Match {
+  def matches(entry: Entry): Boolean
 }
