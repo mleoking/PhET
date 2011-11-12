@@ -22,7 +22,8 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
   val osVersion = startMessage("osVersion")
   val size = entries.size
   val lastTime = entries(entries.size - 1).time.asInstanceOf[Int] //Time since the beginning of the sim to the last event
-  lazy val minutesUsed: Int = lastTime / 1000 / 60
+  val endEpoch = epoch + lastTime.toLong
+  lazy val minutesUsed: Int = ( lastTime / 1000L / 60L ).toInt
   lazy val eventCountData = phet.timeSeries(this, countEvents(_))
   lazy val firstUserEvent = entries.find(log => log.actor != "system" && log.actor != "window") //Millis
   lazy val userNumber = {
