@@ -31,17 +31,5 @@ object TestIndividualSessions extends App {
     xyplot("Number sims running on " + s.study + " on " + s.day + " @ " + s.start, "Time (minutes)", "sims running", _.setDomainAxis(new DateAxis("Time")), countCO.toXYSeries("Colorado"), countUT.toXYSeries("Utah"))
   }
 
-  plot(studySessionsNov2011.utahStudyMonday)
-  plot(studySessionsNov2011.utahStudyTuesday)
-  plot(studySessionsNov2011.utahStudyWednesday)
-
-  plot(studySessionsNov2011.coloradoStudyMonday)
-  plot(studySessionsNov2011.coloradoStudyTuesdayI)
-  plot(studySessionsNov2011.coloradoStudyTuesdayII)
-  plot(studySessionsNov2011.coloradoStudyTuesdayIII)
-  plot(studySessionsNov2011.coloradoStudyWednesday)
-  plot(studySessionsNov2011.coloradoStudyThursdayI)
-  plot(studySessionsNov2011.coloradoStudyThursdayII)
-  plot(studySessionsNov2011.coloradoStudyFriday)
-
+  studySessionsNov2011.all.foreach(plot)
 }
