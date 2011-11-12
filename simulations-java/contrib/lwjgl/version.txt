@@ -1,1 +1,1 @@
-LWJGL 2.8.1
+LWJGL 2.8.2 nightly as of Nov 11 2011, with javadocs and src of LWJGL 2.8.1 (to save space)
