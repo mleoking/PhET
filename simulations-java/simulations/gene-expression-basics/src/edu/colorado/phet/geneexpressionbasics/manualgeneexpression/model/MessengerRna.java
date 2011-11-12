@@ -359,6 +359,16 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
+     * Set the position of the lower right end of the mRNA strand.
+     *
+     * @param p
+     */
+    public void setLowerRightPosition( Point2D p ) {
+        getLastShapeSegment().setLowerRightCornerPos( p );
+        realignSegmentsFromEnd();
+    }
+
+    /**
      * This is the "winding algorithm" that positions the points within the
      * shape segments in order to look like a wound up piece of mRNA.  The
      * combination of this algorithm and the shape segments allow the mRNA to
