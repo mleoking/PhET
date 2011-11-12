@@ -11,7 +11,7 @@ import org.jfree.chart.axis.DateAxis
  * @author Sam Reid
  */
 object VisualizeLogTimes extends App {
-  val logs = phet load "C:\\Users\\Sam\\Desktop\\data-11-10-2011-iv~"
+  val logs = phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i"
 
   //create an xy data set that shows the number of logs as a function time within each time window
 
