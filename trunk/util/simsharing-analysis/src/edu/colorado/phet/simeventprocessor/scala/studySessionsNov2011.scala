@@ -12,11 +12,11 @@ case class Session(study: String, day: String, start: String, end: String) exten
   val startDate = dateFormat.parse(day + " " + start)
   val endDate = dateFormat.parse(day + " " + end)
 
-  override def apply(log: Log) = {
-    //    println("study = "+study+", after = "+log.date.after(startDate)+", bofer="+log.date.before(endDate)+", startDate = "+startDate+", endDate = "+endDate+", logDate = "+log.date)
-    //    println(log.machine)
-    log.study == study && log.date.after(startDate) && log.date.before(endDate) && !log.machine.startsWith("samreid") && !log.machine.startsWith("chrismalley")
-  }
+  override def apply(log: Log) = log.study == study &&
+                                 log.date.after(startDate) && log.date.before(endDate) &&
+                                 !log.machine.startsWith("samreid") && !log.machine.startsWith("chrismalley")
+
+  override def toString() = study + " " + day + " " + start + "-" + end
 }
 
 object studySessionsNov2011 {
@@ -33,14 +33,21 @@ object studySessionsNov2011 {
   val coloradoStudyThursdayII = Session("colorado", "11/10/2011", "1:10 PM", "1:52 PM")
   val coloradoStudyFriday = Session("colorado", "11/11/2011", "1:10 PM", "1:50 PM")
 
+  val all =
+    utahStudyMonday ::
+    utahStudyTuesday ::
+    utahStudyWednesday ::
+    coloradoStudyMonday ::
+    coloradoStudyTuesdayI ::
+    coloradoStudyTuesdayII ::
+    coloradoStudyTuesdayIII ::
+    coloradoStudyWednesday ::
+    coloradoStudyThursdayI ::
+    coloradoStudyThursdayII ::
+    coloradoStudyFriday ::
+    Nil
+
   def main(args: Array[String]) {
-    Console println utahStudyMonday.startDate
-    Console println utahStudyMonday.endDate
-
-    Console println utahStudyTuesday.startDate
-    Console println utahStudyTuesday.endDate
-
-    Console println utahStudyWednesday.startDate
-    Console println utahStudyWednesday.endDate
+    all.foreach(x => println(x.startDate + "\t" + x.endDate))
   }
 }
