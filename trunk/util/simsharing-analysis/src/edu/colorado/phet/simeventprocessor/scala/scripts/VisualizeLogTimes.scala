@@ -3,6 +3,8 @@ package edu.colorado.phet.simeventprocessor.scala.scripts
 
 import edu.colorado.phet.simeventprocessor.scala.phet
 import phet._
+import java.util.Date
+import org.jfree.chart.axis.DateAxis
 
 /**
  * Visualize and select logs from each class session
@@ -19,8 +21,10 @@ object VisualizeLogTimes extends App {
   println("first log:\n" + firstLog.date + "\nlast log:\n" + lastLog.date)
 
   val range = firstLog.epoch to lastLog.epoch by 10000
-  val countCO = for ( time <- range; count = logs.count(log => log.running(time) && log.study == "colorado"); if count > 0 ) yield {( time - firstLog.epoch ) / 1000 / 60 -> count}
-  val countUT = for ( time <- range; count = logs.count(log => log.running(time) && log.study == "utah"); if count > 0 ) yield {( time - firstLog.epoch ) / 1000 / 60 -> count}
+  val countCO = for ( time <- range; count = logs.count(log => log.running(time) && log.study == "colorado"); if count > 0 ) yield {time -> count}
+  val countUT = for ( time <- range; count = logs.count(log => log.running(time) && log.study == "utah"); if count > 0 ) yield {time -> count}
 
-  xyplot("Number sims running", "Time (minutes)", "sims running", countCO.toXYSeries("Colorado"), countUT.toXYSeries("Utah"))
+  xyplot("Number sims running", "Time (minutes)", "sims running", _.setDomainAxis(new DateAxis("Time")), countCO.toXYSeries("Colorado"), countUT.toXYSeries("Utah"))
+
+  println(new Date(firstLog.epoch))
 }
