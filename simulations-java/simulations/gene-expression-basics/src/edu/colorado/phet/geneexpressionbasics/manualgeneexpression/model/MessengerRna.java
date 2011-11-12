@@ -1223,7 +1223,10 @@ public class MessengerRna extends MobileBiomolecule {
         }
 
         public void translate( ImmutableVector2D translationVector ) {
-            bounds.set( AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( bounds.get() ).getBounds() );
+            bounds.set( new Rectangle2D.Double( bounds.get().getX() + translationVector.getX(),
+                                                bounds.get().getY() + translationVector.getY(),
+                                                bounds.get().getWidth(),
+                                                bounds.get().getHeight() ) );
         }
 
         public Rectangle2D getBounds() {
