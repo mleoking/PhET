@@ -3,11 +3,11 @@ package edu.colorado.phet.simeventprocessor.scala
 
 import collection.Seq
 import org.jfree.data.xy.{XYSeriesCollection, XYSeries}
-import org.jfree.chart.plot.PlotOrientation
 import org.jfree.chart.{ChartFrame, ChartFactory}
 import java.io.File
 import collection.mutable.{ArrayBuffer, HashMap}
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
+import org.jfree.chart.plot.{XYPlot, PlotOrientation}
 
 /**
  * Functions and implicits to make the REPL easier to use
@@ -56,17 +56,24 @@ object phet {
     xyplot("Title", "x-axis", "y-axis", dataSets: _*)
   }
 
+  def xyplot(title: String, domainAxis: String, rangeAxis: String, plotCustomization: XYPlot => Unit, dataSets: XYSeries*) {
+    plot(title, domainAxis, rangeAxis, plotCustomization, dataSets: _*)
+  }
+
   def xyplot(title: String, domainAxis: String, rangeAxis: String, dataSets: XYSeries*) {
-    plot(title, domainAxis, rangeAxis, dataSets: _*)
+    plot(title, domainAxis, rangeAxis, (x: XYPlot) => (), dataSets: _*)
   }
 
   def barchart(title: String, domainAxis: String, rangeAxis: String, xySeries: XYSeries*) {
-    plot(title, domainAxis, rangeAxis, xySeries: _*)
+    plot(title, domainAxis, rangeAxis, (x: XYPlot) => (), xySeries: _*)
   }
 
-  def plot(title: String, domainAxis: String, rangeAxis: String, xySeries: XYSeries*) {
+  def plot(title: String, domain: String, range: String, plotCustomization: XYPlot => Unit, xySeries: XYSeries*) {
     val dataSet = new XYSeriesCollection {xySeries.foreach(addSeries(_))}
-    val plot = ChartFactory.createScatterPlot(title, domainAxis, rangeAxis, dataSet, PlotOrientation.VERTICAL, true, false, false)
+    val plot = ChartFactory.createScatterPlot(title, domain, range, dataSet, PlotOrientation.VERTICAL, true, false, false)
+
+    plotCustomization(plot.getPlot.asInstanceOf[XYPlot])
+
     new ChartFrame(title, plot) {
       setSize(900, 600)
       SwingUtils.centerWindowOnScreen(this)
