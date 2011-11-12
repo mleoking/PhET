@@ -80,6 +80,8 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
             biomolecule.setPosition( biomolecule.getPosition().getX() + dt * VELOCITY, biomolecule.getPosition().getY() );
             distanceTraveled += dt * VELOCITY;
             messengerRna.addLength( dt * VELOCITY );
+            messengerRna.setLowerRightPosition( new Point2D.Double( biomolecule.getPosition().getX() + messengerRnaEmergenceOffset.getX(),
+                                                                    biomolecule.getPosition().getY() + messengerRnaEmergenceOffset.getY() ) );
         }
         else if ( degreeOfConformationalChange > 0 ) {
             // The molecule is changing back to the non-transcribing conformation.
