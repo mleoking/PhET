@@ -52,11 +52,11 @@ public class MessengerRna extends MobileBiomolecule {
     // Standard distance between points that define the shape.  This is done to
     // keep the number of points reasonable and make the shape-defining
     // algorithm consistent.
-    private static final double INTER_POINT_DISTANCE = 20; // In picometers, empirically determined.
+    private static final double INTER_POINT_DISTANCE = 50; // In picometers, empirically determined.
 
     // Length of the "leader segment", which is the portion of the mRNA that
     // sticks out on the upper left side so that a ribosome can be attached.
-    private static final double LEADER_LENGTH = INTER_POINT_DISTANCE * 4;
+    private static final double LEADER_LENGTH = INTER_POINT_DISTANCE * 2;
 
     // Random number generator used for creating "curviness" in the shape of
     // the RNA.
@@ -86,6 +86,9 @@ public class MessengerRna extends MobileBiomolecule {
     // Min height for the containment rectangle.  Arbitrarily small so that
     // points can fit inside, but not much more.
     private static final double MIN_CONTAINMENT_RECT_HEIGHT = 1;
+
+    // Factor to use to avoid issues with floating point resolution.
+    private static final double FLOATING_POINT_COMP_FACTOR = 1E-7;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -137,7 +140,6 @@ public class MessengerRna extends MobileBiomolecule {
     //-------------------------------------------------------------------------
     // Methods
     //-------------------------------------------------------------------------
-
 
     @Override public void translate( ImmutableVector2D translationVector ) {
         // Translate the current shape user the superclass facility.
@@ -288,6 +290,9 @@ public class MessengerRna extends MobileBiomolecule {
         // At least for now, the mRNA can't be grown by more than the inter-
         // point distance at one time.  This is a simplifying assumption that
         // can be changed if necessary.
+        if ( length > INTER_POINT_DISTANCE ) {
+            System.out.println( "Big growth!" );
+        }
         assert length <= INTER_POINT_DISTANCE;
 
         if ( firstShapeDefiningPoint == lastShapeDefiningPoint ) {
@@ -366,11 +371,11 @@ public class MessengerRna extends MobileBiomolecule {
         // TODO: This isn't "real" yet - it's just something that is good enough to start testing.
         Point2D leaderOrigin = currentShapeSegment.getUpperLeftCornerPos();
         PointMass currentPoint = firstShapeDefiningPoint;
-        for ( double leaderLength = 0;
-              leaderLength <= currentShapeSegment.getLength() && currentPoint != null;
-              leaderLength += ( currentPoint == null ? 0 : currentPoint.getTargetDistanceToPreviousPoint() ) ) {
+        for ( double leaderLengthSoFar = 0;
+              leaderLengthSoFar <= currentShapeSegment.getLength() + FLOATING_POINT_COMP_FACTOR && currentPoint != null;
+              leaderLengthSoFar += ( currentPoint == null ? 0 : currentPoint.getTargetDistanceToPreviousPoint() ) ) {
 
-            currentPoint.setPosition( leaderOrigin.getX() + leaderLength, leaderOrigin.getY() );
+            currentPoint.setPosition( leaderOrigin.getX() + leaderLengthSoFar, leaderOrigin.getY() );
             currentPoint = currentPoint.getNextPointMass();
         }
         if ( currentPoint != null ) {
@@ -1304,7 +1309,7 @@ public class MessengerRna extends MobileBiomolecule {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.2 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 0.2 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new PhetPPath( new Rectangle2D.Double( -5, -5, 10, 10 ), Color.PINK ) );
+        canvas.getLayer().addChild( new PhetPPath( new Rectangle2D.Double( -20, -20, 40, 40 ), Color.PINK ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
@@ -1317,7 +1322,7 @@ public class MessengerRna extends MobileBiomolecule {
         MessengerRna messengerRna = new MessengerRna( new ManualGeneExpressionModel(), mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
         canvas.addWorldChild( new MessengerRnaNode( mvt, messengerRna ) );
         for ( int i = 0; i < 200; i++ ) {
-            messengerRna.addLength( INTER_POINT_DISTANCE );
+            messengerRna.addLength( 25 ); // Number derived from what polymerase tends to do.
             try {
                 Thread.sleep( 500 );
             }
