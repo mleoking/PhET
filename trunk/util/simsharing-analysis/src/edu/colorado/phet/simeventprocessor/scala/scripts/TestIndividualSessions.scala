@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventprocessor.scala.scripts
 
-import edu.colorado.phet.simeventprocessor.scala.{Session, Log, studySessionsNov2011, phet}
+import edu.colorado.phet.simeventprocessor.scala.{Session, studySessionsNov2011, phet}
 import edu.colorado.phet.simeventprocessor.scala.phet._
 import org.jfree.chart.axis.DateAxis
 
@@ -11,8 +11,9 @@ import org.jfree.chart.axis.DateAxis
  */
 
 object TestIndividualSessions extends App {
+  val all = phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i"
 
-  def plot(s: Session, all: Seq[Log]) {
+  def plot(s: Session) {
 
     val logs = all.filter(s)
 
@@ -30,17 +31,17 @@ object TestIndividualSessions extends App {
     xyplot("Number sims running on " + s.study + " on " + s.day + " @ " + s.start, "Time (minutes)", "sims running", _.setDomainAxis(new DateAxis("Time")), countCO.toXYSeries("Colorado"), countUT.toXYSeries("Utah"))
   }
 
-  plot(studySessionsNov2011.utahStudyMonday, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
-  plot(studySessionsNov2011.utahStudyTuesday, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
-  plot(studySessionsNov2011.utahStudyWednesday, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
+  plot(studySessionsNov2011.utahStudyMonday)
+  plot(studySessionsNov2011.utahStudyTuesday)
+  plot(studySessionsNov2011.utahStudyWednesday)
 
-  plot(studySessionsNov2011.coloradoStudyMonday, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
-  plot(studySessionsNov2011.coloradoStudyTuesdayI, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
-  plot(studySessionsNov2011.coloradoStudyTuesdayII, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
-  plot(studySessionsNov2011.coloradoStudyTuesdayIII, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
-  plot(studySessionsNov2011.coloradoStudyWednesday, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
-  plot(studySessionsNov2011.coloradoStudyThursdayI, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
-  plot(studySessionsNov2011.coloradoStudyThursdayII, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
-  plot(studySessionsNov2011.coloradoStudyFriday, phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i")
+  plot(studySessionsNov2011.coloradoStudyMonday)
+  plot(studySessionsNov2011.coloradoStudyTuesdayI)
+  plot(studySessionsNov2011.coloradoStudyTuesdayII)
+  plot(studySessionsNov2011.coloradoStudyTuesdayIII)
+  plot(studySessionsNov2011.coloradoStudyWednesday)
+  plot(studySessionsNov2011.coloradoStudyThursdayI)
+  plot(studySessionsNov2011.coloradoStudyThursdayII)
+  plot(studySessionsNov2011.coloradoStudyFriday)
 
 }
