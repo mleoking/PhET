@@ -6,9 +6,9 @@ import edu.umd.cs.piccolo.nodes.PText
 import edu.colorado.phet.simeventprocessor.scala.{phet, studySessionsNov2011}
 import java.util.Date
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
-import edu.umd.cs.piccolo.{PNode, PCanvas}
-import java.awt.Color
 import java.awt.geom.{Line2D, Rectangle2D}
+import java.awt.Color
+import edu.umd.cs.piccolo.{PNode, PCanvas}
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 
 /**
@@ -16,12 +16,17 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
  * @author Sam Reid
  */
 object PlotStudentActivity extends App {
+
+  def toX(dt: Long) = 200.0 + dt.toDouble / 1000.0 / 60.0 * 2.0 * 10.0
+
+  def toDeltaX(dt: Long) = toX(dt) - toX(0)
+
   val all = phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i"
   val simTabs = HowMuchTimeSpentInTabs.simTabs
   val sims = all.map(_.simName).distinct
 
   val canvas = new PCanvas
-  val panel = new VBox(2, true)
+  val panel = new VBox(20, true)
   canvas.getLayer.addChild(panel)
 
   //one plot section for each session
@@ -43,22 +48,35 @@ object PlotStudentActivity extends App {
 
     val colorMap = Map("Molecule Polarity" -> Color.red,
                        "Balancing Chemical Equations" -> Color.green,
-                       "Molecule Shapes" -> Color.black)
+                       "Molecule Shapes" -> new Color(156, 205, 255))
     //One row per computer
     for ( machine <- machines ) {
 
       val machineNode = new PNode {
+        //show the text and anchor at x=0
         addChild(new PText(machine))
 
-        //Session start messages
-        val machineLogs = sessionLogs.filter(_.machine == machine)
+        var y = 0
+        val stripeHeight = 6
 
-        for ( log <- machineLogs ) {
-          val startTime = log.epoch
-          addChild(new PhetPPath(new Rectangle2D.Double(0, 0, 6, 6), colorMap(log.simName)) {
-            val dt = startTime - sessionStartTime
-            setOffset(200 + dt / 1000 / 60 * 2 * 10, 0) //one second per pixel
-          })
+        //Stripe for the entire session
+        for ( log <- sessionLogs.filter(_.machine == machine) ) {
+          val logNode = new PNode {
+            addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(log.endEpoch - log.epoch), stripeHeight), colorMap(log.simName)) {
+              val dt = log.epoch - sessionStartTime
+              setOffset(toX(dt), y) //one second per pixel
+            })
+
+            //Show events within the stripe to indicate user activity
+            for ( entry <- log.entries ) {
+              val entryTime = entry.time + log.epoch
+              val x = toX(entryTime - sessionStartTime)
+              addChild(new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight)))
+            }
+          }
+          addChild(logNode)
+
+          y = y + stripeHeight + 1
         }
       }
 
@@ -81,7 +99,7 @@ class TimelineNode(sessionStartTime: Long, start: Long, end: Long) extends PNode
   for ( t <- start until end by 1000 * 60 * 15 ) {
     addChild(new PNode {
       val tick = new PhetPPath(new Line2D.Double(0, 0, 0, 10)) {
-        val x = 200 + ( t - sessionStartTime ) / 1000 / 60 * 2 * 10
+        val x = PlotStudentActivity.toX(t - sessionStartTime)
         println("x = " + x)
         setOffset(x, 0) //one second per pixel
       }
