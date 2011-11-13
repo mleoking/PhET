@@ -2,14 +2,16 @@
 package edu.colorado.phet.simeventprocessor.scala.scripts
 
 import javax.swing.JFrame
-import edu.umd.cs.piccolo.nodes.PText
-import edu.colorado.phet.simeventprocessor.scala.{phet, studySessionsNov2011}
 import java.util.Date
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
 import java.awt.geom.{Line2D, Rectangle2D}
 import java.awt.Color
-import edu.umd.cs.piccolo.{PNode, PCanvas}
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.umd.cs.piccolox.util.PFixedWidthStroke
+import edu.umd.cs.piccolo.nodes.PText
+import edu.colorado.phet.simeventprocessor.scala.{Entry, phet, studySessionsNov2011}
+import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
+import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 
 /**
  * Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
@@ -25,12 +27,14 @@ object PlotStudentActivity extends App {
   val simTabs = HowMuchTimeSpentInTabs.simTabs
   val sims = all.map(_.simName).distinct
 
-  val canvas = new PCanvas
+  val canvas = new PCanvas {
+    //    setInteractingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
+  }
   val panel = new VBox(20, true)
   canvas.getLayer.addChild(panel)
 
   //one plot section for each session
-  for ( session <- studySessionsNov2011.all ) {
+  for ( session <- studySessionsNov2011.all.slice(0, 3) ) {
     val sessionLogs = all.filter(session)
     val machines = sessionLogs.map(_.machine).distinct.sorted
     println("machines.length=" + machines.length)
@@ -43,6 +47,14 @@ object PlotStudentActivity extends App {
       addChild(new PText(session.study + " session started at " + new Date(sessionStartTime)))
       addChild(new PhetPPath(new Line2D.Double(getFullBounds.getWidth + 10, getFullBounds.getHeight / 2, 10000, getFullBounds.getHeight / 2)))
     })
+
+    //Coloring for different event types
+    def getColor(e: Entry) = {
+      e match {
+        case x: Entry if x.actor == "system" => Color.yellow
+        case _ => Color.black
+      }
+    }
 
     panel.addChild(new TimelineNode(sessionStartTime, sessionStartTime, sessionEndTime))
 
@@ -71,7 +83,16 @@ object PlotStudentActivity extends App {
             for ( entry <- log.entries ) {
               val entryTime = entry.time + log.epoch
               val x = toX(entryTime - sessionStartTime)
-              addChild(new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight)))
+
+              //Color based on user/system
+              val line = new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight), new PFixedWidthStroke(1f), getColor(entry))
+              addChild(line)
+
+              val text = new MyPText(line, canvas.getCamera, entry.toString) {
+                setOffset(line.getFullBounds.getCenterX - getFullBounds.getWidth / 2, line.getFullBounds.getY)
+                setScale(1E-6)
+              }
+              canvas.getCamera.addChild(text)
             }
           }
           addChild(logNode)
@@ -109,4 +130,29 @@ class TimelineNode(sessionStartTime: Long, start: Long, end: Long) extends PNode
       })
     })
   }
+}
+
+class MyPText(node: PNode, camera: PCamera, text: String) extends PText(text) {
+  camera.addPropertyChangeListener(PCamera.PROPERTY_VIEW_TRANSFORM, new PropertyChangeListener {
+    def propertyChange(evt: PropertyChangeEvent) {
+      //      println("cs = "+camera.getViewScale)
+      setVisible(camera.getScale > 30)
+      val globalBounds = node.getGlobalFullBounds
+
+      setOffset(camera.globalToLocal(globalBounds).getBounds2D.getX, camera.globalToLocal(globalBounds).getBounds2D.getY)
+    }
+  })
+  //  protected override def paint(paintContext: PPaintContext) {
+  ////    super.paint(paintContext)
+  //
+  //    val screenFontSize: Float = getFont.getSize * paintContext.getScale.asInstanceOf[Float]
+  ////    System.out.println("screenFontSize = " + screenFontSize)
+  //
+  //    if ( screenFontSize < 5 ) {
+  //      paintGreek(paintContext)
+  //    }
+  //    else {
+  //      paintText(paintContext)
+  //    }
+  //  }
 }
