@@ -208,7 +208,7 @@ public class ControlPanel extends Sprite {
 
         // disable the "back" button if we go under 100% elasticity
         if( elasticity < 1 ) {
-            myMainView.myTableView.playButtons.setBackEnabled( false );
+            myMainView.myTableView.playButtons.updateBackEnabled( false );
         }
         updateElasticityValueLabel();
     }
