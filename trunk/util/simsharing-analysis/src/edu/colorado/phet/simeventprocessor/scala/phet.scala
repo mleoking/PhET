@@ -3,17 +3,36 @@ package edu.colorado.phet.simeventprocessor.scala
 
 import collection.Seq
 import org.jfree.data.xy.{XYSeriesCollection, XYSeries}
-import org.jfree.chart.{ChartFrame, ChartFactory}
 import java.io.File
 import collection.mutable.{ArrayBuffer, HashMap}
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
-import org.jfree.chart.plot.{XYPlot, PlotOrientation}
+import org.jfree.data.category.CategoryDataset
+import org.jfree.data.statistics.DefaultStatisticalCategoryDataset
+import org.jfree.chart.plot.{CategoryPlot, XYPlot, PlotOrientation}
+import org.jfree.chart.axis.{NumberAxis, CategoryAxis}
+import org.jfree.chart.renderer.category.StatisticalBarRenderer
+import org.jfree.chart.{JFreeChart, ChartFrame, ChartFactory}
+
+import scala.math._
 
 /**
  * Functions and implicits to make the REPL easier to use
  * @author Sam Reid
  */
 object phet {
+
+  def average(list: Seq[Long]) = list.sum / list.length
+
+  //See http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+  //This is the unbiased estimate of a population variance from a finite sample
+  def variance(x: Seq[Long]) = {
+    val a = x.map(pow(_, 2)).sum
+    val b = pow(x.sum, 2) / x.length
+    ( a - b ) / ( x.length - 1 )
+  }
+
+  def standardDeviation(a: Seq[Long]) = sqrt(variance(a))
+
   def toMap(seq: Pair[String, String]*): Map[String, String] = {
     val map = new HashMap[String, String]
     for ( elm <- seq ) {
@@ -80,6 +99,27 @@ object phet {
     }.setVisible(true)
   }
 
+  //Create a statistical bar chart of the provided data
+  def barChart(title: String, range: String, dataSet: Map[String, List[Long]]) {
+    val d = new DefaultStatisticalCategoryDataset {
+      for ( entry <- dataSet ) {
+        val values = entry._2
+        val average = phet.average(values)
+        val standardDeviation = phet.standardDeviation(values)
+        add(average, standardDeviation, "row", entry._1)
+      }
+    }
+    barChart(title, range, d)
+  }
+
+  def barChart(title: String, range: String, dataSet: CategoryDataset) {
+    val plot = new CategoryPlot(dataSet, new CategoryAxis("Type"), new NumberAxis(range), new StatisticalBarRenderer)
+    new ChartFrame(title, new JFreeChart(title, plot)) {
+      setSize(900, 600)
+      SwingUtils.centerWindowOnScreen(this)
+    }.setVisible(true)
+  }
+
   //Load all Logs within a directory recursively
   def load(file: String): List[Log] = load(new File(file))
 
@@ -112,4 +152,12 @@ class SeqPairPointWrapper(pairs: Seq[Pair[Long, Int]]) {
       add(p._1, p._2)
     }
   }
+}
+
+object Tester extends App {
+  val x = phet.standardDeviation(1L :: 2L :: 3L :: 2L :: 7L :: 2L :: Nil)
+  println("x = " + x)
+
+  //should be
+  2.136976056643281
 }
