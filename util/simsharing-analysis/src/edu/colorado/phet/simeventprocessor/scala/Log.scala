@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.io.File
 import collection.mutable.{ArrayBuffer, HashMap}
+import collection.immutable.List
+import java.lang.String
 
 /**
  * Adds scala-convenient interface for REPL.
@@ -34,6 +36,9 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
       case nfe: NumberFormatException => -1;
     }
   }
+
+  //For a log that has been subsetted from another, get the total amount of time between first and last events
+  val elapsedTime = entries.last.time - entries.head.time
 
   //Determine if the sim was running at the specified server time
   def running(time: Long) = time >= epoch && time <= epoch + lastTime
@@ -75,6 +80,12 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
   def find(all: List[Entry]) = all.filter(matchesEntry(_))
 
   private def getFirstEntry(actor: String, event: String): Entry = entries.find(entry => entry.actor == actor && entry.event == event).getOrElse(null)
+
+  //Choose events occurring just in the specified tab (from the list of available tabs)
+  def selectTab(list: List[String], s: String) = {
+    if ( list.head == s ) {selectFirstTab(s)}
+    else {selectLaterTab(s)}
+  }
 
   def selectFirstTab(tab: String) = {
     val a = new ArrayBuffer[Entry]
