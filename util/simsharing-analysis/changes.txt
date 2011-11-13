@@ -1,3 +1,4 @@
+Show events within each sim use
 Added a timeline that starts at the first event and has tick marks and labels every 15 minutes
 Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
 Added plots for how much time is spent in each tab
