@@ -9,11 +9,11 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
 import org.jfree.data.category.CategoryDataset
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset
 import org.jfree.chart.plot.{CategoryPlot, XYPlot, PlotOrientation}
-import org.jfree.chart.axis.{NumberAxis, CategoryAxis}
 import org.jfree.chart.renderer.category.StatisticalBarRenderer
 import org.jfree.chart.{JFreeChart, ChartFrame, ChartFactory}
 
 import scala.math._
+import org.jfree.chart.axis.{CategoryLabelPositions, NumberAxis, CategoryAxis}
 
 /**
  * Functions and implicits to make the REPL easier to use
@@ -100,20 +100,24 @@ object phet {
   }
 
   //Create a statistical bar chart of the provided data
-  def barChart(title: String, range: String, dataSet: Map[String, List[Long]]) {
+  def barChart(title: String, range: String, dataSet: Map[(String, String), List[Long]]) {
     val d = new DefaultStatisticalCategoryDataset {
       for ( entry <- dataSet ) {
         val values = entry._2
         val average = phet.average(values)
         val standardDeviation = phet.standardDeviation(values)
-        add(average, standardDeviation, "row", entry._1)
+        add(average, standardDeviation, entry._1._1, entry._1._2)
       }
     }
     barChart(title, range, d)
   }
 
   def barChart(title: String, range: String, dataSet: CategoryDataset) {
-    val plot = new CategoryPlot(dataSet, new CategoryAxis("Type"), new NumberAxis(range), new StatisticalBarRenderer)
+    val categoryAxis = new CategoryAxis("Type") {
+      setCategoryMargin(0.4)
+      setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(java.lang.Math.PI / 2.0));
+    }
+    val plot = new CategoryPlot(dataSet, categoryAxis, new NumberAxis(range), new StatisticalBarRenderer)
     new ChartFrame(title, new JFreeChart(title, plot)) {
       setSize(900, 600)
       SwingUtils.centerWindowOnScreen(this)
