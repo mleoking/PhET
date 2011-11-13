@@ -20,6 +20,7 @@
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="functionaljava" />
     <orderEntry type="library" name="scala-library-2.9.1" level="application" />
+    <orderEntry type="module" module-name="piccolo-phet" />
   </component>
 </module>
 

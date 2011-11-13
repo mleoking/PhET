@@ -1,3 +1,4 @@
+Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
 Added plots for how much time is spent in each tab
 # 00.00.03 (58497) Nov 10, 2011
 # 00.00.02 (58466) Nov 9, 2011
