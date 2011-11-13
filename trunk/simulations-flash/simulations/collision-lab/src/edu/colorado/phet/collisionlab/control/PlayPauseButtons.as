@@ -64,11 +64,11 @@ public class PlayPauseButtons extends Sprite {
         TextFieldUtils.resizeText( this.buttonView.stepLabel, TextFieldAutoSize.LEFT );
     }
 
-    public function setBackEnabled( enabled: Boolean ): void {
-        backEnabled = enabled;
+    public function updateBackEnabled( resetting: Boolean ): void {
+        backEnabled = myModel.time > 0 && myModel.e == 1 && !resetting;
 
         // grey-out the button and label
-        var alpha: Number = enabled ? 1 : 0.5;
+        var alpha: Number = backEnabled ? 1 : 0.5;
         this.buttonView.stepBackLabel.alpha = alpha;
         this.buttonView.myStepBackButton.alpha = alpha;
     }
@@ -86,7 +86,7 @@ public class PlayPauseButtons extends Sprite {
     public function resetAllCalled(): void {
         this.paused = true;
         this.myModel.stopMotion();
-        setBackEnabled( true );
+        updateBackEnabled( true );
         this.buttonView.myPlayPauseButton.gotoAndStop( 1 );
         setPlayText();
         //this.myModel.initializePositions();
@@ -149,6 +149,8 @@ public class PlayPauseButtons extends Sprite {
         if ( !paused && !myModel.playing ) {
             setToPaused();
         }
+
+        updateBackEnabled( false );
     }
 
 }//end of class
