@@ -8,8 +8,8 @@ import java.util.Date
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
 import edu.umd.cs.piccolo.{PNode, PCanvas}
 import java.awt.Color
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Line2D, Rectangle2D}
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 
 /**
  * Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
@@ -35,9 +35,11 @@ object PlotStudentActivity extends App {
     val sessionEndTime = sessionLogs.map(_.endEpoch).max
 
     panel.addChild(new PNode {
-      this addChild new PText(session.study + " session started at " + new Date(sessionStartTime))
-      this addChild new PhetPPath(new Line2D.Double(getFullBounds.getWidth + 10, getFullBounds.getHeight / 2, 10000, getFullBounds.getHeight / 2))
+      addChild(new PText(session.study + " session started at " + new Date(sessionStartTime)))
+      addChild(new PhetPPath(new Line2D.Double(getFullBounds.getWidth + 10, getFullBounds.getHeight / 2, 10000, getFullBounds.getHeight / 2)))
     })
+
+    panel.addChild(new TimelineNode(sessionStartTime, sessionStartTime, sessionEndTime))
 
     val colorMap = Map("Molecule Polarity" -> Color.red,
                        "Balancing Chemical Equations" -> Color.green,
@@ -69,4 +71,24 @@ object PlotStudentActivity extends App {
     setSize(1024, 768)
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
   }.setVisible(true)
+}
+
+//Show a timeline that starts at the first event and has tick marks and labels every 15 minutes
+class TimelineNode(sessionStartTime: Long, start: Long, end: Long) extends PNode {
+  //anchor at (0,0)
+  addChild(new PText("timeline"))
+
+  for ( t <- start until end by 1000 * 60 * 15 ) {
+    addChild(new PNode {
+      val tick = new PhetPPath(new Line2D.Double(0, 0, 0, 10)) {
+        val x = 200 + ( t - sessionStartTime ) / 1000 / 60 * 2 * 10
+        println("x = " + x)
+        setOffset(x, 0) //one second per pixel
+      }
+      this addChild tick
+      addChild(new PText(new Date(t).toString) {
+        setOffset(tick.getFullBounds.getCenterX - getFullBounds.getWidth / 2, tick.getFullBounds.getMaxY)
+      })
+    })
+  }
 }
