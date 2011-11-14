@@ -18,6 +18,7 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
   val startMessage = getFirstEntry("system", "started")
   val study = startMessage("study")
   val simName = startMessage("name")
+  val javaVersion = startMessage("javaVersion")
   val simVersion = startMessage("version")
   val user = startMessage("id")
   val date = new Date(epoch)

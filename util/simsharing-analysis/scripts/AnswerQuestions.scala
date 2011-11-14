@@ -20,6 +20,14 @@ val numberMachinesCrashed = crashedLogs.map(_.machine).distinct.size
 val totalNumberMachines = logs.map(_.machine).distinct.size
 println("crashed with system erred " + numberMachinesCrashed + " / " + totalNumberMachines)
 
-crashedLogs.map(log => log.osName + "\t" + log.osVersion).distinct.foreach(println)
+crashedLogs.map(log => log.osName + "\t" + log.osVersion + "\t" + log.machine + "\t" + log.javaVersion).distinct.foreach(println)
+
+println("############")
+//Show different Mac os's
+val macMachines = logs.filter(_.osName.startsWith("Mac")).map(_.machine).distinct
+val macLogs = logs.filter(log => macMachines.contains(log.machine))
+println(macLogs.map(_.osVersion).sorted.mkString("\n"))
+
+
 
 //crashedLogs.flatMap(_.entries).foreach(println)
