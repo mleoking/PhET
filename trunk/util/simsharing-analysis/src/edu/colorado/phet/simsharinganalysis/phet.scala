@@ -76,23 +76,23 @@ object phet {
       }
     }
 
-  def xyplot(dataSets: XYSeries*) {
-    xyplot("Title", "x-axis", "y-axis", dataSets: _*)
+  def xyplot(dataSets: Seq[XYSeries]) {
+    xyplot("Title", "x-axis", "y-axis", dataSets)
   }
 
-  def xyplot(title: String, domainAxis: String, rangeAxis: String, plotCustomization: XYPlot => Unit, dataSets: XYSeries*) {
-    plot(title, domainAxis, rangeAxis, plotCustomization, dataSets: _*)
+  def xyplot(title: String, domainAxis: String, rangeAxis: String, plotCustomization: XYPlot => Unit, dataSets: Seq[XYSeries]) {
+    plot(title, domainAxis, rangeAxis, plotCustomization, dataSets)
   }
 
-  def xyplot(title: String, domainAxis: String, rangeAxis: String, dataSets: XYSeries*) {
-    plot(title, domainAxis, rangeAxis, (x: XYPlot) => (), dataSets: _*)
+  def xyplot(title: String, domainAxis: String, rangeAxis: String, dataSets: Seq[XYSeries]) {
+    plot(title, domainAxis, rangeAxis, (x: XYPlot) => (), dataSets)
   }
 
-  def barchart(title: String, domainAxis: String, rangeAxis: String, xySeries: XYSeries*) {
-    plot(title, domainAxis, rangeAxis, (x: XYPlot) => (), xySeries: _*)
+  def barchart(title: String, domainAxis: String, rangeAxis: String, xySeries: Seq[XYSeries]) {
+    plot(title, domainAxis, rangeAxis, (x: XYPlot) => (), xySeries)
   }
 
-  def plot(title: String, domain: String, range: String, plotCustomization: XYPlot => Unit, xySeries: XYSeries*) {
+  def plot(title: String, domain: String, range: String, plotCustomization: XYPlot => Unit, xySeries: Seq[XYSeries]) {
     val dataSet = new XYSeriesCollection {xySeries.foreach(addSeries(_))}
     val plot = ChartFactory.createScatterPlot(title, domain, range, dataSet, PlotOrientation.VERTICAL, true, false, false)
 
