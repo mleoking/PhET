@@ -37,9 +37,6 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
     }
   }
 
-  //For a log that has been subsetted from another, get the total amount of time between first and last events
-  val elapsedTime = entries.last.time - entries.head.time
-
   //Determine if the sim was running at the specified server time
   def running(time: Long) = time >= epoch && time <= epoch + lastTime
 
@@ -66,14 +63,7 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
 
   def contains(actor: String, event: String, pairs: Pair[String, String]*) = entries.find((e: Entry) => e.actor == actor && e.event == event && e.hasParameters(e, pairs)).isDefined
 
-  //TODO: also remove first window activated
-  def getWithoutSystemEvents: Log = removeItems(_.actor.toLowerCase.startsWith("system"))
-
-  def removeItems(rule: Entry => Boolean): Log = copy(entries = entries.filterNot(rule))
-
   def countEvents(time: Long, matches: Entry => Boolean = (entry: Entry) => true): Int = entries.filter(matches).count(_.time <= time)
-
-  def keepItems(matches: Entry => Boolean): Log = copy(entries = entries.filter(matches))
 
   private def matchesEntry(e: Entry): Boolean = entries.find(_.matches(e.actor, e.event, e.parameters)).isDefined
 
@@ -102,7 +92,7 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
         recording = false
       }
     }
-    copy(entries = a.toList)
+    a.toList
   }
 
   //Only looks for subsequent tabs, have to do something else for first tab
@@ -124,7 +114,7 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
         recording = false
       }
     }
-    copy(entries = a.toList)
+    a.toList
   }
 
   def countMatches(matcher: Seq[Match], until: Long): Int = {

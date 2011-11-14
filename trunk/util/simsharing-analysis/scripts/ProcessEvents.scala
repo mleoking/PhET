@@ -1,7 +1,7 @@
 import edu.colorado.phet.simeventprocessor.scala._
 import phet._
 
-val logs = phet load "C:\\Users\\Sam\\Desktop\\data-11-10-2011-iv~"
+val logs = phet load "C:\\Users\\Sam\\Desktop\\phet-raw-data-11-13-2011"
 
 //def jcNov8Morning(log: EventLog) = log.day == "11-08-2011" && log.study == "colorado" && log.user != "null" && log.user != "samreid"
 //def emNov7Filter(log: EventLog) = log.day == "11-07-2011" && log.study == "utah" && log.user != "null" && log.user != "samreid"
@@ -27,7 +27,7 @@ val users = selected.map(_.user).distinct.sortBy(numerical)
 println("Unique userIDs: " + users.size + ": " + users)
 
 val eventCountData = selected.map(_.eventCountData)
-xyplot("Events vs time", "Time (minutes)", "Events", eventCountData)
+xyplot("Events vs time", "Time (minutes)", "Events", eventCountData: _*)
 
 for ( log <- selected ) {
   println(log.histogramByObject)
@@ -43,7 +43,7 @@ for ( sim <- simEventMap.keys; simLogs = selected.filter(_.simName == sim); if s
   val simEvents = simEventMap(sim)
 
   val filteredDataSets = simLogs.map(_.countEvents(simEvents))
-  xyplot("Filtered events vs time for " + sim, "Time (minutes)", "Events", filteredDataSets)
+  xyplot("Filtered events vs time for " + sim, "Time (minutes)", "Events", filteredDataSets: _*)
 
   //Print how many features each user used
   val sorted = selected.sortBy(_.findMatches(simEvents).size)

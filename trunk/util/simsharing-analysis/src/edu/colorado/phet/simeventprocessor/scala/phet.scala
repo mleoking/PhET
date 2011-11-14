@@ -61,6 +61,8 @@ object phet {
   //Implicit to add toXYSeries("plot") method
   implicit def wrapPointPair(i: Seq[Pair[Long, Int]]) = new SeqPairPointWrapper(i)
 
+  implicit def wrapEntrySeq(i: Seq[Entry]) = new EntrySeqWrapper(i)
+
   //Turning this number too high can cause it to take too long.  1000 was a good granularity, but took a bit too long for large data sets
   def timeSeries(log: Log, value: Int => Double): XYSeries = seqSeries("ID " + log.user, 0 to log.lastTime by 10000, value)
 
@@ -156,6 +158,11 @@ class SeqPairPointWrapper(pairs: Seq[Pair[Long, Int]]) {
       add(p._1, p._2)
     }
   }
+}
+
+class EntrySeqWrapper(entries: Seq[Entry]) {
+  //For a log that has been subsetted from another, get the total amount of time between first and last events
+  val elapsedTime = entries.last.time - entries.head.time
 }
 
 object Tester extends App {

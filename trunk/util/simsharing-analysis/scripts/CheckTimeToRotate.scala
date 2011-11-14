@@ -1,7 +1,7 @@
 import edu.colorado.phet.simeventprocessor.scala._
 import phet._
 
-val all = phet load "C:\\Users\\Sam\\Desktop\\data-11-10-2011-iv~"
+val all = phet load "C:\\Users\\Sam\\Desktop\\phet-raw-data-11-13-2011"
 
 val selected = all.filter(log =>
                             log.day == "11-10-2011" &&
@@ -39,7 +39,7 @@ for ( log <- selected.sortBy(_.user).zipWithIndex ) {
 
   //  println()
 
-  val firstRotationEvent = threeAtoms.entries.find(entry => entry.actor == "molecule rotation drag" && entry.event == "started")
+  val firstRotationEvent = threeAtoms.find(entry => entry.actor == "molecule rotation drag" && entry.event == "started")
   //println("Index "+log._2)
   if ( firstUserEvent.isDefined && firstRotationEvent.isDefined ) {
     val delta = firstRotationEvent.get.time - firstUserEvent.get.time
