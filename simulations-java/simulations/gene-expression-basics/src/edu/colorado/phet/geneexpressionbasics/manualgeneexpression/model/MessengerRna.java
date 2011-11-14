@@ -429,11 +429,18 @@ public class MessengerRna extends MobileBiomolecule {
         // Position the last point at the lower right.
         lastPoint.setPosition( bounds.getMaxX(), bounds.getMinY() );
 
+        // TODO: For now, this algorithm uses a random number generator with a
+        // fixed seed in order to keep it from causing things to jump around
+        // to much as more length is added.  At some point, it may make sense
+        // to associate a seed with each segment and pass it in to this
+        // algorithm, so that a single mRNA winds consistently, but individual
+        // strands look different.
+        Random rand = new Random( 1 );
         PointMass currentPoint = firstPoint;
         do {
             // Randomly position the points within the segment.
-            currentPoint.setPosition( bounds.getMinX() + RAND.nextDouble() * bounds.getWidth(),
-                                      bounds.getMinY() + RAND.nextDouble() * bounds.getHeight() );
+            currentPoint.setPosition( bounds.getMinX() + rand.nextDouble() * bounds.getWidth(),
+                                      bounds.getMinY() + rand.nextDouble() * bounds.getHeight() );
             currentPoint = currentPoint.getNextPointMass();
         } while ( currentPoint != lastPoint && currentPoint != null );
     }
