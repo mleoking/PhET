@@ -18,13 +18,17 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
     //-------------------------------------------------------------------------
     // Class Data
     //-------------------------------------------------------------------------
-    private final Ribosome ribosome;
-    private final MessengerRna messengerRna;
+
+    private static final double TRANSLATION_RATE = 1000; // In picometers/sec.
 
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
+    private final Ribosome ribosome;
+    private final MessengerRna messengerRna;
     private double translatingTime = 0;
+    private double amountTranslated = 0; // In picometers.
+    private final double mRnaStrandLength;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -34,6 +38,7 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
         super( messengerRna );
         this.messengerRna = messengerRna;
         this.ribosome = ribosome;
+        mRnaStrandLength = messengerRna.getLength();
     }
 
     //-------------------------------------------------------------------------
@@ -45,12 +50,15 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
         // the mRNA in the right place, since multiple ribosomes can be
         // transcribing at the same time.
         // TODO: This is prototype code to get things working.  Definitely not final.
-        translatingTime += dt;
-        if ( translatingTime > 3 ) {
+        messengerRna.advanceTranslation( ribosome, TRANSLATION_RATE * dt );
+        amountTranslated += TRANSLATION_RATE * dt;
+        if ( amountTranslated >= mRnaStrandLength ) {
+            // Translation complete.
             System.out.println( "Ribosome is detaching." );
             messengerRna.release();
             return new DetachingState( ribosome );
         }
+        // Still translating, so no state change.
         return this;
     }
 

@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.TranslatingMRnaState;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.UnattachedAndAvailableState;
 
 /**
  * Class that represents the a ribosome in the model.
@@ -39,9 +38,10 @@ public class Ribosome extends MobileBiomolecule {
         super( model, createShape(), new Color( 205, 155, 29 ) );
         setPosition( position );
         userControlled.addObserver( new ChangeObserver<Boolean>() {
-            public void update( Boolean newValue, Boolean oldValue ) {
-                if ( oldValue == true && newValue == false && behaviorState instanceof UnattachedAndAvailableState ) {
-                    // If there is an mRNA nearby, attach to it.
+            public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
+                if ( wasUserControlled && !isUserControlled ) {
+                    // The user just dropped this ribosome.  If there is an
+                    // mRNA nearby, attach to it.
                     for ( MessengerRna messengerRna : model.getMessengerRnaList() ) {
                         if ( messengerRna.getPosition().distance( getPosition() ) < MRNA_CAPTURE_THRESHOLD ) {
                             // Attach to this mRNA.

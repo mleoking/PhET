@@ -1088,9 +1088,9 @@ public class MessengerRna extends MobileBiomolecule {
      * the intended distances between the points, and does not account for
      * curvature.
      *
-     * @return
+     * @return length in picometers
      */
-    private double getLength() {
+    public double getLength() {
         double length = 0;
         PointMass thisPoint = firstShapeDefiningPoint.getNextPointMass();
         while ( thisPoint != null ) {
@@ -1137,7 +1137,7 @@ public class MessengerRna extends MobileBiomolecule {
         private PointMass previousPointMass = null;
         private PointMass nextPointMass = null;
 
-        private double targetDistanceToPreviousPoint;
+        private double targetDistanceToPreviousPoint; // In picometers.
 
         private PointMass( Point2D initialPosition, double targetDistanceToPreviousPoint ) {
             setPosition( initialPosition );
