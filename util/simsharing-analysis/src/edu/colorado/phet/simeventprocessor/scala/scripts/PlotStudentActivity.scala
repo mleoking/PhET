@@ -5,13 +5,13 @@ import javax.swing.JFrame
 import java.util.Date
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
 import java.awt.geom.{Line2D, Rectangle2D}
-import java.awt.Color
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import edu.umd.cs.piccolox.util.PFixedWidthStroke
 import edu.umd.cs.piccolo.nodes.PText
 import edu.colorado.phet.simeventprocessor.scala.{Entry, phet, studySessionsNov2011}
 import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
+import java.awt.{BasicStroke, Color}
+import edu.umd.cs.piccolo.util.PPaintContext
 
 /**
  * Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
@@ -28,7 +28,7 @@ object PlotStudentActivity extends App {
   val sims = all.map(_.simName).distinct
 
   val canvas = new PCanvas {
-    //    setInteractingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
+    setInteractingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
   }
   val panel = new VBox(20, true)
   canvas.getLayer.addChild(panel)
@@ -85,14 +85,15 @@ object PlotStudentActivity extends App {
               val x = toX(entryTime - sessionStartTime)
 
               //Color based on user/system
-              val line = new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight), new PFixedWidthStroke(1f), getColor(entry))
+              //              val line = new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight), new PFixedWidthStroke(1f), getColor(entry))
+              val line = new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight), new BasicStroke(0.1f), getColor(entry))
               addChild(line)
 
-              val text = new MyPText(line, canvas.getCamera, entry.toString) {
-                setOffset(line.getFullBounds.getCenterX - getFullBounds.getWidth / 2, line.getFullBounds.getY)
-                setScale(1E-6)
-              }
-              canvas.getCamera.addChild(text)
+              //              val text = new MyPText(line, canvas.getCamera, entry.toString) {
+              ////                setOffset(line.getFullBounds.getCenterX - getFullBounds.getWidth / 2, line.getFullBounds.getY)
+              //                setScale(1E-6)
+              //              }
+              //              canvas.getCamera.addChild(text)
             }
           }
           addChild(logNode)
