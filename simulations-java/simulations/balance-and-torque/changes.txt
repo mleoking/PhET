@@ -1,3 +1,5 @@
+# 0.00.21 (58572) Nov 14, 2011
+11/14/11 Deploying to dev with some minor fixes and internal changes resulting from code review.
 Modified the point indicator on the feedback node (i.e. the smiley face) to make it easier to see.
 Fixed an issue where the level indicator was slightly off in the 3rd tab.
 Fixed a minor issue where people placed near the center of the plank could be pointed the wrong direction.
