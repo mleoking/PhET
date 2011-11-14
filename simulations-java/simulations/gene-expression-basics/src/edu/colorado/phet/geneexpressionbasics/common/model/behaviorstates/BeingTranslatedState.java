@@ -40,7 +40,7 @@ public class BeingTranslatedState extends BiomoleculeBehaviorState {
         // Follow the ribosome.
         // TODO: This behavior is not what this will ultimately really do.
         ImmutableVector2D currentMRnaFirstPointPosition = new ImmutableVector2D( messengerRna.getPointList().get( 0 ) );
-        ImmutableVector2D motionDelta = new ImmutableVector2D( ribosome.getPosition() ).getSubtractedInstance( currentMRnaFirstPointPosition );
+        ImmutableVector2D motionDelta = ribosome.getEntranceOfRnaChannelPos().getSubtractedInstance( currentMRnaFirstPointPosition );
         messengerRna.translate( motionDelta );
         return this;
     }

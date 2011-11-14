@@ -107,7 +107,7 @@ public class MessengerRna extends MobileBiomolecule {
      *
      * @param position
      */
-    public MessengerRna( GeneExpressionModel model, Point2D position ) {
+    public MessengerRna( final GeneExpressionModel model, Point2D position ) {
         super( model, new DoubleGeneralPath( position ).getGeneralPath(), NOMINAL_COLOR );
 
         // Add first shape defining point to the point list.
@@ -128,7 +128,9 @@ public class MessengerRna extends MobileBiomolecule {
         shapeProperty.addObserver( new SimpleObserver() {
             public void update() {
                 // This hint always sits at the beginning of the RNA strand.
-                ribosomePlacementHint.setPosition( firstShapeDefiningPoint.getPosition() );
+                ImmutableVector2D currentMRnaFirstPointPosition = new ImmutableVector2D( firstShapeDefiningPoint.getPosition() );
+                ImmutableVector2D offsetToTranslationChannelEntrance = ( new Ribosome( model ) ).getEntranceOfRnaChannelPos();
+                ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( offsetToTranslationChannelEntrance ).toPoint2D() );
             }
         } );
     }

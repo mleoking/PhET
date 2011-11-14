@@ -5,10 +5,12 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -40,7 +42,7 @@ public class Ribosome extends MobileBiomolecule {
                     // If there is an mRNA nearby, attach to it.
                     for ( MessengerRna messengerRna : model.getMessengerRnaList() ) {
                         if ( messengerRna.getPosition().distance( getPosition() ) < MRNA_CAPTURE_THRESHOLD ) {
-                            // Attache to this mRNA.
+                            // Attach to this mRNA.
                             messengerRna.connectToRibosome( Ribosome.this );
                         }
                     }
@@ -58,9 +60,9 @@ public class Ribosome extends MobileBiomolecule {
             add( new Point2D.Double( -WIDTH * 0.3, TOP_SUBUNIT_HEIGHT * 0.9 ) );
             add( new Point2D.Double( WIDTH * 0.3, TOP_SUBUNIT_HEIGHT ) );
             add( new Point2D.Double( WIDTH * 0.5, 0 ) );
-            add( new Point2D.Double( WIDTH * 0.3, -TOP_SUBUNIT_HEIGHT * 0.43 ) );
+            add( new Point2D.Double( WIDTH * 0.3, -TOP_SUBUNIT_HEIGHT * 0.4 ) );
             add( new Point2D.Double( 0, -TOP_SUBUNIT_HEIGHT * 0.5 ) ); // Center bottom.
-            add( new Point2D.Double( -WIDTH * 0.3, -TOP_SUBUNIT_HEIGHT * 0.43 ) );
+            add( new Point2D.Double( -WIDTH * 0.3, -TOP_SUBUNIT_HEIGHT * 0.4 ) );
             add( new Point2D.Double( -WIDTH * 0.5, 0 ) );
         }};
         Shape topSubunitShape = AffineTransform.getTranslateInstance( 0, OVERALL_HEIGHT / 4 ).createTransformedShape( BiomoleculeShapeUtils.createRoundedShapeFromPoints( topSubunitPointList ) );
@@ -79,5 +81,27 @@ public class Ribosome extends MobileBiomolecule {
         Area combinedShape = new Area( topSubunitShape );
         combinedShape.add( new Area( bottomSubunitShape ) );
         return combinedShape;
+    }
+
+    /**
+     * Get the position of the channel through which the mRNA is pulled when
+     * translation occurs.
+     *
+     * @return
+     */
+    public Line2D getRnaChannel() {
+        return new Line2D.Double( getExitOfRnaChannelPos().toPoint2D(), getEntranceOfRnaChannelPos().toPoint2D() );
+    }
+
+    public ImmutableVector2D getEntranceOfRnaChannelPos() {
+        return new ImmutableVector2D( getPosition().getX() + WIDTH / 2, getRnaChannelYPos() );
+    }
+
+    public ImmutableVector2D getExitOfRnaChannelPos() {
+        return new ImmutableVector2D( getPosition().getX() - WIDTH / 2, getRnaChannelYPos() );
+    }
+
+    private double getRnaChannelYPos() {
+        return getPosition().getY() - ( OVERALL_HEIGHT / 2 ) + BOTTOM_SUBUNIT_HEIGHT;
     }
 }
