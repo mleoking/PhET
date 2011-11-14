@@ -7,11 +7,11 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
 import java.awt.geom.{Line2D, Rectangle2D}
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.umd.cs.piccolo.nodes.PText
-import edu.colorado.phet.simeventprocessor.scala.{Entry, phet, studySessionsNov2011}
 import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.awt.{BasicStroke, Color}
 import edu.umd.cs.piccolo.util.PPaintContext
+import edu.colorado.phet.simeventprocessor.scala.{Log, Entry, phet, studySessionsNov2011}
 
 /**
  * Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
@@ -73,29 +73,7 @@ object PlotStudentActivity extends App {
 
         //Stripe for the entire session
         for ( log <- sessionLogs.filter(_.machine == machine) ) {
-          val logNode = new PNode {
-            addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(log.endEpoch - log.epoch), stripeHeight), colorMap(log.simName)) {
-              val dt = log.epoch - sessionStartTime
-              setOffset(toX(dt), y) //one second per pixel
-            })
-
-            //Show events within the stripe to indicate user activity
-            for ( entry <- log.entries ) {
-              val entryTime = entry.time + log.epoch
-              val x = toX(entryTime - sessionStartTime)
-
-              //Color based on user/system
-              //              val line = new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight), new PFixedWidthStroke(1f), getColor(entry))
-              val line = new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight), new BasicStroke(0.1f), getColor(entry))
-              addChild(line)
-
-              //              val text = new MyPText(line, canvas.getCamera, entry.toString) {
-              ////                setOffset(line.getFullBounds.getCenterX - getFullBounds.getWidth / 2, line.getFullBounds.getY)
-              //                setScale(1E-6)
-              //              }
-              //              canvas.getCamera.addChild(text)
-            }
-          }
+          val logNode = new LogNode(log, toX, toDeltaX, stripeHeight, sessionStartTime, colorMap, getColor)
           addChild(logNode)
 
           y = y + stripeHeight + 1
@@ -156,4 +134,28 @@ class MyPText(node: PNode, camera: PCamera, text: String) extends PText(text) {
   //      paintText(paintContext)
   //    }
   //  }
+}
+
+class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHeight: Double, sessionStartTime: Long, colorMap: String => Color, getColor: Entry => Color) extends PNode {
+  addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(log.endEpoch - log.epoch), stripeHeight), colorMap(log.simName)) {
+    val dt = log.epoch - sessionStartTime
+    setOffset(toX(dt), 0) //one second per pixel
+  })
+
+  //Show events within the stripe to indicate user activity
+  for ( entry <- log.entries ) {
+    val entryTime = entry.time + log.epoch
+    val x = toX(entryTime - sessionStartTime)
+
+    //Color based on user/system
+    //              val line = new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight), new PFixedWidthStroke(1f), getColor(entry))
+    val line = new PhetPPath(new Line2D.Double(x, 0, x, stripeHeight), new BasicStroke(0.1f), getColor(entry))
+    addChild(line)
+
+    //              val text = new MyPText(line, canvas.getCamera, entry.toString) {
+    ////                setOffset(line.getFullBounds.getCenterX - getFullBounds.getWidth / 2, line.getFullBounds.getY)
+    //                setScale(1E-6)
+    //              }
+    //              canvas.getCamera.addChild(text)
+  }
 }
