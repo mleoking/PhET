@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharinganalysis.scala.scripts
+package edu.colorado.phet.simsharinganalysis.scripts
 
-import edu.colorado.phet.simsharinganalysis.scala.phet
+import edu.colorado.phet.simsharinganalysis.phet
 import phet._
 import java.util.Date
 import org.jfree.chart.axis.DateAxis

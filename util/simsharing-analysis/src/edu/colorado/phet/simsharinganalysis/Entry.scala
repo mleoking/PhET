@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharinganalysis.scala
+package edu.colorado.phet.simsharinganalysis
 
+// Copyright 2002-2011, University of Colorado
 case class Entry(time: Long, //Time since sim started in millisec
                  actor: String,
                  event: String,

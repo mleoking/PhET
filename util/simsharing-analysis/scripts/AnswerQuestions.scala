@@ -1,4 +1,4 @@
-import edu.colorado.phet.simsharinganalysis.scala._
+import edu.colorado.phet.simsharinganalysis._
 
 val all = phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i"
 
