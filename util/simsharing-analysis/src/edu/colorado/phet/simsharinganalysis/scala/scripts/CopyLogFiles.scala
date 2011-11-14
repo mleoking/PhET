@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simeventprocessor.scala.scripts
+package edu.colorado.phet.simsharinganalysis.scala.scripts
 
 // Copyright 2002-2011, University of Colorado
 
-import edu.colorado.phet.simeventprocessor.scala.{studySessionsNov2011, phet}
+import edu.colorado.phet.simsharinganalysis.scala.{studySessionsNov2011, phet}
 import java.io.File
 import edu.colorado.phet.common.phetcommon.util.FileUtils
 

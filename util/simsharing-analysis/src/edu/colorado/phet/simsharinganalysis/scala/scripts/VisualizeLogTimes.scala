@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simeventprocessor.scala.scripts
+package edu.colorado.phet.simsharinganalysis.scala.scripts
 
-import edu.colorado.phet.simeventprocessor.scala.phet
+import edu.colorado.phet.simsharinganalysis.scala.phet
 import phet._
 import java.util.Date
 import org.jfree.chart.axis.DateAxis

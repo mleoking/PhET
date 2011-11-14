@@ -1,4 +1,4 @@
-import edu.colorado.phet.simeventprocessor.scala._
+import edu.colorado.phet.simsharinganalysis.scala._
 import phet._
 
 val logs = phet load "C:\\Users\\Sam\\Desktop\\phet-raw-data-11-13-2011"

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simeventprocessor.scala.scripts
+package edu.colorado.phet.simsharinganalysis.scala.scripts
 
 import javax.swing.JFrame
 import java.util.Date
@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.awt.{BasicStroke, Color}
 import edu.umd.cs.piccolo.util.PPaintContext
-import edu.colorado.phet.simeventprocessor.scala.{Log, Entry, phet, studySessionsNov2011}
+import edu.colorado.phet.simsharinganalysis.scala.{Log, Entry, phet, studySessionsNov2011}
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.Rectangle2D
 

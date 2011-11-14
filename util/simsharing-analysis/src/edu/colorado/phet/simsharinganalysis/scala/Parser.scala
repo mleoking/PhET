@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simeventprocessor.scala
+package edu.colorado.phet.simsharinganalysis.scala
 
 import java.util.StringTokenizer
 import java.io.{File, FileReader, BufferedReader}
