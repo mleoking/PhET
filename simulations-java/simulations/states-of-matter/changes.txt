@@ -1,3 +1,5 @@
+# 1.09.00 (58569) Nov 14, 2011
+11/14/11 >Publication of the States of Matter Basics version to the production web site.
 # 1.08.10 (58434) Nov 8, 2011
 11/8/11 Deploying to dev with a slight mod to the tick mark position on the stove control.
 # 1.08.09 (58432) Nov 8, 2011
