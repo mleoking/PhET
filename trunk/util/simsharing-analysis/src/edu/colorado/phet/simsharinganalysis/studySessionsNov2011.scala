@@ -1,5 +1,6 @@
+package edu.colorado.phet.simsharinganalysis
+
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharinganalysis.scala
 
 import java.text.SimpleDateFormat
 

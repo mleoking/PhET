@@ -1,5 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharinganalysis.scala
+package edu.colorado.phet.simsharinganalysis
+
+import _root_.scala.math._
+
+// Copyright 2002-2011, University of Colorado
 
 import collection.Seq
 import org.jfree.data.xy.{XYSeriesCollection, XYSeries}
@@ -12,7 +16,6 @@ import org.jfree.chart.plot.{CategoryPlot, XYPlot, PlotOrientation}
 import org.jfree.chart.renderer.category.StatisticalBarRenderer
 import org.jfree.chart.{JFreeChart, ChartFrame, ChartFactory}
 
-import scala.math._
 import org.jfree.chart.axis.{CategoryLabelPositions, NumberAxis, CategoryAxis}
 
 /**
