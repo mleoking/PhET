@@ -1,42 +1,31 @@
-// Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharinganalysis.scripts
+package edu.colorado.phet.simsharinganalysis.gui
 
-import javax.swing.JFrame
-import java.util.Date
+// Copyright 2002-2011, University of Colorado
+
+import edu.umd.cs.piccolo.util.PPaintContext
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
-import java.awt.geom.Line2D
 import edu.umd.cs.piccolo.nodes.PText
+import java.util.Date
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
+import java.awt.geom.{Rectangle2D, Line2D}
 import java.awt.{BasicStroke, Color}
-import edu.umd.cs.piccolo.util.PPaintContext
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import java.awt.geom.Rectangle2D
 import edu.colorado.phet.simsharinganalysis._
+import scripts.HowMuchTimeSpentInTabs
 
-/**
- * Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
- * @author Sam Reid
- */
-object PlotStudentActivity extends App {
-
-  def toX(dt: Long) = 200.0 + dt.toDouble / 1000.0 / 60.0 * 2.0 * 10.0
-
-  def toDeltaX(dt: Long) = toX(dt) - toX(0)
-
-  val all = phet load "C:\\Users\\Sam\\Desktop\\phet-raw-data-11-13-2011"
+class StudentActivityCanvas(path: String) extends PCanvas {
+  val all = phet load path
   val simTabs = HowMuchTimeSpentInTabs.simTabs
   val sims = all.map(_.simName).distinct
 
-  val canvas = new PCanvas {
-    setInteractingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
-  }
+  setInteractingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
   val panel = new VBox(20, true)
-  canvas.getLayer.addChild(panel)
+  getLayer.addChild(panel)
 
   //one plot section for each session
-  for ( session <- studySessionsNov2011.all ) {
-    val sessionLogs = all.filter(session)
+  for ( session <- studySessionsNov2011.all; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
+
     val machines = sessionLogs.map(_.machine).distinct.sorted
     println("machines.length=" + machines.length)
 
@@ -74,7 +63,7 @@ object PlotStudentActivity extends App {
 
         //Stripe for the entire session
         for ( log <- sessionLogs.filter(_.machine == machine) ) {
-          val logNode = new LogNode(log, toX, toDeltaX, stripeHeight, sessionStartTime, colorMap, getColor) {
+          val logNode = new LogNode(log, PlotStudentActivity.toX, PlotStudentActivity.toDeltaX, stripeHeight, sessionStartTime, colorMap, getColor) {
             setOffset(0, y)
           }
           addChild(logNode)
@@ -82,16 +71,9 @@ object PlotStudentActivity extends App {
           y = y + stripeHeight + 1
         }
       }
-
       panel.addChild(machineNode)
     }
   }
-
-  new JFrame {
-    setContentPane(canvas)
-    setSize(1024, 768)
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-  }.setVisible(true)
 }
 
 //Show a timeline that starts at the first event and has tick marks and labels every 15 minutes
