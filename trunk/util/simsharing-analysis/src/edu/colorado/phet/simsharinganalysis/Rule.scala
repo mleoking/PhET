@@ -13,6 +13,10 @@ case class Rule(actor: String, event: String, params: Map[String, String]) exten
   override def toString() = actor + "\t" + event + "\t" + ( for ( elm <- params ) yield {elm._1 + " = " + elm._2} ).mkString("\t")
 }
 
+case class LastEntryRule(log: Log) extends Match {
+  def apply(v1: Entry) = log.entries.last == v1
+}
+
 object Rule {
   def apply(actor: String, event: String, params: Pair[String, String]*): Rule = Rule(actor, event, phet.toMap(params: _*))
 }
@@ -24,3 +28,7 @@ case class ActorRule(actor: String, params: Map[String, String]) extends Match {
 }
 
 trait Match extends ( Entry => Boolean )
+
+class Or(a: Match, b: Match) extends Match {
+  def apply(v1: Entry) = a(v1) || b(v1)
+}

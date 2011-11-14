@@ -1,3 +1,4 @@
+Show when the window is active with a filled in region
 Renamed package from simeventprocessor to simsharinganalysis and removed scala package
 Show events within each sim use
 Added a timeline that starts at the first event and has tick marks and labels every 15 minutes
