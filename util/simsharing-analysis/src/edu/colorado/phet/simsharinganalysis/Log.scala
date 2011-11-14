@@ -73,6 +73,33 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
 
   private def getFirstEntry(actor: String, event: String): Entry = entries.find(entry => entry.actor == actor && entry.event == event).getOrElse(null)
 
+  //Find the first pair of entries that matches the specified pairs
+  def findFirstEntryIndices(startMatch: Match, endMatch: Match, startIndex: Int): Option[Pair[Int, Int]] = {
+    val start = entries.indexWhere(startMatch, startIndex)
+    val end = entries.indexWhere(endMatch, start + 1)
+
+    if ( start >= 0 && end >= 0 ) {
+      Some((start, end))
+    }
+    else {
+      None
+    }
+  }
+
+  //Allow overlapping ranges?
+  def getEntryRanges(startMatch: Match, endMatch: Match): List[Pair[Int, Int]] = {
+    val list = new ArrayBuffer[Pair[Int, Int]]
+    var x = findFirstEntryIndices(startMatch, endMatch, 0)
+    while ( x.isDefined ) {
+      val result: Pair[Int, Int] = x.get
+      list += result
+
+      x = findFirstEntryIndices(startMatch, endMatch, result._1 + 1)
+    }
+
+    list.toList
+  }
+
   //Choose events occurring just in the specified tab (from the list of available tabs)
   def selectTab(list: List[String], s: String) = {
     if ( list.head == s ) {selectFirstTab(s)}

@@ -10,9 +10,9 @@ import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.awt.{BasicStroke, Color}
 import edu.umd.cs.piccolo.util.PPaintContext
-import edu.colorado.phet.simsharinganalysis.{Log, Entry, phet, studySessionsNov2011}
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.Rectangle2D
+import edu.colorado.phet.simsharinganalysis._
 
 /**
  * Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
@@ -70,7 +70,7 @@ object PlotStudentActivity extends App {
         addChild(new PText(machine + ": " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
 
         var y = 0
-        val stripeHeight = 6
+        val stripeHeight = 20
 
         //Stripe for the entire session
         for ( log <- sessionLogs.filter(_.machine == machine) ) {
@@ -140,10 +140,27 @@ class MyPText(node: PNode, camera: PCamera, text: String) extends PText(text) {
 }
 
 class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHeight: Double, sessionStartTime: Long, colorMap: String => Color, getColor: Entry => Color) extends PNode {
-  addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(log.endEpoch - log.epoch), stripeHeight), colorMap(log.simName)) {
+
+  //Show the entire sim usage with a colored border
+  addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(log.endEpoch - log.epoch), stripeHeight), new BasicStroke(2), colorMap(log.simName)) {
     val dt = log.epoch - sessionStartTime
     setOffset(toX(dt), 0) //one second per pixel
   })
+
+  //Show when the window is active with a filled in region
+  val sessions = log.getEntryRanges(Rule("window", "activated"), new Or(Rule("window", "deactivated"), LastEntryRule(log)))
+  println("sessions = " + sessions)
+
+  for ( windowSession <- sessions ) {
+    val start = log.entries(windowSession._1)
+    val end = log.entries(windowSession._2)
+
+    //Show the active sim usage with a colored border
+    addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(end.time - start.time), stripeHeight), colorMap(log.simName).darker) {
+      val dt = log.epoch + start.time - sessionStartTime
+      setOffset(toX(dt), 0) //one second per pixel
+    })
+  }
 
   //Show events within the stripe to indicate user activity
   val switchEntriesOnly = log.entries.filter(_.actor == "tab").filter(_.event == "pressed").toList
