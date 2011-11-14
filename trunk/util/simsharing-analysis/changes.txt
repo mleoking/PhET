@@ -1,3 +1,4 @@
+Added menu bar for plot frame gui
 Show when the window is active with a filled in region
 Renamed package from simeventprocessor to simsharinganalysis and removed scala package
 Show events within each sim use
