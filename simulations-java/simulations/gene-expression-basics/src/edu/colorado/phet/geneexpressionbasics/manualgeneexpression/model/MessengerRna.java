@@ -278,6 +278,22 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
+     * Advance the translation of the mRNA through the given ribosome by the
+     * specified length.  The given ribosome must already be attached to the
+     * mRNA.
+     *
+     * @param ribosome - The ribosome by which the mRNA is being translated.
+     * @param length   - The amount of mRNA to move through the translation channel.
+     * @return True if the mRNA is complete through the channel, false if not.
+     *         Generally, this will be called a number of times returning "false" and
+     *         then, the last time, "true" will be returned.
+     */
+    public boolean advanceTranslation( Ribosome ribosome, double length ) {
+        return true;
+
+    }
+
+    /**
      * Add the specified amount of mRNA length to the tail end of the mRNA.
      * Adding a length will cause the winding algorithm to be re-run.
      *

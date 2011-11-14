@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.TranslatingMRnaState;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.UnattachedAndAvailableState;
 
 /**
  * Class that represents the a ribosome in the model.
@@ -38,13 +40,15 @@ public class Ribosome extends MobileBiomolecule {
         setPosition( position );
         userControlled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean newValue, Boolean oldValue ) {
-                if ( oldValue == true && newValue == false ) {
+                if ( oldValue == true && newValue == false && behaviorState instanceof UnattachedAndAvailableState ) {
                     // If there is an mRNA nearby, attach to it.
                     for ( MessengerRna messengerRna : model.getMessengerRnaList() ) {
                         if ( messengerRna.getPosition().distance( getPosition() ) < MRNA_CAPTURE_THRESHOLD ) {
                             // Attach to this mRNA.
                             messengerRna.connectToRibosome( Ribosome.this );
                         }
+                        // Move into the translating state.
+                        behaviorState = new TranslatingMRnaState( messengerRna, Ribosome.this );
                     }
                 }
             }
