@@ -79,10 +79,6 @@ public class MessengerRna extends MobileBiomolecule {
     // Max force that can be exerted by the wall.
     private static final double MAX_WALL_FORCE = 100; // In Newtons.
 
-    // Length of the portion that "sticks out" to create a clear place for the
-    // ribosome to attach.
-    private static final double STICK_OUT_LENGTH = 100; // In nanometers.
-
     // Min height for the containment rectangle.  Arbitrarily small so that
     // points can fit inside, but not much more.
     private static final double MIN_CONTAINMENT_RECT_HEIGHT = 1;
@@ -205,7 +201,7 @@ public class MessengerRna extends MobileBiomolecule {
                                                           newEndPosition.getY() - MIN_CONTAINMENT_RECT_HEIGHT / 2,
                                                           1E-6,
                                                           1E-6 );
-        if ( currentUnfurledLength > STICK_OUT_LENGTH ) {
+        if ( currentUnfurledLength > LEADER_LENGTH ) {
             // There are enough points to start winding up the mRNA.  Set the
             // size of the rectangle that contains the wound up portion to a
             // value that is shorter than the unfurled length.
@@ -224,7 +220,7 @@ public class MessengerRna extends MobileBiomolecule {
         // left corner of the strand.
         PointMass firstEnclosedPoint = getFirstEnclosedPoint();
         if ( firstEnclosedPoint != null ) {
-            firstShapeDefiningPoint.setPosition( woundUpRect.getX() - STICK_OUT_LENGTH, woundUpRect.getMaxY() );
+            firstShapeDefiningPoint.setPosition( woundUpRect.getX() - LEADER_LENGTH, woundUpRect.getMaxY() );
             PointMass previousPoint = firstShapeDefiningPoint;
             PointMass thisPoint = firstShapeDefiningPoint.nextPointMass;
             while ( thisPoint != firstEnclosedPoint.getNextPointMass() ) {
@@ -615,7 +611,7 @@ public class MessengerRna extends MobileBiomolecule {
                                                           newEndPosition.getY() - MIN_CONTAINMENT_RECT_HEIGHT / 2,
                                                           1E-6,
                                                           1E-6 );
-        if ( currentUnfurledLength > STICK_OUT_LENGTH ) {
+        if ( currentUnfurledLength > LEADER_LENGTH ) {
             // There are enough points to start winding up the mRNA.  Set the
             // size of the rectangle that contains the wound up portion to a
             // value that is shorter than the unfurled length.
@@ -634,7 +630,7 @@ public class MessengerRna extends MobileBiomolecule {
         // left corner of the strand.
         PointMass firstEnclosedPoint = getFirstEnclosedPoint();
         if ( firstEnclosedPoint != null ) {
-            firstShapeDefiningPoint.setPosition( woundUpRect.getX() - STICK_OUT_LENGTH, woundUpRect.getMaxY() );
+            firstShapeDefiningPoint.setPosition( woundUpRect.getX() - LEADER_LENGTH, woundUpRect.getMaxY() );
             PointMass previousPoint = firstShapeDefiningPoint;
             PointMass thisPoint = firstShapeDefiningPoint.nextPointMass;
             while ( thisPoint != firstEnclosedPoint.getNextPointMass() ) {
@@ -829,7 +825,7 @@ public class MessengerRna extends MobileBiomolecule {
                                                               newEndPosition.getY() - MIN_CONTAINMENT_RECT_HEIGHT / 2,
                                                               currentUnfurledLength,
                                                               MIN_CONTAINMENT_RECT_HEIGHT );
-        if ( currentUnfurledLength > STICK_OUT_LENGTH ) {
+        if ( currentUnfurledLength > LEADER_LENGTH ) {
             // There are enough points to start winding up the mRNA.  Create a
             // rectangle that will define the area where the strand must
             // within (except for the stick-out area).
@@ -847,7 +843,7 @@ public class MessengerRna extends MobileBiomolecule {
         // left corner of the strand.
         PointMass firstEnclosedPoint = getFirstEnclosedPoint();
         if ( firstEnclosedPoint != null ) {
-            firstShapeDefiningPoint.setPosition( containmentRect.getX() - STICK_OUT_LENGTH, containmentRect.getMaxY() );
+            firstShapeDefiningPoint.setPosition( containmentRect.getX() - LEADER_LENGTH, containmentRect.getMaxY() );
             PointMass previousPoint = firstShapeDefiningPoint;
             PointMass thisPoint = firstShapeDefiningPoint.nextPointMass;
             while ( thisPoint != firstEnclosedPoint.getNextPointMass() ) {
@@ -973,7 +969,7 @@ public class MessengerRna extends MobileBiomolecule {
         PointMass thisPoint = firstShapeDefiningPoint.getNextPointMass();
         while ( thisPoint != null ) {
             lengthSoFar += thisPoint.getTargetDistanceToPreviousPoint();
-            if ( lengthSoFar >= STICK_OUT_LENGTH ) {
+            if ( lengthSoFar >= LEADER_LENGTH ) {
                 break;
             }
             thisPoint = thisPoint.getNextPointMass();
