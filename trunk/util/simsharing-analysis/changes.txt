@@ -1,3 +1,4 @@
+# 00.00.04 (58580) Nov 14, 2011
 # null.null.00 (58578) Nov 14, 2011
 Added menu bar for plot frame gui
 Show when the window is active with a filled in region
