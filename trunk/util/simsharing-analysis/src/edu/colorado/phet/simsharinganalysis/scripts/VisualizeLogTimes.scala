@@ -24,7 +24,7 @@ object VisualizeLogTimes extends App {
   val countCO = for ( time <- range; count = logs.count(log => log.running(time) && log.study == "colorado"); if count > 0 ) yield {time -> count}
   val countUT = for ( time <- range; count = logs.count(log => log.running(time) && log.study == "utah"); if count > 0 ) yield {time -> count}
 
-  xyplot("Number sims running", "Time (minutes)", "sims running", _.setDomainAxis(new DateAxis("Time")), countCO.toXYSeries("Colorado"), countUT.toXYSeries("Utah"))
+  xyplot("Number sims running", "Time (minutes)", "sims running", _.setDomainAxis(new DateAxis("Time")), countCO.toXYSeries("Colorado") :: countUT.toXYSeries("Utah") :: Nil)
 
   println(new Date(firstLog.epoch))
 }
