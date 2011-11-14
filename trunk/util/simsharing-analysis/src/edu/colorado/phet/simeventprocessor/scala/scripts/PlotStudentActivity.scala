@@ -23,7 +23,7 @@ object PlotStudentActivity extends App {
 
   def toDeltaX(dt: Long) = toX(dt) - toX(0)
 
-  val all = phet load "C:\\Users\\Sam\\Desktop\\data-11-11-2011-i"
+  val all = phet load "C:\\Users\\Sam\\Desktop\\phet-raw-data-11-13-2011"
   val simTabs = HowMuchTimeSpentInTabs.simTabs
   val sims = all.map(_.simName).distinct
 
@@ -34,7 +34,7 @@ object PlotStudentActivity extends App {
   canvas.getLayer.addChild(panel)
 
   //one plot section for each session
-  for ( session <- studySessionsNov2011.all.slice(0, 3) ) {
+  for ( session <- studySessionsNov2011.all ) {
     val sessionLogs = all.filter(session)
     val machines = sessionLogs.map(_.machine).distinct.sorted
     println("machines.length=" + machines.length)
@@ -66,7 +66,7 @@ object PlotStudentActivity extends App {
 
       val machineNode = new PNode {
         //show the text and anchor at x=0
-        addChild(new PText(machine))
+        addChild(new PText(machine + ": " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
 
         var y = 0
         val stripeHeight = 6
