@@ -12,12 +12,12 @@ object TestEntryRanges extends App {
   //Show when the window is active with a filled in region
 
   val logs = phet.load("C:\\Users\\Sam\\Desktop\\phet-raw-data-11-13-2011")
-  //
-  //  val log = logs.sortBy(_.entries.size).last
-  //  println("Looking at file: " + log.file)
-  //
-  //  val sessions = log.getEntryRanges(Rule("window", "activated"), Rule("window", "deactivated"))
-  //  println("sessions = " + sessions)
+
+  val log = logs.sortBy(_.entries.size).last
+  println("Looking at file: " + log.file)
+
+  val sessions = log.getEntryRanges(Rule("window", "activated"), Rule("window", "deactivated"))
+  println("sessions = " + sessions)
 
   println("%%%%%%%%%%%%%%%%%%%%")
   val filtered = logs.filter(_.machine.startsWith("vd6ih")).filter(_.user == "6")

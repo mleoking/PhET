@@ -149,7 +149,6 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
 
   //Show when the window is active with a filled in region
   val sessions = log.getEntryRanges(Rule("window", "activated"), new Or(Rule("window", "deactivated"), LastEntryRule(log)))
-  println("sessions = " + sessions)
 
   for ( windowSession <- sessions ) {
     val start = log.entries(windowSession._1)
