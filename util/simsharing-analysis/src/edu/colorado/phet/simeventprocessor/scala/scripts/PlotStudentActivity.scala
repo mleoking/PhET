@@ -4,14 +4,15 @@ package edu.colorado.phet.simeventprocessor.scala.scripts
 import javax.swing.JFrame
 import java.util.Date
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
-import java.awt.geom.{Line2D, Rectangle2D}
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import java.awt.geom.Line2D
 import edu.umd.cs.piccolo.nodes.PText
 import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.awt.{BasicStroke, Color}
 import edu.umd.cs.piccolo.util.PPaintContext
 import edu.colorado.phet.simeventprocessor.scala.{Log, Entry, phet, studySessionsNov2011}
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import java.awt.geom.Rectangle2D
 
 /**
  * Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
@@ -73,7 +74,9 @@ object PlotStudentActivity extends App {
 
         //Stripe for the entire session
         for ( log <- sessionLogs.filter(_.machine == machine) ) {
-          val logNode = new LogNode(log, toX, toDeltaX, stripeHeight, sessionStartTime, colorMap, getColor)
+          val logNode = new LogNode(log, toX, toDeltaX, stripeHeight, sessionStartTime, colorMap, getColor) {
+            setOffset(0, y)
+          }
           addChild(logNode)
 
           y = y + stripeHeight + 1
@@ -143,6 +146,20 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
   })
 
   //Show events within the stripe to indicate user activity
+  val switchEntriesOnly = log.entries.filter(_.actor == "tab").filter(_.event == "pressed").toList
+  val switchEntries = log.entries(0) :: switchEntriesOnly ::: log.entries.last :: Nil
+
+  for ( index <- 0 until switchEntries.length - 1 ) {
+    val original = switchEntries(index)
+    val newOne = switchEntries(index + 1)
+
+    addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(newOne.time - original.time), stripeHeight / 2)) {
+      val dt = log.epoch + original.time - sessionStartTime
+      setOffset(toX(dt), 0)
+    })
+  }
+
+  //Show events within the stripe to indicate user activity
   for ( entry <- log.entries ) {
     val entryTime = entry.time + log.epoch
     val x = toX(entryTime - sessionStartTime)
@@ -151,6 +168,19 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
     //              val line = new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight), new PFixedWidthStroke(1f), getColor(entry))
     val line = new PhetPPath(new Line2D.Double(x, 0, x, stripeHeight), new BasicStroke(0.1f), getColor(entry))
     addChild(line)
+
+    val simTabs = Map("Balancing Chemical Equations" -> List("Introduction", "Balancing Game"),
+                      "Molecule Polarity" -> List("Two Atoms", "Three Atoms", "Real Molecules"),
+                      "Molecule Shapes" -> Nil)
+
+    if ( entry.actor == "tab" && entry.event == "pressed" ) {
+      val tabName = entry("text")
+      val st = simTabs(log.simName)
+      val index = st.indexOf(tabName)
+      addChild(new PText("" + index) {
+        setOffset(line.getFullBounds.getCenterX - getFullBounds.getWidth / 2, line.getFullBounds.getMaxY)
+      })
+    }
 
     //              val text = new MyPText(line, canvas.getCamera, entry.toString) {
     ////                setOffset(line.getFullBounds.getCenterX - getFullBounds.getWidth / 2, line.getFullBounds.getY)
