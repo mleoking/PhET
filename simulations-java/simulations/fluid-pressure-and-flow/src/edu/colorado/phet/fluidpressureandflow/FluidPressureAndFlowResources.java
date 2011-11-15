@@ -61,8 +61,10 @@ public class FluidPressureAndFlowResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage FLOWER_POT = RESOURCES.getImage( "flower-pot.png" );
         public static final BufferedImage HANDLE = RESOURCES.getImage( "handle.png" );
         public static final BufferedImage KNOB = RESOURCES.getImage( "knob.png" );
+        public static final BufferedImage MAN_STANDING = RESOURCES.getImage( "man-standing.png" );
         public static final BufferedImage NOZZLE = RESOURCES.getImage( "nozzle.png" );
         public static final BufferedImage PANEL = RESOURCES.getImage( "panel.png" );
         public static final BufferedImage PIPE_LEFT_BACK = RESOURCES.getImage( "pipe-left-back.png" );
@@ -70,6 +72,7 @@ public class FluidPressureAndFlowResources {
         public static final BufferedImage PIPE_MIDDLE = RESOURCES.getImage( "pipe-middle.png" );
         public static final BufferedImage PIPE_RIGHT = RESOURCES.getImage( "pipe-right.png" );
         public static final BufferedImage PIPE_HANDLE_1 = RESOURCES.getImage( "pipe_handle_1.png" );
+        public static final BufferedImage POTTED_PLANT = RESOURCES.getImage( "potted-plant.png" );
         public static final BufferedImage PRESSURE_METER_CENTER = RESOURCES.getImage( "pressure_meter_center.png" );
         public static final BufferedImage PRESSURE_METER_LEFT = RESOURCES.getImage( "pressure_meter_left.png" );
         public static final BufferedImage PRESSURE_METER_RIGHT = RESOURCES.getImage( "pressure_meter_right.png" );
