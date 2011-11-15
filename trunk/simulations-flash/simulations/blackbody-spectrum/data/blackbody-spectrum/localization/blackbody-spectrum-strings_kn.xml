@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_kn.xml created Tue Nov 08 13:20:30 IST 2011 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<SimStrings>
+<string key="zoomIn" value="ಹಿಗ್ಗಿಸು"/>
+<string key="zoomOut" value="ಕುಗ್ಗಿಸು"/>
+<string key="clear" value="ಅಳಿಸು"/>
+<string key="sun" value="ಸೂರ್ಯ"/>
+<string key="showRuler" value="ಅಳತೆಪಟ್ಟಿ ತೋರಿಸು"/>
+<string key="save" value="ಉಳಿಸು"/>
+<string key="wavelength" value="ತರಂಗಾಂತರ"/>
+<string key="oven" value="ಒಲೆ"/>
+<string key="earth" value="ಭೂಮಿ"/>
+<string key="lightBulb" value="ಬಲ್ಬು"/>
+</SimStrings>
