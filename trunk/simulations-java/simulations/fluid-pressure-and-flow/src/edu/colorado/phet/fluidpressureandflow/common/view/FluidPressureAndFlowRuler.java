@@ -2,6 +2,9 @@
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import java.awt.geom.Point2D;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -44,7 +47,10 @@ public class FluidPressureAndFlowRuler extends PNode {
         } );
 
         //Create the ruler node, and put 0 exactly at the edge so it can be placed at the bottom of the pool and give a good reading
-        final RulerNode rulerNode = new RulerNode( length, 50, majorTicks, units, 4, 15 ) {{
+        //Reverse the numbers on the ruler so 0 is at the top of the pool
+        List<String> strings = Arrays.asList( majorTicks );
+        Collections.reverse( strings );
+        final RulerNode rulerNode = new RulerNode( length, 50, strings.toArray( new String[strings.size()] ), units, 4, 15 ) {{
             setInsetWidth( 0 );
         }};
 
