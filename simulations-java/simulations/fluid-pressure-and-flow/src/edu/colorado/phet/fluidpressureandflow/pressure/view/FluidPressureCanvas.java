@@ -18,8 +18,6 @@ import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.MAN_STANDING;
@@ -92,12 +90,12 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             double currentHeight = getFullBounds().getHeight();
             scale( height / currentHeight );
 
-            addInputEventListener( new PDragEventHandler() {
-                @Override protected void drag( PInputEvent event ) {
-                    super.drag( event );
-                    System.out.println( getOffset() );
-                }
-            } );
+//            addInputEventListener( new PDragEventHandler() {
+//                @Override protected void drag( PInputEvent event ) {
+//                    super.drag( event );
+//                    System.out.println( getOffset() );
+//                }
+//            } );
             setOffset( 115.50960118168459, 249.0989660265875 );
         }} );
 
@@ -107,12 +105,12 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             double currentHeight = getFullBounds().getHeight();
             scale( height / currentHeight );
 
-            addInputEventListener( new PDragEventHandler() {
-                @Override protected void drag( PInputEvent event ) {
-                    super.drag( event );
-                    System.out.println( getOffset() );
-                }
-            } );
+//            addInputEventListener( new PDragEventHandler() {
+//                @Override protected void drag( PInputEvent event ) {
+//                    super.drag( event );
+//                    System.out.println( getOffset() );
+//                }
+//            } );
             setOffset( 744.2836041358973, 161.7134416543571 );
         }} );
     }
