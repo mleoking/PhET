@@ -39,7 +39,7 @@ public class FluidPressureAndFlowRuler extends PNode {
                                          String[] majorTicks,
                                          String units,
                                          final Point2D rulerModelOrigin,
-                                         ResetModel resetModel ) {
+                                         ResetModel resetModel, boolean reverseNumbers ) {
         visible.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visible.get() );
@@ -47,9 +47,11 @@ public class FluidPressureAndFlowRuler extends PNode {
         } );
 
         //Create the ruler node, and put 0 exactly at the edge so it can be placed at the bottom of the pool and give a good reading
-        //Reverse the numbers on the ruler so 0 is at the top of the pool
         List<String> strings = Arrays.asList( majorTicks );
-        Collections.reverse( strings );
+        //Reverse the numbers on the ruler so 0 is at the top of the pool
+        if ( reverseNumbers ) {
+            Collections.reverse( strings );
+        }
         final RulerNode rulerNode = new RulerNode( length, 50, strings.toArray( new String[strings.size()] ), units, 4, 15 ) {{
             setInsetWidth( 0 );
         }};

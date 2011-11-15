@@ -1,3 +1,4 @@
+Put zero at the bottom of rulers in flow and water tower tabs
 # 0.00.43 (58597) Nov 15, 2011
 Moved the plant and man behind the rulers and sensors
 # 0.00.42 (58595) Nov 15, 2011

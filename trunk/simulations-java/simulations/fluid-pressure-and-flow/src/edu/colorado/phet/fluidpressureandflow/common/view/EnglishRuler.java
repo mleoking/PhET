@@ -15,16 +15,16 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
  * @author Sam Reid
  */
 public class EnglishRuler extends FluidPressureAndFlowRuler {
-    public EnglishRuler( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin, ResetModel resetModel ) {
+    public EnglishRuler( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin, ResetModel resetModel, boolean reverseNumbers ) {
         super( transform, visible, setVisible, Math.abs( transform.modelToViewDeltaY( Units.FEET.toSI( 10 ) ) ),
                new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, Units.FEET.getAbbreviation(),
-               rulerModelOrigin, resetModel );
+               rulerModelOrigin, resetModel, reverseNumbers );
     }
 
     //Creates a ruler that goes 100 feet long
-    public EnglishRuler( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin, boolean dummyFlagToIndicate100Max, ResetModel resetModel ) {
+    public EnglishRuler( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin, boolean dummyFlagToIndicate100Max, ResetModel resetModel, boolean reverseNumbers ) {
         super( transform, visible, setVisible, Math.abs( transform.modelToViewDeltaY( Units.FEET.toSI( 100 ) ) ),
                new String[] { "0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100" }, Units.FEET.getAbbreviation(),
-               rulerModelOrigin, resetModel );
+               rulerModelOrigin, resetModel, reverseNumbers );
     }
 }
