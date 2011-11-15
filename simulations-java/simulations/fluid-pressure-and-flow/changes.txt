@@ -1,4 +1,5 @@
 Reverse the numbers on the ruler so 0 is at the top of the pool
+Made man and plan non-draggable
 # 0.00.41 (58591) Nov 15, 2011
 Fluid pressure: Added a potted plant and standing man for a sense of scale
 # 0.00.40 (57966) Oct 24, 2011
