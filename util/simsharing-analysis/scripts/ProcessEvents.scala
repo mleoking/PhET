@@ -27,7 +27,7 @@ val users = selected.map(_.user).distinct.sortBy(numerical)
 println("Unique userIDs: " + users.size + ": " + users)
 
 val eventCountData = selected.map(_.eventCountData)
-xyplot("Events vs time", "Time (minutes)", "Events", eventCountData: _*)
+xyplot("Events vs time", "Time (minutes)", "Events", eventCountData)
 
 for ( log <- selected ) {
   println(log.histogramByObject)
@@ -43,7 +43,7 @@ for ( sim <- simEventMap.keys; simLogs = selected.filter(_.simName == sim); if s
   val simEvents = simEventMap(sim)
 
   val filteredDataSets = simLogs.map(_.countEvents(simEvents))
-  xyplot("Filtered events vs time for " + sim, "Time (minutes)", "Events", filteredDataSets: _*)
+  xyplot("Filtered events vs time for " + sim, "Time (minutes)", "Events", filteredDataSets)
 
   //Print how many features each user used
   val sorted = selected.sortBy(_.findMatches(simEvents).size)
