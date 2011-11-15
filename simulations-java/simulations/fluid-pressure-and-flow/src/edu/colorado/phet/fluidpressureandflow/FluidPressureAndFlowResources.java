@@ -61,7 +61,6 @@ public class FluidPressureAndFlowResources {
 
     //Images
     public static class Images {
-        public static final BufferedImage FLOWER_POT = RESOURCES.getImage( "flower-pot.png" );
         public static final BufferedImage HANDLE = RESOURCES.getImage( "handle.png" );
         public static final BufferedImage KNOB = RESOURCES.getImage( "knob.png" );
         public static final BufferedImage MAN_STANDING = RESOURCES.getImage( "man-standing.png" );
