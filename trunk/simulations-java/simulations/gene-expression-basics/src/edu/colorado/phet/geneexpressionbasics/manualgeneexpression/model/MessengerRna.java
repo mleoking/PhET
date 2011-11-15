@@ -33,6 +33,8 @@ import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.IdleSt
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import com.sun.istack.internal.Nullable;
+
 /**
  * Class that represents messenger ribonucleic acid, or mRNA, in the model.
  *
@@ -151,6 +153,30 @@ public class MessengerRna extends MobileBiomolecule {
         while ( thisPoint != null ) {
             thisPoint.translate( translationVector );
             thisPoint = thisPoint.getNextPointMass();
+        }
+    }
+
+    private @Nullable ShapeSegment getNextShapeSegment( ShapeSegment shapeSegment ) {
+        int index = shapeSegments.indexOf( shapeSegment );
+        assert index != -1; // This function shouldn't be used for segments not on the list.
+        if ( index == shapeSegments.size() - 1 ) {
+            // The given segment is the last element on the list, so null is returned.
+            return null;
+        }
+        else {
+            return shapeSegments.get( index + 1 );
+        }
+    }
+
+    private @Nullable ShapeSegment getPreviousShapeSegment( ShapeSegment shapeSegment ) {
+        int index = shapeSegments.indexOf( shapeSegment );
+        assert index != -1; // This function shouldn't be used for segments not on the list.
+        if ( index == 0 ) {
+            // The given segment is the first element on the list, so null is returned.
+            return null;
+        }
+        else {
+            return shapeSegments.get( index - 1 );
         }
     }
 
