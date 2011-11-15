@@ -1,7 +1,4 @@
-# 2.00.00 (58605) Nov 15, 2011
-11/15/11 >Initial deployment to the production server.
-# 1.00.00 (58602) Nov 15, 2011
-11/15/11 >Initial deployment to the production server.
+Fixed a misspelling in the credits.
 # 0.00.21 (58572) Nov 14, 2011
 11/14/11 Deploying to dev with some minor fixes and internal changes resulting from code review.
 Modified the point indicator on the feedback node (i.e. the smiley face) to make it easier to see.
