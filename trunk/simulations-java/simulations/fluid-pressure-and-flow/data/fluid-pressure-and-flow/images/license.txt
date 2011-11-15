@@ -13,3 +13,5 @@ pressure_meter_center.png source=PhET notes=drawn by NP
 pressure_meter_left.png source=PhET notes=drawn by NP
 pressure_meter_right.png source=PhET notes=drawn by NP
 squeezer_background.png source=PhET notes=copied from gene-network
+man-standing.png source=PhET notes=copied from balance-and-torque
+potted-plant.png source=PhET notes=copied from balance-and-torque

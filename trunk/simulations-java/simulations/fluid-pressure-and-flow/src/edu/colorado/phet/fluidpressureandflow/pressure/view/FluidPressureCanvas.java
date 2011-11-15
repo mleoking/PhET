@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
@@ -17,6 +18,12 @@ import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.MAN_STANDING;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.POTTED_PLANT;
 
 /**
  * Canvas for the "pressure" tab in Fluid Pressure and Flow.
@@ -78,5 +85,35 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Create and show the fluid density controls
         addFluidDensityControl( module );
+
+        //Add an image for a sense of scale
+        addChild( new PImage( POTTED_PLANT ) {{
+            double height = Math.abs( transform.modelToViewDeltaY( 3 / Units.FEET_PER_METER ) );
+            double currentHeight = getFullBounds().getHeight();
+            scale( height / currentHeight );
+
+            addInputEventListener( new PDragEventHandler() {
+                @Override protected void drag( PInputEvent event ) {
+                    super.drag( event );
+                    System.out.println( getOffset() );
+                }
+            } );
+            setOffset( 115.50960118168459, 249.0989660265875 );
+        }} );
+
+        //Add an image for a sense of scale
+        addChild( new PImage( MAN_STANDING ) {{
+            double height = Math.abs( transform.modelToViewDeltaY( 6 / Units.FEET_PER_METER ) );
+            double currentHeight = getFullBounds().getHeight();
+            scale( height / currentHeight );
+
+            addInputEventListener( new PDragEventHandler() {
+                @Override protected void drag( PInputEvent event ) {
+                    super.drag( event );
+                    System.out.println( getOffset() );
+                }
+            } );
+            setOffset( 744.2836041358973, 161.7134416543571 );
+        }} );
     }
 }
