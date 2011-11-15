@@ -1,3 +1,4 @@
+Moved the plant and man behind the rulers and sensors
 # 0.00.42 (58595) Nov 15, 2011
 Reverse the numbers on the ruler so 0 is at the top of the pool
 Made man and plan non-draggable
