@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_kn.xml created Tue Nov 08 20:26:37 IST 2011 using: faradays-law 2.02.00 (52648), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<SimStrings>
+<string key="showFieldLines" value="ಕಾಂತೀಯ ಬಲರೇಖೆ"/>
+<string key="oneCoil" value="ಒಂದು ಸುರುಳಿ"/>
+<string key="noSound" value="ಶಬ್ಧ ಬೇಡ"/>
+<string key="moveMe" value="ಕಾಂತವನ್ನು  ಸುರುಳಿಯಲ್ಲಿ ತೂರಿಸು"/>
+<string key="flipMagnet" value="ಧ್ರುವ ಬದಲಿಸು"/>
+<string key="simTitle" value="ಫಾರಡೆ ನಿಯಮ"/>
+<string key="twoCoils" value="ಎರಡು ಸುರುಳಿ"/>
+<string key="voltage" value="ವೋಲ್ಟೇಜ್"/>
+</SimStrings>
