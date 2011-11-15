@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_kn.xml created Tue Nov 08 14:55:02 IST 2011 using: charges-and-fields 2.04.00 (52655), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<SimStrings>
+<string key="showLoRes" value="ಕಡಿಮೆ ಸ್ಪಷ್ಟತೆ V"/>
+<string key="grid" value="ಜಾಲರಿ"/>
+<string key="EFieldSensors" value="ವಿದ್ಯುತ್ ಕ್ಷೇತ್ರದ ಸೆನ್ಸರ್ "/>
+<string key="equipotential" value="ಸಮಪ್ರಚ್ಛನ್ನ"/>
+<string key="voltage" value="ವೋಲ್ಟೇಜ್"/>
+<string key="moreSpeedLessRes" value="ಹೆಚ್ಚು ವೇಗ/ ಕಡಿಮೆ ಸ್ಪಷ್ಟತೆ"/>
+<string key="simTitle" value="ವಿದ್ಯುತ್ ಕ್ಷೇತ್ರ ಮತ್ತು ಆವೇಶ"/>
+<string key="tapeMeasure" value="ಅಳತೆ ಮಾಡು"/>
+<string key="clear" value="ಅಳಿಸು"/>
+<string key="clearAll" value="ಎಲ್ಲವನ್ನು ಅಳಿಸು"/>
+<string key="plot" value="ಗುರುತಿಸು"/>
+<string key="showEField" value="ವಿದ್ಯುತ್ ಕ್ಷೇತ್ರ ತೋರಿಸು"/>
+<string key="directionOnly" value="ದಿಕ್ಕು ಮಾತ್ರ"/>
+<string key="showNumbers" value="ಸಂಖ್ಯೆ ತೋರಿಸು"/>
+<string key="showHiRes" value="ಹೆಚ್ಚು ಸ್ಪಷ್ಟತೆ V"/>
+</SimStrings>
