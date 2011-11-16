@@ -9,7 +9,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -97,7 +99,11 @@ public class MessengerRna extends MobileBiomolecule {
 
     public final PlacementHint ribosomePlacementHint;
 
+    // List of the shape segments that define the outline shape.
     public final EnhancedObservableList<ShapeSegment> shapeSegments = new EnhancedObservableList<ShapeSegment>();
+
+    // Map from ribosomes to the shape segment to which they are attached.
+    private final Map<Ribosome, ShapeSegment> mapRibosomeToShapeSegment = new HashMap<Ribosome, ShapeSegment>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -293,7 +299,17 @@ public class MessengerRna extends MobileBiomolecule {
      *         then, the last time, "true" will be returned.
      */
     public boolean advanceTranslation( Ribosome ribosome, double length ) {
-        return true;
+        ShapeSegment segmentToAdvance = mapRibosomeToShapeSegment.get( ribosome );
+        if ( segmentToAdvance == null ) {
+            System.out.println( getClass().getName() + " - Warning: Attempt to advance translation by a ribosome that isn't attached." );
+            return true;
+        }
+
+        segmentToAdvance.advance( length, shapeSegments );
+
+        // If there is anything left in this segment, then transcription is not
+        // yet complete.
+        return segmentToAdvance.getContainedLength() > 0;
     }
 
     /**
@@ -1087,6 +1103,16 @@ public class MessengerRna extends MobileBiomolecule {
 
     public void connectToRibosome( Ribosome ribosome ) {
         behaviorState = new BeingTranslatedState( this, ribosome );
+        assert !mapRibosomeToShapeSegment.containsKey( ribosome ); // State checking.
+
+        // Set the capacity of the first segment to the size of the channel
+        // through which it will be pulled plus the leader length.
+        ShapeSegment firstShapeSegment = shapeSegments.get( 0 );
+        assert firstShapeSegment.isFlat();
+        firstShapeSegment.setCapacity( ribosome.getTranslationChannelLength() + LEADER_LENGTH );
+
+        // Map the ribosome to the shape segment.
+        mapRibosomeToShapeSegment.put( ribosome, firstShapeSegment );
     }
 
     private void dumpPointMasses() {
@@ -1331,10 +1357,61 @@ public class MessengerRna extends MobileBiomolecule {
 
             @Override public void remove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
                 bounds.set( new Rectangle2D.Double( bounds.get().getX(), bounds.get().getY(), bounds.get().getWidth() - length, 0 ) );
+                // If the length has gotten to zero, remove this segment from
+                // the list.
+                if ( getContainedLength() <= FLOATING_POINT_COMP_FACTOR ) {
+                    shapeSegmentList.remove( this );
+                }
             }
 
             @Override public void advance( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
-                //To change body of implemented methods use File | Settings | File Templates.
+                ShapeSegment outputSegment = shapeSegmentList.getPreviousItem( this );
+                ShapeSegment inputSegment = shapeSegmentList.getNextItem( this );
+                if ( inputSegment == null ) {
+                    // There is no input segment, meaning that the end of the
+                    // mRNA strand is contained in THIS segment, so it needs to
+                    // shrink.
+                    this.remove( length, shapeSegmentList );
+                    outputSegment.add( length, shapeSegmentList );
+                }
+                else if ( inputSegment.getContainedLength() > length ) {
+                    if ( getContainedLength() + length <= capacity ) {
+                        // This is a simple case: The input segment has
+                        // enough mRNA contained, and this is below capacity,
+                        // so we just need to grow.
+                        add( length, shapeSegmentList );
+                    }
+                    else {
+                        // This segment is full or almost full.
+                        if ( getRemainingCapacity() != 0 ) {
+                            // Not quite full yet - fill it up.
+                            maxOut();
+                            // Create a new leader segment for the mRNA to
+                            // move into.
+
+                        }
+                        add( getRemainingCapacity(), shapeSegmentList );
+                        if ( outputSegment == null ) {
+                            // Need to create an output segment.
+                            ShapeSegment newFlatSegment = new FlatSegment( getUpperLeftCornerPos() ) {{
+                                setCapacity( LEADER_LENGTH );
+                            }};
+                            shapeSegmentList.insertBefore( this, newFlatSegment );
+                            outputSegment = newFlatSegment;
+                        }
+                        outputSegment.add( length - this.getRemainingCapacity(), shapeSegmentList );
+                    }
+                }
+            }
+
+            // Set size to be exactly the capacity.  Do not create any new
+            // segments.
+            private void maxOut() {
+                double growthAmount = getRemainingCapacity();
+                bounds.set( new Rectangle2D.Double( bounds.get().getX() - growthAmount,
+                                                    bounds.get().getY(),
+                                                    capacity,
+                                                    0 ) );
             }
         }
 
@@ -1378,6 +1455,11 @@ public class MessengerRna extends MobileBiomolecule {
                                                     bounds.get().getY() + sideShrinkageAmount,
                                                     bounds.get().getWidth() - sideShrinkageAmount,
                                                     bounds.get().getHeight() - sideShrinkageAmount ) );
+                // If the length has gotten to zero, remove this segment from
+                // the list.
+                if ( getContainedLength() <= FLOATING_POINT_COMP_FACTOR ) {
+                    shapeSegmentList.remove( this );
+                }
             }
 
             @Override public void advance( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {

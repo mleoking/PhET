@@ -108,4 +108,8 @@ public class Ribosome extends MobileBiomolecule {
     private double getRnaChannelYPos() {
         return getPosition().getY() - ( OVERALL_HEIGHT / 2 ) + BOTTOM_SUBUNIT_HEIGHT;
     }
+
+    public double getTranslationChannelLength() {
+        return WIDTH;
+    }
 }
