@@ -6,11 +6,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-//REVIEW rather than copying, generalize ParticleInjectorNode and migrate to piccolo-phet
-
 /**
- * Node that represents the thing with which the user interacts in order to
- * inject particles (generally ions) into the chamber.
+ * Adds interactivity to NonInteractiveInjectorNode.
+ * <p/>
  * <p/>
  * Copied from ParticleInjectorNode in membrane-channels on 12-9-2010
  *
