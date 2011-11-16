@@ -9,11 +9,28 @@ import edu.colorado.phet.common.piccolophet.nodes.InjectorNode;
 import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
 
 /**
+ * Injects a grid of particles.
+ *
  * @author Sam Reid
  */
-public class DyeInjectorNode extends InjectorNode {
-    public DyeInjectorNode( final ModelViewTransform mvt, double rotationAngle, final SimpleObserver squirt, final Pipe pipe ) {
-        super( mvt, rotationAngle, squirt );
+public class GridInjectorNode extends InjectorNode {
+    public GridInjectorNode( final ModelViewTransform mvt, double rotationAngle, final SimpleObserver squirt, final Pipe pipe ) {
+        super( mvt, rotationAngle, new SimpleObserver() {
+            public void update() {
+                squirt.update();
+            }
+        } );
+
+//        observers.addListener( new VoidFunction1<Void>() {
+//            public void apply( Void myVoid ) {
+//                setEnabled( false );
+//                new javax.swing.Timer( 5000, new ActionListener() {
+//                    public void actionPerformed( ActionEvent e ) {
+//                        setEnabled( true );
+//                    }
+//                } ) {{setRepeats( false );}}.start();
+//            }
+//        } );
 
         final SimpleObserver updateLocation = new SimpleObserver() {
             public void update() {

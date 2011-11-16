@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.model;
 
+import java.awt.Paint;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -28,16 +29,14 @@ public class Particle {
     //Listeners
     private final ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
     private final ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
+    public final Paint color;
 
-    public Particle( double x, double fractionUpPipe, Pipe container ) {
-        this( x, fractionUpPipe, container, 0.1 );
-    }
-
-    public Particle( double x, double fractionUpPipe, Pipe container, double radius ) {
+    public Particle( double x, double fractionUpPipe, Pipe container, double radius, Paint color ) {
         this.x = x;
         this.fractionUpPipe = fractionUpPipe;
         this.container = container;
         this.radius = radius;
+        this.color = color;
     }
 
     public double getX() {

@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.model;
 
+import java.awt.Color;
+import java.awt.Paint;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,12 +32,10 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     //Model elements
     public final Pipe pipe = new Pipe();
     private final ArrayList<Particle> particles = new ArrayList<Particle>();
-    private final ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
     public final FluxMeter fluxMeter = new FluxMeter( pipe );
 
     //Observers
     private final ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
-    private final ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
 
     //percent probability to drop in each frame
     public final Property<Double> dropperRate = new Property<Double>( 33.0 );
@@ -62,34 +62,19 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     //When time passes, the circular particles and rectangular dye moves
     private void stepInTime( ClockEvent clockEvent ) {
         updateParticles( clockEvent.getSimulationTimeChange() );
-        updateFoodColoring( clockEvent.getSimulationTimeChange() );
-    }
-
-    //Update the solid red patches (food coloring)
-    private void updateFoodColoring( double dt ) {
-        ArrayList<FoodColoring> toRemove = new ArrayList<FoodColoring>();
-        for ( FoodColoring foodColoring : foodColorings ) {
-            boolean canRemove = true;
-            ArrayList<Particle> p = foodColoring.getParticles();
-            for ( Particle particle : p ) {
-                boolean remove = updateParticle( dt, particle );
-                canRemove = canRemove && remove;//only remove if all particles have exited
-            }
-            foodColoring.notifyObservers();
-            if ( canRemove ) {
-                toRemove.add( foodColoring );
-            }
-        }
-        for ( FoodColoring foodColoring : toRemove ) {
-            removeFoodColoring( foodColoring );
-        }
     }
 
     //Update the red dots
     private void updateParticles( double dt ) {
         double value = dropperRate.get() / 100.0;
         if ( random.nextDouble() < value && dropperEnabled.get() ) {
-            addDrop();
+
+            //Don't show any particles near the edges, since their velocity should be zero in physical reality (or a full-blown fluid dynamics simulation)
+            double min = 0.1;
+            double max = 1 - min;
+            double range = max - min;
+
+            addDrop( pipe.getMinX() + 1E-6, random.nextDouble() * range + min, 0.1, Color.red );
         }
         ArrayList<Particle> toRemove = new ArrayList<Particle>();
         for ( Particle particle : particles ) {
@@ -101,11 +86,6 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         for ( Particle particle : toRemove ) {
             removeParticle( particle );
         }
-    }
-
-    private void removeFoodColoring( FoodColoring foodColoring ) {
-        foodColorings.remove( foodColoring );
-        foodColoring.notifyRemoved();
     }
 
     private void removeParticle( Particle particle ) {
@@ -150,10 +130,6 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         particleAddedObservers.add( listener );
     }
 
-    public void addFoodColoringObserver( VoidFunction1<FoodColoring> listener ) {
-        foodColoringObservers.add( listener );
-    }
-
     public Option<ImmutableVector2D> getVelocity( double x, double y ) {
         if ( pipe.contains( x, y ) ) {
             return new Option.Some<ImmutableVector2D>( pipe.getTweakedVelocity( x, y ) );//assumes velocity same at all y along a specified x
@@ -180,20 +156,26 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     }
 
     public void pourFoodColoring() {
-        final FoodColoring foodColoring = new FoodColoring( pipe.getMinX() + 1E-6, 0.75, pipe );
-        for ( VoidFunction1<FoodColoring> foodColoringObserver : foodColoringObservers ) {
-            foodColoringObserver.apply( foodColoring );
+        double x0 = pipe.getMinX() + 1E-6;
+        double width = 0.75;
+
+        //Okay to have the fluid go all the way to the sides of the pipe, since friction is accounted for elsewhere
+        double yMin = 0;
+        double yMax = 1;
+        double delta = 0.1;
+
+        //top
+        for ( double x = x0; x <= x0 + width; x += delta * 2 ) {
+            for ( double y = yMin + delta; y <= yMax - delta; y += delta ) {
+                addDrop( x, y, 0.05, Color.black );
+            }
         }
-        foodColorings.add( foodColoring );
     }
 
     //Reset the model for "reset all"
     @Override public void reset() {
         while ( particles.size() > 0 ) {
             removeParticle( particles.get( 0 ) );
-        }
-        while ( foodColorings.size() > 0 ) {
-            removeFoodColoring( foodColorings.get( 0 ) );
         }
         super.reset();
         pipe.reset();
@@ -203,13 +185,9 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     }
 
     //Add a drop at a random location
-    public void addDrop() {
+    public void addDrop( final double x, double y, final double radius, final Paint paint ) {
 
-        //Don't show any particles near the edges, since their velocity should be zero in physical reality (or a full-blown fluid dynamics simulation)
-        double min = 0.1;
-        double max = 1 - min;
-        double range = max - min;
-        final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble() * range + min, pipe, 0.1 );
+        final Particle newParticle = new Particle( x, y, pipe, radius, paint );
         particles.add( newParticle );
         for ( VoidFunction1<Particle> particleAddedObserver : particleAddedObservers ) {
             particleAddedObserver.apply( newParticle );
