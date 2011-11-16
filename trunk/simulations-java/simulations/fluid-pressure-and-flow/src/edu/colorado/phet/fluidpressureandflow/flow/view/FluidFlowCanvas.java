@@ -18,7 +18,6 @@ import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCo
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluidFlowModel;
-import edu.colorado.phet.fluidpressureandflow.flow.model.FoodColoring;
 import edu.colorado.phet.fluidpressureandflow.flow.model.Particle;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
@@ -67,7 +66,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
             }
         } );
 
-        final InjectorNode dropperNode = new DyeInjectorNode( transform, 3 * Math.PI / 2, new SimpleObserver() {
+        final InjectorNode dropperNode = new GridInjectorNode( transform, 3 * Math.PI / 2, new SimpleObserver() {
             public void update() {
                 model.pourFoodColoring();
             }
@@ -82,13 +81,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         addChild( new PSwing( dotsCheckBox ) {{
             setOffset( dropperNode.getFullBounds().getMaxX(), dropperNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
-
-        //Add the colored fluid graphic when model instances are created
-        model.addFoodColoringObserver( new VoidFunction1<FoodColoring>() {
-            public void apply( FoodColoring foodColoring ) {
-                addFoodColoringNode( foodColoring );
-            }
-        } );
 
         //Ruler nodes, one for each unit set
         final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
@@ -136,17 +128,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this last ensures that the draggable sensors will appear in front of everything else
         addSensorToolboxNode( model, controlPanelNode );
-    }
-
-    private void addFoodColoringNode( final FoodColoring p ) {
-        final FoodColoringNode node = new FoodColoringNode( transform, p );
-        foodColoringLayer.addChild( node );
-        p.addRemovalListener( new SimpleObserver() {
-            public void update() {
-                foodColoringLayer.removeChild( node );
-                p.removeRemovalListener( this );
-            }
-        } );
     }
 
     private void addParticleNode( final Particle p ) {
