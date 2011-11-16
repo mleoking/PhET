@@ -14,11 +14,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOURCES;
 
-//REVIEW rather than copying, generalize ParticleInjectorNode and migrate to piccolo-phet
-
 /**
  * Node that represents the thing with which the user interacts in order to
- * inject particles (generally ions) into the chamber.
+ * inject something into the model.  This superclass doesn't have any interactivity so it is easy to add different interaction models.
  * <p/>
  * Copied from ParticleInjectorNode in membrane-channels on 12-9-2010
  *
