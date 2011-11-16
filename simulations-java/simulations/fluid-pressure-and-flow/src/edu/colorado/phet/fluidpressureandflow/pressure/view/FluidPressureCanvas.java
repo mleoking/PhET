@@ -87,8 +87,9 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Show the ruler
         //Some nodes go behind the pool so that it looks like they submerge
+        //Position the meter stick so that its origin is at the top of the pool since the rulers measure down in this tab
         final Point2D.Double rulerModelOrigin = new Point2D.Double( pool.getMinX(), pool.getMinY() );
-        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, model, true );
+        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, new Point2D.Double( rulerModelOrigin.getX(), pool.getMaxY() - MeterStick.LENGTH_SMALL ), model, true );
         final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, model, true );
         synchronizeRulerLocations( meterStick, englishRuler );
         addChild( meterStick );

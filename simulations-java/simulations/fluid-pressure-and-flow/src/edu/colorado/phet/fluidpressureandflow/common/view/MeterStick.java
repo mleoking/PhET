@@ -15,8 +15,10 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
  * @author Sam Reid
  */
 public class MeterStick extends FluidPressureAndFlowRuler {
+    public static final double LENGTH_SMALL = 5;
+
     public MeterStick( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin, ResetModel resetModel, boolean reverseNumbers ) {
-        super( transform, visible, setVisible, Math.abs( transform.modelToViewDeltaY( 5 ) ),
+        super( transform, visible, setVisible, Math.abs( transform.modelToViewDeltaY( LENGTH_SMALL ) ),
                new String[] { "0", "1", "2", "3", "4", "5" }, Units.METERS.getAbbreviation(), rulerModelOrigin, resetModel, reverseNumbers );
     }
 
