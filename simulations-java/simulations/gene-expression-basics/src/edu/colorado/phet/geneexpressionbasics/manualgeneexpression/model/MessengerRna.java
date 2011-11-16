@@ -118,7 +118,7 @@ public class MessengerRna extends MobileBiomolecule {
 
         // Add the first segment to the shape segment list.  This segment will
         // contain the "leader" for the mRNA.
-        shapeSegments.add( new ShapeSegment.HorizontalSegment( position, 0 ) );
+        shapeSegments.add( new ShapeSegment.FlatSegment( position, 0 ) );
 
         // Explicitly set the state to idle, so that this won't move (other
         // than growing) until it is released.
@@ -378,7 +378,7 @@ public class MessengerRna extends MobileBiomolecule {
                 // segment where the mRNA can curl up.
                 lastShapeSegment.growLeft( LEADER_LENGTH - lastShapeSegment.getLength() );
                 assert getLength() > LEADER_LENGTH; // If this fires, this code is wrong and needs to be fixed.
-                shapeSegments.add( new ShapeSegment.DiagonalSegment( lastShapeSegment.getLowerRightCornerPos(), getLength() - LEADER_LENGTH ) );
+                shapeSegments.add( new ShapeSegment.SquareSegment( lastShapeSegment.getLowerRightCornerPos(), getLength() - LEADER_LENGTH ) );
             }
         }
         else {
@@ -1309,9 +1309,13 @@ public class MessengerRna extends MobileBiomolecule {
          */
         public abstract void growLeft( double length );
 
-        public static class HorizontalSegment extends ShapeSegment {
+        /**
+         * Flat segment - has no height, so rRNA contained in this segment is
+         * not wound.
+         */
+        public static class FlatSegment extends ShapeSegment {
 
-            public HorizontalSegment( Point2D origin, double length ) {
+            public FlatSegment( Point2D origin, double length ) {
                 bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), length, 0 ) );
             }
 
@@ -1321,8 +1325,12 @@ public class MessengerRna extends MobileBiomolecule {
             }
         }
 
-        public static class DiagonalSegment extends ShapeSegment {
-            public DiagonalSegment( Point2D origin, double length ) {
+        /**
+         * Class that defines a square segment, which is one in which the mRNA
+         * can be (and generally is) curled up.
+         */
+        public static class SquareSegment extends ShapeSegment {
+            public SquareSegment( Point2D origin, double length ) {
                 ImmutableVector2D diagonalVector = new ImmutableVector2D( length, 0 ).getRotatedInstance( Math.PI / 4 );
                 bounds.set( new Rectangle2D.Double( origin.getX(),
                                                     origin.getY(),
