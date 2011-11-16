@@ -20,7 +20,6 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.MAN_STANDING;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.POTTED_PLANT;
 
 /**
@@ -70,12 +69,12 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         }} );
 
         //Add an image for a sense of scale
-        addChild( new PImage( MAN_STANDING ) {{
-            double height = Math.abs( transform.modelToViewDeltaY( 6 / Units.FEET_PER_METER ) );
-            double currentHeight = getFullBounds().getHeight();
-            scale( height / currentHeight );
-            setOffset( 744.2836041358973, 161.7134416543571 );//determined with a draghandler
-        }} );
+//        addChild( new PImage( MAN_STANDING ) {{
+//            double height = Math.abs( transform.modelToViewDeltaY( 6 / Units.FEET_PER_METER ) );
+//            double currentHeight = getFullBounds().getHeight();
+//            scale( height / currentHeight );
+//            setOffset( 744.2836041358973, 161.7134416543571 );//determined with a draghandler
+//        }} );
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
         for ( PressureSensor pressureSensor : model.getPressureSensors() ) {
