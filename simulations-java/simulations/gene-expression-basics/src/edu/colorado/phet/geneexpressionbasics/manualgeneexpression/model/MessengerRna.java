@@ -118,7 +118,7 @@ public class MessengerRna extends MobileBiomolecule {
 
         // Add the first segment to the shape segment list.  This segment will
         // contain the "leader" for the mRNA.
-        shapeSegments.add( new ShapeSegment.FlatSegment( position, 0 ) );
+        shapeSegments.add( new ShapeSegment.FlatSegment( position ) );
 
         // Explicitly set the state to idle, so that this won't move (other
         // than growing) until it is released.
@@ -331,7 +331,8 @@ public class MessengerRna extends MobileBiomolecule {
         // point distance at one time.  This is a simplifying assumption that
         // can be changed if necessary.
         if ( length > INTER_POINT_DISTANCE ) {
-            System.out.println( "Big growth!" );
+            System.out.println( getClass().getName() + "Excessive growth!" );
+            assert false; // Algorithm not tested to handle this case.
         }
         assert length <= INTER_POINT_DISTANCE;
 
@@ -340,7 +341,7 @@ public class MessengerRna extends MobileBiomolecule {
             addPointToEnd( lastShapeDefiningPoint.getPosition(), length );
             assert getLastShapeSegment().isFlat(); // Should be creating the leader at this point.
             // Grow the leader segment to accommodate the additional length.
-            getLastShapeSegment().growLeft( length );
+            getLastShapeSegment().add( length );
             // Nothing else to do.
             return;
         }
@@ -368,27 +369,27 @@ public class MessengerRna extends MobileBiomolecule {
             // The leader portion is still being constructed.  Grow it to
             // accommodate the new length.
             ShapeSegment lastShapeSegment = getLastShapeSegment();
-            assert lastShapeSegment.getLength() <= LEADER_LENGTH;
-            if ( lastShapeSegment.getLength() + length <= LEADER_LENGTH ) {
+            assert lastShapeSegment.getContainedLength() <= LEADER_LENGTH;
+            if ( lastShapeSegment.getContainedLength() + length <= LEADER_LENGTH ) {
                 // Just grow the leader segment.
-                lastShapeSegment.growLeft( length );
+                lastShapeSegment.add( length );
             }
             else {
-                // Time to max out the leader segment and add a diagonal
+                // Time to max out the leader segment and add a square
                 // segment where the mRNA can curl up.
-                lastShapeSegment.growLeft( LEADER_LENGTH - lastShapeSegment.getLength() );
+                lastShapeSegment.add( LEADER_LENGTH - lastShapeSegment.getContainedLength() );
                 assert getLength() > LEADER_LENGTH; // If this fires, this code is wrong and needs to be fixed.
-                shapeSegments.add( new ShapeSegment.SquareSegment( lastShapeSegment.getLowerRightCornerPos(), getLength() - LEADER_LENGTH ) );
+                ShapeSegment.SquareSegment squareSegment = new ShapeSegment.SquareSegment( lastShapeSegment.getLowerRightCornerPos() ) {{
+                    add( getLength() - LEADER_LENGTH );
+                }};
+                shapeSegments.add( squareSegment );
             }
         }
         else {
             // The leader segment is full and the winding segment is growing.
             // Set its size as a function of the current length that is
             // contained within it.
-            double currentDiagonalLength = getLastShapeSegment().getLength();
-            double desiredDiagonalLength = INTER_POINT_DISTANCE * ( Math.pow( ( getLength() - LEADER_LENGTH ) / INTER_POINT_DISTANCE, 0.5 ) );
-            assert desiredDiagonalLength > currentDiagonalLength; // If this fires, something is wrong with this algorithm.
-            getLastShapeSegment().growLeft( desiredDiagonalLength - currentDiagonalLength );
+            getLastShapeSegment().add( length );
         }
 
         // Realign the segments, since some growth probably occurred.
@@ -422,7 +423,7 @@ public class MessengerRna extends MobileBiomolecule {
         Point2D leaderOrigin = currentShapeSegment.getUpperLeftCornerPos();
         PointMass currentPoint = firstShapeDefiningPoint;
         for ( double leaderLengthSoFar = 0;
-              leaderLengthSoFar <= currentShapeSegment.getLength() + FLOATING_POINT_COMP_FACTOR && currentPoint != null;
+              leaderLengthSoFar <= currentShapeSegment.getContainedLength() + FLOATING_POINT_COMP_FACTOR && currentPoint != null;
               leaderLengthSoFar += ( currentPoint == null ? 0 : currentPoint.getTargetDistanceToPreviousPoint() ) ) {
 
             currentPoint.setPosition( leaderOrigin.getX() + leaderLengthSoFar, leaderOrigin.getY() );
@@ -1253,10 +1254,13 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
-     * A shape the encloses a segment of the mRNA.  These segments, connected
+     * A shape that encloses a segment of the mRNA.  These segments, connected
      * together, are used to define the outline shape of the mRNA strand.
      * The path of the strand within these shape segments is worked out
      * elsewhere.
+     * <p/>
+     * Shape segments keep track of the length of mRNA that they contain, but
+     * the don't explicitly contain the points that define the shape.
      */
     public abstract static class ShapeSegment {
 
@@ -1272,8 +1276,6 @@ public class MessengerRna extends MobileBiomolecule {
             Rectangle2D newBounds = AffineTransform.getTranslateInstance( delta.getX(), delta.getY() ).createTransformedShape( bounds.get() ).getBounds2D();
             bounds.set( newBounds );
         }
-
-        ;
 
         public Point2D getUpperLeftCornerPos() {
             return new Point2D.Double( bounds.get().getMinX(), bounds.get().getMaxY() );
@@ -1295,19 +1297,31 @@ public class MessengerRna extends MobileBiomolecule {
             return getBounds().getHeight() == 0;
         }
 
-        public double getLength() {
-            Point2D upperLeft = new Point2D.Double( bounds.get().getMinX(), bounds.get().getMaxY() );
-            Point2D lowerRight = new Point2D.Double( bounds.get().getMaxX(), bounds.get().getMinY() );
-            return upperLeft.distance( lowerRight );
-        }
+        /**
+         * Get the length of the mRNA contained by this segment.
+         *
+         * @return
+         */
+        public abstract double getContainedLength();
 
         /**
-         * Grow the the left if a horizontal segment, or up and to the left if
-         * a diagonal segment, by the specified length.
+         * Add the specified length of mRNA to the segment.  This will
+         * generally cause the segment to grow.  By design, flat segments grow
+         * to the left, square segments grow up and left.
          *
          * @param length
          */
-        public abstract void growLeft( double length );
+        public abstract void add( double length );
+
+        /**
+         * Remove the specified amount of mRNA from the segment.  This will
+         * generally cause a segment to shrink.  Flat segments shrink in from
+         * the right, square segments shrink from the lower right corner
+         * towards the upper left.
+         *
+         * @param length
+         */
+        public abstract void remove( double length );
 
         /**
          * Flat segment - has no height, so rRNA contained in this segment is
@@ -1315,13 +1329,27 @@ public class MessengerRna extends MobileBiomolecule {
          */
         public static class FlatSegment extends ShapeSegment {
 
-            public FlatSegment( Point2D origin, double length ) {
-                bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), length, 0 ) );
+            public FlatSegment( Point2D origin ) {
+                bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), 0, 0 ) );
             }
 
-            @Override public void growLeft( double length ) {
-                Rectangle2D newBounds = new Rectangle2D.Double( bounds.get().getMinX() - length, bounds.get().getY(), bounds.get().getWidth() + length, 0 );
-                bounds.set( newBounds );
+            @Override public double getContainedLength() {
+                // For a flat segment, the length of mRNA contained is equal to
+                // the width.
+                return bounds.get().getWidth();
+            }
+
+            @Override public void add( double length ) {
+                // Grow the bounds linearly to the left to accommodate the
+                // additional length.
+                bounds.set( new Rectangle2D.Double( bounds.get().getX() - length,
+                                                    bounds.get().getY(),
+                                                    bounds.get().getWidth() + length,
+                                                    0 ) );
+            }
+
+            @Override public void remove( double length ) {
+                bounds.set( new Rectangle2D.Double( bounds.get().getX(), bounds.get().getY(), bounds.get().getWidth() - length, 0 ) );
             }
         }
 
@@ -1330,31 +1358,48 @@ public class MessengerRna extends MobileBiomolecule {
          * can be (and generally is) curled up.
          */
         public static class SquareSegment extends ShapeSegment {
-            public SquareSegment( Point2D origin, double length ) {
-                ImmutableVector2D diagonalVector = new ImmutableVector2D( length, 0 ).getRotatedInstance( Math.PI / 4 );
-                bounds.set( new Rectangle2D.Double( origin.getX(),
-                                                    origin.getY(),
-                                                    diagonalVector.getX(),
-                                                    diagonalVector.getY() ) );
+
+            // Maintain an explicit value for the length of the mRNA contained
+            // within this segment even though the bounds essentially define
+            // said length.  This helps to avoid floating point issues.
+            private double containedLength = 0;
+
+            public SquareSegment( Point2D origin ) {
+                bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), 0, 0 ) );
             }
 
-            // Strictly speaking, this actually grows UP and to the left, not
-            // just to the left.
+            @Override public double getContainedLength() {
+                return containedLength;
+            }
 
-            /**
-             * Grow diagonally by the specified amount.  Despite the name, this
-             * actually grows UP and to the left, not just to the left.
-             *
-             * @param length
-             */
-            @Override public void growLeft( double length ) {
-                assert length >= 0;
-                double growthAmount = length * Math.cos( Math.PI / 4 );
-                Rectangle2D newBounds = new Rectangle2D.Double( bounds.get().getMinX() - growthAmount,
-                                                                bounds.get().getY(),
-                                                                bounds.get().getWidth() + growthAmount,
-                                                                bounds.get().getHeight() + growthAmount );
-                bounds.set( newBounds );
+            @Override public void add( double length ) {
+                containedLength += length;
+                // Grow the bounds up and to the left to accommodate the
+                // additional length.
+                double sideGrowthAmount = calculateSideLength() - bounds.get().getWidth();
+                assert length >= 0 && sideGrowthAmount >= 0; //
+                bounds.set( new Rectangle2D.Double( bounds.get().getX() - sideGrowthAmount,
+                                                    bounds.get().getY(),
+                                                    bounds.get().getWidth() + sideGrowthAmount,
+                                                    bounds.get().getHeight() + sideGrowthAmount ) );
+            }
+
+            @Override public void remove( double length ) {
+                containedLength -= length;
+                // Shrink by moving the lower right corner up and to the left.
+                double sideShrinkageAmount = bounds.get().getWidth() - calculateSideLength();
+                assert length >= 0 && sideShrinkageAmount >= 0; //
+                bounds.set( new Rectangle2D.Double( bounds.get().getX(),
+                                                    bounds.get().getY() + sideShrinkageAmount,
+                                                    bounds.get().getWidth() - sideShrinkageAmount,
+                                                    bounds.get().getHeight() - sideShrinkageAmount ) );
+            }
+
+            // Determine the length of a side as a function of the contained
+            // length of mRNA.
+            private double calculateSideLength() {
+                double desiredDiagonalLength = Math.pow( containedLength, 0.7 ); // Power value was empirically determined.
+                return Math.sqrt( 2 * desiredDiagonalLength * desiredDiagonalLength );
             }
         }
     }
