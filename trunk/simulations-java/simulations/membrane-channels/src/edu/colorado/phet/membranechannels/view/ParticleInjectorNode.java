@@ -90,7 +90,7 @@ public class ParticleInjectorNode extends InjectorNode {
      */
     public ParticleInjectorNode( ParticleType initialParticleType, final MembraneChannelsModel model,
                                  ModelViewTransform mvt, double rotationAngle ) {
-        super( mvt, rotationAngle, new SimpleObserver() {
+        super( rotationAngle, new SimpleObserver() {
             public void update() {
             }
         } );
