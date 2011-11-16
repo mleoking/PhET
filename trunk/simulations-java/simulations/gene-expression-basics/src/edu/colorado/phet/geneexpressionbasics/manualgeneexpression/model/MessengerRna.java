@@ -97,7 +97,7 @@ public class MessengerRna extends MobileBiomolecule {
 
     public final PlacementHint ribosomePlacementHint;
 
-    public final ObservableList<ShapeSegment> shapeSegments = new ObservableList<ShapeSegment>();
+    public final EnhancedObservableList<ShapeSegment> shapeSegments = new EnhancedObservableList<ShapeSegment>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -118,7 +118,9 @@ public class MessengerRna extends MobileBiomolecule {
 
         // Add the first segment to the shape segment list.  This segment will
         // contain the "leader" for the mRNA.
-        shapeSegments.add( new ShapeSegment.FlatSegment( position ) );
+        shapeSegments.add( new ShapeSegment.FlatSegment( position ) {{
+            setCapacity( LEADER_LENGTH );
+        }} );
 
         // Explicitly set the state to idle, so that this won't move (other
         // than growing) until it is released.
@@ -153,30 +155,6 @@ public class MessengerRna extends MobileBiomolecule {
         while ( thisPoint != null ) {
             thisPoint.translate( translationVector );
             thisPoint = thisPoint.getNextPointMass();
-        }
-    }
-
-    private @Nullable ShapeSegment getNextShapeSegment( ShapeSegment shapeSegment ) {
-        int index = shapeSegments.indexOf( shapeSegment );
-        assert index != -1; // This function shouldn't be used for segments not on the list.
-        if ( index == shapeSegments.size() - 1 ) {
-            // The given segment is the last element on the list, so null is returned.
-            return null;
-        }
-        else {
-            return shapeSegments.get( index + 1 );
-        }
-    }
-
-    private @Nullable ShapeSegment getPreviousShapeSegment( ShapeSegment shapeSegment ) {
-        int index = shapeSegments.indexOf( shapeSegment );
-        assert index != -1; // This function shouldn't be used for segments not on the list.
-        if ( index == 0 ) {
-            // The given segment is the first element on the list, so null is returned.
-            return null;
-        }
-        else {
-            return shapeSegments.get( index - 1 );
         }
     }
 
@@ -316,7 +294,6 @@ public class MessengerRna extends MobileBiomolecule {
      */
     public boolean advanceTranslation( Ribosome ribosome, double length ) {
         return true;
-
     }
 
     /**
@@ -327,23 +304,11 @@ public class MessengerRna extends MobileBiomolecule {
      */
     public void addLength( double length ) {
 
-        // At least for now, the mRNA can't be grown by more than the inter-
-        // point distance at one time.  This is a simplifying assumption that
-        // can be changed if necessary.
-        if ( length > INTER_POINT_DISTANCE ) {
-            System.out.println( getClass().getName() + "Excessive growth!" );
-            assert false; // Algorithm not tested to handle this case.
-        }
-        assert length <= INTER_POINT_DISTANCE;
-
+        // Add the length to the set of shape-defining points.  This may add
+        // a new point, or simply reposition the current last point.
         if ( firstShapeDefiningPoint == lastShapeDefiningPoint ) {
-            // This is the first length added to the strand.
+            // This is the first length added to the strand, so put it on.
             addPointToEnd( lastShapeDefiningPoint.getPosition(), length );
-            assert getLastShapeSegment().isFlat(); // Should be creating the leader at this point.
-            // Grow the leader segment to accommodate the additional length.
-            getLastShapeSegment().add( length, shapeSegments );
-            // Nothing else to do.
-            return;
         }
         else if ( lastShapeDefiningPoint.getTargetDistanceToPreviousPoint() < INTER_POINT_DISTANCE ) {
             double prevDistance = lastShapeDefiningPoint.getTargetDistanceToPreviousPoint();
@@ -365,37 +330,15 @@ public class MessengerRna extends MobileBiomolecule {
             addPointToEnd( lastShapeDefiningPoint.getPosition(), length );
         }
 
-        if ( getLastShapeSegment().isFlat() ) {
-            // The leader portion is still being constructed.  Grow it to
-            // accommodate the new length.
-            ShapeSegment lastShapeSegment = getLastShapeSegment();
-            assert lastShapeSegment.getContainedLength() <= LEADER_LENGTH;
-            if ( lastShapeSegment.getContainedLength() + length <= LEADER_LENGTH ) {
-                // Just grow the leader segment.
-                lastShapeSegment.add( length, shapeSegments );
-            }
-            else {
-                // Time to max out the leader segment and add a square
-                // segment where the mRNA can curl up.
-                lastShapeSegment.add( LEADER_LENGTH - lastShapeSegment.getContainedLength(), shapeSegments );
-                assert getLength() > LEADER_LENGTH; // If this fires, this code is wrong and needs to be fixed.
-                ShapeSegment.SquareSegment squareSegment = new ShapeSegment.SquareSegment( lastShapeSegment.getLowerRightCornerPos() ) {{
-                    add( getLength() - LEADER_LENGTH, shapeSegments );
-                }};
-                shapeSegments.add( squareSegment );
-            }
-        }
-        else {
-            // The leader segment is full and the winding segment is growing.
-            // Set its size as a function of the current length that is
-            // contained within it.
-            getLastShapeSegment().add( length, shapeSegments );
-        }
+        // Update the shape segments that define the outline shape.
+        getLastShapeSegment().add( length, shapeSegments );
 
         // Realign the segments, since some growth probably occurred.
         realignSegmentsFromEnd();
 
-        // Now that the length has been added, rerun the winding algorithm.
+        // Now that the points and shape segments are updated, run the
+        // algorithm that winds the points through the shapes to produce the
+        // shape of the strand that will be presented to the user.
         windPointsThroughSegments();
     }
 
@@ -1324,7 +1267,7 @@ public class MessengerRna extends MobileBiomolecule {
          * @param length
          * @param shapeSegmentList
          */
-        public abstract void add( double length, ObservableList<ShapeSegment> shapeSegmentList );
+        public abstract void add( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList );
 
         /**
          * Remove the specified amount of mRNA from the segment.  This will
@@ -1336,7 +1279,7 @@ public class MessengerRna extends MobileBiomolecule {
          * @param length
          * @param shapeSegmentList
          */
-        public abstract void remove( double length, ObservableList<ShapeSegment> shapeSegmentList );
+        public abstract void remove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList );
 
 
         /**
@@ -1348,7 +1291,7 @@ public class MessengerRna extends MobileBiomolecule {
          * @param length
          * @param shapeSegmentList
          */
-        public abstract void advance( double length, ObservableList<ShapeSegment> shapeSegmentList );
+        public abstract void advance( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList );
 
         /**
          * Flat segment - has no height, so rRNA contained in this segment is
@@ -1366,20 +1309,31 @@ public class MessengerRna extends MobileBiomolecule {
                 return bounds.get().getWidth();
             }
 
-            @Override public void add( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
+            @Override public void add( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
+                assert getContainedLength() <= capacity; // This shouldn't be called if there is no remaining capacity.
+                double growthAmount = length;
+                if ( getContainedLength() + length > capacity ) {
+                    // This segment can't hold the specified length.  Add a new
+                    // square segment to the end of the segment list and put
+                    // the excess in there.
+                    ShapeSegment newSquareSegment = new SquareSegment( getLowerRightCornerPos() );
+                    growthAmount = capacity - getContainedLength(); // Clamp growth at remaining capacity.
+                    newSquareSegment.add( length - growthAmount, shapeSegmentList );
+                    shapeSegmentList.insertAfter( this, newSquareSegment );
+                }
                 // Grow the bounds linearly to the left to accommodate the
                 // additional length.
-                bounds.set( new Rectangle2D.Double( bounds.get().getX() - length,
+                bounds.set( new Rectangle2D.Double( bounds.get().getX() - growthAmount,
                                                     bounds.get().getY(),
-                                                    bounds.get().getWidth() + length,
+                                                    bounds.get().getWidth() + growthAmount,
                                                     0 ) );
             }
 
-            @Override public void remove( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
+            @Override public void remove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
                 bounds.set( new Rectangle2D.Double( bounds.get().getX(), bounds.get().getY(), bounds.get().getWidth() - length, 0 ) );
             }
 
-            @Override public void advance( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
+            @Override public void advance( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         }
@@ -1403,7 +1357,7 @@ public class MessengerRna extends MobileBiomolecule {
                 return containedLength;
             }
 
-            @Override public void add( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
+            @Override public void add( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
                 containedLength += length;
                 // Grow the bounds up and to the left to accommodate the
                 // additional length.
@@ -1415,7 +1369,7 @@ public class MessengerRna extends MobileBiomolecule {
                                                     bounds.get().getHeight() + sideGrowthAmount ) );
             }
 
-            @Override public void remove( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
+            @Override public void remove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
                 containedLength -= length;
                 // Shrink by moving the lower right corner up and to the left.
                 double sideShrinkageAmount = bounds.get().getWidth() - calculateSideLength();
@@ -1426,7 +1380,7 @@ public class MessengerRna extends MobileBiomolecule {
                                                     bounds.get().getHeight() - sideShrinkageAmount ) );
             }
 
-            @Override public void advance( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
+            @Override public void advance( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
                 // This should never be called for square shape segments, since
                 // translation should only occur based around flat segments.
                 assert false;
@@ -1438,6 +1392,49 @@ public class MessengerRna extends MobileBiomolecule {
                 double desiredDiagonalLength = Math.pow( containedLength, 0.7 ); // Power value was empirically determined.
                 return Math.sqrt( 2 * desiredDiagonalLength * desiredDiagonalLength );
             }
+        }
+    }
+
+    /**
+     * Class that defines an observable list with some additional methods that
+     * makes it easier to get next and previous items and to insert items
+     * before and after existing items.
+     *
+     * @param <T>
+     */
+    public static class EnhancedObservableList<T> extends ObservableList<T> {
+        private @Nullable T getNextItem( T item ) {
+            int index = indexOf( item );
+            assert index != -1; // This function shouldn't be used for segments not on the list.
+            if ( index == size() - 1 ) {
+                // The given segment is the last element on the list, so null is returned.
+                return null;
+            }
+            else {
+                return get( index + 1 );
+            }
+        }
+
+        private @Nullable T getPreviousItem( T item ) {
+            int index = indexOf( item );
+            assert index != -1; // This function shouldn't be used for segments not on the list.
+            if ( index == 0 ) {
+                // The given segment is the first element on the list, so null is returned.
+                return null;
+            }
+            else {
+                return get( index - 1 );
+            }
+        }
+
+        private void insertAfter( T existingItem, T itemToInsert ) {
+            assert contains( existingItem );
+            add( indexOf( existingItem ) + 1, itemToInsert );
+        }
+
+        private void insertBefore( T existingItem, T itemToInsert ) {
+            assert contains( existingItem );
+            add( indexOf( existingItem ), itemToInsert );
         }
     }
 
