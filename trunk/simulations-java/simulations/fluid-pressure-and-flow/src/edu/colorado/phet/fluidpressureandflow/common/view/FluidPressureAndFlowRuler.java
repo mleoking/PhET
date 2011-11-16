@@ -54,12 +54,12 @@ public class FluidPressureAndFlowRuler extends PNode {
         }
         final RulerNode rulerNode = new RulerNode( length, 50, strings.toArray( new String[strings.size()] ), units, 4, 15 ) {{
             setInsetWidth( 0 );
-        }};
 
-        //Make it vertical
-        rulerNode.rotate( -Math.PI / 2 );
-        rulerNode.setOffset( transform.modelToViewX( rulerModelOrigin.getX() ),
-                             transform.modelToViewY( rulerModelOrigin.getY() ) + rulerNode.getInsetWidth() );
+            //Make it vertical
+            rotate( -Math.PI / 2 );
+            setOffset( transform.modelToViewX( rulerModelOrigin.getX() ),
+                       transform.modelToViewY( rulerModelOrigin.getY() ) + getInsetWidth() );
+        }};
 
         //Was leaving "ghosting" lines on the play area, so wrap in a BiggerPNode
         addChild( new PaddedNode( rulerNode ) );
