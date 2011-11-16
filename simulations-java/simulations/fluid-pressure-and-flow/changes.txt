@@ -1,3 +1,4 @@
+# 0.00.45 (58667) Nov 16, 2011
 # 0.00.44 (58665) Nov 16, 2011
 Made it so the dye button can't be pressed repeatedly
 Converted line of dye to grid of dots
