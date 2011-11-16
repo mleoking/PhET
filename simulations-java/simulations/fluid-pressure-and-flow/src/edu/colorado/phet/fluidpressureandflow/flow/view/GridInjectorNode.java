@@ -15,7 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
  */
 public class GridInjectorNode extends InjectorNode {
     public GridInjectorNode( final ModelViewTransform mvt, double rotationAngle, final SimpleObserver squirt, final Pipe pipe ) {
-        super( mvt, rotationAngle, new SimpleObserver() {
+        super( rotationAngle, new SimpleObserver() {
             public void update() {
                 squirt.update();
             }

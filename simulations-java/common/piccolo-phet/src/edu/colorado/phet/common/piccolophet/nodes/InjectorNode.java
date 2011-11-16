@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -56,7 +55,7 @@ public class InjectorNode extends PNode {
      * @param mvt           - Model-view transform for relating view space to model space.
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
-    public InjectorNode( final ModelViewTransform mvt, double rotationAngle, final SimpleObserver inject ) {
+    public InjectorNode( double rotationAngle, final SimpleObserver inject ) {
         double NOMINAL_ION_INJECTION_VELOCITY = 30;
         Vector2D nominalInjectionVelocityVector = new Vector2D( NOMINAL_ION_INJECTION_VELOCITY, 0 );
         nominalInjectionVelocityVector.rotate( rotationAngle );
