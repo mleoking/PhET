@@ -1,3 +1,4 @@
+# 0.00.44 (58665) Nov 16, 2011
 Made it so the dye button can't be pressed repeatedly
 Converted line of dye to grid of dots
 Position the meter stick so that its origin is at the top of the pool since the rulers measure down in this tab
