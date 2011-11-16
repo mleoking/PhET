@@ -341,7 +341,7 @@ public class MessengerRna extends MobileBiomolecule {
             addPointToEnd( lastShapeDefiningPoint.getPosition(), length );
             assert getLastShapeSegment().isFlat(); // Should be creating the leader at this point.
             // Grow the leader segment to accommodate the additional length.
-            getLastShapeSegment().add( length );
+            getLastShapeSegment().add( length, shapeSegments );
             // Nothing else to do.
             return;
         }
@@ -372,15 +372,15 @@ public class MessengerRna extends MobileBiomolecule {
             assert lastShapeSegment.getContainedLength() <= LEADER_LENGTH;
             if ( lastShapeSegment.getContainedLength() + length <= LEADER_LENGTH ) {
                 // Just grow the leader segment.
-                lastShapeSegment.add( length );
+                lastShapeSegment.add( length, shapeSegments );
             }
             else {
                 // Time to max out the leader segment and add a square
                 // segment where the mRNA can curl up.
-                lastShapeSegment.add( LEADER_LENGTH - lastShapeSegment.getContainedLength() );
+                lastShapeSegment.add( LEADER_LENGTH - lastShapeSegment.getContainedLength(), shapeSegments );
                 assert getLength() > LEADER_LENGTH; // If this fires, this code is wrong and needs to be fixed.
                 ShapeSegment.SquareSegment squareSegment = new ShapeSegment.SquareSegment( lastShapeSegment.getLowerRightCornerPos() ) {{
-                    add( getLength() - LEADER_LENGTH );
+                    add( getLength() - LEADER_LENGTH, shapeSegments );
                 }};
                 shapeSegments.add( squareSegment );
             }
@@ -389,7 +389,7 @@ public class MessengerRna extends MobileBiomolecule {
             // The leader segment is full and the winding segment is growing.
             // Set its size as a function of the current length that is
             // contained within it.
-            getLastShapeSegment().add( length );
+            getLastShapeSegment().add( length, shapeSegments );
         }
 
         // Realign the segments, since some growth probably occurred.
@@ -1266,6 +1266,17 @@ public class MessengerRna extends MobileBiomolecule {
 
         public final Property<Rectangle2D> bounds = new Property<Rectangle2D>( new Rectangle2D.Double() );
 
+        // Max length of mRNA that this segment can contain.
+        public double capacity = Double.POSITIVE_INFINITY;
+
+        public void setCapacity( double capacity ) {
+            this.capacity = capacity;
+        }
+
+        public double getRemainingCapacity() {
+            return capacity - getContainedLength();
+        }
+
         public Point2D getLowerRightCornerPos() {
             return new Point2D.Double( bounds.get().getMaxX(), bounds.get().getMinY() );
         }
@@ -1307,21 +1318,37 @@ public class MessengerRna extends MobileBiomolecule {
         /**
          * Add the specified length of mRNA to the segment.  This will
          * generally cause the segment to grow.  By design, flat segments grow
-         * to the left, square segments grow up and left.
+         * to the left, square segments grow up and left.  The shape segment
+         * list is also passed in so that new segments can be added if needed.
          *
          * @param length
+         * @param shapeSegmentList
          */
-        public abstract void add( double length );
+        public abstract void add( double length, ObservableList<ShapeSegment> shapeSegmentList );
 
         /**
          * Remove the specified amount of mRNA from the segment.  This will
          * generally cause a segment to shrink.  Flat segments shrink in from
          * the right, square segments shrink from the lower right corner
-         * towards the upper left.
+         * towards the upper left.  The shape segment list is also a parameter
+         * so that shape segments can be removed if necessary.
          *
          * @param length
+         * @param shapeSegmentList
          */
-        public abstract void remove( double length );
+        public abstract void remove( double length, ObservableList<ShapeSegment> shapeSegmentList );
+
+
+        /**
+         * Advance the mRNA through this shape segment.  This is what happens
+         * when the mRNA is being translated by a ribosome into a protein.  The
+         * list of shape segments is also a parameter in case segments need to
+         * be added or removed.
+         *
+         * @param length
+         * @param shapeSegmentList
+         */
+        public abstract void advance( double length, ObservableList<ShapeSegment> shapeSegmentList );
 
         /**
          * Flat segment - has no height, so rRNA contained in this segment is
@@ -1339,7 +1366,7 @@ public class MessengerRna extends MobileBiomolecule {
                 return bounds.get().getWidth();
             }
 
-            @Override public void add( double length ) {
+            @Override public void add( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
                 // Grow the bounds linearly to the left to accommodate the
                 // additional length.
                 bounds.set( new Rectangle2D.Double( bounds.get().getX() - length,
@@ -1348,8 +1375,12 @@ public class MessengerRna extends MobileBiomolecule {
                                                     0 ) );
             }
 
-            @Override public void remove( double length ) {
+            @Override public void remove( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
                 bounds.set( new Rectangle2D.Double( bounds.get().getX(), bounds.get().getY(), bounds.get().getWidth() - length, 0 ) );
+            }
+
+            @Override public void advance( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
+                //To change body of implemented methods use File | Settings | File Templates.
             }
         }
 
@@ -1372,7 +1403,7 @@ public class MessengerRna extends MobileBiomolecule {
                 return containedLength;
             }
 
-            @Override public void add( double length ) {
+            @Override public void add( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
                 containedLength += length;
                 // Grow the bounds up and to the left to accommodate the
                 // additional length.
@@ -1384,7 +1415,7 @@ public class MessengerRna extends MobileBiomolecule {
                                                     bounds.get().getHeight() + sideGrowthAmount ) );
             }
 
-            @Override public void remove( double length ) {
+            @Override public void remove( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
                 containedLength -= length;
                 // Shrink by moving the lower right corner up and to the left.
                 double sideShrinkageAmount = bounds.get().getWidth() - calculateSideLength();
@@ -1393,6 +1424,12 @@ public class MessengerRna extends MobileBiomolecule {
                                                     bounds.get().getY() + sideShrinkageAmount,
                                                     bounds.get().getWidth() - sideShrinkageAmount,
                                                     bounds.get().getHeight() - sideShrinkageAmount ) );
+            }
+
+            @Override public void advance( double length, ObservableList<ShapeSegment> shapeSegmentList ) {
+                // This should never be called for square shape segments, since
+                // translation should only occur based around flat segments.
+                assert false;
             }
 
             // Determine the length of a side as a function of the contained
