@@ -33,9 +33,14 @@ class Parser {
     }
   }
 
+  //Server time stamp occurs when server contact is made, which could be a long time after the sim starts if the user took a long time to enter their user ID
+  //So you have to subtract that out.
+  var originalTime: Long = _
+
   def parseKeyValueLine(line: String): Entry = {
     val tokenizer = new StringTokenizer(line, "\t")
     val time = java.lang.Long.parseLong(tokenizer.nextToken)
+
     val obj = tokenizer.nextToken
     val event = tokenizer.nextToken
     val remainderOfLineBuf = new StringBuffer
@@ -53,8 +58,12 @@ class Parser {
       map.put(p.name, p.value)
     }
 
+    if ( lines.length == 0 ) {
+      originalTime = time
+    }
+
     //make map immutable
-    new Entry(time, obj, event, map.toMap)
+    new Entry(time - originalTime, obj, event, map.toMap)
   }
 
   def parse(file: File): Log = {
