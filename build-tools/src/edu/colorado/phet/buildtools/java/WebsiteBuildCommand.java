@@ -144,6 +144,7 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "contribution-browse.js" ) ) ).append( "\n" );
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "phet-autocomplete.js" ) ) ).append( "\n" );
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "phet-misc.js" ) ) ).append( "\n" );
+                jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "phet-donation-banner-rotation.js" ) ) ).append( "\n" );
 
                 System.out.println( "compressing js" );
                 ToolErrorReporter reporter = new ToolErrorReporter( false );
