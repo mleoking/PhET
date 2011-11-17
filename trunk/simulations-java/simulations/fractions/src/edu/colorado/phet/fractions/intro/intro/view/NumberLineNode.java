@@ -44,18 +44,18 @@ public class NumberLineNode extends PNode {
                     if ( i % divisionsBetweenTicks == 0 ) {
                         int div = i / divisionsBetweenTicks;
                         final int mod = div % 2;
-                        double height = mod == 0 ? 10 : 7;
+                        double height = mod == 0 ? 8 : 8;
                         final BasicStroke stroke = mod == 0 ? new BasicStroke( 1 ) : new BasicStroke( 0.5f );
                         final PhetPPath path = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), stroke, Color.black );
                         addChild( path );
-                        if ( mod == 0 ) {
-                            addChild( new PhetPText( div + "", new PhetFont( 10 ) ) {{
+                        if ( mod == 0 || true ) {
+                            addChild( new PhetPText( div + "", new PhetFont( 8 ) ) {{
                                 setOffset( path.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, path.getFullBounds().getMaxY() );
                             }} );
                         }
                     }
                     else {
-                        addChild( new PhetPPath( new Line2D.Double( i * dx, -5, i * dx, 5 ), new BasicStroke( 0.25f ), Color.black ) );
+                        addChild( new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) );
                     }
                 }
 
