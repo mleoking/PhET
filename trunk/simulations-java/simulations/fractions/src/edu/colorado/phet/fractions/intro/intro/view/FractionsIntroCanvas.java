@@ -23,6 +23,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
     public static final Font CONTROL_FONT = new PhetFont( 16 );
+    public static final Color FILL_COLOR = new Color( 140, 198, 63 );
 
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 

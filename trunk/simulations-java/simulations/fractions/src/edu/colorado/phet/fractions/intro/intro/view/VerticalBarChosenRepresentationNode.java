@@ -16,7 +16,7 @@ public class VerticalBarChosenRepresentationNode extends ChosenRepresentationNod
     double dim = 30;
 
     public VerticalBarChosenRepresentationNode( Property<ChosenRepresentation> chosenRepresentation, final Property<Integer> numerator, final Property<Integer> denominator ) {
-        super( chosenRepresentation, ChosenRepresentation.VERTICAL_BAR, numerator, denominator );
+        super( chosenRepresentation, ChosenRepresentation.VERTICAL_BAR );
 
         new RichSimpleObserver() {
             @Override public void update() {
@@ -31,7 +31,7 @@ public class VerticalBarChosenRepresentationNode extends ChosenRepresentationNod
                 double y = 0;
                 for ( int i = 0; i < numBars; i++ ) {
                     for ( int k = 0; k < denominator.get(); k++ ) {
-                        Color color = numElementsAdded < numerator.get() ? Color.green : Color.white;
+                        Color color = numElementsAdded < numerator.get() ? FractionsIntroCanvas.FILL_COLOR : Color.white;
                         addChild( new PhetPPath( new Rectangle2D.Double( x, y, dim, dim ), color, new BasicStroke( 2 ), Color.black ) );
                         y = y + dim;
                         numElementsAdded++;

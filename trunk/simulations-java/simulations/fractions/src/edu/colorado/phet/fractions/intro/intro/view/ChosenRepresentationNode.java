@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class ChosenRepresentationNode extends PNode {
-    public ChosenRepresentationNode( Property<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation value, Property<Integer> numerator, Property<Integer> denominator ) {
+    public ChosenRepresentationNode( Property<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation value ) {
         chosenRepresentation.valueEquals( value ).addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );
