@@ -49,4 +49,7 @@ public class FractionsIntroModel {
         representations.add( rep );
         return rep;
     }
+
+    public void resetAll() {
+    }
 }
