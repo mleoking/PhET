@@ -7,9 +7,9 @@ import edu.colorado.phet.fractions.intro.common.AbstractFractionsModule;
 /**
  * @author Sam Reid
  */
-public class FractionsLabModule extends AbstractFractionsModule {
-    public FractionsLabModule() {
-        super( "Fractions Lab" );
+public class EqualityLabModule extends AbstractFractionsModule {
+    public EqualityLabModule() {
+        super( "Equality Lab" );
         setSimulationPanel( new PhetPCanvas() );
     }
 }
