@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class FractionsIntroModel {
     //Model for numerator and denominator
     public final Property<Integer> numerator = new Property<Integer>( 1 );
-    public final Property<Integer> denominator = new Property<Integer>( 2 );
+    public final Property<Integer> denominator = new Property<Integer>( 1 );
 
     //Fraction value computed as numerator/denominator
     public final CompositeProperty<Double> fraction = new CompositeProperty<Double>( new Function0<Double>() {
