@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.nodes.InjectorNode;
+import edu.colorado.phet.common.piccolophet.nodes.BasicInjectorNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.membranechannels.model.InjectionMotionStrategy;
 import edu.colorado.phet.membranechannels.model.MembraneChannelsModel;
@@ -45,7 +45,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author John Blanco
  */
-public class ParticleInjectorNode extends InjectorNode {
+public class ParticleInjectorNode extends BasicInjectorNode {
 
     //------------------------------------------------------------------------
     // Class Data
