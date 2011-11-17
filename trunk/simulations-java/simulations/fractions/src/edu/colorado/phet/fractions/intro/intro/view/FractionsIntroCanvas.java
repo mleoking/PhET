@@ -31,6 +31,11 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationControlPanel );
 
+        final RepresentationArea representationArea = new RepresentationArea( model.representation, model.numerator, model.denominator ) {{
+            setOffset( INSET, representationControlPanel.getFullBounds().getMaxY() + 100 );
+        }};
+        addChild( representationArea );
+
         addChild( new ControlPanelNode( new HBox( new PSwing( new PropertyRadioButton<Fill>( "In order", model.fill, Fill.SEQUENTIAL ) {{setFont( CONTROL_FONT );}} ),
                                                   new PSwing( new PropertyRadioButton<Fill>( "Random", model.fill, Fill.RANDOM ) {{setFont( CONTROL_FONT );}} ) ) ) {{
             setOffset( representationControlPanel.getFullBounds().getMaxX() + INSET, representationControlPanel.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
