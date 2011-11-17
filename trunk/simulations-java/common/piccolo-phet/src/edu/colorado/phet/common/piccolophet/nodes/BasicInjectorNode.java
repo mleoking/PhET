@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author John Blanco
  * @author Sam Reid
  */
-public class InjectorNode extends NonInteractiveInjectorNode {
+public class BasicInjectorNode extends NonInteractiveInjectorNode {
 
     /*
      * Constructs a particle injection node.
@@ -22,7 +22,7 @@ public class InjectorNode extends NonInteractiveInjectorNode {
      * @param mvt           - Model-view transform for relating view space to model space.
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
-    public InjectorNode( double rotationAngle, final SimpleObserver inject ) {
+    public BasicInjectorNode( double rotationAngle, final SimpleObserver inject ) {
         super( rotationAngle, inject );
         buttonImageNode.addInputEventListener( new CursorHandler() );
         buttonImageNode.addInputEventListener( new PBasicInputEventHandler() {
