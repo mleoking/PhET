@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -27,7 +26,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
-        final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( new Property<Fill>( Fill.SEQUENTIAL ) ) {{
+        final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel() {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, INSET );
         }};
         addChild( representationControlPanel );
