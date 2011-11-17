@@ -311,7 +311,9 @@ public class MessengerRna extends MobileBiomolecule {
         // Advance the translation by advancing the position of the mRNA in the
         // segment that corresponds to the translation channel of the ribosome.
         segmentToAdvance.advance( length, shapeSegments );
-        realignSegmentsFrom( segmentToAdvance );
+        if ( segmentToAdvance.getContainedLength() > 0 ) {
+            realignSegmentsFrom( segmentToAdvance );
+        }
 
         // Since the sizes and relationships of the segments probably changed,
         // the winding algorithm needs to be rerun.
@@ -319,7 +321,7 @@ public class MessengerRna extends MobileBiomolecule {
 
         // If there is anything left in this segment, then transcription is not
         // yet complete.
-        return segmentToAdvance.getContainedLength() > 0;
+        return segmentToAdvance.getContainedLength() <= 0;
     }
 
     /**
@@ -565,8 +567,12 @@ public class MessengerRna extends MobileBiomolecule {
      * @param segmentToAlignFrom
      */
     private void realignSegmentsFrom( ShapeSegment segmentToAlignFrom ) {
-        int startIndex = shapeSegments.indexOf( segmentToAlignFrom );
-        assert startIndex >= 0;
+        if ( shapeSegments.indexOf( segmentToAlignFrom ) == -1 ) {
+            System.out.println( getClass().getName() + " Warning: Ignoring attempt to align to segment that is not on the list." );
+            assert false;
+            return;
+        }
+        ;
 
         // Align segments that follow this one.
         ShapeSegment currentSegment = segmentToAlignFrom;
@@ -1101,7 +1107,14 @@ public class MessengerRna extends MobileBiomolecule {
 //        // Update the shape to reflect the newly added point.
 //        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( shapeDefiningPoints ) );
 //    }
-    public void release() {
+    public void releaseFromRibsome( Ribosome ribosome ) {
+        assert mapRibosomeToShapeSegment.containsKey( ribosome ); // This shouldn't be called if the ribosome wasn't connected.
+        mapRibosomeToShapeSegment.remove( ribosome );
+        // Set the state to just be drifting around in the cytoplasm.
+        behaviorState = new DetachingState( this, new ImmutableVector2D( 1, 1 ) );
+    }
+
+    public void releaseFromPolymerase() {
         // Set the state to just be drifting around in the cytoplasm.
         behaviorState = new DetachingState( this, new ImmutableVector2D( 0, 1 ) );
     }
@@ -1454,6 +1467,14 @@ public class MessengerRna extends MobileBiomolecule {
                     }
                     // Remove the length from the input segment.
                     inputSegment.remove( length, shapeSegmentList );
+                }
+                else {
+                    // The input segment is still around, but doesn't have
+                    // the specified advancement length within it.  Shrink it
+                    // to zero, which will remove it, and then shrink the
+                    // advancing segment by the remaining amount.
+                    this.remove( length - inputSegment.getContainedLength(), shapeSegmentList );
+                    inputSegment.remove( inputSegment.getContainedLength(), shapeSegmentList );
                 }
             }
 

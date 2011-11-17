@@ -26,8 +26,6 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
     //-------------------------------------------------------------------------
     private final Ribosome ribosome;
     private final MessengerRna messengerRna;
-    private double amountTranslated = 0; // In picometers.
-    private final double mRnaStrandLength;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -37,7 +35,6 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
         super( messengerRna );
         this.messengerRna = messengerRna;
         this.ribosome = ribosome;
-        mRnaStrandLength = messengerRna.getLength();
     }
 
     //-------------------------------------------------------------------------
@@ -48,17 +45,16 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
         // Stay still - otherwise, things get too complicated with keeping
         // the mRNA in the right place, since multiple ribosomes can be
         // transcribing at the same time.
-        // TODO: This is prototype code to get things working.  Definitely not final.
-        messengerRna.advanceTranslation( ribosome, TRANSLATION_RATE * dt );
-        amountTranslated += TRANSLATION_RATE * dt;
-        if ( amountTranslated >= mRnaStrandLength ) {
-            // Translation complete.
-            System.out.println( "Ribosome is detaching." );
-            messengerRna.release();
+        if ( messengerRna.advanceTranslation( ribosome, TRANSLATION_RATE * dt ) ) {
+            // This returned true, which signifies that translation is
+            // complete.  Release the mRNA and transition to detaching state.
+            messengerRna.releaseFromRibsome( ribosome );
             return new DetachingState( ribosome );
         }
-        // Still translating, so no state change.
-        return this;
+        else {
+            // Still translating, so no state change.
+            return this;
+        }
     }
 
     @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites ) {
