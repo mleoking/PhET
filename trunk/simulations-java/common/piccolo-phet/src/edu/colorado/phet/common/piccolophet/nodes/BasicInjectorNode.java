@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author John Blanco
  * @author Sam Reid
  */
-public class BasicInjectorNode extends NonInteractiveInjectorNode {
+public class BasicInjectorNode extends InjectorNode {
 
     /*
      * Constructs a particle injection node.

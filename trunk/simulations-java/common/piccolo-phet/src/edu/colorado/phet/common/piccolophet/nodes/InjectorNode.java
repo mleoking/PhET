@@ -17,14 +17,15 @@ import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOUR
  * Node that represents an injector or "squirter" with which the user can
  * interact in order to inject particles, fluid, or whatever into the model.
  * This superclass doesn't actually have interactivity so that it is easy to
- * add different interaction models in subclasses.
+ * add different interaction models in subclasses.  Please check out the
+ * various subclasses for examples of how this is done.
  * <p/>
  * Copied from ParticleInjectorNode in membrane-channels on 12-9-2010
  *
  * @author John Blanco
  * @author Sam Reid
  */
-public class NonInteractiveInjectorNode extends PNode {
+public abstract class InjectorNode extends PNode {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -52,7 +53,7 @@ public class NonInteractiveInjectorNode extends PNode {
      * @param mvt           - Model-view transform for relating view space to model space.
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
-    public NonInteractiveInjectorNode( double rotationAngle, final SimpleObserver inject ) {
+    public InjectorNode( double rotationAngle, final SimpleObserver inject ) {
         this.inject = inject;
 
         // Create the root node to which the various constituent parts can be
