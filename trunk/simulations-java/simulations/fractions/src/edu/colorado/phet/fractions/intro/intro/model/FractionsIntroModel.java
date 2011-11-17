@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fractions.intro.intro.view.ChosenRepresentation;
 import edu.colorado.phet.fractions.intro.intro.view.Fill;
 import edu.colorado.phet.fractions.intro.intro.view.Visualization;
 
@@ -79,11 +80,7 @@ public class FractionsIntroModel {
         } );
     }};
 
-    private Representation add( String representation ) {
-        Representation rep = new Representation( representation );
-        representations.add( rep );
-        return rep;
-    }
+    public final Property<ChosenRepresentation> representation = new Property<ChosenRepresentation>( ChosenRepresentation.NONE );
 
     public void resetAll() {
     }

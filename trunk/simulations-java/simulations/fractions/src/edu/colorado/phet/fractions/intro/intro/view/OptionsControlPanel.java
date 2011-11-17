@@ -13,8 +13,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class OptionsControlPanel extends ControlPanelNode {
     public OptionsControlPanel( SettableProperty<Visualization> visualization ) {
-        super( new VBox( new HBox( new PSwing( new PropertyRadioButton<Visualization>( "Fraction", visualization, Visualization.FRACTION ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ),
-                                   new PSwing( new PropertyRadioButton<Visualization>( "Mixed Number", visualization, Visualization.MIXED ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ) ) ) );
+        super( new VBox( new HBox( new PSwing( new PropertyRadioButton<Visualization>( "Improper", visualization, Visualization.FRACTION ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ),
+                                   new PSwing( new PropertyRadioButton<Visualization>( "Mixed", visualization, Visualization.MIXED ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ) ) ) );
     }
 
 }
