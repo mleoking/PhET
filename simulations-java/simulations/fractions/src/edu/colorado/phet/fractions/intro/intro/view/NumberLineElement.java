@@ -5,16 +5,20 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * @author Sam Reid
  */
 public class NumberLineElement extends PNode {
-    public NumberLineElement() {
+    public NumberLineElement( final Property<ChosenRepresentation> chosenRepresentation ) {
         double dx = 5;
         addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 10, 0 ) ) );
 
@@ -32,5 +36,16 @@ public class NumberLineElement extends PNode {
                 addChild( new PhetPPath( new Line2D.Double( i * dx, -5, i * dx, 5 ), new BasicStroke( 1 ), Color.black ) );
             }
         }
+
+        final PhetPPath child = new PhetPPath( getFullBounds(), new Color( 0, 0, 0, 0 ) );
+        addChild( child );
+        child.moveToBack();
+
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseReleased( PInputEvent event ) {
+                chosenRepresentation.set( ChosenRepresentation.NUMBER_LINE );
+            }
+        } );
     }
 }

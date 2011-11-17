@@ -5,11 +5,13 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+
 /**
  * @author Sam Reid
  */
 public class HorizontalBarElement extends ShapeElement {
-    public HorizontalBarElement() {
+    public HorizontalBarElement( Property<ChosenRepresentation> chosenRepresentation ) {
         super(
                 new ArrayList<Shape>() {{
                     add( new Rectangle2D.Double( 0, 0, DIM, DIM ) );
@@ -18,7 +20,8 @@ public class HorizontalBarElement extends ShapeElement {
                 }},
                 new ArrayList<Shape>() {{
                     add( new Rectangle2D.Double( DIM * 2, 0, DIM, DIM ) );
-                }}
+                }},
+                chosenRepresentation, ChosenRepresentation.HORIZONTAL_BAR
         );
     }
 }

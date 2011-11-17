@@ -26,7 +26,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
-        final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel() {{
+        final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, INSET );
         }};
         addChild( representationControlPanel );

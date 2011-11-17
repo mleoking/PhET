@@ -5,11 +5,13 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+
 /**
  * @author Sam Reid
  */
 public class VerticalBarElement extends ShapeElement {
-    public VerticalBarElement() {
+    public VerticalBarElement( Property<ChosenRepresentation> chosenRepresentation ) {
         super(
                 new ArrayList<Shape>() {{
                     add( new Rectangle2D.Double( 0, 0, DIM, DIM ) );
@@ -18,7 +20,7 @@ public class VerticalBarElement extends ShapeElement {
                 new ArrayList<Shape>() {{
                     add( new Rectangle2D.Double( 0, DIM, DIM, DIM ) );
                     add( new Rectangle2D.Double( 0, DIM * 3, DIM, DIM ) );
-                }}
+                }}, chosenRepresentation, ChosenRepresentation.VERTICAL_BAR
         );
     }
 }

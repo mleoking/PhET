@@ -5,11 +5,13 @@ import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+
 /**
  * @author Sam Reid
  */
 public class PieElement extends ShapeElement {
-    public PieElement() {
+    public PieElement( Property<ChosenRepresentation> chosenRepresentation ) {
         super(
                 new ArrayList<Shape>() {{
                     add( new Arc2D.Double( 0, 0, DIM * 2, DIM * 2, 90, 90, Arc2D.PIE ) );
@@ -18,7 +20,7 @@ public class PieElement extends ShapeElement {
                 new ArrayList<Shape>() {{
                     add( new Arc2D.Double( 0, 0, DIM * 2, DIM * 2, 0, 90, Arc2D.PIE ) );
                     add( new Arc2D.Double( 0, 0, DIM * 2, DIM * 2, 180, 90, Arc2D.PIE ) );
-                }}
+                }}, chosenRepresentation, ChosenRepresentation.PIE
         );
     }
 }
