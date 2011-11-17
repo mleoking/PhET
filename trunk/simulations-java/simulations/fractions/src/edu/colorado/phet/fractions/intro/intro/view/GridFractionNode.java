@@ -29,8 +29,6 @@ public class GridFractionNode extends ChosenRepresentationNode {
                 int numRows = (int) Math.sqrt( denominator.get() );
                 int numCellsPerGrid = denominator.get();
 
-                System.out.println( "rows = " + numRows + ", perGrid = " + numCellsPerGrid );
-
                 int gridIndex = 0;
                 int rowIndex = 0;
                 int columnIndex = 0;
