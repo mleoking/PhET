@@ -3,6 +3,8 @@ package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -18,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class NumberLineNode extends PNode {
-    public NumberLineNode( Property<Integer> numerator, final Property<Integer> denominator, ValueEquals<ChosenRepresentation> showing ) {
+    public NumberLineNode( final Property<Integer> numerator, final Property<Integer> denominator, ValueEquals<ChosenRepresentation> showing ) {
         scale( 5 );
         showing.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean aBoolean ) {
@@ -30,25 +32,40 @@ public class NumberLineNode extends PNode {
             @Override public void update() {
                 removeAllChildren();
 
-                double dx = 5;
-                addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 10, 0 ) ) );
+                //always go the same distance to whole numbers
 
-                int divisions = denominator.get();
+                final double distanceBetweenTicks = 16;
+                int divisionsBetweenTicks = denominator.get();
 
-                for ( int i = 0; i <= 30; i++ ) {
-                    if ( i % divisions == 0 ) {
-                        final PhetPPath path = new PhetPPath( new Line2D.Double( i * dx, -10, i * dx, 10 ), new BasicStroke( 1 ), Color.black );
+                double dx = distanceBetweenTicks / divisionsBetweenTicks;
+                addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 12 * divisionsBetweenTicks, 0 ) ) );
+
+                for ( int i = 0; i <= divisionsBetweenTicks * 12; i++ ) {
+                    if ( i % divisionsBetweenTicks == 0 ) {
+                        int div = i / divisionsBetweenTicks;
+                        final int mod = div % 2;
+                        double height = mod == 0 ? 10 : 7;
+                        final BasicStroke stroke = mod == 0 ? new BasicStroke( 1 ) : new BasicStroke( 0.5f );
+                        final PhetPPath path = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), stroke, Color.black );
                         addChild( path );
-                        if ( i == 0 ) {
-                            addChild( new PhetPText( "0", new PhetFont( 10 ) ) {{
+                        if ( mod == 0 ) {
+                            addChild( new PhetPText( div + "", new PhetFont( 10 ) ) {{
                                 setOffset( path.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, path.getFullBounds().getMaxY() );
                             }} );
                         }
                     }
                     else {
-                        addChild( new PhetPPath( new Line2D.Double( i * dx, -5, i * dx, 5 ), new BasicStroke( 1 ), Color.black ) );
+                        addChild( new PhetPPath( new Line2D.Double( i * dx, -5, i * dx, 5 ), new BasicStroke( 0.25f ), Color.black ) );
                     }
                 }
+
+                final double w = 6;
+                final double w2 = 0;
+                addChild( new PhetPPath( new Area( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) ) {{
+                    subtract( new Area( new Ellipse2D.Double( -w2 / 2, -w2 / 2, w2, w2 ) ) );
+                }}, Color.green ) {{
+                    setOffset( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 );
+                }} );
             }
         }.observe( numerator, denominator );
     }
