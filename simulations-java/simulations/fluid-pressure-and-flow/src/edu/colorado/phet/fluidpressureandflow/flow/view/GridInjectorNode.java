@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.nodes.NonInteractiveInjectorNode;
+import edu.colorado.phet.common.piccolophet.nodes.InjectorNode;
 import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Sam Reid
  */
-public class GridInjectorNode extends NonInteractiveInjectorNode {
+public class GridInjectorNode extends InjectorNode {
 
     public GridInjectorNode( final ModelViewTransform mvt, double rotationAngle, final SimpleObserver squirt, final Pipe pipe ) {
         super( rotationAngle, new SimpleObserver() {

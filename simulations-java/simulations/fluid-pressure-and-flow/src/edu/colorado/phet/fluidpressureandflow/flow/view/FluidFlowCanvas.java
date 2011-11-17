@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.nodes.NonInteractiveInjectorNode;
+import edu.colorado.phet.common.piccolophet.nodes.InjectorNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
@@ -66,7 +66,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
             }
         } );
 
-        final NonInteractiveInjectorNode dropperNode = new GridInjectorNode( transform, 3 * Math.PI / 2, new SimpleObserver() {
+        final InjectorNode dropperNode = new GridInjectorNode( transform, 3 * Math.PI / 2, new SimpleObserver() {
             public void update() {
                 model.pourFoodColoring();
             }
