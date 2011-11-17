@@ -10,5 +10,8 @@ import edu.umd.cs.piccolo.PNode;
 public class RepresentationArea extends PNode {
     public RepresentationArea( Property<ChosenRepresentation> chosenRepresentation, Property<Integer> numerator, Property<Integer> denominator ) {
         addChild( new HorizontalBarChosenRepresentationNode( chosenRepresentation, numerator, denominator ) );
+        addChild( new VerticalBarChosenRepresentationNode( chosenRepresentation, numerator, denominator ) {{
+            setOffset( 0, -80 );
+        }} );
     }
 }
