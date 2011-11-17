@@ -18,7 +18,7 @@ public class FractionEqualityPanel extends PNode {
         addChild( equalsSignNode );
         equalsSignNode.setOffset( fractionNode.getFullBounds().getMaxX() + 50, fractionNode.getOffset().getY() - equalsSignNode.getFullBounds().getHeight() / 2 );
 
-        addChild( new FractionNode( model.numerator, model.denominator ) {{
+        addChild( new FractionNode( model.reducedNumerator, model.reducedDenominator ) {{
             setOffset( fractionNode.getFullBounds().getMaxX() + 50 + equalsSignNode.getFullBounds().getWidth() + 50, fractionNode.getOffset().getY() );
         }} );
     }
