@@ -101,7 +101,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
 
     private void stopTranscription() {
         // Release the transcribed molecule.
-        messengerRna.release();
+        messengerRna.releaseFromPolymerase();
         // Release from the attachment site.
         attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         // Make sure it is back to the nominal conformation.
