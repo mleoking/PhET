@@ -9,7 +9,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 /**
  * Adds interactivity to NonInteractiveInjectorNode.
  * <p/>
- * <p/>
  * Copied from ParticleInjectorNode in membrane-channels on 12-9-2010
  *
  * @author John Blanco
