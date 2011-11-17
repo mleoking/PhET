@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fractions.intro.intro.view.Fill;
+import edu.colorado.phet.fractions.intro.intro.view.Visualization;
 
 /**
  * Model for the Fractions Intro sim.
@@ -18,6 +21,8 @@ public class FractionsIntroModel {
     //Model for numerator and denominator
     public final Property<Integer> numerator = new Property<Integer>( 1 );
     public final Property<Integer> denominator = new Property<Integer>( 1 );
+
+    public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
 
     //Fraction value computed as numerator/denominator
     public final CompositeProperty<Double> fraction = new CompositeProperty<Double>( new Function0<Double>() {
@@ -34,16 +39,6 @@ public class FractionsIntroModel {
 
     //Representations to show
     public final ArrayList<Representation> representations = new ArrayList<Representation>();
-    public final Representation reducedFractionRepresentation = add( "Reduced fraction" );
-    public final Representation decimalRepresentation = add( "Decimal" );
-    public final Representation wordsRepresentation = add( "Words" );
-    public final Representation percentRepresentation = add( "Percent" );
-    public final Representation piesRepresentation = add( "Pies" );
-    public final Representation cupsWaterRepresentation = add( "Cups of Water" );
-    public final Representation mixedRepresentation = add( "Mixed" );
-    public final Representation cakeRepresentation = add( "Cake" );
-    public final Representation breadRepresentation = add( "Bread" );
-    public final Representation booksRepresentation = add( "Books" );
     public final Property<Integer> reducedNumerator = new Property<Integer>( reducedFraction.get().numerator ) {{
         reducedFraction.addObserver( new VoidFunction1<Fraction>() {
             public void apply( Fraction fraction ) {
@@ -52,6 +47,31 @@ public class FractionsIntroModel {
         } );
     }};
     public final Property<Integer> reducedDenominator = new Property<Integer>( reducedFraction.get().denominator ) {{
+        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
+            public void apply( Fraction fraction ) {
+                set( fraction.denominator );
+            }
+        } );
+    }};
+    public final SettableProperty<Visualization> visualization = new Property<Visualization>( Visualization.FRACTION );
+
+    public final Property<Integer> mixedInteger = new Property<Integer>( (int) Math.floor( reducedFraction.get().getValue() ) ) {{
+        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
+            public void apply( Fraction f ) {
+                set( (int) Math.floor( f.getValue() ) );
+            }
+        } );
+    }};
+    public final Property<Integer> mixedNumerator = new Property<Integer>( 1 ) {{
+        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
+            public void apply( Fraction f ) {
+                int coeff = (int) Math.floor( f.getValue() );
+                //subtract off coeff*denominator from the numerator
+                set( f.numerator - coeff * f.denominator );
+            }
+        } );
+    }};
+    public final Property<Integer> mixedDenominator = new Property<Integer>( 1 ) {{
         reducedFraction.addObserver( new VoidFunction1<Fraction>() {
             public void apply( Fraction fraction ) {
                 set( fraction.denominator );

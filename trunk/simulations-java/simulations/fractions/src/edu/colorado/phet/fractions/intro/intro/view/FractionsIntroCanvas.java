@@ -32,9 +32,8 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationControlPanel );
 
-        Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
-        addChild( new ControlPanelNode( new HBox( new PSwing( new PropertyRadioButton<Fill>( "In order", fill, Fill.SEQUENTIAL ) {{setFont( CONTROL_FONT );}} ),
-                                                  new PSwing( new PropertyRadioButton<Fill>( "Random", fill, Fill.RANDOM ) {{setFont( CONTROL_FONT );}} ) ) ) {{
+        addChild( new ControlPanelNode( new HBox( new PSwing( new PropertyRadioButton<Fill>( "In order", model.fill, Fill.SEQUENTIAL ) {{setFont( CONTROL_FONT );}} ),
+                                                  new PSwing( new PropertyRadioButton<Fill>( "Random", model.fill, Fill.RANDOM ) {{setFont( CONTROL_FONT );}} ) ) ) {{
             setOffset( representationControlPanel.getFullBounds().getMaxX() + INSET, representationControlPanel.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
@@ -43,7 +42,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( fractionEqualityPanel );
 
-        OptionsControlPanel optionsControlPanel = new OptionsControlPanel( new Property<Visualization>( Visualization.FRACTION ) );
+        OptionsControlPanel optionsControlPanel = new OptionsControlPanel( model.visualization );
         addChild( optionsControlPanel );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
