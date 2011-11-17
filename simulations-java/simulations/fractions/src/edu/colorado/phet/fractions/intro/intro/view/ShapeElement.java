@@ -16,11 +16,13 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 /**
  * @author Sam Reid
  */
-public class ShapeElement extends PNode {
+public class ShapeElement extends PNode implements RepIcon {
     //characteristic length
     public static double DIM = 20;
+    public final ChosenRepresentation representation;
 
     public ShapeElement( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final Property<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation representation ) {
+        this.representation = representation;
         for ( Shape shape : unfilled ) {
             addChild( new PhetPPath( shape, Color.white, new BasicStroke( 1 ), Color.gray ) );
         }
@@ -34,5 +36,13 @@ public class ShapeElement extends PNode {
                 chosenRepresentation.set( representation );
             }
         } );
+    }
+
+    public PNode getNode() {
+        return this;
+    }
+
+    public ChosenRepresentation getRepresentation() {
+        return representation;
     }
 }
