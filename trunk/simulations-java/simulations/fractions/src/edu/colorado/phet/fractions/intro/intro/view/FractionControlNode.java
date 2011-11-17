@@ -19,10 +19,10 @@ public class FractionControlNode extends PNode {
     public FractionControlNode( final Property<Integer> numerator, final Property<Integer> denominator ) {
         final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12 ), Color.black );
         addChild( line );
-        addChild( new FractionNumberNode( numerator ) {{
+        addChild( new FractionNumberControlNode( numerator ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
-        addChild( new FractionNumberNode( denominator ) {{
+        addChild( new FractionNumberControlNode( denominator ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() );
         }} );
     }
