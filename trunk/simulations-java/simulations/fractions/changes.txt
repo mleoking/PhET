@@ -1,5 +1,5 @@
 Highlight selected representation
-Fixed for number line
+Fixes for number line
 # 0.00.09 (58684) Nov 16, 2011
 Added more revisions for intro tab
 Matching game: Added horizontal and vertical bars
