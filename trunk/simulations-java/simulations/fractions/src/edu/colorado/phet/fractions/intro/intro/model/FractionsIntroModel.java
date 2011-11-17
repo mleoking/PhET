@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Model for the Fractions Intro sim.
@@ -43,6 +44,20 @@ public class FractionsIntroModel {
     public final Representation cakeRepresentation = add( "Cake" );
     public final Representation breadRepresentation = add( "Bread" );
     public final Representation booksRepresentation = add( "Books" );
+    public final Property<Integer> reducedNumerator = new Property<Integer>( reducedFraction.get().numerator ) {{
+        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
+            public void apply( Fraction fraction ) {
+                set( fraction.numerator );
+            }
+        } );
+    }};
+    public final Property<Integer> reducedDenominator = new Property<Integer>( reducedFraction.get().denominator ) {{
+        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
+            public void apply( Fraction fraction ) {
+                set( fraction.denominator );
+            }
+        } );
+    }};
 
     private Representation add( String representation ) {
         Representation rep = new Representation( representation );
