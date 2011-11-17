@@ -63,7 +63,7 @@ public class NumberLineNode extends PNode {
                 final double w2 = 0;
                 addChild( new PhetPPath( new Area( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) ) {{
                     subtract( new Area( new Ellipse2D.Double( -w2 / 2, -w2 / 2, w2, w2 ) ) );
-                }}, Color.green ) {{
+                }}, FractionsIntroCanvas.FILL_COLOR ) {{
                     setOffset( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 );
                 }} );
             }

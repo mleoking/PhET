@@ -32,7 +32,7 @@ public class PieSetFractionNode extends VisibilityNode {
                 for ( int i = 0; i < numFullPies; i++ ) {
                     final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];
                     for ( int j = 0; j < slices.length; j++ ) {
-                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, Color.green );
+                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, FractionsIntroCanvas.FILL_COLOR );
                     }
                     box.addChild( new PieChartNode( slices, PIE_SIZE ) );
                 }
@@ -40,7 +40,7 @@ public class PieSetFractionNode extends VisibilityNode {
                 if ( slicesInLastPie > 0 ) {
                     final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];
                     for ( int j = 0; j < slices.length; j++ ) {
-                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, j < slicesInLastPie ? Color.green : Color.white );
+                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, j < slicesInLastPie ? FractionsIntroCanvas.FILL_COLOR : Color.white );
                     }
                     box.addChild( new PieChartNode( slices, PIE_SIZE ) );
                 }

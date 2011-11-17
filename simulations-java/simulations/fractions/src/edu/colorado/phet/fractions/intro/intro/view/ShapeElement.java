@@ -25,7 +25,7 @@ public class ShapeElement extends PNode {
             addChild( new PhetPPath( shape, Color.white, new BasicStroke( 1 ), Color.gray ) );
         }
         for ( Shape shape : filled ) {
-            addChild( new PhetPPath( shape, Color.green, new BasicStroke( 1 ), Color.gray ) );
+            addChild( new PhetPPath( shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.gray ) );
         }
 
         addInputEventListener( new CursorHandler() );
