@@ -299,13 +299,23 @@ public class MessengerRna extends MobileBiomolecule {
      *         then, the last time, "true" will be returned.
      */
     public boolean advanceTranslation( Ribosome ribosome, double length ) {
+
         ShapeSegment segmentToAdvance = mapRibosomeToShapeSegment.get( ribosome );
+
+        // Error checking.
         if ( segmentToAdvance == null ) {
             System.out.println( getClass().getName() + " - Warning: Attempt to advance translation by a ribosome that isn't attached." );
             return true;
         }
 
+        // Advance the translation by advancing the position of the mRNA in the
+        // segment that corresponds to the translation channel of the ribosome.
         segmentToAdvance.advance( length, shapeSegments );
+        realignSegmentsFrom( segmentToAdvance );
+
+        // Since the sizes and relationships of the segments probably changed,
+        // the winding algorithm needs to be rerun.
+//        windPointsThroughSegments();
 
         // If there is anything left in this segment, then transcription is not
         // yet complete.
@@ -369,11 +379,10 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
-     * This is the "winding algorithm" that positions the points within the
-     * shape segments in order to look like a wound up piece of mRNA.  The
-     * combination of this algorithm and the shape segments allow the mRNA to
-     * look reasonable when it is being synthesized and when it is being
-     * transcribed.
+     * This is the "winding algorithm" that positions the points that define
+     * the shape of the mRNA within the shape segments.  The combination of
+     * this algorithm and the shape segments allow the mRNA to look reasonable
+     * when it is being synthesized and when it is being transcribed.
      */
     private void windPointsThroughSegments() {
         assert shapeSegments.size() > 0;
@@ -547,6 +556,34 @@ public class MessengerRna extends MobileBiomolecule {
             // Assumes that the shape segments attach to one another in such
             // a way that they chain from the upper left to the lower right.
             copyOfShapeSegments.get( i + 1 ).setLowerRightCornerPos( copyOfShapeSegments.get( i ).getUpperLeftCornerPos() );
+        }
+    }
+
+    /**
+     * Realign the positions of all segments star
+     *
+     * @param segmentToAlignFrom
+     */
+    private void realignSegmentsFrom( ShapeSegment segmentToAlignFrom ) {
+        int startIndex = shapeSegments.indexOf( segmentToAlignFrom );
+        assert startIndex >= 0;
+
+        // Align segments that follow this one.
+        ShapeSegment currentSegment = segmentToAlignFrom;
+        ShapeSegment nextSegment = shapeSegments.getNextItem( currentSegment );
+        while ( nextSegment != null ) {
+            nextSegment.setUpperLeftCornerPosition( currentSegment.getLowerRightCornerPos() );
+            currentSegment = nextSegment;
+            nextSegment = shapeSegments.getNextItem( currentSegment );
+        }
+
+        // Align segments that precede this one.
+        currentSegment = segmentToAlignFrom;
+        ShapeSegment previousSegment = shapeSegments.getPreviousItem( currentSegment );
+        while ( previousSegment != null ) {
+            previousSegment.setLowerRightCornerPos( currentSegment.getUpperLeftCornerPos() );
+            currentSegment = previousSegment;
+            previousSegment = shapeSegments.getPreviousItem( currentSegment );
         }
     }
 
@@ -1261,6 +1298,13 @@ public class MessengerRna extends MobileBiomolecule {
             return new Point2D.Double( bounds.get().getMinX(), bounds.get().getMaxY() );
         }
 
+        public void setUpperLeftCornerPosition( Point2D upperLeftCornerPosition ) {
+            bounds.set( new Rectangle2D.Double( upperLeftCornerPosition.getX(),
+                                                upperLeftCornerPosition.getY() - bounds.get().getHeight(),
+                                                bounds.get().getWidth(),
+                                                bounds.get().getHeight() ) );
+        }
+
         public void translate( ImmutableVector2D translationVector ) {
             bounds.set( new Rectangle2D.Double( bounds.get().getX() + translationVector.getX(),
                                                 bounds.get().getY() + translationVector.getY(),
@@ -1408,6 +1452,8 @@ public class MessengerRna extends MobileBiomolecule {
                         // Add some or all of the length to the output segment.
                         outputSegment.add( length - remainingCapacity, shapeSegmentList );
                     }
+                    // Remove the length from the input segment.
+                    inputSegment.remove( length, shapeSegmentList );
                 }
             }
 
