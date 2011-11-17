@@ -18,12 +18,13 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
  */
 public class FractionNumberControlNode extends FractionNumberNode {
 
-    public FractionNumberControlNode( final Property<Integer> value ) {
+    public FractionNumberControlNode( Color backgroundColor, final Property<Integer> value ) {
         super( value );
-        final BackButton backButton = new BackButton( Color.orange ) {{
+        final double buttonScale = 1.87;
+        final BackButton backButton = new BackButton( backgroundColor ) {{
             setEnabled( true );
             rotate( Math.PI * 3 / 2 );
-            scale( 2.0 );
+            scale( buttonScale );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     value.set( value.get() - 1 );
@@ -35,17 +36,16 @@ public class FractionNumberControlNode extends FractionNumberNode {
                 }
             } );
         }};
-        final ForwardButton forwardButton = new ForwardButton( Color.orange ) {{
+        final ForwardButton forwardButton = new ForwardButton( backgroundColor ) {{
             setEnabled( true );
             rotate( Math.PI * 3 / 2 );
-            scale( 2.0 );
+            scale( buttonScale );
 
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     value.set( value.get() + 1 );
                 }
             } );
-
             value.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integer ) {
                     setEnabled( integer <= 11 );
