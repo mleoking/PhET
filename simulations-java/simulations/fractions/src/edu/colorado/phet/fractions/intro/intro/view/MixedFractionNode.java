@@ -16,10 +16,15 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class FractionNode extends PNode {
-    public FractionNode( final Property<Integer> numerator, final Property<Integer> denominator ) {
+public class MixedFractionNode extends PNode {
+    public MixedFractionNode( final Property<Integer> integer, final Property<Integer> numerator, final Property<Integer> denominator ) {
         final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12 ), Color.black );
         addChild( line );
+
+        addChild( new ZeroOffsetNode( new FractionNumberNode( integer ) ) {{
+            setOffset( line.getFullBounds().getX() - getFullBounds().getWidth() - 10, line.getFullBounds().getY() - getFullBounds().getHeight() / 2 );
+        }} );
+
         addChild( new ZeroOffsetNode( new FractionNumberNode( numerator ) ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );

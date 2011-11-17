@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.view;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -20,6 +21,20 @@ public class FractionEqualityPanel extends PNode {
 
         addChild( new FractionNode( model.reducedNumerator, model.reducedDenominator ) {{
             setOffset( fractionNode.getFullBounds().getMaxX() + 50 + equalsSignNode.getFullBounds().getWidth() + 50, fractionNode.getOffset().getY() );
+            model.visualization.addObserver( new VoidFunction1<Visualization>() {
+                public void apply( Visualization visualization ) {
+                    setVisible( visualization == Visualization.FRACTION );
+                }
+            } );
+        }} );
+
+        addChild( new MixedFractionNode( model.mixedInteger, model.mixedNumerator, model.mixedDenominator ) {{
+            setOffset( fractionNode.getFullBounds().getMaxX() + 100 + equalsSignNode.getFullBounds().getWidth() + 50, fractionNode.getOffset().getY() );
+            model.visualization.addObserver( new VoidFunction1<Visualization>() {
+                public void apply( Visualization visualization ) {
+                    setVisible( visualization == Visualization.MIXED );
+                }
+            } );
         }} );
     }
 }
