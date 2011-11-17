@@ -14,5 +14,6 @@ public class RepresentationArea extends PNode {
             setOffset( 0, -80 );
         }} );
         addChild( new PieSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.PIE ) ) );
+        addChild( new NumberLineNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.NUMBER_LINE ) ) );
     }
 }
