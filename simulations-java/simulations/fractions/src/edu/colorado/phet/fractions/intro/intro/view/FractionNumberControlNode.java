@@ -20,12 +20,12 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class FractionNumberNode extends PNode {
+public class FractionNumberControlNode extends PNode {
 
-    private final Font NUMBER_FONT = new PhetFont( 168 );
+    public static final Font NUMBER_FONT = new PhetFont( 120 );
     private final PhetPText biggestNumber = new PhetPText( "12", NUMBER_FONT );
 
-    public FractionNumberNode( final Property<Integer> value ) {
+    public FractionNumberControlNode( final Property<Integer> value ) {
         final PhetPText numberText = new PhetPText( value.get() + "", NUMBER_FONT ) {{
             value.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integer ) {
@@ -68,7 +68,7 @@ public class FractionNumberNode extends PNode {
             } );
         }};
         addChild( new VBox( 0, forwardButton, backButton ) {{
-            setOffset( biggestNumber.getFullBounds().getMaxX(), biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth(), biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
 }
