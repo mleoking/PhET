@@ -26,7 +26,6 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
     //-------------------------------------------------------------------------
     private final Ribosome ribosome;
     private final MessengerRna messengerRna;
-    private double translatingTime = 0;
     private double amountTranslated = 0; // In picometers.
     private final double mRnaStrandLength;
 

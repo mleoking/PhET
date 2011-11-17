@@ -1369,44 +1369,51 @@ public class MessengerRna extends MobileBiomolecule {
                 ShapeSegment inputSegment = shapeSegmentList.getNextItem( this );
                 if ( inputSegment == null ) {
                     // There is no input segment, meaning that the end of the
-                    // mRNA strand is contained in THIS segment, so it needs to
-                    // shrink.
+                    // mRNA strand is contained in THIS segment, so this
+                    // segment needs to shrink.
                     this.remove( length, shapeSegmentList );
                     outputSegment.add( length, shapeSegmentList );
                 }
                 else if ( inputSegment.getContainedLength() > length ) {
+                    // The input segment contains enough mRNA length to supply
+                    // this segment with the needed length.
                     if ( getContainedLength() + length <= capacity ) {
-                        // This is a simple case: The input segment has
-                        // enough mRNA contained, and this is below capacity,
-                        // so we just need to grow.
+                        // The new length isn't enough to fill up this segment,
+                        // so this segment just needs to grow.
                         add( length, shapeSegmentList );
                     }
                     else {
-                        // This segment is full or almost full.
-                        if ( getRemainingCapacity() != 0 ) {
+                        // This segment is full or close enough to being full
+                        // that it can't accommodate all of the specified
+                        // length.  Some or all of that length must go in the
+                        // output segment.
+                        double remainingCapacity = getRemainingCapacity();
+                        if ( remainingCapacity != 0 ) {
                             // Not quite full yet - fill it up.
-                            maxOut();
-                            // Create a new leader segment for the mRNA to
-                            // move into.
-
-                        }
-                        add( getRemainingCapacity(), shapeSegmentList );
-                        if ( outputSegment == null ) {
-                            // Need to create an output segment.
-                            ShapeSegment newFlatSegment = new FlatSegment( getUpperLeftCornerPos() ) {{
+                            maxOutLength();
+                            // This situation - one in which a segment that is
+                            // having the mRNA advanced through it but it not
+                            // yet full - should only occur when this segment
+                            // is the first one on the shape segment list.  So,
+                            // add a new one to the front of the segment list,
+                            // but first, make sure there isn't something there
+                            // already.
+                            assert outputSegment == null;
+                            ShapeSegment newLeaderSegment = new FlatSegment( this.getUpperLeftCornerPos() ) {{
                                 setCapacity( LEADER_LENGTH );
                             }};
-                            shapeSegmentList.insertBefore( this, newFlatSegment );
-                            outputSegment = newFlatSegment;
+                            shapeSegmentList.insertBefore( this, newLeaderSegment );
+                            outputSegment = newLeaderSegment;
                         }
-                        outputSegment.add( length - this.getRemainingCapacity(), shapeSegmentList );
+                        // Add some or all of the length to the output segment.
+                        outputSegment.add( length - remainingCapacity, shapeSegmentList );
                     }
                 }
             }
 
             // Set size to be exactly the capacity.  Do not create any new
             // segments.
-            private void maxOut() {
+            private void maxOutLength() {
                 double growthAmount = getRemainingCapacity();
                 bounds.set( new Rectangle2D.Double( bounds.get().getX() - growthAmount,
                                                     bounds.get().getY(),
