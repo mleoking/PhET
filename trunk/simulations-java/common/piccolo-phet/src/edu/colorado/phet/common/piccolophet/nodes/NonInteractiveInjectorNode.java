@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -15,8 +14,10 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOURCES;
 
 /**
- * Node that represents the thing with which the user interacts in order to
- * inject something into the model.  This superclass doesn't have any interactivity so it is easy to add different interaction models.
+ * Node that represents an injector or "squirter" with which the user can
+ * interact in order to inject particles, fluid, or whatever into the model.
+ * This superclass doesn't actually have interactivity so that it is easy to
+ * add different interaction models in subclasses.
  * <p/>
  * Copied from ParticleInjectorNode in membrane-channels on 12-9-2010
  *
@@ -53,11 +54,8 @@ public class NonInteractiveInjectorNode extends PNode {
      */
     public NonInteractiveInjectorNode( double rotationAngle, final SimpleObserver inject ) {
         this.inject = inject;
-        double NOMINAL_ION_INJECTION_VELOCITY = 30;
-        Vector2D nominalInjectionVelocityVector = new Vector2D( NOMINAL_ION_INJECTION_VELOCITY, 0 );
-        nominalInjectionVelocityVector.rotate( rotationAngle );
 
-        // Create the base node to which the various constituent parts can be
+        // Create the root node to which the various constituent parts can be
         // added.
         injectorNode = new PNode();
 
