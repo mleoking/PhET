@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.intro.intro.view;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
@@ -16,9 +17,9 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
  */
 public class PieSetFractionNode extends VisibilityNode {
 
-    private final Rectangle PIE_SIZE = new Rectangle( 0, 0, 120, 120 );
+    private final Rectangle PIE_SIZE = new Rectangle( 0, 0, 70, 70 );
 
-    public PieSetFractionNode( final Property<Integer> numerator, final Property<Integer> denominator, Property<Boolean> enabled ) {
+    public PieSetFractionNode( final Property<Integer> numerator, final Property<Integer> denominator, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         new RichSimpleObserver() {
             @Override public void update() {
@@ -31,7 +32,7 @@ public class PieSetFractionNode extends VisibilityNode {
                 for ( int i = 0; i < numFullPies; i++ ) {
                     final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];
                     for ( int j = 0; j < slices.length; j++ ) {
-                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, Color.orange );
+                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, Color.green );
                     }
                     box.addChild( new PieChartNode( slices, PIE_SIZE ) );
                 }
@@ -39,7 +40,7 @@ public class PieSetFractionNode extends VisibilityNode {
                 if ( slicesInLastPie > 0 ) {
                     final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];
                     for ( int j = 0; j < slices.length; j++ ) {
-                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, j < slicesInLastPie ? Color.orange : Color.white );
+                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, j < slicesInLastPie ? Color.green : Color.white );
                     }
                     box.addChild( new PieChartNode( slices, PIE_SIZE ) );
                 }
