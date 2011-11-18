@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,7 @@ public class Ribosome extends MobileBiomolecule {
     private static final double TOP_SUBUNIT_HEIGHT = OVERALL_HEIGHT * TOP_SUBUNIT_HEIGHT_PROPORTION;
     private static final double BOTTOM_SUBUNIT_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_SUBUNIT_HEIGHT_PROPORTION );
     private static final double MRNA_CAPTURE_THRESHOLD = 1000;
+    private static final ImmutableVector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new ImmutableVector2D( WIDTH / 2, -OVERALL_HEIGHT / 2 + BOTTOM_SUBUNIT_HEIGHT );
 
     public Ribosome( GeneExpressionModel model ) {
         this( model, new Point2D.Double( 0, 0 ) );
@@ -44,6 +44,10 @@ public class Ribosome extends MobileBiomolecule {
                     // mRNA nearby, attach to it.
                     for ( MessengerRna messengerRna : model.getMessengerRnaList() ) {
                         if ( messengerRna.getPosition().distance( getPosition() ) < MRNA_CAPTURE_THRESHOLD ) {
+
+                            // Move to the appropriate location in order to
+                            // look attached to the mRNA.
+                            setPosition( new ImmutableVector2D( messengerRna.getTranslationAttachmentPoint() ).getSubtractedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
 
                             // Attach to this mRNA.
                             messengerRna.connectToRibosome( Ribosome.this );
@@ -87,16 +91,6 @@ public class Ribosome extends MobileBiomolecule {
         Area combinedShape = new Area( topSubunitShape );
         combinedShape.add( new Area( bottomSubunitShape ) );
         return combinedShape;
-    }
-
-    /**
-     * Get the position of the channel through which the mRNA is pulled when
-     * translation occurs.
-     *
-     * @return
-     */
-    public Line2D getRnaChannel() {
-        return new Line2D.Double( getExitOfRnaChannelPos().toPoint2D(), getEntranceOfRnaChannelPos().toPoint2D() );
     }
 
     public ImmutableVector2D getEntranceOfRnaChannelPos() {

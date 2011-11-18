@@ -944,6 +944,10 @@ public class MessengerRna extends MobileBiomolecule {
         shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
     }
 
+    public Point2D getTranslationAttachmentPoint() {
+        return firstShapeDefiningPoint.getPosition();
+    }
+
     private int getNumEnclosedPoints() {
         int numEnclosedPoints = 0;
         PointMass currentPoint = getFirstEnclosedPoint();
