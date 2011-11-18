@@ -1252,8 +1252,10 @@ public class MessengerRna extends MobileBiomolecule {
     public void releaseFromRibosome( Ribosome ribosome ) {
         assert mapRibosomeToShapeSegment.containsKey( ribosome ); // This shouldn't be called if the ribosome wasn't connected.
         mapRibosomeToShapeSegment.remove( ribosome );
-        // Set the state to just be drifting around in the cytoplasm.
-        behaviorState = new DetachingState( this, new ImmutableVector2D( 1, 1 ) );
+        if ( mapRibosomeToShapeSegment.isEmpty() ) {
+            // Set the state to just be drifting around in the cytoplasm.
+            behaviorState = new DetachingState( this, new ImmutableVector2D( 1, 1 ) );
+        }
     }
 
     public void releaseFromPolymerase() {
@@ -1589,7 +1591,7 @@ public class MessengerRna extends MobileBiomolecule {
                         // length.  Some or all of that length must go in the
                         // output segment.
                         double remainingCapacity = getRemainingCapacity();
-                        if ( remainingCapacity != 0 ) {
+                        if ( remainingCapacity > FLOATING_POINT_COMP_FACTOR ) {
                             // Not quite full yet - fill it up.
                             maxOutLength();
                             // This situation - one in which a segment that is
