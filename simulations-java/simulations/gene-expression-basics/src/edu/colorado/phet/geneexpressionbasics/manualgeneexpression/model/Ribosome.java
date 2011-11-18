@@ -44,11 +44,13 @@ public class Ribosome extends MobileBiomolecule {
                     // mRNA nearby, attach to it.
                     for ( MessengerRna messengerRna : model.getMessengerRnaList() ) {
                         if ( messengerRna.getPosition().distance( getPosition() ) < MRNA_CAPTURE_THRESHOLD ) {
+
                             // Attach to this mRNA.
                             messengerRna.connectToRibosome( Ribosome.this );
+
+                            // Move into the translating state.
+                            behaviorState = new TranslatingMRnaState( messengerRna, Ribosome.this );
                         }
-                        // Move into the translating state.
-                        behaviorState = new TranslatingMRnaState( messengerRna, Ribosome.this );
                     }
                 }
             }

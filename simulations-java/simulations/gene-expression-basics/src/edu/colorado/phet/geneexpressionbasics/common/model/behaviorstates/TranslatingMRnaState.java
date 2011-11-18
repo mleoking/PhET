@@ -48,7 +48,7 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
         if ( messengerRna.advanceTranslation( ribosome, TRANSLATION_RATE * dt ) ) {
             // This returned true, which signifies that translation is
             // complete.  Release the mRNA and transition to detaching state.
-            messengerRna.releaseFromRibsome( ribosome );
+            messengerRna.releaseFromRibosome( ribosome );
             return new DetachingState( ribosome );
         }
         else {
