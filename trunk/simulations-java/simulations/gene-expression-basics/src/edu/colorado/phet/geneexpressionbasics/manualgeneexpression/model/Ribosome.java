@@ -27,7 +27,7 @@ public class Ribosome extends MobileBiomolecule {
     private static final double TOP_SUBUNIT_HEIGHT_PROPORTION = 0.6;
     private static final double TOP_SUBUNIT_HEIGHT = OVERALL_HEIGHT * TOP_SUBUNIT_HEIGHT_PROPORTION;
     private static final double BOTTOM_SUBUNIT_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_SUBUNIT_HEIGHT_PROPORTION );
-    private static final double MRNA_CAPTURE_THRESHOLD = 1000;
+    private static final double MRNA_CAPTURE_DISTANCE = 500;
     private static final ImmutableVector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new ImmutableVector2D( WIDTH / 2, -OVERALL_HEIGHT / 2 + BOTTOM_SUBUNIT_HEIGHT );
 
     public Ribosome( GeneExpressionModel model ) {
@@ -42,8 +42,9 @@ public class Ribosome extends MobileBiomolecule {
                 if ( wasUserControlled && !isUserControlled ) {
                     // The user just dropped this ribosome.  If there is an
                     // mRNA nearby, attach to it.
+
                     for ( MessengerRna messengerRna : model.getMessengerRnaList() ) {
-                        if ( messengerRna.getPosition().distance( getPosition() ) < MRNA_CAPTURE_THRESHOLD ) {
+                        if ( messengerRna.getTranslationAttachmentPoint().distance( getEntranceOfRnaChannelPos().toPoint2D() ) < MRNA_CAPTURE_DISTANCE ) {
 
                             // Move to the appropriate location in order to
                             // look attached to the mRNA.
@@ -94,11 +95,7 @@ public class Ribosome extends MobileBiomolecule {
     }
 
     public ImmutableVector2D getEntranceOfRnaChannelPos() {
-        return new ImmutableVector2D( getPosition().getX() + WIDTH / 2, getRnaChannelYPos() );
-    }
-
-    public ImmutableVector2D getExitOfRnaChannelPos() {
-        return new ImmutableVector2D( getPosition().getX() - WIDTH / 2, getRnaChannelYPos() );
+        return new ImmutableVector2D( getPosition() ).getAddedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE );
     }
 
     private double getRnaChannelYPos() {
