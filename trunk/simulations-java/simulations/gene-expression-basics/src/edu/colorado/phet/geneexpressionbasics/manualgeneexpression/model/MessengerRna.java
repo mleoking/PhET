@@ -1245,7 +1245,7 @@ public class MessengerRna extends MobileBiomolecule {
 //        // Update the shape to reflect the newly added point.
 //        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( shapeDefiningPoints ) );
 //    }
-    public void releaseFromRibsome( Ribosome ribosome ) {
+    public void releaseFromRibosome( Ribosome ribosome ) {
         assert mapRibosomeToShapeSegment.containsKey( ribosome ); // This shouldn't be called if the ribosome wasn't connected.
         mapRibosomeToShapeSegment.remove( ribosome );
         // Set the state to just be drifting around in the cytoplasm.
