@@ -381,7 +381,9 @@ public class MessengerRna extends MobileBiomolecule {
         // Advance the translation by advancing the position of the mRNA in the
         // segment that corresponds to the translation channel of the ribosome.
         segmentToAdvance.advance( length, shapeSegments );
-        if ( segmentToAdvance.getContainedLength() > 0 ) {
+
+        // Realign the segments, since they may well have changed shape.  
+        if ( shapeSegments.contains( segmentToAdvance ) ) {
             realignSegmentsFrom( segmentToAdvance );
         }
 
@@ -477,7 +479,7 @@ public class MessengerRna extends MobileBiomolecule {
                 // TODO: Debug code to make sure that there aren't a lot of points outside the range.  Remove eventually.
                 double totalShapeSegmentLength = getTotalLengthInShapeSegments();
                 System.out.println( "Total length of mRNA minus total contained length in shape segments = " + ( getLength() - totalShapeSegmentLength ) + ", segment count = " + shapeSegments.size() );
-                if ( ( getLength() - totalShapeSegmentLength ) > 1 ) {
+                if ( Math.abs( getLength() - totalShapeSegmentLength ) > 1 ) {
                     System.out.println( "Larger than expected error term." );
                 }
             }
@@ -1553,7 +1555,7 @@ public class MessengerRna extends MobileBiomolecule {
                 bounds.set( new Rectangle2D.Double( bounds.get().getX(), bounds.get().getY(), bounds.get().getWidth() - length, 0 ) );
                 // If the length has gotten to zero, remove this segment from
                 // the list.
-                if ( getContainedLength() <= FLOATING_POINT_COMP_FACTOR ) {
+                if ( getContainedLength() < FLOATING_POINT_COMP_FACTOR ) {
                     shapeSegmentList.remove( this );
                 }
             }
@@ -1565,8 +1567,9 @@ public class MessengerRna extends MobileBiomolecule {
                     // There is no input segment, meaning that the end of the
                     // mRNA strand is contained in THIS segment, so this
                     // segment needs to shrink.
-                    this.remove( length, shapeSegmentList );
-                    outputSegment.add( length, shapeSegmentList );
+                    double lengthToAdvance = Math.min( length, getContainedLength() );
+                    this.remove( lengthToAdvance, shapeSegmentList );
+                    outputSegment.add( lengthToAdvance, shapeSegmentList );
                 }
                 else if ( inputSegment.getContainedLength() > length ) {
                     // The input segment contains enough mRNA length to supply
