@@ -3,7 +3,6 @@ package edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates;
 
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosome;
@@ -39,9 +38,9 @@ public class BeingTranslatedState extends BiomoleculeBehaviorState {
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
         // Follow the ribosome.
         // TODO: This behavior is not what this will ultimately really do.
-        ImmutableVector2D currentMRnaFirstPointPosition = new ImmutableVector2D( messengerRna.getPointList().get( 0 ) );
-        ImmutableVector2D motionDelta = ribosome.getEntranceOfRnaChannelPos().getSubtractedInstance( currentMRnaFirstPointPosition );
-        messengerRna.translate( motionDelta );
+//        ImmutableVector2D currentMRnaFirstPointPosition = new ImmutableVector2D( messengerRna.getPointList().get( 0 ) );
+//        ImmutableVector2D motionDelta = ribosome.getEntranceOfRnaChannelPos().getSubtractedInstance( currentMRnaFirstPointPosition );
+//        messengerRna.translate( motionDelta );
         return this;
     }
 

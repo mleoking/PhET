@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -161,6 +162,75 @@ public class MessengerRna extends MobileBiomolecule {
         while ( thisPoint != null ) {
             thisPoint.translate( translationVector );
             thisPoint = thisPoint.getNextPointMass();
+        }
+    }
+
+    /**
+     * Get the first shape-defining point enclosed in the provided length range.
+     *
+     * @param lengthRange
+     * @return
+     */
+    private @Nullable PointMass getFirstEnclosedPoint( DoubleRange lengthRange ) {
+        PointMass currentPoint = firstShapeDefiningPoint;
+        double currentLength = 0;
+        while ( currentPoint != null ) {
+            if ( currentLength >= lengthRange.getMin() && currentLength < lengthRange.getMax() ) {
+                // We've found the first point.
+                break;
+            }
+            currentPoint = currentPoint.getNextPointMass();
+            currentLength += currentPoint != null ? currentPoint.getTargetDistanceToPreviousPoint() : 0;
+        }
+        return currentPoint;
+    }
+
+    /**
+     * Get the last shape-defining point enclosed in the provided length range.
+     *
+     * @param lengthRange
+     * @return
+     */
+    private @Nullable PointMass getLastEnclosedPoint( DoubleRange lengthRange ) {
+        PointMass currentPoint = firstShapeDefiningPoint;
+        double currentLength = 0;
+        while ( currentPoint != null ) {
+            if ( currentLength >= lengthRange.getMin() && currentLength < lengthRange.getMax() ) {
+                break;
+            }
+            currentPoint = currentPoint.getNextPointMass();
+            currentLength += currentPoint != null ? currentPoint.getTargetDistanceToPreviousPoint() : 0;
+        }
+
+        if ( currentPoint != null ) {
+            while ( currentPoint.nextPointMass != null && currentPoint.nextPointMass.getTargetDistanceToPreviousPoint() + currentLength < lengthRange.getMax() ) {
+                currentPoint = currentPoint.getNextPointMass();
+                currentLength += currentPoint.getTargetDistanceToPreviousPoint();
+            }
+        }
+
+        if ( currentPoint == null ) {
+            System.out.println( "No last point." );
+        }
+
+        return currentPoint;
+    }
+
+    /**
+     * Make sure that the total of the segment lengths is large enough to
+     * enclose all of the shape-defining points by tweaking the size of the
+     * last segment.  This is needed because the accumulation of floating point
+     * errors can sometimes lead to a situation in which the segments don't
+     * have enough length in them to position all the points.
+     */
+    private void tweakLastSegmentSize() {
+        double totalShapeSegmentLength = getTotalLengthInShapeSegments();
+        double lastSegmentDelta = totalShapeSegmentLength - getLength();
+        if ( lastSegmentDelta > 0 ) {
+            getLastShapeSegment().add( lastSegmentDelta, shapeSegments );
+        }
+        else if ( lastSegmentDelta < 0 ) {
+            getLastShapeSegment().remove( lastSegmentDelta, shapeSegments );
         }
     }
 
@@ -317,7 +387,7 @@ public class MessengerRna extends MobileBiomolecule {
 
         // Since the sizes and relationships of the segments probably changed,
         // the winding algorithm needs to be rerun.
-//        windPointsThroughSegments();
+        windPointsThroughSegments();
 
         // If there is anything left in this segment, then transcription is not
         // yet complete.
@@ -388,30 +458,87 @@ public class MessengerRna extends MobileBiomolecule {
      */
     private void windPointsThroughSegments() {
         assert shapeSegments.size() > 0;
-        ShapeSegment currentShapeSegment = shapeSegments.get( 0 );
-        // TODO: This isn't "real" yet - it's just something that is good enough to start testing.
-        Point2D leaderOrigin = currentShapeSegment.getUpperLeftCornerPos();
-        PointMass currentPoint = firstShapeDefiningPoint;
-        for ( double leaderLengthSoFar = 0;
-              leaderLengthSoFar <= currentShapeSegment.getContainedLength() + FLOATING_POINT_COMP_FACTOR && currentPoint != null;
-              leaderLengthSoFar += ( currentPoint == null ? 0 : currentPoint.getTargetDistanceToPreviousPoint() ) ) {
+        double handledLength = 0;
 
-            currentPoint.setPosition( leaderOrigin.getX() + leaderLengthSoFar, leaderOrigin.getY() );
-            currentPoint = currentPoint.getNextPointMass();
-        }
-        if ( currentPoint != null ) {
-            if ( shapeSegments.size() < 2 ) {
-                // Shouldn't happen that we have more points but no segment in which to position them.
-                assert false;
+        // Loop through the shape segments positioning the shape-defining
+        // points within them.
+        for ( ShapeSegment shapeSegment : shapeSegments ) {
+            DoubleRange lengthRange;
+            if ( shapeSegment != getLastShapeSegment() ) {
+                lengthRange = new DoubleRange( handledLength, handledLength + shapeSegment.getContainedLength() );
             }
-            currentShapeSegment = shapeSegments.get( 1 );
-            Rectangle2D boundsForSegment = currentShapeSegment.getBounds();
-            randomizePointPositionsInRectangle( currentPoint, lastShapeDefiningPoint, boundsForSegment );
-            runSpringAlgorithm( currentPoint, lastShapeDefiningPoint, boundsForSegment );
+            else {
+                // This is the last segment, so set the max to be infinite in
+                // order to be sure that the last point is always included.  If
+                // this isn't done, accumulation of floating point errors can
+                // cause the last point to fall outside of the range, and it
+                // won't get positioned.  Which is bad.
+                lengthRange = new DoubleRange( handledLength, Double.POSITIVE_INFINITY );
+                // TODO: Debug code to make sure that there aren't a lot of points outside the range.  Remove eventually.
+                double totalShapeSegmentLength = getTotalLengthInShapeSegments();
+                System.out.println( "Total length of mRNA minus total contained length in shape segments = " + ( getLength() - totalShapeSegmentLength ) + ", segment count = " + shapeSegments.size() );
+                if ( ( getLength() - totalShapeSegmentLength ) > 1 ) {
+                    System.out.println( "Larger than expected error term." );
+                }
+            }
+
+            PointMass firstEnclosedPoint = getFirstEnclosedPoint( lengthRange );
+            PointMass lastEnclosedPoint = getLastEnclosedPoint( lengthRange );
+            if ( firstEnclosedPoint == null ) {
+                // The segment contains no points.
+                continue;
+            }
+            else if ( shapeSegment.isFlat() ) {
+                // Position the contained points in a flat line.
+                positionPointsInLine( firstEnclosedPoint, lastEnclosedPoint, shapeSegment.getUpperLeftCornerPos() );
+            }
+            else {
+                // Segment must be square, so position the points within it
+                // using the spring algorithm.
+                randomizePointPositionsInRectangle( firstEnclosedPoint, lastEnclosedPoint, shapeSegment.getBounds() );
+                runSpringAlgorithm( firstEnclosedPoint, lastEnclosedPoint, shapeSegment.getBounds() );
+            }
+
+            handledLength += shapeSegment.getContainedLength();
         }
 
-        // Update the shape.
+        // Update the shape property based on the newly positioned points.
         shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
+    }
+
+    private double getTotalLengthInShapeSegments() {
+        double totalShapeSegmentLength = 0;
+        for ( ShapeSegment shapeSeg : shapeSegments ) {
+            totalShapeSegmentLength += shapeSeg.getContainedLength();
+        }
+        return totalShapeSegmentLength;
+    }
+
+    /**
+     * Position a series of point masses in a straight line.  The distances
+     * between the point masses are set to be their target distances.  This is
+     * generally used when positioning the point masses in a flat shape segment.
+     *
+     * @param firstPoint
+     * @param lastPoint
+     * @param origin
+     */
+    private void positionPointsInLine( PointMass firstPoint, PointMass lastPoint, Point2D origin ) {
+        PointMass currentPoint = firstPoint;
+        double xOffset = 0;
+        while ( currentPoint != lastPoint && currentPoint != null ) {
+            currentPoint.setPosition( origin.getX() + xOffset, origin.getY() );
+            currentPoint = currentPoint.getNextPointMass();
+            xOffset += currentPoint != null ? currentPoint.getTargetDistanceToPreviousPoint() : 0;
+        }
+        if ( currentPoint == null ) {
+            System.out.println( getClass().getName() + " Error: Last point not found when positioning points." );
+            assert false; // This function has been misused - the end of the point list was hit before the last point.
+        }
+        else {
+            // Position the last point.
+            currentPoint.setPosition( origin.getX() + xOffset, origin.getY() );
+        }
     }
 
     /**
@@ -507,9 +634,19 @@ public class MessengerRna extends MobileBiomolecule {
                     // run the spring algorithm on it.
                     // TODO: Check for performance and, if needed, all the memory allocations could be done once and reused.
                     ImmutableVector2D vectorToPreviousPoint = new ImmutableVector2D( previousPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
+                    if ( vectorToPreviousPoint.getMagnitude() == 0 ) {
+                        // This point is sitting on top of the previous point,
+                        // so create an arbitrary vector away from it.
+                        vectorToPreviousPoint = new ImmutableVector2D( 1, 1 );
+                    }
                     double scalarForceDueToPreviousPoint = ( -springConstant ) * ( currentPoint.targetDistanceToPreviousPoint - currentPoint.distance( previousPoint ) );
                     ImmutableVector2D forceDueToPreviousPoint = vectorToPreviousPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToPreviousPoint );
                     ImmutableVector2D vectorToNextPoint = new ImmutableVector2D( nextPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
+                    if ( vectorToNextPoint.getMagnitude() == 0 ) {
+                        // This point is sitting on top of the next point,
+                        // so create an arbitrary vector away from it.
+                        vectorToNextPoint = new ImmutableVector2D( -1, -1 );
+                    }
                     double scalarForceDueToNextPoint = ( -springConstant ) * ( currentPoint.targetDistanceToPreviousPoint - currentPoint.distance( nextPoint ) );
                     ImmutableVector2D forceDueToNextPoint = vectorToNextPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToNextPoint );
                     ImmutableVector2D dampingForce = currentPoint.getVelocity().getScaledInstance( -dampingConstant );
@@ -572,7 +709,6 @@ public class MessengerRna extends MobileBiomolecule {
             assert false;
             return;
         }
-        ;
 
         // Align segments that follow this one.
         ShapeSegment currentSegment = segmentToAlignFrom;
@@ -1230,6 +1366,7 @@ public class MessengerRna extends MobileBiomolecule {
             this.previousPointMass = previousPointMass;
         }
 
+        // TODO: Clean this up - either have accessors and make the member vars public, but not both.
         public PointMass getNextPointMass() {
             return nextPointMass;
         }
@@ -1475,6 +1612,7 @@ public class MessengerRna extends MobileBiomolecule {
                     // advancing segment by the remaining amount.
                     this.remove( length - inputSegment.getContainedLength(), shapeSegmentList );
                     inputSegment.remove( inputSegment.getContainedLength(), shapeSegmentList );
+                    outputSegment.add( length, shapeSegmentList );
                 }
             }
 
