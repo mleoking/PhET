@@ -476,11 +476,13 @@ public class MessengerRna extends MobileBiomolecule {
                 // cause the last point to fall outside of the range, and it
                 // won't get positioned.  Which is bad.
                 lengthRange = new DoubleRange( handledLength, Double.POSITIVE_INFINITY );
-                // TODO: Debug code to make sure that there aren't a lot of points outside the range.  Remove eventually.
+
+                // Watch for unexpected conditions and spit out warning if found.
                 double totalShapeSegmentLength = getTotalLengthInShapeSegments();
-                System.out.println( "Total length of mRNA minus total contained length in shape segments = " + ( getLength() - totalShapeSegmentLength ) + ", segment count = " + shapeSegments.size() );
                 if ( Math.abs( getLength() - totalShapeSegmentLength ) > 1 ) {
-                    System.out.println( "Larger than expected error term." );
+                    // If this message appears, something may well be wrong
+                    // with the way the shape segments are being updated.
+                    System.out.println( getClass().getName() + " Warning: Larger than expected difference between mRNA length and shape segment length." );
                 }
             }
 
