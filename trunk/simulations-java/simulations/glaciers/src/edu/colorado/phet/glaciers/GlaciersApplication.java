@@ -35,20 +35,14 @@ public class GlaciersApplication extends PiccoloPhetApplication {
     private IntroModule _introModule;
     private AdvancedModule _advancedModule;
 
-    // PersistanceManager is used to save/load simulation configurations.
+    // Used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    /**
-     * Sole constructor.
-     *
-     * @param args command line arguments
-     */
-    public GlaciersApplication( PhetApplicationConfig config )
-    {
+    public GlaciersApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar( config.getCommandLineArgs() );
@@ -62,9 +56,9 @@ public class GlaciersApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
-        
+
         Frame parentFrame = getPhetFrame();
-        
+
         _introModule = new IntroModule( parentFrame );
         addModule( _introModule );
 
@@ -101,21 +95,21 @@ public class GlaciersApplication extends PiccoloPhetApplication {
             }
         } );
     }
-    
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
+
     public void setEvolutionStateDialogVisible( boolean visible ) {
         _introModule.setEvolutionStateDialogVisible( visible );
         _advancedModule.setEvolutionStateDialogVisible( visible );
     }
-    
+
     public void setModelConstantsDialogVisible( boolean visible ) {
         _introModule.setModelConstantsDialogVisible( visible );
         _advancedModule.setModelConstantsDialogVisible( visible );
     }
-    
+
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
@@ -125,21 +119,21 @@ public class GlaciersApplication extends PiccoloPhetApplication {
      */
     @Override
     public void save() {
-        
+
         GlaciersConfig appConfig = new GlaciersConfig();
-        
+
         appConfig.setVersionString( getSimInfo().getVersion().toString() );
         appConfig.setVersionMajor( getSimInfo().getVersion().getMajor() );
         appConfig.setVersionMinor( getSimInfo().getVersion().getMinor() );
         appConfig.setVersionDev( getSimInfo().getVersion().getDev() );
         appConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
-        
+
         IntroConfig basicConfig = _introModule.save();
         appConfig.setBasicConfig( basicConfig );
-        
+
         AdvancedConfig advancedConfig = _advancedModule.save();
         appConfig.setAdvancedConfig( advancedConfig );
-        
+
         _persistenceManager.save( appConfig );
     }
 
@@ -148,16 +142,16 @@ public class GlaciersApplication extends PiccoloPhetApplication {
      */
     @Override
     public void load() {
-        
+
         Object object = _persistenceManager.load();
         if ( object != null ) {
-            
+
             if ( object instanceof GlaciersConfig ) {
                 GlaciersConfig appConfig = (GlaciersConfig) object;
-                
+
                 IntroConfig basicConfig = appConfig.getBasicConfig();
                 _introModule.load( basicConfig );
-                
+
                 AdvancedConfig advancedConfig = appConfig.getAdvancedConfig();
                 _advancedModule.load( advancedConfig );
             }
