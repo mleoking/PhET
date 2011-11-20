@@ -1,3 +1,4 @@
+Increased the size of pie graphics
 Add a border around number line circle
 Highlight selected representation
 Fixes for number line
