@@ -1,3 +1,4 @@
+Add a border around number line circle
 Highlight selected representation
 Fixes for number line
 # 0.00.09 (58684) Nov 16, 2011
