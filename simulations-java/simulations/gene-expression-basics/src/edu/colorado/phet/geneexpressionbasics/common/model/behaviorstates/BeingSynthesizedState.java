@@ -44,7 +44,7 @@ public class BeingSynthesizedState extends BiomoleculeBehaviorState {
     //-------------------------------------------------------------------------
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
-        protein.setPositionOfAttachmentPoint( parentRibosome.getProteinAttachmentPoint() );
+        protein.setAttachmentPointPosition( parentRibosome.getProteinAttachmentPoint() );
         // State is changed by protein when it is released, so no state change
         // ever occurs here.
         return this;

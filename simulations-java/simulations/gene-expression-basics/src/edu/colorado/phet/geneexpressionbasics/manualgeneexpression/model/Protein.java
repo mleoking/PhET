@@ -88,8 +88,12 @@ public abstract class Protein extends MobileBiomolecule {
         behaviorState = new DetachingState( this, new ImmutableVector2D( 1, 1 ) );
     }
 
-    public void setPositionOfAttachmentPoint( Point2D attachmentPoint ) {
-        // TODO: This method probably needs to be unique for each protein.
-        setPosition( attachmentPoint );
-    }
+    /**
+     * Set the position of this protein such that its "attachment point",
+     * which is the point from which it grows when it is being synthesized,
+     * is at the specified location.
+     *
+     * @param attachmentPointLocation
+     */
+    abstract public void setAttachmentPointPosition( Point2D attachmentPointLocation );
 }
