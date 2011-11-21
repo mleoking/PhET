@@ -28,8 +28,14 @@ public class Ribosome extends MobileBiomolecule {
     private static final double TOP_SUBUNIT_HEIGHT = OVERALL_HEIGHT * TOP_SUBUNIT_HEIGHT_PROPORTION;
     private static final double BOTTOM_SUBUNIT_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_SUBUNIT_HEIGHT_PROPORTION );
     private static final double MRNA_CAPTURE_DISTANCE = 500;
+
+    // Offset from the center position to the entrance of the translation
+    // channel.  May require some tweaking of the shape changes.
     private static final ImmutableVector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new ImmutableVector2D( WIDTH / 2, -OVERALL_HEIGHT / 2 + BOTTOM_SUBUNIT_HEIGHT );
-    private static final ImmutableVector2D OFFSET_TO_PROTEIN_OUTPUT_CHANNEL = new ImmutableVector2D( WIDTH * 0.7071, OVERALL_HEIGHT * 0.7071 );
+
+    // Offset from the center position to the point from which the protein
+    // emerges.  May require some tweaking if the overall shape changes.
+    private static final ImmutableVector2D OFFSET_TO_PROTEIN_OUTPUT_CHANNEL = new ImmutableVector2D( WIDTH * 0.4, OVERALL_HEIGHT * 0.6 );
 
     private Protein proteinBeingSynthesized = null;
 
