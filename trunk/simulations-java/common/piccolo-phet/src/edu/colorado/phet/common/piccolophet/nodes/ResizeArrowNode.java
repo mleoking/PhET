@@ -4,7 +4,11 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Color;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -19,9 +23,44 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class ResizeArrowNode extends PhetPNode {
 
-    DoubleArrowNode m_adjusterArrow;
-    Color m_normalFillColor;
-    Color m_highlightedFillColor;
+    // Constants that control the frequency and duty cycle of the flashing.
+    private static final int PRE_FLASH_TIME = 300; // In milliseconds.
+    private static final int FLASH_ON_TIME = 750; // In milliseconds.
+    private static final int FLASH_OFF_TIME = 750; // In milliseconds.
+    private static final int NUM_FLASHES = 2;
+
+    // Attributes of the arrow.
+    private final DoubleArrowNode m_adjusterArrow;
+    private final Color m_normalFillColor;
+    private final Color m_highlightedFillColor;
+
+    // Variables used to implement the flashing behavior.
+    private boolean flashOn = false;
+    private int flashCount = 0;
+    private Timer flashTimer = new Timer( PRE_FLASH_TIME, new ActionListener() {
+        public void actionPerformed( ActionEvent e ) {
+            if ( flashOn ) {
+                // Turn flash off.
+                flashOn = false;
+                m_adjusterArrow.setPaint( m_normalFillColor );
+                flashCount++;
+                if ( flashCount < NUM_FLASHES ) {
+                    flashTimer.setDelay( FLASH_OFF_TIME );
+                    flashTimer.restart();
+                }
+                else {
+                    flashTimer.stop();
+                }
+            }
+            else {
+                // Turn flash on.
+                flashOn = true;
+                m_adjusterArrow.setPaint( m_highlightedFillColor );
+                flashTimer.setDelay( FLASH_ON_TIME );
+                flashTimer.restart();
+            }
+        }
+    } );
 
     /**
      * This constructor allows the user to specify the size and orientation
@@ -39,7 +78,11 @@ public class ResizeArrowNode extends PhetPNode {
 
         // Create and add the child node that will represent the double-
         // headed arrow.
-        m_adjusterArrow = new DoubleArrowNode( new Point2D.Double( -width / 2, 0 ), new Point2D.Double( width / 2, 0 ), width * 0.3, width * 0.7, width * 0.25 );
+        m_adjusterArrow = new DoubleArrowNode( new Point2D.Double( -width / 2, 0 ),
+                                               new Point2D.Double( width / 2, 0 ),
+                                               width * 0.3,
+                                               width * 0.7,
+                                               width * 0.25 );
         m_adjusterArrow.rotate( angle );
         m_adjusterArrow.setPaint( m_normalFillColor );
         m_adjusterArrow.setPickable( true );
@@ -83,5 +126,18 @@ public class ResizeArrowNode extends PhetPNode {
 
     public void setStroke( Stroke aStroke ) {
         m_adjusterArrow.setStroke( aStroke );
+    }
+
+    /**
+     * Flash between a couple of different colors in order to make this
+     * arrow more noticeable.
+     */
+    public void flash() {
+        if ( !flashTimer.isRunning() ) {
+            flashCount = 0;
+            flashOn = false;
+            flashTimer.setDelay( PRE_FLASH_TIME );
+            flashTimer.start();
+        }
     }
 }
