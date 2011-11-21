@@ -16,15 +16,19 @@ public class ProteinA extends Protein {
     private static final double FULL_GROWN_WIDTH = 300;
 
     public ProteinA() {
-        this( new StubGeneExpressionModel() );
+        this( new StubGeneExpressionModel(), new Ribosome( new StubGeneExpressionModel() ) );
     }
 
-    public ProteinA( GeneExpressionModel model ) {
-        super( model, createInitialShape(), BASE_COLOR );
+    protected ProteinA( GeneExpressionModel model, Ribosome parentRibosome ) {
+        super( model, parentRibosome, createInitialShape(), BASE_COLOR );
     }
 
     @Override protected Shape getShape( double growthFactor ) {
         return createShape( growthFactor );
+    }
+
+    @Override public Protein createInstance( GeneExpressionModel model, Ribosome parentRibosome ) {
+        return new ProteinA( this.model, parentRibosome );
     }
 
     private static Shape createInitialShape() {

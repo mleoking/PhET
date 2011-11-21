@@ -3,8 +3,12 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BeingSynthesizedState;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.DetachingState;
 
 /**
  * Base class for proteins.  Defines the methods used for growing a protein.
@@ -20,8 +24,6 @@ public abstract class Protein extends MobileBiomolecule {
     // Max value for the growth factor, indicates that it is fully grown.
     public static final double MAX_GROWTH_FACTOR = 1;
 
-    // Default values used during construction.
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -34,8 +36,9 @@ public abstract class Protein extends MobileBiomolecule {
     // Constructor
     //-------------------------------------------------------------------------
 
-    protected Protein( GeneExpressionModel model, Shape initialShape, Color baseColor ) {
+    protected Protein( GeneExpressionModel model, Ribosome parentRibosome, Shape initialShape, Color baseColor ) {
         super( model, initialShape, baseColor );
+        behaviorState = new BeingSynthesizedState( this, parentRibosome );
     }
 
     //-------------------------------------------------------------------------
@@ -43,7 +46,10 @@ public abstract class Protein extends MobileBiomolecule {
     //-------------------------------------------------------------------------
 
     public void setGrowthFactor( double growthFactor ) {
-        this.growthFactor = growthFactor;
+        if ( this.growthFactor != growthFactor ) {
+            this.growthFactor = growthFactor;
+            shapeProperty.set( getShape( this.growthFactor ) );
+        }
     }
 
     public double getGrowthFactor() {
@@ -70,5 +76,20 @@ public abstract class Protein extends MobileBiomolecule {
      */
     public Shape getFullyGrownShape() {
         return getShape( MAX_GROWTH_FACTOR );
+    }
+
+    public abstract Protein createInstance( GeneExpressionModel model, Ribosome parentRibosome );
+
+    /**
+     * Release this protein from the ribosome and allow it to drift around in
+     * the cell.
+     */
+    public void release() {
+        behaviorState = new DetachingState( this, new ImmutableVector2D( 1, 1 ) );
+    }
+
+    public void setPositionOfAttachmentPoint( Point2D attachmentPoint ) {
+        // TODO: This method probably needs to be unique for each protein.
+        setPosition( attachmentPoint );
     }
 }

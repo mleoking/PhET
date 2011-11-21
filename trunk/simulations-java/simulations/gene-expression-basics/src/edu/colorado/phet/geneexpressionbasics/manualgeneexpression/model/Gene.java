@@ -43,6 +43,7 @@ public class Gene {
     private final PlacementHint rnaPolymerasePlacementHint;
     private final PlacementHint positiveTranscriptionFactorPlacementHint;
     private final PlacementHint negativeTranscriptionFactorPlacementHint;
+    private Protein swi;
 
     /**
      * Constructor.
@@ -240,5 +241,20 @@ public class Gene {
     public void clearAttachmentSites() {
         transcriptionFactorAttachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         polymeraseAttachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+    }
+
+    public Protein getProteinPrototype() {
+        // TODO: This is lame and should be handled in subclasses.
+        switch( identifier ) {
+            case 1:
+                return new ProteinA();
+            case 2:
+                return new ProteinB();
+            case 3:
+                return new ProteinC();
+            default:
+                assert false;
+                return null;
+        }
     }
 }

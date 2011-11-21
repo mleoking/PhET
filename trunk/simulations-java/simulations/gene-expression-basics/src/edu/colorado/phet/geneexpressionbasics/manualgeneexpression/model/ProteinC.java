@@ -17,15 +17,19 @@ public class ProteinC extends Protein {
     private static final double FULL_GROWN_WIDTH = 300;
 
     public ProteinC() {
-        this( new StubGeneExpressionModel() );
+        this( new StubGeneExpressionModel(), new Ribosome( new StubGeneExpressionModel() ) );
     }
 
-    protected ProteinC( GeneExpressionModel model ) {
-        super( model, createInitialShape(), BASE_COLOR );
+    protected ProteinC( GeneExpressionModel model, Ribosome parentRibosome ) {
+        super( model, parentRibosome, createInitialShape(), BASE_COLOR );
     }
 
     @Override protected Shape getShape( double growthFactor ) {
         return createShape( growthFactor );
+    }
+
+    @Override public Protein createInstance( GeneExpressionModel model, Ribosome parentRibosome ) {
+        return new ProteinC( this.model, parentRibosome );
     }
 
     private static Shape createInitialShape() {
