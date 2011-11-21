@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -30,6 +31,13 @@ public class ProteinC extends Protein {
 
     @Override public Protein createInstance( GeneExpressionModel model, Ribosome parentRibosome ) {
         return new ProteinC( this.model, parentRibosome );
+    }
+
+    @Override public void setAttachmentPointPosition( Point2D attachmentPointLocation ) {
+        // Note: This is specific to this protein's shape, and will need to be
+        // adjusted if the protein's shape algorithm changes.
+        setPosition( attachmentPointLocation.getX() + FULL_GROWN_WIDTH * 0.12 * getGrowthFactor(),
+                     attachmentPointLocation.getY() + FULL_GROWN_WIDTH * 0.45 * getGrowthFactor() );
     }
 
     private static Shape createInitialShape() {
