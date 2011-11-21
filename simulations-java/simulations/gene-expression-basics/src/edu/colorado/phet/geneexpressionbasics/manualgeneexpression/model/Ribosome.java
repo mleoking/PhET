@@ -98,11 +98,12 @@ public class Ribosome extends MobileBiomolecule {
         return new ImmutableVector2D( getPosition() ).getAddedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE );
     }
 
-    private double getRnaChannelYPos() {
-        return getPosition().getY() - ( OVERALL_HEIGHT / 2 ) + BOTTOM_SUBUNIT_HEIGHT;
-    }
-
     public double getTranslationChannelLength() {
         return WIDTH;
+    }
+
+    public void setPositionOfTranslationChannel( Point2D position ) {
+        setPosition( new ImmutableVector2D( position ).getSubtractedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
+
     }
 }

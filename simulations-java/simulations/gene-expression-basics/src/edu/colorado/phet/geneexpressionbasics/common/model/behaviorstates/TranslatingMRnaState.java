@@ -42,9 +42,8 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
     //-------------------------------------------------------------------------
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
-        // Stay still - otherwise, things get too complicated with keeping
-        // the mRNA in the right place, since multiple ribosomes can be
-        // transcribing at the same time.
+        // Advance the translation of the mRNA, which essentially pulls it
+        // through the translation channel of the ribosome.
         if ( messengerRna.advanceTranslation( ribosome, TRANSLATION_RATE * dt ) ) {
             // This returned true, which signifies that translation is
             // complete.  Release the mRNA and transition to detaching state.
@@ -52,6 +51,10 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
             return new DetachingState( ribosome );
         }
         else {
+            // Make sure that the ribosome is correctly positioned with respect
+            // to the mRNA.
+            ribosome.setPositionOfTranslationChannel( messengerRna.getRibosomeAttachmentPoint( ribosome ) );
+
             // Still translating, so no state change.
             return this;
         }
