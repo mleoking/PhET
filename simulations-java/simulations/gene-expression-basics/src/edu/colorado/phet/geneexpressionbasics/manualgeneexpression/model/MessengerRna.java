@@ -106,6 +106,10 @@ public class MessengerRna extends MobileBiomolecule {
     // Map from ribosomes to the shape segment to which they are attached.
     private final Map<Ribosome, ShapeSegment> mapRibosomeToShapeSegment = new HashMap<Ribosome, ShapeSegment>();
 
+    // Protein prototype, used to keep track of protein that should be
+    // synthesized from this particular strand of mRNA.
+    private final Protein proteinPrototype;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -116,8 +120,9 @@ public class MessengerRna extends MobileBiomolecule {
      *
      * @param position
      */
-    public MessengerRna( final GeneExpressionModel model, Point2D position ) {
+    public MessengerRna( final GeneExpressionModel model, Protein proteinPrototype, Point2D position ) {
         super( model, new DoubleGeneralPath( position ).getGeneralPath(), NOMINAL_COLOR );
+        this.proteinPrototype = proteinPrototype;
 
         // Add first shape defining point to the point list.
         firstShapeDefiningPoint = new PointMass( position, 0 );
@@ -450,6 +455,16 @@ public class MessengerRna extends MobileBiomolecule {
     public void setLowerRightPosition( Point2D p ) {
         getLastShapeSegment().setLowerRightCornerPos( p );
         realignSegmentsFromEnd();
+    }
+
+    /**
+     * Create a new version of the protein that should result when this strand
+     * of mRNA is translated.
+     *
+     * @return
+     */
+    public Protein getProteinPrototype() {
+        return proteinPrototype;
     }
 
     /**
@@ -1355,6 +1370,28 @@ public class MessengerRna extends MobileBiomolecule {
         }
     }
 
+    /**
+     * Get the proportion of the entire mRNA that has been translated by the
+     * given ribosome.
+     *
+     * @param ribosome
+     * @return
+     */
+    public double getProportionOfRnaTranslated( Ribosome ribosome ) {
+        if ( !mapRibosomeToShapeSegment.containsKey( ribosome ) ) {
+            System.out.println( getClass().getName() + " - Warning: Attempt to obtain amount of mRNA translated by a ribosome that isn't attached." );
+            return 0;
+        }
+        double translatedLength = 0;
+        for ( ShapeSegment shapeSegment : shapeSegments ) {
+            translatedLength += shapeSegment.getContainedLength();
+            if ( shapeSegment == mapRibosomeToShapeSegment.get( ribosome ) ) {
+                break;
+            }
+        }
+        return translatedLength / getLength();
+    }
+
     public static class PointMass {
         public static final double MASS = 0.25; // In kg.  Arbitrarily chosen to get the desired behavior.
         private final Point2D position = new Point2D.Double( 0, 0 );
@@ -1805,7 +1842,9 @@ public class MessengerRna extends MobileBiomolecule {
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
 
-        MessengerRna messengerRna = new MessengerRna( new ManualGeneExpressionModel(), mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
+        MessengerRna messengerRna = new MessengerRna( new ManualGeneExpressionModel(),
+                                                      new ProteinA( new StubGeneExpressionModel(), new Ribosome( new StubGeneExpressionModel() ) ),
+                                                      mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
         canvas.addWorldChild( new MessengerRnaNode( mvt, messengerRna ) );
         for ( int i = 0; i < 200; i++ ) {
             messengerRna.addLength( 25 ); // Number derived from what polymerase tends to do.

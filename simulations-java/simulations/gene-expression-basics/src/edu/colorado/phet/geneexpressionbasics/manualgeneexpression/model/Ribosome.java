@@ -29,6 +29,9 @@ public class Ribosome extends MobileBiomolecule {
     private static final double BOTTOM_SUBUNIT_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_SUBUNIT_HEIGHT_PROPORTION );
     private static final double MRNA_CAPTURE_DISTANCE = 500;
     private static final ImmutableVector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new ImmutableVector2D( WIDTH / 2, -OVERALL_HEIGHT / 2 + BOTTOM_SUBUNIT_HEIGHT );
+    private static final ImmutableVector2D OFFSET_TO_PROTEIN_OUTPUT_CHANNEL = new ImmutableVector2D( WIDTH * 0.7071, OVERALL_HEIGHT * 0.7071 );
+
+    private Protein proteinBeingSynthesized = null;
 
     public Ribosome( GeneExpressionModel model ) {
         this( model, new Point2D.Double( 0, 0 ) );
@@ -42,16 +45,20 @@ public class Ribosome extends MobileBiomolecule {
                 if ( wasUserControlled && !isUserControlled ) {
                     // The user just dropped this ribosome.  If there is an
                     // mRNA nearby, attach to it.
-
                     for ( MessengerRna messengerRna : model.getMessengerRnaList() ) {
                         if ( messengerRna.getTranslationAttachmentPoint().distance( getEntranceOfRnaChannelPos().toPoint2D() ) < MRNA_CAPTURE_DISTANCE ) {
-
                             // Move to the appropriate location in order to
                             // look attached to the mRNA.
                             setPosition( new ImmutableVector2D( messengerRna.getTranslationAttachmentPoint() ).getSubtractedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
 
                             // Attach to this mRNA.
                             messengerRna.connectToRibosome( Ribosome.this );
+
+                            // Create the protein associated with this mRNA and
+                            // add it to the model.
+                            proteinBeingSynthesized = messengerRna.getProteinPrototype().createInstance( model, Ribosome.this );
+                            proteinBeingSynthesized.setGrowthFactor( 0 );
+                            model.addMobileBiomolecule( proteinBeingSynthesized );
 
                             // Move into the translating state.
                             behaviorState = new TranslatingMRnaState( messengerRna, Ribosome.this );
@@ -60,6 +67,22 @@ public class Ribosome extends MobileBiomolecule {
                 }
             }
         } );
+    }
+
+    public void setProteinGrowth( double growthFactor ) {
+        if ( proteinBeingSynthesized == null ) {
+            System.out.println( getClass().getName() + " - Warning - Ignoring attempt to grow non-existent protein." );
+            return;
+        }
+        proteinBeingSynthesized.setGrowthFactor( growthFactor );
+    }
+
+    public void releaseProtein() {
+        if ( proteinBeingSynthesized == null ) {
+            System.out.println( getClass().getName() + " - Warning - Ignoring attempt to release non-existent protein." );
+            return;
+        }
+        proteinBeingSynthesized.release();
     }
 
     private static Shape createShape() {
@@ -104,6 +127,18 @@ public class Ribosome extends MobileBiomolecule {
 
     public void setPositionOfTranslationChannel( Point2D position ) {
         setPosition( new ImmutableVector2D( position ).getSubtractedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
+
+    }
+
+    /**
+     * Get the location in model space of the point at which a protein that is
+     * being synthesized by this ribosome should be attached.
+     *
+     * @return
+     */
+    public Point2D getProteinAttachmentPoint() {
+        return new Point2D.Double( getPosition().getX() + OFFSET_TO_PROTEIN_OUTPUT_CHANNEL.getX(),
+                                   getPosition().getY() + OFFSET_TO_PROTEIN_OUTPUT_CHANNEL.getY() );
 
     }
 }

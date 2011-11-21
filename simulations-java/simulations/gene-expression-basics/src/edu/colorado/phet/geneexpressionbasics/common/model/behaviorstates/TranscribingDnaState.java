@@ -58,8 +58,10 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         // Create the mRNA molecule that will be grown during the transcription
         // process.
 
-        messengerRna = new MessengerRna( biomolecule.getModel(), new Point2D.Double( biomolecule.getPosition().getX() + messengerRnaEmergenceOffset.getX(),
-                                                                                     biomolecule.getPosition().getY() + messengerRnaEmergenceOffset.getY() ) );
+        messengerRna = new MessengerRna( biomolecule.getModel(),
+                                         geneBeingTranscribed.getProteinPrototype(),
+                                         new Point2D.Double( biomolecule.getPosition().getX() + messengerRnaEmergenceOffset.getX(),
+                                                             biomolecule.getPosition().getY() + messengerRnaEmergenceOffset.getY() ) );
         biomolecule.spawnMessengerRna( messengerRna );
     }
 
