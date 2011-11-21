@@ -497,26 +497,6 @@ public class AlphaDecayEnergyChart extends PNode implements SubatomicParticle.Li
         }
     }
 
-    // TODO: I created this, then realized that I don't need it immediately,
-    // but I hate to just dump it in case I end up needing it later.  So
-    // keep it until I'm reasonably sure it isn't needed.
-
-    /**
-     * Convert a position on the chart (which might come from, say, a mouse
-     * click) into a value that corresponds to the energy level for that
-     * position.
-     */
-    private double convertPixelsToEnergy( double pixels ) {
-
-        if ( _usableHeight == 0 ) {
-            return 0;
-        }
-
-        double energyUnitsPerPixel = NUM_Y_AXIS_UNITS / _usableHeight;
-
-        return ( pixels - _usableHeight - _usableAreaOriginY ) * energyUnitsPerPixel - Y_AXIS_ZERO_OFFSET;
-    }
-
     /**
      * Convert a number of pixels on the X-axis into the equivalent distance
      * value with respect to the parent canvas.
