@@ -519,6 +519,40 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
+     * Get the point in model space where the entrance of the given ribosome's
+     * translation channel should be in order to be correctly attached to
+     * this strand of messenger RNA.  This allows the ribosome to "follow" the
+     * mRNA if it is moving or changing shape.
+     * <p/>
+     * TODO: Consider making this a property.  Might be cleaner.
+     *
+     * @param ribosome
+     * @return
+     */
+    public Point2D getRibosomeAttachmentPoint( Ribosome ribosome ) {
+        if ( !mapRibosomeToShapeSegment.containsKey( ribosome ) ) {
+            System.out.println( getClass().getName() + " Warning: Ignoring attempt to obtain attachment point for non-attached ribosom." );
+            return null;
+        }
+        Point2D attachmentPoint;
+        ShapeSegment segment = mapRibosomeToShapeSegment.get( ribosome );
+        if ( shapeSegments.getPreviousItem( segment ) == null ) {
+            // There is no previous segment, which means that the segment to
+            // which this ribosome is attached is the leader segment.  The
+            // attachment point is thus the leader length from its rightmost
+            // edge.
+            attachmentPoint = new Point2D.Double( segment.getLowerRightCornerPos().getX() - LEADER_LENGTH, segment.getLowerRightCornerPos().getY() );
+        }
+        else {
+            // The segment has filled up the channel, so calculate the
+            // position based on its left edge.
+            attachmentPoint = new Point2D.Double( segment.getUpperLeftCornerPos().getX() + ribosome.getTranslationChannelLength(),
+                                                  segment.getUpperLeftCornerPos().getY() );
+        }
+        return attachmentPoint;
+    }
+
+    /**
      * Position a series of point masses in a straight line.  The distances
      * between the point masses are set to be their target distances.  This is
      * generally used when positioning the point masses in a flat shape segment.
