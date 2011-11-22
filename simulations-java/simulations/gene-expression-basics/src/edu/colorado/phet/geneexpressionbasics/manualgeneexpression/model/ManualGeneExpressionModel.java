@@ -79,6 +79,10 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // Property that tracks the number of proteins that the user has collected.
     public final Property<Integer> collectedProteinCount = new Property<Integer>( 0 );
 
+    // Rectangle that describes the "protein capture area".  When a protein is
+    // dropped by the user over this area, it is considered to be captured.
+    public final Rectangle2D proteinCaptureArea = new Rectangle2D.Double();
+
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -109,6 +113,10 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     public void nextGene() {
         switchToGeneRelative( +1 );
+    }
+
+    public void setProteinCaptureArea( Rectangle2D newCaptureAreaBounds ) {
+        proteinCaptureArea.setFrame( newCaptureAreaBounds );
     }
 
     private void switchToGeneRelative( int i ) {
