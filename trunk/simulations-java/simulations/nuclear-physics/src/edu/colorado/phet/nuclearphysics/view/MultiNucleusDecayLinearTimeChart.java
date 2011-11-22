@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -432,12 +431,10 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
      * @param
      */
     private void updateBounds( Rectangle2D rect ) {
-        // Set transform back to the identity transform.
-        setTransform( new AffineTransform() );
-        // Scale based on the nominal size of the border as compared to the target size.
-        double xScale = rect.getWidth() / ( _borderNode.getFullBoundsReference().width + BORDER_STROKE_WIDTH );
-        double yScale = rect.getHeight() / ( _borderNode.getFullBoundsReference().height + BORDER_STROKE_WIDTH );
-        transformBy( AffineTransform.getScaleInstance( xScale, yScale ) );
+        // Set the scale factor such that this chart fits in the given bounds,
+        // but do not change the aspect ratio.
+        setScale( 1 );
+        setScale( Math.min( rect.getWidth() / getFullBoundsReference().width, rect.getHeight() / getFullBoundsReference().height ) );
     }
 
     /**
