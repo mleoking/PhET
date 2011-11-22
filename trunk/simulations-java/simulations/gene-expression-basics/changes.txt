@@ -1,4 +1,5 @@
-Added node where proteins are captured.
+Implemented the ability to capture proteins in the collection box.
+Added protein collection box node.
 Added protein production from ribosomes.
 Got mRNA positioning and winding algorithm working, supports multiple simultaneous translation and translation during transcription.
 # 0.00.08 (56347) Sep 9, 2011
