@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.nuclearphysics.module.betadecay.multinucleus;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -11,7 +13,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -20,14 +26,29 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.model.*;
+import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.Electron;
+import edu.colorado.phet.nuclearphysics.common.model.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
-import edu.colorado.phet.nuclearphysics.model.*;
+import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
+import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
+import edu.colorado.phet.nuclearphysics.model.LightAdjustableHalfLifeNucleus;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.halflife.AutopressResetButton;
-import edu.colorado.phet.nuclearphysics.view.*;
+import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
+import edu.colorado.phet.nuclearphysics.view.AutoPressButtonNode;
+import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
+import edu.colorado.phet.nuclearphysics.view.ElectronNode;
+import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart.YAxisLabelMode;
+import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
+import edu.colorado.phet.nuclearphysics.view.SubatomicParticleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -246,16 +267,14 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
 
         super.update();
 
-        // Redraw the time chart.
-        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
-                                                                  getHeight() * TIME_CHART_FRACTION ) );
+        // Resize the time chart.
+        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * TIME_CHART_FRACTION ) );
 
         // Position the time chart.
-        _decayTimeChart.setOffset( 0, 0 );
+        _decayTimeChart.setOffset( ( getWidth() - _decayTimeChart.getFullBoundsReference().getWidth() ) / 2, 0 );
 
         // Position the reset button.
-        _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ),
-                                    0.30 * getHeight() );
+        _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ), 0.30 * getHeight() );
 
         // Update the rectangle that defines the outer boundary where
         // randomly placed nuclei can be put.
