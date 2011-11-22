@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -11,7 +12,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -29,8 +34,12 @@ import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 import edu.colorado.phet.nuclearphysics.module.halflife.AutopressResetButton;
-import edu.colorado.phet.nuclearphysics.view.*;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
+import edu.colorado.phet.nuclearphysics.view.AutoPressButtonNode;
+import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
+import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart.YAxisLabelMode;
+import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -230,11 +239,11 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas implements Autopre
         super.update();
 
         // Redraw the time chart.
-        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
-                                                                  getHeight() * TIME_CHART_FRACTION ) );
+        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * TIME_CHART_FRACTION ) );
 
-        // Position the time chart.
-        _decayTimeChart.setOffset( 0, 0 );
+        // Position the time chart.  This requires a "tweak factor" in the x
+        // direction to be centered that I *think* is due to stroke thickness.
+        _decayTimeChart.setOffset( getWidth() / 2 - _decayTimeChart.getFullBoundsReference().getWidth() / 2 + 8, 0 );
 
         // Position the reset button.
         _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ),
