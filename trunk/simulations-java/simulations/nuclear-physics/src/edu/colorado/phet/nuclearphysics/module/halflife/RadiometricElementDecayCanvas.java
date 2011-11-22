@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.nuclearphysics.module.halflife;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -11,7 +12,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -212,8 +217,6 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas implements Autopr
             public void nodeReleased( GrabbableNucleusImageNode node ) {
                 handleNodeReleased( node );
             }
-
-            ;
         };
     }
 
@@ -228,8 +231,9 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas implements Autopr
         _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
                                                                   getHeight() * TIME_CHART_FRACTION ) );
 
-        // Position the time chart.
-        _decayTimeChart.setOffset( 0, 0 );
+        // Position the time chart.  This requires a "tweak factor" in the x
+        // direction to be centered that I *think* is due to stroke thickness.
+        _decayTimeChart.setOffset( ( getWidth() - _decayTimeChart.getFullBoundsReference().getWidth() ) / 2 + 8, 0 );
 
         // Position the reset button.
         _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ),

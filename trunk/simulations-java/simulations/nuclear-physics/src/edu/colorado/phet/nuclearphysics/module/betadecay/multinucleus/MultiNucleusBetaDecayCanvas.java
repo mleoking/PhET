@@ -270,8 +270,9 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         // Resize the time chart.
         _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * TIME_CHART_FRACTION ) );
 
-        // Position the time chart.
-        _decayTimeChart.setOffset( ( getWidth() - _decayTimeChart.getFullBoundsReference().getWidth() ) / 2, 0 );
+        // Position the time chart.  This requires a "tweak factor" in the x
+        // direction to be centered that I *think* is due to stroke thickness.
+        _decayTimeChart.setOffset( ( getWidth() - _decayTimeChart.getFullBoundsReference().getWidth() ) / 2 + 8, 0 );
 
         // Position the reset button.
         _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ), 0.30 * getHeight() );
