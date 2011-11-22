@@ -156,7 +156,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private ArrowNode _xAxisOfGraph;
     private ArrayList<PhetPPath> _xAxisTickMarks = new ArrayList<PhetPPath>();
     private ArrayList<PText> _xAxisTickMarkLabels = new ArrayList<PText>();
-    private ArrayList _yAxisTickMarks;
+    private PPath _yAxisUpperTickMark;
+    private PPath _yAxisLowerTickMark;
     private ShadowHTMLNode _yAxisUpperTickMarkLabel;
     private ShadowHTMLNode _yAxisLowerTickMarkLabel;
     private PText _xAxisLabel;
@@ -292,19 +293,15 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         // Add the tick marks and their labels to the Y axis.  There are only
         // two, one for the pre-decay nucleus and one of the post-decay nucleus.
 
-        _yAxisTickMarks = new ArrayList( 2 );
+        _yAxisUpperTickMark = new PPath();
+        _yAxisUpperTickMark.setStroke( TICK_MARK_STROKE );
+        _yAxisUpperTickMark.setStrokePaint( TICK_MARK_COLOR );
+        _nonPickableChartNode.addChild( _yAxisUpperTickMark );
 
-        PPath yTickMark1 = new PPath();
-        yTickMark1.setStroke( TICK_MARK_STROKE );
-        yTickMark1.setStrokePaint( TICK_MARK_COLOR );
-        _yAxisTickMarks.add( yTickMark1 );
-        _nonPickableChartNode.addChild( yTickMark1 );
-
-        PPath yTickMark2 = new PPath();
-        yTickMark2.setStroke( TICK_MARK_STROKE );
-        yTickMark2.setStrokePaint( TICK_MARK_COLOR );
-        _yAxisTickMarks.add( yTickMark2 );
-        _nonPickableChartNode.addChild( yTickMark2 );
+        _yAxisLowerTickMark = new PPath();
+        _yAxisLowerTickMark.setStroke( TICK_MARK_STROKE );
+        _yAxisLowerTickMark.setStrokePaint( TICK_MARK_COLOR );
+        _nonPickableChartNode.addChild( _yAxisLowerTickMark );
 
         _yAxisUpperTickMarkLabel = new ShadowHTMLNode();
         _nonPickableChartNode.addChild( _yAxisUpperTickMarkLabel );
@@ -476,23 +473,19 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         // Position the tick marks and their labels on the Y axis.
         double preDecayPosY = _usableAreaOriginY + ( NOMINAL_SIZE.getHeight() * PRE_DECAY_TIME_LINE_POS_FRACTION );
         double postDecayPosY = _usableAreaOriginY + ( NOMINAL_SIZE.getHeight() * POST_DECAY_TIME_LINE_POS_FRACTION );
-        PPath yAxisLowerTickMark = (PPath) _yAxisTickMarks.get( 0 );
-        yAxisLowerTickMark.setPathTo( new Line2D.Double( _graphOriginX - TICK_MARK_LENGTH, postDecayPosY,
-                                                         _graphOriginX, postDecayPosY ) );
-
-        PPath yAxisUpperTickMark = (PPath) _yAxisTickMarks.get( 1 );
-        yAxisUpperTickMark.setPathTo( new Line2D.Double( _graphOriginX - TICK_MARK_LENGTH, preDecayPosY,
-                                                         _graphOriginX, preDecayPosY ) );
+        _yAxisLowerTickMark.setPathTo( new Line2D.Double( _graphOriginX - TICK_MARK_LENGTH, postDecayPosY,
+                                                          _graphOriginX, postDecayPosY ) );
 
         _yAxisLowerTickMarkLabel.setOffset(
-                _graphOriginX - _yAxisLowerTickMarkLabel.getFullBoundsReference().getWidth()
-                - ( yAxisLowerTickMark.getWidth() * 1.5 ),
-                yAxisLowerTickMark.getY() - ( 0.5 * _yAxisLowerTickMarkLabel.getFullBoundsReference().height ) );
+                _graphOriginX - _yAxisLowerTickMarkLabel.getFullBoundsReference().getWidth() - ( _yAxisLowerTickMark.getWidth() * 1.5 ),
+                postDecayPosY - ( 0.5 * _yAxisLowerTickMarkLabel.getFullBoundsReference().height ) );
+
+        _yAxisUpperTickMark.setPathTo( new Line2D.Double( _graphOriginX - TICK_MARK_LENGTH, preDecayPosY,
+                                                          _graphOriginX, preDecayPosY ) );
 
         _yAxisUpperTickMarkLabel.setOffset(
-                _graphOriginX - _yAxisUpperTickMarkLabel.getFullBoundsReference().getWidth()
-                - ( yAxisUpperTickMark.getWidth() * 1.5 ),
-                yAxisUpperTickMark.getY() - ( 0.5 * _yAxisUpperTickMarkLabel.getFullBoundsReference().height ) );
+                _graphOriginX - _yAxisUpperTickMarkLabel.getFullBoundsReference().getWidth() - ( _yAxisUpperTickMark.getWidth() * 1.5 ),
+                preDecayPosY - ( 0.5 * _yAxisUpperTickMarkLabel.getFullBoundsReference().height ) );
 
         // Position the X axis label.
         _xAxisLabel.setOffset( _graphOriginX - ( _xAxisLabel.getFullBoundsReference().width / 2 ),
@@ -505,8 +498,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         double yAxisLabelScale = Math.min( yAxisDesiredLabelHeight / _yAxisLabel.getFullBoundsReference().height,
                                            yAxisDesiredLabelMaxWidth / _yAxisLabel.getFullBoundsReference().width );
         _yAxisLabel.setScale( yAxisLabelScale );
-        double yAxisLabelCenter = yAxisUpperTickMark.getY()
-                                  + ( ( yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY() ) / 2 );
+        double yAxisLabelCenter = _yAxisUpperTickMark.getY()
+                                  + ( ( _yAxisLowerTickMark.getY() - _yAxisUpperTickMark.getY() ) / 2 );
         double maxYAxisLabelXPos;
         double yAxisLabelXAxisSpacing = 4; // Arbitrary, just made to look decent.
         if ( _yAxisUpperTickMarkLabel.getFullBoundsReference().isEmpty() || _yAxisLowerTickMarkLabel.getFullBoundsReference().isEmpty() ) {
@@ -517,8 +510,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             // of the tick marks instead of the tick mark label.  This may
             // need to be improved if we ever need to handle a case where
             // only one of the labels is empty.
-            maxYAxisLabelXPos = Math.min( yAxisUpperTickMark.getFullBoundsReference().getMinX(),
-                                          yAxisLowerTickMark.getFullBoundsReference().getMinX() ) - yAxisLabelXAxisSpacing;
+            maxYAxisLabelXPos = Math.min( _yAxisUpperTickMark.getFullBoundsReference().getMinX(),
+                                          _yAxisLowerTickMark.getFullBoundsReference().getMinX() ) - yAxisLabelXAxisSpacing;
         }
         else {
             // The labels are fine, so use them for positioning.
@@ -536,7 +529,9 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
                 yAxisLabelCenter - _pieChart.getFullBoundsReference().height / 2 );
 
         // Position the dummy text so that it can be used as a reference for
-        // positioning the real text.
+        // positioning the real text.  The dummy text sits where the real
+        // labels that represents the counts of decayed and undecayed nuclei
+        // reside, which is why it can be used as a position reference.
         PBounds pieChartBounds = _pieChart.getFullBoundsReference(); // Refresh the reference.
         double numberTextWidth = _dummyNumberText.getFullBoundsReference().width;
         double numberTextHeight = _dummyNumberText.getFullBoundsReference().height;
@@ -546,10 +541,10 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         // Position the labels for the quantities of the various nuclei.
         _numUndecayedNucleiLabel.setOffset(
                 _dummyNumberText.getFullBoundsReference().x - _numUndecayedNucleiLabel.getFullBoundsReference().width * 1.1,
-                preDecayPosY - ( numberTextHeight / 2 ) );
+                preDecayPosY - ( _numUndecayedNucleiLabel.getFullBoundsReference().height / 2 ) );
         _numDecayedNucleiLabel.setOffset(
                 _dummyNumberText.getFullBoundsReference().x - _numDecayedNucleiLabel.getFullBoundsReference().width * 1.1,
-                postDecayPosY - ( numberTextHeight / 2 ) );
+                postDecayPosY - ( _numDecayedNucleiText.getFullBoundsReference().height / 2 ) );
 
         // Position the half life marker.
         positionHalfLifeMarker();
@@ -664,14 +659,13 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
      * Update the labels that indicate the number of undecayed and decayed nuclei.
      */
     private void updateNucleiNumberText() {
-
         // Update the values.
         _numUndecayedNucleiText.setText( Integer.toString( _preDecayCount ) );
         _numDecayedNucleiText.setText( Integer.toString( _postDecayCount ) );
 
         // Update the positions so that they remain centered in their area.
-        double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
-        double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
+        double preDecayPosY = _yAxisUpperTickMarkLabel.getFullBoundsReference().getCenterY();
+        double postDecayPosY = _yAxisLowerTickMarkLabel.getFullBoundsReference().getCenterY();
         double numberTextHeight = _dummyNumberText.getFullBoundsReference().height;
 
         // This needs to be here, rather than in the update function, so that
