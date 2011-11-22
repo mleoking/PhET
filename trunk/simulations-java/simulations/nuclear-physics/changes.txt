@@ -1,3 +1,6 @@
+> Improved the alignment between various labels on the charts that include a pie chart.
+> Fixed an issue where the graphs containing pie charts could get stretched out so that they were no longer round.
+> Made the adjustment arrows for the half life and energy levels on the graphs flash when first visible in order to be more noticeable.
 # 3.24.04 (58362) Nov 4, 2011
 11/4/11 Deploying to dev for review of some bug fixes and some enhancement requests.
 > Made the default half life of the custom nucleus for Beta Decay a small amount longer so that the half life line on the decaty chart will be more distinctly different from the non-custom nucleus, and hence more noticeable by users.
