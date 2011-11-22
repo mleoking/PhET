@@ -538,13 +538,15 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _dummyNumberText.setOffset( pieChartBounds.getX() - numberTextWidth * 1.2,
                                     preDecayPosY - ( numberTextHeight / 2 ) );
 
-        // Position the labels for the quantities of the various nuclei.
+        // Position the labels for the quantities of the various nuclei.  These
+        // have a bit of a "tweak factor" in the Y direction due to a sort of
+        // odd off-centeredness of the ShadowHTMLNode.
         _numUndecayedNucleiLabel.setOffset(
                 _dummyNumberText.getFullBoundsReference().x - _numUndecayedNucleiLabel.getFullBoundsReference().width * 1.1,
-                preDecayPosY - ( _numUndecayedNucleiLabel.getFullBoundsReference().height / 2 ) );
+                preDecayPosY - ( _numUndecayedNucleiLabel.getFullBoundsReference().height / 2 ) - 2 );
         _numDecayedNucleiLabel.setOffset(
                 _dummyNumberText.getFullBoundsReference().x - _numDecayedNucleiLabel.getFullBoundsReference().width * 1.1,
-                postDecayPosY - ( _numDecayedNucleiText.getFullBoundsReference().height / 2 ) );
+                postDecayPosY - ( _numDecayedNucleiText.getFullBoundsReference().height / 2 ) - 2 );
 
         // Position the half life marker.
         positionHalfLifeMarker();
