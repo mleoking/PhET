@@ -7,7 +7,11 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +31,8 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualG
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
@@ -84,9 +90,35 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         modelRootNode.addChild( dnaMoleculeNode );
 
         // Add the protein collection box.
-        controlsRootNode.addChild( new ProteinCollectionNode( model, mvt ) {{
+        final ProteinCollectionNode proteinCollectionNode = new ProteinCollectionNode( model, mvt ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - INSET, INSET );
-        }} );
+        }};
+        controlsRootNode.addChild( proteinCollectionNode );
+
+        // yugga
+        modelRootNode.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                PBounds boundsInControlNode = proteinCollectionNode.getFullBounds();
+                Rectangle2D boundsAfterTransform = null;
+                try {
+                    boundsAfterTransform = modelRootNode.getTransformReference( true ).createInverse().createTransformedShape( boundsInControlNode ).getBounds2D();
+                }
+                catch ( NoninvertibleTransformException e ) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                Rectangle2D boundsInModel = mvt.viewToModel( boundsAfterTransform ).getBounds2D();
+                model.setProteinCaptureArea( boundsInModel );
+            }
+        } );
+
+        // TODO: Temp for debug - show the protein capture area.
+        final PPath proteinCaptureAreaNode = new PhetPPath( new BasicStroke( 5 ), Color.RED );
+        model.proteinCaptureAreaProperty.addObserver( new VoidFunction1<Rectangle2D>() {
+            public void apply( Rectangle2D proteinCaptureAreaBounds ) {
+                proteinCaptureAreaNode.setPathTo( mvt.modelToView( proteinCaptureAreaBounds ) );
+            }
+        } );
+        modelRootNode.addChild( proteinCaptureAreaNode );
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
@@ -94,6 +126,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
 
         // Watch for and handle comings and goings of biomolecules in the model.
+        // Most, but not all, of the biomolecules are handled by this.  Some
+        // others are handled as special cases.
         model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
             public void apply( final MobileBiomolecule addedBiomolecule ) {
                 final PNode biomoleculeNode;
