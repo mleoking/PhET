@@ -570,9 +570,17 @@ public class AlphaDecayEnergyChart extends PNode implements SubatomicParticle.Li
 
         // Update the visibility state of the interactivity controls based on
         // whether or not interactivity is currently enabled.
-        _totalEnergyHandle.setVisible( _interactivityEnabled );
-        _potentialEnergyPeakHandle.setVisible( _interactivityEnabled );
         _potentialEnergyPeakRefLine.setVisible( _interactivityEnabled );
+        if ( !_totalEnergyHandle.isVisible() && _interactivityEnabled ) {
+            // This is just becoming visible, so flash it so that it gets noticed.
+            _totalEnergyHandle.flash();
+        }
+        _totalEnergyHandle.setVisible( _interactivityEnabled );
+        if ( !_potentialEnergyPeakHandle.isVisible() && _interactivityEnabled ) {
+            // This is just becoming visible, so flash it so that it gets noticed.
+            _potentialEnergyPeakHandle.flash();
+        }
+        _potentialEnergyPeakHandle.setVisible( _interactivityEnabled );
 
         // Update the tunneling region radius based on the energy line position.
         AtomicNucleus nucleus = _model.getAtomNucleus();
