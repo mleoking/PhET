@@ -104,7 +104,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                     boundsAfterTransform = modelRootNode.getTransformReference( true ).createInverse().createTransformedShape( boundsInControlNode ).getBounds2D();
                 }
                 catch ( NoninvertibleTransformException e ) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    System.out.println( getClass().getName() + " - Error: Unable to invert transform needed to update the protein capture area." );
+                    e.printStackTrace();
                 }
                 Rectangle2D boundsInModel = mvt.viewToModel( boundsAfterTransform ).getBounds2D();
                 model.setProteinCaptureArea( boundsInModel );
