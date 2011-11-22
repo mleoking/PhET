@@ -31,7 +31,6 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualG
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -113,13 +112,13 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         } );
 
         // TODO: Temp for debug - show the protein capture area.
-        final PPath proteinCaptureAreaNode = new PhetPPath( new BasicStroke( 5 ), Color.RED );
-        model.proteinCaptureAreaProperty.addObserver( new VoidFunction1<Rectangle2D>() {
-            public void apply( Rectangle2D proteinCaptureAreaBounds ) {
-                proteinCaptureAreaNode.setPathTo( mvt.modelToView( proteinCaptureAreaBounds ) );
-            }
-        } );
-        modelRootNode.addChild( proteinCaptureAreaNode );
+//        final PPath proteinCaptureAreaNode = new PhetPPath( new BasicStroke( 5 ), Color.RED );
+//        model.proteinCaptureAreaProperty.addObserver( new VoidFunction1<Rectangle2D>() {
+//            public void apply( Rectangle2D proteinCaptureAreaBounds ) {
+//                proteinCaptureAreaNode.setPathTo( mvt.modelToView( proteinCaptureAreaBounds ) );
+//            }
+//        } );
+//        modelRootNode.addChild( proteinCaptureAreaNode );
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
@@ -226,8 +225,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             model.addOffLimitsMotionSpace( mvt.viewToModel( biomoleculeToolBoxNode.getFullBoundsReference() ) );
         }
 
-        //Uncomment this line to add zoom on right mouse click drag
-        addInputEventListener( getZoomEventHandler() );
+        // Uncomment this line to add zoom on right mouse click drag
+//        addInputEventListener( getZoomEventHandler() );
 
         // Add a node to depict the motion bounds.  This is for debug purposes.
         if ( SHOW_MOTION_BOUNDS ) {
