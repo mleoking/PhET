@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -39,7 +39,6 @@ public class ProteinCollectionNode extends PNode {
     private static final Color BACKGROUND_COLOR = new Color( 255, 250, 205 );
 
     public ProteinCollectionNode( ManualGeneExpressionModel model, ModelViewTransform mvt ) {
-
         // Create the title and scale it if needed.
         // TODO: i18n
         PNode title = new HTMLNode( "<center>Your Protein<br>Collection:</center>", Color.BLACK, TITLE_FONT ) {{
@@ -66,26 +65,50 @@ public class ProteinCollectionNode extends PNode {
      * so far.  This monitors the model and updates automatically.
      */
     private static class CollectionCountIndicator extends PNode {
-        private CollectionCountIndicator( ManualGeneExpressionModel model ) {
-            model.collectedProteinCount.addObserver( new VoidFunction1<Integer>() {
-                public void apply( Integer numCollectedProteins ) {
-                    removeAllChildren();
-                    VBox collectionCountIndicator = new VBox(
-                            5,
-                            // TODO: i18n.
-                            new HBox( 4, new ReadoutPText( "You have: " ), new IntegerBox( numCollectedProteins ) ),
-                            new ReadoutPText( "of 3 proteins." ) {{
-                                setFont( READOUT_FONT );
-                            }}
-                    );
-                    if ( collectionCountIndicator.getFullBoundsReference().getWidth() > MAX_CONTENT_WIDTH ) {
-                        // Make sure that this isn't wider than the max
-                        // allowed content width.
-                        setScale( MAX_CONTENT_WIDTH / collectionCountIndicator.getFullBoundsReference().width );
-                    }
-                    addChild( collectionCountIndicator );
+        public CollectionCountIndicator( final ManualGeneExpressionModel model ) {
+            model.proteinACollected.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateCount( model );
                 }
             } );
+            model.proteinBCollected.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateCount( model );
+                }
+            } );
+            model.proteinCCollected.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateCount( model );
+                }
+            } );
+        }
+
+        private void updateCount( ManualGeneExpressionModel model ) {
+            int numProteinsCollected = 0;
+            if ( model.proteinACollected.get() ) {
+                numProteinsCollected++;
+            }
+            if ( model.proteinBCollected.get() ) {
+                numProteinsCollected++;
+            }
+            if ( model.proteinCCollected.get() ) {
+                numProteinsCollected++;
+            }
+            removeAllChildren();
+            VBox collectionCountIndicator = new VBox(
+                    5,
+                    // TODO: i18n.
+                    new HBox( 4, new ReadoutPText( "You have: " ), new IntegerBox( numProteinsCollected ) ),
+                    new ReadoutPText( "of 3 proteins." ) {{
+                        setFont( READOUT_FONT );
+                    }}
+            );
+            if ( collectionCountIndicator.getFullBoundsReference().getWidth() > MAX_CONTENT_WIDTH ) {
+                // Make sure that this isn't wider than the max
+                // allowed content width.
+                setScale( MAX_CONTENT_WIDTH / collectionCountIndicator.getFullBoundsReference().width );
+            }
+            addChild( collectionCountIndicator );
         }
     }
 
