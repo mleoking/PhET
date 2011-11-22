@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -158,6 +159,46 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
                 }
             }
         } );
+
+        mobileBiomolecule.userControlled.addObserver( new ChangeObserver<Boolean>() {
+            public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
+                if ( isUserControlled ) {
+                    dnaMolecule.activateHints( mobileBiomolecule );
+                    for ( MessengerRna messengerRna : messengerRnaList ) {
+                        messengerRna.activateHints( mobileBiomolecule );
+                    }
+                }
+                else {
+                    dnaMolecule.deactivateAllHints();
+                    for ( MessengerRna messengerRna : messengerRnaList ) {
+                        messengerRna.deactivateAllHints();
+                    }
+                    if ( wasUserControlled ) {
+                        // The user dropped this biomolecule.
+                        if ( proteinCaptureArea.contains( mobileBiomolecule.getPosition() ) && mobileBiomolecule instanceof Protein ) {
+                            // The user has dropped this protein in the
+                            // capture area.  So, like, capture it.
+                            captureProtein( (Protein) mobileBiomolecule );
+                        }
+                    }
+                }
+            }
+        } );
+    }
+
+    // Capture the specified protein, which means that it is actually removed
+    // from the model and the associated capture property is set.
+    private void captureProtein( Protein protein ) {
+        if ( protein instanceof ProteinA ) {
+            proteinACollected.set( true );
+        }
+        if ( protein instanceof ProteinB ) {
+            proteinBCollected.set( true );
+        }
+        if ( protein instanceof ProteinC ) {
+            proteinCCollected.set( true );
+        }
+        mobileBiomoleculeList.remove( protein );
     }
 
     public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
