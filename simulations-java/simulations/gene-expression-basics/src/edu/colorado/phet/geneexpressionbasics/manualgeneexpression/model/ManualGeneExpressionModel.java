@@ -218,6 +218,9 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         mobileBiomoleculeList.clear();
         messengerRnaList.clear();
         dnaMolecule.reset();
+        proteinACollected.reset();
+        proteinBCollected.reset();
+        proteinCCollected.reset();
         activateGene( 0 );
     }
 
