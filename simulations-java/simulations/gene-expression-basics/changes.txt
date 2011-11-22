@@ -1,3 +1,6 @@
+Added node where proteins are captured.
+Added protein production from ribosomes.
+Got mRNA positioning and winding algorithm working, supports multiple simultaneous translation and translation during transcription.
 # 0.00.08 (56347) Sep 9, 2011
 9/9/11 Snapshot for review and some initial testing.
 Added some random shaping to the mRNA to make it be a bit curvy.
