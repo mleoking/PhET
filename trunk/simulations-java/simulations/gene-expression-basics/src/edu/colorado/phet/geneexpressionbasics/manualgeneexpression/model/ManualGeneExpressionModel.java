@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -76,13 +77,14 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // wandering over the tool boxes and such.
     private final List<Shape> offLimitMotionSpaces = new ArrayList<Shape>();
 
-    // Property that tracks the number of proteins that the user has collected.
-    public final Property<Integer> collectedProteinCount = new Property<Integer>( 0 );
+    // Properties that track which proteins have been collected.
+    public final BooleanProperty proteinACollected = new BooleanProperty( false );
+    public final BooleanProperty proteinBCollected = new BooleanProperty( false );
+    public final BooleanProperty proteinCCollected = new BooleanProperty( false );
 
     // Rectangle that describes the "protein capture area".  When a protein is
     // dropped by the user over this area, it is considered to be captured.
-//    private final Rectangle2D proteinCaptureArea = new Rectangle2D.Double();
-    private final Rectangle2D proteinCaptureArea = new Rectangle2D.Double( 3496, 2927, 100, 100 );
+    private final Rectangle2D proteinCaptureArea = new Rectangle2D.Double();
 
     // TODO: Temp for debugging.
     public final Property<Rectangle2D> proteinCaptureAreaProperty = new Property<Rectangle2D>( new Rectangle2D.Double( 0, 0, 1, 1 ) );
