@@ -4,9 +4,13 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -19,6 +23,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Protein
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinB;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinC;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -49,7 +54,7 @@ public class ProteinCollectionNode extends PNode {
         }};
 
         // Create the collection area.
-        PNode collectionArea = new ProteinCollectionArea( mvt );
+        PNode collectionArea = new ProteinCollectionArea( model, mvt );
         assert collectionArea.getFullBoundsReference().width <= MAX_CONTENT_WIDTH; // Need to make some adjustments if this gets hit.
 
         PNode contents = new VBox(
@@ -139,13 +144,29 @@ public class ProteinCollectionNode extends PNode {
         }
     }
 
+    // Class that represents the collection area, where potentially several
+    // different types of protein can be collected.
     private static class ProteinCollectionArea extends PNode {
-        private ProteinCollectionArea( ModelViewTransform mvt ) {
+        private ProteinCollectionArea( ManualGeneExpressionModel model, ModelViewTransform mvt ) {
             addChild( new HBox(
-                    new PhetPPath( mvt.modelToView( new ProteinA().getFullyGrownShape() ), Color.BLACK ),
-                    new PhetPPath( mvt.modelToView( new ProteinB().getFullyGrownShape() ), Color.BLACK ),
-                    new PhetPPath( mvt.modelToView( new ProteinC().getFullyGrownShape() ), Color.BLACK )
+                    new ProteinCaptureNode( mvt.modelToView( new ProteinA().getFullyGrownShape() ), Color.BLACK, new ProteinA().colorProperty.get(), model.proteinACollected ),
+                    new ProteinCaptureNode( mvt.modelToView( new ProteinB().getFullyGrownShape() ), Color.BLACK, new ProteinB().colorProperty.get(), model.proteinBCollected ),
+                    new ProteinCaptureNode( mvt.modelToView( new ProteinC().getFullyGrownShape() ), Color.BLACK, new ProteinC().colorProperty.get(), model.proteinCCollected )
             ) );
+        }
+    }
+
+    // Class that represents a node for collecting a single protein.
+    private static class ProteinCaptureNode extends PNode {
+        private ProteinCaptureNode( Shape proteinShape, final Color emptyColor, final Color fullBaseColor, BooleanProperty emptyFullProperty ) {
+            final PPath captureAreaNode = new PPath( proteinShape );
+            addChild( captureAreaNode );
+            final Paint gradientPaint = MobileBiomoleculeNode.createGradientPaint( proteinShape, fullBaseColor );
+            emptyFullProperty.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean full ) {
+                    captureAreaNode.setPaint( full ? gradientPaint : emptyColor );
+                }
+            } );
         }
     }
 }

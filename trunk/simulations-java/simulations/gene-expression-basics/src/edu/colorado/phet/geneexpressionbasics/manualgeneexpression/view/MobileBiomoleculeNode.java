@@ -7,7 +7,6 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -47,13 +46,13 @@ public class MobileBiomoleculeNode extends PNode {
             mobileBiomolecule.addShapeChangeObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
                     setPathTo( mvt.modelToView( shape ) );
-                    setPaint( createGradientPaint( mvt, mobileBiomolecule ) );
+                    setPaint( createGradientPaint( mvt.modelToView( mobileBiomolecule.getShape() ), mobileBiomolecule.colorProperty.get() ) );
                 }
             } );
             // Update the color whenever it changes.
             mobileBiomolecule.colorProperty.addObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
-                    setPaint( createGradientPaint( mvt, mobileBiomolecule ) );
+                    setPaint( createGradientPaint( mvt.modelToView( mobileBiomolecule.getShape() ), mobileBiomolecule.colorProperty.get() ) );
                 }
             } );
             // Cursor handling.
@@ -63,12 +62,17 @@ public class MobileBiomoleculeNode extends PNode {
         }} );
     }
 
-    private Paint createGradientPaint( ModelViewTransform mvt, MobileBiomolecule mobileBiomolecule ) {
-        return new GradientPaint( mvt.modelToView( new Point2D.Double( mobileBiomolecule.getShape().getBounds2D().getMinX(),
-                                                                       mobileBiomolecule.getShape().getBounds2D().getCenterY() ) ),
-                                  ColorUtils.brighterColor( mobileBiomolecule.colorProperty.get(), 0.8 ),
-                                  mvt.modelToView( new Point2D.Double( mobileBiomolecule.getShape().getBounds2D().getMaxX(),
-                                                                       mobileBiomolecule.getShape().getBounds2D().getCenterY() ) ),
-                                  ColorUtils.darkerColor( mobileBiomolecule.colorProperty.get(), 0.3 ) );
+    /**
+     * Create a gradient paint in order to give a molecule a little depth.
+     * This is public so that it can be used by other nodes that need to
+     * depict biomolecules.
+     */
+    public static Paint createGradientPaint( Shape shape, Color baseColor ) {
+        return new GradientPaint( (float) shape.getBounds2D().getMinX(),
+                                  (float) shape.getBounds2D().getCenterY(),
+                                  ColorUtils.brighterColor( baseColor, 0.8 ),
+                                  (float) shape.getBounds2D().getMaxX(),
+                                  (float) shape.getBounds2D().getCenterY(),
+                                  ColorUtils.darkerColor( baseColor, 0.3 ) );
     }
 }
