@@ -76,7 +76,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // List of areas where biomolecules should not be allowed.  These are
     // generally populated by the view in order to keep biomolecules from
     // wandering over the tool boxes and such.
-    private final List<Shape> offLimitMotionSpaces = new ArrayList<Shape>();
+    private final List<Shape> offLimitsMotionSpaces = new ArrayList<Shape>();
 
     // Properties that track which proteins have been collected.
     public final BooleanProperty proteinACollected = new BooleanProperty( false );
@@ -229,10 +229,19 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
      * is generally used by the view to prevent biomolecules from moving over
      * tool boxes and such.
      *
-     * @param offLimitsMotionSpace
+     * @param newOffLimitsSpace
      */
-    public void addOffLimitsMotionSpace( Shape offLimitsMotionSpace ) {
-        offLimitMotionSpaces.add( offLimitsMotionSpace );
+    public void addOffLimitsMotionSpace( Shape newOffLimitsSpace ) {
+        for ( Shape offLimitsMotionSpace : offLimitsMotionSpaces ) {
+            if ( offLimitsMotionSpace.equals( newOffLimitsSpace ) ) {
+                // An equivalent space already exists, so don't bother adding
+                // this one.
+                System.out.println( "Skipping addition of space." );
+                return;
+            }
+        }
+        // Add the new one to the list.
+        offLimitsMotionSpaces.add( newOffLimitsSpace );
     }
 
     private void stepInTime( double dt ) {
@@ -256,7 +265,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
                                                         BIOMOLECULE_STAGE_HEIGHT ) );
 
         // Subtract off any overlapping areas.
-        for ( Shape offLimitMotionSpace : offLimitMotionSpaces ) {
+        for ( Shape offLimitMotionSpace : offLimitsMotionSpaces ) {
             if ( bounds.intersects( offLimitMotionSpace.getBounds2D() ) ) {
                 bounds.subtract( new Area( offLimitMotionSpace ) );
             }

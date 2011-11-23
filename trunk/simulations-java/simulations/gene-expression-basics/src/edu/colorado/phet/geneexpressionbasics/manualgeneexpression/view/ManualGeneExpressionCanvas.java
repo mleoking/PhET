@@ -10,8 +10,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +28,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -93,23 +92,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         controlsRootNode.addChild( proteinCollectionNode );
-
-        // yugga
-        modelRootNode.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                PBounds boundsInControlNode = proteinCollectionNode.getFullBounds();
-                Rectangle2D boundsAfterTransform = null;
-                try {
-                    boundsAfterTransform = modelRootNode.getTransformReference( true ).createInverse().createTransformedShape( boundsInControlNode ).getBounds2D();
-                }
-                catch ( NoninvertibleTransformException e ) {
-                    System.out.println( getClass().getName() + " - Error: Unable to invert transform needed to update the protein capture area." );
-                    e.printStackTrace();
-                }
-                Rectangle2D boundsInModel = mvt.viewToModel( boundsAfterTransform ).getBounds2D();
-                model.setProteinCaptureArea( boundsInModel );
-            }
-        } );
 
         // TODO: Temp for debug - show the protein capture area.
 //        final PPath proteinCaptureAreaNode = new PhetPPath( new BasicStroke( 5 ), Color.RED );
@@ -211,6 +193,27 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 }
                 viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
                 activity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                System.out.println( "activity.getDelegate() = " + activity.getDelegate() );
+                activity.setDelegate( new PActivityDelegateAdapter() {
+                    @Override public void activityFinished( PActivity activity ) {
+                        // Update the position of the protein capture area in
+                        // the model, since a transformation of the model-to-
+                        // view relationship just occurred.
+                        PBounds boundsInControlNode = proteinCollectionNode.getFullBounds();
+                        Rectangle2D boundsAfterTransform;
+                        try {
+                            boundsAfterTransform = modelRootNode.getTransformReference( true ).createInverse().createTransformedShape( boundsInControlNode ).getBounds2D();
+                        }
+                        catch ( NoninvertibleTransformException e ) {
+                            System.out.println( getClass().getName() + " - Error: Unable to invert transform needed to update the protein capture area." );
+                            e.printStackTrace();
+                            boundsAfterTransform = new PBounds();
+                        }
+                        Rectangle2D boundsInModel = mvt.viewToModel( boundsAfterTransform ).getBounds2D();
+                        model.setProteinCaptureArea( boundsInModel );
+                        model.addOffLimitsMotionSpace( boundsInModel );
+                    }
+                } );
             }
         } );
 
@@ -247,6 +250,21 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     public void reset() {
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
+        }
+    }
+
+    private static class PActivityDelegateAdapter implements PActivity.PActivityDelegate {
+
+        public void activityStarted( PActivity activity ) {
+            // Override to change, does nothing by default.
+        }
+
+        public void activityStepped( PActivity activity ) {
+            // Override to change, does nothing by default.
+        }
+
+        public void activityFinished( PActivity activity ) {
+            // Override to change, does nothing by default.
         }
     }
 }
