@@ -8,8 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
 
 /**
  * Contains the logic for applying an "attractor" force to a molecule that first:
@@ -77,15 +81,11 @@ public class AttractorModel {
         final int n = molecule.getGroups().size(); // number of total pairs
 
         // y == electron pair positions
-        final Matrix y = new Matrix( 3, n ) {{
-            for ( int i = 0; i < n; i++ ) {
-                // fill the vector into the matrix as a column
-                ImmutableVector3D normalizedPosition = molecule.getGroups().get( i ).position.get().normalized();
-                set( 0, i, normalizedPosition.getX() );
-                set( 1, i, normalizedPosition.getY() );
-                set( 2, i, normalizedPosition.getZ() );
+        final Matrix y = matrixFromUnitVectors( map( molecule.getGroups(), new Function1<PairGroup, ImmutableVector3D>() {
+            public ImmutableVector3D apply( PairGroup group ) {
+                return group.position.get().normalized();
             }
-        }};
+        } ) );
 
         final Matrix yTransposed = y.transpose();
 
@@ -94,36 +94,14 @@ public class AttractorModel {
         // iterate over different repulsion categories
         forEachMultiplePermutations( separateRepulsionCategories( molecule ), new VoidFunction1<List<List<Integer>>>() {
             public void apply( final List<List<Integer>> indexLists ) {
-                final List<ImmutableVector3D> unitVectors = configuration.geometry.unitVectors;
-
                 // permutation. think of it as a function of index of electron pair => index of configuration vector
-                final List<Integer> permutation = new ArrayList<Integer>( n );
-                // TODO: consider removal of the permutation list. we don't actually use it (yet), even though it may be useful in the future
+                Permutation permutation = new Permutation( flatten( indexLists ) );
 
                 // x == configuration positions
-                Matrix x = new Matrix( 3, n ) {{
-                    // fill up the matrix with the permuted configuration vectors
-                    List<Integer> indices = flatten( indexLists );
-                    for ( int i = 0; i < n; i++ ) {
-                        // compute the index and store it (we need to combine the permutations here!)
-                        Integer permutedIndex = indices.get( i );
-                        permutation.add( permutedIndex );
+                Matrix x = matrixFromUnitVectors( permutation.apply( configuration.geometry.unitVectors ) );
 
-                        // fill the vector into the matrix as a column
-                        ImmutableVector3D configurationVector = unitVectors.get( permutedIndex );
-                        set( 0, i, configurationVector.getX() );
-                        set( 1, i, configurationVector.getY() );
-                        set( 2, i, configurationVector.getZ() );
-                    }
-                }};
-
-                // S = X * Y^T
-                Matrix s = x.times( yTransposed );
-
-                SingularValueDecomposition svd = new SingularValueDecomposition( s );
-                double det = svd.getV().times( svd.getU().transpose() ).det();
-
-                Matrix rot = svd.getV().times( new Matrix( new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, det } } ).times( svd.getU().transpose() ) );
+                // compute the rotation matrix
+                Matrix rot = computeRotationMatrixWithTranspose( x, yTransposed );
 
                 // target matrix, same shape as our y (current position) matrix
                 Matrix target = rot.times( x );
@@ -145,6 +123,32 @@ public class AttractorModel {
         return bestResult.get();
     }
 
+    private static Matrix computeRotationMatrixWithTranspose( Matrix x, Matrix yTransposed ) {
+        // S = X * Y^T
+        Matrix s = x.times( yTransposed );
+
+        SingularValueDecomposition svd = new SingularValueDecomposition( s );
+        double det = svd.getV().times( svd.getU().transpose() ).det();
+
+        return svd.getV().times( new Matrix( new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, det } } ).times( svd.getU().transpose() ) );
+    }
+
+    /**
+     * Create a Matrix where each column is a 3D normalized vector
+     */
+    private static Matrix matrixFromUnitVectors( final List<ImmutableVector3D> unitVectors ) {
+        final int n = unitVectors.size();
+        return new Matrix( 3, n ) {{
+            for ( int i = 0; i < n; i++ ) {
+                // fill the vector into the matrix as a column
+                ImmutableVector3D unitVector = unitVectors.get( i );
+                set( 0, i, unitVector.getX() );
+                set( 1, i, unitVector.getY() );
+                set( 2, i, unitVector.getZ() );
+            }
+        }};
+    }
+
     private static class ResultMapping {
         /**
          * Sum of the squared (2-norm) error between our target and current positions
@@ -159,9 +163,9 @@ public class AttractorModel {
         /**
          * Permutation from electron pair index => VSEPR geometry vector index
          */
-        final public List<Integer> permutation;
+        final public Permutation permutation;
 
-        private ResultMapping( double error, Matrix target, List<Integer> permutation ) {
+        private ResultMapping( double error, Matrix target, Permutation permutation ) {
             this.error = error;
             this.target = target;
             this.permutation = permutation;
