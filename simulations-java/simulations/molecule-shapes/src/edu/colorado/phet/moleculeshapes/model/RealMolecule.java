@@ -78,6 +78,10 @@ public class RealMolecule extends Molecule {
         return lonePairCount;
     }
 
+    @Override public String toString() {
+        return displayName;
+    }
+
     public static final RealMolecule CARBON_MONOXIDE = new RealMolecule( "CO", 1 ) {{
         addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.528500, 0, 0 ) ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.528500, 0, 0 ) ), 3 );
@@ -433,7 +437,7 @@ public class RealMolecule extends Molecule {
             XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE, CHLORATE, MOLECULAR_HYDROGEN, HYDROXONIUM
     };
 
-    private static final RealMolecule[] TAB_2_MOLECULES = new RealMolecule[]{
+    public static final RealMolecule[] TAB_2_MOLECULES = new RealMolecule[] {
             BERYLLIUM_CHLORIDE,
             BORON_TRIFLUORIDE,
             BROMINE_PENTAFLUORIDE,
