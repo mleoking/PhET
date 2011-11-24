@@ -425,6 +425,29 @@ public class RealMolecule extends Molecule {
             XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE, CHLORATE, MOLECULAR_HYDROGEN, HYDROXONIUM
     };
 
+    private static final RealMolecule[] TAB_2_MOLECULES = new RealMolecule[]{
+            BERYLLIUM_CHLORIDE,
+            BORON_TRIFLUORIDE,
+            BROMINE_PENTAFLUORIDE,
+            METHANE,
+            CHLORINE_TRIFLUORIDE,
+            // TODO: add CH2F2
+            // TODO: add CF4
+            CARBON_DIOXIDE,
+            HYDROGEN_FLUORIDE,
+            WATER,
+            // TODO: add NCl3
+            AMMONIA,
+            // TODO: add PCl5
+            SULFUR_TETRAFLUORIDE,
+            SULFUR_HEXAFLUORIDE,
+            SULFUR_DIOXIDE,
+            XENON_DIFLUORIDE,
+            XENON_TETRAFLUORIDE,
+            // TODO: add XeOF5-
+            PERCHLORATE
+    };
+
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
         List<RealMolecule> result = new ArrayList<RealMolecule>();
 

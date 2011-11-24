@@ -29,8 +29,8 @@ public class AttractorModel {
      * @param stablePositions An ideal position, that may be rotated.
      * @return A measure of total error
      */
-    public static double applyAttractorForces( final MoleculeModel molecule, final float timeElapsed, List<ImmutableVector3D> stablePositions ) {
-        final ResultMapping mapping = findClosestMatchingConfiguration( molecule, stablePositions );
+    public static double applyAttractorForces( final MoleculeModel molecule, final float timeElapsed, List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
+        final ResultMapping mapping = findClosestMatchingConfiguration( molecule, stablePositions, allowablePermutations );
 
         double totalDeltaMagnitude = 0;
 
@@ -73,11 +73,12 @@ public class AttractorModel {
      * but with the repulsion-ordering constraint (no single bond will be assigned a lower-index slot than a lone pair)
      * so we end up splitting the potential slots into bins for each repulsion type and iterating over all of the permutations.
      *
-     * @param molecule        Molecule
-     * @param stablePositions The un-rotated stable position that we are attracted towards
+     * @param molecule              Molecule
+     * @param stablePositions       The un-rotated stable position that we are attracted towards
+     * @param allowablePermutations A list of permutations that map stable positions to pair groups in order.
      * @return Result mapping (see docs there)
      */
-    private static ResultMapping findClosestMatchingConfiguration( final MoleculeModel molecule, final List<ImmutableVector3D> stablePositions ) {
+    private static ResultMapping findClosestMatchingConfiguration( final MoleculeModel molecule, final List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
         final int n = molecule.getGroups().size(); // number of total pairs
 
         // y == electron pair positions
@@ -91,35 +92,29 @@ public class AttractorModel {
 
         final Property<ResultMapping> bestResult = new Property<ResultMapping>( null );
 
-        // iterate over different repulsion categories
-        forEachMultiplePermutations( separateRepulsionCategories( molecule ), new VoidFunction1<List<List<Integer>>>() {
-            public void apply( final List<List<Integer>> indexLists ) {
-                // permutation. think of it as a function of index of electron pair => index of configuration vector
-                Permutation permutation = new Permutation( flatten( indexLists ) );
+        for ( Permutation permutation : allowablePermutations ) {
+            // x == configuration positions
+            Matrix x = matrixFromUnitVectors( permutation.apply( stablePositions ) );
 
-                // x == configuration positions
-                Matrix x = matrixFromUnitVectors( permutation.apply( stablePositions ) );
+            // compute the rotation matrix
+            Matrix rot = computeRotationMatrixWithTranspose( x, yTransposed );
 
-                // compute the rotation matrix
-                Matrix rot = computeRotationMatrixWithTranspose( x, yTransposed );
+            // target matrix, same shape as our y (current position) matrix
+            Matrix target = rot.times( x );
 
-                // target matrix, same shape as our y (current position) matrix
-                Matrix target = rot.times( x );
-
-                // calculate the error
-                double error = 0;
-                Matrix offsets = y.minus( target );
-                Matrix squaredOffsets = offsets.arrayTimes( offsets );
-                for ( int i = 0; i < n; i++ ) {
-                    error += squaredOffsets.get( 0, i ) + squaredOffsets.get( 1, i ) + squaredOffsets.get( 2, i );
-                }
-
-                // if this is the best one, record it
-                if ( bestResult.get() == null || error < bestResult.get().error ) {
-                    bestResult.set( new ResultMapping( error, target, permutation ) );
-                }
+            // calculate the error
+            double error = 0;
+            Matrix offsets = y.minus( target );
+            Matrix squaredOffsets = offsets.arrayTimes( offsets );
+            for ( int i = 0; i < n; i++ ) {
+                error += squaredOffsets.get( 0, i ) + squaredOffsets.get( 1, i ) + squaredOffsets.get( 2, i );
             }
-        } );
+
+            // if this is the best one, record it
+            if ( bestResult.get() == null || error < bestResult.get().error ) {
+                bestResult.set( new ResultMapping( error, target, permutation ) );
+            }
+        }
         return bestResult.get();
     }
 

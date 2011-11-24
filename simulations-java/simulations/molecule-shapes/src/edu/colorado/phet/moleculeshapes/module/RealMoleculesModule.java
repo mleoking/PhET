@@ -11,6 +11,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -265,11 +266,11 @@ public class RealMoleculesModule extends JMEModule {
     @Override public void updateState( final float tpf ) {
         super.updateState( tpf );
         molecule.update( tpf, new ArrayList<ImmutableVector3D>() {{
-            double angle = (( Math.PI * 2 ) / 3) * 0.9;
-            add( new ImmutableVector3D( Math.cos( 0 ), Math.sin( 0 ), 0 ) );
-            add( new ImmutableVector3D( Math.cos( angle ), Math.sin( angle ), 0 ) );
-            add( new ImmutableVector3D( Math.cos( angle * 2 ), Math.sin( angle * 2 ), 0 ) );
-        }} );
+                             double angle = ( ( Math.PI * 2 ) / 3 ) * 0.9;
+                             add( new ImmutableVector3D( Math.cos( 0 ), Math.sin( 0 ), 0 ) );
+                             add( new ImmutableVector3D( Math.cos( angle ), Math.sin( angle ), 0 ) );
+                             add( new ImmutableVector3D( Math.cos( angle * 2 ), Math.sin( angle * 2 ), 0 ) );
+                         }}, Permutation.permutations( 3 ) );
         moleculeNode.updateView();
         moleculeNode.setLocalRotation( rotation );
 
