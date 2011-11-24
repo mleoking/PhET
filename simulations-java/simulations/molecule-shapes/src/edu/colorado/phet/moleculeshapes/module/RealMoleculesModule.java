@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -249,7 +250,7 @@ public class RealMoleculesModule extends JMEModule {
         addLighting( moleculeView.getScene() );
 
         // TODO: add in new view?
-        moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, this, moleculeCamera, new ObservableProperty<Float>(1f) {
+        moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, this, moleculeCamera, new ObservableProperty<Float>( 1f ) {
             @Override public Float get() {
                 return getApproximateScale();
             }
@@ -258,11 +259,17 @@ public class RealMoleculesModule extends JMEModule {
 
         molecule.addPair( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
         molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 8, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+        molecule.addPair( new PairGroup( new ImmutableVector3D( -5, 8, 2 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
     }
 
     @Override public void updateState( final float tpf ) {
         super.updateState( tpf );
-        molecule.update( tpf );
+        molecule.update( tpf, new ArrayList<ImmutableVector3D>() {{
+            double angle = (( Math.PI * 2 ) / 3) * 0.9;
+            add( new ImmutableVector3D( Math.cos( 0 ), Math.sin( 0 ), 0 ) );
+            add( new ImmutableVector3D( Math.cos( angle ), Math.sin( angle ), 0 ) );
+            add( new ImmutableVector3D( Math.cos( angle * 2 ), Math.sin( angle * 2 ), 0 ) );
+        }} );
         moleculeNode.updateView();
         moleculeNode.setLocalRotation( rotation );
 

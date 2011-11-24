@@ -11,8 +11,8 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 
 /**
  * Contains the "optimal" molecule structures (pair group directions stored as unit vectors),
- * in an order such that higher-repulsion pair groups (triple bonds, double bonds, lone pairs)
- * will tend to occupy the 1st slots, and single bonds will occupy the later slots.
+ * in an order such that higher-repulsion pair groups (lone pairs)
+ * will tend to occupy the 1st slots, and bonds will occupy the later slots.
  */
 public class GeometryConfiguration {
 

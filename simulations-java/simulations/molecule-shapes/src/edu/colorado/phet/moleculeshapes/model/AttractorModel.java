@@ -24,12 +24,13 @@ public class AttractorModel {
     /**
      * Apply an attraction to the closest ideal position, with the given time elapsed
      *
-     * @param molecule    Molecule structure currently
-     * @param timeElapsed Time elapsed
+     * @param molecule        Molecule structure currently
+     * @param timeElapsed     Time elapsed
+     * @param stablePositions An ideal position, that may be rotated.
      * @return A measure of total error
      */
-    public static double applyAttractorForces( final MoleculeModel molecule, final float timeElapsed ) {
-        final ResultMapping mapping = findClosestMatchingConfiguration( molecule );
+    public static double applyAttractorForces( final MoleculeModel molecule, final float timeElapsed, List<ImmutableVector3D> stablePositions ) {
+        final ResultMapping mapping = findClosestMatchingConfiguration( molecule, stablePositions );
 
         double totalDeltaMagnitude = 0;
 
@@ -72,12 +73,11 @@ public class AttractorModel {
      * but with the repulsion-ordering constraint (no single bond will be assigned a lower-index slot than a lone pair)
      * so we end up splitting the potential slots into bins for each repulsion type and iterating over all of the permutations.
      *
-     * @param molecule Molecule
+     * @param molecule        Molecule
+     * @param stablePositions The un-rotated stable position that we are attracted towards
      * @return Result mapping (see docs there)
      */
-    private static ResultMapping findClosestMatchingConfiguration( final MoleculeModel molecule ) {
-        final VseprConfiguration configuration = new VseprConfiguration( molecule.getBondedGroups().size(), molecule.getLonePairs().size() );
-
+    private static ResultMapping findClosestMatchingConfiguration( final MoleculeModel molecule, final List<ImmutableVector3D> stablePositions ) {
         final int n = molecule.getGroups().size(); // number of total pairs
 
         // y == electron pair positions
@@ -98,7 +98,7 @@ public class AttractorModel {
                 Permutation permutation = new Permutation( flatten( indexLists ) );
 
                 // x == configuration positions
-                Matrix x = matrixFromUnitVectors( permutation.apply( configuration.geometry.unitVectors ) );
+                Matrix x = matrixFromUnitVectors( permutation.apply( stablePositions ) );
 
                 // compute the rotation matrix
                 Matrix rot = computeRotationMatrixWithTranspose( x, yTransposed );
