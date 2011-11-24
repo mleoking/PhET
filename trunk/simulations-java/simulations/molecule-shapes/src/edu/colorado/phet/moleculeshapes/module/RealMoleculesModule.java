@@ -6,13 +6,16 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.util.ArrayList;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.util.Random;
 
+import javax.swing.JComboBox;
+
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
-import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
@@ -37,6 +40,8 @@ import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResult;
@@ -61,6 +66,7 @@ import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
 
 /**
  * Module that shows the difference between the model and the real shapes the molecules make
@@ -85,7 +91,7 @@ public class RealMoleculesModule extends JMEModule {
     * model
     *----------------------------------------------------------------------------*/
 
-    private MoleculeModel molecule = new RealMoleculeModel( RealMolecule.BROMINE_TRIFLUORIDE );
+    private MoleculeModel molecule = new RealMoleculeModel( RealMolecule.TAB_2_MOLECULES[0] );
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
 
@@ -243,7 +249,7 @@ public class RealMoleculesModule extends JMEModule {
 
         moleculeView = createRegularView( "Main", moleculeCamera, RenderPosition.MAIN );
         guiView = createGUIView( "Back GUI", RenderPosition.BACK );
-        JMEView readoutView = createGUIView( "Readout", RenderPosition.FRONT );
+        final JMEView readoutView = createGUIView( "Readout", RenderPosition.FRONT );
 
         // add an offset to the left, since we have a control panel on the right
         // TODO: make the offset dependent on the control panel width?
@@ -253,12 +259,55 @@ public class RealMoleculesModule extends JMEModule {
         addLighting( moleculeView.getScene() );
 
         // TODO: add in new view?
-        moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, this, moleculeCamera, new ObservableProperty<Float>( 1f ) {
+        final ObservableProperty<Float> scaleFunction = new ObservableProperty<Float>( 1f ) {
             @Override public Float get() {
                 return getApproximateScale();
             }
-        } );
+        };
+        moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, this, moleculeCamera, scaleFunction );
         moleculeView.getScene().attachChild( moleculeNode );
+
+        /*---------------------------------------------------------------------------*
+        * temporary control panel
+        *----------------------------------------------------------------------------*/
+
+        final Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        PNode controlPanelNode = new PSwing( new JComboBox( RealMolecule.TAB_2_MOLECULES ) {
+            {
+                addActionListener( new java.awt.event.ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        RealMolecule selectedRealMolecule = (RealMolecule) ( (JComboBox) e.getSource() ).getSelectedItem();
+                        System.out.println( selectedRealMolecule );
+                        moleculeView.getScene().detachChild( moleculeNode );
+                        molecule = new RealMoleculeModel( selectedRealMolecule );
+                        moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, RealMoleculesModule.this, moleculeCamera, scaleFunction );
+                        moleculeView.getScene().attachChild( moleculeNode );
+                    }
+                } );
+            }
+
+            @Override public Point getLocationOnScreen() {
+//                Point screenLocation = getSimulationPanel().getLocationOnScreen();
+                Point screenLocation = PhetApplication.getInstance().getModule( 0 ).getSimulationPanel().getLocationOnScreen();
+//                return new Point( screenLocation.x, screenLocation.y );
+//                return new Point( 0, 0 );
+                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y + 20 );
+//                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y );
+            }
+        } );
+        controlPanel = new PiccoloJMENode( controlPanelNode, inputHandler, this, canvasTransform, controlPanelPosition );
+        guiView.getScene().attachChild( controlPanel );
+        controlPanel.onResize.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        if ( controlPanel != null ) {
+                            controlPanel.position.set( new ImmutableVector2D(
+                                    getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
+                                    getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
+                        }
+                        resizeDirty = true; // TODO: better way of getting this dependency?
+                    }
+                }, true );
     }
 
     @Override public void updateState( final float tpf ) {
