@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+
 /**
  * Represents an immutable permutation, that can "permute" an ordered collection.
  * TODO: Can we use generics to say that we implement Function1? Not possible so far to get the proper type preservation
@@ -23,6 +26,17 @@ public class Permutation {
             indices[i] = i;
         }
         return new Permutation( indices );
+    }
+
+    // lists all permutations that have a given size
+    public static List<Permutation> permutations( int size ) {
+        final List<Permutation> result = new ArrayList<Permutation>();
+        forEachPermutation( FunctionalUtils.rangeInclusive( 0, size - 1 ), new VoidFunction1<List<Integer>>() {
+            public void apply( List<Integer> integers ) {
+                result.add( new Permutation( integers ) );
+            }
+        } );
+        return result;
     }
 
     /**
@@ -53,9 +67,7 @@ public class Permutation {
         return result;
     }
 
-    /**
-     * Permute a single index
-     */
+    // Permute a single index (and return the result)
     public int apply( int index ) {
         return indices[index];
     }
@@ -64,9 +76,7 @@ public class Permutation {
         return indices.length;
     }
 
-    /**
-     * @return The inverse of this permutation
-     */
+    // The inverse of this permutation
     public Permutation inverted() {
         int[] newPermutation = new int[size()];
         for ( int i = 0; i < size(); i++ ) {
@@ -75,8 +85,60 @@ public class Permutation {
         return new Permutation( newPermutation );
     }
 
+    // returns a new list of permutations based on this one, but with all indices specified permuted.
+    public List<Permutation> withIndicesPermuted( final List<Integer> indices ) {
+        final List<Permutation> result = new ArrayList<Permutation>();
+        forEachPermutation( indices, new VoidFunction1<List<Integer>>() {
+            public void apply( List<Integer> integers ) {
+                int[] oldIndices = Permutation.this.indices;
+                int[] newPermutation = new int[oldIndices.length];
+                System.arraycopy( oldIndices, 0, newPermutation, 0, oldIndices.length );
+
+                for ( int i = 0; i < indices.size(); i++ ) {
+                    newPermutation[indices.get( i )] = oldIndices[integers.get( i )];
+                }
+                result.add( new Permutation( newPermutation ) );
+            }
+        } );
+        return result;
+    }
+
     @Override public String toString() {
         return Arrays.toString( indices );
+    }
+
+    /**
+     * Call our function with each permutation of the provided list, in lexicographic order
+     *
+     * @param list     List to generate permutations of
+     * @param function Function to call
+     * @param <T>      Type of the list
+     */
+    public static <T> void forEachPermutation( List<T> list, VoidFunction1<List<T>> function ) {
+        forEachPermutation( list, new ArrayList<T>(), function );
+    }
+
+    /**
+     * Call our function with each permutation of the provided list PREFIXED by prefix, in lexicographic order
+     *
+     * @param list     List to generate permutations of
+     * @param prefix   Elements that should be inserted at the front of each list before each call
+     * @param function Function to call
+     * @param <T>      Type of the list
+     */
+    private static <T> void forEachPermutation( List<T> list, List<T> prefix, VoidFunction1<List<T>> function ) {
+        if ( list.isEmpty() ) {
+            function.apply( prefix );
+        }
+        else {
+            for ( final T element : list ) {
+                forEachPermutation(
+                        new ArrayList<T>( list ) {{remove( element );}},
+                        new ArrayList<T>( prefix ) {{add( element );}},
+                        function
+                );
+            }
+        }
     }
 
     public static void main( String[] args ) {
@@ -85,5 +147,9 @@ public class Permutation {
 
         Permutation b = a.inverted();
         System.out.println( b );
+
+        System.out.println( b.withIndicesPermuted( Arrays.asList( 0, 3, 4 ) ) );
+
+        System.out.println( permutations( 4 ) );
     }
 }

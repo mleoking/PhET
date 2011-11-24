@@ -145,4 +145,13 @@ public class FunctionalUtils {
             runnable.run();
         }
     }
+
+    // Returns a list of integers from A to B (including both A to B)
+    public static List<Integer> rangeInclusive( int a, int b ) {
+        List<Integer> result = new ArrayList<Integer>( b - a + 1 );
+        for ( int i = a; i <= b; i++ ) {
+            result.add( i );
+        }
+        return result;
+    }
 }
