@@ -5,6 +5,7 @@ import Jama.Matrix;
 import Jama.SingularValueDecomposition;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
@@ -78,7 +79,7 @@ public class AttractorModel {
      * @param allowablePermutations A list of permutations that map stable positions to pair groups in order.
      * @return Result mapping (see docs there)
      */
-    private static ResultMapping findClosestMatchingConfiguration( final MoleculeModel molecule, final List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
+    public static ResultMapping findClosestMatchingConfiguration( final MoleculeModel molecule, final List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
         final int n = molecule.getGroups().size(); // number of total pairs
 
         // y == electron pair positions
@@ -112,7 +113,7 @@ public class AttractorModel {
 
             // if this is the best one, record it
             if ( bestResult.get() == null || error < bestResult.get().error ) {
-                bestResult.set( new ResultMapping( error, target, permutation ) );
+                bestResult.set( new ResultMapping( error, target, permutation, rot ) );
             }
         }
         return bestResult.get();
@@ -144,7 +145,7 @@ public class AttractorModel {
         }};
     }
 
-    private static class ResultMapping {
+    public static class ResultMapping {
         /**
          * Sum of the squared (2-norm) error between our target and current positions
          */
@@ -160,10 +161,22 @@ public class AttractorModel {
          */
         final public Permutation permutation;
 
-        private ResultMapping( double error, Matrix target, Permutation permutation ) {
+        /**
+         * Rotation from the ideal to the approximate position in local space
+         */
+        final public Matrix rotation;
+
+        private ResultMapping( double error, Matrix target, Permutation permutation, Matrix rotation ) {
             this.error = error;
             this.target = target;
             this.permutation = permutation;
+            this.rotation = rotation;
+        }
+
+        public ImmutableVector3D rotateVector( ImmutableVector3D v ) {
+            Matrix x = matrixFromUnitVectors( Arrays.asList( v ) );
+            Matrix rotated = rotation.times( x );
+            return new ImmutableVector3D( rotated.get( 0, 0 ), rotated.get( 1, 0 ), rotated.get( 2, 0 ) );
         }
     }
 

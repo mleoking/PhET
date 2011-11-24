@@ -40,6 +40,7 @@ import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.model.VSEPRMoleculeModel;
 import edu.colorado.phet.moleculeshapes.util.CanvasTransformedBounds;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
@@ -95,7 +96,7 @@ public class MoleculeShapesModule extends JMEModule {
     * model
     *----------------------------------------------------------------------------*/
 
-    private MoleculeModel molecule = new MoleculeModel();
+    private MoleculeModel molecule = new VSEPRMoleculeModel();
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
 
@@ -349,26 +350,26 @@ public class MoleculeShapesModule extends JMEModule {
         // TODO: refactor
 
         JMEView singleBondOverlay = createBondOverlayView.apply( "Single Bond", singleBondOverlayStageBounds );
-        singleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new MoleculeModel() {{
+        singleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
         }}, singleBondOverlay, inputHandler, this, addSingleBondEnabled ) );
         addLighting( singleBondOverlay.getScene() );
 
         JMEView doubleBondOverlay = createBondOverlayView.apply( "Double Bond", doubleBondOverlayStageBounds );
-        doubleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new MoleculeModel() {{
+        doubleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 2, false ) );
         }}, doubleBondOverlay, inputHandler, this, addDoubleBondEnabled ) );
         addLighting( doubleBondOverlay.getScene() );
 
         JMEView tripleBondOverlay = createBondOverlayView.apply( "Triple Bond", tripleBondOverlayStageBounds );
-        tripleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new MoleculeModel() {{
+        tripleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 3, false ) );
         }}, tripleBondOverlay, inputHandler, this, addTripleBondEnabled ) );
         addLighting( tripleBondOverlay.getScene() );
 
         if ( !isBasicsVersion() ) {
             JMEView lonePairOverlay = createBondOverlayView.apply( "Lone Pair", lonePairOverlayStageBounds );
-            lonePairOverlay.getScene().attachChild( new BondTypeOverlayNode( new MoleculeModel() {{
+            lonePairOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
                 addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), 0, false ) );
             }}, lonePairOverlay, inputHandler, this, addLonePairEnabled ) );
             addLighting( lonePairOverlay.getScene() );

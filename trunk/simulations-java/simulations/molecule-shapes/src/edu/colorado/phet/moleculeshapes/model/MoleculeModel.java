@@ -11,13 +11,11 @@ import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.event.CompositeNotifier;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.rangeInclusive;
-
 /**
  * Model of a single-atom-centered molecule which has a certain number of pair groups
  * surrounding it.
  */
-public class MoleculeModel {
+public abstract class MoleculeModel {
 
     public static final int MAX_PAIRS = 6;
 
@@ -30,32 +28,11 @@ public class MoleculeModel {
     public MoleculeModel() {
     }
 
+    public abstract List<ImmutableVector3D> getIdealPositionVectors();
+
+    public abstract List<Permutation> getAllowablePositionPermutations();
+
     public void update( final float tpf ) {
-        List<Permutation> permutations = new ArrayList<Permutation>();
-        permutations.add( Permutation.identity( getGroups().size() ) );
-
-        // permute away the lone pairs
-        if ( getLonePairs().size() > 1 ) {
-            List<Permutation> result = new ArrayList<Permutation>();
-            for ( Permutation permutation : permutations ) {
-                result.addAll( permutation.withIndicesPermuted( rangeInclusive( 0, getLonePairs().size() - 1 ) ) );
-            }
-            permutations = result;
-        }
-
-        // permute away the bonded groups
-        if ( getBondedGroups().size() > 1 ) {
-            List<Permutation> result = new ArrayList<Permutation>();
-            for ( Permutation permutation : permutations ) {
-                result.addAll( permutation.withIndicesPermuted( rangeInclusive( getLonePairs().size(), getGroups().size() - 1 ) ) );
-            }
-            permutations = result;
-        }
-
-        update( tpf, new VseprConfiguration( getBondedGroups().size(), getLonePairs().size() ).geometry.unitVectors, permutations );
-    }
-
-    public void update( final float tpf, List<ImmutableVector3D> stablePositions, List<Permutation> allowedPermutations ) {
         // move based on velocity
         for ( PairGroup group : groups ) {
             double oldDistance = group.position.get().magnitude();
@@ -64,7 +41,7 @@ public class MoleculeModel {
         }
 
         // attractive force to the correct position
-        double error = AttractorModel.applyAttractorForces( this, tpf, stablePositions, allowedPermutations );
+        double error = AttractorModel.applyAttractorForces( this, tpf, getIdealPositionVectors(), getAllowablePositionPermutations() );
 
         // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
         double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
@@ -151,6 +128,10 @@ public class MoleculeModel {
 
     public List<PairGroup> getGroups() {
         return groups;
+    }
+
+    public List<ImmutableVector3D> getCorrespondingIdealGeometryVectors() {
+        return new VseprConfiguration( getBondedGroups().size(), getLonePairs().size() ).geometry.unitVectors;
     }
 
     /**

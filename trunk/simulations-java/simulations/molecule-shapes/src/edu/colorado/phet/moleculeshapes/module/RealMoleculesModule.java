@@ -32,6 +32,8 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.model.RealMolecule;
+import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
@@ -83,7 +85,7 @@ public class RealMoleculesModule extends JMEModule {
     * model
     *----------------------------------------------------------------------------*/
 
-    private MoleculeModel molecule = new MoleculeModel();
+    private MoleculeModel molecule = new RealMoleculeModel( RealMolecule.BROMINE_TRIFLUORIDE );
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
 
@@ -257,20 +259,11 @@ public class RealMoleculesModule extends JMEModule {
             }
         } );
         moleculeView.getScene().attachChild( moleculeNode );
-
-        molecule.addPair( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-        molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 8, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-        molecule.addPair( new PairGroup( new ImmutableVector3D( -5, 8, 2 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
     }
 
     @Override public void updateState( final float tpf ) {
         super.updateState( tpf );
-        molecule.update( tpf, new ArrayList<ImmutableVector3D>() {{
-                             double angle = ( ( Math.PI * 2 ) / 3 ) * 0.9;
-                             add( new ImmutableVector3D( Math.cos( 0 ), Math.sin( 0 ), 0 ) );
-                             add( new ImmutableVector3D( Math.cos( angle ), Math.sin( angle ), 0 ) );
-                             add( new ImmutableVector3D( Math.cos( angle * 2 ), Math.sin( angle * 2 ), 0 ) );
-                         }}, Permutation.permutations( 3 ) );
+//        molecule.update( tpf );
         moleculeNode.updateView();
         moleculeNode.setLocalRotation( rotation );
 
