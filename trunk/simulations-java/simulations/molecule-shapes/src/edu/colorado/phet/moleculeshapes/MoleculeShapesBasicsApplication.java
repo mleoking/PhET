@@ -16,6 +16,7 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TeachersMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
+import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
 
 /**
  * The main application for Molecule Shapes: Basics (with a few things stripped out)

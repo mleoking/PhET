@@ -6,9 +6,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 
 import com.jme3.asset.AssetManager;
@@ -40,12 +40,12 @@ public class BondNode extends Node {
     private final SingleBondNode[] bBonds;
 
     public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius,
-                     Option<Float> maxLength, MoleculeShapesModule module, Camera camera ) {
+                     Option<Float> maxLength, JMEModule module, Camera camera ) {
         this( a, b, bondOrder, bondRadius, maxLength, module, camera, ColorRGBA.White, ColorRGBA.White );
     }
 
     public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius,
-                     Option<Float> maxLength, MoleculeShapesModule module, Camera camera, ColorRGBA aColor, ColorRGBA bColor ) {
+                     Option<Float> maxLength, JMEModule module, Camera camera, ColorRGBA aColor, ColorRGBA bColor ) {
         super( "Bond" );
         this.a = a;
         this.b = b;

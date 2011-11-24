@@ -6,11 +6,11 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.shapes.PointArc;
 import edu.colorado.phet.jmephet.shapes.Sector;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -32,7 +32,7 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.BOND_ANGL
 public class BondAngleNode extends Node {
     private PointArc arc;
     private boolean initialized = false;
-    private final MoleculeShapesModule module;
+    private final JMEModule module;
     private final MoleculeModel molecule;
     private final PairGroup aGroup;
     private final PairGroup bGroup;
@@ -41,7 +41,7 @@ public class BondAngleNode extends Node {
     private Sector sector;
     private Property<Float> alpha = new Property<Float>( 0f );
 
-    public BondAngleNode( final MoleculeShapesModule module, MoleculeModel molecule, PairGroup a, PairGroup b ) {
+    public BondAngleNode( final JMEModule module, MoleculeModel molecule, PairGroup a, PairGroup b ) {
         super( "Bond Angle" );
         this.module = module;
         this.molecule = molecule;
