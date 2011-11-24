@@ -70,6 +70,14 @@ public class RealMolecule extends Molecule {
         return result;
     }
 
+    public Atom3D getCentralAtom() {
+        return centralAtom;
+    }
+
+    public int getLonePairCount() {
+        return lonePairCount;
+    }
+
     public static final RealMolecule CARBON_MONOXIDE = new RealMolecule( "CO", 1 ) {{
         addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.528500, 0, 0 ) ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.528500, 0, 0 ) ), 3 );
