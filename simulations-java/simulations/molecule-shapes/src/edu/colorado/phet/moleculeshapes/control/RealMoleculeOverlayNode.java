@@ -5,8 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
+import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.view.MoleculeNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeNode.DisplayMode;
 

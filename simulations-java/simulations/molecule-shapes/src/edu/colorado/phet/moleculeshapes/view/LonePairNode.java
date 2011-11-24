@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;

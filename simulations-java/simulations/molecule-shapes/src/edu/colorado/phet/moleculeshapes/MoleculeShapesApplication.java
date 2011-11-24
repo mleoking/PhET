@@ -16,13 +16,16 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TeachersMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
+import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.module.RealMoleculesModule;
 
 /**
  * The main application for Molecule Shapes
  */
 public class MoleculeShapesApplication extends JMEPhetApplication {
 
-    private MoleculeShapesModule module;
+    private MoleculeShapesModule tab1;
+    private RealMoleculesModule tab2;
 
     /**
      * Sole constructor.
@@ -46,7 +49,8 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
         Frame parentFrame = getPhetFrame();
 
-        addModule( module = new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__TITLE, false ) );
+        addModule( tab1 = new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__TITLE, false ) );
+        addModule( tab2 = new RealMoleculesModule( parentFrame, Strings.REAL__MOLECULES ) );
     }
 
     /*
@@ -72,7 +76,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
 
-        DeveloperOptions.addDeveloperOptions( developerMenu, frame, module );
+        DeveloperOptions.addDeveloperOptions( developerMenu, frame, tab1 );
     }
 
     //----------------------------------------------------------------------------

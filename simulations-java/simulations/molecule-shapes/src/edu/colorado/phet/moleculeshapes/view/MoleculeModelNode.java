@@ -12,18 +12,19 @@ import java.util.Map;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
@@ -42,8 +43,9 @@ public class MoleculeModelNode extends Node {
     private MoleculeModel molecule;
     private final JMEInputHandler inputHandler;
     private final JMEView readoutView;
-    private final MoleculeShapesModule module;
+    private final JMEModule module;
     private final Camera camera;
+    private final ObservableProperty<Float> approximateScale;
 
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
     private List<LonePairNode> lonePairNodes = new ArrayList<LonePairNode>();
@@ -54,13 +56,14 @@ public class MoleculeModelNode extends Node {
     private List<ReadoutNode> angleReadouts = new ArrayList<ReadoutNode>();
     private AtomNode centerAtomNode;
 
-    public MoleculeModelNode( final MoleculeModel molecule, final JMEInputHandler inputHandler, final JMEView readoutView, final MoleculeShapesModule module, final Camera camera ) {
+    public MoleculeModelNode( final MoleculeModel molecule, final JMEInputHandler inputHandler, final JMEView readoutView, final JMEModule module, final Camera camera, final ObservableProperty<Float> approximateScale ) {
         super( "Molecule Model" );
         this.molecule = molecule;
         this.inputHandler = inputHandler;
         this.readoutView = readoutView;
         this.module = module;
         this.camera = camera;
+        this.approximateScale = approximateScale;
 
         // update the UI when the molecule changes electron pairs
         molecule.onGroupAdded.addListener( new VoidFunction1<PairGroup>() {
@@ -325,7 +328,7 @@ public class MoleculeModelNode extends Node {
                     if ( !text.getText().equals( string ) ) {
                         text.setText( string );
                     }
-                    text.setScale( module.getApproximateScale() ); // change the font size based on the sim scale
+                    text.setScale( approximateScale.get() ); // change the font size based on the sim scale
                     float[] colors = MoleculeShapesColor.BOND_ANGLE_READOUT.get().getRGBColorComponents( null );
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
                     text.repaint(); // TODO: this should not be necessary, however it fixes the bond angle labels. JME-Piccolo repaint issue?

@@ -17,8 +17,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
+import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.util.ColorPropertyControl;
 
 import com.jme3.util.BufferUtils;
@@ -32,17 +32,17 @@ public class DeveloperOptions {
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                public void update() {
-                    module.getApp().statistics.setDisplayFps( get() );
-                }
-            }, false );
+                             public void update() {
+                                 module.getApp().statistics.setDisplayFps( get() );
+                             }
+                         }, false );
         }} ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show Statistics", new Property<Boolean>( false ) {{
             addObserver( new SimpleObserver() {
-                public void update() {
-                    module.getApp().statistics.setDisplayStatView( get() );
-                }
-            }, false );
+                             public void update() {
+                                 module.getApp().statistics.setDisplayStatView( get() );
+                             }
+                         }, false );
         }} ) );
         developerMenu.add( new JMenuItem( "Dump Direct Memory" ) {{
             addActionListener( new ActionListener() {
