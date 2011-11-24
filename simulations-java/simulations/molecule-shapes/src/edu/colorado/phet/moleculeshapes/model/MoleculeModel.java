@@ -19,6 +19,8 @@ public abstract class MoleculeModel {
 
     public static final int MAX_PAIRS = 6;
 
+    private boolean sortingEnabled = true;
+
     private List<PairGroup> groups = new ArrayList<PairGroup>();
 
     public final Notifier<PairGroup> onGroupAdded = new Notifier<PairGroup>();
@@ -60,6 +62,10 @@ public abstract class MoleculeModel {
         return groups.size();
     }
 
+    public void setSortingEnabled( boolean sortingEnabled ) {
+        this.sortingEnabled = sortingEnabled;
+    }
+
     //TODO: Unused
     public int getNumberOfPairs() {
         int result = 0;
@@ -95,12 +101,14 @@ public abstract class MoleculeModel {
     public void addPair( PairGroup pair ) {
         groups.add( pair );
 
-        // sort so that the higher-repulsion groups come first
-        Collections.sort( groups, new Comparator<PairGroup>() {
-            public int compare( PairGroup a, PairGroup b ) {
-                return new Integer( getSortingKey( a ) ).compareTo( getSortingKey( b ) );
-            }
-        } );
+        if ( sortingEnabled ) {
+            // sort so that the higher-repulsion groups come first
+            Collections.sort( groups, new Comparator<PairGroup>() {
+                public int compare( PairGroup a, PairGroup b ) {
+                    return new Integer( getSortingKey( a ) ).compareTo( getSortingKey( b ) );
+                }
+            } );
+        }
 
         // notify
         onGroupAdded.updateListeners( pair );
