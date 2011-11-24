@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.event.CompositeNotifier;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 
@@ -27,6 +28,10 @@ public class MoleculeModel {
     }
 
     public void update( final float tpf ) {
+        update( tpf, new VseprConfiguration( getBondedGroups().size(), getLonePairs().size() ).geometry.unitVectors );
+    }
+
+    public void update( final float tpf, List<ImmutableVector3D> stablePositions ) {
         // move based on velocity
         for ( PairGroup group : groups ) {
             double oldDistance = group.position.get().magnitude();
@@ -35,7 +40,7 @@ public class MoleculeModel {
         }
 
         // attractive force to the correct position
-        double error = AttractorModel.applyAttractorForces( this, tpf );
+        double error = AttractorModel.applyAttractorForces( this, tpf, stablePositions );
 
         // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
         double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
