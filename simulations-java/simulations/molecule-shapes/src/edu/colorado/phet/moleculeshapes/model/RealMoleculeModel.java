@@ -32,6 +32,7 @@ public class RealMoleculeModel extends MoleculeModel {
         this.realMolecule = realMolecule;
 
         setSortingEnabled( false );
+        repulsionMultiplier = 0;
 
         final int numLonePairs = realMolecule.getLonePairCount();
         final int numBonds = realMolecule.getBonds().size();

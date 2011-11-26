@@ -275,13 +275,18 @@ public class RealMoleculesModule extends JMEModule {
         PNode controlPanelNode = new PSwing( new JComboBox( RealMolecule.TAB_2_MOLECULES ) {
             {
                 addActionListener( new java.awt.event.ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        RealMolecule selectedRealMolecule = (RealMolecule) ( (JComboBox) e.getSource() ).getSelectedItem();
-                        System.out.println( selectedRealMolecule );
-                        moleculeView.getScene().detachChild( moleculeNode );
-                        molecule = new RealMoleculeModel( selectedRealMolecule );
-                        moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, RealMoleculesModule.this, moleculeCamera, scaleFunction );
-                        moleculeView.getScene().attachChild( moleculeNode );
+                    public void actionPerformed( final ActionEvent e ) {
+                        JMEUtils.invoke( new Runnable() {
+                            public void run() {
+                                RealMolecule selectedRealMolecule = (RealMolecule) ( (JComboBox) e.getSource() ).getSelectedItem();
+                                System.out.println( selectedRealMolecule );
+                                moleculeNode.detachReadouts();
+                                moleculeView.getScene().detachChild( moleculeNode );
+                                molecule = new RealMoleculeModel( selectedRealMolecule );
+                                moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, RealMoleculesModule.this, moleculeCamera, scaleFunction );
+                                moleculeView.getScene().attachChild( moleculeNode );
+                            }
+                        } );
                     }
                 } );
             }
@@ -312,7 +317,7 @@ public class RealMoleculesModule extends JMEModule {
 
     @Override public void updateState( final float tpf ) {
         super.updateState( tpf );
-//        molecule.update( tpf );
+        molecule.update( tpf );
         moleculeNode.updateView();
         moleculeNode.setLocalRotation( rotation );
 

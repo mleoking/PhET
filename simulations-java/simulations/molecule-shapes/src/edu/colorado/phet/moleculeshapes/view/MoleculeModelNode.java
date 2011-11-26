@@ -280,6 +280,23 @@ public class MoleculeModelNode extends Node {
         removeRemainingLabels();
     }
 
+    public void detachReadouts() {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                JMEUtils.invokeLater( new Runnable() {
+                    public void run() {
+                        for ( ReadoutNode angleReadout : angleReadouts ) {
+                            angleReadout.detach();
+                        }
+                    }
+                } );
+            }
+        } );
+        for ( ReadoutNode angleReadout : angleReadouts ) {
+            angleReadout.detach();
+        }
+    }
+
     private void showAngleLabel( final String string, final float brightness, final Vector3f displayPoint ) {
 
         if ( angleIndex >= angleReadouts.size() ) {
