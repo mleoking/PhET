@@ -23,6 +23,9 @@ public abstract class MoleculeModel {
 
     private List<PairGroup> groups = new ArrayList<PairGroup>();
 
+    protected float repulsionMultiplier = 1;
+    protected float attractionMultiplier = 1;
+
     public final Notifier<PairGroup> onGroupAdded = new Notifier<PairGroup>();
     public final Notifier<PairGroup> onGroupRemoved = new Notifier<PairGroup>();
     public final CompositeNotifier<PairGroup> onGroupChanged = new CompositeNotifier<PairGroup>( onGroupAdded, onGroupRemoved );
@@ -43,19 +46,21 @@ public abstract class MoleculeModel {
         }
 
         // attractive force to the correct position
-        double error = AttractorModel.applyAttractorForces( this, tpf, getIdealPositionVectors(), getAllowablePositionPermutations() );
+        double error = AttractorModel.applyAttractorForces( this, tpf * attractionMultiplier, getIdealPositionVectors(), getAllowablePositionPermutations() );
 
         // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
         double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
 
+//        System.out.println( error );
+
         // repulsion forces
-        for ( PairGroup group : groups ) {
-            for ( PairGroup otherGroup : groups ) {
-                if ( otherGroup != group ) {
-                    group.repulseFrom( otherGroup, tpf, trueLengthsRatioOverride );
+            for ( PairGroup group : groups ) {
+                for ( PairGroup otherGroup : groups ) {
+                    if ( otherGroup != group ) {
+                        group.repulseFrom( otherGroup, tpf * repulsionMultiplier, trueLengthsRatioOverride );
+                    }
                 }
             }
-        }
     }
 
     public int getStericNumber() {
