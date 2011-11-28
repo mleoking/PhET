@@ -51,9 +51,9 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridy = 0;
             constraints.gridwidth = 2;
             // TODO: i18n
-            addChild( new PText( "Biomolecule Tool Box" ) {{
-                          setFont( TITLE_FONT );
-                      }}, constraints );
+            addChild( new PText( "Biomolecule Toolbox" ) {{
+                setFont( TITLE_FONT );
+            }}, constraints );
             // Add the biomolecule rows, each of which has a title and a set of
             // biomolecules that can be added to the active area.
             constraints.gridy++;

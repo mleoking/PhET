@@ -161,7 +161,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }};
         controlsRootNode.addChild( nextGeneButton );
         // TODO: i18n
-        controlsRootNode.addChild( new HTMLImageButtonNode( "Prev Gene", flipX( GRAY_ARROW ) ) {{
+        controlsRootNode.addChild( new HTMLImageButtonNode( "Previous Gene", flipX( GRAY_ARROW ) ) {{
             setTextPosition( TextPosition.RIGHT );
             setFont( new PhetFont( 20 ) );
             setOffset( 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 90 );
