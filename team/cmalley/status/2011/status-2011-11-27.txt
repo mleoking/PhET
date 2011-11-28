@@ -1,0 +1,55 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: November 11-27, 2011
+
+Concentration and Beer's Law Lab
+- reviewed design document
+- design team meeting
+
+Gas Properties redesign (#3134)
+- evaluated the current implementation of the ideal-gas project
+- discussed with Emily
+
+Self-Driven Particle Model
+- created tickets for various issues noticed during testing,
+  including 2 fatal crashes (#3160,3161,3162,3163)
+
+Java 7 compatibility issue (#3138)
+- coordinated regression testing with Sam M
+- published new versions to PhET website:
+  Eating and Exercise 1.04
+  Gravity Force Lab 1.02
+  Glaciers 2.04
+  Natural Selection 1.03
+  Neuron 1.01
+  Optical Tweezers and Applications 2.04
+  Molecular Motors 2.04
+  Stretching DNA 2.04
+- updated KSU Translation spreadsheet to reflect sims deployed for #3138
+- Self-Driven Particle Model has not been published, pending bug fixes
+
+Environment
+- set up Java 7 and Cygwin on Windows test machine (for testing of #3138)
+
+Sim Sponsorship
+- reviewed Kathy P's overview
+- tracking as #3166
+
+WHAT'S NEXT:
+
+- Concentration and Beer's Law Lab: implications of KP's feedback? title? begin implementation?
+- Dilutions: revise and turn this into a sim?
+- Jmol: common code generalization, #3104
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- might be out a couple of days between Xmas and New Year's
+- Jan 19-20
+- Feb 24
+
+--
