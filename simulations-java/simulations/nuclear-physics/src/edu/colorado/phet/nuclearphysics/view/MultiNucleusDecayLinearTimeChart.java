@@ -400,7 +400,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
 
-        // Do the layout for all this stuff.
+        // Rely on bounds changes to perform the layout.
     }
 
     //------------------------------------------------------------------------
@@ -428,6 +428,10 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
      * @param
      */
     private void updateBounds( Rectangle2D rect ) {
+        if ( rect.getWidth() == 0 || rect.getHeight() == 0 ) {
+            // Ignore unreasonable bounds.
+            return;
+        }
         // Set the scale factor such that this chart fits in the given bounds,
         // but do not change the aspect ratio.
         setScale( 1 );
@@ -666,8 +670,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _numDecayedNucleiText.setText( Integer.toString( _postDecayCount ) );
 
         // Update the positions so that they remain centered in their area.
-        double preDecayPosY = _yAxisUpperTickMarkLabel.getFullBoundsReference().getCenterY();
-        double postDecayPosY = _yAxisLowerTickMarkLabel.getFullBoundsReference().getCenterY();
+        double preDecayPosY = _yAxisUpperTickMark.getFullBoundsReference().getCenterY();
+        double postDecayPosY = _yAxisLowerTickMark.getFullBoundsReference().getCenterY();
         double numberTextHeight = _dummyNumberText.getFullBoundsReference().height;
 
         // This needs to be here, rather than in the update function, so that
@@ -1187,6 +1191,21 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             xPos = _graphOriginX
                    + ( _nucleus.getAdjustedActivatedTime() + ( TIME_ZERO_OFFSET_PROPORTION * _timeSpan ) ) * _msToPixelsFactor
                    - _nucleusNodeRadius + ( _bunchingOffset.getX() * _usableHeight );
+
+            // Handle the case where the nucleus would be off the chart.
+            double maxXPos = _usableAreaOriginX + _usableWidth;
+            if ( xPos >= maxXPos ) {
+                // Stop the nucleus from going of the chart and render it
+                // invisible.
+                _nucleusNode.setVisible( false );
+                xPos = maxXPos;
+            }
+            else if ( !_nucleusNode.getVisible() ) {
+                // Make sure the node is visible.
+                _nucleusNode.setVisible( true );
+            }
+
+            // Position the nucleus node.
             _nucleusNode.setOffset( xPos, yPos );
         }
 
