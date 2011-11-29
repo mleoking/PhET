@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.ManualGeneExpressionModule;
+import edu.colorado.phet.geneexpressionbasics.multiplecells.MultipleCellsModule;
 import edu.colorado.phet.geneexpressionbasics.proteinlevelsincell.ProteinLevelsInCellModule;
 
 /**
@@ -30,7 +31,7 @@ public class GeneExpressionBasicsApplication extends PiccoloPhetApplication {
         // module(s)
         addModule( new ManualGeneExpressionModule( "Manual Gene Expression" ) );
         addModule( new ProteinLevelsInCellModule( "Protein Levels in a Cell" ) );
-        addModule( new ManualGeneExpressionModule( "One Cell vs. Many" ) );
+        addModule( new MultipleCellsModule( "Multiple Cells" ) );
     }
 
     /**
