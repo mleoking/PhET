@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.PNode;
 public class MessengerRnaNode extends MobileBiomoleculeNode {
 
     // For debug - turn on to show the enclosing shape segments.
-    private static final boolean SHOW_SHAPE_SEGMENTS = true;
+    private static final boolean SHOW_SHAPE_SEGMENTS = false;
 
     /**
      * Constructor.
