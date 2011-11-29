@@ -6,8 +6,8 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MeanderToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
 
 /**
  * This state controls the behavior of a biomolecule that is moving towards an
@@ -27,7 +27,7 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
     public MovingTowardsAttachmentState( MobileBiomolecule biomolecule, AttachmentSite attachmentSite ) {
         super( biomolecule );
         this.attachmentSite = attachmentSite;
-        motionStrategy = new MeanderToDestinationMotionStrategy( attachmentSite.locationProperty, biomolecule.motionBoundsProperty );
+        motionStrategy = new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty, biomolecule.motionBoundsProperty );
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {

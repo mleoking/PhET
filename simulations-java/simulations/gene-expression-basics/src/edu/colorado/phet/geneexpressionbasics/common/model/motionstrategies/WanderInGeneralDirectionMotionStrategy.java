@@ -3,7 +3,6 @@ package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -60,10 +59,6 @@ public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
         Point2D nextLocation = new Point2D.Double( currentLocation.getX() + currentMotionVector.getX() * dt,
                                                    currentLocation.getY() + currentMotionVector.getY() * dt );
         return nextLocation;
-    }
-
-    @Override public Point2D getNextLocation( Point2D currentLocation, double dt ) {
-        return getNextLocation( currentLocation, new Rectangle2D.Double( currentLocation.getX(), currentLocation.getY(), Double.MIN_VALUE, Double.MIN_VALUE ), dt );
     }
 
     private double generateDirectionChangeCountdownValue() {

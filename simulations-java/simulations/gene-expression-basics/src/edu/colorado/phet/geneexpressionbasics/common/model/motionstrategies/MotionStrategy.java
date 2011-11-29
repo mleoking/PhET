@@ -21,21 +21,12 @@ public abstract class MotionStrategy {
 
     /**
      * Get the next location based on the current motion.  If the application of
-     * the current motion causes the current location to go outside of the
-     * motion bounds, a "bounce" will occur.
-     *
-     * @param currentLocation
-     * @param dt
-     * @return
-     */
-    public abstract Point2D getNextLocation( Point2D currentLocation, double dt );
-
-    /**
-     * Get the next location based on the current motion.  If the application of
      * the current motion causes any part of the provided shape to go outside of
      * the motion bounds, a "bounce" will occur.
      *
      * @param currentLocation
+     * @param shape           - Shape of the controlled item, used in detecting whether
+     *                        the item would go outside of the motion bounds.
      * @param dt
      * @return
      */
@@ -136,5 +127,9 @@ public abstract class MotionStrategy {
 
     private AffineTransform getMotionTransform( ImmutableVector2D motionVector, double dt ) {
         return AffineTransform.getTranslateInstance( motionVector.getX() * dt, motionVector.getY() * dt );
+    }
+
+    protected static ImmutableVector2D getVectorTowardsDestination( Point2D currentLocation, Point2D destination, double velocity ) {
+        return new ImmutableVector2D( currentLocation, destination ).getInstanceOfMagnitude( velocity );
     }
 }
