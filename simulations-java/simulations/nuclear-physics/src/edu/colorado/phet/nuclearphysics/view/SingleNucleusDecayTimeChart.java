@@ -9,7 +9,6 @@ import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -69,7 +68,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
 
     // Constants for controlling the appearance of the chart.
     private static final Color BORDER_COLOR = Color.DARK_GRAY;
-    private static final float BORDER_STROKE_WIDTH = 6f;
+    public static final float BORDER_STROKE_WIDTH = 6f;
     private static final Stroke BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final float AXES_LINE_WIDTH = 0.5f;
     private static final Stroke AXES_STROKE = new BasicStroke( AXES_LINE_WIDTH );
@@ -405,13 +404,16 @@ public class SingleNucleusDecayTimeChart extends PNode {
      *
      * @param
      */
-    private void updateBounds( Rectangle2D rect ) {
-        // Set transform back to the identity transform.
-        setTransform( new AffineTransform() );
-        // Scale based on the nominal size of the border as compared to the target size.
-        double xScale = rect.getWidth() / ( _borderNode.getFullBoundsReference().width + BORDER_STROKE_WIDTH );
-        double yScale = rect.getHeight() / ( _borderNode.getFullBoundsReference().height + BORDER_STROKE_WIDTH );
-        transformBy( AffineTransform.getScaleInstance( xScale, yScale ) );
+    private void updateSize( Dimension2D size ) {
+        if ( size.getWidth() == 0 || size.getHeight() == 0 ) {
+            // Ignore unreasonable bounds.
+            return;
+        }
+
+        // Set the scale factor such that this chart fits in the given bounds,
+        // but do not change the aspect ratio.
+        setScale( 1 );
+        setScale( Math.min( size.getWidth() / getFullBoundsReference().width, size.getHeight() / getFullBoundsReference().height ) );
     }
 
     /**
@@ -607,35 +609,16 @@ public class SingleNucleusDecayTimeChart extends PNode {
 
         _xAxisLabel.setText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + getXAxisUnitsText() + ")" );
         _xAxisLabel.setOffset( _graphOriginX - ( _xAxisLabel.getFullBoundsReference().width / 2 ), unitsLabelYPos );
-
-
-//		for ( int i = 0; i < _xAxisTickMarks.size(); i++ ) {
-//        	
-//            // Position the tick mark itself.
-//            PPath tickMark = (PPath) _xAxisTickMarks.get( i );
-//            double tickMarkPosX = _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) 
-//                    + ( i * 1000 * _msToPixelsFactor );
-//            tickMark.setPathTo( new Line2D.Double( tickMarkPosX, _graphOriginY, tickMarkPosX, _graphOriginY - TICK_MARK_LENGTH ) );
-//
-//            // Position the label for the tick mark.
-//            PText tickMarkLabel = (PText) _xAxisTickMarkLabels.get( i );
-//            double tickMarkLabelPosX = tickMarkPosX - ( tickMarkLabel.getWidth() / 2 );
-//            tickMarkLabel.setOffset( tickMarkLabelPosX, _graphOriginY );
-//            
-//            // Set the visibility.
-//            tickMark.setVisible(!_exponentialMode);
-//            tickMarkLabel.setVisible(!_exponentialMode);
-//        }
     }
 
     /**
      * This method causes the chart to resize itself based on the (presumably
      * different) size of the overall canvas on which it appears.
      *
-     * @param rect - Position on the canvas where this chart should appear.
+     * @param size - New size for this node.
      */
-    public void componentResized( Rectangle2D rect ) {
-        updateBounds( rect );
+    public void componentResized( Dimension2D size ) {
+        updateSize( size );
     }
 
     /**
@@ -816,11 +799,14 @@ public class SingleNucleusDecayTimeChart extends PNode {
         _halfLifeMarkerLine.lineTo( (float) halfLifeMarkerXPos,
                                     (float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
 
-        // If it is a custom nucleus, position and show the handle.
+        // Position and update the visibility of the half life adjustment node.
+        _halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + ( _graphOriginY - _halfLifeMarkerLine.getY() ) / 2 );
         if ( ( _model.getNucleusType() == NucleusType.HEAVY_CUSTOM ) || ( _model.getNucleusType() == NucleusType.LIGHT_CUSTOM ) ) {
-            _halfLifeHandleNode.setVisible( true );
-            _halfLifeHandleNode.flash();
-            _halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + ( _graphOriginY - _halfLifeMarkerLine.getY() ) / 2 );
+            // If the adjustment handle is being initially shown, flash it.
+            if ( !_halfLifeHandleNode.isVisible() ) {
+                _halfLifeHandleNode.setVisible( true );
+                _halfLifeHandleNode.flash();
+            }
         }
         else {
             _halfLifeHandleNode.setVisible( false );
@@ -969,6 +955,21 @@ public class SingleNucleusDecayTimeChart extends PNode {
                                      _currentNucleus.getAdjustedActivatedTime() ) * _msToPixelsFactor - _nucleusNodeRadius;
         }
 
+        // Handle the case where the nucleus would be off the chart by limiting
+        // its position to the edge of the chart and making it invisible.
+        double maxXPos = _usableAreaOriginX + _usableWidth - _nucleusNodeRadius;
+        if ( xPos >= maxXPos ) {
+            // Stop the nucleus from going of the chart and render it
+            // invisible.
+            _undecayedNucleusNode.setVisible( false );
+            xPos = maxXPos;
+        }
+        else if ( !_undecayedNucleusNode.getVisible() ) {
+            // Make sure the node is visible.
+            _undecayedNucleusNode.setVisible( true );
+        }
+
+        // Position the nucleus node.
         _undecayedNucleusNode.setOffset( xPos, yPos );
     }
 
@@ -991,10 +992,21 @@ public class SingleNucleusDecayTimeChart extends PNode {
                                      _currentNucleus.getAdjustedActivatedTime() ) * _msToPixelsFactor - _nucleusNodeRadius;
         }
 
+        // If the resultant x position is off of the chart, limit the x
+        // position to the edge of the chart and make the node invisible.
+        double maxXPos = _usableAreaOriginX + _usableWidth - _nucleusNodeRadius;
+        if ( xPos >= maxXPos ) {
+            nucleusNode.setVisible( false );
+            xPos = maxXPos;
+        }
+        else if ( !nucleusNode.getVisible() ) {
+            // Make sure the node is visible.
+            nucleusNode.setVisible( true );
+        }
+
+        // If the nucleus is falling (which indicates that it decayed recently),
+        // position it in the space between the upper and lower lines.
         if ( nucleusNode.getFallCount() != 0 ) {
-            // The nucleus is falling, indicating that the corresponding
-            // nucleus decayed recently.  Position it in the space between
-            // the upper and lower lines based on its fall counter.
             double fallDistance = _usableHeight * ( postDecayHeight - PRE_DECAY_TIME_LINE_POS_FRACTION );
             yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION )
                    + ( fallDistance * ( 1 - (double) nucleusNode.getFallCount() / (double) INITIAL_FALL_COUNT ) )
