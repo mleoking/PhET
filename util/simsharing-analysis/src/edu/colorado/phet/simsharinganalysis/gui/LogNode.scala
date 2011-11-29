@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharinganalysis.gui
 
-import edu.umd.cs.piccolo.PNode
 import javax.swing.JPopupMenu
 import edu.colorado.phet.simsharinganalysis.phet._
 import edu.colorado.phet.simsharinganalysis.scripts.DoProcessEvents
@@ -9,12 +8,15 @@ import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import java.awt.event.{MouseEvent, InputEvent}
 import java.awt.geom.Rectangle2D
 import java.awt.{BasicStroke, Color}
-import edu.colorado.phet.common.piccolophet.nodes.{PhetPText, PhetPPath}
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.umd.cs.piccolo.nodes.PText
 import edu.colorado.phet.simsharinganalysis._
+import edu.umd.cs.piccolo.{PCamera, PNode}
+import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, PhetPText}
+import edu.colorado.phet.common.phetcommon.view.util.{RectangleUtils, PhetFont}
 
-class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHeight: Double, sessionStartTime: Long, colorMap: String => Color, getColor: Entry => Color) extends PNode {
+class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHeight: Double, sessionStartTime: Long, colorMap: String => Color,
+              getColor: Entry => Color,
+              camera: PCamera) extends PNode {
 
   lazy val logTextWindow = new LogTextWindow(log)
   //  lazy val coverageWindow = new CoverageWindow(log)
@@ -91,7 +93,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
   val labelLayer = new PNode
   addChild(systemLayer)
   addChild(userLayer)
-  addChild(labelLayer)
+  camera.addChild(labelLayer)
 
   //Show events within the stripe to indicate user activity
   for ( entry <- log.entries ) {
@@ -111,10 +113,18 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
 
     val line = new PhetPPath(new Rectangle2D.Double(x, 0, width, stripeHeight), getColor(entry))
     lazy val label = {
-      val created = new PhetPText(entry.toString, new PhetFont(1))
-      created.centerFullBoundsOnPoint(line.getFullBounds.getCenterX, line.getFullBounds.getMaxY + created.getFullBounds.getHeight)
-      labelLayer addChild created
-      created
+      val created = new PhetPText(entry.actor + " " + entry.event + "\n" + entry.parameters.map(k => k._1 + " = " + k._2).mkString("\n"), new PhetFont(16))
+      val background = new PhetPPath(RectangleUtils.expandRectangle2D(created.getFullBounds, 5, 5), new Color(0, 255, 0, 200))
+      val node = new PNode {
+        addChild(background)
+        addChild(created)
+      }
+
+      camera addChild node
+
+      node setPickable false
+      node setChildrenPickable false
+      node
     }
 
     if ( system ) {
@@ -126,6 +136,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
 
     line.addInputEventListener(new PBasicInputEventHandler {
       override def mouseEntered(event: PInputEvent) {
+        label.centerFullBoundsOnPoint(event.getCanvasPosition.getX, event.getCanvasPosition.getY + label.getFullBounds.getHeight / 2 + 15)
         label setVisible true
       }
 
