@@ -83,6 +83,9 @@ public class ResizeArrowNode extends PhetPNode {
             public void mouseEntered( PInputEvent event ) {
                 m_mouseIsInside = true;
                 m_adjusterArrow.setPaint( m_highlightedFillColor );
+                if ( flashController.isFlashing() ) {
+                    flashController.stop();
+                }
             }
 
             public void mouseExited( PInputEvent event ) {
@@ -117,7 +120,7 @@ public class ResizeArrowNode extends PhetPNode {
         private static final int PRE_FLASH_TIME = 300; // In milliseconds.
         private static final int FLASH_ON_TIME = 500; // In milliseconds.
         private static final int FLASH_OFF_TIME = 500; // In milliseconds.
-        private static final int NUM_FLASHES = 3;
+        private static final int NUM_FLASHES = 2;
 
         // Variables used to implement the flashing behavior.
         private boolean flashOn = false;
@@ -164,6 +167,14 @@ public class ResizeArrowNode extends PhetPNode {
             flashOn = false;
             flashTimer.setDelay( PRE_FLASH_TIME );
             flashTimer.restart();
+        }
+
+        public boolean isFlashing() {
+            return flashTimer.isRunning();
+        }
+
+        public void stop() {
+            flashTimer.stop();
         }
     }
 }
