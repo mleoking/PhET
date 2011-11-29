@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Stroke;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -62,7 +63,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     // Nominal size of this chart.  The chart is scaled based on resizing
     // information that comes in.  Nominal size is based on roughly what the
     // size is when the sim starts up.
-    private static final Rectangle2D NOMINAL_SIZE = new Rectangle2D.Double( 0, 0, 800, 125 );
+    private static final Dimension2D NOMINAL_SIZE = new PDimension( 800, 125 );
 
     // Default amount of time in milliseconds represented by this chart.
     private static final double DEFAULT_TIME_SPAN = 1000;
@@ -77,7 +78,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
 
     // Constants for controlling the appearance of the chart.
     private static final Color BORDER_COLOR = Color.DARK_GRAY;
-    private static final float BORDER_STROKE_WIDTH = 6f;
+    public static final float BORDER_STROKE_WIDTH = 6f;
     private static final Stroke BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final float AXES_LINE_WIDTH = 0.5f;
     private static final Stroke AXES_STROKE = new BasicStroke( AXES_LINE_WIDTH );
@@ -149,7 +150,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private int[] _decaysPerHistogramBucket = new int[NUM_HISTOGRAM_BUCKETS];
 
     // References to the various components of the chart.
-    private PPath _borderNode;
+    private PPath _backgroundNode;
     private PPath _halfLifeMarkerLine;
     private ResizeArrowNode _halfLifeHandleNode;
     private PText _halfLifeLabel;
@@ -261,26 +262,26 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             }
         } );
 
+        // Create the background for this chart.
+        _backgroundNode = new PPath();
+        _backgroundNode.setStroke( BORDER_STROKE );
+        _backgroundNode.setStrokePaint( BORDER_COLOR );
+        _backgroundNode.setPaint( NuclearPhysicsConstants.CHART_BACKGROUND_COLOR );
+        addChild( _backgroundNode );
+
         // Set up the parent node that will contain the non-interactive
         // portions of the chart.
         _nonPickableChartNode = new PComposite();
         _nonPickableChartNode.setPickable( false );
         _nonPickableChartNode.setChildrenPickable( false );
-        addChild( _nonPickableChartNode );
+        _backgroundNode.addChild( _nonPickableChartNode );
 
         // Set up the parent node that will contain the interactive portions
         // of the chart.
         _pickableChartNode = new PNode();
         _pickableChartNode.setPickable( true );
         _pickableChartNode.setChildrenPickable( true );
-        addChild( _pickableChartNode );
-
-        // Create the border for this chart.
-        _borderNode = new PPath();
-        _borderNode.setStroke( BORDER_STROKE );
-        _borderNode.setStrokePaint( BORDER_COLOR );
-        _borderNode.setPaint( NuclearPhysicsConstants.CHART_BACKGROUND_COLOR );
-        _nonPickableChartNode.addChild( _borderNode );
+        _backgroundNode.addChild( _pickableChartNode );
 
         // Create the x axis of the graph.  The initial position is arbitrary
         // and the actual positioning will be done by the update function(s).
@@ -432,10 +433,11 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             // Ignore unreasonable bounds.
             return;
         }
+
         // Set the scale factor such that this chart fits in the given bounds,
         // but do not change the aspect ratio.
         setScale( 1 );
-        setScale( Math.min( rect.getWidth() / getFullBoundsReference().width, rect.getHeight() / getFullBoundsReference().height ) );
+        setScale( Math.min( rect.getWidth() / _backgroundNode.getFullBoundsReference().width, rect.getHeight() / _backgroundNode.getFullBoundsReference().height ) );
     }
 
     /**
@@ -443,8 +445,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
      */
     private void doLayout() {
         // Recalculate the usable area and origin for the chart.
-        _usableAreaOriginX = NOMINAL_SIZE.getX() + BORDER_STROKE_WIDTH;
-        _usableAreaOriginY = NOMINAL_SIZE.getY() + BORDER_STROKE_WIDTH;
+        _usableAreaOriginX = BORDER_STROKE_WIDTH;
+        _usableAreaOriginY = BORDER_STROKE_WIDTH;
         _usableWidth = NOMINAL_SIZE.getWidth() - ( BORDER_STROKE_WIDTH * 2 );
         _usableHeight = NOMINAL_SIZE.getHeight() - ( BORDER_STROKE_WIDTH * 2 );
 
@@ -461,7 +463,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _nucleusNodeRadius = _usableHeight * NUCLEUS_SIZE_PROPORTION / 2;
 
         // Set up the border for the chart.
-        _borderNode.setPathTo( new RoundRectangle2D.Double( _usableAreaOriginX, _usableAreaOriginY, NOMINAL_SIZE.getWidth(), NOMINAL_SIZE.getHeight(), 20, 20 ) );
+        _backgroundNode.setPathTo( new RoundRectangle2D.Double( _usableAreaOriginX, _usableAreaOriginY, NOMINAL_SIZE.getWidth(), NOMINAL_SIZE.getHeight(), 20, 20 ) );
 
         // Position the x and y axes.
         _xAxisOfGraph.setTipAndTailLocations(
@@ -495,7 +497,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _xAxisLabel.setOffset( _graphOriginX - ( _xAxisLabel.getFullBoundsReference().width / 2 ),
                                ( _xAxisTickMarkLabels.get( 0 ) ).getFullBoundsReference().getMaxY() );
 
-        // Scale and position the Y-axis label.
+        // Position the Y-axis label.
         _yAxisLabel.setScale( 1 );
         double yAxisDesiredLabelHeight = ( _graphOriginY - _usableAreaOriginY ) * 0.85;
         double yAxisDesiredLabelMaxWidth = yAxisDesiredLabelHeight * 0.5;
@@ -761,15 +763,18 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             }
         }
 
-        // If it is a custom nucleus, position and show the handle.
+        // Position the adjustment handle.
+        _halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + ( _graphOriginY - _halfLifeMarkerLine.getY() ) / 2 );
         if ( ( _model.getNucleusType() == NucleusType.HEAVY_CUSTOM ) || ( _model.getNucleusType() == NucleusType.LIGHT_CUSTOM ) ) {
-            _halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + ( _graphOriginY - _halfLifeMarkerLine.getY() ) / 2 );
+            // If the adjustment handle is being initially shown, flash it.
             if ( !_halfLifeHandleNode.isVisible() ) {
                 _halfLifeHandleNode.setVisible( true );
                 _halfLifeHandleNode.flash();
             }
         }
         else {
+            // If this is not an adjustable half life nucleus, hide the
+            // adjustment handle.
             _halfLifeHandleNode.setVisible( false );
         }
 

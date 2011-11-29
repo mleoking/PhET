@@ -73,11 +73,10 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
     private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
 
     // Constants that control where the charts are placed.
-    private final double TIME_CHART_FRACTION = 0.23;   // Fraction of canvas for time chart.
+    private final double TIME_CHART_VERTICAL_FRACTION = 0.23;   // Vertical fraction of canvas for time chart.
+    private final double TIME_CHART_HORIZONTAL_FRACTION = 0.95;   // Horizontal fraction of canvas for time chart.
 
     // Base color for the buttons on the canvas.
-//    private final static Color BUCKET_AND_BUTTON_COLOR = new Color(152, 251, 152);
-//    private final static Color BUCKET_AND_BUTTON_COLOR = new Color(240, 230, 140);
     private final static Color BUCKET_AND_BUTTON_COLOR = new Color( 255, 160, 122 );
 
     // Number of tries for finding open nucleus location.
@@ -268,11 +267,10 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         super.update();
 
         // Resize the time chart.
-        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * TIME_CHART_FRACTION ) );
+        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth() * TIME_CHART_HORIZONTAL_FRACTION, getHeight() * TIME_CHART_VERTICAL_FRACTION ) );
 
-        // Position the time chart.  This requires a "tweak factor" in the x
-        // direction to be centered that I *think* is due to stroke thickness.
-        _decayTimeChart.setOffset( ( getWidth() - _decayTimeChart.getFullBoundsReference().getWidth() ) / 2 + 8, 0 );
+        // Position the time chart.
+        _decayTimeChart.setOffset( ( getWidth() - _decayTimeChart.getFullBoundsReference().getWidth() ) / 2 - MultiNucleusDecayLinearTimeChart.BORDER_STROKE_WIDTH / 2, 0 );
 
         // Position the reset button.
         _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ), 0.30 * getHeight() );
