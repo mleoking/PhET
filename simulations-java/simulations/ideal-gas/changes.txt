@@ -1,3 +1,6 @@
+> added "Return Lid" feature
+11/29/11 #3136, added "Return Lid" button: empties the chamber, closes the lid, and (if relevant) ensures that the balloon is inside the chamber
+11/29/11 #3136, fix animation of lid blowing off, so that it happens on clock tick instead of pressure change
 > Improved graphics on low resolution screens
 > change thermometer to a shade of red that is visible to people with red/green colorblindness
 # 3.14.00 (51133) Apr 25, 2011

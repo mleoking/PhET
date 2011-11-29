@@ -10,7 +10,14 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -24,7 +31,12 @@ import java.util.EventListener;
 import java.util.EventObject;
 import java.util.Random;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -34,8 +46,10 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
@@ -44,9 +58,25 @@ import edu.colorado.phet.idealgas.collision.SphereBoxExpert;
 import edu.colorado.phet.idealgas.collision.SphereSphereExpert;
 import edu.colorado.phet.idealgas.coreadditions.StopwatchPanel;
 import edu.colorado.phet.idealgas.instrumentation.Thermometer;
-import edu.colorado.phet.idealgas.model.*;
-import edu.colorado.phet.idealgas.view.*;
-import edu.colorado.phet.idealgas.view.monitors.*;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.Gravity;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.PressureSensingBox;
+import edu.colorado.phet.idealgas.model.PressureSlice;
+import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.view.BaseIdealGasApparatusPanel;
+import edu.colorado.phet.idealgas.view.Box2DGraphic;
+import edu.colorado.phet.idealgas.view.BoxDoorGraphic;
+import edu.colorado.phet.idealgas.view.Mannequin;
+import edu.colorado.phet.idealgas.view.PumpHandleGraphic;
+import edu.colorado.phet.idealgas.view.RulerGraphic;
+import edu.colorado.phet.idealgas.view.WiggleMeGraphic;
+import edu.colorado.phet.idealgas.view.monitors.CmLines;
+import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
+import edu.colorado.phet.idealgas.view.monitors.PressureDialGauge;
+import edu.colorado.phet.idealgas.view.monitors.PressureSliceGraphic;
+import edu.colorado.phet.idealgas.view.monitors.SpeciesMonitorDialog;
 
 /**
  *
@@ -113,6 +143,7 @@ public class IdealGasModule extends PhetGraphicsModule {
     private Color boxColor = new Color( 180, 180, 180 );
     private Random random = new Random();
     private PressureDialGauge pressureGauge;
+    private PhetGraphic returnLidGraphic;
 
     //-----------------------------------------------------------------
     // Constructors and initialization
@@ -187,6 +218,8 @@ public class IdealGasModule extends PhetGraphicsModule {
         // Place a slider to control the stove
         createApparatusSwingControls();
 
+        createReturnLidButton();
+
         // Add help items
         addHelp();
     }
@@ -206,7 +239,7 @@ public class IdealGasModule extends PhetGraphicsModule {
      * @return names of species
      */
     protected String[] getSpeciesNames() {
-        return new String[]{IdealGasResources.getString( "Common.Heavy_Species" ), IdealGasResources.getString( "Common.Light_Species" )};
+        return new String[] { IdealGasResources.getString( "Common.Heavy_Species" ), IdealGasResources.getString( "Common.Light_Species" ) };
     }
 
     /**
@@ -276,6 +309,44 @@ public class IdealGasModule extends PhetGraphicsModule {
                                        (int) ( pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 32 ) );
         getApparatusPanel().addGraphic( pumpSelectorPanel );
         getApparatusPanel().revalidate();
+    }
+
+    /*
+     * Creates the "Return Lid" button, see Unfuddle #3167.
+     * When the "safe" pressure in the chamber is exceeded, the lid blows off and this button appears.
+     * Pressing the button empties the chamber and closes the lid.
+     */
+    private void createReturnLidButton() {
+
+        // Swing button
+        JButton returnLidButton = new JButton( IdealGasResources.getString( "returnLid" ) ) {{
+            setFont( new PhetFont( 18 ) );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    returnLidGraphic.setVisible( false );
+                    resetChamber();
+                }
+            } );
+        }};
+
+        // Integration of Swing with phetgraphics.
+        returnLidGraphic = PhetJComponent.newInstance( getApparatusPanel(), returnLidButton );
+        returnLidGraphic.setVisible( !box.isPressureSafe() );
+        getApparatusPanel().addGraphic( returnLidGraphic );
+
+        // Position the button above the box, and to the left of the hole in the top of the box,
+        // taking into account the effects of i18n on the button size.
+        returnLidGraphic.setLocation( IdealGasConfig.X_BASE_OFFSET + 220 - returnLidGraphic.getWidth(),
+                                      IdealGasConfig.Y_BASE_OFFSET + 230 - returnLidGraphic.getHeight() );
+
+        // Show the button when pressure change results in the lid being blown off the box.
+        box.addChangeListener( new PressureSensingBox.ChangeListener() {
+            public void stateChanged( PressureSensingBox.ChangeEvent event ) {
+                if ( !box.isPressureSafe() ) {
+                    returnLidGraphic.setVisible( true );
+                }
+            }
+        } );
     }
 
     /**
@@ -698,15 +769,21 @@ public class IdealGasModule extends PhetGraphicsModule {
     ResetListener resetListenersProxy = (ResetListener) resetEventChannel.getListenerProxy();
 
     public void reset() {
-        getIdealGasModel().removeAllMolecules();
-        resetListenersProxy.resetOccurred( new ResetEvent( this ) );
+        resetChamber();
         box.setBounds( xOrigin, yOrigin, xDiag, yDiag );
-        box.setOpening( new Point2D[]{new Point2D.Double(), new Point2D.Double()} );
-        box.clearData();
-
+        resetListenersProxy.resetOccurred( new ResetEvent( this ) );
         if ( stopwatchPanel != null ) {
             stopwatchPanel.reset();
         }
+    }
+
+    // Resets the chamber (aka "box") so that it contains zero molecules (aka "species") and the lid (aka "door") is closed. See #3167.
+    protected void resetChamber() {
+        getIdealGasModel().removeAllMolecules();
+        idealGasControlPanel.resetSpeciesControls(); // these controls should be observing the model, but they aren't
+        box.setOpening( new Point2D[] { new Point2D.Double(), new Point2D.Double() } );
+        box.clearData(); // should be observing the model, but doesn't work properly
+        boxDoorGraphic.closeDoor();
     }
 
     public void addResetListener( ResetListener listener ) {
