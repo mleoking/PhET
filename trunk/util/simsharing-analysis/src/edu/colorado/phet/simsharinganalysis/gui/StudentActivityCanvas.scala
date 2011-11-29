@@ -8,7 +8,6 @@ import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.awt.geom.Line2D
 import edu.colorado.phet.simsharinganalysis._
-import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing._
 import java.awt.{BorderLayout, Dimension, Color}
 import scripts.HowMuchTimeSpentInTabs
@@ -27,7 +26,7 @@ class StudentActivityCanvas(path: String) extends PCanvas {
   getLayer.addChild(sessionLayer)
 
   //one plot section for each session
-  for ( session <- studySessionsNov2011.coloradoStudyMonday :: Nil; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
+  for ( session: Session <- studySessionsNov2011.coloradoStudyMonday :: Nil; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
 
     val machines = sessionLogs.map(_.machine).distinct.sorted
     println("machines.length=" + machines.length)
@@ -67,7 +66,7 @@ class StudentActivityCanvas(path: String) extends PCanvas {
 
         //Stripe for the entire session
         for ( log <- sessionLogs.filter(_.machine == machine) ) {
-          val logNode = new LogNode(log, PlotStudentActivity.toX, PlotStudentActivity.toDeltaX, stripeHeight, sessionStartTime, colorMap, getColor) {
+          val logNode = new LogNode(log, PlotStudentActivity.toX, PlotStudentActivity.toDeltaX, stripeHeight, sessionStartTime, colorMap, getColor, getCamera) {
             setOffset(0, y)
           }
           addChild(logNode)
@@ -103,14 +102,6 @@ class MyPText(node: PNode, camera: PCamera, text: String) extends PText(text) {
   //      paintText(paintContext)
   //    }
   //  }
-}
-
-class MyMenuItem(text: String, action: () => Unit) extends JMenuItem(text) {
-  addActionListener(new ActionListener {
-    def actionPerformed(e: ActionEvent) {
-      action()
-    }
-  })
 }
 
 class LogTextWindow(log: Log) extends JFrame("Student " + log.user) {
