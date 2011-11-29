@@ -11,13 +11,13 @@ Got hints for transcription factors and polymerase working.
 Added ability for polymerase to produce mRNA
 Added ability for polymerase to exhibit the "transcription motion" on the gene.
 # 0.00.07 (55950) Aug 31, 2011
-8/31/11 Depolying to dev to capture a snapshot
+8/31/11 Deploying to dev to capture a snapshot
 Added 1D random walk when attached to DNA for molecules with general DNA affinity.
 # 0.00.06 (55793) Aug 25, 2011
 8/25/11 Taking a snapshot before making some major changes.
 Fixed an issue where biomolecules removed from the DNA would jump back to it.
 # 0.00.05 (55514) Aug 19, 2011
-8/19/11 Depolying to dev for review by design team.
+8/19/11 Deploying to dev for review by design team.
 Added attachment sites and the ability for polymerase and transcription factors to attach to DNA.
 Added negative transcription factor.
 Added support for hints and added initial set to first gene.
