@@ -1,3 +1,5 @@
+Made biomolecules move directly and quickly to attachment sites, rather than doing a "directed wandering".
+Changed the motion of wandering biomolecules to be faster and have a longer mean free path.
 Implemented the ability to capture proteins in the collection box.
 Added protein collection box node.
 Added protein production from ribosomes.

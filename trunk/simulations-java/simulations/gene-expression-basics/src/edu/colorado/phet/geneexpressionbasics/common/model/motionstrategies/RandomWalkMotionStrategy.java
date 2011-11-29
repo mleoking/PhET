@@ -3,7 +3,6 @@ package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -16,10 +15,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class RandomWalkMotionStrategy extends MotionStrategy {
 
-    private static final double MIN_VELOCITY = 100; // In picometers/s
-    private static final double MAX_VELOCITY = 500; // In picometers/s
+    private static final double MIN_VELOCITY = 400; // In picometers/s
+    private static final double MAX_VELOCITY = 800; // In picometers/s
     private static final double MIN_TIME_IN_ONE_DIRECTION = 0.25; // In seconds.
-    private static final double MAX_TIME_IN_ONE_DIRECTION = 1.25; // In seconds.
+    private static final double MAX_TIME_IN_ONE_DIRECTION = 0.70; // In seconds.
     private static final Random RAND = new Random();
 
     private double directionChangeCountdown = 0;
@@ -58,10 +57,6 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
         Point2D nextLocation = new Point2D.Double( currentLocation.getX() + currentMotionVector.getX() * dt,
                                                    currentLocation.getY() + currentMotionVector.getY() * dt );
         return nextLocation;
-    }
-
-    @Override public Point2D getNextLocation( Point2D currentLocation, double dt ) {
-        return getNextLocation( currentLocation, new Rectangle2D.Double( currentLocation.getX(), currentLocation.getY(), Double.MIN_VALUE, Double.MIN_VALUE ), dt );
     }
 
     private double generateDirectionChangeCountdownValue() {
