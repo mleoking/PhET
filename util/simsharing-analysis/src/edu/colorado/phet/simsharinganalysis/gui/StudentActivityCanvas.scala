@@ -81,7 +81,7 @@ class TimelineNode(sessionStartTime: Long, start: Long, end: Long) extends PNode
   //anchor at (0,0)
   addChild(new PText("timeline"))
 
-  for ( t <- start until end by 1000 * 60 * 15 ) {
+  for ( t <- start until end by 1000 * 60 * 10 ) {
     addChild(new PNode {
       val tick = new PhetPPath(new Line2D.Double(0, 0, 0, 10)) {
         val x = PlotStudentActivity.toX(t - sessionStartTime)
@@ -89,7 +89,11 @@ class TimelineNode(sessionStartTime: Long, start: Long, end: Long) extends PNode
         setOffset(x, 0) //one second per pixel
       }
       this addChild tick
-      addChild(new PText(new Date(t).toString) {
+      val elapsedTime = t - start
+      val totalSeconds = elapsedTime / 1000
+      val minutes = totalSeconds / 60
+
+      addChild(new PText(minutes + ":00") {
         setOffset(tick.getFullBounds.getCenterX - getFullBounds.getWidth / 2, tick.getFullBounds.getMaxY)
       })
     })
