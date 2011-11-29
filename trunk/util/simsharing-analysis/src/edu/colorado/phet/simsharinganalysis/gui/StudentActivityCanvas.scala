@@ -19,8 +19,8 @@ class StudentActivityCanvas(path: String) extends PCanvas {
   val sims = all.map(_.simName).distinct
 
   setInteractingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
-  val panel = new VBox(20, true)
-  getLayer.addChild(panel)
+  val sessionLayer = new VBox(20, true)
+  getLayer.addChild(sessionLayer)
 
   //one plot section for each session
   for ( session <- studySessionsNov2011.all; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
@@ -32,7 +32,7 @@ class StudentActivityCanvas(path: String) extends PCanvas {
     val sessionStartTime = sessionLogs.map(_.epoch).min
     val sessionEndTime = sessionLogs.map(_.endEpoch).max
 
-    panel.addChild(new PNode {
+    sessionLayer.addChild(new PNode {
       addChild(new PText(session.study + " session started at " + new Date(sessionStartTime)))
       addChild(new PhetPPath(new Line2D.Double(getFullBounds.getWidth + 10, getFullBounds.getHeight / 2, 10000, getFullBounds.getHeight / 2)))
     })
@@ -45,7 +45,7 @@ class StudentActivityCanvas(path: String) extends PCanvas {
       }
     }
 
-    panel.addChild(new TimelineNode(sessionStartTime, sessionStartTime, sessionEndTime))
+    sessionLayer.addChild(new TimelineNode(sessionStartTime, sessionStartTime, sessionEndTime))
 
     val colorMap = Map("Molecule Polarity" -> Color.red,
                        "Balancing Chemical Equations" -> Color.green,
@@ -71,7 +71,7 @@ class StudentActivityCanvas(path: String) extends PCanvas {
           y = y + stripeHeight + 1
         }
       }
-      panel.addChild(machineNode)
+      sessionLayer.addChild(machineNode)
     }
   }
 }
@@ -83,19 +83,22 @@ class TimelineNode(sessionStartTime: Long, start: Long, end: Long) extends PNode
 
   for ( t <- start until end by 1000 * 60 * 10 ) {
     addChild(new PNode {
-      val tick = new PhetPPath(new Line2D.Double(0, 0, 0, 10)) {
-        val x = PlotStudentActivity.toX(t - sessionStartTime)
-        println("x = " + x)
-        setOffset(x, 0) //one second per pixel
-      }
-      this addChild tick
+
       val elapsedTime = t - start
       val totalSeconds = elapsedTime / 1000
       val minutes = totalSeconds / 60
 
-      addChild(new PText(minutes + ":00") {
-        setOffset(tick.getFullBounds.getCenterX - getFullBounds.getWidth / 2, tick.getFullBounds.getMaxY)
-      })
+      val textLabel = new PText(minutes + ":00")
+
+      val tick = new PhetPPath(new Line2D.Double(0, 0, 0, 10), new BasicStroke(1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 1, Array(10f, 10f), 0), Color.lightGray) {
+        val x = PlotStudentActivity.toX(t - sessionStartTime)
+        println("x = " + x)
+        setOffset(x, textLabel.getFullBounds.getHeight) //one second per pixel
+      }
+      this addChild tick
+
+      textLabel.setOffset(tick.getFullBounds.getCenterX - textLabel.getFullBounds.getWidth / 2, 0)
+      addChild(textLabel)
     })
   }
 }
