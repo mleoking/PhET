@@ -1,6 +1,5 @@
-package edu.colorado.phet.simsharinganalysis.gui
-
 // Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.simsharinganalysis.gui
 
 import edu.umd.cs.piccolo.util.PPaintContext
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
@@ -56,7 +55,8 @@ class StudentActivityCanvas(path: String) extends PCanvas {
 
       val machineNode = new PNode {
         //show the text and anchor at x=0
-        addChild(new PText(machine + ": " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
+        //        addChild(new PText(machine + ": " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
+        addChild(new PText("Student " + " " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
 
         var y = 0
         val stripeHeight = 20

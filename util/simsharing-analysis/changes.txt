@@ -1,3 +1,4 @@
+In PlotStudentActivity instead of machine ID, show "Student "+id
 # 00.00.06 (58801) Nov 28, 2011
 Fixed parser to factor out time for student to enter ID, see Parser.scala
 # 00.00.05 (58582) Nov 14, 2011
