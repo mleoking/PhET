@@ -64,7 +64,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas implements Autopre
     private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
 
     // Constants that control where the charts are placed.
-    private final double TIME_CHART_FRACTION = 0.23;   // Vertical fraction of canvas for time chart.
+    private final double TIME_CHART_VERTICAL_FRACTION = 0.23;   // Vertical fraction of canvas for time chart.
+    private final double TIME_CHART_HORIZONTAL_FRACTION = 0.95;   // Horizontal fraction of canvas for time chart.
 
     // Base color for the buttons on the canvas.
     private final static Color CANVAS_BUTTON_COLOR = new Color( 255, 100, 0 );
@@ -213,13 +214,9 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas implements Autopre
                 handleNodeGrabbed( node );
             }
 
-            ;
-
             public void nodeReleased( GrabbableNucleusImageNode node ) {
                 handleNodeReleased( node );
             }
-
-            ;
         };
 
         // Pre-generate the images for the custom nuclei and lead nuclei,
@@ -239,11 +236,10 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas implements Autopre
         super.update();
 
         // Redraw the time chart.
-        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * TIME_CHART_FRACTION ) );
+        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth() * TIME_CHART_HORIZONTAL_FRACTION, getHeight() * TIME_CHART_VERTICAL_FRACTION ) );
 
-        // Position the time chart.  This requires a "tweak factor" in the x
-        // direction to be centered that I *think* is due to stroke thickness.
-        _decayTimeChart.setOffset( getWidth() / 2 - _decayTimeChart.getFullBoundsReference().getWidth() / 2 + 8, 0 );
+        // Position the time chart.
+        _decayTimeChart.setOffset( getWidth() / 2 - _decayTimeChart.getFullBoundsReference().getWidth() / 2 - MultiNucleusDecayLinearTimeChart.BORDER_STROKE_WIDTH / 2, 0 );
 
         // Position the reset button.
         _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ),
