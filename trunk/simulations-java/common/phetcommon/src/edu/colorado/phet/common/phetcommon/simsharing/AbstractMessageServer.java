@@ -7,9 +7,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.StringTokenizer;
 
-public class MessageServer {
+public class AbstractMessageServer {
 
     public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
 //    public static String HOST_IP_ADDRESS = "localhost";//Settings for running locally
@@ -25,7 +24,7 @@ public class MessageServer {
     private MessageHandler messageHandler;
 
     //Create a server that will listen on the specified port.  Does not start listening until start() is called
-    public MessageServer( int port, MessageHandler messageHandler ) {
+    public AbstractMessageServer( int port, MessageHandler messageHandler ) {
         this.port = port;
         this.messageHandler = messageHandler;
     }
@@ -62,19 +61,10 @@ public class MessageServer {
 
                             //Read the object from the client
                             try {
-                                Object fromClient = readFromClient.readUTF();
+                                Object fromClient = readFromClient.readObject();
 
                                 //allow any custom handling
                                 messageHandler.handle( fromClient, writeToClient, readFromClient );
-
-                                //Process the command and respond
-                                if ( fromClient instanceof String && fromClient.toString().startsWith( "Add" ) ) {
-                                    StringTokenizer st = new StringTokenizer( fromClient.toString().substring( fromClient.toString().indexOf( ":" ) + 1 ), ", " );
-                                    int x = Integer.parseInt( st.nextToken() );
-                                    int y = Integer.parseInt( st.nextToken() );
-                                    writeToClient.writeUTF( "added your numbers, " + x + "+" + y + " = " + ( x + y ) );
-                                    writeToClient.flush();
-                                }
 
                                 //Handle logout commands.  Sometimes null for unknown reason, so have to check for null here
                                 if ( fromClient != null && fromClient.equals( "logout" ) ) {
@@ -122,7 +112,7 @@ public class MessageServer {
     }
 
     public static void main( String[] args ) throws IOException {
-        new MessageServer( PORT, new MessageHandler() {
+        new AbstractMessageServer( PORT, new MessageHandler() {
             public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) {
             }
         } ).start();

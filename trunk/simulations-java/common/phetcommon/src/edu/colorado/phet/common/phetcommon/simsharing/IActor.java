@@ -10,11 +10,11 @@ import java.io.IOException;
  *
  * @author Sam Reid
  */
-public interface IActor {
+public interface IActor<T, U> {
 
     //Send an object and wait for a response object
-    String ask( String question ) throws IOException, ClassNotFoundException;
+    U ask( T question ) throws IOException, ClassNotFoundException;
 
     //Send a one-way message
-    void tell( String statement ) throws IOException;
+    void tell( T statement ) throws IOException;
 }

@@ -8,7 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.simsharing.DefaultActor;
+import edu.colorado.phet.common.phetcommon.simsharing.IActor;
+import edu.colorado.phet.common.phetcommon.simsharing.ObjectActor;
 import edu.colorado.phet.simsharing.server.Server;
 import edu.colorado.phet.simsharing.teacher.ClassroomView;
 import edu.colorado.phet.simsharing.teacher.RecordingView;
@@ -17,7 +18,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWin
 
 public class Teacher {
     private void start() throws IOException, ClassNotFoundException {
-        final DefaultActor actor = new DefaultActor();
+        final IActor actor = new ObjectActor();
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame( "Students" ) {{

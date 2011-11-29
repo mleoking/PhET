@@ -9,11 +9,13 @@ import java.util.ArrayList;
 
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.simsharing.DefaultActor;
+import edu.colorado.phet.common.phetcommon.simsharing.IActor;
+import edu.colorado.phet.common.phetcommon.simsharing.ObjectActor;
 import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.state.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.simsharing.messages.GetSamplesAfter;
 import edu.colorado.phet.simsharing.messages.SampleBatch;
 import edu.colorado.phet.simsharing.messages.SessionID;
 
@@ -69,9 +71,9 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
         thread = new Thread( new Runnable() {
             public void run() {
                 //Create a new Client (including a new thread on the server) to avoid synchronization problems with other client
-                DefaultActor actor = null;
+                IActor actor = null;
                 try {
-                    actor = new DefaultActor();
+                    actor = new ObjectActor();
                 }
                 catch ( Exception e ) {
                     e.printStackTrace();
@@ -83,10 +85,7 @@ public class SimView<U extends SimState, T extends SimsharingApplication<U>> {
                         if ( states.size() > 0 ) {
                             index = states.get( states.size() - 1 ).getIndex();
                         }
-                        //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
-//                        final SampleBatch<U> sample = (SampleBatch<U>) actor.ask( new GetSamplesAfter( sessionID, index ) );
-                        final SampleBatch<U> sample = null;
-
+                        final SampleBatch<U> sample = (SampleBatch<U>) actor.ask( new GetSamplesAfter( sessionID, index ) );
                         timeControl.numFrames.set( sample.totalNumberStates );
 
                         for ( U u : sample ) {

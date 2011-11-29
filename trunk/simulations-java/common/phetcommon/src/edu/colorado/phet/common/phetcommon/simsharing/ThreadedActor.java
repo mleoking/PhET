@@ -9,18 +9,18 @@ import java.util.ArrayList;
  *
  * @author Sam Reid
  */
-public class ThreadedActor implements IActor {
-    private final IActor actor;
-    private final ArrayList<String> tell = new ArrayList<String>();
+public class ThreadedActor<T, U> implements IActor<T, U> {
+    private final IActor<T, U> actor;
+    private final ArrayList<T> tell = new ArrayList<T>();
     private boolean running = true;
 
-    public ThreadedActor( final IActor actor ) {
+    public ThreadedActor( final IActor<T, U> actor ) {
         this.actor = actor;
         new Thread( new Runnable() {
             public void run() {
                 while ( running ) {
-                    final ArrayList<String> toProcess = new ArrayList<String>( tell );
-                    for ( String message : toProcess ) {
+                    final ArrayList<T> toProcess = new ArrayList<T>( tell );
+                    for ( T message : toProcess ) {
                         try {
                             actor.tell( message );
                         }
@@ -38,12 +38,12 @@ public class ThreadedActor implements IActor {
     }
 
     //Blocking
-    public String ask( String question ) throws IOException, ClassNotFoundException {
+    public U ask( T question ) throws IOException, ClassNotFoundException {
         return actor.ask( question );
     }
 
     //Send one-way messages in a separate thread, non-blocking
-    public void tell( String statement ) throws IOException {
+    public void tell( T statement ) throws IOException {
         synchronized ( tell ) {
             tell.add( statement );
         }

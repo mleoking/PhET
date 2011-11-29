@@ -4,6 +4,7 @@ package edu.colorado.phet.simsharing.teacher;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,7 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.common.phetcommon.simsharing.DefaultActor;
+import edu.colorado.phet.common.phetcommon.simsharing.IActor;
 import edu.colorado.phet.simsharing.Sim;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.SessionRecord;
@@ -25,9 +26,9 @@ import edu.colorado.phet.simsharing.messages.SessionRecord;
 public class RecordingView extends JPanel {
     public JList recordingList;
     private SessionRecord lastShownRecording = new SessionRecord( new SessionID( -1, "hello", "test" ), 0 );//dummy data so comparisons don't need to use null checks
-    private DefaultActor actor;
+    private IActor actor;
 
-    public RecordingView( final DefaultActor actor ) {
+    public RecordingView( final IActor actor ) {
         super( new BorderLayout() );
         this.actor = actor;
         add( new JLabel( "All Sessions" ), BorderLayout.NORTH );
@@ -47,14 +48,12 @@ public class RecordingView extends JPanel {
         add( new JButton( "Clear" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-//                    try {
-
-                    //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
-//                        actor.tell( new ClearSessions() );
-//                    }
-//                    catch ( IOException e1 ) {
-//                        e1.printStackTrace();
-//                    }
+                    try {
+                        actor.tell( new ClearSessions() );
+                    }
+                    catch ( IOException e1 ) {
+                        e1.printStackTrace();
+                    }
                 }
             } );
         }}, BorderLayout.SOUTH );
@@ -69,8 +68,7 @@ public class RecordingView extends JPanel {
                         Thread.sleep( 1000 );
                         final SessionList[] list = new SessionList[1];
 
-                        //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
-//                        list[0] = (SessionList) actor.ask( new ListAllSessions() );
+                        list[0] = (SessionList) actor.ask( new ListAllSessions() );
                         SwingUtilities.invokeAndWait( new Runnable() {
                             public void run() {
                                 recordingList.setListData( list[0].toArray() );//TODO: remember user selection when list is refreshed

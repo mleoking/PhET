@@ -182,7 +182,7 @@ public class SimSharingEvents {
                 try {
                     client = ( !ALLOW_CONNECTION ?
                                new NullClient() :
-                               new ThreadedActor( new DefaultActor() ) );
+                               new ThreadedActor( new StringActor() ) );
                 }
                 catch ( ClassNotFoundException e ) {
                     e.printStackTrace();

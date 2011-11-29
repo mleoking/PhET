@@ -9,11 +9,10 @@ import java.io.IOException;
  * @author Sam Reid
  */
 public class NullClient implements IActor {
-
-    public String ask( String question ) throws IOException, ClassNotFoundException {
+    public Object ask( Object question ) throws IOException, ClassNotFoundException {
         return null;
     }
 
-    public void tell( String statement ) throws IOException {
+    public void tell( Object statement ) throws IOException {
     }
 }
