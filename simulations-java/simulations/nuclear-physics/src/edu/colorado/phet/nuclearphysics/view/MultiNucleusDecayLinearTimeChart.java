@@ -10,7 +10,6 @@ import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -428,8 +427,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
      *
      * @param
      */
-    private void updateBounds( Rectangle2D rect ) {
-        if ( rect.getWidth() == 0 || rect.getHeight() == 0 ) {
+    private void updateSize( Dimension2D size ) {
+        if ( size.getWidth() == 0 || size.getHeight() == 0 ) {
             // Ignore unreasonable bounds.
             return;
         }
@@ -437,7 +436,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         // Set the scale factor such that this chart fits in the given bounds,
         // but do not change the aspect ratio.
         setScale( 1 );
-        setScale( Math.min( rect.getWidth() / _backgroundNode.getFullBoundsReference().width, rect.getHeight() / _backgroundNode.getFullBoundsReference().height ) );
+        setScale( Math.min( size.getWidth() / _backgroundNode.getFullBoundsReference().width, size.getHeight() / _backgroundNode.getFullBoundsReference().height ) );
     }
 
     /**
@@ -581,10 +580,10 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
      * This method causes the chart to resize itself based on the (presumably
      * different) size of the overall canvas on which it appears.
      *
-     * @param rect - Position on the canvas where this chart should appear.
+     * @param size - Size of the chart.
      */
-    public void componentResized( Rectangle2D rect ) {
-        updateBounds( rect );
+    public void componentResized( Dimension2D size ) {
+        updateSize( size );
     }
 
     /**

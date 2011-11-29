@@ -16,14 +16,24 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.model.*;
+import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.Electron;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
-import edu.colorado.phet.nuclearphysics.view.*;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
+import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
+import edu.colorado.phet.nuclearphysics.view.AutoPressButtonNode;
+import edu.colorado.phet.nuclearphysics.view.ElectronNode;
+import edu.colorado.phet.nuclearphysics.view.NucleonNode;
+import edu.colorado.phet.nuclearphysics.view.SingleNucleusDecayTimeChart;
+import edu.colorado.phet.nuclearphysics.view.SubatomicParticleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -48,7 +58,8 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     private final double HEIGHT_TRANSLATION_FACTOR = 0.60; // 0 = all the way up, 1 = all the way down.
 
     // Constants that control where the charts are placed.
-    private final double TIME_CHART_FRACTION = 0.22;   // Fraction of canvas for time chart.
+    private final double TIME_CHART_VERTICAL_FRACTION = 0.22;   // Vertical fraction of canvas used by the time chart.
+    private final double TIME_CHART_HORIZONTAL_FRACTION = 0.95;   // Vertical fraction of canvas used by the time chart.
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -143,8 +154,10 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
             public void componentResized( ComponentEvent e ) {
 
                 // Redraw the time chart.
-                _betaDecayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth(),
-                                                                              getHeight() * TIME_CHART_FRACTION ) );
+                _betaDecayTimeChart.componentResized( new Rectangle2D.Double( 0,
+                                                                              0,
+                                                                              getWidth() * TIME_CHART_HORIZONTAL_FRACTION,
+                                                                              getHeight() * TIME_CHART_VERTICAL_FRACTION ) );
 
                 // Position the time chart.
                 _betaDecayTimeChart.setOffset( 0, 0 );
