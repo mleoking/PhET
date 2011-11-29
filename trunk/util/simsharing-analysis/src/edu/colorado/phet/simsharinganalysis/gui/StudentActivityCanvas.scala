@@ -10,11 +10,12 @@ import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.awt.geom.{Rectangle2D, Line2D}
 import edu.colorado.phet.simsharinganalysis._
-import scripts.HowMuchTimeSpentInTabs
 import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import java.awt.event.{InputEvent, ActionEvent, ActionListener, MouseEvent}
 import javax.swing._
-import java.awt.{Dimension, BasicStroke, Color}
+import java.awt.{BorderLayout, Dimension, BasicStroke, Color}
+import edu.colorado.phet.simsharinganalysis.phet._
+import scripts.{DoProcessEvents, HowMuchTimeSpentInTabs}
 
 class StudentActivityCanvas(path: String) extends PCanvas {
   val all = phet load path
@@ -140,17 +141,25 @@ class MyMenuItem(text: String, action: () => Unit) extends JMenuItem(text) {
 }
 
 class LogTextWindow(log: Log) extends JFrame("Student " + log.user) {
-  setContentPane(new JScrollPane(new JTextArea(log.entries.mkString("\n"))))
-  setPreferredSize(new Dimension(800, 600))
+  setContentPane(new JPanel(new BorderLayout()) {
+    add(new JScrollPane(new JTextArea(log.entries.mkString("\n"))), BorderLayout.CENTER)
+    setPreferredSize(new Dimension(800, 600))
+  })
+  pack()
 }
 
 class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHeight: Double, sessionStartTime: Long, colorMap: String => Color, getColor: Entry => Color) extends PNode {
 
+  lazy val logTextWindow = new LogTextWindow(log)
+  //  lazy val coverageWindow = new CoverageWindow(log)
+
   val popup = new JPopupMenu {
-    add(new MyMenuItem("Show log", () => {
-      new LogTextWindow(log).setVisible(true)
+    add(new MyMenuItem("Show text log", () => logTextWindow setVisible true))
+    add(new MyMenuItem("Plot events", () => xyplot("Events vs time", "Time (minutes)", "Events", log.eventCountData :: Nil)))
+    add(new MyMenuItem("Plot unique events", () => {
+      //Find which events are important in this sim
+      xyplot("Filtered events vs time", "Time (minutes)", "Events", log.countEvents(DoProcessEvents.simEventMap(log.simName)) :: Nil)
     }))
-    add(new MyMenuItem("Show coverage", () => {}))
   }
 
   addInputEventListener(new PBasicInputEventHandler {
