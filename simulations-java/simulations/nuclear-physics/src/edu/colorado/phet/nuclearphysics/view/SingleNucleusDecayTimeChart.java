@@ -194,11 +194,6 @@ public class SingleNucleusDecayTimeChart extends PNode {
 
         // Register as a clock listener.
         _clock.addClockListener( new ClockAdapter() {
-
-            /**
-             * Clock tick handler - causes the model to move forward one
-             * increment in time.
-             */
             public void clockTicked( ClockEvent clockEvent ) {
                 handleClockTicked( clockEvent );
             }
@@ -214,13 +209,9 @@ public class SingleNucleusDecayTimeChart extends PNode {
                 handleModelElementAdded( modelElement );
             }
 
-            ;
-
             public void modelElementRemoved( Object modelElement ) {
                 handleModelElementRemoved( modelElement );
             }
-
-            ;
 
             public void nucleusTypeChanged() {
                 handleNucleusTypeChanged();
