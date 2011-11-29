@@ -1,3 +1,4 @@
+11/28/2011 Factored out server to handle strings vs serialized objects
 11/28/2011 Parameterized IActor on message types to support both String and serialized messages
 11/9/2011 Simsharing, added flag ALLOW_CONNECTION for debugging, if this is set to false, then it won't send messages to the server, but will still print them to the console
 11/8/2011 Added NullClient for offline testing, see #3136

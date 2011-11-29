@@ -14,8 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.simsharing.AbstractMessageServer;
 import edu.colorado.phet.common.phetcommon.simsharing.MessageHandler;
+import edu.colorado.phet.common.phetcommon.simsharing.ObjectStreamMessageServer;
+import edu.colorado.phet.common.phetcommon.simsharing.StringServer;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.ACTION_EXITED;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.OBJECT_SYSTEM;
@@ -30,7 +31,7 @@ public class EventServer implements MessageHandler {
     private final Map<String, BufferedWriter> map = Collections.synchronizedMap( new HashMap<String, BufferedWriter>() );
 
     private void start() throws IOException {
-        new AbstractMessageServer( AbstractMessageServer.PORT, this ).start();
+        new StringServer( ObjectStreamMessageServer.PORT, this ).start();
     }
 
     public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) throws IOException {
@@ -98,9 +99,9 @@ public class EventServer implements MessageHandler {
     public static void parseArgs( String[] args ) {
         final List<String> list = Arrays.asList( args );
         if ( list.contains( "-host" ) ) {
-            AbstractMessageServer.HOST_IP_ADDRESS = args[list.indexOf( "-host" ) + 1];
+            ObjectStreamMessageServer.HOST_IP_ADDRESS = args[list.indexOf( "-host" ) + 1];
         }
-        System.out.println( "Using host: " + AbstractMessageServer.HOST_IP_ADDRESS );
+        System.out.println( "Using host: " + ObjectStreamMessageServer.HOST_IP_ADDRESS );
     }
 
     public static void main( String[] args ) throws IOException {

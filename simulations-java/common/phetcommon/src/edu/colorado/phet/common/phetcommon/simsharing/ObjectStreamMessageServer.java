@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class AbstractMessageServer {
+public abstract class ObjectStreamMessageServer {
 
     public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
 //    public static String HOST_IP_ADDRESS = "localhost";//Settings for running locally
@@ -24,7 +24,7 @@ public class AbstractMessageServer {
     private MessageHandler messageHandler;
 
     //Create a server that will listen on the specified port.  Does not start listening until start() is called
-    public AbstractMessageServer( int port, MessageHandler messageHandler ) {
+    public ObjectStreamMessageServer( int port, MessageHandler messageHandler ) {
         this.port = port;
         this.messageHandler = messageHandler;
     }
@@ -53,15 +53,14 @@ public class AbstractMessageServer {
                         final ObjectInputStream readFromClient = new ObjectInputStream( socket.getInputStream() );
 
                         //Send an initial message to test the connection
-                        writeToClient.writeUTF( "Greetings from the server" );
-                        writeToClient.flush();
+                        sendGreeting( writeToClient );
 
                         //Loop as long as no 'logout' command was given, and process the commands
                         while ( threadAlive ) {
 
                             //Read the object from the client
                             try {
-                                Object fromClient = readFromClient.readObject();
+                                Object fromClient = read( readFromClient );
 
                                 //allow any custom handling
                                 messageHandler.handle( fromClient, writeToClient, readFromClient );
@@ -99,22 +98,11 @@ public class AbstractMessageServer {
         serverSocket.close();
     }
 
+    public abstract Object read( ObjectInputStream readFromClient ) throws IOException, ClassNotFoundException;
+
+    public abstract void sendGreeting( ObjectOutputStream writeToClient ) throws IOException;
+
     public static Socket connect() throws IOException {
         return new Socket( HOST_IP_ADDRESS, PORT );
-    }
-
-    //See http://stackoverflow.com/questions/4009157/java-socket-writeutf-and-readutf
-    //The maximum length of Strings that can be handled this way is 65535 for pure ASCII, less if you use non-ASCII characters - and you cannot easily predict the limit in that case, other than conservatively assuming 3 bytes per character. So if you're sure you'll never send Strings longer than about 20k, you'll be fine.
-    public static void checkSize( String question ) {
-        if ( question.length() > 20000 ) {
-            System.out.println( "String probably too long to send over writeUTF, length = " + question.length() );
-        }
-    }
-
-    public static void main( String[] args ) throws IOException {
-        new AbstractMessageServer( PORT, new MessageHandler() {
-            public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) {
-            }
-        } ).start();
     }
 }

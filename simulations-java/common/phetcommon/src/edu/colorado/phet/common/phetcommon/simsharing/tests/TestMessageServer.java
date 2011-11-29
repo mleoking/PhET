@@ -6,7 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import edu.colorado.phet.common.phetcommon.simsharing.AbstractMessageServer;
+import edu.colorado.phet.common.phetcommon.simsharing.ObjectStreamMessageServer;
 
 public class TestMessageServer {
     private int numQuestions;
@@ -18,7 +18,7 @@ public class TestMessageServer {
     private void start() throws IOException, ClassNotFoundException, InterruptedException {
 
         //Connect to the server
-        Socket server = AbstractMessageServer.connect();
+        Socket server = ObjectStreamMessageServer.connect();
 
         //Create streams for communicating with the server
         ObjectOutputStream writeToServer = new ObjectOutputStream( server.getOutputStream() );

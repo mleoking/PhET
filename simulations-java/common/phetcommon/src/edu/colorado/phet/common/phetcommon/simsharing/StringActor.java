@@ -4,6 +4,8 @@ package edu.colorado.phet.common.phetcommon.simsharing;
 import java.io.IOException;
 
 /**
+ * Client that uses writeUTF and readUTF because it is safe against version/serialization changes.
+ *
  * @author Sam Reid
  */
 public class StringActor extends ObjectStreamActor<String, String> {
@@ -20,7 +22,7 @@ public class StringActor extends ObjectStreamActor<String, String> {
     //If not synchronized, the messages could get mixed up and you could get exceptions like in:
     //http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6554519
     public synchronized String ask( String question ) throws IOException, ClassNotFoundException {
-        AbstractMessageServer.checkSize( question );
+        StringServer.checkSize( question );
         writeToServer.writeUTF( question );
         writeToServer.flush();
 
@@ -35,7 +37,7 @@ public class StringActor extends ObjectStreamActor<String, String> {
     //If not synchronized, the messages could get mixed up and you could get exceptions like in:
     //http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6554519
     public synchronized void tell( String statement ) throws IOException {
-        AbstractMessageServer.checkSize( statement );
+        StringServer.checkSize( statement );
         writeToServer.writeUTF( statement );
         writeToServer.flush();
     }
