@@ -2,7 +2,6 @@ package edu.colorado.phet.simsharinganalysis.gui
 
 // Copyright 2002-2011, University of Colorado
 
-import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing._
 import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir
 import java.util.Properties
@@ -27,57 +26,49 @@ object PlotStudentActivity extends App {
     lastUsedFile = properties.get("file").toString
   }
 
-  SwingUtilities.invokeLater(new Runnable {
+  SwingUtilities invokeLater new Runnable {
     def run() {
 
       new JFrame {
         val f = this
         setJMenuBar(new JMenuBar {
           add(new JMenu("File") {
-            add(new JMenuItem("Load...") {
-              addActionListener(new ActionListener {
-                def actionPerformed(e: ActionEvent) {
-                  val chooser = new JFileChooser(lastUsedFile) {
-                    setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
-                  }
-                  val result = chooser.showOpenDialog(f)
-                  result match {
-                    case JFileChooser.APPROVE_OPTION => {
-                      val canvas = new StudentActivityCanvas(chooser.getSelectedFile.getAbsolutePath)
-                      setContentPane(canvas)
-                      SwingUtilities.invokeLater(new Runnable {
-                        def run() {
+            add(new MyMenuItem("Load...", () => {
 
-                          f.repaint()
-                          canvas.paintImmediately(0, 0, canvas.getWidth, canvas.getHeight)
-                          f.setBounds(f.getX, f.getY, f.getWidth - 1, f.getHeight)
-                          f.setBounds(f.getX, f.getY, f.getWidth + 1, f.getHeight)
-                        }
-                      })
+              val chooser = new JFileChooser(lastUsedFile) {
+                setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+              }
+              val result = chooser.showOpenDialog(f)
+              result match {
+                case JFileChooser.APPROVE_OPTION => {
+                  val canvas = new StudentActivityCanvas(chooser.getSelectedFile.getAbsolutePath)
+                  setContentPane(canvas)
+                  SwingUtilities.invokeLater(new Runnable {
+                    def run() {
 
-                      //Save user selection
-                      val d = new PhetPersistenceDir()
-                      d.mkdirs()
-                      val file = new File(d, "simsharing-analysis.properties")
-                      val properties = new Properties()
-                      properties.put("file", chooser.getSelectedFile.getAbsolutePath)
-                      properties.store(new FileOutputStream(file), "Sim Sharing Analysis properties, Stored by PlotStudentActivity")
-
-                      lastUsedFile = chooser.getSelectedFile.getAbsolutePath
+                      f.repaint()
+                      canvas.paintImmediately(0, 0, canvas.getWidth, canvas.getHeight)
+                      f.setBounds(f.getX, f.getY, f.getWidth - 1, f.getHeight)
+                      f.setBounds(f.getX, f.getY, f.getWidth + 1, f.getHeight)
                     }
-                    case _ => {}
-                  }
+                  })
+
+                  //Save user selection
+                  val d = new PhetPersistenceDir()
+                  d.mkdirs()
+                  val file = new File(d, "simsharing-analysis.properties")
+                  val properties = new Properties()
+                  properties.put("file", chooser.getSelectedFile.getAbsolutePath)
+                  properties.store(new FileOutputStream(file), "Sim Sharing Analysis properties, Stored by PlotStudentActivity")
+
+                  lastUsedFile = chooser.getSelectedFile.getAbsolutePath
                 }
-              })
-            })
+                case _ => {}
+              }
+
+            }))
             addSeparator()
-            add(new JMenuItem("Exit") {
-              addActionListener(new ActionListener {
-                def actionPerformed(e: ActionEvent) {
-                  System.exit(0)
-                }
-              })
-            })
+            add(new MyMenuItem("Exit", () => System exit 0))
           })
         })
 
@@ -96,7 +87,7 @@ object PlotStudentActivity extends App {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
       }.setVisible(true)
     }
-  })
+  }
 
   def toX(dt: Long) = 200.0 + dt.toDouble / 1000.0 / 60.0 * 2.0 * 10.0
 
