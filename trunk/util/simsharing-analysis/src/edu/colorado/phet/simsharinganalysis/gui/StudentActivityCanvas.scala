@@ -3,33 +3,34 @@ package edu.colorado.phet.simsharinganalysis.gui
 
 import edu.umd.cs.piccolo.util.PPaintContext
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
-import edu.umd.cs.piccolo.nodes.PText
 import java.util.Date
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.awt.geom.{Rectangle2D, Line2D}
 import edu.colorado.phet.simsharinganalysis._
-import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import java.awt.event.{InputEvent, ActionEvent, ActionListener, MouseEvent}
 import javax.swing._
 import java.awt.{BorderLayout, Dimension, BasicStroke, Color}
 import edu.colorado.phet.simsharinganalysis.phet._
 import scripts.{DoProcessEvents, HowMuchTimeSpentInTabs}
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.umd.cs.piccolo.nodes.PText
+import edu.colorado.phet.common.piccolophet.nodes.{PhetPText, PhetPPath}
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 
 class StudentActivityCanvas(path: String) extends PCanvas {
   val all = phet load path
   val simTabs = HowMuchTimeSpentInTabs.simTabs
   val sims = all.map(_.simName).distinct
 
-  setInteractingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
-  setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
-  setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
+  setInteractingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
+  setDefaultRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
+  setAnimatingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
   val sessionLayer = new VBox(20, true)
   getLayer.addChild(sessionLayer)
 
   //one plot section for each session
-  for ( session <- studySessionsNov2011.all; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
+  for ( session <- studySessionsNov2011.coloradoStudyMonday :: Nil; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
 
     val machines = sessionLogs.map(_.machine).distinct.sorted
     println("machines.length=" + machines.length)
@@ -224,8 +225,10 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
 
   val userLayer = new PNode
   val systemLayer = new PNode
+  val labelLayer = new PNode
   addChild(systemLayer)
   addChild(userLayer)
+  addChild(labelLayer)
 
   //Show events within the stripe to indicate user activity
   for ( entry <- log.entries ) {
@@ -244,13 +247,29 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
     }
 
     val line = new PhetPPath(new Rectangle2D.Double(x, 0, width, stripeHeight), getColor(entry))
+    lazy val label = {
+      val created = new PhetPText(entry.toString, new PhetFont(1))
+      created.centerFullBoundsOnPoint(line.getFullBounds.getCenterX, line.getFullBounds.getMaxY + created.getFullBounds.getHeight)
+      labelLayer addChild created
+      created
+    }
 
     if ( system ) {
-      systemLayer.addChild(line)
+      systemLayer addChild line
     }
     else {
-      userLayer.addChild(line)
+      userLayer addChild line
     }
+
+    line.addInputEventListener(new PBasicInputEventHandler {
+      override def mouseEntered(event: PInputEvent) {
+        label setVisible true
+      }
+
+      override def mouseExited(event: PInputEvent) {
+        label setVisible false
+      }
+    })
 
     val simTabs = Map("Balancing Chemical Equations" -> List("Introduction", "Balancing Game"),
                       "Molecule Polarity" -> List("Two Atoms", "Three Atoms", "Real Molecules"),
