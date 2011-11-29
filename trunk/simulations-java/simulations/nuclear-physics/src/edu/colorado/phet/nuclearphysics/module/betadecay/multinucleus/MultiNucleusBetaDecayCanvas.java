@@ -267,7 +267,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         super.update();
 
         // Resize the time chart.
-        _decayTimeChart.componentResized( new Rectangle2D.Double( 0, 0, getWidth() * TIME_CHART_HORIZONTAL_FRACTION, getHeight() * TIME_CHART_VERTICAL_FRACTION ) );
+        _decayTimeChart.componentResized( new PDimension( getWidth() * TIME_CHART_HORIZONTAL_FRACTION, getHeight() * TIME_CHART_VERTICAL_FRACTION ) );
 
         // Position the time chart.
         _decayTimeChart.setOffset( ( getWidth() - _decayTimeChart.getFullBoundsReference().getWidth() ) / 2 - MultiNucleusDecayLinearTimeChart.BORDER_STROKE_WIDTH / 2, 0 );
