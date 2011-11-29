@@ -214,15 +214,43 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
     })
   }
 
+  //Make system events wider
+  def getBarWidth(e: Entry) = {
+    e match {
+      case x: Entry if x.actor == "system" => 0.15
+      case _ => 0.1
+    }
+  }
+
+  val userLayer = new PNode
+  val systemLayer = new PNode
+  addChild(systemLayer)
+  addChild(userLayer)
+
   //Show events within the stripe to indicate user activity
   for ( entry <- log.entries ) {
     val entryTime = entry.time + log.epoch
     val x = toX(entryTime - sessionStartTime)
 
     //Color based on user/system
-    //              val line = new PhetPPath(new Line2D.Double(x, y, x, y + stripeHeight), new PFixedWidthStroke(1f), getColor(entry))
-    val line = new PhetPPath(new Line2D.Double(x, 0, x, stripeHeight), new BasicStroke(0.1f), getColor(entry))
-    addChild(line)
+    val system = entry.actor == "system"
+
+    //TODO: Fix formatter
+    val width = if ( system ) {
+      0.15
+    }
+    else {
+      0.1
+    }
+
+    val line = new PhetPPath(new Rectangle2D.Double(x, 0, width, stripeHeight), getColor(entry))
+
+    if ( system ) {
+      systemLayer.addChild(line)
+    }
+    else {
+      userLayer.addChild(line)
+    }
 
     val simTabs = Map("Balancing Chemical Equations" -> List("Introduction", "Balancing Game"),
                       "Molecule Polarity" -> List("Two Atoms", "Three Atoms", "Real Molecules"),
