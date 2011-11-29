@@ -9,9 +9,12 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.awt.geom.{Rectangle2D, Line2D}
-import java.awt.{BasicStroke, Color}
 import edu.colorado.phet.simsharinganalysis._
 import scripts.HowMuchTimeSpentInTabs
+import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
+import java.awt.event.{InputEvent, ActionEvent, ActionListener, MouseEvent}
+import javax.swing._
+import java.awt.{Dimension, BasicStroke, Color}
 
 class StudentActivityCanvas(path: String) extends PCanvas {
   val all = phet load path
@@ -128,8 +131,44 @@ class MyPText(node: PNode, camera: PCamera, text: String) extends PText(text) {
   //  }
 }
 
+class MyMenuItem(text: String, action: () => Unit) extends JMenuItem(text) {
+  addActionListener(new ActionListener {
+    def actionPerformed(e: ActionEvent) {
+      action()
+    }
+  })
+}
+
+class LogTextWindow(log: Log) extends JFrame("Student " + log.user) {
+  setContentPane(new JScrollPane(new JTextArea(log.entries.mkString("\n"))))
+  setPreferredSize(new Dimension(800, 600))
+}
+
 class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHeight: Double, sessionStartTime: Long, colorMap: String => Color, getColor: Entry => Color) extends PNode {
 
+  val popup = new JPopupMenu {
+    add(new MyMenuItem("Show log", () => {
+      new LogTextWindow(log).setVisible(true)
+    }))
+    add(new MyMenuItem("Show coverage", () => {}))
+  }
+
+  addInputEventListener(new PBasicInputEventHandler {
+    override def mouseReleased(event: PInputEvent) {
+      maybeShowPopup(event.getSourceSwingEvent)
+    }
+
+    override def mousePressed(event: PInputEvent) {
+      maybeShowPopup(event.getSourceSwingEvent)
+    }
+
+    def maybeShowPopup(event: InputEvent) {
+      event match {
+        case e: MouseEvent if e.getButton == MouseEvent.BUTTON3 || e.getButton == MouseEvent.BUTTON2 => popup.show(event.getComponent, e.getX, e.getY)
+        case _ => {}
+      }
+    }
+  })
   //Show the entire sim usage with a colored border
   addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(log.endEpoch - log.epoch), stripeHeight), new BasicStroke(2), colorMap(log.simName)) {
     val dt = log.epoch - sessionStartTime
