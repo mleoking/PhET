@@ -1,3 +1,5 @@
+# 3.24.06 (58817) Nov 28, 2011
+11/28/11 Testing Kannada font properties changes
 # 3.24.05 (58732) Nov 22, 2011
 11/22/11 Deploying to dev for review of some recent enhancements.
 > Improved the alignment between various labels on the charts that include a pie chart.
