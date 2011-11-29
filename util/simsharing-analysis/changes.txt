@@ -1,3 +1,4 @@
+Added a legend
 Show tooltips on camera so they don't scale with zoom level
 Added tooltips for specific events
 Made yellow (system) events wider and always behind black (user) events
