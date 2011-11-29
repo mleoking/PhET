@@ -22,7 +22,9 @@ class StudentActivityCanvas(path: String) extends PCanvas {
   val simTabs = HowMuchTimeSpentInTabs.simTabs
   val sims = all.map(_.simName).distinct
 
-  setInteractingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
+  setInteractingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
+  setDefaultRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
+  setAnimatingRenderQuality(PPaintContext.LOW_QUALITY_RENDERING)
   val sessionLayer = new VBox(20, true)
   getLayer.addChild(sessionLayer)
 
