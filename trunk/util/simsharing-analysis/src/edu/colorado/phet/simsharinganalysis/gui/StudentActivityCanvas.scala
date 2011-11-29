@@ -23,10 +23,10 @@ class StudentActivityCanvas(path: String) extends PCanvas {
   setDefaultRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
   setAnimatingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
   val sessionLayer = new VBox(20, true)
-  getLayer.addChild(sessionLayer)
+  getLayer addChild sessionLayer
 
   //one plot section for each session
-  for ( session: Session <- studySessionsNov2011.coloradoStudyMonday :: Nil; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
+  for ( session: Session <- studySessionsNov2011.all; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
 
     val machines = sessionLogs.map(_.machine).distinct.sorted
     println("machines.length=" + machines.length)
