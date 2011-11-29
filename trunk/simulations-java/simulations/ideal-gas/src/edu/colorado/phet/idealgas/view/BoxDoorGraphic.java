@@ -8,6 +8,19 @@
  */
 package edu.colorado.phet.idealgas.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -20,12 +33,6 @@ import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 
 public class BoxDoorGraphic extends CompositePhetGraphic
         implements SimpleObserver,
@@ -46,6 +53,7 @@ public class BoxDoorGraphic extends CompositePhetGraphic
     private PhetShapeGraphic doorShapeGraphic;
     // Used to control the rotation of the door when it blows off the box
     private double blowOffRotation = 0;
+    private boolean isAnimating = false;
 
     /**
      * @param component
@@ -86,14 +94,20 @@ public class BoxDoorGraphic extends CompositePhetGraphic
         this.openingMaxX = x + imageGraphic.getBounds().getWidth();
 
         box.addObserver( this );
-        box.addChangeListener( (Box2D.ChangeListener)this );
-        box.addChangeListener( (PressureSensingBox.ChangeListener)this );
+        box.addChangeListener( (Box2D.ChangeListener) this );
+        box.addChangeListener( (PressureSensingBox.ChangeListener) this );
 
         setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
         addTranslationListener( new DoorTranslator() );
 
         // Listen for resets
         module.addResetListener( this );
+
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                stepAnimation();
+            }
+        } );
     }
 
     public void fireMouseEntered( MouseEvent e ) {
@@ -111,11 +125,11 @@ public class BoxDoorGraphic extends CompositePhetGraphic
     }
 
     public void translateDoor( double dx, double dy ) {
-        minX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() );
+        minX = (int) ( box.getMinX() - imageGraphic.getBounds().getWidth() );
         // Update the position of the image on the screen
-        x = (int)Math.min( maxX, Math.max( minX, x + dx ) );
-        y = (int)Math.min( maxY, Math.max( minY, y + dy ) );
-        imageGraphic.setLocation( x, y - (int)imageGraphic.getBounds().getHeight() );
+        x = (int) Math.min( maxX, Math.max( minX, x + dx ) );
+        y = (int) Math.min( maxY, Math.max( minY, y + dy ) );
+        imageGraphic.setLocation( x, y - (int) imageGraphic.getBounds().getHeight() );
 
         // Update the box's openinng
         opening[0] = new Point2D.Double( x + imageGraphic.getBounds().getWidth(),
@@ -127,17 +141,17 @@ public class BoxDoorGraphic extends CompositePhetGraphic
     }
 
     public void update() {
-        if( minY != (int)box.getMinY() || minX != (int)box.getMinX() ) {
+        if ( minY != (int) box.getMinY() || minX != (int) box.getMinX() ) {
             translateDoor( 0, 0 );
-            minX = (int)box.getMinX();
-            minY = (int)box.getMinY();
-            maxY = (int)box.getMinY();
+            minX = (int) box.getMinX();
+            minY = (int) box.getMinY();
+            maxY = (int) box.getMinY();
             // For some reason, -1 is needed here to line this up properly with the box
-            imageGraphic.setLocation( (int)imageGraphic.getBounds().getMinX(),
-                                      minY - (int)imageGraphic.getBounds().getHeight() - 1 );
+            imageGraphic.setLocation( (int) imageGraphic.getBounds().getMinX(),
+                                      minY - (int) imageGraphic.getBounds().getHeight() - 1 );
 
-            doorShapeGraphic.setLocation( (int)imageGraphic.getLocation().getX(),
-                                          (int)imageGraphic.getLocation().getY() + 13 );
+            doorShapeGraphic.setLocation( (int) imageGraphic.getLocation().getX(),
+                                          (int) imageGraphic.getLocation().getY() + 13 );
             highlightGraphic.setLocation( imageGraphic.getLocation() );
             setBoundsDirty();
             repaint();
@@ -145,7 +159,7 @@ public class BoxDoorGraphic extends CompositePhetGraphic
     }
 
     protected PhetGraphic getHandler( Point p ) {
-        if( isVisible() && imageGraphic.contains( p.x, p.y ) ) {
+        if ( isVisible() && imageGraphic.contains( p.x, p.y ) ) {
             return this;
         }
         else {
@@ -167,8 +181,8 @@ public class BoxDoorGraphic extends CompositePhetGraphic
      * @param event
      */
     public void boundsChanged( Box2D.ChangeEvent event ) {
-        double newMinX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() );
-        if( newMinX > minX ) {
+        double newMinX = (int) ( box.getMinX() - imageGraphic.getBounds().getWidth() );
+        if ( newMinX > minX ) {
             translateDoor( newMinX - minX, 0 );
         }
     }
@@ -183,30 +197,53 @@ public class BoxDoorGraphic extends CompositePhetGraphic
      * @param event
      */
     public void resetOccurred( IdealGasModule.ResetEvent event ) {
-        blowOffRotation = 0;
+        closeDoor();
+    }
+
+    // Moves the door to the "closed" position.
+    public void closeDoor() {
+        stopAnimation();
         this.setTransform( new AffineTransform() );
         this.setLocation( 0, 0 );
-        // Close the door
         translateDoor( Double.MAX_VALUE, 0 );
     }
 
-    /**
+    /*
      * PressureSensingBox.ChangeListener implementation
-     *
-     * @param event
+     * When the safe pressure is exceeded, start the animation of the lid blowing off.
      */
     public void stateChanged( PressureSensingBox.ChangeEvent event ) {
-        double pressure = event.getPressureSensingBox().getPressure();
-        if( pressure > IdealGasConfig.MAX_SAFE_PRESSURE ) {
+        if ( !event.getPressureSensingBox().isPressureSafe() && !isAnimating ) {
+            openBox();
+            startAnimation();
+        }
+    }
+
+    // Opens the top of the box
+    private void openBox() {
+        opening[0] = new Point2D.Double( x, box.getMinY() );
+        opening[1] = new Point2D.Double( openingMaxX, box.getMinY() );
+        box.setOpening( opening );
+    }
+
+    // Starts animation of the lid blowing off.
+    private void startAnimation() {
+        isAnimating = true;
+        blowOffRotation = 0;
+    }
+
+    private void stopAnimation() {
+        isAnimating = false;
+    }
+
+    // Performs one step of the animation for the lid blowing off.
+    private void stepAnimation() {
+        if ( isAnimating ) {
             blowOffRotation -= 10;
             this.setTransform( AffineTransform.getRotateInstance( Math.toRadians( blowOffRotation ),
                                                                   doorShapeGraphic.getLocation().getX(),
                                                                   doorShapeGraphic.getLocation().getY() ) );
-            this.setLocation( (int)getLocation().getX() - 1, (int)getLocation().getY() - 8 );
-
-            opening[0] = new Point2D.Double( x, box.getMinY() );
-            opening[1] = new Point2D.Double( openingMaxX, box.getMinY() );
-            box.setOpening( opening );
+            this.setLocation( (int) getLocation().getX() - 1, (int) getLocation().getY() - 8 );
         }
     }
 

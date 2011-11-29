@@ -10,21 +10,34 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.IdealGasResources;
-import edu.colorado.phet.idealgas.model.Gravity;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.Hashtable;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.model.Gravity;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 /**
  * The base control panel for all modules.
@@ -43,7 +56,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     private JPanel miscPanel;
     private JPanel particleControlsPanel;
     private GridBagConstraints particleControlsGbc;
-
+    private PumpControlPanel speciesButtonPanel;
 
     /**
      * @param module
@@ -51,7 +64,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     public IdealGasControlPanel( IdealGasModule module ) {
         super();
         this.module = module;
-        this.idealGasModel = (IdealGasModel)module.getModel();
+        this.idealGasModel = (IdealGasModel) module.getModel();
         idealGasModel.getGravity().addListener( this );
         init();
     }
@@ -89,7 +102,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
                 module.reset();
             }
         } );
-        GridBagConstraints resetGbc = (GridBagConstraints)gbc.clone();
+        GridBagConstraints resetGbc = (GridBagConstraints) gbc.clone();
         resetGbc.fill = GridBagConstraints.NONE;
         this.add( resetBtn, resetGbc );
 
@@ -110,9 +123,13 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // Add controls for the number and type of molecules to put in the box
-        JPanel speciesButtonPanel = new PumpControlPanel( module, module.getPump(), module.getSpeciesNames() );
+        speciesButtonPanel = new PumpControlPanel( module, module.getPump(), module.getSpeciesNames() );
         speciesButtonPanel.setBorder( new TitledBorder( IdealGasResources.getString( "IdealGasControlPanel.Gas_In_Chamber" ) ) );
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
+    }
+
+    public void resetSpeciesControls() {
+        speciesButtonPanel.reset();
     }
 
     /**
@@ -232,7 +249,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     }
 
     public void setGravity( double amt ) {
-        this.gravitySlider.setValue( (int)amt );
+        this.gravitySlider.setValue( (int) amt );
     }
 
     public void addComponent( Component component ) {
@@ -255,7 +272,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     // Event handling
     //----------------------------------------------------------------
     public void gravityChanged( Gravity.ChangeEvent event ) {
-        gravitySlider.setValue( (int)event.getGravity().getAmt() );
+        gravitySlider.setValue( (int) event.getGravity().getAmt() );
     }
 }
 

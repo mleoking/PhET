@@ -2,6 +2,24 @@
 
 package edu.colorado.phet.idealgas.controller;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
@@ -9,21 +27,13 @@ import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
-
 /**
  * A JPanel with two spinners for adding and removing molecules from the model.
  */
 public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasModule.ResetListener {
-    
+
     private static final Dimension PREFERRED_SPINNER_SIZE = new Dimension( 70, 20 );
-    
+
     private IdealGasModule module;
     private MoleculeCountSpinner heavySpinner;
     private MoleculeCountSpinner lightSpinner;
@@ -32,7 +42,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
 
     public SpeciesSelectionPanel( final IdealGasModule module ) {
-        this( module, new String[]{IdealGasResources.getString( "Common.Heavy_Species" ), IdealGasResources.getString( "Common.Light_Species" )} );
+        this( module, new String[] { IdealGasResources.getString( "Common.Heavy_Species" ), IdealGasResources.getString( "Common.Light_Species" ) } );
     }
 
     public SpeciesSelectionPanel( final IdealGasModule module, final String[] speciesNames ) {
@@ -66,7 +76,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         // For debug: button fires a molecule when pressed
         {
             boolean debug = false;
-            if( debug ) {
+            if ( debug ) {
                 JButton testBtn = new JButton( "Test" );
                 testBtn.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -74,9 +84,9 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
                                                                                module.getBox().getPosition().getY() + 30 ),
                                                            new Vector2D( -53, -20 ),
                                                            new Vector2D() );
-                        new PumpMoleculeCmd( (IdealGasModel)module.getModel(), m, module ).doIt();
+                        new PumpMoleculeCmd( (IdealGasModel) module.getModel(), m, module ).doIt();
                         heavySpinner.setValue( new Integer( 1 ) );
-                        ( (PumpControlPanel)SpeciesSelectionPanel.this ).moleculeAdded( m );
+                        ( (PumpControlPanel) SpeciesSelectionPanel.this ).moleculeAdded( m );
                     }
                 } );
                 gbc.gridy++;
@@ -116,15 +126,15 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         heavySpinner.setPreferredSize( PREFERRED_SPINNER_SIZE );
         heavySpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                if( heavySpinner.isEnabled() ) {
-                    int dn = ( (Integer)heavySpinner.getValue() ).intValue() - getHeavySpeciesCnt();
-                    if( dn > 0 ) {
-                        for( int i = 0; i < dn; i++ ) {
+                if ( heavySpinner.isEnabled() ) {
+                    int dn = ( (Integer) heavySpinner.getValue() ).intValue() - getHeavySpeciesCnt();
+                    if ( dn > 0 ) {
+                        for ( int i = 0; i < dn; i++ ) {
                             createMolecule( HeavySpecies.class );
                         }
                     }
-                    else if( dn < 0 ) {
-                        for( int i = 0; i < -dn; i++ ) {
+                    else if ( dn < 0 ) {
+                        for ( int i = 0; i < -dn; i++ ) {
                             removeMolecule( HeavySpecies.class );
                         }
                     }
@@ -142,15 +152,15 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         lightSpinner.setPreferredSize( PREFERRED_SPINNER_SIZE );
         lightSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                if( lightSpinner.isEnabled() ) {
-                    int dn = ( (Integer)lightSpinner.getValue() ).intValue() - getLightSpeciesCnt();
-                    if( dn > 0 ) {
-                        for( int i = 0; i < dn; i++ ) {
+                if ( lightSpinner.isEnabled() ) {
+                    int dn = ( (Integer) lightSpinner.getValue() ).intValue() - getLightSpeciesCnt();
+                    if ( dn > 0 ) {
+                        for ( int i = 0; i < dn; i++ ) {
                             createMolecule( LightSpecies.class );
                         }
                     }
-                    else if( dn < 0 ) {
-                        for( int i = 0; i < -dn; i++ ) {
+                    else if ( dn < 0 ) {
+                        for ( int i = 0; i < -dn; i++ ) {
                             removeMolecule( LightSpecies.class );
                         }
                     }
@@ -160,6 +170,10 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
     }
 
     public void resetOccurred( IdealGasModule.ResetEvent event ) {
+        reset();
+    }
+
+    public void reset() {
         heavySpinner.setEnabled( false );
         lightSpinner.setEnabled( false );
         heavySpinner.setValue( new Integer( 0 ) );

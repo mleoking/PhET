@@ -9,13 +9,14 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 
 /**
  * A Box2D that reports pressure.
@@ -39,7 +40,7 @@ public class PressureSensingBox extends Box2D {
         // Create the pressure slices used to record pressure
         // Multiple slices are used to average across entire box
         int numSlices = 5;
-        for( int i = 0; i < numSlices; i++ ) {
+        for ( int i = 0; i < numSlices; i++ ) {
             PressureSlice ps = new PressureSlice( this, model, clock );
             ps.setY( this.getMinY() + ( this.getHeight() / ( numSlices + 1 ) * ( i + 1 ) ) );
             ps.setTimeAveragingWindow( 2500 * ( clock.getDt() / clock.getDelay() ) );
@@ -58,11 +59,11 @@ public class PressureSensingBox extends Box2D {
      * @param simTime
      */
     public void setTimeAveragingWindow( double simTime ) {
-        for( int i = 0; i < averagingSlices.size(); i++ ) {
-            PressureSlice pressureSlice = (PressureSlice)averagingSlices.get( i );
+        for ( int i = 0; i < averagingSlices.size(); i++ ) {
+            PressureSlice pressureSlice = (PressureSlice) averagingSlices.get( i );
             pressureSlice.setTimeAveragingWindow( simTime );
         }
-        if( gaugeSlice != null ) {
+        if ( gaugeSlice != null ) {
             gaugeSlice.setTimeAveragingWindow( simTime );
         }
     }
@@ -86,10 +87,10 @@ public class PressureSensingBox extends Box2D {
      *
      */
     public double getPressure() {
-        if( multipleSlicesEnabled ) {
+        if ( multipleSlicesEnabled ) {
             double sum = 0;
-            for( int i = 0; i < averagingSlices.size(); i++ ) {
-                PressureSlice slice = (PressureSlice)averagingSlices.get( i );
+            for ( int i = 0; i < averagingSlices.size(); i++ ) {
+                PressureSlice slice = (PressureSlice) averagingSlices.get( i );
                 sum += slice.getPressure();
             }
             return sum / averagingSlices.size();
@@ -97,6 +98,10 @@ public class PressureSensingBox extends Box2D {
         else {
             return gaugeSlice.getPressure();
         }
+    }
+
+    public boolean isPressureSafe() {
+        return getPressure() <= IdealGasConfig.MAX_SAFE_PRESSURE;
     }
 
     /**
@@ -116,7 +121,7 @@ public class PressureSensingBox extends Box2D {
      */
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        if( lastPressure != getPressure() ) {
+        if ( lastPressure != getPressure() ) {
             lastPressure = getPressure();
             changeListenerProxy.stateChanged( new ChangeEvent( this ) );
         }
@@ -127,8 +132,8 @@ public class PressureSensingBox extends Box2D {
      */
     public void clearData() {
         gaugeSlice.clear();
-        for( int i = 0; i < averagingSlices.size(); i++ ) {
-            ( (PressureSlice)averagingSlices.get( i ) ).clear();
+        for ( int i = 0; i < averagingSlices.size(); i++ ) {
+            ( (PressureSlice) averagingSlices.get( i ) ).clear();
         }
     }
 
@@ -136,7 +141,7 @@ public class PressureSensingBox extends Box2D {
     // Event and listener definitions
     //----------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -152,7 +157,7 @@ public class PressureSensingBox extends Box2D {
         }
 
         public PressureSensingBox getPressureSensingBox() {
-            return (PressureSensingBox)getSource();
+            return (PressureSensingBox) getSource();
         }
     }
 

@@ -9,15 +9,20 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.collision.SphereHotAirBalloonExpert;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.BoxMustContainParticle;
+import edu.colorado.phet.idealgas.model.Constraint;
+import edu.colorado.phet.idealgas.model.HotAirBalloon;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
+import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
-
-import java.awt.geom.Point2D;
 
 public class HotAirBalloonModule extends IdealGasModule {
 
@@ -77,7 +82,12 @@ public class HotAirBalloonModule extends IdealGasModule {
      */
     public void reset() {
         super.reset();
-        balloon.setPosition( new Point2D.Double( initX, initY ) );
         balloon.setHeatSource( 0 );
+    }
+
+    // When the chamber is reset, ensure that the balloon is in the box, in case it wandered off when the lid was open.
+    @Override protected void resetChamber() {
+        super.resetChamber();
+        balloon.setPosition( new Point2D.Double( initX, initY ) );
     }
 }
