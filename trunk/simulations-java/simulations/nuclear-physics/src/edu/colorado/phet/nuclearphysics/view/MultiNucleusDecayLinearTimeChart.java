@@ -107,7 +107,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     // the chart.
     private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.20;
     private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.50;
-    private static final double TIME_ZERO_OFFSET_PROPORTION = 0.05; // Proportion of total time span
+    private static final double TIME_ZERO_OFFSET_PROPORTION = 0.05; // Proportion of total time span that is to the left of time zero.
     private static final int INITIAL_FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
 
     // Constants that control the way the nuclei look.
@@ -807,10 +807,11 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _xAxisTickMarks.clear();
         _xAxisTickMarkLabels.clear();
 
-        int numTickMarks = 0;
+        int numTickMarks;
+        double positiveTimeSpan = _timeSpan * ( 1 - TIME_ZERO_OFFSET_PROPORTION ); // Time span with negative portion removed.
         if ( _timeSpan < 10000 ) {
             // Tick marks are 1 second apart.
-            numTickMarks = (int) ( _timeSpan / 1000 + 1 );
+            numTickMarks = (int) ( positiveTimeSpan / 1000 + 1 );
 
             for ( int i = 0; i < numTickMarks; i++ ) {
                 String tickMarkText;
@@ -825,7 +826,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         }
         else if ( _timeSpan < HalfLifeInfo.convertYearsToMs( 100 ) ) {
             // Tick marks are 10 yrs apart.
-            numTickMarks = (int) ( _timeSpan / HalfLifeInfo.convertYearsToMs( 10 ) + 1 );
+            numTickMarks = (int) ( positiveTimeSpan / HalfLifeInfo.convertYearsToMs( 10 ) + 1 );
 
             for ( int i = 0; i < numTickMarks; i++ ) {
                 String tickMarkText;
@@ -841,7 +842,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         else if ( _timeSpan < HalfLifeInfo.convertYearsToMs( 1E9 ) ) {
             // Tick marks are 5000 yrs apart.  This is generally used for
             // the Carbon 14 range.
-            numTickMarks = (int) ( _timeSpan / HalfLifeInfo.convertYearsToMs( 5000 ) + 1 );
+            numTickMarks = (int) ( positiveTimeSpan / HalfLifeInfo.convertYearsToMs( 5000 ) + 1 );
 
             for ( int i = 0; i < numTickMarks; i++ ) {
                 String tickMarkText;
@@ -856,7 +857,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         }
         else {
             // Space the tick marks four billion years apart.
-            numTickMarks = (int) ( _timeSpan / HalfLifeInfo.convertYearsToMs( 4E9 ) + 1 );
+            numTickMarks = (int) ( positiveTimeSpan / HalfLifeInfo.convertYearsToMs( 4E9 ) + 1 );
 
             for ( int i = 0; i < numTickMarks; i++ ) {
                 addXAxisTickMark( i * HalfLifeInfo.convertYearsToMs( 4E9 ),
