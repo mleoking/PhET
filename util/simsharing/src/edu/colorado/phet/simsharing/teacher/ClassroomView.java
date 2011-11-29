@@ -1,15 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing.teacher;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.simsharing.DefaultActor;
+import edu.colorado.phet.common.phetcommon.simsharing.IActor;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.Sim;
+import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
 import edu.colorado.phet.simsharing.messages.SessionID;
 import edu.colorado.phet.simsharing.messages.StudentSummary;
 import edu.umd.cs.piccolo.PNode;
@@ -23,7 +25,7 @@ public class ClassroomView extends PSwingCanvas {
     private final PNode studentThumbnailNode;
     private PNode summaryNode;
 
-    public ClassroomView( final DefaultActor actor ) {
+    public ClassroomView( final IActor actor ) {
         summaryNode = new PNode() {
             @Override public void addChild( PNode child ) {
                 child.setOffset( child.getOffset().getX(), getFullBounds().getMaxY() + 2 );
@@ -43,10 +45,7 @@ public class ClassroomView extends PSwingCanvas {
                     try {
                         Thread.sleep( 1000 );
 
-                        //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
-//                        final StudentList list = (StudentList) actor.ask( new GetActiveStudentList() );
-                        final StudentList list = null;
-
+                        final StudentList list = (StudentList) actor.ask( new GetActiveStudentList() );
                         SwingUtilities.invokeLater( new Runnable() {
                             public void run() {
                                 summaryNode.removeAllChildren();
@@ -102,6 +101,12 @@ public class ClassroomView extends PSwingCanvas {
                         } );
                     }
                     catch ( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( ClassNotFoundException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( IOException e ) {
                         e.printStackTrace();
                     }
 //                    catch ( ClassNotFoundException e ) {

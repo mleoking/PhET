@@ -9,7 +9,7 @@ import java.util.Random;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.DefaultActor;
+import edu.colorado.phet.common.phetcommon.simsharing.StringActor;
 import edu.colorado.phet.common.phetcommon.simsharing.ThreadedActor;
 
 /**
@@ -28,7 +28,7 @@ public class MultiLoadTesterOneJVM {
                     final String sessionID = "session_" + finalI;
                     int eventsPerMinute = 120;
                     try {
-                        final ThreadedActor client = new ThreadedActor( new DefaultActor() );
+                        final ThreadedActor client = new ThreadedActor( new StringActor() );
                         client.tell( "12354\t" + machineID + "\t" + sessionID + "\tobject\taction" );
 
                         double eventsPerSecond = eventsPerMinute / 60.0;

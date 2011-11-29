@@ -8,8 +8,8 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.simsharing.AbstractMessageServer;
 import edu.colorado.phet.common.phetcommon.simsharing.MessageHandler;
-import edu.colorado.phet.common.phetcommon.simsharing.MessageServer;
 import edu.colorado.phet.simsharing.messages.AddSamples;
 import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.GetActiveStudentList;
@@ -39,7 +39,7 @@ public class Server implements MessageHandler {
 //    private Storage storage = new HibernateStorage();
 
     private void start() throws IOException {
-        new MessageServer( PORT, this ).start();
+        new AbstractMessageServer( PORT, this ).start();
     }
 
     public void handle( Object message, ObjectOutputStream writeToClient, ObjectInputStream readFromClient ) throws IOException {

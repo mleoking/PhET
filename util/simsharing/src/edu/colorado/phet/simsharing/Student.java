@@ -12,13 +12,16 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.simsharing.DefaultActor;
 import edu.colorado.phet.common.phetcommon.simsharing.IActor;
+import edu.colorado.phet.common.phetcommon.simsharing.ObjectActor;
 import edu.colorado.phet.common.phetcommon.simsharing.ThreadedActor;
 import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.state.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.simsharing.messages.AddSamples;
+import edu.colorado.phet.simsharing.messages.EndSession;
 import edu.colorado.phet.simsharing.messages.SessionID;
+import edu.colorado.phet.simsharing.messages.StartSession;
 import edu.colorado.phet.simsharing.server.Server;
 
 /**
@@ -44,7 +47,7 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
     public void start() throws IOException, ClassNotFoundException {
 
         //Communicate with the server in a separate thread
-        final DefaultActor actor = new DefaultActor( host, port );
+        final IActor actor = new ObjectActor( host, port );
         final IActor nonBlockingClient = new ThreadedActor( actor );
 
         final T application = sim.launcher.apply();
@@ -54,8 +57,7 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
                 if ( sessionID != null ) {
                     try {
                         //Record the session end
-                        //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
-                        //actor.tell( new EndSession( sessionID ) );
+                        actor.tell( new EndSession( sessionID ) );
 
                         //Allow the server thread to exit gracefully.  Blocks to ensure it happens before we exit
                         actor.tell( "logout" );
@@ -100,14 +102,13 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
                         finishedMessage = true;
                     }
                     if ( stateCache.size() >= batchSize ) {
-//                        try {
-                        //Copy the state cache because it is cleared in the next step
-                        //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
-                        //nonBlockingClient.tell( new AddSamples( sessionID, new ArrayList<SimState>( stateCache ) ) );
-//                        }
-//                        catch ( IOException e ) {
-//                            e.printStackTrace();
-//                        }
+                        try {
+                            //Copy the state cache because it is cleared in the next step
+                            nonBlockingClient.tell( new AddSamples( sessionID, new ArrayList<SimState>( stateCache ) ) );
+                        }
+                        catch ( IOException e ) {
+                            e.printStackTrace();
+                        }
                         stateCache.clear();
                     }
                 }
@@ -126,17 +127,15 @@ public class Student<U extends SimState, T extends SimsharingApplication<U>> {
         new Thread( new Runnable() {
             public void run() {
                 //be careful, this part blocks:
-//                try {
-//
-                //TODO: RESTORE MESSAGES TO BE OBJECTS INSTEAD OF STRINGS
-                //sessionID = (SessionID) nonBlockingClient.ask( new StartSession( sim.name, sim.project, sim.flavor, studentID ) );
-//                }
-//                catch ( IOException e ) {
-//                    e.printStackTrace();
-//                }
-//                catch ( ClassNotFoundException e ) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    sessionID = (SessionID) nonBlockingClient.ask( new StartSession( sim.name, sim.project, sim.flavor, studentID ) );
+                }
+                catch ( IOException e ) {
+                    e.printStackTrace();
+                }
+                catch ( ClassNotFoundException e ) {
+                    e.printStackTrace();
+                }
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ", id = " + sessionID );

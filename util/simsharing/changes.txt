@@ -1,3 +1,4 @@
+11/28/2011 Parameterized IActor on message types to support both String and serialized messages
 # 00.00.51 (58314) Nov 2, 2011
 # 00.00.50 (58307) Nov 2, 2011
 Converted to use writeUTF instead of writeObject, see #3136
