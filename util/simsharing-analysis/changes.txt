@@ -1,3 +1,4 @@
+Added plots for events and unique events
 Show tick label above the tick lines
 In PlotStudentActivity, instead of long timestamp, just show 0:00, then 10:00 then 20:00
 In PlotStudentActivity instead of machine ID, show "Student "+id

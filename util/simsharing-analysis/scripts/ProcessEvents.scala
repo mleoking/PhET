@@ -1,5 +1,6 @@
 import edu.colorado.phet.simsharinganalysis._
 import phet._
+import scripts.DoProcessEvents
 
 val logs = phet load "C:\\Users\\Sam\\Desktop\\phet-raw-data-11-13-2011"
 
@@ -33,10 +34,7 @@ for ( log <- selected ) {
   println(log.histogramByObject)
 }
 
-val simEventMap = Map("Molecule Shapes" -> simEvents.moleculeShapes,
-                      "Molecule Polarity" -> simEvents.moleculePolarity,
-                      "Balancing Chemical Equations" -> simEvents.balancingChemicalEquations)
-
+val simEventMap = DoProcessEvents.simEventMap
 for ( sim <- simEventMap.keys; simLogs = selected.filter(_.simName == sim); if simLogs.size > 0 ) {
 
   //Find which events are important in this sim
