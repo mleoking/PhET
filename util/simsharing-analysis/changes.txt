@@ -1,3 +1,4 @@
+Added tooltips for specific events
 Made yellow (system) events wider and always behind black (user) events
 Added plots for events and unique events
 Show tick label above the tick lines
