@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -153,18 +152,14 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
              */
             public void componentResized( ComponentEvent e ) {
 
-                // Redraw the time chart.
-                _betaDecayTimeChart.componentResized( new Rectangle2D.Double( 0,
-                                                                              0,
-                                                                              getWidth() * TIME_CHART_HORIZONTAL_FRACTION,
-                                                                              getHeight() * TIME_CHART_VERTICAL_FRACTION ) );
+                // Resize the time chart.
+                _betaDecayTimeChart.componentResized( new PDimension( getWidth() * TIME_CHART_HORIZONTAL_FRACTION, getHeight() * TIME_CHART_VERTICAL_FRACTION ) );
 
                 // Position the time chart.
-                _betaDecayTimeChart.setOffset( 0, 0 );
+                _betaDecayTimeChart.setOffset( getWidth() / 2 - _betaDecayTimeChart.getFullBoundsReference().getWidth() / 2 - SingleNucleusDecayTimeChart.BORDER_STROKE_WIDTH / 2, 0 );
 
                 // Position the reset button.
-                _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ),
-                                            0.30 * getHeight() );
+                _resetButtonNode.setOffset( ( 0.82 * getWidth() ) - ( _resetButtonNode.getFullBoundsReference().width / 2 ), 0.30 * getHeight() );
             }
         } );
     }
