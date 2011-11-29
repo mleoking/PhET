@@ -2,17 +2,18 @@
 package edu.colorado.phet.simsharinganalysis.gui
 
 import edu.umd.cs.piccolo.util.PPaintContext
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
 import java.util.Date
 import edu.umd.cs.piccolo.{PCamera, PNode, PCanvas}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.awt.geom.Line2D
 import edu.colorado.phet.simsharinganalysis._
 import javax.swing._
-import java.awt.{BorderLayout, Dimension, Color}
 import scripts.HowMuchTimeSpentInTabs
 import edu.umd.cs.piccolo.nodes.PText
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, ControlPanelNode}
+import java.awt.{Rectangle, BorderLayout, Dimension, Color}
+import edu.colorado.phet.common.piccolophet.nodes.layout.{HBox, VBox}
+import java.awt.event.{ComponentEvent, ComponentAdapter}
 
 class StudentActivityCanvas(path: String) extends PCanvas {
   val all = phet load path
@@ -24,6 +25,10 @@ class StudentActivityCanvas(path: String) extends PCanvas {
   setAnimatingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
   val sessionLayer = new VBox(20, true)
   getLayer addChild sessionLayer
+
+  val colorMap = Map("Molecule Polarity" -> Color.red,
+                     "Balancing Chemical Equations" -> Color.green,
+                     "Molecule Shapes" -> new Color(156, 205, 255))
 
   //one plot section for each session
   for ( session: Session <- studySessionsNov2011.all; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
@@ -50,9 +55,6 @@ class StudentActivityCanvas(path: String) extends PCanvas {
 
     sessionLayer.addChild(new TimelineNode(sessionStartTime, sessionStartTime, sessionEndTime))
 
-    val colorMap = Map("Molecule Polarity" -> Color.red,
-                       "Balancing Chemical Equations" -> Color.green,
-                       "Molecule Shapes" -> new Color(156, 205, 255))
     //One row per computer
     for ( machine <- machines ) {
 
@@ -77,7 +79,25 @@ class StudentActivityCanvas(path: String) extends PCanvas {
       sessionLayer.addChild(machineNode)
     }
   }
+
+  val legend = new Legend(colorMap)
+  getCamera addChild legend
+
+  def updateLegendLocation() {
+    legend.setOffset(getWidth - legend.getFullBounds.getWidth - 5, 5)
+  }
+
+  updateLegendLocation()
+  addComponentListener(new ComponentAdapter {
+    override def componentResized(e: ComponentEvent) {
+      updateLegendLocation()
+    }
+  })
 }
+
+class Legend(colorMap: Map[String, Color]) extends ControlPanelNode(
+  new VBox(colorMap.map(entry => new HBox(new PhetPPath(new Rectangle(0, 0, 10, 10), entry._2), new PText(entry._1))).toArray: _*)
+  , Color.white)
 
 class MyPText(node: PNode, camera: PCamera, text: String) extends PText(text) {
   camera.addPropertyChangeListener(PCamera.PROPERTY_VIEW_TRANSFORM, new PropertyChangeListener {
