@@ -4,14 +4,13 @@ package edu.colorado.phet.energyskatepark.view.swing;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -31,25 +30,20 @@ public class PanZoomControl extends JPanel {
     public PanZoomControl( EnergySkateParkSimulationPanel energySkateParkSimulationPanel ) {
         this.energySkateParkSimulationPanel = energySkateParkSimulationPanel;
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-        try {
-            zoomOut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-minus.gif" ) ) );
-            zoomOut.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    zoomOutOnce();
-                }
-            } );
-            add( zoomOut );
-            zoomIn = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "energy-skate-park/images/icons/glass-20-plus.gif" ) ) );
-            zoomIn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    zoomInOnce();
-                }
-            } );
-            add( zoomIn );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
+        zoomOut = new JButton( new ImageIcon( EnergySkateParkResources.getImage( "icons/glass-20-minus.gif" ) ) );
+        zoomOut.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                zoomOutOnce();
+            }
+        } );
+        add( zoomOut );
+        zoomIn = new JButton( new ImageIcon( EnergySkateParkResources.getImage( "icons/glass-20-plus.gif" ) ) );
+        zoomIn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                zoomInOnce();
+            }
+        } );
+        add( zoomIn );
         zoomIn.setEnabled( false );
         setOpaque( false );
     }

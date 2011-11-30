@@ -2,17 +2,16 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 
 /**
  * Author: Sam Reid
  * Mar 30, 2007, 1:38:23 PM
  */
 public class SkaterCharacter implements Serializable {
-    private final String imageURL;
+    private final String imageResourceName;
     private final String name;
     private final double mass;
     private final double modelHeight;
@@ -22,8 +21,8 @@ public class SkaterCharacter implements Serializable {
         this( imageURL, name, mass, modelHeight, 1.0 );
     }
 
-    public SkaterCharacter( String imageURL, String name, double mass, double modelHeight, double heightDivisor ) {
-        this.imageURL = imageURL;
+    public SkaterCharacter( String imageResourceName, String name, double mass, double modelHeight, double heightDivisor ) {
+        this.imageResourceName = imageResourceName;
         this.name = name;
         this.mass = mass;
         this.modelHeight = modelHeight;
@@ -33,7 +32,7 @@ public class SkaterCharacter implements Serializable {
     public boolean equals( Object obj ) {
         if ( obj instanceof SkaterCharacter ) {
             SkaterCharacter sc = (SkaterCharacter) obj;
-            return sc.imageURL.equals( imageURL ) &&
+            return sc.imageResourceName.equals( imageResourceName ) &&
                    sc.name.equals( name ) &&
                    sc.mass == mass &&
                    sc.modelHeight == modelHeight &&
@@ -60,18 +59,12 @@ public class SkaterCharacter implements Serializable {
         return mass;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getImageResourceName() {
+        return imageResourceName;
     }
 
     public BufferedImage getImage() {
-        try {
-            return ImageLoader.loadBufferedImage( getImageURL() );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
+        return EnergySkateParkResources.getImage( getImageResourceName() );
     }
 
     public double getHeightDivisor() {

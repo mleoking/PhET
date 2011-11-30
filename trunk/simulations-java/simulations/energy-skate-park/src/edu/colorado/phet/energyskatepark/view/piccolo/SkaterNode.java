@@ -7,13 +7,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacter;
@@ -67,18 +66,13 @@ public class SkaterNode extends PNode {
             throw new IllegalArgumentException( "Body cannot be null in " + getClass().getName() );
         }
 
-        try {
-            jetPackImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/rocket5.png" );
-            jetPackNode = new PhetPNode( new PImage( jetPackImage ) );
-            addChild( jetPackNode );
+        jetPackImage = EnergySkateParkResources.getImage( "rocket5.png" );
+        jetPackNode = new PhetPNode( new PImage( jetPackImage ) );
+        addChild( jetPackNode );
 
-            skaterImage = ImageLoader.loadBufferedImage( "energy-skate-park/images/skater3.png" );
-            skaterImageNode = new PImage( skaterImage );
-            addChild( skaterImageNode );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
+        skaterImage = EnergySkateParkResources.getImage( "skater3.png" );
+        skaterImageNode = new PImage( skaterImage );
+        addChild( skaterImageNode );
 
         centerDebugger = new PhetPPath( Color.red );
         if ( debugCenter ) {

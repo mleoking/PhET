@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -23,7 +22,6 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
@@ -106,17 +104,12 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
             this.module = module;
             this.skaterCharacter = skaterCharacter;
             GridBagConstraints gridBagConstraints = new GridBagConstraints();
-            try {
-                String pattern = EnergySkateParkResources.getString( "controls.choose-character.label.pattern" );
-                String labelStr = MessageFormat.format( pattern, skaterCharacter.getName(), skaterCharacter.getMass(), EnergySkateParkResources.getString( "units.kg" ) );
-                JLabel label = new JLabel( labelStr,
-                                           new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio(
-                                                   ImageLoader.loadBufferedImage( skaterCharacter.getImageURL() ), (int) ( skaterCharacter.getModelHeight() * 75 ) ) ), JLabel.TRAILING );
-                add( label, gridBagConstraints );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
+            String pattern = EnergySkateParkResources.getString( "controls.choose-character.label.pattern" );
+            String labelStr = MessageFormat.format( pattern, skaterCharacter.getName(), skaterCharacter.getMass(), EnergySkateParkResources.getString( "units.kg" ) );
+            JLabel label = new JLabel( labelStr,
+                                       new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio(
+                                               skaterCharacter.getImage(), (int) ( skaterCharacter.getModelHeight() * 75 ) ) ), JLabel.TRAILING );
+            add( label, gridBagConstraints );
             setSelected( false );
         }
 
