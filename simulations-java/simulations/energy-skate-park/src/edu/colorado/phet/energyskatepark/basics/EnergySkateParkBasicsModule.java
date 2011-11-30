@@ -26,6 +26,7 @@ import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
 import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
+import edu.colorado.phet.energyskatepark.view.swing.GridLinesCheckBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -113,7 +114,10 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
                             setSelected( isPieChartVisible() );
                         }
                     } );
-                }} )
+                }} ),
+
+                //Checkbox to show/hide the grid lines
+                new PSwing( new GridLinesCheckBox( this ) {{checkBox.setFont( CONTROL_FONT );}} )
         ), EnergySkateParkLookAndFeel.backgroundColor ) {{
 
             //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates

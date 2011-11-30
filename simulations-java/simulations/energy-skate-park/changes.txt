@@ -1,3 +1,4 @@
+11/29/11 basics: Added 'show grid' to all tabs
 11/29/11 basics: fix Reset All for all tabs. But for unknown reason, loadDefaultTrack needs to be called at end of module subclass constructors.
 11/29/11 common: add missing @Overide to AbstractEnergySkateParkModule.reset, and call super.reset
 11/29/11 basics: add ':' before "Basics" in title, the titling convention used in other basics sims (eg, states-of-matter)

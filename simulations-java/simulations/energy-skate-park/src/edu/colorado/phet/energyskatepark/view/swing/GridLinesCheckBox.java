@@ -21,19 +21,20 @@ import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
 
 public class GridLinesCheckBox extends VerticalLayoutPanel {
     private final AbstractEnergySkateParkModule module;
+    public final JCheckBox checkBox;
 
     public GridLinesCheckBox( final AbstractEnergySkateParkModule module ) {
         this.module = module;
-        final JCheckBox gridlines = new JCheckBox( EnergySkateParkStrings.getString( "controls.show-grid" ), getRoot().isGridVisible() );
-        gridlines.addActionListener( new ActionListener() {
+        checkBox = new JCheckBox( EnergySkateParkStrings.getString( "controls.show-grid" ), getRoot().isGridVisible() );
+        checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getRoot().setGridVisible( gridlines.isSelected() );
+                getRoot().setGridVisible( checkBox.isSelected() );
             }
         } );
-        add( gridlines );
+        add( checkBox );
         getRoot().addGridVisibilityChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                gridlines.setSelected( getRoot().isGridVisible() );
+                checkBox.setSelected( getRoot().isGridVisible() );
             }
         } );
     }
