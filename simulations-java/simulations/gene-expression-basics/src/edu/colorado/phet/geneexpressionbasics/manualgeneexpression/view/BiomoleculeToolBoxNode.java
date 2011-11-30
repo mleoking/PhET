@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -119,7 +120,7 @@ public class BiomoleculeToolBoxNode extends PNode {
         }};
 
         // Place the content into a control panel node.
-        addChild( new ControlPanelNode( contentNode ) );
+        addChild( new ControlPanelNode( contentNode, new Color( 250, 250, 250 ) ) );
     }
 
     public void reset() {
