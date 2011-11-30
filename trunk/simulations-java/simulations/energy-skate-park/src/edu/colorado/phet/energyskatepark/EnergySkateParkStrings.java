@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark;
 
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
@@ -16,5 +18,9 @@ public class EnergySkateParkStrings {
     public static String getString( String s ) {
         return RESOURCE_LOADER.getLocalizedString( s );
 //        return "<t>"+RESOURCE_LOADER.getLocalizedString( s )+"</t>";
+    }
+
+    public static BufferedImage getImage( String resourceName ) {
+        return RESOURCE_LOADER.getImage( resourceName );
     }
 }
