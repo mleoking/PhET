@@ -15,7 +15,7 @@ import static edu.colorado.phet.energyskatepark.basics.EnergySkateParkBasicsModu
  *
  * @author Sam Reid
  */
-class OnOffPanel extends PSwing {
+public class OnOffPanel extends PSwing {
     public OnOffPanel( final SettableProperty<Boolean> property ) {
         super( new JPanel() {{
             add( new PropertyRadioButton<Boolean>( EnergySkateParkStrings.getString( "off" ), property, false ) {{setFont( CONTROL_FONT );}} );
