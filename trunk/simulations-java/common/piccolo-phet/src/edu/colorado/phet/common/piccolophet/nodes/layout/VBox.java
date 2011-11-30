@@ -30,7 +30,7 @@ public class VBox extends Box {
         this( 10, children );
     }
 
-    //Creates a VBox which lays out nodes vertically.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
+    //Creates a VBox, which lays out nodes vertically.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
     public VBox( double spacing,
                  PNode... children//List of children to be added on initialization
     ) {
