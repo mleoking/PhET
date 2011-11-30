@@ -1,3 +1,4 @@
+11/30/11 common: change "Show Grid" to "Grid" (this could be done for basics only, but didn't seem worth the effort)
 11/30/11 common: rename EnergySkateParkStrings to EnergySkateParkResources, since it now loads strings and images
 11/30/11 basics: add icons to ViewControlPanel
 11/30/11 basics: check in icon files for charts and grid controls
