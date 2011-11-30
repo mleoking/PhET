@@ -1,3 +1,4 @@
+11/30/11 basics: Fixed reset all in "track playground" tab
 11/30/11 basics: don't add zoom controls to the play area
 11/30/11 common: add ability to specify whether zoom controls should be added to the play area
 11/30/11 basics: promote visibility control panel to top-level class ViewControlPanel, for symmetry with TrackControlPanel, and so we can work on module and control panel separately
