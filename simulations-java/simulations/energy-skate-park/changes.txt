@@ -1,3 +1,4 @@
+11/29/11 basics: change TrackControlPanel to extend ControlPanelNode, so that setting control panels to same width will be easier
 11/29/11 basics: add ticks to Track Friction slider
 11/29/11 basics: remove code that was constructing strings keys dynamically for the energy legend
 11/29/11 basics: inline i18n of strings

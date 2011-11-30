@@ -20,35 +20,33 @@ import static edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel.
  *
  * @author Sam Reid
  */
-public class TrackControlPanel extends PNode {
+public class TrackControlPanel extends ControlPanelNode {
 
     public TrackControlPanel( final EnergySkateParkBasicsModule module, final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, final PNode energyGraphControlPanel ) {
-        addChild( new ControlPanelNode(
-                new VBox( 10,
+        super( new VBox( 10,
 
-                          //Control box for track friction
-                          new VBox( 0,
-                                    new PhetPText( EnergySkateParkStrings.getString( "controls.show-friction" ), EnergySkateParkBasicsModule.TITLE_FONT ),
-                                    new OnOffPanel( module.frictionEnabled ),
-                                    new PSwing( new TrackFrictionSlider( module ) ) ),
+                         //Control box for track friction
+                         new VBox( 0,
+                                   new PhetPText( EnergySkateParkStrings.getString( "controls.show-friction" ), EnergySkateParkBasicsModule.TITLE_FONT ),
+                                   new OnOffPanel( module.frictionEnabled ),
+                                   new PSwing( new TrackFrictionSlider( module ) ) ),
 
-                          //vertical space
-                          new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 10 ) ) {{
-                              setStroke( null );
-                          }},
+                         //vertical space
+                         new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 10 ) ) {{
+                             setStroke( null );
+                         }},
 
-                          //Control box for stickiness
-                          new VBox( 0,
-                                    new PhetPText( EnergySkateParkStrings.getString( "stickToTrack" ), EnergySkateParkBasicsModule.TITLE_FONT ),
-                                    new OnOffPanel( module.stickToTrack ) ) ),
-                backgroundColor ) {{
+                         //Control box for stickiness
+                         new VBox( 0,
+                                   new PhetPText( EnergySkateParkStrings.getString( "stickToTrack" ), EnergySkateParkBasicsModule.TITLE_FONT ),
+                                   new OnOffPanel( module.stickToTrack ) ) ),
+               backgroundColor );
 
-            //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
-            energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
-                public void apply() {
-                    setOffset( energySkateParkSimulationPanel.getWidth() - getFullBounds().getWidth() - EnergySkateParkBasicsModule.INSET, energyGraphControlPanel.getFullBounds().getMaxY() + EnergySkateParkBasicsModule.INSET );
-                }
-            } );
-        }} );
+        //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
+        energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
+            public void apply() {
+                setOffset( energySkateParkSimulationPanel.getWidth() - getFullBounds().getWidth() - EnergySkateParkBasicsModule.INSET, energyGraphControlPanel.getFullBounds().getMaxY() + EnergySkateParkBasicsModule.INSET );
+            }
+        } );
     }
 }
