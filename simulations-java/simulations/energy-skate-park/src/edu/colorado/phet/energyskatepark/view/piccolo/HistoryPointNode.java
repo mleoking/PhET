@@ -13,7 +13,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.HistoryPoint;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -71,7 +71,7 @@ public class HistoryPointNode extends PNode {
     }
 
     public static String str( String key ) {
-        return EnergySkateParkStrings.getString( key );
+        return EnergySkateParkResources.getString( key );
     }
 
     private void update() {

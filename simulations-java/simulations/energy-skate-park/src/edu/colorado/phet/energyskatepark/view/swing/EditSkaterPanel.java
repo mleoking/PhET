@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.physics.Particle;
@@ -24,10 +24,10 @@ public class EditSkaterPanel extends AdvancedPanel {
     private final AbstractEnergySkateParkModule module;
 
     public EditSkaterPanel( final AbstractEnergySkateParkModule module ) {
-        super( EnergySkateParkStrings.getString( "controls.edit-skater" ) + " >>", EnergySkateParkStrings.getString( "controls.hide-skater-properties" ) + " <<" );
+        super( EnergySkateParkResources.getString( "controls.edit-skater" ) + " >>", EnergySkateParkResources.getString( "controls.hide-skater-properties" ) + " <<" );
         this.module = module;
         final EnergySkateParkSlider mass = new EnergySkateParkSlider(
-                EnergySkateParkStrings.getString( "controls.mass" ), EnergySkateParkStrings.getString( "units.kg" ), 0.2, 200, 75 );
+                EnergySkateParkResources.getString( "controls.mass" ), EnergySkateParkResources.getString( "units.kg" ), 0.2, 200, 75 );
         mass.setModelTicks( new double[] { 0.2, 75, 200 } );
         mass.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -35,7 +35,7 @@ public class EditSkaterPanel extends AdvancedPanel {
             }
         } );
 
-        JButton revertToDefaults = new JButton( EnergySkateParkStrings.getString( "controls.skater.restore-defaults" ) );
+        JButton revertToDefaults = new JButton( EnergySkateParkResources.getString( "controls.skater.restore-defaults" ) );
         revertToDefaults.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 restoreDefaults();

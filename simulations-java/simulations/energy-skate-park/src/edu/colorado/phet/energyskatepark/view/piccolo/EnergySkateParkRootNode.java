@@ -23,7 +23,7 @@ import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
@@ -81,7 +81,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
         measuringTape = new MeasuringTape( new ModelViewTransform2D(
                 new Rectangle( 50, 50 ), new Rectangle2D.Double( 0, 0, 50, 50 ) ),
-                                           new Point2D.Double( 25, 25 ), EnergySkateParkStrings.getString( "units.meters.abbreviation" ) );
+                                           new Point2D.Double( 25, 25 ), EnergySkateParkResources.getString( "units.meters.abbreviation" ) );
         updateMapping();
         resetMeasuringTapeLocation();
 

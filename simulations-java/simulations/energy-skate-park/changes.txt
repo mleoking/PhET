@@ -1,3 +1,4 @@
+11/30/11 common: rename EnergySkateParkStrings to EnergySkateParkResources, since it now loads strings and images
 11/30/11 basics: add icons to ViewControlPanel
 11/30/11 basics: check in icon files for charts and grid controls
 11/30/11 basics: fixed: "friction" is forgotten when switching tracks

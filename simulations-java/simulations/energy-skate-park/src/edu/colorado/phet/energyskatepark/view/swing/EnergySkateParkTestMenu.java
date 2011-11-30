@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.physics.TestPhysics1D;
 
 /**
@@ -58,7 +58,7 @@ public class EnergySkateParkTestMenu extends EnergySkateParkTrackMenu {
         }
 
         public static TestItem getTestItemForKey( String location, String key ) {
-            return new TestItem( location, EnergySkateParkStrings.getString( key ) );
+            return new TestItem( location, EnergySkateParkResources.getString( key ) );
         }
 
         public String getLocation() {

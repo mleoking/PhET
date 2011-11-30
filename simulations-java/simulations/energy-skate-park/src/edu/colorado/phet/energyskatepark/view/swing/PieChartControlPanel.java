@@ -13,7 +13,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
@@ -33,7 +33,7 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
     public PieChartControlPanel( final AbstractEnergySkateParkModule module, EnergySkateParkControlPanel energySkateParkControlPanel ) {
         this.module = module;
         this.energySkateParkControlPanel = energySkateParkControlPanel;
-        showPieChartCheckBox = new JCheckBox( EnergySkateParkStrings.getString( "piechart.show" ), module.isPieChartVisible() );
+        showPieChartCheckBox = new JCheckBox( EnergySkateParkResources.getString( "piechart.show" ), module.isPieChartVisible() );
         showPieChartCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 updateShowThermalEnabled();
@@ -42,7 +42,7 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
         } );
         add( showPieChartCheckBox );
 
-        showThermal = new JCheckBox( EnergySkateParkStrings.getString( "piechart.show-thermal" ), !module.getEnergySkateParkSimulationPanel().getRootNode().getIgnoreThermal() );
+        showThermal = new JCheckBox( EnergySkateParkResources.getString( "piechart.show-thermal" ), !module.getEnergySkateParkSimulationPanel().getRootNode().getIgnoreThermal() );
         showThermal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getEnergySkateParkSimulationPanel().setIgnoreThermal( !showThermal.isSelected() );

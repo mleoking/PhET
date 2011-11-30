@@ -10,7 +10,7 @@ import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
 
 /**
@@ -25,7 +25,7 @@ public class GridLinesCheckBox extends VerticalLayoutPanel {
 
     public GridLinesCheckBox( final AbstractEnergySkateParkModule module ) {
         this.module = module;
-        checkBox = new JCheckBox( EnergySkateParkStrings.getString( "controls.show-grid" ), getRoot().isGridVisible() );
+        checkBox = new JCheckBox( EnergySkateParkResources.getString( "controls.show-grid" ), getRoot().isGridVisible() );
         checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getRoot().setGridVisible( checkBox.isSelected() );

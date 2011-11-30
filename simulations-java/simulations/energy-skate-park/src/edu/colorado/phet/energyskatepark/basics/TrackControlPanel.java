@@ -8,7 +8,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -27,7 +27,7 @@ public class TrackControlPanel extends ControlPanelNode {
 
                          //Control box for track friction
                          new VBox( 0,
-                                   new PhetPText( EnergySkateParkStrings.getString( "controls.show-friction" ), EnergySkateParkBasicsModule.TITLE_FONT ),
+                                   new PhetPText( EnergySkateParkResources.getString( "controls.show-friction" ), EnergySkateParkBasicsModule.TITLE_FONT ),
                                    new OnOffPanel( module.frictionEnabled ),
                                    new PSwing( new TrackFrictionSlider( module ) ) ),
 
@@ -38,7 +38,7 @@ public class TrackControlPanel extends ControlPanelNode {
 
                          //Control box for stickiness
                          new VBox( 0,
-                                   new PhetPText( EnergySkateParkStrings.getString( "stickToTrack" ), EnergySkateParkBasicsModule.TITLE_FONT ),
+                                   new PhetPText( EnergySkateParkResources.getString( "stickToTrack" ), EnergySkateParkBasicsModule.TITLE_FONT ),
                                    new OnOffPanel( module.stickToTrack ) ) ),
                backgroundColor );
 

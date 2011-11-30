@@ -3,7 +3,7 @@ package edu.colorado.phet.energyskatepark.plots.bargraphs;
 
 import java.awt.Color;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 
@@ -34,7 +34,7 @@ public abstract class ValueAccessor {
 
     public static class KineticEnergy extends ValueAccessor {
         public KineticEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( EnergySkateParkStrings.getString( "energy.kinetic" ), lookAndFeel.getKEColor() );
+            super( EnergySkateParkResources.getString( "energy.kinetic" ), lookAndFeel.getKEColor() );
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
@@ -47,7 +47,7 @@ public abstract class ValueAccessor {
 
     public static class PotentialEnergy extends ValueAccessor {
         public PotentialEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( EnergySkateParkStrings.getString( "energy.potential" ), lookAndFeel.getPEColor() );
+            super( EnergySkateParkResources.getString( "energy.potential" ), lookAndFeel.getPEColor() );
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
@@ -60,7 +60,7 @@ public abstract class ValueAccessor {
 
     public static class TotalEnergy extends ValueAccessor {
         public TotalEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( EnergySkateParkStrings.getString( "energy.total" ), lookAndFeel.getTotalEnergyColor() );
+            super( EnergySkateParkResources.getString( "energy.total" ), lookAndFeel.getTotalEnergyColor() );
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {
@@ -73,7 +73,7 @@ public abstract class ValueAccessor {
 
     public static class ThermalEnergy extends ValueAccessor {
         public ThermalEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( EnergySkateParkStrings.getString( "energy.thermal" ), lookAndFeel.getThermalEnergyColor() );
+            super( EnergySkateParkResources.getString( "energy.thermal" ), lookAndFeel.getThermalEnergyColor() );
         }
 
         public double getValue( EnergySkateParkModel rampPhysicalModel ) {

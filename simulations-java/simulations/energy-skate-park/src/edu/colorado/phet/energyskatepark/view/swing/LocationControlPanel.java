@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Planet;
 
@@ -45,9 +45,9 @@ public class LocationControlPanel extends VerticalLayoutPanel {
         for ( int i = 0; i < planets.length; i++ ) {
             planetButtons[i] = new PlanetButton( module, planets[i], planets[i].isDefault() );
         }
-        setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "location" ) ) );
+        setBorder( BorderFactory.createTitledBorder( EnergySkateParkResources.getString( "location" ) ) );
         setFillHorizontal();
-        showBackgroundCheckbox = new JCheckBox( EnergySkateParkStrings.getString( "controls.show-background" ), true );
+        showBackgroundCheckbox = new JCheckBox( EnergySkateParkResources.getString( "controls.show-background" ), true );
 
         JPanel planetPanel = layout.getPlanetPanel( planetButtons );
         setAnchor( GridBagConstraints.WEST );

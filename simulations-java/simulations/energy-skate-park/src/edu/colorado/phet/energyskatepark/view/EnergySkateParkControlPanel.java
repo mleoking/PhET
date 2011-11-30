@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.common.IconComponent;
 import edu.colorado.phet.energyskatepark.view.swing.ChooseCharacterDialog;
 import edu.colorado.phet.energyskatepark.view.swing.ClearHeatButton;
@@ -47,7 +47,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
     public EnergySkateParkControlPanel( final AbstractEnergySkateParkModule module ) {
         this.module = module;
-        JButton reset = new JButton( EnergySkateParkStrings.getString( "controls.reset" ) );
+        JButton reset = new JButton( EnergySkateParkResources.getString( "controls.reset" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 doReset();
@@ -56,7 +56,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         addControl( reset );
 
         {
-            JButton resetSkater = new JButton( EnergySkateParkStrings.getString( "controls.reset-character" ) );
+            JButton resetSkater = new JButton( EnergySkateParkResources.getString( "controls.reset-character" ) );
             resetSkater.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.returnOrResetSkater();
@@ -66,7 +66,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         }
 
         try {
-            JButton chooseCharacter = new JButton( EnergySkateParkStrings.getString( "controls.choose-character" ) + "..." );
+            JButton chooseCharacter = new JButton( EnergySkateParkResources.getString( "controls.choose-character" ) + "..." );
             chooseCharacter.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     new ChooseCharacterDialog( module ).setVisible( true );
@@ -86,7 +86,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             e.printStackTrace();
         }
 
-        final JCheckBox measuringTape = new JCheckBox( EnergySkateParkStrings.getString( "controls.measuring-tape" ), module.isMeasuringTapeVisible() );
+        final JCheckBox measuringTape = new JCheckBox( EnergySkateParkResources.getString( "controls.measuring-tape" ), module.isMeasuringTapeVisible() );
         measuringTape.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setMeasuringTapeVisible( measuringTape.isSelected() );
@@ -99,7 +99,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         } );
         addControlFullWidth( new IconComponent( measuringTape, measuringTapeIcon ) );
 
-        final JCheckBox zeroPointPotential = new JCheckBox( EnergySkateParkStrings.getString( "label.potential-energy-reference" ) );
+        final JCheckBox zeroPointPotential = new JCheckBox( EnergySkateParkResources.getString( "label.potential-energy-reference" ) );
         zeroPointPotential.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getEnergySkateParkSimulationPanel().setZeroPointVisible( zeroPointPotential.isSelected() );
@@ -128,25 +128,25 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         final VerticalLayoutPanel chartPanel = new VerticalLayoutPanel();
         chartPanel.setFillNone();
         chartPanel.setAnchor( GridBagConstraints.WEST );
-        chartPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "plots.plot" ) ) );
+        chartPanel.setBorder( BorderFactory.createTitledBorder( EnergySkateParkResources.getString( "plots.plot" ) ) );
 
         chartPanel.add( piePanel );
 
-        final JButton timeChart = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-time" ) );
+        final JButton timeChart = new JButton( EnergySkateParkResources.getString( "plots.energy-vs-time" ) );
         timeChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.showNewEnergyVsTimePlot();
             }
         } );
 
-        final JButton showEnergyPositionPlot = new JButton( EnergySkateParkStrings.getString( "plots.energy-vs-position" ) );
+        final JButton showEnergyPositionPlot = new JButton( EnergySkateParkResources.getString( "plots.energy-vs-position" ) );
         showEnergyPositionPlot.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEnergyPositionPlotVisible( true );
             }
         } );
 
-        final JButton showBarChart = new JButton( EnergySkateParkStrings.getString( "plots.bar-graph" ) );
+        final JButton showBarChart = new JButton( EnergySkateParkResources.getString( "plots.bar-graph" ) );
         showBarChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setBarChartVisible( true );
@@ -164,7 +164,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
         addControl( new ClearHeatButton( module.getEnergySkateParkModel() ) );
 
-        advancedFrictionPanel = new AdvancedPanel( EnergySkateParkStrings.getString( "controls.show-friction" ) + " >>", EnergySkateParkStrings.getString( "controls.hide-friction" ) + " <<" );
+        advancedFrictionPanel = new AdvancedPanel( EnergySkateParkResources.getString( "controls.show-friction" ) + " >>", EnergySkateParkResources.getString( "controls.hide-friction" ) + " <<" );
         final FrictionControl frictionControl = new FrictionControl( module );
         advancedFrictionPanel.addControl( frictionControl );
         frictionControl.getModelSlider().setBorder( null );

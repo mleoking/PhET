@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacter;
 
@@ -41,7 +41,7 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
     private final AbstractEnergySkateParkModule module;
 
     public ChooseCharacterDialog( AbstractEnergySkateParkModule module ) {
-        super( module.getPhetFrame(), EnergySkateParkStrings.getString( "controls.choose-character" ), false );
+        super( module.getPhetFrame(), EnergySkateParkResources.getString( "controls.choose-character" ), false );
         this.module = module;
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = GridBagConstraints.RELATIVE;
@@ -107,8 +107,8 @@ public class ChooseCharacterDialog extends PaintImmediateDialog {
             this.skaterCharacter = skaterCharacter;
             GridBagConstraints gridBagConstraints = new GridBagConstraints();
             try {
-                String pattern = EnergySkateParkStrings.getString( "controls.choose-character.label.pattern" );
-                String labelStr = MessageFormat.format( pattern, skaterCharacter.getName(), skaterCharacter.getMass(), EnergySkateParkStrings.getString( "units.kg" ) );
+                String pattern = EnergySkateParkResources.getString( "controls.choose-character.label.pattern" );
+                String labelStr = MessageFormat.format( pattern, skaterCharacter.getName(), skaterCharacter.getMass(), EnergySkateParkResources.getString( "units.kg" ) );
                 JLabel label = new JLabel( labelStr,
                                            new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio(
                                                    ImageLoader.loadBufferedImage( skaterCharacter.getImageURL() ), (int) ( skaterCharacter.getModelHeight() * 75 ) ) ), JLabel.TRAILING );

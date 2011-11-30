@@ -3,7 +3,7 @@ package edu.colorado.phet.energyskatepark.plots;
 
 import java.awt.Color;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 
 /**
  * User: Sam Reid
@@ -19,7 +19,7 @@ public abstract class ValueAccessor {
     private final Color color;
     private final String fullName;
 
-    public static final String joules = EnergySkateParkStrings.getString( "units.joules" );
+    public static final String joules = EnergySkateParkResources.getString( "units.joules" );
     public static final String joulesAbbreviation = "J";
 
     protected ValueAccessor( String name, String html, String units, String unitAbbreviation, Color color, String fullName ) {

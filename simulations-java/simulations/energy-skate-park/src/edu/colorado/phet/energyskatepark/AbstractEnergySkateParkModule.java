@@ -77,7 +77,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         energySkateParkSimulationPanel = new EnergySkateParkSimulationPanel( this, hasZoomControls );
         setSimulationPanel( energySkateParkSimulationPanel );
 
-        barChartDialog = new BarChartDialog( phetFrame, EnergySkateParkStrings.getString( "plots.bar-graph" ), false, this );
+        barChartDialog = new BarChartDialog( phetFrame, EnergySkateParkResources.getString( "plots.bar-graph" ), false, this );
         barChartDialog.setSize( 200, 625 );
         barChartDialog.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - barChartDialog.getWidth(), 0 );
 
@@ -89,7 +89,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         } );
 
         addDefaultBody();
-        energyPositionPlotDialog = new EnergyPositionPlotDialog( phetFrame, EnergySkateParkStrings.getString( "plots.energy-vs-position" ), false, this );
+        energyPositionPlotDialog = new EnergyPositionPlotDialog( phetFrame, EnergySkateParkResources.getString( "plots.energy-vs-position" ), false, this );
         energyPositionPlotDialog.setSize( 400, 400 );
 
         EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( this, clock );
@@ -257,7 +257,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     }
 
     public void confirmAndReset() {
-        int response = PhetOptionPane.showYesNoDialog( getSimulationPanel(), EnergySkateParkStrings.getString( "message.confirm-reset" ) );
+        int response = PhetOptionPane.showYesNoDialog( getSimulationPanel(), EnergySkateParkResources.getString( "message.confirm-reset" ) );
         if ( response == JOptionPane.OK_OPTION ) {
             reset();
         }

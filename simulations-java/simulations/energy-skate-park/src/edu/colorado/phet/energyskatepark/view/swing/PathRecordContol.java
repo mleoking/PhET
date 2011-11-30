@@ -10,7 +10,7 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 
 /**
  * User: Sam Reid
@@ -26,14 +26,14 @@ public class PathRecordContol extends HorizontalLayoutPanel {
 
     public PathRecordContol( final AbstractEnergySkateParkModule module ) {
         this.module = module;
-        setBorder( BorderFactory.createTitledBorder( EnergySkateParkStrings.getString( "controls.path" ) ) );
-        recordPath = new JButton( EnergySkateParkStrings.getString( "controls.record-path" ) );
+        setBorder( BorderFactory.createTitledBorder( EnergySkateParkResources.getString( "controls.path" ) ) );
+        recordPath = new JButton( EnergySkateParkResources.getString( "controls.record-path" ) );
         recordPath.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setRecording( !recording );
             }
         } );
-        clearHistory = new JButton( EnergySkateParkStrings.getString( "time.clear" ) );
+        clearHistory = new JButton( EnergySkateParkResources.getString( "time.clear" ) );
         clearHistory.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearPaths();
@@ -52,7 +52,7 @@ public class PathRecordContol extends HorizontalLayoutPanel {
     }
 
     private void updateButtons() {
-        recordPath.setText( recording ? EnergySkateParkStrings.getString( "controls.stop-recording-path" ) : EnergySkateParkStrings.getString( "controls.record-path" ) );
+        recordPath.setText( recording ? EnergySkateParkResources.getString( "controls.stop-recording-path" ) : EnergySkateParkResources.getString( "controls.record-path" ) );
         clearHistory.setEnabled( module.getEnergySkateParkModel().getNumHistoryPoints() > 0 );
     }
 
