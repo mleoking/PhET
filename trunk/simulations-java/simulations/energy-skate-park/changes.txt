@@ -1,3 +1,4 @@
+11/29/11 basics: remove code that was constructing strings keys dynamically for the energy legend
 11/29/11 basics: inline i18n of strings
 11/29/11 basics: make “Bar Chart” a checkbox instead of a button, set its state when dialog is closed from window dressing
 11/29/11 basics: extract constant TITLE_FONT for the title of controls, use it for "Energy Graphs", "Track Friction", "Stick to Track"
