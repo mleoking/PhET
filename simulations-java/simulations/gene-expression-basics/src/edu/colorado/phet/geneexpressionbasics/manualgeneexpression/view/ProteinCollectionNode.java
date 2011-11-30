@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -148,23 +149,46 @@ public class ProteinCollectionNode extends PNode {
     // different types of protein can be collected.
     private static class ProteinCollectionArea extends PNode {
         private ProteinCollectionArea( ManualGeneExpressionModel model, ModelViewTransform mvt ) {
+            // Get a transform that performs only the scaling portion of the mvt.
+            double scale = mvt.getTransform().getScaleX();
+            assert scale == -mvt.getTransform().getScaleY(); // This only handles symmetric transform case.
+            AffineTransform transform = AffineTransform.getScaleInstance( scale, scale );
+
             addChild( new HBox(
-                    new ProteinCaptureNode( mvt.modelToView( new ProteinA().getFullyGrownShape() ), Color.BLACK, new ProteinA().colorProperty.get(), model.proteinACollected ),
-                    new ProteinCaptureNode( mvt.modelToView( new ProteinB().getFullyGrownShape() ), Color.BLACK, new ProteinB().colorProperty.get(), model.proteinBCollected ),
-                    new ProteinCaptureNode( mvt.modelToView( new ProteinC().getFullyGrownShape() ), Color.BLACK, new ProteinC().colorProperty.get(), model.proteinCCollected )
+                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinA().getFullyGrownShape() ), Color.BLACK, new ProteinA().colorProperty.get(), model.proteinACollected ),
+                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinB().getFullyGrownShape() ), Color.BLACK, new ProteinB().colorProperty.get(), model.proteinBCollected ),
+                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinC().getFullyGrownShape() ), Color.BLACK, new ProteinC().colorProperty.get(), model.proteinCCollected )
             ) );
         }
     }
 
     // Class that represents a node for collecting a single protein.
     private static class ProteinCaptureNode extends PNode {
+
+        private static final Color FLASH_COLOR = new Color( 173, 255, 47 );
+        private static final double SCALE_FOR_FLASH_NODE = 1.5;
+
         private ProteinCaptureNode( Shape proteinShape, final Color emptyColor, final Color fullBaseColor, BooleanProperty emptyFullProperty ) {
+
+            // Add the node that will flash when a capture occurs to make it
+            // clear that something changed.
+            Shape flashingNodeShape = AffineTransform.getScaleInstance( SCALE_FOR_FLASH_NODE, SCALE_FOR_FLASH_NODE ).createTransformedShape( proteinShape );
+            final FlashingShapeNode captureIndicatorNode = new FlashingShapeNode( flashingNodeShape, FLASH_COLOR, 250, 250, 3 );
+            addChild( captureIndicatorNode );
+
+            // Add the node that will represent the spot where the protein can
+            // be captured, which is a black shape (signifying emptiness)
+            // until a protein is captured, then it changes to look filled in.
             final PPath captureAreaNode = new PPath( proteinShape );
             addChild( captureAreaNode );
             final Paint gradientPaint = MobileBiomoleculeNode.createGradientPaint( proteinShape, fullBaseColor );
+
+            // Observe the capture indicator and set the state of the nodes
+            // appropriately.
             emptyFullProperty.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean full ) {
                     captureAreaNode.setPaint( full ? gradientPaint : emptyColor );
+                    captureIndicatorNode.flash();
                 }
             } );
         }
