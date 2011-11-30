@@ -9,7 +9,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -91,13 +91,13 @@ public class ProteinCollectionNode extends PNode {
 
         private void updateCount( ManualGeneExpressionModel model ) {
             int numProteinsCollected = 0;
-            if ( model.proteinACollected.get() ) {
+            if ( model.proteinACollected.get() > 0 ) {
                 numProteinsCollected++;
             }
-            if ( model.proteinBCollected.get() ) {
+            if ( model.proteinBCollected.get() > 0 ) {
                 numProteinsCollected++;
             }
-            if ( model.proteinCCollected.get() ) {
+            if ( model.proteinCCollected.get() > 0 ) {
                 numProteinsCollected++;
             }
             removeAllChildren();
@@ -168,7 +168,7 @@ public class ProteinCollectionNode extends PNode {
         private static final Color FLASH_COLOR = new Color( 173, 255, 47 );
         private static final double SCALE_FOR_FLASH_NODE = 1.5;
 
-        private ProteinCaptureNode( Shape proteinShape, final Color emptyColor, final Color fullBaseColor, BooleanProperty emptyFullProperty ) {
+        private ProteinCaptureNode( Shape proteinShape, final Color emptyColor, final Color fullBaseColor, Property<Integer> captureCountProperty ) {
 
             // Add the node that will flash when a capture occurs to make it
             // clear that something changed.
@@ -185,10 +185,15 @@ public class ProteinCollectionNode extends PNode {
 
             // Observe the capture indicator and set the state of the nodes
             // appropriately.
-            emptyFullProperty.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean full ) {
-                    captureAreaNode.setPaint( full ? gradientPaint : emptyColor );
-                    captureIndicatorNode.flash();
+            captureCountProperty.addObserver( new VoidFunction1<Integer>() {
+                public void apply( Integer captureCount ) {
+                    if ( captureCount > 0 ) {
+                        captureAreaNode.setPaint( gradientPaint );
+                        captureIndicatorNode.flash();
+                    }
+                    else {
+                        captureAreaNode.setPaint( emptyColor );
+                    }
                 }
             } );
         }
