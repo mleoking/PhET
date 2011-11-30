@@ -25,7 +25,7 @@ public class TrackButton extends PNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                module.load( location, rollerCoasterMode );
+                module.loadTrack( location, rollerCoasterMode );
             }
         } );
     }
@@ -34,7 +34,7 @@ public class TrackButton extends PNode {
     private BufferedImage createIcon( EnergySkateParkBasicsModule module, String location, boolean rollerCoasterMode ) {
 
         //To create the icon, load the module and render it to an image
-        module.load( location, rollerCoasterMode );
+        module.loadTrack( location, rollerCoasterMode );
         BufferedImage icon = new BufferedImage( 800, 600, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = icon.createGraphics();
         module.getEnergySkateParkSimulationPanel().setSize( 800, 600 );

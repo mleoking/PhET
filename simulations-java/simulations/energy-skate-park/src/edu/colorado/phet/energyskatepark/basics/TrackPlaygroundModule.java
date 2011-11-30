@@ -18,7 +18,6 @@ public class TrackPlaygroundModule extends EnergySkateParkBasicsModule {
 
         addResetAllButton( trackControlPanel );
 
-        //Load the initial track
-        load( PARABOLA, true );
+        loadDefaultTrack();
     }
 }

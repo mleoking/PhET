@@ -38,7 +38,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public static final double INSET = 5;
     public final ControlPanelNode energyGraphControlPanel;
-    public final String PARABOLA = "energy-skate-park/tracks/basics/parabola.esp";
+    private final String PARABOLA_TRACK = "energy-skate-park/tracks/basics/parabola.esp";
     public static final Font CONTROL_FONT = new PhetFont( 15 );
     public static final Font TITLE_FONT = new PhetFont( Font.BOLD, 16 );
 
@@ -138,13 +138,17 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     //Load the specified track and set its roller coaster mode, used when the user presses different track selection buttons
-    public void load( String location, boolean rollerCoasterMode ) {
-        EnergySkateParkIO.open( location, this );
+    public void loadTrack( String filename, boolean rollerCoasterMode ) {
+        EnergySkateParkIO.open( filename, this );
         getEnergySkateParkModel().setRollerCoasterMode( rollerCoasterMode );
 
         //Initialize the skater beneath the track so the user has to move it to start the sim
         getEnergySkateParkModel().getBody( 0 ).setPosition( 10, 0 );
         getEnergySkateParkModel().getBody( 0 ).setVelocity( 0, 0 );
+    }
+
+    protected void loadDefaultTrack() {
+        loadTrack( PARABOLA_TRACK, true );
     }
 
     //Show the reset all button below the bottom control panel
@@ -173,7 +177,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     //Show buttons that allows the user to choose different tracks
     public void addTrackSelectionControlPanel() {
         final ControlPanelNode trackSelectionNode = new ControlPanelNode( new VBox(
-                new TrackButton( this, PARABOLA, true ),
+                new TrackButton( this, PARABOLA_TRACK, true ),
                 new TrackButton( this, "energy-skate-park/tracks/basics/to-the-floor.esp", true ),
                 new TrackButton( this, "energy-skate-park/tracks/basics/double-well.esp", true )
         ), EnergySkateParkLookAndFeel.backgroundColor ) {{
@@ -197,5 +201,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         for ( VoidFunction0 resetListener : resetListeners ) {
             resetListener.apply();
         }
+
+        loadDefaultTrack();
     }
 }
