@@ -69,7 +69,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
     private boolean splinesMovable;
 
-    public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
+    public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel, boolean hasZoomControls ) {
         this.module = module;
         this.simulationPanel = simulationPanel;
         this.splinesMovable = module.splinesMovable;
@@ -144,7 +144,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         } );
         setZeroPointVisible( false );
         panZoomControls = new PanZoomOnscreenControlNode( simulationPanel );
-        addScreenChild( panZoomControls );
+        if ( hasZoomControls ) {
+            addScreenChild( panZoomControls );
+        }
 
         energyErrorIndicatorNode = new EnergyErrorIndicatorNode( module.getEnergySkateParkModel() );
         energyErrorIndicatorContainer.setVisible( false );
