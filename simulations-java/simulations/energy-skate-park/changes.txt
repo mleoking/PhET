@@ -1,3 +1,5 @@
+11/30/11 basics: promote visibility control panel to top-level class ViewControlPanel, for symmetry with TrackControlPanel, and so we can work on module and control panel separately
+11/30/11 basics: remove "Energy Graph" title from control panel, since it now contains a grid control
 11/30/11 basics: Start without any track in the track playground tab
 11/30/11 basics: Made grass frictionless in tab 1
 11/29/11 basics: Do not bump splines above the ground by the width of the track so that y=0 won't be perturbed
