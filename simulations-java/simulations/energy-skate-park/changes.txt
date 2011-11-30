@@ -1,3 +1,5 @@
+11/29/11 basics: extract constant TITLE_FONT for the title of controls, use it for "Energy Graphs", "Track Friction", "Stick to Track"
+11/29/11 basics: remove horizontal separator line between "Track Friction" and "Stick to Track" controls
 11/29/11 basics: move "Bar Chart" control above "Pie Chart" control
 11/29/11 basics: Reset All button should be orange in all tabs
 11/29/11 common: change wording of "Bring back the PhET skater" to "Return Skater"

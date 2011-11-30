@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.basics;
 
-import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -12,7 +12,6 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.energyskatepark.basics.EnergySkateParkBasicsModule.CONTROL_FONT;
 import static edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel.backgroundColor;
 
 /**
@@ -28,16 +27,18 @@ public class TrackControlPanel extends PNode {
 
                           //Control box for track friction
                           new VBox( 0,
-                                    new PhetPText( "Track Friction", CONTROL_FONT ),
+                                    new PhetPText( "Track Friction", EnergySkateParkBasicsModule.TITLE_FONT ),
                                     new OnOffPanel( module.frictionEnabled ),
                                     new PSwing( new TrackFrictionSlider( module ) ) ),
 
-                          //Separator
-                          new PhetPPath( new Line2D.Double( 0, 0, 100, 0 ) ),
+                          //vertical space
+                          new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 10 ) ) {{
+                              setStroke( null );
+                          }},
 
                           //Control box for stickiness
                           new VBox( 0,
-                                    new PhetPText( "Stick to Track", CONTROL_FONT ),
+                                    new PhetPText( "Stick to Track", EnergySkateParkBasicsModule.TITLE_FONT ),
                                     new OnOffPanel( module.stickToTrack ) ) ),
                 backgroundColor ) {{
 
