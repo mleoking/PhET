@@ -31,14 +31,16 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 public class SplineToolboxNode extends PNode {
     private final EnergySkateParkSimulationPanel energySkateParkSimulationPanel;
+    private final boolean splinesMovable;
     private final PText textGraphic;
     private final PNode draggableIcon;
     private final PPath boundGraphic;
     private boolean created = false;
     private EnergySkateParkSpline createdSurface;
 
-    public SplineToolboxNode( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel ) {
+    public SplineToolboxNode( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, boolean splinesMovable ) {
         this.energySkateParkSimulationPanel = energySkateParkSimulationPanel;
+        this.splinesMovable = splinesMovable;
         this.draggableIcon = new PNodeFacade( createSplineGraphic() );
         draggableIcon.addInputEventListener( new CursorHandler() );
         draggableIcon.addInputEventListener( new PBasicInputEventHandler() {
@@ -102,7 +104,7 @@ public class SplineToolboxNode extends PNode {
     private SplineNode createSplineGraphic() {
         EnergySkateParkSpline surface = createSplineSurface();
 
-        final SplineNode splineNode = new SplineNode( energySkateParkSimulationPanel, surface, energySkateParkSimulationPanel );
+        final SplineNode splineNode = new SplineNode( energySkateParkSimulationPanel, surface, energySkateParkSimulationPanel, splinesMovable );
         splineNode.setControlPointsPickable( false );
 
         return splineNode;

@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  */
 public class TrackPlaygroundModule extends EnergySkateParkBasicsModule {
     public TrackPlaygroundModule( PhetFrame phetFrame ) {
-        super( "Track Playground", phetFrame );
+        super( "Track Playground", phetFrame, true );
 
         final TrackControlPanel trackControlPanel = new TrackControlPanel( this, energySkateParkSimulationPanel, energyGraphControlPanel );
         energySkateParkSimulationPanel.getRootNode().addChild( trackControlPanel );

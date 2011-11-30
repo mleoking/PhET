@@ -67,15 +67,17 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
     private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
+    private boolean splinesMovable;
 
     public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel ) {
         this.module = module;
         this.simulationPanel = simulationPanel;
+        this.splinesMovable = module.splinesMovable;
         EnergySkateParkModel energySkateParkModel = getModel();
         Floor floor = energySkateParkModel.getFloor();
 
         simulationPanel.setBackground( SKY_COLOR );
-        splineToolbox = new SplineToolboxNode( simulationPanel );
+        splineToolbox = new SplineToolboxNode( simulationPanel, splinesMovable );
 
         measuringTape = new MeasuringTape( new ModelViewTransform2D(
                 new Rectangle( 50, 50 ), new Rectangle2D.Double( 0, 0, 50, 50 ) ),
@@ -343,7 +345,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     private void updateSplines() {
         while ( numSplineGraphics() < getModel().getNumSplines() ) {
-            addSplineNode( new SplineNode( simulationPanel, getModel().getSpline( 0 ), simulationPanel ) );
+            addSplineNode( new SplineNode( simulationPanel, getModel().getSpline( 0 ), simulationPanel, splinesMovable ) );
         }
         while ( numSplineGraphics() > getModel().getNumSplines() ) {
             removeSplineNode( splineGraphicAt( numSplineGraphics() - 1 ) );

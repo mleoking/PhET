@@ -72,7 +72,7 @@ public class SplineNode extends PNode {
     private final EnergySkateParkSpline.Listener splineListener;
     private final boolean isDev = false;
 
-    public SplineNode( JComponent parent, EnergySkateParkSpline energySkateParkSpline, EnergySkateParkSplineEnvironment splineEnvironment ) {
+    public SplineNode( JComponent parent, EnergySkateParkSpline energySkateParkSpline, EnergySkateParkSplineEnvironment splineEnvironment, boolean controllable ) {
         this.parent = parent;
         this.splineEnvironment = splineEnvironment;
         this.spline = energySkateParkSpline;
@@ -91,7 +91,9 @@ public class SplineNode extends PNode {
         addChild( splinePath );
         addChild( centerPath );
         addChild( rollerCoasterPath );
-        addChild( controlPointLayer );
+        if ( controllable ) {
+            addChild( controlPointLayer );
+        }
 
         dragHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
@@ -106,10 +108,12 @@ public class SplineNode extends PNode {
                 finishDragSpline( event );
             }
         };
-        splinePath.addInputEventListener( this.dragHandler );
-        splinePath.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         popupMenu = new TrackPopupMenu( splineEnvironment );
-        splinePath.addInputEventListener( new PopupMenuHandler( parent, popupMenu ) );
+        if ( controllable ) {
+            splinePath.addInputEventListener( this.dragHandler );
+            splinePath.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+            splinePath.addInputEventListener( new PopupMenuHandler( parent, popupMenu ) );
+        }
 
         splineListener = new EnergySkateParkSpline.Listener() {
             public void rollerCoasterModeChanged() {

@@ -50,8 +50,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
-    public EnergySkateParkBasicsModule( String name, final PhetFrame phetFrame ) {
-        super( name, phetFrame, new EnergySkateParkOptions() );
+    public EnergySkateParkBasicsModule( String name, final PhetFrame phetFrame, boolean splinesMovable ) {
+        super( name, phetFrame, new EnergySkateParkOptions(), splinesMovable );
 
         //Don't allow users to apply rocket force with the keyboard
         energySkateParkSimulationPanel.setThrustEnabled( false );

@@ -38,7 +38,7 @@ public class TestSplineNode {
 
             public void attach( SplineNode splineNode, int index, SplineMatch match ) {
             }
-        } );
+        }, true );
         phetPCanvas.addWorldChild( splineNode );
 
         frame = new JFrame();
