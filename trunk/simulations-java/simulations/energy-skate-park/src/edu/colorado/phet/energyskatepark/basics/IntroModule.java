@@ -11,7 +11,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
  */
 public class IntroModule extends EnergySkateParkBasicsModule {
     public IntroModule( PhetFrame phetFrame ) {
-        super( EnergySkateParkStrings.getString( "tab.introduction" ), phetFrame, false );
+        super( EnergySkateParkStrings.getString( "tab.introduction" ), phetFrame, false, 0.0 );
 
         //Don't allow the user to drag their own tracks in this module
         getEnergySkateParkSimulationPanel().getRootNode().removeSplineToolbox();

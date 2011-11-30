@@ -31,6 +31,7 @@ public class EnergySkateParkModel implements Serializable {
     private final List listeners = new OptionalItemSerializableList();
     private boolean recordPath = false;
     private double initZeroPointPotentialY;
+    private final double floorFriction;
     private int maxNumHistoryPoints = 100;
     private final ParticleStage particleStage;
     private SkaterCharacter skaterCharacter = SkaterCharacterSet.getDefaultCharacter();
@@ -42,9 +43,10 @@ public class EnergySkateParkModel implements Serializable {
     public static final double G_JUPITER = -25.95;
     public static final double SPLINE_THICKNESS = 0.25f;//meters
 
-    public EnergySkateParkModel( double zeroPointPotentialY ) {
+    public EnergySkateParkModel( double zeroPointPotentialY, double floorFriction ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
         this.initZeroPointPotentialY = zeroPointPotentialY;
+        this.floorFriction = floorFriction;
         this.particleStage = new EnergySkateParkSplineListAdapter( this );
         updateFloorState();
     }
@@ -133,7 +135,7 @@ public class EnergySkateParkModel implements Serializable {
     public void updateFloorState() {
         int desiredNumFloors = Math.abs( getGravity() ) > 0 ? 1 : 0;
         if ( desiredNumFloors == 1 ) {
-            floor = new Floor();
+            floor = new Floor( floorFriction );
         }
         else {
             detachFromFloor();

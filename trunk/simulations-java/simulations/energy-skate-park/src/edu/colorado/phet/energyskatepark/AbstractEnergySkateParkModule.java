@@ -58,14 +58,14 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     public final boolean splinesMovable;
     public final boolean bumpUpSplines;
 
-    public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines ) {
+    public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction ) {
         super( name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
         this.splinesMovable = splinesMovable;
         this.bumpUpSplines = bumpUpSplines;
         ConstantDtClock clock = (ConstantDtClock) getClock();
         this.options = options;
         this.phetFrame = phetFrame;
-        energyModel = new EnergySkateParkModel( floorY );
+        energyModel = new EnergySkateParkModel( floorY, floorFriction );
         setModel( new BaseModel() );
 
         energyTimeSeriesModel = new EnergySkateParkRecordableModel( getEnergySkateParkModel() );
