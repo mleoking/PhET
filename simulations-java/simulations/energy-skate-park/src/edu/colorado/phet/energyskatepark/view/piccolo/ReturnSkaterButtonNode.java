@@ -27,7 +27,7 @@ public class ReturnSkaterButtonNode extends PhetPNode {
 
     private SkaterNode skaterNode;
     private final PNode buttonNode;
-    private final JButton bringBackSkater = new JButton( "" );
+    private final JButton bringBackSkater = new JButton( EnergySkateParkStrings.getString( "controls.reset-character" ) );
 
     public ReturnSkaterButtonNode( PSwingCanvas canvas, final AbstractEnergySkateParkModule module, SkaterNode skaterNode ) {
         this.canvas = canvas;
@@ -49,14 +49,7 @@ public class ReturnSkaterButtonNode extends PhetPNode {
         update();
     }
 
-    private void updateText() {
-        if ( skaterNode != null ) {
-            bringBackSkater.setText( EnergySkateParkStrings.getString( "controls.bring-back" ) + " " + skaterNode.getBody().getSkaterCharacter().getName() );
-        }
-    }
-
     private void update() {
-        updateText();
         updateVisible();
         updateLocation();
     }
