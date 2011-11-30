@@ -18,23 +18,23 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * @author Sam Reid
  */
 public class TrackButton extends PNode {
-    public TrackButton( final EnergySkateParkBasicsModule module, final String location, final boolean rollerCoasterMode ) {
-        addChild( new PImage( createIcon( module, location, rollerCoasterMode ) ) );
+    public TrackButton( final EnergySkateParkBasicsModule module, final String location ) {
+        addChild( new PImage( createIcon( module, location ) ) );
 
         //When pressed, load the track
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                module.loadTrack( location, rollerCoasterMode );
+                module.loadTrack( location );
             }
         } );
     }
 
     //Creates an icon that displays the track.
-    private BufferedImage createIcon( EnergySkateParkBasicsModule module, String location, boolean rollerCoasterMode ) {
+    private BufferedImage createIcon( EnergySkateParkBasicsModule module, String location ) {
 
         //To create the icon, load the module and render it to an image
-        module.loadTrack( location, rollerCoasterMode );
+        module.loadTrack( location );
         BufferedImage icon = new BufferedImage( 800, 600, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = icon.createGraphics();
         module.getEnergySkateParkSimulationPanel().setSize( 800, 600 );
