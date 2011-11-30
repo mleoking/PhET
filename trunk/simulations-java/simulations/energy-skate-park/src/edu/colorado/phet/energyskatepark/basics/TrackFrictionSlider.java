@@ -16,6 +16,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * @author Sam Reid
  */
 public class TrackFrictionSlider extends JSlider {
+
+    //TODO lots of 100 literals inlined in this class, can they all be converted to one constant?
+
     public TrackFrictionSlider( final EnergySkateParkBasicsModule module ) {
 
         setPreferredSize( new Dimension( 150, getPreferredSize().height ) );
@@ -23,6 +26,8 @@ public class TrackFrictionSlider extends JSlider {
             put( 0, new JLabel( "none" ) );
             put( 100, new JLabel( "lots" ) );//0.01
         }} );
+        setMajorTickSpacing( 100 );
+        setPaintTicks( true );
         setPaintLabels( true );
         final ChangeListener frictionChanged = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
