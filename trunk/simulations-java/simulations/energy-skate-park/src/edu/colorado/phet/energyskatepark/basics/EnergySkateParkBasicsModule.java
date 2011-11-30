@@ -68,6 +68,20 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         energyGraphControlPanel = new ControlPanelNode( new VBox(
                 new PText( "Energy Graphs" ) {{setFont( new PhetFont( 16, true ) );}},
 
+                //Button to show the bar graph
+                new TextButtonNode( "Bar Chart" ) {{
+                    setFont( CONTROL_FONT );
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            setBarChartVisible( true );
+
+                            //Move the bar graph to the bottom right of the frame so it doesn't obscure the play area, and so it isn't too far from the play area
+                            //Or the button that launched it
+                            barChartDialog.setLocation( phetFrame.getX() + phetFrame.getWidth() - barChartDialog.getWidth(), phetFrame.getY() + phetFrame.getHeight() - barChartDialog.getHeight() );
+                        }
+                    } );
+                }},
+
                 //Checkbox to show/hide the pie chart
                 new PSwing( new JCheckBox( "Pie Chart", isPieChartVisible() ) {{
                     setFont( CONTROL_FONT );
@@ -81,21 +95,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
                             setSelected( isPieChartVisible() );
                         }
                     } );
-                }} ),
-
-                //Button to show the bar graph
-                new TextButtonNode( "Bar Chart" ) {{
-                    setFont( CONTROL_FONT );
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            setBarChartVisible( true );
-
-                            //Move the bar graph to the bottom right of the frame so it doesn't obscure the play area, and so it isn't too far from the play area
-                            //Or the button that launched it
-                            barChartDialog.setLocation( phetFrame.getX() + phetFrame.getWidth() - barChartDialog.getWidth(), phetFrame.getY() + phetFrame.getHeight() - barChartDialog.getHeight() );
-                        }
-                    } );
-                }}
+                }} )
         ), EnergySkateParkLookAndFeel.backgroundColor ) {{
 
             //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
