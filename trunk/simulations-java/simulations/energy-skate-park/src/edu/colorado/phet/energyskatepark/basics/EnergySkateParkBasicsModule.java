@@ -36,6 +36,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public final ControlPanelNode energyGraphControlPanel;
     public final String PARABOLA = "energy-skate-park/tracks/basics/parabola.esp";
     public static final Font CONTROL_FONT = new PhetFont( 15 );
+    public static final Font TITLE_FONT = new PhetFont( Font.BOLD, 16 );
 
     //Flag to indicate that friction has been enabled
     public final BooleanProperty frictionEnabled = new BooleanProperty( false );
@@ -66,7 +67,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
         //Add the energy graph control panel
         energyGraphControlPanel = new ControlPanelNode( new VBox(
-                new PText( "Energy Graphs" ) {{setFont( new PhetFont( 16, true ) );}},
+                new PText( "Energy Graphs" ) {{setFont( TITLE_FONT );}},
 
                 //Button to show the bar graph
                 new TextButtonNode( "Bar Chart" ) {{
