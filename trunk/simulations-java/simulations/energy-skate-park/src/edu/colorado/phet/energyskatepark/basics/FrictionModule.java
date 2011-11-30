@@ -26,6 +26,6 @@ public class FrictionModule extends EnergySkateParkBasicsModule {
         addTrackSelectionControlPanel();
         addResetAllButton( trackFrictionControlPanel );
 
-        load( PARABOLA, true );
+        loadDefaultTrack();
     }
 }
