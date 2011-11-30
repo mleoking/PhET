@@ -26,13 +26,6 @@ public class FrictionModule extends EnergySkateParkBasicsModule {
         addTrackSelectionControlPanel();
         addResetAllButton( trackFrictionControlPanel );
 
-        reset();
-    }
-
-    @Override public void reset() {
-        super.reset();
-
-        //Load the initial track
         load( PARABOLA, true );
     }
 }
