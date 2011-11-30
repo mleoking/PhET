@@ -3,10 +3,7 @@ package edu.colorado.phet.energyskatepark.model;
 
 import java.awt.Color;
 import java.awt.Paint;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 
@@ -71,14 +68,7 @@ public abstract class Planet {
         }
 
         protected void setupImage( AbstractEnergySkateParkModule module ) {
-            BufferedImage image = null;
-            try {
-                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/blackhole_large_2.jpg" );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
+            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( EnergySkateParkResources.getImage( "blackhole_large_2.jpg" ) );
         }
 
         public boolean isGroundVisible() {
@@ -92,14 +82,7 @@ public abstract class Planet {
         }
 
         protected void setupImage( AbstractEnergySkateParkModule module ) {
-            BufferedImage image = null;
-            try {
-                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/earth-background.jpg" );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
+            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( EnergySkateParkResources.getImage( "earth-background.jpg" ) );
         }
 
         public boolean isDefault() {
@@ -113,14 +96,7 @@ public abstract class Planet {
         }
 
         protected void setupImage( AbstractEnergySkateParkModule module ) {
-            BufferedImage image = null;
-            try {
-                image = ImageLoader.loadBufferedImage( "energy-skate-park/images/moon2.jpg" );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
+            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( EnergySkateParkResources.getImage( "moon2.jpg" ) );
         }
     }
 
@@ -130,13 +106,7 @@ public abstract class Planet {
         }
 
         protected void setupImage( AbstractEnergySkateParkModule module ) {
-            try {
-                BufferedImage image = ImageLoader.loadBufferedImage( "energy-skate-park/images/jupiter4.jpg" );
-                module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( image );
-            }
-            catch ( IOException e1 ) {
-                e1.printStackTrace();
-            }
+            module.getEnergySkateParkSimulationPanel().getRootNode().setBackground( EnergySkateParkResources.getImage( "jupiter4.jpg" ) );
         }
     }
 }
