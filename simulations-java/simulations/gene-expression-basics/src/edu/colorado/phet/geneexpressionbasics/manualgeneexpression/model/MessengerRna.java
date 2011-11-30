@@ -36,8 +36,6 @@ import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.IdleSt
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import com.sun.istack.internal.Nullable;
-
 /**
  * Class that represents messenger ribonucleic acid, or mRNA, in the model.
  *
@@ -176,7 +174,7 @@ public class MessengerRna extends MobileBiomolecule {
      * @param lengthRange
      * @return
      */
-    private @Nullable PointMass getFirstEnclosedPoint( DoubleRange lengthRange ) {
+    private PointMass getFirstEnclosedPoint( DoubleRange lengthRange ) {
         PointMass currentPoint = firstShapeDefiningPoint;
         double currentLength = 0;
         while ( currentPoint != null ) {
@@ -196,7 +194,7 @@ public class MessengerRna extends MobileBiomolecule {
      * @param lengthRange
      * @return
      */
-    private @Nullable PointMass getLastEnclosedPoint( DoubleRange lengthRange ) {
+    private PointMass getLastEnclosedPoint( DoubleRange lengthRange ) {
         PointMass currentPoint = firstShapeDefiningPoint;
         double currentLength = 0;
         while ( currentPoint != null ) {
@@ -1779,7 +1777,7 @@ public class MessengerRna extends MobileBiomolecule {
      * @param <T>
      */
     public static class EnhancedObservableList<T> extends ObservableList<T> {
-        private @Nullable T getNextItem( T item ) {
+        private T getNextItem( T item ) {
             int index = indexOf( item );
             assert index != -1; // This function shouldn't be used for segments not on the list.
             if ( index == size() - 1 ) {
@@ -1791,7 +1789,7 @@ public class MessengerRna extends MobileBiomolecule {
             }
         }
 
-        private @Nullable T getPreviousItem( T item ) {
+        private T getPreviousItem( T item ) {
             int index = indexOf( item );
             assert index != -1; // This function shouldn't be used for segments not on the list.
             if ( index == 0 ) {
