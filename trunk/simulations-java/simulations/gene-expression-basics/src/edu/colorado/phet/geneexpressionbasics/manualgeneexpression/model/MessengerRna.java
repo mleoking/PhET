@@ -17,7 +17,6 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -26,7 +25,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
@@ -38,6 +36,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that represents messenger ribonucleic acid, or mRNA, in the model.
+ * This class is fairly complex, due to the need for mRNA to wind up and
+ * unwind as it is transcribed, translated, and destroyed.
  *
  * @author John Blanco
  */
@@ -60,31 +60,6 @@ public class MessengerRna extends MobileBiomolecule {
     // Length of the "leader segment", which is the portion of the mRNA that
     // sticks out on the upper left side so that a ribosome can be attached.
     private static final double LEADER_LENGTH = INTER_POINT_DISTANCE * 2;
-
-    // Random number generator used for creating "curviness" in the shape of
-    // the RNA.
-    private static final Random RAND = new Random();
-
-    // Values to use when simulating a bunch of springs between the points in
-    // order to get them to twist up but remain the same distance apart.
-    private static final double SPRING_CONSTANT = 200; // In Newtons/meter
-    private static final double TIME_SLICE = 0.1; // In seconds.
-
-    // Max allowed inter-point-mass force, used to handle cases where the
-    // points end up on top of each other, thus creating huge forces and
-    // causing instabilities.  Empirically determined.
-    private static final double MAX_INTER_POINT_FORCE = 100; // In Newtons.
-
-    // Constant that governs the amount of force that pushes points away from
-    // the wall.
-    private static final double WALL_FORCE_CONSTANT = 4; // In Newtons/m.
-
-    // Max force that can be exerted by the wall.
-    private static final double MAX_WALL_FORCE = 100; // In Newtons.
-
-    // Min height for the containment rectangle.  Arbitrarily small so that
-    // points can fit inside, but not much more.
-    private static final double MIN_CONTAINMENT_RECT_HEIGHT = 1;
 
     // Factor to use to avoid issues with floating point resolution.
     private static final double FLOATING_POINT_COMP_FACTOR = 1E-7;
@@ -206,7 +181,8 @@ public class MessengerRna extends MobileBiomolecule {
         }
 
         if ( currentPoint != null ) {
-            while ( currentPoint.nextPointMass != null && currentPoint.nextPointMass.getTargetDistanceToPreviousPoint() + currentLength < lengthRange.getMax() ) {
+            while ( currentPoint.getNextPointMass() != null &&
+                    currentPoint.getNextPointMass().getTargetDistanceToPreviousPoint() + currentLength < lengthRange.getMax() ) {
                 currentPoint = currentPoint.getNextPointMass();
                 currentLength += currentPoint.getTargetDistanceToPreviousPoint();
             }
@@ -217,147 +193,6 @@ public class MessengerRna extends MobileBiomolecule {
         }
 
         return currentPoint;
-    }
-
-    /**
-     * Make sure that the total of the segment lengths is large enough to
-     * enclose all of the shape-defining points by tweaking the size of the
-     * last segment.  This is needed because the accumulation of floating point
-     * errors can sometimes lead to a situation in which the segments don't
-     * have enough length in them to position all the points.
-     */
-    private void tweakLastSegmentSize() {
-        double totalShapeSegmentLength = getTotalLengthInShapeSegments();
-        double lastSegmentDelta = totalShapeSegmentLength - getLength();
-        if ( lastSegmentDelta > 0 ) {
-            getLastShapeSegment().add( lastSegmentDelta, shapeSegments );
-        }
-        else if ( lastSegmentDelta < 0 ) {
-            getLastShapeSegment().remove( lastSegmentDelta, shapeSegments );
-        }
-    }
-
-    /**
-     * Add a length to the mRNA from its current end point to the specified end
-     * point.  This is usually done in small amounts, and is likely to look
-     * weird if an attempt is made to grow to a distant point.  As a length is
-     * added, the mRNA shape "curls up".
-     */
-    public void addLengthRandomRepos( Point2D newEndPosition ) {
-
-        if ( newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) == 0 ) {
-            // Don't bother adding redundant points.
-            return;
-        }
-        System.out.println( "-------------------------------------" );
-        System.out.println( "newEndPosition = " + newEndPosition );
-
-        // If the current last point is less than the min distance from the 2nd
-        // to last point, remove the current last point.  This prevents having
-        // zillions of shape-defining points, which is harder to work with.
-        // TODO: Maybe just take this out if it isn't needed.
-        /*
-        if ( lastShapeDefiningPoint != firstShapeDefiningPoint &&
-             lastShapeDefiningPoint.targetDistanceToPreviousPoint < MIN_DISTANCE_BETWEEN_POINTS ) {
-            // If the current last point is less than the min distance from
-            // the 2nd to last point, remove the current last point.  This
-            // prevents having zillions of shape-defining points, which is
-            // harder to work with.
-            PointMass secondToLastPoint = lastShapeDefiningPoint.getPreviousPointMass();
-            secondToLastPoint.setNextPointMass( null );
-            lastShapeDefiningPoint = secondToLastPoint;
-        }
-        */
-
-        // Add the new end point.
-        System.out.println( "Distance from new point to previous end point = " + newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) );
-        PointMass newEndPoint = new PointMass( newEndPosition, newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) );
-        lastShapeDefiningPoint.setNextPointMass( newEndPoint );
-        newEndPoint.setPreviousPointMass( lastShapeDefiningPoint );
-        lastShapeDefiningPoint = newEndPoint;
-
-        double currentUnfurledLength = getLength();
-        System.out.println( "currentUnfurledLength = " + currentUnfurledLength );
-        System.out.println( "number of points = " + getPointCount() );
-
-        // Create the containment rect that will contain the curled up portion
-        // of the strand.
-        Rectangle2D woundUpRect = new Rectangle2D.Double( newEndPosition.getX() - currentUnfurledLength,
-                                                          newEndPosition.getY() - MIN_CONTAINMENT_RECT_HEIGHT / 2,
-                                                          1E-6,
-                                                          1E-6 );
-        if ( currentUnfurledLength > LEADER_LENGTH ) {
-            // There are enough points to start winding up the mRNA.  Set the
-            // size of the rectangle that contains the wound up portion to a
-            // value that is shorter than the unfurled length.
-            double diagonalLength = INTER_POINT_DISTANCE * ( Math.pow( currentUnfurledLength / INTER_POINT_DISTANCE, 0.5 ) );
-
-            double squareSideLength = diagonalLength * Math.cos( Math.PI / 4 );
-            woundUpRect = new Rectangle2D.Double( newEndPosition.getX() - squareSideLength,
-                                                  newEndPosition.getY(),
-                                                  squareSideLength,
-                                                  squareSideLength );
-        }
-
-        System.out.println( "woundUpRect = " + woundUpRect );
-
-        // If there are enough points, move the stick-out region to the upper
-        // left corner of the strand.
-        PointMass firstEnclosedPoint = getFirstEnclosedPoint();
-        if ( firstEnclosedPoint != null ) {
-            firstShapeDefiningPoint.setPosition( woundUpRect.getX() - LEADER_LENGTH, woundUpRect.getMaxY() );
-            PointMass previousPoint = firstShapeDefiningPoint;
-            PointMass thisPoint = firstShapeDefiningPoint.nextPointMass;
-            while ( thisPoint != firstEnclosedPoint.getNextPointMass() ) {
-                thisPoint.setPosition( previousPoint.getPosition().getX() + thisPoint.getTargetDistanceToPreviousPoint(), previousPoint.getPosition().getY() );
-                previousPoint = thisPoint;
-                thisPoint = thisPoint.getNextPointMass();
-            }
-        }
-
-        // Position each of the points at the correct distance from the
-        // previous point but at a random angle.  Any angle is valid as long as
-        // the point ends up inside the containment rectangle.
-        Random rand = new Random( 1 ); // Use a consistent random for predictable results.
-        if ( firstEnclosedPoint != null && firstEnclosedPoint != lastShapeDefiningPoint ) {
-            PointMass previousPoint = getFirstEnclosedPoint();
-            PointMass thisPoint = previousPoint.getNextPointMass();
-            while ( thisPoint != null && thisPoint != lastShapeDefiningPoint ) {
-                Vector2D offsetFromPreviousPoint = new Vector2D( thisPoint.getTargetDistanceToPreviousPoint(), 0 );
-                // Try a finite number of times to find a point within the bounding square.
-                for ( int i = 0; i < 10; i++ ) {
-                    offsetFromPreviousPoint.rotate( rand.nextDouble() * Math.PI * 2 );
-                    if ( woundUpRect.contains( new ImmutableVector2D( previousPoint.getPosition() ).getAddedInstance( offsetFromPreviousPoint ).toPoint2D() ) ) {
-                        break;
-                    }
-                }
-                thisPoint.setPosition( new ImmutableVector2D( previousPoint.getPosition() ).getAddedInstance( offsetFromPreviousPoint ).toPoint2D() );
-                previousPoint = thisPoint;
-                thisPoint = thisPoint.getNextPointMass();
-            }
-            // Start at the end and move points towards the end point so that
-            // all points are at the correct target distance.  This effectively
-            // stretches out the curled up shape to be in the desired space.
-//            thisPoint = lastShapeDefiningPoint;
-//            previousPoint = thisPoint.getPreviousPointMass();
-//            while ( previousPoint != null && previousPoint != firstEnclosedPoint ) {
-//                ImmutableVector2D vectorToPreviousPoint = new ImmutableVector2D( previousPoint.getPosition().getX() - thisPoint.getPosition().getX(),
-//                                                                                 previousPoint.getPosition().getY() - thisPoint.getPosition().getY() );
-//                ImmutableVector2D vectorToTargetPreviousPointLocation = new ImmutableVector2D( thisPoint.targetDistanceToPreviousPoint, 0 ).getRotatedInstance( vectorToPreviousPoint.getAngle() );
-//                previousPoint.setPosition( thisPoint.getPosition().getX() + vectorToTargetPreviousPointLocation.getX(),
-//                                           thisPoint.getPosition().getY() + vectorToTargetPreviousPointLocation.getY() );
-//                previousPoint = previousPoint.getPreviousPointMass();
-//                thisPoint = thisPoint.getPreviousPointMass();
-//            }
-        }
-
-//        System.out.println( "Dumping points: " );
-//        dumpPointMasses();
-
-        // Update the shape to reflect the newly added point.
-        System.out.println( "firstShapeDefiningPoint = " + firstShapeDefiningPoint );
-        System.out.println( "Done with addLength" );
-        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
     }
 
     /**
@@ -713,28 +548,6 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
-     * Count the number of points between two points on a list.  Endpoints are
-     * included in the total.
-     *
-     * @param firstPoint
-     * @param lastPoint
-     * @return
-     */
-    private int countPoints( PointMass firstPoint, PointMass lastPoint ) {
-        int count = 1;
-        PointMass currentPoint = firstPoint;
-        while ( currentPoint != lastPoint && currentPoint != null ) {
-            count++;
-            currentPoint = currentPoint.getNextPointMass();
-        }
-        if ( currentPoint != null ) {
-            System.out.println( getClass().getName() + " Warning: End point never encountered when counting points." );
-            return Integer.MAX_VALUE;
-        }
-        return count;
-    }
-
-    /**
      * Realign all the segments, making sure that the end of one connects to
      * the beginning of another, using the last segment on the list as the
      * starting point.
@@ -793,407 +606,13 @@ public class MessengerRna extends MobileBiomolecule {
      */
     private void addPointToEnd( Point2D position, double targetDistanceToPreviousPoint ) {
         PointMass newPoint = new PointMass( position, targetDistanceToPreviousPoint );
-        lastShapeDefiningPoint.nextPointMass = newPoint;
-        newPoint.previousPointMass = lastShapeDefiningPoint;
+        lastShapeDefiningPoint.setNextPointMass( newPoint );
+        newPoint.setPreviousPointMass( lastShapeDefiningPoint );
         lastShapeDefiningPoint = newPoint;
-    }
-
-    /**
-     * Add a length to the mRNA from its current end point to the specified end
-     * point.  This is usually done in small amounts, and is likely to look
-     * weird if an attempt is made to grow to a distant point.  As a length is
-     * added, the mRNA shape "curls up".
-     */
-    public void addLengthOld( Point2D newEndPosition ) {
-
-        if ( newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) == 0 ) {
-            // Don't bother adding redundant points.
-            return;
-        }
-        System.out.println( "-------------------------------------" );
-        System.out.println( "newEndPosition = " + newEndPosition );
-
-        // If the current last point is less than the min distance from the 2nd
-        // to last point, remove the current last point.  This prevents having
-        // zillions of shape-defining points, which is harder to work with.
-        // TODO: Maybe just take this out if it isn't needed.
-//        if ( lastShapeDefiningPoint != firstShapeDefiningPoint &&
-//             lastShapeDefiningPoint.targetDistanceToPreviousPoint < MIN_DISTANCE_BETWEEN_POINTS ) {
-//            // If the current last point is less than the min distance from
-//            // the 2nd to last point, remove the current last point.  This
-//            // prevents having zillions of shape-defining points, which is
-//            // harder to work with.
-//            PointMass secondToLastPoint = lastShapeDefiningPoint.getPreviousPointMass();
-//            secondToLastPoint.setNextPointMass( null );
-//            lastShapeDefiningPoint = secondToLastPoint;
-//        }
-
-        // Add the new end point.
-        System.out.println( "Distance from new point to previous end point = " + newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) );
-        PointMass newEndPoint = new PointMass( newEndPosition, newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) );
-        lastShapeDefiningPoint.setNextPointMass( newEndPoint );
-        newEndPoint.setPreviousPointMass( lastShapeDefiningPoint );
-        lastShapeDefiningPoint = newEndPoint;
-
-        double currentUnfurledLength = getLength();
-        System.out.println( "currentUnfurledLength = " + currentUnfurledLength );
-        System.out.println( "number of points = " + getPointCount() );
-
-        // Create the containment rect that will contain the curled up portion
-        // of the strand.
-        Rectangle2D woundUpRect = new Rectangle2D.Double( newEndPosition.getX() - currentUnfurledLength,
-                                                          newEndPosition.getY() - MIN_CONTAINMENT_RECT_HEIGHT / 2,
-                                                          1E-6,
-                                                          1E-6 );
-        if ( currentUnfurledLength > LEADER_LENGTH ) {
-            // There are enough points to start winding up the mRNA.  Set the
-            // size of the rectangle that contains the wound up portion to a
-            // value that is shorter than the unfurled length.
-            double diagonalLength = INTER_POINT_DISTANCE * ( Math.pow( currentUnfurledLength / INTER_POINT_DISTANCE, 0.5 ) );
-
-            double squareSideLength = diagonalLength * Math.cos( Math.PI / 4 );
-            woundUpRect = new Rectangle2D.Double( newEndPosition.getX() - squareSideLength,
-                                                  newEndPosition.getY(),
-                                                  squareSideLength,
-                                                  squareSideLength );
-        }
-
-        System.out.println( "woundUpRect = " + woundUpRect );
-
-        // If there are enough points, move the stick-out region to the upper
-        // left corner of the strand.
-        PointMass firstEnclosedPoint = getFirstEnclosedPoint();
-        if ( firstEnclosedPoint != null ) {
-            firstShapeDefiningPoint.setPosition( woundUpRect.getX() - LEADER_LENGTH, woundUpRect.getMaxY() );
-            PointMass previousPoint = firstShapeDefiningPoint;
-            PointMass thisPoint = firstShapeDefiningPoint.nextPointMass;
-            while ( thisPoint != firstEnclosedPoint.getNextPointMass() ) {
-                thisPoint.setPosition( previousPoint.getPosition().getX() + thisPoint.getTargetDistanceToPreviousPoint(), previousPoint.getPosition().getY() );
-                previousPoint = thisPoint;
-                thisPoint = thisPoint.getNextPointMass();
-            }
-        }
-
-        // Position each of the points within the wound up region along a
-        // diagonal line from the first enclosed point to the last point (which
-        // is the one that was just added).
-        if ( firstEnclosedPoint != null ) {
-            ImmutableVector2D interPointVector = new ImmutableVector2D( firstEnclosedPoint.distance( newEndPoint ) / getNumEnclosedPoints(), 0 ).getRotatedInstance( Math.atan2( newEndPoint.getPosition().getY() - firstEnclosedPoint.getPosition().getY(),
-                                                                                                                                                                                 newEndPoint.getPosition().getX() - firstEnclosedPoint.getPosition().getX() ) );
-            PointMass previousPoint = getFirstEnclosedPoint();
-            PointMass thisPoint = previousPoint.getNextPointMass();
-            while ( thisPoint != null && thisPoint != lastShapeDefiningPoint ) {
-                thisPoint.setPosition( previousPoint.getPosition().getX() + interPointVector.getX(), previousPoint.getPosition().getY() + interPointVector.getY() );
-                previousPoint = thisPoint;
-                thisPoint = thisPoint.getNextPointMass();
-            }
-        }
-
-        // TODO: Perturb some of the points.
-        // Perturb some of the points so that the spring algorithm - used
-        // later - can do its thing.
-        if ( firstEnclosedPoint != null ) {
-            Random perturbationRand = new Random( 1 );
-            ImmutableVector2D interPointVector = new ImmutableVector2D( firstEnclosedPoint.distance( newEndPoint ) / getNumEnclosedPoints(), 0 ).getRotatedInstance( Math.atan2( newEndPoint.getPosition().getY() - firstEnclosedPoint.getPosition().getY(),
-                                                                                                                                                                                 newEndPoint.getPosition().getX() - firstEnclosedPoint.getPosition().getX() ) );
-            PointMass previousPoint = getFirstEnclosedPoint();
-            PointMass thisPoint = previousPoint.getNextPointMass();
-            while ( thisPoint != null && thisPoint != lastShapeDefiningPoint ) {
-                if ( perturbationRand.nextDouble() > 0.9 ) {
-                    ImmutableVector2D perturbationVector = interPointVector.getRotatedInstance( Math.PI / 2 * ( perturbationRand.nextBoolean() ? 1 : -1 ) ).getScaledInstance( 5 );
-                    thisPoint.setPosition( thisPoint.getPosition().getX() + perturbationVector.getX(),
-                                           thisPoint.getPosition().getY() + perturbationVector.getY() );
-                }
-                previousPoint = thisPoint;
-                thisPoint = thisPoint.getNextPointMass();
-            }
-        }
-
-        // TODO: Run the spring spacing algorithm.
-        // Position the points in the "enclosed region" so that the mRNA looks
-        // like it is wound up.
-        if ( firstEnclosedPoint != null && firstEnclosedPoint.getNextPointMass() != null && firstEnclosedPoint.getNextPointMass().getNextPointMass() != null ) {
-            for ( int i = 0; i < 100; i++ ) {
-                PointMass previousPoint = firstEnclosedPoint;
-                PointMass currentPoint = previousPoint.getNextPointMass();
-                PointMass nextPoint = currentPoint.getNextPointMass();
-                double maxForce = 0;
-                double maxForce2 = 0;
-                clearAllPointMassVelocities();
-                while ( previousPoint != null && currentPoint != null && nextPoint != null ) {
-                    double targetDistanceToPreviousPoint = currentPoint.getTargetDistanceToPreviousPoint();
-                    double targetDistanceToNextPoint = nextPoint.getTargetDistanceToPreviousPoint();
-
-                    // Determine the force exerted by the previous point mass.
-                    double forceDueToPreviousPoint = MathUtil.clamp( -MAX_INTER_POINT_FORCE,
-                                                                     SPRING_CONSTANT * ( currentPoint.distance( previousPoint ) - targetDistanceToPreviousPoint ),
-                                                                     MAX_INTER_POINT_FORCE );
-                    if ( forceDueToPreviousPoint > maxForce ) {
-                        maxForce = forceDueToPreviousPoint;
-                        System.out.println( "maxForce = " + maxForce );
-                    }
-                    ImmutableVector2D forceVectorDueToPreviousPoint = new Vector2D( previousPoint.getPosition().getX() - currentPoint.getPosition().getX(),
-                                                                                    previousPoint.getPosition().getY() - currentPoint.getPosition().getY() ).getNormalizedInstance().getScaledInstance( forceDueToPreviousPoint );
-                    // Determine the force exerted by the next point mass.
-                    double forceDueToNextPoint = MathUtil.clamp( -MAX_INTER_POINT_FORCE,
-                                                                 SPRING_CONSTANT * ( currentPoint.distance( nextPoint ) - targetDistanceToNextPoint ),
-                                                                 MAX_INTER_POINT_FORCE );
-                    if ( forceDueToNextPoint > maxForce2 ) {
-                        maxForce2 = forceDueToNextPoint;
-                        System.out.println( "maxForce2 = " + maxForce2 );
-                    }
-                    ImmutableVector2D forceVectorDueToNextPoint = new Vector2D( nextPoint.getPosition().getX() - currentPoint.getPosition().getX(),
-                                                                                nextPoint.getPosition().getY() - currentPoint.getPosition().getY() ).getNormalizedInstance().getScaledInstance( forceDueToNextPoint );
-
-                    // Determine the force exerted by the walls of the containment rectangle.
-                    double forceXDueToWalls;
-                    if ( currentPoint.getPosition().getX() < woundUpRect.getMinX() ) {
-                        forceXDueToWalls = MAX_WALL_FORCE;
-                    }
-                    else if ( currentPoint.getPosition().getX() < woundUpRect.getMinX() ) {
-                        forceXDueToWalls = -MAX_WALL_FORCE;
-                    }
-                    else {
-                        forceXDueToWalls = WALL_FORCE_CONSTANT / Math.pow( currentPoint.getPosition().getX() - woundUpRect.getX(), 2 ) -
-                                           WALL_FORCE_CONSTANT / Math.pow( woundUpRect.getMaxX() - currentPoint.getPosition().getX(), 2 );
-                        forceXDueToWalls = MathUtil.clamp( -MAX_WALL_FORCE, forceXDueToWalls, MAX_WALL_FORCE );
-                    }
-                    double forceYDueToWalls;
-                    if ( currentPoint.getPosition().getY() < woundUpRect.getMinY() ) {
-                        forceYDueToWalls = MAX_WALL_FORCE;
-                    }
-                    else if ( currentPoint.getPosition().getY() < woundUpRect.getMinY() ) {
-                        forceYDueToWalls = -MAX_WALL_FORCE;
-                    }
-                    else {
-                        forceYDueToWalls = WALL_FORCE_CONSTANT / Math.pow( currentPoint.getPosition().getY() - woundUpRect.getY(), 2 ) -
-                                           WALL_FORCE_CONSTANT / Math.pow( woundUpRect.getMaxY() - currentPoint.getPosition().getY(), 2 );
-                        forceYDueToWalls = MathUtil.clamp( -MAX_WALL_FORCE, forceYDueToWalls, MAX_WALL_FORCE );
-                    }
-                    ImmutableVector2D forceVectorDueToWalls = new ImmutableVector2D( forceXDueToWalls, forceYDueToWalls );
-//                    System.out.println( "forceVectorDueToWalls = " + forceVectorDueToWalls );
-
-                    ImmutableVector2D totalForceVector = forceVectorDueToPreviousPoint.getAddedInstance( forceVectorDueToNextPoint ).getAddedInstance( forceVectorDueToWalls );
-                    currentPoint.updateVelocity( totalForceVector, TIME_SLICE );
-                    currentPoint.updatePosition( TIME_SLICE );
-
-                    // Move down the chain to the next shape-defining point.
-                    previousPoint = currentPoint;
-                    currentPoint = nextPoint;
-                    nextPoint = currentPoint.nextPointMass;
-                }
-            }
-        }
-
-
-//        System.out.println( "Dumping points: " );
-//        dumpPointMasses();
-
-        // Update the shape to reflect the newly added point.
-        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
     }
 
     public Point2D getTranslationAttachmentPoint() {
         return firstShapeDefiningPoint.getPosition();
-    }
-
-    private int getNumEnclosedPoints() {
-        int numEnclosedPoints = 0;
-        PointMass currentPoint = getFirstEnclosedPoint();
-        while ( currentPoint != null ) {
-            numEnclosedPoints++;
-            currentPoint = currentPoint.getNextPointMass();
-        }
-        return numEnclosedPoints;
-    }
-
-    public void addLengthRandomize( Point2D newEndPosition ) {
-
-        if ( newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) == 0 ) {
-            // Don't bother adding redundant points.
-            return;
-        }
-        System.out.println( "-------------------------------------" );
-        System.out.println( "newEndPosition = " + newEndPosition );
-
-        // Create a vector that represents the distance between the current
-        // end point and this new one.  This will be used to figure out how to
-        // move the existing points to "drag them along" with this new one".
-        ImmutableVector2D distanceAddedByNewPoint = new ImmutableVector2D( lastShapeDefiningPoint.getPosition().getX() - newEndPosition.getX(),
-                                                                           lastShapeDefiningPoint.getPosition().getY() - newEndPosition.getY() );
-
-        // If the current last point is less than the min distance from the 2nd
-        // to last point, remove the current last point.  This prevents having
-        // zillions of shape-defining points, which is harder to work with.
-        if ( lastShapeDefiningPoint != firstShapeDefiningPoint &&
-             lastShapeDefiningPoint.targetDistanceToPreviousPoint < INTER_POINT_DISTANCE ) {
-            // If the current last point is less than the min distance from
-            // the 2nd to last point, remove the current last point.  This
-            // prevents having zillions of shape-defining points, which is
-            // harder to work with.
-            PointMass secondToLastPoint = lastShapeDefiningPoint.getPreviousPointMass();
-            secondToLastPoint.setNextPointMass( null );
-            lastShapeDefiningPoint = secondToLastPoint;
-        }
-
-        // Since the strand is expected to grow up and to the left, create a
-        // vector that moves the existing points this way in an amount that is
-        // proportional to the newly added segment.
-//        ImmutableVector2D collectiveMotionVector = new ImmutableVector2D( distanceAddedByNewPoint.getMagnitude() * 0.5,
-//                                                                          distanceAddedByNewPoint.getMagnitude() * 0.25 );
-
-        // Move the existing points.
-//        moveAllPoints( collectiveMotionVector );
-
-
-        // Add the new end point.
-        System.out.println( "Distance from new point to previous end point = " + newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) );
-        PointMass newEndPoint = new PointMass( newEndPosition, newEndPosition.distance( lastShapeDefiningPoint.getPosition() ) );
-        lastShapeDefiningPoint.setNextPointMass( newEndPoint );
-        newEndPoint.setPreviousPointMass( lastShapeDefiningPoint );
-        lastShapeDefiningPoint = newEndPoint;
-
-        double currentUnfurledLength = getLength();
-        System.out.println( "currentUnfurledLength = " + currentUnfurledLength );
-        System.out.println( "number of points = " + getPointCount() );
-
-        // Create the containment rect, and specify it initially to contain
-        // only the stick out portion.
-        Rectangle2D containmentRect = new Rectangle2D.Double( newEndPosition.getX() - currentUnfurledLength,
-                                                              newEndPosition.getY() - MIN_CONTAINMENT_RECT_HEIGHT / 2,
-                                                              currentUnfurledLength,
-                                                              MIN_CONTAINMENT_RECT_HEIGHT );
-        if ( currentUnfurledLength > LEADER_LENGTH ) {
-            // There are enough points to start winding up the mRNA.  Create a
-            // rectangle that will define the area where the strand must
-            // within (except for the stick-out area).
-            double diagonalLength = INTER_POINT_DISTANCE * ( Math.pow( currentUnfurledLength / INTER_POINT_DISTANCE, 0.5 ) );
-            double squareSideLength = diagonalLength * Math.cos( Math.PI / 4 );
-            containmentRect = new Rectangle2D.Double( newEndPosition.getX() - squareSideLength,
-                                                      newEndPosition.getY(),
-                                                      squareSideLength,
-                                                      squareSideLength );
-        }
-
-        System.out.println( "containmentRect = " + containmentRect );
-
-        // If there are enough points, move the stick-out region to the upper
-        // left corner of the strand.
-        PointMass firstEnclosedPoint = getFirstEnclosedPoint();
-        if ( firstEnclosedPoint != null ) {
-            firstShapeDefiningPoint.setPosition( containmentRect.getX() - LEADER_LENGTH, containmentRect.getMaxY() );
-            PointMass previousPoint = firstShapeDefiningPoint;
-            PointMass thisPoint = firstShapeDefiningPoint.nextPointMass;
-            while ( thisPoint != firstEnclosedPoint.getNextPointMass() ) {
-                thisPoint.setPosition( previousPoint.getPosition().getX() + thisPoint.getTargetDistanceToPreviousPoint(), previousPoint.getPosition().getY() );
-                previousPoint = thisPoint;
-                thisPoint = thisPoint.getNextPointMass();
-            }
-        }
-
-        // TODO: Keep this for testing.  It is an alternative positioning algorithm in which the enlcosed points are positioned randomly within the rectangle.
-        // Position the points in the "enclosed region" so that the mRNA looks
-        // like it is wound up.
-        if ( firstEnclosedPoint != null ) {
-            PointMass previousPoint = getFirstEnclosedPoint();
-            PointMass thisPoint = previousPoint.getNextPointMass();
-            while ( thisPoint != null && thisPoint != lastShapeDefiningPoint ) {
-                thisPoint.setPosition( containmentRect.getMinX() + RAND.nextDouble() * containmentRect.getWidth(),
-                                       containmentRect.getMinY() + RAND.nextDouble() * containmentRect.getHeight() );
-                thisPoint = thisPoint.getNextPointMass();
-            }
-        }
-
-        // Position the points in the "enclosed region" so that the mRNA looks
-        // like it is wound up.
-        if ( firstEnclosedPoint != null && firstEnclosedPoint.getNextPointMass() != null && firstEnclosedPoint.getNextPointMass().getNextPointMass() != null ) {
-            for ( int i = 0; i < 20; i++ ) {
-                PointMass previousPoint = firstEnclosedPoint;
-                PointMass currentPoint = previousPoint.getNextPointMass();
-                PointMass nextPoint = currentPoint.getNextPointMass();
-                double maxForce = 0;
-                double maxForce2 = 0;
-                clearAllPointMassVelocities();
-                while ( previousPoint != null && currentPoint != null && nextPoint != null ) {
-                    double targetDistanceToPreviousPoint = currentPoint.getTargetDistanceToPreviousPoint();
-                    double targetDistanceToNextPoint = nextPoint.getTargetDistanceToPreviousPoint();
-
-                    // Determine the force exerted by the previous point mass.
-                    double forceDueToPreviousPoint = MathUtil.clamp( -MAX_INTER_POINT_FORCE,
-                                                                     SPRING_CONSTANT * ( currentPoint.distance( previousPoint ) - targetDistanceToPreviousPoint ),
-                                                                     MAX_INTER_POINT_FORCE );
-                    if ( forceDueToPreviousPoint > maxForce ) {
-                        maxForce = forceDueToPreviousPoint;
-                        System.out.println( "maxForce = " + maxForce );
-                    }
-                    ImmutableVector2D forceVectorDueToPreviousPoint = new Vector2D( previousPoint.getPosition().getX() - currentPoint.getPosition().getX(),
-                                                                                    previousPoint.getPosition().getY() - currentPoint.getPosition().getY() ).getNormalizedInstance().getScaledInstance( forceDueToPreviousPoint );
-                    // Determine the force exerted by the next point mass.
-                    double forceDueToNextPoint = MathUtil.clamp( -MAX_INTER_POINT_FORCE,
-                                                                 SPRING_CONSTANT * ( currentPoint.distance( nextPoint ) - targetDistanceToNextPoint ),
-                                                                 MAX_INTER_POINT_FORCE );
-                    if ( forceDueToNextPoint > maxForce2 ) {
-                        maxForce2 = forceDueToNextPoint;
-                        System.out.println( "maxForce2 = " + maxForce2 );
-                    }
-                    ImmutableVector2D forceVectorDueToNextPoint = new Vector2D( nextPoint.getPosition().getX() - currentPoint.getPosition().getX(),
-                                                                                nextPoint.getPosition().getY() - currentPoint.getPosition().getY() ).getNormalizedInstance().getScaledInstance( forceDueToNextPoint );
-
-                    // Determine the force exerted by the walls of the containment rectangle.
-                    double forceXDueToWalls;
-                    if ( currentPoint.getPosition().getX() < containmentRect.getMinX() ) {
-                        forceXDueToWalls = MAX_WALL_FORCE;
-                    }
-                    else if ( currentPoint.getPosition().getX() < containmentRect.getMinX() ) {
-                        forceXDueToWalls = -MAX_WALL_FORCE;
-                    }
-                    else {
-                        forceXDueToWalls = WALL_FORCE_CONSTANT / Math.pow( currentPoint.getPosition().getX() - containmentRect.getX(), 2 ) -
-                                           WALL_FORCE_CONSTANT / Math.pow( containmentRect.getMaxX() - currentPoint.getPosition().getX(), 2 );
-                        forceXDueToWalls = MathUtil.clamp( -MAX_WALL_FORCE, forceXDueToWalls, MAX_WALL_FORCE );
-                    }
-                    double forceYDueToWalls;
-                    if ( currentPoint.getPosition().getY() < containmentRect.getMinY() ) {
-                        forceYDueToWalls = MAX_WALL_FORCE;
-                    }
-                    else if ( currentPoint.getPosition().getY() < containmentRect.getMinY() ) {
-                        forceYDueToWalls = -MAX_WALL_FORCE;
-                    }
-                    else {
-                        forceYDueToWalls = WALL_FORCE_CONSTANT / Math.pow( currentPoint.getPosition().getY() - containmentRect.getY(), 2 ) -
-                                           WALL_FORCE_CONSTANT / Math.pow( containmentRect.getMaxY() - currentPoint.getPosition().getY(), 2 );
-                        forceYDueToWalls = MathUtil.clamp( -MAX_WALL_FORCE, forceYDueToWalls, MAX_WALL_FORCE );
-                    }
-                    ImmutableVector2D forceVectorDueToWalls = new ImmutableVector2D( forceXDueToWalls, forceYDueToWalls );
-//                    System.out.println( "forceVectorDueToWalls = " + forceVectorDueToWalls );
-
-                    ImmutableVector2D totalForceVector = forceVectorDueToPreviousPoint.getAddedInstance( forceVectorDueToNextPoint ).getAddedInstance( forceVectorDueToWalls );
-                    currentPoint.updateVelocity( totalForceVector, TIME_SLICE );
-                    currentPoint.updatePosition( TIME_SLICE );
-
-                    // Move down the chain to the next shape-defining point.
-                    previousPoint = currentPoint;
-                    currentPoint = nextPoint;
-                    nextPoint = currentPoint.nextPointMass;
-                }
-            }
-        }
-
-//        System.out.println( "Dumping points: " );
-//        dumpPointMasses();
-
-        // Update the shape to reflect the newly added point.
-//        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
-        shapeProperty.set( BiomoleculeShapeUtils.createSegmentedLineFromPoints( getPointList() ) );
-    }
-
-    private void moveAllPoints( ImmutableVector2D movementAmount ) {
-        PointMass thisPoint = firstShapeDefiningPoint;
-        while ( thisPoint != null ) {
-            thisPoint.setPosition( thisPoint.getPosition().getX() + movementAmount.getX(),
-                                   thisPoint.getPosition().getY() + movementAmount.getY() );
-            thisPoint = thisPoint.getNextPointMass();
-        }
     }
 
     /**
@@ -1216,27 +635,8 @@ public class MessengerRna extends MobileBiomolecule {
         return thisPoint;
     }
 
-    public void clearAllPointMassVelocities() {
-        PointMass thisPoint = firstShapeDefiningPoint;
-        while ( thisPoint != null ) {
-            thisPoint.setVelocity( 0, 0 );
-            thisPoint = thisPoint.getNextPointMass();
-        }
-    }
-
-    private int getPointCount() {
-        int pointCount = 0;
-        PointMass thisPoint = firstShapeDefiningPoint;
-        while ( thisPoint != null ) {
-            pointCount++;
-            thisPoint = thisPoint.getNextPointMass();
-        }
-        return pointCount;
-    }
-
     // Get the points that define the shape as a list.
-    // TODO: Created for debugging, may not be needed long term.
-    public List<Point2D> getPointList() {
+    private List<Point2D> getPointList() {
         ArrayList<Point2D> pointList = new ArrayList<Point2D>();
         PointMass thisPoint = firstShapeDefiningPoint;
         while ( thisPoint != null ) {
@@ -1246,58 +646,12 @@ public class MessengerRna extends MobileBiomolecule {
         return pointList;
     }
 
-    // Get the points that define the shape as a list.
-    // TODO: Created for debugging, may not be needed long term.
-    public List<PointMass> getPointMassList() {
-        ArrayList<PointMass> pointMasses = new ArrayList<PointMass>();
-        PointMass thisPoint = firstShapeDefiningPoint;
-        while ( thisPoint != null ) {
-            pointMasses.add( thisPoint );
-            thisPoint = thisPoint.getNextPointMass();
-        }
-        return pointMasses;
-    }
-
     /**
-     * Add a length to the mRNA from its current end point to the specified end
-     * point.  This is usually done in small amounts, and is likely to look
-     * weird if an attempt is made to grow to a distant point.
+     * Release this mRNA from a ribosome.  If this is the only ribosome to
+     * which the mRNA is connected, the mRNA will start wandering.
+     *
+     * @param ribosome
      */
-//    public void addLengthOld( Point2D p ) {
-//        if ( shapeDefiningPoints.size() > 0 ) {
-//            Point2D lastPoint = shapeDefiningPoints.get( shapeDefiningPoints.size() - 1 );
-//            double growthAmount = lastPoint.distance( p );
-//            // Cause all existing points to "drift" so that this doesn't just
-//            // create a straight line.
-//            ImmutableVector2D driftVector = driftWhileGrowingVector.getScaledInstance( growthAmount );
-//            for ( Point2D point : shapeDefiningPoints ) {
-//                point.setLocation( point.getX() + driftVector.getX(),
-//                                   point.getY() + driftVector.getY() );
-//            }
-//            if ( shapeDefiningPoints.size() >= 2 ) {
-//                // If the current last point is less than the min distance from
-//                // the 2nd to last point, replace the current last point.  This
-//                // prevents having zillions of shape-defining points, which is
-//                // harder to work with.
-//                Point2D secondToLastPoint = shapeDefiningPoints.get( shapeDefiningPoints.size() - 2 );
-//                if ( lastPoint.distance( secondToLastPoint ) < MIN_DISTANCE_BETWEEN_POINTS ) {
-//                    shapeDefiningPoints.remove( lastPoint );
-//                }
-//                else {
-//                    // Add a random offset to the second-to-last point, which
-//                    // is far enough away to keep.  This is done in order to
-//                    // make the shape of the mRNA a bit curvy.
-//                    ImmutableVector2D randomizationVector2 = new ImmutableVector2D( 1, 0 ).getScaledInstance( MIN_DISTANCE_BETWEEN_POINTS / 2 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
-//                    secondToLastPoint.setLocation( secondToLastPoint.getX() + driftVector.getX() + randomizationVector2.getX(),
-//                                                   secondToLastPoint.getY() + driftVector.getY() + randomizationVector2.getY() );
-//                }
-//            }
-//        }
-//        // Add the new point.
-//        shapeDefiningPoints.add( p );
-//        // Update the shape to reflect the newly added point.
-//        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( shapeDefiningPoints ) );
-//    }
     public void releaseFromRibosome( Ribosome ribosome ) {
         assert mapRibosomeToShapeSegment.containsKey( ribosome ); // This shouldn't be called if the ribosome wasn't connected.
         mapRibosomeToShapeSegment.remove( ribosome );
@@ -1307,6 +661,10 @@ public class MessengerRna extends MobileBiomolecule {
         }
     }
 
+    /**
+     * Release this mRNA from the polymerase which is, presumably, transcribing
+     * it.
+     */
     public void releaseFromPolymerase() {
         // Set the state to just be drifting around in the cytoplasm.
         behaviorState = new DetachingState( this, new ImmutableVector2D( 0, 1 ) );
@@ -1358,16 +716,6 @@ public class MessengerRna extends MobileBiomolecule {
         mapRibosomeToShapeSegment.put( ribosome, firstShapeSegment );
     }
 
-    private void dumpPointMasses() {
-        PointMass thisPoint = firstShapeDefiningPoint;
-        int count = 0;
-        while ( thisPoint != null ) {
-            System.out.println( count + " : " + thisPoint );
-            thisPoint = thisPoint.getNextPointMass();
-            count++;
-        }
-    }
-
     /**
      * Get the proportion of the entire mRNA that has been translated by the
      * given ribosome.
@@ -1390,6 +738,11 @@ public class MessengerRna extends MobileBiomolecule {
         return translatedLength / getLength();
     }
 
+    /**
+     * This class defines a point in model space that also has mass.  It is
+     * is used to define the overall shape of the mRNA, which uses a spring
+     * algorithm to implement the winding/twisting behavior.
+     */
     public static class PointMass {
         public static final double MASS = 0.25; // In kg.  Arbitrarily chosen to get the desired behavior.
         private final Point2D position = new Point2D.Double( 0, 0 );
@@ -1425,10 +778,6 @@ public class MessengerRna extends MobileBiomolecule {
             velocity.setComponents( x, y );
         }
 
-        private void setVelocity( ImmutableVector2D velocity ) {
-            setVelocity( velocity.getX(), velocity.getY() );
-        }
-
         public ImmutableVector2D getVelocity() {
             return new ImmutableVector2D( velocity.getX(), velocity.getY() );
         }
@@ -1445,7 +794,6 @@ public class MessengerRna extends MobileBiomolecule {
             this.previousPointMass = previousPointMass;
         }
 
-        // TODO: Clean this up - either have accessors and make the member vars public, but not both.
         public PointMass getNextPointMass() {
             return nextPointMass;
         }
@@ -1460,14 +808,6 @@ public class MessengerRna extends MobileBiomolecule {
 
         public double distance( PointMass p ) {
             return this.getPosition().distance( p.getPosition() );
-        }
-
-        public void updateVelocity( ImmutableVector2D force, double time ) {
-            setVelocity( velocity.plus( force.times( time / MASS ) ) );
-        }
-
-        public void updatePosition( double time ) {
-            setPosition( position.getX() + velocity.getX() * time, position.getY() + velocity.getY() * time );
         }
 
         public void update( double deltaTime ) {
@@ -1489,13 +829,14 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
-     * A shape that encloses a segment of the mRNA.  These segments, connected
-     * together, are used to define the outline shape of the mRNA strand.
-     * The path of the strand within these shape segments is worked out
-     * elsewhere.
+     * This class defines a shape that encloses a segment of the mRNA.  These
+     * segments, connected together, are used to define the outline shape of
+     * the mRNA strand. The path of the strand within these shape segments is
+     * worked out elsewhere.
      * <p/>
      * Shape segments keep track of the length of mRNA that they contain, but
-     * the don't explicitly contain the points that define the shape.
+     * the don't explicitly contain references to the points that define the
+     * shape.
      */
     public abstract static class ShapeSegment {
 
@@ -1771,8 +1112,8 @@ public class MessengerRna extends MobileBiomolecule {
 
     /**
      * Class that defines an observable list with some additional methods that
-     * makes it easier to get next and previous items and to insert items
-     * before and after existing items.
+     * make it easier to get next and previous items and to insert items before
+     * and after existing items.
      *
      * @param <T>
      */
@@ -1829,8 +1170,6 @@ public class MessengerRna extends MobileBiomolecule {
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( stageSize.getWidth() * 0.2 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 0.2 ); // "Zoom factor" - smaller zooms out, larger zooms in.
-
-        canvas.getLayer().addChild( new PhetPPath( new Rectangle2D.Double( -20, -20, 40, 40 ), Color.PINK ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
