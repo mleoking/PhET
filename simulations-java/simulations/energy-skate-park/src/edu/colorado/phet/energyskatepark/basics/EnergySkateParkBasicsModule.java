@@ -147,12 +147,17 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         EnergySkateParkIO.open( filename, this );
         getEnergySkateParkModel().setRollerCoasterMode( rollerCoasterMode );
 
-        //Initialize the skater beneath the track so the user has to move it to start the sim
-        getEnergySkateParkModel().getBody( 0 ).setPosition( 10, 0 );
-        getEnergySkateParkModel().getBody( 0 ).setVelocity( 0, 0 );
-
         //Move it so it sits on the ground with y=0
         liftSplines();
+
+        //Initialize the skater beneath the track so the user has to move it to start the sim
+        initSkater();
+    }
+
+    //Initialize the skater beneath the track so the user has to move it to start the sim
+    public void initSkater() {
+        getEnergySkateParkModel().getBody( 0 ).setPosition( 10, 0 );
+        getEnergySkateParkModel().getBody( 0 ).setVelocity( 0, 0 );
     }
 
     protected void loadDefaultTrack() {
