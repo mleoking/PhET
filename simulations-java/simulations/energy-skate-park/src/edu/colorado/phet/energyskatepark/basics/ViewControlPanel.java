@@ -28,57 +28,57 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class ViewControlPanel extends ControlPanelNode {
 
     public ViewControlPanel( final EnergySkateParkBasicsModule module, final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, final JDialog barChartDialog ) {
-        super( new VBox(
-                new HBox(
-                        //Checkbox to show/hide bar chart
-                        new PSwing( new JCheckBox( EnergySkateParkResources.getString( "plots.bar-graph" ), module.isBarChartVisible() ) {{
-                            setFont( EnergySkateParkBasicsModule.CONTROL_FONT );
-                            addActionListener( new ActionListener() {
-                                public void actionPerformed( ActionEvent e ) {
-                                    module.setBarChartVisible( isSelected() );
-                                }
-                            } );
-                            module.addResetListener( new VoidFunction0() {
-                                public void apply() {
-                                    setSelected( module.isPieChartVisible() );
-                                }
-                            } );
-                            // set the check box state when the dialog is closed via its window dressing
-                            barChartDialog.addWindowListener( new WindowAdapter() {
-                                // called when the close button in the dialog's window dressing is clicked
-                                public void windowClosing( WindowEvent e ) {
-                                    setSelected( module.isPieChartVisible() );
-                                }
+        super( new VBox( 10, true /* leftAlignedFlagIgnored */,
+                         new HBox(
+                                 //Checkbox to show/hide bar chart
+                                 new PSwing( new JCheckBox( EnergySkateParkResources.getString( "plots.bar-graph" ), module.isBarChartVisible() ) {{
+                                     setFont( EnergySkateParkBasicsModule.CONTROL_FONT );
+                                     addActionListener( new ActionListener() {
+                                         public void actionPerformed( ActionEvent e ) {
+                                             module.setBarChartVisible( isSelected() );
+                                         }
+                                     } );
+                                     module.addResetListener( new VoidFunction0() {
+                                         public void apply() {
+                                             setSelected( module.isPieChartVisible() );
+                                         }
+                                     } );
+                                     // set the check box state when the dialog is closed via its window dressing
+                                     barChartDialog.addWindowListener( new WindowAdapter() {
+                                         // called when the close button in the dialog's window dressing is clicked
+                                         public void windowClosing( WindowEvent e ) {
+                                             setSelected( module.isPieChartVisible() );
+                                         }
 
-                                // called by JDialog.dispose
-                                public void windowClosed( WindowEvent e ) {
-                                    setSelected( module.isPieChartVisible() );
-                                }
-                            } );
-                        }} ),
-                        new PImage( EnergySkateParkResources.getImage( "icons/bar_icon.png" ) ) ),
+                                         // called by JDialog.dispose
+                                         public void windowClosed( WindowEvent e ) {
+                                             setSelected( module.isPieChartVisible() );
+                                         }
+                                     } );
+                                 }} ),
+                                 new PImage( EnergySkateParkResources.getImage( "icons/bar_icon.png" ) ) ),
 
-                new HBox(
-                        //Checkbox to show/hide the pie chart
-                        new PSwing( new JCheckBox( EnergySkateParkResources.getString( "pieChart" ), module.isPieChartVisible() ) {{
-                            setFont( EnergySkateParkBasicsModule.CONTROL_FONT );
-                            addActionListener( new ActionListener() {
-                                public void actionPerformed( ActionEvent e ) {
-                                    module.setPieChartVisible( isSelected() );
-                                }
-                            } );
-                            module.addResetListener( new VoidFunction0() {
-                                public void apply() {
-                                    setSelected( module.isPieChartVisible() );
-                                }
-                            } );
-                        }} ),
-                        new PImage( EnergySkateParkResources.getImage( "icons/pie_icon.png" ) ) ),
+                         new HBox(
+                                 //Checkbox to show/hide the pie chart
+                                 new PSwing( new JCheckBox( EnergySkateParkResources.getString( "pieChart" ), module.isPieChartVisible() ) {{
+                                     setFont( EnergySkateParkBasicsModule.CONTROL_FONT );
+                                     addActionListener( new ActionListener() {
+                                         public void actionPerformed( ActionEvent e ) {
+                                             module.setPieChartVisible( isSelected() );
+                                         }
+                                     } );
+                                     module.addResetListener( new VoidFunction0() {
+                                         public void apply() {
+                                             setSelected( module.isPieChartVisible() );
+                                         }
+                                     } );
+                                 }} ),
+                                 new PImage( EnergySkateParkResources.getImage( "icons/pie_icon.png" ) ) ),
 
-                new HBox(
-                        //Checkbox to show/hide the grid lines
-                        new PSwing( new GridLinesCheckBox( module ) {{checkBox.setFont( EnergySkateParkBasicsModule.CONTROL_FONT );}} ),
-                        new PImage( EnergySkateParkResources.getImage( "icons/grid_icon.png" ) ) )
+                         new HBox(
+                                 //Checkbox to show/hide the grid lines
+                                 new PSwing( new GridLinesCheckBox( module ) {{checkBox.setFont( EnergySkateParkBasicsModule.CONTROL_FONT );}} ),
+                                 new PImage( EnergySkateParkResources.getImage( "icons/grid_icon.png" ) ) )
 
         ), EnergySkateParkLookAndFeel.backgroundColor );
 
