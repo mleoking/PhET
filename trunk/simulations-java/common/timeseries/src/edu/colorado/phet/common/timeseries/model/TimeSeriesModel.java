@@ -90,6 +90,7 @@ public class TimeSeriesModel extends ClockAdapter {
         return record.getRecordTime();
     }
 
+    //TODO: This class should not be messing with the clock, it can result in client code that has 2 clocks running simultaneously.
     public void setPaused( boolean paused ) {
         if ( this.paused != paused ) {
             if ( paused ) {
