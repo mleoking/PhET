@@ -90,7 +90,9 @@ public class GridNode extends PhetPNode {
     private PNode createYLineNode( double minX, double maxX, double y ) {
         PPath child = new PPath( new Line2D.Double( minX, y, maxX, y ) );
         boolean thickStroke = MathUtil.isApproxEqual( y, 0, 0.001 );
-        if ( (int) y % 5 == 0 ) {
+
+        //On 11/29/2011 It was requested to make every other line thick instead of every 5 lines.
+        if ( (int) y % 2 == 0 ) {
             thickStroke = true;
         }
         child.setStroke( new BasicStroke( 0.01f * ( thickStroke ? 3 : 1 ) ) );
