@@ -1,3 +1,4 @@
+11/30/11 basics: clarify mapping of friction slider value to model value
 11/30/11 common: explicitly close XMLDecoders in EnergySkateParkIO
 11/30/11 basics: Fixed reset all in "track playground" tab
 11/30/11 basics: don't add zoom controls to the play area
