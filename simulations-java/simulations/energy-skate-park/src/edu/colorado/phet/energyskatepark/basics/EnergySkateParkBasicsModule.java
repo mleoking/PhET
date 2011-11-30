@@ -80,15 +80,18 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     //Load the specified track and set its roller coaster mode, used when the user presses different track selection buttons
-    public void loadTrack( String filename, boolean rollerCoasterMode ) {
+    public void loadTrack( String filename ) {
         EnergySkateParkIO.open( filename, this );
-        getEnergySkateParkModel().setRollerCoasterMode( rollerCoasterMode );
+        getEnergySkateParkModel().setRollerCoasterMode( stickToTrack.get() );
 
         //Move it so it sits on the ground with y=0
         liftSplines();
 
         //Initialize the skater beneath the track so the user has to move it to start the sim
         initSkater();
+
+        //TODO: also update friction
+//        getEnergySkateParkModel().getSpline( 0 ).set
     }
 
     //Initialize the skater beneath the track so the user has to move it to start the sim
@@ -98,7 +101,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     protected void loadDefaultTrack() {
-        loadTrack( PARABOLA_TRACK, true );
+        loadTrack( PARABOLA_TRACK );
     }
 
     //Move splines so they sit on the ground with y=0
@@ -135,9 +138,9 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     //Show buttons that allows the user to choose different tracks
     public void addTrackSelectionControlPanel() {
         final ControlPanelNode trackSelectionNode = new ControlPanelNode( new VBox(
-                new TrackButton( this, PARABOLA_TRACK, true ),
-                new TrackButton( this, "energy-skate-park/tracks/basics/to-the-floor.esp", true ),
-                new TrackButton( this, "energy-skate-park/tracks/basics/double-well.esp", true )
+                new TrackButton( this, PARABOLA_TRACK ),
+                new TrackButton( this, "energy-skate-park/tracks/basics/to-the-floor.esp" ),
+                new TrackButton( this, "energy-skate-park/tracks/basics/double-well.esp" )
         ), EnergySkateParkLookAndFeel.backgroundColor ) {{
 
             //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
