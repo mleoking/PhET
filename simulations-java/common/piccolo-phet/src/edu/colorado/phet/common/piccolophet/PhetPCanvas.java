@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 
@@ -39,6 +40,8 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * to screen coordinates.
  */
 public class PhetPCanvas extends PSwingCanvas implements Updatable {
+
+    private static final Logger LOGGER = Logger.getLogger( PhetPCanvas.class.getCanonicalName() );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -668,20 +671,21 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
 
             //use the smaller
             double scale = sx < sy ? sx : sy;
-            if ( scale < 0 ) {
-                System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, getWidth() and getHeight() return negative values, causing troubles for this layout code." );
+            if ( scale == 0 ) {
+//                LOGGER.warning( "ignoring zero canvas size" );
+                return new AffineTransform();
             }
-            if ( scale != 0.0 ) {
+            else if ( scale < 0 ) {
+                LOGGER.warning( "ignoring negative canvas size" );
+                return new AffineTransform();
+            }
+            else {
                 AffineTransform worldTransform = new AffineTransform();
                 worldTransform.translate( 0, phetPCanvas.getHeight() );
                 worldTransform.scale( scale, -scale );
                 worldTransform.translate( modelViewport.getX(), -modelViewport.getY() );
                 return worldTransform;
             }
-            else {
-//                System.err.println( "Scale evaluated to zero!" );//removed debugging statements
-            }
-            return new AffineTransform();
         }
     }
 
