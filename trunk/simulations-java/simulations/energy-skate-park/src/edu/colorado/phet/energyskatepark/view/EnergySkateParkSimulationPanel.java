@@ -54,7 +54,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     //Flag that indicates whether the keyboard can activate rocket thrusters
     private boolean thrustEnabled = true;
 
-    public EnergySkateParkSimulationPanel( AbstractEnergySkateParkModule module ) {
+    public EnergySkateParkSimulationPanel( final AbstractEnergySkateParkModule module ) {
         super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
         this.module = module;
         this.energySkateParkModel = module.getEnergySkateParkModel();
@@ -76,10 +76,11 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         } );
         addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
-                if ( energySkateParkModel.getGravity() != EnergySkateParkModel.G_SPACE ) {
+                if ( energySkateParkModel.getGravity() != EnergySkateParkModel.G_SPACE &&
+                     module.bumpUpSplines ) {
                     new BumpUpSplines( energySkateParkModel ).bumpUpSplines();
-                    getRootNode().updateSplineNodes();//todo this hack is in place for now because spline nodes don't follow good mvc pattern yet
                 }
+                getRootNode().updateSplineNodes();//todo this hack is in place for now because spline nodes don't follow good mvc pattern yet
             }
         } );
 
