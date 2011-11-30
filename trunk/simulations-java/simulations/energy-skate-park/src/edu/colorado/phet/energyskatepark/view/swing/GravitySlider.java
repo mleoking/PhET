@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 
 /**
@@ -23,13 +23,13 @@ public class GravitySlider extends LinearValueControl {
     private final AbstractEnergySkateParkModule module;
 
     public GravitySlider( final AbstractEnergySkateParkModule module ) {
-        super( 0, 30, EnergySkateParkStrings.getString( "controls.gravity" ), "0.00", EnergySkateParkStrings.getString( "units.accel" ) );
+        super( 0, 30, EnergySkateParkResources.getString( "controls.gravity" ), "0.00", EnergySkateParkResources.getString( "units.accel" ) );
 
         this.module = module;
         Hashtable modelTicks = new Hashtable();
-        modelTicks.put( new Double( 0 ), new JLabel( EnergySkateParkStrings.getString( "location.space" ) ) );
-        modelTicks.put( new Double( -EnergySkateParkModel.G_EARTH ), new JLabel( EnergySkateParkStrings.getString( "location.earth" ) ) );
-        modelTicks.put( new Double( -EnergySkateParkModel.G_JUPITER ), new JLabel( EnergySkateParkStrings.getString( "location.jupiter" ) ) );
+        modelTicks.put( new Double( 0 ), new JLabel( EnergySkateParkResources.getString( "location.space" ) ) );
+        modelTicks.put( new Double( -EnergySkateParkModel.G_EARTH ), new JLabel( EnergySkateParkResources.getString( "location.earth" ) ) );
+        modelTicks.put( new Double( -EnergySkateParkModel.G_JUPITER ), new JLabel( EnergySkateParkResources.getString( "location.jupiter" ) ) );
         setMajorTickSpacing( 10 );
         setMinorTickSpacing( 10 / 2.0 );
         setTickLabels( modelTicks );

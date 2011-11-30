@@ -2,7 +2,7 @@
 package edu.colorado.phet.energyskatepark.plots.bargraphs;
 
 import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
@@ -17,7 +17,7 @@ public class EnergySkateParkBarGraph extends BarChartNode {
     private final EnergySkateParkModel model;
 
     public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, double scale ) {
-        this( canvas, energySkateParkModel, EnergySkateParkStrings.getString( "properties.energy" ), scale );
+        this( canvas, energySkateParkModel, EnergySkateParkResources.getString( "properties.energy" ), scale );
         final ValueAccessor[] energyAccess = new ValueAccessor[] {
                 new ValueAccessor.KineticEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() ),
                 new ValueAccessor.PotentialEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() ),

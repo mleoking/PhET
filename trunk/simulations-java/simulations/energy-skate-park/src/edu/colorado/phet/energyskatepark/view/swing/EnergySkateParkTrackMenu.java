@@ -8,7 +8,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 
 /**
@@ -19,7 +19,7 @@ import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 public class EnergySkateParkTrackMenu extends JMenu {
 
     public EnergySkateParkTrackMenu( EnergySkateParkApplication app ) {
-        this( EnergySkateParkStrings.getString( "tracks-menu.title" ), app, getTests() );
+        this( EnergySkateParkResources.getString( "tracks-menu.title" ), app, getTests() );
     }
 
     public EnergySkateParkTrackMenu( String label, final EnergySkateParkApplication parentApp, EnergySkateParkTestMenu.TestItem[] testItems ) {

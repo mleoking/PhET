@@ -5,7 +5,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
@@ -25,7 +25,7 @@ public class WiggleMeInSpace {
 
     public WiggleMeInSpace( final AbstractEnergySkateParkModule module ) {
         this.module = module;
-        hintNode = new MotionHelpBalloon( module.getDefaultHelpPane(), EnergySkateParkStrings.getString( "invitaiton.arrow-keys" ) );
+        hintNode = new MotionHelpBalloon( module.getDefaultHelpPane(), EnergySkateParkResources.getString( "invitaiton.arrow-keys" ) );
         hintNode.setTextColor( Color.white );
         hintNode.setShadowTextColor( Color.darkGray );
         hintNode.setShadowTextOffset( 1 );

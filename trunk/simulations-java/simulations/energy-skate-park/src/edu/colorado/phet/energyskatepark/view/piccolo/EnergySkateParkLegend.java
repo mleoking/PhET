@@ -2,7 +2,7 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.common.Legend;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
 
@@ -17,13 +17,13 @@ public class EnergySkateParkLegend extends Legend {
 
     public EnergySkateParkLegend( AbstractEnergySkateParkModule module ) {
         this.module = module;
-        addEntry( EnergySkateParkStrings.getString( "energy.kinetic.energy" ), module.getEnergyLookAndFeel().getKEColor() );
-        addEntry( EnergySkateParkStrings.getString( "energy.potential.energy" ), module.getEnergyLookAndFeel().getPEColor() );
-        addEntry( EnergySkateParkStrings.getString( "energy.thermal.energy" ), module.getEnergyLookAndFeel().getThermalEnergyColor() );
+        addEntry( EnergySkateParkResources.getString( "energy.kinetic.energy" ), module.getEnergyLookAndFeel().getKEColor() );
+        addEntry( EnergySkateParkResources.getString( "energy.potential.energy" ), module.getEnergyLookAndFeel().getPEColor() );
+        addEntry( EnergySkateParkResources.getString( "energy.thermal.energy" ), module.getEnergyLookAndFeel().getThermalEnergyColor() );
         setBackgroundPaint( EnergyLookAndFeel.getLegendBackground() );
     }
 
     public void addTotalEnergyEntry() {
-        addEntry( EnergySkateParkStrings.getString( "energy.total.energy" ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
+        addEntry( EnergySkateParkResources.getString( "energy.total.energy" ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
     }
 }

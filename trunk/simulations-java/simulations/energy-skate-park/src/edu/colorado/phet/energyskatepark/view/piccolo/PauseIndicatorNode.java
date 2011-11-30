@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -36,7 +36,7 @@ public class PauseIndicatorNode extends PNode {
         this.module = module;
         PImage im = PImageFactory.create( "energy-skate-park/images/icons/java/media/Pause24.gif" );
         addChild( im );
-        ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "message.paused" ) );
+        ShadowPText text = new ShadowPText( EnergySkateParkResources.getString( "message.paused" ) );
         addChild( text );
         text.setOffset( im.getFullBounds().getMaxX() + 5, 0 );
         text.setFont( new PhetFont( Font.BOLD, 16 ) );
@@ -49,7 +49,7 @@ public class PauseIndicatorNode extends PNode {
             }
         } );
 
-        JButton resume = new JButton( EnergySkateParkStrings.getString( "time.resume" ) );
+        JButton resume = new JButton( EnergySkateParkResources.getString( "time.resume" ) );
         EnergySkateParkUtils.fixButtonOpacity( resume );
         resume.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

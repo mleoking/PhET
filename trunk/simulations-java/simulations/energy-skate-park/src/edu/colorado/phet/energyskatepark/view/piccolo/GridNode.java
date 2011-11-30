@@ -8,7 +8,7 @@ import java.awt.geom.Line2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -30,7 +30,7 @@ public class GridNode extends PhetPNode {
             if ( x % 2 == 0 ) {
                 String aText = "" + (int) x;
                 if ( aText.equals( "0" ) ) {
-                    aText = PhetCommonResources.formatValueUnits( "0", EnergySkateParkStrings.getString( "units.meters" ) );
+                    aText = PhetCommonResources.formatValueUnits( "0", EnergySkateParkResources.getString( "units.meters" ) );
                 }
                 PText text = new PText( aText );
                 text.setOffset( x + dx + dx * 0.2, minY );
@@ -46,7 +46,7 @@ public class GridNode extends PhetPNode {
             if ( y % 2 == 0 ) {
                 String aText = "" + (int) y;
                 if ( aText.equals( "0" ) ) {
-                    aText = PhetCommonResources.formatValueUnits( "0", EnergySkateParkStrings.getString( "units.meters" ) );
+                    aText = PhetCommonResources.formatValueUnits( "0", EnergySkateParkResources.getString( "units.meters" ) );
                 }
                 PText text = new PText( aText );
                 text.setOffset( dx + dx * 0.05, y + dy * 0.05 );

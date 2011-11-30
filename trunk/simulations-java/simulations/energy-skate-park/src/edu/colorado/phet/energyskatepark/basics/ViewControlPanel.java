@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.swing.GridLinesCheckBox;
@@ -31,7 +31,7 @@ public class ViewControlPanel extends ControlPanelNode {
         super( new VBox(
                 new HBox(
                         //Checkbox to show/hide bar chart
-                        new PSwing( new JCheckBox( EnergySkateParkStrings.getString( "plots.bar-graph" ), module.isBarChartVisible() ) {{
+                        new PSwing( new JCheckBox( EnergySkateParkResources.getString( "plots.bar-graph" ), module.isBarChartVisible() ) {{
                             setFont( EnergySkateParkBasicsModule.CONTROL_FONT );
                             addActionListener( new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
@@ -56,11 +56,11 @@ public class ViewControlPanel extends ControlPanelNode {
                                 }
                             } );
                         }} ),
-                        new PImage( EnergySkateParkStrings.getImage( "icons/bar_icon.png" ) ) ),
+                        new PImage( EnergySkateParkResources.getImage( "icons/bar_icon.png" ) ) ),
 
                 new HBox(
                         //Checkbox to show/hide the pie chart
-                        new PSwing( new JCheckBox( EnergySkateParkStrings.getString( "pieChart" ), module.isPieChartVisible() ) {{
+                        new PSwing( new JCheckBox( EnergySkateParkResources.getString( "pieChart" ), module.isPieChartVisible() ) {{
                             setFont( EnergySkateParkBasicsModule.CONTROL_FONT );
                             addActionListener( new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
@@ -73,12 +73,12 @@ public class ViewControlPanel extends ControlPanelNode {
                                 }
                             } );
                         }} ),
-                        new PImage( EnergySkateParkStrings.getImage( "icons/pie_icon.png" ) ) ),
+                        new PImage( EnergySkateParkResources.getImage( "icons/pie_icon.png" ) ) ),
 
                 new HBox(
                         //Checkbox to show/hide the grid lines
                         new PSwing( new GridLinesCheckBox( module ) {{checkBox.setFont( EnergySkateParkBasicsModule.CONTROL_FONT );}} ),
-                        new PImage( EnergySkateParkStrings.getImage( "icons/grid_icon.png" ) ) )
+                        new PImage( EnergySkateParkResources.getImage( "icons/grid_icon.png" ) ) )
 
         ), EnergySkateParkLookAndFeel.backgroundColor );
 

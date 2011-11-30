@@ -38,7 +38,7 @@ public class EnergySkateParkApplication extends PhetApplication {
         }
         getPhetFrame().addMenu( new EnergySkateParkTrackMenu( this ) );
 
-        JMenuItem saveItem = new JMenuItem( EnergySkateParkStrings.getString( "file-menu.save" ) + "..." );
+        JMenuItem saveItem = new JMenuItem( EnergySkateParkResources.getString( "file-menu.save" ) + "..." );
         saveItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -50,7 +50,7 @@ public class EnergySkateParkApplication extends PhetApplication {
             }
         } );
 
-        JMenuItem openItem = new JMenuItem( EnergySkateParkStrings.getString( "file-menu.open" ) + "..." );
+        JMenuItem openItem = new JMenuItem( EnergySkateParkResources.getString( "file-menu.open" ) + "..." );
         openItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {

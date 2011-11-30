@@ -31,7 +31,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.BumpUpSplines;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
@@ -371,7 +371,7 @@ public class SplineNode extends PNode {
 
     class ControlCirclePopupMenu extends JPopupMenu {
         public ControlCirclePopupMenu( final int index ) {
-            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "controls.delete-point" ) );
+            JMenuItem delete = new JMenuItem( EnergySkateParkResources.getString( "controls.delete-point" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( spline.numControlPoints() == 1 ) {
@@ -481,7 +481,7 @@ public class SplineNode extends PNode {
         };
 
         public TrackPopupMenu( final EnergySkateParkSplineEnvironment splineEnvironment ) {
-            rollerCoasterMode = new JCheckBoxMenuItem( EnergySkateParkStrings.getString( "track.roller-coaster-mode" ), spline.isRollerCoasterMode() );
+            rollerCoasterMode = new JCheckBoxMenuItem( EnergySkateParkResources.getString( "track.roller-coaster-mode" ), spline.isRollerCoasterMode() );
             attachListeners( spline );
             rollerCoasterMode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -490,7 +490,7 @@ public class SplineNode extends PNode {
                 }
             } );
 
-            JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "controls.delete-track" ) );
+            JMenuItem delete = new JMenuItem( EnergySkateParkResources.getString( "controls.delete-track" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     splineEnvironment.removeSpline( SplineNode.this );

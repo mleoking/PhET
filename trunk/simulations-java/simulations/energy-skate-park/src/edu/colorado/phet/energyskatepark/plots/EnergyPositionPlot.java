@@ -35,7 +35,7 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.common.SavedGraph;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -79,22 +79,22 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
     public EnergyPositionPlot( AbstractEnergySkateParkModule module ) {
         setBackground( EnergySkateParkLookAndFeel.backgroundColor );
         this.module = module;
-        ke = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkStrings.getString( "energy.kinetic" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
+        ke = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkResources.getString( "energy.kinetic" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getKEColor(), this ) {
             public double getValue() {
                 return getBody().getKineticEnergy();
             }
         };
-        pe = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkStrings.getString( "energy.potential" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getPEColor(), this ) {
+        pe = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkResources.getString( "energy.potential" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getPEColor(), this ) {
             public double getValue() {
                 return getBody().getPotentialEnergy();
             }
         };
-        thermal = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkStrings.getString( "energy.thermal" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
+        thermal = new EnergyType( EnergyPositionPlot.this.module, EnergySkateParkResources.getString( "energy.thermal" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
             public double getValue() {
                 return getBody().getThermalEnergy();
             }
         };
-        total = new EnergyType( module, EnergySkateParkStrings.getString( "energy.total" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
+        total = new EnergyType( module, EnergySkateParkResources.getString( "energy.total" ), EnergyPositionPlot.this.module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
             public double getValue() {
                 return getBody().getTotalEnergy();
             }
@@ -111,19 +111,19 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
             }
         } );
         dataset = new XYSeriesCollection( new XYSeries( new Integer( 0 ) ) );
-        chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, EnergySkateParkStrings.getString( "plots.energy-vs-position" ) );
+        chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, EnergySkateParkResources.getString( "plots.energy-vs-position" ) );
         setLayout( new BorderLayout() );
 
         southPanel = new JPanel();
 
-        JButton clear = new JButton( EnergySkateParkStrings.getString( "time.clear" ) );
+        JButton clear = new JButton( EnergySkateParkResources.getString( "time.clear" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
             }
         } );
 
-        JButton copy = new JButton( EnergySkateParkStrings.getString( "plots.copy" ) );
+        JButton copy = new JButton( EnergySkateParkResources.getString( "plots.copy" ) );
         copy.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 copyChart();
@@ -216,7 +216,7 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
         paintComponent( copy.createGraphics() );
         BufferedImage c2 = new BufferedImage( copy.getWidth( null ), copy.getHeight( null ) - southPanel.getHeight(), BufferedImage.TYPE_INT_RGB );//trim the south part.
         c2.createGraphics().drawImage( copy, new AffineTransform(), null );
-        String energyVsPosition = EnergySkateParkStrings.getString( "plots.energy-vs-position-save" );
+        String energyVsPosition = EnergySkateParkResources.getString( "plots.energy-vs-position-save" );
         SavedGraph savedGraph = new SavedGraph( module.getPhetFrame(), energyVsPosition + saveCount + ")", c2 );
         savedGraph.setVisible( true );
         saveCount++;
@@ -239,8 +239,8 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
         JFreeChart chart = ChartFactory.createScatterPlot( title,
-                                                           EnergySkateParkStrings.getString( "plots.position.meters" ), // x-axis label
-                                                           EnergySkateParkStrings.getString( "plots.energy-vs-time.energy" ), // y-axis label
+                                                           EnergySkateParkResources.getString( "plots.position.meters" ), // x-axis label
+                                                           EnergySkateParkResources.getString( "plots.energy-vs-time.energy" ), // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, false, true, false );
         chart.setBackgroundPaint( EnergySkateParkLookAndFeel.backgroundColor );
 

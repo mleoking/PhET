@@ -25,11 +25,11 @@ public class EnergySkateParkModule extends AbstractEnergySkateParkModule {
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );
 
-        final HelpBalloon trackHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString( "help.grab-a-track" ), HelpBalloon.TOP_CENTER, 20 );
+        final HelpBalloon trackHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkResources.getString( "help.grab-a-track" ), HelpBalloon.TOP_CENTER, 20 );
         getDefaultHelpPane().add( trackHelp );
         trackHelp.pointAt( energySkateParkSimulationPanel.getRootNode().getSplineToolbox(), energySkateParkSimulationPanel );
 
-        final HelpBalloon skateHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString( "help.drag-the-skater" ), HelpBalloon.RIGHT_CENTER, 20 ) {
+        final HelpBalloon skateHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkResources.getString( "help.drag-the-skater" ), HelpBalloon.RIGHT_CENTER, 20 ) {
             public Point2D mapLocation( PNode node, PCanvas canvas ) {
                 if ( node == null || node.getParent() == null ) {
                     return new Point2D.Double( 0, 0 );
@@ -49,7 +49,7 @@ public class EnergySkateParkModule extends AbstractEnergySkateParkModule {
             }
         } );
 
-        final HelpBalloon trackClickHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString( "help.right-click-for-options" ), HelpBalloon.BOTTOM_CENTER, 20 );
+        final HelpBalloon trackClickHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkResources.getString( "help.right-click-for-options" ), HelpBalloon.BOTTOM_CENTER, 20 );
         getDefaultHelpPane().add( trackClickHelp );
         trackClickHelp.pointAt( 0, 0 );
 

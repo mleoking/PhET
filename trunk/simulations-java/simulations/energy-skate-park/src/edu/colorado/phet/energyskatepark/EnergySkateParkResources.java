@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * Time: 7:00:50 PM
  */
 
-public class EnergySkateParkStrings {
+public class EnergySkateParkResources {
 
     private static final PhetResources RESOURCE_LOADER = new PhetResources( "energy-skate-park" );
 

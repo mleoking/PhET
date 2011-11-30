@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 
@@ -21,7 +21,7 @@ public class ClearHeatButton extends JButton {
 
     public ClearHeatButton( final EnergySkateParkModel model ) {
         this.model = model;
-        setText( EnergySkateParkStrings.getString( "controls.clear-heat" ) );
+        setText( EnergySkateParkResources.getString( "controls.clear-heat" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.clearHeat();

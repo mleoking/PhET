@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 
 /**
@@ -23,7 +23,7 @@ public class FrictionControl extends VerticalLayoutPanel {
     private final ModelSlider modelSlider;
 
     public FrictionControl( final AbstractEnergySkateParkModule module ) {
-        modelSlider = new ModelSlider( EnergySkateParkStrings.getString( "controls.friction" ), "", 0, 0.01, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
+        modelSlider = new ModelSlider( EnergySkateParkResources.getString( "controls.friction" ), "", 0, 0.01, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
         modelSlider.setModelTicks( new double[] { 0, 0.005, 0.01 } );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -40,7 +40,7 @@ public class FrictionControl extends VerticalLayoutPanel {
 
         modelSlider.setTextFieldVisible( false );
         setIgnoreKeyEvents( true );
-        modelSlider.setExtremumLabels( new JLabel( EnergySkateParkStrings.getString( "controls.gravity.none" ) ), new JLabel( EnergySkateParkStrings.getString( "controls.gravity.lots" ) ) );
+        modelSlider.setExtremumLabels( new JLabel( EnergySkateParkResources.getString( "controls.gravity.none" ) ), new JLabel( EnergySkateParkResources.getString( "controls.gravity.lots" ) ) );
         addFullWidth( modelSlider );
     }
 

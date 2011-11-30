@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -40,7 +40,7 @@ public class ZeroPointPotentialNode extends PhetPNode {
         PhetPPath path = new PhetPPath( new Line2D.Double( 0, 0, 5000, 0 ), new BasicStroke( 3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3, new float[] { 16, 8 }, 0 ), Color.blue );
         addChild( path );
 
-        ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "label.zero-potential-energy" ) );
+        ShadowPText text = new ShadowPText( EnergySkateParkResources.getString( "label.zero-potential-energy" ) );
         text.setFont( new PhetFont( 16, true ) );
         text.setTextPaint( Color.black );
         text.setShadowColor( new Color( 128, 128, 255 ) );
