@@ -10,11 +10,12 @@ import edu.colorado.phet.energyskatepark.model.physics.TrackWithStickiness;
  * Mar 28, 2007, 6:57:35 PM
  */
 public class LinearFloorSpline2D extends LinearSpline2D implements TrackWithFriction, TrackWithStickiness {
-    private final double friction = 0.02;
+    private final double friction;
     private final double stickiness = 1.0;
 
-    public LinearFloorSpline2D( SerializablePoint2D[] point2Ds ) {
+    public LinearFloorSpline2D( SerializablePoint2D[] point2Ds, double friction ) {
         super( point2Ds );
+        this.friction = friction;
     }
 
     public double getFriction() {

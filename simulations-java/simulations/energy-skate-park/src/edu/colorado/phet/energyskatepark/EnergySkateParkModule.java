@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
+import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkControlPanel;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -19,7 +20,7 @@ public class EnergySkateParkModule extends AbstractEnergySkateParkModule {
     private final EnergySkateParkControlPanel energySkateParkControlPanel;
 
     public EnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options ) {
-        super( name, phetFrame, options, false, true );
+        super( name, phetFrame, options, false, true, Floor.DEFAULT_FRICTION );
 
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );
