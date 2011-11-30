@@ -65,6 +65,7 @@ public class EnergySkateParkIO implements IProguardKeepClass {
             EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean) obj;
             energySkateParkModelBean.apply( module );
         }
+        xmlDecoder.close();
     }
 
     public static void open( String filename, AbstractEnergySkateParkModule module ) {
@@ -75,6 +76,7 @@ public class EnergySkateParkIO implements IProguardKeepClass {
             EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean) obj;
             energySkateParkModelBean.apply( module );
         }
+        xmlDecoder.close();
     }
 
 }
