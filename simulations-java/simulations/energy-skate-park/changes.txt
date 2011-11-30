@@ -1,3 +1,4 @@
+11/30/11 common/basic: replace ImageLoader.loadBufferedImage with EnergySkateParkResources.getImage
 11/30/11 common: switch to EnergySkateParkResources.getImage for loading various planet images
 11/30/11 common: position Bar Graph dialog closer to the initial position of the main frame
 11/30/11 basics: left justify controls in ViewControlPanel

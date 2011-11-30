@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.common.IconComponent;
@@ -65,27 +63,15 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             addControl( resetSkater );
         }
 
-        try {
-            JButton chooseCharacter = new JButton( EnergySkateParkResources.getString( "controls.choose-character" ) + "..." );
-            chooseCharacter.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    new ChooseCharacterDialog( module ).setVisible( true );
-                }
-            } );
-            addControl( new IconComponent( chooseCharacter, BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "energy-skate-park/images/skater3.png" ), chooseCharacter.getPreferredSize().height ) ) );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
+        JButton chooseCharacter = new JButton( EnergySkateParkResources.getString( "controls.choose-character" ) + "..." );
+        chooseCharacter.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                new ChooseCharacterDialog( module ).setVisible( true );
+            }
+        } );
+        addControl( new IconComponent( chooseCharacter, BufferedImageUtils.rescaleYMaintainAspectRatio( EnergySkateParkResources.getImage( "skater3.png" ), chooseCharacter.getPreferredSize().height ) ) );
 
-        BufferedImage measuringTapeIcon = null;
-        try {
-            measuringTapeIcon = ImageLoader.loadBufferedImage( "energy-skate-park/images/ruler-thumb.png" );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-
+        BufferedImage measuringTapeIcon = EnergySkateParkResources.getImage( "ruler-thumb.png" );
         final JCheckBox measuringTape = new JCheckBox( EnergySkateParkResources.getString( "controls.measuring-tape" ), module.isMeasuringTapeVisible() );
         measuringTape.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -111,13 +97,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
             }
         } );
 
-        BufferedImage potentialIcon = null;
-        try {
-            potentialIcon = ImageLoader.loadBufferedImage( "energy-skate-park/images/peicon.png" );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
+        BufferedImage potentialIcon = EnergySkateParkResources.getImage( "peicon.png" );
         addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
         addControlFullWidth( new GridLinesCheckBox( module ) );
         pathRecordContol = new PathRecordContol( module );
