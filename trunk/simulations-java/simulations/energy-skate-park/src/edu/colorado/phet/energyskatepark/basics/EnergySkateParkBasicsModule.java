@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -20,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
 import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
@@ -69,10 +71,10 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
         //Add the energy graph control panel
         energyGraphControlPanel = new ControlPanelNode( new VBox(
-                new PText( "Energy Graphs" ) {{setFont( TITLE_FONT );}},
+                new PText( EnergySkateParkStrings.getString( "plots.plot" ) ) {{setFont( TITLE_FONT );}},
 
                 //Checkbox to show/hide bar chart
-                new PSwing( new JCheckBox( "Bar Chart", isBarChartVisible() ) {{
+                new PSwing( new JCheckBox( EnergySkateParkStrings.getString( "plots.bar-graph" ), isBarChartVisible() ) {{
                     setFont( CONTROL_FONT );
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
@@ -99,7 +101,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
                 }} ),
 
                 //Checkbox to show/hide the pie chart
-                new PSwing( new JCheckBox( "Pie Chart", isPieChartVisible() ) {{
+                new PSwing( new JCheckBox( EnergySkateParkStrings.getString( "pieChart" ), isPieChartVisible() ) {{
                     setFont( CONTROL_FONT );
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
@@ -149,7 +151,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public void addResetAllButton( final PNode parent ) {
 
         //Add the "Reset all" button
-        energySkateParkSimulationPanel.getRootNode().addChild( new TextButtonNode( "Reset All" ) {{
+        energySkateParkSimulationPanel.getRootNode().addChild( new TextButtonNode( PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) ) {{
             setFont( CONTROL_FONT );
             setBackground( Color.ORANGE );
 

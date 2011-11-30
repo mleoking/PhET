@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.energyskatepark.basics.EnergySkateParkBasicsModule.CONTROL_FONT;
@@ -17,8 +18,8 @@ import static edu.colorado.phet.energyskatepark.basics.EnergySkateParkBasicsModu
 class OnOffPanel extends PSwing {
     public OnOffPanel( final SettableProperty<Boolean> property ) {
         super( new JPanel() {{
-            add( new PropertyRadioButton<Boolean>( "Off", property, false ) {{setFont( CONTROL_FONT );}} );
-            add( new PropertyRadioButton<Boolean>( "On", property, true ) {{setFont( CONTROL_FONT );}} );
+            add( new PropertyRadioButton<Boolean>( EnergySkateParkStrings.getString( "off" ), property, false ) {{setFont( CONTROL_FONT );}} );
+            add( new PropertyRadioButton<Boolean>( EnergySkateParkStrings.getString( "on" ), property, true ) {{setFont( CONTROL_FONT );}} );
         }} );
     }
 }
