@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.basics;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -134,6 +135,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         //Add the "Reset all" button
         energySkateParkSimulationPanel.getRootNode().addChild( new TextButtonNode( "Reset All" ) {{
             setFont( CONTROL_FONT );
+            setBackground( Color.ORANGE );
 
             //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
             energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
