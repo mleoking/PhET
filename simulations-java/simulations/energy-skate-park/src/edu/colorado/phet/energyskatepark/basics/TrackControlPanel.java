@@ -26,10 +26,10 @@ public class TrackControlPanel extends ControlPanelNode {
         super( new VBox( 10,
 
                          //Control box for track friction
-                         new VBox( 0,
+                         new VBox( 10,
                                    new PhetPText( EnergySkateParkResources.getString( "controls.show-friction" ), EnergySkateParkBasicsModule.TITLE_FONT ),
                                    new OnOffPanel( module.frictionEnabled ),
-                                   new PSwing( new TrackFrictionSlider( module ) ) ),
+                                   new PSwing( new TrackFrictionSliderOld( module ) ) ),
 
                          //vertical space
                          new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 10 ) ) {{

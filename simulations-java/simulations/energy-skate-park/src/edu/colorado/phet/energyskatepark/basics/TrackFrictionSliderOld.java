@@ -15,12 +15,12 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 /**
  * @author Sam Reid
  */
-public class TrackFrictionSlider extends JSlider {
+public class TrackFrictionSliderOld extends JSlider {
 
     private static final double FRICTION_MAX = 0.01;
     private static final int SLIDER_MAX = 100;
 
-    public TrackFrictionSlider( final EnergySkateParkBasicsModule module ) {
+    public TrackFrictionSliderOld( final EnergySkateParkBasicsModule module ) {
         super( HORIZONTAL, 0, SLIDER_MAX, 50 );
         setPreferredSize( new Dimension( 150, getPreferredSize().height ) );
         setLabelTable( new Hashtable<Object, Object>() {{
