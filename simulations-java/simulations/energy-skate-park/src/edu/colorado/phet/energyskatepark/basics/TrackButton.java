@@ -1,15 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.basics;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
@@ -18,14 +24,27 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * @author Sam Reid
  */
 public class TrackButton extends PNode {
+    private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
+    private BooleanProperty selected;
+
     public TrackButton( final EnergySkateParkBasicsModule module, final String location ) {
-        addChild( new PImage( createIcon( module, location ) ) );
+        PImage image = new PImage( createIcon( module, location ) );
+        addChild( image );
+        final PPath selectedIndicator = new PhetPPath( image.getFullBoundsReference().getBounds2D(), new BasicStroke( 2 ), INVISIBLE_COLOR );
+        addChild( selectedIndicator );
 
         //When pressed, load the track
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 module.loadTrack( location );
+            }
+        } );
+
+        //When selected, turn on highlight.
+        module.currentTrackFileName.addObserver( new VoidFunction1<String>() {
+            public void apply( String fileName ) {
+                selectedIndicator.setStrokePaint( fileName.equalsIgnoreCase( location ) ? Color.YELLOW : INVISIBLE_COLOR );
             }
         } );
     }

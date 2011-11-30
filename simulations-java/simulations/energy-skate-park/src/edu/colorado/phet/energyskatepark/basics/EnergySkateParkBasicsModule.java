@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -41,6 +42,9 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
     //Flag to indicate whether the skater should stick to the track
     public final BooleanProperty stickToTrack = new BooleanProperty( true );
+
+    //Property that indicates currently loaded track.
+    public final Property<String> currentTrackFileName = new Property<String>( "" );
 
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
@@ -82,6 +86,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     //Load the specified track and set its roller coaster mode, used when the user presses different track selection buttons
     public void loadTrack( String filename ) {
         EnergySkateParkIO.open( filename, this );
+        currentTrackFileName.set( filename );
         getEnergySkateParkModel().setRollerCoasterMode( stickToTrack.get() );
 
         //Move it so it sits on the ground with y=0
