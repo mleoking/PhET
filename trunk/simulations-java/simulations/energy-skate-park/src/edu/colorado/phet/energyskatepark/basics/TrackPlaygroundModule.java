@@ -19,15 +19,13 @@ public class TrackPlaygroundModule extends EnergySkateParkBasicsModule {
 
         addResetAllButton( trackControlPanel );
 
-        //Don't start with any spline surfaces in this mode, the user must create them.
-        getEnergySkateParkModel().removeAllSplineSurfaces();
-
         loadDefaultTrack();
     }
 
     protected void loadDefaultTrack() {
         super.loadDefaultTrack();
 
+        //Don't start with any spline surfaces in this mode, the user must create them.
         energyModel.removeAllSplineSurfaces();
     }
 }
