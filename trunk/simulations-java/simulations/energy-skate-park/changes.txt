@@ -1,3 +1,4 @@
+11/29/11 remove italic font from energy legend
 # 2.08.03 (56847) Sep 22, 2011
 Energy Skate Park Basics: Initialize the skater beneath the track so the user has to move it to start the sim
 # 2.08.02 (56801) Sep 21, 2011

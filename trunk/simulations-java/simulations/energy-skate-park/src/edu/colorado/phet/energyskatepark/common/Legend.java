@@ -47,7 +47,7 @@ public class Legend extends PhetPNode {
             this.node = node;
             textNode = new ShadowPText( text );
             textNode.setShadowOffset( 1, 1 );
-            textNode.setFont( new PhetFont( 16, false, true ) );
+            textNode.setFont( new PhetFont( 16, false, false ) );
             textNode.setShadowColor( Color.black );
             textNode.setTextPaint( textColor );
             addChild( textNode );
