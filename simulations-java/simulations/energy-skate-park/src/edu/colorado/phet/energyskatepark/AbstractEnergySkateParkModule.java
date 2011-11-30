@@ -79,7 +79,16 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
 
         barChartDialog = new BarChartDialog( phetFrame, EnergySkateParkResources.getString( "plots.bar-graph" ), false, this );
         barChartDialog.setSize( 200, 625 );
-        barChartDialog.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - barChartDialog.getWidth(), 0 );
+        /*
+         * If screen resolution permits, position the dialog to the right of the main frame, top aligned.
+         * Otherwise position it as far to the right as possible, top aligned - in this case there will be overlap with the main frame.
+         * Since this position is determined on startup, it's possible that the user might move the main frame before they open
+         * the dialog.  If that's the case, all bets are off about the relationship of the dialog to the main frame.
+         * A better solution would be to defer positioning the dialog until it's first opened.
+         */
+        barChartDialog.setLocation( (int) Math.min( Toolkit.getDefaultToolkit().getScreenSize().width - barChartDialog.getWidth(),
+                                                    phetFrame.getX() + phetFrame.getWidth() ),
+                                    phetFrame.getY() );
 
         energyTimePlot = new EnergyTimePlot( this, phetFrame, clock, energyModel, timeSeriesModel );
         energyTimePlot.addListener( new EnergyTimePlot.Listener() {
