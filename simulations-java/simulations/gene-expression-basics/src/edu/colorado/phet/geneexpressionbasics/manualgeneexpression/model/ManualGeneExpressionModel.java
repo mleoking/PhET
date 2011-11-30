@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -78,10 +77,10 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // wandering over the tool boxes and such.
     private final List<Shape> offLimitsMotionSpaces = new ArrayList<Shape>();
 
-    // Properties that track which proteins have been collected.
-    public final BooleanProperty proteinACollected = new BooleanProperty( false );
-    public final BooleanProperty proteinBCollected = new BooleanProperty( false );
-    public final BooleanProperty proteinCCollected = new BooleanProperty( false );
+    // Properties that track how many of the various proteins have been collected.
+    public final Property<Integer> proteinACollected = new Property<Integer>( 0 );
+    public final Property<Integer> proteinBCollected = new Property<Integer>( 0 );
+    public final Property<Integer> proteinCCollected = new Property<Integer>( 0 );
 
     // Rectangle that describes the "protein capture area".  When a protein is
     // dropped by the user over this area, it is considered to be captured.
@@ -190,13 +189,13 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // from the model and the associated capture property is set.
     private void captureProtein( Protein protein ) {
         if ( protein instanceof ProteinA ) {
-            proteinACollected.set( true );
+            proteinACollected.set( proteinACollected.get() + 1 );
         }
         if ( protein instanceof ProteinB ) {
-            proteinBCollected.set( true );
+            proteinBCollected.set( proteinBCollected.get() + 1 );
         }
         if ( protein instanceof ProteinC ) {
-            proteinCCollected.set( true );
+            proteinCCollected.set( proteinCCollected.get() + 1 );
         }
         mobileBiomoleculeList.remove( protein );
     }
