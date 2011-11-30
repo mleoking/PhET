@@ -24,8 +24,10 @@ public class FrictionModule extends EnergySkateParkBasicsModule {
         trackFrictionControlPanel = new TrackControlPanel( this, energySkateParkSimulationPanel, energyGraphControlPanel );
         energySkateParkSimulationPanel.getRootNode().addChild( trackFrictionControlPanel );
 
-        addTrackSelectionControlPanel();
         addResetAllButton( trackFrictionControlPanel );
+
+        //Only add the track selection control panel after adding all other controls or they won't be shown in the thumbnails
+        addTrackSelectionControlPanel();
 
         loadDefaultTrack();
     }
