@@ -19,7 +19,7 @@ public class EnergySkateParkModule extends AbstractEnergySkateParkModule {
     private final EnergySkateParkControlPanel energySkateParkControlPanel;
 
     public EnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options ) {
-        super( name, phetFrame, options, false );
+        super( name, phetFrame, options, false, true );
 
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );

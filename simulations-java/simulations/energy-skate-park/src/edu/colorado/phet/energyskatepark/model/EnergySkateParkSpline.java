@@ -151,6 +151,18 @@ public class EnergySkateParkSpline implements Serializable {
         notifyControlPointsChanged();
     }
 
+    //Find the y-value of the lowest control point so the track can be aligned with the ground in basics mode
+    public double getMinControlPointY() {
+        double y = Double.POSITIVE_INFINITY;
+        for ( int i = 0; i < getControlPoints().length; i++ ) {
+            SerializablePoint2D point2D = getControlPoints()[i];
+            if ( point2D.getY() < y ) {
+                y = point2D.getY();
+            }
+        }
+        return y;
+    }
+
     public double getMinY() {
         double minY = Double.POSITIVE_INFINITY;
         for ( int i = 0; i < 100; i++ ) {

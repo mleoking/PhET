@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
@@ -52,7 +53,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     public EnergySkateParkBasicsModule( String name, final PhetFrame phetFrame, boolean splinesMovable ) {
-        super( name, phetFrame, new EnergySkateParkOptions(), splinesMovable );
+        super( name, phetFrame, new EnergySkateParkOptions(), splinesMovable, false );
 
         //Don't allow users to apply rocket force with the keyboard
         energySkateParkSimulationPanel.setThrustEnabled( false );
@@ -149,10 +150,21 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         //Initialize the skater beneath the track so the user has to move it to start the sim
         getEnergySkateParkModel().getBody( 0 ).setPosition( 10, 0 );
         getEnergySkateParkModel().getBody( 0 ).setVelocity( 0, 0 );
+
+        //Move it so it sits on the ground with y=0
+        liftSplines();
     }
 
     protected void loadDefaultTrack() {
         loadTrack( PARABOLA_TRACK, true );
+    }
+
+    //Move splines so they sit on the ground with y=0
+    private void liftSplines() {
+        for ( int i = 0; i < getEnergySkateParkModel().getNumSplines(); i++ ) {
+            EnergySkateParkSpline spline = getEnergySkateParkModel().getSpline( i );
+            spline.translate( 0, -spline.getMinControlPointY() );
+        }
     }
 
     //Show the reset all button below the bottom control panel

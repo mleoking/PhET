@@ -1,3 +1,5 @@
+11/29/11 basics: Do not bump splines above the ground by the width of the track so that y=0 won't be perturbed
+11/29/11 basics: Move splines so that they sit on the ground
 11/29/11 common: Made every other vertical grid line bold instead of every fifth
 11/29/11 basics: Added 'show grid' to all tabs
 11/29/11 basics: fix Reset All for all tabs. But for unknown reason, loadDefaultTrack needs to be called at end of module subclass constructors.
