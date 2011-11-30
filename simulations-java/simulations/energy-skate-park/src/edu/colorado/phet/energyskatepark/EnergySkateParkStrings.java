@@ -17,8 +17,4 @@ public class EnergySkateParkStrings {
         return RESOURCE_LOADER.getLocalizedString( s );
 //        return "<t>"+RESOURCE_LOADER.getLocalizedString( s )+"</t>";
     }
-
-    public static String getEnergyString( String s ) {
-        return getString( s ) + " " + RESOURCE_LOADER.getLocalizedString( "energy.energy" );
-    }
 }

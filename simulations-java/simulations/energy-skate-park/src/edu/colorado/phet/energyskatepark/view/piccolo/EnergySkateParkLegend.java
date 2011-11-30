@@ -17,13 +17,13 @@ public class EnergySkateParkLegend extends Legend {
 
     public EnergySkateParkLegend( AbstractEnergySkateParkModule module ) {
         this.module = module;
-        addEntry( EnergySkateParkStrings.getEnergyString( "energy.kinetic" ), module.getEnergyLookAndFeel().getKEColor() );
-        addEntry( EnergySkateParkStrings.getEnergyString( "energy.potential" ), module.getEnergyLookAndFeel().getPEColor() );
-        addEntry( EnergySkateParkStrings.getEnergyString( "energy.thermal" ), module.getEnergyLookAndFeel().getThermalEnergyColor() );
+        addEntry( EnergySkateParkStrings.getString( "energy.kinetic.energy" ), module.getEnergyLookAndFeel().getKEColor() );
+        addEntry( EnergySkateParkStrings.getString( "energy.potential.energy" ), module.getEnergyLookAndFeel().getPEColor() );
+        addEntry( EnergySkateParkStrings.getString( "energy.thermal.energy" ), module.getEnergyLookAndFeel().getThermalEnergyColor() );
         setBackgroundPaint( EnergyLookAndFeel.getLegendBackground() );
     }
 
     public void addTotalEnergyEntry() {
-        addEntry( EnergySkateParkStrings.getEnergyString( "energy.total" ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
+        addEntry( EnergySkateParkStrings.getString( "energy.total.energy" ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
     }
 }
