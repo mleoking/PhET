@@ -5,11 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-
-import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -21,16 +17,12 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
-import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
-import edu.colorado.phet.energyskatepark.view.swing.GridLinesCheckBox;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Module for Energy Skate Park Basics.
@@ -72,62 +64,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         } );
 
         //Add the energy graph control panel
-        energyGraphControlPanel = new ControlPanelNode( new VBox(
-                new PText( EnergySkateParkStrings.getString( "plots.plot" ) ) {{setFont( TITLE_FONT );}},
-
-                //Checkbox to show/hide bar chart
-                new PSwing( new JCheckBox( EnergySkateParkStrings.getString( "plots.bar-graph" ), isBarChartVisible() ) {{
-                    setFont( CONTROL_FONT );
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            setBarChartVisible( isSelected() );
-                        }
-                    } );
-                    addResetListener( new VoidFunction0() {
-                        public void apply() {
-                            setSelected( isPieChartVisible() );
-                        }
-                    } );
-                    // set the check box state when the dialog is closed via its window dressing
-                    barChartDialog.addWindowListener( new WindowAdapter() {
-                        // called when the close button in the dialog's window dressing is clicked
-                        public void windowClosing( WindowEvent e ) {
-                            setSelected( isPieChartVisible() );
-                        }
-
-                        // called by JDialog.dispose
-                        public void windowClosed( WindowEvent e ) {
-                            setSelected( isPieChartVisible() );
-                        }
-                    } );
-                }} ),
-
-                //Checkbox to show/hide the pie chart
-                new PSwing( new JCheckBox( EnergySkateParkStrings.getString( "pieChart" ), isPieChartVisible() ) {{
-                    setFont( CONTROL_FONT );
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            setPieChartVisible( isSelected() );
-                        }
-                    } );
-                    addResetListener( new VoidFunction0() {
-                        public void apply() {
-                            setSelected( isPieChartVisible() );
-                        }
-                    } );
-                }} ),
-
-                //Checkbox to show/hide the grid lines
-                new PSwing( new GridLinesCheckBox( this ) {{checkBox.setFont( CONTROL_FONT );}} )
-        ), EnergySkateParkLookAndFeel.backgroundColor ) {{
-
-            //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
-            energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
-                public void apply() {
-                    setOffset( energySkateParkSimulationPanel.getWidth() - getFullBounds().getWidth() - INSET, INSET );
-                }
-            } );
-        }};
+        energyGraphControlPanel = new ViewControlPanel( this, energySkateParkSimulationPanel, barChartDialog );
         energySkateParkSimulationPanel.getRootNode().addChild( energyGraphControlPanel );
 
         //Move the legend out from behind the control panel
