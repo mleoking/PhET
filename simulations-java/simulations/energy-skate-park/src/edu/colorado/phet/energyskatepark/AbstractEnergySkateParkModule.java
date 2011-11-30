@@ -115,7 +115,8 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         return energySkateParkSimulationPanel;
     }
 
-    public void reset() {
+    @Override public void reset() {
+        super.reset();
         energyModel.reset();
         energySkateParkSimulationPanel.reset();
         timeSeriesModel.reset();

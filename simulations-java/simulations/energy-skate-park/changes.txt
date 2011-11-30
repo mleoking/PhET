@@ -1,3 +1,4 @@
+11/29/11 common: add missing @Overide to AbstractEnergySkateParkModule.reset, and call super.reset
 11/29/11 basics: add ':' before "Basics" in title, the titling convention used in other basics sims (eg, states-of-matter)
 11/29/11 basics: i18n of tab labels
 11/29/11 basics: made it so the user can't manipulate the tracks in tabs 1-2
