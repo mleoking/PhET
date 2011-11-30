@@ -22,6 +22,11 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Messeng
  */
 public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
+    // Reference to the model in which this biomolecule exists.  This is
+    // needed in case the biomolecule needs to locate or create other
+    // biomolecules.
+    protected final GeneExpressionModel model;
+
     // Property that tracks whether this biomolecule is user controlled.  If
     // it is, it shouldn't try to move or interact with anything.
     public final BooleanProperty userControlled = new BooleanProperty( false );
@@ -38,11 +43,6 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // under the control of the user and how and when it attaches to other
     // biomolecules.
     protected BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState( this );
-
-    // Reference to the model in which this biomolecule exists.  This is
-    // needed in case the biomolecule needs to locate or create other
-    // biomolecules.
-    protected final GeneExpressionModel model;
 
     /**
      * Constructor.
