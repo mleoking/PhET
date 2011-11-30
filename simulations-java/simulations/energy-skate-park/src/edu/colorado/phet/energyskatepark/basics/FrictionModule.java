@@ -13,7 +13,7 @@ public class FrictionModule extends EnergySkateParkBasicsModule {
     private PNode trackFrictionControlPanel;
 
     public FrictionModule( PhetFrame phetFrame ) {
-        super( "Friction", phetFrame );
+        super( "Friction", phetFrame, false );
 
         //Don't allow the user to drag their own tracks in this module
         getEnergySkateParkSimulationPanel().getRootNode().removeSplineToolbox();
