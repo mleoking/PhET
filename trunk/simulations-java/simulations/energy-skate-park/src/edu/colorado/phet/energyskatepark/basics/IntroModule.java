@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.basics;
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 /**
  * Module for the "Energy Skate Park Basics" Introduction
@@ -10,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  */
 public class IntroModule extends EnergySkateParkBasicsModule {
     public IntroModule( PhetFrame phetFrame ) {
-        super( "Introduction", phetFrame, false );
+        super( EnergySkateParkStrings.getString( "tab.introduction" ), phetFrame, false );
 
         //Don't allow the user to drag their own tracks in this module
         getEnergySkateParkSimulationPanel().getRootNode().removeSplineToolbox();

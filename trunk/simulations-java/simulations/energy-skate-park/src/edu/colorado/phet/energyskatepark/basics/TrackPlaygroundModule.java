@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.basics;
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 
 /**
  * Module for the "Energy Skate Park Basics" Track Playground tab
@@ -10,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  */
 public class TrackPlaygroundModule extends EnergySkateParkBasicsModule {
     public TrackPlaygroundModule( PhetFrame phetFrame ) {
-        super( "Track Playground", phetFrame, true );
+        super( EnergySkateParkStrings.getString( "tab.trackPlayground" ), phetFrame, true );
 
         final TrackControlPanel trackControlPanel = new TrackControlPanel( this, energySkateParkSimulationPanel, energyGraphControlPanel );
         energySkateParkSimulationPanel.getRootNode().addChild( trackControlPanel );
