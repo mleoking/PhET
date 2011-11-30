@@ -16,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * @author Sam Reid
  */
 public class TrackFrictionSlider extends JSlider {
+
+    private static final double FRICTION_MAX = 0.01;
     private static final int SLIDER_MAX = 100;
 
     public TrackFrictionSlider( final EnergySkateParkBasicsModule module ) {
@@ -23,16 +25,14 @@ public class TrackFrictionSlider extends JSlider {
         setPreferredSize( new Dimension( 150, getPreferredSize().height ) );
         setLabelTable( new Hashtable<Object, Object>() {{
             put( 0, new JLabel( "none" ) );
-            put( SLIDER_MAX, new JLabel( "lots" ) );//0.01
+            put( SLIDER_MAX, new JLabel( "lots" ) );
         }} );
         setMajorTickSpacing( SLIDER_MAX );
         setPaintTicks( true );
         setPaintLabels( true );
         final ChangeListener frictionChanged = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-
-                //I'm not sure what this other factor of 100.0 is doing here
-                module.setCoefficientOfFriction( module.frictionEnabled.get() ? getValue() / 100.0 / SLIDER_MAX : 0.0 );
+                module.setCoefficientOfFriction( module.frictionEnabled.get() ? ( FRICTION_MAX * getValue() / SLIDER_MAX ) : 0.0 );
             }
         };
         addChangeListener( frictionChanged );
