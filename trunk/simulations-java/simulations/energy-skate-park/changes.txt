@@ -1,3 +1,4 @@
+11/30/11 basics: fixed: "friction" is forgotten when switching tracks
 11/30/11 basics: fixed: "stick to track" is forgotten when switching tracks
 11/30/11 basics: clarify mapping of friction slider value to model value
 11/30/11 common: explicitly close XMLDecoders in EnergySkateParkIO

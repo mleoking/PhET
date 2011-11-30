@@ -98,6 +98,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public void initSkater() {
         getEnergySkateParkModel().getBody( 0 ).setPosition( 10, 0 );
         getEnergySkateParkModel().getBody( 0 ).setVelocity( 0, 0 );
+        getEnergySkateParkModel().getBody( 0 ).setFrictionCoefficient( getCoefficientOfFriction() );
     }
 
     protected void loadDefaultTrack() {
