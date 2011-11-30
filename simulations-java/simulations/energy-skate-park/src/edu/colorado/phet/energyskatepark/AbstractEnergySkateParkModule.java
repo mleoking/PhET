@@ -57,6 +57,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     private static final boolean DEFAULT_ENERGY_POSITION_PLOT_VISIBLE = false;
     public final boolean splinesMovable;
     public final boolean bumpUpSplines;
+    private double coefficientOfFriction;
 
     public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls ) {
         super( name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
@@ -165,6 +166,10 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         }
     }
 
+    public double getCoefficientOfFriction() {
+        return coefficientOfFriction;
+    }
+
     private void addDefaultBody() {
         Body body = energyModel.createBody();
         energyModel.addBody( body );
@@ -234,6 +239,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     }
 
     public void setCoefficientOfFriction( double value ) {
+        this.coefficientOfFriction = value;
         for ( int i = 0; i < getEnergySkateParkModel().getNumBodies(); i++ ) {
             getEnergySkateParkModel().getBody( i ).setFrictionCoefficient( value );
         }
