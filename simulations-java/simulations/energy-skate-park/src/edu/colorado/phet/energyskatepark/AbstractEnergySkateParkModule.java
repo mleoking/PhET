@@ -224,6 +224,10 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         barChartDialog.setVisible( b );
     }
 
+    public boolean isBarChartVisible() {
+        return barChartDialog.isVisible();
+    }
+
     public void setCoefficientOfFriction( double value ) {
         for ( int i = 0; i < getEnergySkateParkModel().getNumBodies(); i++ ) {
             getEnergySkateParkModel().getBody( i ).setFrictionCoefficient( value );
