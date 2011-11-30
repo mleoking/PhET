@@ -1,3 +1,4 @@
+11/30/11 basics: Start without any track in the track playground tab
 11/30/11 basics: Made grass frictionless in tab 1
 11/29/11 basics: Do not bump splines above the ground by the width of the track so that y=0 won't be perturbed
 11/29/11 basics: Move splines so that they sit on the ground
