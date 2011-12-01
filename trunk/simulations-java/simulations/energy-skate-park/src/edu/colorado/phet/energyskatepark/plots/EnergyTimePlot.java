@@ -99,7 +99,7 @@ public class EnergyTimePlot {
         chart.getXYPlot().getRangeAxis().setRange( 0, 7000 );
         chart.getXYPlot().getDomainAxis().setRange( 0, MAX_TIME );
 
-        thermalPText = new ReadoutTextNode( Color.red );
+        thermalPText = new ReadoutTextNode( PhetColorScheme.RED_COLORBLIND );
         keText = new ReadoutTextNode( Color.green );
         peText = new ReadoutTextNode( Color.blue );
         totalText = new ReadoutTextNode( new EnergyLookAndFeel().getTotalEnergyColor() );

@@ -26,6 +26,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
@@ -294,7 +295,7 @@ public class SplineNode extends PNode {
                 PPath child = (PPath) controlPointLayer.getChild( i );
                 if ( i == 0 || i == controlPointLayer.getChildrenCount() - 1 ) {
                     child.setStroke( dottedStroke );
-                    child.setStrokePaint( Color.red );
+                    child.setStrokePaint( PhetColorScheme.RED_COLORBLIND );
                 }
                 else {
                     child.setStroke( lineStroke );
