@@ -1,4 +1,6 @@
-11/30/11 common/basic: replace ImageLoader.loadBufferedImage with EnergySkateParkResources.getImage
+11/30/11 common: new images for mountains and house (but they still need to be 1.5x larger so we're not scaling up)
+11/30/11 common/basics: check in asset file for new icons and images
+11/30/11 common/basics: replace ImageLoader.loadBufferedImage with EnergySkateParkResources.getImage
 11/30/11 common: switch to EnergySkateParkResources.getImage for loading various planet images
 11/30/11 common: position Bar Graph dialog closer to the initial position of the main frame
 11/30/11 basics: left justify controls in ViewControlPanel

@@ -15,13 +15,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class SurfaceObjectNode extends PhetPNode {
     public static final String HOUSE_RESOURCE_NAME = "house.png";
-    public static final String MOUNTAIN_RESOURCE_NAME = "mountains.gif";
+    public static final String MOUNTAIN_RESOURCE_NAME = "mountains.png";
 
     public SurfaceObjectNode( String resourceName, double sy, double x ) {
         this( EnergySkateParkResources.getImage( resourceName ), sy, x );
     }
 
-    public SurfaceObjectNode( BufferedImage houseImage, double sy, double x ) {
+    private SurfaceObjectNode( BufferedImage houseImage, double sy, double x ) {
         PNode houseImageNode = new PImage( houseImage );
         double scale = sy / houseImage.getHeight();
         houseImageNode.transformBy( AffineTransform.getScaleInstance( scale, -scale ) );
