@@ -34,7 +34,7 @@ public class RealMoleculeModel extends MoleculeModel {
         setSortingEnabled( false );
         repulsionMultiplier = 0;
 
-        final int numLonePairs = realMolecule.getLonePairCount();
+        final int numLonePairs = realMolecule.getCentralLonePairCount();
         final int numBonds = realMolecule.getBonds().size();
 
         idealPositionVectors = new ArrayList<ImmutableVector3D>();
@@ -76,6 +76,14 @@ public class RealMoleculeModel extends MoleculeModel {
 
     @Override public List<Permutation> getAllowablePositionPermutations() {
         return cachedPermutations;
+    }
+
+    @Override public boolean isReal() {
+        return true;
+    }
+
+    public RealMolecule getRealMolecule() {
+        return realMolecule;
     }
 
     private List<Permutation> computePermutations() {

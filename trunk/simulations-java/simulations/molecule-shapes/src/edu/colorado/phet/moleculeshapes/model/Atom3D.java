@@ -7,14 +7,20 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * An atom that includes additional 3D position
+ * An atom that includes additional 3D position, and information about lone pair quantity.
  */
 public class Atom3D extends Atom {
     public final Property<ImmutableVector3D> position; // model coordinates in angstroms
+    public final int lonePairCount;
 
     public Atom3D( Element element, ImmutableVector3D position ) {
+        this( element, position, 0 );
+    }
+
+    public Atom3D( Element element, ImmutableVector3D position, int lonePairCount ) {
         super( element );
 
         this.position = new Property<ImmutableVector3D>( position );
+        this.lonePairCount = lonePairCount;
     }
 }

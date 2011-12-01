@@ -82,6 +82,7 @@ public class MoleculeModelNode extends Node {
         }
 
         //Create the central atom
+        // TODO: change the styling here when this is the case
         centerAtomNode = new AtomNode( new None<PairGroup>(), module.getAssetManager() );
         attachChild( centerAtomNode );
     }
