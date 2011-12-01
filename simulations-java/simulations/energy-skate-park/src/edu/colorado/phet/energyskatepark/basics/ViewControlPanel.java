@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.basics;
 
-import javax.swing.JDialog;
-
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -20,7 +18,7 @@ import edu.colorado.phet.energyskatepark.view.swing.PropertyTogglingImageNode;
  */
 public class ViewControlPanel extends ControlPanelNode {
 
-    public ViewControlPanel( final EnergySkateParkBasicsModule module, final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, final JDialog barChartDialog ) {
+    public ViewControlPanel( final EnergySkateParkBasicsModule module, final EnergySkateParkSimulationPanel energySkateParkSimulationPanel ) {
         super( new VBox( 10, VBox.LEFT_ALIGNED,
                          new HBox(
                                  //Checkbox to show/hide bar chart
