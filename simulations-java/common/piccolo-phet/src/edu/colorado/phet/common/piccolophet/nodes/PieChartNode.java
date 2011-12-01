@@ -29,14 +29,26 @@ public class PieChartNode extends PNode {
      * Creates a PieChartNode with the specified slices and area
      */
     public PieChartNode( PieValue[] slices, Rectangle area ) {
-        //TODO validate slice values, they should be positive
+        //validate slice values, they should be positive
+        validateValues( slices );
+
         this.slices = slices;
         this.area = area;
         update();
     }
 
+    //validate slice values, they should be positive
+    private void validateValues( PieValue[] slices ) {
+        for ( PieValue slice : slices ) {
+            if ( slice.getValue() < 0 ) {
+                throw new IllegalArgumentException( "Pie value was negative" );
+            }
+        }
+    }
+
     public void setPieValues( PieValue[] values ) {
-        //TODO validate slice values, they should be positive
+        //validate slice values, they should be positive
+        validateValues( values );
         this.slices = values;
         update();
     }
