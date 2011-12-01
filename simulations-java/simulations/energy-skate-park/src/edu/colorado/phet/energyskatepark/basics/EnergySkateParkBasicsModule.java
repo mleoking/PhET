@@ -71,7 +71,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         } );
 
         //Add the energy graph control panel
-        energyGraphControlPanel = new ViewControlPanel( this, energySkateParkSimulationPanel, barChartDialog );
+        energyGraphControlPanel = new ViewControlPanel( this, energySkateParkSimulationPanel );
         energySkateParkSimulationPanel.getRootNode().addChild( energyGraphControlPanel );
 
         //Move the legend out from behind the control panel
