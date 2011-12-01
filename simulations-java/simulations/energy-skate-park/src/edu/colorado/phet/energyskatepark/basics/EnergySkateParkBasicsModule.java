@@ -84,19 +84,16 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     //Load the specified track and set its roller coaster mode, used when the user presses different track selection buttons
-    public void loadTrack( String filename ) {
+    public void loadTrack( String filename, double xOffset ) {
         EnergySkateParkIO.open( filename, this );
         currentTrackFileName.set( filename );
         getEnergySkateParkModel().setRollerCoasterMode( stickToTrack.get() );
 
         //Move it so it sits on the ground with y=0
-        liftSplines();
+        adjustSplines( xOffset );
 
         //Initialize the skater beneath the track so the user has to move it to start the sim
         initSkater();
-
-        //TODO: also update friction
-//        getEnergySkateParkModel().getSpline( 0 ).set
     }
 
     //Initialize the skater beneath the track so the user has to move it to start the sim
@@ -107,14 +104,15 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     protected void loadDefaultTrack() {
-        loadTrack( PARABOLA_TRACK );
+        loadTrack( PARABOLA_TRACK, 0.0 );
     }
 
-    //Move splines so they sit on the ground with y=0
-    private void liftSplines() {
+    //Move splines so they sit on the ground with y=0 and move by the specified x amount
+    private void adjustSplines( double xOffset ) {
+        System.out.println( "xOffset = " + xOffset );
         for ( int i = 0; i < getEnergySkateParkModel().getNumSplines(); i++ ) {
             EnergySkateParkSpline spline = getEnergySkateParkModel().getSpline( i );
-            spline.translate( 0, -spline.getMinControlPointY() );
+            spline.translate( xOffset, -spline.getMinControlPointY() );
         }
     }
 
@@ -144,9 +142,11 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     //Show buttons that allows the user to choose different tracks
     public void addTrackSelectionControlPanel() {
         final ControlPanelNode trackSelectionNode = new ControlPanelNode( new VBox(
-                new TrackButton( this, PARABOLA_TRACK ),
-                new TrackButton( this, "energy-skate-park/tracks/basics/to-the-floor.esp" ),
-                new TrackButton( this, "energy-skate-park/tracks/basics/double-well.esp" )
+                new TrackButton( this, PARABOLA_TRACK, 0.0 ),
+                new TrackButton( this, "energy-skate-park/tracks/basics/to-the-floor.esp", 0.0 ),
+
+                //Move the double-well to the right so it will have its lowest peak directly on the 6 meter mark for the grid
+                new TrackButton( this, "energy-skate-park/tracks/basics/double-well.esp", 6.0 - 5.88033509545687 )
         ), EnergySkateParkLookAndFeel.backgroundColor ) {{
 
             //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
