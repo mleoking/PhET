@@ -18,17 +18,16 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.math.Matrix4f;
@@ -43,7 +42,7 @@ public class MoleculeModelNode extends Node {
     private MoleculeModel molecule;
     private final JMEInputHandler inputHandler;
     private final JMEView readoutView;
-    private final JMEModule module;
+    private final MoleculeViewModule module;
     private final Camera camera;
     private final ObservableProperty<Float> approximateScale;
 
@@ -56,10 +55,10 @@ public class MoleculeModelNode extends Node {
     private List<ReadoutNode> angleReadouts = new ArrayList<ReadoutNode>();
     private AtomNode centerAtomNode;
 
-    public MoleculeModelNode( final MoleculeModel molecule, final JMEInputHandler inputHandler, final JMEView readoutView, final JMEModule module, final Camera camera, final ObservableProperty<Float> approximateScale ) {
+    public MoleculeModelNode( final MoleculeModel molecule, final JMEView readoutView, final MoleculeViewModule module, final Camera camera, final ObservableProperty<Float> approximateScale ) {
         super( "Molecule Model" );
         this.molecule = molecule;
-        this.inputHandler = inputHandler;
+        inputHandler = module.getInputHandler();
         this.readoutView = readoutView;
         this.module = module;
         this.camera = camera;
@@ -219,7 +218,7 @@ public class MoleculeModelNode extends Node {
         }
 
         // TODO: separate out bond angle feature
-        if ( MoleculeShapesProperties.showBondAngles.get() ) {
+        if ( module.showBondAngles.get() ) {
             for ( BondAngleNode bondAngleNode : angleNodes ) {
                 PairGroup a = bondAngleNode.getA();
                 PairGroup b = bondAngleNode.getB();

@@ -13,9 +13,6 @@ public class MoleculeShapesProperties {
     // sets the cursor to a "move" cursor when rotating a molecule
     public static final Property<Boolean> useRotationCursor = new Property<Boolean>( true );
 
-    // whether bond angles should be shown
-    public static final Property<Boolean> showBondAngles = new Property<Boolean>( "Show bond angles", false );
-
     // whether bonds should be colorized in the real molecule view
     public static final Property<Boolean> useColoredBonds = new Property<Boolean>( false );
 

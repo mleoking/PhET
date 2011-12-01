@@ -54,13 +54,13 @@ public abstract class MoleculeModel {
 //        System.out.println( error );
 
         // repulsion forces
-            for ( PairGroup group : groups ) {
-                for ( PairGroup otherGroup : groups ) {
-                    if ( otherGroup != group ) {
-                        group.repulseFrom( otherGroup, tpf * repulsionMultiplier, trueLengthsRatioOverride );
-                    }
+        for ( PairGroup group : groups ) {
+            for ( PairGroup otherGroup : groups ) {
+                if ( otherGroup != group ) {
+                    group.repulseFrom( otherGroup, tpf * repulsionMultiplier, trueLengthsRatioOverride );
                 }
             }
+        }
     }
 
     public int getStericNumber() {
