@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.control;
 
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
