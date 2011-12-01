@@ -15,6 +15,7 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
@@ -23,7 +24,6 @@ import edu.colorado.phet.energyskatepark.view.swing.ChooseCharacterDialog;
 import edu.colorado.phet.energyskatepark.view.swing.ClearHeatButton;
 import edu.colorado.phet.energyskatepark.view.swing.EditSkaterPanel;
 import edu.colorado.phet.energyskatepark.view.swing.FrictionControl;
-import edu.colorado.phet.energyskatepark.view.swing.GridLinesCheckBox;
 import edu.colorado.phet.energyskatepark.view.swing.LocationControlPanel;
 import edu.colorado.phet.energyskatepark.view.swing.PathRecordContol;
 import edu.colorado.phet.energyskatepark.view.swing.PieChartControlPanel;
@@ -99,7 +99,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 
         BufferedImage potentialIcon = EnergySkateParkResources.getImage( "peicon.png" );
         addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
-        addControlFullWidth( new GridLinesCheckBox( module ) );
+        addControlFullWidth( new PropertyCheckBox( EnergySkateParkResources.getString( "controls.show-grid" ), module.gridVisible ) );
         pathRecordContol = new PathRecordContol( module );
         addControlFullWidth( pathRecordContol );
 
