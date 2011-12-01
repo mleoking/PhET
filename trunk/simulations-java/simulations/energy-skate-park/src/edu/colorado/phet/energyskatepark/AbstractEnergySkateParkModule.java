@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -53,11 +54,18 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     private final EnergySkateParkOptions options;
 
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
+    private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private static final boolean DEFAULT_ENERGY_POSITION_PLOT_VISIBLE = false;
+    private static final boolean DEFAULT_GRID_VISIBLE = false;
     public final boolean splinesMovable;
     public final boolean bumpUpSplines;
     private double coefficientOfFriction;
+
+    //Public properties that control visibility of various view components.
+    public final BooleanProperty pieChartVisible = new BooleanProperty( DEFAULT_PIE_CHART_VISIBLE );
+    public final BooleanProperty gridVisible = new BooleanProperty( DEFAULT_GRID_VISIBLE );
+
 
     public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls ) {
         super( name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
@@ -138,7 +146,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         barChartDialog.reset();
         energyPositionPlotDialog.reset();
         addDefaultBody();
-        setPieChartVisible( false );
+        pieChartVisible.reset();
     }
 
     public void returnOrResetSkater() {
@@ -221,14 +229,6 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
 
     public void setMeasuringTapeVisible( boolean selected ) {
         energySkateParkSimulationPanel.setMeasuringTapeVisible( selected );
-    }
-
-    public boolean isPieChartVisible() {
-        return energySkateParkSimulationPanel.isPieChartVisible();
-    }
-
-    public void setPieChartVisible( boolean selected ) {
-        energySkateParkSimulationPanel.setPieChartVisible( selected );
     }
 
     public void clearPaths() {
