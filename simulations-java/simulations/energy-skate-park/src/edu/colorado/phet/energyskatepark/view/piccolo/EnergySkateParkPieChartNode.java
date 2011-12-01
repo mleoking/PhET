@@ -85,15 +85,18 @@ public class EnergySkateParkPieChartNode extends PNode {
             double pe = Math.abs( body.getPotentialEnergy() );
             double therm = body.getThermalEnergy();
 
+            //Not clear how to handle negative values (such as negative potential energy).  For now, show absolute value in black
             PieChartNode.PieValue[] values = new PieChartNode.PieValue[] {
                     new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
-                    ( body.getPotentialEnergy() > 0 ) ? new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ) : new PieChartNode.PieValue( pe, Color.black ),
-                    new PieChartNode.PieValue( therm, getLookAndFeel().getThermalEnergyColor() )
+                    pe > 0 ? new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ) : new PieChartNode.PieValue( Math.abs( pe ), Color.black ),
+
+                    //TODO: Sometimes thermal energy is coming up as negative too.  The root cause should be solved, but until then use this workaround of showing absolute value as black
+                    therm > 0 ? new PieChartNode.PieValue( therm, getLookAndFeel().getThermalEnergyColor() ) : new PieChartNode.PieValue( Math.abs( therm ), Color.black )
             };
             if ( ignoreThermal ) {
                 values = new PieChartNode.PieValue[] {
                         new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
-                        ( body.getPotentialEnergy() > 0 ) ? new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ) : new PieChartNode.PieValue( pe, Color.black ),
+                        ( body.getPotentialEnergy() > 0 ) ? new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ) : new PieChartNode.PieValue( Math.abs( pe ), Color.black ),
                 };
             }
             return values;
