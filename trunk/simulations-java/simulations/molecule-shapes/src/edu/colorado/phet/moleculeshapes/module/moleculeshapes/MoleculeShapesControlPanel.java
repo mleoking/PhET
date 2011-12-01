@@ -20,7 +20,6 @@ import edu.colorado.phet.moleculeshapes.control.PropertyCheckBoxNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculePanelNode;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
-import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;

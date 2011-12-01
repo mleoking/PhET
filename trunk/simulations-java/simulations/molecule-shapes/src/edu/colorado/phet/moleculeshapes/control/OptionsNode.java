@@ -9,9 +9,9 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
-import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.umd.cs.piccolo.PNode;
 
 /**
