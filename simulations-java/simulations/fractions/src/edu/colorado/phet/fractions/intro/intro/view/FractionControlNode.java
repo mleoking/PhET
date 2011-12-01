@@ -5,7 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
@@ -16,13 +16,13 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class FractionControlNode extends PNode {
-    public FractionControlNode( final Property<Integer> numerator, final Property<Integer> denominator ) {
+    public FractionControlNode( final IntegerProperty numerator, final IntegerProperty denominator ) {
         final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12 ), Color.black );
         addChild( line );
-        addChild( new FractionNumberControlNode( Color.yellow, numerator ) {{
+        addChild( new FractionNumberControlNode( numerator ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
-        addChild( new FractionNumberControlNode( Color.yellow, denominator ) {{
+        addChild( new FractionNumberControlNode( denominator ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() );
         }} );
     }

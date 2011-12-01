@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.intro.intro.view.ChosenRepresentation;
@@ -20,8 +21,8 @@ import edu.colorado.phet.fractions.intro.intro.view.Visualization;
  */
 public class FractionsIntroModel {
     //Model for numerator and denominator
-    public final Property<Integer> numerator = new Property<Integer>( 1 );
-    public final Property<Integer> denominator = new Property<Integer>( 1 );
+    public final IntegerProperty numerator = new IntegerProperty( 1 );
+    public final IntegerProperty denominator = new IntegerProperty( 1 );
 
     public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
 
