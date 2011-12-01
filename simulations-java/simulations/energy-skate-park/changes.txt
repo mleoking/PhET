@@ -1,3 +1,4 @@
+12/1/11 common: Replaced house and mountain images with higher resolution versions from NP
 12/1/11 common: use PhetColorScheme.RED_COLORBLIND instead of Color.red
 12/1/11 common: require pie values to be positive
 12/1/11 basics: Fixed initial value of track friction for the slider
