@@ -1,18 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
@@ -27,19 +26,20 @@ public class ReturnSkaterButtonNode extends PhetPNode {
 
     private SkaterNode skaterNode;
     private final PNode buttonNode;
-    private final JButton bringBackSkater = new JButton( EnergySkateParkResources.getString( "controls.reset-character" ) );
+    private final ButtonNode bringBackSkater = new TextButtonNode( EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
+        setBackground( Color.ORANGE );
+    }};
 
     public ReturnSkaterButtonNode( PSwingCanvas canvas, final AbstractEnergySkateParkModule module, SkaterNode skaterNode ) {
         this.canvas = canvas;
         this.skaterNode = skaterNode;
         this.module = module;
-        EnergySkateParkUtils.fixButtonOpacity( bringBackSkater );
         bringBackSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.returnOrResetSkater();
             }
         } );
-        buttonNode = new PhetPNode( new PSwing( bringBackSkater ) );
+        buttonNode = new PhetPNode( bringBackSkater );
         addChild( buttonNode );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void primaryBodyChanged() {
