@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
@@ -9,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -74,7 +74,7 @@ public class SkaterNode extends PNode {
         skaterImageNode = new PImage( skaterImage );
         addChild( skaterImageNode );
 
-        centerDebugger = new PhetPPath( Color.red );
+        centerDebugger = new PhetPPath( PhetColorScheme.RED_COLORBLIND );
         if ( debugCenter ) {
             addChild( centerDebugger );
         }

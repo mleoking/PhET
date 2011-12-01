@@ -1,10 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.test.transforms;
 
-import java.awt.Color;
-
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.umd.cs.piccolo.PCanvas;
@@ -65,7 +64,7 @@ public class TestTransforms {
         worldNode.addChild( worldNode4 );
 
         PPath measuringStick = new PPath();
-        measuringStick.setStrokePaint( Color.red );
+        measuringStick.setStrokePaint( PhetColorScheme.RED_COLORBLIND );
         measuringStick.moveTo( 0, 0 );
         measuringStick.lineTo( 100, 0 );
         measuringStick.lineTo( 100, 10 );

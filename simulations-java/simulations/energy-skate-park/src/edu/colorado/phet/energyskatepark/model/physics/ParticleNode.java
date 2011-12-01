@@ -7,6 +7,7 @@ import java.awt.Paint;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -24,7 +25,7 @@ public class ParticleNode extends PNode {
     public ParticleNode( final Particle particle ) {
         this.particle = particle;
         Color color = Color.yellow;
-        phetPPath = new PhetPPath( toTransparentColor( color, 128 ), new BasicStroke( 0.02f ), Color.red );
+        phetPPath = new PhetPPath( toTransparentColor( color, 128 ), new BasicStroke( 0.02f ), PhetColorScheme.RED_COLORBLIND );
         double w = 0.30f;
         phetPPath.setPathTo( new Ellipse2D.Double( 0, 0, w, w ) );
         addChild( phetPPath );
@@ -73,7 +74,7 @@ public class ParticleNode extends PNode {
             return Color.blue;
         }
         else {
-            return Color.red;
+            return PhetColorScheme.RED_COLORBLIND;
         }
     }
 }
