@@ -40,4 +40,8 @@ public class VSEPRMoleculeModel extends MoleculeModel {
         }
         return permutations;
     }
+
+    @Override public boolean isReal() {
+        return false;
+    }
 }

@@ -160,4 +160,7 @@ public abstract class MoleculeModel {
         // TODO: implement terminal lone pairs
         return new ArrayList<PairGroup>();
     }
+
+    // should this molecule be displayed in a "real" style, or not? If "true", all atoms are expected to be represented with RealPairGroups
+    public abstract boolean isReal();
 }
