@@ -1,3 +1,4 @@
+# 2.08.05 (58976) Dec 1, 2011
 12/1/11 basic: made the icons in the control panel clickable for toggling their respective properties
 12/1/11 common: Removed padding from mountain image
 12/1/11 common: Made "drag to add track" box rounded and added insets
