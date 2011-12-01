@@ -26,7 +26,7 @@ public class TrackButton extends PNode {
 
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
 
-    public TrackButton( final EnergySkateParkBasicsModule module, final String location ) {
+    public TrackButton( final EnergySkateParkBasicsModule module, final String location, final double offset ) {
         PImage image = new PImage( createIcon( module, location ) );
         addChild( image );
         final PPath selectedIndicator = new PhetPPath( image.getFullBoundsReference().getBounds2D(), new BasicStroke( 3 ), INVISIBLE_COLOR );
@@ -35,8 +35,9 @@ public class TrackButton extends PNode {
         //When pressed, load the track
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
+
             @Override public void mousePressed( PInputEvent event ) {
-                module.loadTrack( location );
+                module.loadTrack( location, offset );
             }
         } );
 
@@ -52,7 +53,7 @@ public class TrackButton extends PNode {
     private BufferedImage createIcon( EnergySkateParkBasicsModule module, String location ) {
 
         //To create the icon, load the module and render it to an image
-        module.loadTrack( location );
+        module.loadTrack( location, 0.0 );
         BufferedImage icon = new BufferedImage( 800, 600, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = icon.createGraphics();
         module.getEnergySkateParkSimulationPanel().setSize( 800, 600 );

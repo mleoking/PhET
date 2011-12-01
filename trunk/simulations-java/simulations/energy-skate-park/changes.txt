@@ -1,3 +1,4 @@
+11/30/11 basics: Move the double-well to the right so it will have its lowest peak directly on the 6 meter mark for the grid
 11/30/11 common/basics: check in asset file with revised mountains image
 11/30/11 common: fix NullPointerException that happens in the case where the user's first interaction with the spline toolbox is a mouse press with no drag
 11/30/11 common: revert to original images for mountains and house, there's something odd going on here...
