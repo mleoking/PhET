@@ -90,8 +90,6 @@ public class RealMoleculesModule extends MoleculeViewModule {
     * model
     *----------------------------------------------------------------------------*/
 
-    private MoleculeModel molecule = new RealMoleculeModel( RealMolecule.TAB_2_MOLECULES[0] );
-
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
 
     /*---------------------------------------------------------------------------*
@@ -139,6 +137,7 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
     public RealMoleculesModule( Frame parentFrame, String name ) {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
+        molecule = new RealMoleculeModel( RealMolecule.TAB_2_MOLECULES[0] );
     }
 
     // should be called from stable positions in the JME and Swing EDT threads
@@ -615,10 +614,6 @@ public class RealMoleculesModule extends MoleculeViewModule {
     private void initializeResources() {
         // pre-load the lone pair geometry, so we don't get that delay
         LonePairNode.getGeometry( getAssetManager() );
-    }
-
-    public MoleculeModel getMolecule() {
-        return molecule;
     }
 
     public boolean canAutoRotateRealMolecule() {
