@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
@@ -44,29 +45,47 @@ public class RealMoleculesControlPanel extends PNode {
         // put it on 0 vertically
         setOffset( 0, 10 );
 
-        final PNode moleculePanel = new PSwing( new JComboBox( RealMolecule.TAB_2_MOLECULES ) {
-            {
-                addActionListener( new java.awt.event.ActionListener() {
-                    public void actionPerformed( final ActionEvent e ) {
-                        JMEUtils.invoke( new Runnable() {
-                            public void run() {
-                                RealMolecule selectedRealMolecule = (RealMolecule) ( (JComboBox) e.getSource() ).getSelectedItem();
-                                module.switchToMolecule( selectedRealMolecule );
-                            }
-                        } );
-                    }
-                } );
-            }
+        final PNode moleculePanel = new MoleculeShapesPanelNode( new PNode() {{
+            final PNode parent = this;
 
-            @Override public Point getLocationOnScreen() {
+            // ensure maximum width, and put it at the top so our panel node doesn't cut away the excess top padding
+            addChild( new Spacer( 0, 0, MoleculeShapesConstants.RIGHT_MIN_WIDTH, 20 ) );
+            final int dropDownBoxTopPadding = 10;
+            final Property<Integer> horizontalOffset = new Property<Integer>( 0 );
+
+            final PNode dropDownBox = new PSwing( new JComboBox( RealMolecule.TAB_2_MOLECULES ) {
+                {
+                    addActionListener( new java.awt.event.ActionListener() {
+                        public void actionPerformed( final ActionEvent e ) {
+                            JMEUtils.invoke( new Runnable() {
+                                public void run() {
+                                    RealMolecule selectedRealMolecule = (RealMolecule) ( (JComboBox) e.getSource() ).getSelectedItem();
+                                    module.switchToMolecule( selectedRealMolecule );
+                                }
+                            } );
+                        }
+                    } );
+                }
+
+                @Override public Point getLocationOnScreen() {
 //                Point screenLocation = getSimulationPanel().getLocationOnScreen();
-                Point screenLocation = PhetApplication.getInstance().getModule( 0 ).getSimulationPanel().getLocationOnScreen();
+                    Point screenLocation = PhetApplication.getInstance().getModule( 0 ).getSimulationPanel().getLocationOnScreen();
 //                return new Point( screenLocation.x, screenLocation.y );
 //                return new Point( 0, 0 );
-                return new Point( screenLocation.x + getControlPanelXPosition.apply().intValue(), screenLocation.y + 10 );
+                    return new Point(
+                            // TODO: this is scary. improve or axe this way of doing things
+                            screenLocation.x + getControlPanelXPosition.apply().intValue() + (int) parent.getGlobalFullBounds().getMinX() + horizontalOffset.get(),
+                            screenLocation.y + 10 + (int) parent.getGlobalFullBounds().getMinY() + dropDownBoxTopPadding );
 //                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y );
-            }
-        } );
+                }
+            } );
+
+            // horizontally center, and add some vertical padding
+            horizontalOffset.set( (int) ( ( MoleculeShapesConstants.RIGHT_MIN_WIDTH - dropDownBox.getFullBounds().getWidth() ) / 2 ) );
+            dropDownBox.setOffset( horizontalOffset.get(),
+                                   dropDownBoxTopPadding );
+            addChild( dropDownBox );
+        }}, Strings.CONTROL__MOLECULE );
         addChild( moleculePanel );
 
         /*---------------------------------------------------------------------------*
