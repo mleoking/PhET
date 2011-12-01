@@ -87,6 +87,8 @@ public class RealMoleculesModule extends MoleculeViewModule {
     * model
     *----------------------------------------------------------------------------*/
 
+    private Property<RealMolecule> realMolecule = new Property<RealMolecule>( null );
+
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
     private JMEView readoutView;
     private PiccoloJMENode namePanel;
@@ -255,53 +257,6 @@ public class RealMoleculesModule extends MoleculeViewModule {
         moleculeView.getScene().attachChild( moleculeNode );
 
         /*---------------------------------------------------------------------------*
-        * temporary control panel
-        *----------------------------------------------------------------------------*/
-
-//        final Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
-//        PNode controlPanelNode = new PSwing( new JComboBox( RealMolecule.TAB_2_MOLECULES ) {
-//            {
-//                addActionListener( new java.awt.event.ActionListener() {
-//                    public void actionPerformed( final ActionEvent e ) {
-//                        JMEUtils.invoke( new Runnable() {
-//                            public void run() {
-//                                RealMolecule selectedRealMolecule = (RealMolecule) ( (JComboBox) e.getSource() ).getSelectedItem();
-//                                System.out.println( selectedRealMolecule );
-//                                moleculeNode.detachReadouts();
-//                                moleculeView.getScene().detachChild( moleculeNode );
-//                                setMolecule( new RealMoleculeModel( selectedRealMolecule ) );
-//                                moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, RealMoleculesModule.this, moleculeCamera, scaleFunction );
-//                                moleculeView.getScene().attachChild( moleculeNode );
-//                            }
-//                        } );
-//                    }
-//                } );
-//            }
-//
-//            @Override public Point getLocationOnScreen() {
-////                Point screenLocation = getSimulationPanel().getLocationOnScreen();
-//                Point screenLocation = PhetApplication.getInstance().getModule( 0 ).getSimulationPanel().getLocationOnScreen();
-////                return new Point( screenLocation.x, screenLocation.y );
-////                return new Point( 0, 0 );
-//                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y + 10 );
-////                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y );
-//            }
-//        } );
-//        controlPanel = new PiccoloJMENode( controlPanelNode, inputHandler, this, canvasTransform, controlPanelPosition );
-//        guiView.getScene().attachChild( controlPanel );
-//        controlPanel.onResize.addUpdateListener(
-//                new UpdateListener() {
-//                    public void update() {
-//                        if ( controlPanel != null ) {
-//                            controlPanel.position.set( new ImmutableVector2D(
-//                                    getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
-//                                    getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
-//                        }
-//                        resizeDirty = true; // TODO: better way of getting this dependency?
-//                    }
-//                }, true );
-
-        /*---------------------------------------------------------------------------*
         * main control panel
         *----------------------------------------------------------------------------*/
         Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
@@ -337,6 +292,7 @@ public class RealMoleculesModule extends MoleculeViewModule {
     }
 
     public void switchToMolecule( RealMolecule selectedRealMolecule ) {
+        realMolecule.set( selectedRealMolecule );
         moleculeNode.detachReadouts();
         moleculeView.getScene().detachChild( moleculeNode );
         setMolecule( new RealMoleculeModel( selectedRealMolecule ) );
