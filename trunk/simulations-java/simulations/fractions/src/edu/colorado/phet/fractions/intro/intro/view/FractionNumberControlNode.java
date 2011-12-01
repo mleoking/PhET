@@ -1,15 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.view;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.kit.BackButton;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ForwardButton;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.fractions.common.view.SpinnerButtonPanel;
 
 /**
  * Node that shows a single number (numerator or denominator) and a control to change the value within a limiting range.
@@ -18,41 +12,18 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
  */
 public class FractionNumberControlNode extends FractionNumberNode {
 
-    public FractionNumberControlNode( Color backgroundColor, final Property<Integer> value ) {
+    public FractionNumberControlNode( final IntegerProperty value ) {
         super( value );
-        final double buttonScale = 1.87;
-        final BackButton backButton = new BackButton( backgroundColor ) {{
-            setEnabled( true );
-            rotate( Math.PI * 3 / 2 );
-            scale( buttonScale );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    value.set( value.get() - 1 );
-                }
-            } );
-            value.addObserver( new VoidFunction1<Integer>() {
-                public void apply( Integer integer ) {
-                    setEnabled( integer > 1 );
-                }
-            } );
-        }};
-        final ForwardButton forwardButton = new ForwardButton( backgroundColor ) {{
-            setEnabled( true );
-            rotate( Math.PI * 3 / 2 );
-            scale( buttonScale );
-
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    value.set( value.get() + 1 );
-                }
-            } );
-            value.addObserver( new VoidFunction1<Integer>() {
-                public void apply( Integer integer ) {
-                    setEnabled( integer <= 11 );
-                }
-            } );
-        }};
-        addChild( new VBox( 0, forwardButton, backButton ) {{
+        addChild( new SpinnerButtonPanel( new VoidFunction0() {
+            public void apply() {
+                value.set( value.get() + 1 );
+            }
+        }, value.lessThan( 12 ), new VoidFunction0() {
+            public void apply() {
+                value.set( value.get() - 1 );
+            }
+        }, value.greaterThanOrEqualTo( 2 )
+        ) {{
             setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth(), biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
