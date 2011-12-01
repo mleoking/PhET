@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--common-strings_fr.xml created Wed Oct 21 22:26:24 CEST 2009 using: flash-common-strings 2.00.00 (30671), translation-utility 2.02.00 (34911) sept. 9, 2009-->
+<!--common-strings_fr.xml created Fri Nov 11 18:54:50 CET 2011 using: flash-common-strings 2.03.00 (48823), translation-utility 2.12.00 (57171) oct. 3, 2011-->
 <SimStrings>
 <string key="About..." value="A propos..."/>
 <string key="SoftwareDevelopment" value="Développement du logiciel"/>
@@ -56,6 +56,7 @@
 <string key="InstallerInfo2" value="Si vous décidez d'obtenir la version la plus récente, un navigateur internet va ouvrir le site web de PhET où vous pourrez télécharger cette version."/>
 <string key="InstallerInfo1" value="Garder votre installation locale de Phet à jour vous assure d'accéder aux plus récentes simulations et aux plus récents matériel complémentaires."/>
 <string key="StatisticsField-sim_minor_version" value="Version de la simulation (mineure)"/>
+<string key="translation.credits" value="&lt;html&gt;Emmanuel KEITH &lt;br&gt; Professeur de mathématiques&lt;br&gt; collège Eugène Delacroix, France&lt;br&gt; et tout ceux qui  ne se sont pas &lt;br&gt; encore inscrits &lt;/html&gt;"/>
 <string key="Credits" value="Crédits"/>
 <string key="StatisticsField-host_flash_version" value="Version de Flah Player"/>
 <string key="TryNow" value="Essayer maintenant"/>
@@ -68,11 +69,12 @@
 <string key="NotUpdateSim" value="Cette simulation ne peut pas être mise à jour automatiquement."/>
 <string key="CurrentVersionIs" value="Votre version actuelle de {0} est {1}"/>
 <string key="StatisticsField-host_flash_os" value="OS et nom"/>
+<string key="TranslatedBy" value="Traduit par"/>
 <string key="OK" value="OK"/>
 <string key="Error" value="Erreur"/>
 <string key="CheckSimUpdates" value="Vérifier la mise à jour de la simulation..."/>
-<string key="StatisticsField-sim_project" value="Nom du projet"/>
 <string key="NewerVersionIs" value="une version plus récente {0} est disponible."/>
+<string key="StatisticsField-sim_project" value="Nom du projet"/>
 <string key="SentInformation" value="Les informations figurant ci-dessous seront envoyées à PhET quand la simulation commencera."/>
 <string key="OSVersion" value="OS"/>
 <string key="Details" value="Détails"/>
@@ -80,7 +82,7 @@
 <string key="LeadDesign" value="Design Principal"/>
 <string key="StatisticsField-host_locale_language" value="Langue sur le système"/>
 <string key="AboutSim" value="A propos de {0}"/>
-<string key="VersionError2" value="Veuillez essayer ultérieurement ou visitez &lt;ahref='{0}'&gt;http://phet.colorado.edu&gt;/a&gt;"/>
+<string key="VersionError2" value="Veuillez essayer ultérieurement ou visitez &lt;a href='{0}'&gt;http://phet.colorado.edu&gt;/a&gt;"/>
 <string key="VersionError1" value="Une erreur est survenue en tentant d'obtenir les informations de version."/>
 <string key="StatisticsField-sim_locale_country" value="Pays"/>
 </SimStrings>
