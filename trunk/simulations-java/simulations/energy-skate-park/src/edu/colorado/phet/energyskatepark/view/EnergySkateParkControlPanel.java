@@ -129,7 +129,7 @@ public class EnergySkateParkControlPanel extends ControlPanel {
         final JButton showBarChart = new JButton( EnergySkateParkResources.getString( "plots.bar-graph" ) );
         showBarChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setBarChartVisible( true );
+                module.barChartVisible.set( true );
             }
         } );
 

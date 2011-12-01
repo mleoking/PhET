@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -65,7 +66,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     //Public properties that control visibility of various view components.
     public final BooleanProperty pieChartVisible = new BooleanProperty( DEFAULT_PIE_CHART_VISIBLE );
     public final BooleanProperty gridVisible = new BooleanProperty( DEFAULT_GRID_VISIBLE );
-
+    public final BooleanProperty barChartVisible = new BooleanProperty( DEFAULT_BAR_CHARTS_VISIBLE );
 
     public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls ) {
         super( name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
@@ -97,6 +98,11 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         barChartDialog.setLocation( (int) Math.min( Toolkit.getDefaultToolkit().getScreenSize().width - barChartDialog.getWidth(),
                                                     phetFrame.getX() + phetFrame.getWidth() ),
                                     phetFrame.getY() );
+        barChartVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean barChartIsVisible ) {
+                barChartDialog.setVisible( barChartIsVisible );
+            }
+        } );
 
         energyTimePlot = new EnergyTimePlot( this, phetFrame, clock, energyModel, timeSeriesModel );
         energyTimePlot.addListener( new EnergyTimePlot.Listener() {
@@ -118,7 +124,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     }
 
     private void setDefaults() {
-        setBarChartVisible( DEFAULT_BAR_CHARTS_VISIBLE );
+        barChartVisible.reset();
         setEnergyTimePlotVisible( DEFAULT_PLOT_VISIBLE );
         setEnergyPositionPlotVisible( DEFAULT_ENERGY_POSITION_PLOT_VISIBLE );
     }
@@ -237,14 +243,6 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
 
     public void setEnergyTimePlotVisible( boolean b ) {
         energyTimePlot.setVisible( b );
-    }
-
-    public void setBarChartVisible( boolean b ) {
-        barChartDialog.setVisible( b );
-    }
-
-    public boolean isBarChartVisible() {
-        return barChartDialog.isVisible();
     }
 
     public void setCoefficientOfFriction( double value ) {

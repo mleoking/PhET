@@ -31,11 +31,11 @@ public class ViewControlPanel extends ControlPanelNode {
         super( new VBox( 10, VBox.LEFT_ALIGNED,
                          new HBox(
                                  //Checkbox to show/hide bar chart
-                                 new PSwing( new JCheckBox( EnergySkateParkResources.getString( "plots.bar-graph" ), module.isBarChartVisible() ) {{
+                                 new PSwing( new JCheckBox( EnergySkateParkResources.getString( "plots.bar-graph" ), module.barChartVisible.get() ) {{
                                      setFont( EnergySkateParkBasicsModule.CONTROL_FONT );
                                      addActionListener( new ActionListener() {
                                          public void actionPerformed( ActionEvent e ) {
-                                             module.setBarChartVisible( isSelected() );
+                                             module.barChartVisible.set( isSelected() );
                                          }
                                      } );
                                      module.addResetListener( new VoidFunction0() {
