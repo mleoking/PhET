@@ -6,8 +6,9 @@
 ball.png author=PhET 
 blackhole_large_2.jpg 
 bugboard.gif (board) source= Open Clip Art notes="skateboard", 'http://www.openclipart.org/detail/2239' (bug) source=Open Clip Art notes="insect 16", 'http://www.openclipart.org/detail/45511'
-bulldog.png (board) source= Open Clip Art notes="skateboard", 'http://www.openclipart.org/detail/2239' (bulldog) source=Wikimedia Commons notes="Racibórz 2007 082", 'http://commons.wikimedia.org/wiki/File:Racib%C3%B3rz_2007_082.jpg'earth-background.jpg author=PhET 
-earth3.jpg author=PhET 
+bulldog.png (board) source= Open Clip Art notes="skateboard", 'http://www.openclipart.org/detail/2239' (bulldog) source=Wikimedia Commons notes="Racibï¿½rz 2007 082", 'http://commons.wikimedia.org/wiki/File:Racib%C3%B3rz_2007_082.jpg'earth-background.jpg author=PhET 
+earth3.jpg author=PhET
+espb_mountains author=PhET notes = NP
 house.png author=PhET 
 jupiter4.jpg 
 locations.txt 
