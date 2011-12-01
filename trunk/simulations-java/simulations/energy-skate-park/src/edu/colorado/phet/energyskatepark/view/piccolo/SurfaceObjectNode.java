@@ -14,19 +14,19 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * Mar 28, 2007, 12:08:06 AM
  */
 public class SurfaceObjectNode extends PhetPNode {
-    public static final String HOUSE_RESOURCE_NAME = "house.png";
-    public static final String MOUNTAIN_RESOURCE_NAME = "mountains.png";
+    public static final String HOUSE_RESOURCE_NAME = "espb_house.png";
+    public static final String MOUNTAIN_RESOURCE_NAME = "espb_mountains.png";
 
     public SurfaceObjectNode( String resourceName, double sy, double x ) {
         this( EnergySkateParkResources.getImage( resourceName ), sy, x );
     }
 
-    private SurfaceObjectNode( BufferedImage houseImage, double sy, double x ) {
-        PNode houseImageNode = new PImage( houseImage );
-        double scale = sy / houseImage.getHeight();
-        houseImageNode.transformBy( AffineTransform.getScaleInstance( scale, -scale ) );
-        double dy = -houseImageNode.getFullBounds().getHeight() / scale;
-        houseImageNode.translate( x / scale, dy );//10 meters east
-        addChild( houseImageNode );
+    private SurfaceObjectNode( BufferedImage image, double sy, double x ) {
+        PNode imageNode = new PImage( image );
+        double scale = sy / image.getHeight();
+        imageNode.transformBy( AffineTransform.getScaleInstance( scale, -scale ) );
+        double dy = -imageNode.getFullBounds().getHeight() / scale;
+        imageNode.translate( x / scale, dy );//10 meters east
+        addChild( imageNode );
     }
 }
