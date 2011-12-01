@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -34,6 +35,7 @@ import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.VSEPRMoleculeModel;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
@@ -140,7 +142,12 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
     public RealMoleculesModule( Frame parentFrame, String name ) {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
-        setMolecule( new RealMoleculeModel( RealMolecule.TAB_2_MOLECULES[0] ) );
+
+        // TODO: improve initialization here
+        RealMolecule startingMolecule = RealMolecule.TAB_2_MOLECULES[0];
+        RealMoleculeModel startingMoleculeModel = new RealMoleculeModel( startingMolecule );
+        setMolecule( startingMoleculeModel );
+        realMolecule.set( startingMolecule );
     }
 
     // should be called from stable positions in the JME and Swing EDT threads
@@ -258,6 +265,12 @@ public class RealMoleculesModule extends MoleculeViewModule {
         moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, this, moleculeCamera );
         moleculeView.getScene().attachChild( moleculeNode );
 
+        showRealView.addObserver( new SimpleObserver() {
+                                      public void update() {
+                                          rebuildMolecule();
+                                      }
+                                  }, false );
+
         /*---------------------------------------------------------------------------*
         * main control panel
         *----------------------------------------------------------------------------*/
@@ -295,9 +308,20 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
     public void switchToMolecule( RealMolecule selectedRealMolecule ) {
         realMolecule.set( selectedRealMolecule );
+        rebuildMolecule();
+    }
+
+    private void rebuildMolecule() {
         moleculeNode.detachReadouts();
         moleculeView.getScene().detachChild( moleculeNode );
-        setMolecule( new RealMoleculeModel( selectedRealMolecule ) );
+        if ( showRealView.get() ) {
+            setMolecule( new RealMoleculeModel( realMolecule.get() ) );
+        }
+        else {
+            setMolecule( new VSEPRMoleculeModel() {{
+                // TODO: add stuff here!
+            }} );
+        }
         moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, RealMoleculesModule.this, moleculeCamera );
         moleculeView.getScene().attachChild( moleculeNode );
     }
