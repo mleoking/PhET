@@ -1,3 +1,4 @@
+# 0.00.11 (58974) Dec 1, 2011
 Added images from NP for spinner buttons
 # 0.00.10 (58800) Nov 28, 2011
 Increased the size of pie graphics
