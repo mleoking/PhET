@@ -3,7 +3,6 @@ package edu.colorado.phet.energyskatepark.basics;
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
-import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -15,7 +14,7 @@ public class FrictionModule extends EnergySkateParkBasicsModule {
     private PNode trackFrictionControlPanel;
 
     public FrictionModule( PhetFrame phetFrame ) {
-        super( EnergySkateParkResources.getString( "tab.friction" ), phetFrame, false, Floor.DEFAULT_FRICTION );
+        super( EnergySkateParkResources.getString( "tab.friction" ), phetFrame, false );
 
         //Don't allow the user to drag their own tracks in this module
         getEnergySkateParkSimulationPanel().getRootNode().removeSplineToolbox();

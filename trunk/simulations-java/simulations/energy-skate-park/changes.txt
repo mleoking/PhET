@@ -1,3 +1,5 @@
+12/1/11 basics: Made floor friction same as track friction
+12/1/11 common: Fixed: Tracks are no longer interactive in non-basics mode
 11/30/11 basics: Move the double-well to the right so it will have its lowest peak directly on the 6 meter mark for the grid
 11/30/11 common/basics: check in asset file with revised mountains image
 11/30/11 common: fix NullPointerException that happens in the case where the user's first interaction with the spline toolbox is a mouse press with no drag
