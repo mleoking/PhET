@@ -11,7 +11,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel.backgroundColor;
 
@@ -29,7 +28,7 @@ public class TrackControlPanel extends ControlPanelNode {
                          new VBox( 10,
                                    new PhetPText( EnergySkateParkResources.getString( "controls.show-friction" ), EnergySkateParkBasicsModule.TITLE_FONT ),
                                    new OnOffPanel( module.frictionEnabled ),
-                                   new PSwing( new TrackFrictionSliderOld( module ) ) ),
+                                   new TrackFrictionSlider( module ) ),
 
                          //vertical space
                          new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 10 ) ) {{

@@ -38,6 +38,10 @@ import edu.umd.cs.piccolox.PFrame;
  * @author Sam Reid
  */
 public class HSliderNode extends SliderNode {
+
+    private static final double DEFAULT_TRACK_WIDTH = 200;
+    private static final double DEFAULT_TRACK_HEIGHT = 5;
+
     private PhetPPath trackNode;
     private KnobNode knobNode;
 
@@ -51,18 +55,24 @@ public class HSliderNode extends SliderNode {
     }
 
     public HSliderNode( final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+        this( min, max, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_HEIGHT, value, enabled );
+
+    }
+
+
+    public HSliderNode( final double min, final double max, double trackWidth, double trackHeight,
+                        final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( min, max, value );
         addChild( rootNode );
 
-        final int trackHeight = 5;
-
-        final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, 200, trackHeight );
+        final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackWidth, trackHeight );
 
         trackNode = new PhetPPath( trackPath, getTrackFillPaint( trackPath ),
-                                   new BasicStroke( 1 ), new GradientPaint( 0, 0, Color.gray, 0, trackHeight, Color.black, false ) );
+                                   new BasicStroke( 1 ), new GradientPaint( 0, 0, Color.gray, 0, (float) trackHeight, Color.black, false ) );
         rootNode.addChild( trackNode );
 
-        knobNode = new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
+        double knobSize = KnobNode.DEFAULT_SIZE < trackWidth / 5 ? KnobNode.DEFAULT_SIZE : trackWidth / 5;
+        knobNode = new KnobNode( knobSize, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean enabled ) {
                     setEnabled( enabled );
