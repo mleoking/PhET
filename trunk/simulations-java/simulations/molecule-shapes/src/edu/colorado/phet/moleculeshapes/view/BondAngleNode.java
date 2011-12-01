@@ -10,7 +10,7 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.shapes.PointArc;
 import edu.colorado.phet.jmephet.shapes.Sector;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 
@@ -32,7 +32,7 @@ public class BondAngleNode extends Node {
     private PointArc arc;
     private boolean initialized = false;
     private final MoleculeViewModule module;
-    private final MoleculeModel molecule;
+    private final Molecule molecule;
     private final PairGroup aGroup;
     private final PairGroup bGroup;
 
@@ -40,7 +40,7 @@ public class BondAngleNode extends Node {
     private Sector sector;
     private Property<Float> alpha = new Property<Float>( 0f );
 
-    public BondAngleNode( final MoleculeViewModule module, MoleculeModel molecule, PairGroup a, PairGroup b ) {
+    public BondAngleNode( final MoleculeViewModule module, Molecule molecule, PairGroup a, PairGroup b ) {
         super( "Bond Angle" );
         this.module = module;
         this.molecule = molecule;
@@ -144,7 +144,7 @@ public class BondAngleNode extends Node {
         ImmutableVector3D aDir = aGroup.position.get().normalized();
         ImmutableVector3D bDir = bGroup.position.get().normalized();
 
-        alpha.set( calculateBrightness( aDir, bDir, localCameraPosition, molecule.getBondedGroups().size() ) );
+        alpha.set( calculateBrightness( aDir, bDir, localCameraPosition, molecule.getRadialAtoms().size() ) );
 
         Vector3f a = JMEUtils.convertVector( aDir );
         Vector3f b = JMEUtils.convertVector( bDir );

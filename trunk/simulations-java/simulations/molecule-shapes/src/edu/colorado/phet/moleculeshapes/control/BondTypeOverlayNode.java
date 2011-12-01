@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
@@ -23,7 +23,7 @@ import com.jme3.scene.shape.Quad;
  * Displays a molecule fragment that can be enabled or disabled
  */
 public class BondTypeOverlayNode extends MoleculeModelNode {
-    public BondTypeOverlayNode( final MoleculeModel molecule, final JMEView view, final MoleculeViewModule module, final Property<Boolean> enabled ) {
+    public BondTypeOverlayNode( final Molecule molecule, final JMEView view, final MoleculeViewModule module, final Property<Boolean> enabled ) {
         super( molecule, null, module, view.getCamera() );
 
         setScaleOverride( 1f );
@@ -38,7 +38,7 @@ public class BondTypeOverlayNode extends MoleculeModelNode {
         * Let me know if there is a better way to handle this!
         *----------------------------------------------------------------------------*/
 
-        final boolean isLonePair = !molecule.getLonePairs().isEmpty();
+        final boolean isLonePair = !molecule.getRadialLonePairs().isEmpty();
 
         // dimensions
         final double shadowWidth = ( isLonePair ? PairGroup.LONE_PAIR_DISTANCE : PairGroup.BONDED_PAIR_DISTANCE ) + MoleculeShapesConstants.MOLECULE_ATOM_RADIUS * 5;

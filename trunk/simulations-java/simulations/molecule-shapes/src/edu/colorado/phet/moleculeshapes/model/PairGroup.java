@@ -2,12 +2,16 @@
 package edu.colorado.phet.moleculeshapes.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * A group of electron pairs. The pairs may be part of a bond, or may be a lone electron pair.
  */
 public class PairGroup {
+    /*---------------------------------------------------------------------------*
+    * constants
+    *----------------------------------------------------------------------------*/
     public static final double BONDED_PAIR_DISTANCE = 10.0;
     public static final double LONE_PAIR_DISTANCE = 7.0;
 
@@ -15,28 +19,40 @@ public class PairGroup {
     public static final double JITTER_SCALE = 0.001;
     public static final double DAMPING_FACTOR = 0.1;
 
+    /*---------------------------------------------------------------------------*
+    * instance data
+    *----------------------------------------------------------------------------*/
     public final Property<ImmutableVector3D> position;
     public final Property<ImmutableVector3D> velocity = new Property<ImmutableVector3D>( new ImmutableVector3D() );
 
     public final boolean isLonePair;
 
-    public final int bondOrder; // is zero if it is a lone pair
     public final Property<Boolean> userControlled;
 
     /**
      * @param position     Initial 3D position
-     * @param bondOrder    Bond order, (0 if it is a lone pair)
      * @param startDragged Whether it is starting as a dragged object
+     *                     TODO: simplify this constructor. most of it not needed. Consider a "LonePair" class?
      */
-    public PairGroup( ImmutableVector3D position, int bondOrder, boolean startDragged ) {
+    public PairGroup( ImmutableVector3D position, boolean isLonePair, boolean startDragged ) {
         this.position = new Property<ImmutableVector3D>( position );
-        this.bondOrder = bondOrder;
-        this.isLonePair = bondOrder == 0;
+        this.isLonePair = isLonePair;
         userControlled = new Property<Boolean>( startDragged );
-    }
 
-    public int getNumberOfPairs() {
-        return bondOrder == 0 ? 1 : bondOrder;
+        this.position.addObserver( new ChangeObserver<ImmutableVector3D>() {
+            public void update( ImmutableVector3D newValue, ImmutableVector3D oldValue ) {
+                if ( Double.isNaN( newValue.getX() ) ) {
+                    throw new RuntimeException( "NaN detected in position!" );
+                }
+            }
+        } );
+        this.velocity.addObserver( new ChangeObserver<ImmutableVector3D>() {
+            public void update( ImmutableVector3D newValue, ImmutableVector3D oldValue ) {
+                if ( Double.isNaN( newValue.getX() ) ) {
+                    throw new RuntimeException( "NaN detected in velocity!" );
+                }
+            }
+        } );
     }
 
     public void attractToIdealDistance( double timeElapsed, double oldDistance ) {
@@ -145,7 +161,9 @@ public class PairGroup {
     public void stepForward( double timeElapsed ) {
         // velocity changes so that it doesn't point at all towards or away from the origin
         double velocityMagnitudeOutwards = velocity.get().dot( position.get().normalized() );
-        velocity.set( velocity.get().minus( position.get().normalized().times( velocityMagnitudeOutwards ) ) ); // subtract the outwards-component out
+        if ( position.get().magnitude() > 0 ) {
+            velocity.set( velocity.get().minus( position.get().normalized().times( velocityMagnitudeOutwards ) ) ); // subtract the outwards-component out
+        }
 
         // move position forward by scaled velocity
         position.set( position.get().plus( velocity.get().times( timeElapsed ) ) );

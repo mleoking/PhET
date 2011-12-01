@@ -55,6 +55,11 @@ public class FunctionalUtils {
         return result;
     }
 
+    // convenience method for clearer counting
+    public static int count( Collection<?> collection ) {
+        return collection.size();
+    }
+
     // Picks an element out of the collection, with no guaranteed semantics. Useful for sets
     public static <T> T pick( Collection<T> collection ) {
         return collection.iterator().next();
@@ -80,8 +85,16 @@ public class FunctionalUtils {
         };
     }
 
+    public static <T> List<T> concat( Collection<? extends T>... collections ) {
+        List<T> result = new ArrayList<T>();
+        for ( Collection<? extends T> collection : collections ) {
+            result.addAll( collection );
+        }
+        return result;
+    }
+
     // Flatten (concatenate) collections together into a list
-    public static <T> List<T> flatten( Collection<? extends T>... collections ) {
+    public static <T> List<T> flatten( Collection<? extends Collection<? extends T>> collections ) {
         List<T> result = new ArrayList<T>();
         for ( Collection<? extends T> collection : collections ) {
             result.addAll( collection );
@@ -106,10 +119,10 @@ public class FunctionalUtils {
     // Scala-style mkString
     public static <T> String mkString( Collection<T> collection, String separator ) {
         return mkString( collection, new Function1<T, String>() {
-            public String apply( T t ) {
-                return t.toString();
-            }
-        }, separator );
+                             public String apply( T t ) {
+                                 return t.toString();
+                             }
+                         }, separator );
     }
 
     // Standard functional map function
@@ -153,5 +166,14 @@ public class FunctionalUtils {
             result.add( i );
         }
         return result;
+    }
+
+    // a list with all elements of the minuend that are not in the subtrahend
+    public static <T> List<T> subtract( Collection<T> minuend, final Collection<? extends T> subtrahend ) {
+        return filter( minuend, new Function1<T, Boolean>() {
+            public Boolean apply( T item ) {
+                return !subtrahend.contains( item );
+            }
+        } );
     }
 }

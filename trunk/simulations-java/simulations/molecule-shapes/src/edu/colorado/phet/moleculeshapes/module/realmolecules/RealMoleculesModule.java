@@ -33,8 +33,8 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.colorado.phet.moleculeshapes.model.VSEPRMoleculeModel;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
@@ -89,7 +89,7 @@ public class RealMoleculesModule extends MoleculeViewModule {
     * model
     *----------------------------------------------------------------------------*/
 
-    public Property<RealMolecule> realMolecule = new Property<RealMolecule>( null );
+    public Property<RealMoleculeShape> realMolecule = new Property<RealMoleculeShape>( null );
 
     // change this to toggle between the "Real" and "Model" views
     public Property<Boolean> showRealView = new Property<Boolean>( true );
@@ -144,7 +144,7 @@ public class RealMoleculesModule extends MoleculeViewModule {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
 
         // TODO: improve initialization here
-        RealMolecule startingMolecule = RealMolecule.TAB_2_MOLECULES[0];
+        RealMoleculeShape startingMolecule = RealMoleculeShape.TAB_2_MOLECULES[0];
         RealMoleculeModel startingMoleculeModel = new RealMoleculeModel( startingMolecule );
         setMolecule( startingMoleculeModel );
         realMolecule.set( startingMolecule );
@@ -306,7 +306,7 @@ public class RealMoleculesModule extends MoleculeViewModule {
         namePanel.position.set( new ImmutableVector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
     }
 
-    public void switchToMolecule( RealMolecule selectedRealMolecule ) {
+    public void switchToMolecule( RealMoleculeShape selectedRealMolecule ) {
         realMolecule.set( selectedRealMolecule );
         rebuildMolecule();
     }

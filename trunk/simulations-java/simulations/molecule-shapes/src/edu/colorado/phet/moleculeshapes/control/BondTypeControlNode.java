@@ -2,8 +2,8 @@
 package edu.colorado.phet.moleculeshapes.control;
 
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -12,7 +12,8 @@ import edu.colorado.phet.jmephet.JMECursorHandler;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.Bond;
+import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
@@ -63,7 +64,7 @@ public class BondTypeControlNode extends PNode {
 
                         // if it exists, remove it
                         if ( candidate != null ) {
-                            module.getMolecule().removePair( candidate );
+                            module.getMolecule().removeGroup( candidate );
                             sendEvent( "bond", "removed", param( "bondOrder", bondOrder ) );
 
                             //System response for electron and molecule geometry names, copied from code in GeometryNameNode
@@ -74,7 +75,7 @@ public class BondTypeControlNode extends PNode {
             }
         } );
 
-        module.getMolecule().onGroupChanged.addUpdateListener(
+        module.getMolecule().onBondChanged.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
                         updateState();
@@ -123,11 +124,11 @@ public class BondTypeControlNode extends PNode {
     }
 
     //System response for electron and molecule geometry names, copied from code in GeometryNameNode
-    public static void systemResponseForGeometries( MoleculeModel molecule ) {
-        String electronGeometry = molecule.getConfiguration().geometry.name;
+    public static void systemResponseForGeometries( Molecule molecule ) {
+        String electronGeometry = molecule.getCentralVseprConfiguration().geometry.name;
         String electronGeometryName = electronGeometry == null ? MoleculeShapesResources.Strings.GEOMETRY__EMPTY : electronGeometry;
 
-        final String moleculeGeometry = molecule.getConfiguration().name;
+        final String moleculeGeometry = molecule.getCentralVseprConfiguration().name;
         String moleculeGeometryName = moleculeGeometry == null ? MoleculeShapesResources.Strings.SHAPE__EMPTY : moleculeGeometry;
         sendSystemEvent( "bondsChanged", param( "electronGeometry", electronGeometryName ), param( "moleculeGeometry", moleculeGeometryName ) );
     }
@@ -136,16 +137,16 @@ public class BondTypeControlNode extends PNode {
         return getLastMatchingGroup() != null;
     }
 
-    //SRR Suspicious use of bondOrder
+    // find the last pair group that has the desired bond order
     private PairGroup getLastMatchingGroup() {
-        // find the last pair group that has the desired bond order
-        java.util.List<PairGroup> groups = new ArrayList<PairGroup>( module.getMolecule().getGroups() );
+        Molecule molecule = module.getMolecule();
+        List<Bond<PairGroup>> bonds = molecule.getBonds( molecule.getCentralAtom() );
 
-        Collections.reverse( groups ); // reverse it so we pick the last, not the 1st
+        Collections.reverse( bonds ); // reverse it so we pick the last, not the 1st
 
-        for ( PairGroup group : groups ) {
-            if ( group.bondOrder == bondOrder ) {
-                return group;
+        for ( Bond<PairGroup> bond : bonds ) {
+            if ( bond.order == bondOrder ) {
+                return bond.getOtherAtom( molecule.getCentralAtom() );
             }
         }
         return null;
