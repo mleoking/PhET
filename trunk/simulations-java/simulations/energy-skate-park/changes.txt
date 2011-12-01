@@ -1,3 +1,4 @@
+11/30/11 common: switch from Color.red to PhetColorScheme.RED_COLORBLIND for colors that are displayed using text with a black drop shadow (other uses of Color.red should be reviewed)
 11/30/11 basics: i18n of new friction slider
 11/30/11 common: new images for mountains and house (but they still need to be 1.5x larger so we're not scaling up)
 11/30/11 common/basics: check in asset file for new icons and images

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -40,7 +41,7 @@ public class PauseIndicatorNode extends PNode {
         addChild( text );
         text.setOffset( im.getFullBounds().getMaxX() + 5, 0 );
         text.setFont( new PhetFont( Font.BOLD, 16 ) );
-        text.setTextPaint( Color.red );
+        text.setTextPaint( PhetColorScheme.RED_COLORBLIND );
         text.setShadowColor( Color.black );
         module.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
 

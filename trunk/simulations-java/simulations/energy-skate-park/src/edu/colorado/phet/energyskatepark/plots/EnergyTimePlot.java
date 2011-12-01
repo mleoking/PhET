@@ -28,6 +28,7 @@ import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNodeControlPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -90,7 +91,7 @@ public class EnergyTimePlot {
 
         dynamicJFreeChartNode.setBufferedImmediateSeries();
 
-        dynamicJFreeChartNode.addSeries( EnergySkateParkResources.getString( "energy.thermal" ), Color.red );
+        dynamicJFreeChartNode.addSeries( EnergySkateParkResources.getString( "energy.thermal" ), PhetColorScheme.RED_COLORBLIND );
         dynamicJFreeChartNode.addSeries( EnergySkateParkResources.getString( "energy.kinetic.abbreviation" ), Color.green );
         dynamicJFreeChartNode.addSeries( EnergySkateParkResources.getString( "energy.potential.abbreviation" ), Color.blue );
         dynamicJFreeChartNode.addSeries( EnergySkateParkResources.getString( "energy.total" ), new EnergyLookAndFeel().getTotalEnergyColor() );
