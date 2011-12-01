@@ -29,14 +29,14 @@ public class PieChartNode extends PNode {
      * Creates a PieChartNode with the specified slices and area
      */
     public PieChartNode( PieChartNode.PieValue[] slices, Rectangle area ) {
-        //TODO are negatives slices allowed? if not, should we check? If so, what if they slices total to zero?
+        //TODO validate slice values, they should be positive
         this.slices = slices;
         this.area = area;
         update();
     }
 
     public void setPieValues( PieChartNode.PieValue[] values ) {
-        //TODO are negatives slices allowed? if not, should we check? If so, what if they slices total to zero?
+        //TODO validate slice values, they should be positive
         this.slices = values;
         update();
     }
