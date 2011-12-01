@@ -278,11 +278,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
      * Resets the state of the controls in the view.
      */
     public void reset() {
-        pieChartLayer.removeAllChildren();
         setMeasuringTapeVisible( false );
         resetMeasuringTapeLocation();
         panZoomControls.reset();
         module.gridVisible.reset();
+        module.pieChartVisible.reset();
+        module.barChartVisible.reset();
     }
 
     public void addSkaterNode( SkaterNode skaterNode ) {
