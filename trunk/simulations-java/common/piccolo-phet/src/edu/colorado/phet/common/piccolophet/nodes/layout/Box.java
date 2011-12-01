@@ -12,25 +12,42 @@ import edu.umd.cs.piccolo.util.PBounds;
 import static java.util.Collections.max;
 
 /**
- * Base class for layout classes like VBox and HBox, which positions the nodes linearly and centered, with a specified amount of spacing between them.
- * The layout doesn't update when children bounds change, layout is only performed when new children are added (sufficient for bending light usage).
+ * Base class for layout classes like VBox and HBox.
+ * The layout doesn't update when children bounds change,
+ * layout is only performed when new children are added (sufficient for bending light usage).
  *
  * @author Sam Reid
  * @see VBox, HBox
  */
 public class Box extends PhetPNode {
-    private final Function1<PBounds, Double> getPanelDimension;//Function that determines the layout size to use (e.g. full width or height) of a node.  In the VBox it determines the width of nodes to set the width of the whole vbox
-    private final Function1<PBounds, Double> getNodeDimension;//Function that determines the size of a node for purposes of placing nodes next to each other.
+
+    //Interface that chooses where how to position a child PNode, based on layout constraints such as max size and accumulated location thus far.
+    public static interface PositionStrategy {
+        Point2D getRelativePosition( PNode node, double maxSize, double location /* x or y coordinate, depending on orientation of box */ );
+    }
+
+    private final Function1<PBounds, Double> getMaxDimension;//Function that determines how to compute the alignment dimension, based on "biggest" node in the box
+    private final Function1<PBounds, Double> getNodeDimension;//Function that determines the size of a node, for purposes of placing nodes next to each other.
     private PositionStrategy positionStrategy;//Compute the Point2D that positions the node in the layout (not accounting for its local origin, which is handled elsewhere)
     private final double spacing;//distance between nodes in the layout
 
-    public Box( Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, PositionStrategy positionStrategy ) {
-        this( 0, getPanelDimension, getNodeDimension, positionStrategy );
+    // Creates a box that is initially empty
+    public Box( Function1<PBounds, Double> getMaxDimension, Function1<PBounds, Double> getNodeDimension, PositionStrategy positionStrategy ) {
+        this( 0, getMaxDimension, getNodeDimension, positionStrategy );
     }
 
-    public Box( double spacing, Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, PositionStrategy positionStrategy, PNode... children ) {
+    /**
+     * Most general constructor
+     *
+     * @param spacing          spacing (x or y) between components
+     * @param getMaxDimension  function for computing the relevant max dimension, for the purposes of positioning
+     * @param getNodeDimension function for computing the relevant dimension of a node, for the purposes of positioning
+     * @param positionStrategy strategy for positioning nodes in the panel
+     * @param children         nodes in the panel, positioned in the order provided
+     */
+    public Box( double spacing, Function1<PBounds, Double> getMaxDimension, Function1<PBounds, Double> getNodeDimension, PositionStrategy positionStrategy, PNode... children ) {
         this.spacing = spacing;
-        this.getPanelDimension = getPanelDimension;
+        this.getMaxDimension = getMaxDimension;
         this.getNodeDimension = getNodeDimension;
         this.positionStrategy = positionStrategy;
 
@@ -40,29 +57,25 @@ public class Box extends PhetPNode {
         }
     }
 
-    //Adds the specified child and updates the layout.  This overrides the method that provides 'index' since that is the central point which is called from any of the addChild methods.
+    //Adds the specified child and updates the layout.
+    //This overrides the method that provides 'index' since that is the central point which is called from any of the addChild methods.
     @Override public void addChild( int index, PNode child ) {
         super.addChild( index, child );
         updateLayout();
     }
 
-    //Interface that chooses where to place a child PNode based layout constraints such as max size and accumulated location thus far.
-    public static interface PositionStrategy {
-        Point2D getRelativePosition( PNode node, double maxSize, double location );
-    }
-
-    //Layout the nodes in a vertical fashion, keeping them centered
+    //Layout the nodes
     private void updateLayout() {
         //Find the size (width or height) of the biggest child node so far
         final PNode biggestNode = max( getChildren(), new Comparator<PNode>() {
             public int compare( PNode o1, PNode o2 ) {
-                return Double.compare( getPanelDimension.apply( o1.getFullBounds() ), getPanelDimension.apply( o2.getFullBounds() ) );
+                return Double.compare( getMaxDimension.apply( o1.getFullBounds() ), getMaxDimension.apply( o2.getFullBounds() ) );
             }
         } );
-        double maxSize = getPanelDimension.apply( biggestNode.getFullBounds() );
+        final double maxSize = getMaxDimension.apply( biggestNode.getFullBounds() );
 
-        //Move each child 'spacing' below the previous child and center it
-        double position = 0;//X or Y
+        //Position each child, adding space between it and the previous child.
+        double position = 0; //X or Y coordinate, depending on implementation of getNodeDimension
         for ( PNode child : getChildren() ) {
             final PBounds bounds = child.getFullBounds();
 

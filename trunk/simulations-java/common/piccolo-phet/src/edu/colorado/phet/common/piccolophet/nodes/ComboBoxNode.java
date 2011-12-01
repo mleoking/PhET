@@ -146,7 +146,7 @@ public class ComboBoxNode<T> extends PNode {
         }
 
         //Create the entire popup, and populate it with ListItems created above
-        popup = new ControlPanelNode( new VBox( 2, true, choices ), Color.white, new BasicStroke( 1 ), Color.black, 2, 8, false ) {
+        popup = new ControlPanelNode( new VBox( 2, VBox.LEFT_ALIGNED, choices ), Color.white, new BasicStroke( 1 ), Color.black, 2, 8, false ) {
             {
                 //Make it so that the popup disappears when an item is selected
                 addInputEventListener( new PBasicInputEventHandler() {

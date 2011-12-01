@@ -1,11 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.layout;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 
@@ -14,91 +12,102 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Layout the nodes in a vertical fashion, centered horizontally with the specified vertical padding between nodes.
+ * Lays out nodes vertically.
+ * Various strategies are provided for common forms of horizontal alignment.
  * The layout doesn't update when children bounds change, layout is only performed when new children are added (sufficient for bending light usage).
  *
  * @author Sam Reid
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class VBox extends Box {
-    //Creates a VBox with the default spacing and specified children to add
+
+    // Marker interface, to prevent use of inappropriate predefined strategies.
+    public static interface HorizontalPositionStrategy extends PositionStrategy {
+    }
+
+    // predefined strategies that provide common forms of horizontal alignment
+    public static final HorizontalPositionStrategy CENTER_ALIGNED = new CenterAligned();
+    public static final HorizontalPositionStrategy LEFT_ALIGNED = new LeftAligned();
+    public static final HorizontalPositionStrategy RIGHT_ALIGNED = new RightAligned();
+
+    // defaults
+    private static final double DEFAULT_Y_SPACING = 10;
+    private static final HorizontalPositionStrategy DEFAULT_POSITION_STRATEGY = CENTER_ALIGNED;
+
+    // Creates a VBox with default spacing and alignment.
     public VBox( PNode... children ) {
-        this( 10, children );
+        this( DEFAULT_Y_SPACING, children );
     }
 
-    //Creates a VBox, which lays out nodes vertically.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
-    public VBox( double spacing,
-                 PNode... children//List of children to be added on initialization
-    ) {
-        super( spacing,
-               //Specify the width of the node which is used in determining the overall width of the VBox
+    // Creates a VBox with default alignment.
+    public VBox( double ySpacing, PNode... children ) {
+        this( ySpacing, DEFAULT_POSITION_STRATEGY, children );
+    }
+
+    // Creates a VBox with default spacing.
+    public VBox( HorizontalPositionStrategy positionStrategy, PNode... children ) {
+        this( DEFAULT_Y_SPACING, positionStrategy, children );
+    }
+
+    /**
+     * Most general constructor.
+     *
+     * @param ySpacing         vertical space between children
+     * @param positionStrategy strategy used to horizontally position a child.
+     * @param children         children to be added to the box, in top to bottom order
+     */
+    public VBox( double ySpacing, HorizontalPositionStrategy positionStrategy, PNode... children ) {
+        super( ySpacing,
+               // For handling alignment, the relevant dimensions is the width of the widest child.
                new Function1<PBounds, Double>() {
                    public Double apply( PBounds bounds ) {
                        return bounds.getWidth();
                    }
                },
-               //Specify the height of the node, for spacing the nodes vertically
+               // For vertical placement, the relevant dimension is a child's height.
                new Function1<PBounds, Double>() {
                    public Double apply( PBounds bounds ) {
                        return bounds.getHeight();
                    }
                },
-               //Determine the position to place the node, given its center line, bounds and spaced position
-               new PositionStrategy() {
-                   public Point2D getRelativePosition( PNode node, double maxSize, double location ) {
-                       return new Point2D.Double( maxSize / 2 - node.getFullBounds().getWidth() / 2, location );
-                   }
-               },
+               positionStrategy,
                children
         );
     }
 
-    //Creates a VBox which lays out nodes vertically, aligned against the left (regardless of the flag setting).  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
-    public VBox( double spacing,
-                 //This flag is ignored, it is just to allow usage of this constructor
-                 boolean leftAlignedFlagIgnored,
-                 PNode... children//List of children to be added on initialization
-    ) {
-        super( spacing,
-               //Specify the width of the node which is used in determining the overall width of the VBox
-               new Function1<PBounds, Double>() {
-                   public Double apply( PBounds bounds ) {
-                       return bounds.getWidth();
-                   }
-               },
-               //Specify the height of the node, for spacing the nodes vertically
-               new Function1<PBounds, Double>() {
-                   public Double apply( PBounds bounds ) {
-                       return bounds.getHeight();
-                   }
-               },
-               //Determine the position to place the node, given its center line, bounds and spaced position.  This left-aligns the nodes
-               new PositionStrategy() {
-                   public Point2D getRelativePosition( PNode node, double maxSize, double location ) {
-                       return new Point2D.Double( 0, location );
-                   }
-               },
-               children
-        );
+    // Horizontally centers a node in a horizontal space.
+    private static class CenterAligned implements HorizontalPositionStrategy {
+        public Point2D getRelativePosition( PNode node, double maxWidth, double y ) {
+            return new Point2D.Double( maxWidth / 2 - node.getFullBounds().getWidth() / 2, y );
+        }
+    }
+
+    // Left aligns a node in a horizontal space.
+    private static class LeftAligned implements HorizontalPositionStrategy {
+        public Point2D getRelativePosition( PNode node, double maxWidth, double y ) {
+            return new Point2D.Double( 0, y );
+        }
+    }
+
+    // Right aligns a node in a horizontal space.
+    private static class RightAligned implements HorizontalPositionStrategy {
+        public Point2D getRelativePosition( PNode node, double maxWidth, double y ) {
+            return new Point2D.Double( maxWidth - node.getFullBounds().getWidth(), y );
+        }
     }
 
     //Test
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                addScreenChild( new ControlPanelNode( new VBox( 5 ) {{
+                addScreenChild( new ControlPanelNode( new VBox( 5, RIGHT_ALIGNED ) {{
                     addChild( new PText( "Testing" ) );
-                    addChild( new PImage( new BufferedImage( 100, 100, BufferedImage.TYPE_INT_ARGB_PRE ) {{
-                        Graphics2D g2 = createGraphics();
-                        g2.setPaint( Color.blue );
-                        g2.fillRect( 0, 0, 100, 100 );
-                        g2.dispose();
-                    }} ) );
-                    addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 100, 100 ) ) );
+                    addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
+                    addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 75, 75 ) ) );
                     addChild( new PhetPPath( new Ellipse2D.Double( -100, -100, 100, 100 ) ) );
                 }} ) );
             }} );

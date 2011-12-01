@@ -1,3 +1,4 @@
+11/30/11 #3169, provide support for common forms of alignment in Box nodes
 11/16/2011 Factored out non-interactive parent class of InjectorNode to facilitate reusability
 11/16/2011 Removed unused parameter from InjectorNode constructor
 11/2/2011 Fixed ComboBoxNode constructor cascading, see #3146

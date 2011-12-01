@@ -28,7 +28,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class ViewControlPanel extends ControlPanelNode {
 
     public ViewControlPanel( final EnergySkateParkBasicsModule module, final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, final JDialog barChartDialog ) {
-        super( new VBox( 10, true /* leftAlignedFlagIgnored */,
+        super( new VBox( 10, VBox.LEFT_ALIGNED,
                          new HBox(
                                  //Checkbox to show/hide bar chart
                                  new PSwing( new JCheckBox( EnergySkateParkResources.getString( "plots.bar-graph" ), module.isBarChartVisible() ) {{
