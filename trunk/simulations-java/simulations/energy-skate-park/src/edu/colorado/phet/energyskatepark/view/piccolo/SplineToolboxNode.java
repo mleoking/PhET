@@ -4,10 +4,10 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -79,7 +79,7 @@ public class SplineToolboxNode extends PNode {
             }
         } );
 
-        boundGraphic = new PPath( new Rectangle( 200, 60 ) );
+        boundGraphic = new PPath( new RoundRectangle2D.Double( 0, 0, 200, 60, 20, 20 ) );
         boundGraphic.setStroke( new BasicStroke( 2 ) );
         boundGraphic.setStrokePaint( Color.blue );
         boundGraphic.setPaint( Color.yellow );
