@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -92,16 +91,31 @@ public class HBox extends Box {
         }
     }
 
-    //Test
+    //Test, demonstrates all predefined position strategies.
     public static void main( String[] args ) {
+
+        class TestBox extends HBox {
+            public TestBox( VerticalPositionStrategy positionStrategy, String name ) {
+                super( 5, positionStrategy );
+                addChild( new PText( name ) );
+                addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
+                addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 75, 75 ) ) );
+                addChild( new PhetPPath( new Ellipse2D.Double( -100, -100, 100, 100 ) ) );
+            }
+        }
+
+        final double ySpacing = 20;
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                addScreenChild( new ControlPanelNode( new HBox( 5, BOTTOM_ALIGNED ) {{
-                    addChild( new PText( "Testing" ) );
-                    addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
-                    addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 75, 75 ) ) );
-                    addChild( new PhetPPath( new Ellipse2D.Double( -100, -100, 100, 100 ) ) );
-                }} ) );
+                TestBox box1 = new TestBox( TOP_ALIGNED, "Top" );
+                addScreenChild( box1 );
+                box1.setOffset( 20, 20 );
+                TestBox box2 = new TestBox( CENTER_ALIGNED, "Center" );
+                addScreenChild( box2 );
+                box2.setOffset( box1.getXOffset(), box1.getFullBounds().getMaxY() + ySpacing );
+                TestBox box3 = new TestBox( BOTTOM_ALIGNED, "Bottom" );
+                addScreenChild( box3 );
+                box3.setOffset( box2.getXOffset(), box2.getFullBounds().getMaxY() + ySpacing );
             }} );
             setSize( 800, 600 );
             setDefaultCloseOperation( EXIT_ON_CLOSE );
