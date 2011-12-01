@@ -19,6 +19,9 @@ public abstract class MoleculeViewModule extends JMEModule {
     // whether bond angles should be shown
     public final Property<Boolean> showBondAngles = new Property<Boolean>( "Show bond angles", false );
 
+    // whether lone pairs should be shown
+    public final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true );
+
     public MoleculeViewModule( Frame parentFrame, String name, IClock clock ) {
         super( parentFrame, name, clock );
     }

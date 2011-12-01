@@ -11,7 +11,6 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesControlPanel;
-import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -29,7 +28,7 @@ public class OptionsNode extends PNode {
         /*---------------------------------------------------------------------------*
         * show lone pairs
         *----------------------------------------------------------------------------*/
-        final PNode showLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_LONE_PAIRS, MoleculeShapesModule.showLonePairs ) {{
+        final PNode showLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_LONE_PAIRS, module.showLonePairs ) {{
             // enabled when there are lone pairs on the molecule
             final Runnable updateEnabled = new Runnable() {
                 public void run() {

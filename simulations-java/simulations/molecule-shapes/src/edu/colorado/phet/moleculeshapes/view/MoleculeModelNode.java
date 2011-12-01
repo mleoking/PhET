@@ -92,7 +92,7 @@ public class MoleculeModelNode extends Node {
 
     private void addGroup( PairGroup group ) {
         if ( group.isLonePair ) {
-            LonePairNode lonePairNode = new LonePairNode( group, module.getAssetManager() );
+            LonePairNode lonePairNode = new LonePairNode( group, module.getAssetManager(), module.showLonePairs );
             lonePairNodes.add( lonePairNode );
             attachChild( lonePairNode );
         }
