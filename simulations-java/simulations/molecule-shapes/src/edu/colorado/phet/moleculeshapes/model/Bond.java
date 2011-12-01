@@ -1,12 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.model;
 
-import edu.colorado.phet.chemistry.model.Atom;
-
 /**
  * Generic Bond
  */
-public class Bond<AtomT extends Atom> {
+public class Bond<AtomT> {
     public final AtomT a;
     public final AtomT b;
     public final int order;
@@ -32,6 +30,10 @@ public class Bond<AtomT extends Atom> {
         else {
             return false;
         }
+    }
+
+    @Override public String toString() {
+        return "{" + a.toString() + " => " + b.toString() + "}";
     }
 
     public boolean contains( AtomT atom ) {

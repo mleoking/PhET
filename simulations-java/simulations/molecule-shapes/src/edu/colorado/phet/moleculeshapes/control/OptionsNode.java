@@ -8,7 +8,7 @@ import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesControlPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -32,16 +32,16 @@ public class OptionsNode extends PNode {
             // enabled when there are lone pairs on the molecule
             final Runnable updateEnabled = new Runnable() {
                 public void run() {
-                    setEnabled( !module.getMolecule().getLonePairs().isEmpty() );
+                    setEnabled( !module.getMolecule().getRadialLonePairs().isEmpty() );
                 }
             };
             final UpdateListener updateListener = JMEUtils.swingUpdateListener( updateEnabled );
-            module.getMolecule().onGroupChanged.addUpdateListener( updateListener, false );
+            module.getMolecule().onBondChanged.addUpdateListener( updateListener, false );
 
-            module.getMoleculeProperty().addObserver( new ChangeObserver<MoleculeModel>() {
-                public void update( MoleculeModel newValue, MoleculeModel oldValue ) {
-                    oldValue.onGroupChanged.removeListener( updateListener );
-                    newValue.onGroupChanged.addUpdateListener( updateListener, false );
+            module.getMoleculeProperty().addObserver( new ChangeObserver<Molecule>() {
+                public void update( Molecule newValue, Molecule oldValue ) {
+                    oldValue.onBondChanged.removeListener( updateListener );
+                    newValue.onBondChanged.addUpdateListener( updateListener, false );
                     updateEnabled.run();
                 }
             } );
@@ -64,17 +64,17 @@ public class OptionsNode extends PNode {
             // enabled when there are terminal lone pairs on the molecule
             final Runnable updateEnabled = new Runnable() {
                 public void run() {
-                    setEnabled( module.showLonePairs.get() && !module.getMolecule().getTerminalLonePairs().isEmpty() );
+                    setEnabled( module.showLonePairs.get() && !module.getMolecule().getDistantLonePairs().isEmpty() );
                 }
             };
             final UpdateListener updateListener = JMEUtils.swingUpdateListener( updateEnabled );
-            module.getMolecule().onGroupChanged.addUpdateListener( updateListener, false );
+            module.getMolecule().onBondChanged.addUpdateListener( updateListener, false );
             module.showLonePairs.addObserver( updateListener, false );
 
-            module.getMoleculeProperty().addObserver( new ChangeObserver<MoleculeModel>() {
-                public void update( MoleculeModel newValue, MoleculeModel oldValue ) {
-                    oldValue.onGroupChanged.removeListener( updateListener );
-                    newValue.onGroupChanged.addUpdateListener( updateListener, false );
+            module.getMoleculeProperty().addObserver( new ChangeObserver<Molecule>() {
+                public void update( Molecule newValue, Molecule oldValue ) {
+                    oldValue.onBondChanged.removeListener( updateListener );
+                    newValue.onBondChanged.addUpdateListener( updateListener, false );
                     updateEnabled.run();
                 }
             } );
@@ -100,10 +100,10 @@ public class OptionsNode extends PNode {
             Runnable updateEnabled = new Runnable() {
                 public void run() {
                     setEnabled( !MoleculeShapesProperties.disableNAShowBondAngles.get()
-                                || module.getMolecule().getBondedGroups().size() >= 2 );
+                                || module.getMolecule().getRadialAtoms().size() >= 2 );
                 }
             };
-            module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
+            module.getMolecule().onBondChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
             MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JMEUtils.swingObserver( updateEnabled ) );
 
             setOffset( 0, y.get() );

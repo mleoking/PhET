@@ -15,7 +15,8 @@ import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.Bond;
+import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -74,10 +75,10 @@ public class GeometryNameNode extends PNode {
     // the vertical location where our readout labels should be placed
     private double readoutHeight;
 
-    private final Property<MoleculeModel> molecule;
+    private final Property<Molecule> molecule;
     private final boolean showElectronGeometry;
 
-    public GeometryNameNode( Property<MoleculeModel> molecule, boolean showElectronGeometry ) {
+    public GeometryNameNode( Property<Molecule> molecule, boolean showElectronGeometry ) {
         this.molecule = molecule;
         this.showElectronGeometry = showElectronGeometry;
 
@@ -129,18 +130,18 @@ public class GeometryNameNode extends PNode {
         * change listeners
         *----------------------------------------------------------------------------*/
 
-        final VoidFunction1<PairGroup> updateFunction = new VoidFunction1<PairGroup>() {
-            public void apply( PairGroup pairGroup ) {
+        final VoidFunction1<Bond<PairGroup>> updateFunction = new VoidFunction1<Bond<PairGroup>>() {
+            public void apply( Bond<PairGroup> bond ) {
                 updateMolecularText();
                 updateElectronText();
             }
         };
-        ChangeObserver<MoleculeModel> onMoleculeChange = new ChangeObserver<MoleculeModel>() {
-            public void update( MoleculeModel newValue, MoleculeModel oldValue ) {
+        ChangeObserver<Molecule> onMoleculeChange = new ChangeObserver<Molecule>() {
+            public void update( Molecule newValue, Molecule oldValue ) {
                 if ( oldValue != null ) {
-                    oldValue.onGroupChanged.removeListener( updateFunction );
+                    oldValue.onBondChanged.removeListener( updateFunction );
                 }
-                newValue.onGroupChanged.addListener( updateFunction );
+                newValue.onBondChanged.addListener( updateFunction );
                 updateMolecularText();
                 updateElectronText();
             }
@@ -152,7 +153,7 @@ public class GeometryNameNode extends PNode {
     }
 
     public void updateMolecularText() {
-        final String name = molecule.get().getConfiguration().name;
+        final String name = molecule.get().getCentralVseprConfiguration().name;
         final boolean visible = showMolecularShapeName.get();
 
         SwingUtilities.invokeLater( new Runnable() {
@@ -176,7 +177,7 @@ public class GeometryNameNode extends PNode {
         if ( !showElectronGeometry ) {
             return;
         }
-        final String name = molecule.get().getConfiguration().geometry.name;
+        final String name = molecule.get().getCentralVseprConfiguration().geometry.name;
         final boolean visible = showElectronShapeName.get();
 
         SwingUtilities.invokeLater( new Runnable() {

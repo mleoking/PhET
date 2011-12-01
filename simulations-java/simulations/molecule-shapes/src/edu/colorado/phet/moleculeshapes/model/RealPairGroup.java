@@ -9,12 +9,12 @@ public class RealPairGroup extends PairGroup {
     private final Element element;
 
     /**
-     * @param position  Initial 3D position
-     * @param bondOrder Bond order, (0 if it is a lone pair)
-     * @param element   Chemical element
+     * @param position   Initial 3D position
+     * @param isLonePair Whether the pair group is a lone pair.
+     * @param element    Chemical element
      */
-    public RealPairGroup( ImmutableVector3D position, int bondOrder, Element element ) {
-        super( position, bondOrder, false );
+    public RealPairGroup( ImmutableVector3D position, boolean isLonePair, Element element ) {
+        super( position, isLonePair, false );
 
         this.element = element;
     }

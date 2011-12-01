@@ -35,6 +35,7 @@ import edu.colorado.phet.moleculeshapes.control.BondTypeOverlayNode;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
+import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.VSEPRMoleculeModel;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
@@ -198,8 +199,8 @@ public class MoleculeShapesModule extends MoleculeViewModule {
                         // kill any pair groups under the middle mouse button press
                         if ( isMouseDown && name.equals( MAP_MMB ) ) {
                             PairGroup pair = getElectronPairUnderPointer();
-                            if ( pair != null ) {
-                                getMolecule().removePair( pair );
+                            if ( pair != null && pair != getMolecule().getCentralAtom() ) {
+                                getMolecule().removeGroup( pair );
                             }
                             SimSharingEvents.sendEvent( "mouse middle button", "pressed", param( "removedPair", pair != null ) );
                         }
@@ -277,9 +278,9 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         addLighting( moleculeView.getScene() );
 
         // when the molecule is made empty, make sure to show lone pairs again (will allow us to drag out new ones)
-        getMolecule().onGroupChanged.addListener( new VoidFunction1<PairGroup>() {
-            public void apply( PairGroup group ) {
-                if ( getMolecule().getLonePairs().isEmpty() ) {
+        getMolecule().onBondChanged.addListener( new VoidFunction1<Bond<PairGroup>>() {
+            public void apply( Bond<PairGroup> bond ) {
+                if ( getMolecule().getRadialLonePairs().isEmpty() ) {
                     showLonePairs.set( true );
                 }
             }
@@ -293,8 +294,10 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         *----------------------------------------------------------------------------*/
 
         // start with two single bonds
-        getMolecule().addPair( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-        getMolecule().addPair( new PairGroup( new ImmutableVector3D( 2, 8, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+        PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+        getMolecule().addCentralAtom( centralAtom );
+        getMolecule().addGroup( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
+        getMolecule().addGroup( new PairGroup( new ImmutableVector3D( 2, 8, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
 
         /*---------------------------------------------------------------------------*
         * real molecule overlay
@@ -341,26 +344,34 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
         JMEView singleBondOverlay = createBondOverlayView.apply( "Single Bond", singleBondOverlayStageBounds );
         singleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
-            addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+            PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+            addCentralAtom( centralAtom );
+            addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
         }}, singleBondOverlay, this, addSingleBondEnabled ) );
         addLighting( singleBondOverlay.getScene() );
 
         JMEView doubleBondOverlay = createBondOverlayView.apply( "Double Bond", doubleBondOverlayStageBounds );
         doubleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
-            addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 2, false ) );
+            PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+            addCentralAtom( centralAtom );
+            addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 2 );
         }}, doubleBondOverlay, this, addDoubleBondEnabled ) );
         addLighting( doubleBondOverlay.getScene() );
 
         JMEView tripleBondOverlay = createBondOverlayView.apply( "Triple Bond", tripleBondOverlayStageBounds );
         tripleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
-            addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 3, false ) );
+            PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+            addCentralAtom( centralAtom );
+            addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 3 );
         }}, tripleBondOverlay, this, addTripleBondEnabled ) );
         addLighting( tripleBondOverlay.getScene() );
 
         if ( !isBasicsVersion() ) {
             JMEView lonePairOverlay = createBondOverlayView.apply( "Lone Pair", lonePairOverlayStageBounds );
             lonePairOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
-                addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), 0, false ) );
+                PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+                addCentralAtom( centralAtom );
+                addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), true, false ), centralAtom, 0 );
             }}, lonePairOverlay, this, addLonePairEnabled ) );
             addLighting( lonePairOverlay.getScene() );
         }
@@ -537,8 +548,8 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
         Vector3f localPosition = getPlanarMoleculeCursorPosition();
 
-        PairGroup pair = new PairGroup( JMEUtils.convertVector( localPosition ), bondOrder, true );
-        getMolecule().addPair( pair );
+        PairGroup pair = new PairGroup( JMEUtils.convertVector( localPosition ), bondOrder == 0, true );
+        getMolecule().addGroup( pair, getMolecule().getCentralAtom(), bondOrder );
 
         // set up dragging information
         dragging = true;

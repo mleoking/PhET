@@ -22,9 +22,10 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.control.ArrowButtonNode.Orientation;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.Bond;
+import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.model.RealMolecule;
+import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 import edu.umd.cs.piccolo.PNode;
@@ -38,7 +39,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class RealMoleculePanelNode extends PNode {
 
-    private final MoleculeModel molecule;
+    private final Molecule molecule;
 
     private final MoleculeShapesModule module;
     // whether the view is minimized or not
@@ -64,12 +65,12 @@ public class RealMoleculePanelNode extends PNode {
 
     // which of the selected available real molecules is being viewed
     private int kitIndex = 0; // (index)
-    private Property<RealMolecule> selectedMolecule = new Property<RealMolecule>( null ); // (the selected molecule itself)
+    private Property<RealMoleculeShape> selectedMolecule = new Property<RealMoleculeShape>( null ); // (the selected molecule itself)
 
     // list of all of the real examples for the current VSEPR model. we only display at most 1 of these
-    private List<RealMolecule> molecules = new ArrayList<RealMolecule>();
+    private List<RealMoleculeShape> molecules = new ArrayList<RealMoleculeShape>();
 
-    public RealMoleculePanelNode( MoleculeModel molecule, final MoleculeShapesModule module, final RealMoleculeOverlayNode overlayNode,
+    public RealMoleculePanelNode( Molecule molecule, final MoleculeShapesModule module, final RealMoleculeOverlayNode overlayNode,
                                   final Property<Boolean> minimized ) {
         this.molecule = molecule;
         this.module = module;
@@ -228,8 +229,8 @@ public class RealMoleculePanelNode extends PNode {
         onModelChange();
 
         // when the VSEPR molecule changes, update our possible molecules
-        molecule.onGroupChanged.addListener( new VoidFunction1<PairGroup>() {
-            public void apply( PairGroup pairGroup ) {
+        molecule.onBondChanged.addListener( new VoidFunction1<Bond<PairGroup>>() {
+            public void apply( Bond<PairGroup> bond ) {
                 onModelChange();
             }
         } );
@@ -252,7 +253,7 @@ public class RealMoleculePanelNode extends PNode {
 
     private void onModelChange() {
         // get the list of real molecules that correspond to our VSEPR model
-        molecules = RealMolecule.getMatchingMolecules( molecule );
+        molecules = RealMoleculeShape.getMatchingMolecules( molecule );
         kitIndex = 0;
 
         final boolean showingMolecule = !molecules.isEmpty();

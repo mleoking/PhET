@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.model.RealMolecule;
+import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.view.MoleculeNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeNode.DisplayMode;
@@ -22,7 +22,7 @@ import com.jme3.scene.Node;
 public class RealMoleculeOverlayNode extends Node {
     private final MoleculeShapesModule module;
     private final Camera camera; // track the camera so we can rotate the bonds accordingly
-    private RealMolecule molecule;
+    private RealMoleculeShape molecule;
     private MoleculeNode moleculeNode;
     private Quaternion rotation = new Quaternion();
     private float lastScale = 1;
@@ -70,13 +70,13 @@ public class RealMoleculeOverlayNode extends Node {
      *
      * @param molecule The desired molecule, or null if no molecule should be displayed
      */
-    public void showMolecule( RealMolecule molecule ) {
+    public void showMolecule( RealMoleculeShape molecule ) {
         showMolecule( molecule, false );
 
         draggedLastMolecule.set( false );
     }
 
-    private void showMolecule( RealMolecule molecule, boolean keepRotation ) {
+    private void showMolecule( RealMoleculeShape molecule, boolean keepRotation ) {
         this.molecule = molecule;
 
         if ( moleculeNode != null ) {

@@ -14,8 +14,10 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
@@ -24,7 +26,8 @@ import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.Bond;
+import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -38,7 +41,7 @@ import com.jme3.scene.Node;
  * Displays a molecule
  */
 public class MoleculeModelNode extends Node {
-    private MoleculeModel molecule;
+    private Molecule molecule;
     private final JMEInputHandler inputHandler;
     private final JMEView readoutView;
     private final MoleculeViewModule module;
@@ -56,7 +59,7 @@ public class MoleculeModelNode extends Node {
     // add the ability to override the module's scale so we can use it for icons
     private float scaleOverride = 0;
 
-    public MoleculeModelNode( final MoleculeModel molecule, final JMEView readoutView, final MoleculeViewModule module, final Camera camera ) {
+    public MoleculeModelNode( final Molecule molecule, final JMEView readoutView, final MoleculeViewModule module, final Camera camera ) {
         super( "Molecule Model" );
         this.molecule = molecule;
         inputHandler = module.getInputHandler();
@@ -76,9 +79,20 @@ public class MoleculeModelNode extends Node {
             }
         } );
 
+        molecule.onBondAdded.addListener( new VoidFunction1<Bond<PairGroup>>() {
+            public void apply( Bond<PairGroup> bond ) {
+                addBond( bond );
+            }
+        } );
+        molecule.onBondRemoved.addListener( new VoidFunction1<Bond<PairGroup>>() {
+            public void apply( Bond<PairGroup> bond ) {
+                removeBond( bond );
+            }
+        } );
+
         // add any already-existing pair groups
-        for ( PairGroup pairGroup : molecule.getGroups() ) {
-            addGroup( pairGroup );
+        for ( PairGroup group : molecule.getNeighbors( molecule.getCentralAtom() ) ) {
+            addGroup( group );
         }
 
         //Create the central atom
@@ -91,7 +105,21 @@ public class MoleculeModelNode extends Node {
         this.scaleOverride = scaleOverride;
     }
 
+    private void addBond( Bond<PairGroup> bond ) {
+        rebuildBonds();
+        updateAngles();
+    }
+
+    private void removeBond( Bond<PairGroup> bond ) {
+        rebuildBonds();
+        updateAngles();
+    }
+
     private void addGroup( PairGroup group ) {
+        // ignore the central atom (for now)
+        if ( group == molecule.getCentralAtom() ) {
+            return;
+        }
         if ( group.isLonePair ) {
             LonePairNode lonePairNode = new LonePairNode( group, module.getAssetManager(), module.showLonePairs );
             lonePairNodes.add( lonePairNode );
@@ -101,11 +129,14 @@ public class MoleculeModelNode extends Node {
             AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), module.getAssetManager() );
             atomNodes.add( atomNode );
             attachChild( atomNode );
+
+            // TODO: why are these necessary for the bond type control nodes? remove this after fix!
             rebuildBonds();
             updateAngles();
 
+            // TODO: change this to where it deals only with bonds?
             // add a new bond angle for every other bond
-            for ( PairGroup otherGroup : molecule.getBondedGroups() ) {
+            for ( PairGroup otherGroup : molecule.getRadialAtoms() ) {
                 if ( otherGroup != group ) {
                     BondAngleNode bondAngleNode = new BondAngleNode( module, molecule, group, otherGroup );
                     attachChild( bondAngleNode );
@@ -142,8 +173,6 @@ public class MoleculeModelNode extends Node {
                 }
             }
         }
-        rebuildBonds();
-        updateAngles();
     }
 
     public void updateView() {
@@ -159,19 +188,22 @@ public class MoleculeModelNode extends Node {
             JMEUtils.discardTree( bondNode );
         }
         bondNodes.clear();
-        for ( PairGroup pair : molecule.getGroups() ) {
-            if ( !pair.isLonePair ) {
-                BondNode bondNode = new BondNode(
-                        new Property<ImmutableVector3D>( new ImmutableVector3D() ), // center position
-                        pair.position,
-                        pair.bondOrder,
-                        MoleculeShapesConstants.MODEL_BOND_RADIUS, // bond radius
-                        new Some<Float>( (float) PairGroup.BONDED_PAIR_DISTANCE ), // max length
-                        module,
-                        camera );
-                attachChild( bondNode );
-                bondNodes.add( bondNode );
-            }
+        for ( final PairGroup atom : molecule.getRadialAtoms() ) {
+            BondNode bondNode = new BondNode(
+                    new Property<ImmutableVector3D>( new ImmutableVector3D() ), // center position
+                    atom.position,
+                    // TODO: redo bonds as above so we can remove this junk!
+                    FunctionalUtils.first( molecule.getBonds( atom ), new Function1<Bond<PairGroup>, Boolean>() {
+                        public Boolean apply( Bond<PairGroup> bond ) {
+                            return bond.getOtherAtom( atom ) == molecule.getCentralAtom();
+                        }
+                    } ).get().order,
+                    MoleculeShapesConstants.MODEL_BOND_RADIUS, // bond radius
+                    new Some<Float>( (float) PairGroup.BONDED_PAIR_DISTANCE ), // max length
+                    module,
+                    camera );
+            attachChild( bondNode );
+            bondNodes.add( bondNode );
         }
     }
 
@@ -185,7 +217,7 @@ public class MoleculeModelNode extends Node {
         final Vector3f localCameraPosition = getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
 
         // we need to handle the 2-atom case separately for proper support of 180-degree bonds
-        boolean hasTwoBonds = molecule.getBondedGroups().size() == 2;
+        boolean hasTwoBonds = molecule.getRadialAtoms().size() == 2;
         if ( !hasTwoBonds ) {
             // if we don't have two bonds, just ignore the last midpoint
             lastMidpoint = null;
@@ -204,11 +236,11 @@ public class MoleculeModelNode extends Node {
         angleIndex = 0;
 
         // calculate position changes due to taking lone-pair distances into account
-        boolean hasLonePair = !molecule.getLonePairs().isEmpty();
+        boolean hasLonePair = !molecule.getRadialLonePairs().isEmpty();
         final double timeEpsilon = 0.1; // a small amount of time to consider the forces
         Map<PairGroup, ImmutableVector3D> lonePairModifiedPositions = new HashMap<PairGroup, ImmutableVector3D>();
         if ( hasLonePair ) {
-            for ( PairGroup group : molecule.getBondedGroups() ) {
+            for ( PairGroup group : molecule.getRadialAtoms() ) {
                 ImmutableVector3D position = group.position.get();
                 for ( PairGroup otherGroup : molecule.getGroups() ) {
                     if ( otherGroup == group ) { continue; }
@@ -231,7 +263,7 @@ public class MoleculeModelNode extends Node {
                 final ImmutableVector3D aDir = a.position.get().normalized();
                 final ImmutableVector3D bDir = b.position.get().normalized();
 
-                final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, localCameraPosition, molecule.getBondedGroups().size() );
+                final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, localCameraPosition, molecule.getRadialAtoms().size() );
                 if ( brightness == 0 ) {
                     continue;
                 }
@@ -252,6 +284,7 @@ public class MoleculeModelNode extends Node {
                 if ( hasLonePair ) {
                     final double angleEpsilon = 0.05; // the change in angle due to lone pairs should have a difference larger than this for us to show a difference
 
+                    // TODO: NullPointerException here. to reproduce, build 5 single bonds, 1 lone pair, turn on angles, and middle-kill a bond
                     double modifiedAngle = lonePairModifiedPositions.get( a ).angleBetweenInDegrees( lonePairModifiedPositions.get( b ) );
                     String formatString = Strings.ANGLE__DEGREES;
 

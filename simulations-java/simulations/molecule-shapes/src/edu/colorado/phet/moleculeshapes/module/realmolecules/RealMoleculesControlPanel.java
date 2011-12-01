@@ -19,7 +19,7 @@ import edu.colorado.phet.moleculeshapes.control.PropertyCheckBoxNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyRadioButtonNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculePanelNode;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
-import edu.colorado.phet.moleculeshapes.model.RealMolecule;
+import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -54,13 +54,13 @@ public class RealMoleculesControlPanel extends PNode {
             final int dropDownBoxTopPadding = 10;
             final Property<Integer> horizontalOffset = new Property<Integer>( 0 );
 
-            final PNode dropDownBox = new PSwing( new JComboBox( RealMolecule.TAB_2_MOLECULES ) {
+            final PNode dropDownBox = new PSwing( new JComboBox( RealMoleculeShape.TAB_2_MOLECULES ) {
                 {
                     addActionListener( new java.awt.event.ActionListener() {
                         public void actionPerformed( final ActionEvent e ) {
                             JMEUtils.invoke( new Runnable() {
                                 public void run() {
-                                    RealMolecule selectedRealMolecule = (RealMolecule) ( (JComboBox) e.getSource() ).getSelectedItem();
+                                    RealMoleculeShape selectedRealMolecule = (RealMoleculeShape) ( (JComboBox) e.getSource() ).getSelectedItem();
                                     module.switchToMolecule( selectedRealMolecule );
                                 }
                             } );

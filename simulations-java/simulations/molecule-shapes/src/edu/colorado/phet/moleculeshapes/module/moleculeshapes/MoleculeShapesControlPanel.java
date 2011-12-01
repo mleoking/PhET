@@ -124,7 +124,7 @@ public class MoleculeShapesControlPanel extends PNode {
                                                               MoleculeShapesColor.REMOVE_BUTTON_BACKGROUND.get() ) {{
             addActionListener( new JMEActionListener( new Runnable() {
                 public void run() {
-                    module.getMolecule().removeAllPairs();
+                    module.getMolecule().removeAllGroups();
 
                     //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                     systemResponseForGeometries( module.getMolecule() );

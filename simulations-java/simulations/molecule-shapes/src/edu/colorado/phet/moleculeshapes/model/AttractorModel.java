@@ -25,19 +25,20 @@ public class AttractorModel {
     /**
      * Apply an attraction to the closest ideal position, with the given time elapsed
      *
-     * @param molecule        Molecule structure currently
-     * @param timeElapsed     Time elapsed
-     * @param stablePositions An ideal position, that may be rotated.
+     * @param groups                An ordered list of pair groups that should be considered, along with the relevant permutations
+     * @param timeElapsed           Time elapsed
+     * @param stablePositions       An ideal position, that may be rotated.
+     * @param allowablePermutations
      * @return A measure of total error
      */
-    public static double applyAttractorForces( final MoleculeModel molecule, final float timeElapsed, List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
-        final ResultMapping mapping = findClosestMatchingConfiguration( molecule, stablePositions, allowablePermutations );
+    public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
+        final ResultMapping mapping = findClosestMatchingConfiguration( groups, stablePositions, allowablePermutations );
 
         double totalDeltaMagnitude = 0;
 
         // for each electron pair, push it towards its computed target
-        for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
-            PairGroup pair = molecule.getGroups().get( i );
+        for ( int i = 0; i < groups.size(); i++ ) {
+            PairGroup pair = groups.get( i );
             ImmutableVector3D targetUnitVector = new ImmutableVector3D( mapping.target.get( 0, i ), mapping.target.get( 1, i ), mapping.target.get( 2, i ) );
             ImmutableVector3D targetLocation = targetUnitVector.times( pair.position.get().magnitude() );
 
@@ -74,21 +75,20 @@ public class AttractorModel {
      * but with the repulsion-ordering constraint (no single bond will be assigned a lower-index slot than a lone pair)
      * so we end up splitting the potential slots into bins for each repulsion type and iterating over all of the permutations.
      *
-     * @param molecule              Molecule
+     * @param groups                An ordered list of pair groups that should be considered, along with the relevant permutations
      * @param stablePositions       The un-rotated stable position that we are attracted towards
      * @param allowablePermutations A list of permutations that map stable positions to pair groups in order.
      * @return Result mapping (see docs there)
      */
-    public static ResultMapping findClosestMatchingConfiguration( final MoleculeModel molecule, final List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
-        final int n = molecule.getGroups().size(); // number of total pairs
+    public static ResultMapping findClosestMatchingConfiguration( final List<PairGroup> groups, final List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
+        final int n = groups.size(); // number of total pairs
 
         // y == electron pair positions
-        final Matrix y = matrixFromUnitVectors( map( molecule.getGroups(), new Function1<PairGroup, ImmutableVector3D>() {
+        final Matrix y = matrixFromUnitVectors( map( groups, new Function1<PairGroup, ImmutableVector3D>() {
             public ImmutableVector3D apply( PairGroup group ) {
                 return group.position.get().normalized();
             }
         } ) );
-
         final Matrix yTransposed = y.transpose();
 
         final Property<ResultMapping> bestResult = new Property<ResultMapping>( null );
@@ -117,6 +117,16 @@ public class AttractorModel {
             }
         }
         return bestResult.get();
+    }
+
+    private static void dumpMatrix( Matrix m ) {
+        System.out.println( "dim: " + m.getRowDimension() + "x" + m.getColumnDimension() );
+        for ( int row = 0; row < m.getRowDimension(); row++ ) {
+            for ( int col = 0; col < m.getColumnDimension(); col++ ) {
+                System.out.print( m.get( row, col ) + " " );
+            }
+            System.out.println();
+        }
     }
 
     private static Matrix computeRotationMatrixWithTranspose( Matrix x, Matrix yTransposed ) {
@@ -191,38 +201,6 @@ public class AttractorModel {
             ret.addAll( list );
         }
         return ret;
-    }
-
-    /**
-     * SRR Modified 10/24/2011
-     * JO said: In AttractorModel.java, change separateRepulsionCategories to return a list of two lists: the first a list of all indices for groups in molecule.getGroups that are lone pairs.
-     * The second is a list of all indices for groups in molecule.getGroups that are NOT lone pairs.
-     * <p/>
-     * OLD DOCS:
-     * Separate out lists of indices for groups of differing bond orders. Relies on the molecule groups having been
-     * sorted into repulsion categories
-     *
-     * @param molecule The molecule
-     * @return List of index lists. each sub-list has the same bond order
-     */
-    private static List<List<Integer>> separateRepulsionCategories( final MoleculeModel molecule ) {
-
-        final List<Integer> lonePairIndices = new ArrayList<Integer>();
-        final List<Integer> notLonePairIndices = new ArrayList<Integer>();
-
-        for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
-            PairGroup group = molecule.getGroups().get( i );
-            if ( group.isLonePair ) {
-                lonePairIndices.add( i );
-            }
-            else {
-                notLonePairIndices.add( i );
-            }
-        }
-        return new ArrayList<List<Integer>>() {{
-            add( lonePairIndices );
-            add( notLonePairIndices );
-        }};
     }
 
     /**
