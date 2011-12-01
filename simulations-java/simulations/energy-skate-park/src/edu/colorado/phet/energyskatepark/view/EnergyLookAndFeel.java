@@ -4,6 +4,8 @@ package edu.colorado.phet.energyskatepark.view;
 import java.awt.Color;
 import java.awt.Paint;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
+
 /**
  * User: Sam Reid
  * Date: Sep 30, 2005
@@ -19,7 +21,7 @@ public class EnergyLookAndFeel {
      */
     private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
     private final Color appliedForceColor = new Color( 180, 180, 0 );//my yellow
-    private final Color frictionForceColor = Color.red;
+    private final Color frictionForceColor = PhetColorScheme.RED_COLORBLIND;
     private final Color weightColor = new Color( 50, 130, 215 );
 
     private final Color appliedWorkColor = appliedForceColor;

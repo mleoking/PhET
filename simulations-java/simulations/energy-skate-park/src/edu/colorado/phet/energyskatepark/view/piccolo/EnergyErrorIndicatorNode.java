@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
@@ -59,7 +60,7 @@ public class EnergyErrorIndicatorNode extends PhetPNode {
         text.setFont( new PhetFont( 18, true ) );
         text.setShadowColor( Color.black );
         text.setShadowOffset( 2, 2 );
-        text.setTextPaint( Color.red );
+        text.setTextPaint( PhetColorScheme.RED_COLORBLIND );
         return text;
     }
 
