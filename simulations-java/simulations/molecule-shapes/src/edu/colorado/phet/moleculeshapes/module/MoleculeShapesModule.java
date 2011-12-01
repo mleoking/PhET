@@ -95,8 +95,6 @@ public class MoleculeShapesModule extends MoleculeViewModule {
     * model
     *----------------------------------------------------------------------------*/
 
-    private MoleculeModel molecule = new VSEPRMoleculeModel();
-
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
 
     public final Property<Boolean> addSingleBondEnabled = new Property<Boolean>( true );
@@ -160,6 +158,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
     public MoleculeShapesModule( Frame parentFrame, String name, boolean isBasicsVersion ) {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
         this.isBasicsVersion = isBasicsVersion;
+        molecule = new VSEPRMoleculeModel();
     }
 
     // should be called from stable positions in the JME and Swing EDT threads
@@ -752,15 +751,15 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         LonePairNode.getGeometry( getAssetManager() );
     }
 
-    public MoleculeModel getMolecule() {
-        return molecule;
-    }
-
     public boolean canAutoRotateRealMolecule() {
         return !( dragging && dragMode == DragMode.REAL_MOLECULE_ROTATE );
     }
 
     public boolean isBasicsVersion() {
         return isBasicsVersion;
+    }
+
+    @Override public boolean allowTogglingLonePairs() {
+        return !isBasicsVersion();
     }
 }

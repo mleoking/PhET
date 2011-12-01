@@ -7,11 +7,14 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 
 /**
  * Abstract class for modules that show a single molecule view
  */
 public abstract class MoleculeViewModule extends JMEModule {
+
+    protected MoleculeModel molecule;
 
     // whether bond angles should be shown
     public final Property<Boolean> showBondAngles = new Property<Boolean>( "Show bond angles", false );
@@ -31,5 +34,17 @@ public abstract class MoleculeViewModule extends JMEModule {
     public float getApproximateScale() {
         ImmutableVector2D scale = getScale();
         return (float) ( ( scale.getX() + scale.getY() ) / 2 );
+    }
+
+    public MoleculeModel getMolecule() {
+        return molecule;
+    }
+
+    /*---------------------------------------------------------------------------*
+    * options
+    *----------------------------------------------------------------------------*/
+
+    public boolean allowTogglingLonePairs() {
+        return true;
     }
 }
