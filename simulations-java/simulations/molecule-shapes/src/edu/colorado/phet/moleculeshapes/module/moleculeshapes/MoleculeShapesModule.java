@@ -754,4 +754,8 @@ public class MoleculeShapesModule extends MoleculeViewModule {
     @Override public boolean allowTogglingLonePairs() {
         return !isBasicsVersion();
     }
+
+    @Override public boolean allowTogglingAllLonePairs() {
+        return false;
+    }
 }

@@ -155,4 +155,9 @@ public abstract class MoleculeModel {
         return getStericNumber() < MAX_PAIRS;
 //        return getNumberOfPairs() + ( bondOrder == 0 ? 1 : bondOrder ) <= MAX_PAIRS;
     }
+
+    public List<PairGroup> getTerminalLonePairs() {
+        // TODO: implement terminal lone pairs
+        return new ArrayList<PairGroup>();
+    }
 }
