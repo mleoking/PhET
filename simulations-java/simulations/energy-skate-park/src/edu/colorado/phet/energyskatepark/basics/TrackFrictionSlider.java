@@ -30,8 +30,8 @@ public class TrackFrictionSlider extends PNode {
             }
 
             {
-                addLabel( 0, new PText( EnergySkateParkResources.getString( "none" ) ) );
-                addLabel( FRICTION_MAX, new PText( EnergySkateParkResources.getString( "lots" ) ) );
+                addLabel( 0, new PText( EnergySkateParkResources.getString( "controls.gravity.none" ) ) );
+                addLabel( FRICTION_MAX, new PText( EnergySkateParkResources.getString( "controls.gravity.lots" ) ) );
             }
         };
         addChild( sliderNode );
