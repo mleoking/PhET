@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -32,14 +31,14 @@ public class LonePairNode extends Node {
 
     private static Spatial lonePairGeometry;
 
-    public LonePairNode( PairGroup pair, final AssetManager assetManager ) {
+    public LonePairNode( PairGroup pair, final AssetManager assetManager, final Property<Boolean> showLonePairs ) {
         super( "Lone Pair" );
         this.pair = pair;
         this.position = pair.position;
 
-        MoleculeShapesModule.showLonePairs.addObserver( new SimpleObserver() {
+        showLonePairs.addObserver( new SimpleObserver() {
             public void update() {
-                setCullHint( MoleculeShapesModule.showLonePairs.get() ? CullHint.Inherit : CullHint.Always );
+                setCullHint( showLonePairs.get() ? CullHint.Inherit : CullHint.Always );
             }
         } );
 

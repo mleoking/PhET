@@ -97,7 +97,7 @@ public class MoleculeShapesControlPanel extends PNode {
                     setOffset( 0, 10 );
 
                     // make sure to update our state when "show lone pairs" changes
-                    MoleculeShapesModule.showLonePairs.addObserver( JMEUtils.swingObserver( new Runnable() {
+                    module.showLonePairs.addObserver( JMEUtils.swingObserver( new Runnable() {
                         public void run() {
                             updateState();
                         }
@@ -106,7 +106,7 @@ public class MoleculeShapesControlPanel extends PNode {
 
                 @Override protected boolean isEnabled() {
                     // add the extra constraint on visibility
-                    return super.isEnabled() && MoleculeShapesModule.showLonePairs.get();
+                    return super.isEnabled() && module.showLonePairs.get();
                 }
             };
             addChild( lonePairNode );

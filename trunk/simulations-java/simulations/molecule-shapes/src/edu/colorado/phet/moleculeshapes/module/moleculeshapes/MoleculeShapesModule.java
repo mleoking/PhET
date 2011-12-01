@@ -93,8 +93,6 @@ public class MoleculeShapesModule extends MoleculeViewModule {
     * model
     *----------------------------------------------------------------------------*/
 
-    public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
-
     public final Property<Boolean> addSingleBondEnabled = new Property<Boolean>( true );
     public final Property<Boolean> addDoubleBondEnabled = new Property<Boolean>( true );
     public final Property<Boolean> addTripleBondEnabled = new Property<Boolean>( true );
