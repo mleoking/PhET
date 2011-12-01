@@ -72,8 +72,10 @@ public class SplineToolboxNode extends PNode {
             }
 
             public void mouseReleased( PInputEvent event ) {
-                energySkateParkSimulationPanel.getSplineNode( createdSurface ).processExternalDropEvent( event );
-                created = false;
+                if ( created ) { // guards against the case where the mouse was pressed but not dragged
+                    energySkateParkSimulationPanel.getSplineNode( createdSurface ).processExternalDropEvent( event );
+                    created = false;
+                }
             }
         } );
 
