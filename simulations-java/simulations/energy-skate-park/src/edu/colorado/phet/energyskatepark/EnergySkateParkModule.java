@@ -20,7 +20,7 @@ public class EnergySkateParkModule extends AbstractEnergySkateParkModule {
     private final EnergySkateParkControlPanel energySkateParkControlPanel;
 
     public EnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options ) {
-        super( name, phetFrame, options, false, true, Floor.DEFAULT_FRICTION, true /* hasZoomControls */ );
+        super( name, phetFrame, options, true, true, Floor.DEFAULT_FRICTION, true /* hasZoomControls */ );
 
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );

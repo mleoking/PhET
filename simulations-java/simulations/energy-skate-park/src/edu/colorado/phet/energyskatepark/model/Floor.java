@@ -7,18 +7,15 @@ import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 
 public class Floor implements Serializable {
-    private double y;
-    private final double friction;
+    private double y = 0.0;
 
     //Friction is disabled in basics tab 1, but in other tabs it uses this value
     public static final double DEFAULT_FRICTION = 0.02;
 
-    public Floor( double friction ) {
-        this( 0.0, friction );
-    }
+    //Additional friction to be added to the skater friction, see Particle1D.getTotalFriction
+    private final double friction;
 
-    public Floor( double y, double friction ) {
-        this.y = y;
+    public Floor( double friction ) {
         this.friction = friction;
     }
 
