@@ -33,11 +33,11 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
     public PieChartControlPanel( final AbstractEnergySkateParkModule module, EnergySkateParkControlPanel energySkateParkControlPanel ) {
         this.module = module;
         this.energySkateParkControlPanel = energySkateParkControlPanel;
-        showPieChartCheckBox = new JCheckBox( EnergySkateParkResources.getString( "piechart.show" ), module.isPieChartVisible() );
+        showPieChartCheckBox = new JCheckBox( EnergySkateParkResources.getString( "piechart.show" ), module.pieChartVisible.get() );
         showPieChartCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 updateShowThermalEnabled();
-                module.setPieChartVisible( showPieChartCheckBox.isSelected() );
+                module.pieChartVisible.set( showPieChartCheckBox.isSelected() );
             }
         } );
         add( showPieChartCheckBox );
@@ -61,7 +61,7 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
         } );
         module.getEnergySkateParkSimulationPanel().addListener( new EnergySkateParkSimulationPanel.Adapter() {
             public void pieChartVisibilityChanged() {
-                showPieChartCheckBox.setSelected( module.isPieChartVisible() );
+                showPieChartCheckBox.setSelected( module.pieChartVisible.get() );
             }
         } );
         setAnchor( GridBagConstraints.WEST );

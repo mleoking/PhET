@@ -16,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.energyskatepark.view.swing.GridLinesCheckBox;
+import edu.colorado.phet.energyskatepark.view.swing.PropertyCheckBoxNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -40,19 +40,19 @@ public class ViewControlPanel extends ControlPanelNode {
                                      } );
                                      module.addResetListener( new VoidFunction0() {
                                          public void apply() {
-                                             setSelected( module.isPieChartVisible() );
+                                             setSelected( module.pieChartVisible.get() );
                                          }
                                      } );
                                      // set the check box state when the dialog is closed via its window dressing
                                      barChartDialog.addWindowListener( new WindowAdapter() {
                                          // called when the close button in the dialog's window dressing is clicked
                                          public void windowClosing( WindowEvent e ) {
-                                             setSelected( module.isPieChartVisible() );
+                                             setSelected( module.pieChartVisible.get() );
                                          }
 
                                          // called by JDialog.dispose
                                          public void windowClosed( WindowEvent e ) {
-                                             setSelected( module.isPieChartVisible() );
+                                             setSelected( module.pieChartVisible.get() );
                                          }
                                      } );
                                  }} ),
@@ -60,16 +60,16 @@ public class ViewControlPanel extends ControlPanelNode {
 
                          new HBox(
                                  //Checkbox to show/hide the pie chart
-                                 new PSwing( new JCheckBox( EnergySkateParkResources.getString( "pieChart" ), module.isPieChartVisible() ) {{
+                                 new PSwing( new JCheckBox( EnergySkateParkResources.getString( "pieChart" ), module.pieChartVisible.get() ) {{
                                      setFont( EnergySkateParkBasicsModule.CONTROL_FONT );
                                      addActionListener( new ActionListener() {
                                          public void actionPerformed( ActionEvent e ) {
-                                             module.setPieChartVisible( isSelected() );
+                                             module.pieChartVisible.set( isSelected() );
                                          }
                                      } );
                                      module.addResetListener( new VoidFunction0() {
                                          public void apply() {
-                                             setSelected( module.isPieChartVisible() );
+                                             setSelected( module.pieChartVisible.get() );
                                          }
                                      } );
                                  }} ),
@@ -77,8 +77,8 @@ public class ViewControlPanel extends ControlPanelNode {
 
                          new HBox(
                                  //Checkbox to show/hide the grid lines
-                                 new PSwing( new GridLinesCheckBox( module ) {{checkBox.setFont( EnergySkateParkBasicsModule.CONTROL_FONT );}} ),
-                                 new PImage( EnergySkateParkResources.getImage( "icons/grid_icon.png" ) ) )
+                                 new PropertyCheckBoxNode( EnergySkateParkResources.getString( "controls.show-grid" ), module.gridVisible )
+                         )
 
         ), EnergySkateParkLookAndFeel.backgroundColor );
 

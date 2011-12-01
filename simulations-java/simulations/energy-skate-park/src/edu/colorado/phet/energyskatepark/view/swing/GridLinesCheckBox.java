@@ -1,14 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.swing;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
@@ -25,18 +21,8 @@ public class GridLinesCheckBox extends VerticalLayoutPanel {
 
     public GridLinesCheckBox( final AbstractEnergySkateParkModule module ) {
         this.module = module;
-        checkBox = new JCheckBox( EnergySkateParkResources.getString( "controls.show-grid" ), getRoot().isGridVisible() );
-        checkBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getRoot().setGridVisible( checkBox.isSelected() );
-            }
-        } );
+        checkBox = new PropertyCheckBox( EnergySkateParkResources.getString( "controls.show-grid" ), module.gridVisible );
         add( checkBox );
-        getRoot().addGridVisibilityChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                checkBox.setSelected( getRoot().isGridVisible() );
-            }
-        } );
     }
 
     private EnergySkateParkRootNode getRoot() {

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
@@ -66,7 +67,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
-    private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
     private boolean splinesMovable;
 
     public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel, boolean hasZoomControls ) {
@@ -94,6 +94,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         zeroPointPotentialNode = new ZeroPointPotentialNode( simulationPanel, energySkateParkModel );
 
         gridNode = new GridNode( -50, -150, 100, 150, 1, 1 );
+
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
                 HashMap map = new HashMap();
@@ -135,8 +136,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addScreenChild( returnSkaterButtonNode );
 
         addWorldChild( gridNode );
-
-        setGridVisible( false );
 
         resetDefaults();
         simulationPanel.addComponentListener( new ComponentAdapter() {
@@ -199,6 +198,20 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 updateBodies();
             }
         } );
+
+        // Set up the listeners to properties that control visibility of
+        // various aspects of the view.
+        module.pieChartVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean pieChartVisible ) {
+                pieChartLayer.setVisible( pieChartVisible );
+                legend.setVisible( pieChartVisible );
+            }
+        } );
+        module.gridVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean gridVisible ) {
+                gridNode.setVisible( gridVisible );
+            }
+        } );
     }
 
     public SplineToolboxNode getSplineToolbox() {
@@ -248,8 +261,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     }
 
     private void resetDefaults() {
-        setPieChartVisible( DEFAULT_PIE_CHART_VISIBLE );
+        module.pieChartVisible.reset();
         setMeasuringTapeVisible( DEFAULT_TAPE_VISIBLE );
+        module.gridVisible.reset();
     }
 
     private EnergySkateParkModel getModel() {
@@ -268,7 +282,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         setMeasuringTapeVisible( false );
         resetMeasuringTapeLocation();
         panZoomControls.reset();
-        setGridVisible( false );
+        module.gridVisible.reset();
     }
 
     public void addSkaterNode( SkaterNode skaterNode ) {
@@ -441,18 +455,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     public boolean isZeroPointVisible() {
         return zeroPointPotentialNode.getVisible();
-    }
-
-    public boolean isGridVisible() {
-        return gridNode.getVisible();
-    }
-
-    public void setGridVisible( boolean selected ) {
-        gridNode.setVisible( selected );
-    }
-
-    public void addGridVisibilityChangeListener( PropertyChangeListener propertyChangeListener ) {
-        gridNode.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, propertyChangeListener );
     }
 
     public PNode getMeasuringTapeNode() {
