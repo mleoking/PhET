@@ -22,6 +22,9 @@ public abstract class MoleculeViewModule extends JMEModule {
     // whether lone pairs should be shown
     public final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true );
 
+    // whether terminal lone pairs should also be shown
+    public final Property<Boolean> showAllLonePairs = new Property<Boolean>( "Show all lone pairs", false );
+
     public MoleculeViewModule( Frame parentFrame, String name, IClock clock ) {
         super( parentFrame, name, clock );
     }
@@ -56,6 +59,10 @@ public abstract class MoleculeViewModule extends JMEModule {
     *----------------------------------------------------------------------------*/
 
     public boolean allowTogglingLonePairs() {
+        return true;
+    }
+
+    public boolean allowTogglingAllLonePairs() {
         return true;
     }
 }

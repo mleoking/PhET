@@ -58,6 +58,41 @@ public class OptionsNode extends PNode {
         }
 
         /*---------------------------------------------------------------------------*
+        * show all lone pairs
+        *----------------------------------------------------------------------------*/
+        final PNode showAllLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_ALL_LONE_PAIRS, module.showAllLonePairs ) {{
+            // enabled when there are terminal lone pairs on the molecule
+            final Runnable updateEnabled = new Runnable() {
+                public void run() {
+                    setEnabled( module.showLonePairs.get() && !module.getMolecule().getTerminalLonePairs().isEmpty() );
+                }
+            };
+            final UpdateListener updateListener = JMEUtils.swingUpdateListener( updateEnabled );
+            module.getMolecule().onGroupChanged.addUpdateListener( updateListener, false );
+            module.showLonePairs.addObserver( updateListener, false );
+
+            module.getMoleculeProperty().addObserver( new ChangeObserver<MoleculeModel>() {
+                public void update( MoleculeModel newValue, MoleculeModel oldValue ) {
+                    oldValue.onGroupChanged.removeListener( updateListener );
+                    newValue.onGroupChanged.addUpdateListener( updateListener, false );
+                    updateEnabled.run();
+                }
+            } );
+
+            /*
+            * Run this in the current thread. should be in EDT for construction. Needed since the other call
+            * is fired off to run in the next JME frame, so we have a flickering initial effect otherwise.
+            */
+            updateEnabled.run();
+
+            setOffset( 0, y.get() );
+        }};
+        if ( module.allowTogglingAllLonePairs() ) {
+            checkboxContainer.addChild( showAllLonePairsNode );
+            y.set( showAllLonePairsNode.getFullBounds().getMaxY() );
+        }
+
+        /*---------------------------------------------------------------------------*
         * show bond angles
         *----------------------------------------------------------------------------*/
         checkboxContainer.addChild( new PropertyCheckBoxNode( Strings.CONTROL__SHOW_BOND_ANGLES, module.showBondAngles ) {{
