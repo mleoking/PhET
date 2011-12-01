@@ -14,8 +14,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * Mar 28, 2007, 12:08:06 AM
  */
 public class SurfaceObjectNode extends PhetPNode {
-    public static final String HOUSE_RESOURCE_NAME = "espb_house.png";
-    public static final String MOUNTAIN_RESOURCE_NAME = "espb_mountains.png";
+    public static final String HOUSE_RESOURCE_NAME = "house.png";
+    public static final String MOUNTAIN_RESOURCE_NAME = "mountains.png";
 
     public SurfaceObjectNode( String resourceName, double sy, double x ) {
         this( EnergySkateParkResources.getImage( resourceName ), sy, x );
