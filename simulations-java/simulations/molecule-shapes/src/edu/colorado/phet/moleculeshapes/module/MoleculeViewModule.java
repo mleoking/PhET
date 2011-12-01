@@ -14,7 +14,7 @@ import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
  */
 public abstract class MoleculeViewModule extends JMEModule {
 
-    protected MoleculeModel molecule;
+    private Property<MoleculeModel> molecule = new Property<MoleculeModel>( null );
 
     // whether bond angles should be shown
     public final Property<Boolean> showBondAngles = new Property<Boolean>( "Show bond angles", false );
@@ -37,6 +37,14 @@ public abstract class MoleculeViewModule extends JMEModule {
     }
 
     public MoleculeModel getMolecule() {
+        return molecule.get();
+    }
+
+    public void setMolecule( MoleculeModel molecule ) {
+        this.molecule.set( molecule );
+    }
+
+    public Property<MoleculeModel> getMoleculeProperty() {
         return molecule;
     }
 

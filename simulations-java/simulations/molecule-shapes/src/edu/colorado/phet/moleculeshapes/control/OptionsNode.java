@@ -1,11 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.control;
 
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesControlPanel;
+import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.umd.cs.piccolo.PNode;
 
@@ -17,6 +22,8 @@ public class OptionsNode extends PNode {
         // enforce the width constraint
         addChild( new Spacer( 0, 0, MoleculeShapesControlPanel.INNER_WIDTH, 10 ) );
 
+        final Property<Double> y = new Property<Double>( 0.0 );
+
         PNode checkboxContainer = new PNode();
 
         /*---------------------------------------------------------------------------*
@@ -24,12 +31,21 @@ public class OptionsNode extends PNode {
         *----------------------------------------------------------------------------*/
         final PNode showLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_LONE_PAIRS, MoleculeShapesModule.showLonePairs ) {{
             // enabled when there are lone pairs on the molecule
-            Runnable updateEnabled = new Runnable() {
+            final Runnable updateEnabled = new Runnable() {
                 public void run() {
                     setEnabled( !module.getMolecule().getLonePairs().isEmpty() );
                 }
             };
-            module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
+            final UpdateListener updateListener = JMEUtils.swingUpdateListener( updateEnabled );
+            module.getMolecule().onGroupChanged.addUpdateListener( updateListener, false );
+
+            module.getMoleculeProperty().addObserver( new ChangeObserver<MoleculeModel>() {
+                public void update( MoleculeModel newValue, MoleculeModel oldValue ) {
+                    oldValue.onGroupChanged.removeListener( updateListener );
+                    newValue.onGroupChanged.addUpdateListener( updateListener, false );
+                    updateEnabled.run();
+                }
+            } );
 
             /*
             * Run this in the current thread. should be in EDT for construction. Needed since the other call
@@ -39,6 +55,7 @@ public class OptionsNode extends PNode {
         }};
         if ( module.allowTogglingLonePairs() ) {
             checkboxContainer.addChild( showLonePairsNode );
+            y.set( showLonePairsNode.getFullBounds().getMaxY() );
         }
 
         /*---------------------------------------------------------------------------*
@@ -55,9 +72,7 @@ public class OptionsNode extends PNode {
             module.getMolecule().onGroupChanged.addUpdateListener( JMEUtils.swingUpdateListener( updateEnabled ), false );
             MoleculeShapesProperties.disableNAShowBondAngles.addObserver( JMEUtils.swingObserver( updateEnabled ) );
 
-            if ( module.allowTogglingLonePairs() ) {
-                setOffset( 0, showLonePairsNode.getFullBounds().getMaxY() );
-            }
+            setOffset( 0, y.get() );
         }} );
 
         checkboxContainer.setOffset( ( MoleculeShapesControlPanel.INNER_WIDTH - checkboxContainer.getFullBounds().getWidth() ) / 2, 0 );

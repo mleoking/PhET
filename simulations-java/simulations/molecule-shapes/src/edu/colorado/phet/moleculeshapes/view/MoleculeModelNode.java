@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
@@ -44,7 +43,6 @@ public class MoleculeModelNode extends Node {
     private final JMEView readoutView;
     private final MoleculeViewModule module;
     private final Camera camera;
-    private final ObservableProperty<Float> approximateScale;
 
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
     private List<LonePairNode> lonePairNodes = new ArrayList<LonePairNode>();
@@ -55,14 +53,16 @@ public class MoleculeModelNode extends Node {
     private List<ReadoutNode> angleReadouts = new ArrayList<ReadoutNode>();
     private AtomNode centerAtomNode;
 
-    public MoleculeModelNode( final MoleculeModel molecule, final JMEView readoutView, final MoleculeViewModule module, final Camera camera, final ObservableProperty<Float> approximateScale ) {
+    // add the ability to override the module's scale so we can use it for icons
+    private float scaleOverride = 0;
+
+    public MoleculeModelNode( final MoleculeModel molecule, final JMEView readoutView, final MoleculeViewModule module, final Camera camera ) {
         super( "Molecule Model" );
         this.molecule = molecule;
         inputHandler = module.getInputHandler();
         this.readoutView = readoutView;
         this.module = module;
         this.camera = camera;
-        this.approximateScale = approximateScale;
 
         // update the UI when the molecule changes electron pairs
         molecule.onGroupAdded.addListener( new VoidFunction1<PairGroup>() {
@@ -84,6 +84,10 @@ public class MoleculeModelNode extends Node {
         //Create the central atom
         centerAtomNode = new AtomNode( new None<PairGroup>(), module.getAssetManager() );
         attachChild( centerAtomNode );
+    }
+
+    protected void setScaleOverride( float scaleOverride ) {
+        this.scaleOverride = scaleOverride;
     }
 
     private void addGroup( PairGroup group ) {
@@ -344,7 +348,7 @@ public class MoleculeModelNode extends Node {
                     if ( !text.getText().equals( string ) ) {
                         text.setText( string );
                     }
-                    text.setScale( approximateScale.get() ); // change the font size based on the sim scale
+                    text.setScale( scaleOverride == 0 ? module.getApproximateScale() : scaleOverride ); // change the font size based on the sim scale
                     float[] colors = MoleculeShapesColor.BOND_ANGLE_READOUT.get().getRGBColorComponents( null );
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
                     text.repaint(); // TODO: this should not be necessary, however it fixes the bond angle labels. JME-Piccolo repaint issue?

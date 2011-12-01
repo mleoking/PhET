@@ -10,7 +10,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.Atom3D;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
-import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;

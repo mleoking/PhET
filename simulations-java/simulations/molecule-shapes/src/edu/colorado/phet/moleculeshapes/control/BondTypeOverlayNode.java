@@ -25,11 +25,9 @@ import com.jme3.scene.shape.Quad;
  */
 public class BondTypeOverlayNode extends MoleculeModelNode {
     public BondTypeOverlayNode( final MoleculeModel molecule, final JMEView view, final MoleculeViewModule module, final Property<Boolean> enabled ) {
-        super( molecule, null, module, view.getCamera(), new ObservableProperty<Float>( 1f ) { // TODO: improve this!
-            @Override public Float get() {
-                return module.getApproximateScale();
-            }
-        } );
+        super( molecule, null, module, view.getCamera() );
+
+        setScaleOverride( 1f );
 
         // don't show the center atom
         getCenterAtomNode().setCullHint( CullHint.Always );

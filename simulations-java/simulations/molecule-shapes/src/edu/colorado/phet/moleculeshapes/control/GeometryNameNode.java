@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -73,10 +74,10 @@ public class GeometryNameNode extends PNode {
     // the vertical location where our readout labels should be placed
     private double readoutHeight;
 
-    private final MoleculeModel molecule;
+    private final Property<MoleculeModel> molecule;
     private final boolean showElectronGeometry;
 
-    public GeometryNameNode( MoleculeModel molecule, boolean showElectronGeometry ) {
+    public GeometryNameNode( Property<MoleculeModel> molecule, boolean showElectronGeometry ) {
         this.molecule = molecule;
         this.showElectronGeometry = showElectronGeometry;
 
@@ -128,16 +129,30 @@ public class GeometryNameNode extends PNode {
         * change listeners
         *----------------------------------------------------------------------------*/
 
-        molecule.onGroupChanged.addListener( new VoidFunction1<PairGroup>() {
+        final VoidFunction1<PairGroup> updateFunction = new VoidFunction1<PairGroup>() {
             public void apply( PairGroup pairGroup ) {
                 updateMolecularText();
                 updateElectronText();
             }
-        } );
+        };
+        ChangeObserver<MoleculeModel> onMoleculeChange = new ChangeObserver<MoleculeModel>() {
+            public void update( MoleculeModel newValue, MoleculeModel oldValue ) {
+                if ( oldValue != null ) {
+                    oldValue.onGroupChanged.removeListener( updateFunction );
+                }
+                newValue.onGroupChanged.addListener( updateFunction );
+                updateMolecularText();
+                updateElectronText();
+            }
+        };
+        molecule.addObserver( onMoleculeChange );
+
+        // trigger adding listeners to the current molecule
+        onMoleculeChange.update( molecule.get(), null );
     }
 
     public void updateMolecularText() {
-        final String name = molecule.getConfiguration().name;
+        final String name = molecule.get().getConfiguration().name;
         final boolean visible = showMolecularShapeName.get();
 
         SwingUtilities.invokeLater( new Runnable() {
@@ -161,7 +176,7 @@ public class GeometryNameNode extends PNode {
         if ( !showElectronGeometry ) {
             return;
         }
-        final String name = molecule.getConfiguration().geometry.name;
+        final String name = molecule.get().getConfiguration().geometry.name;
         final boolean visible = showElectronShapeName.get();
 
         SwingUtilities.invokeLater( new Runnable() {
