@@ -20,7 +20,7 @@ public class TrackFrictionSlider extends PNode {
 
     private static final double FRICTION_MAX = 0.01;
 
-    private double savedFrictionValue = 0;
+    private double savedFrictionValue = FRICTION_MAX / 2;
 
     public TrackFrictionSlider( final EnergySkateParkBasicsModule module ) {
         final Property<Double> frictionAmount = new Property<Double>( 0.0 );
