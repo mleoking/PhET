@@ -16,6 +16,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.OptionsNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyCheckBoxNode;
+import edu.colorado.phet.moleculeshapes.control.PropertyRadioButtonNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculePanelNode;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
@@ -85,6 +86,23 @@ public class RealMoleculesControlPanel extends PNode {
             dropDownBox.setOffset( horizontalOffset.get(),
                                    dropDownBoxTopPadding );
             addChild( dropDownBox );
+
+            // radio buttons for "Real" and "Model" views
+            final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__REAL_VIEW, module.showRealView, true ) {{
+                setOffset( 0, dropDownBox.getFullBounds().getMaxY() );
+            }};
+            addChild( realRadioNode );
+
+            final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__MODEL_VIEW, module.showRealView, false ) {{
+                setOffset( 0, realRadioNode.getFullBounds().getMaxY() );
+            }};
+            addChild( modelRadioNode );
+
+            // center the radio buttons
+            final double maxWidth = Math.max( realRadioNode.getFullBounds().getWidth(), modelRadioNode.getFullBounds().getWidth() );
+            double radioButtonHorizontalOffset = ( MoleculeShapesConstants.RIGHT_MIN_WIDTH - maxWidth ) / 2;
+            realRadioNode.setOffset( radioButtonHorizontalOffset, realRadioNode.getYOffset() );
+            modelRadioNode.setOffset( radioButtonHorizontalOffset, modelRadioNode.getYOffset() );
         }}, Strings.CONTROL__MOLECULE );
         addChild( moleculePanel );
 
@@ -92,7 +110,7 @@ public class RealMoleculesControlPanel extends PNode {
         * options
         *----------------------------------------------------------------------------*/
         final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new OptionsNode( module ), Strings.CONTROL__OPTIONS );
-        optionsPanel.setOffset( 0, moleculePanel.getFullBounds().getMaxY() + 10 );
+        optionsPanel.setOffset( 0, moleculePanel.getFullBounds().getMaxY() + 20 );
         addChild( optionsPanel );
     }
 

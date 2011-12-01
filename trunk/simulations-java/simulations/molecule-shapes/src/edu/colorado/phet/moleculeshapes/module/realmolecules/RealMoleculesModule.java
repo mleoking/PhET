@@ -87,9 +87,11 @@ public class RealMoleculesModule extends MoleculeViewModule {
     * model
     *----------------------------------------------------------------------------*/
 
-    private Property<RealMolecule> realMolecule = new Property<RealMolecule>( null );
+    public Property<RealMolecule> realMolecule = new Property<RealMolecule>( null );
 
-    public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
+    // change this to toggle between the "Real" and "Model" views
+    public Property<Boolean> showRealView = new Property<Boolean>( true );
+
     private JMEView readoutView;
     private PiccoloJMENode namePanel;
 
