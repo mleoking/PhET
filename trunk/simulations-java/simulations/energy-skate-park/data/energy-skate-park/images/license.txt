@@ -9,7 +9,7 @@ bugboard.gif (board) source= Open Clip Art notes="skateboard", 'http://www.openc
 bulldog.png (board) source= Open Clip Art notes="skateboard", 'http://www.openclipart.org/detail/2239' (bulldog) source=Wikimedia Commons notes="Racib�rz 2007 082", 'http://commons.wikimedia.org/wiki/File:Racib%C3%B3rz_2007_082.jpg'earth-background.jpg author=PhET 
 earth3.jpg author=PhET
 espb_mountains author=PhET notes = NP
-house.png author=PhET 
+espb_house.png author=PhET notes = NP
 jupiter4.jpg 
 locations.txt 
 moon2.jpg 
