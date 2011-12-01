@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuIte
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
-import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.util.ColorPropertyControl;
 
 import com.jme3.util.BufferUtils;

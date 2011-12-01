@@ -1,24 +1,21 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.module;
+package edu.colorado.phet.moleculeshapes.module.realmolecules;
 
 import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.util.Random;
 
-import javax.swing.JComboBox;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
@@ -32,15 +29,17 @@ import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
+import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
+import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResult;
@@ -91,6 +90,8 @@ public class RealMoleculesModule extends MoleculeViewModule {
     *----------------------------------------------------------------------------*/
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true ); // TODO: convert to non-static?
+    private JMEView readoutView;
+    private PiccoloJMENode namePanel;
 
     /*---------------------------------------------------------------------------*
     * dragging
@@ -137,7 +138,7 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
     public RealMoleculesModule( Frame parentFrame, String name ) {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
-        molecule = new RealMoleculeModel( RealMolecule.TAB_2_MOLECULES[0] );
+        setMolecule( new RealMoleculeModel( RealMolecule.TAB_2_MOLECULES[0] ) );
     }
 
     // should be called from stable positions in the JME and Swing EDT threads
@@ -156,7 +157,6 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
         // hook up mouse-button handlers
         inputHandler.addMapping( MAP_LMB, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
-        inputHandler.addMapping( MAP_MMB, new MouseButtonTrigger( MouseInput.BUTTON_MIDDLE ) );
 
         /*---------------------------------------------------------------------------*
         * mouse-button presses
@@ -177,17 +177,8 @@ public class RealMoleculesModule extends MoleculeViewModule {
                                 onLeftMouseUp();
                             }
                         }
-
-                        // kill any pair groups under the middle mouse button press
-                        if ( isMouseDown && name.equals( MAP_MMB ) ) {
-                            PairGroup pair = getElectronPairUnderPointer();
-                            if ( pair != null ) {
-                                molecule.removePair( pair );
-                            }
-                            SimSharingEvents.sendEvent( "mouse middle button", "pressed", param( "removedPair", pair != null ) );
-                        }
                     }
-                }, MAP_LMB, MAP_MMB );
+                }, MAP_LMB );
 
         /*---------------------------------------------------------------------------*
         * mouse motion
@@ -247,7 +238,7 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
         moleculeView = createRegularView( "Main", moleculeCamera, RenderPosition.MAIN );
         guiView = createGUIView( "Back GUI", RenderPosition.BACK );
-        final JMEView readoutView = createGUIView( "Readout", RenderPosition.FRONT );
+        readoutView = createGUIView( "Readout", RenderPosition.FRONT );
 
         // add an offset to the left, since we have a control panel on the right
         // TODO: make the offset dependent on the control panel width?
@@ -262,42 +253,66 @@ public class RealMoleculesModule extends MoleculeViewModule {
                 return getApproximateScale();
             }
         };
-        moleculeNode = new MoleculeModelNode( molecule, readoutView, this, moleculeCamera, scaleFunction );
+        moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, this, moleculeCamera );
         moleculeView.getScene().attachChild( moleculeNode );
 
         /*---------------------------------------------------------------------------*
         * temporary control panel
         *----------------------------------------------------------------------------*/
 
-        final Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
-        PNode controlPanelNode = new PSwing( new JComboBox( RealMolecule.TAB_2_MOLECULES ) {
-            {
-                addActionListener( new java.awt.event.ActionListener() {
-                    public void actionPerformed( final ActionEvent e ) {
-                        JMEUtils.invoke( new Runnable() {
-                            public void run() {
-                                RealMolecule selectedRealMolecule = (RealMolecule) ( (JComboBox) e.getSource() ).getSelectedItem();
-                                System.out.println( selectedRealMolecule );
-                                moleculeNode.detachReadouts();
-                                moleculeView.getScene().detachChild( moleculeNode );
-                                molecule = new RealMoleculeModel( selectedRealMolecule );
-                                moleculeNode = new MoleculeModelNode( molecule, readoutView, RealMoleculesModule.this, moleculeCamera, scaleFunction );
-                                moleculeView.getScene().attachChild( moleculeNode );
-                            }
-                        } );
-                    }
-                } );
-            }
+//        final Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+//        PNode controlPanelNode = new PSwing( new JComboBox( RealMolecule.TAB_2_MOLECULES ) {
+//            {
+//                addActionListener( new java.awt.event.ActionListener() {
+//                    public void actionPerformed( final ActionEvent e ) {
+//                        JMEUtils.invoke( new Runnable() {
+//                            public void run() {
+//                                RealMolecule selectedRealMolecule = (RealMolecule) ( (JComboBox) e.getSource() ).getSelectedItem();
+//                                System.out.println( selectedRealMolecule );
+//                                moleculeNode.detachReadouts();
+//                                moleculeView.getScene().detachChild( moleculeNode );
+//                                setMolecule( new RealMoleculeModel( selectedRealMolecule ) );
+//                                moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, RealMoleculesModule.this, moleculeCamera, scaleFunction );
+//                                moleculeView.getScene().attachChild( moleculeNode );
+//                            }
+//                        } );
+//                    }
+//                } );
+//            }
+//
+//            @Override public Point getLocationOnScreen() {
+////                Point screenLocation = getSimulationPanel().getLocationOnScreen();
+//                Point screenLocation = PhetApplication.getInstance().getModule( 0 ).getSimulationPanel().getLocationOnScreen();
+////                return new Point( screenLocation.x, screenLocation.y );
+////                return new Point( 0, 0 );
+//                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y + 10 );
+////                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y );
+//            }
+//        } );
+//        controlPanel = new PiccoloJMENode( controlPanelNode, inputHandler, this, canvasTransform, controlPanelPosition );
+//        guiView.getScene().attachChild( controlPanel );
+//        controlPanel.onResize.addUpdateListener(
+//                new UpdateListener() {
+//                    public void update() {
+//                        if ( controlPanel != null ) {
+//                            controlPanel.position.set( new ImmutableVector2D(
+//                                    getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
+//                                    getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
+//                        }
+//                        resizeDirty = true; // TODO: better way of getting this dependency?
+//                    }
+//                }, true );
 
-            @Override public Point getLocationOnScreen() {
-//                Point screenLocation = getSimulationPanel().getLocationOnScreen();
-                Point screenLocation = PhetApplication.getInstance().getModule( 0 ).getSimulationPanel().getLocationOnScreen();
-//                return new Point( screenLocation.x, screenLocation.y );
-//                return new Point( 0, 0 );
-                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y + 20 );
-//                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y );
+        /*---------------------------------------------------------------------------*
+        * main control panel
+        *----------------------------------------------------------------------------*/
+        Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        final Function0<Double> getControlPanelXPosition = new Function0<Double>() {
+            public Double apply() {
+                return controlPanel.position.get().getX();
             }
-        } );
+        };
+        RealMoleculesControlPanel controlPanelNode = new RealMoleculesControlPanel( this, getControlPanelXPosition );
         controlPanel = new PiccoloJMENode( controlPanelNode, inputHandler, this, canvasTransform, controlPanelPosition );
         guiView.getScene().attachChild( controlPanel );
         controlPanel.onResize.addUpdateListener(
@@ -311,11 +326,29 @@ public class RealMoleculesModule extends MoleculeViewModule {
                         resizeDirty = true; // TODO: better way of getting this dependency?
                     }
                 }, true );
+
+        /*---------------------------------------------------------------------------*
+        * "geometry name" panel
+        *----------------------------------------------------------------------------*/
+        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( getMoleculeProperty(), true ), Strings.CONTROL__GEOMETRY_NAME ) {{
+            // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
+            setOffset( 0, 10 );
+        }}, inputHandler, this, canvasTransform );
+        guiView.getScene().attachChild( namePanel );
+        namePanel.position.set( new ImmutableVector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
+    }
+
+    public void switchToMolecule( RealMolecule selectedRealMolecule ) {
+        moleculeNode.detachReadouts();
+        moleculeView.getScene().detachChild( moleculeNode );
+        setMolecule( new RealMoleculeModel( selectedRealMolecule ) );
+        moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, RealMoleculesModule.this, moleculeCamera );
+        moleculeView.getScene().attachChild( moleculeNode );
     }
 
     @Override public void updateState( final float tpf ) {
         super.updateState( tpf );
-        molecule.update( tpf );
+        getMolecule().update( tpf );
         moleculeNode.updateView();
         moleculeNode.setLocalRotation( rotation );
 
@@ -397,33 +430,6 @@ public class RealMoleculesModule extends MoleculeViewModule {
         // release an electron pair if we were dragging it
         if ( dragMode == DragMode.PAIR_FRESH_PLANAR || dragMode == DragMode.PAIR_EXISTING_SPHERICAL ) {
             draggedParticle.userControlled.set( false );
-        }
-        draggingChanged();
-    }
-
-    public void startNewInstanceDrag( int bondOrder ) {
-        // sanity check
-        if ( !molecule.wouldAllowBondOrder( bondOrder ) ) {
-            // don't add to the molecule if it is full
-            return;
-        }
-
-        Vector3f localPosition = getPlanarMoleculeCursorPosition();
-
-        PairGroup pair = new PairGroup( JMEUtils.convertVector( localPosition ), bondOrder, true );
-        molecule.addPair( pair );
-
-        // set up dragging information
-        dragging = true;
-        dragMode = DragMode.PAIR_FRESH_PLANAR;
-        draggedParticle = pair;
-
-        /*
-         * If the left mouse button is not down, simulate a mouse-up. This is needed due to threading issues,
-         * since if you do an "instant" mouse down/up, they both get processed before this is called.
-         */
-        if ( !globalLeftMouseDown ) {
-            onLeftMouseUp();
         }
         draggingChanged();
     }

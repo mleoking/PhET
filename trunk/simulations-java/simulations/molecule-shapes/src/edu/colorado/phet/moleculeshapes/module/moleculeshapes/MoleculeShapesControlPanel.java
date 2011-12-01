@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.control;
+package edu.colorado.phet.moleculeshapes.module.moleculeshapes;
 
 import java.awt.Color;
 
@@ -12,8 +12,15 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.control.BondTypeControlNode;
+import edu.colorado.phet.moleculeshapes.control.MinimizeMaximizeButtonNode;
+import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
+import edu.colorado.phet.moleculeshapes.control.OptionsNode;
+import edu.colorado.phet.moleculeshapes.control.PropertyCheckBoxNode;
+import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
+import edu.colorado.phet.moleculeshapes.control.RealMoleculePanelNode;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
-import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -156,7 +163,7 @@ public class MoleculeShapesControlPanel extends PNode {
 
         realMoleculeNode = new RealMoleculePanelNode( module.getMolecule(), module, overlayNode, minimized );
         realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, new PNode() {{
-            final PText title = new TitledControlPanelNode.TitleNode( Strings.REAL_EXAMPLES__TITLE );
+            final PText title = new TitleNode( Strings.REAL_EXAMPLES__TITLE );
             addChild( title );
 
             final double TEXT_PADDING = 4;

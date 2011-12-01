@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.module;
+package edu.colorado.phet.moleculeshapes.module.moleculeshapes;
 
 import java.awt.Canvas;
 import java.awt.Component;
@@ -34,12 +34,11 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.BondTypeOverlayNode;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
-import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.VSEPRMoleculeModel;
+import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.util.CanvasTransformedBounds;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
@@ -158,7 +157,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
     public MoleculeShapesModule( Frame parentFrame, String name, boolean isBasicsVersion ) {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
         this.isBasicsVersion = isBasicsVersion;
-        molecule = new VSEPRMoleculeModel();
+        setMolecule( new VSEPRMoleculeModel() );
     }
 
     // should be called from stable positions in the JME and Swing EDT threads
@@ -203,7 +202,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
                         if ( isMouseDown && name.equals( MAP_MMB ) ) {
                             PairGroup pair = getElectronPairUnderPointer();
                             if ( pair != null ) {
-                                molecule.removePair( pair );
+                                getMolecule().removePair( pair );
                             }
                             SimSharingEvents.sendEvent( "mouse middle button", "pressed", param( "removedPair", pair != null ) );
                         }
@@ -281,19 +280,15 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         addLighting( moleculeView.getScene() );
 
         // when the molecule is made empty, make sure to show lone pairs again (will allow us to drag out new ones)
-        molecule.onGroupChanged.addListener( new VoidFunction1<PairGroup>() {
+        getMolecule().onGroupChanged.addListener( new VoidFunction1<PairGroup>() {
             public void apply( PairGroup group ) {
-                if ( molecule.getLonePairs().isEmpty() ) {
+                if ( getMolecule().getLonePairs().isEmpty() ) {
                     showLonePairs.set( true );
                 }
             }
         } );
 
-        moleculeNode = new MoleculeModelNode( molecule, readoutView, this, moleculeCamera, new ObservableProperty<Float>( 1f ) {
-            @Override public Float get() {
-                return getApproximateScale();
-            }
-        } );
+        moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, this, moleculeCamera );
         moleculeView.getScene().attachChild( moleculeNode );
 
         /*---------------------------------------------------------------------------*
@@ -301,8 +296,8 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         *----------------------------------------------------------------------------*/
 
         // start with two single bonds
-        molecule.addPair( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-        molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 8, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+        getMolecule().addPair( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+        getMolecule().addPair( new PairGroup( new ImmutableVector3D( 2, 8, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
 
         /*---------------------------------------------------------------------------*
         * real molecule overlay
@@ -395,7 +390,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         /*---------------------------------------------------------------------------*
         * "geometry name" panel
         *----------------------------------------------------------------------------*/
-        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule, !isBasicsVersion() ), Strings.CONTROL__GEOMETRY_NAME ) {{
+        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( getMoleculeProperty(), !isBasicsVersion() ), Strings.CONTROL__GEOMETRY_NAME ) {{
             // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
             setOffset( 0, 10 );
         }}, inputHandler, this, canvasTransform );
@@ -405,7 +400,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
     @Override public void updateState( final float tpf ) {
         super.updateState( tpf );
-        molecule.update( tpf );
+        getMolecule().update( tpf );
         moleculeNode.updateView();
         moleculeNode.setLocalRotation( rotation );
 
@@ -538,7 +533,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
     public void startNewInstanceDrag( int bondOrder ) {
         // sanity check
-        if ( !molecule.wouldAllowBondOrder( bondOrder ) ) {
+        if ( !getMolecule().wouldAllowBondOrder( bondOrder ) ) {
             // don't add to the molecule if it is full
             return;
         }
@@ -546,7 +541,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         Vector3f localPosition = getPlanarMoleculeCursorPosition();
 
         PairGroup pair = new PairGroup( JMEUtils.convertVector( localPosition ), bondOrder, true );
-        molecule.addPair( pair );
+        getMolecule().addPair( pair );
 
         // set up dragging information
         dragging = true;
