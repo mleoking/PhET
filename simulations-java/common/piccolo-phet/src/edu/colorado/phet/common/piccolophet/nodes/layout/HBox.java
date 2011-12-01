@@ -1,11 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.layout;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 
@@ -14,62 +12,94 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Layout the nodes in a horizontal fashion, centered vertically with the specified horizontal padding between nodes.
+ * Lays out nodes horizontally.
+ * Various strategies are provided for common forms of vertical alignment.
  * The layout doesn't update when children bounds change, layout is only performed when new children are added (sufficient for bending light usage).
  *
  * @author Sam Reid
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class HBox extends Box {
-    //Creates an HBox with the default spacing and specified children to add
+
+    // Marker interface, to prevent use of inappropriate predefined strategies.
+    public static interface VerticalPositionStrategy extends PositionStrategy {
+    }
+
+    // predefined strategies that provide common forms of vertical alignment
+    public static final VerticalPositionStrategy CENTER_ALIGNED = new CenterAligned();
+    public static final VerticalPositionStrategy TOP_ALIGNED = new TopAligned();
+    public static final VerticalPositionStrategy BOTTOM_ALIGNED = new BottomAligned();
+
+    // defaults
+    private static final double DEFAULT_X_SPACING = 10;
+    private static final VerticalPositionStrategy DEFAULT_POSITION_STRATEGY = CENTER_ALIGNED;
+
+    // Creates a VBox with default spacing and alignment.
     public HBox( PNode... children ) {
         this( 10, children );
     }
 
-    //Creates an HBox, which lays out nodes horizontally.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
-    public HBox( double spacing,
-                 PNode... children//List of children to be added on initialization
-    ) {
+    public HBox( double spacing, PNode... children ) {
+        this( spacing, DEFAULT_POSITION_STRATEGY, children );
+    }
+
+    public HBox( VerticalPositionStrategy positionStrategy, PNode... children ) {
+        this( DEFAULT_X_SPACING, positionStrategy, children );
+    }
+
+    // Creates a VBox with default alignment.
+    public HBox( double spacing, VerticalPositionStrategy positionStrategy, PNode... children ) {
         super( spacing,
-               //Specify the width of the node which is used in determining the overall height of the HBox
+               // For handling alignment, the relevant dimensions is the height of the tallest child.
                new Function1<PBounds, Double>() {
                    public Double apply( PBounds bounds ) {
                        return bounds.getHeight();
                    }
                },
-               //Specify the height of the node, for spacing the nodes horizontally
+               // For horizontal placement, the relevant dimension is a child's width.
                new Function1<PBounds, Double>() {
                    public Double apply( PBounds bounds ) {
                        return bounds.getWidth();
                    }
                },
-               //Determine the position to place the node, given its center line, bounds and spaced position
-               new PositionStrategy() {
-                   public Point2D getRelativePosition( PNode node, double maxSize, double location ) {
-                       return new Point2D.Double( location, maxSize / 2 - node.getFullBounds().getHeight() / 2 );
-                   }
-               },
+               positionStrategy,
                children
         );
+    }
+
+    // Vertically centers a node in a vertical space.
+    private static class CenterAligned implements VerticalPositionStrategy {
+        public Point2D getRelativePosition( PNode node, double maxHeight, double x ) {
+            return new Point2D.Double( x, maxHeight / 2 - node.getFullBounds().getHeight() / 2 );
+        }
+    }
+
+    // Top aligns a node in a vertical space.
+    private static class TopAligned implements VerticalPositionStrategy {
+        public Point2D getRelativePosition( PNode node, double maxHeight, double x ) {
+            return new Point2D.Double( x, 0 );
+        }
+    }
+
+    // Bottom aligns a node in a vertical space.
+    private static class BottomAligned implements VerticalPositionStrategy {
+        public Point2D getRelativePosition( PNode node, double maxHeight, double x ) {
+            return new Point2D.Double( x, maxHeight - node.getFullBounds().getHeight() );
+        }
     }
 
     //Test
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                addScreenChild( new ControlPanelNode( new HBox( 5 ) {{
+                addScreenChild( new ControlPanelNode( new HBox( 5, BOTTOM_ALIGNED ) {{
                     addChild( new PText( "Testing" ) );
-                    addChild( new PImage( new BufferedImage( 100, 100, BufferedImage.TYPE_INT_ARGB_PRE ) {{
-                        Graphics2D g2 = createGraphics();
-                        g2.setPaint( Color.blue );
-                        g2.fillRect( 0, 0, 100, 100 );
-                        g2.dispose();
-                    }} ) );
-                    addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 100, 100 ) ) );
+                    addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 50, 50 ) ) );
+                    addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 75, 75 ) ) );
                     addChild( new PhetPPath( new Ellipse2D.Double( -100, -100, 100, 100 ) ) );
                 }} ) );
             }} );
