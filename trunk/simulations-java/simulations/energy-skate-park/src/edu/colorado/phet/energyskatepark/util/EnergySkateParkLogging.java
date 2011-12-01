@@ -6,7 +6,7 @@ public class EnergySkateParkLogging {
 
     public static void println( String s ) {
         if ( debugging ) {
-            EnergySkateParkLogging.println( s );
+            System.out.println( s );
         }
     }
 

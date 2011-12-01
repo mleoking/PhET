@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.spline.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.model.LinearFloorSpline2D;
 
 /**
  * User: Sam Reid
@@ -38,6 +39,16 @@ public class ParticleStage implements Serializable {
 
     public boolean isSplineUserControlled() {
         return false;
+    }
+
+    //Find which spline is the floor or null if no floor (as in space)
+    public LinearFloorSpline2D getFloorSpline() {
+        for ( Object spline : splines ) {
+            if ( spline instanceof LinearFloorSpline2D ) {
+                return (LinearFloorSpline2D) spline;
+            }
+        }
+        return null;
     }
 
     public static interface Listener {

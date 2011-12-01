@@ -252,10 +252,37 @@ public class Particle implements Serializable {
                 particle1D.stepInTime( dt );
                 updateStateFrom1D();
                 if ( !particle1D.isReflect() && ( particle1D.getAlpha() < 0 || particle1D.getAlpha() > 1.0 ) ) {
-                    switchToFreeFall();
+
+                    //Check to see if it can immediately attach to the floor without going through free fall first
+                    //Otherwise it causes a glitch in the thermal energy which is problematic in Energy Skate Park Basics
+                    if ( isReadyToAttachToFloor() ) {
+                        attachToFloor();
+                    }
+                    else {
+                        switchToFreeFall();
+                    }
                 }
             }
         }
+    }
+
+    //Check to see if it should immediately attach to the floor from another spline.  This is a special case
+    //Because the energy values shouldn't be perturbed.
+    private void attachToFloor() {
+        y = 0;
+        ParametricFunction2D floorSpline = particleStage.getFloorSpline();
+        if ( floorSpline != null ) {
+            double newAlpha = floorSpline.getClosestPoint( new SerializablePoint2D( x, y ) );
+            particle1D.setCubicSpline2D( floorSpline, false, newAlpha );
+            setUpdateStrategy( new Particle1DUpdate() );
+        }
+        else {
+            throw new RuntimeException( "Floor not found in attachToFloor" );
+        }
+    }
+
+    private boolean isReadyToAttachToFloor() {
+        return y <= 0 && getSpline() != particleStage.getFloorSpline();
     }
 
     private void updateStateFrom1D() {
