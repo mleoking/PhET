@@ -22,9 +22,11 @@ public class MoleculeShapesResources {
         public static final String CONTROL__ELECTRON_GEOMETRY = RESOURCES.getLocalizedString( "control.electronGeometry" );
         public static final String CONTROL__GEOMETRY_NAME = RESOURCES.getLocalizedString( "control.geometryName" );
         public static final String CONTROL__LONE_PAIR = RESOURCES.getLocalizedString( "control.lonePair" );
+        public static final String CONTROL__MODEL_VIEW = RESOURCES.getLocalizedString( "control.modelView" );
         public static final String CONTROL__MOLECULE = RESOURCES.getLocalizedString( "control.molecule" );
         public static final String CONTROL__MOLECULE_GEOMETRY = RESOURCES.getLocalizedString( "control.moleculeGeometry" );
         public static final String CONTROL__OPTIONS = RESOURCES.getLocalizedString( "control.options" );
+        public static final String CONTROL__REAL_VIEW = RESOURCES.getLocalizedString( "control.realView" );
         public static final String CONTROL__REMOVE_ALL = RESOURCES.getLocalizedString( "control.removeAll" );
         public static final String CONTROL__SHOW_ALL_LONE_PAIRS = RESOURCES.getLocalizedString( "control.showAllLonePairs" );
         public static final String CONTROL__SHOW_BOND_ANGLES = RESOURCES.getLocalizedString( "control.showBondAngles" );
