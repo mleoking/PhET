@@ -29,12 +29,14 @@ public class PieChartNode extends PNode {
      * Creates a PieChartNode with the specified slices and area
      */
     public PieChartNode( PieChartNode.PieValue[] slices, Rectangle area ) {
+        //TODO are negatives slices allowed? if not, should we check? If so, what if they slices total to zero?
         this.slices = slices;
         this.area = area;
         update();
     }
 
     public void setPieValues( PieChartNode.PieValue[] values ) {
+        //TODO are negatives slices allowed? if not, should we check? If so, what if they slices total to zero?
         this.slices = values;
         update();
     }
@@ -61,6 +63,10 @@ public class PieChartNode extends PNode {
         sliceEdgeCenterPoints.clear();
         // Get total value of all slices
         double total = getTotal();
+        if ( total == 0 ) {
+            // if the total is zero, we'll have divide-by-zero problems if we continue, resulting in JVM crash in Java2D on Mac.
+            return;
+        }
 
         // Draw each pie slice
         double initialAngleInDegrees = Math.toDegrees( initialAngle );
