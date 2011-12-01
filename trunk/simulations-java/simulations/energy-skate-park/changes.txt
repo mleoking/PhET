@@ -1,3 +1,4 @@
+12/1/11 basic: made the icons in the control panel clickable for toggling their respective properties
 12/1/11 common: Removed padding from mountain image
 12/1/11 common: Made "drag to add track" box rounded and added insets
 12/1/11 common: Use orange piccolo button for "Return Skater" button for both sims
@@ -8,6 +9,8 @@
 12/1/11 basics: Fixed: when transitioning from a spline to the floor, there is a thermal energy discontinuity
 12/1/11 basics: Made floor friction same as track friction
 12/1/11 common: Fixed: Tracks are no longer interactive in non-basics mode
+11/30/11 basics: Converted friction slider to be Piccolo based.
+11/30/11 basics: Made the selectors for track shapes highlight when selected.
 11/30/11 basics: Move the double-well to the right so it will have its lowest peak directly on the 6 meter mark for the grid
 11/30/11 common/basics: check in asset file with revised mountains image
 11/30/11 common: fix NullPointerException that happens in the case where the user's first interaction with the spline toolbox is a mouse press with no drag
