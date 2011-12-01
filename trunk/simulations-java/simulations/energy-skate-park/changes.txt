@@ -1,3 +1,4 @@
+12/1/11 common: Use orange piccolo button for "Return Skater" button for both sims
 12/1/11 common: Replaced house and mountain images with higher resolution versions from NP
 12/1/11 common: use PhetColorScheme.RED_COLORBLIND instead of Color.red
 12/1/11 common: require pie values to be positive
