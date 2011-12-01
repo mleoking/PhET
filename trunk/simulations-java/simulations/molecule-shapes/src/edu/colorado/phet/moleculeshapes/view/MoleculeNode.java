@@ -9,7 +9,7 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.Atom3D;
 import edu.colorado.phet.moleculeshapes.model.Bond;
-import edu.colorado.phet.moleculeshapes.model.Molecule;
+import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 
 import com.jme3.renderer.Camera;
@@ -24,7 +24,7 @@ public class MoleculeNode extends Node {
 
     private float boundingRadius = 0;
 
-    public MoleculeNode( Molecule molecule, MoleculeShapesModule module, Camera camera, DisplayMode displayMode ) {
+    public MoleculeNode( RealMolecule molecule, MoleculeShapesModule module, Camera camera, DisplayMode displayMode ) {
         super( "Molecule" );
 
         for ( Atom3D atom : molecule.getAtoms() ) {

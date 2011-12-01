@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculeshapes.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import edu.colorado.phet.chemistry.model.Element;
@@ -14,16 +15,33 @@ import static edu.colorado.phet.chemistry.model.Element.*;
  * and doesn't include other information).
  * <p/>
  * We display these real molecules to the user in 3D
- * TODO: consider making into a generic version for other sims
  */
-public class RealMolecule extends Molecule {
+public class RealMolecule {
 
     private final String displayName;
-
+    private List<Atom3D> atoms = new ArrayList<Atom3D>();
+    private List<Bond<Atom3D>> bonds = new ArrayList<Bond<Atom3D>>();
     private Atom3D centralAtom = null;
 
     private RealMolecule( String displayName ) {
         this.displayName = displayName;
+    }
+
+    public void addAtom( Atom3D atom ) {
+        assert !atoms.contains( atom );
+        atoms.add( atom );
+    }
+
+    public void addBond( Atom3D a, Atom3D b, int order ) {
+        bonds.add( new Bond<Atom3D>( a, b, order ) );
+    }
+
+    public Collection<Atom3D> getAtoms() {
+        return atoms;
+    }
+
+    public Collection<Bond<Atom3D>> getBonds() {
+        return bonds;
     }
 
     public void addCentralAtom( Atom3D atom ) {
