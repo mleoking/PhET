@@ -14,6 +14,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * Slider node that controls the amount of friction on the track(s) upon which
+ * the skater is moving.
+ *
  * @author John Blanco
  */
 public class TrackFrictionSlider extends PNode {
@@ -23,19 +26,10 @@ public class TrackFrictionSlider extends PNode {
     private double savedFrictionValue = FRICTION_MAX / 2;
 
     public TrackFrictionSlider( final EnergySkateParkBasicsModule module ) {
+
+        // Create a property and hook it up to the module.  Someday it might
+        // make sense to move this into the module.
         final Property<Double> frictionAmount = new Property<Double>( 0.0 );
-        final HSliderNode sliderNode = new HSliderNode( 0, FRICTION_MAX, 90, 5, frictionAmount, module.frictionEnabled ) {
-            @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
-                return Color.WHITE;
-            }
-
-            {
-                addLabel( 0, new PText( EnergySkateParkResources.getString( "controls.gravity.none" ) ) );
-                addLabel( FRICTION_MAX, new PText( EnergySkateParkResources.getString( "controls.gravity.lots" ) ) );
-            }
-        };
-        addChild( sliderNode );
-
         frictionAmount.addObserver( new VoidFunction1<Double>() {
             public void apply( Double friction ) {
                 if ( module.frictionEnabled.get() ) {
@@ -44,6 +38,20 @@ public class TrackFrictionSlider extends PNode {
             }
         } );
 
+        // Create and add the slider node.
+        final HSliderNode sliderNode = new HSliderNode( 0, FRICTION_MAX, 90, 5, frictionAmount, module.frictionEnabled ) {
+            @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
+                // Override the gradient and fill with white.  The gradient
+                // just looked weird.
+                return Color.WHITE;
+            }
+        };
+        sliderNode.addLabel( 0, new PText( EnergySkateParkResources.getString( "controls.gravity.none" ) ) );
+        sliderNode.addLabel( FRICTION_MAX, new PText( EnergySkateParkResources.getString( "controls.gravity.lots" ) ) );
+        addChild( sliderNode );
+
+        // Observe the property that indicates whether friction is enabled so
+        // that the friction level can be set to zero when friction is disabled.
         module.frictionEnabled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean isEnabled, Boolean wasEnabled ) {
                 if ( isEnabled && !wasEnabled ) {
