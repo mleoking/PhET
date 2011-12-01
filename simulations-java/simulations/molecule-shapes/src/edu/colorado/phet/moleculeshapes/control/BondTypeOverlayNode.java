@@ -6,12 +6,11 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEView;
-import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.module.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
 
 import com.jme3.material.Material;
@@ -25,8 +24,8 @@ import com.jme3.scene.shape.Quad;
  * Displays a molecule fragment that can be enabled or disabled
  */
 public class BondTypeOverlayNode extends MoleculeModelNode {
-    public BondTypeOverlayNode( final MoleculeModel molecule, final JMEView view, final JMEInputHandler inputHandler, final MoleculeShapesModule module, final Property<Boolean> enabled ) {
-        super( molecule, inputHandler, null, module, view.getCamera(), new ObservableProperty<Float>( 1f ) { // TODO: improve this!
+    public BondTypeOverlayNode( final MoleculeModel molecule, final JMEView view, final MoleculeViewModule module, final Property<Boolean> enabled ) {
+        super( molecule, null, module, view.getCamera(), new ObservableProperty<Float>( 1f ) { // TODO: improve this!
             @Override public Float get() {
                 return module.getApproximateScale();
             }

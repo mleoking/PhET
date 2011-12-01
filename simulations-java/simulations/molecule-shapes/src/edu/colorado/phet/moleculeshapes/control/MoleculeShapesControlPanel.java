@@ -177,7 +177,7 @@ public class MoleculeShapesControlPanel extends PNode {
             /*---------------------------------------------------------------------------*
             * show bond angles
             *----------------------------------------------------------------------------*/
-            checkboxContainer.addChild( new PropertyCheckBoxNode( Strings.CONTROL__SHOW_BOND_ANGLES, MoleculeShapesProperties.showBondAngles ) {{
+            checkboxContainer.addChild( new PropertyCheckBoxNode( Strings.CONTROL__SHOW_BOND_ANGLES, module.showBondAngles ) {{
                 // enabled when there are 2 or more bonds (or always)
                 Runnable updateEnabled = new Runnable() {
                     public void run() {

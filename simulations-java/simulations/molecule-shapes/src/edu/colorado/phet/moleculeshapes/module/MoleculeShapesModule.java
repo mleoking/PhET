@@ -20,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
-import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.OverlayCamera;
@@ -75,7 +74,7 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_P
 /**
  * Main module for Molecule Shapes
  */
-public class MoleculeShapesModule extends JMEModule {
+public class MoleculeShapesModule extends MoleculeViewModule {
 
     private PhetJMEApplication app;
     private final boolean isBasicsVersion;
@@ -291,7 +290,7 @@ public class MoleculeShapesModule extends JMEModule {
             }
         } );
 
-        moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, this, moleculeCamera, new ObservableProperty<Float>( 1f ) {
+        moleculeNode = new MoleculeModelNode( molecule, readoutView, this, moleculeCamera, new ObservableProperty<Float>( 1f ) {
             @Override public Float get() {
                 return getApproximateScale();
             }
@@ -352,26 +351,26 @@ public class MoleculeShapesModule extends JMEModule {
         JMEView singleBondOverlay = createBondOverlayView.apply( "Single Bond", singleBondOverlayStageBounds );
         singleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-        }}, singleBondOverlay, inputHandler, this, addSingleBondEnabled ) );
+        }}, singleBondOverlay, this, addSingleBondEnabled ) );
         addLighting( singleBondOverlay.getScene() );
 
         JMEView doubleBondOverlay = createBondOverlayView.apply( "Double Bond", doubleBondOverlayStageBounds );
         doubleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 2, false ) );
-        }}, doubleBondOverlay, inputHandler, this, addDoubleBondEnabled ) );
+        }}, doubleBondOverlay, this, addDoubleBondEnabled ) );
         addLighting( doubleBondOverlay.getScene() );
 
         JMEView tripleBondOverlay = createBondOverlayView.apply( "Triple Bond", tripleBondOverlayStageBounds );
         tripleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
             addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), 3, false ) );
-        }}, tripleBondOverlay, inputHandler, this, addTripleBondEnabled ) );
+        }}, tripleBondOverlay, this, addTripleBondEnabled ) );
         addLighting( tripleBondOverlay.getScene() );
 
         if ( !isBasicsVersion() ) {
             JMEView lonePairOverlay = createBondOverlayView.apply( "Lone Pair", lonePairOverlayStageBounds );
             lonePairOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
                 addPair( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), 0, false ) );
-            }}, lonePairOverlay, inputHandler, this, addLonePairEnabled ) );
+            }}, lonePairOverlay, this, addLonePairEnabled ) );
             addLighting( lonePairOverlay.getScene() );
         }
 
@@ -759,19 +758,6 @@ public class MoleculeShapesModule extends JMEModule {
 
     public boolean canAutoRotateRealMolecule() {
         return !( dragging && dragMode == DragMode.REAL_MOLECULE_ROTATE );
-    }
-
-    /**
-     * @return Our relative screen display scale compared to the stage scale
-     */
-    public ImmutableVector2D getScale() {
-        return new ImmutableVector2D( getCanvasSize().getWidth() / getStageSize().getWidth(),
-                                      getCanvasSize().getHeight() / getStageSize().getHeight() );
-    }
-
-    public float getApproximateScale() {
-        ImmutableVector2D scale = getScale();
-        return (float) ( ( scale.getX() + scale.getY() ) / 2 );
     }
 
     public boolean isBasicsVersion() {

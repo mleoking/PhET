@@ -22,7 +22,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
-import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.PhetCamera;
@@ -71,7 +70,7 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_P
 /**
  * Module that shows the difference between the model and the real shapes the molecules make
  */
-public class RealMoleculesModule extends JMEModule {
+public class RealMoleculesModule extends MoleculeViewModule {
 
     private PhetJMEApplication app;
 
@@ -264,7 +263,7 @@ public class RealMoleculesModule extends JMEModule {
                 return getApproximateScale();
             }
         };
-        moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, this, moleculeCamera, scaleFunction );
+        moleculeNode = new MoleculeModelNode( molecule, readoutView, this, moleculeCamera, scaleFunction );
         moleculeView.getScene().attachChild( moleculeNode );
 
         /*---------------------------------------------------------------------------*
@@ -283,7 +282,7 @@ public class RealMoleculesModule extends JMEModule {
                                 moleculeNode.detachReadouts();
                                 moleculeView.getScene().detachChild( moleculeNode );
                                 molecule = new RealMoleculeModel( selectedRealMolecule );
-                                moleculeNode = new MoleculeModelNode( molecule, inputHandler, readoutView, RealMoleculesModule.this, moleculeCamera, scaleFunction );
+                                moleculeNode = new MoleculeModelNode( molecule, readoutView, RealMoleculesModule.this, moleculeCamera, scaleFunction );
                                 moleculeView.getScene().attachChild( moleculeNode );
                             }
                         } );
@@ -624,18 +623,5 @@ public class RealMoleculesModule extends JMEModule {
 
     public boolean canAutoRotateRealMolecule() {
         return !( dragging && dragMode == DragMode.REAL_MOLECULE_ROTATE );
-    }
-
-    /**
-     * @return Our relative screen display scale compared to the stage scale
-     */
-    public ImmutableVector2D getScale() {
-        return new ImmutableVector2D( getCanvasSize().getWidth() / getStageSize().getWidth(),
-                                      getCanvasSize().getHeight() / getStageSize().getHeight() );
-    }
-
-    public float getApproximateScale() {
-        ImmutableVector2D scale = getScale();
-        return (float) ( ( scale.getX() + scale.getY() ) / 2 );
     }
 }

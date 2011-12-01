@@ -6,14 +6,13 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.shapes.PointArc;
 import edu.colorado.phet.jmephet.shapes.Sector;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
@@ -32,7 +31,7 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.BOND_ANGL
 public class BondAngleNode extends Node {
     private PointArc arc;
     private boolean initialized = false;
-    private final JMEModule module;
+    private final MoleculeViewModule module;
     private final MoleculeModel molecule;
     private final PairGroup aGroup;
     private final PairGroup bGroup;
@@ -41,7 +40,7 @@ public class BondAngleNode extends Node {
     private Sector sector;
     private Property<Float> alpha = new Property<Float>( 0f );
 
-    public BondAngleNode( final JMEModule module, MoleculeModel molecule, PairGroup a, PairGroup b ) {
+    public BondAngleNode( final MoleculeViewModule module, MoleculeModel molecule, PairGroup a, PairGroup b ) {
         super( "Bond Angle" );
         this.module = module;
         this.molecule = molecule;
@@ -51,9 +50,9 @@ public class BondAngleNode extends Node {
         setQueueBucket( Bucket.Transparent ); // allow it to be transparent
 
         // only show these when they should be visible
-        MoleculeShapesProperties.showBondAngles.addObserver( new SimpleObserver() {
+        module.showBondAngles.addObserver( new SimpleObserver() {
             public void update() {
-                setCullHint( MoleculeShapesProperties.showBondAngles.get() ? CullHint.Never : CullHint.Always );
+                setCullHint( module.showBondAngles.get() ? CullHint.Never : CullHint.Always );
             }
         } );
     }
