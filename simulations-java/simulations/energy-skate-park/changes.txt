@@ -1,3 +1,4 @@
+12/1/11 basics: Fixed: when transitioning from a spline to the floor, there is a thermal energy discontinuity
 12/1/11 basics: Made floor friction same as track friction
 12/1/11 common: Fixed: Tracks are no longer interactive in non-basics mode
 11/30/11 basics: Move the double-well to the right so it will have its lowest peak directly on the 6 meter mark for the grid
