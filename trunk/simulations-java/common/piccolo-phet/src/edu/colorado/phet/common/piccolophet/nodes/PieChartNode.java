@@ -28,14 +28,14 @@ public class PieChartNode extends PNode {
     /*
      * Creates a PieChartNode with the specified slices and area
      */
-    public PieChartNode( PieChartNode.PieValue[] slices, Rectangle area ) {
+    public PieChartNode( PieValue[] slices, Rectangle area ) {
         //TODO validate slice values, they should be positive
         this.slices = slices;
         this.area = area;
         update();
     }
 
-    public void setPieValues( PieChartNode.PieValue[] values ) {
+    public void setPieValues( PieValue[] values ) {
         //TODO validate slice values, they should be positive
         this.slices = values;
         update();
@@ -175,11 +175,11 @@ public class PieChartNode extends PNode {
      * Sample usage of PieChartNode
      */
     public static void main( String[] args ) {
-        PieChartNode.PieValue[] values = new PieValue[] {
-                new PieChartNode.PieValue( 25, Color.red ),
-                new PieChartNode.PieValue( 33, Color.green ),
-                new PieChartNode.PieValue( 20, Color.pink ),
-                new PieChartNode.PieValue( 15, Color.blue ) };
+        PieValue[] values = new PieValue[] {
+                new PieValue( 25, Color.red ),
+                new PieValue( 33, Color.green ),
+                new PieValue( 20, Color.pink ),
+                new PieValue( 15, Color.blue ) };
         PieChartNode n = new PieChartNode( values, new Rectangle( 100, 100 ) );
         JFrame frame = new JFrame();
         PCanvas contentPane = new PCanvas();
