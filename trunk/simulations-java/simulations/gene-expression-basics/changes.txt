@@ -1,4 +1,6 @@
-Added "capture signal", whic"h is a flashing
+Fixed an issue where mRNA would be above the ribosome in the z-order in some cases, which looked weird.
+Added placement hint for mRNA destroyer.
+Added "capture signal" to the protein capture area.  This is a flashing node that surrounds the location where the protein is moved when captured.
 # 0.00.10 (58851) Nov 29, 2011
 11/29/11 Deploying to dev as a snapshot for use in discussions with design team.
 Added infrastructure and stubbed out implementations (i.e. static pictures) for 2nd and 3rd tabs.
