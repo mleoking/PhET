@@ -10,6 +10,7 @@ public class SimSharingParameters {
 
     public static final String DESCRIPTION = "description";
     public static final String HEIGHT = "height";
+    public static final String ITEM = "item";
     public static final String IS_SELECTED = "isSelected";
     public static final String TEXT = "text";
     public static final String TITLE = "title";

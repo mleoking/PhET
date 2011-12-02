@@ -13,7 +13,10 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingParameters;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -137,7 +140,9 @@ public class ComboBoxNode<T> extends PNode {
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
 
-                        SimSharingEvents.sendEvent( "comboBoxItem", "selected", Parameter.param( "description", description ), Parameter.param( "item", toString.apply( item ) ) );
+                        SimSharingEvents.sendEvent( SimSharingObjects.COMBO_BOX_ITEM, SimSharingActions.SELECTED,
+                                                    Parameter.param( SimSharingParameters.DESCRIPTION, description ),
+                                                    Parameter.param( SimSharingParameters.ITEM, toString.apply( item ) ) );
 
                         selectedItem.set( item );
                     }

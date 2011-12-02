@@ -29,7 +29,10 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingParameters;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -906,7 +909,7 @@ public class PhetTabbedPane extends JPanel {
         public void mouseReleased( PInputEvent e ) {
             if ( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
 
-                SimSharingEvents.sendEvent( "tab", "pressed", Parameter.param( "text", tab.getText() ) );
+                SimSharingEvents.sendEvent( SimSharingObjects.TAB, SimSharingActions.PRESSED, Parameter.param( SimSharingParameters.TEXT, tab.getText() ) );
 
                 setSelectedTab( tab );
             }
