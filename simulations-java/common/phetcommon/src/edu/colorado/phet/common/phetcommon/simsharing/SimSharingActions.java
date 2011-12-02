@@ -9,6 +9,7 @@ package edu.colorado.phet.common.phetcommon.simsharing;
 public class SimSharingActions {
 
     public static final String ACTIVATED = "activated";
+    public static final String CHANGED = "changed";
     public static final String EXITED = "exited";
     public static final String DEACTIVATED = "deactivated";
     public static final String DEICONIFIED = "deiconified";
