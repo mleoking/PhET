@@ -157,7 +157,7 @@ public class SimSharingEvents {
     //Called from the first line of main(), connects to the server and sends a start message
     public static void simStarted( final PhetApplicationConfig config ) {
         simStartedTime = new Option.Some<Long>( System.currentTimeMillis() );
-        enabled = config.hasCommandLineArg( "-study" );
+        enabled = config.isSimSharingEnabled();
 
         if ( enabled ) {
             final String studyName = getArgAfter( config.getCommandLineArgs(), "-study" );

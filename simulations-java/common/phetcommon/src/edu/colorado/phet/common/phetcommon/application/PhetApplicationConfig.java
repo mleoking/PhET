@@ -199,6 +199,10 @@ public class PhetApplicationConfig implements ISimInfo {
         return isStatisticsFeatureIncluded() && PhetPreferences.getInstance().isStatisticsEnabled();
     }
 
+    public boolean isSimSharingEnabled() {
+        return hasCommandLineArg( "-study" );
+    }
+
     /**
      * Project JAR file is named <project>_all.jar
      */
