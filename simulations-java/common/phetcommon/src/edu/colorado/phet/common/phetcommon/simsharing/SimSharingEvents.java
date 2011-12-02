@@ -59,9 +59,6 @@ public class SimSharingEvents {
     //Call it "cookie" instead of "id" so it doesn't sound so scary to end users
     private static final String MACHINE_COOKIE_KEY = "machine.cookie";
 
-    public static final String OBJECT_SYSTEM = "system";
-    public static final String ACTION_EXITED = "exited";
-
     //This number should be increased when the data format changes so that a different parser must be used
     private static final int PARSER_VERSION = 1;
 
@@ -81,7 +78,7 @@ public class SimSharingEvents {
 
     //A direct response to something the user did.
     public static void sendSystemEvent( String action, Parameter... parameters ) {
-        sendEvent( OBJECT_SYSTEM, action, parameters );
+        sendEvent( SimSharingObjects.SYSTEM, action, parameters );
     }
 
     //Signify that an action performed by the user has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server

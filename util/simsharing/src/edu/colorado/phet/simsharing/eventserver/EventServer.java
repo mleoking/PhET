@@ -18,8 +18,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.MessageHandler;
 import edu.colorado.phet.common.phetcommon.simsharing.ObjectStreamMessageServer;
 import edu.colorado.phet.common.phetcommon.simsharing.StringServer;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.ACTION_EXITED;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.OBJECT_SYSTEM;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions.EXITED;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects.SYSTEM;
 
 /**
  * Server that stores messages sent from SimSharingEvents.
@@ -51,7 +51,7 @@ public class EventServer implements MessageHandler {
             bufferedWriter.newLine();
             bufferedWriter.flush();
 
-            if ( object.equals( OBJECT_SYSTEM ) && action.equals( ACTION_EXITED ) ) {
+            if ( object.equals( SYSTEM ) && action.equals( EXITED ) ) {
                 bufferedWriter.close();
 
                 String key = getKey( machineID, sessionID );

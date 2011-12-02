@@ -29,7 +29,10 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingParameters;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuBar;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
@@ -55,7 +58,6 @@ public class PhetFrame extends JFrame {
     private JMenu defaultFileMenu;
     private JMenu developerMenu;
     private HelpMenu helpMenu;
-    private final String OBJECT_WINDOW = "window";
 
     //Store the previous size in component listener so we only notify about changes
     private Dimension prevSize = new Dimension( -1, -1 );
@@ -72,7 +74,7 @@ public class PhetFrame extends JFrame {
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
 
-                SimSharingEvents.sendEvent( OBJECT_WINDOW, "closeButtonPressed", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( SimSharingObjects.WINDOW, SimSharingActions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED, param( SimSharingParameters.TITLE, getTitle() ) );
                 application.exit();
             }
         } );
@@ -81,23 +83,23 @@ public class PhetFrame extends JFrame {
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
 
-                SimSharingEvents.sendEvent( OBJECT_WINDOW, "iconified", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( SimSharingObjects.WINDOW, SimSharingActions.ICONIFIED, param( SimSharingParameters.TITLE, getTitle() ) );
                 application.pause();
             }
 
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
 
-                SimSharingEvents.sendEvent( OBJECT_WINDOW, "deiconified", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( SimSharingObjects.WINDOW, SimSharingActions.DEICONIFIED, param( SimSharingParameters.TITLE, getTitle() ) );
                 application.resume();
             }
 
             @Override public void windowActivated( WindowEvent e ) {
-                SimSharingEvents.sendEvent( OBJECT_WINDOW, "activated", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( SimSharingObjects.WINDOW, SimSharingActions.ACTIVATED, param( SimSharingParameters.TITLE, getTitle() ) );
             }
 
             @Override public void windowDeactivated( WindowEvent e ) {
-                SimSharingEvents.sendEvent( OBJECT_WINDOW, "deactivated", param( "title", getTitle() ) );
+                SimSharingEvents.sendEvent( SimSharingObjects.WINDOW, SimSharingActions.DEACTIVATED, param( SimSharingParameters.TITLE, getTitle() ) );
             }
         } );
 
@@ -106,7 +108,9 @@ public class PhetFrame extends JFrame {
         addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
                 if ( !getSize().equals( prevSize ) ) {
-                    SimSharingEvents.sendEvent( OBJECT_WINDOW, "resized", param( "width", getWidth() ), param( "height", getHeight() ) );
+                    SimSharingEvents.sendEvent( SimSharingObjects.WINDOW, SimSharingActions.RESIZED,
+                                                param( SimSharingParameters.WIDTH, getWidth() ),
+                                                param( SimSharingParameters.HEIGHT, getHeight() ) );
                     prevSize = new Dimension( getSize() );
                 }
             }

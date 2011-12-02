@@ -5,7 +5,10 @@ import javax.swing.Action;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingParameters;
 
 /**
  * Menu used in phetcommon for transmitting data on student usage of menus, see #3144
@@ -29,7 +32,9 @@ public class SimSharingJMenu extends JMenu {
     }
 
     @Override protected void fireMenuSelected() {
-        SimSharingEvents.sendEvent( "menu", "selected", Parameter.param( "text", getText() ) );
+        SimSharingEvents.sendEvent( SimSharingObjects.MENU,
+                                    SimSharingActions.SELECTED, //TODO: shouldn't this be PRESSED, it's a button?
+                                    Parameter.param( SimSharingParameters.TEXT, getText() ) );
         super.fireMenuSelected();
     }
 }
