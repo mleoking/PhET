@@ -112,7 +112,6 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
     //Move splines so they sit on the ground with y=0 and move by the specified x amount
     private void adjustSplines( double xOffset ) {
-        System.out.println( "xOffset = " + xOffset );
         for ( int i = 0; i < getEnergySkateParkModel().getNumSplines(); i++ ) {
             EnergySkateParkSpline spline = getEnergySkateParkModel().getSpline( i );
             spline.translate( xOffset, -spline.getMinControlPointY() );

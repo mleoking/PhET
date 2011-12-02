@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 
 /**
- * Main application for "Energy Skate Park Basics Application"
+ * Main application for "Energy Skate Park Basics"
  *
  * @author Sam Reid
  */
