@@ -72,6 +72,7 @@ public class MessengerRna extends MobileBiomolecule {
     private PointMass lastShapeDefiningPoint = null;
 
     public final PlacementHint ribosomePlacementHint;
+    public final PlacementHint mRnaDestroyerPlacementHint;
 
     // List of the shape segments that define the outline shape.
     public final EnhancedObservableList<ShapeSegment> shapeSegments = new EnhancedObservableList<ShapeSegment>();
@@ -111,15 +112,17 @@ public class MessengerRna extends MobileBiomolecule {
         // than growing) until it is released.
         behaviorState = new IdleState( this );
 
-        // Add the placement hint that will show the user where the ribosome
-        // can be attached.
+        // Add the placement hints for the locations where the user can attach
+        // a ribosome or and mRNA destroyer.
         ribosomePlacementHint = new PlacementHint( new Ribosome( model ) );
+        mRnaDestroyerPlacementHint = new PlacementHint( new MessengerRnaDestroyer( model ) );
         shapeProperty.addObserver( new SimpleObserver() {
             public void update() {
                 // This hint always sits at the beginning of the RNA strand.
                 ImmutableVector2D currentMRnaFirstPointPosition = new ImmutableVector2D( firstShapeDefiningPoint.getPosition() );
                 ImmutableVector2D offsetToTranslationChannelEntrance = ( new Ribosome( model ) ).getEntranceOfRnaChannelPos();
                 ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( offsetToTranslationChannelEntrance ).toPoint2D() );
+                mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( offsetToTranslationChannelEntrance ).toPoint2D() );
             }
         } );
     }
@@ -688,18 +691,19 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
-     * Activate the placement hint(s).
+     * Activate the placement hint(s) as appropriate for the given biomolecule.
      *
-     * @param biomolecule
+     * @param biomolecule - And instance of the type of biomolecule for which
+     *                    any matching hints should be activated.
      */
     public void activateHints( MobileBiomolecule biomolecule ) {
-        if ( ribosomePlacementHint.isMatchingBiomolecule( biomolecule ) ) {
-            ribosomePlacementHint.active.set( true );
-        }
+        ribosomePlacementHint.activateIfMatch( biomolecule );
+        mRnaDestroyerPlacementHint.activateIfMatch( biomolecule );
     }
 
     public void deactivateAllHints() {
         ribosomePlacementHint.active.set( false );
+        mRnaDestroyerPlacementHint.active.set( false );
     }
 
     public void connectToRibosome( Ribosome ribosome ) {

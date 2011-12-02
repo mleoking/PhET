@@ -35,8 +35,10 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
     public MessengerRnaNode( final ModelViewTransform mvt, final MessengerRna messengerRna ) {
         super( mvt, messengerRna, new BasicStroke( 2 ) );
 
-        // Add a placement hint that shows where a ribosome could be attached.
+        // Add placement hints that show where ribosomes and mRNA destroyers
+        // could be attached.
         addChild( new PlacementHintNode( mvt, messengerRna.ribosomePlacementHint ) );
+        addChild( new PlacementHintNode( mvt, messengerRna.mRnaDestroyerPlacementHint ) );
 
         if ( SHOW_SHAPE_SEGMENTS ) {
 

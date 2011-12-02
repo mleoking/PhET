@@ -15,9 +15,18 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Transcr
  */
 public class PlacementHint extends ShapeChangingModelElement {
 
-    public final BooleanProperty active = new BooleanProperty( false );
+    // Biomolecule that defines the shape of this hint.
     private final MobileBiomolecule biomolecule;
 
+    // Property that tracks whether or not the hint is should be visible to the
+    // user.
+    public final BooleanProperty active = new BooleanProperty( false );
+
+    /**
+     * Constructor.
+     *
+     * @param biomolecule
+     */
     public PlacementHint( MobileBiomolecule biomolecule ) {
         super( biomolecule.getShape() );
         this.biomolecule = biomolecule;
@@ -48,11 +57,23 @@ public class PlacementHint extends ShapeChangingModelElement {
                 }
             }
             else {
-                // All other biomolecules are considered a match based on
-                // type alone.
+                // All other biomolecules are considered a match based on type
+                // alone.
                 match = true;
             }
         }
         return match;
+    }
+
+    /**
+     * If the proffered test biomolecule is of the appropriate type, activate
+     * this hint.
+     *
+     * @param testBiomolecule
+     */
+    public void activateIfMatch( MobileBiomolecule testBiomolecule ) {
+        if ( isMatchingBiomolecule( testBiomolecule ) ) {
+            active.set( true );
+        }
     }
 }
