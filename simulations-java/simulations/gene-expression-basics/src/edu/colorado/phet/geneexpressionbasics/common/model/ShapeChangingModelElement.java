@@ -47,12 +47,13 @@ public abstract class ShapeChangingModelElement {
     }
 
     public void setPosition( double x, double y ) {
-        // This default implementation assumes that the position indicator is
-        // defined by the center of the shape's bounds.  Override if some
-        // other behavior is required.
-        translate( new Vector2D( x - shapeProperty.get().getBounds2D().getCenterX(),
-                                 y - shapeProperty.get().getBounds2D().getCenterY() ) );
-
+        if ( x != getPosition().getX() || y != getPosition().getY() ) {
+            // This default implementation assumes that the position indicator
+            // is defined by the center of the shape's bounds.  Override if
+            // some other behavior is required.
+            translate( new Vector2D( x - shapeProperty.get().getBounds2D().getCenterX(),
+                                     y - shapeProperty.get().getBounds2D().getCenterY() ) );
+        }
     }
 
     public Point2D getPosition() {

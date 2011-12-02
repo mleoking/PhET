@@ -5,10 +5,7 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BeingSynthesizedState;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.DetachingState;
 
 /**
  * Base class for proteins.  Defines the methods used for growing a protein.
@@ -38,7 +35,6 @@ public abstract class Protein extends MobileBiomolecule {
 
     protected Protein( GeneExpressionModel model, Ribosome parentRibosome, Shape initialShape, Color baseColor ) {
         super( model, initialShape, baseColor );
-        behaviorState = new BeingSynthesizedState( this, parentRibosome );
     }
 
     //-------------------------------------------------------------------------
@@ -85,7 +81,7 @@ public abstract class Protein extends MobileBiomolecule {
      * the cell.
      */
     public void release() {
-        behaviorState = new DetachingState( this, new ImmutableVector2D( 1, 1 ) );
+        attachmentStateMachine.detach();
     }
 
     /**

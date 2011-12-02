@@ -129,7 +129,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 model.mobileBiomoleculeList.addElementRemovedObserver( new VoidFunction1<MobileBiomolecule>() {
                     public void apply( MobileBiomolecule removedBiomolecule ) {
                         if ( removedBiomolecule == addedBiomolecule ) {
-                            modelRootNode.removeChild( biomoleculeNode );
+                            topBiomoleculeLayer.removeChild( biomoleculeNode );
                         }
                     }
                 } );

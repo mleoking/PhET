@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.TranslatingMRnaState;
 
 /**
  * Class that represents the a ribosome in the model.
@@ -46,6 +44,7 @@ public class Ribosome extends MobileBiomolecule {
     public Ribosome( final GeneExpressionModel model, Point2D position ) {
         super( model, createShape(), new Color( 205, 155, 29 ) );
         setPosition( position );
+        /* TODO: Shouldn't need this anymore - new state behavior as of 12/2/2011 should handle it.  Keep for a while just in case.
         userControlled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
                 if ( wasUserControlled && !isUserControlled ) {
@@ -73,6 +72,7 @@ public class Ribosome extends MobileBiomolecule {
                 }
             }
         } );
+        */
     }
 
     public void setProteinGrowth( double growthFactor ) {

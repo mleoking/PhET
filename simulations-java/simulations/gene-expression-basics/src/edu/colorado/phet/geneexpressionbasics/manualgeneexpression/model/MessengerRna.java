@@ -28,9 +28,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BeingTranslatedState;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.DetachingState;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.IdleState;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -107,10 +104,6 @@ public class MessengerRna extends MobileBiomolecule {
         shapeSegments.add( new ShapeSegment.FlatSegment( position ) {{
             setCapacity( LEADER_LENGTH );
         }} );
-
-        // Explicitly set the state to idle, so that this won't move (other
-        // than growing) until it is released.
-        behaviorState = new IdleState( this );
 
         // Add the placement hints for the locations where the user can attach
         // a ribosome or and mRNA destroyer.
@@ -659,8 +652,7 @@ public class MessengerRna extends MobileBiomolecule {
         assert mapRibosomeToShapeSegment.containsKey( ribosome ); // This shouldn't be called if the ribosome wasn't connected.
         mapRibosomeToShapeSegment.remove( ribosome );
         if ( mapRibosomeToShapeSegment.isEmpty() ) {
-            // Set the state to just be drifting around in the cytoplasm.
-            behaviorState = new DetachingState( this, new ImmutableVector2D( 1, 1 ) );
+            attachmentStateMachine.detach();
         }
     }
 
@@ -670,7 +662,7 @@ public class MessengerRna extends MobileBiomolecule {
      */
     public void releaseFromPolymerase() {
         // Set the state to just be drifting around in the cytoplasm.
-        behaviorState = new DetachingState( this, new ImmutableVector2D( 0, 1 ) );
+        attachmentStateMachine.detach();
     }
 
     /**
@@ -706,8 +698,9 @@ public class MessengerRna extends MobileBiomolecule {
         mRnaDestroyerPlacementHint.active.set( false );
     }
 
+    // TODO: This needs to be replaced with standard attachment behavior.
     public void connectToRibosome( Ribosome ribosome ) {
-        behaviorState = new BeingTranslatedState( this, ribosome );
+//        behaviorState = new BeingTranslatedState( this, ribosome );
         assert !mapRibosomeToShapeSegment.containsKey( ribosome ); // State checking.
 
         // Set the capacity of the first segment to the size of the channel
