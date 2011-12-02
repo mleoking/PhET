@@ -24,6 +24,8 @@ public class MonthlyReportFilter {
         allList.add( "molecules-and-light" );
         allList.add( "isotopes-and-atomic-mass" );
         allList.add( "balloons-and-static-electricity" );
+        allList.add( "states-of-matter-basics" );
+        allList.add( "sponsorship" );
         allList.add( "solutions" );
         allList.add( "licensing" );
         allList.add( "ti" );
