@@ -1,3 +1,4 @@
+12/2/11 #3168, change Bond Character strings to "more covalent" and "more ionic"
 # 1.01.10 (58370) Nov 5, 2011
 11/3/11 deployed by SR for something having to do with shimsharing #3136
 # 1.01.09 (58343) Nov 3, 2011
