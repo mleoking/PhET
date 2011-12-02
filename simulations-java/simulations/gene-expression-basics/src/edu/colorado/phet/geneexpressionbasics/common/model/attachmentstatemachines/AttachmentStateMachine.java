@@ -6,7 +6,6 @@ import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.FollowAttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 
 /**
  * Base class for the attachment state machines that define how the various
@@ -20,8 +19,6 @@ public abstract class AttachmentStateMachine {
     //-------------------------------------------------------------------------
     // Class Data
     //-------------------------------------------------------------------------
-
-    private static final double DEFAULT_DETACH_TIME = 3; // In seconds.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -37,9 +34,6 @@ public abstract class AttachmentStateMachine {
     // attached to this point or moving towards attachment with it.
     protected AttachmentSite attachmentSite = null;
 
-    // Countdown timer used when detaching from an attachment site.
-    private double detachCountdownTimer = DEFAULT_DETACH_TIME;
-
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -53,111 +47,134 @@ public abstract class AttachmentStateMachine {
     //-------------------------------------------------------------------------
 
     public void stepInTime( double dt ) {
-        switch( attachmentState ) {
-            case UNATTACHED_AND_AVAILABLE:
-                stepUnattachedAndAvailableStateInTime( dt );
-                break;
-            case MOVING_TOWARDS_ATTACHMENT:
-                stepMovingTowardsAttachmentStateInTime( dt );
-                break;
-            case ATTACHED:
-                stepAttachedStateInTime( dt );
-                break;
-            case UNATTACHED_BUT_UNAVAILABLE:
-                stepUnattachedButUnavailableStateInTime( dt );
-                break;
-            default:
-                System.out.println( getClass().getName() + " Error: Unrecognized state." );
-                assert false;
-                attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-                break;
-        }
-    }
-
-    public AttachmentState getAttachmentState() {
-        return attachmentState;
+        attachmentState.stepInTime( this, dt );
     }
 
     /**
      * Detach the biomolecule from any current attachments.  This will cause
-     * the molecule to go into the UNATTACHED_BUT_UNAVAILABLE state for some
+     * the molecule to go into the unattached-bun-unavailable state for some
      * period of time, then it will become available again.
      */
     protected void detach() {
         assert attachmentSite != null; // Verify internal state is consistent.
-        attachmentSite.attachedMolecule.set( null );
-
+        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        attachmentSite = null;
+        attachmentState = new GenericUnattachedButUnavailableState();
     }
 
     /**
-     * Move immediately into the UNATTACHED_AND_AVAILABLE state.  This is
+     * Move immediately into the unattached-and-available state.  This is
      * generally done only when the user has grabbed the associated molecule.
      */
-    public abstract void forceImmediateUnattached();
-
-    /**
-     * Step-in-time behavior of the UNATTACHED_AND_AVAILABLE state.
-     *
-     * @param dt
-     */
-    protected void stepUnattachedAndAvailableStateInTime( double dt ) {
-        assert attachmentSite == null; // Verify internal state is consistent.
-        assert attachmentSite.attachedMolecule.get() == new Option.Some<MobileBiomolecule>( biomolecule ); // Verify internal state is consistent.
-        attachmentSite = biomolecule.proposeAttachments();
-        if ( attachmentSite != null ) {
-            // An attachment proposal was accepted, so start heading towards
-            // the site.
-            biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty, biomolecule.motionBoundsProperty ) );
-        }
-    }
-
-    /**
-     * Step-in-time behavior of the MOVING_TOWARDS_ATTACHMENT state.
-     *
-     * @param dt
-     */
-    protected void stepMovingTowardsAttachmentStateInTime( double dt ) {
+    public void forceImmediateUnattached() {
         assert attachmentSite != null; // Verify internal state is consistent.
-        if ( biomolecule.getPosition().equals( attachmentSite.locationProperty.get() ) ) {
-            // This molecule is now at the attachment site, so consider it
-            // attached.
-            attachmentState = AttachmentState.ATTACHED;
-            biomolecule.setMotionStrategy( new FollowAttachmentSite( attachmentSite ) );
-        }
-    }
-
-    /**
-     * Step-in-time behavior of the ATTACHED state.  Since the specific
-     * attachment behavior is unique for each biomolecule, this method has no
-     * default implementation.
-     *
-     * @param dt
-     */
-    protected abstract void stepAttachedStateInTime( double dt );
-
-    /**
-     * Step-in-time behavior of the UNATTACHED_BUT_UNAVAILABLE state.
-     *
-     * @param dt
-     */
-    protected void stepUnattachedButUnavailableStateInTime( double dt ) {
-        assert attachmentSite == null; // Verify internal state is consistent.
-        detachCountdownTimer -= dt;
-        if ( detachCountdownTimer <= 0 ) {
-            // Become available for attachment again.
-            attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
-            biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );
-        }
+        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        attachmentSite = null;
+        attachmentState = new GenericUnattachedButUnavailableState();
     }
 
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
 
-    public enum AttachmentState {
+    public enum AttachmentStateEnum {
         UNATTACHED_AND_AVAILABLE,
         MOVING_TOWARDS_ATTACHMENT,
         ATTACHED,
         UNATTACHED_BUT_UNAVAILABLE
+    }
+
+    /**
+     * Base class for individual attachment states, used by the enclosing
+     * state machine.
+     */
+    private abstract class AttachmentState {
+        public abstract void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt );
+    }
+
+    private class GenericUnattachedAndAvailableState extends AttachmentState {
+
+        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+
+            // Verify that state is consistent.
+            assert asm.attachmentSite == null;
+            assert asm.attachmentSite.attachedMolecule.get() == new Option.Some<MobileBiomolecule>( biomolecule );
+
+            // Make the biomolecule look for attachments.
+            asm.attachmentSite = biomolecule.proposeAttachments();
+            if ( asm.attachmentSite != null ) {
+                // An attachment proposal was accepted, so start heading towards
+                // the attachment site.
+                asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
+                                                                                                biomolecule.motionBoundsProperty ) );
+                asm.attachmentState = new GenericMovingTowardsAttachmentState();
+            }
+        }
+    }
+
+    private class GenericMovingTowardsAttachmentState extends AttachmentState {
+
+        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+
+            // Verify that state is consistent.
+            assert asm.attachmentSite != null;
+            assert asm.attachmentSite.attachedMolecule.get() == new Option.Some<MobileBiomolecule>( asm.biomolecule );
+
+            // See of the attachment site has been reached.
+            if ( asm.biomolecule.getPosition().equals( asm.attachmentSite.locationProperty.get() ) ) {
+                // This molecule is now at the attachment site, so consider it
+                // attached.
+                attachmentState = new GenericAttachedState();
+                asm.biomolecule.setMotionStrategy( new FollowAttachmentSite( attachmentSite ) );
+            }
+        }
+    }
+
+    // The generic "attached" state isn't very useful, but is included for
+    // completeness.  The reason it isn't useful is because the different
+    // biomolecules all have their own unique behavior with respect to
+    // attaching, and thus define their own attached states.
+    private class GenericAttachedState extends AttachmentState {
+
+        private static final double DEFAULT_ATTACH_TIME = 3; // In seconds.
+
+        private double attachCountdownTime = DEFAULT_ATTACH_TIME;
+
+        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+
+            // Verify that state is consistent.
+            assert asm.attachmentSite != null;
+            assert asm.attachmentSite.attachedMolecule.get() == new Option.Some<MobileBiomolecule>( biomolecule );
+
+            // See if it is time to detach.
+            attachCountdownTime -= dt;
+            if ( attachCountdownTime <= attachCountdownTime ) {
+                // Detach.
+                asm.attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+                asm.attachmentState = new GenericUnattachedButUnavailableState();
+            }
+        }
+    }
+
+
+    private class GenericUnattachedButUnavailableState extends AttachmentState {
+
+        private static final double DEFAULT_DETACH_TIME = 3; // In seconds.
+
+        private double detachCountdownTime = DEFAULT_DETACH_TIME;
+
+        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+
+            // Verify that state is consistent.
+            assert asm.attachmentSite != null;
+            assert asm.attachmentSite.attachedMolecule.get() == new Option.Some<MobileBiomolecule>( biomolecule );
+
+            // See if we've been detached long enough.
+            detachCountdownTime -= DEFAULT_DETACH_TIME;
+            if ( detachCountdownTime <= 0 ) {
+                // Move the the unattached-and-available state.
+                asm.attachmentState = new GenericUnattachedAndAvailableState();
+            }
+        }
     }
 }
