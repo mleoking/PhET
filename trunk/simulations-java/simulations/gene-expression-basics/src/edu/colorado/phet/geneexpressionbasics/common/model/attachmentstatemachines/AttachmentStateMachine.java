@@ -14,7 +14,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Move
  *
  * @author John Blanco
  */
-public abstract class AttachmentStateMachine {
+public class AttachmentStateMachine {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -38,8 +38,9 @@ public abstract class AttachmentStateMachine {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected AttachmentStateMachine( MobileBiomolecule biomolecule ) {
+    public AttachmentStateMachine( MobileBiomolecule biomolecule ) {
         this.biomolecule = biomolecule;
+        attachmentState = new GenericUnattachedAndAvailableState();
     }
 
     //-------------------------------------------------------------------------
@@ -55,7 +56,7 @@ public abstract class AttachmentStateMachine {
      * the molecule to go into the unattached-bun-unavailable state for some
      * period of time, then it will become available again.
      */
-    protected void detach() {
+    public void detach() {
         assert attachmentSite != null; // Verify internal state is consistent.
         attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         attachmentSite = null;
@@ -65,12 +66,14 @@ public abstract class AttachmentStateMachine {
     /**
      * Move immediately into the unattached-and-available state.  This is
      * generally done only when the user has grabbed the associated molecule.
+     * Calling this when already in this state is harmless.
      */
     public void forceImmediateUnattached() {
-        assert attachmentSite != null; // Verify internal state is consistent.
-        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        if ( attachmentSite != null ) {
+            attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        }
         attachmentSite = null;
-        attachmentState = new GenericUnattachedButUnavailableState();
+        attachmentState = new GenericUnattachedAndAvailableState();
     }
 
     //-------------------------------------------------------------------------
@@ -98,7 +101,6 @@ public abstract class AttachmentStateMachine {
 
             // Verify that state is consistent.
             assert asm.attachmentSite == null;
-            assert asm.attachmentSite.attachedMolecule.get() == new Option.Some<MobileBiomolecule>( biomolecule );
 
             // Make the biomolecule look for attachments.
             asm.attachmentSite = biomolecule.proposeAttachments();
@@ -156,7 +158,6 @@ public abstract class AttachmentStateMachine {
         }
     }
 
-
     private class GenericUnattachedButUnavailableState extends AttachmentState {
 
         private static final double DEFAULT_DETACH_TIME = 3; // In seconds.
@@ -166,8 +167,7 @@ public abstract class AttachmentStateMachine {
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
 
             // Verify that state is consistent.
-            assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedMolecule.get() == new Option.Some<MobileBiomolecule>( biomolecule );
+            assert asm.attachmentSite == null;
 
             // See if we've been detached long enough.
             detachCountdownTime -= DEFAULT_DETACH_TIME;

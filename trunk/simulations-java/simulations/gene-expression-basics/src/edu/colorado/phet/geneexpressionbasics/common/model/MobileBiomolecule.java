@@ -5,13 +5,15 @@ import java.awt.Color;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.UnattachedAndAvailableState;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 
@@ -45,14 +47,14 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // Bounds within which this biomolecule is allowed to move.
     public Property<MotionBounds> motionBoundsProperty = new Property<MotionBounds>( new MotionBounds() );
 
-    // Behavioral state that controls how the molecule moves when it is not
-    // under the control of the user and how and when it attaches to other
-    // biomolecules.
-    protected BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState( this );
-
     // Motion strategy that governs how this biomolecule moves.  This changes
     // as the molecule interacts with other portions of the model.
-    private MotionStrategy motionStrategy;
+    private MotionStrategy motionStrategy = new RandomWalkMotionStrategy( motionBoundsProperty );
+
+    // Attachment state machine that controls how the molecule interacts with
+    // other model objects (primarily other biomolecules) in terms of
+    // attaching, detaching, etc.
+    protected final AttachmentStateMachine attachmentStateMachine;
 
     /**
      * Constructor.
@@ -63,6 +65,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public MobileBiomolecule( GeneExpressionModel model, Shape initialShape, Color baseColor ) {
         super( initialShape );
         this.model = model;
+        this.attachmentStateMachine = createAttachmentStateMachine();
         colorProperty.set( baseColor );
         // Handle changes in user control.
         userControlled.addObserver( new VoidFunction1<Boolean>() {
@@ -71,15 +74,44 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
                     // The user has released this node after moving it.  This
                     // should cause any existing or pending attachments to be
                     // severed.
-                    behaviorState = behaviorState.movedByUser();
+                    MobileBiomolecule.this.attachmentStateMachine.forceImmediateUnattached();
+                }
+            }
+        } );
+        userControlled.addObserver( new ChangeObserver<Boolean>() {
+            public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
+                if ( wasUserControlled && !isUserControlled ) {
+                    // The user has released this node after moving it.  This
+                    // should cause any existing or pending attachments to be
+                    // severed.
+                    MobileBiomolecule.this.attachmentStateMachine.forceImmediateUnattached();
                 }
             }
         } );
     }
 
+    /**
+     * Method used to set the attachment state machine during construction.
+     * This is overridden in descendant classes in order to supply this base
+     * class with different attachment behavior.
+     *
+     * @return
+     */
+    protected AttachmentStateMachine createAttachmentStateMachine() {
+        assert attachmentStateMachine == null;
+        return new AttachmentStateMachine( this );
+    }
+
     public void stepInTime( double dt ) {
+
         if ( !userControlled.get() ) {
-            behaviorState = behaviorState.stepInTime( dt );
+
+            // Set a new position in model space based on the current motion
+            // strategy.
+            setPosition( motionStrategy.getNextLocation( getPosition(), getShape(), dt ) );
+
+            // Update the state of the attachment state machine.
+            attachmentStateMachine.stepInTime( dt );
         }
     }
 

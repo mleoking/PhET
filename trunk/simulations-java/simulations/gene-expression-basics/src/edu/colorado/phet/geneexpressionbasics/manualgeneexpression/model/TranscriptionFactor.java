@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -79,12 +78,14 @@ public class TranscriptionFactor extends MobileBiomolecule {
 
     @Override public void stepInTime( double dt ) {
         super.stepInTime( dt );
+        /* TODO: Needs to be replaces with new "standard" attachment behavior.
         if ( !userControlled.get() ) {
             // Get a list of potential attachment sites from the DNA and consider
             // whether to attach to any of them.
             List<AttachmentSite> potentialAttachmentSiteList = model.getDnaMolecule().getNearbyTranscriptionFactorAttachmentSites( getPosition() );
             behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList );
         }
+        */
     }
 
     /**

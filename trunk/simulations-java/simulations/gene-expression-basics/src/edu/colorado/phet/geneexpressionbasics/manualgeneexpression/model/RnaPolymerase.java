@@ -90,12 +90,14 @@ public class RnaPolymerase extends MobileBiomolecule {
 
     @Override public void stepInTime( double dt ) {
         super.stepInTime( dt );
+        /* TODO: Needs to be replaced the new "standard" attachment site behavior.
         if ( !userControlled.get() ) {
             // Get a list of potential attachment sites from the DNA and consider
             // whether to attach to any of them.
             List<AttachmentSite> potentialAttachmentSiteList = model.getDnaMolecule().getNearbyPolymeraseAttachmentSites( getPosition() );
             behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList );
         }
+        */
     }
 
     // Overridden to provide attachment behavior that is unique to polymerase.
