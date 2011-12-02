@@ -278,11 +278,11 @@ public class SimSharingEvents {
     public static void addDragSequenceListener( JComponent component, final Function0<Parameter[]> message ) {
         component.addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
-                sendEvent( "mouse", "startDrag", message.apply() );
+                sendEvent( SimSharingObjects.MOUSE, SimSharingActions.START_DRAG, message.apply() );
             }
 
             @Override public void mouseReleased( MouseEvent e ) {
-                sendEvent( "mouse", "endDrag", message.apply() );
+                sendEvent( SimSharingObjects.MOUSE, SimSharingActions.END_DRAG, message.apply() );
             }
         } );
     }
