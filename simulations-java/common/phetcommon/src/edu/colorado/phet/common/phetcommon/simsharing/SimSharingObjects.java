@@ -8,11 +8,14 @@ package edu.colorado.phet.common.phetcommon.simsharing;
  */
 public class SimSharingObjects {
 
-    public static final String SYSTEM = "system";
     public static final String CHECK_BOX = "checkBox";
     public static final String CHECK_BOX_MENU_ITEM = "checkBoxMenuItem";
+    public static final String COMBO_BOX_ITEM = "comboBoxItem";
     public static final String MENU = "menu";
     public static final String MENU_ITEM = "menuItem";
+    public static final String MOUSE = "mouse";
     public static final String RADIO_BUTTON = "radioButton";
+    public static final String SYSTEM = "system";
+    public static final String TAB = "tab";
     public static final String WINDOW = "window";
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -25,11 +27,11 @@ public class PiccoloPhetSimSharingEvents {
         node.addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( final PInputEvent event ) {
-                sendEvent( "mouse", "startDrag", addCanvasPosition( message, event ) );
+                sendEvent( SimSharingObjects.MOUSE, SimSharingActions.START_DRAG, addCanvasPosition( message, event ) );
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
-                sendEvent( "mouse", "endDrag", addCanvasPosition( message, event ) );
+                sendEvent( SimSharingObjects.MOUSE, SimSharingActions.END_DRAG, addCanvasPosition( message, event ) );
             }
 
             //Adds the canvas position to an array of message parameters

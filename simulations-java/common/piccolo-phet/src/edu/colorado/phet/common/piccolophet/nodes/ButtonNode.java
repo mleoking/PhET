@@ -12,6 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -373,7 +374,7 @@ public class ButtonNode extends PhetPNode {
     private void notifyActionPerformed() {
 
         //Notify about the event first so that listener callbacks were clearly caused by this action
-        SimSharingEvents.sendEvent( "buttonNode", "pressed", Parameter.param( "actionCommand", actionCommand ) );
+        SimSharingEvents.sendEvent( "buttonNode", SimSharingActions.PRESSED, Parameter.param( "actionCommand", actionCommand ) );
 
         ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, actionCommand ); // use Swing convention from AbstractButton.fireActionPerformed
         for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {
