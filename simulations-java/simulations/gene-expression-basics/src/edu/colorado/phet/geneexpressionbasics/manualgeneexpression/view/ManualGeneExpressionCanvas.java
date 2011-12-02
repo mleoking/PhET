@@ -83,9 +83,20 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         final PNode modelRootNode = new PNode();
         addWorldChild( modelRootNode );
 
+        // Add some layers for enforcing some z-order relationships needed in
+        // order to keep things looking good.
+        PNode dnaLayer = new PNode();
+        modelRootNode.addChild( dnaLayer );
+        final PNode biomoleculeToolBoxLayer = new PNode();
+        modelRootNode.addChild( biomoleculeToolBoxLayer );
+        final PNode messengerRnaLayer = new PNode();
+        modelRootNode.addChild( messengerRnaLayer );
+        final PNode topBiomoleculeLayer = new PNode();
+        modelRootNode.addChild( topBiomoleculeLayer );
+
         // Add the representation of the DNA strand.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
-        modelRootNode.addChild( dnaMoleculeNode );
+        dnaLayer.addChild( dnaMoleculeNode );
 
         // Add the protein collection box.
         final ProteinCollectionNode proteinCollectionNode = new ProteinCollectionNode( model, mvt ) {{
@@ -104,7 +115,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
-            modelRootNode.addChild( new MobileBiomoleculeNode( mvt, biomolecule ) );
+            topBiomoleculeLayer.addChild( new MobileBiomoleculeNode( mvt, biomolecule ) );
         }
 
         // Watch for and handle comings and goings of biomolecules in the model.
@@ -114,7 +125,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             public void apply( final MobileBiomolecule addedBiomolecule ) {
                 final PNode biomoleculeNode;
                 biomoleculeNode = new MobileBiomoleculeNode( mvt, addedBiomolecule );
-                modelRootNode.addChild( biomoleculeNode );
+                topBiomoleculeLayer.addChild( biomoleculeNode );
                 model.mobileBiomoleculeList.addElementRemovedObserver( new VoidFunction1<MobileBiomolecule>() {
                     public void apply( MobileBiomolecule removedBiomolecule ) {
                         if ( removedBiomolecule == addedBiomolecule ) {
@@ -130,7 +141,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             public void apply( final MessengerRna addedMessengerRna ) {
                 final PNode messengerRnaNode;
                 messengerRnaNode = new MessengerRnaNode( mvt, addedMessengerRna );
-                modelRootNode.addChild( messengerRnaNode );
+                messengerRnaLayer.addChild( messengerRnaNode );
                 model.messengerRnaList.addElementRemovedObserver( new VoidFunction1<MessengerRna>() {
                     public void apply( MessengerRna removedMessengerRna ) {
                         if ( removedMessengerRna == addedMessengerRna ) {
@@ -224,7 +235,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 setOffset( mvt.modelToViewX( gene.getCenterX() ) - STAGE_SIZE.getWidth() / 2 + INSET, INSET );
             }};
             biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode );
-            modelRootNode.addChild( biomoleculeToolBoxNode );
+            biomoleculeToolBoxLayer.addChild( biomoleculeToolBoxNode );
             model.addOffLimitsMotionSpace( mvt.viewToModel( biomoleculeToolBoxNode.getFullBoundsReference() ) );
         }
 
