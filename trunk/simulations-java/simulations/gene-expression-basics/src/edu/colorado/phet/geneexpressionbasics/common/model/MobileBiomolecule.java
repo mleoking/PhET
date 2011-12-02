@@ -11,6 +11,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.Attach
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.UnattachedAndAvailableState;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 
@@ -48,6 +49,10 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // under the control of the user and how and when it attaches to other
     // biomolecules.
     protected BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState( this );
+
+    // Motion strategy that governs how this biomolecule moves.  This changes
+    // as the molecule interacts with other portions of the model.
+    private MotionStrategy motionStrategy;
 
     /**
      * Constructor.
@@ -133,5 +138,21 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      */
     public void changeConformation( double changeFactor ) {
         System.out.println( getClass().getName() + "Warning: Unimplemented method called in base class." );
+    }
+
+    /**
+     * Search for other biomolecules (and perhaps additional model elements) to
+     * which this biomolecule may legitimately attach and, if any are founds,
+     * propose an attachment to them.
+     *
+     * @return Attachment site of accepted attachment, null if no attachments
+     *         were proposed or if all were rejected.
+     */
+    public AttachmentSite proposeAttachments() {
+        return null;
+    }
+
+    public void setMotionStrategy( MotionStrategy motionStrategy ) {
+        this.motionStrategy = motionStrategy;
     }
 }
