@@ -27,9 +27,9 @@ public class TrackFrictionSlider extends PNode {
 
     public TrackFrictionSlider( final EnergySkateParkBasicsModule module ) {
 
-        // Create a property and hook it up to the module.  Someday it might
-        // make sense to move this into the module.
-        final Property<Double> frictionAmount = new Property<Double>( 0.0 );
+        final Property<Double> frictionAmount = module.frictionAmount;
+
+        // Create a property and hook it up to the module.
         frictionAmount.addObserver( new VoidFunction1<Double>() {
             public void apply( Double friction ) {
                 if ( module.frictionEnabled.get() ) {
