@@ -4,7 +4,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
-import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
+import edu.colorado.phet.moleculepolarity.common.control.MoleculeAngleHandler;
 import edu.colorado.phet.moleculepolarity.common.control.RotateCursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode.OppositePartialChargeNode;
@@ -56,7 +56,7 @@ public class DiatomicMoleculeNode extends PhetPNode {
 
         // rotate molecule by dragging anywhere
         addInputEventListener( new RotateCursorHandler() );
-        addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
+        addInputEventListener( new MoleculeAngleHandler( molecule, this ) );
     }
 
     public void setSurface( SurfaceType surfaceType ) {
