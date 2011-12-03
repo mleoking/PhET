@@ -48,6 +48,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
+    public final Property<Double> frictionAmount = new Property<Double>( 0.0 );
+
     public EnergySkateParkBasicsModule( String name, final PhetFrame phetFrame, boolean splinesMovable ) {
         super( name, phetFrame, new EnergySkateParkOptions(), splinesMovable, false,
 
@@ -176,8 +178,13 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     @Override public void reset() {
         super.reset();
 
+        //The friction amount can only be restored if the friction is enabled, see TrackFrictionSlider
+        frictionEnabled.set( true );
+        frictionAmount.reset();
+
         frictionEnabled.reset();
         stickToTrack.reset();
+
 
         for ( VoidFunction0 resetListener : resetListeners ) {
             resetListener.apply();
