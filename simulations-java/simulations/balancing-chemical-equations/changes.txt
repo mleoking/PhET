@@ -1,3 +1,4 @@
+12/2/11 move sim-sharing string literals to BCESimSharing
 #3136, use sim-sharing string constants in balancing-chemical-equations
 # 1.00.08 (58369) Nov 5, 2011
 11/5/11 deployed by SR for something having to do with shimsharing #3136
