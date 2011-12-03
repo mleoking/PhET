@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.simsharing.PiccoloPhetSimSharingEvents;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.MPSimSharing;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
@@ -104,7 +105,8 @@ public class BondCharacterNode extends PComposite {
         //Report when the user tries to click on this non-interactive control
         PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<Parameter[]>() {
             public Parameter[] apply() {
-                return new Parameter[] { param( "node", "BondCharacterNode" ), param( "interactive", "false" ) };
+                return new Parameter[] { param( MPSimSharing.PARAM_NODE, MPSimSharing.PARAM_VALUE_BOND_CHARACTER_NODE ),
+                        param( MPSimSharing.PARAM_INTERACTIVE, "false" ) };  //TODO can this be false, instead of "false"?
             }
         } );
     }
