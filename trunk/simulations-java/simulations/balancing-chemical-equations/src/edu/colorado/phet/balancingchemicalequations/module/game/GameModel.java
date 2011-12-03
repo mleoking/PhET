@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
+import edu.colorado.phet.balancingchemicalequations.BCESimSharing;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
@@ -110,11 +111,11 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
      */
     public void check() {
         attempts++;
-        SimSharingEvents.sendSystemEvent( "guessChecked",
-                                          param( "equation", currentEquation.get().getName() ),
-                                          param( "attempts", attempts ),
-                                          param( "isBalancedAndSimplified", currentEquation.get().isBalancedAndSimplified() ),
-                                          param( "isBalanced", currentEquation.get().isBalanced() ) );
+        SimSharingEvents.sendSystemEvent( BCESimSharing.ACTION_GUESS_CHECKED,
+                                          param( BCESimSharing.PARAM_EQUATION, currentEquation.get().getName() ),
+                                          param( BCESimSharing.PARAM_ATTEMPTS, attempts ),
+                                          param( BCESimSharing.PARAM_IS_BALANCED_AND_SIMPLIFIED, currentEquation.get().isBalancedAndSimplified() ),
+                                          param( BCESimSharing.PARAM_IS_BALANCED, currentEquation.get().isBalanced() ) );
         if ( currentEquation.get().isBalancedAndSimplified() ) {
 
             // award points
