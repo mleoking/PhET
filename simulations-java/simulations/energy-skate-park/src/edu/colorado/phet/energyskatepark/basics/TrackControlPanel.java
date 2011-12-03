@@ -3,13 +3,11 @@ package edu.colorado.phet.energyskatepark.basics;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
-import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 
 import static edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel.backgroundColor;
 
@@ -20,19 +18,12 @@ import static edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel.
  */
 public class TrackControlPanel extends ControlPanelNode {
 
-    public TrackControlPanel( final EnergySkateParkBasicsModule module, final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, final ControlPanelNode energyGraphControlPanel ) {
+    public TrackControlPanel( final EnergySkateParkBasicsModule module ) {
         super( new TrackControlContentPane( module ), backgroundColor );
-
-        //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
-        energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
-            public void apply() {
-                setOffset( energySkateParkSimulationPanel.getWidth() - getFullBounds().getWidth() - EnergySkateParkBasicsModule.INSET, energyGraphControlPanel.getFullBounds().getMaxY() + EnergySkateParkBasicsModule.INSET );
-            }
-        } );
     }
 
     public static class TrackControlContentPane extends VBox {
-        private TrackControlContentPane( final EnergySkateParkBasicsModule module ) {
+        public TrackControlContentPane( final EnergySkateParkBasicsModule module ) {
             super( 10,
 
                    //Control box for track friction

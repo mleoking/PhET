@@ -1,3 +1,4 @@
+12/2/11 basic: Merged control panels in the friction tab
 # 2.08.05 (58976) Dec 1, 2011
 12/1/11 basic: made the icons in the control panel clickable for toggling their respective properties
 12/1/11 common: Removed padding from mountain image

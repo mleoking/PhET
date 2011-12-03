@@ -17,7 +17,7 @@ public class IntroModule extends EnergySkateParkBasicsModule {
         getEnergySkateParkSimulationPanel().getRootNode().removeSplineToolbox();
 
         //Show the reset all button below the bottom control panel
-        addResetAllButton( energyGraphControlPanel );
+        addResetAllButton( controlPanel );
 
         //Show buttons that allows the user to choose different tracks
         addTrackSelectionControlPanel();
