@@ -12,18 +12,18 @@ import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Drag handler for rotating a molecule.
+ * Drag handler for manipulating molecule angle.
  * Adapted from PrismNode in bending-light.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MoleculeRotationHandler extends PDragSequenceEventHandler {
+public class MoleculeAngleHandler extends PDragSequenceEventHandler {
 
     private final Molecule2D molecule;
     private final PNode dragNode;
     private double previousAngle;
 
-    public MoleculeRotationHandler( Molecule2D molecule, PNode dragNode ) {
+    public MoleculeAngleHandler( Molecule2D molecule, PNode dragNode ) {
         this.molecule = molecule;
         this.dragNode = dragNode;
     }

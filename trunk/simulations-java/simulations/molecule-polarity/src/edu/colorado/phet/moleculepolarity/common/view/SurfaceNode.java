@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
+import edu.colorado.phet.moleculepolarity.common.control.MoleculeAngleHandler;
 import edu.colorado.phet.moleculepolarity.common.control.RotateCursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
@@ -35,7 +35,7 @@ public abstract class SurfaceNode extends PComposite {
         }
 
         addInputEventListener( new RotateCursorHandler() );
-        addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
+        addInputEventListener( new MoleculeAngleHandler( molecule, this ) );
     }
 
     // implemented by subclasses, specific to the number of colors in the surface's gradient

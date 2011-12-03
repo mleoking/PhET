@@ -4,7 +4,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.BondAngleHandler;
-import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
+import edu.colorado.phet.moleculepolarity.common.control.MoleculeAngleHandler;
 import edu.colorado.phet.moleculepolarity.common.control.RotateCursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
 import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode.CompositePartialChargeNode;
@@ -65,9 +65,9 @@ public class TriatomicMoleculeNode extends PhetPNode {
         bondABNode.addInputEventListener( new RotateCursorHandler() );
         bondBCNode.addInputEventListener( new RotateCursorHandler() );
         atomBNode.addInputEventListener( new RotateCursorHandler() );
-        bondABNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
-        bondBCNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
-        atomBNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
+        bondABNode.addInputEventListener( new MoleculeAngleHandler( molecule, this ) );
+        bondBCNode.addInputEventListener( new MoleculeAngleHandler( molecule, this ) );
+        atomBNode.addInputEventListener( new MoleculeAngleHandler( molecule, this ) );
 
         // change bond angles by dragging atom A or C
         atomANode.addInputEventListener( new CursorHandler() );
