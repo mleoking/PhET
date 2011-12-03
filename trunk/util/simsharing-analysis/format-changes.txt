@@ -2,8 +2,7 @@
 # This file documents changes to the sim-sharing event protocol.
 #
 
-12/2/11 [59000] molecule-polarity: BondCharacterNode: parameter value "false" -> false
 12/2/11 [58997] common: PhetFrame: action "closeButtonPressed" -> "windowSystemCloseButtonPressed"
 12/2/11 [58996] molecule-polarity: BondAngleHandler: object "bondAngleDrag" -> "bondAngle"; action "started" -> "startDrag"; action "ended" -> "endDrag"
-12/2/11 [58996] molecule-polarity: BondAngleHandler: object "molecule rotation drag" -> "moleculeAngle"; action "started" -> "startDrag"; action "ended" -> "endDrag"
+12/2/11 [58996] molecule-polarity: MoleculeAngleHandler: object "molecule rotation drag" -> "moleculeAngle"; action "started" -> "startDrag"; action "ended" -> "endDrag"
 12/2/11 [58986] common: PhetFrame: object "window" -> "phetFrame"
