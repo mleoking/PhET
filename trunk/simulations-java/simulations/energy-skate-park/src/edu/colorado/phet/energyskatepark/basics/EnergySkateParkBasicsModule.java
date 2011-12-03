@@ -32,7 +32,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public static final double INSET = 5;
-    public final ControlPanelNode energyGraphControlPanel;
+    public final ControlPanelNode controlPanel;
     private final String PARABOLA_TRACK = "energy-skate-park/tracks/basics/parabola.esp";
     public static final Font CONTROL_FONT = new PhetFont( 15 );
     public static final Font TITLE_FONT = new PhetFont( Font.BOLD, 16 );
@@ -71,15 +71,27 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         } );
 
         //Add the energy graph control panel
-        energyGraphControlPanel = new ViewControlPanel( this, energySkateParkSimulationPanel );
-        energySkateParkSimulationPanel.getRootNode().addChild( energyGraphControlPanel );
+        controlPanel = createControlPanel();
+
+        //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
+        energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
+            public void apply() {
+                controlPanel.setOffset( energySkateParkSimulationPanel.getWidth() - controlPanel.getFullBounds().getWidth() - EnergySkateParkBasicsModule.INSET, EnergySkateParkBasicsModule.INSET );
+            }
+        } );
+
+        energySkateParkSimulationPanel.getRootNode().addChild( controlPanel );
 
         //Move the legend out from behind the control panel
         energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
             public void apply() {
-                energySkateParkSimulationPanel.getRootNode().getLegend().translate( -energyGraphControlPanel.getFullBounds().getWidth() - INSET, 0 );
+                energySkateParkSimulationPanel.getRootNode().getLegend().translate( -controlPanel.getFullBounds().getWidth() - INSET, 0 );
             }
         } );
+    }
+
+    protected ControlPanelNode createControlPanel() {
+        return new ViewControlPanel( this );
     }
 
     public void addResetListener( VoidFunction0 resetListener ) {
@@ -129,7 +141,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
             //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
             energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
                 public void apply() {
-                    setOffset( energyGraphControlPanel.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, parent.getFullBounds().getMaxY() + INSET * 2 );
+                    setOffset( controlPanel.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, parent.getFullBounds().getMaxY() + INSET * 2 );
                 }
             } );
 

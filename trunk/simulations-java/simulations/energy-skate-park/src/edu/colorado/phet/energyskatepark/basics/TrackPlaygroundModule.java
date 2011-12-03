@@ -13,7 +13,7 @@ public class TrackPlaygroundModule extends EnergySkateParkBasicsModule {
     public TrackPlaygroundModule( PhetFrame phetFrame ) {
         super( EnergySkateParkResources.getString( "tab.trackPlayground" ), phetFrame, true );
 
-        final TrackControlPanel trackControlPanel = new TrackControlPanel( this, energySkateParkSimulationPanel, energyGraphControlPanel );
+        final TrackControlPanel trackControlPanel = new TrackControlPanel( this );
         energySkateParkSimulationPanel.getRootNode().addChild( trackControlPanel );
 
         addResetAllButton( trackControlPanel );
