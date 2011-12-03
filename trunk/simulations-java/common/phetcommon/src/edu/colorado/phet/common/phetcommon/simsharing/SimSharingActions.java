@@ -20,5 +20,5 @@ public class SimSharingActions {
     public static final String SELECTED = "selected";
     public static final String START_DRAG = "startDrag";
     public static final String TOGGLED = "toggled";
-    public static final String WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED = "closeButtonPressed"; //TODO change this literal to "windowSystemCloseButtonPressed"?
+    public static final String WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED = "windowSystemCloseButtonPressed";
 }
