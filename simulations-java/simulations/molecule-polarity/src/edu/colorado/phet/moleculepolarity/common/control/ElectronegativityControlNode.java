@@ -32,6 +32,7 @@ import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.PiccoloPhetSimSharingEvents;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.MPSimSharing;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
@@ -275,7 +276,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             //Record changes on the slider
             PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<Parameter[]>() {
                 public Parameter[] apply() {
-                    return new Parameter[] { param( "atom", atom.getName() ), param( "electronegativity", atom.electronegativity.get() ) };
+                    return new Parameter[] { param( MPSimSharing.PARAM_ATOM, atom.getName() ), param( MPSimSharing.PARAM_ELECTRONEGATIVITY, atom.electronegativity.get() ) };
                 }
             } );
         }

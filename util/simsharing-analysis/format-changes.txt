@@ -1,1 +1,3 @@
-12/2/11 PhetFrame, object "window" -> "phetFrame"
+12/2/11 molecule-polarity: BondAngleHandler: object "bondAngleDrag" -> "bondAngle"; action "started" -> "startDrag"; action "ended" -> "endDrag"
+12/2/11 molecule-polarity: BondAngleHandler: object "molecule rotation drag" -> "moleculeAngle"; action "started" -> "startDrag"; action "ended" -> "endDrag"
+12/2/11 [3136] common: PhetFrame: object "window" -> "phetFrame"
