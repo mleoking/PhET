@@ -106,7 +106,7 @@ public class BondCharacterNode extends PComposite {
         PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<Parameter[]>() {
             public Parameter[] apply() {
                 return new Parameter[] { param( MPSimSharing.PARAM_NODE, MPSimSharing.PARAM_VALUE_BOND_CHARACTER_NODE ),
-                        param( MPSimSharing.PARAM_INTERACTIVE, "false" ) };  //TODO can this be false, instead of "false"?
+                        param( MPSimSharing.PARAM_INTERACTIVE, false ) };
             }
         } );
     }
