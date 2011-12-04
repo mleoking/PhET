@@ -16,6 +16,7 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TeachersMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
+import edu.colorado.phet.moleculeshapes.module.debug.DebugModule;
 import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
 import edu.colorado.phet.moleculeshapes.module.realmolecules.RealMoleculesModule;
 
@@ -51,6 +52,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
         addModule( tab1 = new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__TITLE, false ) );
         addModule( tab2 = new RealMoleculesModule( parentFrame, Strings.REAL__MOLECULES ) );
+        addModule( new DebugModule( parentFrame, "Debug" ) );
     }
 
     /*
