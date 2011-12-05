@@ -79,14 +79,14 @@ public class SplineToolboxNode extends PNode {
             }
         } );
 
-        boundGraphic = new PPath( new RoundRectangle2D.Double( 0, 0, 200, 60, 20, 20 ) );
+        boundGraphic = new PPath( new RoundRectangle2D.Double( 0, 0, 180, 60, 20, 20 ) );
         boundGraphic.setStroke( new BasicStroke( 2 ) );
         boundGraphic.setStrokePaint( Color.blue );
         boundGraphic.setPaint( Color.yellow );
         addChild( boundGraphic );
         textGraphic = new PText( EnergySkateParkResources.getString( "controls.add-track" ) );
         textGraphic.setFont( new PhetFont( Font.BOLD, 14 ) );
-        textGraphic.setOffset( boundGraphic.getFullBounds().getX() + 5, boundGraphic.getFullBounds().getY() + 2 );
+        textGraphic.setOffset( boundGraphic.getFullBounds().getCenterX() - textGraphic.getFullBounds().getWidth() / 2, boundGraphic.getFullBounds().getY() + 2 );
         addChild( textGraphic );
         addChild( this.draggableIcon );
 
@@ -99,8 +99,10 @@ public class SplineToolboxNode extends PNode {
     }
 
     private void centerTheNode() {
-        draggableIcon.setScale( 60 );
-        draggableIcon.setOffset( boundGraphic.getFullBounds().getWidth() / 2 - draggableIcon.getFullBounds().getWidth() / 2, boundGraphic.getFullBounds().getHeight() / 2 );
+        final double scale = 60;
+        draggableIcon.setScale( scale );
+        draggableIcon.centerFullBoundsOnPoint( boundGraphic.getFullBounds().getCenterX(), boundGraphic.getFullBounds().getCenterY() );
+        draggableIcon.translate( 0, 5 / scale );
     }
 
     private SplineNode createSplineGraphic() {
