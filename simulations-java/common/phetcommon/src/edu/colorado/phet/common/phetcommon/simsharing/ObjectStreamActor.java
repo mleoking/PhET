@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -39,12 +38,7 @@ public abstract class ObjectStreamActor<T, U> implements IActor<T, U> {
         readFromServer = new ObjectInputStream( socket.getInputStream() );
 
         //Read the initial message from the server to verify communication is working properly
-        try {
-            Object fromServer = readFromServer.readUTF();
-            LOGGER.info( "MessageServer: " + fromServer );
-        }
-        catch ( EOFException e ) {
-            LOGGER.severe( "Reached the end of the DataInputStream before reading 2 bytes. Is the sim-sharing server running?" );
-        }
+        Object fromServer = readFromServer.readUTF();
+        LOGGER.info( "MessageServer: " + fromServer );
     }
 }
