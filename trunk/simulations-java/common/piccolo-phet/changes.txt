@@ -1,3 +1,4 @@
+12/5/11 #3170, #3175 add sim-sharing to conductivity tester by converting probe drag handlers to subclass of SimSharingDragSequenceHandler
 12/5/11 #3175 switch to subclassing for sim-sharing drag handlers
 12/5/11 #3175, add "object" parameter to sim-sharing drag handlers
 12/5/11 Added a speedometer
