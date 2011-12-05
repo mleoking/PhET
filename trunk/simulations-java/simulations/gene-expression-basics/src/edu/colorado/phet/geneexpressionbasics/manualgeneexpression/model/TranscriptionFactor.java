@@ -8,15 +8,16 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that represents a transcription factor in the model.  There are
- * multiple transcription factors, and some are positive (in the sense that they
- * increase the likelihood of transcription) and some are negative (i.e. the
- * reduce the likelihood of transcription).
+ * multiple transcription factors, and some are positive (in the sense that
+ * they increase the likelihood of transcription) and some are negative (i.e.
+ * the reduce the likelihood of transcription).
  *
  * @author John Blanco
  */
@@ -49,6 +50,9 @@ public class TranscriptionFactor extends MobileBiomolecule {
     // Instance Data
     //-------------------------------------------------------------------------
 
+    // Flag that determines whether this transcription factor is positive or
+    // negative, i.e. whether it enhances or diminishes the likelihood of
+    // transcription.
     private final boolean isPositive;
 
     //-------------------------------------------------------------------------
@@ -115,6 +119,11 @@ public class TranscriptionFactor extends MobileBiomolecule {
         }
         // Create the transcription factor instance.
         return new TranscriptionFactor( model, config.shape, initialPosition, config.baseColor, positive );
+    }
+
+    @Override public AttachmentSite proposeAttachments() {
+        // Transcription factors only attach to DNA.
+        return model.getDnaMolecule().considerProposalFrom( this );
     }
 
     //-------------------------------------------------------------------------

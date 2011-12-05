@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -39,7 +41,10 @@ public class DnaMolecule {
     private static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
     private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers.
     private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;
-    static final double Y_POS = 0;
+    public static final double Y_POS = 0;
+
+    // Distance within which transcription factors may attach.
+    private static final double TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE = 400;
 
     private DnaStrand strand1;
     private DnaStrand strand2;
@@ -201,42 +206,129 @@ public class DnaMolecule {
 
     public List<AttachmentSite> getNearbyPolymeraseAttachmentSites( Point2D position ) {
         List<AttachmentSite> nearbyAttachmentSites = new ArrayList<AttachmentSite>();
-        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
-        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
-            Gene gene = getGeneContainingBasePair( i );
-            if ( gene != null ) {
-                nearbyAttachmentSites.add( gene.getPolymeraseAttachmentSite( i ) );
-            }
-            else {
-                // Base pair is not contained within a gene, so use the default.
-                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
-            }
-        }
+        // TODO: Fix or replace.
+//        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
+//        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
+//            Gene gene = getGeneContainingBasePair( i );
+//            if ( gene != null ) {
+//                nearbyAttachmentSites.add( gene.getPolymeraseAttachmentSite( i ) );
+//            }
+//            else {
+//                // Base pair is not contained within a gene, so use the default.
+//                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
+//            }
+//        }
         return nearbyAttachmentSites;
     }
 
     public List<AttachmentSite> getNearbyTranscriptionFactorAttachmentSites( Point2D position ) {
-        List<AttachmentSite> nearbyAttachmentSites = new ArrayList<AttachmentSite>();
-        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
-        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
-            Gene gene = getGeneContainingBasePair( i );
-            if ( gene != null ) {
-                nearbyAttachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
-            }
-            else {
-                // Base pair is not contained within a gene, so use the default.
-                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
+        // TODO: Remove this entire method when overhaul of motion and state behavior is complete.
+//        List<AttachmentSite> nearbyAttachmentSites = new ArrayList<AttachmentSite>();
+//        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
+//        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
+//            Gene gene = getGeneContainingBasePair( i );
+//            if ( gene != null ) {
+//                nearbyAttachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
+//            }
+//            else {
+//                // Base pair is not contained within a gene, so use the default.
+//                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
+//            }
+//        }
+//        return nearbyAttachmentSites;
+        return null;
+    }
+
+    /**
+     * Consider a proposal from the specified transcription factor.  To
+     * determine whether or not to accept or reject this proposal, the base
+     * pairs are scanned in order to determine whether there is an appropriate
+     * and available attachment site within the attachment distance.
+     *
+     * @param transcriptionFactor
+     * @return
+     */
+    public AttachmentSite considerProposalFrom( TranscriptionFactor transcriptionFactor ) {
+        List<AttachmentSite> potentialAttachmentSites = new ArrayList<AttachmentSite>();
+        for ( int i = 0; i < basePairs.size(); i++ ) {
+            // See if the base pair is within the max attachment distance.
+            if ( basePairs.get( i ).getCenterLocation().distance( transcriptionFactor.getPosition() ) <= TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE ) {
+                // In range.  See if this base pair is inside a gene.
+                Gene gene = getGeneContainingBasePair( i );
+                if ( gene != null ) {
+                    // Base pair is in a gene.  See if site is available.
+                    AttachmentSite potentialAttachmentSite = gene.getTranscriptionFactorAttachmentSite( i );
+                    if ( potentialAttachmentSite.attachedMolecule == null ) {
+                        // Site is available, add to list.
+                        potentialAttachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
+                    }
+                }
+                else {
+                    // Base pair is not contained within a gene, so use the default.
+                    // TODO: This will always give an attachment site, even if there is already something attached.  Needs improvement.
+                    potentialAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
+                }
             }
         }
-        return nearbyAttachmentSites;
+
+        if ( potentialAttachmentSites.size() == 0 ) {
+            // No acceptable sites found.
+            return null;
+        }
+
+        Collections.sort( potentialAttachmentSites, new AttachmentSiteComparator<AttachmentSite>( transcriptionFactor.getPosition() ) );
+        return potentialAttachmentSites.get( 0 );
     }
+
+    /**
+     * Get a list of all attachments sites for transcription factors within a
+     * specified radius from a given point in model space.
+     *
+     * @param position
+     * @param distance
+     * @return
+     */
+    public List<AttachmentSite> getTranscriptionFactorAttachmentSites( Point2D position, double distance ) {
+        List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
+        // Attachment sites are associated with base pairs, so index through
+        // all base pairs and determine the attachment sites that are in range.
+        for ( int i = 0; i < basePairs.size(); i++ ) {
+            if ( basePairs.get( i ).getCenterLocation().distance( position ) <= distance ) {
+                // This base pair is in range.  All such base pairs have some
+                // affinity for transcription factors, but some have more.
+                // Determine whether this is a normal- or high-affinity site.
+                Gene gene = getGeneContainingBasePair( i );
+                if ( gene != null ) {
+                    attachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
+                }
+                else {
+                    // Base pair is not contained within a gene, so use the default.
+                    attachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
+                }
+
+            }
+        }
+        return attachmentSites;
+    }
+
+    public List<BasePair> getBasePairsWithinDistance( Point2D position, double distance ) {
+        List<BasePair> basePairList = new ArrayList<BasePair>();
+        for ( BasePair basePair : getBasePairs() ) {
+            if ( basePair.getCenterLocation().distance( position ) <= distance ) {
+                basePairList.add( basePair );
+            }
+        }
+        return basePairList;
+    }
+
 
     /**
      * Get a range of base pairs to scan for attachment sites given an X
      * position in model space.
      *
      * @param xOffsetOnStrand
-     * @return
+     * @return - An integer range representing the indexes of the base pairs
+     *         on the DNA strand that match the criteria.
      */
     private IntegerRange getBasePairScanningRange( double xOffsetOnStrand ) {
         int scanningRange = 2; // Pretty arbitrary, can adjust if needed.
@@ -317,5 +409,28 @@ public class DnaMolecule {
     }
 
     public class DnaStrand extends ArrayList<DnaStrandSegment> {
+    }
+
+    // Comparator class to use when comparing two attachment sites.
+    private static class AttachmentSiteComparator<T extends AttachmentSite> implements Comparator<T> {
+        private final Point2D attachLocation;
+
+        private AttachmentSiteComparator( Point2D attachLocation ) {
+            this.attachLocation = attachLocation;
+        }
+
+        // Compare the two attachment sites.  The comparison is based on a
+        // combination of the affinity and the distance.
+        public int compare( T attachmentSite1, T attachmentSite2 ) {
+            // The comparison is kind of like comparing gravitational attraction.
+            double as1Factor = attachmentSite1.getAffinity() / Math.pow( attachLocation.distance( attachmentSite1.locationProperty.get() ), 2 );
+            double as2Factor = attachmentSite2.getAffinity() / Math.pow( attachLocation.distance( attachmentSite2.locationProperty.get() ), 2 );
+            return Double.compare( as2Factor, as1Factor );
+        }
+
+        public boolean equals( Object obj ) {
+            // Stubbed, because it isn't needed.
+            return false;
+        }
     }
 }

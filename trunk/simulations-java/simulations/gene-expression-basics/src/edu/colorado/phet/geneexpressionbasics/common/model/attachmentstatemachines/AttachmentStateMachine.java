@@ -48,6 +48,7 @@ public class AttachmentStateMachine {
     //-------------------------------------------------------------------------
 
     public void stepInTime( double dt ) {
+        // Step the current state in time.
         attachmentState.stepInTime( this, dt );
     }
 
@@ -110,6 +111,9 @@ public class AttachmentStateMachine {
                 asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
                                                                                                 biomolecule.motionBoundsProperty ) );
                 asm.attachmentState = new GenericMovingTowardsAttachmentState();
+
+                // Mark the attachment site as being in use.
+                attachmentSite.attachedMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
             }
         }
     }
@@ -120,7 +124,7 @@ public class AttachmentStateMachine {
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedMolecule.get() == new Option.Some<MobileBiomolecule>( asm.biomolecule );
+            assert asm.attachmentSite.attachedMolecule.get().get() == biomolecule;
 
             // See of the attachment site has been reached.
             if ( asm.biomolecule.getPosition().equals( asm.attachmentSite.locationProperty.get() ) ) {
