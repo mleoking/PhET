@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * TODO: Document after design finalized
+ *
  * @author Sam Reid
  */
 public class SpeedometerNode extends PNode {
