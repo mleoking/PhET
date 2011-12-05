@@ -6,6 +6,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.FollowAttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 
 /**
  * Base class for the attachment state machines that define how the various
@@ -75,6 +76,7 @@ public class AttachmentStateMachine {
         }
         attachmentSite = null;
         attachmentState = new GenericUnattachedAndAvailableState();
+        biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );
     }
 
     //-------------------------------------------------------------------------
