@@ -4,9 +4,9 @@ package edu.colorado.phet.common.phetcommon.view.controls;
 
 import java.awt.Color;
 
-import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class HTMLRadioButton extends JRadioButton {
+public class HTMLRadioButton extends SimSharingJRadioButton {
 
     private Color foreground;
 

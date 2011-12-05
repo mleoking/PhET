@@ -11,6 +11,7 @@ public class SimSharingObjects {
     public static final String CHECK_BOX = "checkBox";
     public static final String CHECK_BOX_MENU_ITEM = "checkBoxMenuItem";
     public static final String COMBO_BOX_ITEM = "comboBoxItem";
+    public static final String ICON = "icon";
     public static final String MENU = "menu";
     public static final String MENU_ITEM = "menuItem";
     public static final String RADIO_BUTTON = "radioButton";
