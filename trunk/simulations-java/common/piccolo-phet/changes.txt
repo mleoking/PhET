@@ -1,4 +1,4 @@
-12/5/11 #3174, add "object" parameter to sim-sharing drag handlers
+12/5/11 #3175, add "object" parameter to sim-sharing drag handlers
 12/5/11 Added a speedometer
 12/5/11 Added a getter to make it possible to override backgrounds
 12/2/11 #3136, move piccolo-phet string literals to sim-sharing object/action/parameter classes
