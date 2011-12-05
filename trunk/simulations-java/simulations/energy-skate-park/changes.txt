@@ -1,3 +1,4 @@
+12/4/11 basic: Fixed: When closing the bar graph, checkbox should get unchecked
 12/2/11 basic: Fixed: After changing friction then reset all, friction not disabled in Friction tab
 12/2/11 basic: Merged control panels in the track playground tab
 12/2/11 basic: Merged control panels in the friction tab
