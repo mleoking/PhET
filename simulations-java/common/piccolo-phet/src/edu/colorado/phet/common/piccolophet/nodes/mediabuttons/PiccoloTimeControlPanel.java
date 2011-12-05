@@ -212,6 +212,10 @@ public class PiccoloTimeControlPanel extends JPanel {
         return buttonCanvas;
     }
 
+    public BackgroundNode getBackgroundNode() {
+        return backgroundNode;
+    }
+
     private void addButton( PNode button ) {
         buttonList.add( button );
         buttonCanvas.addScreenChild( button );

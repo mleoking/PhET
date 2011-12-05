@@ -1,3 +1,4 @@
+12/5/11 Added a getter to make it possible to override backgrounds
 12/2/11 #3136, move piccolo-phet string literals to sim-sharing object/action/parameter classes
 12/1/11 Require PieChartNode entries to be non-negative
 11/30/11 workaround for JVM crash on Mac, caused when slices of PieChartNode sum to zero
