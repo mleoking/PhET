@@ -88,7 +88,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
             }
         } );
 
-        energySkateParkSimulationPanel.getRootNode().addChild( controlPanel );
+        energySkateParkSimulationPanel.getRootNode().controlLayer.addChild( controlPanel );
 
         //Move the legend out from behind the control panel
         energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
