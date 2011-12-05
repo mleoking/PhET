@@ -6,8 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -18,6 +16,9 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIcon;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -28,14 +29,14 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestControls extends PhetTitledPanel {
-    
+
     private final ABSModel model;
     private final JRadioButton pHMeterRadioButton, pHPaperRadioButton, conductivityTesterRadioButton;
     private boolean isSyncingWithModel;
-    
+
     public TestControls( final ABSModel model ) {
         super( ABSStrings.TESTS );
-        
+
         // model
         {
             this.model = model;
@@ -62,51 +63,22 @@ public class TestControls extends PhetTitledPanel {
                 }
             } );
         }
-        
-        // icons - clicking on these selects associated radio buttons
-        JLabel pHMeterIcon = new JLabel( ABSImages.PH_METER_ICON );
-        pHMeterIcon.addMouseListener( new MouseAdapter() {
-            @Override 
-            public void mousePressed( MouseEvent event ) {
-                pHMeterRadioButton.setSelected( true );
-                updateModel();
-            }
-        } );
-        
-        JLabel pHPaperIcon = new JLabel( ABSImages.PH_PAPER_ICON );
-        pHPaperIcon.addMouseListener( new MouseAdapter() {
-            @Override 
-            public void mousePressed( MouseEvent event ) {
-                pHPaperRadioButton.setSelected( true );
-                updateModel();
-            }
-        } );
-        
-        JLabel conductivityTesterIcon = new JLabel( ABSImages.LIGHT_BULB_ICON );
-        conductivityTesterIcon.addMouseListener( new MouseAdapter() {
-            @Override 
-            public void mousePressed( MouseEvent event ) {
-                conductivityTesterRadioButton.setSelected( true );
-                updateModel();
-            }
-        } );
-        
+
         // radio buttons
-        
         {
             ActionListener actionListener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     updateModel();
                 }
             };
-            
-            pHMeterRadioButton = new JRadioButton( ABSStrings.PH_METER );
+
+            pHMeterRadioButton = new SimSharingJRadioButton( ABSStrings.PH_METER );
             pHMeterRadioButton.addActionListener( actionListener );
 
-            pHPaperRadioButton = new JRadioButton( ABSStrings.PH_PAPER );
+            pHPaperRadioButton = new SimSharingJRadioButton( ABSStrings.PH_PAPER );
             pHPaperRadioButton.addActionListener( actionListener );
 
-            conductivityTesterRadioButton = new JRadioButton( ABSStrings.CONDUCTIVITY );
+            conductivityTesterRadioButton = new SimSharingJRadioButton( ABSStrings.CONDUCTIVITY );
             conductivityTesterRadioButton.addActionListener( actionListener );
 
             ButtonGroup group = new ButtonGroup();
@@ -114,26 +86,48 @@ public class TestControls extends PhetTitledPanel {
             group.add( pHPaperRadioButton );
             group.add( conductivityTesterRadioButton );
         }
-        
+
+        // icons - clicking on these selects associated radio buttons
+        JLabel pHMeterIcon = new SimSharingIcon( ABSImages.PH_METER_ICON, pHMeterRadioButton.getText(), new VoidFunction0() {
+            public void apply() {
+                pHMeterRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+
+        JLabel pHPaperIcon = new SimSharingIcon( ABSImages.PH_PAPER_ICON, pHPaperRadioButton.getText(), new VoidFunction0() {
+            public void apply() {
+                pHPaperRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+
+        JLabel conductivityTesterIcon = new SimSharingIcon( ABSImages.LIGHT_BULB_ICON, conductivityTesterRadioButton.getText(), new VoidFunction0() {
+            public void apply() {
+                conductivityTesterRadioButton.setSelected( true );
+                updateModel();
+            }
+        } );
+
         // layout
         {
             final int labelIcponSpacing = 5;
-            
+
             HorizontalLayoutPanel pHMeterPanel = new HorizontalLayoutPanel();
             pHMeterPanel.setInsets( new Insets( 0, labelIcponSpacing, 0, 0 ) );
             pHMeterPanel.add( pHMeterRadioButton );
             pHMeterPanel.add( pHMeterIcon );
-            
+
             HorizontalLayoutPanel pHPaperPanel = new HorizontalLayoutPanel();
             pHPaperPanel.setInsets( new Insets( 0, labelIcponSpacing, 0, 0 ) );
             pHPaperPanel.add( pHPaperRadioButton );
             pHPaperPanel.add( pHPaperIcon );
-            
+
             HorizontalLayoutPanel conductivityTesterPanel = new HorizontalLayoutPanel();
             conductivityTesterPanel.setInsets( new Insets( 0, labelIcponSpacing, 0, 0 ) );
             conductivityTesterPanel.add( conductivityTesterRadioButton );
             conductivityTesterPanel.add( conductivityTesterIcon );
-            
+
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
@@ -142,7 +136,7 @@ public class TestControls extends PhetTitledPanel {
             layout.addComponent( pHMeterPanel, row++, column );
             layout.addComponent( pHPaperPanel, row++, column );
             layout.addComponent( conductivityTesterPanel, row++, column );
-            
+
             // ensure left justification
             this.setLayout( new BorderLayout() );
             this.add( innerPanel, BorderLayout.WEST );

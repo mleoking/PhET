@@ -1,3 +1,4 @@
+12/5/11 #3170, added sim-sharing to all radio buttons, check boxes, and icons
 5/9/11 Moved ConductivityTester and related strings and images from acid-base-solutions to piccolo-phet, see #2864
 # 1.02.00 (51717) May 9, 2011
 5/9/11 > added new translation credits features

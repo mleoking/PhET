@@ -6,10 +6,13 @@ import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
@@ -18,6 +21,10 @@ import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlass
 import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIcon;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.HTMLRadioButton;
@@ -82,53 +89,6 @@ public class ViewControls extends PhetTitledPanel {
             } );
         }
 
-        // icons - clicking on these selects associated buttons
-        {
-            magnifyingGlassIcon = new JLabel( ABSImages.MAGNIFYING_GLASS_ICON );
-            magnifyingGlassIcon.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mousePressed( MouseEvent event ) {
-                    if ( controlsEnabled ) {
-                        magnifyingGlassRadioButton.setSelected( true );
-                        updateModel();
-                    }
-                }
-            } );
-
-            Icon waterIcon = ABSImages.createIcon( new WaterMolecule().getImage(), 0.75 );
-            showWaterIcon = new JLabel( waterIcon );
-            showWaterIcon.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mousePressed( MouseEvent event ) {
-                    if ( controlsEnabled ) {
-                        model.getMagnifyingGlass().setWaterVisible( true );
-                    }
-                }
-            } );
-
-            concentrationGraphIcon = new JLabel( ConcentrationGraphNode.createIcon() );
-            concentrationGraphIcon.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mousePressed( MouseEvent event ) {
-                    if ( controlsEnabled ) {
-                        concentrationGraphRadioButton.setSelected( true );
-                        updateModel();
-                    }
-                }
-            } );
-
-            liquidIcon = new JLabel( ABSImages.BEAKER_ICON );
-            liquidIcon.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mousePressed( MouseEvent event ) {
-                    if ( controlsEnabled ) {
-                        liquidRadioButton.setSelected( true );
-                        updateModel();
-                    }
-                }
-            } );
-        }
-
         // radio buttons
         {
             ActionListener actionListener = new ActionListener() {
@@ -137,13 +97,13 @@ public class ViewControls extends PhetTitledPanel {
                 }
             };
 
-            magnifyingGlassRadioButton = new JRadioButton( ABSStrings.MOLECULES );
+            magnifyingGlassRadioButton = new SimSharingJRadioButton( ABSStrings.MOLECULES );
             magnifyingGlassRadioButton.addActionListener( actionListener );
 
             concentrationGraphRadioButton = new HTMLRadioButton( ABSStrings.EQUILIBRIUM_CONCENTRATION );
             concentrationGraphRadioButton.addActionListener( actionListener );
 
-            liquidRadioButton = new JRadioButton( ABSStrings.LIQUID );
+            liquidRadioButton = new SimSharingJRadioButton( ABSStrings.LIQUID );
             liquidRadioButton.addActionListener( actionListener );
 
             ButtonGroup group = new ButtonGroup();
@@ -154,10 +114,50 @@ public class ViewControls extends PhetTitledPanel {
 
         // "Show Water" check box
         {
-            showWaterCheckBox = new JCheckBox( ABSStrings.SHOW_WATER );
+            showWaterCheckBox = new SimSharingJCheckBox( ABSStrings.SHOW_WATER );
             showWaterCheckBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.getMagnifyingGlass().setWaterVisible( showWaterCheckBox.isSelected() );
+                }
+            } );
+        }
+
+        // icons - clicking on these selects associated buttons
+        {
+            magnifyingGlassIcon = new SimSharingIcon( ABSImages.MAGNIFYING_GLASS_ICON, magnifyingGlassRadioButton.getText(), new VoidFunction0() {
+                public void apply() {
+                    if ( controlsEnabled ) {
+                        magnifyingGlassRadioButton.setSelected( true );
+                        updateModel();
+                    }
+                }
+            } );
+
+            Icon waterIcon = ABSImages.createIcon( new WaterMolecule().getImage(), 0.75 );
+            showWaterIcon = new SimSharingIcon( waterIcon, showWaterCheckBox.getText(), new VoidFunction0() {
+                public void apply() {
+                    if ( controlsEnabled && showWaterCheckBox.isEnabled() ) {
+                        showWaterCheckBox.setSelected( !showWaterCheckBox.isSelected() );
+                        model.getMagnifyingGlass().setWaterVisible( showWaterCheckBox.isSelected() );
+                    }
+                }
+            } );
+
+            concentrationGraphIcon = new SimSharingIcon( ConcentrationGraphNode.createIcon(), concentrationGraphRadioButton.getText(), new VoidFunction0() {
+                public void apply() {
+                    if ( controlsEnabled ) {
+                        concentrationGraphRadioButton.setSelected( true );
+                        updateModel();
+                    }
+                }
+            } );
+
+            liquidIcon = new SimSharingIcon( ABSImages.BEAKER_ICON, liquidRadioButton.getText(), new VoidFunction0() {
+                public void apply() {
+                    if ( controlsEnabled ) {
+                        liquidRadioButton.setSelected( true );
+                        updateModel();
+                    }
                 }
             } );
         }

@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
 import javax.swing.Icon;
-import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
@@ -14,47 +14,48 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingParameters;
 
 /**
- * Swing radio button that sends sim-sharing events.
+ * Swing check box that sends sim-sharing events.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimSharingJRadioButton extends JRadioButton {
+public class SimSharingJCheckBox extends JCheckBox {
 
-    public SimSharingJRadioButton() {
+    public SimSharingJCheckBox() {
     }
 
-    public SimSharingJRadioButton( Icon icon ) {
+    public SimSharingJCheckBox( Icon icon ) {
         super( icon );
     }
 
-    public SimSharingJRadioButton( Action a ) {
-        super( a );
-    }
-
-    public SimSharingJRadioButton( Icon icon, boolean selected ) {
+    public SimSharingJCheckBox( Icon icon, boolean selected ) {
         super( icon, selected );
     }
 
-    public SimSharingJRadioButton( String text ) {
+    public SimSharingJCheckBox( String text ) {
         super( text );
     }
 
-    public SimSharingJRadioButton( String text, boolean selected ) {
+    public SimSharingJCheckBox( Action a ) {
+        super( a );
+    }
+
+    public SimSharingJCheckBox( String text, boolean selected ) {
         super( text, selected );
     }
 
-    public SimSharingJRadioButton( String text, Icon icon ) {
+    public SimSharingJCheckBox( String text, Icon icon ) {
         super( text, icon );
     }
 
-    public SimSharingJRadioButton( String text, Icon icon, boolean selected ) {
-        super( text, selected );
+    public SimSharingJCheckBox( String text, Icon icon, boolean selected ) {
+        super( text, icon, selected );
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingEvents.sendEvent( SimSharingObjects.RADIO_BUTTON,
+        SimSharingEvents.sendEvent( SimSharingObjects.CHECK_BOX,
                                     SimSharingActions.PRESSED,
-                                    Parameter.param( SimSharingParameters.TEXT, getText() ) );
+                                    Parameter.param( SimSharingParameters.TEXT, getText() ),
+                                    Parameter.param( SimSharingParameters.IS_SELECTED, isSelected() ) );
         super.fireActionPerformed( event );
     }
 }

@@ -31,6 +31,7 @@ import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.CustomWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.CustomWeakBaseSolution;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
 import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
@@ -241,11 +242,11 @@ public class CustomSolutionControls extends PhetTitledPanel {
                     }
                 };
 
-                acidRadioButton = new JRadioButton( ABSStrings.ACID );
+                acidRadioButton = new SimSharingJRadioButton( ABSStrings.ACID );
                 group.add( acidRadioButton );
                 acidRadioButton.addActionListener( actionListener );
 
-                baseRadioButton = new JRadioButton( ABSStrings.BASE );
+                baseRadioButton = new SimSharingJRadioButton( ABSStrings.BASE );
                 group.add( baseRadioButton );
                 baseRadioButton.addActionListener( actionListener );
             }
@@ -366,11 +367,11 @@ public class CustomSolutionControls extends PhetTitledPanel {
                     }
                 };
 
-                weakRadioButton = new JRadioButton( ABSStrings.WEAK );
+                weakRadioButton = new SimSharingJRadioButton( ABSStrings.WEAK );
                 group.add( weakRadioButton );
                 weakRadioButton.addActionListener( actionListener );
 
-                strongRadioButton = new JRadioButton( ABSStrings.STRONG );
+                strongRadioButton = new SimSharingJRadioButton( ABSStrings.STRONG );
                 group.add( strongRadioButton );
                 strongRadioButton.addActionListener( actionListener );
             }
