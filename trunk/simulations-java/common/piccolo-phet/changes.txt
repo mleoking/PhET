@@ -1,3 +1,4 @@
+12/5/11 #3175 switch to subclassing for sim-sharing drag handlers
 12/5/11 #3175, add "object" parameter to sim-sharing drag handlers
 12/5/11 Added a speedometer
 12/5/11 Added a getter to make it possible to override backgrounds
