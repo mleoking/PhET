@@ -1,12 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.FollowAttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 
 /**
  * Base class for the attachment state machines that define how the various
@@ -20,6 +22,10 @@ public class AttachmentStateMachine {
     //-------------------------------------------------------------------------
     // Class Data
     //-------------------------------------------------------------------------
+
+    // Distance within which a molecule is considered to be attached to an
+    // attachment site.  This essentially avoids floating point issues.
+    private static double ATTACHED_DISTANCE_THRESHOLD = 1; // In picometers.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -128,8 +134,8 @@ public class AttachmentStateMachine {
             assert asm.attachmentSite != null;
             assert asm.attachmentSite.attachedMolecule.get().get() == biomolecule;
 
-            // See of the attachment site has been reached.
-            if ( asm.biomolecule.getPosition().equals( asm.attachmentSite.locationProperty.get() ) ) {
+            // See if the attachment site has been reached.
+            if ( asm.biomolecule.getPosition().distance( asm.attachmentSite.locationProperty.get() ) < ATTACHED_DISTANCE_THRESHOLD ) {
                 // This molecule is now at the attachment site, so consider it
                 // attached.
                 attachmentState = new GenericAttachedState();
@@ -152,14 +158,16 @@ public class AttachmentStateMachine {
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedMolecule.get() == new Option.Some<MobileBiomolecule>( biomolecule );
+            assert asm.attachmentSite.attachedMolecule.get().get() == biomolecule;
 
             // See if it is time to detach.
             attachCountdownTime -= dt;
-            if ( attachCountdownTime <= attachCountdownTime ) {
+            if ( attachCountdownTime <= 0 ) {
                 // Detach.
                 asm.attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+                asm.attachmentSite = null;
                 asm.attachmentState = new GenericUnattachedButUnavailableState();
+                biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
             }
         }
     }
@@ -176,7 +184,7 @@ public class AttachmentStateMachine {
             assert asm.attachmentSite == null;
 
             // See if we've been detached long enough.
-            detachCountdownTime -= DEFAULT_DETACH_TIME;
+            detachCountdownTime -= dt;
             if ( detachCountdownTime <= 0 ) {
                 // Move the the unattached-and-available state.
                 asm.attachmentState = new GenericUnattachedAndAvailableState();

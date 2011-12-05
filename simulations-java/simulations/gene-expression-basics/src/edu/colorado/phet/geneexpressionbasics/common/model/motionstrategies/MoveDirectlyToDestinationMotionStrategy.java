@@ -67,7 +67,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
         // the destination.
         double distanceToDestination = currentLocation.distance( destination );
         if ( velocityVector.getMagnitude() * dt > distanceToDestination ) {
-            velocityVector.scale( distanceToDestination / velocityVector.getMagnitude() );
+            return destination;
         }
 
         // Calculate the next location based on the motion vector.
