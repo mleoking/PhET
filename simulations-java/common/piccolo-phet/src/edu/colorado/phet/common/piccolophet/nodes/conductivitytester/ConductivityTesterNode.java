@@ -24,8 +24,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -44,6 +44,10 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConductivityTesterNode extends PhetPNode {
+
+    // sim-sharing strings
+    public static final String SIM_SHARING_POSITIVE_PROBE = "conductivityTesterPositiveProbe";
+    public static final String SIM_SHARING_NEGATIVE_PROBE = "conductivityTesterNegativeProbe";
 
     //Strings to be shown on the probes
     private static final String PLUS = "+";
@@ -131,7 +135,7 @@ public class ConductivityTesterNode extends PhetPNode {
         positiveProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), positiveProbeFillColor, POSITIVE_PROBE_LABEL, positiveProbeLabelColor );
         positiveProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         positiveProbeNode.addInputEventListener(
-                new ProbeDragHandler( transform, positiveProbeNode,
+                new ProbeDragHandler( SIM_SHARING_POSITIVE_PROBE, transform, positiveProbeNode,
                                       new Function0<Point2D>() {
                                           public Point2D apply() {
                                               return tester.getPositiveProbeLocationReference();
@@ -148,7 +152,7 @@ public class ConductivityTesterNode extends PhetPNode {
         negativeProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), negativeProbeFillColor, NEGATIVE_PROBE_LABEL, negativeProbeLabelColor );
         negativeProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         negativeProbeNode.addInputEventListener(
-                new ProbeDragHandler( transform, negativeProbeNode,
+                new ProbeDragHandler( SIM_SHARING_NEGATIVE_PROBE, transform, negativeProbeNode,
                                       new Function0<Point2D>() {
                                           public Point2D apply() {
                                               return tester.getNegativeProbeLocationReference();
@@ -445,7 +449,7 @@ public class ConductivityTesterNode extends PhetPNode {
     }
 
     // Drag handler for probes, handles model-view transform, constrains dragging to vertical.
-    private static class ProbeDragHandler extends PBasicInputEventHandler {
+    private static class ProbeDragHandler extends SimSharingDragSequenceEventHandler {
 
         private final ProbeNode probeNode;
         private final ModelViewTransform transform;
@@ -454,7 +458,8 @@ public class ConductivityTesterNode extends PhetPNode {
 
         private Point2D.Double relativeGrabPoint; // where the mouse grabbed relative to the probe, in view coordinates
 
-        ProbeDragHandler( ModelViewTransform transform, ProbeNode probeNode, Function0<Point2D> getModelLocation, VoidFunction1<Point2D> setModelLocation ) {
+        ProbeDragHandler( String simSharingObject, ModelViewTransform transform, ProbeNode probeNode, Function0<Point2D> getModelLocation, VoidFunction1<Point2D> setModelLocation ) {
+            super( simSharingObject );
             this.transform = transform;
             this.probeNode = probeNode;
             this.getModelLocation = getModelLocation;
@@ -462,19 +467,22 @@ public class ConductivityTesterNode extends PhetPNode {
         }
 
         // Set the relative grab point when the mouses is pressed.
-        @Override public void mousePressed( PInputEvent event ) {
+        @Override public void startDrag( PInputEvent event ) {
+            super.startDrag( event );
             Point2D pMouse = event.getPositionRelativeTo( probeNode.getParent() );
             Point2D pProbe = transform.modelToView( getModelLocation.apply() );
             relativeGrabPoint = new Point2D.Double( pMouse.getX() - pProbe.getX(), pMouse.getY() - pProbe.getY() );
         }
 
         // Forget the relative grab point when the mouse is released.
-        @Override public void mouseReleased( PInputEvent event ) {
+        @Override public void endDrag( PInputEvent event ) {
+            super.endDrag( event );
             relativeGrabPoint = null;
         }
 
         // Update the model as the mouse is dragged.
-        @Override public void mouseDragged( PInputEvent event ) {
+        @Override public void drag( PInputEvent event ) {
+            super.drag( event );
             Point2D pMouse = event.getPositionRelativeTo( probeNode.getParent() );
             Point2D pProbe = transform.viewToModel( pMouse.getX() - relativeGrabPoint.getX(), pMouse.getY() - relativeGrabPoint.getY() );
             setModelLocation.apply( new Point2D.Double( getModelLocation.apply().getX(), pProbe.getY() ) );
