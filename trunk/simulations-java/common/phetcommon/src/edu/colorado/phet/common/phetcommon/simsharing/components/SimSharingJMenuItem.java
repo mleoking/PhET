@@ -42,7 +42,7 @@ public class SimSharingJMenuItem extends JMenuItem {
         super( text, mnemonic );
     }
 
-    protected void fireActionPerformed( ActionEvent event ) {
+    @Override protected void fireActionPerformed( ActionEvent event ) {
         SimSharingEvents.sendEvent( SimSharingObjects.MENU_ITEM,
                                     SimSharingActions.SELECTED, //TODO: shouldn't this be PRESSED, it's a button?
                                     Parameter.param( SimSharingParameters.TEXT, getText() ) );
