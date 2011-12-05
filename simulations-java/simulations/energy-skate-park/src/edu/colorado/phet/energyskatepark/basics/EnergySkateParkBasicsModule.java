@@ -54,7 +54,13 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         super( name, phetFrame, new EnergySkateParkOptions(), splinesMovable, false,
 
                //Use the skater friction only in *Basics
-               0.0, false /* hasZoomControls */ );
+               0.0,
+
+               //No zoom controls in basics
+               false,
+
+               //Move the x-origin to the right so it doesn't overlap the thumbnails
+               3.0 );
 
         //Don't allow users to apply rocket force with the keyboard
         energySkateParkSimulationPanel.setThrustEnabled( false );
