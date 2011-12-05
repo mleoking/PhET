@@ -1,9 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.basics;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
+import edu.colorado.phet.energyskatepark.view.SkaterCharacterSet;
 
 /**
  * Module for the "Energy Skate Park Basics" Introduction
@@ -24,6 +26,12 @@ public class IntroModule extends EnergySkateParkBasicsModule {
         addTrackSelectionControlPanel();
 
         loadDefaultTrack();
+
+        mass.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double mass ) {
+                setSkaterCharacter( SkaterCharacterSet.getDefaultCharacter( mass ) );
+            }
+        } );
     }
 
     @Override protected ControlPanelNode createControlPanel() {

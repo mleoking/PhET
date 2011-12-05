@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.view;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 
 /**
@@ -22,6 +23,11 @@ public class SkaterCharacterSet {
 
     public static SkaterCharacter getDefaultCharacter() {
         return new SkaterCharacter( "skater3.png", EnergySkateParkResources.getString( "skater.phet-skater" ), 75.0, 1.8 );
+    }
+
+    public static SkaterCharacter getDefaultCharacter( double mass ) {
+        Function.LinearFunction massFunction = new Function.LinearFunction( 0, 75, 0, 1.8 );
+        return new SkaterCharacter( "skater3.png", EnergySkateParkResources.getString( "skater.phet-skater" ), mass, massFunction.evaluate( mass ) );
     }
 
     public SkaterCharacter[] getSkaterCharacters() {
