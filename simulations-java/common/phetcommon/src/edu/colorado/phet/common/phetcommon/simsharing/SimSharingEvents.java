@@ -35,6 +35,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
  */
 public class SimSharingEvents {
 
+    //TODO Lots of "static" abuse here. Use singleton pattern, with static convenience methods for sending events.
+
     private static final Logger LOGGER = Logger.getLogger( SimSharingEvents.class.getCanonicalName() );
 
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java
@@ -223,14 +225,15 @@ public class SimSharingEvents {
         } ).start();
     }
 
+    //TODO Processing of program args is typically handled in PhetApplicationConfig.
     //Find the argument after the specified key, for purposes of finding a command line argument like "-study colorado"
     private static String getArgAfter( String[] commandLineArgs, String key ) {
         int s = Arrays.asList( commandLineArgs ).indexOf( key );
-        if ( s >= 0 && s <= commandLineArgs.length - 2 ) {
+        if ( s >= 0 && s <= commandLineArgs.length - 2 && !commandLineArgs[s + 1].startsWith( "-" ) ) {
             return commandLineArgs[s + 1];
         }
         else {
-            return "?";
+            return "?"; //TODO inlined literal for "unknown study name"
         }
     }
 
