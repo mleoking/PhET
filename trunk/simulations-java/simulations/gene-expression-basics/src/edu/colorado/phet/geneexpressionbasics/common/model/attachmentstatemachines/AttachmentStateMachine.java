@@ -192,9 +192,7 @@ public class AttachmentStateMachine {
             attachCountdownTime -= dt;
             if ( attachCountdownTime <= 0 ) {
                 // Detach.
-                asm.attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
-                asm.attachmentSite = null;
-                asm.setState( unattachedButUnavailableState );
+                asm.detach();
                 biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
             }
         }
@@ -218,7 +216,7 @@ public class AttachmentStateMachine {
             // See if we've been detached long enough.
             detachCountdownTime -= dt;
             if ( detachCountdownTime <= 0 ) {
-                // Move the the unattached-and-available state.
+                // Move to the unattached-and-available state.
                 asm.setState( asm.unattachedButUnavailableState );
             }
         }

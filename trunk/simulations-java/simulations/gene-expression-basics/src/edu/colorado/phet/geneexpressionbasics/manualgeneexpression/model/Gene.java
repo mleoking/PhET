@@ -91,9 +91,15 @@ public class Gene {
     }
 
     public double getCenterX() {
-        double startX = dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMin() );
-        double endX = dnaMolecule.getBasePairXOffsetByIndex( transcribedRegion.getMax() );
-        return startX + ( endX - startX ) / 2;
+        return getStartX() + ( getEndX() - getStartX() ) / 2;
+    }
+
+    public double getStartX() {
+        return dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMin() );
+    }
+
+    public double getEndX() {
+        return dnaMolecule.getBasePairXOffsetByIndex( transcribedRegion.getMax() );
     }
 
     public IntegerRange getRegulatoryRegion() {

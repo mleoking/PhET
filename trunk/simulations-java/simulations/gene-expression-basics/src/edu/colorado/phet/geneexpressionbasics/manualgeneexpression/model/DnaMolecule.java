@@ -46,6 +46,9 @@ public class DnaMolecule {
     // Distance within which transcription factors may attach.
     private static final double TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE = 400;
 
+    // Distance within which RNA polymerase may attach.
+    private static final double RNA_POLYMERASE_ATTACHMENT_DISTANCE = 400;
+
     private DnaStrand strand1;
     private DnaStrand strand2;
     private ArrayList<BasePair> basePairs = new ArrayList<BasePair>();
@@ -252,7 +255,7 @@ public class DnaMolecule {
             // See if the base pair is within the max attachment distance.
             if ( basePairs.get( i ).getCenterLocation().distance( transcriptionFactor.getPosition() ) <= TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE ) {
                 // In range.  Add it to the list if it is available.
-                AttachmentSite potentialAttachmentSite = getAttachmentSiteForBasePairIndex( i );
+                AttachmentSite potentialAttachmentSite = getTranscriptionFactorAttachmentSiteForBasePairIndex( i );
                 if ( potentialAttachmentSite.attachedMolecule.get().isNone() ) {
                     potentialAttachmentSites.add( potentialAttachmentSite );
                 }
@@ -268,12 +271,56 @@ public class DnaMolecule {
         return potentialAttachmentSites.get( 0 );
     }
 
-    private AttachmentSite getAttachmentSiteForBasePairIndex( int i ) {
+    /**
+     * Consider an attachment proposal from an instance of RNA polymerase.
+     *
+     * @param rnaPolymerase
+     * @return
+     */
+    public AttachmentSite considerProposalFrom( RnaPolymerase rnaPolymerase ) {
+        List<AttachmentSite> potentialAttachmentSites = new ArrayList<AttachmentSite>();
+        for ( int i = 0; i < basePairs.size(); i++ ) {
+            // See if the base pair is within the max attachment distance.
+            if ( basePairs.get( i ).getCenterLocation().distance( rnaPolymerase.getPosition() ) <= RNA_POLYMERASE_ATTACHMENT_DISTANCE ) {
+                // In range.  Add it to the list if it is available.
+                AttachmentSite potentialAttachmentSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( i );
+                if ( potentialAttachmentSite.attachedMolecule.get().isNone() ) {
+                    potentialAttachmentSites.add( potentialAttachmentSite );
+                }
+            }
+        }
+
+        if ( potentialAttachmentSites.size() == 0 ) {
+            // No acceptable sites found.
+            return null;
+        }
+
+        // Sort the collection so that the best site is at the top of the list.
+        Collections.sort( potentialAttachmentSites, new AttachmentSiteComparator<AttachmentSite>( rnaPolymerase.getPosition() ) );
+
+        // Return the optimal attachment site.
+        return potentialAttachmentSites.get( 0 );
+    }
+
+    private AttachmentSite getTranscriptionFactorAttachmentSiteForBasePairIndex( int i ) {
         // See if this base pair is inside a gene.
         Gene gene = getGeneContainingBasePair( i );
         if ( gene != null ) {
             // Base pair is in a gene.  See if site is available.
             return gene.getTranscriptionFactorAttachmentSite( i );
+        }
+        else {
+            // Base pair is not contained within a gene, so use the default.
+            return createDefaultAffinityAttachmentSite( i );
+        }
+    }
+
+    private AttachmentSite getRnaPolymeraseAttachmentSiteForBasePairIndex( int i ) {
+        // See if this base pair is inside a gene.
+        Gene gene = getGeneContainingBasePair( i );
+        if ( gene != null ) {
+            // Base pair is in a gene.  See if site is available.
+            return gene.getPolymeraseAttachmentSite( i );
         }
         else {
             // Base pair is not contained within a gene, so use the default.
@@ -297,10 +344,10 @@ public class DnaMolecule {
         }
         List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
         if ( basePairIndex != 0 ) {
-            attachmentSites.add( getAttachmentSiteForBasePairIndex( basePairIndex - 1 ) );
+            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex - 1 ) );
         }
         if ( basePairIndex != basePairs.size() - 1 ) {
-            attachmentSites.add( getAttachmentSiteForBasePairIndex( basePairIndex + 1 ) );
+            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex + 1 ) );
         }
         return attachmentSites;
     }

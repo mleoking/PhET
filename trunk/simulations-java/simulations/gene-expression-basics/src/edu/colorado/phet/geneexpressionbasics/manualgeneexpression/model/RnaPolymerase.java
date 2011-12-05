@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.PolymeraseAttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.TranscribingDnaState;
@@ -101,6 +103,11 @@ public class RnaPolymerase extends MobileBiomolecule {
     }
 
     // Overridden to provide attachment behavior that is unique to polymerase.
+    @Override protected AttachmentStateMachine createAttachmentStateMachine() {
+        return new PolymeraseAttachmentStateMachine( this );
+    }
+
+    // Overridden to provide attachment behavior that is unique to polymerase.
     @Override public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
         if ( attachmentSite.getAffinity() > START_TRANSCRIPTION_THRESHOLD ) {
             // The attachment site is strong enough to trigger transcription.
@@ -116,6 +123,11 @@ public class RnaPolymerase extends MobileBiomolecule {
         Shape newTranslatedShape = AffineTransform.getTranslateInstance( getPosition().getX(), getPosition().getY() ).createTransformedShape( newUntranslatedShape );
         shapeProperty.set( newTranslatedShape );
         colorProperty.set( ColorUtils.interpolateRBGA( NOMINAL_COLOR, CONFORMED_COLOR, changeFactor ) );
+    }
+
+    @Override public AttachmentSite proposeAttachments() {
+        // Propose attachment to the DNA.
+        return model.getDnaMolecule().considerProposalFrom( this );
     }
 
     private static Shape createShape() {
