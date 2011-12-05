@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
  * A site to which one biomolecule may attach to another.  Typically one
- * biomolecule (e.g. a DnaMolecule) owns the attachment site and proposes it to
- * a smaller biomolecule.
+ * biomolecule (e.g. a DnaMolecule) owns the attachment site, so if the
+ * biomolecule that owns it moves, the attachment site moves with it.
  *
  * @author John Blanco
  */
