@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.TimeControlListener.TimeControlAdapter;
 import edu.colorado.phet.common.phetcommon.view.clock.SimSpeedControl;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -25,7 +26,7 @@ public class EnergySkateParkTimePanel extends JPanel {
 
         //Make backgrounds blank so it will work as a floating clock control panel
         setBackground( BLANK );
-        final SimSpeedControl timeSpeedSlider = new SimSpeedControl( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, (ConstantDtClock) clock );
+        final SimSpeedControl timeSpeedSlider = new SimSpeedControl( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, (ConstantDtClock) clock, PhetCommonResources.getString( "Common.sim.speed" ), Color.white );
         timeSpeedSlider.setBackground( BLANK );
         timeSpeedSlider.getLinearSlider().getSlider().setBackground( BLANK );
         timeSpeedSlider.getLinearSlider().setBackground( BLANK );
