@@ -275,14 +275,22 @@ public class SimSharingEvents {
     }
 
     //Attach to components that users can drag, so we see when the drag starts and ends.
-    public static void addDragSequenceListener( JComponent component, final Function0<Parameter[]> parameters ) {
+    public static void addDragSequenceListener( JComponent component, final String object, final Function0<Parameter[]> parameters ) {
         component.addMouseListener( new MouseAdapter() {
-            @Override public void mousePressed( MouseEvent e ) {
-                sendEvent( SimSharingObjects.MOUSE, SimSharingActions.START_DRAG, parameters.apply() );
+            @Override public void mousePressed( MouseEvent event ) {
+                sendEvent( object, SimSharingActions.START_DRAG, addCanvasPosition( parameters.apply(), event ) );
             }
 
-            @Override public void mouseReleased( MouseEvent e ) {
-                sendEvent( SimSharingObjects.MOUSE, SimSharingActions.END_DRAG, parameters.apply() );
+            @Override public void mouseReleased( MouseEvent event ) {
+                sendEvent( object, SimSharingActions.END_DRAG, addCanvasPosition( parameters.apply(), event ) );
+            }
+
+            //Adds the mouse position (relative to the source component) to an array of message parameters
+            private Parameter[] addCanvasPosition( Parameter[] parameters, final MouseEvent event ) {
+                return new ArrayList<Parameter>( Arrays.asList( parameters ) ) {{
+                    add( new Parameter( "x", event.getX() ) );
+                    add( new Parameter( "y", event.getY() ) );
+                }}.toArray( new Parameter[0] );
             }
         } );
     }

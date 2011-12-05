@@ -103,10 +103,9 @@ public class BondCharacterNode extends PComposite {
         } );
 
         //Report when the user tries to click on this non-interactive control
-        PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<Parameter[]>() {
+        PiccoloPhetSimSharingEvents.addDragSequenceListener( this, MPSimSharing.OBJECT_BOND_CHARACTER_NODE, new Function0<Parameter[]>() {
             public Parameter[] apply() {
-                return new Parameter[] { param( MPSimSharing.PARAM_NODE, MPSimSharing.PARAM_VALUE_BOND_CHARACTER_NODE ),
-                        param( MPSimSharing.PARAM_INTERACTIVE, false ) };
+                return new Parameter[] { param( MPSimSharing.PARAM_INTERACTIVE, false ) };
             }
         } );
     }
