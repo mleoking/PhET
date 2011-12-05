@@ -240,8 +240,8 @@ public class DnaMolecule {
     }
 
     /**
-     * Consider a proposal from the specified transcription factor.  To
-     * determine whether or not to accept or reject this proposal, the base
+     * Consider an attachment proposal from a transcription factor instance.
+     * To determine whether or not to accept or reject this proposal, the base
      * pairs are scanned in order to determine whether there is an appropriate
      * and available attachment site within the attachment distance.
      *
@@ -258,7 +258,7 @@ public class DnaMolecule {
                 if ( gene != null ) {
                     // Base pair is in a gene.  See if site is available.
                     AttachmentSite potentialAttachmentSite = gene.getTranscriptionFactorAttachmentSite( i );
-                    if ( potentialAttachmentSite.attachedMolecule == null ) {
+                    if ( potentialAttachmentSite.attachedMolecule.get().isNone() ) {
                         // Site is available, add to list.
                         potentialAttachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
                     }
