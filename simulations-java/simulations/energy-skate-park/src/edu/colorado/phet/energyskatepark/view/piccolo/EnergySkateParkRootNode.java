@@ -72,6 +72,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     public static final Color SKY_COLOR = new Color( 170, 200, 220 );
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
     private boolean splinesMovable;
+    public final PNode controlLayer = new PNode();
 
     public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, final EnergySkateParkSimulationPanel simulationPanel, boolean hasZoomControls, double gridHighlightX ) {
         this.module = module;
@@ -127,6 +128,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addWorldChild( houseNode );
         addWorldChild( mountainNode );
         addWorldChild( floorNode );
+        addChild( controlLayer );
         addWorldChild( splineLayer );
         addWorldChild( skaterNodeLayer );
 
