@@ -64,6 +64,7 @@ public class EnergySkateParkIO implements IProguardKeepClass {
         if ( obj instanceof EnergySkateParkModuleBean ) {
             EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean) obj;
             energySkateParkModelBean.apply( module );
+            module.updatePrimarySkaterSpeed();
         }
         xmlDecoder.close();
     }
@@ -75,6 +76,7 @@ public class EnergySkateParkIO implements IProguardKeepClass {
         if ( obj instanceof EnergySkateParkModuleBean ) {
             EnergySkateParkModuleBean energySkateParkModelBean = (EnergySkateParkModuleBean) obj;
             energySkateParkModelBean.apply( module );
+            module.updatePrimarySkaterSpeed();
         }
         xmlDecoder.close();
     }

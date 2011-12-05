@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
+import edu.colorado.phet.energyskatepark.basics.ESPSpeedometerNode;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
@@ -218,13 +219,28 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
         //add the floating clock control panel
         EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( module, module.getTimeSeriesModel().getTimeModelClock() );
-        final PSwing screenChild = new PSwing( timePanel ) {{
+        final PSwing timePanelNode = new PSwing( timePanel ) {{
             final double scale = 0.02;
             final AffineTransform transform = AffineTransform.getScaleInstance( scale, -scale );
             transform.preConcatenate( AffineTransform.getTranslateInstance( EnergySkateParkSimulationPanel.VIEW_WIDTH / 2 - getFullBounds().getWidth() / 2 * scale, 0 ) );
             setTransform( transform );
         }};
-        addWorldChild( screenChild );
+        addWorldChild( timePanelNode );
+
+        //Add the speedometer
+        addWorldChild( new ESPSpeedometerNode( module.getPrimarySkaterSpeed() ) {{
+            final float scale = 0.02f;
+            final AffineTransform transform = AffineTransform.getScaleInstance( scale, -scale );
+            transform.preConcatenate( AffineTransform.getTranslateInstance( EnergySkateParkSimulationPanel.VIEW_WIDTH / 2 - getFullBounds().getWidth() / 2 * scale, 8.25 ) );
+//            scale( scale );
+//            translate( EnergySkateParkSimulationPanel.VIEW_WIDTH / 2 - getFullBounds().getWidth() / 2 * scale, 0 );
+            setTransform( transform );
+            module.speedVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    setVisible( visible );
+                }
+            } );
+        }} );
     }
 
     public SplineToolboxNode getSplineToolbox() {
