@@ -3,6 +3,8 @@ package edu.colorado.phet.energyskatepark;
 
 import java.awt.Frame;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JOptionPane;
 
@@ -87,6 +89,11 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         setSimulationPanel( energySkateParkSimulationPanel );
 
         barChartDialog = new BarChartDialog( phetFrame, EnergySkateParkResources.getString( "plots.bar-graph" ), false, this );
+        barChartDialog.addWindowListener( new WindowAdapter() {
+            @Override public void windowClosing( WindowEvent e ) {
+                barChartVisible.set( false );
+            }
+        } );
         barChartDialog.setSize( 200, 625 );
         /*
          * If screen resolution permits, position the dialog to the right of the main frame, top aligned.
@@ -95,8 +102,8 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
          * the dialog.  If that's the case, all bets are off about the relationship of the dialog to the main frame.
          * A better solution would be to defer positioning the dialog until it's first opened.
          */
-        barChartDialog.setLocation( (int) Math.min( Toolkit.getDefaultToolkit().getScreenSize().width - barChartDialog.getWidth(),
-                                                    phetFrame.getX() + phetFrame.getWidth() ),
+        barChartDialog.setLocation( Math.min( Toolkit.getDefaultToolkit().getScreenSize().width - barChartDialog.getWidth(),
+                                              phetFrame.getX() + phetFrame.getWidth() ),
                                     phetFrame.getY() );
         barChartVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean barChartIsVisible ) {
