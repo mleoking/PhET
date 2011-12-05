@@ -21,8 +21,10 @@ public class GridNode extends PhetPNode {
     private final PNode lines = new PNode();
     private final PNode textLayer = new PNode();
     private Paint gridPaint = null;
+    private final double highlightX;
 
-    public GridNode( double minX, double minY, double maxX, double maxY, double dx, double dy ) {
+    public GridNode( double minX, double minY, double maxX, double maxY, double dx, double dy, double highlightX ) {
+        this.highlightX = highlightX;
         addChild( lines );
         addChild( textLayer );
         for ( double x = minX; x <= maxX; x += dx ) {
@@ -45,14 +47,23 @@ public class GridNode extends PhetPNode {
             lines.addChild( createYLineNode( minX, maxX, y ) );
             if ( y % 2 == 0 ) {
                 String aText = "" + (int) y;
-                if ( aText.equals( "0" ) ) {
-                    aText = PhetCommonResources.formatValueUnits( "0", EnergySkateParkResources.getString( "units.meters" ) );
+                {
+                    PText text = new PText( aText );
+                    text.setOffset( dx * highlightX - dx * 0.05 - text.getFullBounds().getWidth() * 0.03f, y + dy * 0.05 );
+                    text.setScale( 0.03f );
+                    text.getTransformReference( true ).scale( 1, -1 );
+                    textLayer.addChild( text );
                 }
-                PText text = new PText( aText );
-                text.setOffset( dx + dx * 0.05, y + dy * 0.05 );
-                text.setScale( 0.03f );
-                text.getTransformReference( true ).scale( 1, -1 );
-                textLayer.addChild( text );
+
+                if ( aText.equals( "0" ) ) {
+                    String meters = EnergySkateParkResources.getString( "units.meters" );
+                    PText text = new PText( meters );
+                    text.setOffset( dx * highlightX + dx * 0.05, y + dy * 0.05 );
+                    text.setScale( 0.03f );
+                    text.getTransformReference( true ).scale( 1, -1 );
+                    textLayer.addChild( text );
+                }
+
             }
         }
         setPickable( false );
@@ -101,7 +112,7 @@ public class GridNode extends PhetPNode {
 
     private PNode createXLineNode( double minY, double maxY, double x ) {
         PPath child = new PPath( new Line2D.Double( x, minY, x, maxY ) );
-        boolean thickStroke = MathUtil.isApproxEqual( x, 1, 0.001 );
+        boolean thickStroke = MathUtil.isApproxEqual( x, highlightX, 0.001 );
         child.setStroke( new BasicStroke( 0.01f * ( thickStroke ? 3 : 1 ) ) );
         return child;
     }

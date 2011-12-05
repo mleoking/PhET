@@ -69,7 +69,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
     private boolean splinesMovable;
 
-    public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel, boolean hasZoomControls ) {
+    public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel, boolean hasZoomControls, double gridHighlightX ) {
         this.module = module;
         this.simulationPanel = simulationPanel;
         this.splinesMovable = module.splinesMovable;
@@ -93,7 +93,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         backgroundScreenNode = new BackgroundScreenNode( simulationPanel, null, floorNode );
         zeroPointPotentialNode = new ZeroPointPotentialNode( simulationPanel, energySkateParkModel );
 
-        gridNode = new GridNode( -50, -150, 100, 150, 1, 1 );
+        gridNode = new GridNode( -50, -150, 100, 150, 1, 1, gridHighlightX );
 
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {

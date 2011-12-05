@@ -70,7 +70,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     public final BooleanProperty gridVisible = new BooleanProperty( DEFAULT_GRID_VISIBLE );
     public final BooleanProperty barChartVisible = new BooleanProperty( DEFAULT_BAR_CHARTS_VISIBLE );
 
-    public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls ) {
+    public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls, double gridHighlightX ) {
         super( name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
         this.splinesMovable = splinesMovable;
         this.bumpUpSplines = bumpUpSplines;
@@ -85,7 +85,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         timeSeriesModel.setMaxAllowedRecordTime( EnergyTimePlot.MAX_TIME );
         clock.addClockListener( timeSeriesModel );
 
-        energySkateParkSimulationPanel = new EnergySkateParkSimulationPanel( this, hasZoomControls );
+        energySkateParkSimulationPanel = new EnergySkateParkSimulationPanel( this, hasZoomControls, gridHighlightX );
         setSimulationPanel( energySkateParkSimulationPanel );
 
         barChartDialog = new BarChartDialog( phetFrame, EnergySkateParkResources.getString( "plots.bar-graph" ), false, this );
