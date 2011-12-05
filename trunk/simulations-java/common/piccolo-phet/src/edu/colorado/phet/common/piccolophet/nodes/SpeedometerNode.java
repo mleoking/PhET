@@ -43,7 +43,6 @@ public class SpeedometerNode extends PNode {
         double dotWidth = 2;
         addChild( new PhetPPath( new Ellipse2D.Double( width / 2 - dotWidth / 2, width / 2 - dotWidth / 2, dotWidth, dotWidth ), Color.blue ) );
 
-        System.out.println( "numTicks = " + numTicks );
         double ds = maxSpeed / numTicks;
         for ( int i = 0; i < numTicks + 1; i++ ) {
             double angle = speedToAngle( i * ds );
