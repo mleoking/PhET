@@ -22,6 +22,14 @@ public class SimSharingDragListener extends MouseAdapter {
     private final String object;
     private final Function0<Parameter[]> parameters;
 
+    public SimSharingDragListener( String object ) {
+        this( object, new Function0<Parameter[]>() {
+            public Parameter[] apply() {
+                return new Parameter[] { }; // empty array
+            }
+        } );
+    }
+
     public SimSharingDragListener( String object, Function0<Parameter[]> parameters ) {
         this.object = object;
         this.parameters = parameters;

@@ -2,18 +2,28 @@
 
 package edu.colorado.phet.acidbasesolutions.view;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -23,7 +33,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * pH meter, displays the pH of a solution. Origin is at the tip of the probe.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PHMeterNode extends PhetPNode {
@@ -54,7 +64,7 @@ public class PHMeterNode extends PhetPNode {
             public void solutionChanged() {
                 updateDisplay();
             }
-            
+
             public void strengthChanged() {
                 updateDisplay();
             }
@@ -62,7 +72,7 @@ public class PHMeterNode extends PhetPNode {
             public void concentrationChanged() {
                 updateDisplay();
             }
-            
+
             public void locationChanged() {
                 //TODO map location from model to view coordinate frame
                 setOffset( meter.getLocationReference() );
@@ -75,7 +85,7 @@ public class PHMeterNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        addInputEventListener( new PDragSequenceEventHandler() {
+        addInputEventListener( new SimSharingDragSequenceEventHandler( ABSSimSharing.PH_METER ) {
 
             private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
 
@@ -107,7 +117,7 @@ public class PHMeterNode extends PhetPNode {
      * Private constructor, has no knowledge of the model.
      */
     private PHMeterNode( PDimension shaftSize, PDimension tipSize ) {
-        
+
         this.displayNode = new DisplayNode();
 
         TipNode tipNode = new TipNode( tipSize );
@@ -192,17 +202,17 @@ public class PHMeterNode extends PhetPNode {
      * Creates a tip whose dimensions are 1 x 2.5, origin at upper left.
      */
     private static class TipNode extends PPath {
-        
+
         public TipNode( PDimension size ) {
             this( (float) size.width, (float) size.height );
         }
-    
+
         public TipNode( float w, float h ) {
-            
+
             float rectangleHeight = 0.6f * h;
             float pointHeight = h - rectangleHeight;
             float cornerRadius = 0.4f * w;
-            
+
             // rounded corners at top
             Shape roundRect = new RoundRectangle2D.Float( 0f, 0f, w, rectangleHeight, cornerRadius, cornerRadius );
 

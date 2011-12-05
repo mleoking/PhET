@@ -23,6 +23,14 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
     private final String object;
     private final Function0<Parameter[]> parameters;
 
+    public SimSharingDragSequenceEventHandler( String object ) {
+        this( object, new Function0<Parameter[]>() {
+            public Parameter[] apply() {
+                return new Parameter[] { }; // empty array
+            }
+        } );
+    }
+
     public SimSharingDragSequenceEventHandler( String object, Function0<Parameter[]> parameters ) {
         this.object = object;
         this.parameters = parameters;
