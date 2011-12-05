@@ -222,21 +222,19 @@ public class DnaMolecule {
     }
 
     public List<AttachmentSite> getNearbyTranscriptionFactorAttachmentSites( Point2D position ) {
-        // TODO: Remove this entire method when overhaul of motion and state behavior is complete.
-//        List<AttachmentSite> nearbyAttachmentSites = new ArrayList<AttachmentSite>();
-//        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
-//        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
-//            Gene gene = getGeneContainingBasePair( i );
-//            if ( gene != null ) {
-//                nearbyAttachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
-//            }
-//            else {
-//                // Base pair is not contained within a gene, so use the default.
-//                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
-//            }
-//        }
-//        return nearbyAttachmentSites;
-        return null;
+        List<AttachmentSite> nearbyAttachmentSites = new ArrayList<AttachmentSite>();
+        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
+        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
+            Gene gene = getGeneContainingBasePair( i );
+            if ( gene != null ) {
+                nearbyAttachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
+            }
+            else {
+                // Base pair is not contained within a gene, so use the default.
+                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
+            }
+        }
+        return nearbyAttachmentSites;
     }
 
     /**
@@ -253,20 +251,10 @@ public class DnaMolecule {
         for ( int i = 0; i < basePairs.size(); i++ ) {
             // See if the base pair is within the max attachment distance.
             if ( basePairs.get( i ).getCenterLocation().distance( transcriptionFactor.getPosition() ) <= TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE ) {
-                // In range.  See if this base pair is inside a gene.
-                Gene gene = getGeneContainingBasePair( i );
-                if ( gene != null ) {
-                    // Base pair is in a gene.  See if site is available.
-                    AttachmentSite potentialAttachmentSite = gene.getTranscriptionFactorAttachmentSite( i );
-                    if ( potentialAttachmentSite.attachedMolecule.get().isNone() ) {
-                        // Site is available, add to list.
-                        potentialAttachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
-                    }
-                }
-                else {
-                    // Base pair is not contained within a gene, so use the default.
-                    // TODO: This will always give an attachment site, even if there is already something attached.  Needs improvement.
-                    potentialAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
+                // In range.  Add it to the list if it is available.
+                AttachmentSite potentialAttachmentSite = getAttachmentSiteForBasePairIndex( i );
+                if ( potentialAttachmentSite.attachedMolecule.get().isNone() ) {
+                    potentialAttachmentSites.add( potentialAttachmentSite );
                 }
             }
         }
@@ -278,6 +266,43 @@ public class DnaMolecule {
 
         Collections.sort( potentialAttachmentSites, new AttachmentSiteComparator<AttachmentSite>( transcriptionFactor.getPosition() ) );
         return potentialAttachmentSites.get( 0 );
+    }
+
+    private AttachmentSite getAttachmentSiteForBasePairIndex( int i ) {
+        // See if this base pair is inside a gene.
+        Gene gene = getGeneContainingBasePair( i );
+        if ( gene != null ) {
+            // Base pair is in a gene.  See if site is available.
+            return gene.getTranscriptionFactorAttachmentSite( i );
+        }
+        else {
+            // Base pair is not contained within a gene, so use the default.
+            return createDefaultAffinityAttachmentSite( i );
+        }
+    }
+
+    /**
+     * Get the two base pair attachment sites that are next to the provided
+     * one, i.e. the one before it on the DNA strand and the one after it.  If
+     * at one end of the strand, only one site will be returned.
+     *
+     * @param attachmentSite
+     * @return
+     */
+    public List<AttachmentSite> getAdjacentTranscriptionFactorAttachmentSites( AttachmentSite attachmentSite ) {
+        // TODO: Fix this up when base pairs each have their own attachment sites.
+        int basePairIndex = getBasePairIndexFromXOffset( attachmentSite.locationProperty.get().getX() );
+        if ( basePairIndex == 0 || basePairIndex == basePairs.size() - 1 ) {
+            System.out.println( getClass().getName() + " Suspicious index for base pair, value = " + basePairIndex );
+        }
+        List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
+        if ( basePairIndex != 0 ) {
+            attachmentSites.add( getAttachmentSiteForBasePairIndex( basePairIndex - 1 ) );
+        }
+        if ( basePairIndex != basePairs.size() - 1 ) {
+            attachmentSites.add( getAttachmentSiteForBasePairIndex( basePairIndex + 1 ) );
+        }
+        return attachmentSites;
     }
 
     /**
