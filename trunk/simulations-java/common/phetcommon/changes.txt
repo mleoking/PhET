@@ -1,3 +1,4 @@
+12/5/11 Added a getter to make it possible to override backgrounds
 12/2/11 #3136, create sim-strings "objects", "actions" and "parameters" classes, for encapulating string literals; use throughout phetcommon
 12/1/2011 Created integerproperty package by copying doubleproperty package
 11/28/2011 Factored out server to handle strings vs serialized objects
