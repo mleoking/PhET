@@ -53,9 +53,10 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     //Flag that indicates whether the keyboard can activate rocket thrusters
     private boolean thrustEnabled = true;
+    public static final double VIEW_WIDTH = 15;
 
     public EnergySkateParkSimulationPanel( final AbstractEnergySkateParkModule module, boolean hasZoomControls, double gridHighlightX ) {
-        super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
+        super( new Rectangle2D.Double( 0, -1.5, VIEW_WIDTH, 10 ) );
         this.module = module;
         this.energySkateParkModel = module.getEnergySkateParkModel();
         this.rootNode = new EnergySkateParkRootNode( module, this, hasZoomControls, gridHighlightX );

@@ -31,7 +31,6 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacter;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacterSet;
 import edu.colorado.phet.energyskatepark.view.WiggleMeInSpace;
-import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTimePanel;
 
 /**
  * Base class used by both the main version and basic versions of Energy Skate Park.
@@ -122,8 +121,8 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         energyPositionPlotDialog = new EnergyPositionPlotDialog( phetFrame, EnergySkateParkResources.getString( "plots.energy-vs-position" ), false, this );
         energyPositionPlotDialog.setSize( 400, 400 );
 
-        EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( this, clock );
-        getModulePanel().setClockControlPanel( timePanel );
+        //Use a floating clock control panel defined in the EnergySkateParkRootNode, not docked
+        setClockControlPanel( null );
 
         setDefaults();
         setLogoPanelVisible( false );

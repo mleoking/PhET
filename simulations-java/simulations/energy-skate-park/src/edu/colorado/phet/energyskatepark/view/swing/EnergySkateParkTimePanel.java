@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.swing;
 
+import java.awt.Color;
+
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
@@ -16,13 +18,22 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
  * Jun 1, 2007, 1:39:39 PM
  */
 public class EnergySkateParkTimePanel extends JPanel {
-    private final AbstractEnergySkateParkModule module;
+
+    private final Color BLANK = new Color( 0, 0, 0, 0 );
 
     public EnergySkateParkTimePanel( final AbstractEnergySkateParkModule module, final Clock clock ) {
-        this.module = module;
+
+        //Make backgrounds blank so it will work as a floating clock control panel
+        setBackground( BLANK );
         final SimSpeedControl timeSpeedSlider = new SimSpeedControl( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, (ConstantDtClock) clock );
+        timeSpeedSlider.setBackground( BLANK );
+        timeSpeedSlider.getLinearSlider().getSlider().setBackground( BLANK );
+        timeSpeedSlider.getLinearSlider().setBackground( BLANK );
         add( timeSpeedSlider );
         PiccoloClockControlPanel controlPanel = new PiccoloClockControlPanel( clock );
+        controlPanel.setBackground( BLANK );
+        controlPanel.getButtonCanvas().setBackground( BLANK );
+        controlPanel.getBackgroundNode().setVisible( false );
         controlPanel.addTimeControlListener( new TimeControlAdapter() {
             public void stepPressed() {
                 module.setRecordOrLiveMode();

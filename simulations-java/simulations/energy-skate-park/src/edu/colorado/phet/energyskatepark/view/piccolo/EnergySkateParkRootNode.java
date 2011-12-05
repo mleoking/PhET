@@ -9,6 +9,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -29,9 +30,11 @@ import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
+import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTimePanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -69,7 +72,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
     private boolean splinesMovable;
 
-    public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, EnergySkateParkSimulationPanel simulationPanel, boolean hasZoomControls, double gridHighlightX ) {
+    public EnergySkateParkRootNode( final AbstractEnergySkateParkModule module, final EnergySkateParkSimulationPanel simulationPanel, boolean hasZoomControls, double gridHighlightX ) {
         this.module = module;
         this.simulationPanel = simulationPanel;
         this.splinesMovable = module.splinesMovable;
@@ -212,6 +215,16 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
                 gridNode.setVisible( gridVisible );
             }
         } );
+
+        //add the floating clock control panel
+        EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( module, module.getTimeSeriesModel().getTimeModelClock() );
+        final PSwing screenChild = new PSwing( timePanel ) {{
+            final double scale = 0.02;
+            final AffineTransform transform = AffineTransform.getScaleInstance( scale, -scale );
+            transform.preConcatenate( AffineTransform.getTranslateInstance( EnergySkateParkSimulationPanel.VIEW_WIDTH / 2 - getFullBounds().getWidth() / 2 * scale, 0 ) );
+            setTransform( transform );
+        }};
+        addWorldChild( screenChild );
     }
 
     public SplineToolboxNode getSplineToolbox() {
