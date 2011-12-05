@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -182,6 +183,9 @@ public class SimSharingEvents {
                 }
                 catch ( ClassNotFoundException e ) {
                     e.printStackTrace();
+                }
+                catch ( EOFException e ) {
+                    LOGGER.severe( "Reached the end of the DataInputStream before reading 2 bytes. Is the sim-sharing server running?" );
                 }
                 catch ( IOException e ) {
                     e.printStackTrace();
