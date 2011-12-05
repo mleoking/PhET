@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -75,6 +76,8 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
 
     //Observable speed of the 0th skater, should be in the model, but model must be serialized for record/playback, so keep it here
     private final Property<Double> primarySkaterSpeed = new Property<Double>( 0.0 );
+
+    public final Property<Double> mass;
 
     public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls, double gridHighlightX ) {
         super( name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
@@ -144,6 +147,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         setDefaults();
         setLogoPanelVisible( false );
         new WiggleMeInSpace( this ).start();
+        mass = new DoubleProperty( getEnergySkateParkModel().getBody( 0 ).getMass() );
     }
 
     private void setDefaults() {
@@ -177,6 +181,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         addDefaultBody();
         pieChartVisible.reset();
         updatePrimarySkaterSpeed();
+        mass.reset();
     }
 
     public void returnOrResetSkater() {

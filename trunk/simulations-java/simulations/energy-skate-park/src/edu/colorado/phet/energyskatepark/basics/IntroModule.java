@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.basics;
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 
 /**
@@ -23,5 +24,9 @@ public class IntroModule extends EnergySkateParkBasicsModule {
         addTrackSelectionControlPanel();
 
         loadDefaultTrack();
+    }
+
+    @Override protected ControlPanelNode createControlPanel() {
+        return new IntroControlPanel( this );
     }
 }
