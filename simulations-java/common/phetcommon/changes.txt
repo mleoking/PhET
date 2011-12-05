@@ -1,3 +1,4 @@
+12/5/11 #3171 catch EOFException that occurs when sim-sharing server isn't running, log as severe
 12/5/11 #3136, use java.util.logging instead of System.out throughout sim-sharing
 12/5/11 #3175 switch to subclassing for sim-sharing drag handlers
 12/5/11 #3175, add "object" parameter to sim-sharing drag handlers, add x,y params to SimSharingEvents drag handler
