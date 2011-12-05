@@ -34,12 +34,19 @@ public class AttachmentStateMachine {
     // Reference to the biomolecule controlled by this state machine.
     protected final MobileBiomolecule biomolecule;
 
-    // Current attachment state.
-    private AttachmentState attachmentState;
-
     // Attachment point.  When this is non-null, the biomolecule is either
     // attached to this point or moving towards attachment with it.
     protected AttachmentSite attachmentSite = null;
+
+    // States used by this state machine.  These are often set by subclasses
+    // to non-default values in order to change the default behavior.
+    protected AttachmentState unattachedAndAvailableState = new GenericUnattachedAndAvailableState();
+    protected AttachmentState attachedState = new GenericAttachedState();
+    protected AttachmentState movingTowardsAttachmentState = new GenericMovingTowardsAttachmentState();
+    protected AttachmentState unattachedButUnavailableState = new GenericUnattachedButUnavailableState();
+
+    // Current attachment state.  Changes with each state transition.
+    private AttachmentState attachmentState;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -47,7 +54,7 @@ public class AttachmentStateMachine {
 
     public AttachmentStateMachine( MobileBiomolecule biomolecule ) {
         this.biomolecule = biomolecule;
-        attachmentState = new GenericUnattachedAndAvailableState();
+        setState( unattachedAndAvailableState );
     }
 
     //-------------------------------------------------------------------------
@@ -68,7 +75,7 @@ public class AttachmentStateMachine {
         assert attachmentSite != null; // Verify internal state is consistent.
         attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         attachmentSite = null;
-        attachmentState = new GenericUnattachedButUnavailableState();
+        setState( unattachedButUnavailableState );
     }
 
     /**
@@ -81,8 +88,19 @@ public class AttachmentStateMachine {
             attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         }
         attachmentSite = null;
-        attachmentState = new GenericUnattachedAndAvailableState();
+        setState( unattachedAndAvailableState );
         biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );
+    }
+
+    /**
+     * Set a new attachment state.  This calls the "entered" method, so this
+     * should be used instead of directly setting the state.
+     *
+     * @param attachmentState
+     */
+    protected void setState( AttachmentState attachmentState ) {
+        this.attachmentState = attachmentState;
+        this.attachmentState.entered( this );
     }
 
     //-------------------------------------------------------------------------
@@ -100,11 +118,13 @@ public class AttachmentStateMachine {
      * Base class for individual attachment states, used by the enclosing
      * state machine.
      */
-    private abstract class AttachmentState {
+    protected abstract class AttachmentState {
         public abstract void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt );
+
+        public abstract void entered( AttachmentStateMachine asm );
     }
 
-    private class GenericUnattachedAndAvailableState extends AttachmentState {
+    protected class GenericUnattachedAndAvailableState extends AttachmentState {
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
 
@@ -118,15 +138,19 @@ public class AttachmentStateMachine {
                 // the attachment site.
                 asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
                                                                                                 biomolecule.motionBoundsProperty ) );
-                asm.attachmentState = new GenericMovingTowardsAttachmentState();
+                asm.setState( asm.movingTowardsAttachmentState );
 
                 // Mark the attachment site as being in use.
                 attachmentSite.attachedMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
             }
         }
+
+        @Override public void entered( AttachmentStateMachine asm ) {
+            // No initialization needed.
+        }
     }
 
-    private class GenericMovingTowardsAttachmentState extends AttachmentState {
+    protected class GenericMovingTowardsAttachmentState extends AttachmentState {
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
 
@@ -138,9 +162,13 @@ public class AttachmentStateMachine {
             if ( asm.biomolecule.getPosition().distance( asm.attachmentSite.locationProperty.get() ) < ATTACHED_DISTANCE_THRESHOLD ) {
                 // This molecule is now at the attachment site, so consider it
                 // attached.
-                attachmentState = new GenericAttachedState();
+                asm.setState( asm.attachedState );
                 asm.biomolecule.setMotionStrategy( new FollowAttachmentSite( attachmentSite ) );
             }
+        }
+
+        @Override public void entered( AttachmentStateMachine asm ) {
+            // No initialization needed.
         }
     }
 
@@ -148,7 +176,7 @@ public class AttachmentStateMachine {
     // completeness.  The reason it isn't useful is because the different
     // biomolecules all have their own unique behavior with respect to
     // attaching, and thus define their own attached states.
-    private class GenericAttachedState extends AttachmentState {
+    protected class GenericAttachedState extends AttachmentState {
 
         private static final double DEFAULT_ATTACH_TIME = 3; // In seconds.
 
@@ -166,13 +194,17 @@ public class AttachmentStateMachine {
                 // Detach.
                 asm.attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
                 asm.attachmentSite = null;
-                asm.attachmentState = new GenericUnattachedButUnavailableState();
+                asm.setState( unattachedButUnavailableState );
                 biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
             }
         }
+
+        @Override public void entered( AttachmentStateMachine asm ) {
+            attachCountdownTime = DEFAULT_ATTACH_TIME;
+        }
     }
 
-    private class GenericUnattachedButUnavailableState extends AttachmentState {
+    protected class GenericUnattachedButUnavailableState extends AttachmentState {
 
         private static final double DEFAULT_DETACH_TIME = 3; // In seconds.
 
@@ -187,8 +219,12 @@ public class AttachmentStateMachine {
             detachCountdownTime -= dt;
             if ( detachCountdownTime <= 0 ) {
                 // Move the the unattached-and-available state.
-                asm.attachmentState = new GenericUnattachedAndAvailableState();
+                asm.setState( asm.unattachedButUnavailableState );
             }
+        }
+
+        @Override public void entered( AttachmentStateMachine asm ) {
+            detachCountdownTime = DEFAULT_DETACH_TIME;
         }
     }
 }

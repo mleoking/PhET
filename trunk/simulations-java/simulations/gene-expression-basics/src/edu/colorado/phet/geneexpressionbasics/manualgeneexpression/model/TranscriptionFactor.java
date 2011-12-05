@@ -11,6 +11,8 @@ import java.util.List;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.TranscriptionFactorAttachmentStateMachine;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -90,6 +92,12 @@ public class TranscriptionFactor extends MobileBiomolecule {
             behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList );
         }
         */
+    }
+
+    // Overridden in order to provide some unique behavior for transcription
+    // factors.
+    @Override protected AttachmentStateMachine createAttachmentStateMachine() {
+        return new TranscriptionFactorAttachmentStateMachine( this );
     }
 
     /**
