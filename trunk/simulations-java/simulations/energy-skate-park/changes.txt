@@ -1,3 +1,4 @@
+12/4/11 common: Changed "Drag to add track" to "Tracks"
 12/4/11 basic: Make x=2 meters the dark line with labels
 12/4/11 basic: Put the numbers on the left side of the line instead of the right side
 12/4/11 basic: Fixed: When closing the bar graph, checkbox should get unchecked
