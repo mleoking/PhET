@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,7 +16,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -26,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
@@ -272,27 +268,6 @@ public class SimSharingEvents {
             tellWithErrorHandling( s );
         }
         queue.clear();
-    }
-
-    //Attach to components that users can drag, so we see when the drag starts and ends.
-    public static void addDragSequenceListener( JComponent component, final String object, final Function0<Parameter[]> parameters ) {
-        component.addMouseListener( new MouseAdapter() {
-            @Override public void mousePressed( MouseEvent event ) {
-                sendEvent( object, SimSharingActions.START_DRAG, addCanvasPosition( parameters.apply(), event ) );
-            }
-
-            @Override public void mouseReleased( MouseEvent event ) {
-                sendEvent( object, SimSharingActions.END_DRAG, addCanvasPosition( parameters.apply(), event ) );
-            }
-
-            //Adds the mouse position (relative to the source component) to an array of message parameters
-            private Parameter[] addCanvasPosition( Parameter[] parameters, final MouseEvent event ) {
-                return new ArrayList<Parameter>( Arrays.asList( parameters ) ) {{
-                    add( new Parameter( "x", event.getX() ) );
-                    add( new Parameter( "y", event.getY() ) );
-                }}.toArray( new Parameter[0] );
-            }
-        } );
     }
 
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java

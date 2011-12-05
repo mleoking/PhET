@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.simsharing.PiccoloPhetSimSharingEvents;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPSimSharing;
 import edu.colorado.phet.moleculepolarity.MPStrings;
@@ -103,11 +103,11 @@ public class BondCharacterNode extends PComposite {
         } );
 
         //Report when the user tries to click on this non-interactive control
-        PiccoloPhetSimSharingEvents.addDragSequenceListener( this, MPSimSharing.OBJECT_BOND_CHARACTER_NODE, new Function0<Parameter[]>() {
+        addInputEventListener( new SimSharingDragSequenceEventHandler( MPSimSharing.OBJECT_BOND_CHARACTER_NODE, new Function0<Parameter[]>() {
             public Parameter[] apply() {
                 return new Parameter[] { param( MPSimSharing.PARAM_INTERACTIVE, false ) };
             }
-        } );
+        } ) );
     }
 
     // Pointer looks like a horizontally aligned diatomic molecule.
