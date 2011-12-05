@@ -18,6 +18,7 @@ import edu.colorado.phet.energyskatepark.view.swing.PropertyTogglingImageNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author John Blanco
+ * @author Sam Reid
  */
 public class ViewControlPanel extends ControlPanelNode {
     private static final BufferedImage PIE_ICON = EnergySkateParkResources.getImage( "icons/pie_icon.png" );
