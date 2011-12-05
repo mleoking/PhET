@@ -7,8 +7,11 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.logging.Logger;
 
 public abstract class ObjectStreamMessageServer {
+
+    private static final Logger LOGGER = Logger.getLogger( ObjectStreamMessageServer.class.getCanonicalName() );
 
     public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
 //    public static String HOST_IP_ADDRESS = "localhost";//Settings for running locally
@@ -37,9 +40,9 @@ public abstract class ObjectStreamMessageServer {
 
         //Accept as many incoming connections as detected while listening, and create a thread to handle each one
         while ( listening ) {
-            System.out.println( "MessageServer listening on port: " + serverSocket.getLocalPort() );
+            LOGGER.info( "MessageServer listening on port: " + serverSocket.getLocalPort() );
             final Socket socket = serverSocket.accept();
-            System.out.println( "MessageServer accepted socket" );
+            LOGGER.info( "MessageServer accepted socket" );
 
             //Create a new thread to handle connection
             new Thread( new Runnable() {
@@ -67,13 +70,13 @@ public abstract class ObjectStreamMessageServer {
 
                                 //Handle logout commands.  Sometimes null for unknown reason, so have to check for null here
                                 if ( fromClient != null && fromClient.equals( "logout" ) ) {
-                                    System.out.println( "Received logout command, exiting thread" );
+                                    LOGGER.info( "Received logout command, exiting thread" );
                                     threadAlive = false;
                                 }
                             }
                             catch ( SocketException socketException ) {
                                 if ( socketException.getMessage().indexOf( "Connection reset" ) >= 0 ) {
-                                    System.out.println( "Lost connection to client, exiting thread" );
+                                    LOGGER.info( "Lost connection to client, exiting thread" );
                                     threadAlive = false;
                                 }
                                 else {

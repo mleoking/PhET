@@ -15,6 +15,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -32,6 +33,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
  * @author Sam Reid
  */
 public class SimSharingEvents {
+
+    private static final Logger LOGGER = Logger.getLogger( SimSharingEvents.class.getCanonicalName() );
 
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java
     public static final String SESSION_ID = generateIDString();
@@ -210,7 +213,7 @@ public class SimSharingEvents {
                     deliverQueue();
                 }
                 else {
-                    System.out.println( "Weren't able to connect to the server even though we really wanted to." );
+                    LOGGER.warning( "Weren't able to connect to the server even though we really wanted to." );
                 }
             }
         } ).start();
