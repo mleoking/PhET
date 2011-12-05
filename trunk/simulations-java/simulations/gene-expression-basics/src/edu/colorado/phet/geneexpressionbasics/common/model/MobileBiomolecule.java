@@ -7,7 +7,6 @@ import java.awt.Shape;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
@@ -68,16 +67,6 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         this.attachmentStateMachine = createAttachmentStateMachine();
         colorProperty.set( baseColor );
         // Handle changes in user control.
-        userControlled.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean userControlled ) {
-                if ( !userControlled ) {
-                    // The user has released this node after moving it.  This
-                    // should cause any existing or pending attachments to be
-                    // severed.
-                    MobileBiomolecule.this.attachmentStateMachine.forceImmediateUnattached();
-                }
-            }
-        } );
         userControlled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
                 if ( wasUserControlled && !isUserControlled ) {
