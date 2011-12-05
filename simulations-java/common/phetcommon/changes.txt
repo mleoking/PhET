@@ -1,4 +1,4 @@
-12/5/11 #3174, add "object" parameter to sim-sharing drag handlers, add x,y params to SimSharingEvents drag handler
+12/5/11 #3175, add "object" parameter to sim-sharing drag handlers, add x,y params to SimSharingEvents drag handler
 12/5/11 Added a getter to make it possible to override backgrounds
 12/2/11 #3174, create sim-strings "objects", "actions" and "parameters" classes, for encapulating string literals; use throughout phetcommon
 12/1/2011 Created integerproperty package by copying doubleproperty package
