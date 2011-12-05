@@ -78,6 +78,10 @@ public class SimSpeedControl extends JPanel {
         linearSlider.setValue( defaultClock.getTimingStrategy().getSimulationTimeChangeForPausedClock() );
     }
 
+    public LinearValueControl getLinearSlider() {
+        return linearSlider;
+    }
+
     public double getValue() {
         return linearSlider.getValue();
     }
