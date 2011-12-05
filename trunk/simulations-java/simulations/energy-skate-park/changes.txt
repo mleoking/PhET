@@ -1,3 +1,4 @@
+12/4/11 common: Made the mountains 25% smaller so they won't overlap the W track in tab 1 of basics sim
 12/4/11 common: Changed "Drag to add track" to "Tracks"
 12/4/11 basic: Make x=2 meters the dark line with labels
 12/4/11 basic: Put the numbers on the left side of the line instead of the right side
