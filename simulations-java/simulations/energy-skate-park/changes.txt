@@ -1,3 +1,4 @@
+12/5/11 basics: Change the height of the skater when his mass changes
 12/5/11 basics: Added a mass slider to the intro tab
 12/5/11 common: changed text background on clock control slider to white
 12/5/11 basics: Added a speedometer node
