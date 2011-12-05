@@ -34,18 +34,18 @@ public class SliderThumbDragHandler extends SimSharingDragSequenceEventHandler {
     /**
      * Constructor
      *
-     * @param object         object name used in sim-sharing event
-     * @param parameters     function that computes parameters used in sim-sharing event
-     * @param orientation    orientation of the slider, horizontal or vertical
-     * @param relativeNode   dragging is relative to this node, typically the sliders' parent
-     * @param trackNode      the track that the knob moves in
-     * @param thumbNode      the thumb (aka knob) that the user drags
-     * @param range          range of model values
-     * @param updateFunction called with model value while dragging
+     * @param simSharingObject     object name used in sim-sharing event
+     * @param simSharingParameters function that computes parameters used in sim-sharing event
+     * @param orientation          orientation of the slider, horizontal or vertical
+     * @param relativeNode         dragging is relative to this node, typically the sliders' parent
+     * @param trackNode            the track that the knob moves in
+     * @param thumbNode            the thumb (aka knob) that the user drags
+     * @param range                range of model values
+     * @param updateFunction       called with model value while dragging
      */
-    public SliderThumbDragHandler( String object, Function0<Parameter[]> parameters,
+    public SliderThumbDragHandler( String simSharingObject, Function0<Parameter[]> simSharingParameters,
                                    Orientation orientation, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
-        super( object, parameters );
+        super( simSharingObject, simSharingParameters );
         this.orientation = orientation;
         this.relativeNode = relativeNode;
         this.trackNode = trackNode;
