@@ -1,3 +1,4 @@
+12/4/11 common: Fixed: Initial conditions for "stick to track" not respected in 3rd tab
 12/4/11 common: Fixed: Drag to add track should have track centered in box horizontally, move down from the text, center the text
 12/4/11 common: Made the mountains 25% smaller so they won't overlap the W track in tab 1 of basics sim
 12/4/11 common: Changed "Drag to add track" to "Tracks"

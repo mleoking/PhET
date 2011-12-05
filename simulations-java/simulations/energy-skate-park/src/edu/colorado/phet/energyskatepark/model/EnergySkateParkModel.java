@@ -42,6 +42,7 @@ public class EnergySkateParkModel implements Serializable {
     public static final double G_MOON = -1.62;
     public static final double G_JUPITER = -25.95;
     public static final double SPLINE_THICKNESS = 0.25f;//meters
+    private boolean rollerCoasterMode;
 
     public EnergySkateParkModel( double zeroPointPotentialY, double floorFriction ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
@@ -298,6 +299,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void addSplineSurface( EnergySkateParkSpline energySkateParkSpline ) {
+        energySkateParkSpline.setRollerCoasterMode( rollerCoasterMode );
         splines.add( energySkateParkSpline );
         notifySplineCountChanged();
     }
@@ -420,6 +422,7 @@ public class EnergySkateParkModel implements Serializable {
 
     //Changes the roller coaster mode of all currently contained splines.  If other splines are added later, they may have a different mode
     public void setRollerCoasterMode( boolean rollerCoasterMode ) {
+        this.rollerCoasterMode = rollerCoasterMode;
         for ( EnergySkateParkSpline spline : splines ) {
             spline.setRollerCoasterMode( rollerCoasterMode );
         }
