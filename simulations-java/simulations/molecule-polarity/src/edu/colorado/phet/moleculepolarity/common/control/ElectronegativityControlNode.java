@@ -274,7 +274,7 @@ public class ElectronegativityControlNode extends PhetPNode {
                                                          } ) );
 
             //Record changes on the slider
-            PiccoloPhetSimSharingEvents.addDragSequenceListener( this, new Function0<Parameter[]>() {
+            PiccoloPhetSimSharingEvents.addDragSequenceListener( this, MPSimSharing.OBJECT_ELECTRONEGATIVITY_CONTROL, new Function0<Parameter[]>() {
                 public Parameter[] apply() {
                     return new Parameter[] { param( MPSimSharing.PARAM_ATOM, atom.getName() ), param( MPSimSharing.PARAM_ELECTRONEGATIVITY, atom.electronegativity.get() ) };
                 }

@@ -98,10 +98,9 @@ public class JmolViewerNode extends PhetPNode {
     public JmolViewerNode( final Property<Molecule3D> currentMolecule, Color background, Dimension size ) {
 
         viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
-        SimSharingEvents.addDragSequenceListener( viewerPanel, new Function0<Parameter[]>() {
+        SimSharingEvents.addDragSequenceListener( viewerPanel, MPSimSharing.OBJECT_JMOL_VIEWER_NODE, new Function0<Parameter[]>() {
             public Parameter[] apply() {
-                return new Parameter[] { param( MPSimSharing.PARAM_COMPONENT, MPSimSharing.PARAM_VALUE_JMOL_VIEWER_NODE ),
-                        param( MPSimSharing.PARAM_CURRENT_MOLECULE, currentMolecule.get().getName() ) };
+                return new Parameter[] { param( MPSimSharing.PARAM_CURRENT_MOLECULE, currentMolecule.get().getName() ) };
             }
         } );
         addChild( new PSwing( viewerPanel ) );
