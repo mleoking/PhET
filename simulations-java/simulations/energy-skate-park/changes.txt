@@ -1,3 +1,4 @@
+12/5/11 basics: Added a speedometer node
 12/5/11 common: Removed docked time control panel and converted to floating clock controls
 12/4/11 common: Fixed: Initial conditions for "stick to track" not respected in 3rd tab
 12/4/11 common: Fixed: Drag to add track should have track centered in box horizontally, move down from the text, center the text

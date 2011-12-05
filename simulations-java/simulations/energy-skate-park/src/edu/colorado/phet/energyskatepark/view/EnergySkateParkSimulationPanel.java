@@ -179,6 +179,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         Body body = module.createBody();
         energySkateParkModel.addBody( body );
         module.reinitializeSkater( body );
+        module.updatePrimarySkaterSpeed();
     }
 
     public SplineMatch proposeMatch( SplineNode splineNode, final Point2D toMatch ) {

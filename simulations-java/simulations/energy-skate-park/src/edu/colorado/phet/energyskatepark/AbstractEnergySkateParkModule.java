@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -60,6 +62,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private static final boolean DEFAULT_ENERGY_POSITION_PLOT_VISIBLE = false;
     private static final boolean DEFAULT_GRID_VISIBLE = false;
+    private static final boolean DEFAULT_SPEED_VISIBLE = false;
     public final boolean splinesMovable;
     public final boolean bumpUpSplines;
     private double coefficientOfFriction;
@@ -67,7 +70,11 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     //Public properties that control visibility of various view components.
     public final BooleanProperty pieChartVisible = new BooleanProperty( DEFAULT_PIE_CHART_VISIBLE );
     public final BooleanProperty gridVisible = new BooleanProperty( DEFAULT_GRID_VISIBLE );
+    public final BooleanProperty speedVisible = new BooleanProperty( DEFAULT_SPEED_VISIBLE );
     public final BooleanProperty barChartVisible = new BooleanProperty( DEFAULT_BAR_CHARTS_VISIBLE );
+
+    //Observable speed of the 0th skater, should be in the model, but model must be serialized for record/playback, so keep it here
+    private final Property<Double> primarySkaterSpeed = new Property<Double>( 0.0 );
 
     public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls, double gridHighlightX ) {
         super( name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
@@ -79,7 +86,17 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         energyModel = new EnergySkateParkModel( floorY, floorFriction );
         setModel( new BaseModel() );
 
-        energyTimeSeriesModel = new EnergySkateParkRecordableModel( getEnergySkateParkModel() );
+        energyTimeSeriesModel = new EnergySkateParkRecordableModel( getEnergySkateParkModel() ) {
+            @Override public void setState( Object o ) {
+                super.setState( o );
+                updatePrimarySkaterSpeed();
+            }
+
+            @Override public void stepInTime( double simulationTimeChange ) {
+                super.stepInTime( simulationTimeChange );
+                updatePrimarySkaterSpeed();
+            }
+        };
         timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, clock );
         timeSeriesModel.setMaxAllowedRecordTime( EnergyTimePlot.MAX_TIME );
         clock.addClockListener( timeSeriesModel );
@@ -159,6 +176,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         energyPositionPlotDialog.reset();
         addDefaultBody();
         pieChartVisible.reset();
+        updatePrimarySkaterSpeed();
     }
 
     public void returnOrResetSkater() {
@@ -199,11 +217,17 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         return coefficientOfFriction;
     }
 
+    public void updatePrimarySkaterSpeed() {
+        primarySkaterSpeed.set( energyModel.getNumBodies() > 0 ? ( (Body) energyModel.getBody( 0 ) ).getSpeed() : 0.0 );
+    }
+
     private void addDefaultBody() {
         Body body = energyModel.createBody();
         energyModel.addBody( body );
         energyModel.addSplineSurface( createDefaultTrack() );
         initBodyOnTrack( body );
+
+        updatePrimarySkaterSpeed();
     }
 
     private EnergySkateParkSpline createDefaultTrack() {
@@ -329,4 +353,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         return energyModel.createBody();
     }
 
+    public ObservableProperty<Double> getPrimarySkaterSpeed() {
+        return primarySkaterSpeed;
+    }
 }
