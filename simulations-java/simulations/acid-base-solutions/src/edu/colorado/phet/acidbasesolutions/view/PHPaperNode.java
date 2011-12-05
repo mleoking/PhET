@@ -8,26 +8,27 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * pH paper, changes color based on the pH of a solution. 
+ * pH paper, changes color based on the pH of a solution.
  * Origin is at the top center.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PHPaperNode extends PhetPNode {
-    
+
     private static final Stroke STROKE = new BasicStroke( 0.5f );
     private static final Color STROKE_COLOR = new Color( 150, 150, 150 );
-    
+
     private PHPaper paper;
     private PPath paperBodyNode;
     private PPath dippedPathNode;
@@ -49,7 +50,7 @@ public class PHPaperNode extends PhetPNode {
                 setVisible( paper.isVisible() );
             }
         } );
-        
+
         paper.addPHPaperChangeListener( new PHPaperChangeListener() {
 
             public void dippedColorChanged() {
@@ -63,7 +64,7 @@ public class PHPaperNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PDragSequenceEventHandler() {
+        addInputEventListener( new SimSharingDragSequenceEventHandler( ABSSimSharing.PH_PAPER ) {
 
             private double clickXOffset; // x-offset of mouse click from meter's origin, in parent's coordinate frame
             private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
@@ -83,13 +84,13 @@ public class PHPaperNode extends PhetPNode {
                 paper.setLocation( x, y );
             }
         } );
-        
+
         Rectangle2D r = new Rectangle2D.Double( -paper.getWidth() / 2, 0, paper.getWidth(), paper.getHeight() );
         paperBodyNode = new PPath( r );
         paperBodyNode.setStroke( null );
         paperBodyNode.setPaint( paper.getPaperColor() );
         addChild( paperBodyNode );
-        
+
         dippedRectangle = new Rectangle2D.Double();
         dippedPathNode = new PPath();
         dippedPathNode.setStroke( null );
@@ -100,13 +101,13 @@ public class PHPaperNode extends PhetPNode {
         outlineNode.setStroke( STROKE );
         outlineNode.setStrokePaint( STROKE_COLOR );
         addChild( outlineNode );
-        
+
         setOffset( paper.getLocationReference() );
         setVisible( paper.isVisible() );
         updateGeometry();
         updateColor();
     }
-    
+
     private void updateGeometry() {
         double x = -paper.getWidth() / 2;
         double y = paper.getHeight() - paper.getDippedHeight();
