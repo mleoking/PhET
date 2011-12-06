@@ -6,8 +6,11 @@ import java.util.Collection;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 import static edu.colorado.phet.chemistry.model.Element.*;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
 
 /**
  * Represents a "real" molecule with exact positions, as opposed to a molecule model (which is VSEPR-based
@@ -81,6 +84,19 @@ public class RealMoleculeShape {
 
     public int getCentralLonePairCount() {
         return getCentralAtom().lonePairCount;
+    }
+
+    public int getCentralAtomCount() {
+        final Atom3D centralAtom = getCentralAtom();
+        return FunctionalUtils.map( filter( getBonds(), new Function1<Bond<Atom3D>, Boolean>() {
+            public Boolean apply( Bond<Atom3D> bond ) {
+                return bond.contains( centralAtom );
+            }
+        } ), new Function1<Bond<Atom3D>, Atom3D>() {
+            public Atom3D apply( Bond<Atom3D> bond ) {
+                return bond.getOtherAtom( centralAtom );
+            }
+        } ).size();
     }
 
     @Override public String toString() {

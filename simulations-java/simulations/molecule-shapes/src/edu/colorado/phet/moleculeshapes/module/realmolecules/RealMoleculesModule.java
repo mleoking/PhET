@@ -37,9 +37,8 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
-import edu.colorado.phet.moleculeshapes.model.Atom3D;
+import edu.colorado.phet.moleculeshapes.model.AttractorModel;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
-import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
@@ -74,7 +73,6 @@ import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
 
 /**
@@ -325,40 +323,53 @@ public class RealMoleculesModule extends MoleculeViewModule {
     private void rebuildMolecule( final boolean switchedRealMolecule ) {
         moleculeNode.detachReadouts();
         moleculeView.getScene().detachChild( moleculeNode );
-        if ( showRealView.get() ) {
-            setMolecule( new RealMoleculeModel( realMolecule.get() ) );
+
+        /*---------------------------------------------------------------------------*
+        * construct the new model, and rotate if we didn't switch molecules
+        *----------------------------------------------------------------------------*/
+        // get a "before" snapshot so that we can match rotations
+        final Molecule molecule = getMolecule();
+
+        // get a copy of our configuration, and count atoms / lone pairs
+        final int numRadialAtoms = realMolecule.get().getCentralAtomCount();
+        final int numRadialLonePairs = realMolecule.get().getCentralLonePairCount();
+        final VseprConfiguration vseprConfiguration = new VseprConfiguration( numRadialAtoms, numRadialLonePairs );
+
+        // get a copy of what might be the "old" molecule into whose space we need to rotate into
+        final Molecule mappingMolecule;
+        if ( switchedRealMolecule ) {
+            // rebuild from scratch
+            mappingMolecule = new RealMoleculeModel( realMolecule.get() );
         }
         else {
-            /*---------------------------------------------------------------------------*
-            * construct the new model, and rotate if we didn't switch molecules
-            *----------------------------------------------------------------------------*/
-            // get a "before" snapshot so that we can match rotations
-            final Molecule molecule = getMolecule();
+            // base the rotation on our original
+            mappingMolecule = molecule;
+        }
 
-            final Atom3D centralAtom = realMolecule.get().getCentralAtom();
-            List<Atom3D> radialAtoms = FunctionalUtils.map( filter( realMolecule.get().getBonds(), new Function1<Bond<Atom3D>, Boolean>() {
-                public Boolean apply( Bond<Atom3D> bond ) {
-                    return bond.contains( centralAtom );
+        if ( showRealView.get() ) {
+            setMolecule( new RealMoleculeModel( realMolecule.get() ) {{
+                if ( !switchedRealMolecule ) {
+                    // NOTE: this might miss a couple improper mappings?
+
+                    // compute the mapping from our "ideal" to our "old" molecule
+                    List<PairGroup> atoms = new RealMoleculeModel( realMolecule.get() ).getAllNonCentralAtoms();
+                    final ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration(
+                            mappingMolecule.getAllNonCentralAtoms(),
+                            FunctionalUtils.map( atoms, new Function1<PairGroup, ImmutableVector3D>() {
+                                public ImmutableVector3D apply( PairGroup pair ) {
+                                    return pair.position.get().normalized();
+                                }
+                            } ),
+                            Permutation.permutations( atoms.size() ) );
+                    for ( PairGroup group : getGroups() ) {
+                        if ( group != getCentralAtom() ) {
+                            group.position.set( mapping.rotateVector( group.position.get() ) );
+                        }
+                    }
                 }
-            } ), new Function1<Bond<Atom3D>, Atom3D>() {
-                public Atom3D apply( Bond<Atom3D> bond ) {
-                    return bond.getOtherAtom( centralAtom );
-                }
-            } );
-            final int numRadialAtoms = radialAtoms.size();
-            final int numRadialLonePairs = realMolecule.get().getCentralLonePairCount();
-            final VseprConfiguration vseprConfiguration = new VseprConfiguration( numRadialAtoms, numRadialLonePairs );
-
-            final Molecule mappingMolecule;
-            if ( switchedRealMolecule ) {
-                // rebuild from scratch
-                mappingMolecule = new RealMoleculeModel( realMolecule.get() );
-            }
-            else {
-                // base the rotation on our original
-                mappingMolecule = molecule;
-            }
-
+            }} );
+        }
+        else {
             final ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( mappingMolecule );
             final Permutation permutation = mapping.permutation.inverted();
             final List<ImmutableVector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
