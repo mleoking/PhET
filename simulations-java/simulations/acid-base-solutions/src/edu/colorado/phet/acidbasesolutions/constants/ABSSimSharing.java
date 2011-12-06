@@ -9,6 +9,9 @@ package edu.colorado.phet.acidbasesolutions.constants;
 public class ABSSimSharing {
 
     public static final String CONCENTRATION_CONTROL = "concentrationControl";
+    public static final String CONDUCTIVITY_TESTER_NEGATIVE_PROBE = "conductivityTesterNegativeProbe";
+    public static final String CONDUCTIVITY_TESTER_POSITIVE_PROBE = "conductivityTesterPositiveProbe";
+    public static final String IS_CIRCUIT_COMPLETED = "isCircuitCompleted";
     public static final String IS_DIPPED = "isDipped";
     public static final String IS_IN_SOLUTION = "isInSolution";
     public static final String MAGNIFYING_GLASS = "magnifyingGlass";

@@ -137,7 +137,7 @@ public class ConductivityTester extends SolutionRepresentation implements ICondu
         return beaker.inSolution( positiveProbeLocation );
     }
 
-    private boolean isCircuitCompleted() {
+    public boolean isCircuitCompleted() {
         return ( isPositiveProbeInSolution() && isNegativeProbeInSolution() );
     }
 
