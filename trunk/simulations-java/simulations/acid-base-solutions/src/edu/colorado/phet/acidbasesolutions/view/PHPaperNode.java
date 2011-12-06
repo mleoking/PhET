@@ -12,6 +12,8 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
@@ -64,7 +66,11 @@ public class PHPaperNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new SimSharingDragSequenceEventHandler( ABSSimSharing.PH_PAPER ) {
+        addInputEventListener( new SimSharingDragSequenceEventHandler( ABSSimSharing.PH_PAPER, new Function0<Parameter[]>() {
+            public Parameter[] apply() {
+                return new Parameter[] { Parameter.param( ABSSimSharing.IS_DIPPED, paper.isDipped() ) };
+            }
+        } ) {
 
             private double clickXOffset; // x-offset of mouse click from meter's origin, in parent's coordinate frame
             private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
