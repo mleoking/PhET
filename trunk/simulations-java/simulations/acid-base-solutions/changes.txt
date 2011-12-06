@@ -1,10 +1,10 @@
-12/5/11 #3170, add sims-sharing params to indicate whether conductivity probes are are in solution, and whether circuit is completed
-12/5/11 #3170, add methods for determining whether conductivity probes are in solution
-12/5/11 #3170, add sim-sharing param to indicate whether pH paper has been dipped
-12/5/11 #3170, add sim-sharing event for when user tries to drag magnifying glass, which is not interactive
-12/5/11 #3170, added sim-sharing "study" flavor to build.properties file
-12/5/11 #3170, added sim-sharing parameter indicating whether pH meter is in solution
-12/5/11 #3170, added sim-sharing for sliders related to custom solution
+12/6/11 #3170, add sims-sharing params to indicate whether conductivity probes are are in solution, and whether circuit is completed
+12/6/11 #3170, add methods for determining whether conductivity probes are in solution
+12/6/11 #3170, add sim-sharing param to indicate whether pH paper has been dipped
+12/6/11 #3170, add sim-sharing event for when user tries to drag magnifying glass, which is not interactive
+12/6/11 #3170, added sim-sharing "study" flavor to build.properties file
+12/6/11 #3170, added sim-sharing parameter indicating whether pH meter is in solution
+12/6/11 #3170, added sim-sharing for sliders related to custom solution
 12/5/11 #3170, added sim-sharing for pH Meter and pH Paper
 12/5/11 #3170, added sim-sharing to all radio buttons, check boxes, and icons
 5/9/11 Moved ConductivityTester and related strings and images from acid-base-solutions to piccolo-phet, see #2864
