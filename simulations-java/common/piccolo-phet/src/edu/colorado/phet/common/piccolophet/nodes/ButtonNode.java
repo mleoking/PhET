@@ -27,6 +27,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Sam Reid
  */
 public class ButtonNode extends PhetPNode {
+
+    // sim-sharing strings
+    public static final String OBJECT_BUTTON_NODE = "buttonNode";
+    public static final String PARAM_ACTION_COMMAND = "actionCommand";
+
     public static final double COLOR_SCALING_FACTOR = 0.5; // scaling factor for creating brighter colors
     public static final int DEFAULT_FONT_STYLE = Font.PLAIN; // #2846, using plain as the default style, add bold/italic emphasis explicitly
     private final PNode parentNode; // intermediate parent for all nodes created herein
@@ -374,7 +379,7 @@ public class ButtonNode extends PhetPNode {
     private void notifyActionPerformed() {
 
         //Notify about the event first so that listener callbacks were clearly caused by this action
-        SimSharingEvents.sendEvent( "buttonNode", Actions.PRESSED, Parameter.param( "actionCommand", actionCommand ) );
+        SimSharingEvents.sendEvent( OBJECT_BUTTON_NODE, Actions.PRESSED, Parameter.param( PARAM_ACTION_COMMAND, actionCommand ) );
 
         ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, actionCommand ); // use Swing convention from AbstractButton.fireActionPerformed
         for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {
