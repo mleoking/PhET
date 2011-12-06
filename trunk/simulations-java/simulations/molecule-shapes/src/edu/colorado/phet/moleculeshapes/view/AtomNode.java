@@ -12,6 +12,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.model.Atom3D;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.model.RealPairGroup;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -42,7 +43,10 @@ public class AtomNode extends Geometry {
                 pairOption,
 
                 // change color based on whether we have an assocated pair group
-                pairOption.isSome() ? MoleculeShapesColor.ATOM.getRGBAProperty() : MoleculeShapesColor.ATOM_CENTER.getRGBAProperty(),
+                pairOption.isSome()
+                ? ( ( pairOption.get() instanceof RealPairGroup ) ? new Property<ColorRGBA>( JMEUtils.convertColor( ( (RealPairGroup) ( pairOption.get() ) ).getElement().getColor() ) ) : MoleculeShapesColor.ATOM.getRGBAProperty() )
+                : MoleculeShapesColor.ATOM_CENTER.getRGBAProperty(),
+
                 MoleculeShapesConstants.MODEL_ATOM_RADIUS,
                 assetManager );
     }
