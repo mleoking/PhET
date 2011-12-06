@@ -12,10 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingParameters;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -135,7 +132,7 @@ public class DilutionsSliderNode extends PhetPNode {
         private static final Color THUMB_STROKE_COLOR = Color.BLACK;
         private static final Color THUMB_CENTER_LINE_COLOR = Color.WHITE;
 
-        public ThumbNode( String name, final PDimension size, PNode relativeNode, PNode trackNode, DoubleRange range, final Property<Double> modelValue ) {
+        public ThumbNode( final String name, final PDimension size, PNode relativeNode, PNode trackNode, DoubleRange range, final Property<Double> modelValue ) {
 
             PPath bodyNode = new PPath() {{
                 final double arcWidth = 0.25 * size.getWidth();
@@ -156,19 +153,12 @@ public class DilutionsSliderNode extends PhetPNode {
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( bodyNode, THUMB_NORMAL_COLOR, THUMB_HIGHLIGHT_COLOR ) );
-            addInputEventListener( new SliderThumbDragHandler( name,
-                                                               new Function0<Parameter[]>() {
-                                                                   public Parameter[] apply() {
-                                                                       return new Parameter[] { Parameter.param( SimSharingParameters.VALUE, modelValue.get() ) };
-                                                                   }
-                                                               },
-                                                               Orientation.VERTICAL, relativeNode, trackNode, this, range,
+            addInputEventListener( new SliderThumbDragHandler( Orientation.VERTICAL, relativeNode, trackNode, this, range,
                                                                new VoidFunction1<Double>() {
                                                                    public void apply( Double value ) {
                                                                        modelValue.set( value );
                                                                    }
-                                                               }
-            ) );
+                                                               } ) );
         }
     }
 }

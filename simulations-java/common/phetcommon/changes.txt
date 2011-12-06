@@ -1,3 +1,4 @@
+12/5/11 #3175 switched from required constructor args to optional SimSharingEventArgs for sim-sharing drag handlers
 12/5/11 #3136 fix sim-sharing processing of program args so that "-study -dev" doesn't result in studyName="-dev"
 12/5/11 #3171 catch EOFException that occurs when sim-sharing server isn't running, log as severe
 12/5/11 #3136, use java.util.logging instead of System.out throughout sim-sharing
