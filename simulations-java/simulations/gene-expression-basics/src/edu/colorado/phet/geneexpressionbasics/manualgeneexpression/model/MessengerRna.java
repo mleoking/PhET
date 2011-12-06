@@ -65,7 +65,7 @@ public class MessengerRna extends MobileBiomolecule {
     private static final double FLOATING_POINT_COMP_FACTOR = 1E-7;
 
     // Distance within which this will connect to a ribosome.
-    private static final double RIBOSOME_CONNECTION_DISTANCE = 5000; // Picometers.
+    private static final double RIBOSOME_CONNECTION_DISTANCE = 200; // Picometers.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -754,6 +754,7 @@ public class MessengerRna extends MobileBiomolecule {
     public AttachmentSite considerProposalFrom( Ribosome ribosome ) {
         assert !mapRibosomeToShapeSegment.containsKey( ribosome ); // Shouldn't get redundant proposals from a ribosome.
         AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
+        System.out.println( "leadingEdgeAttachmentSite.locationProperty.get() = " + leadingEdgeAttachmentSite.locationProperty.get() );
         if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get().isNone() &&
              leadingEdgeAttachmentSite.locationProperty.get().distance( ribosome.getEntranceOfRnaChannelPos().toPoint2D() ) < RIBOSOME_CONNECTION_DISTANCE ) {
             // This attachment site is in range and available, so return it.
@@ -893,6 +894,7 @@ public class MessengerRna extends MobileBiomolecule {
             ImmutableVector2D delta = new ImmutableVector2D( newLowerRightCornerPos ).getSubtractedInstance( currentLowerRightCornerPos );
             Rectangle2D newBounds = AffineTransform.getTranslateInstance( delta.getX(), delta.getY() ).createTransformedShape( bounds.get() ).getBounds2D();
             bounds.set( newBounds );
+            updateAttachmentSiteLocation();
         }
 
         public Point2D getUpperLeftCornerPos() {
@@ -904,6 +906,7 @@ public class MessengerRna extends MobileBiomolecule {
                                                 upperLeftCornerPosition.getY() - bounds.get().getHeight(),
                                                 bounds.get().getWidth(),
                                                 bounds.get().getHeight() ) );
+            updateAttachmentSiteLocation();
         }
 
         public void translate( ImmutableVector2D translationVector ) {
@@ -911,6 +914,7 @@ public class MessengerRna extends MobileBiomolecule {
                                                 bounds.get().getY() + translationVector.getY(),
                                                 bounds.get().getWidth(),
                                                 bounds.get().getHeight() ) );
+            updateAttachmentSiteLocation();
         }
 
         public Rectangle2D getBounds() {
