@@ -7,9 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Objects;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Values;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
@@ -25,7 +29,7 @@ public class TeachersMenu extends SimSharingJMenu {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
 
-                    SimSharingEvents.sendEvent( "backgroundColor", "changed", param( "color", isSelected() ? "White" : "Black" ) );
+                    SimSharingEvents.sendEvent( Objects.BACKGROUND_COLOR, SimSharingActions.CHANGED, param( Parameters.COLOR, isSelected() ? Values.WHITE : Values.BLACK ) );
 
                     if ( isSelected() ) {
                         MoleculeShapesColor.PROJECTOR.apply( MoleculeShapesColor.handler );

@@ -12,6 +12,9 @@ import edu.colorado.phet.jmephet.JMECursorHandler;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Actions;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Objects;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -65,7 +68,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removeGroup( candidate );
-                            sendEvent( "bond", "removed", param( "bondOrder", bondOrder ) );
+                            sendEvent( Objects.BOND, Actions.REMOVED, param( Parameters.BOND_ORDER, bondOrder ) );
 
                             //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                             systemResponseForGeometries( module.getMolecule() );
@@ -99,7 +102,7 @@ public class BondTypeControlNode extends PNode {
             public void run() {
                 module.startNewInstanceDrag( bondOrder );
 
-                sendEvent( "bond", "created", param( "bondOrder", bondOrder ) );
+                sendEvent( Objects.BOND, Actions.CREATED, param( Parameters.BOND_ORDER, bondOrder ) );
 
                 //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                 systemResponseForGeometries( module.getMolecule() );
