@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 
 import static edu.colorado.phet.chemistry.model.Element.*;
@@ -76,16 +75,6 @@ public class RealMoleculeShape {
         return displayName;
     }
 
-    public int countBondsOfOrder( int order ) {
-        int result = 0;
-        for ( Bond<Atom3D> bond : getBonds() ) {
-            if ( bond.order == order ) {
-                result += 1;
-            }
-        }
-        return result;
-    }
-
     public Atom3D getCentralAtom() {
         return centralAtom;
     }
@@ -98,33 +87,9 @@ public class RealMoleculeShape {
         return displayName;
     }
 
-    public static final RealMoleculeShape CARBON_MONOXIDE = new RealMoleculeShape( "CO" ) {{
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.528500, 0, 0 ), 1 ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.528500, 0, 0 ) ), 3 );
-        centerOnCentroid();
-    }};
-
-    public static final RealMoleculeShape MOLECULAR_OXYGEN = new RealMoleculeShape( "O2" ) {{
-        addCentralAtom( new Atom3D( O, new ImmutableVector3D( -0.864000, 0.116000, 0.000000 ), 2 ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.292000, 0.477000, 0.000000 ) ), 2 );
-        centerOnCentroid();
-    }};
-    public static final RealMoleculeShape MOLECULAR_HYDROGEN = new RealMoleculeShape( "H2" ) {{
-        addCentralAtom( new Atom3D( H, new ImmutableVector3D( -0.390000, 0.178000, -0.444000 ) ) );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.014000, 0.318000, 0.160000 ) ), 1 );
-
-        centerOnCentroid();
-    }};
-
     public static final RealMoleculeShape HYDROGEN_FLUORIDE = new RealMoleculeShape( "HF" ) {{
         addCentralAtom( new Atom3D( F, new ImmutableVector3D( 0.325, 0, 0 ), 3 ) );
         addRadialAtom( new Atom3D( H, new ImmutableVector3D( 1.242, 0, 0 ) ), 1 );
-        centerOnCentroid();
-    }};
-
-    public static final RealMoleculeShape HYDROGEN_CHLORIDE = new RealMoleculeShape( "HCl" ) {{
-        addCentralAtom( new Atom3D( Cl, new ImmutableVector3D( -0.967000, 0.227000, 0.000000 ), 3 ) );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.246000, 0.620000, 0.000000 ) ), 1 );
         centerOnCentroid();
     }};
 
@@ -139,21 +104,6 @@ public class RealMoleculeShape {
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( 3.732, 0.75, 0 ) ), 1 );
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( 2, 0.75, 0 ) ), 1 );
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( 2.866, -0.75, 0 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape NITRATE = new RealMoleculeShape( "NO3<sup>-</sup>" ) {{
-        addCentralAtom( new Atom3D( N, new ImmutableVector3D() ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.227900, 0.187600, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.451500, -1.157200, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.776400, 0.969600, 0 ) ), 2 );
-    }};
-
-    public static final RealMoleculeShape FORMALDEHYDE = new RealMoleculeShape( "CH2O" ) {{
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.237000, 1.147000, -0.000000 ) ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.237000, -0.080000, 0.000000 ) ), 2 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.702000, 1.739000, -0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -1.176000, 1.739000, 0.000000 ) ), 1 );
         centerOnCentralAtom();
     }};
 
@@ -178,83 +128,10 @@ public class RealMoleculeShape {
         addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.459300, 0.387400, -0.912100 ) ), 1 );
     }};
 
-    public static final RealMoleculeShape DICHLORODIFLUOROMETHANE = new RealMoleculeShape( "CCl2F2" ) {{
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D( 0, 0.0728, 0 ) ) );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.459400, -0.920800, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.459200, -0.921000, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0, 0.884300, 1.088700 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0, 0.884300, -1.088700 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape HYDROGEN_CYANIDE = new RealMoleculeShape( "HCN" ) {{
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D( 0.58, 0, 0 ) ) );
-        addRadialAtom( new Atom3D( N, new ImmutableVector3D( -0.58, 0, 0 ) ), 3 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 1.645, 0, 0 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
     public static final RealMoleculeShape BERYLLIUM_CHLORIDE = new RealMoleculeShape( "BeCl2" ) {{ // TODO: more accurate numbers?
         addCentralAtom( new Atom3D( Be, new ImmutableVector3D() ) );
         addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.220000, 0, 0 ), 3 ), 1 );
         addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.220000, 0, 0 ), 3 ), 1 );
-    }};
-
-    public static final RealMoleculeShape CARBON_DISULFATE = new RealMoleculeShape( "CS2" ) {{
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D() ) );
-        addRadialAtom( new Atom3D( S, new ImmutableVector3D( 1.5904, 0, 0 ) ), 2 );
-        addRadialAtom( new Atom3D( S, new ImmutableVector3D( -1.5904, 0, 0 ) ), 2 );
-    }};
-
-    public static final RealMoleculeShape SULFUR_TRIOXIDE = new RealMoleculeShape( "SO3" ) {{
-        addCentralAtom( new Atom3D( S, new ImmutableVector3D() ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.6552, -1.2949, 0 ) ), 2 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.7939, 1.2148, 0 ) ), 2 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.4491, 0.0801, 0 ) ), 2 );
-    }};
-
-    public static final RealMoleculeShape SILICON_TETRACHLORIDE = new RealMoleculeShape( "SiCl4" ) {{
-        addCentralAtom( new Atom3D( Element.Si, new ImmutableVector3D() ) );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 0.256300, -1.355900, 1.487200 ) ), 1 );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.450400, 1.414200, 0.116900 ) ), 1 );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.819200, 0.878500, 0.191500 ) ), 1 );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 0.112700, -0.937200, -1.795700 ) ), 1 );
-    }};
-
-    public static final RealMoleculeShape PHOSPHORUS_TRIFLUORIDE = new RealMoleculeShape( "PF3" ) {{
-        addCentralAtom( new Atom3D( P, new ImmutableVector3D( 0, 0, 0.6224 ), 1 ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.9872, -0.9041, -0.2075 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.2894, 1.3069, -0.2075 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.2766, -0.4029, -0.2075 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape FLUORINE_MONOXIDE = new RealMoleculeShape( "OF2" ) {{
-        addCentralAtom( new Atom3D( O, new ImmutableVector3D( 0, -0.5366, 0 ), 2 ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.1592, 0.2683, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.1592, 0.2683, 0 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape PHOSPHORUS_PENTAFLUORIDE = new RealMoleculeShape( "PF5" ) {{
-        addCentralAtom( new Atom3D( P, new ImmutableVector3D( -0.532000, 0.324000, 0.000000 ) ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.532000, -1.210000, 0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.797000, 1.091000, 0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.861000, 1.091000, 0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.532000, 0.324000, -1.577000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.532000, 0.324000, 1.577000 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape SULFUR_OXIDE_TETRAFLUORIDE = new RealMoleculeShape( "SOF4" ) {{
-        addCentralAtom( new Atom3D( S, new ImmutableVector3D( -0.091000, -0.017700, -0.350800 ) ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.028900, 1.873900, -0.093300 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.153000, -1.909200, -0.608300 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.492500, 0.210200, -2.165700 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.956100, -0.012500, 0.060500 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.193800, -0.249600, 1.043400 ) ), 1 );
-
-        centerOnCentralAtom();
     }};
 
     public static final RealMoleculeShape SULFUR_TETRAFLUORIDE = new RealMoleculeShape( "SF4" ) {{
@@ -263,23 +140,6 @@ public class RealMoleculeShape {
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.913000, 0.980000, 0.235000 ) ), 1 );
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.605000, 0.317000, -1.471000 ) ), 1 );
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.429000, 0.386000, 1.809000 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape XENON_DIOXYDIFLUORIDE = new RealMoleculeShape( "XeO2F2" ) {{
-        addCentralAtom( new Atom3D( Element.Xe, new ImmutableVector3D( -1.187300, 24.900400, 1.887500 ), 1 ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.149800, 23.847900, 2.747800 ) ), 2 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -2.481700, 24.586800, 3.242800 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.121100, 24.918100, 0.509900 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -2.126800, 23.895900, 0.871300 ) ), 2 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape BROMINE_TRIFLUORIDE = new RealMoleculeShape( "BrF3" ) {{
-        addCentralAtom( new Atom3D( Br, new ImmutableVector3D( 0.596100, 0.310400, 0.075500 ), 2 ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.017000, -0.284600, 0.124100 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.147700, 1.942000, -0.170900 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.103100, -1.408600, 0.328900 ) ), 1 );
         centerOnCentralAtom();
     }};
 
@@ -297,14 +157,6 @@ public class RealMoleculeShape {
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.206000, 0.054000, -1.911000 ) ), 1 );
         centerOnCentralAtom();
     }};
-
-    public static final RealMoleculeShape TRIIODIDE = new RealMoleculeShape( "I3" ) {{
-        addCentralAtom( new Atom3D( I, new ImmutableVector3D( 0.076000, 0.044000, 0.000000 ), 3 ) );
-        addRadialAtom( new Atom3D( I, new ImmutableVector3D( 0.076000, 0.044000, 2.660000 ) ), 1 );
-        addRadialAtom( new Atom3D( I, new ImmutableVector3D( 0.076000, 0.044000, -2.660000 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
     public static final RealMoleculeShape SULFUR_HEXAFLUORIDE = new RealMoleculeShape( "SF6" ) {{
         addCentralAtom( new Atom3D( S, new ImmutableVector3D( -1.679000, -0.674000, -1.012000 ) ) );
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -2.433000, -1.012000 ), 3 ), 1 );
@@ -326,47 +178,10 @@ public class RealMoleculeShape {
         centerOnCentralAtom();
     }};
 
-    public static final RealMoleculeShape STANNOUS_CHLORIDE = new RealMoleculeShape( "SnCl2" ) {{
-        addCentralAtom( new Atom3D( Element.Sn, new ImmutableVector3D( 2.866, -0.25, 0 ), 1 ) );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 3.732, 0.25, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 2, 0.25, 0 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape OZONE = new RealMoleculeShape( "O3" ) {{
-        addCentralAtom( new Atom3D( O, new ImmutableVector3D( -0.095000, -0.494300, 0.000000 ), 1 ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.148900, 0.215200, 0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.054000, 0.279100, 0.000000 ) ), 2 );
-        centerOnCentralAtom();
-    }};
-
     public static final RealMoleculeShape SULFUR_DIOXIDE = new RealMoleculeShape( "SO2" ) {{
         addCentralAtom( new Atom3D( S, new ImmutableVector3D( 0.000000, -0.577400, 0.000000 ), 1 ) );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.309100, 0.288700, 0.000000 ) ), 2 );
         addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.309100, 0.288700, 0.000000 ) ), 2 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape THIAZYL_FLUORIDE = new RealMoleculeShape( "NSF" ) {{
-        addCentralAtom( new Atom3D( S, new ImmutableVector3D( 0.129500, 0.636500, 0.000000 ), 1 ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.180600, -0.262900, 0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( N, new ImmutableVector3D( 1.051100, -0.373700, 0.000000 ) ), 3 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape CHLORITE = new RealMoleculeShape( "ClO2<sup>-</sup>" ) {{
-        addCentralAtom( new Atom3D( Cl, new ImmutableVector3D( 2.866, -0.25, 0 ), 2 ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 2, 0.25, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 3.732, 0.25, 0 ) ), 2 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape PHOSPHORYL_CHLORIDE = new RealMoleculeShape( "POCl3" ) {{
-        addCentralAtom( new Atom3D( P, new ImmutableVector3D( 0.000100, 0.000100, -0.172000 ) ) );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 0.428200, 1.785000, 0.615300 ) ), 1 );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.331700, -1.264000, 0.614400 ) ), 1 );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.760700, -0.521900, 0.613700 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.000700, 0.000800, -1.671400 ) ), 2 );
         centerOnCentralAtom();
     }};
 
@@ -379,135 +194,21 @@ public class RealMoleculeShape {
         centerOnCentralAtom();
     }};
 
-    public static final RealMoleculeShape PERCHLORATE = new RealMoleculeShape( "ClO4<sup>-</sup>" ) {{
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.023000, 0.014000, 0.171000 ) ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.023000, -1.334000, -0.305000 ) ), 2 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.191000, 0.688000, -0.306000 ) ), 2 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.145000, 0.688000, -0.307000 ) ), 2 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.023000, 0.015000, 1.601000 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape METHYL_CHLORIDE = new RealMoleculeShape( "CH3Cl" ) {{
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.178000, -0.689000, 0.000000 ) ) );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -0.178000, 1.052000, -0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.878000, -1.038000, -0.000000 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.705000, -1.038000, 0.914000 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.705000, -1.038000, -0.914000 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape XENON_OXYTETRAFLUORIDE = new RealMoleculeShape( "XeOF4" ) {{
-        addCentralAtom( new Atom3D( Xe, new ImmutableVector3D( -0.198000, 0.086000, -0.422000 ), 1 ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.218000, 0.026000, -2.070000 ) ), 2 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.919000, 0.746000, -0.881000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.854000, -1.694000, -0.523000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.458000, 1.866000, -0.321000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.524000, -0.575000, 0.036000 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape PHOSPHATE = new RealMoleculeShape( "PO4<sup>3-</sup>" ) {{
-        addCentralAtom( new Atom3D( P, new ImmutableVector3D( 0.000000, -0.000100, 0.000000 ) ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.523400, -0.068800, -0.197700 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.640600, 0.718000, -1.199100 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.567900, -1.424800, 0.107300 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.314900, 0.775700, 1.289500 ) ), 2 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape SULFITE = new RealMoleculeShape( "SO3<sup>2-</sup>" ) {{
-        addCentralAtom( new Atom3D( S, new ImmutableVector3D( -0.341000, 0.348000, 0.302000 ), 1 ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.303000, -1.160000, 0.237000 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.096000, 0.804000, 0.234000 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.984000, 0.804000, -0.986000 ) ), 2 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape CHLORATE = new RealMoleculeShape( "ClO3<sup>-</sup>" ) {{
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D( -0.633000, 0.293000, -2.002000 ), 1 ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -0.671000, -1.192000, -2.119000 ) ), 1 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 0.796000, 0.702000, -2.104000 ) ), 2 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.330000, 0.842000, -3.199000 ) ), 2 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape HYDROXONIUM = new RealMoleculeShape( "H3O<sup>+</sup>" ) {{
-        addCentralAtom( new Atom3D( O, new ImmutableVector3D( -9.792000, 10.242000, 1.118000 ), 1 ) );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -9.792000, 11.292000, 1.118000 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -8.803000, 9.892000, 1.118000 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -10.287000, 9.892000, 1.976000 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    private static final RealMoleculeShape[] MOLECULES = new RealMoleculeShape[] {
-            CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE,
-            FORMALDEHYDE, AMMONIA, METHANE, DICHLORODIFLUOROMETHANE, HYDROGEN_CYANIDE,
-            BERYLLIUM_CHLORIDE, CARBON_DISULFATE, SULFUR_TRIOXIDE, SILICON_TETRACHLORIDE,
-            PHOSPHORUS_TRIFLUORIDE, FLUORINE_MONOXIDE, PHOSPHORUS_PENTAFLUORIDE, SULFUR_OXIDE_TETRAFLUORIDE,
-            SULFUR_TETRAFLUORIDE, XENON_DIOXYDIFLUORIDE, BROMINE_TRIFLUORIDE,
-            CHLORINE_TRIFLUORIDE, XENON_DIFLUORIDE, TRIIODIDE, SULFUR_HEXAFLUORIDE,
-            BROMINE_PENTAFLUORIDE, STANNOUS_CHLORIDE, OZONE, SULFUR_DIOXIDE, THIAZYL_FLUORIDE,
-            CHLORITE, PHOSPHORYL_CHLORIDE, XENON_TETRAFLUORIDE, PERCHLORATE,
-            MOLECULAR_OXYGEN, HYDROGEN_FLUORIDE, METHYL_CHLORIDE, HYDROGEN_CHLORIDE,
-            XENON_OXYTETRAFLUORIDE, PHOSPHATE, SULFITE, CHLORATE, MOLECULAR_HYDROGEN, HYDROXONIUM
-    };
-
     public static final RealMoleculeShape[] TAB_2_MOLECULES = new RealMoleculeShape[] {
             BERYLLIUM_CHLORIDE,
             BORON_TRIFLUORIDE,
             BROMINE_PENTAFLUORIDE,
             METHANE,
             CHLORINE_TRIFLUORIDE,
-            // TODO: add CH2F2
-            // TODO: add CF4
             CARBON_DIOXIDE,
             HYDROGEN_FLUORIDE,
             WATER,
-            // TODO: add NCl3
             AMMONIA,
             // TODO: add PCl5
             SULFUR_TETRAFLUORIDE,
             SULFUR_HEXAFLUORIDE,
             SULFUR_DIOXIDE,
             XENON_DIFLUORIDE,
-            XENON_TETRAFLUORIDE,
-            // TODO: add XeOF5-
-            PERCHLORATE
+            XENON_TETRAFLUORIDE
     };
-
-    public static List<RealMoleculeShape> getMatchingMolecules( Molecule model ) {
-        List<RealMoleculeShape> result = new ArrayList<RealMoleculeShape>();
-
-        int lonePairs = 0;
-        int singleBonds = 0;
-        int doubleBonds = 0;
-        int tripleBonds = 0;
-
-        for ( Bond<PairGroup> bond : model.getBonds( model.getCentralAtom() ) ) {
-            switch( bond.order ) {
-                case 0:
-                    lonePairs += 1;
-                case 1:
-                    singleBonds += 1;
-                    break;
-                case 2:
-                    doubleBonds += 1;
-                    break;
-                case 3:
-                    tripleBonds += 1;
-                    break;
-            }
-        }
-
-        for ( RealMoleculeShape molecule : MOLECULES ) {
-            if ( lonePairs == molecule.getCentralLonePairCount()
-                 && singleBonds == molecule.countBondsOfOrder( 1 )
-                 && doubleBonds == molecule.countBondsOfOrder( 2 )
-                 && tripleBonds == molecule.countBondsOfOrder( 3 ) ) {
-                result.add( molecule );
-            }
-        }
-        return result;
-    }
 }

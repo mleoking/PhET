@@ -13,15 +13,11 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.BondTypeControlNode;
-import edu.colorado.phet.moleculeshapes.control.MinimizeMaximizeButtonNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.OptionsNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyCheckBoxNode;
-import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
-import edu.colorado.phet.moleculeshapes.control.RealMoleculePanelNode;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.moleculeshapes.control.BondTypeControlNode.systemResponseForGeometries;
@@ -32,9 +28,6 @@ import static edu.colorado.phet.moleculeshapes.control.BondTypeControlNode.syste
  */
 public class MoleculeShapesControlPanel extends PNode {
     private static final double PANEL_SPACER = 20; // space between text and bond lines
-
-    private final MoleculeShapesPanelNode realMoleculePanel;
-    private RealMoleculePanelNode realMoleculeNode;
 
     /*---------------------------------------------------------------------------*
     * information for width computations
@@ -53,7 +46,7 @@ public class MoleculeShapesControlPanel extends PNode {
     private BondTypeControlNode tripleBondNode;
     private BondTypeControlNode lonePairNode;
 
-    public MoleculeShapesControlPanel( final MoleculeShapesModule module, RealMoleculeOverlayNode overlayNode ) {
+    public MoleculeShapesControlPanel( final MoleculeShapesModule module ) {
 
         /*---------------------------------------------------------------------------*
         * bonding panel
@@ -154,36 +147,6 @@ public class MoleculeShapesControlPanel extends PNode {
         final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new OptionsNode( module ), Strings.CONTROL__OPTIONS );
         optionsPanel.setOffset( 0, removeAllButtonNode.getFullBounds().getMaxY() + PANEL_SPACER * 1.5 );
         addChild( optionsPanel );
-
-        /*---------------------------------------------------------------------------*
-        * real molecules panel
-        *----------------------------------------------------------------------------*/
-        final Property<Boolean> minimized = new Property<Boolean>( true ); // TODO: move this to a better location
-
-        realMoleculeNode = new RealMoleculePanelNode( module.getMolecule(), module, overlayNode, minimized );
-        realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, new PNode() {{
-            final PText title = new TitleNode( Strings.REAL_EXAMPLES__TITLE );
-            addChild( title );
-
-            final double TEXT_PADDING = 4;
-            addChild( new MinimizeMaximizeButtonNode( minimized ) {{
-                setOffset( title.getWidth() + TEXT_PADDING, ( title.getFullBounds().getHeight() - getFullBounds().getHeight() ) / 2 + 1 );
-            }} );
-        }} ) {{
-            setOffset( 0, optionsPanel.getFullBounds().getMaxY() + PANEL_SPACER );
-        }};
-//        addChild( realMoleculePanel );
-    }
-
-    public boolean isOverlayVisible() {
-        return realMoleculeNode.isOverlayVisible();
-    }
-
-    /**
-     * @return Where to position the 3D molecule overlay
-     */
-    public PBounds getRealMoleculeOverlayBounds() {
-        return realMoleculeNode.getRealMoleculeOverlayBounds();
     }
 
     public PBounds getSingleBondTargetBounds() {
