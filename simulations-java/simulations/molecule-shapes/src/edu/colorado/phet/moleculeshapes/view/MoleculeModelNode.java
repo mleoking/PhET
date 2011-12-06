@@ -199,7 +199,7 @@ public class MoleculeModelNode extends Node {
                         }
                     } ).get().order,
                     MoleculeShapesConstants.MODEL_BOND_RADIUS, // bond radius
-                    new Some<Float>( (float) PairGroup.BONDED_PAIR_DISTANCE ), // max length
+                    molecule.getMaximumBondLength(), // max length
                     module,
                     camera );
             attachChild( bondNode );

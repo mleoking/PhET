@@ -8,6 +8,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.event.CompositeNotifier;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
@@ -272,4 +275,13 @@ public abstract class Molecule {
 
     // should this molecule be displayed in a "real" style, or not? If "true", all atoms are expected to be represented with RealPairGroups
     public abstract boolean isReal();
+
+    public Option<Float> getMaximumBondLength() {
+        if ( isReal() ) {
+            return new None<Float>();
+        }
+        else {
+            return new Some<Float>( (float) PairGroup.BONDED_PAIR_DISTANCE );
+        }
+    }
 }
