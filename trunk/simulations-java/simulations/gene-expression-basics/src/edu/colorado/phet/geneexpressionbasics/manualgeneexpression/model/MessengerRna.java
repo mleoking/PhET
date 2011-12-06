@@ -286,6 +286,10 @@ public class MessengerRna extends MobileBiomolecule {
         realignSegmentsFromEnd();
     }
 
+    public void setLowerRightPosition( double x, double y ) {
+        setLowerRightPosition( new Point2D.Double( x, y ) );
+    }
+
     /**
      * Create a new version of the protein that should result when this strand
      * of mRNA is translated.

@@ -15,6 +15,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Move
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 
 /**
@@ -137,12 +138,19 @@ public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
     protected class AttachedAndTranscribingState extends AttachmentState {
         private static final double TRANSCRIPTION_VELOCITY = 750; // In picometers per second.
         private final Point2D endOfGene = new Point2D.Double();
+        private MessengerRna messengerRna;
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
             assert asm.attachmentSite.attachedMolecule.get().get() == biomolecule;
+
+            // Grow the messenger RNA and position it to be attached to the
+            // polymerase.
+            messengerRna.addLength( TRANSCRIPTION_VELOCITY * dt );
+            messengerRna.setLowerRightPosition( rnaPolymerase.getPosition().getX() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getX(),
+                                                rnaPolymerase.getPosition().getY() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getY() );
 
             // If we've reached the end of the gene, detach.
             if ( biomolecule.getPosition().equals( endOfGene ) ) {
@@ -152,12 +160,24 @@ public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
+            // Determine the change that is being transcribed.
             Gene geneToTranscribe = biomolecule.getModel().getDnaMolecule().getGeneAtLocation( biomolecule.getPosition() );
             assert geneToTranscribe != null;
+
+            // Set up the motion strategy to move to the end of the transcribed
+            // region of the gene.
             endOfGene.setLocation( geneToTranscribe.getEndX(), DnaMolecule.Y_POS );
             asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( new Property<Point2D>( endOfGene ),
                                                                                             biomolecule.motionBoundsProperty,
                                                                                             TRANSCRIPTION_VELOCITY ) );
+            // Create the mRNA that will be grown as a result of this
+            // transcription.
+            messengerRna = new MessengerRna( biomolecule.getModel(),
+                                             geneToTranscribe.getProteinPrototype(),
+                                             new Point2D.Double( biomolecule.getPosition().getX() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getX(),
+                                                                 biomolecule.getPosition().getY() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getY() ) );
+            biomolecule.spawnMessengerRna( messengerRna );
+
         }
     }
 

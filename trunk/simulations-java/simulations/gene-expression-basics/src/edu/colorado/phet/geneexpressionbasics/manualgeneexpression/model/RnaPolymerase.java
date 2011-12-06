@@ -37,7 +37,7 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Offset from the center of the molecule to the location where mRNA
     // should emerge when transcription is occurring.  This is determined
     // empirically, and may need to change if the shape is changed.
-    private static final ImmutableVector2D MESSENGER_RNA_GENERATION_OFFSET = new ImmutableVector2D( -WIDTH * 0.4, HEIGHT * 0.4 );
+    public static final ImmutableVector2D MESSENGER_RNA_GENERATION_OFFSET = new ImmutableVector2D( -WIDTH * 0.4, HEIGHT * 0.4 );
 
     // This the threshold for the affinity which triggers the polymerase to
     // start transcribing.  Not sure if this is a reasonable thing to do, or
