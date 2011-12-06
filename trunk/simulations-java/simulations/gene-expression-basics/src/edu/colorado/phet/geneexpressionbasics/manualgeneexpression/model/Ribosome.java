@@ -38,6 +38,10 @@ public class Ribosome extends MobileBiomolecule {
     // emerges.  May require some tweaking if the overall shape changes.
     private static final ImmutableVector2D OFFSET_TO_PROTEIN_OUTPUT_CHANNEL = new ImmutableVector2D( WIDTH * 0.4, OVERALL_HEIGHT * 0.6 );
 
+    // Messenger RNA being translated, null if no translation is in progress.
+    private MessengerRna messengerRnaBeingTranslated;
+
+    // Protein being synthesized, null if no synthesis in progress.
     private Protein proteinBeingSynthesized = null;
 
     public Ribosome( GeneExpressionModel model ) {
@@ -101,6 +105,8 @@ public class Ribosome extends MobileBiomolecule {
         for ( MessengerRna messengerRna : messengerRnaList ) {
             attachmentSite = messengerRna.considerProposalFrom( this );
             if ( attachmentSite != null ) {
+                // Proposal accepted.
+                messengerRnaBeingTranslated = messengerRna;
                 break;
             }
         }
@@ -113,6 +119,11 @@ public class Ribosome extends MobileBiomolecule {
             return;
         }
         proteinBeingSynthesized.release();
+    }
+
+    public void releaseMessengerRna() {
+        messengerRnaBeingTranslated.releaseFromRibosome( this );
+        messengerRnaBeingTranslated = null;
     }
 
     // Overridden in order to hook up unique attachment state machine for this
@@ -177,4 +188,5 @@ public class Ribosome extends MobileBiomolecule {
                                    getPosition().getY() + OFFSET_TO_PROTEIN_OUTPUT_CHANNEL.getY() );
 
     }
+
 }
