@@ -91,7 +91,7 @@ public class PHMeterNode extends PhetPNode {
         addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingEventArgs( ABSSimSharing.PH_METER,
                                                                                                 new Function0<Parameter[]>() {
                                                                                                     public Parameter[] apply() {
-                                                                                                        return new Parameter[] { Parameter.param( "isInSolution", meter.isInSolution() ) };
+                                                                                                        return new Parameter[] { Parameter.param( ABSSimSharing.IS_IN_SOLUTION, meter.isInSolution() ) };
                                                                                                     }
                                                                                                 } ) ) {
 
