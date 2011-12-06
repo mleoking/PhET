@@ -28,7 +28,6 @@ public class Ribosome extends MobileBiomolecule {
     private static final double TOP_SUBUNIT_HEIGHT_PROPORTION = 0.6;
     private static final double TOP_SUBUNIT_HEIGHT = OVERALL_HEIGHT * TOP_SUBUNIT_HEIGHT_PROPORTION;
     private static final double BOTTOM_SUBUNIT_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_SUBUNIT_HEIGHT_PROPORTION );
-    private static final double MRNA_CAPTURE_DISTANCE = 500;
 
     // Offset from the center position to the entrance of the translation
     // channel.  May require some tweaking of the shape changes.
