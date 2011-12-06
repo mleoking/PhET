@@ -10,16 +10,15 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
-import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
  * Displays a list of options that can be selected
  */
 public class OptionsNode extends PNode {
-    public OptionsNode( final MoleculeViewModule module ) {
+    public OptionsNode( final MoleculeViewModule module, final double INNER_WIDTH ) {
         // enforce the width constraint
-        addChild( new Spacer( 0, 0, MoleculeShapesControlPanel.INNER_WIDTH, 10 ) );
+        addChild( new Spacer( 0, 0, INNER_WIDTH, 10 ) );
 
         final Property<Double> y = new Property<Double>( 0.0 );
 
@@ -109,7 +108,7 @@ public class OptionsNode extends PNode {
             setOffset( 0, y.get() );
         }} );
 
-        checkboxContainer.setOffset( ( MoleculeShapesControlPanel.INNER_WIDTH - checkboxContainer.getFullBounds().getWidth() ) / 2, 0 );
+        checkboxContainer.setOffset( ( INNER_WIDTH - checkboxContainer.getFullBounds().getWidth() ) / 2, 0 );
         addChild( checkboxContainer );
 
     }

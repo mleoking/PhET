@@ -144,7 +144,7 @@ public class MoleculeShapesControlPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * options
         *----------------------------------------------------------------------------*/
-        final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new OptionsNode( module ), Strings.CONTROL__OPTIONS );
+        final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new OptionsNode( module, INNER_WIDTH ), Strings.CONTROL__OPTIONS );
         optionsPanel.setOffset( 0, removeAllButtonNode.getFullBounds().getMaxY() + PANEL_SPACER * 1.5 );
         addChild( optionsPanel );
     }

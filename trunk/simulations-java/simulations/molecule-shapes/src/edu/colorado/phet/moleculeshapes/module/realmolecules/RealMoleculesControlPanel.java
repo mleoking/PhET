@@ -1,14 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.module.realmolecules;
 
-import java.awt.Point;
-import java.awt.event.ActionEvent;
+import java.util.Arrays;
 
-import javax.swing.JComboBox;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.chemistry.utils.ChemUtils;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
@@ -20,7 +21,6 @@ import edu.colorado.phet.moleculeshapes.control.PropertyRadioButtonNode;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class RealMoleculesControlPanel extends PNode {
     private static final double PANEL_SPACER = 20; // space between text and bond lines
@@ -38,55 +38,62 @@ public class RealMoleculesControlPanel extends PNode {
     };
     public static final double INNER_WIDTH = Math.ceil( getRequiredInnerWidth() );
 
+    // used for placement of the molecule combo box
+    private Spacer comboBoxSpacer;
+
     public RealMoleculesControlPanel( final RealMoleculesModule module, final Function0<Double> getControlPanelXPosition ) {
 
         // put it on 0 vertically
         setOffset( 0, 10 );
 
-        final PNode moleculePanel = new MoleculeShapesPanelNode( new PNode() {{
-            final PNode parent = this;
-
-            // ensure maximum width, and put it at the top so our panel node doesn't cut away the excess top padding
-            addChild( new Spacer( 0, 0, MoleculeShapesConstants.RIGHT_MIN_WIDTH, 20 ) );
-            final int dropDownBoxTopPadding = 10;
-            final Property<Integer> horizontalOffset = new Property<Integer>( 0 );
-
-            final PNode dropDownBox = new PSwing( new JComboBox( RealMoleculeShape.TAB_2_MOLECULES ) {
-                {
-                    addActionListener( new java.awt.event.ActionListener() {
-                        public void actionPerformed( final ActionEvent e ) {
-                            JMEUtils.invoke( new Runnable() {
-                                public void run() {
-                                    RealMoleculeShape selectedRealMolecule = (RealMoleculeShape) ( (JComboBox) e.getSource() ).getSelectedItem();
-                                    module.switchToMolecule( selectedRealMolecule );
-                                }
-                            } );
+        final PNode comboBoxNode = new ComboBoxNode<RealMoleculeShape>(
+                Arrays.asList( RealMoleculeShape.TAB_2_MOLECULES ),
+                RealMoleculeShape.TAB_2_MOLECULES[0],
+                new Function1<RealMoleculeShape, PNode>() {
+                    public PNode apply( RealMoleculeShape realMoleculeShape ) {
+                        return new HTMLNode( ChemUtils.toSubscript( realMoleculeShape.getDisplayName() ) );
+                    }
+                },
+                "real molecule selection",
+                new Function1<RealMoleculeShape, String>() {
+                    public String apply( RealMoleculeShape realMoleculeShape ) {
+                        return realMoleculeShape.getDisplayName();
+                    }
+                }
+        ) {{
+            selectedItem.addObserver( new ChangeObserver<RealMoleculeShape>() {
+                public void update( final RealMoleculeShape newValue, RealMoleculeShape oldValue ) {
+                    JMEUtils.invoke( new Runnable() {
+                        public void run() {
+                            module.switchToMolecule( newValue );
                         }
                     } );
                 }
-
-                @Override public Point getLocationOnScreen() {
-//                Point screenLocation = getSimulationPanel().getLocationOnScreen();
-                    Point screenLocation = PhetApplication.getInstance().getModule( 0 ).getSimulationPanel().getLocationOnScreen();
-//                return new Point( screenLocation.x, screenLocation.y );
-//                return new Point( 0, 0 );
-                    return new Point(
-                            // TODO: this is scary. improve or axe this way of doing things
-                            screenLocation.x + getControlPanelXPosition.apply().intValue() + (int) parent.getGlobalFullBounds().getMinX() + horizontalOffset.get(),
-                            screenLocation.y + 10 + (int) parent.getGlobalFullBounds().getMinY() + dropDownBoxTopPadding );
-//                return new Point( screenLocation.x + (int) controlPanel.position.get().getX(), screenLocation.y );
-                }
             } );
+        }};
 
-            // horizontally center, and add some vertical padding
-            horizontalOffset.set( (int) ( ( MoleculeShapesConstants.RIGHT_MIN_WIDTH - dropDownBox.getFullBounds().getWidth() ) / 2 ) );
-            dropDownBox.setOffset( horizontalOffset.get(),
-                                   dropDownBoxTopPadding );
-            addChild( dropDownBox );
+        final int dropDownBoxTopPadding = 10;
 
-            // radio buttons for "Real" and "Model" views
+        /*---------------------------------------------------------------------------*
+        * molecule panel
+        *----------------------------------------------------------------------------*/
+        final PNode moleculePanel = new MoleculeShapesPanelNode( new PNode() {{
+            // ensure maximum width, and put it at the top so our panel node doesn't cut away the excess top padding
+            addChild( new Spacer( 0, 0, INNER_WIDTH, 20 ) );
+
+            // the spacer holds the place of the molecule combo box
+            comboBoxSpacer = new Spacer( comboBoxNode.getFullBounds() ) {{
+                // set the correct offset for the spacer
+                setOffset( ( INNER_WIDTH - comboBoxNode.getFullBounds().getWidth() ) / 2,
+                           dropDownBoxTopPadding );
+            }};
+            addChild( comboBoxSpacer );
+
+            /*---------------------------------------------------------------------------*
+            * real / model radio buttons
+            *----------------------------------------------------------------------------*/
             final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__REAL_VIEW, module.showRealView, true ) {{
-                setOffset( 0, dropDownBox.getFullBounds().getMaxY() );
+                setOffset( 0, comboBoxSpacer.getFullBounds().getMaxY() );
             }};
             addChild( realRadioNode );
 
@@ -106,9 +113,16 @@ public class RealMoleculesControlPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * options
         *----------------------------------------------------------------------------*/
-        final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new OptionsNode( module ), Strings.CONTROL__OPTIONS );
+        final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new OptionsNode( module, INNER_WIDTH ), Strings.CONTROL__OPTIONS );
         optionsPanel.setOffset( 0, moleculePanel.getFullBounds().getMaxY() + 20 );
         addChild( optionsPanel );
+
+        // set the combo box's offset based on our global full bounds, since the combo box is added to the root
+        comboBoxNode.setOffset( comboBoxSpacer.getGlobalFullBounds().getX(), comboBoxSpacer.getGlobalFullBounds().getY() - dropDownBoxTopPadding );
+        addChild( comboBoxNode );
+
+        // spacer takes up as much vertical room as the combo box, so we prevent sub-pixel issues
+        addChild( new Spacer( 0, 0, 10, 800 ) );
     }
 
     /*---------------------------------------------------------------------------*
