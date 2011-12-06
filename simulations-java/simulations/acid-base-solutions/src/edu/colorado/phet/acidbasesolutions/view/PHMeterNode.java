@@ -20,6 +20,9 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -85,7 +88,12 @@ public class PHMeterNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        addInputEventListener( new SimSharingDragSequenceEventHandler( ABSSimSharing.PH_METER ) {
+        addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingEventArgs( ABSSimSharing.PH_METER,
+                                                                                                new Function0<Parameter[]>() {
+                                                                                                    public Parameter[] apply() {
+                                                                                                        return new Parameter[] { Parameter.param( "isInSolution", meter.isInSolution() ) };
+                                                                                                    }
+                                                                                                } ) ) {
 
             private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
 
