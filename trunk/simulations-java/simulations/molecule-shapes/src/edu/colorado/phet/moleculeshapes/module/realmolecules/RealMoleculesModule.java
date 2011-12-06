@@ -16,8 +16,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -438,7 +438,7 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingEvents.sendEvent( Objects.DRAGGING_STATE, SimSharingActions.CHANGED,
+            SimSharingEvents.sendEvent( Objects.DRAGGING_STATE, Actions.CHANGED,
                                         param( Parameters.DRAGGING, dragging ),
                                         param( Parameters.DRAG_MODE, dragMode.toString() ) );
         }

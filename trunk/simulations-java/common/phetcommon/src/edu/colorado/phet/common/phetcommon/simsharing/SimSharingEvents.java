@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
@@ -83,7 +84,7 @@ public class SimSharingEvents {
 
     //A direct response to something the user did.
     public static void sendSystemEvent( String action, Parameter... parameters ) {
-        sendEvent( SimSharingObjects.SYSTEM, action, parameters );
+        sendEvent( Objects.SYSTEM, action, parameters );
     }
 
     //Signify that an action performed by the user has occurred by writing it to the appropriate sources, but only if the sim is running in "study mode" and is hence supposed to connect to the server

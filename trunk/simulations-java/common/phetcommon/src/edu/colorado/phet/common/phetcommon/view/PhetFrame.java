@@ -29,9 +29,9 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingParameters;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuBar;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
@@ -75,7 +75,7 @@ public class PhetFrame extends JFrame {
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
 
-                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, SimSharingActions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED, param( SimSharingParameters.TITLE, getTitle() ) );
+                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED, param( Parameters.TITLE, getTitle() ) );
                 application.exit();
             }
         } );
@@ -84,23 +84,23 @@ public class PhetFrame extends JFrame {
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
 
-                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, SimSharingActions.ICONIFIED, param( SimSharingParameters.TITLE, getTitle() ) );
+                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, Actions.ICONIFIED, param( Parameters.TITLE, getTitle() ) );
                 application.pause();
             }
 
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
 
-                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, SimSharingActions.DEICONIFIED, param( SimSharingParameters.TITLE, getTitle() ) );
+                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, Actions.DEICONIFIED, param( Parameters.TITLE, getTitle() ) );
                 application.resume();
             }
 
             @Override public void windowActivated( WindowEvent e ) {
-                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, SimSharingActions.ACTIVATED, param( SimSharingParameters.TITLE, getTitle() ) );
+                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, Actions.ACTIVATED, param( Parameters.TITLE, getTitle() ) );
             }
 
             @Override public void windowDeactivated( WindowEvent e ) {
-                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, SimSharingActions.DEACTIVATED, param( SimSharingParameters.TITLE, getTitle() ) );
+                SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, Actions.DEACTIVATED, param( Parameters.TITLE, getTitle() ) );
             }
         } );
 
@@ -109,9 +109,9 @@ public class PhetFrame extends JFrame {
         addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
                 if ( !getSize().equals( prevSize ) ) {
-                    SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, SimSharingActions.RESIZED,
-                                                param( SimSharingParameters.WIDTH, getWidth() ),
-                                                param( SimSharingParameters.HEIGHT, getHeight() ) );
+                    SimSharingEvents.sendEvent( SIM_SHARING_OBJECT, Actions.RESIZED,
+                                                param( Parameters.WIDTH, getWidth() ),
+                                                param( Parameters.HEIGHT, getHeight() ) );
                     prevSize = new Dimension( getSize() );
                 }
             }

@@ -18,8 +18,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.MessageHandler;
 import edu.colorado.phet.common.phetcommon.simsharing.ObjectStreamMessageServer;
 import edu.colorado.phet.common.phetcommon.simsharing.StringServer;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions.EXITED;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects.SYSTEM;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.EXITED;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects.SYSTEM;
 
 /**
  * Server that stores messages sent from SimSharingEvents.

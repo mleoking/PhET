@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions.EXITED;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.sendSystemEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.EXITED;
 
 /**
  * PhetExit encapsulates the various ways of exiting a sim.  It also sends out notifications before System.exit(0) is
