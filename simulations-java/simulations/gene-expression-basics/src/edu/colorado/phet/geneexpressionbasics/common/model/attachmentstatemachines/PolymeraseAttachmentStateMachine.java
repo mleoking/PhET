@@ -156,6 +156,7 @@ public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
             if ( biomolecule.getPosition().equals( endOfGene ) ) {
                 attachedState = attachedAndDeconformingState;
                 setState( attachedState );
+                messengerRna.releaseFromPolymerase();
             }
         }
 
