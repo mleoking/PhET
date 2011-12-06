@@ -18,10 +18,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConductivityTester extends SolutionRepresentation implements IConductivityTester {
-    
+
     private static final double NEUTRAL_PH = 7.0;
     private static final double NEUTRAL_BRIGHTNESS = 0.05; // brightness when pH == NEUTRAL_PH
-    
+
     private final Beaker beaker;
     private final PDimension probeSize;
     private Point2D positiveProbeLocation, negativeProbeLocation;
@@ -35,38 +35,39 @@ public class ConductivityTester extends SolutionRepresentation implements ICondu
         this.negativeProbeLocation = new Point2D.Double( negativeProbeLocation.getX(), negativeProbeLocation.getY() );
         this.beaker = beaker;
         this.listeners = new EventListenerList();
-        
+
         addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
-            
+
             @Override
             public void solutionChanged() {
                 updateBrightness();
             }
-            
+
             @Override
             public void concentrationChanged() {
                 updateBrightness();
             }
-            
+
             @Override
             public void strengthChanged() {
                 updateBrightness();
             }
-        });
-        
+        } );
+
         updateBrightness();
     }
-    
+
     /**
      * Gets the value, a number between 0 and 1 inclusive.
      * 0 indicates no conductivity (open circuit).
-     * 1 indicates maximum conductivity that the device can display. 
+     * 1 indicates maximum conductivity that the device can display.
+     *
      * @return
      */
     public double getBrightness() {
         return brightness;
     }
-    
+
     private void updateBrightness() {
         if ( isCircuitCompleted() ) {
             brightness = pHToBrightness( getSolution().getPH() );
@@ -76,11 +77,11 @@ public class ConductivityTester extends SolutionRepresentation implements ICondu
         }
         fireBrightnessChanged();
     }
-    
+
     /*
-     * This is the primary model portion of this class.
-     * Converts pH to a brightness value for a "closed" circuit.
-     */
+    * This is the primary model portion of this class.
+    * Converts pH to a brightness value for a "closed" circuit.
+    */
     private double pHToBrightness( double pH ) {
         double brightness = 0;
         if ( pH < NEUTRAL_PH ) {
@@ -91,15 +92,15 @@ public class ConductivityTester extends SolutionRepresentation implements ICondu
         }
         return brightness;
     }
-    
+
     public PDimension getProbeSizeReference() {
         return probeSize;
     }
-    
+
     public void setPositiveProbeLocation( Point2D p ) {
         setPositiveProbeLocation( p.getX(), p.getY() );
     }
-    
+
     public void setPositiveProbeLocation( double x, double y ) {
         if ( x != positiveProbeLocation.getX() || y != positiveProbeLocation.getY() ) {
             positiveProbeLocation.setLocation( x, constrainY( y ) );
@@ -107,15 +108,15 @@ public class ConductivityTester extends SolutionRepresentation implements ICondu
             updateBrightness();
         }
     }
-    
+
     public Point2D getPositiveProbeLocationReference() {
         return positiveProbeLocation;
     }
-    
+
     public void setNegativeProbeLocation( Point2D p ) {
         setNegativeProbeLocation( p.getX(), p.getY() );
     }
-    
+
     public void setNegativeProbeLocation( double x, double y ) {
         if ( x != negativeProbeLocation.getX() || y != negativeProbeLocation.getY() ) {
             negativeProbeLocation.setLocation( x, constrainY( y ) );
@@ -123,18 +124,26 @@ public class ConductivityTester extends SolutionRepresentation implements ICondu
             updateBrightness();
         }
     }
-    
+
     public Point2D getNegativeProbeLocationReference() {
         return negativeProbeLocation;
     }
-    
-    private boolean isCircuitCompleted() {
-        return ( beaker.inSolution( positiveProbeLocation ) && beaker.inSolution( negativeProbeLocation ) );
+
+    public boolean isNegativeProbeInSolution() {
+        return beaker.inSolution( negativeProbeLocation );
     }
-    
+
+    public boolean isPositiveProbeInSolution() {
+        return beaker.inSolution( positiveProbeLocation );
+    }
+
+    private boolean isCircuitCompleted() {
+        return ( isPositiveProbeInSolution() && isNegativeProbeInSolution() );
+    }
+
     /*
-     * Constraints a y coordinate to be in or slightly above the solution.
-     */
+    * Constraints a y coordinate to be in or slightly above the solution.
+    */
     private double constrainY( double requestedY ) {
         double min = beaker.getLocationReference().getY() - beaker.getHeight() - 50;
         double max = beaker.getLocationReference().getY() - 20;
@@ -151,23 +160,23 @@ public class ConductivityTester extends SolutionRepresentation implements ICondu
     public void addConductivityTesterChangeListener( ConductivityTesterChangeListener listener ) {
         listeners.add( ConductivityTesterChangeListener.class, listener );
     }
-    
+
     public void removeConductivityTesterChangeListener( ConductivityTesterChangeListener listener ) {
         listeners.remove( ConductivityTesterChangeListener.class, listener );
     }
-    
+
     private void fireBrightnessChanged() {
         for ( ConductivityTesterChangeListener listener : listeners.getListeners( ConductivityTesterChangeListener.class ) ) {
             listener.brightnessChanged();
         }
     }
-    
+
     private void firePositiveProbeLocationChanged() {
         for ( ConductivityTesterChangeListener listener : listeners.getListeners( ConductivityTesterChangeListener.class ) ) {
             listener.positiveProbeLocationChanged();
         }
     }
-    
+
     private void fireNegativeProbeLocationChanged() {
         for ( ConductivityTesterChangeListener listener : listeners.getListeners( ConductivityTesterChangeListener.class ) ) {
             listener.negativeProbeLocationChanged();
