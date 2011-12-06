@@ -7,7 +7,8 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Parameters;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
@@ -70,19 +71,19 @@ public class ABSCanvas extends PhetPCanvas {
                 }
             } );
             // sim-sharing, positive probe
-            setPositiveProbeSimSharingEventArgs( new SimSharingEventArgs( ABSSimSharing.CONDUCTIVITY_TESTER_POSITIVE_PROBE, new Function0<Parameter[]>() {
+            setPositiveProbeSimSharingEventArgs( new SimSharingEventArgs( Objects.CONDUCTIVITY_TESTER_POSITIVE_PROBE, new Function0<Parameter[]>() {
                 public Parameter[] apply() {
                     return new Parameter[] {
-                            Parameter.param( ABSSimSharing.IS_IN_SOLUTION, conductivityTester.isPositiveProbeInSolution() ),
-                            Parameter.param( ABSSimSharing.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() ) };
+                            Parameter.param( Parameters.IS_IN_SOLUTION, conductivityTester.isPositiveProbeInSolution() ),
+                            Parameter.param( Parameters.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() ) };
                 }
             } ) );
             // sim-sharing, negative probe
-            setNegativeProbeSimSharingEventArgs( new SimSharingEventArgs( ABSSimSharing.CONDUCTIVITY_TESTER_NEGATIVE_PROBE, new Function0<Parameter[]>() {
+            setNegativeProbeSimSharingEventArgs( new SimSharingEventArgs( Objects.CONDUCTIVITY_TESTER_NEGATIVE_PROBE, new Function0<Parameter[]>() {
                 public Parameter[] apply() {
                     return new Parameter[] {
-                            Parameter.param( ABSSimSharing.IS_IN_SOLUTION, conductivityTester.isNegativeProbeInSolution() ),
-                            Parameter.param( ABSSimSharing.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() ) };
+                            Parameter.param( Parameters.IS_IN_SOLUTION, conductivityTester.isNegativeProbeInSolution() ),
+                            Parameter.param( Parameters.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() ) };
                 }
             } ) );
         }};

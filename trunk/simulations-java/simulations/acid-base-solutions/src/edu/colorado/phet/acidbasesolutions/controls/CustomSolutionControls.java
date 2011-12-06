@@ -18,7 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
@@ -298,7 +298,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 concentrationControl.setValue( value );
                 concentrationControl.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        SimSharingEvents.sendEvent( ABSSimSharing.CONCENTRATION_CONTROL, SimSharingActions.CHANGED, Parameter.param( SimSharingParameters.VALUE, concentrationControl.getValue() ) );
+                        SimSharingEvents.sendEvent( Objects.CONCENTRATION_CONTROL, SimSharingActions.CHANGED, Parameter.param( SimSharingParameters.VALUE, concentrationControl.getValue() ) );
                         fireStateChanged();
                     }
                 } );
@@ -398,7 +398,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 weakStrengthControl.setTickLabels( strengthLabelTable );
                 weakStrengthControl.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        SimSharingEvents.sendEvent( ABSSimSharing.WEAK_STRENGTH_CONTROL, SimSharingActions.CHANGED, Parameter.param( SimSharingParameters.VALUE, weakStrengthControl.getValue() ) );
+                        SimSharingEvents.sendEvent( Objects.WEAK_STRENGTH_CONTROL, SimSharingActions.CHANGED, Parameter.param( SimSharingParameters.VALUE, weakStrengthControl.getValue() ) );
                         fireStateChanged();
                     }
                 } );

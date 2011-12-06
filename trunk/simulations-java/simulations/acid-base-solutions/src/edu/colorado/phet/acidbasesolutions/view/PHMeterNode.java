@@ -16,7 +16,8 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Parameters;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
@@ -88,10 +89,10 @@ public class PHMeterNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingEventArgs( ABSSimSharing.PH_METER,
+        addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingEventArgs( Objects.PH_METER,
                                                                                                 new Function0<Parameter[]>() {
                                                                                                     public Parameter[] apply() {
-                                                                                                        return new Parameter[] { Parameter.param( ABSSimSharing.IS_IN_SOLUTION, meter.isInSolution() ) };
+                                                                                                        return new Parameter[] { Parameter.param( Parameters.IS_IN_SOLUTION, meter.isInSolution() ) };
                                                                                                     }
                                                                                                 } ) ) {
 
