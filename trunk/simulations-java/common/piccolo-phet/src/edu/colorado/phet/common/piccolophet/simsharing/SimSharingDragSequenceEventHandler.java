@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -14,35 +15,49 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.se
 
 /**
  * Base class for drag sequence handlers that perform sim-sharing data collection.
+ * <p/>
+ * If a client is not interested in sim-sharing, use the zero-arg constructor;
+ * otherwise use one of the other constructors, or setSimSharingEventArgs, to
+ * provide information that will be sent with sim-sharing events.
+ * <p/>
  * Overrides should take care to called super first, so that events are sent first.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandler {
 
-    private final String object;
-    private final Function0<Parameter[]> parameters;
+    private SimSharingEventArgs eventArgs;
+
+    public SimSharingDragSequenceEventHandler() {
+    }
 
     public SimSharingDragSequenceEventHandler( String object ) {
-        this( object, new Function0<Parameter[]>() {
-            public Parameter[] apply() {
-                return new Parameter[] { }; // empty array
-            }
-        } );
+        this( new SimSharingEventArgs( object ) );
     }
 
     public SimSharingDragSequenceEventHandler( String object, Function0<Parameter[]> parameters ) {
-        this.object = object;
-        this.parameters = parameters;
+        this( new SimSharingEventArgs( object, parameters ) );
+    }
+
+    public SimSharingDragSequenceEventHandler( SimSharingEventArgs eventArgs ) {
+        this.eventArgs = eventArgs;
+    }
+
+    public void setSimSharingEventArgs( SimSharingEventArgs eventArgs ) {
+        this.eventArgs = eventArgs;
     }
 
     @Override protected void startDrag( final PInputEvent event ) {
-        sendEvent( object, SimSharingActions.START_DRAG, addCanvasPosition( parameters.apply(), event ) );
+        if ( eventArgs != null ) {
+            sendEvent( eventArgs.object, SimSharingActions.START_DRAG, addCanvasPosition( eventArgs.parameters.apply(), event ) );
+        }
         super.startDrag( event );
     }
 
     @Override protected void endDrag( PInputEvent event ) {
-        sendEvent( object, SimSharingActions.END_DRAG, addCanvasPosition( parameters.apply(), event ) );
+        if ( eventArgs != null ) {
+            sendEvent( eventArgs.object, SimSharingActions.END_DRAG, addCanvasPosition( eventArgs.parameters.apply(), event ) );
+        }
         super.endDrag( event );
     }
 

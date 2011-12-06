@@ -11,6 +11,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -103,11 +104,13 @@ public class BondCharacterNode extends PComposite {
         } );
 
         //Report when the user tries to click on this non-interactive control
-        addInputEventListener( new SimSharingDragSequenceEventHandler( MPSimSharing.OBJECT_BOND_CHARACTER_NODE, new Function0<Parameter[]>() {
-            public Parameter[] apply() {
-                return new Parameter[] { param( MPSimSharing.PARAM_INTERACTIVE, false ) };
-            }
-        } ) );
+        addInputEventListener( new SimSharingDragSequenceEventHandler(
+                new SimSharingEventArgs( MPSimSharing.OBJECT_BOND_CHARACTER_NODE,
+                                         new Function0<Parameter[]>() {
+                                             public Parameter[] apply() {
+                                                 return new Parameter[] { param( MPSimSharing.PARAM_INTERACTIVE, false ) };
+                                             }
+                                         } ) ) );
     }
 
     // Pointer looks like a horizontally aligned diatomic molecule.

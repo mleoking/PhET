@@ -5,9 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -34,18 +32,14 @@ public class SliderThumbDragHandler extends SimSharingDragSequenceEventHandler {
     /**
      * Constructor
      *
-     * @param simSharingObject     object name used in sim-sharing event
-     * @param simSharingParameters function that computes parameters used in sim-sharing event
-     * @param orientation          orientation of the slider, horizontal or vertical
-     * @param relativeNode         dragging is relative to this node, typically the sliders' parent
-     * @param trackNode            the track that the knob moves in
-     * @param thumbNode            the thumb (aka knob) that the user drags
-     * @param range                range of model values
-     * @param updateFunction       called with model value while dragging
+     * @param orientation    orientation of the slider, horizontal or vertical
+     * @param relativeNode   dragging is relative to this node, typically the sliders' parent
+     * @param trackNode      the track that the knob moves in
+     * @param thumbNode      the thumb (aka knob) that the user drags
+     * @param range          range of model values
+     * @param updateFunction called with model value while dragging
      */
-    public SliderThumbDragHandler( String simSharingObject, Function0<Parameter[]> simSharingParameters,
-                                   Orientation orientation, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
-        super( simSharingObject, simSharingParameters );
+    public SliderThumbDragHandler( Orientation orientation, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
         this.orientation = orientation;
         this.relativeNode = relativeNode;
         this.trackNode = trackNode;
