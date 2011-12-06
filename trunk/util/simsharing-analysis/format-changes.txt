@@ -2,6 +2,8 @@
 # This file documents changes to the sim-sharing event protocol.
 #
 
+12/6/11 [] common: SimSharingJMenu: action "selected" -> "pressed"
+12/6/11 [] common: SimSharingJMenuItem: action "selected" -> "pressed"
 12/5/11 [] molecule-polarity: ElectronegativityControlNode: object "mouse" -> "electronegativityControl"
 12/5/11 [] molecule-polarity: JmolViewerNode: object "mouse" -> "jmolViewerNode"; delete parameter "component" with value "jmolViewerNode"
 12/5/11 [] molecule-polarity: BondCharacterNode: object "mouse" -> "BondCharacterNode"; delete parameter "node" with value "BondCharacterNode"
