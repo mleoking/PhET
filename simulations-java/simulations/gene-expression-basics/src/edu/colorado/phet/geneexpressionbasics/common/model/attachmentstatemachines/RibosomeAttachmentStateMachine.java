@@ -45,6 +45,7 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
 
             tempCounter -= dt;
             if ( tempCounter <= 0 ) {
+                ribosome.releaseMessengerRna();
                 asm.detach();
             }
         }

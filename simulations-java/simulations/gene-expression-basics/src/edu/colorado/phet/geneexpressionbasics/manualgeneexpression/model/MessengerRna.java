@@ -666,7 +666,8 @@ public class MessengerRna extends MobileBiomolecule {
         assert mapRibosomeToShapeSegment.containsKey( ribosome ); // This shouldn't be called if the ribosome wasn't connected.
         mapRibosomeToShapeSegment.remove( ribosome );
         if ( mapRibosomeToShapeSegment.isEmpty() ) {
-            attachmentStateMachine.detach();
+            // TODO: Should perhaps be a state change at some point.
+            setMotionStrategy( new RandomWalkMotionStrategy( motionBoundsProperty ) );
         }
     }
 
@@ -753,16 +754,21 @@ public class MessengerRna extends MobileBiomolecule {
 
     public AttachmentSite considerProposalFrom( Ribosome ribosome ) {
         assert !mapRibosomeToShapeSegment.containsKey( ribosome ); // Shouldn't get redundant proposals from a ribosome.
+        AttachmentSite returnValue = null;
         AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
         System.out.println( "leadingEdgeAttachmentSite.locationProperty.get() = " + leadingEdgeAttachmentSite.locationProperty.get() );
         if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get().isNone() &&
              leadingEdgeAttachmentSite.locationProperty.get().distance( ribosome.getEntranceOfRnaChannelPos().toPoint2D() ) < RIBOSOME_CONNECTION_DISTANCE ) {
-            // This attachment site is in range and available, so return it.
-            return leadingEdgeAttachmentSite;
+            // This attachment site is in range and available.
+            returnValue = leadingEdgeAttachmentSite;
+            // Prevent any movement.
+            // TODO: Should this be a state change?
+            setMotionStrategy( new StillnessMotionStrategy() );
+            // Enter this connection in the map.
+            mapRibosomeToShapeSegment.put( ribosome, shapeSegments.get( 0 ) );
         }
 
-        // No available attachment sites in range.
-        return null;
+        return returnValue;
     }
 
     /**
