@@ -677,7 +677,7 @@ public class MessengerRna extends MobileBiomolecule {
      */
     public void releaseFromPolymerase() {
         // Set the state to just be drifting around in the cytoplasm.
-        // TODO: Need to detach here, but can't until mRNA is starting out as attached to polymerase.
+        // TODO: Should probably be a state change at some point instead of just a motion strategy change.
 //        attachmentStateMachine.detach();
         setMotionStrategy( new RandomWalkMotionStrategy( motionBoundsProperty ) );
     }
@@ -715,19 +715,21 @@ public class MessengerRna extends MobileBiomolecule {
         mRnaDestroyerPlacementHint.active.set( false );
     }
 
-    // TODO: This needs to be replaced with standard attachment behavior.
-    public void connectToRibosome( Ribosome ribosome ) {
-//        behaviorState = new BeingTranslatedState( this, ribosome );
-        assert !mapRibosomeToShapeSegment.containsKey( ribosome ); // State checking.
+    /**
+     * Initiate the translation process by setting up the segments as needed.
+     * This should only be called after a ribosome that was moving to attach
+     * with this mRNA arrives at the attachment point.
+     *
+     * @param ribosome
+     */
+    public void initiateTranslation( Ribosome ribosome ) {
+        assert mapRibosomeToShapeSegment.containsKey( ribosome ); // State checking.
 
         // Set the capacity of the first segment to the size of the channel
         // through which it will be pulled plus the leader length.
         ShapeSegment firstShapeSegment = shapeSegments.get( 0 );
         assert firstShapeSegment.isFlat();
         firstShapeSegment.setCapacity( ribosome.getTranslationChannelLength() + LEADER_LENGTH );
-
-        // Map the ribosome to the shape segment.
-        mapRibosomeToShapeSegment.put( ribosome, firstShapeSegment );
     }
 
     /**

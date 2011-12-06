@@ -13,7 +13,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosom
 public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
 
     // Scalar velocity for transcription.
-    private static final double RNA_TRANSCRIPTION_RATE = 100; // Picometers per second.
+    private static final double RNA_TRANSLATION_RATE = 100; // Picometers per second.
 
     // Reference back to the ribosome that is controlled by this state machine.
     private final Ribosome ribosome;
@@ -33,7 +33,7 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
      * Class that defines what the ribosome does when attached to mRNA, which
      * is essentially to transcribe it.
      */
-    protected class RibosomeAttachedState extends GenericAttachedState {
+    protected class RibosomeAttachedState extends AttachmentState {
 
         double tempCounter;
 
@@ -43,15 +43,17 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
             assert asm.attachmentSite != null;
             assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
 
-            tempCounter -= dt;
-            if ( tempCounter <= 0 ) {
+            boolean translationComplete = ribosome.advanceMessengerRnaTranslation( RNA_TRANSLATION_RATE );
+            if ( translationComplete ) {
+                // Release the mRNA.
                 ribosome.releaseMessengerRna();
+                // Release ourselves to wander in the cytoplasm.
                 asm.detach();
             }
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
-            tempCounter = 2; // Seconds.
+            ribosome.initiateTranslation();
         }
     }
 }
