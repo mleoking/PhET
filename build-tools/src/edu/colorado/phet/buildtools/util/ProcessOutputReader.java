@@ -1,6 +1,7 @@
 package edu.colorado.phet.buildtools.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -70,6 +71,36 @@ public class ProcessOutputReader extends Thread {
 
         public String getErr() {
             return err;
+        }
+    }
+
+    public static ProcessExecResult exec( String command, String[] envp, File dir ) {
+        try {
+            Process p = Runtime.getRuntime().exec( command, envp, dir );
+            try {
+                ProcessOutputReader processOutputReader = new ProcessOutputReader( p.getInputStream() );
+                processOutputReader.start();
+
+                ProcessOutputReader processErr = new ProcessOutputReader( p.getErrorStream() );
+                processErr.start();
+
+                int code = p.waitFor();
+
+                // wait for ProcessOutputReaders to finish also
+                processOutputReader.join( 5000 );
+                processErr.join( 5000 );
+
+                return new ProcessExecResult( new String[] { command }, code, processOutputReader.getOutput(), processErr.getOutput() );
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+                throw new RuntimeException( e );
+            }
+
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
         }
     }
 

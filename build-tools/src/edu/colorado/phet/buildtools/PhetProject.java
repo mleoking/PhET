@@ -47,6 +47,8 @@ import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
+import static edu.colorado.phet.buildtools.util.ProcessOutputReader.exec;
+
 /**
  * Author: Sam Reid
  * Apr 14, 2007, 2:40:56 PM
@@ -1071,4 +1073,10 @@ public abstract class PhetProject {
         return false;
     }
 
+    //Git Feasibility Test
+    public String getGitBranch() {
+
+        //http://stackoverflow.com/questions/1593051/how-to-programmatically-determine-the-current-checked-out-git-branch
+        return exec( "git name-rev --name-only HEAD", null, getProjectDir() ).getOut();
+    }
 }
