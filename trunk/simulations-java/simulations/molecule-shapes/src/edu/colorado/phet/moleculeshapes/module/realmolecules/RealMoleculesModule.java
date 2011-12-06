@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -35,6 +36,8 @@ import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Objects;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel;
@@ -275,10 +278,10 @@ public class RealMoleculesModule extends MoleculeViewModule {
         moleculeView.getScene().attachChild( moleculeNode );
 
         showRealView.addObserver( new SimpleObserver() {
-                                      public void update() {
-                                          rebuildMolecule( false );
-                                      }
-                                  }, false );
+            public void update() {
+                rebuildMolecule( false );
+            }
+        }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel
@@ -435,9 +438,9 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingEvents.sendEvent( "draggingState", "changed",
-                                        param( "dragging", dragging ),
-                                        param( "dragMode", dragMode.toString() ) );
+            SimSharingEvents.sendEvent( Objects.DRAGGING_STATE, SimSharingActions.CHANGED,
+                                        param( Parameters.DRAGGING, dragging ),
+                                        param( Parameters.DRAG_MODE, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }

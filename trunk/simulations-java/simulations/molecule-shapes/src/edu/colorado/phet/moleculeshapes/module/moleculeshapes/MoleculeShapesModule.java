@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -31,6 +32,8 @@ import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Objects;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
 import edu.colorado.phet.moleculeshapes.control.BondTypeOverlayNode;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
@@ -199,7 +202,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
                             if ( pair != null && pair != getMolecule().getCentralAtom() ) {
                                 getMolecule().removeGroup( pair );
                             }
-                            SimSharingEvents.sendEvent( "mouse middle button", "pressed", param( "removedPair", pair != null ) );
+                            SimSharingEvents.sendEvent( Objects.MOUSE_MIDDLE_BUTTON, SimSharingActions.PRESSED, param( Parameters.REMOVED_PAIR, pair != null ) );
                         }
                     }
                 }, MAP_LMB, MAP_MMB );
@@ -307,12 +310,12 @@ public class MoleculeShapesModule extends MoleculeViewModule {
                 return createRegularView( name + " Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
                                                                                 new CanvasTransformedBounds( canvasTransform,
                                                                                                              rectangle2DProperty ) ) {
-                                              @Override public void positionMe() {
-                                                  setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
-                                                  setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
-                                                  lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-                                              }
-                                          }, RenderPosition.MAIN );
+                    @Override public void positionMe() {
+                        setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
+                        setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
+                        lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+                    }
+                }, RenderPosition.MAIN );
             }
         };
 
@@ -461,9 +464,9 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingEvents.sendEvent( "draggingState", "changed",
-                                        param( "dragging", dragging ),
-                                        param( "dragMode", dragMode.toString() ) );
+            SimSharingEvents.sendEvent( Objects.DRAGGING_STATE, SimSharingActions.CHANGED,
+                                        param( Parameters.DRAGGING, dragging ),
+                                        param( Parameters.DRAG_MODE, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }
