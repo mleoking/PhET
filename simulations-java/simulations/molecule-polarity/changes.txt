@@ -1,3 +1,5 @@
+# 1.02.00 (59083) Dec 6, 2011
+12/6/11 deploy #3168 to PhET website
 12/6/11 use -showStageBounds program arg to control visibility of stage bounds
 12/6/11 #3175, changed approach used for sim-sharing drag handlers
 # 1.01.11 (59074) Dec 6, 2011
