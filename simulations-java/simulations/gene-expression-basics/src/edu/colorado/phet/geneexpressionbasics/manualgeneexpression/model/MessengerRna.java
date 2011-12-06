@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -122,6 +123,7 @@ public class MessengerRna extends MobileBiomolecule {
 
         // Since mRNA is synthesized by polymerase, it starts its life in the
         // attached state.
+        // TODO: For now this just sets the motion strategy, but eventually should be "attached" to polymerase at the beginning of its life.
         setMotionStrategy( new StillnessMotionStrategy() );
     }
 
@@ -671,7 +673,9 @@ public class MessengerRna extends MobileBiomolecule {
      */
     public void releaseFromPolymerase() {
         // Set the state to just be drifting around in the cytoplasm.
-        attachmentStateMachine.detach();
+        // TODO: Need to detach here, but can't until mRNA is starting out as attached to polymerase.
+//        attachmentStateMachine.detach();
+        setMotionStrategy( new RandomWalkMotionStrategy( motionBoundsProperty ) );
     }
 
     /**
