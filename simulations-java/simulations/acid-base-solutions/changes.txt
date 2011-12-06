@@ -1,3 +1,4 @@
+12/5/11 #3170, add methods for determining whether conductivity probes are in solution
 12/5/11 #3170, add sim-sharing param to indicate whether pH paper has been dipped
 12/5/11 #3170, add sim-sharing event for when user tries to drag magnifying glass, which is not interactive
 12/5/11 #3170, added sim-sharing "study" flavor to build.properties file
