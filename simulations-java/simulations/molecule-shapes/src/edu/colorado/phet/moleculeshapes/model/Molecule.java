@@ -56,11 +56,12 @@ public abstract class Molecule {
 
         // move based on velocity
         for ( PairGroup group : nonCentralGroups ) {
-            double oldDistance = group.position.get().magnitude();
+            Bond<PairGroup> parentBond = getParentBond( group );
+            ImmutableVector3D origin = parentBond.getOtherAtom( group ).position.get();
+
+            double oldDistance = ( group.position.get().minus( origin ) ).magnitude();
             group.stepForward( tpf );
-            if ( group != getCentralAtom() ) {
-                group.attractToIdealDistance( tpf, oldDistance );
-            }
+            group.attractToIdealDistance( tpf, oldDistance, parentBond );
         }
 
         // attractive force to the correct position
@@ -157,6 +158,26 @@ public abstract class Molecule {
 
     public VseprConfiguration getVseprConfiguration( PairGroup group ) {
         return new VseprConfiguration( getNeighboringAtoms( group ).size(), getLonePairNeighbors( group ).size() );
+    }
+
+    // get the bond to the more central "parent"
+    public Bond<PairGroup> getParentBond( final PairGroup group ) {
+        // assumes we have simple atoms (star-shaped) with terminal lone pairs
+        if ( group.isLonePair ) {
+            return getBonds( group ).get( 0 );
+        }
+        else {
+            return firstOrNull( getBonds( group ), new Function1<Bond<PairGroup>, Boolean>() {
+                public Boolean apply( Bond<PairGroup> bond ) {
+                    return bond.getOtherAtom( group ) == getCentralAtom();
+                }
+            } );
+        }
+    }
+
+    // get the more central "parent" group
+    public PairGroup getParent( final PairGroup group ) {
+        return getParentBond( group ).getOtherAtom( group );
     }
 
     // add in the central atom
