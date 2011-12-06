@@ -167,12 +167,12 @@ public class CreateUnfuddleRepos {
     public static final String template = "curl -i -u samreid:Em3beU42 -X POST \\\n" +
                                           "  -H 'Accept: application/xml' \\\n" +
                                           "  -H 'Content-Type: application/xml' \\\n" +
-                                          "  -d \"<repository><abbreviation>fractions</abbreviation><title>fractions</title><system>git</system><projects><project id='9404'/></projects></repository>\" \\\n" +
+                                          "  -d \"<repository><abbreviation>${sim}</abbreviation><title>${sim}</title><system>git</system><projects><project id='9404'/></projects></repository>\" \\\n" +
                                           "  'https://phet.unfuddle.com/api/v1/repositories'\n" +
                                           "cd ~/Desktop/test4/svn2git/checkouts/\n" +
-                                          "git clone ~/Desktop/test4/svn2git/repos/fractions\n" +
-                                          "cd fractions\n" +
-                                          "git remote add unfuddle git@phet.unfuddle.com:phet/fractions.git\n" +
+                                          "git clone ~/Desktop/test4/svn2git/repos/${sim}\n" +
+                                          "cd ${sim}\n" +
+                                          "git remote add unfuddle git@phet.unfuddle.com:phet/${sim}.git\n" +
                                           "git config remote.unfuddle.push refs/heads/master:refs/heads/master\n" +
                                           "git push unfuddle master";
 
@@ -183,7 +183,7 @@ public class CreateUnfuddleRepos {
 
         for ( File file : files ) {
             System.out.println( "# " + file.getAbsolutePath() + ", " + file.getAbsolutePath() );
-            String replaced = FileUtils.replaceAll( template, "fractions", file.getName() );
+            String replaced = FileUtils.replaceAll( template, "${sim}", file.getName() );
             System.out.println( replaced );
             System.out.println();
         }
