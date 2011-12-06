@@ -19,6 +19,8 @@ public class PairGroup {
     public static final double JITTER_SCALE = 0.001;
     public static final double DAMPING_FACTOR = 0.1;
 
+    public static final double REAL_TMP_SCALE = 7.0; // TODO: deal with units correctly in the 1st tab model so we can remove this
+
     /*---------------------------------------------------------------------------*
     * instance data
     *----------------------------------------------------------------------------*/
@@ -55,29 +57,30 @@ public class PairGroup {
         } );
     }
 
-    public void attractToIdealDistance( double timeElapsed, double oldDistance ) {
+    public void attractToIdealDistance( double timeElapsed, double oldDistance, Bond<PairGroup> bond ) {
         if ( userControlled.get() ) {
             // don't process if being dragged
             return;
         }
+        ImmutableVector3D origin = bond.getOtherAtom( this ).position.get();
 
-        double idealDistanceFromCenter = getIdealDistanceFromCenter();
+        double idealDistanceFromCenter = bond.hasLength() ? bond.length * REAL_TMP_SCALE : getIdealDistanceFromCenter();
 
         /*---------------------------------------------------------------------------*
         * prevent movement away from our ideal distance
         *----------------------------------------------------------------------------*/
-        double currentError = Math.abs( position.get().magnitude() - idealDistanceFromCenter );
+        double currentError = Math.abs( ( position.get().minus( origin ) ).magnitude() - idealDistanceFromCenter );
         double oldError = Math.abs( oldDistance - idealDistanceFromCenter );
         if ( currentError > oldError ) {
             // our error is getting worse! for now, don't let us slide AWAY from the ideal distance ever
             // set our distance to the old one, so it is easier to process
-            position.set( position.get().normalized().times( oldDistance ) );
+            position.set( position.get().normalized().times( oldDistance ).plus( origin ) );
         }
 
         /*---------------------------------------------------------------------------*
         * use damped movement towards our ideal distance
         *----------------------------------------------------------------------------*/
-        ImmutableVector3D toCenter = position.get();
+        ImmutableVector3D toCenter = position.get().minus( origin );
 
         double distance = toCenter.magnitude();
         ImmutableVector3D directionToCenter = toCenter.normalized();
