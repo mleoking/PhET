@@ -289,7 +289,7 @@ public class MoleculeModelNode extends Node {
                     String formatString = Strings.ANGLE__DEGREES;
 
                     // for the Colorado and Utah studies, enable the "less than" and "greater than" text
-                    if ( SimSharingEvents.getStudyName().equals( "colorado" ) || SimSharingEvents.getStudyName().equals( "utah" ) ) {
+                    if ( SimSharingEvents.isEnabled() && ( SimSharingEvents.getStudyName().equals( "colorado" ) || SimSharingEvents.getStudyName().equals( "utah" ) ) ) {
                         if ( modifiedAngle - angle > angleEpsilon ) {
                             // lone-pair angle version is larger
                             formatString = Strings.ANGLE__GREATER_THAN_DEGREES;
