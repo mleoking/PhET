@@ -14,7 +14,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
-import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.PolymeraseAttachmentStateMachine;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.RnaPolymeraseAttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.TranscribingDnaState;
@@ -104,7 +104,7 @@ public class RnaPolymerase extends MobileBiomolecule {
 
     // Overridden to provide attachment behavior that is unique to polymerase.
     @Override protected AttachmentStateMachine createAttachmentStateMachine() {
-        return new PolymeraseAttachmentStateMachine( this );
+        return new RnaPolymeraseAttachmentStateMachine( this );
     }
 
     // Overridden to provide attachment behavior that is unique to polymerase.
