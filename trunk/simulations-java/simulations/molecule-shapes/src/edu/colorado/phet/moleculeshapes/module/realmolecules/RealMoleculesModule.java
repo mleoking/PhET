@@ -6,16 +6,21 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
@@ -32,10 +37,15 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
+import edu.colorado.phet.moleculeshapes.model.Atom3D;
+import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
+import edu.colorado.phet.moleculeshapes.model.Bond;
+import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.colorado.phet.moleculeshapes.model.VSEPRMoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.VseprConfiguration;
 import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
@@ -64,6 +74,7 @@ import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
 
 /**
@@ -267,7 +278,7 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
         showRealView.addObserver( new SimpleObserver() {
                                       public void update() {
-                                          rebuildMolecule();
+                                          rebuildMolecule( false );
                                       }
                                   }, false );
 
@@ -308,18 +319,64 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
     public void switchToMolecule( RealMoleculeShape selectedRealMolecule ) {
         realMolecule.set( selectedRealMolecule );
-        rebuildMolecule();
+        rebuildMolecule( true );
     }
 
-    private void rebuildMolecule() {
+    private void rebuildMolecule( final boolean switchedRealMolecule ) {
         moleculeNode.detachReadouts();
         moleculeView.getScene().detachChild( moleculeNode );
         if ( showRealView.get() ) {
             setMolecule( new RealMoleculeModel( realMolecule.get() ) );
         }
         else {
+            /*---------------------------------------------------------------------------*
+            * construct the new model, and rotate if we didn't switch molecules
+            *----------------------------------------------------------------------------*/
+            // get a "before" snapshot so that we can match rotations
+            final Molecule molecule = getMolecule();
+
+            final Atom3D centralAtom = realMolecule.get().getCentralAtom();
+            List<Atom3D> radialAtoms = FunctionalUtils.map( filter( realMolecule.get().getBonds(), new Function1<Bond<Atom3D>, Boolean>() {
+                public Boolean apply( Bond<Atom3D> bond ) {
+                    return bond.contains( centralAtom );
+                }
+            } ), new Function1<Bond<Atom3D>, Atom3D>() {
+                public Atom3D apply( Bond<Atom3D> bond ) {
+                    return bond.getOtherAtom( centralAtom );
+                }
+            } );
+            final int numRadialAtoms = radialAtoms.size();
+            final int numRadialLonePairs = realMolecule.get().getCentralLonePairCount();
+            final VseprConfiguration vseprConfiguration = new VseprConfiguration( numRadialAtoms, numRadialLonePairs );
+
+            final Molecule mappingMolecule;
+            if ( switchedRealMolecule ) {
+                // rebuild from scratch
+                mappingMolecule = new RealMoleculeModel( realMolecule.get() );
+            }
+            else {
+                // base the rotation on our original
+                mappingMolecule = molecule;
+            }
+
+            final ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( mappingMolecule );
+            final Permutation permutation = mapping.permutation.inverted();
+            final List<ImmutableVector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
+
             setMolecule( new VSEPRMoleculeModel() {{
-                // TODO: add stuff here!
+                PairGroup newCentralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+                addCentralAtom( newCentralAtom );
+                for ( int i = 0; i < numRadialAtoms + numRadialLonePairs; i++ ) {
+                    ImmutableVector3D unitVector = mapping.rotateVector( idealUnitVectors.get( i ) );
+                    if ( i < numRadialLonePairs ) {
+                        addGroup( new PairGroup( unitVector.times( PairGroup.LONE_PAIR_DISTANCE ), true, false ), newCentralAtom, 0 );
+                    }
+                    else {
+                        // we need to dig the bond order out of the mapping molecule, and we need to pick the right one (thus the permutation being applied, at an offset)
+                        int bondOrder = mappingMolecule.getParentBond( mappingMolecule.getRadialAtoms().get( permutation.apply( i - numRadialLonePairs ) ) ).order;
+                        addGroup( new PairGroup( unitVector.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), newCentralAtom, bondOrder );
+                    }
+                }
             }} );
         }
         moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, RealMoleculesModule.this, moleculeCamera );
