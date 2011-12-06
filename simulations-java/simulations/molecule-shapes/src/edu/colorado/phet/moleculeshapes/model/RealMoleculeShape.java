@@ -212,8 +212,8 @@ public class RealMoleculeShape {
         double bondAngle = Math.toRadians( 119 ) / 2;
         double bondLength = 1.431;
         addCentralAtom( new Atom3D( S, new ImmutableVector3D(), 1 ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( Math.sin( bondAngle ), Math.cos( bondAngle ), 0 ).times( bondLength ), 2 ), 2 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -Math.sin( bondAngle ), Math.cos( bondAngle ), 0 ).times( bondLength ), 2 ), 2 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( Math.sin( bondAngle ), -Math.cos( bondAngle ), 0 ).times( bondLength ), 2 ), 2 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -Math.sin( bondAngle ), -Math.cos( bondAngle ), 0 ).times( bondLength ), 2 ), 2 );
     }};
 
     public static final RealMoleculeShape XENON_DIFLUORIDE = new RealMoleculeShape( "XeF2" ) {{
@@ -233,18 +233,18 @@ public class RealMoleculeShape {
 
     public static final RealMoleculeShape[] TAB_2_MOLECULES = new RealMoleculeShape[] {
             BERYLLIUM_CHLORIDE,
-            BORON_TRIFLUORIDE,
-            BROMINE_PENTAFLUORIDE,
-            METHANE,
-            CHLORINE_TRIFLUORIDE,
             CARBON_DIOXIDE,
-            WATER,
+            BORON_TRIFLUORIDE,
+            SULFUR_DIOXIDE,
+            METHANE,
             AMMONIA,
+            WATER,
             PHOSPHORUS_PENTACHLORIDE,
             SULFUR_TETRAFLUORIDE,
-            SULFUR_HEXAFLUORIDE,
-            SULFUR_DIOXIDE,
+            CHLORINE_TRIFLUORIDE,
             XENON_DIFLUORIDE,
+            SULFUR_HEXAFLUORIDE,
+            BROMINE_PENTAFLUORIDE,
             XENON_TETRAFLUORIDE
     };
 }
