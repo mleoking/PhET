@@ -25,7 +25,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPoly
  *
  * @author John Blanco
  */
-public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
+public class RnaPolymeraseAttachmentStateMachine extends AttachmentStateMachine {
 
     private static final Random RAND = new Random();
 
@@ -37,7 +37,7 @@ public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
     // RNA polymerase that is being controlled by this state machine.
     private final RnaPolymerase rnaPolymerase;
 
-    public PolymeraseAttachmentStateMachine( RnaPolymerase rnaPolymerase ) {
+    public RnaPolymeraseAttachmentStateMachine( RnaPolymerase rnaPolymerase ) {
         super( rnaPolymerase );
         this.rnaPolymerase = rnaPolymerase;
 
