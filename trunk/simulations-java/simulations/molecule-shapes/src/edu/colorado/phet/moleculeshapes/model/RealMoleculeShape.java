@@ -87,51 +87,82 @@ public class RealMoleculeShape {
         return displayName;
     }
 
-    public static final RealMoleculeShape HYDROGEN_FLUORIDE = new RealMoleculeShape( "HF" ) {{
-        addCentralAtom( new Atom3D( F, new ImmutableVector3D( 0.325, 0, 0 ), 3 ) );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 1.242, 0, 0 ) ), 1 );
-        centerOnCentroid();
-    }};
-
-    public static final RealMoleculeShape CARBON_DIOXIDE = new RealMoleculeShape( "CO2" ) {{
-        addCentralAtom( new Atom3D( C, new ImmutableVector3D() ) );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.19700, 0, 0 ) ), 2 );
-        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.19700, 0, 0 ) ), 2 );
+    public static final RealMoleculeShape BERYLLIUM_CHLORIDE = new RealMoleculeShape( "BeCl2" ) {{ // TODO: more accurate numbers?
+        addCentralAtom( new Atom3D( Be, new ImmutableVector3D() ) );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.8, 0, 0 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.8, 0, 0 ), 3 ), 1 );
     }};
 
     public static final RealMoleculeShape BORON_TRIFLUORIDE = new RealMoleculeShape( "BF3" ) {{
-        addCentralAtom( new Atom3D( B, new ImmutableVector3D( 2.866, 0.25, 0 ) ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 3.732, 0.75, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 2, 0.75, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 2.866, -0.75, 0 ) ), 1 );
-        centerOnCentralAtom();
+        addCentralAtom( new Atom3D( B, new ImmutableVector3D() ) );
+        double angle = 2 * Math.PI / 3;
+        double bondLength = 1.313;
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( bondLength * Math.cos( 0 * angle ), bondLength * Math.sin( 0 * angle ), 0 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( bondLength * Math.cos( 1 * angle ), bondLength * Math.sin( 1 * angle ), 0 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( bondLength * Math.cos( 2 * angle ), bondLength * Math.sin( 2 * angle ), 0 ), 3 ), 1 );
     }};
 
-    public static final RealMoleculeShape WATER = new RealMoleculeShape( "H2O" ) {{
-        addCentralAtom( new Atom3D( O, new ImmutableVector3D(), 2 ) );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.277400, 0.892900, 0.254400 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.606800, -0.238300, -0.716900 ) ), 1 );
-    }};
-
-    public static final RealMoleculeShape AMMONIA = new RealMoleculeShape( "NH3" ) {{
-        addCentralAtom( new Atom3D( N, new ImmutableVector3D(), 1 ) );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.4417, 0.2706, 0.8711 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.7256, 0.6896, -0.1907 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.4875, -0.8701, 0.2089 ) ), 1 );
+    public static final RealMoleculeShape BROMINE_PENTAFLUORIDE = new RealMoleculeShape( "BrF5" ) {{
+        addCentralAtom( new Atom3D( B, new ImmutableVector3D(), 1 ) );
+        double axialBondLength = 1.689;
+        double radialBondLength = 1.774;
+        double angle = Math.toRadians( 84.8 );
+        double radialDistance = Math.sin( angle ) * radialBondLength;
+        double axialDistance = Math.cos( angle ) * radialBondLength;
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0, -axialBondLength, 0 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( radialDistance, -axialDistance, 0 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0, -axialDistance, radialDistance ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -radialDistance, -axialDistance, 0 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0, -axialDistance, -radialDistance ), 3 ), 1 );
     }};
 
     public static final RealMoleculeShape METHANE = new RealMoleculeShape( "CH4" ) {{
         addCentralAtom( new Atom3D( C, new ImmutableVector3D() ) );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.554100, 0.799600, 0.496500 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( 0.683300, -0.813400, -0.253600 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.778200, -0.373500, 0.669200 ) ), 1 );
-        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -0.459300, 0.387400, -0.912100 ) ), 1 );
+        double bondLength = 1.087;
+        for ( ImmutableVector3D v : GeometryConfiguration.getConfiguration( 4 ).unitVectors ) {
+            addRadialAtom( new Atom3D( H, v.times( bondLength ), 0 ), 1 );
+        }
     }};
 
-    public static final RealMoleculeShape BERYLLIUM_CHLORIDE = new RealMoleculeShape( "BeCl2" ) {{ // TODO: more accurate numbers?
-        addCentralAtom( new Atom3D( Be, new ImmutableVector3D() ) );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.220000, 0, 0 ), 3 ), 1 );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.220000, 0, 0 ), 3 ), 1 );
+    public static final RealMoleculeShape CHLORINE_TRIFLUORIDE = new RealMoleculeShape( "ClF3" ) {{
+        addCentralAtom( new Atom3D( Cl, new ImmutableVector3D(), 2 ) );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0, -1.598, 0 ), 3 ), 1 );
+        double radialAngle = Math.toRadians( 87.5 );
+        double radialBondLength = 1.698;
+        double radialDistance = Math.sin( radialAngle ) * radialBondLength;
+        double axialDistance = Math.cos( radialAngle ) * radialBondLength;
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( radialDistance, -axialDistance, 0 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -radialDistance, -axialDistance, 0 ), 3 ), 1 );
+    }};
+
+    public static final RealMoleculeShape CARBON_DIOXIDE = new RealMoleculeShape( "CO2" ) {{
+        addCentralAtom( new Atom3D( C, new ImmutableVector3D() ) );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( -1.163, 0, 0 ), 2 ), 2 );
+        addRadialAtom( new Atom3D( O, new ImmutableVector3D( 1.163, 0, 0 ), 2 ), 2 );
+    }};
+
+    public static final RealMoleculeShape WATER = new RealMoleculeShape( "H2O" ) {{
+        addCentralAtom( new Atom3D( O, new ImmutableVector3D(), 2 ) );
+        double radialBondLength = 0.957;
+        double radialAngle = Math.toRadians( 104.5 );
+        double radialDistance = Math.sin( radialAngle ) * radialBondLength;
+        double axialDistance = Math.cos( radialAngle ) * radialBondLength;
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( radialDistance, axialDistance, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( -radialDistance, axialDistance, 0 ) ), 1 );
+    }};
+
+    public static final RealMoleculeShape AMMONIA = new RealMoleculeShape( "NH3" ) {{
+        addCentralAtom( new Atom3D( N, new ImmutableVector3D(), 1 ) );
+        double radialBondLength = 1.017;
+
+        // to solve a "axial" angle (from the axis of symmetry), Solve[Cos[\[Beta]] == Cos[\[Alpha]]^2*Cos[\[Theta]] + Sin[\[Alpha]]^2, \[Alpha]]  where beta is our given intra-bond angle, alpha is solved for, and theta = 2 pi / n where n is our number of bonds (3 in this case)
+        double axialAngle = 1.202623030417028;
+        double radialAngle = 2 * Math.PI / 3;
+        double radialDistance = Math.sin( axialAngle ) * radialBondLength;
+        double axialDistance = Math.cos( axialAngle ) * radialBondLength;
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( radialDistance * Math.cos( 0 * radialAngle ), -axialDistance, radialDistance * Math.sin( 0 * radialAngle ) ) ), 1 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( radialDistance * Math.cos( 1 * radialAngle ), -axialDistance, radialDistance * Math.sin( 1 * radialAngle ) ) ), 1 );
+        addRadialAtom( new Atom3D( H, new ImmutableVector3D( radialDistance * Math.cos( 2 * radialAngle ), -axialDistance, radialDistance * Math.sin( 2 * radialAngle ) ) ), 1 );
     }};
 
     public static final RealMoleculeShape SULFUR_TETRAFLUORIDE = new RealMoleculeShape( "SF4" ) {{
@@ -140,14 +171,6 @@ public class RealMoleculeShape {
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.913000, 0.980000, 0.235000 ) ), 1 );
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.605000, 0.317000, -1.471000 ) ), 1 );
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -0.429000, 0.386000, 1.809000 ) ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape CHLORINE_TRIFLUORIDE = new RealMoleculeShape( "ClF3" ) {{
-        addCentralAtom( new Atom3D( Cl, new ImmutableVector3D( 4.416000, 2.322000, 3.301000 ), 2 ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 4.550000, 3.874000, 4.061000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 3.250000, 1.846000, 4.482000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 4.282000, 0.770000, 2.544000 ) ), 1 );
         centerOnCentralAtom();
     }};
 
@@ -165,16 +188,6 @@ public class RealMoleculeShape {
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, 1.085000, -1.012000 ), 3 ), 1 );
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -3.438000, -0.674000, -1.012000 ), 3 ), 1 );
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -0.674000, 0.748000 ), 3 ), 1 );
-        centerOnCentralAtom();
-    }};
-
-    public static final RealMoleculeShape BROMINE_PENTAFLUORIDE = new RealMoleculeShape( "BrF5" ) {{
-        addCentralAtom( new Atom3D( B, new ImmutableVector3D( 0.042300, 0.073900, 0.191700 ), 1 ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.440000, -0.261000, 1.322100 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.168400, -1.700800, -0.222300 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.332400, 0.086700, -1.013900 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.107800, -0.483500, 1.499300 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 1.240300, 0.306100, -1.170200 ) ), 1 );
         centerOnCentralAtom();
     }};
 
@@ -201,7 +214,6 @@ public class RealMoleculeShape {
             METHANE,
             CHLORINE_TRIFLUORIDE,
             CARBON_DIOXIDE,
-            HYDROGEN_FLUORIDE,
             WATER,
             AMMONIA,
             // TODO: add PCl5
