@@ -1,3 +1,4 @@
+12/5/11 #3170, add sim-sharing event for when user tries to drag magnifying glass, which is not interactive
 12/5/11 #3170, added sim-sharing "study" flavor to build.properties file
 12/5/11 #3170, added sim-sharing parameter indicating whether pH meter is in solution
 12/5/11 #3170, added sim-sharing for sliders related to custom solution
