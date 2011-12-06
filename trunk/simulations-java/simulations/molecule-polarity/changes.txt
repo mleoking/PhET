@@ -1,3 +1,4 @@
+# 1.01.11 (59074) Dec 6, 2011
 12/5/11 #3175, add "object" parameter to sim-sharing drag handlers
 12/3/11 rename MoleculeRotationHandler to MoleculeAngleHandler
 12/2/11 move sim-sharing string literals to MPSimSharing
