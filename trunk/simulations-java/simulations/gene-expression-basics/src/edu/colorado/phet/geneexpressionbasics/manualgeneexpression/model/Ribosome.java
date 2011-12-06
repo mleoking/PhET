@@ -174,7 +174,20 @@ public class Ribosome extends MobileBiomolecule {
 
     public void setPositionOfTranslationChannel( Point2D position ) {
         setPosition( new ImmutableVector2D( position ).getSubtractedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
+    }
 
+    /**
+     * Advance the translation of the mRNA.
+     *
+     * @param amount
+     * @return - true if translation is complete, false if not.
+     */
+    public boolean advanceMessengerRnaTranslation( double amount ) {
+        assert messengerRnaBeingTranslated != null; // Verify expected state.
+        if ( messengerRnaBeingTranslated != null ) {
+            return messengerRnaBeingTranslated.advanceTranslation( this, amount );
+        }
+        return false;
     }
 
     /**
@@ -189,4 +202,10 @@ public class Ribosome extends MobileBiomolecule {
 
     }
 
+    public void initiateTranslation() {
+        assert messengerRnaBeingTranslated != null;
+        if ( messengerRnaBeingTranslated != null ) {
+            messengerRnaBeingTranslated.initiateTranslation( this );
+        }
+    }
 }
