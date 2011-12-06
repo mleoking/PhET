@@ -2,16 +2,25 @@
 
 package edu.colorado.phet.acidbasesolutions.module;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
-import edu.colorado.phet.acidbasesolutions.view.*;
+import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
+import edu.colorado.phet.acidbasesolutions.view.MagnifyingGlassNode;
+import edu.colorado.phet.acidbasesolutions.view.PHColorKeyNode;
+import edu.colorado.phet.acidbasesolutions.view.PHMeterNode;
+import edu.colorado.phet.acidbasesolutions.view.PHPaperNode;
+import edu.colorado.phet.acidbasesolutions.view.ReactionEquationNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
@@ -60,6 +69,22 @@ public class ABSCanvas extends PhetPCanvas {
                     setVisible( conductivityTester.isVisible() );
                 }
             } );
+            // sim-sharing, positive probe
+            setPositiveProbeSimSharingEventArgs( new SimSharingEventArgs( ABSSimSharing.CONDUCTIVITY_TESTER_POSITIVE_PROBE, new Function0<Parameter[]>() {
+                public Parameter[] apply() {
+                    return new Parameter[] {
+                            Parameter.param( ABSSimSharing.IS_IN_SOLUTION, conductivityTester.isPositiveProbeInSolution() ),
+                            Parameter.param( ABSSimSharing.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() ) };
+                }
+            } ) );
+            // sim-sharing, negative probe
+            setNegativeProbeSimSharingEventArgs( new SimSharingEventArgs( ABSSimSharing.CONDUCTIVITY_TESTER_NEGATIVE_PROBE, new Function0<Parameter[]>() {
+                public Parameter[] apply() {
+                    return new Parameter[] {
+                            Parameter.param( ABSSimSharing.IS_IN_SOLUTION, conductivityTester.isNegativeProbeInSolution() ),
+                            Parameter.param( ABSSimSharing.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() ) };
+                }
+            } ) );
         }};
 
 
