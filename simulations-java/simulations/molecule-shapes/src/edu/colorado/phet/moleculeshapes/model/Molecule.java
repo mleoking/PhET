@@ -192,6 +192,12 @@ public abstract class Molecule {
         addBond( group, parent, bondOrder );
     }
 
+    // add a group with a bond to another group at the same time, with a specific distance in angstroms
+    public void addGroup( PairGroup group, PairGroup parent, int bondOrder, double bondLength ) {
+        addGroup( group );
+        addBond( new Bond<PairGroup>( group, parent, bondOrder, bondLength ) );
+    }
+
     public void addGroup( PairGroup group ) {
         // always add the central group first
         assert getCentralAtom() != null;
