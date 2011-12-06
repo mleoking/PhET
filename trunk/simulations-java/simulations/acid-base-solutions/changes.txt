@@ -1,3 +1,4 @@
+12/6/11 #3170, add sim-sharing event for when user tries to drag pH color key, which is not interactive
 # 1.02.01 (59097) Dec 6, 2011
 12/6/11 first dev version with sim-sharing features
 12/6/11 #3170, add sims-sharing params to indicate whether conductivity probes are are in solution, and whether circuit is completed
