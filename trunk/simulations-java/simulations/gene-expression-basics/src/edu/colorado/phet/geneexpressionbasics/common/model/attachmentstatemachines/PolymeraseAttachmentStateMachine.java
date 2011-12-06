@@ -15,11 +15,12 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Move
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 
 /**
  * Attachment state machine for all RNA Polymerase molecules.  This uses the
- * generic behavior for all but the "attached" state, and has three sub-states
- * for that: attachedAndWandering, changingConformation, and transcribing.
+ * generic behavior for all but the "attached" state, and has several
+ * sub-states for the attached site.  See the code for details.
  *
  * @author John Blanco
  */
@@ -28,10 +29,16 @@ public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
     private static final Random RAND = new Random();
 
     private AttachmentState attachedAndWanderingState = new AttachedAndWanderingState();
-    private AttachmentState attachedAndTranscribingState = new TranscribingState();
+    private AttachmentState attachedAndConformingState = new AttachedAndConformingState();
+    private AttachmentState attachedAndTranscribingState = new AttachedAndTranscribingState();
+    private AttachmentState attachedAndDeconformingState = new AttachedAndDeconformingState();
 
-    public PolymeraseAttachmentStateMachine( MobileBiomolecule biomolecule ) {
-        super( biomolecule );
+    // RNA polymerase that is being controlled by this state machine.
+    private final RnaPolymerase rnaPolymerase;
+
+    public PolymeraseAttachmentStateMachine( RnaPolymerase rnaPolymerase ) {
+        super( rnaPolymerase );
+        this.rnaPolymerase = rnaPolymerase;
 
         // Set up a new "attached" state, since the behavior is different from
         // the default.
@@ -61,7 +68,7 @@ public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
             if ( attachmentSite.getAffinity() == 1 ) {
                 // Attached to a max affinity site, which means that it is time
                 // to transcribe the DNA into mRNA.
-                attachedState = attachedAndTranscribingState;
+                attachedState = attachedAndConformingState;
                 setState( attachedState );
             }
             else {
@@ -102,7 +109,32 @@ public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
         }
     }
 
-    protected class TranscribingState extends AttachmentState {
+    protected class AttachedAndConformingState extends AttachmentState {
+        private static final double CONFORMATIONAL_CHANGE_RATE = 1; // Proportion per second.
+        private double conformationalChangeAmount;
+
+        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+
+            // Verify that state is consistent.
+            assert asm.attachmentSite != null;
+            assert asm.attachmentSite.attachedMolecule.get().get() == biomolecule;
+
+            conformationalChangeAmount = Math.min( conformationalChangeAmount + CONFORMATIONAL_CHANGE_RATE * dt, 1 );
+            biomolecule.changeConformation( conformationalChangeAmount );
+            if ( conformationalChangeAmount == 1 ) {
+                // Conformational change complete, time to start actual
+                // transcription.
+                attachedState = attachedAndTranscribingState;
+                setState( attachedState );
+            }
+        }
+
+        @Override public void entered( AttachmentStateMachine asm ) {
+            conformationalChangeAmount = 0;
+        }
+    }
+
+    protected class AttachedAndTranscribingState extends AttachmentState {
         private static final double TRANSCRIPTION_VELOCITY = 750; // In picometers per second.
         private final Point2D endOfGene = new Point2D.Double();
 
@@ -114,6 +146,35 @@ public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
 
             // If we've reached the end of the gene, detach.
             if ( biomolecule.getPosition().equals( endOfGene ) ) {
+                attachedState = attachedAndDeconformingState;
+                setState( attachedState );
+            }
+        }
+
+        @Override public void entered( AttachmentStateMachine asm ) {
+            Gene geneToTranscribe = biomolecule.getModel().getDnaMolecule().getGeneAtLocation( biomolecule.getPosition() );
+            assert geneToTranscribe != null;
+            endOfGene.setLocation( geneToTranscribe.getEndX(), DnaMolecule.Y_POS );
+            asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( new Property<Point2D>( endOfGene ),
+                                                                                            biomolecule.motionBoundsProperty,
+                                                                                            TRANSCRIPTION_VELOCITY ) );
+        }
+    }
+
+    protected class AttachedAndDeconformingState extends AttachmentState {
+        private static final double CONFORMATIONAL_CHANGE_RATE = 1; // Proportion per second.
+        private double conformationalChangeAmount;
+
+        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+
+            // Verify that state is consistent.
+            assert asm.attachmentSite != null;
+            assert asm.attachmentSite.attachedMolecule.get().get() == biomolecule;
+
+            conformationalChangeAmount = Math.max( conformationalChangeAmount - CONFORMATIONAL_CHANGE_RATE * dt, 0 );
+            biomolecule.changeConformation( conformationalChangeAmount );
+            if ( conformationalChangeAmount == 0 ) {
+                // Conformational change complete, time to detach.
                 asm.detach();
                 asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
 
@@ -124,12 +185,7 @@ public class PolymeraseAttachmentStateMachine extends AttachmentStateMachine {
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
-            Gene geneToTranscribe = biomolecule.getModel().getDnaMolecule().getGeneAtLocation( biomolecule.getPosition() );
-            assert geneToTranscribe != null;
-            endOfGene.setLocation( geneToTranscribe.getEndX(), DnaMolecule.Y_POS );
-            biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( new Property<Point2D>( endOfGene ),
-                                                                                        biomolecule.motionBoundsProperty,
-                                                                                        TRANSCRIPTION_VELOCITY ) );
+            conformationalChangeAmount = 1;
         }
     }
 }
