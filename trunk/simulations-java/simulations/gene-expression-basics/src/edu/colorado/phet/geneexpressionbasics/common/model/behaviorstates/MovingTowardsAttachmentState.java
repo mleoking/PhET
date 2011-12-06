@@ -50,7 +50,7 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {
-        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
         return new UnattachedAndAvailableState( biomolecule );
     }
 }

@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.RibosomeAttachmentStateMachine;
 
 /**
  * Class that represents the a ribosome in the model.
@@ -83,12 +86,39 @@ public class Ribosome extends MobileBiomolecule {
         proteinBeingSynthesized.setGrowthFactor( growthFactor );
     }
 
+    /**
+     * Scan for mRNA and propose attachments to any that are found.  It is up
+     * to the mRNA to accept or refuse based on distance, availability, or
+     * whatever.
+     * <p/>
+     * This method is called from the attachment state machine framework.
+     *
+     * @return
+     */
+    @Override public AttachmentSite proposeAttachments() {
+        AttachmentSite attachmentSite = null;
+        List<MessengerRna> messengerRnaList = model.getMessengerRnaList();
+        for ( MessengerRna messengerRna : messengerRnaList ) {
+            attachmentSite = messengerRna.considerProposalFrom( this );
+            if ( attachmentSite != null ) {
+                break;
+            }
+        }
+        return attachmentSite;
+    }
+
     public void releaseProtein() {
         if ( proteinBeingSynthesized == null ) {
             System.out.println( getClass().getName() + " - Warning - Ignoring attempt to release non-existent protein." );
             return;
         }
         proteinBeingSynthesized.release();
+    }
+
+    // Overridden in order to hook up unique attachment state machine for this
+    // biomolecule.
+    @Override protected AttachmentStateMachine createAttachmentStateMachine() {
+        return new RibosomeAttachmentStateMachine( this );
     }
 
     private static Shape createShape() {

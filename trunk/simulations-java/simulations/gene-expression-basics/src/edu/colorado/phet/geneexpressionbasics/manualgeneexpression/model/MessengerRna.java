@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
@@ -62,6 +63,9 @@ public class MessengerRna extends MobileBiomolecule {
 
     // Factor to use to avoid issues with floating point resolution.
     private static final double FLOATING_POINT_COMP_FACTOR = 1E-7;
+
+    // Distance within which this will connect to a ribosome.
+    private static final double RIBOSOME_CONNECTION_DISTANCE = 5000; // Picometers.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -205,9 +209,8 @@ public class MessengerRna extends MobileBiomolecule {
      *
      * @param ribosome - The ribosome by which the mRNA is being translated.
      * @param length   - The amount of mRNA to move through the translation channel.
-     * @return True if the mRNA is complete through the channel, false if not.
-     *         Generally, this will be called a number of times returning "false" and
-     *         then, the last time, "true" will be returned.
+     * @return - true if the mRNA is completely through the channel, indicating,
+     *         that transcription is complete, and false if not.
      */
     public boolean advanceTranslation( Ribosome ribosome, double length ) {
 
@@ -748,6 +751,19 @@ public class MessengerRna extends MobileBiomolecule {
         return translatedLength / getLength();
     }
 
+    public AttachmentSite considerProposalFrom( Ribosome ribosome ) {
+        assert !mapRibosomeToShapeSegment.containsKey( ribosome ); // Shouldn't get redundant proposals from a ribosome.
+        AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
+        if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get().isNone() &&
+             leadingEdgeAttachmentSite.locationProperty.get().distance( ribosome.getEntranceOfRnaChannelPos().toPoint2D() ) < RIBOSOME_CONNECTION_DISTANCE ) {
+            // This attachment site is in range and available, so return it.
+            return leadingEdgeAttachmentSite;
+        }
+
+        // No available attachment sites in range.
+        return null;
+    }
+
     /**
      * This class defines a point in model space that also has mass.  It is
      * is used to define the overall shape of the mRNA, which uses a spring
@@ -850,7 +866,12 @@ public class MessengerRna extends MobileBiomolecule {
      */
     public abstract static class ShapeSegment {
 
+        // Bounds of this shape segment.
         public final Property<Rectangle2D> bounds = new Property<Rectangle2D>( new Rectangle2D.Double() );
+
+        // Attachment point where anything that attached to this segment would
+        // attach.  Affinity is arbitrary in this case.
+        public final AttachmentSite attachmentSite = new AttachmentSite( new Point2D.Double(), 1 );
 
         // Max length of mRNA that this segment can contain.
         public double capacity = Double.POSITIVE_INFINITY;
@@ -899,6 +920,10 @@ public class MessengerRna extends MobileBiomolecule {
 
         public boolean isFlat() {
             return getBounds().getHeight() == 0;
+        }
+
+        protected void updateAttachmentSiteLocation() {
+            attachmentSite.locationProperty.set( getUpperLeftCornerPos() );
         }
 
         /**
@@ -951,6 +976,7 @@ public class MessengerRna extends MobileBiomolecule {
 
             public FlatSegment( Point2D origin ) {
                 bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), 0, 0 ) );
+                updateAttachmentSiteLocation();
             }
 
             @Override public double getContainedLength() {
@@ -977,6 +1003,8 @@ public class MessengerRna extends MobileBiomolecule {
                                                     bounds.get().getY(),
                                                     bounds.get().getWidth() + growthAmount,
                                                     0 ) );
+                updateAttachmentSiteLocation();
+
             }
 
             @Override public void remove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
@@ -986,6 +1014,7 @@ public class MessengerRna extends MobileBiomolecule {
                 if ( getContainedLength() < FLOATING_POINT_COMP_FACTOR ) {
                     shapeSegmentList.remove( this );
                 }
+                updateAttachmentSiteLocation();
             }
 
             @Override public void advance( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
@@ -1045,6 +1074,7 @@ public class MessengerRna extends MobileBiomolecule {
                     inputSegment.remove( inputSegment.getContainedLength(), shapeSegmentList );
                     outputSegment.add( length, shapeSegmentList );
                 }
+                updateAttachmentSiteLocation();
             }
 
             // Set size to be exactly the capacity.  Do not create any new
@@ -1055,6 +1085,7 @@ public class MessengerRna extends MobileBiomolecule {
                                                     bounds.get().getY(),
                                                     capacity,
                                                     0 ) );
+                updateAttachmentSiteLocation();
             }
         }
 
@@ -1071,6 +1102,7 @@ public class MessengerRna extends MobileBiomolecule {
 
             public SquareSegment( Point2D origin ) {
                 bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), 0, 0 ) );
+                updateAttachmentSiteLocation();
             }
 
             @Override public double getContainedLength() {
@@ -1087,6 +1119,8 @@ public class MessengerRna extends MobileBiomolecule {
                                                     bounds.get().getY(),
                                                     bounds.get().getWidth() + sideGrowthAmount,
                                                     bounds.get().getHeight() + sideGrowthAmount ) );
+                updateAttachmentSiteLocation();
+
             }
 
             @Override public void remove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
@@ -1103,6 +1137,7 @@ public class MessengerRna extends MobileBiomolecule {
                 if ( getContainedLength() <= FLOATING_POINT_COMP_FACTOR ) {
                     shapeSegmentList.remove( this );
                 }
+                updateAttachmentSiteLocation();
             }
 
             @Override public void advance( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {

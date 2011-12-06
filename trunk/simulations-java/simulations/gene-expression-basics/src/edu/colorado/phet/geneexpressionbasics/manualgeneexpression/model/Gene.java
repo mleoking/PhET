@@ -128,16 +128,16 @@ public class Gene {
      * @return
      */
     public AttachmentSite getPolymeraseAttachmentSite( int basePairIndex ) {
-        if ( basePairIndex == regulatoryRegion.getMax() && transcriptionFactorAttachmentSite.attachedMolecule.get().isSome() ) {
+        if ( basePairIndex == regulatoryRegion.getMax() && transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().isSome() ) {
             // This is the last base pair within the regulatory region, which
             // is where the polymerase would begin transcription, and the
             // transcription factor is attached to the appropriate place.
-            if ( polymeraseAttachmentSite.attachedMolecule.get().isSome() ) {
+            if ( polymeraseAttachmentSite.attachedOrAttachingMolecule.get().isSome() ) {
                 // Already in use, return a zero affinity attachment site.
                 return new AttachmentSite( transcriptionFactorAttachmentSite.locationProperty.get(), 0 );
             }
             else {
-                TranscriptionFactor attachedTranscriptionFactor = (TranscriptionFactor) transcriptionFactorAttachmentSite.attachedMolecule.get().get();
+                TranscriptionFactor attachedTranscriptionFactor = (TranscriptionFactor) transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().get();
                 if ( attachedTranscriptionFactor.isPositive() ) {
                     // The positive transcription factor is attached, so we
                     // set the attachment site to the max affinity.
@@ -173,7 +173,7 @@ public class Gene {
      */
     public AttachmentSite getTranscriptionFactorAttachmentSite( int basePairIndex ) {
         if ( basePairIndex == regulatoryRegion.getMin() + TRANSCRIPTION_FACTOR_LOCATION_OFFSET ) {
-            if ( transcriptionFactorAttachmentSite.attachedMolecule.get().isNone() ) {
+            if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().isNone() ) {
                 // The attachment site is open.
                 return transcriptionFactorAttachmentSite;
             }
@@ -203,14 +203,14 @@ public class Gene {
      */
     public void activateHints( MobileBiomolecule biomolecule ) {
         if ( rnaPolymerasePlacementHint.isMatchingBiomolecule( biomolecule ) ) {
-            if ( transcriptionFactorAttachmentSite.attachedMolecule.get().isNone() ) {
+            if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().isNone() ) {
                 // Activate both the polymerase hint AND the positive
                 // transcription factor hint in order to convey to the user
                 // that both are needed for transcription to start.
                 rnaPolymerasePlacementHint.active.set( true );
                 positiveTranscriptionFactorPlacementHint.active.set( true );
             }
-            else if ( ( (TranscriptionFactor) ( transcriptionFactorAttachmentSite.attachedMolecule.get().get() ) ).isPositive() ) {
+            else if ( ( (TranscriptionFactor) ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().get() ) ).isPositive() ) {
                 // The positive transcription factor is already in place, so
                 // only activate the polymerase hint.
                 rnaPolymerasePlacementHint.active.set( true );
@@ -245,8 +245,8 @@ public class Gene {
      * operation.
      */
     public void clearAttachmentSites() {
-        transcriptionFactorAttachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
-        polymeraseAttachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+        polymeraseAttachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
     }
 
     public Protein getProteinPrototype() {

@@ -24,9 +24,9 @@ public class AttachmentSite {
     // for this attachment.
     private double affinity;
 
-    // A property that tracks which if any biomolecule is attached to this
-    // site.
-    public Property<Option<MobileBiomolecule>> attachedMolecule = new Property<Option<MobileBiomolecule>>( new Option.None<MobileBiomolecule>() );
+    // A property that tracks which if any biomolecule is attached to or moving
+    // towards attachment with this site.
+    public Property<Option<MobileBiomolecule>> attachedOrAttachingMolecule = new Property<Option<MobileBiomolecule>>( new Option.None<MobileBiomolecule>() );
 
     /**
      * Constructor.

@@ -2,6 +2,7 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -48,6 +49,10 @@ public class AttachmentStateMachine {
     // Current attachment state.  Changes with each state transition.
     private AttachmentState attachmentState;
 
+    // Direction used when detaching, can be changed by subclasses.  Default is
+    // to move up.
+    protected Vector2D detachDirection = new Vector2D( 0, 1 );
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -73,8 +78,9 @@ public class AttachmentStateMachine {
      */
     public void detach() {
         assert attachmentSite != null; // Verify internal state is consistent.
-        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
         attachmentSite = null;
+        biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( detachDirection, biomolecule.motionBoundsProperty ) );
         setState( unattachedButUnavailableState );
     }
 
@@ -85,7 +91,7 @@ public class AttachmentStateMachine {
      */
     public void forceImmediateUnattached() {
         if ( attachmentSite != null ) {
-            attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+            attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
         }
         attachmentSite = null;
         setState( unattachedAndAvailableState );
@@ -141,7 +147,7 @@ public class AttachmentStateMachine {
                 asm.setState( asm.movingTowardsAttachmentState );
 
                 // Mark the attachment site as being in use.
-                attachmentSite.attachedMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
+                attachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
             }
         }
 
@@ -156,7 +162,7 @@ public class AttachmentStateMachine {
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
 
             // See if the attachment site has been reached.
             if ( asm.biomolecule.getPosition().distance( asm.attachmentSite.locationProperty.get() ) < ATTACHED_DISTANCE_THRESHOLD ) {
@@ -186,7 +192,7 @@ public class AttachmentStateMachine {
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
 
             // See if it is time to detach.
             attachCountdownTime -= dt;
