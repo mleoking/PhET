@@ -65,7 +65,7 @@ public class RealMoleculeModel extends Molecule {
         // add in lone pairs in their correct "initial" positions
         for ( int i = 0; i < numLonePairs; i++ ) {
             ImmutableVector3D normalizedPosition = mapping.rotateVector( idealModelVectors.get( i ) );
-            idealPositionVectors.add( normalizedPosition );
+            idealPositionVectors.add( i, normalizedPosition ); // insert them into the front of the position vectors, in order
             addGroup( new PairGroup( normalizedPosition.times( PairGroup.LONE_PAIR_DISTANCE ), true, false ), getCentralAtom(), 0 );
         }
 
