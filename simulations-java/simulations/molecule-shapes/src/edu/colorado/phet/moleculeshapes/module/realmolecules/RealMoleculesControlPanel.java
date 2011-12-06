@@ -17,7 +17,6 @@ import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.OptionsNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyCheckBoxNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyRadioButtonNode;
-import edu.colorado.phet.moleculeshapes.control.RealMoleculePanelNode;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.umd.cs.piccolo.PNode;
@@ -25,8 +24,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class RealMoleculesControlPanel extends PNode {
     private static final double PANEL_SPACER = 20; // space between text and bond lines
-
-    private RealMoleculePanelNode realMoleculeNode;
 
     /*---------------------------------------------------------------------------*
     * information for width computations

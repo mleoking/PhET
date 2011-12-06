@@ -240,8 +240,8 @@ public class DebugModule extends MoleculeViewModule {
         showBondAngles.set( true );
 
         for ( ImmutableVector3D v : realMolecule.getIdealPositionVectors() ) {
-            moleculeNode.attachChild( new Geometry( "Line", new Line( new Vector3f(), JMEUtils.convertVector( v.times( 15 ) ) ) ){{
-                setMaterial( new Material(getAssetManager(),"Common/MatDefs/Misc/Unshaded.j3md"){{
+            moleculeNode.attachChild( new Geometry( "Line", new Line( new Vector3f(), JMEUtils.convertVector( v.times( 15 ) ) ) ) {{
+                setMaterial( new Material( getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
                     setColor( "Color", ColorRGBA.Green );
                 }} );
             }} );
