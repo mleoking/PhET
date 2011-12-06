@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -118,6 +119,10 @@ public class MessengerRna extends MobileBiomolecule {
                 mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( offsetToTranslationChannelEntrance ).toPoint2D() );
             }
         } );
+
+        // Since mRNA is synthesized by polymerase, it starts its life in the
+        // attached state.
+        setMotionStrategy( new StillnessMotionStrategy() );
     }
 
     //-------------------------------------------------------------------------
