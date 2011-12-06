@@ -8,8 +8,8 @@ package edu.colorado.phet.acidbasesolutions.constants;
  */
 public class ABSSimSharing {
 
-    public static final String CONDUCTIVITY_PROBE_NEGATIVE = "conductivityProbeNegative";
-    public static final String CONDUCTIVITY_PROBE_POSITIVE = "conductivityProbePositive";
+    public static final String CONCENTRATION_CONTROL = "concentrationControl";
     public static final String PH_METER = "phMeter";
     public static final String PH_PAPER = "phPaper";
+    public static final String WEAK_STRENGTH_CONTROL = "weakStrengthControl";
 }
