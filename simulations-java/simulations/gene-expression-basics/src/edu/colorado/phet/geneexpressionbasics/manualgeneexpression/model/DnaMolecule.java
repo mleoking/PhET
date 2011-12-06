@@ -256,7 +256,7 @@ public class DnaMolecule {
             if ( basePairs.get( i ).getCenterLocation().distance( transcriptionFactor.getPosition() ) <= TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE ) {
                 // In range.  Add it to the list if it is available.
                 AttachmentSite potentialAttachmentSite = getTranscriptionFactorAttachmentSiteForBasePairIndex( i );
-                if ( potentialAttachmentSite.attachedMolecule.get().isNone() ) {
+                if ( potentialAttachmentSite.attachedOrAttachingMolecule.get().isNone() ) {
                     potentialAttachmentSites.add( potentialAttachmentSite );
                 }
             }
@@ -284,7 +284,7 @@ public class DnaMolecule {
             if ( basePairs.get( i ).getCenterLocation().distance( rnaPolymerase.getPosition() ) <= RNA_POLYMERASE_ATTACHMENT_DISTANCE ) {
                 // In range.  Add it to the list if it is available.
                 AttachmentSite potentialAttachmentSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( i );
-                if ( potentialAttachmentSite.attachedMolecule.get().isNone() ) {
+                if ( potentialAttachmentSite.attachedOrAttachingMolecule.get().isNone() ) {
                     potentialAttachmentSites.add( potentialAttachmentSite );
                 }
             }

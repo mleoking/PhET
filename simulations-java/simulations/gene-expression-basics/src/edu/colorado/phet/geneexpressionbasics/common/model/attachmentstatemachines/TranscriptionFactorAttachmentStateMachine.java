@@ -45,7 +45,7 @@ public class TranscriptionFactorAttachmentStateMachine extends AttachmentStateMa
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
 
             // TODO: For now, transcription factors stay attached to a max affinity site forever.  This will probably need to change.
             if ( attachmentSite.getAffinity() < 1 ) {
@@ -58,7 +58,7 @@ public class TranscriptionFactorAttachmentStateMachine extends AttachmentStateMa
                     // move to an adjacent attachment point.
                     if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
                         // Detach.
-                        asm.attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+                        asm.attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
                         asm.attachmentSite = null;
                         asm.setState( unattachedButUnavailableState );
                         biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
@@ -66,11 +66,11 @@ public class TranscriptionFactorAttachmentStateMachine extends AttachmentStateMa
                     else {
 
                         // Clear the old attachment site.
-                        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+                        attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
 
                         // Set a new attachment site.
                         attachmentSite = attachmentSites.get( 0 );
-                        attachmentSite.attachedMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
+                        attachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
 
                         // Set up the state to move to the new attachment site.
                         setState( movingTowardsAttachmentState );
