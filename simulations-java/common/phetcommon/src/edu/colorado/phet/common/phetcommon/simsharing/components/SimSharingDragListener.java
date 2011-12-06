@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
@@ -48,14 +48,14 @@ public class SimSharingDragListener extends MouseAdapter {
 
     @Override public void mousePressed( MouseEvent event ) {
         if ( eventArgs != null ) {
-            SimSharingEvents.sendEvent( eventArgs.object, SimSharingActions.START_DRAG, addPosition( eventArgs.parameters.apply(), event ) );
+            SimSharingEvents.sendEvent( eventArgs.object, Actions.START_DRAG, addPosition( eventArgs.parameters.apply(), event ) );
         }
         super.mousePressed( event );
     }
 
     @Override public void mouseReleased( MouseEvent event ) {
         if ( eventArgs != null ) {
-            SimSharingEvents.sendEvent( eventArgs.object, SimSharingActions.END_DRAG, addPosition( eventArgs.parameters.apply(), event ) );
+            SimSharingEvents.sendEvent( eventArgs.object, Actions.END_DRAG, addPosition( eventArgs.parameters.apply(), event ) );
         }
         super.mouseReleased( event );
     }

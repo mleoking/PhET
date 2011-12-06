@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingParameters;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
@@ -35,10 +35,10 @@ public class PropertyRadioButton<T> extends JRadioButton {
         // update the model when the check box changes
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingEvents.sendEvent( SimSharingObjects.RADIO_BUTTON, SimSharingActions.PRESSED,
-                                            param( SimSharingParameters.TEXT, text ),
-                                            param( SimSharingParameters.DESCRIPTION, property.getDescriptionOrElseQuestion() ),
-                                            param( SimSharingParameters.VALUE, value.toString() ) );
+                SimSharingEvents.sendEvent( Objects.RADIO_BUTTON, Actions.PRESSED,
+                                            param( Parameters.TEXT, text ),
+                                            param( Parameters.DESCRIPTION, property.getDescriptionOrElseQuestion() ),
+                                            param( Parameters.VALUE, value.toString() ) );
                 property.set( value );
                 propertyObserver.update();//make sure radio buttons don't toggle off, in case they're not in a button group
             }

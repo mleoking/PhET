@@ -8,10 +8,10 @@ import javax.swing.Icon;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingObjects;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingParameters;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 
 /**
  * Swing check box that sends sim-sharing events.
@@ -52,10 +52,10 @@ public class SimSharingJCheckBox extends JCheckBox {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingEvents.sendEvent( SimSharingObjects.CHECK_BOX,
-                                    SimSharingActions.PRESSED,
-                                    Parameter.param( SimSharingParameters.TEXT, getText() ),
-                                    Parameter.param( SimSharingParameters.IS_SELECTED, isSelected() ) );
+        SimSharingEvents.sendEvent( Objects.CHECK_BOX,
+                                    Actions.PRESSED,
+                                    Parameter.param( Parameters.TEXT, getText() ),
+                                    Parameter.param( Parameters.IS_SELECTED, isSelected() ) );
         super.fireActionPerformed( event );
     }
 }

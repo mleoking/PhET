@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -49,14 +49,14 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
 
     @Override protected void startDrag( final PInputEvent event ) {
         if ( eventArgs != null ) {
-            sendEvent( eventArgs.object, SimSharingActions.START_DRAG, addCanvasPosition( eventArgs.parameters.apply(), event ) );
+            sendEvent( eventArgs.object, Actions.START_DRAG, addCanvasPosition( eventArgs.parameters.apply(), event ) );
         }
         super.startDrag( event );
     }
 
     @Override protected void endDrag( PInputEvent event ) {
         if ( eventArgs != null ) {
-            sendEvent( eventArgs.object, SimSharingActions.END_DRAG, addCanvasPosition( eventArgs.parameters.apply(), event ) );
+            sendEvent( eventArgs.object, Actions.END_DRAG, addCanvasPosition( eventArgs.parameters.apply(), event ) );
         }
         super.endDrag( event );
     }

@@ -14,8 +14,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingActions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -202,7 +202,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
                             if ( pair != null && pair != getMolecule().getCentralAtom() ) {
                                 getMolecule().removeGroup( pair );
                             }
-                            SimSharingEvents.sendEvent( Objects.MOUSE_MIDDLE_BUTTON, SimSharingActions.PRESSED, param( Parameters.REMOVED_PAIR, pair != null ) );
+                            SimSharingEvents.sendEvent( Objects.MOUSE_MIDDLE_BUTTON, Actions.PRESSED, param( Parameters.REMOVED_PAIR, pair != null ) );
                         }
                     }
                 }, MAP_LMB, MAP_MMB );
@@ -464,7 +464,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingEvents.sendEvent( Objects.DRAGGING_STATE, SimSharingActions.CHANGED,
+            SimSharingEvents.sendEvent( Objects.DRAGGING_STATE, Actions.CHANGED,
                                         param( Parameters.DRAGGING, dragging ),
                                         param( Parameters.DRAG_MODE, dragMode.toString() ) );
         }
