@@ -1,3 +1,5 @@
+# 1.02.01 (59094) Dec 6, 2011
+12/6/11 first dev version with sim-sharing features
 12/6/11 #3170, add sims-sharing params to indicate whether conductivity probes are are in solution, and whether circuit is completed
 12/6/11 #3170, add methods for determining whether conductivity probes are in solution
 12/6/11 #3170, add sim-sharing param to indicate whether pH paper has been dipped
