@@ -52,16 +52,10 @@ public class RealMoleculeModel extends Molecule {
         }
 
         // all of the ideal vectors (including for lone pairs)
-        final List<ImmutableVector3D> idealModelVectors = new VseprConfiguration( numBonds, numLonePairs ).geometry.unitVectors;
+        VseprConfiguration vseprConfiguration = new VseprConfiguration( numBonds, numLonePairs );
+        final List<ImmutableVector3D> idealModelVectors = vseprConfiguration.getAllUnitVectors();
 
-        // ideal vectors excluding lone pairs (just for the bonds)
-        List<ImmutableVector3D> idealModelBondVectors = new ArrayList<ImmutableVector3D>() {{
-            for ( int i = numLonePairs; i < idealModelVectors.size(); i++ ) {
-                add( idealModelVectors.get( i ) );
-            }
-        }};
-
-        ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration( getAllNonCentralAtoms(), idealModelBondVectors, Permutation.permutations( idealModelBondVectors.size() ) );
+        ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( this );
 
         // add in lone pairs in their correct "initial" positions
         for ( int i = 0; i < numLonePairs; i++ ) {

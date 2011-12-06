@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
 
 public class VseprConfiguration {
     public final int x;
@@ -103,6 +105,25 @@ public class VseprConfiguration {
         else {
             name = null;
         }
+    }
+
+    public List<ImmutableVector3D> getAllUnitVectors() {
+        return geometry.unitVectors;
+    }
+
+    public List<ImmutableVector3D> getIdealBondUnitVectors() {
+        return new ArrayList<ImmutableVector3D>() {{
+            for ( int i = e; i < x + e; i++ ) {
+                add( geometry.unitVectors.get( i ) );
+            }
+        }};
+    }
+
+    public ResultMapping getIdealRotationToPositions( Molecule molecule ) {
+        // ideal vectors excluding lone pairs (just for the bonds)
+        List<ImmutableVector3D> idealModelBondVectors = getIdealBondUnitVectors();
+
+        return AttractorModel.findClosestMatchingConfiguration( molecule.getAllNonCentralAtoms(), idealModelBondVectors, Permutation.permutations( idealModelBondVectors.size() ) );
     }
 
     /*---------------------------------------------------------------------------*
