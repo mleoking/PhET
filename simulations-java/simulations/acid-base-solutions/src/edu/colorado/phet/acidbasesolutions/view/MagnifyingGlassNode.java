@@ -9,7 +9,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
@@ -100,7 +100,7 @@ public class MagnifyingGlassNode extends PhetPNode {
         // send sim-sharing event if user tries to interact
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingEvents.sendEvent( ABSSimSharing.MAGNIFYING_GLASS, SimSharingActions.PRESSED, Parameter.param( SimSharingParameters.INTERACTIVE, false ) );
+                SimSharingEvents.sendEvent( Objects.MAGNIFYING_GLASS, SimSharingActions.PRESSED, Parameter.param( SimSharingParameters.INTERACTIVE, false ) );
             }
         } );
     }

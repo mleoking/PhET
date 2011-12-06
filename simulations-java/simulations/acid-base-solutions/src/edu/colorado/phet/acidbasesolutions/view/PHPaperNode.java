@@ -8,7 +8,8 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Parameters;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
@@ -66,9 +67,9 @@ public class PHPaperNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new SimSharingDragSequenceEventHandler( ABSSimSharing.PH_PAPER, new Function0<Parameter[]>() {
+        addInputEventListener( new SimSharingDragSequenceEventHandler( Objects.PH_PAPER, new Function0<Parameter[]>() {
             public Parameter[] apply() {
-                return new Parameter[] { Parameter.param( ABSSimSharing.IS_DIPPED, paper.isDipped() ) };
+                return new Parameter[] { Parameter.param( Parameters.IS_DIPPED, paper.isDipped() ) };
             }
         } ) {
 

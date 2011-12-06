@@ -7,7 +7,7 @@ import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
@@ -72,7 +72,7 @@ public class PHColorKeyNode extends PhetPNode {
         // send sim-sharing event if user tries to interact
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingEvents.sendEvent( ABSSimSharing.PH_COLOR_KEY, SimSharingActions.PRESSED, Parameter.param( SimSharingParameters.INTERACTIVE, false ) );
+                SimSharingEvents.sendEvent( Objects.PH_COLOR_KEY, SimSharingActions.PRESSED, Parameter.param( SimSharingParameters.INTERACTIVE, false ) );
             }
         } );
     }
