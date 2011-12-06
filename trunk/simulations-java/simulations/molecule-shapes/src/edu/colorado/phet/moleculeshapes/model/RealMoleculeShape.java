@@ -196,8 +196,8 @@ public class RealMoleculeShape {
 
     public static final RealMoleculeShape BERYLLIUM_CHLORIDE = new RealMoleculeShape( "BeCl2" ) {{ // TODO: more accurate numbers?
         addCentralAtom( new Atom3D( Be, new ImmutableVector3D() ) );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.220000, 0, 0 ) ), 1 );
-        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.220000, 0, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( 1.220000, 0, 0 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( Cl, new ImmutableVector3D( -1.220000, 0, 0 ), 3 ), 1 );
     }};
 
     public static final RealMoleculeShape CARBON_DISULFATE = new RealMoleculeShape( "CS2" ) {{
@@ -307,12 +307,12 @@ public class RealMoleculeShape {
 
     public static final RealMoleculeShape SULFUR_HEXAFLUORIDE = new RealMoleculeShape( "SF6" ) {{
         addCentralAtom( new Atom3D( S, new ImmutableVector3D( -1.679000, -0.674000, -1.012000 ) ) );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -2.433000, -1.012000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.080000, -0.674000, -1.012000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -0.674000, -2.771000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, 1.085000, -1.012000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -3.438000, -0.674000, -1.012000 ) ), 1 );
-        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -0.674000, 0.748000 ) ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -2.433000, -1.012000 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0.080000, -0.674000, -1.012000 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -0.674000, -2.771000 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, 1.085000, -1.012000 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -3.438000, -0.674000, -1.012000 ), 3 ), 1 );
+        addRadialAtom( new Atom3D( F, new ImmutableVector3D( -1.679000, -0.674000, 0.748000 ), 3 ), 1 );
         centerOnCentralAtom();
     }};
 
