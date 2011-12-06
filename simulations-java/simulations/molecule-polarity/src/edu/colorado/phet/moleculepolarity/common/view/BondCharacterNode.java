@@ -17,7 +17,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.colorado.phet.moleculepolarity.MPConstants;
-import edu.colorado.phet.moleculepolarity.MPSimSharing;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.Objects;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
@@ -105,10 +106,10 @@ public class BondCharacterNode extends PComposite {
 
         //Report when the user tries to click on this non-interactive control
         addInputEventListener( new SimSharingDragSequenceEventHandler(
-                new SimSharingEventArgs( MPSimSharing.OBJECT_BOND_CHARACTER_NODE,
+                new SimSharingEventArgs( Objects.OBJECT_BOND_CHARACTER_NODE,
                                          new Function0<Parameter[]>() {
                                              public Parameter[] apply() {
-                                                 return new Parameter[] { param( MPSimSharing.PARAM_INTERACTIVE, false ) };
+                                                 return new Parameter[] { param( Parameters.PARAM_INTERACTIVE, false ) };
                                              }
                                          } ) ) );
     }

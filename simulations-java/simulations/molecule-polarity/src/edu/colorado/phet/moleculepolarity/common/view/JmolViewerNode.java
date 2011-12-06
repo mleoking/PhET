@@ -32,7 +32,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.MPColors;
-import edu.colorado.phet.moleculepolarity.MPSimSharing;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.Objects;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Element;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
@@ -99,9 +100,9 @@ public class JmolViewerNode extends PhetPNode {
 
         viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
         //Record drag events for sim-sharing. Note that we cannot guarantee that these events are sent before the viewer display changes.
-        viewerPanel.addMouseListener( new SimSharingDragListener( MPSimSharing.OBJECT_JMOL_VIEWER_NODE, new Function0<Parameter[]>() {
+        viewerPanel.addMouseListener( new SimSharingDragListener( Objects.OBJECT_JMOL_VIEWER_NODE, new Function0<Parameter[]>() {
             public Parameter[] apply() {
-                return new Parameter[] { param( MPSimSharing.PARAM_CURRENT_MOLECULE, currentMolecule.get().getName() ) };
+                return new Parameter[] { param( Parameters.PARAM_CURRENT_MOLECULE, currentMolecule.get().getName() ) };
             }
         } ) );
         addChild( new PSwing( viewerPanel ) );
