@@ -33,7 +33,7 @@ public class SimSharingJMenu extends JMenu {
 
     @Override protected void fireMenuSelected() {
         SimSharingEvents.sendEvent( SimSharingObjects.MENU,
-                                    SimSharingActions.SELECTED, //TODO: shouldn't this be PRESSED, it's a button?
+                                    SimSharingActions.PRESSED,
                                     Parameter.param( SimSharingParameters.TEXT, getText() ) );
         super.fireMenuSelected();
     }
