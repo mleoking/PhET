@@ -1,3 +1,4 @@
+12/6/11 #3175, add sim-sharing args to usages of SliderThumbDragHandler
 11/3/11 delete empty modules
 # 0.00.13 (58298) Nov 2, 2011
 11/2/11 Dilution: display "Solution" on right-most beaker when V2-V1=0
