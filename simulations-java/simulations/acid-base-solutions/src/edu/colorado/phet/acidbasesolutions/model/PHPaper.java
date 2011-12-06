@@ -18,9 +18,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PHPaper extends SolutionRepresentation {
-    
+
     private static final double BLEED_HEIGHT = 15; // how much the dipped color bleeds above the top of the solution
-    
+
     private final PDimension size;
     private final Beaker beaker;
     private Color dippedColor;
@@ -34,34 +34,34 @@ public class PHPaper extends SolutionRepresentation {
         this.listeners = new EventListenerList();
         this.dippedHeight = computeDippedHeight();
         this.dippedColor = createColor( solution.getPH() );
-        
+
         addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
-            
+
             @Override
             public void solutionChanged() {
                 setDippedHeight( computeDippedHeight() );
                 updateDippedColor();
             }
-            
+
             @Override
             public void concentrationChanged() {
                 setDippedHeight( computeDippedHeight() );
                 updateDippedColor();
             }
-            
+
             @Override
             public void strengthChanged() {
                 setDippedHeight( computeDippedHeight() );
                 updateDippedColor();
             }
-            
+
             @Override
             public void locationChanged() {
                 setDippedHeight( Math.max( dippedHeight, computeDippedHeight() ) ); // dipped height can only increase
             }
-        });
+        } );
     }
-    
+
     public PDimension getSizeReference() {
         return size;
     }
@@ -73,7 +73,7 @@ public class PHPaper extends SolutionRepresentation {
     public double getHeight() {
         return size.getHeight();
     }
-    
+
     /**
      * Constraint location for dragging.
      */
@@ -81,10 +81,10 @@ public class PHPaper extends SolutionRepresentation {
     public void setLocation( double x, double y ) {
         super.setLocation( constrainX( x ), constrainY( y ) );
     }
-    
+
     /*
-     * Constraints x coordinate to be inside the beaker.
-     */
+    * Constraints x coordinate to be inside the beaker.
+    */
     private double constrainX( double requestedX ) {
         double min = beaker.getLocationReference().getX() - ( beaker.getWidth() / 2 ) + ( this.getWidth() / 2 ) + 20;
         double max = beaker.getLocationReference().getX() + ( beaker.getWidth() / 2 ) - ( this.getWidth() / 2 ) - 20;
@@ -97,10 +97,10 @@ public class PHPaper extends SolutionRepresentation {
         }
         return x;
     }
-    
+
     /*
-     * Constraints y coordinate to be in or slightly above the solution.
-     */
+    * Constraints y coordinate to be in or slightly above the solution.
+    */
     private double constrainY( double requestedY ) {
         double min = beaker.getLocationReference().getY() - beaker.getHeight() - this.getHeight() - 20;
         double max = beaker.getLocationReference().getY() - this.getHeight() - 20;
@@ -113,50 +113,53 @@ public class PHPaper extends SolutionRepresentation {
         }
         return y;
     }
-    
+
     /**
      * Gets the original color of the paper, before it's dipped in solution.
+     *
      * @return
      */
     public Color getPaperColor() {
         return ABSColors.PH_PAPER;
     }
-    
+
     private void updateDippedColor() {
         setDippedColor( createColor( getSolution().getPH() ) );
     }
-    
+
     private void setDippedColor( Color dippedColor ) {
         if ( !dippedColor.equals( this.dippedColor ) ) {
             this.dippedColor = dippedColor;
             fireDippedColorChanged();
         }
     }
-    
+
     /**
      * Gets the color of the paper when it's dipped in solution.
+     *
      * @return
      */
     public Color getDippedColor() {
         return dippedColor;
     }
-    
+
     /**
      * Creates a color that corresponds to a specific pH.
+     *
      * @param pH
      * @return
      */
     public Color createColor( double pH ) {
         return PHColorFactory.createColor( pH );
     }
-    
+
     private void setDippedHeight( double dippedHeight ) {
         if ( dippedHeight != this.dippedHeight ) {
             this.dippedHeight = dippedHeight;
             fireDippedHeightChanged();
         }
     }
-    
+
     /**
      * Gets the height of the portion of the paper that has been dipped in the solution.
      */
@@ -189,26 +192,31 @@ public class PHPaper extends SolutionRepresentation {
         }
         return h;
     }
-    
+
+    public boolean isDipped() {
+        return getDippedHeight() != 0;
+    }
+
     public interface PHPaperChangeListener extends EventListener {
         public void dippedColorChanged();
+
         public void dippedHeightChanged();
     }
-    
+
     public void addPHPaperChangeListener( PHPaperChangeListener listener ) {
         listeners.add( PHPaperChangeListener.class, listener );
     }
-    
+
     public void removePHPaperChangeListener( PHPaperChangeListener listener ) {
         listeners.remove( PHPaperChangeListener.class, listener );
     }
-    
+
     private void fireDippedColorChanged() {
         for ( PHPaperChangeListener listener : listeners.getListeners( PHPaperChangeListener.class ) ) {
             listener.dippedColorChanged();
         }
     }
-    
+
     private void fireDippedHeightChanged() {
         for ( PHPaperChangeListener listener : listeners.getListeners( PHPaperChangeListener.class ) ) {
             listener.dippedHeightChanged();

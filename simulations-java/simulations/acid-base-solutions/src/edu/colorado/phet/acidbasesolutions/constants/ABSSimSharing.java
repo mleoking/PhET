@@ -9,6 +9,7 @@ package edu.colorado.phet.acidbasesolutions.constants;
 public class ABSSimSharing {
 
     public static final String CONCENTRATION_CONTROL = "concentrationControl";
+    public static final String IS_DIPPED = "isDipped";
     public static final String IS_IN_SOLUTION = "isInSolution";
     public static final String MAGNIFYING_GLASS = "magnifyingGlass";
     public static final String PH_METER = "phMeter";
