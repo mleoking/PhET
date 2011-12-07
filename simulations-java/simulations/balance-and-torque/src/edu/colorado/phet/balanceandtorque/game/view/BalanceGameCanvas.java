@@ -295,7 +295,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         tipPredictionSelectorNode = new TipPredictionSelectorNode();
         rootNode.addChild( tipPredictionSelectorNode );
         Point2D tipPredictionSelectorNodeCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
-                                                                      challengeTitleNode.getFullBoundsReference().getMaxY() + massValueEntryNode.getFullBounds().height / 2 + 10 );
+                                                                      challengeTitleNode.getFullBoundsReference().getMaxY() + 100 );
         tipPredictionSelectorNode.centerFullBoundsOnPoint( tipPredictionSelectorNodeCenter.getX(),
                                                            tipPredictionSelectorNodeCenter.getY() );
 
