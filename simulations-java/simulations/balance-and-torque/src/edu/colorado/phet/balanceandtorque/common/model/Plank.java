@@ -536,13 +536,21 @@ public class Plank extends ShapeModelElement {
     private void updateNetTorque() {
         currentNetTorque = 0;
         if ( columnState.get() == ColumnState.NONE ) {
-            // Calculate torque due to masses.
-            for ( Mass mass : massesOnSurface ) {
-                currentNetTorque += pivotPoint.getX() - mass.getPosition().getX() * mass.getMass();
-            }
+
+            // Add the torque due to the masses on the surface of the plank.
+            currentNetTorque += getTorqueDueToMasses();
+
             // Add in torque due to plank.
             currentNetTorque += ( pivotPoint.getX() - bottomCenterPoint.get().getX() ) * MASS;
         }
+    }
+
+    public double getTorqueDueToMasses() {
+        double torque = 0;
+        for ( Mass mass : massesOnSurface ) {
+            torque += pivotPoint.getX() - mass.getPosition().getX() * mass.getMass();
+        }
+        return torque;
     }
 
     /**
