@@ -85,6 +85,8 @@ public class RealMoleculesModule extends MoleculeViewModule {
 
     private PhetJMEApplication app;
 
+    private final boolean useKit;
+
     /*---------------------------------------------------------------------------*
     * input mapping constants
     *----------------------------------------------------------------------------*/
@@ -152,8 +154,10 @@ public class RealMoleculesModule extends MoleculeViewModule {
     private static final Random random = new Random( System.currentTimeMillis() );
 
 
-    public RealMoleculesModule( Frame parentFrame, String name ) {
+    public RealMoleculesModule( Frame parentFrame, String name, boolean useKit ) {
         super( parentFrame, name, new ConstantDtClock( 30.0 ) );
+
+        this.useKit = useKit;
 
         // TODO: improve initialization here
         RealMoleculeShape startingMolecule = RealMoleculeShape.TAB_2_MOLECULES[0];
@@ -278,10 +282,10 @@ public class RealMoleculesModule extends MoleculeViewModule {
         moleculeView.getScene().attachChild( moleculeNode );
 
         showRealView.addObserver( new SimpleObserver() {
-            public void update() {
-                rebuildMolecule( false );
-            }
-        }, false );
+                                      public void update() {
+                                          rebuildMolecule( false );
+                                      }
+                                  }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel
@@ -619,13 +623,15 @@ public class RealMoleculesModule extends MoleculeViewModule {
     }
 
     /**
-     * @return The closest (hit) electron pair currently under the mouse pointer, or null if there is none
+     * @return The closest (hit) electron pair currently under the mouse pointer, or null if there is none (central atom not counted)
      */
     public PairGroup getElectronPairUnderPointer() {
         for ( CollisionResult result : moleculeView.hitsUnderCursor( getInputHandler() ) ) {
             PairGroup pair = getElectronPairForTarget( result.getGeometry() );
             if ( pair != null ) {
-                return pair;
+                if ( pair != getMolecule().getCentralAtom() ) {
+                    return pair;
+                }
             }
         }
         return null;
@@ -661,6 +667,10 @@ public class RealMoleculesModule extends MoleculeViewModule {
                 return null;
             }
         }
+    }
+
+    public boolean shouldUseKit() {
+        return useKit;
     }
 
     @Override public void updateLayout( Dimension canvasSize ) {
