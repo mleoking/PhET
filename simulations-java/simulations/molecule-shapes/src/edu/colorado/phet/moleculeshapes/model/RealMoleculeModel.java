@@ -47,8 +47,12 @@ public class RealMoleculeModel extends Molecule {
             ImmutableVector3D normalizedPosition = atom.position.get().normalized();
             idealPositionVectors.add( normalizedPosition );
             double bondLength = atom.position.get().magnitude();
-            addGroup( new RealPairGroup( normalizedPosition.times( PairGroup.REAL_TMP_SCALE * bondLength ), false, atom.getElement() ), getCentralAtom(), bond.order, bondLength );
+            RealPairGroup group = new RealPairGroup( normalizedPosition.times( PairGroup.REAL_TMP_SCALE * bondLength ), false, atom.getElement() );
+            addGroup( group, getCentralAtom(), bond.order, bondLength );
             elementsUsed.add( atom.getElement() );
+
+            // TODO: remove this temporary "fake" electron pair location
+//            addGroup( new PairGroup( normalizedPosition.times( PairGroup.REAL_TMP_SCALE * bondLength + PairGroup.LONE_PAIR_DISTANCE ), true, false ), group, 0 );
         }
 
         // all of the ideal vectors (including for lone pairs)
