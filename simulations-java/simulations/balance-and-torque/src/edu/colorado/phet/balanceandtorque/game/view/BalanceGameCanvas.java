@@ -98,6 +98,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private final MassValueEntryNode massValueEntryNode;
     private final MassValueEntryNode.DisplayAnswerNode massValueAnswerNode;
 
+    // Node for submitting tip predictions.
+    protected TipPredictionSelectorNode tipPredictionSelectorNode;
+
     // Create the smiling and frowning faces and center them on the screen.
     private final SmileFaceWithScoreNode smilingFace = new SmileFaceWithScoreNode();
     private final PNode frowningFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
@@ -267,16 +270,31 @@ public class BalanceGameCanvas extends PhetPCanvas {
         updateTitle();
         rootNode.addChild( challengeTitleNode );
 
-        // Add the dialog node that is used in some challenges to enable the
-        // user to submit specific mass values.
+        // Add the dialog node that is used in the mass deduction challenges
+        // to enable the user to submit specific mass values.
         massValueEntryNode = new MassValueEntryNode( model, this );
         rootNode.addChild( massValueEntryNode );
+
+        // Add the node that is used to depict the correct answer for the
+        // mass deduction challenges.
         massValueAnswerNode = new MassValueEntryNode.DisplayAnswerNode( model, this );
         rootNode.addChild( massValueAnswerNode );
+
+        // Position the mass entry and mass answer nodes in the same place.
         Point2D massEntryDialogCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
                                                             challengeTitleNode.getFullBoundsReference().getMaxY() + massValueEntryNode.getFullBounds().height / 2 + 10 );
         massValueEntryNode.centerFullBoundsOnPoint( massEntryDialogCenter.getX(), massEntryDialogCenter.getY() );
         massValueAnswerNode.centerFullBoundsOnPoint( massEntryDialogCenter.getX(), massEntryDialogCenter.getY() );
+
+        // Add the node that allows the user to submit their prediction of
+        // which way the plank will tip.  This is used in the tip prediction
+        // challenges.
+        tipPredictionSelectorNode = new TipPredictionSelectorNode();
+        rootNode.addChild( tipPredictionSelectorNode );
+        Point2D tipPredictionSelectorNodeCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
+                                                                      challengeTitleNode.getFullBoundsReference().getMaxY() + massValueEntryNode.getFullBounds().height / 2 + 10 );
+        tipPredictionSelectorNode.centerFullBoundsOnPoint( tipPredictionSelectorNodeCenter.getX(),
+                                                           tipPredictionSelectorNodeCenter.getY() );
 
         // Position and add the smiley and frowny faces.
         Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ), FACE_DIAMETER / 2 + 20 );
@@ -408,7 +426,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // during the course of a challenge.
     private void hideAllGameNodes() {
         setVisible( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, challengeTitleNode, checkAnswerButton, tryAgainButton,
-                    nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode );
+                    nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode, tipPredictionSelectorNode );
     }
 
     // When the game state changes, update the view with the appropriate
@@ -437,7 +455,12 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
             else {
                 show( checkAnswerButton );
+                if ( model.getCurrentChallenge().getChallengeViewConfig().showTipPredictionSelector ) {
+                    tipPredictionSelectorNode.tipPredictionProperty.reset();
+                    show( tipPredictionSelectorNode );
+                }
             }
+
             showChallengeGraphics();
 
             // Set the challenge layer to be interactive so that the user can
