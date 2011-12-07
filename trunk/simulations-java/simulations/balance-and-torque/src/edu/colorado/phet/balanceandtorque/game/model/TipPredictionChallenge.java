@@ -17,13 +17,16 @@ public class TipPredictionChallenge extends BalanceGameChallenge {
 
     private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "Which way will it tip?", false, true );
 
+    // This type of challenge can only be attempted once.
+    private static final int NUM_ATTEMPTS_ALLOWED = 1;
+
     /**
      * Constructor.
      *
      * @param fixedMasses
      */
     public TipPredictionChallenge( List<MassDistancePair> fixedMasses ) {
-        super( ColumnState.DOUBLE_COLUMNS );
+        super( ColumnState.DOUBLE_COLUMNS, NUM_ATTEMPTS_ALLOWED );
         this.fixedMassDistancePairs.addAll( fixedMasses );
         this.movableMasses.addAll( movableMasses );
     }

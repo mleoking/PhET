@@ -38,7 +38,6 @@ public class BalanceGameModel {
     public static final int MAX_LEVELS = 4;
     private static final int MAX_POINTS_PER_PROBLEM = 2;
     private static final int MAX_SCORE_PER_GAME = BalanceGameChallengeFactory.CHALLENGES_PER_SET * MAX_POINTS_PER_PROBLEM;
-    private static final int MAX_ATTEMPTS_TO_ANSWER = 2;
 
     // Information about the relationship between the plank and fulcrum.
     private static final double FULCRUM_HEIGHT = 0.85; // In meters.
@@ -306,7 +305,7 @@ public class BalanceGameModel {
         else {
             // The user got it wrong.
             incorrectGuessesOnCurrentChallenge++;
-            if ( incorrectGuessesOnCurrentChallenge < MAX_ATTEMPTS_TO_ANSWER ) {
+            if ( incorrectGuessesOnCurrentChallenge < getCurrentChallenge().maxAttemptsAllowed ) {
                 gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN );
             }
             else {
