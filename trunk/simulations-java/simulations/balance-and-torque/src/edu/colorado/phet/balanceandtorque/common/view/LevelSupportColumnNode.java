@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class LevelSupportColumnNode extends ModelObjectNode {
     private static final Color BASE_COLOR = new Color( 153, 102, 204 );
 
-    public LevelSupportColumnNode( final ModelViewTransform mvt, final LevelSupportColumn supportColumn, final Property<ColumnState> columnState ) {
+    public LevelSupportColumnNode( final ModelViewTransform mvt, final LevelSupportColumn supportColumn, final Property<ColumnState> columnState, boolean showCloseButton ) {
         super( mvt, supportColumn, new GradientPaint(
                 (float) mvt.modelToViewX( supportColumn.getShape().getBounds2D().getMinX() ),
                 0f,
@@ -42,24 +42,26 @@ public class LevelSupportColumnNode extends ModelObjectNode {
             }
         } );
 
-        // Add the button that can be used to deactivate the column, which
-        // means that it will essentially go away.
-        PNode closeButton = new PSwing( new CloseButton() ) {{
-            // Tweak the button's size.  The factor is empirically determined.
-            setScale( 0.8 );
-            // Position at center bottom of column.
-            double xPos = mvt.modelToViewX( supportColumn.getShape().getBounds2D().getCenterX() ) - getFullBoundsReference().width / 2;
-            double yPos = mvt.modelToViewY( supportColumn.getShape().getBounds2D().getMinY() ) - 2 * getFullBoundsReference().height;
-            setOffset( xPos, yPos );
-            addInputEventListener( new CursorHandler() );
-            // Add the handler that will deactivate the columns when the
-            // closed button is pressed.
-            addInputEventListener( new ButtonEventHandler() {
-                @Override public void mouseReleased( PInputEvent event ) {
-                    columnState.set( ColumnState.NONE );
-                }
-            } );
-        }};
-        addChild( closeButton );
+        if ( showCloseButton ) {
+            // Add the button that can be used to deactivate the column, which
+            // means that it will essentially go away.
+            PNode closeButton = new PSwing( new CloseButton() ) {{
+                // Tweak the button's size.  The factor is empirically determined.
+                setScale( 0.8 );
+                // Position at center bottom of column.
+                double xPos = mvt.modelToViewX( supportColumn.getShape().getBounds2D().getCenterX() ) - getFullBoundsReference().width / 2;
+                double yPos = mvt.modelToViewY( supportColumn.getShape().getBounds2D().getMinY() ) - 2 * getFullBoundsReference().height;
+                setOffset( xPos, yPos );
+                addInputEventListener( new CursorHandler() );
+                // Add the handler that will deactivate the columns when the
+                // closed button is pressed.
+                addInputEventListener( new ButtonEventHandler() {
+                    @Override public void mouseReleased( PInputEvent event ) {
+                        columnState.set( ColumnState.NONE );
+                    }
+                } );
+            }};
+            addChild( closeButton );
+        }
     }
 }
