@@ -12,7 +12,6 @@ import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.FulcrumAbovePlank;
 import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
-import edu.colorado.phet.balanceandtorque.common.model.ShapeModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.TiltSupportColumn;
 import edu.colorado.phet.common.games.GameSettings;
@@ -396,8 +395,12 @@ public class BalanceGameModel {
         gameStateProperty.set( GameState.DISPLAYING_CORRECT_ANSWER );
     }
 
-    public ShapeModelElement getTiltSupportColumn() {
+    public TiltSupportColumn getTiltSupportColumn() {
         return tiltSupportColumn;
+    }
+
+    public List<LevelSupportColumn> getLevelSupportColumns() {
+        return levelSupportColumns;
     }
 
     /**
