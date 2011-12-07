@@ -10,9 +10,11 @@ import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants
 import edu.colorado.phet.balanceandtorque.common.model.AttachmentBar;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.FulcrumAbovePlank;
+import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
 import edu.colorado.phet.balanceandtorque.common.model.ShapeModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.TiltSupportColumn;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -21,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * Main model class for the balance game.
@@ -78,7 +79,13 @@ public class BalanceGameModel {
     public ObservableList<Mass> movableMasses = new ObservableList<Mass>();
 
     // Support column.  In this model, there is only one.
-    private final ShapeModelElement supportColumn;
+    private final TiltSupportColumn tiltSupportColumn;
+
+    // Support columns
+    private final List<LevelSupportColumn> levelSupportColumns = new ArrayList<LevelSupportColumn>() {{
+        add( new LevelSupportColumn( PLANK_HEIGHT, -1.625 ) );
+        add( new LevelSupportColumn( PLANK_HEIGHT, 1.625 ) );
+    }};
 
     // Property that controls whether two, one or zero columns are supporting the plank.
     public final Property<ColumnState> supportColumnState = new Property<ColumnState>( ColumnState.SINGLE_COLUMN );
@@ -106,19 +113,12 @@ public class BalanceGameModel {
             }
         } );
 
-        // Note: These are positioned so that the closing window that is
-        // placed on them (the red x) is between two snap-to points on the
-        // plank that the they don't get blocked by force vectors.
-        final double plankX = 1.8;
-
-        final double WIDTH = 0.35;
-        final DoubleGeneralPath path = new DoubleGeneralPath( plankX - WIDTH / 2, 0 ) {{
-            lineTo( plankX + WIDTH / 2, 0 );
-            lineTo( plankX + WIDTH / 2, plank.getSurfaceYValue( plankX + WIDTH / 2 ) );
-            lineTo( plankX - WIDTH / 2, plank.getSurfaceYValue( plankX - WIDTH / 2 ) );
-            closePath();
-        }};
-        supportColumn = new ShapeModelElement( path.getGeneralPath() );
+        // Create the support column that is used to hold the plank in a tilted
+        // position in some of the challenges.
+        double tiltSupportColumnXPos = 1.8; // Meters, empirically chosen to look good.
+        tiltSupportColumn = new TiltSupportColumn( PLANK_HEIGHT + tiltSupportColumnXPos * Math.tan( plank.getMaxTiltAngle() ),
+                                                   tiltSupportColumnXPos,
+                                                   -plank.getMaxTiltAngle() );
     }
 
     //------------------------------------------------------------------------
@@ -396,8 +396,8 @@ public class BalanceGameModel {
         gameStateProperty.set( GameState.DISPLAYING_CORRECT_ANSWER );
     }
 
-    public ShapeModelElement getSupportColumn() {
-        return supportColumn;
+    public ShapeModelElement getTiltSupportColumn() {
+        return tiltSupportColumn;
     }
 
     /**

@@ -12,8 +12,8 @@ import edu.colorado.phet.balanceandtorque.balancelab.view.MysteryVectorNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.PositionedVectorNode;
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
 import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
-import edu.colorado.phet.balanceandtorque.common.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -107,7 +107,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         nonMassLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
         nonMassLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) );
         nonMassLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
-        for ( SupportColumn supportColumn : model.getSupportColumns() ) {
+        for ( LevelSupportColumn supportColumn : model.getSupportColumns() ) {
             nonMassLayer.addChild( new LevelSupportColumnNode( mvt, supportColumn, model.columnState ) );
         }
 

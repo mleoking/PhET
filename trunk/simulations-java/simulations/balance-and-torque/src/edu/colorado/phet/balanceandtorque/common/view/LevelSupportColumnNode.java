@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.SupportColumn;
+import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.StandardIconButton.CloseButton;
@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class LevelSupportColumnNode extends ModelObjectNode {
     private static final Color BASE_COLOR = new Color( 153, 102, 204 );
 
-    public LevelSupportColumnNode( final ModelViewTransform mvt, final SupportColumn supportColumn, final Property<ColumnState> columnState ) {
+    public LevelSupportColumnNode( final ModelViewTransform mvt, final LevelSupportColumn supportColumn, final Property<ColumnState> columnState ) {
         super( mvt, supportColumn, new GradientPaint(
                 (float) mvt.modelToViewX( supportColumn.getShape().getBounds2D().getMinX() ),
                 0f,

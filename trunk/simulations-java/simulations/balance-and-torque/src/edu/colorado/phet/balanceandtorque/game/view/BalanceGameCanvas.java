@@ -150,7 +150,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add the fulcrum, the columns, etc.
         challengeLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
-        challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getSupportColumn(), model.supportColumnState ) );
+        challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getTiltSupportColumn(), model.supportColumnState ) );
         challengeLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) {{
             //Disable interactivity since the user should only be able to move the free block
             setPickable( false );
