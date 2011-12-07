@@ -71,6 +71,40 @@ public abstract class BalanceGameChallenge {
         return true;
     }
 
+    /**
+     * Compares the fixed masses and their distances to those of the given
+     * challenge and, if all fixed masses and distances are the same, 'true'
+     * is returned.
+     *
+     * @param that
+     * @return
+     */
+    public boolean usesSameFixedMassesAndDistances( BalanceGameChallenge that ) {
+        if ( this == that ) {
+            return true;
+        }
+
+        if ( this.fixedMassDistancePairs.size() != that.fixedMassDistancePairs.size() ) {
+            // If the lists are unequal in size, then the set of fixed masses
+            // and distances can't be equal.
+            return false;
+        }
+
+        int matchCount = 0;
+        for ( MassDistancePair thisFixedMassDistancePair : fixedMassDistancePairs ) {
+            for ( MassDistancePair thatFixedMassDistancePair : that.fixedMassDistancePairs ) {
+                if ( thisFixedMassDistancePair.mass.getMass() == thatFixedMassDistancePair.mass.getMass() &&
+                     thisFixedMassDistancePair.distance == thatFixedMassDistancePair.distance ) {
+                    matchCount++;
+                }
+            }
+        }
+
+        // If a match was found for all fixed mass distance pairs, then the
+        // lists are equivalent.
+        return matchCount == fixedMassDistancePairs.size();
+    }
+
     public boolean usesSameMovableMasses( BalanceGameChallenge that ) {
         return containsEquivalentMasses( movableMasses, that.movableMasses );
     }
