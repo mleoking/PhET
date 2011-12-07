@@ -14,9 +14,11 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.view.FulcrumAbovePlankNode;
 import edu.colorado.phet.balanceandtorque.common.view.LevelIndicatorNode;
+import edu.colorado.phet.balanceandtorque.common.view.LevelSupportColumnNode;
 import edu.colorado.phet.balanceandtorque.common.view.MassNodeFactory;
 import edu.colorado.phet.balanceandtorque.common.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
@@ -151,6 +153,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add the fulcrum, the columns, etc.
         challengeLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
         challengeLayer.addChild( new TiltedSupportColumnNode( mvt, model.getTiltSupportColumn(), model.supportColumnState ) );
+        for ( LevelSupportColumn levelSupportColumn : model.getLevelSupportColumns() ) {
+            challengeLayer.addChild( new LevelSupportColumnNode( mvt, levelSupportColumn, model.supportColumnState ) );
+        }
         challengeLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) {{
             //Disable interactivity since the user should only be able to move the free block
             setPickable( false );
