@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.buildtools.RevisionStrategy.DynamicRevisionStrategy;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
@@ -40,6 +40,9 @@ public class BuildScript {
 
     //TODO: refactor to not be public static
     public static boolean generateJARs = true;//AND'ed with project setting
+
+    //For testing with git deployments, see #1496
+    private boolean gitEnabled = false;
 
     public BuildScript( File trunk, PhetProject project ) {
         this.trunk = trunk;
@@ -384,6 +387,12 @@ public class BuildScript {
 
     public boolean build() {
         try {
+
+            if ( gitEnabled ) {
+                System.out.println( "Switching git dependencies before build" );
+                project.switchGitDependencies();
+            }
+
             boolean success = project.build();
             System.out.println( "**** Finished BuildScript.build" );
             return success;
