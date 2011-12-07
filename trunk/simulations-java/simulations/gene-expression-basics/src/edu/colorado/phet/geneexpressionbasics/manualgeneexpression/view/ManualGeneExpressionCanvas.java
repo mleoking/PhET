@@ -145,7 +145,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 model.messengerRnaList.addElementRemovedObserver( new VoidFunction1<MessengerRna>() {
                     public void apply( MessengerRna removedMessengerRna ) {
                         if ( removedMessengerRna == addedMessengerRna ) {
-                            modelRootNode.removeChild( messengerRnaNode );
+                            messengerRnaLayer.removeChild( messengerRnaNode );
                         }
                     }
                 } );
