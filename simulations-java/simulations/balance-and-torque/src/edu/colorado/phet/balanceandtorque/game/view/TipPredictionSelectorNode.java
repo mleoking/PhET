@@ -3,14 +3,15 @@ package edu.colorado.phet.balanceandtorque.game.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.game.model.TipPrediction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -22,8 +23,8 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -39,9 +40,9 @@ public class TipPredictionSelectorNode extends PNode {
     public Property<TipPrediction> tipPredictionProperty = new Property<TipPrediction>( TipPrediction.NONE );
 
     public TipPredictionSelectorNode() {
-        PNode panelContents = new HBox( new TipPredictionSelectionPanel( "Tip Left", TipPrediction.TIP_DOWN_ON_LEFT_SIDE, tipPredictionProperty ),
-                                        new TipPredictionSelectionPanel( "Stay Balanced", TipPrediction.STAY_BALANCED, tipPredictionProperty ),
-                                        new TipPredictionSelectionPanel( "Tip Right", TipPrediction.TIP_DOWN_ON_RIGHT_SIDE, tipPredictionProperty ) );
+        PNode panelContents = new HBox( new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_LEFT, TipPrediction.TIP_DOWN_ON_LEFT_SIDE, tipPredictionProperty ),
+                                        new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_BALANCED, TipPrediction.STAY_BALANCED, tipPredictionProperty ),
+                                        new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_RIGHT, TipPrediction.TIP_DOWN_ON_RIGHT_SIDE, tipPredictionProperty ) );
         addChild( new ControlPanelNode( panelContents ) );
     }
 
@@ -49,15 +50,16 @@ public class TipPredictionSelectorNode extends PNode {
      * Class that defines a single selection panel.
      */
     private static class TipPredictionSelectionPanel extends PNode {
+        private static final double PANEL_WIDTH = 200; // In screen coords, fairly close to pixels.
         private static final Color HIGHLIGHT_COLOR = Color.YELLOW;
         private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
         private static final Stroke HIGHLIGHT_STROKE = new BasicStroke( 3 );
 
-        private TipPredictionSelectionPanel( String text, final TipPrediction correspondingPrediction, final Property<TipPrediction> tipPredictionProperty ) {
+        private TipPredictionSelectionPanel( Image image, final TipPrediction correspondingPrediction, final Property<TipPrediction> tipPredictionProperty ) {
 
             // Create and add the panel that represents this tip prediction choice.
-            PNode panel = new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ), Color.PINK, new BasicStroke( 1 ), Color.BLACK );
-            panel.addChild( new PText( text ) );
+            PNode panel = new PImage( image );
+            panel.setScale( PANEL_WIDTH / panel.getFullBoundsReference().width );
             addChild( panel );
 
             // Set up mouse listener that watches to see if the user has
