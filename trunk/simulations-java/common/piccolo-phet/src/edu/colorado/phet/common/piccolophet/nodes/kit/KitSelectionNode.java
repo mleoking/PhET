@@ -52,6 +52,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
 
     //List of the available kits
     private final ArrayList<Kit<T>> kits;
+    protected ZeroOffsetNode controlHolderNode;
 
     /**
      * Creates a KitSelectionNode with no title
@@ -164,9 +165,10 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         double extraInsetSpace = extraSpace / 2;
 
         //Larger inset is necessary when using HTMLButtonImageNode since with a small inset the button will be touching the title
-        addChild( new ZeroOffsetNode( new KitControlNode( getKitCount(), selectedKit, titleNode, extraInsetSpace + 10 ) ) {{
+        controlHolderNode = new ZeroOffsetNode( new KitControlNode( getKitCount(), selectedKit, titleNode, extraInsetSpace + 10 ) ) {{
             setOffset( background.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, background.getFullBounds().getMinY() - getFullBounds().getHeight() );
-        }} );
+        }};
+        addChild( controlHolderNode );
     }
 
     private Rectangle2D getBoundingRectangle( ArrayList<PNode> nodes ) {

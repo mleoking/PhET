@@ -6,11 +6,15 @@ import java.util.Arrays;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
+import edu.colorado.phet.common.piccolophet.nodes.kit.Kit;
+import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
@@ -38,15 +42,52 @@ public class RealMoleculesControlPanel extends PNode {
     };
     public static final double INNER_WIDTH = Math.ceil( getRequiredInnerWidth() );
 
-    // used for placement of the molecule combo box
-    private Spacer comboBoxSpacer;
+    // used for placement of the molecule selection node
+    private Spacer moleculeSelectionSpacer;
 
     public RealMoleculesControlPanel( final RealMoleculesModule module, final Function0<Double> getControlPanelXPosition ) {
 
         // put it on 0 vertically
         setOffset( 0, 10 );
 
-        final PNode comboBoxNode = new ComboBoxNode<RealMoleculeShape>(
+        final PNode moleculeSelectionNode = module.shouldUseKit() ? new ZeroOffsetNode( new PNode() {{
+            final Property<Integer> selectedKit = new Property<Integer>( 0 );
+            final MoleculeKit[] kits = new MoleculeKit[] {
+                    new MoleculeKit( module,
+                                     RealMoleculeShape.BERYLLIUM_CHLORIDE,
+                                     RealMoleculeShape.BORON_TRIFLUORIDE,
+                                     RealMoleculeShape.METHANE,
+                                     RealMoleculeShape.PHOSPHORUS_PENTACHLORIDE,
+                                     RealMoleculeShape.SULFUR_HEXAFLUORIDE ),
+                    new MoleculeKit( module,
+                                     RealMoleculeShape.CARBON_DIOXIDE,
+                                     RealMoleculeShape.SULFUR_DIOXIDE,
+                                     RealMoleculeShape.WATER,
+                                     RealMoleculeShape.XENON_DIFLUORIDE ),
+                    new MoleculeKit( module,
+                                     RealMoleculeShape.SULFUR_DIOXIDE,
+                                     RealMoleculeShape.AMMONIA,
+                                     RealMoleculeShape.SULFUR_TETRAFLUORIDE,
+                                     RealMoleculeShape.BROMINE_PENTAFLUORIDE ),
+                    new MoleculeKit( module,
+                                     RealMoleculeShape.WATER,
+                                     RealMoleculeShape.CHLORINE_TRIFLUORIDE,
+                                     RealMoleculeShape.XENON_TETRAFLUORIDE )
+            };
+            selectedKit.addObserver( new SimpleObserver() {
+                public void update() {
+                    final RealMoleculeShape currentMolecule = kits[selectedKit.get()].getCurrentMolecule();
+                    JMEUtils.invoke( new Runnable() {
+                        public void run() {
+                            module.switchToMolecule( currentMolecule );
+                        }
+                    } );
+                }
+            } );
+            addChild( new KitSelectionNode<PNode>( selectedKit, new Spacer( 0, 0, 80, 10 ), kits ) {{
+                controlHolderNode.setOffset( controlHolderNode.getXOffset(), controlHolderNode.getYOffset() + 80 );
+            }} );
+        }} ) : new ComboBoxNode<RealMoleculeShape>(
                 Arrays.asList( RealMoleculeShape.TAB_2_MOLECULES ),
                 RealMoleculeShape.TAB_2_MOLECULES[0],
                 new Function1<RealMoleculeShape, PNode>() {
@@ -82,31 +123,39 @@ public class RealMoleculesControlPanel extends PNode {
             addChild( new Spacer( 0, 0, INNER_WIDTH, 20 ) );
 
             // the spacer holds the place of the molecule combo box
-            comboBoxSpacer = new Spacer( comboBoxNode.getFullBounds() ) {{
+            moleculeSelectionSpacer = new Spacer( moleculeSelectionNode.getFullBounds() ) {{
                 // set the correct offset for the spacer
-                setOffset( ( INNER_WIDTH - comboBoxNode.getFullBounds().getWidth() ) / 2,
+                setOffset( ( INNER_WIDTH - moleculeSelectionNode.getFullBounds().getWidth() ) / 2,
                            dropDownBoxTopPadding );
             }};
-            addChild( comboBoxSpacer );
+            addChild( moleculeSelectionSpacer );
 
             /*---------------------------------------------------------------------------*
             * real / model radio buttons
             *----------------------------------------------------------------------------*/
-            final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__REAL_VIEW, module.showRealView, true ) {{
-                setOffset( 0, comboBoxSpacer.getFullBounds().getMaxY() );
-            }};
+            final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__REAL_VIEW, module.showRealView, true );
             addChild( realRadioNode );
 
-            final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__MODEL_VIEW, module.showRealView, false ) {{
-                setOffset( 0, realRadioNode.getFullBounds().getMaxY() );
-            }};
+            final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__MODEL_VIEW, module.showRealView, false );
             addChild( modelRadioNode );
 
-            // center the radio buttons
-            final double maxWidth = Math.max( realRadioNode.getFullBounds().getWidth(), modelRadioNode.getFullBounds().getWidth() );
-            double radioButtonHorizontalOffset = ( MoleculeShapesConstants.RIGHT_MIN_WIDTH - maxWidth ) / 2;
-            realRadioNode.setOffset( radioButtonHorizontalOffset, realRadioNode.getYOffset() );
-            modelRadioNode.setOffset( radioButtonHorizontalOffset, modelRadioNode.getYOffset() );
+            if ( module.shouldUseKit() ) {
+                // center the radio buttons side-by-side
+                double spacer = 10;
+                double width = realRadioNode.getFullBounds().getWidth() + spacer + modelRadioNode.getFullBounds().getWidth();
+                double x = ( INNER_WIDTH - width ) / 2;
+                double y = moleculeSelectionSpacer.getFullBounds().getMaxY();
+                realRadioNode.setOffset( x, y );
+                modelRadioNode.setOffset( x + realRadioNode.getFullBounds().getWidth() + spacer, y );
+            }
+            else {
+                // center the radio buttons individually, with one on top of the other
+                final double maxWidth = Math.max( realRadioNode.getFullBounds().getWidth(), modelRadioNode.getFullBounds().getWidth() );
+                double radioButtonHorizontalOffset = ( MoleculeShapesConstants.RIGHT_MIN_WIDTH - maxWidth ) / 2;
+
+                realRadioNode.setOffset( radioButtonHorizontalOffset, moleculeSelectionSpacer.getFullBounds().getMaxY() );
+                modelRadioNode.setOffset( radioButtonHorizontalOffset, realRadioNode.getFullBounds().getMaxY() );
+            }
         }}, Strings.CONTROL__MOLECULE );
         addChild( moleculePanel );
 
@@ -118,8 +167,8 @@ public class RealMoleculesControlPanel extends PNode {
         addChild( optionsPanel );
 
         // set the combo box's offset based on our global full bounds, since the combo box is added to the root
-        comboBoxNode.setOffset( comboBoxSpacer.getGlobalFullBounds().getX(), comboBoxSpacer.getGlobalFullBounds().getY() - dropDownBoxTopPadding );
-        addChild( comboBoxNode );
+        moleculeSelectionNode.setOffset( moleculeSelectionSpacer.getGlobalFullBounds().getX(), moleculeSelectionSpacer.getGlobalFullBounds().getY() - dropDownBoxTopPadding );
+        addChild( moleculeSelectionNode );
 
         // spacer takes up as much vertical room as the combo box, so we prevent sub-pixel issues
         addChild( new Spacer( 0, 0, 10, 800 ) );
@@ -145,6 +194,33 @@ public class RealMoleculesControlPanel extends PNode {
             maxWidth = Math.max( maxWidth, new PropertyCheckBoxNode( checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
         }
         return maxWidth;
+    }
+
+    public static class MoleculeKit extends Kit<PNode> {
+        private Property<RealMoleculeShape> moleculeOptions;
+
+        public MoleculeKit( final RealMoleculesModule module, final RealMoleculeShape... shapes ) {
+            // stub, will have content added later
+            super( new PNode() );
+
+            moleculeOptions = new Property<RealMoleculeShape>( shapes[0] );
+            moleculeOptions.addObserver( new ChangeObserver<RealMoleculeShape>() {
+                public void update( RealMoleculeShape newValue, RealMoleculeShape oldValue ) {
+                    module.switchToMolecule( newValue );
+                }
+            } );
+            final Property<Double> y = new Property<Double>( 0.0 );
+            for ( RealMoleculeShape shape : shapes ) {
+                content.addChild( new PropertyRadioButtonNode<RealMoleculeShape>( shape.getDisplayName(), moleculeOptions, shape ) {{
+                    setOffset( 0, y.get() );
+                    y.set( getFullBounds().getMaxY() );
+                }} );
+            }
+        }
+
+        public RealMoleculeShape getCurrentMolecule() {
+            return moleculeOptions.get();
+        }
     }
 
 }
