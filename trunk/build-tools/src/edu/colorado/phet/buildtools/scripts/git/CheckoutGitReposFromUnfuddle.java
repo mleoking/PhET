@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *
  * @author Sam Reid
  */
-public class CheckoutGitMirror {
+public class CheckoutGitReposFromUnfuddle {
     public static void main( String[] args ) {
         ArrayList<File> files = new CreateUnfuddleRepos().getFiles();
         File oldTrunk = new File( "C:\\workingcopy\\phet\\svn\\trunk\\" );
