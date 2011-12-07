@@ -117,12 +117,42 @@ class MotionSeriesObject(_position: MutableDouble,
   updateGravityForce()
 
   //For "Basics" application, use complete words like Ffriction instead of abbreviations like Ff.  Basics application is not i18ized
-  val gravityString = if ( Settings.basicsMode ) "gravity" else "force.abbrev.gravity".translate
-  val normalString = if ( Settings.basicsMode ) "normal" else "force.abbrev.normal".translate
-  val totalForceString = if ( Settings.basicsMode ) "total" else "force.abbrev.total".translate
-  val appliedForceString = if ( Settings.basicsMode ) "push" else "force.abbrev.applied".translate
-  val frictionForceString = if ( Settings.basicsMode ) "friction" else "force.abbrev.friction".translate
-  val wallForceString = if ( Settings.basicsMode ) "wall" else "force.abbrev.wall".translate
+  val gravityString = if ( Settings.basicsMode ) {
+    "gravity"
+  }
+  else {
+    "force.abbrev.gravity".translate
+  }
+  val normalString = if ( Settings.basicsMode ) {
+    "normal"
+  }
+  else {
+    "force.abbrev.normal".translate
+  }
+  val totalForceString = if ( Settings.basicsMode ) {
+    "total"
+  }
+  else {
+    "force.abbrev.total".translate
+  }
+  val appliedForceString = if ( Settings.basicsMode ) {
+    "applied"
+  }
+  else {
+    "force.abbrev.applied".translate
+  }
+  val frictionForceString = if ( Settings.basicsMode ) {
+    "friction"
+  }
+  else {
+    "force.abbrev.friction".translate
+  }
+  val wallForceString = if ( Settings.basicsMode ) {
+    "wall"
+  }
+  else {
+    "force.abbrev.wall".translate
+  }
   val gravityForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.gravityForceColor, "gravityForce".translate, gravityString, false, gravityForce, (a, b) => b, PI / 2)
   val normalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.normalForceColor, "normalForce".translate, normalString, true, normalForce, (a, b) => b, PI / 2)
   val totalForceVector = new MotionSeriesObjectVector(MotionSeriesDefaults.sumForceColor, "totalForce".translate, totalForceString, false, totalForce, (a, b) => b, 0) ////Net force vector label should always be above
