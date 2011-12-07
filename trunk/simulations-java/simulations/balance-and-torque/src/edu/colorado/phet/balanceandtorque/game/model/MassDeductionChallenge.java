@@ -16,7 +16,7 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
  */
 public class MassDeductionChallenge extends BalanceGameChallenge {
 
-    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueResources.Strings.WHAT_IS_THE_MASS, true );
+    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueResources.Strings.WHAT_IS_THE_MASS, true, false );
 
     /**
      * Constructor.

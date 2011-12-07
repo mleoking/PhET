@@ -19,7 +19,7 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
  */
 public class BalanceMassesChallenge extends BalanceGameChallenge {
 
-    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueResources.Strings.BALANCE_ME, false );
+    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueResources.Strings.BALANCE_ME, false, false );
 
     /**
      * Constructor.
