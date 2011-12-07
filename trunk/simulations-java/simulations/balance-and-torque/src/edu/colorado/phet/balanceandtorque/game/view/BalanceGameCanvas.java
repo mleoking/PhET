@@ -25,7 +25,10 @@ import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
 import edu.colorado.phet.balanceandtorque.common.view.TiltedSupportColumnNode;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorque.game.model.BalanceMassesChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
+import edu.colorado.phet.balanceandtorque.game.model.TipPrediction;
+import edu.colorado.phet.balanceandtorque.game.model.TipPredictionChallenge;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameScoreboardNode;
@@ -305,9 +308,22 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add and lay out the buttons.
         checkAnswerButton.centerFullBoundsOnPoint( mvt.modelToViewX( 0 ), mvt.modelToViewY( 0 ) + 40 );
+
+        // Add the listener that will submit the users answers to the model.
+        // Note that the Mass Deduction challenges submit through the mass
+        // dialog instead of via this button.
         checkAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.checkAnswer();
+                if ( model.getCurrentChallenge() instanceof BalanceMassesChallenge ) {
+                    model.checkAnswer();
+                }
+                else if ( model.getCurrentChallenge() instanceof TipPredictionChallenge ) {
+                    model.checkAnswer( tipPredictionSelectorNode.tipPredictionProperty.get() );
+                }
+                else {
+                    System.out.println( getClass().getName() + " Error: No check answer handler exists for this challenge type." );
+                    assert false; // No handler exists for this challenge type.
+                }
             }
         } );
         rootNode.addChild( checkAnswerButton );
@@ -333,22 +349,23 @@ public class BalanceGameCanvas extends PhetPCanvas {
         } );
         rootNode.addChild( displayCorrectAnswerButton );
 
-        // Add a listener that prevents the "Check Answer" button from being
-        // enabled when there are no masses on the right side of the plank.
-        VoidFunction1<Mass> checkAnswerButtonEnabledController = new VoidFunction1<Mass>() {
+        // Add listeners that control the enabled state of the check answer
+        // button.
+        VoidFunction1<Mass> checkAnswerButtonEnabledUpdater = new VoidFunction1<Mass>() {
             public void apply( Mass addedMass ) {
-                boolean massesOnRightSide = false;
-                for ( Mass mass : model.getPlank().massesOnSurface ) {
-                    if ( mass.getPosition().getX() > model.getPlank().getPlankSurfaceCenter().getX() ) {
-                        massesOnRightSide = true;
-                        break;
-                    }
-                }
-                checkAnswerButton.setEnabled( massesOnRightSide );
+                updateCheckAnswerButtonEnabled();
             }
         };
-        model.getPlank().massesOnSurface.addElementAddedObserver( checkAnswerButtonEnabledController );
-        model.getPlank().massesOnSurface.addElementRemovedObserver( checkAnswerButtonEnabledController );
+        model.getPlank().massesOnSurface.addElementAddedObserver( checkAnswerButtonEnabledUpdater );
+        model.getPlank().massesOnSurface.addElementRemovedObserver( checkAnswerButtonEnabledUpdater );
+
+        // Add a listener that controls the enabled state of the "Check Answer"
+        // button for the tip predictions challenges.
+        tipPredictionSelectorNode.tipPredictionProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                updateCheckAnswerButtonEnabled();
+            }
+        } );
 
         // Add a key listener that will allow the user to essentially press the
         // active button by pressing the Enter key.
@@ -411,7 +428,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     //-------------------------------------------------------------------------
 
     // Utility method for showing/hiding several PNodes, used in handleGameStateChange
-    private void setVisible( boolean visible, PNode... nodes ) {
+    private void setNodeVisibility( boolean visible, PNode... nodes ) {
         for ( PNode node : nodes ) {
             node.setVisible( visible );
         }
@@ -419,14 +436,14 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     // Utility method for showing several PNodes, used in handleGameStateChange
     private void show( PNode... nodes ) {
-        setVisible( true, nodes );
+        setNodeVisibility( true, nodes );
     }
 
     // Utility method for hiding all of the game nodes whose visibility changes
     // during the course of a challenge.
     private void hideAllGameNodes() {
-        setVisible( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, challengeTitleNode, checkAnswerButton, tryAgainButton,
-                    nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode, tipPredictionSelectorNode );
+        setNodeVisibility( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, challengeTitleNode, checkAnswerButton, tryAgainButton,
+                           nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode, tipPredictionSelectorNode );
     }
 
     // When the game state changes, update the view with the appropriate
@@ -519,6 +536,27 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
         challengeTitleNode.setOffset( mvt.modelToViewX( 0 ) - challengeTitleNode.getFullBoundsReference().width / 2,
                                       DEFAULT_STAGE_SIZE.getHeight() * 0.15 - challengeTitleNode.getFullBoundsReference().height / 2 );
+    }
+
+    private void updateCheckAnswerButtonEnabled() {
+        // I tried to avoid using 'instanceof', but in this case, it was tough
+        // to work around.
+        if ( model.getCurrentChallenge() instanceof BalanceMassesChallenge ) {
+            // The button should be enabled whenever there are masses on the
+            // right side of the plank.
+            boolean massesOnRightSide = false;
+            for ( Mass mass : model.getPlank().massesOnSurface ) {
+                if ( mass.getPosition().getX() > model.getPlank().getPlankSurfaceCenter().getX() ) {
+                    massesOnRightSide = true;
+                    break;
+                }
+            }
+            checkAnswerButton.setEnabled( massesOnRightSide );
+        }
+        else if ( model.getCurrentChallenge() instanceof TipPredictionChallenge ) {
+            // The button should be enabled once the user has made a prediction.
+            checkAnswerButton.setEnabled( tipPredictionSelectorNode.tipPredictionProperty.get() != TipPrediction.NONE );
+        }
     }
 
     private void hideChallenge() {

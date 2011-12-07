@@ -232,9 +232,9 @@ public class BalanceGameModel {
      */
     public void checkAnswer() {
         // Verify that this method isn't being used inappropriately.
-        assert !getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog;
+        assert getCurrentChallenge() instanceof BalanceMassesChallenge;
 
-        // Turn off the column so that the plank can move.
+        // Turn off the column(s) so that the plank can move.
         supportColumnState.set( ColumnState.NONE );
 
         // Respond to the user's proposed answer.
@@ -249,10 +249,28 @@ public class BalanceGameModel {
      */
     public void checkAnswer( double mass ) {
         // Verify that this method isn't being used inappropriately.
-        assert getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog;
+        assert getCurrentChallenge() instanceof MassDeductionChallenge;
 
         // Handle the user's proposed answer.
         handleProposedAnswer( mass == getTotalFixedMassValue() );
+    }
+
+    /**
+     * Check the answer for challenges in which the user must predict which way
+     * the plank is going to tip.
+     *
+     * @param tipPrediction
+     */
+    public void checkAnswer( TipPrediction tipPrediction ) {
+        // Verify that this method isn't being used inappropriately.
+        assert getCurrentChallenge() instanceof TipPredictionChallenge;
+
+        // Turn off the column(s) so that the plank can move.
+        supportColumnState.set( ColumnState.NONE );
+
+        handleProposedAnswer( ( tipPrediction == TipPrediction.TIP_DOWN_ON_LEFT_SIDE && plank.getTorqueDueToMasses() > 0 ) ||
+                              ( tipPrediction == TipPrediction.TIP_DOWN_ON_RIGHT_SIDE && plank.getTorqueDueToMasses() < 0 ) ||
+                              ( tipPrediction == TipPrediction.STAY_BALANCED && plank.getTorqueDueToMasses() == 0 ) );
     }
 
     /**
