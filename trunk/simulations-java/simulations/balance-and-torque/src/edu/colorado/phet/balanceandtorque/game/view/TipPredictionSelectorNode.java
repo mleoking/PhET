@@ -50,10 +50,10 @@ public class TipPredictionSelectorNode extends PNode {
      * Class that defines a single selection panel.
      */
     private static class TipPredictionSelectionPanel extends PNode {
-        private static final double PANEL_WIDTH = 200; // In screen coords, fairly close to pixels.
-        private static final Color HIGHLIGHT_COLOR = Color.YELLOW;
+        private static final double PANEL_WIDTH = 220; // In screen coords, fairly close to pixels.
+        private static final Color HIGHLIGHT_COLOR = new Color( 255, 215, 0 );
         private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
-        private static final Stroke HIGHLIGHT_STROKE = new BasicStroke( 3 );
+        private static final Stroke HIGHLIGHT_STROKE = new BasicStroke( 6 );
 
         private TipPredictionSelectionPanel( Image image, final TipPrediction correspondingPrediction, final Property<TipPrediction> tipPredictionProperty ) {
 
