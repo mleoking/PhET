@@ -111,12 +111,19 @@ public class BalanceGameChallengeFactory {
     // can avoid creating the same challenges multiple times.
     private static final List<BalanceGameChallenge> USED_BALANCE_CHALLENGES = new ArrayList<BalanceGameChallenge>();
     private static final List<BalanceGameChallenge> USED_MASS_DEDUCTION_CHALLENGES = new ArrayList<BalanceGameChallenge>();
+    private static final List<BalanceGameChallenge> USED_TIP_PREDICTION_CHALLENGES = new ArrayList<BalanceGameChallenge>();
 
     // Wrap several of the methods into function objects so that they can be
     // used in the method that assures the uniqueness of challenges.
     private static final Function0<BalanceGameChallenge> SIMPLE_BALANCE_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
         public BalanceGameChallenge apply() {
             return generateSimpleBalanceChallenge();
+        }
+    };
+
+    private static final Function0<BalanceGameChallenge> SIMPLE_TIP_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
+        public BalanceGameChallenge apply() {
+            return generateSimpleTipPredictionChallenge();
         }
     };
 
@@ -168,6 +175,12 @@ public class BalanceGameChallengeFactory {
         }
     };
 
+    private static final Function2<BalanceGameChallenge, List<BalanceGameChallenge>, Boolean> UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST = new Function2<BalanceGameChallenge, List<BalanceGameChallenge>, Boolean>() {
+        public Boolean apply( BalanceGameChallenge balanceGameChallenge, List<BalanceGameChallenge> balanceGameChallenges ) {
+            return usesUniqueFixedMassesAndDistances( balanceGameChallenge, balanceGameChallenges );
+        }
+    };
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -189,7 +202,8 @@ public class BalanceGameChallengeFactory {
     public static List<BalanceGameChallenge> generateChallengeSet( int level ) {
         List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
         if ( level == 1 ) {
-            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TIP_PREDICTION_CHALLENGES ) );
+//            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( SIMPLE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
@@ -422,6 +436,11 @@ public class BalanceGameChallengeFactory {
         return MassDeductionChallenge.create( mysteryMassPrototype.createCopy(), mysteryMassDistanceFromCenter, knownMass );
     }
 
+    private static TipPredictionChallenge generateSimpleTipPredictionChallenge() {
+        // TODO: Stubbed for now, always produces same challenge.
+        return TipPredictionChallenge.create( new BrickStack( 1 ), 1, new BrickStack( 2 ), -1 );
+    }
+
     /**
      * Generate a mass deduction style challenge where the fixed mystery mass
      * is either twice as heavy or half as heavy as the known mass.
@@ -601,9 +620,41 @@ public class BalanceGameChallengeFactory {
         return true;
     }
 
+    /**
+     * Tests a challenge against a set of challenges to see whether the test
+     * challenge has unique fixed masses compared to all of the challenges on
+     * the list.  If any of the challenge on the comparison list have the same
+     * fixed masses, this will return false, indicating that the challenge is
+     * not unique.
+     *
+     * @param testChallenge
+     * @param usedChallengeList
+     * @return
+     */
     private static boolean usesUniqueFixedMasses( BalanceGameChallenge testChallenge, List<BalanceGameChallenge> usedChallengeList ) {
         for ( BalanceGameChallenge usedChallenge : usedChallengeList ) {
             if ( usedChallenge.usesSameFixedMasses( testChallenge ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Tests a challenge against a set of challenges to see whether the test
+     * challenge has unique fixed masses and distances compared to all of the
+     * challenges on the comparison list.  If any of the challenge on the
+     * comparison list have the same fixed masses at the same distances from
+     * the center, this will return false, indicating that the test challenge
+     * is not unique.
+     *
+     * @param testChallenge
+     * @param usedChallengeList
+     * @return
+     */
+    private static boolean usesUniqueFixedMassesAndDistances( BalanceGameChallenge testChallenge, List<BalanceGameChallenge> usedChallengeList ) {
+        for ( BalanceGameChallenge usedChallenge : usedChallengeList ) {
+            if ( usedChallenge.usesSameFixedMassesAndDistances( testChallenge ) ) {
                 return false;
             }
         }
