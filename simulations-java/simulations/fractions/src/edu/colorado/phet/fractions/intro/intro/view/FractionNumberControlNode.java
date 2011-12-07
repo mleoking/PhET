@@ -12,13 +12,15 @@ import edu.colorado.phet.fractions.common.view.SpinnerButtonPanel;
  */
 public class FractionNumberControlNode extends FractionNumberNode {
 
+    private final int MAX_DENOMINATOR = 8;
+
     public FractionNumberControlNode( final IntegerProperty value ) {
         super( value );
         addChild( new SpinnerButtonPanel( new VoidFunction0() {
             public void apply() {
                 value.set( value.get() + 1 );
             }
-        }, value.lessThan( 12 ), new VoidFunction0() {
+        }, value.lessThan( MAX_DENOMINATOR ), new VoidFunction0() {
             public void apply() {
                 value.set( value.get() - 1 );
             }
