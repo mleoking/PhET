@@ -15,7 +15,7 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
  */
 public class TipPredictionChallenge extends BalanceGameChallenge {
 
-    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "Which way will it tip?", false );
+    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "Which way will it tip?", false, false );
 
     /**
      * Constructor.
