@@ -31,7 +31,7 @@ public class Ribosome extends MobileBiomolecule {
 
     // Offset from the center position to the entrance of the translation
     // channel.  May require some tweaking of the shape changes.
-    private static final ImmutableVector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new ImmutableVector2D( WIDTH / 2, -OVERALL_HEIGHT / 2 + BOTTOM_SUBUNIT_HEIGHT );
+    public static final ImmutableVector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new ImmutableVector2D( WIDTH / 2, -OVERALL_HEIGHT / 2 + BOTTOM_SUBUNIT_HEIGHT );
 
     // Offset from the center position to the point from which the protein
     // emerges.  May require some tweaking if the overall shape changes.
@@ -87,6 +87,10 @@ public class Ribosome extends MobileBiomolecule {
             return;
         }
         proteinBeingSynthesized.setGrowthFactor( growthFactor );
+    }
+
+    public MessengerRna getMessengerRnaBeingTranslated() {
+        return messengerRnaBeingTranslated;
     }
 
     /**

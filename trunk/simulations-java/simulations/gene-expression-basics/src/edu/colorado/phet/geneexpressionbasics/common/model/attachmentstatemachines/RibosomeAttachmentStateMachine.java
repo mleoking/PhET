@@ -2,6 +2,7 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RibosomeTranslatingRnaMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosome;
 
 /**
@@ -35,8 +36,6 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
      */
     protected class RibosomeAttachedState extends AttachmentState {
 
-        double tempCounter;
-
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
 
             // Verify that state is consistent.
@@ -54,6 +53,7 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
 
         @Override public void entered( AttachmentStateMachine asm ) {
             ribosome.initiateTranslation();
+            ribosome.setMotionStrategy( new RibosomeTranslatingRnaMotionStrategy( ribosome ) );
         }
     }
 }
