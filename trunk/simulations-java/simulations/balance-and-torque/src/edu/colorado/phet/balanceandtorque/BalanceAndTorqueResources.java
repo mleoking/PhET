@@ -74,6 +74,9 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage MYSTERY_OBJECT_07 = RESOURCES.getImage( "mystery-object-07.png" );
         public static final BufferedImage MYSTERY_OBJECT_08 = RESOURCES.getImage( "mystery-object-08.png" );
         public static final BufferedImage OLD_TELEVISION = RESOURCES.getImage( "old-television.png" );
+        public static final BufferedImage PLANK_BALANCED = RESOURCES.getImage( "plank-balanced.png" );
+        public static final BufferedImage PLANK_TIPPED_LEFT = RESOURCES.getImage( "plank-tipped-left.png" );
+        public static final BufferedImage PLANK_TIPPED_RIGHT = RESOURCES.getImage( "plank-tipped-right.png" );
         public static final BufferedImage POTTED_PLANT = RESOURCES.getImage( "potted-plant.png" );
         public static final BufferedImage ROCK_1 = RESOURCES.getImage( "rock_1.png" );
         public static final BufferedImage ROCK_4 = RESOURCES.getImage( "rock_4.png" );
