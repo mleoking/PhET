@@ -15,6 +15,8 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
  */
 public abstract class BalanceGameChallenge {
 
+    private static final int DEFAULT_NUMBER_OF_ATTEMPTS_ALLOWED = 2;
+
     // List of masses that will initially be sitting on the balance, and which
     // the user will not manipulate.
     public final List<MassDistancePair> fixedMassDistancePairs = new ArrayList<MassDistancePair>();
@@ -32,13 +34,27 @@ public abstract class BalanceGameChallenge {
     // presented to the user.
     public final ColumnState initialColumnState;
 
+    // Number of times that the user is allowed to attempt to solve this
+    // challenge.
+    public final int maxAttemptsAllowed;
+
     /**
      * Constructor.
      *
      * @param initialColumnState
      */
     public BalanceGameChallenge( ColumnState initialColumnState ) {
+        this( initialColumnState, DEFAULT_NUMBER_OF_ATTEMPTS_ALLOWED );
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param initialColumnState
+     */
+    public BalanceGameChallenge( ColumnState initialColumnState, int maxAttemptsAllowed ) {
         this.initialColumnState = initialColumnState;
+        this.maxAttemptsAllowed = maxAttemptsAllowed;
     }
 
     /**
