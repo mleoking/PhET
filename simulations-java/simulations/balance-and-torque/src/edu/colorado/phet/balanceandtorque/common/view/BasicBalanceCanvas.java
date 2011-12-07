@@ -108,7 +108,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         nonMassLayer.addChild( new PlankNode( mvt, model.getPlank(), this ) );
         nonMassLayer.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
         for ( LevelSupportColumn supportColumn : model.getSupportColumns() ) {
-            nonMassLayer.addChild( new LevelSupportColumnNode( mvt, supportColumn, model.columnState ) );
+            nonMassLayer.addChild( new LevelSupportColumnNode( mvt, supportColumn, model.columnState, true ) );
         }
 
         // Add the ruler.
