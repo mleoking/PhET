@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,6 +47,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 
 import static edu.colorado.phet.buildtools.util.ProcessOutputReader.exec;
 
@@ -1073,10 +1075,92 @@ public abstract class PhetProject {
         return false;
     }
 
-    //Git Feasibility Test
+    //////////////////////////////////////////////////////////////////
+    ////Following code for Git Feasibility Test, see #1496
+    /////////////////////////////////
+
+    //Find out what git branch is active
     public String getGitBranch() {
 
         //http://stackoverflow.com/questions/1593051/how-to-programmatically-determine-the-current-checked-out-git-branch
-        return exec( "git name-rev --name-only HEAD", null, getProjectDir() ).getOut();
+        String result = exec( "git branch", null, getProjectDir() ).getOut();
+        System.out.println( "Found result from git branch:\n" + result );
+        StringTokenizer st = new StringTokenizer( result, "\n" );
+        while ( st.hasMoreTokens() ) {
+            String t = st.nextToken().trim();
+            if ( t.startsWith( "*" ) ) {
+                return t.substring( 1 ).trim();
+            }
+        }
+        throw new RuntimeException( "Failed to read git branch from command line" );
+    }
+
+    //Switch to specified version for declared dependencies
+    public void switchGitDependencies() {
+        PhetProject[] x = getAllDependencies();
+        HashMap<File, String> map = toMap( expandLibWithVersions( getLib() ) );
+
+        //For each dependency, see if a version is specified.
+        //TODO: What version to use for transient dependencies which do not have explicit version numbers given?
+        for ( int i = 0; i < x.length; i++ ) {
+            final PhetProject dependency = x[i];
+            if ( !dependency.getName().equals( getName() ) ) {
+                String desiredVersion = map.get( dependency.getProjectDir() );
+                System.out.println( "dependency: " + i + ", phetProject = " + dependency.getName() + ", desiredVersion = " + desiredVersion + ", on git version: " + dependency.getGitBranch() );
+                if ( desiredVersion != null && !desiredVersion.equals( dependency.getGitBranch() ) ) {
+                    System.out.println( "Mismatched git dependency, switching to branch" );
+                    exec( "git checkout " + desiredVersion, null, dependency.getProjectDir() ).getOut();
+                    System.out.println( "Finished switching to branch, new branch is " + dependency.getGitBranch() );
+                    if ( !desiredVersion.equals( dependency.getGitBranch() ) ) {
+                        throw new RuntimeException( "Couldn't switch to desired branch" );
+                    }
+                }
+            }
+        }
+    }
+
+    //Convert ordered list to map for lookup
+    private HashMap<File, String> toMap( ArrayList<Pair<File, String>> out ) {
+        HashMap<File, String> map = new HashMap<File, String>();
+        for ( Pair<File, String> pair : out ) {
+            map.put( pair._1, pair._2 );
+        }
+        return map;
+    }
+
+    //TODO: IF we proceed with Git, this version can replace the other version of expandPath above
+//        //Find all files referred to in a dependency line
+//    private File[] expandPath( String lib ) {
+//        ArrayList<Pair<File, String>> expanded = expandLibWithVersions( lib );
+//        File[] f = new File[expanded.size()];
+//        for ( int i = 0; i < f.length; i++ ) {
+//            f[i] = expanded.get( i )._1;
+//        }
+//        return f;
+//    }
+//
+    //Find all files referred to in a dependency line along with their revisions
+    private ArrayList<Pair<File, String>> expandLibWithVersions( String lib ) {
+        ArrayList<Pair<File, String>> all = new ArrayList<Pair<File, String>>();
+        if ( lib == null || lib.trim().length() == 0 ) {
+            return all;
+        }
+        StringTokenizer stringTokenizer = new StringTokenizer( lib, ":" );
+        while ( stringTokenizer.hasMoreTokens() ) {
+            String element = stringTokenizer.nextToken();
+
+            StringTokenizer allTok = new StringTokenizer( element, " " );
+            String token = allTok.nextToken();
+
+            //Default to master
+            String version = "master";
+            if ( allTok.hasMoreTokens() ) {
+                version = allTok.nextToken();
+            }
+
+            File path = searchPath( token );
+            all.add( new Pair<File, String>( path, version ) );
+        }
+        return all;
     }
 }
