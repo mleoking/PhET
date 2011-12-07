@@ -43,12 +43,12 @@ public abstract class BalanceModel implements Resettable {
     private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, FULCRUM_HEIGHT );
 
     // Support columns
-    private final List<SupportColumn> supportColumns = new ArrayList<SupportColumn>() {{
+    private final List<LevelSupportColumn> supportColumns = new ArrayList<LevelSupportColumn>() {{
         // Note: These are positioned so that the closing window that is
         // placed on them (the red x) is between two snap-to points on the
         // plank that the they don't get blocked by force vectors.
-        add( new SupportColumn( PLANK_HEIGHT, -1.625 ) );
-        add( new SupportColumn( PLANK_HEIGHT, 1.625 ) );
+        add( new LevelSupportColumn( PLANK_HEIGHT, -1.625 ) );
+        add( new LevelSupportColumn( PLANK_HEIGHT, 1.625 ) );
     }};
 
     // Property that controls how many columns are supporting the plank.
@@ -135,7 +135,7 @@ public abstract class BalanceModel implements Resettable {
         return attachmentBar;
     }
 
-    public List<SupportColumn> getSupportColumns() {
+    public List<LevelSupportColumn> getSupportColumns() {
         return supportColumns;
     }
 
