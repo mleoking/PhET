@@ -57,7 +57,7 @@ public class BalanceGameChallengeFactory {
     private static final Random RAND = new Random();
 
     // Challenges per challenge set.
-    public static final int CHALLENGES_PER_SET = 5;
+    public static final int CHALLENGES_PER_SET = 6;
 
     // Parameters that control how many attempts are made to generate a unique
     // balance challenge.
@@ -107,6 +107,16 @@ public class BalanceGameChallengeFactory {
         add( new Tire( true ) );
     }};
 
+    // List of masses that are "low profile", meaning that they are short.
+    // This is needed for the tip-prediction style of problem, since taller
+    // masses end up going behind the tip prediction selector.
+    private static final List<Mass> LOW_PROFILE_MASSES = new ArrayList<Mass>() {{
+        add( new TinyRock( false ) );
+        add( new SmallRock( false ) );
+        add( new MediumRock( false ) );
+        add( new CinderBlock( false ) );
+    }};
+
     // Lists used to keep track of the challenges generated so far so that we
     // can avoid creating the same challenges multiple times.
     private static final List<BalanceGameChallenge> USED_BALANCE_CHALLENGES = new ArrayList<BalanceGameChallenge>();
@@ -145,6 +155,12 @@ public class BalanceGameChallengeFactory {
         }
     };
 
+    private static final Function0<BalanceGameChallenge> EASY_TIP_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
+        public BalanceGameChallenge apply() {
+            return generateEasyTipPredictionChallenge();
+        }
+    };
+
     private static final Function0<BalanceGameChallenge> MODERATE_BALANCE_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
         public BalanceGameChallenge apply() {
             return generateModerateBalanceChallenge();
@@ -157,11 +173,24 @@ public class BalanceGameChallengeFactory {
         }
     };
 
+    private static final Function0<BalanceGameChallenge> MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
+        public BalanceGameChallenge apply() {
+            return generateModerateTipPredictionChallenge();
+        }
+    };
+
     private static final Function0<BalanceGameChallenge> ADVANCED_BALANCE_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
         public BalanceGameChallenge apply() {
             return generateMultiMassBalanceChallenge();
         }
     };
+
+    private static final Function0<BalanceGameChallenge> ADVANCED_TIP_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
+        public BalanceGameChallenge apply() {
+            return generateAdvancedTipPredictionChallenge();
+        }
+    };
+
 
     private static final Function2<BalanceGameChallenge, List<BalanceGameChallenge>, Boolean> UNIQUE_MASSES_TEST = new Function2<BalanceGameChallenge, List<BalanceGameChallenge>, Boolean>() {
         public Boolean apply( BalanceGameChallenge balanceGameChallenge, List<BalanceGameChallenge> balanceGameChallenges ) {
@@ -202,31 +231,34 @@ public class BalanceGameChallengeFactory {
     public static List<BalanceGameChallenge> generateChallengeSet( int level ) {
         List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
         if ( level == 1 ) {
-            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TIP_PREDICTION_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( SIMPLE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
         }
         else if ( level == 2 ) {
+            balanceChallengeList.add( generateUniqueChallenge( EASY_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( EASY_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
         }
         else if ( level == 3 ) {
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
         }
         else if ( level == 4 ) {
+            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( ADVANCED_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( ADVANCED_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
         }
@@ -381,14 +413,27 @@ public class BalanceGameChallengeFactory {
 
     /**
      * Convenience function that generates a valid random distance from the
-     * center of the plank where a mass can be positioned.  The plank only
-     * allows discrete distances, which is why this is needed.
+     * center of the plank.  The plank only allows discrete distances (i.e. it
+     * is quantized), which is why this is needed.
      */
     private static double generateRandomValidPlankDistance() {
         double maxDistance = Plank.getLength() / 2;
         double increment = Plank.INTER_SNAP_TO_MARKER_DISTANCE;
         int maxIncrements = (int) Math.round( maxDistance / increment ) - 1;
         return ( RAND.nextInt( maxIncrements ) + 1 ) * increment;
+    }
+
+    /**
+     * Convenience function that generates a valid random distance from the
+     * center of the plank between a given min and max distance.  The set of
+     * potential return values is inclusive of the min and max values.
+     */
+    private static double generateRandomValidPlankDistance( double minDistance, double maxDistance ) {
+        int minIncrements = (int) Math.ceil( minDistance / Plank.INTER_SNAP_TO_MARKER_DISTANCE );
+        int maxIncrements = (int) Math.floor( maxDistance / Plank.INTER_SNAP_TO_MARKER_DISTANCE );
+        assert maxIncrements > minIncrements;
+
+        return ( RAND.nextInt( maxIncrements - minIncrements + 1 ) + minIncrements ) * Plank.INTER_SNAP_TO_MARKER_DISTANCE;
     }
 
     private static Mass getRandomMass( double minMass, double maxMass ) {
@@ -453,18 +498,143 @@ public class BalanceGameChallengeFactory {
         }
 
         // Choose a distance from the center, which will be used for
-        // positioning both stacks.  The max and min increment values can be
-        // tweaked if desired to limit the range of distances generated.
-        int maxIncrements = (int) Math.round( Plank.LENGTH / 2 / Plank.INTER_SNAP_TO_MARKER_DISTANCE ) - 3;
-        int minIncrements = 1;
-        assert maxIncrements > minIncrements;
-        double distanceFromPlankCenter = ( RAND.nextInt( maxIncrements - minIncrements ) + minIncrements ) * Plank.INTER_SNAP_TO_MARKER_DISTANCE;
+        // positioning both stacks.  The max and min values can be tweaked if
+        // desired to limit the range of distances generated.
+        double distanceFromPlankCenter = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                           Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE * 3 );
 
-        // TODO: Stubbed for now, always produces same challenge.
+        // Create the actual challenge from the pieces.
         return TipPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
                                               distanceFromPlankCenter,
                                               new BrickStack( numBricksInRightState ),
                                               -distanceFromPlankCenter );
+    }
+
+    /**
+     * Generate an easy tip-prediction style of challenge.  This one only
+     * uses bricks, and the distances and masses may be the same or different.
+     *
+     * @return
+     */
+    private static TipPredictionChallenge generateEasyTipPredictionChallenge() {
+
+        // Choose two different numbers between 1 and 4 (inclusive) for the
+        // number of bricks in the two stacks.
+        int numBricksInLeftStack = RAND.nextInt( 4 ) + 1;
+        int numBricksInRightState = numBricksInLeftStack;
+
+        // Generate distances from the center for each of the masses.
+        double leftStackDistance = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                     Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE * 3 );
+
+        double rightStackDistance = -generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                       Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE * 3 );
+
+        // Create the actual challenge from the pieces.
+        return TipPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
+                                              leftStackDistance,
+                                              new BrickStack( numBricksInRightState ),
+                                              rightStackDistance );
+    }
+
+    private static TipPredictionChallenge generateModerateTipPredictionChallenge() {
+
+        // Select the masses, bricks on one side, non bricks on the other.
+        Mass leftMass = LOW_PROFILE_MASSES.get( RAND.nextInt( LOW_PROFILE_MASSES.size() ) ).createCopy();
+        Mass rightMass = new BrickStack( RAND.nextInt( 4 ) + 1 );
+        if ( RAND.nextBoolean() ) {
+            // Switch the masses.
+            Mass tempMassPrototype = leftMass;
+            leftMass = rightMass;
+            rightMass = tempMassPrototype;
+        }
+
+        // Make the masses almost but not quite balanced.
+        List<MassDistancePair> massDistancePairs = positionMassesCloseToBalancing( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                                   Plank.LENGTH / 2 - 2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                                   leftMass,
+                                                                                   rightMass );
+
+        return new TipPredictionChallenge( massDistancePairs );
+    }
+
+    private static TipPredictionChallenge generateAdvancedTipPredictionChallenge() {
+        // Choose three random masses.
+        // Select the masses, bricks on one side, non bricks on the other.
+        Mass mass1 = LOW_PROFILE_MASSES.get( RAND.nextInt( LOW_PROFILE_MASSES.size() ) ).createCopy();
+        Mass mass2 = LOW_PROFILE_MASSES.get( RAND.nextInt( LOW_PROFILE_MASSES.size() ) ).createCopy();
+        Mass mass3 = new BrickStack( RAND.nextInt( 4 ) + 1 );
+
+        // Get a set of mass-distance pairs comprised of these masses
+        // positioned in such a way that they are almost, but not quite, balanced.
+        List<MassDistancePair> massDistancePairs = positionMassesCloseToBalancing( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                                   Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                                   mass1,
+                                                                                   mass2,
+                                                                                   mass3 );
+
+        // Create the actual challenge from the pieces.
+        return new TipPredictionChallenge( massDistancePairs );
+    }
+
+    /**
+     * Take a list of masses and return a set of mass-distance pairs that
+     * position the masses such that they are close to being balanced but are
+     * NOT balanced.  This is a convenience method that was written to
+     * consolidate some code written for generating tip-prediction challenges.
+     */
+    private static List<MassDistancePair> positionMassesCloseToBalancing( double minDistance, double maxDistance, Mass... masses ) {
+        double bestNetTorque = Double.POSITIVE_INFINITY;
+        double minAcceptableTorque = 1; // Determined empirically.
+        double maxAcceptableTorque = 10; // Determined empirically.
+        List<Double> distanceList = new ArrayList<Double>();
+        List<Double> bestDistanceList = distanceList;
+        for ( int i = 0; i < MAX_GEN_ATTEMPTS; i++ ) {
+            distanceList.clear();
+            // Generate a set of unique, random, and valid distances for the
+            // placement of the masses.
+            for ( int j = 0; distanceList.size() < masses.length && j < MAX_GEN_ATTEMPTS; j++ ) {
+                double candidateDistance = generateRandomValidPlankDistance( minDistance, maxDistance );
+                // Randomly invert (or don't) the distance.
+                candidateDistance = RAND.nextBoolean() ? -candidateDistance : candidateDistance;
+                // Check if unique.
+                if ( !distanceList.contains( candidateDistance ) ) {
+                    distanceList.add( candidateDistance );
+                }
+            }
+            // Handle the unlikely case where enough unique distances couldn't
+            // be found.
+            if ( distanceList.size() != masses.length ) {
+                distanceList.clear();
+                for ( int j = 0; j < masses.length; j++ ) {
+                    // Just add a linear set of distances.
+                    distanceList.add( minDistance + Plank.INTER_SNAP_TO_MARKER_DISTANCE * j );
+                    // Output a warning.
+                    System.out.println( " Warning: Unable to find enough unique distances for positioning masses." );
+                }
+            }
+            // Calculate the net torque for this set of masses.
+            double netTorque = 0;
+            for ( int j = 0; j < masses.length; j++ ) {
+                netTorque += masses[j].getMass() * distanceList.get( j );
+            }
+            if ( Math.abs( netTorque ) < bestNetTorque ) {
+                bestNetTorque = Math.abs( netTorque );
+                bestDistanceList = new ArrayList<Double>( distanceList );
+                if ( bestNetTorque <= maxAcceptableTorque && bestNetTorque > minAcceptableTorque ) {
+                    // An acceptable set of distances has been found.
+                    break;
+                }
+            }
+        }
+
+        // Create the array of mass-distance pairs from the original set of
+        // masses and the best randomly-generated distances.
+        List<MassDistancePair> repositionedMasses = new ArrayList<MassDistancePair>();
+        for ( int i = 0; i < masses.length; i++ ) {
+            repositionedMasses.add( new MassDistancePair( masses[i], bestDistanceList.get( i ) ) );
+        }
+        return repositionedMasses;
     }
 
     /**
