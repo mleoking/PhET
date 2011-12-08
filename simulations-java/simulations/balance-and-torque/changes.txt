@@ -1,3 +1,4 @@
+Added a new type of challenge to the game where users must predict which direction the plank will tip when the support columns are removed.
 # 1.00.00 (58637) Nov 15, 2011
 11/15/11 Initial deployment to the production server.
 Fixed a misspelling in the credits.
