@@ -211,7 +211,7 @@ public class RealMoleculesControlPanel extends PNode {
             } );
             final Property<Double> y = new Property<Double>( 0.0 );
             for ( RealMoleculeShape shape : shapes ) {
-                content.addChild( new PropertyRadioButtonNode<RealMoleculeShape>( shape.getDisplayName(), moleculeOptions, shape ) {{
+                content.addChild( new PropertyRadioButtonNode<RealMoleculeShape>( "<html>" + ChemUtils.toSubscript( shape.getDisplayName() ) + "</html>", moleculeOptions, shape ) {{
                     setOffset( 0, y.get() );
                     y.set( getFullBounds().getMaxY() );
                 }} );
