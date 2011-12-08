@@ -126,9 +126,9 @@ public class DisplayParentTest extends Frame {
                     }
                 }
             }
-/*                      while (Mouse.next()) {
-System.out.println("                            Mouse.getEventX() = " +                                 Mouse.getEventX() + " | Mouse.getEventY() = " + Mouse.getEventY());
-                        }*/
+            while ( Mouse.next() ) {
+                System.out.println( "Mouse.getEventX() = " + Mouse.getEventX() + " | Mouse.getEventY() = " + Mouse.getEventY() );
+            }
         }
         Display.destroy();
         dispose();
