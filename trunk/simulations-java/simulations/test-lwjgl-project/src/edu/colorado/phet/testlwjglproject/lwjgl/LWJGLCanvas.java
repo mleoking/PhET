@@ -54,13 +54,16 @@ public class LWJGLCanvas extends Canvas {
     public void switchToTab( final LWJGLTab tab ) {
         taskQueue.add( new Runnable() {
             public void run() {
+                if ( activeTab != null ) {
+                    activeTab.stop();
+                }
                 activeTab = tab;
+                tabDirty = true;
             }
         } );
     }
 
     public void initialize() {
-        System.out.println( "LWJGLCanvas initialize" );
         renderThread = new Thread() {
             public void run() {
                 running = true;
@@ -79,7 +82,7 @@ public class LWJGLCanvas extends Canvas {
                     }
                     if ( activeTab != null ) {
                         if ( tabDirty ) {
-                            activeTab.initialize();
+                            activeTab.start();
                             tabDirty = false;
                         }
                         activeTab.loop();

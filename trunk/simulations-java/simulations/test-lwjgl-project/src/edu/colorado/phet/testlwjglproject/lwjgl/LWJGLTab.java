@@ -27,10 +27,16 @@ public abstract class LWJGLTab implements Tab {
      * Called before looping, in the LWJGL thread, when this tab is activated. This can
      * happen multiple times, but it is guaranteed to happen before loop()
      */
-    public abstract void initialize();
+    public abstract void start();
 
     /**
-     * A single iteration of the run-time loop. This will be called by the LWJGL thread
+     * Called when the tab is switched away from, in the LWJGL thread. Should not render.
+     */
+    public abstract void stop();
+
+    /**
+     * A single iteration of the run-time loop responsible for rendering the scene and
+     * handling various events. This will be called by the LWJGL thread.
      */
     public abstract void loop();
 

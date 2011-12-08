@@ -24,7 +24,6 @@ public class TestLWJGLApplication extends PhetApplication {
                     new TestingTab( canvas, TestProjectResources.getString( "sim1.module1" ) ),
                     new TestingTab( canvas, TestProjectResources.getString( "sim1.module2" ) )
             };
-            System.out.println( "Adding tabs" );
             for ( Tab tab : tabs ) {
                 addTab( tab );
             }
@@ -43,15 +42,15 @@ public class TestLWJGLApplication extends PhetApplication {
     }
 
     private static class TestingTab extends LWJGLTab {
-        private long start;
+        private long timeElapsed = 0;
+        private long lastTime = 0;
 
         public TestingTab( LWJGLCanvas canvas, String title ) {
             super( canvas, title );
         }
 
-        @Override public void initialize() {
-            System.out.println( "Testing tab initialize" );
-            start = System.currentTimeMillis();
+        @Override public void start() {
+            lastTime = System.currentTimeMillis();
 
             GL11.glMatrixMode( GL11.GL_PROJECTION );
             GL11.glLoadIdentity();
@@ -66,8 +65,16 @@ public class TestLWJGLApplication extends PhetApplication {
             GL11.glPolygonMode( GL11.GL_BACK, GL11.GL_FILL );
         }
 
+        @Override public void stop() {
+            // store state here?
+        }
+
         @Override public void loop() {
             Display.sync( 60 );
+
+            long currentTime = System.currentTimeMillis();
+            timeElapsed += ( currentTime - lastTime );
+            lastTime = currentTime;
 
             // Clear the screen and depth buffer
             GL11.glClear( GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT );
@@ -79,7 +86,7 @@ public class TestLWJGLApplication extends PhetApplication {
             // translate our stuff a bit (can deal with centering after we get resizing working properly
             GL11.glTranslatef( 400, 200, 0 );
 
-            float angle = (float) ( System.currentTimeMillis() - start ) / 200;
+            float angle = (float) ( timeElapsed ) / 200;
 
             fractalThing( angle, 12, 0, 2 );
 
