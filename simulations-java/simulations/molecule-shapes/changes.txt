@@ -1,3 +1,6 @@
+Added white background with black text for kit version of 2nd tab
+Subscript fixes for kit version of 2nd tab
+Tab handling fixes
 # 1.01.13 (59114) Dec 6, 2011
 12/6/11 Added Real / Model views and rotational matching between them, along with kit-version of 2nd tab
 12/6/11 #3174, consolidated sim-sharing strings: put sim-specific strings in MoleculeShapesSimSharing, use common strings where appropriate
