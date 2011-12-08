@@ -4,10 +4,10 @@ package edu.colorado.phet.jmephet.input;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.application.Module.Listener;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.JMEUtils;
 
 import com.jme3.input.InputManager;
@@ -22,36 +22,37 @@ import com.jme3.math.Vector2f;
  * <p/>
  * Not thread-safe. Assumes it is accessed in the JME thread
  */
-public class JMEModuleInputHandler implements JMEInputHandler {
-    private JMEModule module;
+public class JMETabInputHandler implements JMEInputHandler {
+    private JMETab tab;
     private final InputManager inputManager;
 
     private List<ListenerWrapper> wrappers = new ArrayList<ListenerWrapper>();
 
-    public JMEModuleInputHandler( JMEModule module, InputManager inputManager ) {
-        this.module = module;
+    public JMETabInputHandler( JMETab tab, InputManager inputManager ) {
+        this.tab = tab;
         this.inputManager = inputManager;
 
         // update our input listeners based on whether we are active or inactive
-        module.addListener( new Listener() {
-            public void activated() {
-                JMEUtils.invoke( new Runnable() {
-                    public void run() {
-                        for ( ListenerWrapper wrapper : wrappers ) {
-                            wrapper.activate();
+        tab.active.addObserver( new ChangeObserver<Boolean>() {
+            public void update( Boolean active, Boolean oldValue ) {
+                if ( active ) {
+                    JMEUtils.invoke( new Runnable() {
+                        public void run() {
+                            for ( ListenerWrapper wrapper : wrappers ) {
+                                wrapper.activate();
+                            }
                         }
-                    }
-                } );
-            }
-
-            public void deactivated() {
-                JMEUtils.invoke( new Runnable() {
-                    public void run() {
-                        for ( ListenerWrapper wrapper : wrappers ) {
-                            wrapper.deactivate();
+                    } );
+                }
+                else {
+                    JMEUtils.invoke( new Runnable() {
+                        public void run() {
+                            for ( ListenerWrapper wrapper : wrappers ) {
+                                wrapper.deactivate();
+                            }
                         }
-                    }
-                } );
+                    } );
+                }
             }
         } );
     }
@@ -83,7 +84,7 @@ public class JMEModuleInputHandler implements JMEInputHandler {
     // Add a wrapper, and activate if necessary
     private void addListenerWrapper( ListenerWrapper wrapper ) {
         wrappers.add( wrapper );
-        if ( module.isActive() ) {
+        if ( tab.isActive() ) {
             wrapper.activate();
         }
     }
@@ -102,7 +103,7 @@ public class JMEModuleInputHandler implements JMEInputHandler {
         ListenerWrapper wrapper = findWrapperWithListenerObject( listener );
         if ( wrapper != null ) {
             wrappers.remove( wrapper );
-            if ( module.isActive() ) {
+            if ( tab.isActive() ) {
                 wrapper.deactivate();
             }
         }

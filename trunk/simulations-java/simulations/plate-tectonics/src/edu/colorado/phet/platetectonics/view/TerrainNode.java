@@ -6,7 +6,7 @@ import java.nio.FloatBuffer;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
@@ -21,7 +21,7 @@ import com.jme3.util.BufferUtils;
  * Displays the top terrain of a plate model, within the bounds of the specified grid
  */
 public class TerrainNode extends Geometry {
-    private final PlateTectonicsModule module;
+    private final PlateTectonicsTab module;
 //    private TerrainNode.TerrainTextureImage image;
 
     //Textures taken from jME3-testdata.jar in Textures/Terrain/splat/ TODO: use our own textures!
@@ -30,7 +30,7 @@ public class TerrainNode extends Geometry {
     private static final String ROAD = "plate-tectonics/images/textures/road.jpg";
     private FloatBuffer texture2;
 
-    public TerrainNode( final Terrain terrain, PlateModel model, final PlateTectonicsModule module ) {
+    public TerrainNode( final Terrain terrain, PlateModel model, final PlateTectonicsTab module ) {
         this.module = module;
 
         Vector3f[] positions = computePositions( terrain );

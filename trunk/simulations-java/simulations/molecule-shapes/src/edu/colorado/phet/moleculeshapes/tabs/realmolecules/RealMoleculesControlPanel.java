@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.module.realmolecules;
+package edu.colorado.phet.moleculeshapes.tabs.realmolecules;
 
 import java.util.Arrays;
 
@@ -45,7 +45,7 @@ public class RealMoleculesControlPanel extends PNode {
     // used for placement of the molecule selection node
     private Spacer moleculeSelectionSpacer;
 
-    public RealMoleculesControlPanel( final RealMoleculesModule module, final Function0<Double> getControlPanelXPosition ) {
+    public RealMoleculesControlPanel( final RealMoleculesTab module, final Function0<Double> getControlPanelXPosition ) {
 
         // put it on 0 vertically
         setOffset( 0, 10 );
@@ -199,7 +199,7 @@ public class RealMoleculesControlPanel extends PNode {
     public static class MoleculeKit extends Kit<PNode> {
         private Property<RealMoleculeShape> moleculeOptions;
 
-        public MoleculeKit( final RealMoleculesModule module, final RealMoleculeShape... shapes ) {
+        public MoleculeKit( final RealMoleculesTab module, final RealMoleculeShape... shapes ) {
             // stub, will have content added later
             super( new PNode() );
 

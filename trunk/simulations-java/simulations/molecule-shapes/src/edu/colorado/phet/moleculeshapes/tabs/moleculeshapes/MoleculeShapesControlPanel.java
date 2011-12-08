@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.module.moleculeshapes;
+package edu.colorado.phet.moleculeshapes.tabs.moleculeshapes;
 
 import java.awt.Color;
 
@@ -46,7 +46,7 @@ public class MoleculeShapesControlPanel extends PNode {
     private BondTypeControlNode tripleBondNode;
     private BondTypeControlNode lonePairNode;
 
-    public MoleculeShapesControlPanel( final MoleculeShapesModule module ) {
+    public MoleculeShapesControlPanel( final MoleculeShapesTab module ) {
 
         /*---------------------------------------------------------------------------*
         * bonding panel

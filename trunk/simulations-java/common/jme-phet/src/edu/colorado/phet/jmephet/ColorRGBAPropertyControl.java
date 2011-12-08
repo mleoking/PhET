@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet;
 
-import java.awt.*;
+import java.awt.Frame;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

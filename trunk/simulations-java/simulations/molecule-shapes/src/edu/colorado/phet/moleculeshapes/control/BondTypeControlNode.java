@@ -18,8 +18,8 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesControlPanel;
-import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesControlPanel;
+import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesTab;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -34,14 +34,14 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.se
  * creates the real bond in 3D. Also has a button to remove a bond of that same type from play.
  */
 public class BondTypeControlNode extends PNode {
-    private final MoleculeShapesModule module;
+    private final MoleculeShapesTab module;
     private final PNode graphic;
     private final int bondOrder;
     private final Property<Boolean> enabled;
     private final PNode removeButton;
     protected boolean showingRemoveButton = false;
 
-    public BondTypeControlNode( final MoleculeShapesModule module, final PNode graphic, final int bondOrder, final Property<Boolean> enabled ) {
+    public BondTypeControlNode( final MoleculeShapesTab module, final PNode graphic, final int bondOrder, final Property<Boolean> enabled ) {
         this.module = module;
         this.graphic = graphic;
         this.bondOrder = bondOrder;

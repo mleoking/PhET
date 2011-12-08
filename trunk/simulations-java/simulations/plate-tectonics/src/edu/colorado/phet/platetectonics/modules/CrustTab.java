@@ -47,7 +47,7 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*
  * Represents the 1st tab, which has a modifiable section of crust surrounded by oceanic and continental crusts, all
  * on top of the mantle.
  */
-public class CrustModule extends PlateTectonicsModule {
+public class CrustTab extends PlateTectonicsTab {
 
     private CrustModel model;
 
@@ -61,8 +61,8 @@ public class CrustModule extends PlateTectonicsModule {
     private static final float THERMOMETER_Z = 1;
     private static final float DENSITY_SENSOR_Z = 2;
 
-    public CrustModule( Frame parentFrame ) {
-        super( parentFrame, CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
+    public CrustTab( Frame parentFrame ) {
+        super( CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
     }
 
     @Override public void updateState( float tpf ) {
@@ -148,7 +148,7 @@ public class CrustModule extends PlateTectonicsModule {
                 if ( !toolboxState.rulerInToolbox.get() ) {
 
                     // we just "removed" the ruler from the toolbox, so add it to our scene
-                    RulerNode3D ruler = new RulerNode3D( getModelViewTransform(), CrustModule.this );
+                    RulerNode3D ruler = new RulerNode3D( getModelViewTransform(), CrustTab.this );
                     toolView.getScene().attachChild( ruler );
 
                     // offset the ruler slightly from the mouse, and start the drag
@@ -167,7 +167,7 @@ public class CrustModule extends PlateTectonicsModule {
                 if ( !toolboxState.thermometerInToolbox.get() ) {
 
                     // we just "removed" the ruler from the toolbox, so add it to our scene
-                    ThermometerNode3D thermometer = new ThermometerNode3D( getModelViewTransform(), CrustModule.this, model );
+                    ThermometerNode3D thermometer = new ThermometerNode3D( getModelViewTransform(), CrustTab.this, model );
                     toolView.getScene().attachChild( thermometer );
 
                     // offset the ruler slightly from the mouse, and start the drag
@@ -187,7 +187,7 @@ public class CrustModule extends PlateTectonicsModule {
                 if ( !toolboxState.densitySensorInToolbox.get() ) {
 
                     // we just "removed" the ruler from the toolbox, so add it to our scene
-                    DensitySensorNode3D sensorNode = new DensitySensorNode3D( getModelViewTransform(), CrustModule.this, model );
+                    DensitySensorNode3D sensorNode = new DensitySensorNode3D( getModelViewTransform(), CrustTab.this, model );
                     toolView.getScene().attachChild( sensorNode );
 
                     // offset the ruler slightly from the mouse, and start the drag
@@ -208,12 +208,12 @@ public class CrustModule extends PlateTectonicsModule {
         guiView.getScene().attachChild( new PiccoloJMENode( new ControlPanelNode( new MyCrustPanel( model ) ), getInputHandler(), this, canvasTransform ) {{
             // layout the panel if its size changes (and on startup)
             onResize.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    position.set( new ImmutableVector2D(
-                            Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
-                            getStageSize().height - getComponentHeight() - 10 ) ); // offset from top
-                }
-            }, true ); // TODO: default to this?
+                                            public void update() {
+                                                position.set( new ImmutableVector2D(
+                                                        Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
+                                                        getStageSize().height - getComponentHeight() - 10 ) ); // offset from top
+                                            }
+                                        }, true ); // TODO: default to this?
         }} );
 
         /*---------------------------------------------------------------------------*

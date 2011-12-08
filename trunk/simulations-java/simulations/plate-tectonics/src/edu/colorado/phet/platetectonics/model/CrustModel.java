@@ -160,64 +160,64 @@ public class CrustModel extends PlateModel {
         Vector2f[] centerOfTheEarth = new Vector2f[] { new Vector2f( 0, -PlateModel.EARTH_RADIUS ) };
 
         addRegion( new SimpleConstantRegion( Type.CRUST,
-                                     oceanTop,
-                                     oceanCrustBottom,
-                                     constantFunction( LEFT_OCEANIC_DENSITY ),
-                                     constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+                                             oceanTop,
+                                             oceanCrustBottom,
+                                             constantFunction( LEFT_OCEANIC_DENSITY ),
+                                             constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
-                                     oceanCrustBottom,
-                                     oceanSideMinY,
-                                     constantFunction( MANTLE_DENSITY ),
-                                     constantFunction( 0.0 ) ) ); // TODO: mandle temperatures!
+                                             oceanCrustBottom,
+                                             oceanSideMinY,
+                                             constantFunction( MANTLE_DENSITY ),
+                                             constantFunction( 0.0 ) ) ); // TODO: mandle temperatures!
 
         addRegion( new SimpleConstantRegion( Type.CRUST,
-                                     middleTop,
-                                     middleCrustBottom,
-                                     new Function0<Double>() {
-                                         public Double apply() {
-                                             return getCenterCrustDensity();
-                                         }
-                                     }, constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+                                             middleTop,
+                                             middleCrustBottom,
+                                             new Function0<Double>() {
+                                                 public Double apply() {
+                                                     return getCenterCrustDensity();
+                                                 }
+                                             }, constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
-                                     middleCrustBottom,
-                                     middleSideMinY,
-                                     constantFunction( MANTLE_DENSITY ),
-                                     constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+                                             middleCrustBottom,
+                                             middleSideMinY,
+                                             constantFunction( MANTLE_DENSITY ),
+                                             constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
 
         addRegion( new SimpleConstantRegion( Type.CRUST,
-                                     continentTop,
-                                     continentCrustBottom,
-                                     constantFunction( RIGHT_CONTINENTAL_DENSITY ),
-                                     constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+                                             continentTop,
+                                             continentCrustBottom,
+                                             constantFunction( RIGHT_CONTINENTAL_DENSITY ),
+                                             constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
-                                     continentCrustBottom,
-                                     continentSideMinY,
-                                     constantFunction( MANTLE_DENSITY ),
-                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+                                             continentCrustBottom,
+                                             continentSideMinY,
+                                             constantFunction( MANTLE_DENSITY ),
+                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
-                                     mantleTop,
-                                     mantleMiddle,
-                                     constantFunction( MANTLE_DENSITY ), // TODO: fix upper mantle density
-                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+                                             mantleTop,
+                                             mantleMiddle,
+                                             constantFunction( MANTLE_DENSITY ), // TODO: fix upper mantle density
+                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
         addRegion( new SimpleConstantRegion( Type.LOWER_MANTLE,
-                                     mantleMiddle,
-                                     mantleBottom,
-                                     constantFunction( MANTLE_DENSITY ), // TODO: fix lower mantle density
-                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+                                             mantleMiddle,
+                                             mantleBottom,
+                                             constantFunction( MANTLE_DENSITY ), // TODO: fix lower mantle density
+                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
         addRegion( new SimpleConstantRegion( Type.OUTER_CORE,
-                                     mantleBottom,
-                                     innerOuterCoreBoundary,
-                                     constantFunction( MANTLE_DENSITY ), // TODO: fix core density
-                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+                                             mantleBottom,
+                                             innerOuterCoreBoundary,
+                                             constantFunction( MANTLE_DENSITY ), // TODO: fix core density
+                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
         addRegion( new SimpleConstantRegion( Type.INNER_CORE,
-                                     innerOuterCoreBoundary,
-                                     centerOfTheEarth,
-                                     constantFunction( MANTLE_DENSITY ), // TODO: fix core density
-                                     constantFunction( 0.0 ) ) ); // TODO: temperatures!
+                                             innerOuterCoreBoundary,
+                                             centerOfTheEarth,
+                                             constantFunction( MANTLE_DENSITY ), // TODO: fix core density
+                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
         updateView();
     }

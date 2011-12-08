@@ -1,15 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.module.debug;
+package edu.colorado.phet.moleculeshapes.tabs.debug;
 
 import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -29,7 +27,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
-import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
+import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
@@ -61,7 +59,7 @@ import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
-public class DebugModule extends MoleculeViewModule {
+public class DebugTab extends MoleculeViewTab {
 
     private PhetJMEApplication app;
 
@@ -125,8 +123,8 @@ public class DebugModule extends MoleculeViewModule {
     private static final Random random = new Random( System.currentTimeMillis() );
 
 
-    public DebugModule( Frame parentFrame, String name ) {
-        super( parentFrame, name, new ConstantDtClock( 30.0 ) );
+    public DebugTab( String name ) {
+        super( name );
     }
 
     // should be called from stable positions in the JME and Swing EDT threads
@@ -266,16 +264,6 @@ public class DebugModule extends MoleculeViewModule {
 
     public PhetJMEApplication getApp() {
         return app;
-    }
-
-    @Override public PhetJMEApplication createApplication( Frame parentFrame ) {
-        final PhetJMEApplication application = new PhetJMEApplication( parentFrame );
-        MoleculeShapesColor.BACKGROUND.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
-            public void apply( ColorRGBA colorRGBA ) {
-                application.backgroundColor.set( colorRGBA );
-            }
-        } );
-        return application;
     }
 
     public void startOverlayMoleculeDrag() {

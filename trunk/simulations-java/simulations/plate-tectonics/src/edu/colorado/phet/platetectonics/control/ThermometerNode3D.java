@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.*;
+import java.awt.Cursor;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.hud.SwingJMENode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -32,10 +32,10 @@ public class ThermometerNode3D extends PiccoloJMENode implements DraggableTool2D
     private final JMEModelViewTransform transform;
     private final PlateModel model;
 
-    public ThermometerNode3D( final JMEModelViewTransform transform, final JMEModule module, PlateModel model ) {
+    public ThermometerNode3D( final JMEModelViewTransform transform, final JMETab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
-        super( new ThermometerNode2D( transform.modelToViewDeltaX( 1000 ) ), module.getInputHandler(), module, SwingJMENode.getDefaultTransform() );
+        super( new ThermometerNode2D( transform.modelToViewDeltaX( 1000 ) ), tab.getInputHandler(), tab, SwingJMENode.getDefaultTransform() );
         this.transform = transform;
         this.model = model;
 

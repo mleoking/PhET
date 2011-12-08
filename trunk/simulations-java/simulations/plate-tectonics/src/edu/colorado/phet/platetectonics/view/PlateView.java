@@ -4,7 +4,7 @@ package edu.colorado.phet.platetectonics.view;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Region;
 import edu.colorado.phet.platetectonics.model.Terrain;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 
 import com.jme3.scene.Node;
@@ -15,7 +15,7 @@ import com.jme3.scene.Node;
  */
 public class PlateView extends Node {
 
-    public PlateView( final PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
+    public PlateView( final PlateModel model, final PlateTectonicsTab module, final Grid3D grid ) {
         // add all of the terrain
         for ( Terrain terrain : model.getTerrains() ) {
             attachChild( new TerrainNode( terrain, model, module ) ); // TODO: strip out model reference? a lot of unneeded stuff

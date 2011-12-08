@@ -19,7 +19,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.RepaintManager;
 import javax.swing.SwingUtilities;
 
-import com.jme3.math.ColorRGBA;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -27,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
@@ -76,7 +75,7 @@ public class HUDNode extends Geometry {
 
     private volatile boolean dirty = false; // whether the image needs to be repainted
 
-    private final JMEModule module;
+    private final JMETab tab;
     /**
      * Basically whether this node should be antialiased. If it is set up in a position where the texture (image)
      * pixels are not 1-to-1 with the screen pixels (say, translated by fractions of a pixel, or any rotation),
@@ -87,20 +86,20 @@ public class HUDNode extends Geometry {
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
     public HUDNode( final JComponent component, final int width, final int height,
-                    final JMEInputHandler inputHandler, final JMEModule module ) {
-        this( component, width, height, new AffineTransform(), inputHandler, module, new Property<Boolean>( false ) );
+                    final JMEInputHandler inputHandler, final JMETab tab ) {
+        this( component, width, height, new AffineTransform(), inputHandler, tab, new Property<Boolean>( false ) );
     }
 
     // initialize from the EDT
     public HUDNode( final JComponent component, final int width, final int height, final AffineTransform imageTransform,
-                    final JMEInputHandler inputHandler, final JMEModule module, final Property<Boolean> antialiasing ) {
+                    final JMEInputHandler inputHandler, final JMETab tab, final Property<Boolean> antialiasing ) {
         super( "HUD", new Quad( width, height, true ) ); // "true" flips it so our components are shown in the correct Y direction
         this.component = component;
         this.width = width;
         this.height = height;
         this.imageTransform = imageTransform;
         this.inputHandler = inputHandler;
-        this.module = module;
+        this.tab = tab;
         this.antialiasing = antialiasing;
 
         image = new PaintableImage( width, height, true, imageTransform ) {
@@ -179,7 +178,7 @@ public class HUDNode extends Geometry {
             }
         };
 
-        material = new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+        material = new Material( tab.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             setTexture( "ColorMap", new Texture2D() {{
                 setImage( image );
 
@@ -231,7 +230,7 @@ public class HUDNode extends Geometry {
             public void run() {
                 inputHandler.addRawInputListener( inputListener );
                 listenerAttached = true;
-                module.attachState( state );
+                tab.attachState( state );
             }
         } );
     }
@@ -329,7 +328,7 @@ public class HUDNode extends Geometry {
     // All necessary cleanup that we need to do to never use this HUDNode again (don't leak memory). Shouldn't conflict with JME calls
     public void dispose() {
         ignoreInput();
-        module.detachState( state );
+        tab.detachState( state );
 
         // don't leak memory!
         JMEUtils.getApplication().getRenderer().deleteImage( image );

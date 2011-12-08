@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet.hud;
 
-import java.awt.*;
+import java.awt.Container;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;

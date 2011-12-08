@@ -18,13 +18,13 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuIte
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
-import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesTab;
 import edu.colorado.phet.moleculeshapes.util.ColorPropertyControl;
 
 import com.jme3.util.BufferUtils;
 
 public class DeveloperOptions {
-    public static void addDeveloperOptions( JMenu developerMenu, final JFrame frame, final MoleculeShapesModule module ) {
+    public static void addDeveloperOptions( JMenu developerMenu, final JFrame frame, final MoleculeShapesTab module ) {
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", MoleculeShapesProperties.allowDraggingBehind ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", MoleculeShapesProperties.useRotationCursor ) );

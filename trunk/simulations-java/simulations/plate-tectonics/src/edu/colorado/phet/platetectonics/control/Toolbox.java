@@ -8,7 +8,7 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.platetectonics.control.RulerNode3D.RulerNode2D;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class Toolbox extends PiccoloJMENode {
     private static final double INSET = 5;
 
-    public Toolbox( PlateTectonicsModule module, final ToolboxState toolboxState ) {
+    public Toolbox( PlateTectonicsTab tab, final ToolboxState toolboxState ) {
         super( new ControlPanelNode( new PNode() {{
             final float kmToViewUnit = 0.75f;
             final ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( kmToViewUnit ) {{
@@ -98,6 +98,6 @@ public class Toolbox extends PiccoloJMENode {
                 setFont( new PhetFont( 16, true ) );
                 setOffset( rulerNode2D.getFullBounds().getWidth() + 10, 0 ); // TODO: change positioning once we have added other toolbox elements
             }} );
-        }} ), module.getInputHandler(), module, module.getCanvasTransform() );
+        }} ), tab.getInputHandler(), tab, tab.getCanvasTransform() );
     }
 }

@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 import com.jme3.renderer.Camera;
 

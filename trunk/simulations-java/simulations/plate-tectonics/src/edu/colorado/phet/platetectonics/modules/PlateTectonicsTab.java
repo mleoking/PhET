@@ -1,16 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.*;
-
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
 import edu.colorado.phet.jmephet.PhetCamera;
 import edu.colorado.phet.jmephet.PhetCamera.CenteredStageCameraStrategy;
-import edu.colorado.phet.jmephet.PhetJMEApplication;
 import edu.colorado.phet.jmephet.PhetJMEApplication.RenderPosition;
 import edu.colorado.phet.platetectonics.util.JMEModelViewTransform;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
@@ -28,7 +24,7 @@ import com.jme3.scene.Node;
 /**
  * General plate tectonics module that consolidates common behavior between the various tabs
  */
-public abstract class PlateTectonicsModule extends JMEModule {
+public abstract class PlateTectonicsTab extends JMETab {
     public static final String MAP_LEFT = "CameraLeft";
     public static final String MAP_RIGHT = "CameraRight";
     public static final String MAP_UP = "CameraUp";
@@ -40,8 +36,8 @@ public abstract class PlateTectonicsModule extends JMEModule {
 
     private JMEModelViewTransform modelViewTransform;
 
-    public PlateTectonicsModule( Frame parentFrame, String name, float kilometerScale ) {
-        super( parentFrame, name, new ConstantDtClock( 30.0 ) );
+    public PlateTectonicsTab( String name, float kilometerScale ) {
+        super( JMEUtils.getApplication(), name );
 
         // TODO: better initialization for this model view transform (for each module)
         modelViewTransform = new JMEModelViewTransform( Matrix4f.IDENTITY.mult( kilometerScale / 1000 ) );
@@ -49,10 +45,6 @@ public abstract class PlateTectonicsModule extends JMEModule {
 
     public PlateTectonicsJMEApplication getApp() {
         return (PlateTectonicsJMEApplication) JMEUtils.getApplication();
-    }
-
-    @Override public PhetJMEApplication createApplication( Frame parentFrame ) {
-        return new PlateTectonicsJMEApplication( parentFrame );
     }
 
     public JMEModelViewTransform getModelViewTransform() {

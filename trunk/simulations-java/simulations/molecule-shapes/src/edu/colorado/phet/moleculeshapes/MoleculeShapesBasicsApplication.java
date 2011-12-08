@@ -16,14 +16,14 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TeachersMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
-import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
+import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesTab;
 
 /**
  * The main application for Molecule Shapes: Basics (with a few things stripped out)
  */
 public class MoleculeShapesBasicsApplication extends JMEPhetApplication {
 
-    private MoleculeShapesModule module;
+    private MoleculeShapesTab tab;
 
     /**
      * Sole constructor.
@@ -47,7 +47,10 @@ public class MoleculeShapesBasicsApplication extends JMEPhetApplication {
 
         Frame parentFrame = getPhetFrame();
 
-        addModule( module = new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__BASICS__TITLE, true ) );
+        addModule( new MoleculeShapesModule( parentFrame ) {{
+            addTab( tab = new MoleculeShapesTab( Strings.MOLECULE__SHAPES__BASICS__TITLE, true ) );
+        }} );
+
     }
 
     /*
@@ -73,7 +76,7 @@ public class MoleculeShapesBasicsApplication extends JMEPhetApplication {
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
 
-        DeveloperOptions.addDeveloperOptions( developerMenu, frame, module );
+        DeveloperOptions.addDeveloperOptions( developerMenu, frame, tab );
     }
 
     //----------------------------------------------------------------------------
