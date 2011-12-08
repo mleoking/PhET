@@ -436,9 +436,35 @@ public class BalanceGameChallengeFactory {
         return MassDeductionChallenge.create( mysteryMassPrototype.createCopy(), mysteryMassDistanceFromCenter, knownMass );
     }
 
+    /**
+     * Generate a simple tip-prediction style of challenge.  This one only
+     * uses bricks, and never produces perfectly balanced challenges.
+     *
+     * @return
+     */
     private static TipPredictionChallenge generateSimpleTipPredictionChallenge() {
+
+        // Choose two different numbers between 1 and 4 (inclusive) for the
+        // number of bricks in the two stacks.
+        int numBricksInLeftStack = RAND.nextInt( 4 ) + 1;
+        int numBricksInRightState = numBricksInLeftStack;
+        while ( numBricksInRightState == numBricksInLeftStack ) {
+            numBricksInRightState = RAND.nextInt( 4 ) + 1;
+        }
+
+        // Choose a distance from the center, which will be used for
+        // positioning both stacks.  The max and min increment values can be
+        // tweaked if desired to limit the range of distances generated.
+        int maxIncrements = (int) Math.round( Plank.LENGTH / 2 / Plank.INTER_SNAP_TO_MARKER_DISTANCE ) - 3;
+        int minIncrements = 1;
+        assert maxIncrements > minIncrements;
+        double distanceFromPlankCenter = ( RAND.nextInt( maxIncrements - minIncrements ) + minIncrements ) * Plank.INTER_SNAP_TO_MARKER_DISTANCE;
+
         // TODO: Stubbed for now, always produces same challenge.
-        return TipPredictionChallenge.create( new BrickStack( 1 ), 1, new BrickStack( 2 ), -1 );
+        return TipPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
+                                              distanceFromPlankCenter,
+                                              new BrickStack( numBricksInRightState ),
+                                              -distanceFromPlankCenter );
     }
 
     /**
