@@ -1,3 +1,5 @@
+# 1.00.01 (59161) Dec 8, 2011
+12/8/11 Deploying to dev for some early feedback on a new challenge type.
 Added a new type of challenge to the game where users must predict which direction the plank will tip when the support columns are removed.
 # 1.00.00 (58637) Nov 15, 2011
 11/15/11 Initial deployment to the production server.
