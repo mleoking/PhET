@@ -1,3 +1,4 @@
+# 2.08.08 (59163) Dec 8, 2011
 12/8/2011 common: Improved performance for Energy Skate Park grid
 # 2.08.07 (59055) Dec 5, 2011
 basics: Made splines go in front of the control panel in "Track Playground" tab
