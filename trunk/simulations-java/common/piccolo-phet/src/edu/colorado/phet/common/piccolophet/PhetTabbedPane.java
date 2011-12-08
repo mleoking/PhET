@@ -20,12 +20,19 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
@@ -921,6 +928,160 @@ public class PhetTabbedPane extends JPanel {
 
         public void mouseExited( PInputEvent event ) {
             PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+        }
+    }
+
+    /**
+     * A module with a separate similarly-styled PhET tab bar across the top when more than 1 tab is
+     * available, and with a single content component that takes up all remaining space.
+     * <p/>
+     * The content component can be changed whenever the passed-in tabs are made active or inactive
+     * to support customized behavior.
+     * <p/>
+     * This is currently necessary for our 3D based sims (both LWJGL and JME3)
+     */
+    public static class TabbedModule extends Module {
+
+        // what tab is currently active
+        public final Property<Tab> selectedTab = new Property<Tab>( null );
+
+        // main content
+        private Component content;
+
+        // tab pane (visible with more than one tab) at the top
+        private TabPane tabPane;
+
+        private List<Tab> tabs = new ArrayList<Tab>();
+
+        // our "simulation" panel for the module
+        private JPanel simulationPanel;
+
+        // associate tabs with their respective PhetTabbedPane.HTMLTabNode instance and vice versa
+        private Map<Tab, HTMLTabNode> tabNodeMap = new HashMap<Tab, HTMLTabNode>();
+        private Map<HTMLTabNode, Tab> tabNodeReverseMap = new HashMap<HTMLTabNode, Tab>();
+
+        /**
+         * @param content Component that holds all of the main content
+         */
+        public TabbedModule( final Component content ) {
+            super( "", new ConstantDtClock() ); // TODO: get rid of the clock
+            this.content = content;
+
+            tabPane = new TabPane( PhetTabbedPane.DEFAULT_SELECTED_TAB_COLOR, PhetTabbedPane.DEFAULT_UNSELECTED_TAB_COLOR );
+
+            // set up our module so that only the content is showing. tab bar will be added later if necessary
+            simulationPanel = new JPanel( new BorderLayout() ) {{
+                add( content, BorderLayout.CENTER );
+            }};
+            setSimulationPanel( simulationPanel );
+            setClockControlPanel( null );
+            setControlPanel( null );
+            setLogoPanelVisible( false );
+
+            // when our tab changes, update our visual state and notify the changed tabs of their state
+            selectedTab.addObserver( new ChangeObserver<Tab>() {
+                public void update( Tab newValue, Tab oldValue ) {
+                    // our state handling
+                    if ( oldValue != null ) {
+                        oldValue.setActive( false );
+                    }
+                    newValue.setActive( true );
+
+                    // all of this is needed to interface with the TabPane to assure correct tab highlights
+                    for ( Tab tab : tabs ) {
+                        if ( tab != newValue ) {
+                            tabNodeMap.get( tab ).setSelected( false );
+                        }
+                    }
+                    if ( tabPane.getSelectedTab() != newValue ) {
+                        HTMLTabNode tabNode = tabNodeMap.get( newValue );
+                        tabNode.setSelected( true );
+                        tabPane.setSelectedTab( tabNode );
+                    }
+                }
+            } );
+        }
+
+        public Component getContent() {
+            return content;
+        }
+
+        public void addTab( Tab tab ) {
+            HTMLTabNode tabNode = new HTMLTabNode( tab.getTitle(), null,
+                                                   PhetTabbedPane.DEFAULT_SELECTED_TAB_COLOR, PhetTabbedPane.DEFAULT_UNSELECTED_TAB_COLOR,
+                                                   PhetTabbedPane.DEFAULT_SELECTED_TEXT_COLOR, PhetTabbedPane.DEFAULT_UNSELECTED_TEXT_COLOR,
+                                                   PhetTabbedPane.DEFAULT_TAB_FONT ) {{
+                final HTMLTabNode htmlTabNode = this; // self-reference
+
+                addInputEventListener( new PBasicInputEventHandler() {
+                    @Override public void mouseReleased( PInputEvent event ) {
+                        if ( getFullBounds().contains( event.getCanvasPosition() ) ) {
+
+                            SimSharingEvents.sendEvent( Objects.TAB, Actions.PRESSED, Parameter.param( Parameters.TEXT, getText() ) );
+
+                            selectedTab.set( tabNodeReverseMap.get( htmlTabNode ) );
+                        }
+                    }
+
+                    @Override public void mouseEntered( PInputEvent event ) {
+                        tabPane.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+                    }
+
+                    @Override public void mouseExited( PInputEvent event ) {
+                        tabPane.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                    }
+                } );
+            }};
+
+            tabNodeMap.put( tab, tabNode );
+            tabNodeReverseMap.put( tabNode, tab );
+
+            tabPane.addTab( tabNode );
+            tabs.add( tab );
+            if ( tabs.size() == 1 ) {
+                selectedTab.set( tab );
+                tab.setActive( true );
+            }
+            else {
+                tabNode.setSelected( false );
+                tab.setActive( false );
+            }
+
+            // if necessary, add tab pane.
+            if ( tabs.size() == 2 ) {
+                simulationPanel.add( tabPane, BorderLayout.NORTH );
+            }
+        }
+
+        public List<Tab> getTabs() {
+            return new ArrayList<Tab>( tabs ); // defensive copy
+        }
+
+        public static interface Tab {
+            public String getTitle();
+
+            public void setActive( boolean active );
+        }
+
+        public static class AbstractTab implements Tab {
+            private String title;
+            private boolean active = false;
+
+            public AbstractTab( String title ) {
+                this.title = title;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setActive( boolean active ) {
+                this.active = active;
+            }
+
+            public boolean isActive() {
+                return active;
+            }
         }
     }
 
