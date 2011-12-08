@@ -2,8 +2,11 @@
 package edu.colorado.phet.jmephet;
 
 import java.awt.Dimension;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule.Tab;
@@ -75,10 +78,22 @@ public abstract class JMETab implements Tab {
             JMEUtils.invokeLater( new Runnable() {
                 public void run() {
                     inputHandler = new JMETabInputHandler( JMETab.this, app.getInputManager() ); // TODO: we are passing so many partially-constructed objects...
-                    initialize();
+                    try {
+                        SwingUtilities.invokeAndWait( new Runnable() {
+                            public void run() {
+                                initialize();
 
-                    if ( getCanvasSize() != null ) { // sanity check
-                        updateLayout( getCanvasSize() );
+                                if ( getCanvasSize() != null ) { // sanity check
+                                    updateLayout( getCanvasSize() );
+                                }
+                            }
+                        } );
+                    }
+                    catch ( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( InvocationTargetException e ) {
+                        e.printStackTrace();
                     }
                 }
             } );
