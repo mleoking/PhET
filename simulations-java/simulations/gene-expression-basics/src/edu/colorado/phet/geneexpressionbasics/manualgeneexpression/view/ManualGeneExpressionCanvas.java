@@ -240,7 +240,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
 
         // Uncomment this line to add zoom on right mouse click drag
-//        addInputEventListener( getZoomEventHandler() );
+        addInputEventListener( getZoomEventHandler() );
 
         // Add a node to depict the motion bounds.  This is for debug purposes.
         if ( SHOW_MOTION_BOUNDS ) {

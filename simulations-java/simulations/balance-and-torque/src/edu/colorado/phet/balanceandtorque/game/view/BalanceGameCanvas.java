@@ -507,6 +507,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 massValueAnswerNode.update();
                 show( massValueAnswerNode );
             }
+            else if ( model.getCurrentChallenge().getChallengeViewConfig().showTipPredictionSelector ) {
+                tipPredictionSelectorNode.tipPredictionProperty.set( model.getTipDirection() );
+                show( tipPredictionSelectorNode );
+            }
             showChallengeGraphics();
         }
         else if ( newState == SHOWING_GAME_RESULTS ) {
