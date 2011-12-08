@@ -1,4 +1,3 @@
-# 2.13.00 (59143) Dec 7, 2011
 12/7/11 > add additional country-specific locales for Spanish (#3179)
 # 2.12.00 (57171) Oct 3, 2011
 10/3/11 added support for Kannada
