@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -52,8 +53,9 @@ public class TipPredictionSelectorNode extends PNode {
     private static class TipPredictionSelectionPanel extends PNode {
         private static final double PANEL_WIDTH = 220; // In screen coords, fairly close to pixels.
         private static final Color HIGHLIGHT_COLOR = new Color( 255, 215, 0 );
-        private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
+        private static final Color NON_HIGHLIGHT_COLOR = Color.BLACK;
         private static final Stroke HIGHLIGHT_STROKE = new BasicStroke( 6 );
+        private static final Stroke NON_HIGHLIGHT_STROKE = new BasicStroke( 1 );
 
         private TipPredictionSelectionPanel( Image image, final TipPrediction correspondingPrediction, final Property<TipPrediction> tipPredictionProperty ) {
 
@@ -71,14 +73,18 @@ public class TipPredictionSelectorNode extends PNode {
             } );
 
             // Set up the listener that will highlight or un-highlight the panel.
-            final PPath highlight = new PhetPPath( panel.getFullBoundsReference().getBounds2D(), HIGHLIGHT_STROKE, INVISIBLE_COLOR );
+            final PPath highlight = new PhetPPath( panel.getFullBoundsReference().getBounds2D(), NON_HIGHLIGHT_STROKE, NON_HIGHLIGHT_COLOR );
             addChild( highlight );
             tipPredictionProperty.addObserver( new VoidFunction1<TipPrediction>() {
                 public void apply( TipPrediction predictionValue ) {
                     // Turn the highlight on or off.
-                    highlight.setStrokePaint( predictionValue == correspondingPrediction ? HIGHLIGHT_COLOR : INVISIBLE_COLOR );
+                    highlight.setStrokePaint( predictionValue == correspondingPrediction ? HIGHLIGHT_COLOR : NON_HIGHLIGHT_COLOR );
+                    highlight.setStroke( predictionValue == correspondingPrediction ? HIGHLIGHT_STROKE : NON_HIGHLIGHT_STROKE );
                 }
             } );
+
+            // Set the cursor to look different when the user mouses over it.
+            panel.addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
         }
     }
 
