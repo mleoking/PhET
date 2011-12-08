@@ -15,7 +15,7 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
  */
 public class TipPredictionChallenge extends BalanceGameChallenge {
 
-    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "Which way will it tip?", false, true );
+    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "What will happen?", false, true );
 
     // This type of challenge can only be attempted once.
     private static final int NUM_ATTEMPTS_ALLOWED = 1;
