@@ -12,6 +12,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * Todo: see EnergyPositionPlotCanvas for an error in the offset.
@@ -99,7 +100,16 @@ public class GridNode extends PhetPNode {
     }
 
     private PNode createYLineNode( double minX, double maxX, double y ) {
-        PPath child = new PPath( new Line2D.Double( minX, y, maxX, y ) );
+        PPath child = new PPath( new Line2D.Double( minX, y, maxX, y ) ) {
+
+            //Use low quality rendering to improve performance when grid is turned on
+            @Override protected void paint( PPaintContext paintContext ) {
+                int renderQuality = paintContext.getRenderQuality();
+                paintContext.setRenderQuality( PPaintContext.LOW_QUALITY_RENDERING );
+                super.paint( paintContext );
+                paintContext.setRenderQuality( renderQuality );
+            }
+        };
         boolean thickStroke = MathUtil.isApproxEqual( y, 0, 0.001 );
 
         //On 11/29/2011 It was requested to make every other line thick instead of every 5 lines.
@@ -111,7 +121,16 @@ public class GridNode extends PhetPNode {
     }
 
     private PNode createXLineNode( double minY, double maxY, double x ) {
-        PPath child = new PPath( new Line2D.Double( x, minY, x, maxY ) );
+        PPath child = new PPath( new Line2D.Double( x, minY, x, maxY ) ) {
+
+            //Use low quality rendering to improve performance when grid is turned on
+            @Override protected void paint( PPaintContext paintContext ) {
+                int renderQuality = paintContext.getRenderQuality();
+                paintContext.setRenderQuality( PPaintContext.LOW_QUALITY_RENDERING );
+                super.paint( paintContext );
+                paintContext.setRenderQuality( renderQuality );
+            }
+        };
         boolean thickStroke = MathUtil.isApproxEqual( x, highlightX, 0.001 );
         child.setStroke( new BasicStroke( 0.01f * ( thickStroke ? 3 : 1 ) ) );
         return child;
