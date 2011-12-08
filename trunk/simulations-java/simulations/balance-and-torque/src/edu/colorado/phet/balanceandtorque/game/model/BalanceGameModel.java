@@ -399,8 +399,8 @@ public class BalanceGameModel {
     public void displayCorrectAnswer() {
         BalanceGameChallenge currentChallenge = getCurrentChallenge();
 
-        // Put the challenge in its initial state, with none of the movable
-        // masses on the plank and the columns turned off.
+        // Put the challenge in its initial state, but with the columns turned
+        // off.
         setChallenge( currentChallenge, ColumnState.NONE );
 
         // Add the movable mass or masses to the plank according to the solution.
@@ -418,6 +418,24 @@ public class BalanceGameModel {
 
     public List<LevelSupportColumn> getLevelSupportColumns() {
         return levelSupportColumns;
+    }
+
+    /**
+     * Get an indication of the way that the plank will or did tip when no
+     * columns are supporting it.
+     *
+     * @return
+     */
+    public TipPrediction getTipDirection() {
+        if ( plank.getTorqueDueToMasses() < 0 ) {
+            return TipPrediction.TIP_DOWN_ON_RIGHT_SIDE;
+        }
+        else if ( plank.getTorqueDueToMasses() > 0 ) {
+            return TipPrediction.TIP_DOWN_ON_LEFT_SIDE;
+        }
+        else {
+            return TipPrediction.STAY_BALANCED;
+        }
     }
 
     /**
