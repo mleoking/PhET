@@ -19,8 +19,8 @@
     <orderEntry type="module" module-name="jfreechart" />
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="functionaljava" />
-    <orderEntry type="library" name="scala-library-2.9.1" level="application" />
     <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="library" name="scala-library-2.9.0.1" level="application" />
   </component>
 </module>
 

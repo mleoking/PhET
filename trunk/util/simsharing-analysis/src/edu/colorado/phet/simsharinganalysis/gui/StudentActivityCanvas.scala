@@ -23,7 +23,7 @@ class StudentActivityCanvas(path: String) extends PCanvas {
   setInteractingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
   setDefaultRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
   setAnimatingRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING)
-  val sessionLayer = new VBox(20, true)
+  val sessionLayer = new VBox(20, VBox.LEFT_ALIGNED)
   getLayer addChild sessionLayer
 
   val colorMap = Map("Molecule Polarity" -> Color.red,
