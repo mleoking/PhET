@@ -6,6 +6,8 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 
 /**
  * Base class for proteins.  Defines the methods used for growing a protein.
@@ -35,6 +37,8 @@ public abstract class Protein extends MobileBiomolecule {
 
     protected Protein( GeneExpressionModel model, Ribosome parentRibosome, Shape initialShape, Color baseColor ) {
         super( model, initialShape, baseColor );
+        // TODO: Remove this when state behavior is implemented for proteins.
+        setMotionStrategy( new StillnessMotionStrategy() );
     }
 
     //-------------------------------------------------------------------------
@@ -81,7 +85,9 @@ public abstract class Protein extends MobileBiomolecule {
      * the cell.
      */
     public void release() {
-        attachmentStateMachine.detach();
+        // TODO: Needs to be made into state behavior, but just sets a motion strategy for now.
+//        attachmentStateMachine.detach();
+        setMotionStrategy( new RandomWalkMotionStrategy( motionBoundsProperty ) );
     }
 
     /**

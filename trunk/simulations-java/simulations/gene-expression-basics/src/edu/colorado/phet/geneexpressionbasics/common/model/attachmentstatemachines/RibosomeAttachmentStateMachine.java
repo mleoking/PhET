@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachi
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RibosomeTranslatingRnaMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Protein;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosome;
 
 /**
@@ -18,6 +19,10 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
 
     // Reference back to the ribosome that is controlled by this state machine.
     private final Ribosome ribosome;
+
+    // Protein created during translation process, null if no protein is being
+    // synthesized.
+    private Protein proteinBeingSynthesized;
 
     public RibosomeAttachmentStateMachine( MobileBiomolecule biomolecule ) {
         super( biomolecule );
@@ -42,11 +47,17 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
             assert asm.attachmentSite != null;
             assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
 
+            // Grow the protein.
+            proteinBeingSynthesized.setGrowthFactor( ribosome.getMessengerRnaBeingTranslated().getProportionOfRnaTranslated( ribosome ) );
+
+            // Advance translation.
             boolean translationComplete = ribosome.advanceMessengerRnaTranslation( RNA_TRANSLATION_RATE );
             if ( translationComplete ) {
                 // Release the mRNA.
                 ribosome.releaseMessengerRna();
-                // Release ourselves to wander in the cytoplasm.
+                // Release the protein.
+                proteinBeingSynthesized.release();
+                // Release this ribosome to wander in the cytoplasm.
                 asm.detach();
             }
         }
@@ -54,6 +65,9 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
         @Override public void entered( AttachmentStateMachine asm ) {
             ribosome.initiateTranslation();
             ribosome.setMotionStrategy( new RibosomeTranslatingRnaMotionStrategy( ribosome ) );
+            proteinBeingSynthesized = ribosome.getMessengerRnaBeingTranslated().getProteinPrototype().createInstance( ribosome.getModel(), ribosome );
+            proteinBeingSynthesized.setAttachmentPointPosition( ribosome.getProteinAttachmentPoint() );
+            ribosome.getModel().addMobileBiomolecule( proteinBeingSynthesized );
         }
     }
 }
