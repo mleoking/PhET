@@ -52,7 +52,7 @@ public class LWJGLCanvas extends Canvas {
     }
 
     public void switchToTab( final LWJGLTab tab ) {
-        taskQueue.add( new Runnable() {
+        addTask( new Runnable() {
             public void run() {
                 if ( activeTab != null ) {
                     activeTab.stop();
