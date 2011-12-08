@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.jmephet.hud;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.jmephet.CanvasTransform;
 import edu.colorado.phet.jmephet.CanvasTransform.IdentityCanvasTransform;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -36,7 +36,7 @@ public class SwingJMENode extends Node {
 
     private final JComponent component;
     private final JMEInputHandler inputHandler;
-    private final JMEModule module;
+    private final JMETab tab;
     private final CanvasTransform canvasTransform;
 
     private volatile Dimension size = new Dimension(); // our current size
@@ -51,18 +51,18 @@ public class SwingJMENode extends Node {
      */
     public final Property<Boolean> antialiased = new Property<Boolean>( false );
 
-    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMEModule module ) {
-        this( component, inputHandler, module, getDefaultTransform() );
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMETab tab ) {
+        this( component, inputHandler, tab, getDefaultTransform() );
     }
 
-    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMEModule module, CanvasTransform canvasTransform ) {
-        this( component, inputHandler, module, canvasTransform, getDefaultPosition() );
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMETab tab, CanvasTransform canvasTransform ) {
+        this( component, inputHandler, tab, canvasTransform, getDefaultPosition() );
     }
 
-    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMEModule module, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMETab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
         this.component = component;
         this.inputHandler = inputHandler;
-        this.module = module;
+        this.tab = tab;
         this.canvasTransform = canvasTransform;
         this.position = position;
 
@@ -97,10 +97,10 @@ public class SwingJMENode extends Node {
             }
         } );
         position.addObserver( new SimpleObserver() {
-            public void update() {
-                rebuildHUD();
-            }
-        }, false );
+                                  public void update() {
+                                      rebuildHUD();
+                                  }
+                              }, false );
         canvasTransform.transform.addObserver( new SimpleObserver() {
             public void update() {
                 rebuildHUD();
@@ -199,7 +199,7 @@ public class SwingJMENode extends Node {
         final HUDNode newHudNode = new HUDNode( component, hudWidth, hudHeight, new AffineTransform() {{
             translate( imageOffsetX, imageOffsetY );
             scale( scaleX, scaleY );
-        }}, inputHandler, module, antialiased );
+        }}, inputHandler, tab, antialiased );
         newHudNode.setLocalTranslation( offsetX, offsetY, 0 );
 
         // do the rest of the work in the JME thread

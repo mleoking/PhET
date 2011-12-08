@@ -9,14 +9,14 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
-import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
+import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.umd.cs.piccolo.PNode;
 
 /**
  * Displays a list of options that can be selected
  */
 public class OptionsNode extends PNode {
-    public OptionsNode( final MoleculeViewModule module, final double INNER_WIDTH ) {
+    public OptionsNode( final MoleculeViewTab module, final double INNER_WIDTH ) {
         // enforce the width constraint
         addChild( new Spacer( 0, 0, INNER_WIDTH, 10 ) );
 

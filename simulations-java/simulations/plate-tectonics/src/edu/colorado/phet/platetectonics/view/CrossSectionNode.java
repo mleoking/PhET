@@ -8,7 +8,7 @@ import java.nio.IntBuffer;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 
 import com.jme3.material.Material;
@@ -29,7 +29,7 @@ public class CrossSectionNode extends Geometry {
     private final Grid3D grid;
     private final Grid3D textureGrid;
 
-    public CrossSectionNode( final PlateModel model, final PlateTectonicsModule module, final Grid3D grid ) {
+    public CrossSectionNode( final PlateModel model, final PlateTectonicsTab module, final Grid3D grid ) {
         this.model = model;
         this.grid = grid;
 

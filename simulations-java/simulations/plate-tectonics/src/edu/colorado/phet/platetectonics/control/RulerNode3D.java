@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.*;
+import java.awt.Cursor;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.jmephet.JMECursorHandler;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.hud.SwingJMENode;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
@@ -27,8 +27,8 @@ public class RulerNode3D extends PiccoloJMENode implements DraggableTool2D {
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
     private static final float RULER_PIXEL_SCALE = 3f;
 
-    public RulerNode3D( final JMEModelViewTransform transform, final JMEModule module ) {
-        super( new RulerNode2D( transform.modelToViewDeltaX( 1000 ) ), module.getInputHandler(), module, SwingJMENode.getDefaultTransform() );
+    public RulerNode3D( final JMEModelViewTransform transform, final JMETab tab ) {
+        super( new RulerNode2D( transform.modelToViewDeltaX( 1000 ) ), tab.getInputHandler(), tab, SwingJMENode.getDefaultTransform() );
 
         // scale the node to handle the subsampling
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );

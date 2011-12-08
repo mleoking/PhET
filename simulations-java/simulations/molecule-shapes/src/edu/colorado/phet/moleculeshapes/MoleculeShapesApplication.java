@@ -16,16 +16,16 @@ import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TeachersMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
-import edu.colorado.phet.moleculeshapes.module.moleculeshapes.MoleculeShapesModule;
-import edu.colorado.phet.moleculeshapes.module.realmolecules.RealMoleculesModule;
+import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesTab;
+import edu.colorado.phet.moleculeshapes.tabs.realmolecules.RealMoleculesTab;
 
 /**
  * The main application for Molecule Shapes
  */
 public class MoleculeShapesApplication extends JMEPhetApplication {
 
-    private MoleculeShapesModule tab1;
-    private RealMoleculesModule tab2;
+    private MoleculeShapesTab tab1;
+    private RealMoleculesTab tab2;
 
     /**
      * Sole constructor.
@@ -49,10 +49,12 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
         Frame parentFrame = getPhetFrame();
 
-        addModule( tab1 = new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__TITLE, false ) );
-        addModule( tab2 = new RealMoleculesModule( parentFrame, Strings.REAL__MOLECULES, false ) );
-        addModule( tab2 = new RealMoleculesModule( parentFrame, Strings.REAL__MOLECULES, true ) );
+        addModule( new MoleculeShapesModule( parentFrame ) {{
+            addTab( tab1 = new MoleculeShapesTab( Strings.MOLECULE__SHAPES__TITLE, false ) );
+            addTab( tab2 = new RealMoleculesTab( Strings.REAL__MOLECULES, false ) );
+            addTab( new RealMoleculesTab( Strings.REAL__MOLECULES, true ) );
 //        addModule( new DebugModule( parentFrame, "Debug" ) );
+        }} );
     }
 
     /*

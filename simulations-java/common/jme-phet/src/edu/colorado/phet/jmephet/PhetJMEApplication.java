@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.application.Module.Listener;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
@@ -60,8 +60,8 @@ public class PhetJMEApplication extends Application {
     * modules
     *----------------------------------------------------------------------------*/
 
-    private final List<JMEModule> modules = new ArrayList<JMEModule>();
-    public final Property<JMEModule> activeModule = new Property<JMEModule>( null );
+    private final List<JMETab> tabs = new ArrayList<JMETab>();
+    public final Property<JMETab> activeTab = new Property<JMETab>( null );
 
     /*---------------------------------------------------------------------------*
     * global properties
@@ -104,16 +104,15 @@ public class PhetJMEApplication extends Application {
     * modules
     *----------------------------------------------------------------------------*/
 
-    public void addModule( final JMEModule module ) {
-        modules.add( module );
+    public void addTab( final JMETab tab ) {
+        tabs.add( tab );
 
         // when modules are made active, record that so we can update our active modules
-        module.addListener( new Listener() {
-            public void activated() {
-                activeModule.set( module );
-            }
-
-            public void deactivated() {
+        tab.active.addObserver( new ChangeObserver<Boolean>() {
+            public void update( Boolean newValue, Boolean oldValue ) {
+                if ( newValue ) {
+                    activeTab.set( tab );
+                }
             }
         } );
     }
@@ -285,8 +284,8 @@ public class PhetJMEApplication extends Application {
     }
 
     public void updateState( float tpf ) {
-        if ( activeModule.get() != null ) {
-            activeModule.get().updateState( tpf );
+        if ( activeTab.get() != null ) {
+            activeTab.get().updateState( tpf );
         }
     }
 
@@ -301,8 +300,8 @@ public class PhetJMEApplication extends Application {
         this.canvasSize.set( canvasSize );
 
         // notify all of our modules about the size change. they might even be hidden
-        for ( JMEModule module : modules ) {
-            module.updateLayout( canvasSize );
+        for ( JMETab tab : tabs ) {
+            tab.updateLayout( canvasSize );
         }
     }
 

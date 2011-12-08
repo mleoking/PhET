@@ -9,7 +9,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
+import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
 
 import com.jme3.material.Material;
@@ -23,7 +23,7 @@ import com.jme3.scene.shape.Quad;
  * Displays a molecule fragment that can be enabled or disabled
  */
 public class BondTypeOverlayNode extends MoleculeModelNode {
-    public BondTypeOverlayNode( final Molecule molecule, final JMEView view, final MoleculeViewModule module, final Property<Boolean> enabled ) {
+    public BondTypeOverlayNode( final Molecule molecule, final JMEView view, final MoleculeViewTab module, final Property<Boolean> enabled ) {
         super( molecule, null, module, view.getCamera() );
 
         setScaleOverride( 1f );

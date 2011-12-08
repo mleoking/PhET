@@ -6,7 +6,7 @@ import java.awt.Cursor;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.hud.SwingJMENode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -28,10 +28,10 @@ public class DensitySensorNode3D extends PiccoloJMENode implements DraggableTool
     private final JMEModelViewTransform transform;
     private final PlateModel model;
 
-    public DensitySensorNode3D( final JMEModelViewTransform transform, final JMEModule module, PlateModel model ) {
+    public DensitySensorNode3D( final JMEModelViewTransform transform, final JMETab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
-        super( new DensitySensorNode2D( transform.modelToViewDeltaX( 1000 ) ), module.getInputHandler(), module, SwingJMENode.getDefaultTransform() );
+        super( new DensitySensorNode2D( transform.modelToViewDeltaX( 1000 ) ), tab.getInputHandler(), tab, SwingJMENode.getDefaultTransform() );
         this.transform = transform;
         this.model = model;
 
@@ -52,10 +52,10 @@ public class DensitySensorNode3D extends PiccoloJMENode implements DraggableTool
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
-            public void update() {
-                updateReadout();
-            }
-        }, true );
+                                                  public void update() {
+                                                      updateReadout();
+                                                  }
+                                              }, true );
     }
 
     public boolean allowsDrag( Vector2f initialPosition ) {

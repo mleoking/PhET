@@ -1,11 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.*;
+import java.awt.Frame;
 
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
-import edu.colorado.phet.platetectonics.test.AnimatedPlateModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
@@ -17,12 +16,12 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.P
 /**
  * Displays two main plates that the user can direct to move towards, away from, or along each other.
  */
-public class PlateMotionModule extends PlateTectonicsModule {
+public class PlateMotionTab extends PlateTectonicsTab {
 
     private PlateModel model;
 
-    public PlateMotionModule( Frame parentFrame ) {
-        super( parentFrame, PLATE_MOTION_TAB, 0.5f );
+    public PlateMotionTab( Frame parentFrame ) {
+        super( PLATE_MOTION_TAB, 0.5f );
     }
 
     @Override public void updateState( float tpf ) {

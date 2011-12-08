@@ -10,7 +10,7 @@ import edu.colorado.phet.jmephet.shapes.PlanarPolygon;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Region;
 import edu.colorado.phet.platetectonics.model.Region.Type;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.TransparentColorMaterial;
 
 import com.jme3.material.Material;
@@ -27,7 +27,7 @@ import com.jme3.scene.Node;
 public class RegionNode extends Node {
     private static Map<Region.Type, Material> materialMap;
 
-    public RegionNode( final Region region, final PlateModel model, final PlateTectonicsModule module ) {
+    public RegionNode( final Region region, final PlateModel model, final PlateTectonicsTab module ) {
         super( "Region" );
 
         initializeMaterials( module );
@@ -78,7 +78,7 @@ public class RegionNode extends Node {
     }
 
     // various materials
-    private static void initializeMaterials( final PlateTectonicsModule module ) {
+    private static void initializeMaterials( final PlateTectonicsTab module ) {
         final Material densityMaterial = new Material( module.getAssetManager(), "plate-tectonics/materials/Density.j3md" ) {{
             setColor( "Color", new ColorRGBA( 0, 1, 0, 1f ) );
         }};

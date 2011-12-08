@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.TransparentColorMaterial;
 
 import com.jme3.bounding.BoundingVolume;
@@ -31,9 +31,9 @@ import com.jme3.util.BufferUtils;
 public class WaterNode extends Node {
     private final Terrain terrain;
     private final PlateModel model;
-    private final PlateTectonicsModule module;
+    private final PlateTectonicsTab module;
 
-    public WaterNode( final Terrain terrain, PlateModel model, final PlateTectonicsModule module ) {
+    public WaterNode( final Terrain terrain, PlateModel model, final PlateTectonicsTab module ) {
         this.terrain = terrain;
         this.model = model;
         this.module = module;

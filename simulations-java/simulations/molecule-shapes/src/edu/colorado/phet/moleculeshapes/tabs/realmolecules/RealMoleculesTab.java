@@ -1,28 +1,30 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.module.moleculeshapes;
+package edu.colorado.phet.moleculeshapes.tabs.realmolecules;
 
 import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.geom.Rectangle2D;
+import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.jmephet.CanvasTransform.CenteredStageCanvasTransform;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.jmephet.JMEView;
-import edu.colorado.phet.jmephet.OverlayCamera;
 import edu.colorado.phet.jmephet.PhetCamera;
 import edu.colorado.phet.jmephet.PhetJMEApplication;
 import edu.colorado.phet.jmephet.PhetJMEApplication.RenderPosition;
@@ -34,18 +36,20 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Objects;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
-import edu.colorado.phet.moleculeshapes.control.BondTypeOverlayNode;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
-import edu.colorado.phet.moleculeshapes.model.Bond;
+import edu.colorado.phet.moleculeshapes.model.AttractorModel;
+import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
+import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.colorado.phet.moleculeshapes.model.VSEPRMoleculeModel;
-import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
-import edu.colorado.phet.moleculeshapes.util.CanvasTransformedBounds;
+import edu.colorado.phet.moleculeshapes.model.VseprConfiguration;
+import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
-import edu.umd.cs.piccolo.util.PBounds;
 
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResult;
@@ -73,12 +77,13 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
 
 /**
- * Main module for Molecule Shapes
+ * Module that shows the difference between the model and the real shapes the molecules make
  */
-public class MoleculeShapesModule extends MoleculeViewModule {
+public class RealMoleculesTab extends MoleculeViewTab {
 
     private PhetJMEApplication app;
-    private final boolean isBasicsVersion;
+
+    private final boolean useKit;
 
     /*---------------------------------------------------------------------------*
     * input mapping constants
@@ -96,10 +101,13 @@ public class MoleculeShapesModule extends MoleculeViewModule {
     * model
     *----------------------------------------------------------------------------*/
 
-    public final Property<Boolean> addSingleBondEnabled = new Property<Boolean>( true );
-    public final Property<Boolean> addDoubleBondEnabled = new Property<Boolean>( true );
-    public final Property<Boolean> addTripleBondEnabled = new Property<Boolean>( true );
-    public final Property<Boolean> addLonePairEnabled = new Property<Boolean>( true );
+    public Property<RealMoleculeShape> realMolecule = new Property<RealMoleculeShape>( null );
+
+    // change this to toggle between the "Real" and "Model" views
+    public Property<Boolean> showRealView = new Property<Boolean>( true );
+
+    private JMEView readoutView;
+    private PiccoloJMENode namePanel;
 
     /*---------------------------------------------------------------------------*
     * dragging
@@ -125,37 +133,35 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
     private Quaternion rotation = new Quaternion(); // The angle about which the molecule should be rotated, changes as a function of time
 
-    private Property<Rectangle2D> realMoleculeOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, 1, 1 ) ); // initialized to technically valid state
-    private Property<Rectangle2D> singleBondOverlayStageBounds;
-    private Property<Rectangle2D> doubleBondOverlayStageBounds;
-    private Property<Rectangle2D> tripleBondOverlayStageBounds;
-    private Property<Rectangle2D> lonePairOverlayStageBounds;
-
     /*---------------------------------------------------------------------------*
     * graphics/control
     *----------------------------------------------------------------------------*/
 
     private CenteredStageCanvasTransform canvasTransform;
     private PiccoloJMENode controlPanel;
-    private PiccoloJMENode namePanel;
 
     private JMEView guiView;
 
     private JMEView moleculeView;
     private Camera moleculeCamera;
-    private MoleculeModelNode moleculeNode; // The molecule to display and rotate
 
-    private MoleculeShapesControlPanel controlPanelNode;
+    private MoleculeModelNode moleculeNode;
 
     private JMEInputHandler inputHandler;
 
     private static final Random random = new Random( System.currentTimeMillis() );
 
 
-    public MoleculeShapesModule( Frame parentFrame, String name, boolean isBasicsVersion ) {
-        super( parentFrame, name, new ConstantDtClock( 30.0 ) );
-        this.isBasicsVersion = isBasicsVersion;
-        setMolecule( new VSEPRMoleculeModel() );
+    public RealMoleculesTab( String name, boolean useKit ) {
+        super( name );
+
+        this.useKit = useKit;
+
+        // TODO: improve initialization here
+        RealMoleculeShape startingMolecule = RealMoleculeShape.TAB_2_MOLECULES[0];
+        RealMoleculeModel startingMoleculeModel = new RealMoleculeModel( startingMolecule );
+        setMolecule( startingMoleculeModel );
+        realMolecule.set( startingMolecule );
     }
 
     // should be called from stable positions in the JME and Swing EDT threads
@@ -174,7 +180,6 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
         // hook up mouse-button handlers
         inputHandler.addMapping( MAP_LMB, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
-        inputHandler.addMapping( MAP_MMB, new MouseButtonTrigger( MouseInput.BUTTON_MIDDLE ) );
 
         /*---------------------------------------------------------------------------*
         * mouse-button presses
@@ -195,17 +200,8 @@ public class MoleculeShapesModule extends MoleculeViewModule {
                                 onLeftMouseUp();
                             }
                         }
-
-                        // kill any pair groups under the middle mouse button press
-                        if ( isMouseDown && name.equals( MAP_MMB ) ) {
-                            PairGroup pair = getElectronPairUnderPointer();
-                            if ( pair != null && pair != getMolecule().getCentralAtom() ) {
-                                getMolecule().removeGroup( pair );
-                            }
-                            SimSharingEvents.sendEvent( Objects.MOUSE_MIDDLE_BUTTON, Actions.PRESSED, param( Parameters.REMOVED_PAIR, pair != null ) );
-                        }
                     }
-                }, MAP_LMB, MAP_MMB );
+                }, MAP_LMB );
 
         /*---------------------------------------------------------------------------*
         * mouse motion
@@ -265,7 +261,7 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
         moleculeView = createRegularView( "Main", moleculeCamera, RenderPosition.MAIN );
         guiView = createGUIView( "Back GUI", RenderPosition.BACK );
-        JMEView readoutView = createGUIView( "Readout", RenderPosition.FRONT );
+        readoutView = createGUIView( "Readout", RenderPosition.FRONT );
 
         // add an offset to the left, since we have a control panel on the right
         // TODO: make the offset dependent on the control panel width?
@@ -274,92 +270,31 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         // add lighting to the main scene
         addLighting( moleculeView.getScene() );
 
-        // when the molecule is made empty, make sure to show lone pairs again (will allow us to drag out new ones)
-        getMolecule().onBondChanged.addListener( new VoidFunction1<Bond<PairGroup>>() {
-            public void apply( Bond<PairGroup> bond ) {
-                if ( getMolecule().getRadialLonePairs().isEmpty() ) {
-                    showLonePairs.set( true );
-                }
+        // TODO: add in new view?
+        final ObservableProperty<Float> scaleFunction = new ObservableProperty<Float>( 1f ) {
+            @Override public Float get() {
+                return getApproximateScale();
             }
-        } );
-
+        };
         moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, this, moleculeCamera );
         moleculeView.getScene().attachChild( moleculeNode );
 
-        /*---------------------------------------------------------------------------*
-        * molecule setup
-        *----------------------------------------------------------------------------*/
-
-        // start with two single bonds
-        PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
-        getMolecule().addCentralAtom( centralAtom );
-        getMolecule().addGroup( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
-        getMolecule().addGroup( new PairGroup( new ImmutableVector3D( 2, 8, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
-
-        /*---------------------------------------------------------------------------*
-        * bond overlays
-        *----------------------------------------------------------------------------*/
-
-        singleBondOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
-        doubleBondOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
-        tripleBondOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
-        lonePairOverlayStageBounds = new Property<Rectangle2D>( new PBounds( 0, 0, getStageSize().width, getStageSize().height ) );
-
-        Function2<String, Property<Rectangle2D>, JMEView> createBondOverlayView = new Function2<String, Property<Rectangle2D>, JMEView>() {
-            public JMEView apply( String name, final Property<Rectangle2D> rectangle2DProperty ) {
-                return createRegularView( name + " Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
-                                                                                new CanvasTransformedBounds( canvasTransform,
-                                                                                                             rectangle2DProperty ) ) {
-                                              @Override public void positionMe() {
-                                                  setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
-                                                  setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
-                                                  lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-                                              }
-                                          }, RenderPosition.MAIN );
-            }
-        };
-
-        // TODO: refactor
-
-        JMEView singleBondOverlay = createBondOverlayView.apply( "Single Bond", singleBondOverlayStageBounds );
-        singleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
-            PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
-            addCentralAtom( centralAtom );
-            addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
-        }}, singleBondOverlay, this, addSingleBondEnabled ) );
-        addLighting( singleBondOverlay.getScene() );
-
-        JMEView doubleBondOverlay = createBondOverlayView.apply( "Double Bond", doubleBondOverlayStageBounds );
-        doubleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
-            PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
-            addCentralAtom( centralAtom );
-            addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 2 );
-        }}, doubleBondOverlay, this, addDoubleBondEnabled ) );
-        addLighting( doubleBondOverlay.getScene() );
-
-        JMEView tripleBondOverlay = createBondOverlayView.apply( "Triple Bond", tripleBondOverlayStageBounds );
-        tripleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
-            PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
-            addCentralAtom( centralAtom );
-            addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 3 );
-        }}, tripleBondOverlay, this, addTripleBondEnabled ) );
-        addLighting( tripleBondOverlay.getScene() );
-
-        if ( !isBasicsVersion() ) {
-            JMEView lonePairOverlay = createBondOverlayView.apply( "Lone Pair", lonePairOverlayStageBounds );
-            lonePairOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMoleculeModel() {{
-                PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
-                addCentralAtom( centralAtom );
-                addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), true, false ), centralAtom, 0 );
-            }}, lonePairOverlay, this, addLonePairEnabled ) );
-            addLighting( lonePairOverlay.getScene() );
-        }
+        showRealView.addObserver( new SimpleObserver() {
+                                      public void update() {
+                                          rebuildMolecule( false );
+                                      }
+                                  }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel
         *----------------------------------------------------------------------------*/
         Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
-        controlPanelNode = new MoleculeShapesControlPanel( this );
+        final Function0<Double> getControlPanelXPosition = new Function0<Double>() {
+            public Double apply() {
+                return controlPanel.position.get().getX();
+            }
+        };
+        RealMoleculesControlPanel controlPanelNode = new RealMoleculesControlPanel( this, getControlPanelXPosition );
         controlPanel = new PiccoloJMENode( controlPanelNode, inputHandler, this, canvasTransform, controlPanelPosition );
         guiView.getScene().attachChild( controlPanel );
         controlPanel.onResize.addUpdateListener(
@@ -377,12 +312,91 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         /*---------------------------------------------------------------------------*
         * "geometry name" panel
         *----------------------------------------------------------------------------*/
-        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( getMoleculeProperty(), !isBasicsVersion() ), Strings.CONTROL__GEOMETRY_NAME ) {{
+        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( getMoleculeProperty(), true ), Strings.CONTROL__GEOMETRY_NAME ) {{
             // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
             setOffset( 0, 10 );
         }}, inputHandler, this, canvasTransform );
         guiView.getScene().attachChild( namePanel );
         namePanel.position.set( new ImmutableVector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
+    }
+
+    public void switchToMolecule( RealMoleculeShape selectedRealMolecule ) {
+        realMolecule.set( selectedRealMolecule );
+        rebuildMolecule( true );
+    }
+
+    private void rebuildMolecule( final boolean switchedRealMolecule ) {
+        moleculeNode.detachReadouts();
+        moleculeView.getScene().detachChild( moleculeNode );
+
+        /*---------------------------------------------------------------------------*
+        * construct the new model, and rotate if we didn't switch molecules
+        *----------------------------------------------------------------------------*/
+        // get a "before" snapshot so that we can match rotations
+        final Molecule molecule = getMolecule();
+
+        // get a copy of our configuration, and count atoms / lone pairs
+        final int numRadialAtoms = realMolecule.get().getCentralAtomCount();
+        final int numRadialLonePairs = realMolecule.get().getCentralLonePairCount();
+        final VseprConfiguration vseprConfiguration = new VseprConfiguration( numRadialAtoms, numRadialLonePairs );
+
+        // get a copy of what might be the "old" molecule into whose space we need to rotate into
+        final Molecule mappingMolecule;
+        if ( switchedRealMolecule ) {
+            // rebuild from scratch
+            mappingMolecule = new RealMoleculeModel( realMolecule.get() );
+        }
+        else {
+            // base the rotation on our original
+            mappingMolecule = molecule;
+        }
+
+        if ( showRealView.get() ) {
+            setMolecule( new RealMoleculeModel( realMolecule.get() ) {{
+                if ( !switchedRealMolecule ) {
+                    // NOTE: this might miss a couple improper mappings?
+
+                    // compute the mapping from our "ideal" to our "old" molecule
+                    List<PairGroup> atoms = new RealMoleculeModel( realMolecule.get() ).getAllNonCentralAtoms();
+                    final ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration(
+                            mappingMolecule.getAllNonCentralAtoms(),
+                            FunctionalUtils.map( atoms, new Function1<PairGroup, ImmutableVector3D>() {
+                                public ImmutableVector3D apply( PairGroup pair ) {
+                                    return pair.position.get().normalized();
+                                }
+                            } ),
+                            Permutation.permutations( atoms.size() ) );
+                    for ( PairGroup group : getGroups() ) {
+                        if ( group != getCentralAtom() ) {
+                            group.position.set( mapping.rotateVector( group.position.get() ) );
+                        }
+                    }
+                }
+            }} );
+        }
+        else {
+            final ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( mappingMolecule );
+            final Permutation permutation = mapping.permutation.inverted();
+            final List<ImmutableVector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
+
+            setMolecule( new VSEPRMoleculeModel() {{
+                PairGroup newCentralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+                addCentralAtom( newCentralAtom );
+                for ( int i = 0; i < numRadialAtoms + numRadialLonePairs; i++ ) {
+                    ImmutableVector3D unitVector = mapping.rotateVector( idealUnitVectors.get( i ) );
+                    if ( i < numRadialLonePairs ) {
+                        addGroup( new PairGroup( unitVector.times( PairGroup.LONE_PAIR_DISTANCE ), true, false ), newCentralAtom, 0 );
+                    }
+                    else {
+                        // we need to dig the bond order out of the mapping molecule, and we need to pick the right one (thus the permutation being applied, at an offset)
+                        int bondOrder = mappingMolecule.getParentBond( mappingMolecule.getRadialAtoms().get( permutation.apply( i - numRadialLonePairs ) ) ).order;
+                        addGroup( new PairGroup( unitVector.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), newCentralAtom, bondOrder );
+                    }
+                }
+            }} );
+        }
+        moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, RealMoleculesTab.this, moleculeCamera );
+        moleculeView.getScene().attachChild( moleculeNode );
     }
 
     @Override public void updateState( final float tpf ) {
@@ -395,59 +409,11 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         if ( resizeDirty && controlPanel != null ) {
             // TODO: refactoring here into generic viewport handling? (just tell it to be at X/Y for stage and it sticks there?)
             resizeDirty = false;
-
-            double bondScaledWidth = getStageSize().getWidth() / 2.3;
-            double bondScaledHeight = getStageSize().getHeight() / 2.3;
-
-            // bond overlays
-            Rectangle2D singleBondTargetStageBounds = controlPanel.transformBoundsToStage( controlPanelNode.getSingleBondTargetBounds() );
-            Rectangle2D doubleBondTargetStageBounds = controlPanel.transformBoundsToStage( controlPanelNode.getDoubleBondTargetBounds() );
-            Rectangle2D tripleBondTargetStageBounds = controlPanel.transformBoundsToStage( controlPanelNode.getTripleBondTargetBounds() );
-            Rectangle2D lonePairTargetStageBounds = controlPanel.transformBoundsToStage( controlPanelNode.getLonePairTargetBounds() );
-            // TODO: refactor
-            singleBondOverlayStageBounds.set(
-                    new PBounds(
-                            // position the center of these bounds at the middle-left edge of the target bounds
-                            singleBondTargetStageBounds.getMinX() - bondScaledWidth / 2,
-                            singleBondTargetStageBounds.getCenterY() - bondScaledHeight / 2,
-                            bondScaledWidth,
-                            bondScaledHeight ) );
-            doubleBondOverlayStageBounds.set(
-                    new PBounds(
-                            // position the center of these bounds at the middle-left edge of the target bounds
-                            doubleBondTargetStageBounds.getMinX() - bondScaledWidth / 2,
-                            doubleBondTargetStageBounds.getCenterY() - bondScaledHeight / 2,
-                            bondScaledWidth,
-                            bondScaledHeight ) );
-            tripleBondOverlayStageBounds.set(
-                    new PBounds(
-                            // position the center of these bounds at the middle-left edge of the target bounds
-                            tripleBondTargetStageBounds.getMinX() - bondScaledWidth / 2,
-                            tripleBondTargetStageBounds.getCenterY() - bondScaledHeight / 2,
-                            bondScaledWidth,
-                            bondScaledHeight ) );
-            lonePairOverlayStageBounds.set(
-                    new PBounds(
-                            // position the center of these bounds at the middle-left edge of the target bounds
-                            lonePairTargetStageBounds.getMinX() - bondScaledWidth / 2,
-                            lonePairTargetStageBounds.getCenterY() - bondScaledHeight / 2,
-                            bondScaledWidth,
-                            bondScaledHeight ) );
         }
     }
 
     public PhetJMEApplication getApp() {
         return app;
-    }
-
-    @Override public PhetJMEApplication createApplication( Frame parentFrame ) {
-        final PhetJMEApplication application = new PhetJMEApplication( parentFrame );
-        MoleculeShapesColor.BACKGROUND.addColorRGBAObserver( new VoidFunction1<ColorRGBA>() {
-            public void apply( ColorRGBA colorRGBA ) {
-                application.backgroundColor.set( colorRGBA );
-            }
-        } );
-        return application;
     }
 
     public void startOverlayMoleculeDrag() {
@@ -507,33 +473,6 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         // release an electron pair if we were dragging it
         if ( dragMode == DragMode.PAIR_FRESH_PLANAR || dragMode == DragMode.PAIR_EXISTING_SPHERICAL ) {
             draggedParticle.userControlled.set( false );
-        }
-        draggingChanged();
-    }
-
-    public void startNewInstanceDrag( int bondOrder ) {
-        // sanity check
-        if ( !getMolecule().wouldAllowBondOrder( bondOrder ) ) {
-            // don't add to the molecule if it is full
-            return;
-        }
-
-        Vector3f localPosition = getPlanarMoleculeCursorPosition();
-
-        PairGroup pair = new PairGroup( JMEUtils.convertVector( localPosition ), bondOrder == 0, true );
-        getMolecule().addGroup( pair, getMolecule().getCentralAtom(), bondOrder );
-
-        // set up dragging information
-        dragging = true;
-        dragMode = DragMode.PAIR_FRESH_PLANAR;
-        draggedParticle = pair;
-
-        /*
-         * If the left mouse button is not down, simulate a mouse-up. This is needed due to threading issues,
-         * since if you do an "instant" mouse down/up, they both get processed before this is called.
-         */
-        if ( !globalLeftMouseDown ) {
-            onLeftMouseUp();
         }
         draggingChanged();
     }
@@ -672,13 +611,15 @@ public class MoleculeShapesModule extends MoleculeViewModule {
     }
 
     /**
-     * @return The closest (hit) electron pair currently under the mouse pointer, or null if there is none
+     * @return The closest (hit) electron pair currently under the mouse pointer, or null if there is none (central atom not counted)
      */
     public PairGroup getElectronPairUnderPointer() {
         for ( CollisionResult result : moleculeView.hitsUnderCursor( getInputHandler() ) ) {
             PairGroup pair = getElectronPairForTarget( result.getGeometry() );
             if ( pair != null ) {
-                return pair;
+                if ( pair != getMolecule().getCentralAtom() ) {
+                    return pair;
+                }
             }
         }
         return null;
@@ -716,6 +657,10 @@ public class MoleculeShapesModule extends MoleculeViewModule {
         }
     }
 
+    public boolean shouldUseKit() {
+        return useKit;
+    }
+
     @Override public void updateLayout( Dimension canvasSize ) {
         super.updateLayout( canvasSize );
         resizeDirty = true;
@@ -728,17 +673,5 @@ public class MoleculeShapesModule extends MoleculeViewModule {
 
     public boolean canAutoRotateRealMolecule() {
         return !( dragging && dragMode == DragMode.REAL_MOLECULE_ROTATE );
-    }
-
-    public boolean isBasicsVersion() {
-        return isBasicsVersion;
-    }
-
-    @Override public boolean allowTogglingLonePairs() {
-        return !isBasicsVersion();
-    }
-
-    @Override public boolean allowTogglingAllLonePairs() {
-        return false;
     }
 }

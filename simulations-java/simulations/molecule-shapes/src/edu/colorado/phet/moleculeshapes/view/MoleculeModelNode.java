@@ -29,7 +29,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.module.MoleculeViewModule;
+import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.math.Matrix4f;
@@ -44,7 +44,7 @@ public class MoleculeModelNode extends Node {
     private Molecule molecule;
     private final JMEInputHandler inputHandler;
     private final JMEView readoutView;
-    private final MoleculeViewModule module;
+    private final MoleculeViewTab tab;
     private final Camera camera;
 
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
@@ -59,12 +59,12 @@ public class MoleculeModelNode extends Node {
     // add the ability to override the module's scale so we can use it for icons
     private float scaleOverride = 0;
 
-    public MoleculeModelNode( final Molecule molecule, final JMEView readoutView, final MoleculeViewModule module, final Camera camera ) {
+    public MoleculeModelNode( final Molecule molecule, final JMEView readoutView, final MoleculeViewTab tab, final Camera camera ) {
         super( "Molecule Model" );
         this.molecule = molecule;
-        inputHandler = module.getInputHandler();
+        inputHandler = tab.getInputHandler();
         this.readoutView = readoutView;
-        this.module = module;
+        this.tab = tab;
         this.camera = camera;
 
         // update the UI when the molecule changes electron pairs
@@ -97,10 +97,10 @@ public class MoleculeModelNode extends Node {
 
         //Create the central atom
         if ( !molecule.isReal() ) {
-            centerAtomNode = new AtomNode( new None<PairGroup>(), module.getAssetManager() );
+            centerAtomNode = new AtomNode( new None<PairGroup>(), tab.getAssetManager() );
         }
         else {
-            centerAtomNode = new AtomNode( new Some<PairGroup>( molecule.getCentralAtom() ), module.getAssetManager() );
+            centerAtomNode = new AtomNode( new Some<PairGroup>( molecule.getCentralAtom() ), tab.getAssetManager() );
         }
         attachChild( centerAtomNode );
     }
@@ -125,12 +125,12 @@ public class MoleculeModelNode extends Node {
             return;
         }
         if ( group.isLonePair ) {
-            LonePairNode lonePairNode = new LonePairNode( group, module.getAssetManager(), module.showLonePairs );
+            LonePairNode lonePairNode = new LonePairNode( group, tab.getAssetManager(), tab.showLonePairs );
             lonePairNodes.add( lonePairNode );
             attachChild( lonePairNode );
         }
         else {
-            AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), module.getAssetManager() );
+            AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), tab.getAssetManager() );
             atomNodes.add( atomNode );
             attachChild( atomNode );
 
@@ -142,7 +142,7 @@ public class MoleculeModelNode extends Node {
             // add a new bond angle for every other bond
             for ( PairGroup otherGroup : molecule.getRadialAtoms() ) {
                 if ( otherGroup != group ) {
-                    BondAngleNode bondAngleNode = new BondAngleNode( module, molecule, group, otherGroup );
+                    BondAngleNode bondAngleNode = new BondAngleNode( tab, molecule, group, otherGroup );
                     attachChild( bondAngleNode );
                     angleNodes.add( bondAngleNode );
                 }
@@ -204,7 +204,7 @@ public class MoleculeModelNode extends Node {
                     } ).get().order,
                     MoleculeShapesConstants.MODEL_BOND_RADIUS, // bond radius
                     molecule.getMaximumBondLength(), // max length
-                    module,
+                    tab,
                     camera );
             attachChild( bondNode );
             bondNodes.add( bondNode );
@@ -259,7 +259,7 @@ public class MoleculeModelNode extends Node {
         }
 
         // TODO: separate out bond angle feature
-        if ( module.showBondAngles.get() ) {
+        if ( tab.showBondAngles.get() ) {
             for ( BondAngleNode bondAngleNode : angleNodes ) {
                 PairGroup a = bondAngleNode.getA();
                 PairGroup b = bondAngleNode.getB();
@@ -369,7 +369,7 @@ public class MoleculeModelNode extends Node {
         private volatile boolean attached = false;
 
         private ReadoutNode( PText text ) {
-            super( text, inputHandler, module );
+            super( text, inputHandler, tab );
             this.text = text;
 
             text.setFont( MoleculeShapesConstants.BOND_ANGLE_READOUT_FONT );
@@ -386,7 +386,7 @@ public class MoleculeModelNode extends Node {
                     if ( !text.getText().equals( string ) ) {
                         text.setText( string );
                     }
-                    text.setScale( scaleOverride == 0 ? module.getApproximateScale() : scaleOverride ); // change the font size based on the sim scale
+                    text.setScale( scaleOverride == 0 ? tab.getApproximateScale() : scaleOverride ); // change the font size based on the sim scale
                     float[] colors = MoleculeShapesColor.BOND_ANGLE_READOUT.get().getRGBColorComponents( null );
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
                     text.repaint(); // TODO: this should not be necessary, however it fixes the bond angle labels. JME-Piccolo repaint issue?

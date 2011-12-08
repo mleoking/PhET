@@ -3,32 +3,40 @@
 package edu.colorado.phet.platetectonics;
 
 
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
+import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule;
+import edu.colorado.phet.jmephet.JMEModule;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
-import edu.colorado.phet.platetectonics.modules.CrustModule;
-import edu.colorado.phet.platetectonics.modules.PlateMotionModule;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsModule;
+import edu.colorado.phet.jmephet.PhetJMEApplication;
+import edu.colorado.phet.platetectonics.modules.CrustTab;
+import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
 
 import com.jme3.input.FlyByCamera;
 import com.jme3.renderer.Camera;
 
 public class PlateTectonicsApplication extends JMEPhetApplication {
 
-    private CrustModule singlePlateModule;
-    private PlateMotionModule doublePlateModule;
+    private CrustTab singlePlateTab;
+    private PlateMotionTab doublePlateTab;
+    private TabbedModule module;
 
     /**
      * Sole constructor.
@@ -50,10 +58,17 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
      */
     private void initModules() {
 
-        Frame parentFrame = getPhetFrame();
+        final Frame parentFrame = getPhetFrame();
 
-        addModule( singlePlateModule = new CrustModule( parentFrame ) );
-        addModule( doublePlateModule = new PlateMotionModule( parentFrame ) );
+        module = new JMEModule( parentFrame, new Function1<Frame, PhetJMEApplication>() {
+            public PhetJMEApplication apply( Frame frame ) {
+                return new PlateTectonicsJMEApplication( parentFrame );
+            }
+        } ) {{
+            addTab( singlePlateTab = new CrustTab( parentFrame ) );
+            addTab( doublePlateTab = new PlateMotionTab( parentFrame ) );
+        }};
+        addModule( module );
     }
 
     /*
@@ -97,7 +112,7 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
                 public void actionPerformed( ActionEvent e ) {
                     JMEUtils.invoke( new Runnable() {
                         public void run() {
-                            PlateTectonicsModule activeModule = (PlateTectonicsModule) getActiveModule();
+                            PlateTectonicsTab activeModule = (PlateTectonicsTab) module.selectedTab.get();
                             Camera cam = activeModule.getDebugCamera();
                             if ( cam != null ) {
                                 FlyByCamera flyCam = new FlyByCamera( cam );

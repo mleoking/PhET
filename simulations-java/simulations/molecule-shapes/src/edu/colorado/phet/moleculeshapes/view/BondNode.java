@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
@@ -40,12 +40,12 @@ public class BondNode extends Node {
     private final SingleBondNode[] bBonds;
 
     public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius,
-                     Option<Float> maxLength, JMEModule module, Camera camera ) {
-        this( a, b, bondOrder, bondRadius, maxLength, module, camera, ColorRGBA.White, ColorRGBA.White );
+                     Option<Float> maxLength, final JMETab tab, Camera camera ) {
+        this( a, b, bondOrder, bondRadius, maxLength, tab, camera, ColorRGBA.White, ColorRGBA.White );
     }
 
     public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius,
-                     Option<Float> maxLength, JMEModule module, Camera camera, ColorRGBA aColor, ColorRGBA bColor ) {
+                     Option<Float> maxLength, final JMETab tab, Camera camera, ColorRGBA aColor, ColorRGBA bColor ) {
         super( "Bond" );
         this.a = a;
         this.b = b;
@@ -59,8 +59,8 @@ public class BondNode extends Node {
         bBonds = new SingleBondNode[bondOrder];
         for ( int i = 0; i < bondOrder; i++ ) {
             // they will have unit height and unit radius! we will scale, rotate and translate them later
-            aBonds[i] = new SingleBondNode( 1, 1, module.getAssetManager(), aColor );
-            bBonds[i] = new SingleBondNode( 1, 1, module.getAssetManager(), bColor );
+            aBonds[i] = new SingleBondNode( 1, 1, tab.getAssetManager(), aColor );
+            bBonds[i] = new SingleBondNode( 1, 1, tab.getAssetManager(), bColor );
 
             // attach them
             attachChild( aBonds[i] );

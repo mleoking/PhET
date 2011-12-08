@@ -1,18 +1,16 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.module;
-
-import java.awt.Frame;
+package edu.colorado.phet.moleculeshapes.tabs;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.jmephet.JMEModule;
+import edu.colorado.phet.jmephet.JMETab;
+import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 
 /**
  * Abstract class for modules that show a single molecule view
  */
-public abstract class MoleculeViewModule extends JMEModule {
+public abstract class MoleculeViewTab extends JMETab {
 
     private Property<Molecule> molecule = new Property<Molecule>( null );
 
@@ -25,8 +23,8 @@ public abstract class MoleculeViewModule extends JMEModule {
     // whether terminal lone pairs should also be shown
     public final Property<Boolean> showAllLonePairs = new Property<Boolean>( "Show all lone pairs", false );
 
-    public MoleculeViewModule( Frame parentFrame, String name, IClock clock ) {
-        super( parentFrame, name, clock );
+    public MoleculeViewTab( String name ) {
+        super( JMEUtils.getApplication(), name );
     }
 
     /**

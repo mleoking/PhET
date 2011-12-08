@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Frame;
 
 import edu.colorado.phet.jmephet.PhetJMEApplication;
 
