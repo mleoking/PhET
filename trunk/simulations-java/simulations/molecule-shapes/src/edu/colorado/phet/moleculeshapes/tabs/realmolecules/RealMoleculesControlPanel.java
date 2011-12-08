@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.tabs.realmolecules;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.geom.RoundRectangle2D;
 import java.util.Arrays;
 
 import edu.colorado.phet.chemistry.utils.ChemUtils;
@@ -11,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.kit.Kit;
 import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
@@ -45,35 +49,27 @@ public class RealMoleculesControlPanel extends PNode {
     // used for placement of the molecule selection node
     private Spacer moleculeSelectionSpacer;
 
+    private RealMoleculeShape[][] kitMolecules = new RealMoleculeShape[][] {
+            { RealMoleculeShape.BERYLLIUM_CHLORIDE, RealMoleculeShape.BORON_TRIFLUORIDE, RealMoleculeShape.METHANE, RealMoleculeShape.PHOSPHORUS_PENTACHLORIDE, RealMoleculeShape.SULFUR_HEXAFLUORIDE },
+            { RealMoleculeShape.CARBON_DIOXIDE, RealMoleculeShape.SULFUR_DIOXIDE, RealMoleculeShape.WATER, RealMoleculeShape.XENON_DIFLUORIDE },
+            { RealMoleculeShape.SULFUR_DIOXIDE, RealMoleculeShape.AMMONIA, RealMoleculeShape.SULFUR_TETRAFLUORIDE, RealMoleculeShape.BROMINE_PENTAFLUORIDE },
+            { RealMoleculeShape.WATER, RealMoleculeShape.CHLORINE_TRIFLUORIDE, RealMoleculeShape.XENON_TETRAFLUORIDE } };
+
     public RealMoleculesControlPanel( final RealMoleculesTab module, final Function0<Double> getControlPanelXPosition ) {
 
         // put it on 0 vertically
         setOffset( 0, 10 );
 
         final PNode moleculeSelectionNode = module.shouldUseKit() ? new ZeroOffsetNode( new PNode() {{
+
+            Dimension anticipatedDimension = getMaximumKitDimensions();
+
+            final MoleculeKit[] kits = new MoleculeKit[kitMolecules.length];
+            for ( int i = 0; i < kitMolecules.length; i++ ) {
+                kits[i] = new MoleculeKit( module, anticipatedDimension, kitMolecules[i] );
+            }
+
             final Property<Integer> selectedKit = new Property<Integer>( 0 );
-            final MoleculeKit[] kits = new MoleculeKit[] {
-                    new MoleculeKit( module,
-                                     RealMoleculeShape.BERYLLIUM_CHLORIDE,
-                                     RealMoleculeShape.BORON_TRIFLUORIDE,
-                                     RealMoleculeShape.METHANE,
-                                     RealMoleculeShape.PHOSPHORUS_PENTACHLORIDE,
-                                     RealMoleculeShape.SULFUR_HEXAFLUORIDE ),
-                    new MoleculeKit( module,
-                                     RealMoleculeShape.CARBON_DIOXIDE,
-                                     RealMoleculeShape.SULFUR_DIOXIDE,
-                                     RealMoleculeShape.WATER,
-                                     RealMoleculeShape.XENON_DIFLUORIDE ),
-                    new MoleculeKit( module,
-                                     RealMoleculeShape.SULFUR_DIOXIDE,
-                                     RealMoleculeShape.AMMONIA,
-                                     RealMoleculeShape.SULFUR_TETRAFLUORIDE,
-                                     RealMoleculeShape.BROMINE_PENTAFLUORIDE ),
-                    new MoleculeKit( module,
-                                     RealMoleculeShape.WATER,
-                                     RealMoleculeShape.CHLORINE_TRIFLUORIDE,
-                                     RealMoleculeShape.XENON_TETRAFLUORIDE )
-            };
             selectedKit.addObserver( new SimpleObserver() {
                 public void update() {
                     final RealMoleculeShape currentMolecule = kits[selectedKit.get()].getCurrentMolecule();
@@ -85,7 +81,7 @@ public class RealMoleculesControlPanel extends PNode {
                 }
             } );
             addChild( new KitSelectionNode<PNode>( selectedKit, new Spacer( 0, 0, 80, 10 ), kits ) {{
-                controlHolderNode.setOffset( controlHolderNode.getXOffset(), controlHolderNode.getYOffset() + 80 );
+                controlHolderNode.setOffset( controlHolderNode.getXOffset(), controlHolderNode.getYOffset() + 100 );
             }} );
         }} ) : new ComboBoxNode<RealMoleculeShape>(
                 Arrays.asList( RealMoleculeShape.TAB_2_MOLECULES ),
@@ -198,10 +194,12 @@ public class RealMoleculesControlPanel extends PNode {
 
     public static class MoleculeKit extends Kit<PNode> {
         private Property<RealMoleculeShape> moleculeOptions;
+        private final RealMoleculeShape[] shapes;
 
-        public MoleculeKit( final RealMoleculesTab module, final RealMoleculeShape... shapes ) {
+        public MoleculeKit( final RealMoleculesTab module, final Dimension anticipatedDimension, final RealMoleculeShape... shapes ) {
             // stub, will have content added later
             super( new PNode() );
+            this.shapes = shapes;
 
             moleculeOptions = new Property<RealMoleculeShape>( shapes[0] );
             moleculeOptions.addObserver( new ChangeObserver<RealMoleculeShape>() {
@@ -211,16 +209,48 @@ public class RealMoleculesControlPanel extends PNode {
             } );
             final Property<Double> y = new Property<Double>( 0.0 );
             for ( RealMoleculeShape shape : shapes ) {
-                content.addChild( new PropertyRadioButtonNode<RealMoleculeShape>( "<html>" + ChemUtils.toSubscript( shape.getDisplayName() ) + "</html>", moleculeOptions, shape ) {{
-                    setOffset( 0, y.get() );
-                    y.set( getFullBounds().getMaxY() );
-                }} );
+                PropertyRadioButtonNode<RealMoleculeShape> radioButtonNode = createRadioButton( shape, moleculeOptions );
+                radioButtonNode.setOffset( 0, y.get() );
+                y.set( radioButtonNode.getFullBounds().getMaxY() );
+                content.addChild( radioButtonNode );
             }
+
+            double padding = 5;
+            double round = 10;
+
+//            content.addChild( 0, new PhetPPath( new RoundRectangle2D.Double( -padding, -padding, anticipatedDimension.getWidth() + padding * 2, anticipatedDimension.getHeight() + padding * 2, round, round ), Color.WHITE ) );
+            content.addChild( 0, new PhetPPath( new RoundRectangle2D.Double( -padding, -padding, content.getFullBounds().getWidth() + padding * 2, content.getFullBounds().getHeight() + padding * 2, round, round ), Color.WHITE ) );
         }
 
         public RealMoleculeShape getCurrentMolecule() {
             return moleculeOptions.get();
         }
+
+        public RealMoleculeShape[] getShapes() {
+            return shapes;
+        }
+    }
+
+    public static PropertyRadioButtonNode<RealMoleculeShape> createRadioButton( RealMoleculeShape shape, Property<RealMoleculeShape> moleculeOptions ) {
+        return new PropertyRadioButtonNode<RealMoleculeShape>( "<html>" + ChemUtils.toSubscript( shape.getDisplayName() ) + "</html>", moleculeOptions, shape ) {{
+            getRadioButton().setForeground( Color.BLACK );
+        }};
+    }
+
+    public Dimension getMaximumKitDimensions() {
+        Dimension result = new Dimension( 0, 0 );
+
+        for ( RealMoleculeShape[] shapes : kitMolecules ) {
+            double x = 0;
+            double y = 0;
+            for ( RealMoleculeShape shape : shapes ) {
+                PNode node = createRadioButton( shape, Property.property( shape ) );
+                x = Math.max( x, node.getFullBounds().getWidth() );
+                y += node.getFullBounds().getHeight();
+            }
+            result = new Dimension( Math.max( result.width, (int) Math.ceil( x ) ), Math.max( result.height, (int) Math.ceil( y ) ) );
+        }
+        return result;
     }
 
 }
