@@ -21,11 +21,6 @@ import static java.util.Collections.max;
  */
 public class Box extends PhetPNode {
 
-    //Interface that chooses where how to position a child PNode, based on layout constraints such as max size and accumulated location thus far.
-    public static interface PositionStrategy {
-        Point2D getRelativePosition( PNode node, double maxSize, double location /* x or y coordinate, depending on orientation of box */ );
-    }
-
     private final Function1<PBounds, Double> getMaxDimension;//Function that determines how to compute the alignment dimension, based on "biggest" node in the box
     private final Function1<PBounds, Double> getNodeDimension;//Function that determines the size of a node, for purposes of placing nodes next to each other.
     private PositionStrategy positionStrategy;//Compute the Point2D that positions the node in the layout (not accounting for its local origin, which is handled elsewhere)
