@@ -21,6 +21,7 @@ public class TestModule extends PiccoloModule {
     public TestModule( String s ) {
         super( s, new ConstantDtClock( 30, 1 ) );
         setSimulationPanel( new PhetPCanvas() );
+        setClockControlPanel( null );
 
         final Canvas canvas = new Canvas() {
             private boolean running;

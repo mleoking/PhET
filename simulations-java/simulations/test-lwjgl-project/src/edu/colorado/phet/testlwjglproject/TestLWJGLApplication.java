@@ -13,7 +13,8 @@ public class TestLWJGLApplication extends PiccoloPhetApplication {
     public TestLWJGLApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new TestModule( TestProjectResources.getString( "sim1.module1" ) ) );
-//        addModule( new EmptyModule( TestProjectResources.getString( "sim1.module2" ) ) );
+//        addModule( new TestModule( TestProjectResources.getString( "sim1.module2" ) ) );
+        addModule( new EmptyModule( TestProjectResources.getString( "sim1.module2" ) ) );
     }
 
     public static void main( String[] args ) {
