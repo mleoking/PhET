@@ -15,6 +15,7 @@ public class BalanceGameModule extends Module {
 
     public BalanceGameModule() {
         this( new BalanceGameModel() );
+        setLogoPanel( null ); // Do this so that the logo panel won't appear if this module is used alone.
     }
 
     private BalanceGameModule( BalanceGameModel model ) {
