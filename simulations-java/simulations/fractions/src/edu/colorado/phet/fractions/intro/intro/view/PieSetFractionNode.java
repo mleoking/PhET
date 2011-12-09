@@ -17,7 +17,8 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
  */
 public class PieSetFractionNode extends VisibilityNode {
 
-    static final double scale = 2;
+    //Tuned so that 6 pies fit on the screen
+    static final double scale = 2.21;
     private final Rectangle PIE_SIZE = new Rectangle( 0, 0, (int) ( 70 * scale ), (int) ( 70 * scale ) );
 
     public PieSetFractionNode( final Property<Integer> numerator, final Property<Integer> denominator, ObservableProperty<Boolean> enabled ) {

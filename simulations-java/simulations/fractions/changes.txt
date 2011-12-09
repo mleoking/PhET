@@ -1,3 +1,4 @@
+Increased pie size so that 6 pies fill the screen horizontally
 Changed max denominator from 12 to 8
 # 0.00.11 (58974) Dec 1, 2011
 Added images from NP for spinner buttons
