@@ -1,3 +1,4 @@
+Limited the numerator based on the denominator so that the entire number is less than or equal to 6
 # 0.00.12 (59189) Dec 8, 2011
 Got rid of "click to toggle piece" feature
 Rounded the corners for the fraction division bar
