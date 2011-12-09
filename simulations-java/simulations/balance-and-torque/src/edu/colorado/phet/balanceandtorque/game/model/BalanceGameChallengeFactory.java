@@ -589,14 +589,21 @@ public class BalanceGameChallengeFactory {
         double maxAcceptableTorque = 10; // Determined empirically.
         List<Double> distanceList = new ArrayList<Double>();
         List<Double> bestDistanceList = distanceList;
-        for ( int i = 0; i < MAX_GEN_ATTEMPTS; i++ ) {
+        for ( int i = 0; i < 500; i++ ) {
             distanceList.clear();
             // Generate a set of unique, random, and valid distances for the
             // placement of the masses.
             for ( int j = 0; distanceList.size() < masses.length && j < MAX_GEN_ATTEMPTS; j++ ) {
                 double candidateDistance = generateRandomValidPlankDistance( minDistance, maxDistance );
-                // Randomly invert (or don't) the distance.
-                candidateDistance = RAND.nextBoolean() ? -candidateDistance : candidateDistance;
+                if ( j == 0 ) {
+                    // Randomly invert (or don't) the first random distance.
+                    candidateDistance = RAND.nextBoolean() ? -candidateDistance : candidateDistance;
+                }
+                else {
+                    // Make the sign of this distance be the opposite of the
+                    // previous one.
+                    candidateDistance = distanceList.get( distanceList.size() - 1 ) > 1 ? -candidateDistance : candidateDistance;
+                }
                 // Check if unique.
                 if ( !distanceList.contains( candidateDistance ) ) {
                     distanceList.add( candidateDistance );
@@ -626,6 +633,10 @@ public class BalanceGameChallengeFactory {
                     break;
                 }
             }
+        }
+
+        if ( bestNetTorque > maxAcceptableTorque || bestNetTorque < minAcceptableTorque ) {
+            System.out.println( "Warning: Torque value out of desired range." );
         }
 
         // Create the array of mass-distance pairs from the original set of
