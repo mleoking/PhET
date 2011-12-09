@@ -338,8 +338,15 @@ public class BalanceGameModel {
 
     private void setChallenge( BalanceGameChallenge balanceChallenge, ColumnState columnState ) {
 
-        // Clear out the previous challenge (if there was one).
+        // Clear out the previous challenge (if there was one).  Start by
+        // resetting the plank.
         plank.removeAllMasses();
+
+        // Force the plank to be level and still.  This prevents any floating
+        // point inaccuracies when adding masses.
+        supportColumnState.set( ColumnState.DOUBLE_COLUMNS );
+
+        // Clear out the masses from the previous challenge.
         fixedMasses.clear();
         for ( Mass mass : movableMasses ) {
             mass.userControlled.removeAllObservers();
