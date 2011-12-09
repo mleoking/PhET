@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.model.TipPrediction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -40,10 +41,10 @@ public class TipPredictionSelectorNode extends PNode {
     // Property that tracks the selected prediction.
     public Property<TipPrediction> tipPredictionProperty = new Property<TipPrediction>( TipPrediction.NONE );
 
-    public TipPredictionSelectorNode() {
-        PNode panelContents = new HBox( new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_LEFT, TipPrediction.TIP_DOWN_ON_LEFT_SIDE, tipPredictionProperty ),
-                                        new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_BALANCED, TipPrediction.STAY_BALANCED, tipPredictionProperty ),
-                                        new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_RIGHT, TipPrediction.TIP_DOWN_ON_RIGHT_SIDE, tipPredictionProperty ) );
+    public TipPredictionSelectorNode( Property<BalanceGameModel.GameState> gameStateProperty ) {
+        PNode panelContents = new HBox( new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_LEFT, TipPrediction.TIP_DOWN_ON_LEFT_SIDE, tipPredictionProperty, gameStateProperty ),
+                                        new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_BALANCED, TipPrediction.STAY_BALANCED, tipPredictionProperty, gameStateProperty ),
+                                        new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_RIGHT, TipPrediction.TIP_DOWN_ON_RIGHT_SIDE, tipPredictionProperty, gameStateProperty ) );
         addChild( new ControlPanelNode( panelContents ) );
     }
 
@@ -52,12 +53,16 @@ public class TipPredictionSelectorNode extends PNode {
      */
     private static class TipPredictionSelectionPanel extends PNode {
         private static final double PANEL_WIDTH = 220; // In screen coords, fairly close to pixels.
-        private static final Color HIGHLIGHT_COLOR = new Color( 255, 215, 0 );
         private static final Color NON_HIGHLIGHT_COLOR = Color.BLACK;
-        private static final Stroke HIGHLIGHT_STROKE = new BasicStroke( 6 );
         private static final Stroke NON_HIGHLIGHT_STROKE = new BasicStroke( 1 );
+        private static final Color SELECTED_HIGHLIGHT_COLOR = new Color( 255, 215, 0 );
+        private static final Stroke SELECTED_HIGHLIGHT_STROKE = new BasicStroke( 6 );
+        private static final Color CORRECT_ANSWER_HIGHLIGHT_COLOR = new Color( 0, 255, 0 );
+        private static final Stroke CORRECT_ANSWER_HIGHLIGHT_STROKE = new BasicStroke( 6 );
+        protected PPath outline;
 
-        private TipPredictionSelectionPanel( Image image, final TipPrediction correspondingPrediction, final Property<TipPrediction> tipPredictionProperty ) {
+        private TipPredictionSelectionPanel( Image image, final TipPrediction correspondingPrediction, final Property<TipPrediction> tipPredictionProperty,
+                                             final Property<BalanceGameModel.GameState> gameStateProperty ) {
 
             // Create and add the panel that represents this tip prediction choice.
             PNode panel = new PImage( image );
@@ -73,18 +78,43 @@ public class TipPredictionSelectorNode extends PNode {
             } );
 
             // Set up the listener that will highlight or un-highlight the panel.
-            final PPath highlight = new PhetPPath( panel.getFullBoundsReference().getBounds2D(), NON_HIGHLIGHT_STROKE, NON_HIGHLIGHT_COLOR );
-            addChild( highlight );
+            outline = new PhetPPath( panel.getFullBoundsReference().getBounds2D(), NON_HIGHLIGHT_STROKE, NON_HIGHLIGHT_COLOR );
+            addChild( outline );
+
+            // Add listener for changes to the tip prediction.
             tipPredictionProperty.addObserver( new VoidFunction1<TipPrediction>() {
                 public void apply( TipPrediction predictionValue ) {
                     // Turn the highlight on or off.
-                    highlight.setStrokePaint( predictionValue == correspondingPrediction ? HIGHLIGHT_COLOR : NON_HIGHLIGHT_COLOR );
-                    highlight.setStroke( predictionValue == correspondingPrediction ? HIGHLIGHT_STROKE : NON_HIGHLIGHT_STROKE );
+                    updateHighlightState( predictionValue == correspondingPrediction, gameStateProperty.get() == BalanceGameModel.GameState.DISPLAYING_CORRECT_ANSWER );
+                }
+            } );
+
+            // Add listener for changes to the game state.
+            gameStateProperty.addObserver( new VoidFunction1<BalanceGameModel.GameState>() {
+                public void apply( BalanceGameModel.GameState gameState ) {
+                    updateHighlightState( tipPredictionProperty.get() == correspondingPrediction, gameState == BalanceGameModel.GameState.DISPLAYING_CORRECT_ANSWER );
                 }
             } );
 
             // Set the cursor to look different when the user mouses over it.
             panel.addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
+        }
+
+        private void updateHighlightState( boolean selectionMatches, boolean displayingCorrectAnswer ) {
+            Color outlineColor = NON_HIGHLIGHT_COLOR;
+            Stroke outlineStroke = NON_HIGHLIGHT_STROKE;
+            if ( selectionMatches ) {
+                if ( displayingCorrectAnswer ) {
+                    outlineColor = CORRECT_ANSWER_HIGHLIGHT_COLOR;
+                    outlineStroke = CORRECT_ANSWER_HIGHLIGHT_STROKE;
+                }
+                else {
+                    outlineColor = SELECTED_HIGHLIGHT_COLOR;
+                    outlineStroke = SELECTED_HIGHLIGHT_STROKE;
+                }
+            }
+            outline.setStrokePaint( outlineColor );
+            outline.setStroke( outlineStroke );
         }
     }
 
@@ -106,7 +136,7 @@ public class TipPredictionSelectorNode extends PNode {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new TipPredictionSelectorNode() );
+        canvas.getLayer().addChild( new TipPredictionSelectorNode( new Property<BalanceGameModel.GameState>( BalanceGameModel.GameState.PRESENTING_INTERACTIVE_CHALLENGE ) ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
