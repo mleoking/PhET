@@ -17,6 +17,7 @@ public class BalanceLabModule extends Module {
 
     public BalanceLabModule() {
         this( new BalanceLabModel() );
+        setLogoPanel( null );
     }
 
     private BalanceLabModule( BalanceLabModel model ) {

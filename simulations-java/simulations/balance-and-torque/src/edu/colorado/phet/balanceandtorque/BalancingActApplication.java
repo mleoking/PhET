@@ -2,8 +2,6 @@
 package edu.colorado.phet.balanceandtorque;
 
 import edu.colorado.phet.balanceandtorque.balancelab.BalanceLabModule;
-import edu.colorado.phet.balanceandtorque.game.BalanceGameModule;
-import edu.colorado.phet.balanceandtorque.intro.IntroModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -20,9 +18,9 @@ public class BalancingActApplication extends PiccoloPhetApplication {
         super( config );
 
         // Create the modules
-        addModule( new IntroModule() );
+//        addModule( new IntroModule() );
         addModule( new BalanceLabModule() );
-        addModule( new BalanceGameModule() );
+//        addModule( new BalanceGameModule() );
     }
 
     public static void main( String[] args ) {
