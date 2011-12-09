@@ -11,14 +11,18 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
+ * This class defines a motion strategy that produces a random walk, meaning
+ * that items using this strategy will move in one direction for a while, then
+ * switch directions and move in another.
+ *
  * @author John Blanco
  */
 public class RandomWalkMotionStrategy extends MotionStrategy {
 
-    private static final double MIN_VELOCITY = 400; // In picometers/s
-    private static final double MAX_VELOCITY = 800; // In picometers/s
+    private static final double MIN_VELOCITY = 200; // In picometers/s
+    private static final double MAX_VELOCITY = 400; // In picometers/s
     private static final double MIN_TIME_IN_ONE_DIRECTION = 0.25; // In seconds.
-    private static final double MAX_TIME_IN_ONE_DIRECTION = 0.70; // In seconds.
+    private static final double MAX_TIME_IN_ONE_DIRECTION = 1.0; // In seconds.
     private static final Random RAND = new Random();
 
     private double directionChangeCountdown = 0;
