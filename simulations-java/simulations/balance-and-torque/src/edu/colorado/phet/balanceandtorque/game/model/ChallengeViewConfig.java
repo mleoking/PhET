@@ -11,11 +11,11 @@ package edu.colorado.phet.balanceandtorque.game.model;
 public class ChallengeViewConfig {
     public final String title;
     public final boolean showMassEntryDialog;
-    public final boolean showTipPredictionSelector;
+    public final boolean showTiltPredictionSelector;
 
-    public ChallengeViewConfig( String title, boolean showMassEntryDialog, boolean showTipPredictionSelector ) {
+    public ChallengeViewConfig( String title, boolean showMassEntryDialog, boolean showTiltPredictionSelector ) {
         this.title = title;
         this.showMassEntryDialog = showMassEntryDialog;
-        this.showTipPredictionSelector = showTipPredictionSelector;
+        this.showTiltPredictionSelector = showTiltPredictionSelector;
     }
 }

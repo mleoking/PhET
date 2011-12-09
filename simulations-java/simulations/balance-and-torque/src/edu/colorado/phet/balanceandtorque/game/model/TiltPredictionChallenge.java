@@ -9,11 +9,11 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 
 /**
  * A challenge, used in the balance game, in which the user must predict which
- * way the plank will tip when the supports are removed.
+ * way the plank will tilt when the supports are removed.
  *
  * @author John Blanco
  */
-public class TipPredictionChallenge extends BalanceGameChallenge {
+public class TiltPredictionChallenge extends BalanceGameChallenge {
 
     private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "What will happen?", false, true );
 
@@ -25,7 +25,7 @@ public class TipPredictionChallenge extends BalanceGameChallenge {
      *
      * @param fixedMasses
      */
-    public TipPredictionChallenge( List<MassDistancePair> fixedMasses ) {
+    public TiltPredictionChallenge( List<MassDistancePair> fixedMasses ) {
         super( ColumnState.DOUBLE_COLUMNS, NUM_ATTEMPTS_ALLOWED );
         this.fixedMassDistancePairs.addAll( fixedMasses );
         this.movableMasses.addAll( movableMasses );
@@ -38,8 +38,8 @@ public class TipPredictionChallenge extends BalanceGameChallenge {
     /**
      * Convenience method for creating this type of challenge.
      */
-    public static TipPredictionChallenge create( Mass fixedMass1, double fixedMass1DistanceFromCenter,
-                                                 Mass fixedMass2, double fixedMass2DistanceFromCenter ) {
+    public static TiltPredictionChallenge create( Mass fixedMass1, double fixedMass1DistanceFromCenter,
+                                                  Mass fixedMass2, double fixedMass2DistanceFromCenter ) {
         // Add the fixed masses and their distances from the center of the balance.
         List<MassDistancePair> fixedMassesList = new ArrayList<MassDistancePair>();
         MassDistancePair fixedMassDistancePair1 = new MassDistancePair( fixedMass1, -fixedMass1DistanceFromCenter );
@@ -48,6 +48,6 @@ public class TipPredictionChallenge extends BalanceGameChallenge {
         fixedMassesList.add( fixedMassDistancePair2 );
 
         // Create the actual challenge.
-        return new TipPredictionChallenge( fixedMassesList );
+        return new TiltPredictionChallenge( fixedMassesList );
     }
 }

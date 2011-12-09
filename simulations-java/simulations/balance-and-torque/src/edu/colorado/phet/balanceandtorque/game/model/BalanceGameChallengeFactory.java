@@ -108,8 +108,8 @@ public class BalanceGameChallengeFactory {
     }};
 
     // List of masses that are "low profile", meaning that they are short.
-    // This is needed for the tip-prediction style of problem, since taller
-    // masses end up going behind the tip prediction selector.
+    // This is needed for the tilt-prediction style of problem, since taller
+    // masses end up going behind the tilt prediction selector.
     private static final List<Mass> LOW_PROFILE_MASSES = new ArrayList<Mass>() {{
         add( new TinyRock( false ) );
         add( new SmallRock( false ) );
@@ -121,7 +121,7 @@ public class BalanceGameChallengeFactory {
     // can avoid creating the same challenges multiple times.
     private static final List<BalanceGameChallenge> USED_BALANCE_CHALLENGES = new ArrayList<BalanceGameChallenge>();
     private static final List<BalanceGameChallenge> USED_MASS_DEDUCTION_CHALLENGES = new ArrayList<BalanceGameChallenge>();
-    private static final List<BalanceGameChallenge> USED_TIP_PREDICTION_CHALLENGES = new ArrayList<BalanceGameChallenge>();
+    private static final List<BalanceGameChallenge> USED_TILT_PREDICTION_CHALLENGES = new ArrayList<BalanceGameChallenge>();
 
     // Wrap several of the methods into function objects so that they can be
     // used in the method that assures the uniqueness of challenges.
@@ -131,9 +131,9 @@ public class BalanceGameChallengeFactory {
         }
     };
 
-    private static final Function0<BalanceGameChallenge> SIMPLE_TIP_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
+    private static final Function0<BalanceGameChallenge> SIMPLE_TILT_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
         public BalanceGameChallenge apply() {
-            return generateSimpleTipPredictionChallenge();
+            return generateSimpleTiltPredictionChallenge();
         }
     };
 
@@ -155,9 +155,9 @@ public class BalanceGameChallengeFactory {
         }
     };
 
-    private static final Function0<BalanceGameChallenge> EASY_TIP_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
+    private static final Function0<BalanceGameChallenge> EASY_TILT_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
         public BalanceGameChallenge apply() {
-            return generateEasyTipPredictionChallenge();
+            return generateEasyTiltPredictionChallenge();
         }
     };
 
@@ -173,9 +173,9 @@ public class BalanceGameChallengeFactory {
         }
     };
 
-    private static final Function0<BalanceGameChallenge> MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
+    private static final Function0<BalanceGameChallenge> MODERATE_TILT_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
         public BalanceGameChallenge apply() {
-            return generateModerateTipPredictionChallenge();
+            return generateModerateTiltPredictionChallenge();
         }
     };
 
@@ -185,9 +185,9 @@ public class BalanceGameChallengeFactory {
         }
     };
 
-    private static final Function0<BalanceGameChallenge> ADVANCED_TIP_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
+    private static final Function0<BalanceGameChallenge> ADVANCED_TILT_PREDICTION_CHALLENGE_GENERATOR = new Function0<BalanceGameChallenge>() {
         public BalanceGameChallenge apply() {
-            return generateAdvancedTipPredictionChallenge();
+            return generateAdvancedTiltPredictionChallenge();
         }
     };
 
@@ -232,33 +232,33 @@ public class BalanceGameChallengeFactory {
         List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
         if ( level == 1 ) {
             balanceChallengeList.add( generateUniqueChallenge( SIMPLE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( SIMPLE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
         }
         else if ( level == 2 ) {
-            balanceChallengeList.add( generateUniqueChallenge( EASY_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( EASY_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( EASY_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
         }
         else if ( level == 3 ) {
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
         }
         else if ( level == 4 ) {
-            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( ADVANCED_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( ADVANCED_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
         }
@@ -482,12 +482,12 @@ public class BalanceGameChallengeFactory {
     }
 
     /**
-     * Generate a simple tip-prediction style of challenge.  This one only
+     * Generate a simple tilt-prediction style of challenge.  This one only
      * uses bricks, and never produces perfectly balanced challenges.
      *
      * @return
      */
-    private static TipPredictionChallenge generateSimpleTipPredictionChallenge() {
+    private static TiltPredictionChallenge generateSimpleTiltPredictionChallenge() {
 
         // Choose two different numbers between 1 and 4 (inclusive) for the
         // number of bricks in the two stacks.
@@ -504,19 +504,19 @@ public class BalanceGameChallengeFactory {
                                                                            Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE * 3 );
 
         // Create the actual challenge from the pieces.
-        return TipPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
-                                              distanceFromPlankCenter,
-                                              new BrickStack( numBricksInRightState ),
-                                              -distanceFromPlankCenter );
+        return TiltPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
+                                               distanceFromPlankCenter,
+                                               new BrickStack( numBricksInRightState ),
+                                               -distanceFromPlankCenter );
     }
 
     /**
-     * Generate an easy tip-prediction style of challenge.  This one only
+     * Generate an easy tilt-prediction style of challenge.  This one only
      * uses bricks, and the distances and masses may be the same or different.
      *
      * @return
      */
-    private static TipPredictionChallenge generateEasyTipPredictionChallenge() {
+    private static TiltPredictionChallenge generateEasyTiltPredictionChallenge() {
 
         // Choose two different numbers between 1 and 4 (inclusive) for the
         // number of bricks in the two stacks.
@@ -536,13 +536,13 @@ public class BalanceGameChallengeFactory {
         }
 
         // Create the actual challenge from the pieces.
-        return TipPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
-                                              leftMassDistance,
-                                              new BrickStack( numBricksInRightState ),
-                                              rightMassDistance );
+        return TiltPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
+                                               leftMassDistance,
+                                               new BrickStack( numBricksInRightState ),
+                                               rightMassDistance );
     }
 
-    private static TipPredictionChallenge generateModerateTipPredictionChallenge() {
+    private static TiltPredictionChallenge generateModerateTiltPredictionChallenge() {
 
         // Select the masses, bricks on one side, non bricks on the other.
         Mass leftMass = LOW_PROFILE_MASSES.get( RAND.nextInt( LOW_PROFILE_MASSES.size() ) ).createCopy();
@@ -560,10 +560,10 @@ public class BalanceGameChallengeFactory {
                                                                                    leftMass,
                                                                                    rightMass );
 
-        return new TipPredictionChallenge( massDistancePairs );
+        return new TiltPredictionChallenge( massDistancePairs );
     }
 
-    private static TipPredictionChallenge generateAdvancedTipPredictionChallenge() {
+    private static TiltPredictionChallenge generateAdvancedTiltPredictionChallenge() {
         // Choose three random masses.
         // Select the masses, bricks on one side, non bricks on the other.
         Mass mass1 = LOW_PROFILE_MASSES.get( RAND.nextInt( LOW_PROFILE_MASSES.size() ) ).createCopy();
@@ -579,14 +579,14 @@ public class BalanceGameChallengeFactory {
                                                                                    mass3 );
 
         // Create the actual challenge from the pieces.
-        return new TipPredictionChallenge( massDistancePairs );
+        return new TiltPredictionChallenge( massDistancePairs );
     }
 
     /**
      * Take a list of masses and return a set of mass-distance pairs that
      * position the masses such that they are close to being balanced but are
      * NOT balanced.  This is a convenience method that was written to
-     * consolidate some code written for generating tip-prediction challenges.
+     * consolidate some code written for generating tilt-prediction challenges.
      */
     private static List<MassDistancePair> positionMassesCloseToBalancing( double minDistance, double maxDistance, Mass... masses ) {
         double bestNetTorque = Double.POSITIVE_INFINITY;
