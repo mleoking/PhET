@@ -18,4 +18,12 @@ public class LessThan extends CompositeBooleanProperty {
             }
         }, a );
     }
+
+    public LessThan( final ObservableProperty<Integer> a, final ObservableProperty<Integer> b ) {
+        super( new Function0<Boolean>() {
+            public Boolean apply() {
+                return a.get() < b.get();
+            }
+        }, a, b );
+    }
 }

@@ -51,7 +51,15 @@ public class IntegerProperty extends Property<Integer> {
         return new LessThan( this, b );
     }
 
+    public ObservableProperty<Boolean> lessThan( ObservableProperty<Integer> b ) {
+        return new LessThan( this, b );
+    }
+
     public ObservableProperty<Boolean> greaterThanOrEqualTo( int b ) {
         return new GreaterThanOrEqualTo( this, b );
+    }
+
+    public ObservableProperty<Boolean> lessThanOrEqualTo( ObservableProperty<Integer> b ) {
+        return new LessThanOrEqualTo( this, b );
     }
 }
