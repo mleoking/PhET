@@ -1,3 +1,5 @@
+Added highlight for number line
+Made number line maximum 6 instead of 12
 Reduced the size of the number line dot from 6 to 5
 Increased the size of the number line icon in the representation panel
 Increased the size of the representation panel

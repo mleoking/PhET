@@ -34,19 +34,30 @@ public class NumberLineNode extends PNode {
 
                 //always go the same distance to whole numbers
 
-                final double distanceBetweenTicks = 16;
+                final double distanceBetweenTicks = 32;
                 int divisionsBetweenTicks = denominator.get();
 
                 double dx = distanceBetweenTicks / divisionsBetweenTicks;
                 addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 12 * divisionsBetweenTicks, 0 ) ) );
 
-                for ( int i = 0; i <= divisionsBetweenTicks * 12; i++ ) {
+                for ( int i = 0; i <= divisionsBetweenTicks * 6; i++ ) {
+
+                    //Major ticks at each integer
                     if ( i % divisionsBetweenTicks == 0 ) {
                         int div = i / divisionsBetweenTicks;
                         final int mod = div % 2;
                         double height = mod == 0 ? 8 : 8;
                         final BasicStroke stroke = mod == 0 ? new BasicStroke( 1 ) : new BasicStroke( 0.5f );
                         final PhetPPath path = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), stroke, Color.black );
+                        final PhetPPath highlightPath = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), new BasicStroke( 4 ), Color.yellow );
+
+                        final int finalI = i;
+                        new RichSimpleObserver() {
+                            @Override public void update() {
+                                highlightPath.setVisible( numerator.get().equals( finalI ) );
+                            }
+                        }.observe( numerator, denominator );
+                        addChild( highlightPath );
                         addChild( path );
                         if ( mod == 0 || true ) {
                             addChild( new PhetPText( div + "", new PhetFont( 8 ) ) {{
@@ -55,6 +66,18 @@ public class NumberLineNode extends PNode {
                         }
                     }
                     else {
+
+                        final PhetPPath highlightPath = new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 4 ), Color.yellow );
+
+                        final int finalI = i;
+                        new RichSimpleObserver() {
+                            @Override public void update() {
+                                highlightPath.setVisible( numerator.get().equals( finalI ) );
+                            }
+                        }.observe( numerator, denominator );
+                        addChild( highlightPath );
+
+                        //minor ticks between the integers
                         addChild( new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) );
                     }
                 }
@@ -63,7 +86,7 @@ public class NumberLineNode extends PNode {
                 final double w2 = 0;
                 addChild( new PhetPPath( new Area( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) ) {{
                     subtract( new Area( new Ellipse2D.Double( -w2 / 2, -w2 / 2, w2, w2 ) ) );
-                }}, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 0.7f ), Color.black ) {{
+                }}, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 0.6f ), Color.black ) {{
                     setOffset( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 );
                 }} );
             }
