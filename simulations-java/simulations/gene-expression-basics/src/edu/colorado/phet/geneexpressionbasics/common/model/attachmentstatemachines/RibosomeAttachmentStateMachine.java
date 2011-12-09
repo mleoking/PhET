@@ -49,8 +49,9 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
 
             // Grow the protein.
             proteinBeingSynthesized.setFullSizeProportion( ribosome.getMessengerRnaBeingTranslated().getProportionOfRnaTranslated( ribosome ) );
+            proteinBeingSynthesized.setAttachmentPointPosition( ribosome.getProteinAttachmentPoint() );
 
-            // Advance translation.
+            // Advance the translation of the mRNA.
             boolean translationComplete = ribosome.advanceMessengerRnaTranslation( RNA_TRANSLATION_RATE );
             if ( translationComplete ) {
                 // Release the mRNA.
