@@ -523,18 +523,23 @@ public class BalanceGameChallengeFactory {
         int numBricksInLeftStack = RAND.nextInt( 4 ) + 1;
         int numBricksInRightState = numBricksInLeftStack;
 
-        // Generate distances from the center for each of the masses.
-        double leftStackDistance = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                                     Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE * 3 );
+        // Generate distance for the left mass.
+        double leftMassDistance = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                    Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE * 3 );
 
-        double rightStackDistance = -generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                                       Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE * 3 );
+        // Make a fixed proportion of these challenges balanced and the rest
+        // not balanced.
+        double rightMassDistance = -leftMassDistance;
+        if ( RAND.nextDouble() > 0.2 ) {
+            rightMassDistance = -generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                   Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE * 3 );
+        }
 
         // Create the actual challenge from the pieces.
         return TipPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
-                                              leftStackDistance,
+                                              leftMassDistance,
                                               new BrickStack( numBricksInRightState ),
-                                              rightStackDistance );
+                                              rightMassDistance );
     }
 
     private static TipPredictionChallenge generateModerateTipPredictionChallenge() {
