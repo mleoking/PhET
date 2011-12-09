@@ -1,3 +1,5 @@
+# 1.00.05 (59183) Dec 8, 2011
+12/8/11 Fixed some issues with positioning masses in the tilt-prediction challenges.
 # 1.00.04 (59179) Dec 8, 2011
 12/8/11 Deployment to dev server of a version with only the game tab.
 # 1.00.03 (59177) Dec 8, 2011
