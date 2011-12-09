@@ -12,7 +12,6 @@ import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.Attach
 import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 
@@ -48,7 +47,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
     // Motion strategy that governs how this biomolecule moves.  This changes
     // as the molecule interacts with other portions of the model.
-    private MotionStrategy motionStrategy = new RandomWalkMotionStrategy( motionBoundsProperty );
+    private MotionStrategy motionStrategy = null;
 
     // Attachment state machine that controls how the molecule interacts with
     // other model objects (primarily other biomolecules) in terms of

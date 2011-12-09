@@ -95,7 +95,6 @@ public class AttachmentStateMachine {
         }
         attachmentSite = null;
         setState( unattachedAndAvailableState );
-        biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );
     }
 
     /**
@@ -152,7 +151,7 @@ public class AttachmentStateMachine {
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
-            // No initialization needed.
+            biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );
         }
     }
 
