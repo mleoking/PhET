@@ -20,9 +20,6 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
     // Reference back to the ribosome that is controlled by this state machine.
     private final Ribosome ribosome;
 
-    // Amount of the mRNA that has been translated so far.
-    private double lengthOfMRnaTranslated = 0;
-
     // Protein created during translation process, null if no protein is being
     // synthesized.
     private Protein proteinBeingSynthesized;
@@ -69,7 +66,6 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
         @Override public void entered( AttachmentStateMachine asm ) {
             ribosome.initiateTranslation();
             ribosome.setMotionStrategy( new RibosomeTranslatingRnaMotionStrategy( ribosome ) );
-            lengthOfMRnaTranslated = 0;
             proteinBeingSynthesized = ribosome.getMessengerRnaBeingTranslated().getProteinPrototype().createInstance( ribosome.getModel(), ribosome );
             proteinBeingSynthesized.setAttachmentPointPosition( ribosome.getProteinAttachmentPoint() );
             ribosome.getModel().addMobileBiomolecule( proteinBeingSynthesized );
