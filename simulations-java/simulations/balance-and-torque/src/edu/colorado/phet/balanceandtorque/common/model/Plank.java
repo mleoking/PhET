@@ -274,11 +274,15 @@ public class Plank extends ShapeModelElement {
 
     public void setTiltAngle( double tiltAngle ) {
         // Clamp the tilt angle.
-        tiltAngle = MathUtil.clamp( -maxTiltAngle, tiltAngle, maxTiltAngle );
-        if ( columnState.get() == ColumnState.NONE && Math.abs( tiltAngle ) <= maxTiltAngle ) {
-            this.tiltAngle = tiltAngle;
+        double clampedTiltAngle = MathUtil.clamp( -maxTiltAngle, tiltAngle, maxTiltAngle );
+        // Only allow the tilt angle to be set when columns are not present.
+        if ( columnState.get() == ColumnState.NONE && Math.abs( clampedTiltAngle ) <= maxTiltAngle ) {
+            this.tiltAngle = clampedTiltAngle;
             updatePlankPosition();
             updateMassPositions();
+        }
+        else {
+            System.out.println( getClass().getName() + " - Warning: Attempt to set tilt angle of plank while columns present, ignoring." );
         }
     }
 
