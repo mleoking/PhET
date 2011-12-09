@@ -292,7 +292,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add the node that allows the user to submit their prediction of
         // which way the plank will tip.  This is used in the tip prediction
         // challenges.
-        tipPredictionSelectorNode = new TipPredictionSelectorNode();
+        tipPredictionSelectorNode = new TipPredictionSelectorNode( model.gameStateProperty );
         rootNode.addChild( tipPredictionSelectorNode );
         Point2D tipPredictionSelectorNodeCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
                                                                       challengeTitleNode.getFullBoundsReference().getMaxY() + 100 );

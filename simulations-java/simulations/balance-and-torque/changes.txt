@@ -1,3 +1,4 @@
+Made the tilt-selection panel used in some game challenges highlight correct answers using a different color.
 # 1.00.06 (59185) Dec 8, 2011
 12/8/11 Deployment to dev server of a version with only the game tab, requested for some testing.
 # 1.00.05 (59183) Dec 8, 2011
