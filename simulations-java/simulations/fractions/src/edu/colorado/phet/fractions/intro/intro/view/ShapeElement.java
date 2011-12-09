@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class ShapeElement extends PNode implements RepIcon {
     //characteristic length
-    public static double DIM = 20;
+    public static double DIM = 24;
     public final ChosenRepresentation representation;
 
     public ShapeElement( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final Property<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation representation ) {
