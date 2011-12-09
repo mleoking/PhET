@@ -169,7 +169,6 @@ public class AttachmentStateMachine {
                 // This molecule is now at the attachment site, so consider it
                 // attached.
                 asm.setState( asm.attachedState );
-                asm.biomolecule.setMotionStrategy( new FollowAttachmentSite( attachmentSite ) );
             }
         }
 
@@ -205,6 +204,7 @@ public class AttachmentStateMachine {
 
         @Override public void entered( AttachmentStateMachine asm ) {
             attachCountdownTime = DEFAULT_ATTACH_TIME;
+            asm.biomolecule.setMotionStrategy( new FollowAttachmentSite( attachmentSite ) );
         }
     }
 

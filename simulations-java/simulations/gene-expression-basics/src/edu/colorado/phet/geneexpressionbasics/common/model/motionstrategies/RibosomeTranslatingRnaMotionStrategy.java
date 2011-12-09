@@ -22,7 +22,6 @@ public class RibosomeTranslatingRnaMotionStrategy extends MotionStrategy {
         this.messengerRna = ribosome.getMessengerRnaBeingTranslated();
     }
 
-
     @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
         Point2D ribosomeAttachmentPoint = messengerRna.getRibosomeAttachmentPoint( ribosome );
         return new Point2D.Double( ribosomeAttachmentPoint.getX() + Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE.getX(),
