@@ -25,7 +25,7 @@ public class ProteinC extends Protein {
         super( model, parentRibosome, createInitialShape(), BASE_COLOR );
     }
 
-    @Override protected Shape getShape( double growthFactor ) {
+    @Override protected Shape getUntranslatedShape( double growthFactor ) {
         return createShape( growthFactor );
     }
 
@@ -36,8 +36,8 @@ public class ProteinC extends Protein {
     @Override public void setAttachmentPointPosition( Point2D attachmentPointLocation ) {
         // Note: This is specific to this protein's shape, and will need to be
         // adjusted if the protein's shape algorithm changes.
-        setPosition( attachmentPointLocation.getX() + FULL_GROWN_WIDTH * 0.12 * getGrowthFactor(),
-                     attachmentPointLocation.getY() + FULL_GROWN_WIDTH * 0.45 * getGrowthFactor() );
+        setPosition( attachmentPointLocation.getX() + FULL_GROWN_WIDTH * 0.12 * getFullSizeProportion(),
+                     attachmentPointLocation.getY() + FULL_GROWN_WIDTH * 0.45 * getFullSizeProportion() );
     }
 
     private static Shape createInitialShape() {

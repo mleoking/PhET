@@ -57,7 +57,7 @@ public class TranslatingMRnaState extends BiomoleculeBehaviorState {
             ribosome.setPositionOfTranslationChannel( messengerRna.getRibosomeAttachmentPoint( ribosome ) );
 
             // Grow the protein.
-            ribosome.setProteinGrowth( messengerRna.getProportionOfRnaTranslated( ribosome ) );
+//            ribosome.setProteinGrowth( messengerRna.getProportionOfRnaTranslated( ribosome ) );
 
             // Still translating, so no state change.
             return this;
