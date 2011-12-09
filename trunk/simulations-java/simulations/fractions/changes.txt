@@ -1,3 +1,4 @@
+# 0.00.13 (59217) Dec 9, 2011
 Added highlight for number line
 Made number line maximum 6 instead of 12
 Reduced the size of the number line dot from 6 to 5
