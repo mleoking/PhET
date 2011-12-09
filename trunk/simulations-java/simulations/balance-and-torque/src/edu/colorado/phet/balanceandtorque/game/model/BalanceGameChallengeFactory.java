@@ -247,12 +247,19 @@ public class BalanceGameChallengeFactory {
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
         }
         else if ( level == 3 ) {
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+//            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
+
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
         }
         else if ( level == 4 ) {
             balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
@@ -585,8 +592,8 @@ public class BalanceGameChallengeFactory {
      */
     private static List<MassDistancePair> positionMassesCloseToBalancing( double minDistance, double maxDistance, Mass... masses ) {
         double bestNetTorque = Double.POSITIVE_INFINITY;
-        double minAcceptableTorque = 1; // Determined empirically.
-        double maxAcceptableTorque = 10; // Determined empirically.
+        double minAcceptableTorque = 0.5; // Determined empirically.
+        double maxAcceptableTorque = 5; // Determined empirically.
         List<Double> distanceList = new ArrayList<Double>();
         List<Double> bestDistanceList = distanceList;
         for ( int i = 0; i < 500; i++ ) {
@@ -602,7 +609,7 @@ public class BalanceGameChallengeFactory {
                 else {
                     // Make the sign of this distance be the opposite of the
                     // previous one.
-                    candidateDistance = distanceList.get( distanceList.size() - 1 ) > 1 ? -candidateDistance : candidateDistance;
+                    candidateDistance = distanceList.get( distanceList.size() - 1 ) > 0 ? -candidateDistance : candidateDistance;
                 }
                 // Check if unique.
                 if ( !distanceList.contains( candidateDistance ) ) {
