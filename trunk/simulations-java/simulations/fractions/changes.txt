@@ -1,3 +1,5 @@
+Increased the size of the representation panel
+Added borders for items in the representation panel
 Increased font for representation and buttons/controls from 16 to 20
 Limited the numerator based on the denominator so that the entire number is less than or equal to 6
 # 0.00.12 (59189) Dec 8, 2011
