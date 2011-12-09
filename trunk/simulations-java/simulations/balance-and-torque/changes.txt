@@ -1,3 +1,5 @@
+# 1.00.03 (59177) Dec 8, 2011
+12/8/11 Publication of a version with only the Balance Lab tab to dev server.
 # 1.00.02 (59174) Dec 8, 2011
 12/8/11 Made the new tip-prediction challenge work at all levels of the game.
 # 1.00.01 (59161) Dec 8, 2011
