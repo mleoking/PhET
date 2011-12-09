@@ -7,9 +7,9 @@ package edu.colorado.phet.balanceandtorque.game.model;
  *
  * @author John Blanco
  */
-public enum TipPrediction {
+public enum TiltPrediction {
     NONE,
-    TIP_DOWN_ON_LEFT_SIDE,
+    TILT_DOWN_ON_LEFT_SIDE,
     STAY_BALANCED,
-    TIP_DOWN_ON_RIGHT_SIDE
+    TILT_DOWN_ON_RIGHT_SIDE
 }

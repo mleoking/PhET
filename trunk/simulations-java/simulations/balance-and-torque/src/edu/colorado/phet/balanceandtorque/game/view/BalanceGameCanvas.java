@@ -27,8 +27,8 @@ import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceMassesChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
-import edu.colorado.phet.balanceandtorque.game.model.TipPrediction;
-import edu.colorado.phet.balanceandtorque.game.model.TipPredictionChallenge;
+import edu.colorado.phet.balanceandtorque.game.model.TiltPrediction;
+import edu.colorado.phet.balanceandtorque.game.model.TiltPredictionChallenge;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameScoreboardNode;
@@ -101,8 +101,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private final MassValueEntryNode massValueEntryNode;
     private final MassValueEntryNode.DisplayAnswerNode massValueAnswerNode;
 
-    // Node for submitting tip predictions.
-    protected TipPredictionSelectorNode tipPredictionSelectorNode;
+    // Node for submitting tilt predictions.
+    protected TiltPredictionSelectorNode tiltPredictionSelectorNode;
 
     // Create the smiling and frowning faces and center them on the screen.
     private final SmileFaceWithScoreNode smilingFace = new SmileFaceWithScoreNode();
@@ -290,14 +290,14 @@ public class BalanceGameCanvas extends PhetPCanvas {
         massValueAnswerNode.centerFullBoundsOnPoint( massEntryDialogCenter.getX(), massEntryDialogCenter.getY() );
 
         // Add the node that allows the user to submit their prediction of
-        // which way the plank will tip.  This is used in the tip prediction
+        // which way the plank will tilt.  This is used in the tilt prediction
         // challenges.
-        tipPredictionSelectorNode = new TipPredictionSelectorNode( model.gameStateProperty );
-        rootNode.addChild( tipPredictionSelectorNode );
-        Point2D tipPredictionSelectorNodeCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
-                                                                      challengeTitleNode.getFullBoundsReference().getMaxY() + 100 );
-        tipPredictionSelectorNode.centerFullBoundsOnPoint( tipPredictionSelectorNodeCenter.getX(),
-                                                           tipPredictionSelectorNodeCenter.getY() );
+        tiltPredictionSelectorNode = new TiltPredictionSelectorNode( model.gameStateProperty );
+        rootNode.addChild( tiltPredictionSelectorNode );
+        Point2D tiltPredictionSelectorNodeCenter = new Point2D.Double( mvt.modelToViewX( 0 ),
+                                                                       challengeTitleNode.getFullBoundsReference().getMaxY() + 100 );
+        tiltPredictionSelectorNode.centerFullBoundsOnPoint( tiltPredictionSelectorNodeCenter.getX(),
+                                                            tiltPredictionSelectorNodeCenter.getY() );
 
         // Position and add the smiley and frowny faces.
         Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ), FACE_DIAMETER / 2 + 20 );
@@ -317,8 +317,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 if ( model.getCurrentChallenge() instanceof BalanceMassesChallenge ) {
                     model.checkAnswer();
                 }
-                else if ( model.getCurrentChallenge() instanceof TipPredictionChallenge ) {
-                    model.checkAnswer( tipPredictionSelectorNode.tipPredictionProperty.get() );
+                else if ( model.getCurrentChallenge() instanceof TiltPredictionChallenge ) {
+                    model.checkAnswer( tiltPredictionSelectorNode.tiltPredictionProperty.get() );
                 }
                 else {
                     System.out.println( getClass().getName() + " Error: No check answer handler exists for this challenge type." );
@@ -360,8 +360,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
         model.getPlank().massesOnSurface.addElementRemovedObserver( checkAnswerButtonEnabledUpdater );
 
         // Add a listener that controls the enabled state of the "Check Answer"
-        // button for the tip predictions challenges.
-        tipPredictionSelectorNode.tipPredictionProperty.addObserver( new SimpleObserver() {
+        // button for the tilt predictions challenges.
+        tiltPredictionSelectorNode.tiltPredictionProperty.addObserver( new SimpleObserver() {
             public void update() {
                 updateCheckAnswerButtonEnabled();
             }
@@ -443,7 +443,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // during the course of a challenge.
     private void hideAllGameNodes() {
         setNodeVisibility( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, challengeTitleNode, checkAnswerButton, tryAgainButton,
-                           nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode, tipPredictionSelectorNode );
+                           nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode, tiltPredictionSelectorNode );
     }
 
     // When the game state changes, update the view with the appropriate
@@ -472,9 +472,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
             else {
                 show( checkAnswerButton );
-                if ( model.getCurrentChallenge().getChallengeViewConfig().showTipPredictionSelector ) {
-                    tipPredictionSelectorNode.tipPredictionProperty.reset();
-                    show( tipPredictionSelectorNode );
+                if ( model.getCurrentChallenge().getChallengeViewConfig().showTiltPredictionSelector ) {
+                    tiltPredictionSelectorNode.tiltPredictionProperty.reset();
+                    show( tiltPredictionSelectorNode );
                 }
             }
 
@@ -507,9 +507,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 massValueAnswerNode.update();
                 show( massValueAnswerNode );
             }
-            else if ( model.getCurrentChallenge().getChallengeViewConfig().showTipPredictionSelector ) {
-                tipPredictionSelectorNode.tipPredictionProperty.set( model.getTipDirection() );
-                show( tipPredictionSelectorNode );
+            else if ( model.getCurrentChallenge().getChallengeViewConfig().showTiltPredictionSelector ) {
+                tiltPredictionSelectorNode.tiltPredictionProperty.set( model.getTipDirection() );
+                show( tiltPredictionSelectorNode );
             }
             showChallengeGraphics();
         }
@@ -557,9 +557,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
             checkAnswerButton.setEnabled( massesOnRightSide );
         }
-        else if ( model.getCurrentChallenge() instanceof TipPredictionChallenge ) {
+        else if ( model.getCurrentChallenge() instanceof TiltPredictionChallenge ) {
             // The button should be enabled once the user has made a prediction.
-            checkAnswerButton.setEnabled( tipPredictionSelectorNode.tipPredictionProperty.get() != TipPrediction.NONE );
+            checkAnswerButton.setEnabled( tiltPredictionSelectorNode.tiltPredictionProperty.get() != TiltPrediction.NONE );
         }
     }
 

@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
-import edu.colorado.phet.balanceandtorque.game.model.TipPrediction;
+import edu.colorado.phet.balanceandtorque.game.model.TiltPrediction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -31,27 +31,27 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that defines a user interface element that allows the user to select
- * one of three possible ways in which the balance might behave - tip left,
- * tip right, or stay balanced.
+ * one of three possible ways in which the balance might behave - tilt left,
+ * tilt right, or stay balanced.
  *
  * @author John Blanco
  */
-public class TipPredictionSelectorNode extends PNode {
+public class TiltPredictionSelectorNode extends PNode {
 
     // Property that tracks the selected prediction.
-    public Property<TipPrediction> tipPredictionProperty = new Property<TipPrediction>( TipPrediction.NONE );
+    public Property<TiltPrediction> tiltPredictionProperty = new Property<TiltPrediction>( TiltPrediction.NONE );
 
-    public TipPredictionSelectorNode( Property<BalanceGameModel.GameState> gameStateProperty ) {
-        PNode panelContents = new HBox( new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_LEFT, TipPrediction.TIP_DOWN_ON_LEFT_SIDE, tipPredictionProperty, gameStateProperty ),
-                                        new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_BALANCED, TipPrediction.STAY_BALANCED, tipPredictionProperty, gameStateProperty ),
-                                        new TipPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_RIGHT, TipPrediction.TIP_DOWN_ON_RIGHT_SIDE, tipPredictionProperty, gameStateProperty ) );
+    public TiltPredictionSelectorNode( Property<BalanceGameModel.GameState> gameStateProperty ) {
+        PNode panelContents = new HBox( new TiltPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_LEFT, TiltPrediction.TILT_DOWN_ON_LEFT_SIDE, tiltPredictionProperty, gameStateProperty ),
+                                        new TiltPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_BALANCED, TiltPrediction.STAY_BALANCED, tiltPredictionProperty, gameStateProperty ),
+                                        new TiltPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_RIGHT, TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE, tiltPredictionProperty, gameStateProperty ) );
         addChild( new ControlPanelNode( panelContents ) );
     }
 
     /**
      * Class that defines a single selection panel.
      */
-    private static class TipPredictionSelectionPanel extends PNode {
+    private static class TiltPredictionSelectionPanel extends PNode {
         private static final double PANEL_WIDTH = 220; // In screen coords, fairly close to pixels.
         private static final Color NON_HIGHLIGHT_COLOR = Color.BLACK;
         private static final Stroke NON_HIGHLIGHT_STROKE = new BasicStroke( 1 );
@@ -61,10 +61,10 @@ public class TipPredictionSelectorNode extends PNode {
         private static final Stroke CORRECT_ANSWER_HIGHLIGHT_STROKE = new BasicStroke( 6 );
         protected PPath outline;
 
-        private TipPredictionSelectionPanel( Image image, final TipPrediction correspondingPrediction, final Property<TipPrediction> tipPredictionProperty,
-                                             final Property<BalanceGameModel.GameState> gameStateProperty ) {
+        private TiltPredictionSelectionPanel( Image image, final TiltPrediction correspondingPrediction, final Property<TiltPrediction> tiltPredictionProperty,
+                                              final Property<BalanceGameModel.GameState> gameStateProperty ) {
 
-            // Create and add the panel that represents this tip prediction choice.
+            // Create and add the panel that represents this tilt prediction choice.
             PNode panel = new PImage( image );
             panel.setScale( PANEL_WIDTH / panel.getFullBoundsReference().width );
             addChild( panel );
@@ -73,7 +73,7 @@ public class TipPredictionSelectorNode extends PNode {
             // selected this option.
             panel.addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
-                    tipPredictionProperty.set( correspondingPrediction );
+                    tiltPredictionProperty.set( correspondingPrediction );
                 }
             } );
 
@@ -81,9 +81,9 @@ public class TipPredictionSelectorNode extends PNode {
             outline = new PhetPPath( panel.getFullBoundsReference().getBounds2D(), NON_HIGHLIGHT_STROKE, NON_HIGHLIGHT_COLOR );
             addChild( outline );
 
-            // Add listener for changes to the tip prediction.
-            tipPredictionProperty.addObserver( new VoidFunction1<TipPrediction>() {
-                public void apply( TipPrediction predictionValue ) {
+            // Add listener for changes to the tilt prediction.
+            tiltPredictionProperty.addObserver( new VoidFunction1<TiltPrediction>() {
+                public void apply( TiltPrediction predictionValue ) {
                     // Turn the highlight on or off.
                     updateHighlightState( predictionValue == correspondingPrediction, gameStateProperty.get() == BalanceGameModel.GameState.DISPLAYING_CORRECT_ANSWER );
                 }
@@ -92,7 +92,7 @@ public class TipPredictionSelectorNode extends PNode {
             // Add listener for changes to the game state.
             gameStateProperty.addObserver( new VoidFunction1<BalanceGameModel.GameState>() {
                 public void apply( BalanceGameModel.GameState gameState ) {
-                    updateHighlightState( tipPredictionProperty.get() == correspondingPrediction, gameState == BalanceGameModel.GameState.DISPLAYING_CORRECT_ANSWER );
+                    updateHighlightState( tiltPredictionProperty.get() == correspondingPrediction, gameState == BalanceGameModel.GameState.DISPLAYING_CORRECT_ANSWER );
                 }
             } );
 
@@ -136,7 +136,7 @@ public class TipPredictionSelectorNode extends PNode {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new TipPredictionSelectorNode( new Property<BalanceGameModel.GameState>( BalanceGameModel.GameState.PRESENTING_INTERACTIVE_CHALLENGE ) ) );
+        canvas.getLayer().addChild( new TiltPredictionSelectorNode( new Property<BalanceGameModel.GameState>( BalanceGameModel.GameState.PRESENTING_INTERACTIVE_CHALLENGE ) ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();

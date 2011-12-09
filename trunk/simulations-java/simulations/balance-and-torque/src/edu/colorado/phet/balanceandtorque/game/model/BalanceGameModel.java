@@ -256,20 +256,20 @@ public class BalanceGameModel {
 
     /**
      * Check the answer for challenges in which the user must predict which way
-     * the plank is going to tip.
+     * the plank is going to tilt.
      *
-     * @param tipPrediction
+     * @param tiltPrediction
      */
-    public void checkAnswer( TipPrediction tipPrediction ) {
+    public void checkAnswer( TiltPrediction tiltPrediction ) {
         // Verify that this method isn't being used inappropriately.
-        assert getCurrentChallenge() instanceof TipPredictionChallenge;
+        assert getCurrentChallenge() instanceof TiltPredictionChallenge;
 
         // Turn off the column(s) so that the plank can move.
         supportColumnState.set( ColumnState.NONE );
 
-        handleProposedAnswer( ( tipPrediction == TipPrediction.TIP_DOWN_ON_LEFT_SIDE && plank.getTorqueDueToMasses() > 0 ) ||
-                              ( tipPrediction == TipPrediction.TIP_DOWN_ON_RIGHT_SIDE && plank.getTorqueDueToMasses() < 0 ) ||
-                              ( tipPrediction == TipPrediction.STAY_BALANCED && plank.getTorqueDueToMasses() == 0 ) );
+        handleProposedAnswer( ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_LEFT_SIDE && plank.getTorqueDueToMasses() > 0 ) ||
+                              ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE && plank.getTorqueDueToMasses() < 0 ) ||
+                              ( tiltPrediction == TiltPrediction.STAY_BALANCED && plank.getTorqueDueToMasses() == 0 ) );
     }
 
     /**
@@ -428,20 +428,20 @@ public class BalanceGameModel {
     }
 
     /**
-     * Get an indication of the way that the plank will or did tip when no
+     * Get an indication of the way that the plank will or did tilt when no
      * columns are supporting it.
      *
      * @return
      */
-    public TipPrediction getTipDirection() {
+    public TiltPrediction getTipDirection() {
         if ( plank.getTorqueDueToMasses() < 0 ) {
-            return TipPrediction.TIP_DOWN_ON_RIGHT_SIDE;
+            return TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE;
         }
         else if ( plank.getTorqueDueToMasses() > 0 ) {
-            return TipPrediction.TIP_DOWN_ON_LEFT_SIDE;
+            return TiltPrediction.TILT_DOWN_ON_LEFT_SIDE;
         }
         else {
-            return TipPrediction.STAY_BALANCED;
+            return TiltPrediction.STAY_BALANCED;
         }
     }
 
