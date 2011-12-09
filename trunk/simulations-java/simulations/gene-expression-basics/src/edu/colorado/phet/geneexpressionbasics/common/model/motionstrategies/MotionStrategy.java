@@ -44,46 +44,6 @@ public abstract class MotionStrategy {
     /**
      * This utility method will return a motion vector that reflects a "bounce"
      * in the x, y, or both directions based on which type of bounce will yield
-     * a next location that is within the motion bounds.  If no such vector can
-     * be found, a vector to the center of the motion bounds is returned.
-     */
-    private ImmutableVector2D getMotionVectorForBounce( Point2D currentLocation, ImmutableVector2D originalMotionVector, double dt, double maxVelocity ) {
-        // Check that this isn't being called inappropriately.
-        assert ( !motionBounds.inBounds( new Point2D.Double( currentLocation.getX() + originalMotionVector.getX() * dt,
-                                                             currentLocation.getY() + originalMotionVector.getY() * dt ) ) );
-
-        ImmutableVector2D reversedXMotionVector = new Vector2D( -originalMotionVector.getX(), originalMotionVector.getY() );
-        if ( motionBounds.inBounds( new Point2D.Double( currentLocation.getX() + reversedXMotionVector.getX() * dt,
-                                                        currentLocation.getY() + reversedXMotionVector.getY() * dt ) ) ) {
-            return reversedXMotionVector;
-        }
-        ImmutableVector2D reversedYMotionVector = new Vector2D( originalMotionVector.getX(), -originalMotionVector.getY() );
-        if ( motionBounds.inBounds( new Point2D.Double( currentLocation.getX() + reversedYMotionVector.getX() * dt,
-                                                        currentLocation.getY() + reversedYMotionVector.getY() * dt ) ) ) {
-            return reversedYMotionVector;
-        }
-        ImmutableVector2D reversedXYMotionVector = new Vector2D( -originalMotionVector.getX(), -originalMotionVector.getY() );
-        if ( motionBounds.inBounds( new Point2D.Double( currentLocation.getX() + reversedXYMotionVector.getX() * dt,
-                                                        currentLocation.getY() + reversedXYMotionVector.getY() * dt ) ) ) {
-            return reversedXYMotionVector;
-        }
-        // If we reach this point, there is a problem.  Reversing the vector
-        // in all the possible ways doesn't get us back to a valid location.
-        // This might be because the user dropped the molecule in an invalid
-        // location.  Set the motion to be directly back to the center of the
-        // motion bounds for now.
-        System.out.println( "Debug Warning: Unable to find vector to bounce back into motion bounds." );
-        Point2D centerOfMotionBounds = new Point2D.Double( motionBounds.getBounds().getBounds2D().getCenterX(),
-                                                           motionBounds.getBounds().getBounds2D().getCenterY() );
-        Vector2D vectorToMotionBoundsCenter = new Vector2D( centerOfMotionBounds.getX() - currentLocation.getX(),
-                                                            centerOfMotionBounds.getY() - currentLocation.getY() );
-        vectorToMotionBoundsCenter.scale( maxVelocity / vectorToMotionBoundsCenter.getMagnitude() );
-        return new ImmutableVector2D( vectorToMotionBoundsCenter );
-    }
-
-    /**
-     * This utility method will return a motion vector that reflects a "bounce"
-     * in the x, y, or both directions based on which type of bounce will yield
      * a next location for the shape that is within the motion bounds.  If no
      * such vector can be found, a vector to the center of the motion bounds is
      * returned.
@@ -111,12 +71,12 @@ public abstract class MotionStrategy {
         if ( motionBounds.inBounds( reverseXYMotionTransform.createTransformedShape( shape ) ) ) {
             return reversedXYMotionVector;
         }
-        // If we reach this point, there is a problem.  Reversing the vector
-        // in all the possible ways doesn't get us back to a valid location.
-        // This might be because the user dropped the molecule in an invalid
-        // location.  Set the motion to be directly back to the center of the
-        // motion bounds for now.
-        System.out.println( "Debug Warning: Biomolecule is unable to bounce back into motion bounds." );
+        // If we reach this point, there is no vector that can be found that
+        // will bounce the molecule back into the motion bounds.  This might be
+        // because the molecule was dropped somewhere out of bounds, or maybe
+        // just that it is stuck to the DNA or something.  So, just return a
+        // vector back to the center of the motion bounds.  That should be a
+        // safe bet.
         Point2D centerOfMotionBounds = new Point2D.Double( motionBounds.getBounds().getBounds2D().getCenterX(),
                                                            motionBounds.getBounds().getBounds2D().getCenterY() );
         Vector2D vectorToMotionBoundsCenter = new Vector2D( centerOfMotionBounds.getX() - shape.getBounds2D().getCenterX(),
