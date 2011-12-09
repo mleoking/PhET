@@ -247,19 +247,12 @@ public class BalanceGameChallengeFactory {
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
         }
         else if ( level == 3 ) {
-//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
         }
         else if ( level == 4 ) {
             balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TIP_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
@@ -592,11 +585,10 @@ public class BalanceGameChallengeFactory {
      */
     private static List<MassDistancePair> positionMassesCloseToBalancing( double minDistance, double maxDistance, Mass... masses ) {
         double bestNetTorque = Double.POSITIVE_INFINITY;
-        double minAcceptableTorque = 0.5; // Determined empirically.
-        double maxAcceptableTorque = 5; // Determined empirically.
+        double minAcceptableTorque = 1; // Determined empirically.
         List<Double> distanceList = new ArrayList<Double>();
         List<Double> bestDistanceList = distanceList;
-        for ( int i = 0; i < 500; i++ ) {
+        for ( int i = 0; i < MAX_GEN_ATTEMPTS; i++ ) {
             distanceList.clear();
             // Generate a set of unique, random, and valid distances for the
             // placement of the masses.
@@ -632,18 +624,11 @@ public class BalanceGameChallengeFactory {
             for ( int j = 0; j < masses.length; j++ ) {
                 netTorque += masses[j].getMass() * distanceList.get( j );
             }
-            if ( Math.abs( netTorque ) < bestNetTorque ) {
-                bestNetTorque = Math.abs( netTorque );
+            netTorque = Math.abs( netTorque );
+            if ( netTorque < bestNetTorque && netTorque > minAcceptableTorque ) {
+                bestNetTorque = netTorque;
                 bestDistanceList = new ArrayList<Double>( distanceList );
-                if ( bestNetTorque <= maxAcceptableTorque && bestNetTorque > minAcceptableTorque ) {
-                    // An acceptable set of distances has been found.
-                    break;
-                }
             }
-        }
-
-        if ( bestNetTorque > maxAcceptableTorque || bestNetTorque < minAcceptableTorque ) {
-            System.out.println( "Warning: Torque value out of desired range." );
         }
 
         // Create the array of mass-distance pairs from the original set of
