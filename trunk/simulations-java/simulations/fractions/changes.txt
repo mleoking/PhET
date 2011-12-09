@@ -1,3 +1,4 @@
+# 0.00.12 (59189) Dec 8, 2011
 Got rid of "click to toggle piece" feature
 Rounded the corners for the fraction division bar
 Increased pie size so that 6 pies fill the screen horizontally
