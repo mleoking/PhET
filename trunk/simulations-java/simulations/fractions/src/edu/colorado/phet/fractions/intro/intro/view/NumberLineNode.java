@@ -59,7 +59,7 @@ public class NumberLineNode extends PNode {
                     }
                 }
 
-                final double w = 6;
+                final double w = 5;
                 final double w2 = 0;
                 addChild( new PhetPPath( new Area( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) ) {{
                     subtract( new Area( new Ellipse2D.Double( -w2 / 2, -w2 / 2, w2, w2 ) ) );
