@@ -31,7 +31,9 @@ public class RepresentationControlPanel extends ControlPanelNode {
         private RepresentationControlPanelContentNode( final Property<ChosenRepresentation> selected ) {
             final PhetPText title = new PhetPText( "Representation", CONTROL_FONT );
             addChild( title );
-            final RepIcon[] elements = new RepIcon[] { new HorizontalBarElement( selected ), new VerticalBarElement( selected ), new PieElement( selected ), new SquareElement( selected ), new NumberLineElement( selected ) };
+            final RepIcon[] elements = new RepIcon[] { new HorizontalBarElement( selected ), new VerticalBarElement( selected ), new PieElement( selected ), new SquareElement( selected ), new NumberLineElement( selected ) {{
+                scale( 1.2 );
+            }} };
 
             double maxWidth = 0;
             double maxHeight = 0;

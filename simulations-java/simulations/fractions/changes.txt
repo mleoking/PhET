@@ -1,3 +1,4 @@
+Increased the size of the number line icon in the representation panel
 Increased the size of the representation panel
 Added borders for items in the representation panel
 Increased font for representation and buttons/controls from 16 to 20
