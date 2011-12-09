@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class FractionControlNode extends PNode {
     public FractionControlNode( final IntegerProperty numerator, final IntegerProperty denominator ) {
-        final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12 ), Color.black );
+        final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), Color.black );
         addChild( line );
         addChild( new FractionNumberControlNode( numerator ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() - getFullBounds().getHeight() );
