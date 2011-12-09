@@ -202,7 +202,6 @@ public class Ribosome extends MobileBiomolecule {
     public Point2D getProteinAttachmentPoint() {
         return new Point2D.Double( getPosition().getX() + OFFSET_TO_PROTEIN_OUTPUT_CHANNEL.getX(),
                                    getPosition().getY() + OFFSET_TO_PROTEIN_OUTPUT_CHANNEL.getY() );
-
     }
 
     public void initiateTranslation() {
