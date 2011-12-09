@@ -744,13 +744,24 @@ public class MessengerRna extends MobileBiomolecule {
             System.out.println( getClass().getName() + " - Warning: Attempt to obtain amount of mRNA translated by a ribosome that isn't attached." );
             return 0;
         }
+
         double translatedLength = 0;
+
+        ShapeSegment segmentInRibosomeChannel = mapRibosomeToShapeSegment.get( ribosome );
+        assert segmentInRibosomeChannel.isFlat(); // Make sure things are as we expect.
+
+        // Add the length for each segment that precedes this ribosome.
         for ( ShapeSegment shapeSegment : shapeSegments ) {
-            translatedLength += shapeSegment.getContainedLength();
-            if ( shapeSegment == mapRibosomeToShapeSegment.get( ribosome ) ) {
+            if ( shapeSegment == segmentInRibosomeChannel ) {
                 break;
             }
+            translatedLength += shapeSegment.getContainedLength();
         }
+
+        // Add the length for the segment that is inside the translation
+        // channel of this ribosome.
+        translatedLength += segmentInRibosomeChannel.getContainedLength() - ( segmentInRibosomeChannel.getLowerRightCornerPos().getX() - segmentInRibosomeChannel.attachmentSite.locationProperty.get().getX() );
+
         return translatedLength / getLength();
     }
 

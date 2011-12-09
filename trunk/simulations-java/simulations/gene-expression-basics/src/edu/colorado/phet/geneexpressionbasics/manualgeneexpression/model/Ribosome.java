@@ -86,7 +86,7 @@ public class Ribosome extends MobileBiomolecule {
             System.out.println( getClass().getName() + " - Warning - Ignoring attempt to grow non-existent protein." );
             return;
         }
-        proteinBeingSynthesized.setGrowthFactor( growthFactor );
+        proteinBeingSynthesized.setFullSizeProportion( growthFactor );
     }
 
     public MessengerRna getMessengerRnaBeingTranslated() {

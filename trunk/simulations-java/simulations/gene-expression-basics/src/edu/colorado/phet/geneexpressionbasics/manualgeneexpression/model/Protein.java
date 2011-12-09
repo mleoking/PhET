@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -29,7 +30,7 @@ public abstract class Protein extends MobileBiomolecule {
 
     // A value between 0 and 1 that defines how fully developed, or "grown"
     // this protein is.
-    private double growthFactor = 0;
+    private double fullSizeProportion = 0;
 
     //-------------------------------------------------------------------------
     // Constructor
@@ -45,15 +46,25 @@ public abstract class Protein extends MobileBiomolecule {
     // Methods
     //-------------------------------------------------------------------------
 
-    public void setGrowthFactor( double growthFactor ) {
-        if ( this.growthFactor != growthFactor ) {
-            this.growthFactor = growthFactor;
-            shapeProperty.set( getShape( this.growthFactor ) );
+    /**
+     * Set the size of this protein by specifying the proportion of its full
+     * size.
+     *
+     * @param fullSizeProportion - Value between 0 and 1 indicating the
+     *                           proportion of this protein's full grown size that it should be.
+     */
+    public void setFullSizeProportion( double fullSizeProportion ) {
+        assert fullSizeProportion >= 0 && fullSizeProportion <= 1;
+        if ( this.fullSizeProportion != fullSizeProportion ) {
+            this.fullSizeProportion = fullSizeProportion;
+            AffineTransform transform = AffineTransform.getTranslateInstance( getPosition().getX(), getPosition().getY() );
+            Shape untranslatedShape = getUntranslatedShape( fullSizeProportion );
+            shapeProperty.set( transform.createTransformedShape( untranslatedShape ) );
         }
     }
 
-    public double getGrowthFactor() {
-        return growthFactor;
+    public double getFullSizeProportion() {
+        return fullSizeProportion;
     }
 
     public void grow( double growthAmount ) {
@@ -62,10 +73,10 @@ public abstract class Protein extends MobileBiomolecule {
             // Ignore this.
             return;
         }
-        setGrowthFactor( Math.min( growthFactor + growthAmount, 1 ) );
+        setFullSizeProportion( Math.min( fullSizeProportion + growthAmount, 1 ) );
     }
 
-    protected abstract Shape getShape( double growthFactor );
+    protected abstract Shape getUntranslatedShape( double growthFactor );
 
     /**
      * Method to get an untranslated (in terms of position, not language)
@@ -75,7 +86,7 @@ public abstract class Protein extends MobileBiomolecule {
      * @return Shape representing the fully developed protein.
      */
     public Shape getFullyGrownShape() {
-        return getShape( MAX_GROWTH_FACTOR );
+        return getUntranslatedShape( MAX_GROWTH_FACTOR );
     }
 
     public abstract Protein createInstance( GeneExpressionModel model, Ribosome parentRibosome );
