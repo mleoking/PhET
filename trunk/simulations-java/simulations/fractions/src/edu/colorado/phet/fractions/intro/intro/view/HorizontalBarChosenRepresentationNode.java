@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 /**
  * @author Sam Reid
@@ -29,16 +29,7 @@ public class HorizontalBarChosenRepresentationNode extends ChosenRepresentationN
                 for ( int i = 0; i < numBars; i++ ) {
                     for ( int k = 0; k < denominator.get(); k++ ) {
                         Color color = numElementsAdded < numerator.get() ? FractionsIntroCanvas.FILL_COLOR : Color.white;
-                        addChild( new TogglePiece( new Rectangle2D.Double( x, 0, 50, 50 ), color, new BasicStroke( 2 ), Color.black, new VoidFunction0() {
-                            public void apply() {
-                                numerator.set( numerator.get() - 1 );
-                            }
-                        }, new VoidFunction0() {
-                            public void apply() {
-                                numerator.set( numerator.get() + 1 );
-                            }
-                        }
-                        ) );
+                        addChild( new PhetPPath( new Rectangle2D.Double( x, 0, 50, 50 ), color, new BasicStroke( 2 ), Color.black ) );
                         x = x + 50;
                         numElementsAdded++;
                     }
