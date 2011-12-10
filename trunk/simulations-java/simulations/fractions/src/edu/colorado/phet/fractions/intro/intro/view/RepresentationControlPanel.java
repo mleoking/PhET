@@ -10,14 +10,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import static edu.colorado.phet.fractions.intro.intro.view.FractionsIntroCanvas.CONTROL_FONT;
 
 /**
  * @author Sam Reid
@@ -29,8 +26,6 @@ public class RepresentationControlPanel extends ControlPanelNode {
 
     private static class RepresentationControlPanelContentNode extends PNode {
         private RepresentationControlPanelContentNode( final Property<ChosenRepresentation> selected ) {
-            final PhetPText title = new PhetPText( "Representation", CONTROL_FONT );
-            addChild( title );
             final RepIcon[] elements = new RepIcon[] { new HorizontalBarElement( selected ), new VerticalBarElement( selected ), new PieElement( selected ), new SquareElement( selected ), new NumberLineElement( selected ) {{
                 scale( 1.2 );
             }} };
@@ -76,7 +71,7 @@ public class RepresentationControlPanel extends ControlPanelNode {
 
                     addChild( highlighter );
                 }
-                setOffset( 30, title.getFullBounds().getMaxY() );
+//                setOffset( 30, title.getFullBounds().getMaxY() );
             }};
             addChild( representationLayer );
         }
