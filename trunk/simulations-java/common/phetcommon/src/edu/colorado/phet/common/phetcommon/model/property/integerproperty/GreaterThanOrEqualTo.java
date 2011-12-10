@@ -18,4 +18,12 @@ public class GreaterThanOrEqualTo extends CompositeBooleanProperty {
             }
         }, a );
     }
+
+    public GreaterThanOrEqualTo( final ObservableProperty<Integer> a, final ObservableProperty<Integer> b ) {
+        super( new Function0<Boolean>() {
+            public Boolean apply() {
+                return a.get() >= b.get();
+            }
+        }, a, b );
+    }
 }

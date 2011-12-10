@@ -59,6 +59,10 @@ public class IntegerProperty extends Property<Integer> {
         return new GreaterThanOrEqualTo( this, b );
     }
 
+    public ObservableProperty<Boolean> greaterThanOrEqualTo( ObservableProperty<Integer> b ) {
+        return new GreaterThanOrEqualTo( this, b );
+    }
+
     public ObservableProperty<Boolean> lessThanOrEqualTo( ObservableProperty<Integer> b ) {
         return new LessThanOrEqualTo( this, b );
     }
