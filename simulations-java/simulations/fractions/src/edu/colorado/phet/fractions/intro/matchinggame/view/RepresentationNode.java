@@ -63,11 +63,6 @@ public class RepresentationNode extends PNode {
         } );
     }
 
-    protected RepresentationNode( Fraction fraction, double x, double y ) {
-        this.fraction = fraction;
-        setOffset( new ImmutableVector2D( x, y ) );
-    }
-
     public void setOffset( ImmutableVector2D immutableVector2D ) {
         setOffset( immutableVector2D.getX(), immutableVector2D.getY() );
     }
