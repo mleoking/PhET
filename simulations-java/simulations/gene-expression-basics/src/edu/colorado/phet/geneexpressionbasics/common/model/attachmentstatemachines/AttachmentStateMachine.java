@@ -53,6 +53,11 @@ public class AttachmentStateMachine {
     // to move up.
     protected Vector2D detachDirection = new Vector2D( 0, 1 );
 
+    // Offset to use when moving towards attachment sites.  This is used when
+    // the molecule needs to move something other than its center to a
+    // destination.
+    private Vector2D destinationOffset = new Vector2D( 0, 0 );
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -108,6 +113,14 @@ public class AttachmentStateMachine {
         this.attachmentState.entered( this );
     }
 
+    protected void setDestinationOffset( double x, double y ) {
+        destinationOffset.setComponents( x, y );
+    }
+
+    protected void setDestinationOffset( ImmutableVector2D offset ) {
+        setDestinationOffset( offset.getX(), offset.getY() );
+    }
+
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
@@ -142,7 +155,8 @@ public class AttachmentStateMachine {
                 // An attachment proposal was accepted, so start heading towards
                 // the attachment site.
                 asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
-                                                                                                biomolecule.motionBoundsProperty ) );
+                                                                                                biomolecule.motionBoundsProperty,
+                                                                                                destinationOffset ) );
                 asm.setState( asm.movingTowardsAttachmentState );
 
                 // Mark the attachment site as being in use.

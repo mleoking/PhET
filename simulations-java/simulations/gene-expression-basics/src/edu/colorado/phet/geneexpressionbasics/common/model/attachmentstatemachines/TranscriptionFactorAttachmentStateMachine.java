@@ -76,6 +76,7 @@ public class TranscriptionFactorAttachmentStateMachine extends AttachmentStateMa
                         setState( movingTowardsAttachmentState );
                         biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
                                                                                                     biomolecule.motionBoundsProperty,
+                                                                                                    new ImmutableVector2D( 0, 0 ),
                                                                                                     VELOCITY_ON_DNA ) );
                     }
                 }
