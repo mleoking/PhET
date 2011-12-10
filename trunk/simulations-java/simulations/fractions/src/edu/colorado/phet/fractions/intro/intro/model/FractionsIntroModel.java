@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.model;
 
-import java.util.ArrayList;
-
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -40,7 +38,6 @@ public class FractionsIntroModel {
     }, numerator, denominator );
 
     //Representations to show
-    public final ArrayList<Representation> representations = new ArrayList<Representation>();
     public final Property<Integer> reducedNumerator = new Property<Integer>( reducedFraction.get().numerator ) {{
         reducedFraction.addObserver( new VoidFunction1<Fraction>() {
             public void apply( Fraction fraction ) {
