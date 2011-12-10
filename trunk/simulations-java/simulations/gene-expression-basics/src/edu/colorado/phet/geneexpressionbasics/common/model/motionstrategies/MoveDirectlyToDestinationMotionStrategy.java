@@ -22,28 +22,30 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
     // Destination to which this motion strategy moves.  Note that it is
     // potentially a moving target.
-    private Point2D destination;
+    private final Property<Point2D> destinationProperty;
+
+    // Fixed offset from the destination location property used when computing
+    // the actual target destination.  This is useful in cases where something
+    // needs to move such that some point that is not its center is positioned
+    // at the destination.
+    private final ImmutableVector2D offsetFromDestinationProperty;
 
     // Scalar velocity with which the controlled item travels.
     private double scalarVelocity;
 
-    /**
-     * Constructor.
-     *
-     * @param destinationProperty
-     * @param motionBoundsProperty
-     */
     public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty ) {
-        this( destinationProperty, motionBoundsProperty, DEFAULT_VELOCITY );
+        this( destinationProperty, motionBoundsProperty, new ImmutableVector2D( 0, 0 ), DEFAULT_VELOCITY );
+
     }
 
-    public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, double velocity ) {
+    public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, ImmutableVector2D destinationOffset ) {
+        this( destinationProperty, motionBoundsProperty, destinationOffset, DEFAULT_VELOCITY );
+    }
+
+    public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, ImmutableVector2D destinationOffset, double velocity ) {
+        this.destinationProperty = destinationProperty;
         this.scalarVelocity = velocity;
-        destinationProperty.addObserver( new VoidFunction1<Point2D>() {
-            public void apply( Point2D destination ) {
-                MoveDirectlyToDestinationMotionStrategy.this.destination = destination;
-            }
-        } );
+        this.offsetFromDestinationProperty = destinationOffset;
         motionBoundsProperty.addObserver( new VoidFunction1<MotionBounds>() {
             public void apply( MotionBounds motionBounds ) {
                 MoveDirectlyToDestinationMotionStrategy.this.motionBounds = motionBounds;
@@ -53,7 +55,9 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
     @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
 
-        updateVelocityVector( currentLocation, destination, scalarVelocity );
+        Point2D currentDestination = new Point2D.Double( destinationProperty.get().getX() + offsetFromDestinationProperty.getX(),
+                                                         destinationProperty.get().getY() + offsetFromDestinationProperty.getY() );
+        updateVelocityVector( currentLocation, currentDestination, scalarVelocity );
 
         // Make sure that current motion will not cause the model element to
         // move outside of the motion bounds.
@@ -65,9 +69,9 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
         // Make sure that the current motion won't move the model element past
         // the destination.
-        double distanceToDestination = currentLocation.distance( destination );
+        double distanceToDestination = currentLocation.distance( currentDestination );
         if ( velocityVector.getMagnitude() * dt > distanceToDestination ) {
-            return destination;
+            return currentDestination;
         }
 
         // Calculate the next location based on the motion vector.

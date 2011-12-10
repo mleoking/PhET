@@ -99,6 +99,7 @@ public class RnaPolymeraseAttachmentStateMachine extends AttachmentStateMachine 
                         setState( movingTowardsAttachmentState );
                         biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
                                                                                                     biomolecule.motionBoundsProperty,
+                                                                                                    new ImmutableVector2D( 0, 0 ),
                                                                                                     VELOCITY_ON_DNA ) );
                     }
                 }
@@ -170,6 +171,7 @@ public class RnaPolymeraseAttachmentStateMachine extends AttachmentStateMachine 
             endOfGene.setLocation( geneToTranscribe.getEndX(), DnaMolecule.Y_POS );
             asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( new Property<Point2D>( endOfGene ),
                                                                                             biomolecule.motionBoundsProperty,
+                                                                                            new ImmutableVector2D( 0, 0 ),
                                                                                             TRANSCRIPTION_VELOCITY ) );
             // Create the mRNA that will be grown as a result of this
             // transcription.

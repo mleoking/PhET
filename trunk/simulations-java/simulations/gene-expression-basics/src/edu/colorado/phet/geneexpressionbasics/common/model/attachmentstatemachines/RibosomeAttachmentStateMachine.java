@@ -30,6 +30,9 @@ public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
         // Set up a local reference of the needed type.
         ribosome = (Ribosome) biomolecule;
 
+        // Set up offset used when attaching to mRNA.
+        setDestinationOffset( Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE );
+
         // Set up a non-default "attached" state, since the behavior is
         // different from the default.
         attachedState = new RibosomeAttachedState();
