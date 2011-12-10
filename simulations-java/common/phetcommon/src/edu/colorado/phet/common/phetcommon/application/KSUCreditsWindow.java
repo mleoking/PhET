@@ -4,6 +4,8 @@ package edu.colorado.phet.common.phetcommon.application;
 
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -11,10 +13,12 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
+import javax.swing.Timer;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import edu.colorado.phet.common.phetcommon.dialogs.CreditsDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -30,7 +34,8 @@ public class KSUCreditsWindow extends JWindow {
 
     private static final String TRANSLATED_BY = PhetCommonResources.getString( "Common.About.CreditsDialog.TranslationCreditsTitle" );
 
-    public KSUCreditsWindow( Frame parent ) {
+    // Constructor is private, creation and display is handled by static methods.
+    private KSUCreditsWindow( Frame parent ) {
         super( parent );
 
         JLabel label = new JLabel( TRANSLATED_BY );
@@ -55,6 +60,34 @@ public class KSUCreditsWindow extends JWindow {
                 dispose();
             }
         } );
+    }
+
+    /*
+     * If the string file contains a special KSU translation credit (inserted by Translation Utility),
+     * then show a KSU-specific "splash" screen with credits.
+     */
+    public static void show( Frame parent ) {
+        final JWindow window = new KSUCreditsWindow( parent );
+        SwingUtils.centerInParent( window );
+        window.setVisible( true );
+
+        /*
+        *  Dispose of ksuCreditsWindow after N seconds.
+        *  Take care to call dispose in the Swing thread.
+        */
+        Timer timer = new Timer( 4000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                window.dispose();
+            }
+        } );
+        timer.setRepeats( false );
+        timer.start();
+    }
+
+    // The KSU credits window should be shown if there's a credits entry in the strings file.
+    public static boolean shouldShow( PhetApplicationConfig config ) {
+        String credits = config.getResourceLoader().getLocalizedProperties().getString( CreditsDialog.KSU_CREDITS_KEY, false /* warnIfMissing */ );
+        return !credits.equals( CreditsDialog.KSU_CREDITS_KEY );
     }
 
     public static void main( String[] args ) {
