@@ -22,7 +22,7 @@ public class FractionControlNode extends PNode {
         addChild( new NumeratorSpinner( numerator, denominator ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
-        addChild( new DenominatorSpinner( denominator ) {{
+        addChild( new DenominatorSpinner( numerator, denominator ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() );
         }} );
     }
