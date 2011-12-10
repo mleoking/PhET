@@ -1,3 +1,4 @@
+12/9/11 #3166, better encapsulation of KSU credits window, in preparation for adding a similar sponsorship window
 12/7/11 #3179, add additional country-specific locales for Spanish
 12/5/11 #3174, move sim-sharing strings to one class (SimSharingStrings) with inner classes that group strings by their function in sim-sharing events
 12/5/11 #3175 switched from required constructor args to optional SimSharingEventArgs for sim-sharing drag handlers
