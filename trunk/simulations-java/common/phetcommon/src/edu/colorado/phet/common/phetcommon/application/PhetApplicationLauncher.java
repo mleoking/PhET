@@ -8,6 +8,8 @@ import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.sponsorship.SponsorDialog;
+import edu.colorado.phet.common.phetcommon.sponsorship.SponsorMenuItem;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdatesManager;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
@@ -122,6 +124,13 @@ public class PhetApplicationLauncher {
                         // show KSU credits
                         if ( KSUCreditsWindow.shouldShow( config ) ) {
                             KSUCreditsWindow.show( app.getPhetFrame() );
+                        }
+
+                        // Sponsor dialog & menu item
+                        //TODO wait until the KSU Credits window closes
+                        if ( SponsorDialog.shouldShow( config ) ) {
+                            SponsorDialog.show( config, app.getPhetFrame(), true /* startDisposeTimer */ );
+                            app.getPhetFrame().getHelpMenu().add( new SponsorMenuItem( config, app.getPhetFrame() ) );
                         }
 
                         //Ignore statistics and updates for sims that are still under development
