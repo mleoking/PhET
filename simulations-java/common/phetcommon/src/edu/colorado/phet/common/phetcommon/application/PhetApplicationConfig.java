@@ -203,6 +203,11 @@ public class PhetApplicationConfig implements ISimInfo {
         return hasCommandLineArg( "-study" );
     }
 
+    // Provided so that customer installers can disable the sponsor feature via JNLP.
+    public boolean isSponsorFeatureEnabled() {
+        return !hasCommandLineArg( "-sponsor-off" );
+    }
+
     /**
      * Project JAR file is named <project>_all.jar
      */
