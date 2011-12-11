@@ -30,6 +30,8 @@ import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.moleculeshapes.model.RealMoleculeShape.*;
+
 public class RealMoleculesControlPanel extends PNode {
     private static final double PANEL_SPACER = 20; // space between text and bond lines
 
@@ -49,19 +51,30 @@ public class RealMoleculesControlPanel extends PNode {
     // used for placement of the molecule selection node
     private Spacer moleculeSelectionSpacer;
 
-    private RealMoleculeShape[][] kitMolecules = new RealMoleculeShape[][] {
-            { RealMoleculeShape.BERYLLIUM_CHLORIDE, RealMoleculeShape.BORON_TRIFLUORIDE, RealMoleculeShape.METHANE, RealMoleculeShape.PHOSPHORUS_PENTACHLORIDE, RealMoleculeShape.SULFUR_HEXAFLUORIDE },
-            { RealMoleculeShape.CARBON_DIOXIDE, RealMoleculeShape.SULFUR_DIOXIDE, RealMoleculeShape.WATER, RealMoleculeShape.XENON_DIFLUORIDE },
-            { RealMoleculeShape.SULFUR_DIOXIDE, RealMoleculeShape.AMMONIA, RealMoleculeShape.SULFUR_TETRAFLUORIDE, RealMoleculeShape.BROMINE_PENTAFLUORIDE },
-            { RealMoleculeShape.WATER, RealMoleculeShape.CHLORINE_TRIFLUORIDE, RealMoleculeShape.XENON_TETRAFLUORIDE } };
+    private RealMoleculeShape[][] kitMolecules;
 
-    public RealMoleculesControlPanel( final RealMoleculesTab module, final Function0<Double> getControlPanelXPosition ) {
+    public RealMoleculesControlPanel( final RealMoleculesTab module, final Function0<Double> getControlPanelXPosition, boolean isBasicsVersion ) {
+        if ( isBasicsVersion ) {
+            kitMolecules = new RealMoleculeShape[][] {
+                    { BERYLLIUM_CHLORIDE, BORON_TRIFLUORIDE, METHANE, PHOSPHORUS_PENTACHLORIDE, SULFUR_HEXAFLUORIDE } };
+        }
+        else {
+            kitMolecules = new RealMoleculeShape[][] {
+                    { BERYLLIUM_CHLORIDE, BORON_TRIFLUORIDE, METHANE, PHOSPHORUS_PENTACHLORIDE, SULFUR_HEXAFLUORIDE },
+                    { CARBON_DIOXIDE, SULFUR_DIOXIDE, WATER, XENON_DIFLUORIDE },
+                    { SULFUR_DIOXIDE, AMMONIA, SULFUR_TETRAFLUORIDE, BROMINE_PENTAFLUORIDE },
+                    { WATER, CHLORINE_TRIFLUORIDE, XENON_TETRAFLUORIDE } };
+        }
 
         // put it on 0 vertically
         setOffset( 0, 10 );
 
-        final PNode moleculeSelectionNode = module.shouldUseKit() ? new ZeroOffsetNode( new PNode() {{
+        RealMoleculeShape[] comboBoxMolecules = isBasicsVersion ? TAB_2_BASIC_MOLECULES : TAB_2_MOLECULES;
 
+        final PNode moleculeSelectionNode = module.shouldUseKit() ? new ZeroOffsetNode( new PNode() {{
+            /*---------------------------------------------------------------------------*
+            * kit molecule selection
+            *----------------------------------------------------------------------------*/
             Dimension anticipatedDimension = getMaximumKitDimensions();
 
             final MoleculeKit[] kits = new MoleculeKit[kitMolecules.length];
@@ -84,8 +97,11 @@ public class RealMoleculesControlPanel extends PNode {
                 controlHolderNode.setOffset( controlHolderNode.getXOffset(), controlHolderNode.getYOffset() + 100 );
             }} );
         }} ) : new ComboBoxNode<RealMoleculeShape>(
-                Arrays.asList( RealMoleculeShape.TAB_2_MOLECULES ),
-                RealMoleculeShape.TAB_2_MOLECULES[0],
+                /*---------------------------------------------------------------------------*
+                * combo box molecule selection
+                *----------------------------------------------------------------------------*/
+                Arrays.asList( comboBoxMolecules ),
+                comboBoxMolecules[0],
                 new Function1<RealMoleculeShape, PNode>() {
                     public PNode apply( RealMoleculeShape realMoleculeShape ) {
                         return new HTMLNode( ChemUtils.toSubscript( realMoleculeShape.getDisplayName() ) );

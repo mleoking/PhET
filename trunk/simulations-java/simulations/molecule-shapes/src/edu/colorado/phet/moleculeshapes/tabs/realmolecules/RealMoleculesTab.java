@@ -84,6 +84,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
     private PhetJMEApplication app;
 
     private final boolean useKit;
+    private final boolean isBasicsVersion;
 
     /*---------------------------------------------------------------------------*
     * input mapping constants
@@ -152,10 +153,11 @@ public class RealMoleculesTab extends MoleculeViewTab {
     private static final Random random = new Random( System.currentTimeMillis() );
 
 
-    public RealMoleculesTab( String name, boolean useKit ) {
+    public RealMoleculesTab( String name, boolean useKit, boolean isBasicsVersion ) {
         super( name );
 
         this.useKit = useKit;
+        this.isBasicsVersion = isBasicsVersion;
 
         // TODO: improve initialization here
         RealMoleculeShape startingMolecule = RealMoleculeShape.TAB_2_MOLECULES[0];
@@ -294,7 +296,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
                 return controlPanel.position.get().getX();
             }
         };
-        RealMoleculesControlPanel controlPanelNode = new RealMoleculesControlPanel( this, getControlPanelXPosition );
+        RealMoleculesControlPanel controlPanelNode = new RealMoleculesControlPanel( this, getControlPanelXPosition, isBasicsVersion );
         controlPanel = new PiccoloJMENode( controlPanelNode, inputHandler, this, canvasTransform, controlPanelPosition );
         guiView.getScene().attachChild( controlPanel );
         controlPanel.onResize.addUpdateListener(
@@ -312,7 +314,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
         /*---------------------------------------------------------------------------*
         * "geometry name" panel
         *----------------------------------------------------------------------------*/
-        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( getMoleculeProperty(), true ), Strings.CONTROL__GEOMETRY_NAME ) {{
+        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( getMoleculeProperty(), !isBasicsVersion ), Strings.CONTROL__GEOMETRY_NAME ) {{
             // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
             setOffset( 0, 10 );
         }}, inputHandler, this, canvasTransform );

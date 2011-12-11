@@ -231,6 +231,10 @@ public class RealMoleculeShape {
         addRadialAtom( new Atom3D( F, new ImmutableVector3D( 0, 0, -bondLength ), 3 ), 1 );
     }};
 
+    public static final RealMoleculeShape[] TAB_2_BASIC_MOLECULES = new RealMoleculeShape[] {
+            BERYLLIUM_CHLORIDE, BORON_TRIFLUORIDE, METHANE, PHOSPHORUS_PENTACHLORIDE, SULFUR_HEXAFLUORIDE
+    };
+
     public static final RealMoleculeShape[] TAB_2_MOLECULES = new RealMoleculeShape[] {
             BERYLLIUM_CHLORIDE,
             CARBON_DIOXIDE,
