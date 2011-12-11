@@ -17,6 +17,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.TeachersMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
 import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesTab;
+import edu.colorado.phet.moleculeshapes.tabs.realmolecules.RealMoleculesTab;
 
 /**
  * The main application for Molecule Shapes: Basics (with a few things stripped out)
@@ -49,6 +50,8 @@ public class MoleculeShapesBasicsApplication extends JMEPhetApplication {
 
         addModule( new MoleculeShapesModule( parentFrame ) {{
             addTab( tab = new MoleculeShapesTab( Strings.MOLECULE__SHAPES__BASICS__TITLE, true ) );
+            addTab( new RealMoleculesTab( Strings.REAL__MOLECULES, false, true ) );
+            addTab( new RealMoleculesTab( Strings.REAL__MOLECULES, true, true ) );
         }} );
 
     }
