@@ -851,7 +851,9 @@ public class PhetTabbedPane extends JPanel {
         }
 
         public void removeTabAt( int i ) {
+            getLayer().removeChild( (PNode) tabs.get( i ) );
             tabs.remove( i );
+            relayout();
         }
 
         /**
@@ -1050,6 +1052,19 @@ public class PhetTabbedPane extends JPanel {
             // if necessary, add tab pane.
             if ( tabs.size() == 2 ) {
                 simulationPanel.add( tabPane, BorderLayout.NORTH );
+            }
+        }
+
+        public void removeTab( Tab tab ) {
+            boolean wasSelected = selectedTab.get() == tab;
+            tabPane.removeTabAt( tabs.indexOf( tab ) );
+            tabs.remove( tab );
+            if ( wasSelected ) {
+                tab.setActive( false );
+
+                // removed the active tab, so just select the 1st tab to make active
+                selectedTab.set( tabs.get( 0 ) );
+                tabs.get( 0 ).setActive( true );
             }
         }
 
