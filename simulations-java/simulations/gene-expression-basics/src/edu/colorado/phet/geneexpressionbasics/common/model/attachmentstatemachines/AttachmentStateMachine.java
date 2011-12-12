@@ -20,7 +20,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Wand
  *
  * @author John Blanco
  */
-public class AttachmentStateMachine {
+public abstract class AttachmentStateMachine {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -110,7 +110,7 @@ public class AttachmentStateMachine {
      *
      * @param attachmentState
      */
-    protected void setState( AttachmentState attachmentState ) {
+    public void setState( AttachmentState attachmentState ) {
         this.attachmentState = attachmentState;
         this.attachmentState.entered( this );
     }
@@ -127,24 +127,17 @@ public class AttachmentStateMachine {
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
 
-    public enum AttachmentStateEnum {
-        UNATTACHED_AND_AVAILABLE,
-        MOVING_TOWARDS_ATTACHMENT,
-        ATTACHED,
-        UNATTACHED_BUT_UNAVAILABLE
-    }
-
     /**
      * Base class for individual attachment states, used by the enclosing
      * state machine.
      */
-    protected abstract class AttachmentState {
+    public static abstract class AttachmentState {
         public abstract void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt );
 
         public abstract void entered( AttachmentStateMachine asm );
     }
 
-    protected class GenericUnattachedAndAvailableState extends AttachmentState {
+    public static class GenericUnattachedAndAvailableState extends AttachmentState {
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
 
@@ -152,37 +145,37 @@ public class AttachmentStateMachine {
             assert asm.attachmentSite == null;
 
             // Make the biomolecule look for attachments.
-            asm.attachmentSite = biomolecule.proposeAttachments();
+            asm.attachmentSite = asm.biomolecule.proposeAttachments();
             if ( asm.attachmentSite != null ) {
                 // An attachment proposal was accepted, so start heading towards
                 // the attachment site.
-                asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
-                                                                                                biomolecule.motionBoundsProperty,
-                                                                                                destinationOffset ) );
+                asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( asm.attachmentSite.locationProperty,
+                                                                                                asm.biomolecule.motionBoundsProperty,
+                                                                                                asm.destinationOffset ) );
                 asm.setState( asm.movingTowardsAttachmentState );
 
                 // Mark the attachment site as being in use.
-                attachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
+                asm.attachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( asm.biomolecule ) );
             }
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
-            biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );
+            asm.biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( asm.biomolecule.motionBoundsProperty ) );
         }
     }
 
-    protected class GenericMovingTowardsAttachmentState extends AttachmentState {
+    public static class GenericMovingTowardsAttachmentState extends AttachmentState {
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == asm.biomolecule;
 
             // Calculate the location where this biomolecule must be in order
             // to attach to the attachment site.
-            Point2D destination = new Point2D.Double( attachmentSite.locationProperty.get().getX() - destinationOffset.getX(),
-                                                      attachmentSite.locationProperty.get().getY() - destinationOffset.getY() );
+            Point2D destination = new Point2D.Double( asm.attachmentSite.locationProperty.get().getX() - asm.destinationOffset.getX(),
+                                                      asm.attachmentSite.locationProperty.get().getY() - asm.destinationOffset.getY() );
 
             // See if the attachment site has been reached.
             if ( asm.biomolecule.getPosition().distance( destination ) < ATTACHED_DISTANCE_THRESHOLD ) {
@@ -201,7 +194,7 @@ public class AttachmentStateMachine {
     // completeness.  The reason it isn't useful is because the different
     // biomolecules all have their own unique behavior with respect to
     // attaching, and thus define their own attached states.
-    protected class GenericAttachedState extends AttachmentState {
+    public static class GenericAttachedState extends AttachmentState {
 
         private static final double DEFAULT_ATTACH_TIME = 3; // In seconds.
 
@@ -211,24 +204,24 @@ public class AttachmentStateMachine {
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == asm.biomolecule;
 
             // See if it is time to detach.
             attachCountdownTime -= dt;
             if ( attachCountdownTime <= 0 ) {
                 // Detach.
                 asm.detach();
-                biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
+                asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), asm.biomolecule.motionBoundsProperty ) );
             }
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
             attachCountdownTime = DEFAULT_ATTACH_TIME;
-            asm.biomolecule.setMotionStrategy( new FollowAttachmentSite( attachmentSite ) );
+            asm.biomolecule.setMotionStrategy( new FollowAttachmentSite( asm.attachmentSite ) );
         }
     }
 
-    protected class GenericUnattachedButUnavailableState extends AttachmentState {
+    public static class GenericUnattachedButUnavailableState extends AttachmentState {
 
         private static final double DEFAULT_DETACH_TIME = 3; // In seconds.
 

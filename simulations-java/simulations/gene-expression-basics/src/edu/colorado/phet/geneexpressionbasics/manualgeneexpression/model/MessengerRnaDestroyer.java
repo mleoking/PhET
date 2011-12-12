@@ -9,6 +9,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.GenericAttachmentStateMachine;
 
 /**
  * Class that represents the small ribosomal subunit in the model.
@@ -38,5 +40,9 @@ public class MessengerRnaDestroyer extends MobileBiomolecule {
         Area overallShape = new Area( circle );
         overallShape.subtract( new Area( mouthPath.getGeneralPath() ) );
         return overallShape;
+    }
+
+    @Override protected AttachmentStateMachine createAttachmentStateMachine() {
+        return new GenericAttachmentStateMachine( this );
     }
 }
