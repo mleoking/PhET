@@ -31,7 +31,7 @@ public class OptionsNode extends PNode {
             // enabled when there are lone pairs on the molecule
             final Runnable updateEnabled = new Runnable() {
                 public void run() {
-                    setEnabled( !module.getMolecule().getRadialLonePairs().isEmpty() );
+                    setEnabled( !module.getMolecule().getAllLonePairs().isEmpty() );
                 }
             };
             final UpdateListener updateListener = JMEUtils.swingUpdateListener( updateEnabled );

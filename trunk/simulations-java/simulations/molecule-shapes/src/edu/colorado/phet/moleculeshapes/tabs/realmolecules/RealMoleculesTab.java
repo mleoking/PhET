@@ -622,7 +622,8 @@ public class RealMoleculesTab extends MoleculeViewTab {
         for ( CollisionResult result : moleculeView.hitsUnderCursor( getInputHandler() ) ) {
             PairGroup pair = getElectronPairForTarget( result.getGeometry() );
             if ( pair != null ) {
-                if ( pair != getMolecule().getCentralAtom() ) {
+                // don't drag the central atom OR any terminal lone pairs
+                if ( pair != getMolecule().getCentralAtom() && !getMolecule().getDistantLonePairs().contains( pair ) ) {
                     return pair;
                 }
             }

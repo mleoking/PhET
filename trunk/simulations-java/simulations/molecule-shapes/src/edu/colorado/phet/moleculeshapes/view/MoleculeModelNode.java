@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEUtils;
@@ -32,10 +33,14 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.shape.Line;
 
 /**
  * Displays a molecule
@@ -95,6 +100,11 @@ public class MoleculeModelNode extends Node {
             addGroup( group );
         }
 
+        // add terminal lone pairs
+        for ( PairGroup lonePair : molecule.getDistantLonePairs() ) {
+            addGroup( lonePair );
+        }
+
         //Create the central atom
         if ( !molecule.isReal() ) {
             centerAtomNode = new AtomNode( new None<PairGroup>(), tab.getAssetManager() );
@@ -119,15 +129,37 @@ public class MoleculeModelNode extends Node {
         updateAngles();
     }
 
-    private void addGroup( PairGroup group ) {
+    private void addGroup( final PairGroup group ) {
         // ignore the central atom (for now)
         if ( group == molecule.getCentralAtom() ) {
             return;
         }
         if ( group.isLonePair ) {
-            LonePairNode lonePairNode = new LonePairNode( group, tab.getAssetManager(), tab.showLonePairs );
+            final PairGroup parentAtom = molecule.getParent( group );
+            Property<Boolean> visibilityProperty = parentAtom == molecule.getCentralAtom() ? tab.showLonePairs : tab.showAllLonePairs;
+            LonePairNode lonePairNode = new LonePairNode( group, parentAtom, tab.getAssetManager(), visibilityProperty );
             lonePairNodes.add( lonePairNode );
             attachChild( lonePairNode );
+
+            final Property<Geometry> geometry = new Property<Geometry>( null );
+
+            SimpleObserver observer = new SimpleObserver() {
+                public void update() {
+                    if ( geometry.get() != null ) {
+                        detachChild( geometry.get() );
+                    }
+                    Geometry g = new Geometry( "Line", new Line( JMEUtils.convertVector( parentAtom.position.get() ), JMEUtils.convertVector( group.position.get() ) ) ) {{
+                        setMaterial( new Material( tab.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+                            setColor( "Color", ColorRGBA.Red );
+                            getAdditionalRenderState().setDepthWrite( false );
+                        }} );
+                    }};
+                    attachChild( g );
+                    geometry.set( g );
+                }
+            };
+            group.position.addObserver( observer );
+            parentAtom.position.addObserver( observer );
         }
         else {
             AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), tab.getAssetManager() );

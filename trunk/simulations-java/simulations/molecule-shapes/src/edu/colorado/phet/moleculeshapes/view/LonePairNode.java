@@ -19,6 +19,7 @@ import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Line;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
 
@@ -31,7 +32,7 @@ public class LonePairNode extends Node {
 
     private static Spatial lonePairGeometry;
 
-    public LonePairNode( PairGroup pair, final AssetManager assetManager, final Property<Boolean> showLonePairs ) {
+    public LonePairNode( PairGroup pair, final PairGroup parentAtom, final AssetManager assetManager, final Property<Boolean> showLonePairs ) {
         super( "Lone Pair" );
         this.pair = pair;
         this.position = pair.position;
@@ -69,20 +70,35 @@ public class LonePairNode extends Node {
 
         model.setQueueBucket( Bucket.Transparent ); // allow it to be transparent
 
+        Line line = new Line( new Vector3f(), JMEUtils.convertVector( ImmutableVector3D.Y_UNIT.times( 15 ) ) ) {{
+//            position.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    updateGeometry( new Vector3f(  ), new Vector3f(  ) );
+//                }
+//            } );
+        }};
+        attachChild( new Geometry( "Line", line ) {{
+            setMaterial( new Material( assetManager, "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+                setColor( "Color", ColorRGBA.Green );
+                getAdditionalRenderState().setDepthWrite( false );
+            }} );
+        }} );
+
         // update based on electron pair position
         position.addObserver( new SimpleObserver() {
             public void update() {
                 ImmutableVector3D lonePairOrientation = ImmutableVector3D.Y_UNIT;
-                ImmutableVector3D normalizedPosition = position.get().normalized();
+                ImmutableVector3D offsetFromParentAtom = position.get().minus( parentAtom.position.get() );
+                ImmutableVector3D orientation = offsetFromParentAtom.normalized();
                 Matrix3f matrix = new Matrix3f();
-                JMEUtils.fromStartEndVectors( matrix, lonePairOrientation, normalizedPosition );
+                JMEUtils.fromStartEndVectors( matrix, lonePairOrientation, orientation );
                 setLocalRotation( matrix );
 
-                if ( position.get().magnitude() > PairGroup.LONE_PAIR_DISTANCE ) {
-                    setLocalTranslation( JMEUtils.convertVector( position.get().minus( position.get().normalized().times( PairGroup.LONE_PAIR_DISTANCE ) ) ) );
+                if ( offsetFromParentAtom.magnitude() > PairGroup.LONE_PAIR_DISTANCE ) {
+                    setLocalTranslation( JMEUtils.convertVector( position.get().minus( orientation.times( PairGroup.LONE_PAIR_DISTANCE ) ) ) );
                 }
                 else {
-                    setLocalTranslation( 0, 0, 0 );
+                    setLocalTranslation( JMEUtils.convertVector( parentAtom.position.get() ) );
                 }
             }
         } );

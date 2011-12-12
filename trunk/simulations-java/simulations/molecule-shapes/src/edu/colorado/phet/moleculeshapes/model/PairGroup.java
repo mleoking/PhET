@@ -48,6 +48,9 @@ public class PairGroup {
                 if ( Double.isNaN( newValue.getX() ) ) {
                     throw new RuntimeException( "NaN detected in position!" );
                 }
+                if ( oldValue.equals( new ImmutableVector3D() ) ) {
+                    throw new RuntimeException( "central molecule position change?" );
+                }
             }
         } );
         this.velocity.addObserver( new ChangeObserver<ImmutableVector3D>() {
@@ -65,6 +68,8 @@ public class PairGroup {
             return;
         }
         ImmutableVector3D origin = bond.getOtherAtom( this ).position.get();
+
+        boolean isTerminalLonePair = !origin.equals( new ImmutableVector3D() );
 
         double idealDistanceFromCenter = bond.length * REAL_TMP_SCALE;
 
@@ -91,6 +96,9 @@ public class PairGroup {
 
         // just modify position for now so we don't get any oscillations
         double ratioOfMovement = Math.pow( 0.1, 0.016 / timeElapsed ); // scale this exponentially by how much time has elapsed, so the more time taken, the faster we move towards the ideal distance
+        if ( isTerminalLonePair ) {
+            ratioOfMovement = 1;
+        }
         position.set( position.get().plus( directionToCenter.times( ratioOfMovement * offset ) ) );
     }
 

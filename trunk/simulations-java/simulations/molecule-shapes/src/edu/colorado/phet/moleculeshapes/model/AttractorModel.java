@@ -36,12 +36,14 @@ public class AttractorModel {
      * @return A measure of total error (least squares-style)
      */
     public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<ImmutableVector3D> idealOrientations, List<Permutation> allowablePermutations, final ImmutableVector3D center, boolean angleRepulsion ) {
-        List<ImmutableVector3D> currentOrientations = map( getOrientationsFromOrigin( groups ), new Function1<ImmutableVector3D, ImmutableVector3D>() {
-            public ImmutableVector3D apply( ImmutableVector3D v ) {
-                return v.minus( center );
+        List<ImmutableVector3D> currentOrientations = map( groups, new Function1<PairGroup, ImmutableVector3D>() {
+            public ImmutableVector3D apply( PairGroup group ) {
+                return group.position.get().minus( center ).normalized();
             }
         } );
         final ResultMapping mapping = findClosestMatchingConfiguration( currentOrientations, idealOrientations, allowablePermutations );
+
+        boolean aroundCenterAtom = center.equals( new ImmutableVector3D() );
 
         double totalDeltaMagnitude = 0;
 
@@ -66,17 +68,21 @@ public class AttractorModel {
 
             // change the velocity of all of the pairs, unless it is an atom at the origin!
             if ( pair.isLonePair || !pair.position.get().equals( new ImmutableVector3D() ) ) {
-                pair.addVelocity( delta.times( strength ) );
+                if ( aroundCenterAtom ) {
+                    pair.addVelocity( delta.times( strength ) );
+                }
             }
 
             // position movement for faster convergence
-            pair.position.set( pair.position.get().plus( delta.times( 2.0 * timeElapsed ) ) );
+            if ( !pair.position.get().equals( new ImmutableVector3D() ) && aroundCenterAtom ) { // TODO: better way of not moving the center atom?
+                pair.position.set( pair.position.get().plus( delta.times( 2.0 * timeElapsed ) ) );
+            }
         }
 
         double error = Math.sqrt( totalDeltaMagnitude );
 
         // angle-based repulsion
-        if ( angleRepulsion ) {
+        if ( angleRepulsion && aroundCenterAtom ) {
             for ( Pair<Integer, Integer> pairIndices : FunctionalUtils.pairs( FunctionalUtils.rangeInclusive( 0, groups.size() - 1 ) ) ) {
                 int aIndex = pairIndices._1;
                 int bIndex = pairIndices._2;
@@ -194,6 +200,8 @@ public class AttractorModel {
         // S = X * Y^T
         Matrix s = x.times( yTransposed );
 
+        // this code will loop infinitely on NaN, so we want to double-check
+        assert !Double.isNaN( s.get( 0, 0 ) );
         SingularValueDecomposition svd = new SingularValueDecomposition( s );
         double det = svd.getV().times( svd.getU().transpose() ).det();
 
