@@ -509,7 +509,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         Vector3f localPosition = getPlanarMoleculeCursorPosition();
 
         PairGroup pair = new PairGroup( JMEUtils.convertVector( localPosition ), bondOrder == 0, true );
-        getMolecule().addGroup( pair, getMolecule().getCentralAtom(), bondOrder );
+        getMolecule().addGroup( pair, getMolecule().getCentralAtom(), bondOrder, ( bondOrder == 0 ? PairGroup.LONE_PAIR_DISTANCE : PairGroup.BONDED_PAIR_DISTANCE ) / PairGroup.REAL_TMP_SCALE );
 
         // set up dragging information
         dragging = true;
@@ -610,7 +610,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         Vector3f localCameraDirection = ray.getDirection();
 
         // how far we will end up from the center atom
-        float finalDistance = (float) draggedParticle.getIdealDistanceFromCenter();
+        float finalDistance = (float) getMolecule().getIdealDistanceFromCenter( draggedParticle );
 
         // our sphere to cast our ray against
         BoundingSphere sphere = new BoundingSphere( finalDistance, new Vector3f( 0, 0, 0 ) );

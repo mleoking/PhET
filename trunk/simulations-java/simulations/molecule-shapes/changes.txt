@@ -1,3 +1,5 @@
+A few other bond length fixes
+"Model" bond lengths on 2nd tab correspond to the "Real" bond lengths
 Fixed a few obscure bugs
 Fixed "Real" / "Model" swapping and rotation-matching for things like XeF2
 Significantly improved angle-based repulsion for the "Real" molecules

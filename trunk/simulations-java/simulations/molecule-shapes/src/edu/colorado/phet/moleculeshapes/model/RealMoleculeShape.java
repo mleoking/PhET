@@ -39,8 +39,8 @@ public class RealMoleculeShape {
         atoms.add( atom );
     }
 
-    public void addBond( Atom3D a, Atom3D b, int order ) {
-        bonds.add( new Bond<Atom3D>( a, b, order ) );
+    public void addBond( Atom3D a, Atom3D b, int order, double bondLength ) {
+        bonds.add( new Bond<Atom3D>( a, b, order, bondLength ) );
     }
 
     public Collection<Atom3D> getAtoms() {
@@ -61,7 +61,7 @@ public class RealMoleculeShape {
             atom.position.set( atom.position.get().normalized().times( simplifiedBondLength ) );
         }
         addAtom( atom );
-        addBond( atom, centralAtom, bondOrder );
+        addBond( atom, centralAtom, bondOrder, useSimplifiedBondLength ? simplifiedBondLength : atom.position.get().magnitude() );
     }
 
     public void centerOnCentralAtom() {
