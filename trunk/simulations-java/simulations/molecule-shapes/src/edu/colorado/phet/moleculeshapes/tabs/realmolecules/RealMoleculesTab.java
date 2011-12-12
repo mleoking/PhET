@@ -360,15 +360,16 @@ public class RealMoleculesTab extends MoleculeViewTab {
                     // NOTE: this might miss a couple improper mappings?
 
                     // compute the mapping from our "ideal" to our "old" molecule
-                    List<PairGroup> atoms = new RealMolecule( realMolecule.get() ).getAllNonCentralAtoms();
+                    // TODO: something in this mapping seems backwards... but it's working?
+                    List<PairGroup> groups = new RealMolecule( realMolecule.get() ).getRadialGroups();
                     final ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration(
-                            AttractorModel.getOrientations( mappingMolecule.getAllNonCentralAtoms() ),
-                            FunctionalUtils.map( atoms, new Function1<PairGroup, ImmutableVector3D>() {
+                            AttractorModel.getOrientationsFromOrigin( mappingMolecule.getRadialGroups() ),
+                            FunctionalUtils.map( LocalShape.sortedLonePairsFirst( groups ), new Function1<PairGroup, ImmutableVector3D>() {
                                 public ImmutableVector3D apply( PairGroup pair ) {
                                     return pair.position.get().normalized();
                                 }
                             } ),
-                            Permutation.permutations( atoms.size() ) );
+                            LocalShape.vseprPermutations( mappingMolecule.getRadialGroups() ) );
                     for ( PairGroup group : getGroups() ) {
                         if ( group != getCentralAtom() ) {
                             group.position.set( mapping.rotateVector( group.position.get() ) );

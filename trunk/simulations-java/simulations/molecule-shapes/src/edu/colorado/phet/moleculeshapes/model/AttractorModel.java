@@ -36,7 +36,7 @@ public class AttractorModel {
      * @return A measure of total error (least squares-style)
      */
     public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<ImmutableVector3D> idealOrientations, List<Permutation> allowablePermutations, final ImmutableVector3D center, boolean angleRepulsion ) {
-        List<ImmutableVector3D> currentOrientations = map( getOrientations( groups ), new Function1<ImmutableVector3D, ImmutableVector3D>() {
+        List<ImmutableVector3D> currentOrientations = map( getOrientationsFromOrigin( groups ), new Function1<ImmutableVector3D, ImmutableVector3D>() {
             public ImmutableVector3D apply( ImmutableVector3D v ) {
                 return v.minus( center );
             }
@@ -168,7 +168,7 @@ public class AttractorModel {
         return bestResult.get();
     }
 
-    public static List<ImmutableVector3D> getOrientations( List<PairGroup> groups ) {
+    public static List<ImmutableVector3D> getOrientationsFromOrigin( List<PairGroup> groups ) {
         return map( groups, new Function1<PairGroup, ImmutableVector3D>() {
             public ImmutableVector3D apply( PairGroup group ) {
                 return group.position.get().normalized();
