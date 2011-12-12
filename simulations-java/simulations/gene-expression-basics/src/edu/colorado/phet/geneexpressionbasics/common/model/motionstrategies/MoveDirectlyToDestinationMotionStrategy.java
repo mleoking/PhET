@@ -55,8 +55,8 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
     @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
 
-        Point2D currentDestination = new Point2D.Double( destinationProperty.get().getX() + offsetFromDestinationProperty.getX(),
-                                                         destinationProperty.get().getY() + offsetFromDestinationProperty.getY() );
+        Point2D currentDestination = new Point2D.Double( destinationProperty.get().getX() - offsetFromDestinationProperty.getX(),
+                                                         destinationProperty.get().getY() - offsetFromDestinationProperty.getY() );
         updateVelocityVector( currentLocation, currentDestination, scalarVelocity );
 
         // Make sure that current motion will not cause the model element to
