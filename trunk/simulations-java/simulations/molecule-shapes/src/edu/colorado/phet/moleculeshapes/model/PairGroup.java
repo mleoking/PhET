@@ -135,8 +135,13 @@ public class PairGroup {
         ImmutableVector3D coulombVelocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.magnitude() * delta.magnitude() ) );
 
         // apply a nonphysical reduction on coulomb's law when the frame-rate is low, so we can avoid oscillation
-        double coulombDowngrade = Math.sqrt( ( timeElapsed > 0.017 ) ? 0.017 / timeElapsed : 1 ); // TODO: isolate the "standard" tpf?
+        double coulombDowngrade = getTimescaleImpulseFactor( timeElapsed ); // TODO: isolate the "standard" tpf?
         return coulombVelocityDelta.times( coulombDowngrade );
+    }
+
+    // helps avoid oscillation when the frame-rate is low, due to how the damping is implemented
+    public static double getTimescaleImpulseFactor( double timeElapsed ) {
+        return Math.sqrt( ( timeElapsed > 0.017 ) ? 0.017 / timeElapsed : 1 );
     }
 
     public void repulseFrom( PairGroup other, double timeElapsed, double trueLengthsRatioOverride ) {

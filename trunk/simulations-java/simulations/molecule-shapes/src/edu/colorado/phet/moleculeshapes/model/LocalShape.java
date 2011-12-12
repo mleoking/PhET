@@ -46,7 +46,7 @@ public class LocalShape {
      * @return Amount of error (least squares-style)
      */
     public double applyAttraction( float tpf ) {
-        return AttractorModel.applyAttractorForces( groups, tpf, idealOrientations, allowedPermutations, centralAtom.position.get() );
+        return AttractorModel.applyAttractorForces( groups, tpf, idealOrientations, allowedPermutations, centralAtom.position.get(), false );
     }
 
     /**
@@ -158,5 +158,9 @@ public class LocalShape {
         }
 
         return permutations;
+    }
+
+    public void applyAngleAttractionRepulsion( float tpf ) {
+        AttractorModel.applyAttractorForces( groups, tpf, idealOrientations, allowedPermutations, centralAtom.position.get(), true );
     }
 }

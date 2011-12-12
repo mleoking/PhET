@@ -32,7 +32,7 @@ public class AttractorModel {
      * @param center                The point that the groups should be rotated around. Usually a central atom that all of the groups connect to
      * @return A measure of total error (least squares-style)
      */
-    public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<ImmutableVector3D> idealOrientations, List<Permutation> allowablePermutations, final ImmutableVector3D center ) {
+    public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<ImmutableVector3D> idealOrientations, List<Permutation> allowablePermutations, final ImmutableVector3D center, boolean angleRepulsion ) {
         List<ImmutableVector3D> currentOrientations = map( getOrientations( groups ), new Function1<ImmutableVector3D, ImmutableVector3D>() {
             public ImmutableVector3D apply( ImmutableVector3D v ) {
                 return v.minus( center );
