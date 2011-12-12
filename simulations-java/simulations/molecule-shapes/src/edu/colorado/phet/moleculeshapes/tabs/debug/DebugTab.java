@@ -25,7 +25,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Objects;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
@@ -233,7 +233,7 @@ public class DebugTab extends MoleculeViewTab {
         // add lighting to the main scene
         addLighting( moleculeView.getScene() );
 
-        RealMoleculeModel realMolecule = new RealMoleculeModel( RealMoleculeShape.BROMINE_PENTAFLUORIDE );
+        RealMolecule realMolecule = new RealMolecule( RealMoleculeShape.BROMINE_PENTAFLUORIDE );
         setMolecule( realMolecule );
         moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, this, moleculeCamera );
         moleculeView.getScene().attachChild( moleculeNode );

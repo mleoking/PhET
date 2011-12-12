@@ -18,7 +18,7 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.rangeIncl
  * Represents a physically malleable version of a real molecule, with lone pairs if necessary. Different from the
  * RealMolecule class, which is a static representation that cannot be worked with.
  */
-public class RealMoleculeModel extends Molecule {
+public class RealMolecule extends Molecule {
 
     private final RealMoleculeShape realMolecule;
 
@@ -29,10 +29,8 @@ public class RealMoleculeModel extends Molecule {
 
     private List<Permutation> cachedPermutations;
 
-    public RealMoleculeModel( final RealMoleculeShape realMolecule ) {
+    public RealMolecule( final RealMoleculeShape realMolecule ) {
         this.realMolecule = realMolecule;
-
-        repulsionMultiplier = 0;
 
         final int numLonePairs = realMolecule.getCentralLonePairCount();
         final int numBonds = realMolecule.getBonds().size();
