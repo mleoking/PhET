@@ -378,8 +378,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
             }} );
         }
         else {
-            // TODO: do a FULL comparision so we prevent the lone pairs switching all over the place
-            final ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( LocalShape.sortedLonePairsFirst( mappingMolecule.getNeighboringAtoms( mappingMolecule.getCentralAtom() ) ) );
+            final ResultMapping mapping = vseprConfiguration.getIdealGroupRotationToPositions( LocalShape.sortedLonePairsFirst( mappingMolecule.getNeighbors( mappingMolecule.getCentralAtom() ) ) );
             final Permutation permutation = mapping.permutation.inverted();
             final List<ImmutableVector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
 
@@ -393,7 +392,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
                     }
                     else {
                         // we need to dig the bond order out of the mapping molecule, and we need to pick the right one (thus the permutation being applied, at an offset)
-                        int bondOrder = mappingMolecule.getParentBond( mappingMolecule.getRadialAtoms().get( permutation.apply( i - numRadialLonePairs ) ) ).order;
+                        int bondOrder = mappingMolecule.getParentBond( mappingMolecule.getRadialAtoms().get( permutation.apply( i ) - numRadialLonePairs ) ).order;
                         addGroup( new PairGroup( unitVector.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), newCentralAtom, bondOrder );
                     }
                 }
