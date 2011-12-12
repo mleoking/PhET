@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import javax.swing.Box;
@@ -30,8 +31,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /*
  TODO:
- - all properties are currently required, make some optional and adapt layout
- - display dialog only if required properties are present
  - i18n
  - display after KSU Credits window closes
  - delete -sponsorPrototype program arg for production
@@ -47,38 +46,47 @@ public class SponsorDialog extends JDialog {
     private static final String PROPERTIES_FILE_NAME = "sponsor.properties";
     private static final int DISPLAY_TIME = 5; // seconds
 
+    //TODO read these from phetcommon-strings
+    // i18n
+    private static final String SPONSORED_BY = "Sponsored by";
+    private static final String SINCE_DATE = "(since {0})";
+
     // Constructor is private, creation and display is handled by static methods.
     private SponsorDialog( PhetApplicationConfig config, Frame parent ) {
         super( parent );
         setResizable( false );
 
-        // properties file
+        // properties
         Properties properties = config.getResourceLoader().getProperties( PROPERTIES_FILE_NAME );
+        String logo = properties.getProperty( config.getFlavor() + ".logo" );
+        String url = properties.getProperty( config.getFlavor() + ".url" );
+        String since = properties.getProperty( config.getFlavor() + ".since" );
 
-        // components
-        JLabel label = new JLabel( "Sponsored by" ) {{
-            setFont( new PhetFont( 18 ) );
-        }};
-        JLabel logo = new JLabel( new ImageIcon( config.getResourceLoader().getImage( properties.getProperty( config.getFlavor() + ".logo" ) ) ) );
-        InteractiveHTMLPane url = createInteractiveHTMLPane( properties.getProperty( config.getFlavor() + ".url" ), new PhetFont( 14 ) );
-        JLabel since = new JLabel( "(since " + properties.getProperty( config.getFlavor() + ".since" ) + ")" ) {{
-            setFont( new PhetFont( 10 ) );
-        }};
-
-        // layout
+        // layout components, some of which are optional
         GridPanel mainPanel = new GridPanel();
         int xMargin = 40;
         int yMargin = 20;
         mainPanel.setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( yMargin, xMargin, yMargin, xMargin ) ) );
         mainPanel.setGridX( 0 ); // vertical
         mainPanel.setAnchor( Anchor.CENTER );
-        mainPanel.add( label );
+        mainPanel.add( new JLabel( SPONSORED_BY ) {{
+            setFont( new PhetFont( 18 ) );
+        }} );
         mainPanel.add( Box.createVerticalStrut( 15 ) );
-        mainPanel.add( logo );
+        // logo is required
+        mainPanel.add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( logo ) ) ) );
+        // url is optional
+        if ( url != null ) {
+            mainPanel.add( Box.createVerticalStrut( 15 ) );
+            mainPanel.add( createInteractiveHTMLPane( url, new PhetFont( 14 ) ) );
+        }
         mainPanel.add( Box.createVerticalStrut( 15 ) );
-        mainPanel.add( url );
-        mainPanel.add( Box.createVerticalStrut( 15 ) );
-        mainPanel.add( since );
+        // since date is optional
+        if ( since != null ) {
+            mainPanel.add( new JLabel( MessageFormat.format( SINCE_DATE, since ) ) {{
+                setFont( new PhetFont( 10 ) );
+            }} );
+        }
 
         setContentPane( mainPanel );
         pack();
