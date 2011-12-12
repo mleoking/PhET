@@ -1,3 +1,4 @@
+# 1.01.15 (59263) Dec 12, 2011
 Removed "study" versions (for now). OK'ed with SR
 Slight change to 2nd tab scale (compromise between small molecule angle visibility and large molecule terminal lone pair visibility)
 Added terminal lone pairs
