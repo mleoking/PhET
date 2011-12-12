@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Dialog that displays a simulation's sponsor. See #3166.
+ * Dialog that displays a simulation's sponsor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

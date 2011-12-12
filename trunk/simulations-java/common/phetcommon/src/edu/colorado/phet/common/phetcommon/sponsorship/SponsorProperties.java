@@ -25,7 +25,7 @@ public class SponsorProperties {
         properties = config.getResourceLoader().getProperties( "sponsor.properties" );
     }
 
-    // Properties was well-formed if all required properties are specified.
+    // Well-formed if all required properties are specified.
     public boolean isWellFormed() {
         return getImageResourceName() != null;
     }
