@@ -85,10 +85,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      *
      * @return
      */
-    protected AttachmentStateMachine createAttachmentStateMachine() {
-        assert attachmentStateMachine == null;
-        return new AttachmentStateMachine( this );
-    }
+    protected abstract AttachmentStateMachine createAttachmentStateMachine();
 
     public void stepInTime( double dt ) {
 

@@ -7,7 +7,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.ProteinAttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 
 /**
@@ -45,6 +46,16 @@ public abstract class Protein extends MobileBiomolecule {
     //-------------------------------------------------------------------------
     // Methods
     //-------------------------------------------------------------------------
+
+    /**
+     * Create the attachment state machine that will govern the way in which
+     * this biomolecule attaches to and detaches from other biomolecules.
+     *
+     * @return
+     */
+    @Override protected AttachmentStateMachine createAttachmentStateMachine() {
+        return new ProteinAttachmentStateMachine( this );
+    }
 
     /**
      * Set the size of this protein by specifying the proportion of its full
@@ -98,7 +109,7 @@ public abstract class Protein extends MobileBiomolecule {
     public void release() {
         // TODO: Needs to be made into state behavior, but just sets a motion strategy for now.
 //        attachmentStateMachine.detach();
-        setMotionStrategy( new RandomWalkMotionStrategy( motionBoundsProperty ) );
+        attachmentStateMachine.setState( new AttachmentStateMachine.GenericUnattachedAndAvailableState() );
     }
 
     /**

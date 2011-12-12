@@ -20,6 +20,16 @@ open, it will generally accept the attachment request.  Once a proposal is
 accepted, the proposing molecule starts moving toward the attachment site on
 the accepting molecule.
 
+Motion Strategies
+
+The motion of each biomolecule is controlled by a motion strategy, which is a
+class that essentially decides where the molecule should go next in model
+space at each time step.  For the most part, the motion strategy is set by the
+molecule's attachment state machine (more on attachment state machines below).
+
+Question to self: Are there places where the ASM doesn't set the motion
+strategy and, if so, why is it necessary to do this?
+
 Attachment Sites
 
 Attachment sites can only have one biomolecule attached at a time.
@@ -31,6 +41,11 @@ It is up to the individual biomolecules to keep track of which attachment sites
 are appropriate for which biomolecules.  This was done because it is possible
 in some cases to have one attachment site pertain to a number of different
 types of biomolecules.
+
+12/12/2011 - Here's a thought: Should there be two attachment sites involved
+in each attachment?  Then, when they overlap one another, the attachment has
+been made.  This way, the attacher and the attachee can behave more
+symmetrically than they currently do.
 
 Attachment State Machine
 
