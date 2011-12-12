@@ -32,7 +32,7 @@ public class SponsorMenuItem extends JMenuItem {
                     dialog.addWindowListener( new WindowAdapter() {
                         // called when the close button in the dialog's window dressing is clicked
                         public void windowClosing( WindowEvent e ) {
-                            SimSharingEvents.sendEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.CLOSING ); //TODO why is this never sent when dialog is closed via window dressing?
+                            SimSharingEvents.sendEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED ); //TODO why is this never sent when dialog is closed via window dressing?
                             dialog.dispose();
                         }
 
