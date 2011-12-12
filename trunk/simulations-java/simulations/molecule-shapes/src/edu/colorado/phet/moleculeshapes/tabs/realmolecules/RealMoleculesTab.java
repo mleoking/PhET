@@ -378,7 +378,8 @@ public class RealMoleculesTab extends MoleculeViewTab {
             }} );
         }
         else {
-            final ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( LocalShape.sortedLonePairsFirst( mappingMolecule.getNeighbors( mappingMolecule.getCentralAtom() ) ) );
+            // TODO: do a FULL comparision so we prevent the lone pairs switching all over the place
+            final ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( LocalShape.sortedLonePairsFirst( mappingMolecule.getNeighboringAtoms( mappingMolecule.getCentralAtom() ) ) );
             final Permutation permutation = mapping.permutation.inverted();
             final List<ImmutableVector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
 

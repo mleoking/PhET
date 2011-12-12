@@ -53,7 +53,7 @@ public class RealMolecule extends Molecule {
         VseprConfiguration vseprConfiguration = new VseprConfiguration( numBonds, numLonePairs );
         final List<ImmutableVector3D> idealModelVectors = vseprConfiguration.getAllUnitVectors();
 
-        ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( LocalShape.sortedLonePairsFirst( getNeighbors( getCentralAtom() ) ) );
+        ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( LocalShape.sortedLonePairsFirst( getNeighboringAtoms( getCentralAtom() ) ) );
 
         // add in lone pairs in their correct "initial" positions
         for ( int i = 0; i < numLonePairs; i++ ) {
