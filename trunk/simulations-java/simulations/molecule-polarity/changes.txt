@@ -1,3 +1,4 @@
+# 1.02.02 (59237) Dec 11, 2011
 12/11/11 dev version to demo sponsor prototype
 12/11/11 #3166, enable sponsor prototype in molecule-polarity-build.properties
 12/9/11 #3166, disable sponsor prototype in molecule-polarity-build.properties
