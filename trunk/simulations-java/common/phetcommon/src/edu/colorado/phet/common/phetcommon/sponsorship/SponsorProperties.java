@@ -34,8 +34,12 @@ public class SponsorProperties {
         return properties.getProperty( sim + ".image" );
     }
 
-    public String getURL() {
-        return properties.getProperty( sim + ".url" );
+    public String getActualURL() {
+        return properties.getProperty( sim + ".actualURL" );
+    }
+
+    public String getVisibleURL() {
+        return properties.getProperty( sim + ".visibleURL" );
     }
 
     public String getSinceDate() {
