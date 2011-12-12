@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -28,7 +28,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, INSET );
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, INSET );
         }};
         addChild( representationControlPanel );
 
@@ -37,7 +37,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationArea );
 
-        addChild( new ControlPanelNode( new HBox( new PSwing( new PropertyRadioButton<Fill>( "In order", model.fill, Fill.SEQUENTIAL ) {{setFont( CONTROL_FONT );}} ),
+        addChild( new ControlPanelNode( new VBox( 0, new PSwing( new PropertyRadioButton<Fill>( "In order", model.fill, Fill.SEQUENTIAL ) {{setFont( CONTROL_FONT );}} ),
                                                   new PSwing( new PropertyRadioButton<Fill>( "Random", model.fill, Fill.RANDOM ) {{setFont( CONTROL_FONT );}} ) ) ) {{
             setOffset( representationControlPanel.getFullBounds().getMaxX() + INSET, representationControlPanel.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
