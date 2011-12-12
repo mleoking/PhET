@@ -67,19 +67,19 @@ public class AttractorModel {
             double strength = timeElapsed * 3 * delta.magnitude();
 
             // change the velocity of all of the pairs, unless it is an atom at the origin!
-            if ( pair.isLonePair || !pair.position.get().equals( new ImmutableVector3D() ) ) {
+            if ( pair.isLonePair || !pair.isCentralAtom() ) {
                 if ( aroundCenterAtom ) {
                     pair.addVelocity( delta.times( strength ) );
                 }
             }
 
             // position movement for faster convergence
-            if ( !pair.position.get().equals( new ImmutableVector3D() ) && aroundCenterAtom ) { // TODO: better way of not moving the center atom?
+            if ( !pair.isCentralAtom() && aroundCenterAtom ) { // TODO: better way of not moving the center atom?
                 pair.position.set( pair.position.get().plus( delta.times( 2.0 * timeElapsed ) ) );
             }
 
             // if we are a terminal lone pair, move us just with this but much more quickly
-            if ( !pair.position.get().equals( new ImmutableVector3D() ) && !aroundCenterAtom ) {
+            if ( !pair.isCentralAtom() && !aroundCenterAtom ) {
 //                pair.position.set( targetLocation );
                 pair.position.set( pair.position.get().plus( delta.times( Math.min( 20.0 * timeElapsed, 1 ) ) ) );
             }

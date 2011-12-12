@@ -160,7 +160,7 @@ public class PairGroup {
 
     public void addVelocity( ImmutableVector3D velocityChange ) {
         // don't allow velocity changes if we are dragging it, OR if it is an atom at the origin
-        if ( !userControlled.get() && !position.get().equals( new ImmutableVector3D() ) ) {
+        if ( !userControlled.get() && !isCentralAtom() ) {
             velocity.set( velocity.get().plus( velocityChange ) );
         }
     }
@@ -206,5 +206,9 @@ public class PairGroup {
 
         // stop any velocity that was moving the pair
         velocity.set( new ImmutableVector3D() );
+    }
+
+    public boolean isCentralAtom() {
+        return !isLonePair && position.get().equals( new ImmutableVector3D() );
     }
 }
