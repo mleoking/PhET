@@ -191,4 +191,70 @@ public class FunctionalUtils {
             }
         } );
     }
+
+    /**
+     * A list with all combinations of elements of order "n". items are not repeated in a single combination.
+     * NOTE: not spectacularly fast
+     * NOTE: relative order of items will be preserved in the returned combinations
+     * <p/>
+     * EXAMPLE: combinations( Arrays.asList( 1, 4, 5, 8, 12 ), 3 )
+     * returns lists of the following in order:
+     * 1 4 5
+     * 1 4 8
+     * 1 4 12
+     * 1 5 8
+     * 1 5 12
+     * 1 8 12
+     * 4 5 8
+     * 4 5 12
+     * 4 8 12
+     * 5 8 12
+     *
+     * @param collection The collection to draw from
+     * @param n          How many elements should be in each combination
+     * @return List of combinations
+     */
+    public static <T> List<List<T>> combinations( Collection<T> collection, int n ) {
+        // make it a list so we can index it (but don't do the copying if not necessary)
+        List<T> list = ( collection instanceof List<?> ) ? ( (List<T>) collection ) : new ArrayList<T>( collection );
+
+        return recursiveCominations( list, new ArrayList<T>(), n, 0 );
+    }
+
+    // our combinations will all start with the "candidate" list, and the remaining elements will be filled with elements from "list" at or past "position"
+    private static <T> List<List<T>> recursiveCominations( List<T> list, List<T> candidate, int n, int position ) {
+        // how many more items to we have to add to our candidate?
+        int remainingQuantity = n - candidate.size();
+
+        // base case
+        if ( remainingQuantity == 0 ) {
+            ArrayList<List<T>> result = new ArrayList<List<T>>();
+            result.add( candidate );
+            return result;
+        }
+
+        List<List<T>> result = new ArrayList<List<T>>();
+        for ( int i = position; i <= list.size() - remainingQuantity; i++ ) {
+            List<T> nextCandidate = new ArrayList<T>( candidate );
+            nextCandidate.add( list.get( i ) );
+            result.addAll( recursiveCominations( list, nextCandidate, n, i + 1 ) );
+        }
+        return result;
+    }
+
+    // a faster variant of combinations(), unrolled for pairs of elements
+    public static <T> List<Pair<T, T>> pairs( Collection<T> collection ) {
+        // make it a list so we can index it (but don't do the copying if not necessary)
+        List<T> list = ( collection instanceof List<?> ) ? ( (List<T>) collection ) : new ArrayList<T>( collection );
+
+        List<Pair<T, T>> result = new ArrayList<Pair<T, T>>();
+        int size = collection.size();
+        for ( int i = 0; i < size - 1; i++ ) {
+            T t = list.get( i );
+            for ( int j = i + 1; j < size; j++ ) {
+                result.add( new Pair<T, T>( t, list.get( j ) ) );
+            }
+        }
+        return result;
+    }
 }

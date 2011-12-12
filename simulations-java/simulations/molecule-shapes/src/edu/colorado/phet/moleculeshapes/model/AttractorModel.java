@@ -9,8 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -46,7 +49,7 @@ public class AttractorModel {
         for ( int i = 0; i < groups.size(); i++ ) {
             PairGroup pair = groups.get( i );
 
-            ImmutableVector3D targetOrientation = new ImmutableVector3D( mapping.target.get( 0, i ), mapping.target.get( 1, i ), mapping.target.get( 2, i ) );
+            ImmutableVector3D targetOrientation = vectorFromMatrix( mapping.target, i );
             double currentMagnitude = ( pair.position.get().minus( center ) ).magnitude();
             ImmutableVector3D targetLocation = targetOrientation.times( currentMagnitude ).plus( center );
 
@@ -65,9 +68,48 @@ public class AttractorModel {
             if ( pair.isLonePair || !pair.position.get().equals( new ImmutableVector3D() ) ) {
                 pair.addVelocity( delta.times( strength ) );
             }
+
+            // position movement for faster convergence
+            pair.position.set( pair.position.get().plus( delta.times( 2.0 * timeElapsed ) ) );
         }
 
-        return Math.sqrt( totalDeltaMagnitude );
+        double error = Math.sqrt( totalDeltaMagnitude );
+
+        // angle-based repulsion
+        if ( angleRepulsion ) {
+            for ( Pair<Integer, Integer> pairIndices : FunctionalUtils.pairs( FunctionalUtils.rangeInclusive( 0, groups.size() - 1 ) ) ) {
+                int aIndex = pairIndices._1;
+                int bIndex = pairIndices._2;
+                PairGroup a = groups.get( aIndex );
+                PairGroup b = groups.get( bIndex );
+
+                // current orientations w.r.t. the center
+                ImmutableVector3D aOrientation = a.position.get().minus( center ).normalized();
+                ImmutableVector3D bOrientation = b.position.get().minus( center ).normalized();
+
+                // desired orientations
+                ImmutableVector3D aTarget = vectorFromMatrix( mapping.target, aIndex ).normalized();
+                ImmutableVector3D bTarget = vectorFromMatrix( mapping.target, bIndex ).normalized();
+                double targetAngle = Math.acos( MathUtil.clamp( -1, aTarget.dot( bTarget ), 1 ) );
+                double currentAngle = Math.acos( MathUtil.clamp( -1, aOrientation.dot( bOrientation ), 1 ) );
+                double angleDifference = ( targetAngle - currentAngle );
+
+                ImmutableVector3D dirTowardsA = a.position.get().minus( b.position.get() ).normalized();
+                double timeFactor = PairGroup.getTimescaleImpulseFactor( timeElapsed );
+
+                double extraClosePushFactor = MathUtil.clamp( 1, 3 * Math.pow( Math.PI - currentAngle, 2 ) / ( Math.PI * Math.PI ), 3 );
+
+                ImmutableVector3D push = dirTowardsA.times( timeFactor
+                                                            * angleDifference
+                                                            * PairGroup.ANGLE_REPULSION_SCALE
+                                                            * ( currentAngle < targetAngle ? 2.0 : 0.5 )
+                                                            * extraClosePushFactor );
+                a.addVelocity( push );
+                b.addVelocity( push.negated() );
+            }
+        }
+
+        return error;
     }
 
     /**
@@ -142,6 +184,10 @@ public class AttractorModel {
             }
             System.out.println();
         }
+    }
+
+    private static ImmutableVector3D vectorFromMatrix( Matrix matrix, int column ) {
+        return new ImmutableVector3D( matrix.get( 0, column ), matrix.get( 1, column ), matrix.get( 2, column ) );
     }
 
     private static Matrix computeRotationMatrixWithTranspose( Matrix x, Matrix yTransposed ) {
