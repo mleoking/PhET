@@ -282,4 +282,9 @@ public abstract class Molecule {
         int numAtoms = groups.size() - numLonePairs;
         return new LocalShape( LocalShape.vseprPermutations( groups ), atom, groups, new VseprConfiguration( numAtoms, numLonePairs ).geometry.unitVectors );
     }
+
+    // get all of the central atom's neighbors
+    public List<PairGroup> getRadialGroups() {
+        return getNeighbors( getCentralAtom() );
+    }
 }
