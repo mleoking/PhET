@@ -36,7 +36,7 @@ public class TranscriptionFactorAttachmentStateMachine extends AttachmentStateMa
     }
 
     // Subclass of the "attached" state.
-    protected class TranscriptionFactorAttachedState extends GenericAttachedState {
+    protected class TranscriptionFactorAttachedState extends AttachmentState.GenericAttachedState {
         private static final double DEFAULT_ATTACH_TIME = 1; // In seconds.
 
         private double attachCountdownTime;
