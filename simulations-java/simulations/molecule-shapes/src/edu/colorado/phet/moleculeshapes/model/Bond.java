@@ -10,20 +10,12 @@ public class Bond<AtomT> {
     public final int order;
     public final double length; // in angstroms, or 0 if there is no data
 
-    public Bond( AtomT a, AtomT b, int order ) {
-        this( a, b, order, 0 );
-    }
-
     public Bond( AtomT a, AtomT b, int order, double length ) {
         this.a = a;
         this.b = b;
         this.order = order;
         this.length = length;
         assert ( a != b );
-    }
-
-    public boolean hasLength() {
-        return length != 0;
     }
 
     @Override

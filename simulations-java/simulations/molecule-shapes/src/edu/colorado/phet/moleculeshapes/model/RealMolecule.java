@@ -10,6 +10,8 @@ import java.util.Set;
 
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
 
 /**
@@ -60,7 +62,7 @@ public class RealMolecule extends Molecule {
             ImmutableVector3D normalizedPosition = mapping.rotateVector( idealModelVectors.get( i ) );
             idealCentralOrientations.add( normalizedPosition );
             PairGroup group = new PairGroup( normalizedPosition.times( PairGroup.LONE_PAIR_DISTANCE ), true, false );
-            addGroup( group, getCentralAtom(), 0 );
+            addGroup( group, getCentralAtom(), 0, PairGroup.LONE_PAIR_DISTANCE / PairGroup.REAL_TMP_SCALE );
             centralPairGroups.add( group );
         }
 
@@ -92,6 +94,10 @@ public class RealMolecule extends Molecule {
 
     @Override public boolean isReal() {
         return true;
+    }
+
+    @Override public Option<Float> getMaximumBondLength() {
+        return new None<Float>();
     }
 
     public RealMoleculeShape getRealMolecule() {

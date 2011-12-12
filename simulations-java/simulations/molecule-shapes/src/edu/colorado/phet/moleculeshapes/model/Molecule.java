@@ -9,8 +9,6 @@ import edu.colorado.phet.common.phetcommon.model.event.CompositeNotifier;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
@@ -43,6 +41,8 @@ public abstract class Molecule {
     }
 
     public abstract LocalShape getLocalShape( PairGroup atom );
+
+    public abstract Option<Float> getMaximumBondLength();
 
     public void update( final float tpf ) {
         List<PairGroup> nonCentralGroups = filter( groups, new Function1<PairGroup, Boolean>() {
@@ -181,7 +181,7 @@ public abstract class Molecule {
         // add the group, but delay notifications (inconsistent state)
         addGroup( group, false );
 
-        addBond( group, parent, bondOrder );
+        addBond( group, parent, bondOrder, group.position.get().minus( parent.position.get() ).magnitude() / PairGroup.REAL_TMP_SCALE );
 
         // notify after bond added, so we don't send notifications in an inconsistent state
         onGroupAdded.updateListeners( group );
@@ -216,8 +216,8 @@ public abstract class Molecule {
         onBondAdded.updateListeners( bond );
     }
 
-    public void addBond( PairGroup a, PairGroup b, int order ) {
-        addBond( new Bond<PairGroup>( a, b, order ) );
+    public void addBond( PairGroup a, PairGroup b, int order, double bondLength ) {
+        addBond( new Bond<PairGroup>( a, b, order, bondLength ) );
     }
 
     public void removeBond( Bond<PairGroup> bond ) {
@@ -280,15 +280,6 @@ public abstract class Molecule {
     // should this molecule be displayed in a "real" style, or not? If "true", all atoms are expected to be represented with RealPairGroups
     public abstract boolean isReal();
 
-    public Option<Float> getMaximumBondLength() {
-        if ( isReal() ) {
-            return new None<Float>();
-        }
-        else {
-            return new Some<Float>( (float) PairGroup.BONDED_PAIR_DISTANCE );
-        }
-    }
-
     public LocalShape getLocalVSEPRShape( PairGroup atom ) {
         List<PairGroup> groups = LocalShape.sortedLonePairsFirst( getNeighbors( atom ) );
         int numLonePairs = FunctionalUtils.count( groups, new Function1<PairGroup, Boolean>() {
@@ -303,5 +294,13 @@ public abstract class Molecule {
     // get all of the central atom's neighbors
     public List<PairGroup> getRadialGroups() {
         return getNeighbors( getCentralAtom() );
+    }
+
+    public double getIdealDistanceFromCenter( PairGroup group ) {
+        // this only works on pair groups adjacent to the central atom
+        Bond<PairGroup> bond = getParentBond( group );
+        assert bond.contains( getCentralAtom() );
+
+        return group.isLonePair ? PairGroup.LONE_PAIR_DISTANCE : bond.length * PairGroup.REAL_TMP_SCALE;
     }
 }

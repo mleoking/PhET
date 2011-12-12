@@ -40,6 +40,7 @@ import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
+import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.LocalShape;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -393,8 +394,8 @@ public class RealMoleculesTab extends MoleculeViewTab {
                     }
                     else {
                         // we need to dig the bond order out of the mapping molecule, and we need to pick the right one (thus the permutation being applied, at an offset)
-                        int bondOrder = mappingMolecule.getParentBond( mappingMolecule.getRadialAtoms().get( permutation.apply( i ) - numRadialLonePairs ) ).order;
-                        addGroup( new PairGroup( unitVector.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), newCentralAtom, bondOrder );
+                        Bond<PairGroup> bond = mappingMolecule.getParentBond( mappingMolecule.getRadialAtoms().get( permutation.apply( i ) - numRadialLonePairs ) );
+                        addGroup( new PairGroup( unitVector.times( bond.length * PairGroup.REAL_TMP_SCALE ), false, false ), newCentralAtom, bond.order, bond.length );
                     }
                 }
             }} );
@@ -565,7 +566,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
         Vector3f localCameraDirection = ray.getDirection();
 
         // how far we will end up from the center atom
-        float finalDistance = (float) draggedParticle.getIdealDistanceFromCenter();
+        float finalDistance = (float) getMolecule().getIdealDistanceFromCenter( draggedParticle );
 
         // our sphere to cast our ray against
         BoundingSphere sphere = new BoundingSphere( finalDistance, new Vector3f( 0, 0, 0 ) );

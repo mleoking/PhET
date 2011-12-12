@@ -20,6 +20,7 @@ public class PairGroup {
     public static final double JITTER_SCALE = 0.001;
     public static final double DAMPING_FACTOR = 0.1;
 
+    // TODO: this is horrible. refactor it!
     public static final double REAL_TMP_SCALE = 6.0; // TODO: deal with units correctly in the 1st tab model so we can remove this
 
     /*---------------------------------------------------------------------------*
@@ -65,7 +66,7 @@ public class PairGroup {
         }
         ImmutableVector3D origin = bond.getOtherAtom( this ).position.get();
 
-        double idealDistanceFromCenter = bond.hasLength() ? bond.length * REAL_TMP_SCALE : getIdealDistanceFromCenter();
+        double idealDistanceFromCenter = bond.length * REAL_TMP_SCALE;
 
         /*---------------------------------------------------------------------------*
         * prevent movement away from our ideal distance
@@ -182,10 +183,6 @@ public class PairGroup {
         double damping = 1 - DAMPING_FACTOR;
         damping = Math.pow( damping, timeElapsed / 0.017 ); // based so that we have no modification at 0.017
         velocity.set( velocity.get().times( damping ) );
-    }
-
-    public double getIdealDistanceFromCenter() {
-        return isLonePair ? LONE_PAIR_DISTANCE : BONDED_PAIR_DISTANCE;
     }
 
     /**

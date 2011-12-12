@@ -3,6 +3,8 @@ package edu.colorado.phet.moleculeshapes.model;
 
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
@@ -11,6 +13,20 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
  * A molecule that behaves with a behavior that doesn't discriminate between bond or atom types (only lone pairs vs bonds)
  */
 public class VSEPRMolecule extends Molecule {
+
+    private final double bondLengthOverride;
+    private final boolean useBondLengthOverride;
+
+    public VSEPRMolecule() {
+        bondLengthOverride = 0;
+        useBondLengthOverride = false;
+    }
+
+    public VSEPRMolecule( double bondLengthOverride ) {
+        this.bondLengthOverride = bondLengthOverride;
+        useBondLengthOverride = true;
+    }
+
     @Override public LocalShape getLocalShape( PairGroup atom ) {
         return getLocalVSEPRShape( atom );
     }
@@ -46,5 +62,14 @@ public class VSEPRMolecule extends Molecule {
 
     @Override public boolean isReal() {
         return false;
+    }
+
+    @Override public Option<Float> getMaximumBondLength() {
+        if ( useBondLengthOverride ) {
+            return new Some<Float>( (float) bondLengthOverride );
+        }
+        else {
+            return new Some<Float>( (float) PairGroup.BONDED_PAIR_DISTANCE );
+        }
     }
 }
