@@ -7,12 +7,11 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 /**
  * Encapsulation of the properties related to the sponsor feature.
+ * Properties that are not specified are null.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SponsorProperties {
-
-    private static final String PROPERTIES_FILE_NAME = "sponsor.properties";
 
     private final String sim;
     private final Properties properties;
@@ -22,12 +21,13 @@ public class SponsorProperties {
         // project may contain more than one sim (aka flavor)
         sim = config.getFlavor();
 
-        // properties are loaded from a properties file
-        properties = config.getResourceLoader().getProperties( PROPERTIES_FILE_NAME );
+        // properties are loaded from a properties file, bundled as a Jar resource
+        properties = config.getResourceLoader().getProperties( "sponsor.properties" );
     }
 
+    // Properties was well-formed if all required properties are specified.
     public boolean isWellFormed() {
-        return getImageResourceName() != null; // image is the only required property
+        return getImageResourceName() != null;
     }
 
     public String getImageResourceName() {
