@@ -2,11 +2,10 @@
 
 General rules about how the biomolecules interact with one another.
 
-General idea: Here is what a biomolecule does at each time step:
+Summary: Here is what a biomolecule does at each time step:
 - Moves.
 - Updates its "attachment state", which determine how it will move during the
-  new time step.
-
+  subsequent time step.
 
 At each step in time, a biomolecule first moves based on its current motion
 strategy.  After this, it looks at its attachment state and decides whether
@@ -17,16 +16,21 @@ so, the biomolecule will start moving towards one of these sites.
 
 Biomolecules propose attachments to other biomolecules.  If the biomolecule
 that receives the proposal has an attachment site that is close enough and is
-open, it will generally accept the attachment request.
+open, it will generally accept the attachment request.  Once a proposal is
+accepted, the proposing molecule starts moving toward the attachment site on
+the accepting molecule.
 
 Attachment Sites
 
 Attachment sites can only have one biomolecule attached at a time.
 
-Attachment sites are not typed themselves.  It is up to the individual
-biomolecules to keep track of which attachment sites are appropriate for which
-biomolecules.  This was done because it is possible in some cases to have one
-attachment site pertain to a number of different types of biomolecules.
+In each attachment that occurs, there is an attacher and an attachee.
+
+Attachment sites do not specify the tip of biomolecule that can attach to it.
+It is up to the individual biomolecules to keep track of which attachment sites
+are appropriate for which biomolecules.  This was done because it is possible
+in some cases to have one attachment site pertain to a number of different
+types of biomolecules.
 
 Attachment State Machine
 
