@@ -39,10 +39,6 @@ public class SponsorDialog extends JDialog {
         } );
     }
 
-    public SponsorDialog() {
-        super();    //To change body of overridden methods use File | Settings | File Templates.
-    }
-
     // Show the dialog, centered in the parent frame.
     public static JDialog show( PhetApplicationConfig config, Frame parent, boolean startDisposeTimer ) {
         final JDialog dialog = new SponsorDialog( config, parent );

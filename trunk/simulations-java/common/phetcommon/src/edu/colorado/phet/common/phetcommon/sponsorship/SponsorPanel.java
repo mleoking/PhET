@@ -32,8 +32,10 @@ public class SponsorPanel extends GridPanel {
 
     public SponsorPanel( PhetApplicationConfig config ) {
 
-        // property values, optional ones are null
         SponsorProperties properties = new SponsorProperties( config );
+        assert ( properties.isWellFormed() );
+
+        // property values, optional ones are null
         String imageResourceName = properties.getImageResourceName();
         String url = properties.getURL();
         String sinceDate = properties.getSinceDate();
@@ -48,15 +50,17 @@ public class SponsorPanel extends GridPanel {
             setFont( new PhetFont( 18 ) );
         }} );
         add( Box.createVerticalStrut( 15 ) );
-        // logo is required
-        add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( imageResourceName ) ) ) );
-        // url is optional
+        // image
+        if ( imageResourceName != null ) {
+            add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( imageResourceName ) ) ) );
+        }
+        // url
         if ( url != null ) {
             add( Box.createVerticalStrut( 15 ) );
             add( createInteractiveHTMLPane( url, new PhetFont( 14 ) ) );
         }
         add( Box.createVerticalStrut( 15 ) );
-        // since date is optional
+        // since date
         if ( sinceDate != null ) {
             add( new JLabel( MessageFormat.format( SINCE_DATE, sinceDate ) ) {{
                 setFont( new PhetFont( 10 ) );
