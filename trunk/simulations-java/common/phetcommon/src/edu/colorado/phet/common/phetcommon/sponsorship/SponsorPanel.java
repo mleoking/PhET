@@ -1,0 +1,72 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.common.phetcommon.sponsorship;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.text.MessageFormat;
+
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
+/**
+ * Panel that displays sponsor information.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class SponsorPanel extends GridPanel {
+
+    //TODO read these from phetcommon-strings
+    // i18n
+    private static final String SPONSORED_BY = "Sponsored by";
+    private static final String SINCE_DATE = "(since {0})";
+
+    public SponsorPanel( PhetApplicationConfig config ) {
+
+        // property values, optional ones are null
+        SponsorProperties properties = new SponsorProperties( config );
+        String imageResourceName = properties.getImageResourceName();
+        String url = properties.getURL();
+        String sinceDate = properties.getSinceDate();
+
+        // layout components, some of which are optional
+        int xMargin = 40;
+        int yMargin = 20;
+        setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( yMargin, xMargin, yMargin, xMargin ) ) );
+        setGridX( 0 ); // vertical
+        setAnchor( Anchor.CENTER );
+        add( new JLabel( SPONSORED_BY ) {{
+            setFont( new PhetFont( 18 ) );
+        }} );
+        add( Box.createVerticalStrut( 15 ) );
+        // logo is required
+        add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( imageResourceName ) ) ) );
+        // url is optional
+        if ( url != null ) {
+            add( Box.createVerticalStrut( 15 ) );
+            add( createInteractiveHTMLPane( url, new PhetFont( 14 ) ) );
+        }
+        add( Box.createVerticalStrut( 15 ) );
+        // since date is optional
+        if ( sinceDate != null ) {
+            add( new JLabel( MessageFormat.format( SINCE_DATE, sinceDate ) ) {{
+                setFont( new PhetFont( 10 ) );
+            }} );
+        }
+    }
+
+    private static InteractiveHTMLPane createInteractiveHTMLPane( String url, Font font ) {
+        return new InteractiveHTMLPane( HTMLUtils.createStyledHTMLFromFragment( "<a href=\"http://" + url + "\" target=\"_blank\">" + url, font ) ) {{
+            setOpaque( false );
+        }};
+    }
+}
