@@ -58,7 +58,7 @@ public class SponsorDialog extends JDialog {
 
         // properties
         Properties properties = config.getResourceLoader().getProperties( PROPERTIES_FILE_NAME );
-        String logo = properties.getProperty( config.getFlavor() + ".logo" );
+        String imageResourceName = properties.getProperty( config.getFlavor() + ".image" );
         String url = properties.getProperty( config.getFlavor() + ".url" );
         String since = properties.getProperty( config.getFlavor() + ".since" );
 
@@ -74,7 +74,7 @@ public class SponsorDialog extends JDialog {
         }} );
         mainPanel.add( Box.createVerticalStrut( 15 ) );
         // logo is required
-        mainPanel.add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( logo ) ) ) );
+        mainPanel.add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( imageResourceName ) ) ) );
         // url is optional
         if ( url != null ) {
             mainPanel.add( Box.createVerticalStrut( 15 ) );
@@ -122,7 +122,7 @@ public class SponsorDialog extends JDialog {
     // Should the dialog be displayed?
     public static boolean shouldShow( PhetApplicationConfig config ) {
         boolean isFeatureEnabled = config.isSponsorFeatureEnabled();
-        boolean hasPropertiesFile = config.getResourceLoader().getProperties( PROPERTIES_FILE_NAME ).getProperty( config.getFlavor() + ".logo" ) != null;
+        boolean hasPropertiesFile = config.getResourceLoader().getProperties( PROPERTIES_FILE_NAME ).getProperty( config.getFlavor() + ".image" ) != null;
         boolean hasProgramArg = config.hasCommandLineArg( "-sponsorPrototype" ); //TODO delete this after prototyping
         return isFeatureEnabled && hasPropertiesFile && hasProgramArg;
     }
