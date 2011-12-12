@@ -1,3 +1,4 @@
+Fixed a few obscure bugs
 Fixed "Real" / "Model" swapping and rotation-matching for things like XeF2
 Significantly improved angle-based repulsion for the "Real" molecules
 Fixed "kit" radio button clicking bug

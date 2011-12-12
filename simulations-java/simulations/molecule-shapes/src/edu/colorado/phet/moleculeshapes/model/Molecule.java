@@ -173,29 +173,41 @@ public abstract class Molecule {
     // add in the central atom
     public void addCentralAtom( PairGroup group ) {
         centralAtom = group;
-        addGroup( group );
+        addGroup( group, true );
     }
 
     // add a group with a bond to another group at the same time
     public void addGroup( PairGroup group, PairGroup parent, int bondOrder ) {
-        addGroup( group );
+        // add the group, but delay notifications (inconsistent state)
+        addGroup( group, false );
+
         addBond( group, parent, bondOrder );
+
+        // notify after bond added, so we don't send notifications in an inconsistent state
+        onGroupAdded.updateListeners( group );
     }
 
     // add a group with a bond to another group at the same time, with a specific distance in angstroms
     public void addGroup( PairGroup group, PairGroup parent, int bondOrder, double bondLength ) {
-        addGroup( group );
+        // add the group, but delay notifications (inconsistent state)
+        addGroup( group, false );
+
         addBond( new Bond<PairGroup>( group, parent, bondOrder, bondLength ) );
+
+        // notify after bond added, so we don't send notifications in an inconsistent state
+        onGroupAdded.updateListeners( group );
     }
 
-    public void addGroup( PairGroup group ) {
+    public void addGroup( PairGroup group, boolean notify ) {
         // always add the central group first
         assert getCentralAtom() != null;
 
         groups.add( group );
 
         // notify
-        onGroupAdded.updateListeners( group );
+        if ( notify ) {
+            onGroupAdded.updateListeners( group );
+        }
     }
 
     public void addBond( Bond<PairGroup> bond ) {
@@ -222,14 +234,19 @@ public abstract class Molecule {
         assert getCentralAtom() != group;
 
         // remove all of its bonds first
-        for ( Bond<PairGroup> bond : getBonds( group ) ) {
-            removeBond( bond );
+        List<Bond<PairGroup>> bondList = getBonds( group );
+        for ( Bond<PairGroup> bond : bondList ) {
+            bonds.remove( bond );
         }
 
         groups.remove( group );
 
         // notify
         onGroupRemoved.updateListeners( group );
+        for ( Bond<PairGroup> bond : bondList ) {
+            // delayed notification for bond removal
+            onBondRemoved.updateListeners( bond );
+        }
     }
 
     public void removeAllGroups() {
