@@ -1,3 +1,4 @@
+Slight change to 2nd tab scale (compromise between small molecule angle visibility and large molecule terminal lone pair visibility)
 Added terminal lone pairs
 A few other bond length fixes
 "Model" bond lengths on 2nd tab correspond to the "Real" bond lengths
