@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractions.intro.intro.view.RepresentationArea;
 import edu.colorado.phet.fractions.intro.intro.view.RepresentationControlPanel;
 
 /**
@@ -21,15 +21,16 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
     public EqualityLabCanvas( final EqualityLabModel model ) {
 
+        //Control panel for choosing different representations, can be split into separate controls for each display
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, INSET );
         }};
         addChild( representationControlPanel );
 
-        final RepresentationArea representationArea = new RepresentationArea( model.representation, model.numerator, model.denominator ) {{
-            setOffset( INSET, representationControlPanel.getFullBounds().getMaxY() + 100 );
-        }};
-        addChild( representationArea );
+        //Area which shows both representations and how they are equal
+        addChild( new ZeroOffsetNode( new RepresentationGridNode( model ) ) {{
+            setOffset( 0, STAGE_SIZE.getHeight() - INSET - getFullBounds().getHeight() );
+        }} );
 
         addChild( new ControlPanelNode( new PropertyCheckBox( "Separate", new BooleanProperty( true ) ) {{
             setFont( CONTROL_FONT );
