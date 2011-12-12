@@ -91,7 +91,7 @@ public class MoleculeModelNode extends Node {
         } );
 
         // add any already-existing pair groups
-        for ( PairGroup group : molecule.getNeighbors( molecule.getCentralAtom() ) ) {
+        for ( PairGroup group : molecule.getRadialGroups() ) {
             addGroup( group );
         }
 
