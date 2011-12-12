@@ -119,7 +119,7 @@ public abstract class Molecule {
     }
 
     public List<PairGroup> getNeighboringAtoms( PairGroup group ) {
-        return filter( getNeighbors( getCentralAtom() ), new Function1<PairGroup, Boolean>() {
+        return filter( getRadialGroups(), new Function1<PairGroup, Boolean>() {
             public Boolean apply( PairGroup pairGroup ) {
                 return !pairGroup.isLonePair;
             }
@@ -127,7 +127,7 @@ public abstract class Molecule {
     }
 
     public List<PairGroup> getLonePairNeighbors( PairGroup group ) {
-        return filter( getNeighbors( getCentralAtom() ), new Function1<PairGroup, Boolean>() {
+        return filter( getRadialGroups(), new Function1<PairGroup, Boolean>() {
             public Boolean apply( PairGroup pairGroup ) {
                 return pairGroup.isLonePair;
             }

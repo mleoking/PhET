@@ -380,7 +380,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
             }} );
         }
         else {
-            final ResultMapping mapping = vseprConfiguration.getIdealGroupRotationToPositions( LocalShape.sortedLonePairsFirst( mappingMolecule.getNeighbors( mappingMolecule.getCentralAtom() ) ) );
+            final ResultMapping mapping = vseprConfiguration.getIdealGroupRotationToPositions( LocalShape.sortedLonePairsFirst( mappingMolecule.getRadialGroups() ) );
             final Permutation permutation = mapping.permutation.inverted();
             final List<ImmutableVector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
 
