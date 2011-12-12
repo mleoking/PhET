@@ -40,6 +40,7 @@ import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
+import edu.colorado.phet.moleculeshapes.model.LocalShape;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
@@ -377,7 +378,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
             }} );
         }
         else {
-            final ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( mappingMolecule );
+            final ResultMapping mapping = vseprConfiguration.getIdealRotationToPositions( LocalShape.sortedLonePairsFirst( mappingMolecule.getNeighbors( mappingMolecule.getCentralAtom() ) ) );
             final Permutation permutation = mapping.permutation.inverted();
             final List<ImmutableVector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
 
