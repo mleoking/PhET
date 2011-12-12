@@ -16,6 +16,7 @@ public class PairGroup {
     public static final double LONE_PAIR_DISTANCE = 7.0;
 
     public static final double ELECTRON_PAIR_REPULSION_SCALE = 30000;
+    public static final double ANGLE_REPULSION_SCALE = 3;
     public static final double JITTER_SCALE = 0.001;
     public static final double DAMPING_FACTOR = 0.1;
 
@@ -149,7 +150,8 @@ public class PairGroup {
     }
 
     public void addVelocity( ImmutableVector3D velocityChange ) {
-        if ( !userControlled.get() ) {
+        // don't allow velocity changes if we are dragging it, OR if it is an atom at the origin
+        if ( !userControlled.get() && !position.get().equals( new ImmutableVector3D() ) ) {
             velocity.set( velocity.get().plus( velocityChange ) );
         }
     }

@@ -120,6 +120,7 @@ public class VseprConfiguration {
     }
 
     public ResultMapping getIdealRotationToPositions( List<PairGroup> groups ) {
+        assert ( x + e ) == groups.size();
         // ideal vectors excluding lone pairs (just for the bonds)
         List<ImmutableVector3D> idealModelBondVectors = getIdealBondUnitVectors();
 
