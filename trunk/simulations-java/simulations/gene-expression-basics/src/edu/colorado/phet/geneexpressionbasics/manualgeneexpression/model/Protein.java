@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentState;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.ProteinAttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
@@ -109,7 +110,7 @@ public abstract class Protein extends MobileBiomolecule {
     public void release() {
         // TODO: Needs to be made into state behavior, but just sets a motion strategy for now.
 //        attachmentStateMachine.detach();
-        attachmentStateMachine.setState( new AttachmentStateMachine.GenericUnattachedAndAvailableState() );
+        attachmentStateMachine.setState( new AttachmentState.GenericUnattachedAndAvailableState() );
     }
 
     /**
