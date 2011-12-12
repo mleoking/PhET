@@ -27,20 +27,28 @@ public class AttractorModel {
      *
      * @param groups                An ordered list of pair groups that should be considered, along with the relevant permutations
      * @param timeElapsed           Time elapsed
-     * @param stablePositions       An ideal position, that may be rotated.
-     * @param allowablePermutations
-     * @return A measure of total error
+     * @param idealOrientations     An ideal position, that may be rotated.
+     * @param allowablePermutations The un-rotated stable position that we are attracted towards
+     * @param center                The point that the groups should be rotated around. Usually a central atom that all of the groups connect to
+     * @return A measure of total error (least squares-style)
      */
-    public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
-        final ResultMapping mapping = findClosestMatchingConfiguration( groups, stablePositions, allowablePermutations );
+    public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<ImmutableVector3D> idealOrientations, List<Permutation> allowablePermutations, final ImmutableVector3D center ) {
+        List<ImmutableVector3D> currentOrientations = map( getOrientations( groups ), new Function1<ImmutableVector3D, ImmutableVector3D>() {
+            public ImmutableVector3D apply( ImmutableVector3D v ) {
+                return v.minus( center );
+            }
+        } );
+        final ResultMapping mapping = findClosestMatchingConfiguration( currentOrientations, idealOrientations, allowablePermutations );
 
         double totalDeltaMagnitude = 0;
 
         // for each electron pair, push it towards its computed target
         for ( int i = 0; i < groups.size(); i++ ) {
             PairGroup pair = groups.get( i );
-            ImmutableVector3D targetUnitVector = new ImmutableVector3D( mapping.target.get( 0, i ), mapping.target.get( 1, i ), mapping.target.get( 2, i ) );
-            ImmutableVector3D targetLocation = targetUnitVector.times( pair.position.get().magnitude() );
+
+            ImmutableVector3D targetOrientation = new ImmutableVector3D( mapping.target.get( 0, i ), mapping.target.get( 1, i ), mapping.target.get( 2, i ) );
+            double currentMagnitude = ( pair.position.get().minus( center ) ).magnitude();
+            ImmutableVector3D targetLocation = targetOrientation.times( currentMagnitude ).plus( center );
 
             ImmutableVector3D delta = targetLocation.minus( pair.position.get() );
             totalDeltaMagnitude += delta.magnitude() * delta.magnitude();
@@ -53,7 +61,10 @@ public class AttractorModel {
              */
             double strength = timeElapsed * 3 * delta.magnitude();
 
-            pair.addVelocity( delta.times( strength ) );
+            // change the velocity of all of the pairs, unless it is an atom at the origin!
+            if ( pair.isLonePair || !pair.position.get().equals( new ImmutableVector3D() ) ) {
+                pair.addVelocity( delta.times( strength ) );
+            }
         }
 
         return Math.sqrt( totalDeltaMagnitude );
@@ -75,27 +86,23 @@ public class AttractorModel {
      * but with the repulsion-ordering constraint (no single bond will be assigned a lower-index slot than a lone pair)
      * so we end up splitting the potential slots into bins for each repulsion type and iterating over all of the permutations.
      *
-     * @param groups                An ordered list of pair groups that should be considered, along with the relevant permutations
-     * @param stablePositions       The un-rotated stable position that we are attracted towards
+     * @param currentOrientations   An ordered list of orientations (normalized) that should be considered, along with the relevant permutations
+     * @param idealOrientations     The un-rotated stable position that we are attracted towards
      * @param allowablePermutations A list of permutations that map stable positions to pair groups in order.
      * @return Result mapping (see docs there)
      */
-    public static ResultMapping findClosestMatchingConfiguration( final List<PairGroup> groups, final List<ImmutableVector3D> stablePositions, List<Permutation> allowablePermutations ) {
-        final int n = groups.size(); // number of total pairs
+    public static ResultMapping findClosestMatchingConfiguration( final List<ImmutableVector3D> currentOrientations, final List<ImmutableVector3D> idealOrientations, List<Permutation> allowablePermutations ) {
+        final int n = currentOrientations.size(); // number of total pairs
 
         // y == electron pair positions
-        final Matrix y = matrixFromUnitVectors( map( groups, new Function1<PairGroup, ImmutableVector3D>() {
-            public ImmutableVector3D apply( PairGroup group ) {
-                return group.position.get().normalized();
-            }
-        } ) );
+        final Matrix y = matrixFromUnitVectors( currentOrientations );
         final Matrix yTransposed = y.transpose();
 
         final Property<ResultMapping> bestResult = new Property<ResultMapping>( null );
 
         for ( Permutation permutation : allowablePermutations ) {
             // x == configuration positions
-            Matrix x = matrixFromUnitVectors( permutation.apply( stablePositions ) );
+            Matrix x = matrixFromUnitVectors( permutation.apply( idealOrientations ) );
 
             // compute the rotation matrix
             Matrix rot = computeRotationMatrixWithTranspose( x, yTransposed );
@@ -117,6 +124,14 @@ public class AttractorModel {
             }
         }
         return bestResult.get();
+    }
+
+    public static List<ImmutableVector3D> getOrientations( List<PairGroup> groups ) {
+        return map( groups, new Function1<PairGroup, ImmutableVector3D>() {
+            public ImmutableVector3D apply( PairGroup group ) {
+                return group.position.get().normalized();
+            }
+        } );
     }
 
     private static void dumpMatrix( Matrix m ) {

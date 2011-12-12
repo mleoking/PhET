@@ -76,6 +76,21 @@ public class FunctionalUtils {
         return result;
     }
 
+    // Returns two lists filtered by the predicate. I.e., the first list will contain every element where predicate( element ) == true, and the second list will contain the rest
+    public static <T> Pair<List<T>, List<T>> partition( Collection<T> collection, Function1<? super T, Boolean> predicate ) {
+        List<T> trueResult = new ArrayList<T>();
+        List<T> falseResult = new ArrayList<T>();
+        for ( T t : collection ) {
+            if ( predicate.apply( t ) ) {
+                trueResult.add( t );
+            }
+            else {
+                falseResult.add( t );
+            }
+        }
+        return new Pair<List<T>, List<T>>( trueResult, falseResult );
+    }
+
     // Negate a boolean function
     public static <T> Function1<T, Boolean> negate( final Function1<T, Boolean> predicate ) {
         return new Function1<T, Boolean>() {

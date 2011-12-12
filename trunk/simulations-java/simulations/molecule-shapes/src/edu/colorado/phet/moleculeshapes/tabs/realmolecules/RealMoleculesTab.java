@@ -44,7 +44,7 @@ import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
-import edu.colorado.phet.moleculeshapes.model.VSEPRMoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.VSEPRMolecule;
 import edu.colorado.phet.moleculeshapes.model.VseprConfiguration;
 import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
@@ -361,7 +361,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
                     // compute the mapping from our "ideal" to our "old" molecule
                     List<PairGroup> atoms = new RealMolecule( realMolecule.get() ).getAllNonCentralAtoms();
                     final ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration(
-                            mappingMolecule.getAllNonCentralAtoms(),
+                            AttractorModel.getOrientations( mappingMolecule.getAllNonCentralAtoms() ),
                             FunctionalUtils.map( atoms, new Function1<PairGroup, ImmutableVector3D>() {
                                 public ImmutableVector3D apply( PairGroup pair ) {
                                     return pair.position.get().normalized();
@@ -381,7 +381,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
             final Permutation permutation = mapping.permutation.inverted();
             final List<ImmutableVector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
 
-            setMolecule( new VSEPRMoleculeModel() {{
+            setMolecule( new VSEPRMolecule() {{
                 PairGroup newCentralAtom = new PairGroup( new ImmutableVector3D(), false, false );
                 addCentralAtom( newCentralAtom );
                 for ( int i = 0; i < numRadialAtoms + numRadialLonePairs; i++ ) {
