@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
@@ -54,8 +56,8 @@ public class AttachmentStateMachine {
     protected Vector2D detachDirection = new Vector2D( 0, 1 );
 
     // Offset to use when moving towards attachment sites.  This is used when
-    // the molecule needs to move something other than its center to a
-    // destination.
+    // the molecule attaches to an attachment site at some location other than
+    // its geometric center.
     private Vector2D destinationOffset = new Vector2D( 0, 0 );
 
     //-------------------------------------------------------------------------
@@ -177,8 +179,13 @@ public class AttachmentStateMachine {
             assert asm.attachmentSite != null;
             assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
 
+            // Calculate the location where this biomolecule must be in order
+            // to attach to the attachment site.
+            Point2D destination = new Point2D.Double( attachmentSite.locationProperty.get().getX() - destinationOffset.getX(),
+                                                      attachmentSite.locationProperty.get().getY() - destinationOffset.getY() );
+
             // See if the attachment site has been reached.
-            if ( asm.biomolecule.getPosition().distance( asm.attachmentSite.locationProperty.get() ) < ATTACHED_DISTANCE_THRESHOLD ) {
+            if ( asm.biomolecule.getPosition().distance( destination ) < ATTACHED_DISTANCE_THRESHOLD ) {
                 // This molecule is now at the attachment site, so consider it
                 // attached.
                 asm.setState( asm.attachedState );
