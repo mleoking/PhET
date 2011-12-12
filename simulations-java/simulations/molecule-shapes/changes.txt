@@ -1,3 +1,4 @@
+Fixed "kit" radio button clicking bug
 Added "Basics" support for 2nd tab
 # 1.01.14 (59229) Dec 9, 2011
 12/9/11 dev version for Mac testing

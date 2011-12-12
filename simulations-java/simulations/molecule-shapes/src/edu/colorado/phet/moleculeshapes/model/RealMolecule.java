@@ -72,6 +72,20 @@ public class RealMolecule extends Molecule {
         }
     }
 
+    @Override public void update( float tpf ) {
+        super.update( tpf );
+
+        // angle-based repulsion
+        for ( PairGroup atom : getAtoms() ) {
+            List<PairGroup> neighbors = getNeighbors( atom );
+            if ( neighbors.size() > 1 ) {
+                LocalShape localShape = getLocalShape( atom );
+
+                localShape.applyAngleAttractionRepulsion( tpf );
+            }
+        }
+    }
+
     @Override public LocalShape getLocalShape( PairGroup atom ) {
         return localShapeMap.get( atom );
     }

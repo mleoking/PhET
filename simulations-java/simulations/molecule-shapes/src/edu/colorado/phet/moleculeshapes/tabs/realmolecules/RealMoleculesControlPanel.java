@@ -93,7 +93,10 @@ public class RealMoleculesControlPanel extends PNode {
                     } );
                 }
             } );
-            addChild( new KitSelectionNode<PNode>( selectedKit, new Spacer( 0, 0, 80, 10 ), kits ) {{
+            addChild( new KitSelectionNode<PNode>( selectedKit, new Spacer( 0, 0, 80, 10 ) {{
+                setPickable( false );
+                setChildrenPickable( false );
+            }}, kits ) {{
                 controlHolderNode.setOffset( controlHolderNode.getXOffset(), controlHolderNode.getYOffset() + 100 );
             }} );
         }} ) : new ComboBoxNode<RealMoleculeShape>(

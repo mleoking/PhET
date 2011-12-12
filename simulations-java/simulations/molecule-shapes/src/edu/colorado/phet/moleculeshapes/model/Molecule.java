@@ -60,36 +60,6 @@ public abstract class Molecule {
             group.stepForward( tpf );
             group.attractToIdealDistance( tpf, oldDistance, parentBond );
         }
-
-        if ( isReal() ) {
-            // angle-based repulsion
-            for ( PairGroup atom : getAtoms() ) {
-                List<PairGroup> neighbors = getNeighbors( atom );
-                if ( neighbors.size() > 1 ) {
-                    double error = getLocalShape( atom ).applyAttraction( tpf );
-                    // TODO: add in repulsion for real molecules
-                }
-            }
-        }
-        else {
-            for ( PairGroup atom : getAtoms() ) {
-                if ( getNeighbors( atom ).size() > 1 ) {
-                    // attractive force to the correct position
-                    double error = getLocalShape( atom ).applyAttraction( tpf );
-
-                    // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
-                    double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
-
-                    for ( PairGroup group : nonCentralGroups ) {
-                        for ( PairGroup otherGroup : nonCentralGroups ) {
-                            if ( otherGroup != group && group != getCentralAtom() ) {
-                                group.repulseFrom( otherGroup, tpf, trueLengthsRatioOverride );
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     public List<PairGroup> getAtoms() {
