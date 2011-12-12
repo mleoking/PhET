@@ -19,7 +19,6 @@ import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Line;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
 
@@ -69,20 +68,6 @@ public class LonePairNode extends Node {
         }} );
 
         model.setQueueBucket( Bucket.Transparent ); // allow it to be transparent
-
-        Line line = new Line( new Vector3f(), JMEUtils.convertVector( ImmutableVector3D.Y_UNIT.times( 15 ) ) ) {{
-//            position.addObserver( new SimpleObserver() {
-//                public void update() {
-//                    updateGeometry( new Vector3f(  ), new Vector3f(  ) );
-//                }
-//            } );
-        }};
-        attachChild( new Geometry( "Line", line ) {{
-            setMaterial( new Material( assetManager, "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-                setColor( "Color", ColorRGBA.Green );
-                getAdditionalRenderState().setDepthWrite( false );
-            }} );
-        }} );
 
         // update based on electron pair position
         position.addObserver( new SimpleObserver() {

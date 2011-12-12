@@ -77,6 +77,11 @@ public class AttractorModel {
             if ( !pair.position.get().equals( new ImmutableVector3D() ) && aroundCenterAtom ) { // TODO: better way of not moving the center atom?
                 pair.position.set( pair.position.get().plus( delta.times( 2.0 * timeElapsed ) ) );
             }
+
+            // if we are a terminal lone pair, instantly move us
+            if ( !pair.position.get().equals( new ImmutableVector3D() ) && !aroundCenterAtom ) {
+                pair.position.set( targetLocation );
+            }
         }
 
         double error = Math.sqrt( totalDeltaMagnitude );
