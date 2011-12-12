@@ -20,7 +20,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Wand
  *
  * @author John Blanco
  */
-public class TranscriptionFactorAttachmentStateMachine extends AttachmentStateMachine {
+public class TranscriptionFactorAttachmentStateMachine extends GenericAttachmentStateMachine {
 
     private static final Random RAND = new Random();
 

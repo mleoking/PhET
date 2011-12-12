@@ -10,7 +10,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Stil
  *
  * @author John Blanco
  */
-public class ProteinAttachmentStateMachine extends AttachmentStateMachine {
+public class ProteinAttachmentStateMachine extends GenericAttachmentStateMachine {
 
     public ProteinAttachmentStateMachine( MobileBiomolecule biomolecule ) {
         super( biomolecule );
