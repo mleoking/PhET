@@ -22,6 +22,7 @@ public class JMEPropertyRadioButton<T> extends JRadioButton {
         // update the model when the check box changes
         this.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                setSelected( true );
                 JMEUtils.invoke( new Runnable() {
                     public void run() {
                         // TODO: add notification for sim information?
