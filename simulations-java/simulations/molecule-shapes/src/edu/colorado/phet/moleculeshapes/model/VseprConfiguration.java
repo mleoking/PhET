@@ -119,8 +119,14 @@ public class VseprConfiguration {
         }};
     }
 
-    // NOTE: just for comparing to bonds. TODO: deprecated
-    public ResultMapping getIdealRotationToPositions( List<PairGroup> groups ) {
+    // for finding ideal rotations including matching for "bond-vs-bond" and "lone pair-vs-lone pair"
+    public ResultMapping getIdealGroupRotationToPositions( List<PairGroup> groups ) {
+        assert ( x + e ) == groups.size();
+        return AttractorModel.findClosestMatchingConfiguration( AttractorModel.getOrientations( groups ), geometry.unitVectors, LocalShape.vseprPermutations( groups ) );
+    }
+
+    // for finding ideal rotations exclusively using the "bonded" portions
+    public ResultMapping getIdealBondRotationToPositions( List<PairGroup> groups ) {
         // ideal vectors excluding lone pairs (just for the bonds)
         assert ( x ) == groups.size();
         List<ImmutableVector3D> idealModelBondVectors = getIdealBondUnitVectors();
