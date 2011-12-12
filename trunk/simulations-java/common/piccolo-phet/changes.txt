@@ -1,3 +1,4 @@
+12/12/11 Fixed PhetTabbedPane's TabPane handling of tab removal for visibility and re-layout
 12/6/11 #3170, change ConductivityTesterNode so that separate sim-sharing args can be provided to positive and negative probes
 12/5/11 #3170, #3175 add sim-sharing to conductivity tester by converting probe drag handlers to subclass of SimSharingDragSequenceHandler
 12/5/11 #3175 switch to subclassing for sim-sharing drag handlers
