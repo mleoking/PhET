@@ -5,9 +5,6 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
 
 /**
  * A molecule that behaves with a behavior that doesn't discriminate between bond or atom types (only lone pairs vs bonds)
@@ -34,26 +31,28 @@ public class VSEPRMolecule extends Molecule {
     @Override public void update( float tpf ) {
         super.update( tpf );
 
-        List<PairGroup> nonCentralGroups = filter( getGroups(), new Function1<PairGroup, Boolean>() {
-            public Boolean apply( PairGroup group ) {
-                return group != getCentralAtom();
-            }
-        } );
+        List<PairGroup> radialGroups = getRadialGroups();
 
         for ( PairGroup atom : getAtoms() ) {
             if ( getNeighbors( atom ).size() > 1 ) {
-                // attractive force to the correct position
-                double error = getLocalShape( atom ).applyAttraction( tpf );
+                if ( atom.isCentralAtom() ) {
+                    // attractive force to the correct position
+                    double error = getLocalShape( atom ).applyAttraction( tpf );
 
-                // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
-                double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
+                    // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
+                    double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
 
-                for ( PairGroup group : nonCentralGroups ) {
-                    for ( PairGroup otherGroup : nonCentralGroups ) {
-                        if ( otherGroup != group && group != getCentralAtom() ) {
-                            group.repulseFrom( otherGroup, tpf, trueLengthsRatioOverride );
+                    for ( PairGroup group : radialGroups ) {
+                        for ( PairGroup otherGroup : radialGroups ) {
+                            if ( otherGroup != group && group != getCentralAtom() ) {
+                                group.repulseFrom( otherGroup, tpf, trueLengthsRatioOverride );
+                            }
                         }
                     }
+                }
+                else {
+                    // handle terminal lone pairs gracefully
+                    getLocalShape( atom ).applyAngleAttractionRepulsion( tpf );
                 }
             }
         }

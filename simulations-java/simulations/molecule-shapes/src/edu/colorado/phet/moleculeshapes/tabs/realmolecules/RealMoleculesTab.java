@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
@@ -388,8 +387,16 @@ public class RealMoleculesTab extends MoleculeViewTab {
                     }
                     else {
                         // we need to dig the bond order out of the mapping molecule, and we need to pick the right one (thus the permutation being applied, at an offset)
-                        Bond<PairGroup> bond = mappingMolecule.getParentBond( mappingMolecule.getRadialAtoms().get( permutation.apply( i ) - numRadialLonePairs ) );
-                        addGroup( new PairGroup( unitVector.times( bond.length * PairGroup.REAL_TMP_SCALE ), false, false ), newCentralAtom, bond.order, bond.length );
+                        PairGroup oldRadialGroup = mappingMolecule.getRadialAtoms().get( permutation.apply( i ) - numRadialLonePairs );
+                        Bond<PairGroup> bond = mappingMolecule.getParentBond( oldRadialGroup );
+                        PairGroup group = new PairGroup( unitVector.times( bond.length * PairGroup.REAL_TMP_SCALE ), false, false );
+                        addGroup( group, newCentralAtom, bond.order, bond.length );
+
+                        addTerminalLonePairs( group, FunctionalUtils.count( mappingMolecule.getNeighbors( oldRadialGroup ), new Function1<PairGroup, Boolean>() {
+                            public Boolean apply( PairGroup group ) {
+                                return group.isLonePair;
+                            }
+                        } ) );
                     }
                 }
             }} );
