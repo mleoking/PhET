@@ -1,6 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.common.view;
 
+import java.awt.Color;
+import java.awt.Font;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -11,6 +15,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class AbstractFractionsCanvas extends PhetPCanvas {
+
+    public static final Font CONTROL_FONT = new PhetFont( 20 );
+    public static final Color FILL_COLOR = new Color( 140, 198, 63 );
 
     //Stage where nodes are added and scaled up and down
     private final PNode rootNode;

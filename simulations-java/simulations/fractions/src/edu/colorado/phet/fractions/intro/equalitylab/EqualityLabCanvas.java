@@ -2,10 +2,11 @@
 package edu.colorado.phet.fractions.intro.equalitylab;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.intro.intro.view.RepresentationArea;
@@ -18,9 +19,6 @@ import edu.colorado.phet.fractions.intro.intro.view.RepresentationControlPanel;
  */
 public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
-    public static final Font CONTROL_FONT = new PhetFont( 20 );
-    public static final Color FILL_COLOR = new Color( 140, 198, 63 );
-
     public EqualityLabCanvas( final EqualityLabModel model ) {
 
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation ) {{
@@ -32,6 +30,12 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             setOffset( INSET, representationControlPanel.getFullBounds().getMaxY() + 100 );
         }};
         addChild( representationArea );
+
+        addChild( new ControlPanelNode( new PropertyCheckBox( "Separate", new BooleanProperty( true ) ) {{
+            setFont( CONTROL_FONT );
+        }} ) {{
+            setOffset( representationControlPanel.getFullBounds().getMaxX() + INSET, representationControlPanel.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+        }} );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
             public void reset() {
