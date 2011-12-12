@@ -1,3 +1,4 @@
+Removed "study" versions (for now). OK'ed with SR
 Slight change to 2nd tab scale (compromise between small molecule angle visibility and large molecule terminal lone pair visibility)
 Added terminal lone pairs
 A few other bond length fixes
