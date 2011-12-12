@@ -37,7 +37,8 @@ public class SponsorPanel extends GridPanel {
 
         // property values, optional ones are null
         String imageResourceName = properties.getImageResourceName();
-        String url = properties.getURL();
+        String actualURL = properties.getActualURL();
+        String visibleURL = properties.getVisibleURL();
         String sinceDate = properties.getSinceDate();
 
         // layout components, some of which are optional
@@ -55,9 +56,9 @@ public class SponsorPanel extends GridPanel {
             add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( imageResourceName ) ) ) );
         }
         // url
-        if ( url != null ) {
+        if ( actualURL != null && visibleURL != null ) {
             add( Box.createVerticalStrut( 15 ) );
-            add( createInteractiveHTMLPane( url, new PhetFont( 14 ) ) );
+            add( createInteractiveHTMLPane( actualURL, visibleURL, new PhetFont( 14 ) ) );
         }
         add( Box.createVerticalStrut( 15 ) );
         // since date
@@ -68,8 +69,8 @@ public class SponsorPanel extends GridPanel {
         }
     }
 
-    private static InteractiveHTMLPane createInteractiveHTMLPane( String url, Font font ) {
-        return new InteractiveHTMLPane( HTMLUtils.createStyledHTMLFromFragment( "<a href=\"http://" + url + "\" target=\"_blank\">" + url, font ) ) {{
+    private static InteractiveHTMLPane createInteractiveHTMLPane( String actualURL, String visibleURL, Font font ) {
+        return new InteractiveHTMLPane( HTMLUtils.createStyledHTMLFromFragment( "<a href=\"" + actualURL + "\" target=\"_blank\">" + visibleURL, font ) ) {{
             setOpaque( false );
         }};
     }
