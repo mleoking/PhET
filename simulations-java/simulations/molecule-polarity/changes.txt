@@ -1,3 +1,4 @@
+12/11/11 #3166, enable sponsor prototype in molecule-polarity-build.properties
 12/9/11 #3166, disable sponsor prototype in molecule-polarity-build.properties
 # 1.02.01 (59227) Dec 9, 2011
 12/9/11 #3166, enable sponsor prototype in molecule-polarity-build.properties
