@@ -7,11 +7,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -20,6 +26,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SponsorDialog extends JDialog {
+
+    public static final String SIMSHARING_OBJECT = "sponsorDialog";
 
     private static final int DISPLAY_TIME = 5; // seconds
 
@@ -34,6 +42,7 @@ public class SponsorDialog extends JDialog {
         addMouseListener( new MouseAdapter() {
             @Override
             public void mousePressed( MouseEvent event ) {
+                SimSharingEvents.sendEvent( SIMSHARING_OBJECT, Actions.MOUSE_PRESSED );
                 dispose();
             }
         } );
@@ -47,12 +56,21 @@ public class SponsorDialog extends JDialog {
 
         if ( startDisposeTimer ) {
             // Dispose of the dialog after DISPLAY_TIME seconds. Take care to call dispose in the Swing thread.
-            Timer timer = new Timer( DISPLAY_TIME * 1000, new ActionListener() {
+            final Timer timer = new Timer( DISPLAY_TIME * 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    dialog.dispose();
+                    if ( dialog.isDisplayable() ) {
+                        //TODO why is this sent after dialog is closed via window dressing?
+                        SimSharingEvents.sendSystemEvent( Actions.CLOSED, Parameter.param( Parameters.WINDOW, SIMSHARING_OBJECT ) );
+                        dialog.dispose();
+                    }
                 }
             } );
             timer.setRepeats( false );
+            dialog.addWindowListener( new WindowAdapter() {
+                @Override public void windowClosed( WindowEvent e ) {
+                    timer.stop();
+                }
+            } );
             timer.start();
         }
         return dialog;

@@ -11,6 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 
 /**
  * Menu item for displaying simulation sponsor.
@@ -30,6 +32,7 @@ public class SponsorMenuItem extends JMenuItem {
                     dialog.addWindowListener( new WindowAdapter() {
                         // called when the close button in the dialog's window dressing is clicked
                         public void windowClosing( WindowEvent e ) {
+                            SimSharingEvents.sendEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.CLOSING ); //TODO why is this never sent when dialog is closed via window dressing?
                             dialog.dispose();
                         }
 
