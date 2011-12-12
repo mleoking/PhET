@@ -2,7 +2,6 @@
 package edu.colorado.phet.moleculeshapes.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.Set;
 
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
-import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
@@ -51,21 +49,7 @@ public class RealMolecule extends Molecule {
             addGroup( group, getCentralAtom(), bond.order, bondLength );
             elementsUsed.add( atom.getElement() );
 
-            // spacing of electron pairs around the atom
-            VseprConfiguration pairConfig = new VseprConfiguration( 1, atom.lonePairCount );
-            List<ImmutableVector3D> lonePairOrientations = pairConfig.geometry.unitVectors;
-            ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration(
-                    // last vector should be lowest energy (best bond if ambiguous), and is negated for the proper coordinate frame
-                    Arrays.asList( normalizedPosition ),
-                    Arrays.asList( lonePairOrientations.get( lonePairOrientations.size() - 1 ).negated() ),
-                    Arrays.asList( Permutation.identity( 1 ) )
-            );
-
-            for ( int i = 0; i < atom.lonePairCount; i++ ) {
-                // mapped into our coordinates
-                ImmutableVector3D lonePairOrientation = mapping.rotateVector( lonePairOrientations.get( i ) );
-                addGroup( new PairGroup( atomLocation.plus( lonePairOrientation.times( PairGroup.LONE_PAIR_DISTANCE ) ), true, false ), group, 0 );
-            }
+            addTerminalLonePairs( group, atom.lonePairCount );
         }
 
         // all of the ideal vectors (including for lone pairs)
