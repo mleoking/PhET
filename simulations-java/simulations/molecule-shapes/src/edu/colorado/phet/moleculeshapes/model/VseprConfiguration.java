@@ -119,11 +119,11 @@ public class VseprConfiguration {
         }};
     }
 
-    public ResultMapping getIdealRotationToPositions( Molecule molecule ) {
+    public ResultMapping getIdealRotationToPositions( Molecule molecule ) { // TODO change this to be more general, and use the LocalShape method
         // ideal vectors excluding lone pairs (just for the bonds)
         List<ImmutableVector3D> idealModelBondVectors = getIdealBondUnitVectors();
 
-        return AttractorModel.findClosestMatchingConfiguration( molecule.getAllNonCentralAtoms(), idealModelBondVectors, Permutation.permutations( idealModelBondVectors.size() ) );
+        return AttractorModel.findClosestMatchingConfiguration( AttractorModel.getOrientations( molecule.getAllNonCentralAtoms() ), idealModelBondVectors, Permutation.permutations( idealModelBondVectors.size() ) );
     }
 
     /*---------------------------------------------------------------------------*

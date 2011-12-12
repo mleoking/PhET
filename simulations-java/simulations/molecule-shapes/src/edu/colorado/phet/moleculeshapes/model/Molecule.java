@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
-import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.event.CompositeNotifier;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -42,9 +42,7 @@ public abstract class Molecule {
     public Molecule() {
     }
 
-    public abstract List<ImmutableVector3D> getIdealPositionVectors();
-
-    public abstract List<Permutation> getAllowablePositionPermutations();
+    public abstract LocalShape getLocalShape( PairGroup atom );
 
     public void update( final float tpf ) {
         List<PairGroup> nonCentralGroups = filter( groups, new Function1<PairGroup, Boolean>() {
@@ -63,25 +61,31 @@ public abstract class Molecule {
             group.attractToIdealDistance( tpf, oldDistance, parentBond );
         }
 
-        // attractive force to the correct position
-        double error = AttractorModel.applyAttractorForces( concat( getRadialLonePairs(), getRadialAtoms() ), tpf, getIdealPositionVectors(), getAllowablePositionPermutations() );
-
-        // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
-        double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
-
-        // repulsion forces
         if ( isReal() ) {
             // angle-based repulsion
             for ( PairGroup atom : getAtoms() ) {
-                // handle areas around each atom separately
-
+                List<PairGroup> neighbors = getNeighbors( atom );
+                if ( neighbors.size() > 1 ) {
+                    double error = getLocalShape( atom ).applyAttraction( tpf );
+                    // TODO: add in repulsion for real molecules
+                }
             }
         }
         else {
-            for ( PairGroup group : nonCentralGroups ) {
-                for ( PairGroup otherGroup : nonCentralGroups ) {
-                    if ( otherGroup != group ) {
-                        group.repulseFrom( otherGroup, tpf, trueLengthsRatioOverride );
+            for ( PairGroup atom : getAtoms() ) {
+                if ( getNeighbors( atom ).size() > 1 ) {
+                    // attractive force to the correct position
+                    double error = getLocalShape( atom ).applyAttraction( tpf );
+
+                    // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
+                    double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
+
+                    for ( PairGroup group : nonCentralGroups ) {
+                        for ( PairGroup otherGroup : nonCentralGroups ) {
+                            if ( otherGroup != group && group != getCentralAtom() ) {
+                                group.repulseFrom( otherGroup, tpf, trueLengthsRatioOverride );
+                            }
+                        }
                     }
                 }
             }
@@ -296,5 +300,16 @@ public abstract class Molecule {
         else {
             return new Some<Float>( (float) PairGroup.BONDED_PAIR_DISTANCE );
         }
+    }
+
+    public LocalShape getLocalVSEPRShape( PairGroup atom ) {
+        List<PairGroup> groups = LocalShape.sortedLonePairsFirst( getNeighbors( atom ) );
+        int numLonePairs = FunctionalUtils.count( groups, new Function1<PairGroup, Boolean>() {
+            public Boolean apply( PairGroup group ) {
+                return group.isLonePair;
+            }
+        } );
+        int numAtoms = groups.size() - numLonePairs;
+        return new LocalShape( LocalShape.vseprPermutations( groups ), atom, groups, new VseprConfiguration( numAtoms, numLonePairs ).geometry.unitVectors );
     }
 }
