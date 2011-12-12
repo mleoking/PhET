@@ -78,9 +78,10 @@ public class AttractorModel {
                 pair.position.set( pair.position.get().plus( delta.times( 2.0 * timeElapsed ) ) );
             }
 
-            // if we are a terminal lone pair, instantly move us
+            // if we are a terminal lone pair, move us just with this but much more quickly
             if ( !pair.position.get().equals( new ImmutableVector3D() ) && !aroundCenterAtom ) {
-                pair.position.set( targetLocation );
+//                pair.position.set( targetLocation );
+                pair.position.set( pair.position.get().plus( delta.times( Math.min( 20.0 * timeElapsed, 1 ) ) ) );
             }
         }
 
