@@ -2,11 +2,9 @@
 package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -21,9 +19,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class FractionsIntroCanvas extends AbstractFractionsCanvas {
-
-    public static final Font CONTROL_FONT = new PhetFont( 20 );
-    public static final Color FILL_COLOR = new Color( 140, 198, 63 );
 
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
