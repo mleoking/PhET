@@ -34,7 +34,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  - display dialog only if required properties are present
  - i18n
  - display after KSU Credits window closes
- - support optional font sizes/styles in properties file?
  - delete -sponsorPrototype program arg for production
  */
 
@@ -52,37 +51,21 @@ public class SponsorDialog extends JDialog {
     private SponsorDialog( PhetApplicationConfig config, Frame parent ) {
         super( parent );
         setResizable( false );
-        setTitle( "Sponsor" );
 
         // properties file
         Properties properties = config.getResourceLoader().getProperties( PROPERTIES_FILE_NAME );
 
         // components
-        JLabel label = new JLabel( "This simulation is sponsored by..." ) {{
+        JLabel label = new JLabel( "Sponsored by" ) {{
             setFont( new PhetFont( 18 ) );
-        }};
-        JLabel name = new JLabel( properties.getProperty( config.getFlavor() + ".name" ) ) {{
-            setFont( new PhetFont( Font.BOLD, 28 ) );
         }};
         JLabel logo = new JLabel( new ImageIcon( config.getResourceLoader().getImage( properties.getProperty( config.getFlavor() + ".logo" ) ) ) );
         InteractiveHTMLPane url = createInteractiveHTMLPane( properties.getProperty( config.getFlavor() + ".url" ), new PhetFont( 14 ) );
-        JLabel since = new JLabel( "since " + properties.getProperty( config.getFlavor() + ".since" ) ) {{
-            setFont( new PhetFont( 14 ) );
+        JLabel since = new JLabel( "(since " + properties.getProperty( config.getFlavor() + ".since" ) + ")" ) {{
+            setFont( new PhetFont( 10 ) );
         }};
 
         // layout
-        GridPanel nameUrlPanel = new GridPanel();
-        nameUrlPanel.setGridX( 0 ); // vertical
-        nameUrlPanel.setAnchor( Anchor.WEST );
-        nameUrlPanel.add( name );
-        nameUrlPanel.add( Box.createVerticalStrut( 6 ) );
-        nameUrlPanel.add( url );
-        GridPanel logoPanel = new GridPanel();
-        logoPanel.setGridY( 0 ); // horizontal
-        logoPanel.setAnchor( Anchor.CENTER );
-        logoPanel.add( logo );
-        logoPanel.add( Box.createHorizontalStrut( 10 ) );
-        logoPanel.add( nameUrlPanel );
         GridPanel mainPanel = new GridPanel();
         int xMargin = 40;
         int yMargin = 20;
@@ -91,7 +74,9 @@ public class SponsorDialog extends JDialog {
         mainPanel.setAnchor( Anchor.CENTER );
         mainPanel.add( label );
         mainPanel.add( Box.createVerticalStrut( 15 ) );
-        mainPanel.add( logoPanel );
+        mainPanel.add( logo );
+        mainPanel.add( Box.createVerticalStrut( 15 ) );
+        mainPanel.add( url );
         mainPanel.add( Box.createVerticalStrut( 15 ) );
         mainPanel.add( since );
 
@@ -129,7 +114,7 @@ public class SponsorDialog extends JDialog {
     // Should the dialog be displayed?
     public static boolean shouldShow( PhetApplicationConfig config ) {
         boolean isFeatureEnabled = config.isSponsorFeatureEnabled();
-        boolean hasPropertiesFile = config.getResourceLoader().getProperties( PROPERTIES_FILE_NAME ).getProperty( config.getFlavor() + ".name" ) != null;
+        boolean hasPropertiesFile = config.getResourceLoader().getProperties( PROPERTIES_FILE_NAME ).getProperty( config.getFlavor() + ".logo" ) != null;
         boolean hasProgramArg = config.hasCommandLineArg( "-sponsorPrototype" ); //TODO delete this after prototyping
         return isFeatureEnabled && hasPropertiesFile && hasProgramArg;
     }
