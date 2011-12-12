@@ -25,7 +25,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPoly
  *
  * @author John Blanco
  */
-public class RnaPolymeraseAttachmentStateMachine extends AttachmentStateMachine {
+public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateMachine {
 
     private static final Random RAND = new Random();
 

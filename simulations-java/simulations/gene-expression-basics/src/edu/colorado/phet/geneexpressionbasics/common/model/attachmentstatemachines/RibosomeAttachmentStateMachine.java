@@ -12,7 +12,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosom
  *
  * @author John Blanco
  */
-public class RibosomeAttachmentStateMachine extends AttachmentStateMachine {
+public class RibosomeAttachmentStateMachine extends GenericAttachmentStateMachine {
 
     // Scalar velocity for transcription.
     private static final double RNA_TRANSLATION_RATE = 25; // Picometers per second.

@@ -23,57 +23,59 @@ public abstract class AttachmentState {
 
     public abstract void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt );
 
-    public abstract void entered( AttachmentStateMachine asm );
+    public abstract void entered( AttachmentStateMachine enclosingStateMachine );
 
     public static class GenericUnattachedAndAvailableState extends AttachmentState {
 
-        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+        @Override public void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt ) {
+            GenericAttachmentStateMachine gsm = (GenericAttachmentStateMachine) enclosingStateMachine;
 
             // Verify that state is consistent.
-            assert asm.attachmentSite == null;
+            assert gsm.attachmentSite == null;
 
             // Make the biomolecule look for attachments.
-            asm.attachmentSite = asm.biomolecule.proposeAttachments();
-            if ( asm.attachmentSite != null ) {
+            gsm.attachmentSite = gsm.biomolecule.proposeAttachments();
+            if ( gsm.attachmentSite != null ) {
                 // An attachment proposal was accepted, so start heading towards
                 // the attachment site.
-                asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( asm.attachmentSite.locationProperty,
-                                                                                                asm.biomolecule.motionBoundsProperty,
-                                                                                                asm.destinationOffset ) );
-                asm.setState( asm.movingTowardsAttachmentState );
+                gsm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
+                                                                                                gsm.biomolecule.motionBoundsProperty,
+                                                                                                gsm.destinationOffset ) );
+                gsm.setState( gsm.movingTowardsAttachmentState );
 
                 // Mark the attachment site as being in use.
-                asm.attachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( asm.biomolecule ) );
+                gsm.attachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( gsm.biomolecule ) );
             }
         }
 
-        @Override public void entered( AttachmentStateMachine asm ) {
-            asm.biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( asm.biomolecule.motionBoundsProperty ) );
+        @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
+            enclosingStateMachine.biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( enclosingStateMachine.biomolecule.motionBoundsProperty ) );
         }
     }
 
     public static class GenericMovingTowardsAttachmentState extends AttachmentState {
 
-        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+        @Override public void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt ) {
+            GenericAttachmentStateMachine gsm = (GenericAttachmentStateMachine) enclosingStateMachine;
 
             // Verify that state is consistent.
-            assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == asm.biomolecule;
+            assert gsm.attachmentSite != null;
+            assert gsm.attachmentSite.attachedOrAttachingMolecule.get().get() == gsm.biomolecule;
 
             // Calculate the location where this biomolecule must be in order
             // to attach to the attachment site.
-            Point2D destination = new Point2D.Double( asm.attachmentSite.locationProperty.get().getX() - asm.destinationOffset.getX(),
-                                                      asm.attachmentSite.locationProperty.get().getY() - asm.destinationOffset.getY() );
+            Point2D destination = new Point2D.Double( gsm.attachmentSite.locationProperty.get().getX() - gsm.destinationOffset.getX(),
+                                                      gsm.attachmentSite.locationProperty.get().getY() - gsm.destinationOffset.getY() );
 
             // See if the attachment site has been reached.
-            if ( asm.biomolecule.getPosition().distance( destination ) < ATTACHED_DISTANCE_THRESHOLD ) {
+            if ( gsm.biomolecule.getPosition().distance( destination ) < ATTACHED_DISTANCE_THRESHOLD ) {
                 // This molecule is now at the attachment site, so consider it
                 // attached.
-                asm.setState( asm.attachedState );
+                gsm.setState( gsm.attachedState );
             }
         }
 
-        @Override public void entered( AttachmentStateMachine asm ) {
+        @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             // No initialization needed.
         }
     }
@@ -88,24 +90,25 @@ public abstract class AttachmentState {
 
         private double attachCountdownTime = DEFAULT_ATTACH_TIME;
 
-        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+        @Override public void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt ) {
+            GenericAttachmentStateMachine gsm = (GenericAttachmentStateMachine) enclosingStateMachine;
 
             // Verify that state is consistent.
-            assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == asm.biomolecule;
+            assert gsm.attachmentSite != null;
+            assert gsm.attachmentSite.attachedOrAttachingMolecule.get().get() == gsm.biomolecule;
 
             // See if it is time to detach.
             attachCountdownTime -= dt;
             if ( attachCountdownTime <= 0 ) {
                 // Detach.
-                asm.detach();
-                asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), asm.biomolecule.motionBoundsProperty ) );
+                gsm.detach();
+                gsm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), gsm.biomolecule.motionBoundsProperty ) );
             }
         }
 
-        @Override public void entered( AttachmentStateMachine asm ) {
+        @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             attachCountdownTime = DEFAULT_ATTACH_TIME;
-            asm.biomolecule.setMotionStrategy( new FollowAttachmentSite( asm.attachmentSite ) );
+            enclosingStateMachine.biomolecule.setMotionStrategy( new FollowAttachmentSite( enclosingStateMachine.attachmentSite ) );
         }
     }
 
@@ -115,20 +118,22 @@ public abstract class AttachmentState {
 
         private double detachCountdownTime = DEFAULT_DETACH_TIME;
 
-        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+        @Override public void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt ) {
+            GenericAttachmentStateMachine gsm = (GenericAttachmentStateMachine) enclosingStateMachine;
+
 
             // Verify that state is consistent.
-            assert asm.attachmentSite == null;
+            assert gsm.attachmentSite == null;
 
             // See if we've been detached long enough.
             detachCountdownTime -= dt;
             if ( detachCountdownTime <= 0 ) {
                 // Move to the unattached-and-available state.
-                asm.setState( asm.unattachedButUnavailableState );
+                gsm.setState( gsm.unattachedButUnavailableState );
             }
         }
 
-        @Override public void entered( AttachmentStateMachine asm ) {
+        @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             detachCountdownTime = DEFAULT_DETACH_TIME;
         }
     }

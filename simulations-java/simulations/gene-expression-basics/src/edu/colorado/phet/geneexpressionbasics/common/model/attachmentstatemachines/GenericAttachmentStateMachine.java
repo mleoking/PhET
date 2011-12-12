@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 
 /**
  * Generic attachment state machine - just implements basic behavior.
@@ -14,7 +16,31 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
  */
 public class GenericAttachmentStateMachine extends AttachmentStateMachine {
 
+    // States used by this state machine.  These are often set by subclasses
+    // to non-default values in order to change the default behavior.
+    protected AttachmentState unattachedAndAvailableState = new AttachmentState.GenericUnattachedAndAvailableState();
+    protected AttachmentState attachedState = new AttachmentState.GenericAttachedState();
+    protected AttachmentState movingTowardsAttachmentState = new AttachmentState.GenericMovingTowardsAttachmentState();
+    protected AttachmentState unattachedButUnavailableState = new AttachmentState.GenericUnattachedButUnavailableState();
+
     public GenericAttachmentStateMachine( MobileBiomolecule biomolecule ) {
         super( biomolecule );
+        setState( unattachedAndAvailableState );
+    }
+
+    @Override public void detach() {
+        assert attachmentSite != null; // Verify internal state is consistent.
+        attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+        attachmentSite = null;
+        biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( detachDirection, biomolecule.motionBoundsProperty ) );
+        setState( unattachedButUnavailableState );
+    }
+
+    @Override public void forceImmediateUnattached() {
+        if ( attachmentSite != null ) {
+            attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+        }
+        attachmentSite = null;
+        setState( unattachedAndAvailableState );
     }
 }

@@ -3,10 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachi
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 
 /**
  * Base class for the attachment state machines that define how the various
@@ -32,13 +30,6 @@ public abstract class AttachmentStateMachine {
     // attached to this point or moving towards attachment with it.
     protected AttachmentSite attachmentSite = null;
 
-    // States used by this state machine.  These are often set by subclasses
-    // to non-default values in order to change the default behavior.
-    protected AttachmentState unattachedAndAvailableState = new AttachmentState.GenericUnattachedAndAvailableState();
-    protected AttachmentState attachedState = new AttachmentState.GenericAttachedState();
-    protected AttachmentState movingTowardsAttachmentState = new AttachmentState.GenericMovingTowardsAttachmentState();
-    protected AttachmentState unattachedButUnavailableState = new AttachmentState.GenericUnattachedButUnavailableState();
-
     // Current attachment state.  Changes with each state transition.
     private AttachmentState attachmentState;
 
@@ -57,7 +48,6 @@ public abstract class AttachmentStateMachine {
 
     public AttachmentStateMachine( MobileBiomolecule biomolecule ) {
         this.biomolecule = biomolecule;
-        setState( unattachedAndAvailableState );
     }
 
     //-------------------------------------------------------------------------
@@ -71,29 +61,18 @@ public abstract class AttachmentStateMachine {
 
     /**
      * Detach the biomolecule from any current attachments.  This will cause
-     * the molecule to go into the unattached-bun-unavailable state for some
+     * the molecule to go into the unattached-but-unavailable state for some
      * period of time, then it will become available again.
      */
-    public void detach() {
-        assert attachmentSite != null; // Verify internal state is consistent.
-        attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
-        attachmentSite = null;
-        biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( detachDirection, biomolecule.motionBoundsProperty ) );
-        setState( unattachedButUnavailableState );
-    }
+    public abstract void detach();
+
 
     /**
      * Move immediately into the unattached-and-available state.  This is
      * generally done only when the user has grabbed the associated molecule.
      * Calling this when already in this state is harmless.
      */
-    public void forceImmediateUnattached() {
-        if ( attachmentSite != null ) {
-            attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
-        }
-        attachmentSite = null;
-        setState( unattachedAndAvailableState );
-    }
+    public abstract void forceImmediateUnattached();
 
     /**
      * Set a new attachment state.  This calls the "entered" method, so this
