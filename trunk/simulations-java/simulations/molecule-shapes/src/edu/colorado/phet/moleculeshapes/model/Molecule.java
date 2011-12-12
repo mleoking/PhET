@@ -31,10 +31,6 @@ public abstract class Molecule {
 
     private PairGroup centralAtom; // act like this is final.
 
-    // TODO: remove the multipliers from this part of the model
-    protected float repulsionMultiplier = 1;
-    protected float attractionMultiplier = 1;
-
     public final Notifier<Bond<PairGroup>> onBondAdded = new Notifier<Bond<PairGroup>>();
     public final Notifier<Bond<PairGroup>> onBondRemoved = new Notifier<Bond<PairGroup>>();
     public final CompositeNotifier<Bond<PairGroup>> onBondChanged = new CompositeNotifier<Bond<PairGroup>>( onBondAdded, onBondRemoved );
@@ -68,19 +64,36 @@ public abstract class Molecule {
         }
 
         // attractive force to the correct position
-        double error = AttractorModel.applyAttractorForces( concat( getRadialLonePairs(), getRadialAtoms() ), tpf * attractionMultiplier, getIdealPositionVectors(), getAllowablePositionPermutations() );
+        double error = AttractorModel.applyAttractorForces( concat( getRadialLonePairs(), getRadialAtoms() ), tpf, getIdealPositionVectors(), getAllowablePositionPermutations() );
 
         // factor that basically states "if we are close to an ideal state, force the coulomb force to ignore differences between bonds and lone pairs based on their distance"
         double trueLengthsRatioOverride = Math.max( 0, Math.min( 1, Math.log( error + 1 ) - 0.5 ) );
 
         // repulsion forces
-        for ( PairGroup group : nonCentralGroups ) {
-            for ( PairGroup otherGroup : nonCentralGroups ) {
-                if ( otherGroup != group ) {
-                    group.repulseFrom( otherGroup, tpf * repulsionMultiplier, trueLengthsRatioOverride );
+        if ( isReal() ) {
+            // angle-based repulsion
+            for ( PairGroup atom : getAtoms() ) {
+                // handle areas around each atom separately
+
+            }
+        }
+        else {
+            for ( PairGroup group : nonCentralGroups ) {
+                for ( PairGroup otherGroup : nonCentralGroups ) {
+                    if ( otherGroup != group ) {
+                        group.repulseFrom( otherGroup, tpf, trueLengthsRatioOverride );
+                    }
                 }
             }
         }
+    }
+
+    public List<PairGroup> getAtoms() {
+        return filter( getGroups(), new Function1<PairGroup, Boolean>() {
+            public Boolean apply( PairGroup group ) {
+                return !group.isLonePair;
+            }
+        } );
     }
 
     // the number of surrounding pair groups

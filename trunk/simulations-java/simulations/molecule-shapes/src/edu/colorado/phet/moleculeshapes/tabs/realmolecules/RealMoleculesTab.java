@@ -42,7 +42,7 @@ import edu.colorado.phet.moleculeshapes.model.AttractorModel;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.colorado.phet.moleculeshapes.model.RealMoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.colorado.phet.moleculeshapes.model.RealMoleculeShape;
 import edu.colorado.phet.moleculeshapes.model.VSEPRMoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.VseprConfiguration;
@@ -161,7 +161,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
 
         // TODO: improve initialization here
         RealMoleculeShape startingMolecule = RealMoleculeShape.TAB_2_MOLECULES[0];
-        RealMoleculeModel startingMoleculeModel = new RealMoleculeModel( startingMolecule );
+        RealMolecule startingMoleculeModel = new RealMolecule( startingMolecule );
         setMolecule( startingMoleculeModel );
         realMolecule.set( startingMolecule );
     }
@@ -346,7 +346,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
         final Molecule mappingMolecule;
         if ( switchedRealMolecule ) {
             // rebuild from scratch
-            mappingMolecule = new RealMoleculeModel( realMolecule.get() );
+            mappingMolecule = new RealMolecule( realMolecule.get() );
         }
         else {
             // base the rotation on our original
@@ -354,12 +354,12 @@ public class RealMoleculesTab extends MoleculeViewTab {
         }
 
         if ( showRealView.get() ) {
-            setMolecule( new RealMoleculeModel( realMolecule.get() ) {{
+            setMolecule( new RealMolecule( realMolecule.get() ) {{
                 if ( !switchedRealMolecule ) {
                     // NOTE: this might miss a couple improper mappings?
 
                     // compute the mapping from our "ideal" to our "old" molecule
-                    List<PairGroup> atoms = new RealMoleculeModel( realMolecule.get() ).getAllNonCentralAtoms();
+                    List<PairGroup> atoms = new RealMolecule( realMolecule.get() ).getAllNonCentralAtoms();
                     final ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration(
                             mappingMolecule.getAllNonCentralAtoms(),
                             FunctionalUtils.map( atoms, new Function1<PairGroup, ImmutableVector3D>() {
