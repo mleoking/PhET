@@ -673,6 +673,14 @@ public class RealMoleculesTab extends MoleculeViewTab {
         resizeDirty = true;
     }
 
+    @Override public boolean allowTogglingLonePairs() {
+        return !isBasicsVersion;
+    }
+
+    @Override public boolean allowTogglingAllLonePairs() {
+        return !isBasicsVersion;
+    }
+
     private void initializeResources() {
         // pre-load the lone pair geometry, so we don't get that delay
         LonePairNode.getGeometry( getAssetManager() );
