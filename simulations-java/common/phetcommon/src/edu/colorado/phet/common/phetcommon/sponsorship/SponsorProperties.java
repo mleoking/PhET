@@ -30,18 +30,22 @@ public class SponsorProperties {
         return getImageResourceName() != null;
     }
 
+    // Name of the image resource provided by the sponsor.
     public String getImageResourceName() {
         return properties.getProperty( sim + ".image" );
     }
 
+    // Actual URL that we follow when clicking the hyperlink.
     public String getActualURL() {
         return properties.getProperty( sim + ".actualURL" );
     }
 
+    // URL displayed to the user.
     public String getVisibleURL() {
         return properties.getProperty( sim + ".visibleURL" );
     }
 
+    // The date when the sponsor started its sponsorship.
     public String getSinceDate() {
         return properties.getProperty( sim + ".sinceDate" );
     }
