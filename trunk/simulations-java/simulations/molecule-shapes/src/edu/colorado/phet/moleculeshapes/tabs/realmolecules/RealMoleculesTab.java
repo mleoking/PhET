@@ -274,12 +274,6 @@ public class RealMoleculesTab extends MoleculeViewTab {
         // add lighting to the main scene
         addLighting( moleculeView.getScene() );
 
-        // TODO: add in new view?
-        final ObservableProperty<Float> scaleFunction = new ObservableProperty<Float>( 1f ) {
-            @Override public Float get() {
-                return getApproximateScale();
-            }
-        };
         moleculeNode = new MoleculeModelNode( getMolecule(), readoutView, this, moleculeCamera );
         moleculeView.getScene().attachChild( moleculeNode );
 

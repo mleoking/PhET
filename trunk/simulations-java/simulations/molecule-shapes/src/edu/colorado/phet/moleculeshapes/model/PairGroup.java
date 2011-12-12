@@ -21,7 +21,7 @@ public class PairGroup {
     public static final double DAMPING_FACTOR = 0.1;
 
     // TODO: this is horrible. refactor it!
-    public static final double REAL_TMP_SCALE = 6.0; // TODO: deal with units correctly in the 1st tab model so we can remove this
+    public static final double REAL_TMP_SCALE = 5.5; // TODO: deal with units correctly in the 1st tab model so we can remove this
 
     /*---------------------------------------------------------------------------*
     * instance data
