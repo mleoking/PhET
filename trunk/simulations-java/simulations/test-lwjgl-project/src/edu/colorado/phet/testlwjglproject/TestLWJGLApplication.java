@@ -4,6 +4,8 @@ package edu.colorado.phet.testlwjglproject;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import javax.swing.JButton;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 
@@ -11,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule;
+import edu.colorado.phet.testlwjglproject.lwjgl.ComponentImage;
 import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLCanvas;
 import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLTab;
 import edu.colorado.phet.testlwjglproject.lwjgl.StartupUtils;
@@ -47,6 +50,7 @@ public class TestLWJGLApplication extends PhetApplication {
     private static class TestingTab extends LWJGLTab {
         private long timeElapsed = 0;
         private long lastTime = 0;
+        private ComponentImage testingComponentImage;
 
         public TestingTab( LWJGLCanvas canvas, String title ) {
             super( canvas, title );
@@ -56,26 +60,15 @@ public class TestLWJGLApplication extends PhetApplication {
             lastTime = System.currentTimeMillis();
 
             {
-                int width = 64;
-                int height = 64;
-                ByteBuffer buffer = BufferUtils.createByteBuffer( width * height * 4 );
-                for ( int row = 0; row < height; row++ ) {
-                    for ( int col = 0; col < width; col++ ) {
-                        buffer.put( new byte[] {
-                                row % 2 == 0 ? 0 : (byte) 255,
-                                ( row + col ) % 2 == 1 ? 0 : (byte) 255,
-                                col % 2 == 0 ? 0 : (byte) 255,
-                                (byte) 255 } );
-//                        buffer.put( new byte[] { (byte) ( row + col ), (byte) ( 255 - row - col ), 0, (byte) ( 128 - row + col ) } );
-                    }
-                }
-                buffer.position( 0 );
-                glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+                testingComponentImage = new ComponentImage( 256, 256, true, new JButton( "Test?" ) {{
+                    setOpaque( false );
+                }} );
+
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-                glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
+//                glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
             }
         }
 
@@ -97,7 +90,6 @@ public class TestLWJGLApplication extends PhetApplication {
             glMatrixMode( GL_PROJECTION );
             glLoadIdentity();
             glOrtho( 0, getCanvasWidth(), getCanvasHeight(), 0, 1, -1 );
-            System.out.println( getCanvasWidth() + "x" + getCanvasHeight() );
             glMatrixMode( GL_MODELVIEW );
 
             long currentTime = System.currentTimeMillis();
@@ -115,17 +107,19 @@ public class TestLWJGLApplication extends PhetApplication {
                 glEnable( GL_TEXTURE_2D );
                 glShadeModel( GL_FLAT );
 
+                testingComponentImage.useTexture();
+
                 glColor4f( 1, 1, 1, 1 );
 
                 glBegin( GL_QUADS );
                 glTexCoord2d( 0.0, 0.0 );
                 glVertex3d( 0, 0, 0.0 );
                 glTexCoord2d( 0.0, 1.0 );
-                glVertex3d( 0, 64, 0.0 );
+                glVertex3d( 0, testingComponentImage.getHeight(), 0.0 );
                 glTexCoord2d( 1.0, 1.0 );
-                glVertex3d( 64, 64, 0.0 );
+                glVertex3d( testingComponentImage.getWidth(), testingComponentImage.getHeight(), 0.0 );
                 glTexCoord2d( 1.0, 0.0 );
-                glVertex3d( 64, 0, 0.0 );
+                glVertex3d( testingComponentImage.getWidth(), 0, 0.0 );
                 glEnd();
 
                 glShadeModel( GL_SMOOTH );
