@@ -28,5 +28,6 @@ public class FractionsResources {
         public static final BufferedImage ROUND_BUTTON_UP = RESOURCES.getImage( "round_button_up.png" );
         public static final BufferedImage ROUND_BUTTON_UP_GRAY = RESOURCES.getImage( "round_button_up_gray.png" );
         public static final BufferedImage ROUND_BUTTON_UP_PRESSED = RESOURCES.getImage( "round_button_up_pressed.png" );
+        public static final BufferedImage WATER_GLASS = RESOURCES.getImage( "water_glass.png" );
     }
 }
