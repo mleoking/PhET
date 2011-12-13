@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.sponsorship;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +37,7 @@ public class SponsorDialog extends JDialog {
         super( parent );
         setResizable( false );
         setContentPane( new SponsorPanel( config ) );
+        SwingUtils.setBackgroundDeep( this, Color.WHITE ); // color expected by sponsors
         pack();
 
         // click on the dialog to make it go away
