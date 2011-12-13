@@ -15,7 +15,6 @@ import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
@@ -118,9 +117,24 @@ public class PHPaperNode extends PhetPNode {
             this.dragNode = dragNode;
             setStartEndDragFunction( new DragFunction() {
                 public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingEvents.sendEvent( Objects.PH_PAPER, action, Parameter.param( Parameters.IS_IN_SOLUTION, paper.isInSolution() ) );
+                    sendEvent( action );
                 }
             } );
+            setDraggingFunction( new DragFunction() {
+                boolean wasInSolution = paper.isInSolution();
+
+                // send a sim-sharing event when the meter transitions between in/out of solution.
+                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                    if ( wasInSolution != paper.isInSolution() ) {
+                        sendEvent( action );
+                    }
+                    wasInSolution = paper.isInSolution();
+                }
+            } );
+        }
+
+        private void sendEvent( String action ) {
+            SimSharingEvents.sendEvent( Objects.PH_PAPER, action, new Parameter( Parameters.IS_IN_SOLUTION, paper.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {
@@ -135,12 +149,7 @@ public class PHPaperNode extends PhetPNode {
             Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
             double x = pMouse.getX() - clickXOffset;
             double y = pMouse.getY() - clickYOffset;
-            boolean wasInSolution = paper.isInSolution();
             paper.setLocation( x, y );
-            if ( wasInSolution != paper.isInSolution() ) {
-                // send a sim-sharing event when the meter transitions between in/out of solution.
-                SimSharingEvents.sendEvent( Objects.PH_PAPER, Actions.DRAG, new Parameter( Parameters.IS_IN_SOLUTION, paper.isInSolution() ) );
-            }
         }
     }
 }
