@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Place in the center of the play area which shows the selected representation such as pies.
+ *
  * @author Sam Reid
  */
 public class RepresentationArea extends PNode {
