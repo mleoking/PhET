@@ -37,11 +37,19 @@ public abstract class GeneExpressionModel {
     public abstract void addMessengerRna( final MessengerRna messengerRna );
 
     /**
+     * Remove the specified messenger RNA from the model.
+     *
+     * @param messengerRnaBeingDestroyed
+     */
+    public abstract void removeMessengerRna( MessengerRna messengerRnaBeingDestroyed );
+
+    /**
      * Get a list of all messenger RNA strands that are currently in
      * existence.
      *
      * @return
      */
     public abstract List<MessengerRna> getMessengerRnaList();
+
 }
 

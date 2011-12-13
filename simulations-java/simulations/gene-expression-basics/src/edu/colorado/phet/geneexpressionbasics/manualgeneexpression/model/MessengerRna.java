@@ -84,8 +84,13 @@ public class MessengerRna extends MobileBiomolecule {
     // Map from ribosomes to the shape segment to which they are attached.
     private final Map<Ribosome, ShapeSegment> mapRibosomeToShapeSegment = new HashMap<Ribosome, ShapeSegment>();
 
-    // mRNA destroyer that is destroying this mRNA.
+    // mRNA destroyer that is destroying this mRNA.  Null until and unless
+    // destruction has begun.
     private MessengerRnaDestroyer messengerRnaDestroyer = null;
+
+    // Shape segment where the mRNA destroyer is connected.  This is null until
+    // and unless destruction has begun.
+    private ShapeSegment segmentWhereDestroyerConnects = null;
 
     // Protein prototype, used to keep track of protein that should be
     // synthesized from this particular strand of mRNA.
@@ -252,21 +257,19 @@ public class MessengerRna extends MobileBiomolecule {
      */
     public boolean advanceDestruction( double length ) {
 
-        ShapeSegment leadSegment = shapeSegments.get( 0 );
-
         // Error checking.
-        if ( leadSegment == null ) {
+        if ( segmentWhereDestroyerConnects == null ) {
             System.out.println( getClass().getName() + " - Warning: Attempt to advance the destruction of mRNA that has no content left." );
             return true;
         }
 
         // Advance the destruction by advancing the position of the mRNA in the
         // segment that corresponds to the destruction channel of the destroyer.
-        leadSegment.advance( length, shapeSegments );
+        segmentWhereDestroyerConnects.advance( length, shapeSegments );
 
         // Realign the segments, since they may well have changed shape.
-        if ( shapeSegments.contains( leadSegment ) ) {
-            realignSegmentsFrom( leadSegment );
+        if ( shapeSegments.contains( segmentWhereDestroyerConnects ) ) {
+            realignSegmentsFrom( segmentWhereDestroyerConnects );
         }
 
         // Since the sizes and relationships of the segments probably changed,
@@ -275,7 +278,7 @@ public class MessengerRna extends MobileBiomolecule {
 
         // If there is anything left in this segment, then destruction is not
         // yet complete.
-        return leadSegment.getContainedLength() <= 0;
+        return segmentWhereDestroyerConnects.getContainedLength() <= 0;
     }
 
     /**
@@ -425,7 +428,7 @@ public class MessengerRna extends MobileBiomolecule {
      * @param ribosome
      * @return
      */
-    public Point2D getRibosomeAttachmentPoint( Ribosome ribosome ) {
+    public Point2D getRibosomeAttachmentLocation( Ribosome ribosome ) {
         if ( !mapRibosomeToShapeSegment.containsKey( ribosome ) ) {
             System.out.println( getClass().getName() + " Warning: Ignoring attempt to obtain attachment point for non-attached ribosom." );
             return null;
@@ -769,7 +772,8 @@ public class MessengerRna extends MobileBiomolecule {
     /**
      * Initiate the destruction of this mRNA strand by setting up the segments
      * as needed.  This should only be called after an mRNA destroyer has
-     * attached to the front of the mRNA strand.
+     * attached to the front of the mRNA strand.  Once initiated, destruction
+     * cannot be stopped.
      *
      * @param messengerRnaDestroyer
      */
@@ -778,9 +782,9 @@ public class MessengerRna extends MobileBiomolecule {
 
         // Set the capacity of the first segment to the size of the channel
         // through which it will be pulled plus the leader length.
-        ShapeSegment firstShapeSegment = shapeSegments.get( 0 );
-        assert firstShapeSegment.isFlat();
-        firstShapeSegment.setCapacity( messengerRnaDestroyer.getDestructionChannelLength() + LEADER_LENGTH );
+        segmentWhereDestroyerConnects = shapeSegments.get( 0 );
+        assert segmentWhereDestroyerConnects.isFlat();
+        segmentWhereDestroyerConnects.setCapacity( messengerRnaDestroyer.getDestructionChannelLength() + LEADER_LENGTH );
     }
 
     /**
@@ -866,8 +870,9 @@ public class MessengerRna extends MobileBiomolecule {
         return new MessengerRnaAttachmentStateMachine( this );
     }
 
-    public Point2D getLeadingEdgeAttachmentPoint() {
-        return shapeSegments.get( 0 ).attachmentSite.locationProperty.get();
+    public Point2D getDestroyerAttachmentLocation() {
+        assert segmentWhereDestroyerConnects != null; // State checking - shouldn't be called before this is set.
+        return segmentWhereDestroyerConnects != null ? segmentWhereDestroyerConnects.attachmentSite.locationProperty.get() : new Point2D.Double();
     }
 
     /**

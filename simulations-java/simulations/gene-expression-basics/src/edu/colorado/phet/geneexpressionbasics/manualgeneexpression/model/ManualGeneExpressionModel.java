@@ -209,6 +209,10 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         messengerRna.setMotionBounds( getBoundsForActiveGene() );
     }
 
+    @Override public void removeMessengerRna( MessengerRna messengerRnaBeingDestroyed ) {
+        messengerRnaList.remove( messengerRnaBeingDestroyed );
+    }
+
     @Override public List<MessengerRna> getMessengerRnaList() {
         return messengerRnaList;
     }

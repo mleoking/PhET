@@ -91,4 +91,8 @@ public class MessengerRnaDestroyer extends MobileBiomolecule {
     public MessengerRna getMessengerRnaBeingDestroyed() {
         return messengerRnaBeingDestroyed;
     }
+
+    public void clearMessengerRnaBeingDestroyed() {
+        messengerRnaBeingDestroyed = null;
+    }
 }
