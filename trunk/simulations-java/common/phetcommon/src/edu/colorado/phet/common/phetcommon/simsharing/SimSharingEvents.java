@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
@@ -123,6 +124,11 @@ public class SimSharingEvents {
             return message;
         }
         return null;
+    }
+
+    // Standardized event for when the user tries to interactive with something that's not interactive.
+    public static void sendNotInteractiveEvent( String object, String action ) {
+        SimSharingEvents.sendEvent( object, action, new Parameter( Parameters.INTERACTIVE, false ) );
     }
 
     //TODO get rid of this? Excel treats the first row of tab-delimited data as column headers, so this would be nice if processing data in Excel.

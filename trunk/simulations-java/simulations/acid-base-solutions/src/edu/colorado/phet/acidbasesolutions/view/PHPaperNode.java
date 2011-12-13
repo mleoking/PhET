@@ -14,10 +14,12 @@ import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -67,30 +69,7 @@ public class PHPaperNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new SimSharingDragSequenceEventHandler( Objects.PH_PAPER, new Function0<Parameter[]>() {
-            public Parameter[] apply() {
-                return new Parameter[] { Parameter.param( Parameters.IS_DIPPED, paper.isDipped() ) };
-            }
-        } ) {
-
-            private double clickXOffset; // x-offset of mouse click from meter's origin, in parent's coordinate frame
-            private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
-
-            protected void startDrag( PInputEvent event ) {
-                super.startDrag( event );
-                Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                clickXOffset = pMouse.getX() - paper.getLocationReference().getX();
-                clickYOffset = pMouse.getY() - paper.getLocationReference().getY();
-            }
-
-            protected void drag( final PInputEvent event ) {
-                super.drag( event );
-                Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                double x = pMouse.getX() - clickXOffset;
-                double y = pMouse.getY() - clickYOffset;
-                paper.setLocation( x, y );
-            }
-        } );
+        addInputEventListener( new PhPaperDragHandler( paper, this ) );
 
         Rectangle2D r = new Rectangle2D.Double( -paper.getWidth() / 2, 0, paper.getWidth(), paper.getHeight() );
         paperBodyNode = new PPath( r );
@@ -124,5 +103,44 @@ public class PHPaperNode extends PhetPNode {
 
     private void updateColor() {
         dippedPathNode.setPaint( paper.getDippedColor() );
+    }
+
+    // Handles everything related to dragging of the paper.
+    private static class PhPaperDragHandler extends SimSharingDragSequenceEventHandler {
+
+        private final PHPaper paper;
+        private final PNode dragNode;
+        private double clickXOffset; // x-offset of mouse click from meter's origin, in parent's coordinate frame
+        private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
+
+        public PhPaperDragHandler( final PHPaper paper, PNode dragNode ) {
+            this.paper = paper;
+            this.dragNode = dragNode;
+            setStartEndDragFunction( new DragFunction() {
+                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                    SimSharingEvents.sendEvent( Objects.PH_PAPER, action, Parameter.param( Parameters.IS_IN_SOLUTION, paper.isInSolution() ) );
+                }
+            } );
+        }
+
+        @Override protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            clickXOffset = pMouse.getX() - paper.getLocationReference().getX();
+            clickYOffset = pMouse.getY() - paper.getLocationReference().getY();
+        }
+
+        @Override protected void drag( final PInputEvent event ) {
+            super.drag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            double x = pMouse.getX() - clickXOffset;
+            double y = pMouse.getY() - clickYOffset;
+            boolean wasInSolution = paper.isInSolution();
+            paper.setLocation( x, y );
+            if ( wasInSolution != paper.isInSolution() ) {
+                // send a sim-sharing event when the meter transitions between in/out of solution.
+                SimSharingEvents.sendEvent( Objects.PH_PAPER, Actions.DRAG, new Parameter( Parameters.IS_IN_SOLUTION, paper.isInSolution() ) );
+            }
+        }
     }
 }
