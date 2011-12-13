@@ -1,3 +1,4 @@
+Fixed: Oddly, the circles look well centered and such when there are 6 "wholes" but 6 circles divided into "fifths" goes slightly off screen.
 # 0.00.14 (59312) Dec 13, 2011
 Improvements in Intro tab
 Started Equivalence Lab
