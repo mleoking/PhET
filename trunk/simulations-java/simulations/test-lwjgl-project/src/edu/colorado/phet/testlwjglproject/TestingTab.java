@@ -6,14 +6,12 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
-import java.nio.ByteBuffer;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
@@ -163,20 +161,6 @@ public class TestingTab extends LWJGLTab {
 
             // add a fractal-like thing in the background
             fractalThing( angle, 12, 0, 2 );
-
-            // test direct image drawing functionality in the foreground (lower-left corner)
-            {
-                int width = 127;
-                int height = 127;
-                ByteBuffer buffer = BufferUtils.createByteBuffer( width * height * 4 );
-                for ( int row = 0; row < height; row++ ) {
-                    for ( int col = 0; col < width; col++ ) {
-                        buffer.put( new byte[] { (byte) ( row + col ), (byte) ( 255 - row - col ), 0, (byte) ( 128 - row + col ) } );
-                    }
-                }
-                buffer.position( 0 );
-                glDrawPixels( width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
-            }
         }
         glPopMatrix();
 
