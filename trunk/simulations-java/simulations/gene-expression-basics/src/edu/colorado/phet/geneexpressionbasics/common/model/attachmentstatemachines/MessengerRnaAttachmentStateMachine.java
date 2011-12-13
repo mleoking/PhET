@@ -47,6 +47,10 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
         setState( new WanderingAroundCytoplasmState() );
     }
 
+    public void attachToDestroyer() {
+        setState( new BeingDestroyedState() );
+    }
+
     protected class BeingSynthesizedState extends AttachmentState {
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             // Set the motion strategy to something that doesn't move the
@@ -94,6 +98,15 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             // Set a motion strategy that will not move this molecule, since
             // its position will be defined by the translator(s).
+            enclosingStateMachine.biomolecule.setMotionStrategy( new StillnessMotionStrategy() );
+        }
+    }
+
+    // State where the mRNA is being destroyed.
+    protected class BeingDestroyedState extends AttachmentState {
+        @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
+            // Set a motion strategy that will not move this molecule, since
+            // its position will be defined by the destroyer and translators.
             enclosingStateMachine.biomolecule.setMotionStrategy( new StillnessMotionStrategy() );
         }
     }
