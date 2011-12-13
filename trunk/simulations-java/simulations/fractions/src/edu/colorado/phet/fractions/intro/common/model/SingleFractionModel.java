@@ -71,7 +71,7 @@ public class SingleFractionModel {
         } );
     }};
 
-    public final Property<ChosenRepresentation> representation = new Property<ChosenRepresentation>( ChosenRepresentation.NONE );
+    public final Property<ChosenRepresentation> representation = new Property<ChosenRepresentation>( ChosenRepresentation.PIE );
 
     public void resetAll() {
         numerator.reset();

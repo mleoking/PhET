@@ -28,9 +28,12 @@ public class RepresentationControlPanel extends ControlPanelNode {
 
     private static class RepresentationControlPanelContentNode extends PNode {
         private RepresentationControlPanelContentNode( final Property<ChosenRepresentation> selected ) {
-            final RepIcon[] elements = new RepIcon[] { new HorizontalBarElement( selected ), new VerticalBarElement( selected ), new PieElement( selected ), new SquareElement( selected ), new NumberLineElement( selected ) {{
-                scale( 1.2 );
-            }} };
+            final RepIcon[] elements = new RepIcon[] { new PieElement( selected ), new HorizontalBarElement( selected ), new VerticalBarElement( selected ),
+                    //Comment out grid until we figure it out, see docs in GridFractionNode
+//                    new SquareElement( selected ),
+                    new NumberLineElement( selected ) {{
+                        scale( 1.2 );
+                    }} };
 
             double maxWidth = 0;
             double maxHeight = 0;
