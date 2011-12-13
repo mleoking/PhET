@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class RepresentationControlPanel extends ControlPanelNode {
     public RepresentationControlPanel( Property<ChosenRepresentation> chosenRepresentation ) {
-        super( new RepresentationControlPanelContentNode( chosenRepresentation ) );
+        super( new RepresentationControlPanelContentNode( chosenRepresentation ), new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ) );
     }
 
     private static class RepresentationControlPanelContentNode extends PNode {
@@ -47,7 +47,7 @@ public class RepresentationControlPanel extends ControlPanelNode {
             final double finalMaxWidth = maxWidth;
             final HBox representationLayer = new HBox( 10 ) {{
                 for ( final RepIcon element : elements ) {
-                    PNode highlighter = new PhetPPath( new RoundRectangle2D.Double( -2, -2, finalMaxWidth + 4, finalMaxHeight + 4, 20, 20 ), new Color( 0, 0, 0, 0 ), new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), null ) {{
+                    PNode highlighter = new PhetPPath( new RoundRectangle2D.Double( -2, -2, finalMaxWidth + 4, finalMaxHeight + 4, 20, 20 ), new Color( 242, 242, 242 ), new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), null ) {{
 
                         PNode node = new ZeroOffsetNode( element.getNode() );
 
@@ -56,7 +56,7 @@ public class RepresentationControlPanel extends ControlPanelNode {
 
                         selected.valueEquals( element.getRepresentation() ).addObserver( new VoidFunction1<Boolean>() {
                             public void apply( Boolean selected ) {
-                                setStrokePaint( selected ? Color.yellow : Color.lightGray );
+                                setStrokePaint( selected ? Color.yellow : new Color( 178, 178, 178 ) );
                                 setStroke( selected ? new BasicStroke( 6 ) : new BasicStroke( 2 ) );
                             }
                         } );
