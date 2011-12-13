@@ -2,7 +2,9 @@
 package edu.colorado.phet.testlwjglproject;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -88,7 +90,22 @@ public class TestLWJGLApplication extends PhetApplication {
 
             float angle = (float) ( timeElapsed ) / 200;
 
+            // add a fractal-like thing in the background
             fractalThing( angle, 12, 0, 2 );
+
+            // test direct image drawing functionality in the foreground (lower-left corner)
+            {
+                int width = 127;
+                int height = 127;
+                ByteBuffer buffer = BufferUtils.createByteBuffer( width * height * 4 );
+                for ( int row = 0; row < height; row++ ) {
+                    for ( int col = 0; col < width; col++ ) {
+                        buffer.put( new byte[] { (byte) ( row + col ), (byte) ( 255 - row - col ), 0, (byte) ( 128 - row + col ) } );
+                    }
+                }
+                buffer.position( 0 );
+                GL11.glDrawPixels( width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer );
+            }
 
             Display.update();
         }
