@@ -1,33 +1,32 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.piccolophet.nodes;
+package edu.colorado.phet.common.piccolophet;
 
-import java.awt.Font;
-import java.awt.Paint;
+import java.util.ArrayList;
 
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.PNode;
 
 /**
- * Convenience class for creating a PText with the specified text and font
+ * Adds useful methods to PNode, but does not change the behavior of existing functionality in any way.
+ * This class is named "Rich" meaning it has a "rich" interface, enriched by the new methods!
  *
  * @author Sam Reid
  */
-public class PhetPText extends PText {
-    public PhetPText( String text ) {
-        super( text );
+public class RichPNode extends PNode {
+    public RichPNode() {
+        super();
     }
 
-    public PhetPText( String text, Font font ) {
-        super( text );
-        setFont( font );
+    /*
+    * Returns an iterator that iterates over the children of this pnode, in the rendering order.
+    */
+    public ArrayList<PNode> getChildren() {
+        return new ArrayList<PNode>() {{
+            for ( int i = 0; i < getChildrenCount(); i++ ) {
+                add( getChild( i ) );
+            }
+        }};
     }
 
-    public PhetPText( String text, Font font, Paint paint ) {
-        super( text );
-        setFont( font );
-        setTextPaint( paint );
-    }
-
-    //The following copied from PhetPNode, see comments there.  Copied because PhetPText extends PText instead of wrapping it.
     public double getFullWidth() {
         return getFullBoundsReference().getWidth();
     }

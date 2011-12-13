@@ -3,7 +3,6 @@ package edu.colorado.phet.common.piccolophet;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.umd.cs.piccolo.PNode;
 
@@ -22,7 +21,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid / Chris Malley
  */
-public class PhetPNode extends PNode {
+public class PhetPNode extends RichPNode {
 
     private boolean pickable; // keep track of node's pickable property
     private boolean childrenPickable; // keep track of children's pickable property
@@ -174,7 +173,7 @@ public class PhetPNode extends PNode {
      *     System.out.println( getChildrenPickable() );
      * </pre>
      *
-     * @param pickable true or false
+     * @param childrenPickable true or false
      */
     public void setChildrenPickable( boolean childrenPickable ) {
         if ( getVisible() ) {
@@ -195,16 +194,5 @@ public class PhetPNode extends PNode {
             removedNode = super.removeChild( child );
         }
         return removedNode;
-    }
-
-    /*
-     * Returns an iterator that iterates over the children of this pnode, in the rendering order.
-     */
-    public ArrayList<PNode> getChildren() {
-        return new ArrayList<PNode>() {{
-            for ( int i = 0; i < getChildrenCount(); i++ ) {
-                add( getChild( i ) );
-            }
-        }};
     }
 }
