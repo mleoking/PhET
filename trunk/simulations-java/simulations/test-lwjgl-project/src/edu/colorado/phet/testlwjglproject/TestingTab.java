@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 import java.nio.ByteBuffer;
 
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.testlwjglproject.lwjgl.CanvasTransform;
@@ -86,7 +88,7 @@ public class TestingTab extends LWJGLTab {
             }} );
         }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 20 ) ), mouseEventNotifier );
         testPiccoloNode = new OrthoPiccoloNode( new PNode() {{
-            PNode button = new TextButtonNode( "Piccolo Button", new PhetFont( 14 ), Color.ORANGE ) {{
+            final PNode button = new TextButtonNode( "Piccolo Button", new PhetFont( 14 ), Color.ORANGE ) {{
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         System.out.println( "Piccolo button pressed" );
@@ -95,6 +97,12 @@ public class TestingTab extends LWJGLTab {
             }};
             addChild( new Spacer( button.getFullBounds() ) );
             addChild( button );
+            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 150, 30, 10, 10 ), Color.BLUE ) {{
+                setOffset( 20, button.getFullBounds().getMaxY() + 10 );
+            }} );
+            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 150, 30, 10, 10 ), Color.YELLOW ) {{
+                setOffset( 20.5, button.getFullBounds().getMaxY() + 50 );
+            }} );
         }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 100 ) ), mouseEventNotifier );
     }
 
@@ -110,7 +118,6 @@ public class TestingTab extends LWJGLTab {
             mouseEventNotifier.updateListeners();
         }
 
-        // TODO: test node update
         testSwingNode.update();
         testPiccoloNode.update();
 

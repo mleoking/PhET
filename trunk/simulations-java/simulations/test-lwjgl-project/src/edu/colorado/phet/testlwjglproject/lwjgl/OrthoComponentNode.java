@@ -24,7 +24,7 @@ public class OrthoComponentNode {
     private final JComponent component;
     private final LWJGLTab tab;
     private final CanvasTransform canvasTransform;
-    private final Property<ImmutableVector2D> position;
+    public final Property<ImmutableVector2D> position;
     private final VoidNotifier mouseEventNotifier;
 
     private Dimension size = new Dimension(); // our current size

@@ -44,21 +44,27 @@ public abstract class TextureImage {
         paint( g );
         g.dispose();
 
+        // TODO: speed on this could be improved?
         final byte data[] = (byte[]) paintableImage.getRaster().getDataElements( 0, 0, paintableImage.getWidth(), paintableImage.getHeight(), null );
 
         // then transfer the image data during the LWJGL thread
         LWJGLCanvas.addTask( new Runnable() {
             public void run() {
-                // TODO: speed on this could be improved?
-                buffer.clear();
-                buffer.put( data, 0, data.length );
-                buffer.rewind();
+                // make sure to lock this instance so we don't read the buffer while it is being written to
+                synchronized ( TextureImage.this ) {
+                    buffer.clear();
+                    buffer.put( data, 0, data.length );
+                    buffer.rewind();
+                }
             }
         } );
     }
 
     public void useTexture() {
-        glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+        // lock the instance to prevent concurrent buffer modification
+        synchronized ( this ) {
+            glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+        }
     }
 
     // override this to define how to paint the image
