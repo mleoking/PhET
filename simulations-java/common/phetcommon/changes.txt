@@ -1,3 +1,4 @@
+12/13/11 #3181, add sim-sharing configurations, for specifying study name, input dialog preferences, etc.
 12/13/11 #3175, standardize event for attempt to interactive with non-interactive component
 12/13/11 #3175, overhaul sim-sharing drag handlers to support optional functions for start/end/drag;
 12/9/11 #3166, added sponsor prototype

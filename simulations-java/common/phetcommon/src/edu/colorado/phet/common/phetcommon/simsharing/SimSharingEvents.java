@@ -167,11 +167,13 @@ public class SimSharingEvents {
     public static void simStarted( final PhetApplicationConfig config ) {
         simStartedTime = new Option.Some<Long>( System.currentTimeMillis() );
         enabled = config.isSimSharingEnabled();
-
         if ( enabled ) {
             studyName = getArgAfter( config.getCommandLineArgs(), "-study" );
-
-            final String id = JOptionPane.showInputDialog( null, studyName.equals( "colorado" ) ? "Welcome to PhET!\nEnter your computer number:" : "Enter your audio recorder number:" );
+            SimSharingConfig simSharingConfig = SimSharingConfig.getConfig( studyName );
+            String id = "?";
+            if ( simSharingConfig.hasInputDialog ) {
+                id = JOptionPane.showInputDialog( null, simSharingConfig.inputDialogPrompt );
+            }
             finishInit( config, studyName, id );
         }
     }
