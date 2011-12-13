@@ -55,6 +55,7 @@ public class SponsorPanel extends GridPanel {
         if ( imageResourceName != null ) {
             add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( imageResourceName ) ) ) );
         }
+        //TODO should both actualURL and visibleURL be required? If one is omitted, can we fallback on the other?
         // url
         if ( actualURL != null && visibleURL != null ) {
             add( Box.createVerticalStrut( 15 ) );
