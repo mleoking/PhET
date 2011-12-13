@@ -50,7 +50,15 @@ public class SponsorDialog extends JDialog {
 
     // Show the dialog, centered in the parent frame.
     public static JDialog show( PhetApplicationConfig config, Frame parent, boolean startDisposeTimer ) {
+
         final JDialog dialog = new SponsorDialog( config, parent );
+        dialog.addWindowListener( new WindowAdapter() {
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                SimSharingEvents.sendEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED );
+                dialog.dispose();
+            }
+        } );
         SwingUtils.centerInParent( dialog );
         dialog.setVisible( true );
 
@@ -59,7 +67,6 @@ public class SponsorDialog extends JDialog {
             final Timer timer = new Timer( DISPLAY_TIME * 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( dialog.isDisplayable() ) {
-                        //TODO why is this sent after dialog is closed via window dressing?
                         SimSharingEvents.sendSystemEvent( Actions.CLOSED, Parameter.param( Parameters.WINDOW, SIMSHARING_OBJECT ) );
                         dialog.dispose();
                     }
