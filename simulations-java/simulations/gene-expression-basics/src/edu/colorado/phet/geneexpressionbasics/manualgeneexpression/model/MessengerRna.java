@@ -872,7 +872,14 @@ public class MessengerRna extends MobileBiomolecule {
 
     public Point2D getDestroyerAttachmentLocation() {
         assert segmentWhereDestroyerConnects != null; // State checking - shouldn't be called before this is set.
-        return segmentWhereDestroyerConnects != null ? segmentWhereDestroyerConnects.attachmentSite.locationProperty.get() : new Point2D.Double();
+        // Avoid null pointer exception.
+        if ( segmentWhereDestroyerConnects == null ) {
+            return new Point2D.Double( 0, 0 );
+        }
+        // The attachment location is at the right most side of the segment
+        // minus the leader length.
+        return new Point2D.Double( segmentWhereDestroyerConnects.getLowerRightCornerPos().getX() - LEADER_LENGTH,
+                                   segmentWhereDestroyerConnects.getLowerRightCornerPos().getY() );
     }
 
     /**
@@ -1070,7 +1077,6 @@ public class MessengerRna extends MobileBiomolecule {
          */
         public abstract void remove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList );
 
-
         /**
          * Advance the mRNA through this shape segment.  This is what happens
          * when the mRNA is being translated by a ribosome into a protein.  The
@@ -1118,7 +1124,6 @@ public class MessengerRna extends MobileBiomolecule {
                                                     bounds.get().getWidth() + growthAmount,
                                                     0 ) );
                 updateAttachmentSiteLocation();
-
             }
 
             @Override public void remove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
