@@ -3,14 +3,21 @@ package edu.colorado.phet.testlwjglproject;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.ByteBuffer;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -31,6 +38,9 @@ public class TestingTab extends LWJGLTab {
     private CanvasTransform canvasTransform;
     private Dimension stageSize;
 
+    // TODO: consider a different way of handling this, or moving this up to LWJGLTab
+    public final VoidNotifier mouseEventNotifier = new VoidNotifier();
+
     public TestingTab( LWJGLCanvas canvas, String title ) {
         super( canvas, title );
     }
@@ -41,11 +51,46 @@ public class TestingTab extends LWJGLTab {
         stageSize = initialCanvasSize;
         canvasTransform = new StageCenteringCanvasTransform( canvasSize, stageSize );
 
-        testSwingNode = new OrthoComponentNode( new JButton( "Oh my, a Swing JButton!" ) {{
+        testSwingNode = new OrthoComponentNode( new JPanel() {{
             setOpaque( false );
-        }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 20 ) ) );
-        testPiccoloNode = new OrthoPiccoloNode( new TextButtonNode( "But can we do Piccolo2D also?", new PhetFont( 16 ), Color.ORANGE ),
-                                                this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 100 ) ) );
+            add( new JButton( "Swing Button" ) {{
+                setOpaque( false );
+//                setFont( new PhetFont( 16, true ) );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        System.out.println( "Swing button pressed" );
+                    }
+                } );
+            }} );
+            add( new JCheckBox( "Swing Checkbox" ) {{
+                setOpaque( false );
+                setForeground( Color.WHITE );
+//                setFont( new PhetFont( 16, true ) );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        System.out.println( "Swing checkbox pressed" );
+                    }
+                } );
+            }} );
+            add( new JRadioButton( "Swing Radio Button" ) {{
+                setOpaque( false );
+                setForeground( Color.WHITE );
+//                setFont( new PhetFont( 16, true ) );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        System.out.println( "Swing radio button pressed" );
+                    }
+                } );
+            }} );
+        }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 20 ) ), mouseEventNotifier );
+        testPiccoloNode = new OrthoPiccoloNode( new TextButtonNode( "Piccolo Button", new PhetFont( 16, true ), Color.ORANGE ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    System.out.println( "Piccolo button pressed" );
+                }
+            } );
+        }},
+                                                this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 100 ) ), mouseEventNotifier );
     }
 
     @Override public void stop() {
@@ -55,8 +100,14 @@ public class TestingTab extends LWJGLTab {
     @Override public void loop() {
         Display.sync( 60 );
 
+        // walk through all of the mouse events that occurred
+        while ( Mouse.next() ) {
+            mouseEventNotifier.updateListeners();
+        }
+
         // TODO: test node update
-        //testingComponentImage.update();
+        testSwingNode.update();
+        testPiccoloNode.update();
 
         glEnable( GL_BLEND );
         glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );

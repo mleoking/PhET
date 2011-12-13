@@ -9,7 +9,11 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
+import org.lwjgl.input.Mouse;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -21,6 +25,7 @@ public class OrthoComponentNode {
     private final LWJGLTab tab;
     private final CanvasTransform canvasTransform;
     private final Property<ImmutableVector2D> position;
+    private final VoidNotifier mouseEventNotifier;
 
     private Dimension size = new Dimension(); // our current size
     private ComponentImage componentImage;
@@ -28,11 +33,12 @@ public class OrthoComponentNode {
     private int offsetX;
     private int offsetY;
 
-    public OrthoComponentNode( final JComponent component, LWJGLTab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
+    public OrthoComponentNode( final JComponent component, final LWJGLTab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position, final VoidNotifier mouseEventNotifier ) {
         this.component = component;
         this.tab = tab;
         this.canvasTransform = canvasTransform;
         this.position = position;
+        this.mouseEventNotifier = mouseEventNotifier;
 
         size = component.getPreferredSize();
 
@@ -74,6 +80,24 @@ public class OrthoComponentNode {
                 rebuildComponentImage();
             }
         } );
+
+        // forward events to the component image
+        mouseEventNotifier.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        if ( componentImage != null ) {
+                            // reversal of Y coordinate, and subtract out the offset that the ComponentImage doesn't have access to
+                            componentImage.handleMouseEvent( Mouse.getEventX() - offsetX, ( tab.canvasSize.get().height - Mouse.getEventY() ) - offsetY );
+                        }
+                    }
+                }, false );
+    }
+
+    // should be called every frame
+    public void update() {
+        if ( componentImage != null ) {
+            componentImage.update();
+        }
     }
 
     public void render() {
