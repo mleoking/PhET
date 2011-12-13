@@ -82,7 +82,7 @@ public abstract class CanvasTransform {
         transform.getMatrix( m );
         DoubleBuffer buffer = LWJGLUtils.doubleBuffer( 16 );
         // column-major order. argh
-        buffer.put( new double[] { m[0], m[1], 0, 0, m[2], m[3], 0, 0, m[4], m[5], 1, 0, 0, 0, 0, 1 } );
+        buffer.put( new double[] { m[0], m[1], 0, 0, m[2], m[3], 0, 0, 0, 0, 1, 0, m[4], m[5], 0, 1 } );
         buffer.rewind();
         GL11.glMultMatrix( buffer );
     }
