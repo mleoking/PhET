@@ -30,8 +30,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
-import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.GenericAttachmentStateMachine;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.MessengerRnaAttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -89,6 +88,9 @@ public class MessengerRna extends MobileBiomolecule {
     // synthesized from this particular strand of mRNA.
     private final Protein proteinPrototype;
 
+    // Local reference to the non-generic state machine used by this molecule.
+    private final MessengerRnaAttachmentStateMachine mRnaAttachmentStateMachine;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -102,6 +104,7 @@ public class MessengerRna extends MobileBiomolecule {
     public MessengerRna( final GeneExpressionModel model, Protein proteinPrototype, Point2D position ) {
         super( model, new DoubleGeneralPath( position ).getGeneralPath(), NOMINAL_COLOR );
         this.proteinPrototype = proteinPrototype;
+        mRnaAttachmentStateMachine = (MessengerRnaAttachmentStateMachine) super.attachmentStateMachine;
 
         // Add first shape defining point to the point list.
         firstShapeDefiningPoint = new PointMass( position, 0 );
@@ -668,8 +671,7 @@ public class MessengerRna extends MobileBiomolecule {
         assert mapRibosomeToShapeSegment.containsKey( ribosome ); // This shouldn't be called if the ribosome wasn't connected.
         mapRibosomeToShapeSegment.remove( ribosome );
         if ( mapRibosomeToShapeSegment.isEmpty() ) {
-            // TODO: Should perhaps be a state change at some point.
-            setMotionStrategy( new RandomWalkMotionStrategy( motionBoundsProperty ) );
+            mRnaAttachmentStateMachine.allRibosomesDetached();
         }
     }
 
@@ -678,10 +680,7 @@ public class MessengerRna extends MobileBiomolecule {
      * it.
      */
     public void releaseFromPolymerase() {
-        // Set the state to just be drifting around in the cytoplasm.
-        // TODO: Should probably be a state change at some point instead of just a motion strategy change.
-//        attachmentStateMachine.detach();
-        setMotionStrategy( new RandomWalkMotionStrategy( motionBoundsProperty ) );
+        mRnaAttachmentStateMachine.detach();
     }
 
     /**
@@ -776,9 +775,8 @@ public class MessengerRna extends MobileBiomolecule {
              leadingEdgeAttachmentSite.locationProperty.get().distance( ribosome.getEntranceOfRnaChannelPos().toPoint2D() ) < RIBOSOME_CONNECTION_DISTANCE ) {
             // This attachment site is in range and available.
             returnValue = leadingEdgeAttachmentSite;
-            // Prevent any movement.
-            // TODO: Should this be a state change?
-            setMotionStrategy( new StillnessMotionStrategy() );
+            // Update the attachment state machine.
+            mRnaAttachmentStateMachine.attachedToRibosome();
             // Enter this connection in the map.
             mapRibosomeToShapeSegment.put( ribosome, shapeSegments.get( 0 ) );
         }
@@ -787,7 +785,7 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     @Override protected AttachmentStateMachine createAttachmentStateMachine() {
-        return new GenericAttachmentStateMachine( this );
+        return new MessengerRnaAttachmentStateMachine( this );
     }
 
     /**

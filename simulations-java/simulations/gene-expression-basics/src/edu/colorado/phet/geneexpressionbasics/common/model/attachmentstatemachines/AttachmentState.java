@@ -21,9 +21,17 @@ public abstract class AttachmentState {
     // attachment site.  This essentially avoids floating point issues.
     public static double ATTACHED_DISTANCE_THRESHOLD = 1; // In picometers.
 
-    public abstract void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt );
+    public void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt ) {
+        // By default does nothing, override to implement unique behavior.
+    }
 
-    public abstract void entered( AttachmentStateMachine enclosingStateMachine );
+    ;
+
+    public void entered( AttachmentStateMachine enclosingStateMachine ) {
+        // By default does nothing, override to implement unique behavior.
+    }
+
+    ;
 
     public static class GenericUnattachedAndAvailableState extends AttachmentState {
 
