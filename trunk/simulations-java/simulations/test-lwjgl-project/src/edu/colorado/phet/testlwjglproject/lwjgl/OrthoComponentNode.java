@@ -85,6 +85,10 @@ public class OrthoComponentNode {
         glShadeModel( GL_FLAT );
 
         componentImage.useTexture();
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 
         glColor4f( 1, 1, 1, 1 );
 
@@ -134,8 +138,8 @@ public class OrthoComponentNode {
         final double imageOffsetY = Math.ceil( transformedBounds.getMaxY() ) - transformedBounds.getMaxY(); // reversed Y handling
 
         // how large our HUD node needs to be as a raster to render all of our content
-        final int hudWidth = ( (int) Math.ceil( transformedBounds.getMaxX() ) ) - offsetX;
-        final int hudHeight = ( (int) Math.ceil( transformedBounds.getMaxY() ) ) - offsetY;
+        final int hudWidth = LWJGLUtils.toPowerOf2( ( (int) Math.ceil( transformedBounds.getMaxX() ) ) - offsetX );
+        final int hudHeight = LWJGLUtils.toPowerOf2( ( (int) Math.ceil( transformedBounds.getMaxY() ) ) - offsetY );
 
         // debugging for the translation image-offset issues
 //        if ( this instanceof PiccoloJMENode ) {

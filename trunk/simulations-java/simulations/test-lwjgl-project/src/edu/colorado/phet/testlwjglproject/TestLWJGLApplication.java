@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.testlwjglproject;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -15,7 +16,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule;
-import edu.colorado.phet.testlwjglproject.lwjgl.CanvasTransform.IdentityCanvasTransform;
+import edu.colorado.phet.testlwjglproject.lwjgl.CanvasTransform;
+import edu.colorado.phet.testlwjglproject.lwjgl.CanvasTransform.StageCenteringCanvasTransform;
 import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLCanvas;
 import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLTab;
 import edu.colorado.phet.testlwjglproject.lwjgl.OrthoComponentNode;
@@ -54,6 +56,8 @@ public class TestLWJGLApplication extends PhetApplication {
         private long timeElapsed = 0;
         private long lastTime = 0;
         private OrthoComponentNode testNode;
+        private CanvasTransform canvasTransform;
+        private Dimension stageSize;
 
         public TestingTab( LWJGLCanvas canvas, String title ) {
             super( canvas, title );
@@ -62,17 +66,12 @@ public class TestLWJGLApplication extends PhetApplication {
         @Override public void start() {
             lastTime = System.currentTimeMillis();
 
-            {
-                testNode = new OrthoComponentNode( new JButton( "Test?" ) {{
-                    setOpaque( false );
-                }}, this, new IdentityCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 20 ) ) );
+            stageSize = initialCanvasSize;
+            canvasTransform = new StageCenteringCanvasTransform( canvasSize, stageSize );
 
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-//                glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
-            }
+            testNode = new OrthoComponentNode( new JButton( "Test?" ) {{
+                setOpaque( false );
+            }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 20 ) ) );
         }
 
         @Override public void stop() {
@@ -97,6 +96,7 @@ public class TestLWJGLApplication extends PhetApplication {
             glLoadIdentity();
             glOrtho( 0, getCanvasWidth(), getCanvasHeight(), 0, 1, -1 );
             glMatrixMode( GL_MODELVIEW );
+            glLoadIdentity();
 
             long currentTime = System.currentTimeMillis();
             timeElapsed += ( currentTime - lastTime );
@@ -105,15 +105,13 @@ public class TestLWJGLApplication extends PhetApplication {
             // Clear the screen and depth buffer
             glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-            // Reset the transform
-            glMatrixMode( GL_MODELVIEW );
-            glLoadIdentity();
-
             // our test GUI
             testNode.render();
 
+            CanvasTransform.applyAffineTransform( canvasTransform.transform.get() );
+
             // translate our stuff a bit (can deal with centering after we get resizing working properly
-            glTranslatef( 400, 200, 0 );
+            glTranslatef( stageSize.width / 2, stageSize.height / 3, 0 );
 
             float angle = (float) ( timeElapsed ) / 200;
 

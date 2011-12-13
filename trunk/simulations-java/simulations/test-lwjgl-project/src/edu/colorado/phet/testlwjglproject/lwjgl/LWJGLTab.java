@@ -15,6 +15,7 @@ public abstract class LWJGLTab implements Tab {
 
     // get/set from render thread
     public final Property<Dimension> canvasSize;
+    public Dimension initialCanvasSize;
 
     public LWJGLTab( final LWJGLCanvas canvas, String title ) {
         this.title = title;
@@ -44,6 +45,10 @@ public abstract class LWJGLTab implements Tab {
 
         canvasSize.addObserver( new SimpleObserver() {
             public void update() {
+                // store our initial canvas size
+                if ( initialCanvasSize == null && canvasSize.get().getWidth() != 0 && canvasSize.get().getHeight() != 0 ) {
+                    initialCanvasSize = canvasSize.get();
+                }
                 System.out.println( "Canvas size: " + canvasSize.get() );
             }
         } );
