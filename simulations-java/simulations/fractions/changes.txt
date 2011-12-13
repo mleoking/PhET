@@ -1,3 +1,4 @@
+# 0.00.15 (59324) Dec 13, 2011
 Made 6 vertical bars exactly fit the width of the screen
 Made pies exactly fit the width of the screen
 Constrain the horizontal bar representation to fill the screen when there are 6 and to take up 2 rows
