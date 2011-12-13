@@ -31,25 +31,44 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
         public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event );
     }
 
-    private DragFunction startEndDragFunction; // optional function called when drag starts and ends (on startDrag and endDrag)
+    private DragFunction startDragFunction; // optional function called when drag starts (on startDrag)
+    private DragFunction endDragFunction; // optional function called when drag ends (on endDrag)
     private DragFunction draggingFunction; // optional function called while dragging (on drag).
 
     public SimSharingDragSequenceEventHandler() {
-        this( null, null );
+        this( null, null, null );
     }
 
+    // Convenience constructor, for specifying the same function for drag start and end.
     public SimSharingDragSequenceEventHandler( DragFunction startEndDragFunction ) {
-        this( startEndDragFunction, null );
+        this( startEndDragFunction, startEndDragFunction, null );
     }
 
+    // Convenience constructor, for specifying the same function for drag start and end.
     public SimSharingDragSequenceEventHandler( DragFunction startEndDragFunction, DragFunction draggingFunction ) {
-        this.startEndDragFunction = startEndDragFunction;
+        this( startEndDragFunction, startEndDragFunction, draggingFunction );
+    }
+
+    public SimSharingDragSequenceEventHandler( DragFunction startDragFunction, DragFunction endDragFunction, DragFunction draggingFunction ) {
+        this.startDragFunction = startDragFunction;
+        this.endDragFunction = endDragFunction;
         this.draggingFunction = draggingFunction;
     }
 
-    // Sets the function called when a drag starts and ends.
-    public void setStartEndDragFunction( DragFunction startEndDragFunction ) {
-        this.startEndDragFunction = startEndDragFunction;
+    // Set the function called when dragging starts.
+    public void setStartDragFunction( DragFunction startDragFunction ) {
+        this.startDragFunction = startDragFunction;
+    }
+
+    // Set the function called when dragging ends.
+    public void setEndDragFunction( DragFunction startDragFunction ) {
+        this.endDragFunction = startDragFunction;
+    }
+
+    // Convenience method for specifying the same function for drag start and end, since this is usually what we want.
+    public void setStartEndDragFunction( DragFunction f ) {
+        setStartDragFunction( f );
+        setEndDragFunction( f );
     }
 
     // Sets the function called while dragging.
@@ -58,15 +77,15 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
     }
 
     @Override protected void startDrag( final PInputEvent event ) {
-        if ( startEndDragFunction != null ) {
-            startEndDragFunction.apply( Actions.START_DRAG, getXParameter( event ), getYParameter( event ), event );
+        if ( startDragFunction != null ) {
+            startDragFunction.apply( Actions.START_DRAG, getXParameter( event ), getYParameter( event ), event );
         }
         super.startDrag( event );
     }
 
     @Override protected void endDrag( PInputEvent event ) {
-        if ( startEndDragFunction != null ) {
-            startEndDragFunction.apply( Actions.END_DRAG, getXParameter( event ), getYParameter( event ), event );
+        if ( endDragFunction != null ) {
+            endDragFunction.apply( Actions.END_DRAG, getXParameter( event ), getYParameter( event ), event );
         }
         super.endDrag( event );
     }

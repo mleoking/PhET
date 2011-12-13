@@ -31,25 +31,43 @@ public class SimSharingDragListener extends MouseAdapter {
         public void apply( String action, Parameter xParameter, Parameter yParameter, MouseEvent event );
     }
 
-    private DragFunction startEndDragFunction; // optional function called when drag starts and ends (on mousePressed and mouseReleased)
+    private DragFunction startDragFunction; // optional function called when drag starts (on mousePressed)
+    private DragFunction endDragFunction; // optional function called when drag ends (on mouseReleased)
     private DragFunction draggingFunction; // optional function called while dragging (on mouseDragged).
 
     public SimSharingDragListener() {
-        this( null, null );
     }
 
+    // Convenience constructor, for specifying the same function for drag start and end.
     public SimSharingDragListener( DragFunction startEndDragFunction ) {
-        this( startEndDragFunction, null );
+        this( startEndDragFunction, startEndDragFunction, null );
     }
 
+    // Convenience constructor, for specifying the same function for drag start and end.
     public SimSharingDragListener( DragFunction startEndDragFunction, DragFunction draggingFunction ) {
-        this.startEndDragFunction = startEndDragFunction;
+        this( startEndDragFunction, startEndDragFunction, draggingFunction );
+    }
+
+    public SimSharingDragListener( DragFunction startDragFunction, DragFunction endDragFunction, DragFunction draggingFunction ) {
+        this.startDragFunction = startDragFunction;
+        this.endDragFunction = endDragFunction;
         this.draggingFunction = draggingFunction;
     }
 
-    // Sets the function called when a drag starts and ends.
-    public void setStartEndDragFunction( DragFunction startEndDragFunction ) {
-        this.startEndDragFunction = startEndDragFunction;
+    // Set the function called when dragging starts.
+    public void setStartDragFunction( DragFunction startDragFunction ) {
+        this.startDragFunction = startDragFunction;
+    }
+
+    // Set the function called when dragging ends.
+    public void setEndDragFunction( DragFunction endDragFunction ) {
+        this.endDragFunction = endDragFunction;
+    }
+
+    // Convenience method for specifying the same function for drag start and end, since this is usually what we want.
+    public void setStartEndDragFunction( DragFunction f ) {
+        setStartDragFunction( f );
+        setEndDragFunction( f );
     }
 
     // Sets the function called while dragging.
@@ -58,15 +76,15 @@ public class SimSharingDragListener extends MouseAdapter {
     }
 
     @Override public void mousePressed( MouseEvent event ) {
-        if ( startEndDragFunction != null ) {
-            startEndDragFunction.apply( Actions.START_DRAG, getXParameter( event ), getYParameter( event ), event );
+        if ( startDragFunction != null ) {
+            startDragFunction.apply( Actions.START_DRAG, getXParameter( event ), getYParameter( event ), event );
         }
         super.mousePressed( event );
     }
 
     @Override public void mouseReleased( MouseEvent event ) {
-        if ( startEndDragFunction != null ) {
-            startEndDragFunction.apply( Actions.END_DRAG, getXParameter( event ), getYParameter( event ), event );
+        if ( endDragFunction != null ) {
+            endDragFunction.apply( Actions.END_DRAG, getXParameter( event ), getYParameter( event ), event );
         }
         super.mouseReleased( event );
     }
