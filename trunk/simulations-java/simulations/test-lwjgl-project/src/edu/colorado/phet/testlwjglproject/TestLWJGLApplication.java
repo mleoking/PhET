@@ -12,10 +12,13 @@ import org.lwjgl.opengl.Display;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule;
-import edu.colorado.phet.testlwjglproject.lwjgl.ComponentImage;
+import edu.colorado.phet.testlwjglproject.lwjgl.CanvasTransform.IdentityCanvasTransform;
 import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLCanvas;
 import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLTab;
+import edu.colorado.phet.testlwjglproject.lwjgl.OrthoComponentNode;
 import edu.colorado.phet.testlwjglproject.lwjgl.StartupUtils;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -50,7 +53,7 @@ public class TestLWJGLApplication extends PhetApplication {
     private static class TestingTab extends LWJGLTab {
         private long timeElapsed = 0;
         private long lastTime = 0;
-        private ComponentImage testingComponentImage;
+        private OrthoComponentNode testNode;
 
         public TestingTab( LWJGLCanvas canvas, String title ) {
             super( canvas, title );
@@ -60,9 +63,9 @@ public class TestLWJGLApplication extends PhetApplication {
             lastTime = System.currentTimeMillis();
 
             {
-                testingComponentImage = new ComponentImage( 256, 256, true, new JButton( "Test?" ) {{
+                testNode = new OrthoComponentNode( new JButton( "Test?" ) {{
                     setOpaque( false );
-                }} );
+                }}, this, new IdentityCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 20 ) ) );
 
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
@@ -78,6 +81,9 @@ public class TestLWJGLApplication extends PhetApplication {
 
         @Override public void loop() {
             Display.sync( 60 );
+
+            // TODO: test node update
+            //testingComponentImage.update();
 
             glEnable( GL_BLEND );
             glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
@@ -103,28 +109,8 @@ public class TestLWJGLApplication extends PhetApplication {
             glMatrixMode( GL_MODELVIEW );
             glLoadIdentity();
 
-            {
-                glEnable( GL_TEXTURE_2D );
-                glShadeModel( GL_FLAT );
-
-                testingComponentImage.useTexture();
-
-                glColor4f( 1, 1, 1, 1 );
-
-                glBegin( GL_QUADS );
-                glTexCoord2d( 0.0, 0.0 );
-                glVertex3d( 0, 0, 0.0 );
-                glTexCoord2d( 0.0, 1.0 );
-                glVertex3d( 0, testingComponentImage.getHeight(), 0.0 );
-                glTexCoord2d( 1.0, 1.0 );
-                glVertex3d( testingComponentImage.getWidth(), testingComponentImage.getHeight(), 0.0 );
-                glTexCoord2d( 1.0, 0.0 );
-                glVertex3d( testingComponentImage.getWidth(), 0, 0.0 );
-                glEnd();
-
-                glShadeModel( GL_SMOOTH );
-                glDisable( GL_TEXTURE_2D );
-            }
+            // our test GUI
+            testNode.render();
 
             // translate our stuff a bit (can deal with centering after we get resizing working properly
             glTranslatef( 400, 200, 0 );

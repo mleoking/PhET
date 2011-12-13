@@ -50,7 +50,7 @@ public class ComponentImage extends TextureImage {
     }
 
     // TODO: run this every frame
-    public void checkRepaint() {
+    public void update() {
         // make sure we acquire the swing thread before doing the repainting that needs to be done
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
