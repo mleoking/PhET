@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ShapeSegment;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -48,16 +49,16 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
             segmentShapeLayer.moveToBack();
 
             // Observe the mRNA and add new shape segments as they come into existence.
-            messengerRna.shapeSegments.addElementAddedObserver( new VoidFunction1<MessengerRna.ShapeSegment>() {
+            messengerRna.shapeSegments.addElementAddedObserver( new VoidFunction1<ShapeSegment>() {
 
-                public void apply( final MessengerRna.ShapeSegment addedShapeSegment ) {
+                public void apply( final ShapeSegment addedShapeSegment ) {
                     final ShapeSegmentNode shapeSegmentNode = new ShapeSegmentNode( addedShapeSegment, mvt );
                     segmentShapeLayer.addChild( shapeSegmentNode );
 
                     // Watch for removal of this shape segment.  If it goes
                     // away, remove the corresponding node.
-                    messengerRna.shapeSegments.addElementRemovedObserver( new VoidFunction1<MessengerRna.ShapeSegment>() {
-                        public void apply( MessengerRna.ShapeSegment removedShapeSegment ) {
+                    messengerRna.shapeSegments.addElementRemovedObserver( new VoidFunction1<ShapeSegment>() {
+                        public void apply( ShapeSegment removedShapeSegment ) {
                             if ( removedShapeSegment == addedShapeSegment ) {
                                 segmentShapeLayer.removeChild( shapeSegmentNode );
                             }
@@ -83,7 +84,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
         // visualized.  This is in screen units.
         private static final double FLAT_SEGMENT_NODE_HEIGHT = 5;
 
-        private ShapeSegmentNode( final MessengerRna.ShapeSegment shapeSegment, final ModelViewTransform mvt ) {
+        private ShapeSegmentNode( final ShapeSegment shapeSegment, final ModelViewTransform mvt ) {
 
             // Create the node that represents the segment.
             final PhetPPath shapeSegmentNode = new PhetPPath( FILL_COLOR, STROKE, STROKE_COLOR );
