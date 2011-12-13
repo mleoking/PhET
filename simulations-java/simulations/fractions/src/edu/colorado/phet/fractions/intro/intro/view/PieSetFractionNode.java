@@ -18,19 +18,22 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PieSetFractionNode extends VisibilityNode {
 
-    //Tuned so that 6 pies fit on the screen
-    private static final int DIAMETER = (int) ( 70 * 2.21 );
-    private final Rectangle PIE_SIZE = new Rectangle( 0, 0, DIAMETER, DIAMETER );
-
     public PieSetFractionNode( final Property<Integer> numerator, final Property<Integer> denominator, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         new RichSimpleObserver() {
-            @Override public void update() {
+            public void update() {
+
+                //6 pies fit on the screen
+                int distanceBetweenPies = 10;
+                double spaceForPies = FractionsIntroCanvas.WIDTH_FOR_REPRESENTATION - distanceBetweenPies * 5;
+                final double DIAMETER = spaceForPies / 6;
+                final Rectangle PIE_SIZE = new Rectangle( 0, 0, (int) DIAMETER, (int) DIAMETER );
+
                 removeAllChildren();
                 int numFullPies = numerator.get() / denominator.get();
                 int slicesInLastPie = numerator.get() % denominator.get();
                 int numSlices = denominator.get();
-                SpacedHBox box = new SpacedHBox( DIAMETER * 1.05 );
+                SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
 
                 for ( int i = 0; i < numFullPies; i++ ) {
                     final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];

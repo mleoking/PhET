@@ -28,7 +28,7 @@ public class HorizontalBarChosenRepresentationNode extends ChosenRepresentationN
                 final int distanceBetweenBars = 55;
 
                 //Find how much space we can use for 3 bars horizontally
-                double spaceForBars = FractionsIntroCanvas.STAGE_SIZE.getWidth() - FractionsIntroCanvas.INSET * 2 - distanceBetweenBars * 2;
+                double spaceForBars = FractionsIntroCanvas.WIDTH_FOR_REPRESENTATION - distanceBetweenBars * 2;
                 double totalBarWidth = spaceForBars / NUM_BARS_PER_LINE;
                 final double cellWidth = totalBarWidth / denominator.get();
 
