@@ -43,6 +43,10 @@ public class IntegerProperty extends Property<Integer> {
         return new Times( this, new Property<Integer>( b ) );
     }
 
+    public Times times( ObservableProperty<Integer> b ) {
+        return new Times( this, b );
+    }
+
     public ObservableProperty<Integer> minus( CompositeIntegerProperty b ) {
         return new Minus( this, b );
     }
@@ -63,7 +67,19 @@ public class IntegerProperty extends Property<Integer> {
         return new GreaterThanOrEqualTo( this, b );
     }
 
+    public ObservableProperty<Boolean> lessThanOrEqualTo( int b ) {
+        return lessThanOrEqualTo( new IntegerProperty( b ) );
+    }
+
     public ObservableProperty<Boolean> lessThanOrEqualTo( ObservableProperty<Integer> b ) {
         return new LessThanOrEqualTo( this, b );
+    }
+
+    public void increment() {
+        set( get() + 1 );
+    }
+
+    public void decrement() {
+        set( get() - 1 );
     }
 }

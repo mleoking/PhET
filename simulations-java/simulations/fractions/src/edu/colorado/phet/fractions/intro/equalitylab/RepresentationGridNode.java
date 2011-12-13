@@ -25,9 +25,10 @@ public class RepresentationGridNode extends PNode {
     //A single cell in the 2x2 grid, showing one shapes-based representation
     public static class RepresentationGridCell extends PhetPNode {
         public RepresentationGridCell() {
-            final int width = 320;
+            final int width = 450;
+            final int height = 320;
             final int curve = 20;
-            PNode leftBoxNode = new PhetPPath( new RoundRectangle2D.Double( 0, 0, width, width, curve, curve ), new BasicStroke( 2 ), Color.black );
+            PNode leftBoxNode = new PhetPPath( new RoundRectangle2D.Double( 0, 0, width, height, curve, curve ), new BasicStroke( 2 ), Color.black );
             addChild( leftBoxNode );
         }
     }
@@ -59,5 +60,11 @@ public class RepresentationGridNode extends PNode {
         }};
         addChild( bottomEqualsSign );
 
+        final ZeroOffsetNode scaledUpVersionNode = new ZeroOffsetNode( new ScaledUpFractionNode( model.numerator, model.denominator ) ) {{
+            scale( 0.5 );
+            setOffset( topRight.getCenterX() - getFullWidth() / 2, topRight.getMaxY() + 5 );
+        }};
+
+        addChild( scaledUpVersionNode );
     }
 }

@@ -10,9 +10,9 @@ import edu.colorado.phet.fractions.common.view.SpinnerButtonPanel;
  *
  * @author Sam Reid
  */
-public class NumeratorSpinner extends FractionNumberNode {
+public class NumeratorWithSpinner extends FractionNumberNode {
 
-    public NumeratorSpinner( final IntegerProperty numerator, IntegerProperty denominator ) {
+    public NumeratorWithSpinner( final IntegerProperty numerator, IntegerProperty denominator ) {
         super( numerator );
 
 //        Max amount of things will be 6

@@ -12,11 +12,11 @@ import edu.colorado.phet.fractions.common.view.SpinnerButtonPanel;
  *
  * @author Sam Reid
  */
-public class DenominatorSpinner extends FractionNumberNode {
+public class DenominatorWithSpinner extends FractionNumberNode {
 
     private final int MAX_DENOMINATOR = 8;
 
-    public DenominatorSpinner( final IntegerProperty numerator, final IntegerProperty denominator ) {
+    public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator ) {
         super( denominator );
 
         //        n / d <= 6 , so n<=6d
