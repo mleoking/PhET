@@ -27,6 +27,8 @@ public class AbstractFractionsCanvas extends PhetPCanvas {
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     public static final double INSET = 10;
 
+    public static final double WIDTH_FOR_REPRESENTATION = STAGE_SIZE.getWidth() - INSET * 2;
+
     public AbstractFractionsCanvas() {
 
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );

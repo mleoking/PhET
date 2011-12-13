@@ -1,3 +1,4 @@
+Made pies exactly fit the width of the screen
 Constrain the horizontal bar representation to fill the screen when there are 6 and to take up 2 rows
 Fixed: Oddly, the circles look well centered and such when there are 6 "wholes" but 6 circles divided into "fifths" goes slightly off screen.
 # 0.00.14 (59312) Dec 13, 2011
