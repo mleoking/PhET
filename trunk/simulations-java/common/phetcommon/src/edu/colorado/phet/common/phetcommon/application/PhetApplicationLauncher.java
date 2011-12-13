@@ -2,9 +2,12 @@
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JSpinner;
+import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
@@ -13,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.sponsorship.SponsorMenuItem;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdatesManager;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
  * This launcher solves the following problems:
@@ -117,20 +121,33 @@ public class PhetApplicationLauncher {
 
                         // sim initialization
                         showSplashWindow( config.getName() );
-                        PhetApplication app = applicationConstructor.getApplication( config );
+                        final PhetApplication app = applicationConstructor.getApplication( config );
                         app.startApplication();
                         disposeSplashWindow();
 
-                        // show KSU credits
-                        if ( KSUCreditsWindow.shouldShow( config ) ) {
-                            KSUCreditsWindow.show( app.getPhetFrame() );
-                        }
+                        // Function for displaying Sponsor dialog and adding Sponsor menu item.
+                        final VoidFunction0 sponsorFunction = new VoidFunction0() {
+                            public void apply() {
+                                if ( SponsorDialog.shouldShow( config ) ) {
+                                    SponsorDialog.show( config, app.getPhetFrame(), true /* startDisposeTimer */ );
+                                    app.getPhetFrame().getHelpMenu().add( new SponsorMenuItem( config, app.getPhetFrame() ) );
+                                }
+                            }
+                        };
 
-                        // Sponsor dialog & menu item
-                        //TODO wait until the KSU Credits window closes
-                        if ( SponsorDialog.shouldShow( config ) ) {
-                            SponsorDialog.show( config, app.getPhetFrame(), true /* startDisposeTimer */ );
-                            app.getPhetFrame().getHelpMenu().add( new SponsorMenuItem( config, app.getPhetFrame() ) );
+                        // Display KSU Credits window, followed by Sponsor dialog (both optional)
+                        if ( KSUCreditsWindow.shouldShow( config ) ) {
+                            JWindow window = KSUCreditsWindow.show( app.getPhetFrame() );
+                            // wait until KSU Credits window is closed before calling sponsor function
+                            window.addWindowListener( new WindowAdapter() {
+                                @Override public void windowClosed( WindowEvent e ) {
+                                    sponsorFunction.apply();
+                                }
+                            } );
+                        }
+                        else {
+                            // No KSU Credits window, call sponsor function
+                            sponsorFunction.apply();
                         }
 
                         //Ignore statistics and updates for sims that are still under development
