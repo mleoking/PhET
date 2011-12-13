@@ -7,11 +7,8 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Parameters;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
-import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.view.ABSConductivityTesterNode;
 import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.MagnifyingGlassNode;
 import edu.colorado.phet.acidbasesolutions.view.PHColorKeyNode;
@@ -19,15 +16,10 @@ import edu.colorado.phet.acidbasesolutions.view.PHMeterNode;
 import edu.colorado.phet.acidbasesolutions.view.PHPaperNode;
 import edu.colorado.phet.acidbasesolutions.view.ReactionEquationNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -38,14 +30,6 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class ABSCanvas extends PhetPCanvas {
 
     private final PNode rootNode;
-    private final BeakerNode beakerNode;
-    private final PHMeterNode pHMeterNode;
-    private final MagnifyingGlassNode magnifyingGlassNode;
-    private final ConcentrationGraphNode concentrationGraphNode;
-    private final ReactionEquationNode reactionEquationNode;
-    private final PHPaperNode pHPaperNode;
-    private final PNode pHColorKeyNode;
-    private final ConductivityTesterNode conductivityTesterNode;
 
     public ABSCanvas( ABSModel model, boolean dev ) {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
@@ -56,41 +40,14 @@ public class ABSCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // nodes
-        beakerNode = new BeakerNode( model.getBeaker() );
-        pHMeterNode = new PHMeterNode( model.getPHMeter() );
-        magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass() );
-        concentrationGraphNode = new ConcentrationGraphNode( model.getConcentrationGraph() );
-        reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
-        pHPaperNode = new PHPaperNode( model.getPHPaper() );
-        pHColorKeyNode = new PHColorKeyNode( model.getPHPaper() );
-        final ConductivityTester conductivityTester = model.getConductivityTester();
-        conductivityTesterNode = new ConductivityTesterNode( conductivityTester, ModelViewTransform.createIdentity(), Color.BLACK, Color.RED, Color.BLACK, dev ) {{
-            //Wire up so the conductivity tester is only shown when selected
-            conductivityTester.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
-                public void visibilityChanged() {
-                    setVisible( conductivityTester.isVisible() );
-                }
-            } );
-            // sim-sharing, positive probe
-            getPositiveProbeDragHandler().setStartEndDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
-                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingEvents.sendEvent( Objects.CONDUCTIVITY_TESTER_POSITIVE_PROBE, action, xParameter, yParameter,
-                                                new Parameter( Parameters.IS_IN_SOLUTION, conductivityTester.isPositiveProbeInSolution() ),
-                                                new Parameter( Parameters.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() )
-                    );
-                }
-            } );
-            // sim-sharing, negative probe
-            getNegativeProbeDragHandler().setStartEndDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
-                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingEvents.sendEvent( Objects.CONDUCTIVITY_TESTER_NEGATIVE_PROBE, action, xParameter, yParameter,
-                                                new Parameter( Parameters.IS_IN_SOLUTION, conductivityTester.isNegativeProbeInSolution() ),
-                                                new Parameter( Parameters.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() )
-                    );
-                }
-            } );
-        }};
-
+        PNode beakerNode = new BeakerNode( model.getBeaker() );
+        PNode pHMeterNode = new PHMeterNode( model.getPHMeter() );
+        PNode magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass() );
+        PNode concentrationGraphNode = new ConcentrationGraphNode( model.getConcentrationGraph() );
+        PNode reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
+        PNode pHPaperNode = new PHPaperNode( model.getPHPaper() );
+        PNode pHColorKeyNode = new PHColorKeyNode( model.getPHPaper() );
+        PNode conductivityTesterNode = new ABSConductivityTesterNode( model.getConductivityTester(), ModelViewTransform.createIdentity(), Color.BLACK, Color.RED, Color.BLACK, dev );
 
         // rendering order
         addNode( pHMeterNode );
@@ -124,11 +81,8 @@ public class ABSCanvas extends PhetPCanvas {
         }
     }
 
-    /*
-    * Centers the root node on the canvas when the canvas size changes.
-    */
-    @Override
-    protected void updateLayout() {
+    // Centers the root node on the canvas when the canvas size changes.
+    @Override protected void updateLayout() {
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
             centerRootNode();
