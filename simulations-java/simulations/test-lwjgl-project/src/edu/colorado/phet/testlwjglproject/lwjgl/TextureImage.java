@@ -71,4 +71,8 @@ public abstract class TextureImage {
     public int getWidth() {
         return width;
     }
+
+    public AffineTransform getImageTransform() {
+        return imageTransform;
+    }
 }
