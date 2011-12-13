@@ -1,3 +1,4 @@
+# 1.01.16 (59280) Dec 12, 2011
 Added developer options to show/hide 2nd tab versions.
 Fixed radio button multiple-clicking bug
 Text change to "Show Outer Lone Pairs"
