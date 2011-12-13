@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.PixelFormat;
 
 public class LWJGLCanvas extends Canvas {
 
@@ -68,8 +69,14 @@ public class LWJGLCanvas extends Canvas {
             public void run() {
                 running = true;
                 try {
+                    int maxAntiAliasingSamples = StartupUtils.getMaximumAntialiasingSamples();
                     Display.setParent( LWJGLCanvas.this );
-                    Display.create();
+                    Display.create( new PixelFormat( 24, // bpp, excluding alpha
+                                                     8, // alpha
+                                                     24, // depth
+                                                     0, // stencil
+                                                     Math.min( 4, maxAntiAliasingSamples ) ) // antialiasing samples
+                    );
                 }
                 catch ( LWJGLException e ) {
                     e.printStackTrace();

@@ -12,6 +12,13 @@ import java.util.logging.Logger;
 
 import javax.swing.JPopupMenu;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.Pbuffer;
+import org.lwjgl.opengl.PixelFormat;
+
 /**
  * Responsible for extracting the native libraries into the correct place, if needed.
  */
@@ -35,6 +42,26 @@ public class StartupUtils {
 
             extractNativeLibs( tempDir, getPlatform(), false, false );
         }
+    }
+
+    /**
+     * @return Maxiumum anti-aliasing samples supported. Required to have the LWJGL libraries loaded before calling
+     */
+    public static int getMaximumAntialiasingSamples() {
+        int result = 0;
+        try {
+            Pbuffer pb = new Pbuffer( 10, 10, new PixelFormat( 32, 0, 24, 8, 0 ), null );
+            pb.makeCurrent();
+            boolean supported = GLContext.getCapabilities().GL_ARB_multisample;
+            if ( supported ) {
+                result = GL11.glGetInteger( GL30.GL_MAX_SAMPLES );
+            }
+            pb.destroy();
+        }
+        catch ( LWJGLException e ) {
+            //e.printStackTrace();
+        }
+        return result;
     }
 
     /*
