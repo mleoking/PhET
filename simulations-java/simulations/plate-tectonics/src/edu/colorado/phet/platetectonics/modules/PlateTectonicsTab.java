@@ -52,7 +52,7 @@ public abstract class PlateTectonicsTab extends JMETab {
     }
 
     @Override public void initialize() {
-        canvasTransform = new CenteredStageCanvasTransform( getApp() );
+        canvasTransform = new CenteredStageCanvasTransform( getApp().canvasSize );
 
         /*---------------------------------------------------------------------------*
         * temporary test scene

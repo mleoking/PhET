@@ -36,15 +36,15 @@ public abstract class CanvasTransform {
 
     public static class CenteredStageCanvasTransform extends CanvasTransform {
 
-        private final PhetJMEApplication app;
         private final Dimension stageSize;
+        private final Property<Dimension> canvasSize;
 
-        public CenteredStageCanvasTransform( PhetJMEApplication app ) {
-            this.app = app;
+        public CenteredStageCanvasTransform( Property<Dimension> canvasSize ) {
+            this.canvasSize = canvasSize;
 
-            stageSize = app.canvasSize.get();
+            stageSize = canvasSize.get();
 
-            app.canvasSize.addObserver( new SimpleObserver() {
+            canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
                     transform.set( getTransform() );
                 }
@@ -57,10 +57,8 @@ public abstract class CanvasTransform {
         }
 
         public AffineTransform getTransform() {
-            Dimension canvasSize = app.canvasSize.get();
-
-            double sx = canvasSize.getWidth() / stageSize.getWidth();
-            double sy = canvasSize.getHeight() / stageSize.getHeight();
+            double sx = canvasSize.get().getWidth() / stageSize.getWidth();
+            double sy = canvasSize.get().getHeight() / stageSize.getHeight();
 
             //use the smaller and maintain aspect ratio so that circles don't become ellipses
             double scale = sx < sy ? sx : sy;
@@ -70,7 +68,7 @@ public abstract class CanvasTransform {
             double scaledStageWidth = scale * stageSize.getWidth();
             double scaledStageHeight = scale * stageSize.getHeight();
             //center it in width and height
-            transform.translate( canvasSize.getWidth() / 2 - scaledStageWidth / 2, canvasSize.getHeight() / 2 - scaledStageHeight / 2 );
+            transform.translate( canvasSize.get().getWidth() / 2 - scaledStageWidth / 2, canvasSize.get().getHeight() / 2 - scaledStageHeight / 2 );
             transform.scale( scale, scale );
 
             return transform;
