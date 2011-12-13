@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Shows a fraction as a set of pies.
+ * Shows a fraction as a set of 3d cakes.
  *
  * @author Sam Reid
  */
