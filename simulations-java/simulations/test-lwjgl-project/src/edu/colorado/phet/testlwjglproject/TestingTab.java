@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.testlwjglproject.lwjgl.CanvasTransform;
 import edu.colorado.phet.testlwjglproject.lwjgl.CanvasTransform.StageCenteringCanvasTransform;
@@ -27,6 +28,7 @@ import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLCanvas;
 import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLTab;
 import edu.colorado.phet.testlwjglproject.lwjgl.OrthoComponentNode;
 import edu.colorado.phet.testlwjglproject.lwjgl.OrthoPiccoloNode;
+import edu.umd.cs.piccolo.PNode;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -83,14 +85,17 @@ public class TestingTab extends LWJGLTab {
                 } );
             }} );
         }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 20 ) ), mouseEventNotifier );
-        testPiccoloNode = new OrthoPiccoloNode( new TextButtonNode( "Piccolo Button", new PhetFont( 16, true ), Color.ORANGE ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    System.out.println( "Piccolo button pressed" );
-                }
-            } );
-        }},
-                                                this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 100 ) ), mouseEventNotifier );
+        testPiccoloNode = new OrthoPiccoloNode( new PNode() {{
+            PNode button = new TextButtonNode( "Piccolo Button", new PhetFont( 14 ), Color.ORANGE ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        System.out.println( "Piccolo button pressed" );
+                    }
+                } );
+            }};
+            addChild( new Spacer( button.getFullBounds() ) );
+            addChild( button );
+        }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 100 ) ), mouseEventNotifier );
     }
 
     @Override public void stop() {
