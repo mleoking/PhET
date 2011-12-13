@@ -7,8 +7,9 @@ import java.awt.Rectangle;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Shows a fraction as a set of pies.
@@ -18,8 +19,8 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 public class PieSetFractionNode extends VisibilityNode {
 
     //Tuned so that 6 pies fit on the screen
-    static final double scale = 2.21;
-    private final Rectangle PIE_SIZE = new Rectangle( 0, 0, (int) ( 70 * scale ), (int) ( 70 * scale ) );
+    private static final int DIAMETER = (int) ( 70 * 2.21 );
+    private final Rectangle PIE_SIZE = new Rectangle( 0, 0, DIAMETER, DIAMETER );
 
     public PieSetFractionNode( final Property<Integer> numerator, final Property<Integer> denominator, ObservableProperty<Boolean> enabled ) {
         super( enabled );
@@ -29,7 +30,7 @@ public class PieSetFractionNode extends VisibilityNode {
                 int numFullPies = numerator.get() / denominator.get();
                 int slicesInLastPie = numerator.get() % denominator.get();
                 int numSlices = denominator.get();
-                HBox box = new HBox();
+                SpacedHBox box = new SpacedHBox( DIAMETER * 1.05 );
 
                 for ( int i = 0; i < numFullPies; i++ ) {
                     final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];
@@ -50,5 +51,22 @@ public class PieSetFractionNode extends VisibilityNode {
                 addChild( box );
             }
         }.observe( numerator, denominator );
+    }
+
+    //For layout of the pies, necessary because when sliced into different regions, the bounding boxes can extend beyond the pie.
+    //So instead we ignore the full bounds and just space based on diameter
+    private static class SpacedHBox extends RichPNode {
+        private final double spacing;
+        private double x = 0;
+
+        public SpacedHBox( double spacing ) {
+            this.spacing = spacing;
+        }
+
+        @Override public void addChild( PNode child ) {
+            child.setOffset( x, child.getYOffset() );
+            super.addChild( child );
+            x += spacing;
+        }
     }
 }
