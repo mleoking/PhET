@@ -36,7 +36,10 @@ public class RepresentationArea extends PNode {
         }} );
         addChild( new NumberLineNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.NUMBER_LINE ) ) {{
             setOffset( 10, 15 );
+        }} );
 
+        addChild( new CakeSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.CAKE ) ) {{
+            setOffset( 0, 0 );
         }} );
     }
 }
