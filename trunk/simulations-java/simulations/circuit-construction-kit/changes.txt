@@ -1,3 +1,4 @@
+12/12/11 #3166, enable sponsor prototype in circuit-construction-kit-build.properties
 12/12/11 #3166, add files related to sponsor prototype
 Fixed: Advanced panel doesn't close on reset all, resolves #2959
 Removed unused noninternationalized code
