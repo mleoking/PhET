@@ -25,8 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class SponsorPanel extends GridPanel {
 
-    //TODO read these from phetcommon-strings
-    // i18n
+    //TODO i18n
     private static final String SPONSORED_BY = "Sponsored by";
     private static final String SINCE_DATE = "(since {0})";
 
