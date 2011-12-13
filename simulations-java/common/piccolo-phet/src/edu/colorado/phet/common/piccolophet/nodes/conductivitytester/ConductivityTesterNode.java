@@ -17,7 +17,6 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -102,7 +101,6 @@ public class ConductivityTesterNode extends PhetPNode {
     private final ValueNode valueNode;
 
     private final ProbeDragHandler positiveProbeDragHandler, negativeProbeDragHandler;
-    private SimSharingEventArgs positiveProbeArgs, negativeProbeArgs;
 
     // Convenience constructor, uses the same color for all wires.
     public ConductivityTesterNode( final IConductivityTester tester, ModelViewTransform transform, Color wireColor, Color positiveProbeFillColor, Color negativeProbeFillColor, boolean dev ) {
@@ -313,12 +311,14 @@ public class ConductivityTesterNode extends PhetPNode {
         updateBrightness();
     }
 
-    public void setPositiveProbeSimSharingEventArgs( SimSharingEventArgs args ) {
-        positiveProbeDragHandler.setSimSharingEventArgs( args );
+    // For sim-sharing
+    public SimSharingDragSequenceEventHandler getPositiveProbeDragHandler() {
+        return positiveProbeDragHandler;
     }
 
-    public void setNegativeProbeSimSharingEventArgs( SimSharingEventArgs args ) {
-        negativeProbeDragHandler.setSimSharingEventArgs( args );
+    // For sim-sharing
+    public SimSharingDragSequenceEventHandler getNegativeProbeDragHandler() {
+        return negativeProbeDragHandler;
     }
 
     /*

@@ -20,13 +20,14 @@ import edu.colorado.phet.acidbasesolutions.view.PHPaperNode;
 import edu.colorado.phet.acidbasesolutions.view.ReactionEquationNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -71,21 +72,23 @@ public class ABSCanvas extends PhetPCanvas {
                 }
             } );
             // sim-sharing, positive probe
-            setPositiveProbeSimSharingEventArgs( new SimSharingEventArgs( Objects.CONDUCTIVITY_TESTER_POSITIVE_PROBE, new Function0<Parameter[]>() {
-                public Parameter[] apply() {
-                    return new Parameter[] {
-                            Parameter.param( Parameters.IS_IN_SOLUTION, conductivityTester.isPositiveProbeInSolution() ),
-                            Parameter.param( Parameters.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() ) };
+            getPositiveProbeDragHandler().setStartEndDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                    SimSharingEvents.sendEvent( Objects.CONDUCTIVITY_TESTER_POSITIVE_PROBE, action, xParameter, yParameter,
+                                                new Parameter( Parameters.IS_IN_SOLUTION, conductivityTester.isPositiveProbeInSolution() ),
+                                                new Parameter( Parameters.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() )
+                    );
                 }
-            } ) );
+            } );
             // sim-sharing, negative probe
-            setNegativeProbeSimSharingEventArgs( new SimSharingEventArgs( Objects.CONDUCTIVITY_TESTER_NEGATIVE_PROBE, new Function0<Parameter[]>() {
-                public Parameter[] apply() {
-                    return new Parameter[] {
-                            Parameter.param( Parameters.IS_IN_SOLUTION, conductivityTester.isNegativeProbeInSolution() ),
-                            Parameter.param( Parameters.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() ) };
+            getNegativeProbeDragHandler().setStartEndDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                    SimSharingEvents.sendEvent( Objects.CONDUCTIVITY_TESTER_NEGATIVE_PROBE, action, xParameter, yParameter,
+                                                new Parameter( Parameters.IS_IN_SOLUTION, conductivityTester.isNegativeProbeInSolution() ),
+                                                new Parameter( Parameters.IS_CIRCUIT_COMPLETED, conductivityTester.isCircuitCompleted() )
+                    );
                 }
-            } ) );
+            } );
         }};
 
 

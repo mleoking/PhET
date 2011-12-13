@@ -2,6 +2,7 @@
 # This file documents changes to the sim-sharing event protocol.
 #
 
+12/13/11 [] molecule-polarity: BondCharacterNode: use standardized event for interactiving with non-interactive component "BondCharacterNode pressed interactive=false"
 12/6/11 [59085] common: SimSharingJMenu: action "selected" -> "pressed"
 12/6/11 [59085] common: SimSharingJMenuItem: action "selected" -> "pressed"
 12/5/11 [59025] molecule-polarity: ElectronegativityControlNode: object "mouse" -> "electronegativityControl"

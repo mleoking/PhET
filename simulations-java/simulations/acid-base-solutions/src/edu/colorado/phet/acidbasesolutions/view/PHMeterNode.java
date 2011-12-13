@@ -22,12 +22,13 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -89,29 +90,7 @@ public class PHMeterNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingEventArgs( Objects.PH_METER,
-                                                                                                new Function0<Parameter[]>() {
-                                                                                                    public Parameter[] apply() {
-                                                                                                        return new Parameter[] { Parameter.param( Parameters.IS_IN_SOLUTION, meter.isInSolution() ) };
-                                                                                                    }
-                                                                                                } ) ) {
-
-            private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
-
-            protected void startDrag( PInputEvent event ) {
-                super.startDrag( event );
-                Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                clickYOffset = pMouse.getY() - meter.getLocationReference().getY();
-            }
-
-            protected void drag( final PInputEvent event ) {
-                super.drag( event );
-                Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                double y = pMouse.getY() - clickYOffset;
-                //TODO map y from view to model coordinate frame
-                meter.setLocation( meter.getLocationReference().getX(), y );
-            }
-        } );
+        addInputEventListener( new PhMeterDragHandler( meter, this ) );
 
         setOffset( meter.getLocationReference() );
         setVisible( meter.isVisible() );
@@ -243,6 +222,43 @@ public class PHMeterNode extends PhetPNode {
             setPathTo( area );
             setPaint( TIP_COLOR );
             setStroke( null );
+        }
+    }
+
+    // Handles everything related to dragging of the meter.
+    private static class PhMeterDragHandler extends SimSharingDragSequenceEventHandler {
+
+        private final PHMeter meter;
+        private final PNode dragNode;
+        private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
+
+        public PhMeterDragHandler( final PHMeter meter, PNode dragNode ) {
+            this.meter = meter;
+            this.dragNode = dragNode;
+            setStartEndDragFunction( new DragFunction() {
+                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                    SimSharingEvents.sendEvent( Objects.PH_METER, action, new Parameter( Parameters.IS_IN_SOLUTION, meter.isInSolution() ) );
+                }
+            } );
+        }
+
+        @Override protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            clickYOffset = pMouse.getY() - meter.getLocationReference().getY();
+        }
+
+        @Override protected void drag( final PInputEvent event ) {
+            super.drag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            double y = pMouse.getY() - clickYOffset;
+            //TODO map y from view to model coordinate frame
+            boolean wasInSolution = meter.isInSolution();
+            meter.setLocation( meter.getLocationReference().getX(), y );
+            if ( wasInSolution != meter.isInSolution() ) {
+                // send a sim-sharing event when the meter transitions between in/out of solution.
+                SimSharingEvents.sendEvent( Objects.PH_METER, Actions.DRAG, new Parameter( Parameters.IS_IN_SOLUTION, meter.isInSolution() ) );
+            }
         }
     }
 }

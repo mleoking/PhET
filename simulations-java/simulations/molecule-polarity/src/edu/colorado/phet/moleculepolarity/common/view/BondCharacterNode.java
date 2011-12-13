@@ -10,24 +10,21 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Objects;
-import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Displays the bond type, by placing a marker on a continuum whose extremes are "covalent" and "ionic".
@@ -104,14 +101,12 @@ public class BondCharacterNode extends PComposite {
             }
         } );
 
-        //Report when the user tries to click on this non-interactive control
-        addInputEventListener( new SimSharingDragSequenceEventHandler(
-                new SimSharingEventArgs( Objects.OBJECT_BOND_CHARACTER_NODE,
-                                         new Function0<Parameter[]>() {
-                                             public Parameter[] apply() {
-                                                 return new Parameter[] { param( Parameters.PARAM_INTERACTIVE, false ) };
-                                             }
-                                         } ) ) );
+        //Report when the user tries to interactive with this non-interactive control
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mousePressed( PInputEvent event ) {
+                SimSharingEvents.sendNotInteractiveEvent( Objects.OBJECT_BOND_CHARACTER_NODE, Actions.PRESSED );
+            }
+        } );
     }
 
     // Pointer looks like a horizontally aligned diatomic molecule.

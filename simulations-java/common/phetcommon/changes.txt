@@ -1,3 +1,5 @@
+12/13/11 #3175, standardize event for attempt to interactive with non-interactive component
+12/13/11 #3175, overhaul sim-sharing drag handlers to support optional functions for start/end/drag;
 12/9/11 #3166, added sponsor prototype
 12/9/11 #3166, better encapsulation of KSU credits window, in preparation for adding a similar sponsorship window
 12/7/11 #3179, add additional country-specific locales for Spanish

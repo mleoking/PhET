@@ -19,10 +19,9 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEventArgs;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -44,8 +43,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Slider control for electronegativity.
@@ -267,19 +264,7 @@ public class ElectronegativityControlNode extends PhetPNode {
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( this, THUMB_NORMAL_COLOR, THUMB_HIGHLIGHT_COLOR ) );
-            addInputEventListener( new ThumbDragHandler( molecule, relativeNode, trackNode, this, range, snapInterval,
-                                                         new VoidFunction1<Double>() {
-                                                             public void apply( Double value ) {
-                                                                 atom.electronegativity.set( value );
-                                                             }
-                                                         } ) {{
-                setSimSharingEventArgs( new SimSharingEventArgs( Objects.OBJECT_ELECTRONEGATIVITY_CONTROL,
-                                                                 new Function0<Parameter[]>() {
-                                                                     public Parameter[] apply() {
-                                                                         return new Parameter[] { param( Parameters.PARAM_ATOM, atom.getName() ), param( Parameters.PARAM_ELECTRONEGATIVITY, atom.electronegativity.get() ) };
-                                                                     }
-                                                                 } ) );
-            }} );
+            addInputEventListener( new ThumbDragHandler( molecule, atom, relativeNode, trackNode, this, range, snapInterval ) );
         }
     }
 
@@ -290,10 +275,22 @@ public class ElectronegativityControlNode extends PhetPNode {
         private final double snapInterval; // slider snaps to closet model value in this interval
 
         // see superclass for constructor params
-        public ThumbDragHandler( Molecule2D molecule, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
-            super( Orientation.HORIZONTAL, relativeNode, trackNode, thumbNode, range, updateFunction );
+        public ThumbDragHandler( Molecule2D molecule, final Atom atom, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, double snapInterval ) {
+            super( Orientation.HORIZONTAL, relativeNode, trackNode, thumbNode, range,
+                   new VoidFunction1<Double>() {
+                       public void apply( Double value ) {
+                           atom.electronegativity.set( value );
+                       }
+                   } );
             this.molecule = molecule;
             this.snapInterval = snapInterval;
+            setStartEndDragFunction( new DragFunction() {
+                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                    SimSharingEvents.sendEvent( Objects.OBJECT_ELECTRONEGATIVITY_CONTROL, action, xParameter, yParameter,
+                                                new Parameter( Parameters.PARAM_ATOM, atom.getName() ),
+                                                new Parameter( Parameters.PARAM_ELECTRONEGATIVITY, atom.electronegativity.get() ) );
+                }
+            } );
         }
 
         // snaps to the closest value

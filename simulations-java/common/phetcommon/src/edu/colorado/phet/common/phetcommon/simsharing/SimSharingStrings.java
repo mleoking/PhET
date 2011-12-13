@@ -27,13 +27,12 @@ public class SimSharingStrings {
         public static final String ACTIVATED = "activated";
         public static final String CHANGED = "changed";
         public static final String CLOSED = "closed";
-        public static final String CLOSING = "closing";
         public static final String EXITED = "exited";
         public static final String DEACTIVATED = "deactivated";
         public static final String DEICONIFIED = "deiconified";
+        public static final String DRAG = "drag";
         public static final String END_DRAG = "endDrag";
         public static final String ICONIFIED = "iconified";
-        public static final String MOUSE_PRESSED = "mousePressed";
         public static final String PRESSED = "pressed";
         public static final String RESIZED = "resized";
         public static final String SELECTED = "selected";
@@ -44,6 +43,8 @@ public class SimSharingStrings {
 
     public static class Parameters {
 
+        public static final String CANVAS_POSITION_X = "canvasPositionX";
+        public static final String CANVAS_POSITION_Y = "canvasPositionY";
         public static final String DESCRIPTION = "description";
         public static final String HEIGHT = "height";
         public static final String INTERACTIVE = "interactive";
@@ -54,5 +55,7 @@ public class SimSharingStrings {
         public static final String VALUE = "value";
         public static final String WIDTH = "width";
         public static final String WINDOW = "window";
+        public static final String X = "x";
+        public static final String Y = "y";
     }
 }

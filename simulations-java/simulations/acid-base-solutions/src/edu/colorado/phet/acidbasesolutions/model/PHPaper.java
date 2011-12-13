@@ -197,6 +197,14 @@ public class PHPaper extends SolutionRepresentation {
         return getDippedHeight() != 0;
     }
 
+    public boolean isInSolution() {
+        double by = beaker.getY();
+        double py = getY();
+        double bh = beaker.getHeight();
+        double ph = getHeight();
+        return ( -Math.abs( by - py ) + bh + ph ) > 0;
+    }
+
     public interface PHPaperChangeListener extends EventListener {
         public void dippedColorChanged();
 

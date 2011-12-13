@@ -44,7 +44,7 @@ public class SponsorDialog extends JDialog {
         addMouseListener( new MouseAdapter() {
             @Override
             public void mousePressed( MouseEvent event ) {
-                SimSharingEvents.sendEvent( SIMSHARING_OBJECT, Actions.MOUSE_PRESSED );
+                SimSharingEvents.sendEvent( SIMSHARING_OBJECT, Actions.PRESSED );
                 dispose();
             }
         } );
