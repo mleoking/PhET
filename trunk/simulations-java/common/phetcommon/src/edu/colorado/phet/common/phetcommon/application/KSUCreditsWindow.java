@@ -66,7 +66,7 @@ public class KSUCreditsWindow extends JWindow {
      * If the string file contains a special KSU translation credit (inserted by Translation Utility),
      * then show a KSU-specific "splash" screen with credits.
      */
-    public static void show( Frame parent ) {
+    public static JWindow show( Frame parent ) {
         final JWindow window = new KSUCreditsWindow( parent );
         SwingUtils.centerInParent( window );
         window.setVisible( true );
@@ -77,11 +77,15 @@ public class KSUCreditsWindow extends JWindow {
         */
         Timer timer = new Timer( 4000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                window.dispose();
+                if ( window.isDisplayable() ) {
+                    window.dispose();
+                }
             }
         } );
         timer.setRepeats( false );
         timer.start();
+
+        return window;
     }
 
     // The KSU credits window should be shown if there's a credits entry in the strings file.
