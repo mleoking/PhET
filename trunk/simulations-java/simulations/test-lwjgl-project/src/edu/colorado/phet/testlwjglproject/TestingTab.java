@@ -146,6 +146,16 @@ public class TestingTab extends LWJGLTab {
         {
             CanvasTransform.applyAffineTransform( canvasTransform.transform.get() );
 
+            glColor4f( 0f, 1, 1f, 0.1f );
+
+            // draw quad
+            glBegin( GL_QUADS );
+            glVertex3f( 0, 0, 0 );
+            glVertex3f( stageSize.width, 0, 0 );
+            glVertex3f( stageSize.width, stageSize.height, 0 );
+            glVertex3f( 0, stageSize.height, 0 );
+            glEnd();
+
             // translate our stuff a bit (can deal with centering after we get resizing working properly
             glTranslatef( stageSize.width / 2, stageSize.height / 3, 0 );
 
