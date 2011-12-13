@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractions.intro.intro.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.fractions.intro.common.model.SingleFractionModel;
 import edu.colorado.phet.fractions.intro.intro.view.Fill;
 import edu.colorado.phet.fractions.intro.intro.view.Visualization;
@@ -14,9 +13,11 @@ import edu.colorado.phet.fractions.intro.intro.view.Visualization;
  */
 public class FractionsIntroModel extends SingleFractionModel {
     public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
-    public final SettableProperty<Visualization> visualization = new Property<Visualization>( Visualization.FRACTION );
+    public final Property<Visualization> visualization = new Property<Visualization>( Visualization.FRACTION );
 
     public void resetAll() {
         super.resetAll();
+        fill.reset();
+        visualization.reset();
     }
 }
