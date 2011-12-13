@@ -3,16 +3,18 @@ package edu.colorado.phet.common.piccolophet.nodes.kit;
 
 import java.awt.Rectangle;
 
+import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 
 /**
  * Node that translates its content so that the origin is at (0,0).  This is to help with layouts for nodes that don't default to this coordinate frame.
+ * It extends RichPNode to make it easier to write layout code using the methods provided in RichPNode.
  *
  * @author Sam Reid
  */
-public class ZeroOffsetNode extends PNode {
+public class ZeroOffsetNode extends RichPNode {
     public ZeroOffsetNode( PNode node ) {
         addChild( node );
 
