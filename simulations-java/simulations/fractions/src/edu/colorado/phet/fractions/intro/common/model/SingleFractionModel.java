@@ -76,5 +76,6 @@ public class SingleFractionModel {
     public void resetAll() {
         numerator.reset();
         denominator.reset();
+        representation.reset();
     }
 }

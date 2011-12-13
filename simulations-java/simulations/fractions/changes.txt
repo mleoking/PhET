@@ -1,3 +1,4 @@
+Fixed "Reset all" on intro tab
 Centered representations vertically on Intro tab
 Removed the grid
 Made pie representation first in the control panel
