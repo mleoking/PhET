@@ -263,22 +263,44 @@ public class MessengerRna extends MobileBiomolecule {
             return true;
         }
 
-        // Advance the destruction by advancing the position of the mRNA in the
-        // segment that corresponds to the destruction channel of the destroyer.
-        segmentWhereDestroyerConnects.advance( length, shapeSegments );
+        // Advance the destruction by reducing the length of the mRNA.
+        reduceLength( length );
 
         // Realign the segments, since they may well have changed shape.
         if ( shapeSegments.contains( segmentWhereDestroyerConnects ) ) {
             realignSegmentsFrom( segmentWhereDestroyerConnects );
         }
 
-        // Since the sizes and relationships of the segments probably changed,
-        // the winding algorithm needs to be rerun.
-        windPointsThroughSegments();
+        if ( shapeSegments.size() > 0 ) {
+            // Since the sizes and relationships of the segments probably changed,
+            // the winding algorithm needs to be rerun.
+            windPointsThroughSegments();
+        }
 
         // If there is anything left in this segment, then destruction is not
         // yet complete.
         return segmentWhereDestroyerConnects.getContainedLength() <= 0;
+    }
+
+    // Reduce the length of the mRNA.  This handles both the shape segments and
+    // the shape-defining points.
+    private void reduceLength( double reductionAmount ) {
+        // Remove the length from the shape segments.
+        segmentWhereDestroyerConnects.advanceAndRemove( reductionAmount, shapeSegments );
+        // Remove the length from the shape defining points.
+        for ( double amountRemoved = 0; amountRemoved < reductionAmount; ) {
+            if ( lastShapeDefiningPoint.getTargetDistanceToPreviousPoint() <= reductionAmount - amountRemoved ) {
+                // Remove the last point from the list.
+                amountRemoved += lastShapeDefiningPoint.getTargetDistanceToPreviousPoint();
+                lastShapeDefiningPoint = lastShapeDefiningPoint.getPreviousPointMass();
+                lastShapeDefiningPoint.setNextPointMass( null );
+            }
+            else {
+                // Reduce the distance of the last point from the previous point.
+                lastShapeDefiningPoint.setTargetDistanceToPreviousPoint( reductionAmount - amountRemoved );
+                amountRemoved = reductionAmount;
+            }
+        }
     }
 
     /**
@@ -1088,6 +1110,17 @@ public class MessengerRna extends MobileBiomolecule {
          */
         public abstract void advance( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList );
 
+
+        /**
+         * Advance the mRNA through this segment but also reduce the segment
+         * contents by the given length.  This is used when the mRNA is being
+         * destroyed.
+         *
+         * @param length
+         * @param shapeSegmentList
+         */
+        public abstract void advanceAndRemove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList );
+
         /**
          * Flat segment - has no height, so rRNA contained in this segment is
          * not wound.
@@ -1196,6 +1229,30 @@ public class MessengerRna extends MobileBiomolecule {
                 updateAttachmentSiteLocation();
             }
 
+            @Override public void advanceAndRemove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
+                ShapeSegment inputSegment = shapeSegmentList.getNextItem( this );
+                if ( inputSegment == null ) {
+                    // There is no input segment, meaning that the end of the
+                    // mRNA strand is contained in THIS segment, so this
+                    // segment needs to shrink.
+                    double lengthToRemove = Math.min( length, getContainedLength() );
+                    this.remove( lengthToRemove, shapeSegmentList );
+                }
+                else if ( inputSegment.getContainedLength() > length ) {
+                    // The input segment contains enough mRNA to satisfy this
+                    // request, so remove the length from there.
+                    inputSegment.remove( length, shapeSegmentList );
+                }
+                else {
+                    // The input segment is still around, but doesn't have
+                    // enough mRNA within it.  Shrink the input segment to zero
+                    // and then shrink this segment by the remaining amount.
+                    this.remove( length - inputSegment.getContainedLength(), shapeSegmentList );
+                    inputSegment.remove( inputSegment.getContainedLength(), shapeSegmentList );
+                }
+                updateAttachmentSiteLocation();
+            }
+
             // Set size to be exactly the capacity.  Do not create any new
             // segments.
             private void maxOutLength() {
@@ -1265,6 +1322,11 @@ public class MessengerRna extends MobileBiomolecule {
                 assert false;
             }
 
+            @Override public void advanceAndRemove( double length, EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
+                System.out.println( getClass().getName() + "Unimplemented method called on square shape segment." );
+                assert false; // Shouldn't be called for square segments.
+            }
+
             // Determine the length of a side as a function of the contained
             // length of mRNA.
             private double calculateSideLength() {
@@ -1318,7 +1380,7 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
-     * Main routine that constructs a PhET Piccolo canvas in a window.
+     * Test harness.
      *
      * @param args
      */
