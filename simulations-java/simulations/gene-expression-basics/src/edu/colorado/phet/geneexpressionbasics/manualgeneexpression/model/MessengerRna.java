@@ -31,7 +31,6 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.MessengerRnaAttachmentStateMachine;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -66,7 +65,8 @@ public class MessengerRna extends MobileBiomolecule {
     private static final double FLOATING_POINT_COMP_FACTOR = 1E-7;
 
     // Distance within which this will connect to a ribosome.
-    private static final double RIBOSOME_CONNECTION_DISTANCE = 200; // Picometers.
+    private static final double RIBOSOME_CONNECTION_DISTANCE = 200; // picometers
+    private static final double MRNA_DESTROYER_CONNECT_DISTANCE = 200; // picometers
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -83,6 +83,9 @@ public class MessengerRna extends MobileBiomolecule {
 
     // Map from ribosomes to the shape segment to which they are attached.
     private final Map<Ribosome, ShapeSegment> mapRibosomeToShapeSegment = new HashMap<Ribosome, ShapeSegment>();
+
+    // mRNA destroyer that is destroying this mRNA.
+    private MessengerRnaDestroyer messengerRnaDestroyer = null;
 
     // Protein prototype, used to keep track of protein that should be
     // synthesized from this particular strand of mRNA.
@@ -129,11 +132,6 @@ public class MessengerRna extends MobileBiomolecule {
                 mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( offsetToTranslationChannelEntrance ).toPoint2D() );
             }
         } );
-
-        // Since mRNA is synthesized by polymerase, it starts its life in the
-        // attached state.
-        // TODO: For now this just sets the motion strategy, but eventually should be "attached" to polymerase at the beginning of its life.
-        setMotionStrategy( new StillnessMotionStrategy() );
     }
 
     //-------------------------------------------------------------------------
@@ -243,6 +241,41 @@ public class MessengerRna extends MobileBiomolecule {
         // If there is anything left in this segment, then transcription is not
         // yet complete.
         return segmentToAdvance.getContainedLength() <= 0;
+    }
+
+    /**
+     * Advance the destruction of the mRNA by the specified length.  This pulls
+     * the strand into the lead segment much like translation does, but does
+     * not move the points into new segment, it just gets rid of them.
+     *
+     * @param length
+     */
+    public boolean advanceDestruction( double length ) {
+
+        ShapeSegment leadSegment = shapeSegments.get( 0 );
+
+        // Error checking.
+        if ( leadSegment == null ) {
+            System.out.println( getClass().getName() + " - Warning: Attempt to advance the destruction of mRNA that has no content left." );
+            return true;
+        }
+
+        // Advance the destruction by advancing the position of the mRNA in the
+        // segment that corresponds to the destruction channel of the destroyer.
+        leadSegment.advance( length, shapeSegments );
+
+        // Realign the segments, since they may well have changed shape.
+        if ( shapeSegments.contains( leadSegment ) ) {
+            realignSegmentsFrom( leadSegment );
+        }
+
+        // Since the sizes and relationships of the segments probably changed,
+        // the winding algorithm needs to be rerun.
+        windPointsThroughSegments();
+
+        // If there is anything left in this segment, then destruction is not
+        // yet complete.
+        return leadSegment.getContainedLength() <= 0;
     }
 
     /**
@@ -734,6 +767,23 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
+     * Initiate the destruction of this mRNA strand by setting up the segments
+     * as needed.  This should only be called after an mRNA destroyer has
+     * attached to the front of the mRNA strand.
+     *
+     * @param messengerRnaDestroyer
+     */
+    public void initiateDestruction( MessengerRnaDestroyer messengerRnaDestroyer ) {
+        assert this.messengerRnaDestroyer == messengerRnaDestroyer; // Shouldn't get this from unattached destroyers.
+
+        // Set the capacity of the first segment to the size of the channel
+        // through which it will be pulled plus the leader length.
+        ShapeSegment firstShapeSegment = shapeSegments.get( 0 );
+        assert firstShapeSegment.isFlat();
+        firstShapeSegment.setCapacity( messengerRnaDestroyer.getDestructionChannelLength() + LEADER_LENGTH );
+    }
+
+    /**
      * Get the proportion of the entire mRNA that has been translated by the
      * given ribosome.
      *
@@ -769,16 +819,44 @@ public class MessengerRna extends MobileBiomolecule {
     public AttachmentSite considerProposalFrom( Ribosome ribosome ) {
         assert !mapRibosomeToShapeSegment.containsKey( ribosome ); // Shouldn't get redundant proposals from a ribosome.
         AttachmentSite returnValue = null;
-        AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
-        System.out.println( "leadingEdgeAttachmentSite.locationProperty.get() = " + leadingEdgeAttachmentSite.locationProperty.get() );
-        if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get().isNone() &&
-             leadingEdgeAttachmentSite.locationProperty.get().distance( ribosome.getEntranceOfRnaChannelPos().toPoint2D() ) < RIBOSOME_CONNECTION_DISTANCE ) {
-            // This attachment site is in range and available.
-            returnValue = leadingEdgeAttachmentSite;
-            // Update the attachment state machine.
-            mRnaAttachmentStateMachine.attachedToRibosome();
-            // Enter this connection in the map.
-            mapRibosomeToShapeSegment.put( ribosome, shapeSegments.get( 0 ) );
+
+        // Make sure that this mRNA is not currently being destroyed.
+        if ( messengerRnaDestroyer == null ) {
+            // See if the attachment site at the leading edge of the mRNA is
+            // available.
+            AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
+            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get().isNone() &&
+                 leadingEdgeAttachmentSite.locationProperty.get().distance( ribosome.getEntranceOfRnaChannelPos().toPoint2D() ) < RIBOSOME_CONNECTION_DISTANCE ) {
+                // This attachment site is in range and available.
+                returnValue = leadingEdgeAttachmentSite;
+                // Update the attachment state machine.
+                mRnaAttachmentStateMachine.attachedToRibosome();
+                // Enter this connection in the map.
+                mapRibosomeToShapeSegment.put( ribosome, shapeSegments.get( 0 ) );
+            }
+        }
+
+        return returnValue;
+    }
+
+    public AttachmentSite considerProposalFrom( MessengerRnaDestroyer messengerRnaDestroyer ) {
+        assert this.messengerRnaDestroyer != messengerRnaDestroyer; // Shouldn't get redundant proposals from same destroyer.
+        AttachmentSite returnValue = null;
+
+        // Make sure that this mRNA is not already being destroyed.
+        if ( this.messengerRnaDestroyer == null ) {
+            // See if the attachment site at the leading edge of the mRNA is
+            // available.
+            AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
+            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get().isNone() &&
+                 leadingEdgeAttachmentSite.locationProperty.get().distance( messengerRnaDestroyer.getPosition() ) < MRNA_DESTROYER_CONNECT_DISTANCE ) {
+                // This attachment site is in range and available.
+                returnValue = leadingEdgeAttachmentSite;
+                // Update the attachment state machine.
+                mRnaAttachmentStateMachine.attachToDestroyer();
+                // Keep track of the destroyer.
+                this.messengerRnaDestroyer = messengerRnaDestroyer;
+            }
         }
 
         return returnValue;
@@ -786,6 +864,10 @@ public class MessengerRna extends MobileBiomolecule {
 
     @Override protected AttachmentStateMachine createAttachmentStateMachine() {
         return new MessengerRnaAttachmentStateMachine( this );
+    }
+
+    public Point2D getLeadingEdgeAttachmentPoint() {
+        return shapeSegments.get( 0 ).attachmentSite.locationProperty.get();
     }
 
     /**
