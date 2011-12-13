@@ -26,6 +26,10 @@ public class StubGeneExpressionModel extends GeneExpressionModel {
         System.out.println( getClass().getName() + " - Warning: Unimplemented method called in stub class." );
     }
 
+    @Override public void removeMessengerRna( MessengerRna messengerRnaBeingDestroyed ) {
+        System.out.println( getClass().getName() + " - Warning: Unimplemented method called in stub class." );
+    }
+
     @Override public List<MessengerRna> getMessengerRnaList() {
         System.out.println( getClass().getName() + " - Warning: Unimplemented method called in stub class." );
         return null;

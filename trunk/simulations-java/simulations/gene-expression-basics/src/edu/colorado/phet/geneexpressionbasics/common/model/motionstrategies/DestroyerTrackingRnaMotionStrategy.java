@@ -23,7 +23,7 @@ public class DestroyerTrackingRnaMotionStrategy extends MotionStrategy {
     }
 
     @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
-        Point2D attachmentLocation = messengerRna.getLeadingEdgeAttachmentPoint();
+        Point2D attachmentLocation = messengerRna.getDestroyerAttachmentLocation();
         return new Point2D.Double( attachmentLocation.getX(), attachmentLocation.getY() );
     }
 }
