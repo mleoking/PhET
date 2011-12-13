@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.piccolophet.nodes.Piccolo3DCanvas;
 import edu.colorado.phet.jmephet.CanvasTransform;
 import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
@@ -29,13 +30,13 @@ public class PiccoloJMENode extends SwingJMENode {
     public PiccoloJMENode( final PNode node, final JMEInputHandler inputHandler, final JMETab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
         // use a wrapper panel that takes up no extra room
         super( new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) ) {{
-                   add( new PiccoloJMECanvas( node ) );
+                   add( new Piccolo3DCanvas( node ) );
                }}, inputHandler, tab, canvasTransform, position );
         this.node = node;
     }
 
-    public PiccoloJMECanvas getCanvas() {
-        return (PiccoloJMECanvas) ( getComponent().getComponent( 0 ) );
+    public Piccolo3DCanvas getCanvas() {
+        return (Piccolo3DCanvas) ( getComponent().getComponent( 0 ) );
     }
 
     public PNode getNode() {

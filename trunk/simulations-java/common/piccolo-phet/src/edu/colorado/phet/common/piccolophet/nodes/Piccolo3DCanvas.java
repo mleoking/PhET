@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.jmephet.hud;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
@@ -12,25 +12,30 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * Canvas used for embedding Piccolo within the 3D JME3 scene
+ * Canvas used for embedding Piccolo within the 3D JME3 or LWJGL scene
  */
-public class PiccoloJMECanvas extends PSwingCanvas {
+public class Piccolo3DCanvas extends PSwingCanvas {
 
     private final PNode node;
 
-    public PiccoloJMECanvas( PNode node ) {
+    /**
+     * @param node The node to wrap within the canvas
+     */
+    public Piccolo3DCanvas( PNode node ) {
         this.node = node;
-        // make it see-through
+
+        // make it see-through by default
         setOpaque( false );
 
         // disable the normal event handlers
         removeInputEventListener( getZoomEventHandler() );
         removeInputEventListener( getPanEventHandler() );
 
-        // don't compromise quality by default
+        // don't compromise quality by default, as this is a drop in the bucket now
         setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 
+        // wrap it to maintain component bounds
         getLayer().addChild( new ZeroOffsetNode( node ) );
 
         // if our node changes bounds, update the underlying canvas size (so we can forward those events)
@@ -43,7 +48,7 @@ public class PiccoloJMECanvas extends PSwingCanvas {
         updateSize();
     }
 
-    // called when the PNode changes full bounds. triggers (under the hood) a transfer to a new HUDNode and resizing if used in PiccoloJMENode
+    // called when the PNode changes full bounds. triggers (under the hood) a transfer to a new texture
     public void updateSize() {
         PBounds bounds = node.getFullBounds();
 
