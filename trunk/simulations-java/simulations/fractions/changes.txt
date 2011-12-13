@@ -1,3 +1,5 @@
+Improvements in Intro tab
+Started Equivalence Lab
 Removed "Representation" control panel text
 Constrain denominator based on the numerator so that the entire number is less than or equal to 6
 # 0.00.13 (59217) Dec 9, 2011
