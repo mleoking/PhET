@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 /**
+ * Shows a fraction as a grid of cells.
+ *
  * @author Sam Reid
  */
 public class GridFractionNode extends ChosenRepresentationNode {
@@ -17,7 +19,7 @@ public class GridFractionNode extends ChosenRepresentationNode {
         super( chosenRepresentation, ChosenRepresentation.SQUARE );
 
         new RichSimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 removeAllChildren();
 
                 int numGrids = numerator.get() / denominator.get();
