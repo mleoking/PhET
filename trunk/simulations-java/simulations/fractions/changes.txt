@@ -1,3 +1,4 @@
+Centered representations vertically on Intro tab
 Removed the grid
 Made pie representation first in the control panel
 Made pie representation selected by default
