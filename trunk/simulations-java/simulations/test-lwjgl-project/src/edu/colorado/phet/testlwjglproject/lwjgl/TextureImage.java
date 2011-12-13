@@ -19,7 +19,6 @@ public abstract class TextureImage {
         this( width, height, hasAlpha, new AffineTransform() );
     }
 
-    // TODO: some way of guaranteeing we only use power-of-2 width and height? and do we have a square constraint?
     public TextureImage( int width, int height, boolean hasAlpha, AffineTransform imageTransform ) {
         super();
         assert LWJGLUtils.isPowerOf2( width );
