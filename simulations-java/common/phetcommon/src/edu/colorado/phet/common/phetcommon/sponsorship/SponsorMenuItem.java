@@ -11,8 +11,6 @@ import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 
 /**
  * Menu item for displaying simulation sponsor.
@@ -30,9 +28,9 @@ public class SponsorMenuItem extends JMenuItem {
                 if ( dialog == null ) {
                     dialog = SponsorDialog.show( config, frame, false /* startDisposeTimer */ );
                     dialog.addWindowListener( new WindowAdapter() {
+
                         // called when the close button in the dialog's window dressing is clicked
                         public void windowClosing( WindowEvent e ) {
-                            SimSharingEvents.sendEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED );
                             dialog.dispose();
                         }
 
