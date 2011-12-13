@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 /**
  * Shows a fraction as a grid of cells.
+ * Since it is unclear how to subdivide a single grid while keeping it the same size, we have discarded this representation for now.
  *
  * @author Sam Reid
  */

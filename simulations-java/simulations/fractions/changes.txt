@@ -1,3 +1,6 @@
+Removed the grid
+Made pie representation first in the control panel
+Made pie representation selected by default
 # 0.00.15 (59324) Dec 13, 2011
 Made 6 vertical bars exactly fit the width of the screen
 Made pies exactly fit the width of the screen
