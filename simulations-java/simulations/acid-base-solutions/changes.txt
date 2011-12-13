@@ -1,3 +1,4 @@
+12/13/11 #3170, add events for when the conductivity probes transition between in/out of solution
 12/13/11 #3170, add events for when the pH meter and pH paper transition between in/out of solution
 12/13/11 #3175, overhaul sim-sharing drag handlers to support optional functions for start/end/drag
 12/6/11 #3170, add sim-sharing event for when user tries to drag pH color key, which is not interactive
