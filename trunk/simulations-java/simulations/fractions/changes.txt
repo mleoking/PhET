@@ -1,3 +1,4 @@
+# 0.00.16 (59341) Dec 13, 2011
 Added cake representation to intro tab
 Temporarily increased denominator from 8 to 12 in intro tab for purposes of testing cake with given images
 Fixed "Reset all" on intro tab
