@@ -255,7 +255,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                     }
                 }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_LMB );
 
-        canvasTransform = new CenteredStageCanvasTransform( app );
+        canvasTransform = new CenteredStageCanvasTransform( app.canvasSize );
 
         moleculeCamera = new PhetCamera( getStageSize(), canvasTransform.getCameraStrategy( 45, 1, 1000 ) );
         moleculeCamera.setLocation( new Vector3f( 0, 0, 40 ) );
