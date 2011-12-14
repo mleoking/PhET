@@ -36,7 +36,7 @@ public class RepresentationArea extends PNode {
             setOffset( 0, 0 );
         }} );
         addChild( new WaterGlassSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.WATER_GLASSES ) ) {{
-            setOffset( 0, 0 );
+            setOffset( 15, -10 );
         }} );
 
         //Since it is unclear how to subdivide a single grid while keeping it the same size, we have discarded this representation for now.

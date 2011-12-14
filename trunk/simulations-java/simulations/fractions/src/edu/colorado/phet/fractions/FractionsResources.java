@@ -22,12 +22,12 @@ public class FractionsResources {
     public static class Images {
         public static final BufferedImage BALANCE_BASE = RESOURCES.getImage( "balance-base.png" );
         public static final BufferedImage BALANCE_PLATFORM = RESOURCES.getImage( "balance-platform.png" );
+        public static final BufferedImage BEAKER = RESOURCES.getImage( "beaker.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN = RESOURCES.getImage( "round_button_down.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_GRAY = RESOURCES.getImage( "round_button_down_gray.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_PRESSED = RESOURCES.getImage( "round_button_down_pressed.png" );
         public static final BufferedImage ROUND_BUTTON_UP = RESOURCES.getImage( "round_button_up.png" );
         public static final BufferedImage ROUND_BUTTON_UP_GRAY = RESOURCES.getImage( "round_button_up_gray.png" );
         public static final BufferedImage ROUND_BUTTON_UP_PRESSED = RESOURCES.getImage( "round_button_up_pressed.png" );
-        public static final BufferedImage WATER_GLASS = RESOURCES.getImage( "water_glass.png" );
     }
 }
