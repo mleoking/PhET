@@ -13,7 +13,7 @@ import edu.colorado.phet.fractions.intro.intro.view.Visualization;
  */
 public class FractionsIntroModel extends SingleFractionModel {
     public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
-    public final Property<Visualization> visualization = new Property<Visualization>( Visualization.FRACTION );
+    public final Property<Visualization> visualization = new Property<Visualization>( Visualization.NONE );
 
     public void resetAll() {
         super.resetAll();

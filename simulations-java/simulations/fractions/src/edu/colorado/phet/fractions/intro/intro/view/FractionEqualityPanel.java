@@ -5,7 +5,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.fractions.intro.intro.view.Visualization.*;
+
 /**
+ * Shows the the representation at the bottom of tab 1 like 8/4 = 2
+ *
  * @author Sam Reid
  */
 public class FractionEqualityPanel extends PNode {
@@ -15,15 +19,21 @@ public class FractionEqualityPanel extends PNode {
         final FractionControlNode fractionNode = new FractionControlNode( model.numerator, model.denominator );
         addChild( fractionNode );
 
-        final EqualsSignNode equalsSignNode = new EqualsSignNode();
+        final EqualsSignNode equalsSignNode = new EqualsSignNode() {{
+            setOffset( fractionNode.getMaxX() + 50, fractionNode.getOffset().getY() - getFullHeight() / 2 );
+            model.visualization.addObserver( new VoidFunction1<Visualization>() {
+                public void apply( Visualization v ) {
+                    setVisible( v != NONE );
+                }
+            } );
+        }};
         addChild( equalsSignNode );
-        equalsSignNode.setOffset( fractionNode.getFullBounds().getMaxX() + 50, fractionNode.getOffset().getY() - equalsSignNode.getFullBounds().getHeight() / 2 );
 
         addChild( new FractionNode( model.reducedNumerator, model.reducedDenominator ) {{
             setOffset( fractionNode.getFullBounds().getMaxX() + 50 + equalsSignNode.getFullBounds().getWidth() + 50, fractionNode.getOffset().getY() );
             model.visualization.addObserver( new VoidFunction1<Visualization>() {
-                public void apply( Visualization visualization ) {
-                    setVisible( visualization == Visualization.FRACTION );
+                public void apply( Visualization v ) {
+                    setVisible( v == FRACTION );
                 }
             } );
         }} );
@@ -31,8 +41,8 @@ public class FractionEqualityPanel extends PNode {
         addChild( new MixedFractionNode( model.mixedInteger, model.mixedNumerator, model.mixedDenominator ) {{
             setOffset( fractionNode.getFullBounds().getMaxX() + 100 + equalsSignNode.getFullBounds().getWidth() + 50, fractionNode.getOffset().getY() );
             model.visualization.addObserver( new VoidFunction1<Visualization>() {
-                public void apply( Visualization visualization ) {
-                    setVisible( visualization == Visualization.MIXED );
+                public void apply( Visualization v ) {
+                    setVisible( v == MIXED );
                 }
             } );
         }} );
