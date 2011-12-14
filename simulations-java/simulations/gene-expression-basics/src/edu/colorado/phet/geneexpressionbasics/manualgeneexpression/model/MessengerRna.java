@@ -16,7 +16,6 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -272,28 +271,36 @@ public class MessengerRna extends MobileBiomolecule {
             windPointsThroughSegments();
         }
 
-        // If there is anything left in this segment, then destruction is not
-        // yet complete.
-        return segmentWhereDestroyerConnects.getContainedLength() <= 0;
+        // If there is any length left, then the destruction is not yet
+        // complete.  This is a quick way to test this.
+        return firstShapeDefiningPoint == lastShapeDefiningPoint;
     }
 
     // Reduce the length of the mRNA.  This handles both the shape segments and
     // the shape-defining points.
     private void reduceLength( double reductionAmount ) {
-        // Remove the length from the shape segments.
-        segmentWhereDestroyerConnects.advanceAndRemove( reductionAmount, shapeSegments );
-        // Remove the length from the shape defining points.
-        for ( double amountRemoved = 0; amountRemoved < reductionAmount; ) {
-            if ( lastShapeDefiningPoint.getTargetDistanceToPreviousPoint() <= reductionAmount - amountRemoved ) {
-                // Remove the last point from the list.
-                amountRemoved += lastShapeDefiningPoint.getTargetDistanceToPreviousPoint();
-                lastShapeDefiningPoint = lastShapeDefiningPoint.getPreviousPointMass();
-                lastShapeDefiningPoint.setNextPointMass( null );
-            }
-            else {
-                // Reduce the distance of the last point from the previous point.
-                lastShapeDefiningPoint.setTargetDistanceToPreviousPoint( reductionAmount - amountRemoved );
-                amountRemoved = reductionAmount;
+        if ( reductionAmount >= getLength() ) {
+            // Reduce length to be zero.
+            lastShapeDefiningPoint = firstShapeDefiningPoint;
+            lastShapeDefiningPoint.setNextPointMass( null );
+            shapeSegments.clear();
+        }
+        else {
+            // Remove the length from the shape segments.
+            segmentWhereDestroyerConnects.advanceAndRemove( reductionAmount, shapeSegments );
+            // Remove the length from the shape defining points.
+            for ( double amountRemoved = 0; amountRemoved < reductionAmount; ) {
+                if ( lastShapeDefiningPoint.getTargetDistanceToPreviousPoint() <= reductionAmount - amountRemoved ) {
+                    // Remove the last point from the list.
+                    amountRemoved += lastShapeDefiningPoint.getTargetDistanceToPreviousPoint();
+                    lastShapeDefiningPoint = lastShapeDefiningPoint.getPreviousPointMass();
+                    lastShapeDefiningPoint.setNextPointMass( null );
+                }
+                else {
+                    // Reduce the distance of the last point from the previous point.
+                    lastShapeDefiningPoint.setTargetDistanceToPreviousPoint( lastShapeDefiningPoint.getTargetDistanceToPreviousPoint() - ( reductionAmount - amountRemoved ) );
+                    amountRemoved = reductionAmount;
+                }
             }
         }
     }
@@ -593,7 +600,7 @@ public class MessengerRna extends MobileBiomolecule {
                         // so create an arbitrary vector away from it.
                         vectorToPreviousPoint = new ImmutableVector2D( 1, 1 );
                     }
-                    double scalarForceDueToPreviousPoint = ( -springConstant ) * ( currentPoint.targetDistanceToPreviousPoint - currentPoint.distance( previousPoint ) );
+                    double scalarForceDueToPreviousPoint = ( -springConstant ) * ( currentPoint.getTargetDistanceToPreviousPoint() - currentPoint.distance( previousPoint ) );
                     ImmutableVector2D forceDueToPreviousPoint = vectorToPreviousPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToPreviousPoint );
                     ImmutableVector2D vectorToNextPoint = new ImmutableVector2D( nextPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
                     if ( vectorToNextPoint.getMagnitude() == 0 ) {
@@ -601,7 +608,7 @@ public class MessengerRna extends MobileBiomolecule {
                         // so create an arbitrary vector away from it.
                         vectorToNextPoint = new ImmutableVector2D( -1, -1 );
                     }
-                    double scalarForceDueToNextPoint = ( -springConstant ) * ( currentPoint.targetDistanceToPreviousPoint - currentPoint.distance( nextPoint ) );
+                    double scalarForceDueToNextPoint = ( -springConstant ) * ( currentPoint.getTargetDistanceToPreviousPoint() - currentPoint.distance( nextPoint ) );
                     ImmutableVector2D forceDueToNextPoint = vectorToNextPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToNextPoint );
                     ImmutableVector2D dampingForce = currentPoint.getVelocity().getScaledInstance( -dampingConstant );
                     ImmutableVector2D totalForce = forceDueToPreviousPoint.getAddedInstance( forceDueToNextPoint ).getAddedInstance( dampingForce );
@@ -834,7 +841,7 @@ public class MessengerRna extends MobileBiomolecule {
         // channel of this ribosome.
         translatedLength += segmentInRibosomeChannel.getContainedLength() - ( segmentInRibosomeChannel.getLowerRightCornerPos().getX() - segmentInRibosomeChannel.attachmentSite.locationProperty.get().getX() );
 
-        return translatedLength / getLength();
+        return Math.max( translatedLength / getLength(), 0 );
     }
 
     public AttachmentSite considerProposalFrom( Ribosome ribosome ) {
@@ -897,96 +904,6 @@ public class MessengerRna extends MobileBiomolecule {
         // minus the leader length.
         return new Point2D.Double( segmentWhereDestroyerConnects.getLowerRightCornerPos().getX() - LEADER_LENGTH,
                                    segmentWhereDestroyerConnects.getLowerRightCornerPos().getY() );
-    }
-
-    /**
-     * This class defines a point in model space that also has mass.  It is
-     * is used to define the overall shape of the mRNA, which uses a spring
-     * algorithm to implement the winding/twisting behavior.
-     */
-    public static class PointMass {
-        public static final double MASS = 0.25; // In kg.  Arbitrarily chosen to get the desired behavior.
-        private final Point2D position = new Point2D.Double( 0, 0 );
-        private final Vector2D velocity = new Vector2D( 0, 0 );
-        private final Vector2D acceleration = new Vector2D( 0, 0 );
-        private PointMass previousPointMass = null;
-        private PointMass nextPointMass = null;
-
-        private double targetDistanceToPreviousPoint; // In picometers.
-
-        private PointMass( Point2D initialPosition, double targetDistanceToPreviousPoint ) {
-            setPosition( initialPosition );
-            this.targetDistanceToPreviousPoint = targetDistanceToPreviousPoint;
-        }
-
-        @Override public String toString() {
-            return getClass().getName() + " Position: " + position.toString();
-        }
-
-        public void setPosition( double x, double y ) {
-            position.setLocation( x, y );
-        }
-
-        public void setPosition( Point2D position ) {
-            setPosition( position.getX(), position.getY() );
-        }
-
-        public Point2D getPosition() {
-            return new Point2D.Double( position.getX(), position.getY() );
-        }
-
-        public void setVelocity( double x, double y ) {
-            velocity.setComponents( x, y );
-        }
-
-        public ImmutableVector2D getVelocity() {
-            return new ImmutableVector2D( velocity.getX(), velocity.getY() );
-        }
-
-        public void setAcceleration( ImmutableVector2D acceleration ) {
-            this.acceleration.setValue( acceleration );
-        }
-
-        public PointMass getPreviousPointMass() {
-            return previousPointMass;
-        }
-
-        public void setPreviousPointMass( PointMass previousPointMass ) {
-            this.previousPointMass = previousPointMass;
-        }
-
-        public PointMass getNextPointMass() {
-            return nextPointMass;
-        }
-
-        public void setNextPointMass( PointMass nextPointMass ) {
-            this.nextPointMass = nextPointMass;
-        }
-
-        public double getTargetDistanceToPreviousPoint() {
-            return targetDistanceToPreviousPoint;
-        }
-
-        public double distance( PointMass p ) {
-            return this.getPosition().distance( p.getPosition() );
-        }
-
-        public void update( double deltaTime ) {
-            velocity.setValue( velocity.getAddedInstance( acceleration.getScaledInstance( deltaTime ) ) );
-            position.setLocation( position.getX() + velocity.getX() * deltaTime, position.getY() + velocity.getY() * deltaTime );
-        }
-
-        public void translate( ImmutableVector2D translationVector ) {
-            setPosition( position.getX() + translationVector.getX(), position.getY() + translationVector.getY() );
-        }
-
-        public void setTargetDistanceToPreviousPoint( double targetDistance ) {
-            targetDistanceToPreviousPoint = targetDistance;
-        }
-
-        public void clearVelocity() {
-            velocity.setComponents( 0, 0 );
-        }
     }
 
     /**

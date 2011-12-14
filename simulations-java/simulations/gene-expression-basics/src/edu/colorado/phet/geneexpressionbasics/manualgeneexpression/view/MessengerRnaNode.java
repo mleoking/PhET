@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.PointMass;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ShapeSegment;
 import edu.umd.cs.piccolo.PNode;
 
@@ -120,11 +121,11 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
         private static final int DIAMETER = 5;
         private static final Shape SHAPE = new Ellipse2D.Double( -DIAMETER / 2, -DIAMETER / 2, DIAMETER, DIAMETER );
         private static final Color COLOR = Color.RED;
-        public final MessengerRna.PointMass pointMass;
+        public final PointMass pointMass;
         private final ModelViewTransform mvt;
         private final PNode representation;
 
-        public PointMassNode( MessengerRna.PointMass pointMass, ModelViewTransform mvt ) {
+        public PointMassNode( PointMass pointMass, ModelViewTransform mvt ) {
             this.pointMass = pointMass;
             this.mvt = mvt;
             representation = new PhetPPath( SHAPE, COLOR );
