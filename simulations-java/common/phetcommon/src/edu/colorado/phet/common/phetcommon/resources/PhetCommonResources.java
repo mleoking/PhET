@@ -40,6 +40,7 @@ public class PhetCommonResources {
     public static final String IMAGE_RESTART = IMAGE_REWIND;
     public static final String IMAGE_STEP_FORWARD = "clock/StepForward24.gif";
     public static final String IMAGE_STOP = "clock/Stop24.gif";
+    public static final String IMAGE_PHET_LOGO = "logos/phet-logo-120x50.jpg";
 
     // preferred physical font names for various ISO language codes
     private static final String PREFERRED_FONTS_RESOURCE = "localization/phetcommon-fonts.properties";
