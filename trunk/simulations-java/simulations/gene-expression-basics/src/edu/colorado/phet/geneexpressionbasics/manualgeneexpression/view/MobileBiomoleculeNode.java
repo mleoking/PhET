@@ -55,6 +55,12 @@ public class MobileBiomoleculeNode extends PNode {
                     setPaint( createGradientPaint( mvt.modelToView( mobileBiomolecule.getShape() ), mobileBiomolecule.colorProperty.get() ) );
                 }
             } );
+            // Update its existence strength (i.e. fade level) whenever it changes.
+            mobileBiomolecule.existenceStrength.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double existenceStrength ) {
+                    setTransparency( existenceStrength.floatValue() );
+                }
+            } );
             // Cursor handling.
             addInputEventListener( new CursorHandler() );
             // Drag handling.

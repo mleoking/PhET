@@ -14,6 +14,8 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Stil
  */
 public class MessengerRnaFragmentAttachmentStateMachine extends AttachmentStateMachine {
 
+    private static final double FADE_OUT_TIME = 3; // In seconds.
+
     public MessengerRnaFragmentAttachmentStateMachine( MobileBiomolecule biomolecule ) {
         super( biomolecule );
         setState( new AttachedToDestroyerState() );
@@ -37,10 +39,11 @@ public class MessengerRnaFragmentAttachmentStateMachine extends AttachmentStateM
     protected class UnattachedAndFadingState extends AttachmentState {
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
-            // TODO: Fades from existence.
+            biomolecule.existenceStrength.set( Math.max( biomolecule.existenceStrength.get() - dt / FADE_OUT_TIME, 0 ) );
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
+            assert biomolecule.existenceStrength.get() == 1.0; // State checking - should be at full strength.
             biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );
         }
     }

@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 
@@ -139,6 +140,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
         mobileBiomolecule.setMotionBounds( getBoundsForActiveGene() );
+
         // Hook up an observer that will activate and deactivate placement
         // hints for this molecule.
         mobileBiomolecule.userControlled.addObserver( new ChangeObserver<Boolean>() {
@@ -162,6 +164,17 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
                             captureProtein( (Protein) mobileBiomolecule );
                         }
                     }
+                }
+            }
+        } );
+
+        // Hook up an observer that will remove this biomolecule from the
+        // model if its existence strength reaches zero.
+        mobileBiomolecule.existenceStrength.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double existenceStrength ) {
+                if ( existenceStrength == 0 ) {
+                    removeMobileBiomolecule( mobileBiomolecule );
+                    mobileBiomolecule.existenceStrength.removeObserver( this );
                 }
             }
         } );
