@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  * @author Sam Reid
  */
 public class ResearchMenu extends SimSharingJMenuItem {
-    SimSharingDialog simSharingDialog = null;
+    SimSharingLogDialog simSharingDialog = null;
 
     public ResearchMenu( final PhetFrame parent ) {
 
@@ -21,7 +21,7 @@ public class ResearchMenu extends SimSharingJMenuItem {
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( simSharingDialog == null ) {
-                    simSharingDialog = new SimSharingDialog( parent );
+                    simSharingDialog = new SimSharingLogDialog( parent );
                 }
                 simSharingDialog.setVisible( true );
             }
