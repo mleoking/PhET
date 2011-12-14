@@ -30,14 +30,14 @@ public abstract class SimSharingConfig {
         return config;
     }
 
-    public final String studyName;
-    public final boolean hasInputDialog;
-    public final String inputDialogPrompt;
+    public final String studyName; // optional study name, as identified on via program args
+    public final boolean requestId; // does the study request that students provide an id?
+    public final String idPrompt; // prompt used to request student's id (irrelevant if requestId is false)
 
-    protected SimSharingConfig( String studyName, boolean hasInputDialog, String inputDialogPrompt ) {
+    protected SimSharingConfig( String studyName, boolean requestId, String idPrompt ) {
         this.studyName = studyName;
-        this.hasInputDialog = hasInputDialog;
-        this.inputDialogPrompt = inputDialogPrompt;
+        this.requestId = requestId;
+        this.idPrompt = idPrompt;
     }
 
     // Default behavior, used if there is no study specified or the specified study isn't found.

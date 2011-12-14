@@ -18,15 +18,15 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDialog;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
@@ -169,13 +169,21 @@ public class SimSharingEvents {
         enabled = config.isSimSharingEnabled();
         if ( enabled ) {
             studyName = getArgAfter( config.getCommandLineArgs(), "-study" );
-            SimSharingConfig simSharingConfig = SimSharingConfig.getConfig( studyName );
-            String id = "?";
-            if ( simSharingConfig.hasInputDialog ) {
-                id = JOptionPane.showInputDialog( null, simSharingConfig.inputDialogPrompt );
-            }
-            finishInit( config, studyName, id );
+            finishInit( config, studyName, getId() );
         }
+    }
+
+    // Gets the id entered by the student. Semantics of this id vary from study to study. If the study requires no id, then "n/a" is returned for "not applicable".
+    private static String getId() {
+        SimSharingConfig simSharingConfig = SimSharingConfig.getConfig( studyName );
+        String id = "n/a";
+        if ( simSharingConfig.requestId ) {
+            SimSharingIdDialog dialog = new SimSharingIdDialog( null, simSharingConfig.idPrompt );
+            SwingUtils.centerWindowOnScreen( dialog );
+            dialog.setVisible( true ); // dialog is modal, so this blocks until an id is entered.
+            id = dialog.getId();
+        }
+        return id;
     }
 
     private static void finishInit( final PhetApplicationConfig config, final String studyName, final String id ) {

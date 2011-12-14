@@ -1,3 +1,4 @@
+12/14/11 #3181, change requests for sim-sharing id dialog
 12/13//1 #3175, decouple start and end drag functions in sim-sharing drag handlers, provide convenience methods for specifying that they are identical
 12/13/11 #3181, add sim-sharing configurations, for specifying study name, input dialog preferences, etc.
 12/13/11 #3175, standardize event for attempt to interactive with non-interactive component
