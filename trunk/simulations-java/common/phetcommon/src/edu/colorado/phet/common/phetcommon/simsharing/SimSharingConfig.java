@@ -57,7 +57,7 @@ public abstract class SimSharingConfig {
      * Sims: Molecule Shapes, Molecule Polarity
      * PhET researchers: Julia and Kelly
      *
-     * This was study was done during prototyping, so it's unfortunate that it has a very general name.
+     * This study was done during prototyping, so it's unfortunate that the study name is very general.
      * But since PhET has an investment in data files containing this study name, we're stuck with it.
      */
     private static class ColoradoConfig extends SimSharingConfig {
