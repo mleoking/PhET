@@ -1,3 +1,4 @@
+# 0.00.17 (59365) Dec 14, 2011
 Added beaker of water leveraging as much code from dilutions as possible, see #3185
 Added "None" option to the fraction equality display control panel
 # 0.00.16 (59341) Dec 13, 2011
