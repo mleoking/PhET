@@ -67,7 +67,7 @@ public abstract class SimSharingConfig {
     }
 
     /*
-     * Location: Weber State, UT
+     * Location: Weber State University, UT
      * Dates: 11/7/11 - 11/9/11
      * Sims: Molecule Shapes, Balancing Chemical Equations, Molecule Polarity
      * PhET researchers: Emily B. Moore
