@@ -57,8 +57,9 @@ public abstract class SimSharingConfig {
      * Sims: Molecule Shapes, Molecule Polarity
      * PhET researchers: Julia Chamberlain, Kelly Lancaster
      *
-     * This study was done during prototyping, so it's unfortunate that the study name is very overly general.
-     * But since PhET has an investment in data files containing this study name, we're stuck with it.
+     * It's unfortunate that this study name is very overly general.
+     * But this study was done during prototyping, before "study configurations" were conceived.
+     * Since PhET has an investment in data files containing this study name, we're stuck with it.
      */
     private static class ColoradoConfig extends SimSharingConfig {
         public ColoradoConfig() {
@@ -72,8 +73,9 @@ public abstract class SimSharingConfig {
      * Sims: Molecule Shapes, Balancing Chemical Equations, Molecule Polarity
      * PhET researchers: Emily B. Moore
      *
-     * This study was done during prototyping, so it's unfortunate that the study name is very overly general.
-     * But since PhET has an investment in data files containing this study name, we're stuck with it.
+     * It's unfortunate that this study name is very overly general.
+     * But this study was done during prototyping, before "study configurations" were conceived.
+     * Since PhET has an investment in data files containing this study name, we're stuck with it.
      */
     private static class UtahConfig extends SimSharingConfig {
         public UtahConfig() {
