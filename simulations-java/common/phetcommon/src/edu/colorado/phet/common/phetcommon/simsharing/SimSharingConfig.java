@@ -10,11 +10,11 @@ import java.util.HashMap;
  */
 public abstract class SimSharingConfig {
 
-    private static final HashMap<String, SimSharingConfig> configMap = new HashMap<String, SimSharingConfig>();
+    private static final HashMap<String, SimSharingConfig> CONFIG_MAP = new HashMap<String, SimSharingConfig>();
 
     private static void addConfig( SimSharingConfig config ) {
-        assert ( configMap.get( config.studyName ) == null );
-        configMap.put( config.studyName, config );
+        assert ( CONFIG_MAP.get( config.studyName ) == null );
+        CONFIG_MAP.put( config.studyName, config );
     }
 
     static {
@@ -23,7 +23,7 @@ public abstract class SimSharingConfig {
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
-        SimSharingConfig config = configMap.get( studyName );
+        SimSharingConfig config = CONFIG_MAP.get( studyName );
         if ( config == null ) {
             config = new DefaultConfig();
         }
