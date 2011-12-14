@@ -54,6 +54,11 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // attaching, detaching, etc.
     protected final AttachmentStateMachine attachmentStateMachine;
 
+    // A property that keeps track of this biomolecules "existence strength",
+    // which is used primarily to fade out of existence.  The range for this
+    // is 1 (full existence) to 0 (non-existent).
+    public final Property<Double> existenceStrength = new Property<Double>( 1.0 );
+
     /**
      * Constructor.
      *
