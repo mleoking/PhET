@@ -121,7 +121,9 @@ public class SimSharingIdDialog extends JDialog {
             }
         } );
 
-        JPanel mainPanel = new VerticalLayoutPanel();
+        JPanel mainPanel = new VerticalLayoutPanel() {{
+            setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
+        }};
         mainPanel.add( bannerPanel );
         mainPanel.add( new JSeparator() );
         mainPanel.add( inputPanel );
