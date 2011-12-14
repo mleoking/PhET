@@ -21,12 +21,12 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Dialog that shows user information and allows the user to send an ID message back to the server.
+ * Dialog that displays the event log, and allows it to be saved.
  *
  * @author Sam Reid
  */
-public class SimSharingDialog extends JDialog {
-    public SimSharingDialog( JFrame parent ) {
+public class SimSharingLogDialog extends JDialog {
+    public SimSharingLogDialog( JFrame parent ) {
         super( parent, "Sim sharing event log" );
         setContentPane( new JPanel( new BorderLayout() ) {{
             add( new JScrollPane( new JTextArea( 20, 40 ) {{
@@ -39,6 +39,7 @@ public class SimSharingDialog extends JDialog {
                 } );
             }} ), BorderLayout.CENTER );
             add( new JPanel() {{
+                //TODO change this to "Save to file...", see #3182
                 add( new JButton( "Copy to clipboard" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
