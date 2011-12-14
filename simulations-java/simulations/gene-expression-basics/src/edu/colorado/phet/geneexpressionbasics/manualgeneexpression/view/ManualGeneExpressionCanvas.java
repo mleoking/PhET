@@ -44,6 +44,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     // Stage size, based on default screen size.
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
+    public static final Color CELL_INTERIOR_COLOR = new Color( 190, 231, 251 );
+
     // Inset for several of the controls.
     private static final double INSET = 15;
 
@@ -71,7 +73,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
-        setBackground( new Color( 190, 231, 251 ) );
+        setBackground( CELL_INTERIOR_COLOR );
 
         // Set up the node where all controls should be placed.  These will
         // stay in one place and not scroll.

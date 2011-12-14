@@ -10,14 +10,14 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.BiomoleculeToolBoxNode;
+import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -45,17 +45,28 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.70 ) ),
-                0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.5 ) ),
+                1E8 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
-        setBackground( new Color( 190, 231, 251 ) );
+        setBackground( new Color( 250, 232, 189 ) );
 
-        // TODO: Temp - put up a drawing of the way this tab will ultimately look.
-        PNode screenImage = new PImage( GeneExpressionBasicsResources.Images.THIRD_TAB_STATIC_PICTURE );
-        screenImage.scale( STAGE_SIZE.getWidth() / screenImage.getFullBoundsReference().getWidth() );
-        addWorldChild( screenImage );
-
+        // Set up an observer of the list of cells in the model so that the
+        // view representations can come and go as needed.
+        model.cellList.addElementAddedObserver( new VoidFunction1<Cell>() {
+            public void apply( final Cell addedCell ) {
+                final PNode cellNode = new CellNode( addedCell, mvt );
+                MultipleCellsCanvas.this.addWorldChild( cellNode );
+                model.cellList.addElementRemovedObserver( new VoidFunction1<Cell>() {
+                    public void apply( Cell removedCell ) {
+                        if ( removedCell == addedCell ) {
+                            MultipleCellsCanvas.this.removeWorldChild( cellNode );
+                            model.cellList.removeElementRemovedObserver( this );
+                        }
+                    }
+                } );
+            }
+        } );
     }
 
     public void reset() {
