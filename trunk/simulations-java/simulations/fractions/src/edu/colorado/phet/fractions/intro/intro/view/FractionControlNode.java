@@ -6,8 +6,8 @@ import java.awt.Color;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Node that shows a fraction (numerator and denominator and dividing line) along with controls to change the values.
@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class FractionControlNode extends PNode {
+public class FractionControlNode extends RichPNode {
     public FractionControlNode( final IntegerProperty numerator, final IntegerProperty denominator ) {
         final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), Color.black );
         addChild( line );

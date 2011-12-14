@@ -26,20 +26,22 @@ public class RepresentationArea extends PNode {
         addChild( new VerticalBarChosenRepresentationNode( chosenRepresentation, numerator, denominator ) {{
             setOffset( 0, -73 );
         }} );
-
-        //Since it is unclear how to subdivide a single grid while keeping it the same size, we have discarded this representation for now.
-//        addChild( new GridFractionNode( chosenRepresentation, numerator, denominator ) {{
-//            setOffset( 0, -50 );
-//        }} );
         addChild( new PieSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.PIE ) ) {{
-            setOffset( 0, -48 );//Sampled with
+            setOffset( 0, -48 );
         }} );
         addChild( new NumberLineNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.NUMBER_LINE ) ) {{
             setOffset( 10, 15 );
         }} );
-
         addChild( new CakeSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.CAKE ) ) {{
             setOffset( 0, 0 );
         }} );
+        addChild( new WaterGlassSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.WATER_GLASSES ) ) {{
+            setOffset( 0, 0 );
+        }} );
+
+        //Since it is unclear how to subdivide a single grid while keeping it the same size, we have discarded this representation for now.
+        //        addChild( new GridFractionNode( chosenRepresentation, numerator, denominator ) {{
+        //            setOffset( 0, -50 );
+        //        }} );
     }
 }
