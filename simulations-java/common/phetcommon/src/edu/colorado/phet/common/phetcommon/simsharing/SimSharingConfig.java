@@ -55,9 +55,9 @@ public abstract class SimSharingConfig {
      * Location: CU Boulder, Chem 1113 course
      * Study dates: 11/7/11 - 11/11/11
      * Sims: Molecule Shapes, Molecule Polarity
-     * PhET researchers: Julia and Kelly
+     * PhET researchers: Julia Chamberlain, Kelly Lancaster
      *
-     * This study was done during prototyping, so it's unfortunate that the study name is very general.
+     * This study was done during prototyping, so it's unfortunate that the study name is very overly general.
      * But since PhET has an investment in data files containing this study name, we're stuck with it.
      */
     private static class ColoradoConfig extends SimSharingConfig {
@@ -66,7 +66,15 @@ public abstract class SimSharingConfig {
         }
     }
 
-    // Fall 2011 study done in Utah on molecule-shapes, molecule-polarity, balancing-chemical-equations
+    /*
+     * Location: Weber State, UT
+     * Dates: 11/7/11 - 11/9/11
+     * Sims: Molecule Shapes, Balancing Chemical Equations, Molecule Polarity
+     * PhET researchers: Emily B. Moore
+     *
+     * This study was done during prototyping, so it's unfortunate that the study name is very overly general.
+     * But since PhET has an investment in data files containing this study name, we're stuck with it.
+     */
     private static class UtahConfig extends SimSharingConfig {
         public UtahConfig() {
             super( "utah", true, "Enter your audio recorder number:" );
