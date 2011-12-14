@@ -42,8 +42,8 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( fractionEqualityPanel );
 
-        OptionsControlPanel optionsControlPanel = new OptionsControlPanel( model.visualization );
-        addChild( optionsControlPanel );
+        EqualityDisplayOptionsControlPanel equalityDisplayOptionsControlPanel = new EqualityDisplayOptionsControlPanel( model.visualization );
+        addChild( equalityDisplayOptionsControlPanel );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
             public void reset() {
@@ -54,7 +54,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( resetAllButtonNode );
 
-        optionsControlPanel.setOffset( STAGE_SIZE.width - optionsControlPanel.getFullBounds().getWidth() - INSET, STAGE_SIZE.height - resetAllButtonNode.getFullBounds().getHeight() - INSET - optionsControlPanel.getFullBounds().getHeight() - INSET );
-        resetAllButtonNode.setOffset( optionsControlPanel.getFullBounds().getCenterX() - resetAllButtonNode.getFullBounds().getWidth() / 2, STAGE_SIZE.height - resetAllButtonNode.getFullBounds().getHeight() - INSET );
+        equalityDisplayOptionsControlPanel.setOffset( STAGE_SIZE.width - equalityDisplayOptionsControlPanel.getFullBounds().getWidth() - INSET, STAGE_SIZE.height - resetAllButtonNode.getFullBounds().getHeight() - INSET - equalityDisplayOptionsControlPanel.getFullBounds().getHeight() - INSET );
+        resetAllButtonNode.setOffset( equalityDisplayOptionsControlPanel.getFullBounds().getCenterX() - resetAllButtonNode.getFullBounds().getWidth() / 2, STAGE_SIZE.height - resetAllButtonNode.getFullBounds().getHeight() - INSET );
     }
 }
