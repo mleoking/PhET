@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.BiomoleculeToolBoxNode;
+import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -33,7 +33,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
     private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
 
-    public MultipleCellsCanvas( final ManualGeneExpressionModel model ) {
+    public MultipleCellsCanvas( final MultipleCellsModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
