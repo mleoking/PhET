@@ -250,9 +250,9 @@ public abstract class ShapeSegment {
         @Override public void advanceAndRemove( double length, MessengerRna.EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
             ShapeSegment inputSegment = shapeSegmentList.getNextItem( this );
             if ( inputSegment == null ) {
-                // There is no input segment, meaning that the end of the
-                // mRNA strand is contained in THIS segment, so this
-                // segment needs to shrink.
+                // There is no input segment, meaning that the end of the mRNA
+                // strand is contained in THIS segment, so this segment needs
+                // to shrink.
                 double lengthToRemove = Math.min( length, getContainedLength() );
                 this.remove( lengthToRemove, shapeSegmentList );
             }
@@ -304,6 +304,10 @@ public abstract class ShapeSegment {
         }
 
         @Override public void add( double length, MessengerRna.EnhancedObservableList<ShapeSegment> shapeSegmentList ) {
+            add( length );
+        }
+
+        public void add( double length ) {
             containedLength += length;
             // Grow the bounds up and to the left to accommodate the
             // additional length.
@@ -314,7 +318,6 @@ public abstract class ShapeSegment {
                                                 bounds.get().getWidth() + sideGrowthAmount,
                                                 bounds.get().getHeight() + sideGrowthAmount ) );
             updateAttachmentSiteLocation();
-
         }
 
         @Override public void remove( double length, MessengerRna.EnhancedObservableList<ShapeSegment> shapeSegmentList ) {

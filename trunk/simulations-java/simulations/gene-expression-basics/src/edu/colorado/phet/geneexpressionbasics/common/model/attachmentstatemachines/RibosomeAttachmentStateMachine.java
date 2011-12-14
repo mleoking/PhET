@@ -15,7 +15,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosom
 public class RibosomeAttachmentStateMachine extends GenericAttachmentStateMachine {
 
     // Scalar velocity for transcription.
-    private static final double RNA_TRANSLATION_RATE = 25; // Picometers per second.
+    private static final double RNA_TRANSLATION_RATE = 750; // Picometers per second.
 
     // Reference back to the ribosome that is controlled by this state machine.
     private final Ribosome ribosome;
@@ -55,7 +55,7 @@ public class RibosomeAttachmentStateMachine extends GenericAttachmentStateMachin
             proteinBeingSynthesized.setAttachmentPointPosition( ribosome.getProteinAttachmentPoint() );
 
             // Advance the translation of the mRNA.
-            boolean translationComplete = ribosome.advanceMessengerRnaTranslation( RNA_TRANSLATION_RATE );
+            boolean translationComplete = ribosome.advanceMessengerRnaTranslation( RNA_TRANSLATION_RATE * dt );
             if ( translationComplete ) {
                 // Release the mRNA.
                 ribosome.releaseMessengerRna();

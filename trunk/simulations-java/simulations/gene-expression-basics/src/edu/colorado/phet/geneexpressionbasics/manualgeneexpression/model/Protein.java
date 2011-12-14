@@ -66,6 +66,9 @@ public abstract class Protein extends MobileBiomolecule {
      *                           proportion of this protein's full grown size that it should be.
      */
     public void setFullSizeProportion( double fullSizeProportion ) {
+        if ( fullSizeProportion < 0 || fullSizeProportion > 1 ) {
+            System.out.println( "Issue!" );
+        }
         assert fullSizeProportion >= 0 && fullSizeProportion <= 1;
         if ( this.fullSizeProportion != fullSizeProportion ) {
             this.fullSizeProportion = fullSizeProportion;
@@ -108,8 +111,6 @@ public abstract class Protein extends MobileBiomolecule {
      * the cell.
      */
     public void release() {
-        // TODO: Needs to be made into state behavior, but just sets a motion strategy for now.
-//        attachmentStateMachine.detach();
         attachmentStateMachine.setState( new AttachmentState.GenericUnattachedAndAvailableState() );
     }
 
