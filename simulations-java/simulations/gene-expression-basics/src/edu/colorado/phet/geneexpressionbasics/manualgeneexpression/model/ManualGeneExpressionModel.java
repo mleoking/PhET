@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 
@@ -142,23 +141,6 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         mobileBiomolecule.setMotionBounds( getBoundsForActiveGene() );
         // Hook up an observer that will activate and deactivate placement
         // hints for this molecule.
-        mobileBiomolecule.userControlled.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean userControlled ) {
-                if ( userControlled ) {
-                    dnaMolecule.activateHints( mobileBiomolecule );
-                    for ( MessengerRna messengerRna : messengerRnaList ) {
-                        messengerRna.activateHints( mobileBiomolecule );
-                    }
-                }
-                else {
-                    dnaMolecule.deactivateAllHints();
-                    for ( MessengerRna messengerRna : messengerRnaList ) {
-                        messengerRna.deactivateAllHints();
-                    }
-                }
-            }
-        } );
-
         mobileBiomolecule.userControlled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
                 if ( isUserControlled ) {
