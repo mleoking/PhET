@@ -147,7 +147,7 @@ public class SimSharingIdDialog extends JDialog {
     // test
     public static void main( String[] args ) {
         String prompt = SimSharingConfig.getConfig( "colorado" ).idPrompt;
-        final SimSharingIdDialog dialog = new SimSharingIdDialog( prompt );
+        SimSharingIdDialog dialog = new SimSharingIdDialog( prompt );
         dialog.setVisible( true );
         System.out.println( "id = " + dialog.getId() );
         System.exit( 0 );
