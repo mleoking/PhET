@@ -69,6 +69,10 @@ public class RnaDestroyerAttachmentStateMachine extends GenericAttachmentStateMa
             // Advance the destruction of the mRNA.
             boolean destructionComplete = mRnaDestroyer.advanceMessengerRnaDestruction( RNA_DESTRUCTION_RATE * dt );
             if ( destructionComplete ) {
+                // Detach the current mRNA fragment.
+                messengerRnaFragment.releaseFromDestroyer();
+                messengerRnaFragment = null;
+
                 // Remove the messenger RNA that is now destroyed from the
                 // model.  There should be no visual representation left to it
                 // at this point.

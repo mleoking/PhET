@@ -30,14 +30,12 @@ public class MessengerRnaFragmentAttachmentStateMachine extends AttachmentStateM
     }
 
     protected class AttachedToDestroyerState extends AttachmentState {
-
         @Override public void entered( AttachmentStateMachine asm ) {
             biomolecule.setMotionStrategy( new StillnessMotionStrategy() );
         }
     }
 
     protected class UnattachedAndFadingState extends AttachmentState {
-
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
             biomolecule.existenceStrength.set( Math.max( biomolecule.existenceStrength.get() - dt / FADE_OUT_TIME, 0 ) );
         }
