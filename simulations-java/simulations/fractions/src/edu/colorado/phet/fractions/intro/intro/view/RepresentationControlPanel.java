@@ -34,7 +34,8 @@ public class RepresentationControlPanel extends ControlPanelNode {
                     new NumberLineElement( selected ) {{
                         scale( 1.2 );
                     }},
-                    new CakeElement( selected ) };
+                    new CakeElement( selected ),
+                    new WaterGlassElement( selected ) };
 
             double maxWidth = 0;
             double maxHeight = 0;

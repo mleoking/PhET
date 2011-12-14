@@ -4,7 +4,6 @@ package edu.colorado.phet.fractions.intro.intro.view;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Shows a fraction as a set of glasses of water.
@@ -27,20 +26,15 @@ public class WaterGlassSetFractionNode extends VisibilityNode {
 
                 removeAllChildren();
                 int numFullCakes = numerator.get() / d;
-                int slicesInLastCake = numerator.get() % d;
+                int lastCup = numerator.get() % d;
                 SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
 
-                if ( d == 2 || d == 12 ) {
-                    for ( int i = 0; i < numFullCakes; i++ ) {
-                        box.addChild( new WaterGlassNode( denominator.get(), denominator.get() ) );
-                    }
-
-                    if ( slicesInLastCake > 0 ) {
-                        box.addChild( new WaterGlassNode( numerator.get(), denominator.get() ) );
-                    }
+                for ( int i = 0; i < numFullCakes; i++ ) {
+                    box.addChild( new WaterGlassNode( denominator.get(), denominator.get() ) );
                 }
-                else {
-                    box.addChild( new PText( "No images for cake for denominator = " + d ) );
+
+                if ( lastCup > 0 ) {
+                    box.addChild( new WaterGlassNode( numerator.get() % denominator.get(), denominator.get() ) );
                 }
 
                 addChild( box );
