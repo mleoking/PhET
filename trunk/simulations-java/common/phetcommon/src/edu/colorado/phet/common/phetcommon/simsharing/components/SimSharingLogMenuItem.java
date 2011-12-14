@@ -33,12 +33,12 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class SimSharingLogMenuItem extends SimSharingJMenuItem {
 
-    private static final String TITLE = "Data Collection Log"; // give it a less scarey name
+    private static final String TITLE = "Data Collection Log"; // give it a less scary name
 
     private SimSharingLogDialog dialog;
 
     public SimSharingLogMenuItem( final PhetFrame parent ) {
-        super( TITLE + "..." ); // give it a less scarey name
+        super( TITLE + "..." );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {
@@ -55,8 +55,10 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
         public SimSharingLogDialog( final JFrame parent ) {
             super( parent, TITLE );
             setContentPane( new JPanel( new BorderLayout() ) {{
+                // scrolling pane that shows the log
                 add( new JScrollPane( new JTextArea( 20, 40 ) {{
                     setEditable( false );
+                    //TODO the scrollpane has scrolling issues when it's created, and as it dynamically updates. Horizontal scrollbar should start full left, and stay where it's put.
                     SimSharingEvents.log.addObserver( new VoidFunction1<String>() {
                         public void apply( String s ) {
                             setText( s );
@@ -64,6 +66,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                         }
                     } );
                 }} ), BorderLayout.CENTER );
+                // Save button that saves the log to a file
                 add( new JPanel() {{
                     add( new JButton( "Save to file..." ) {{
                         addActionListener( new ActionListener() {
