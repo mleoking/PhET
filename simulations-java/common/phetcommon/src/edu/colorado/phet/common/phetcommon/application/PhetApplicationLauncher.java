@@ -10,7 +10,7 @@ import javax.swing.JSpinner;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.sponsorship.SponsorDialog;
 import edu.colorado.phet.common.phetcommon.sponsorship.SponsorMenuItem;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
@@ -94,7 +94,7 @@ public class PhetApplicationLauncher {
 
         //Initializes the sim-sharing subsystem.
         //Nothing happens unless the "-study" flag is provided on the command line
-        SimSharingEvents.simStarted( config );
+        SimSharingManager.init( config );
 
         /*
          * Wrap the body of main in invokeAndWait, so that all initialization occurs

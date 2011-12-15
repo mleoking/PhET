@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingLogMenuItem;
@@ -85,7 +85,7 @@ public class HelpMenu extends SimSharingJMenu implements ModuleObserver {
         add( megaHelpItem );
 
         //If in sim sharing, show a menu item that allows the user to access the event log in case they need to send it manually
-        if ( SimSharingEvents.isEnabled() ) {
+        if ( SimSharingManager.getInstance().isEnabled() ) {
             addSeparator();
             add( new SimSharingLogMenuItem( phetFrame ) );
         }

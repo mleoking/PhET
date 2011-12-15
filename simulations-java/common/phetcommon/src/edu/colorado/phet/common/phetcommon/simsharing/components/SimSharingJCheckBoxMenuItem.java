@@ -7,7 +7,7 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
@@ -48,10 +48,10 @@ public class SimSharingJCheckBoxMenuItem extends JCheckBoxMenuItem {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingEvents.sendEvent( Objects.CHECK_BOX_MENU_ITEM,
-                                    Actions.TOGGLED, //TODO shouldn't this be PRESSED, to be consistent with PropertyCheckBox?
-                                    param( Parameters.TEXT, getText() ),
-                                    param( Parameters.IS_SELECTED, isSelected() ) );
+        SimSharingManager.sendEvent( Objects.CHECK_BOX_MENU_ITEM,
+                                     Actions.TOGGLED, //TODO shouldn't this be PRESSED, to be consistent with PropertyCheckBox?
+                                     param( Parameters.TEXT, getText() ),
+                                     param( Parameters.IS_SELECTED, isSelected() ) );
         super.fireActionPerformed( event );
     }
 }

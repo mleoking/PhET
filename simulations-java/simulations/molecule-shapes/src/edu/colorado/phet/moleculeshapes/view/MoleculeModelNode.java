@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -300,7 +300,7 @@ public class MoleculeModelNode extends Node {
                     String formatString = Strings.ANGLE__DEGREES;
 
                     // for the Colorado and Utah studies, enable the "less than" and "greater than" text
-                    if ( SimSharingEvents.isEnabled() && ( SimSharingEvents.getStudyName().equals( "colorado" ) || SimSharingEvents.getStudyName().equals( "utah" ) ) ) {
+                    if ( SimSharingManager.getInstance().isEnabled() && ( SimSharingManager.getInstance().getStudyName().equals( "colorado" ) || SimSharingManager.getInstance().getStudyName().equals( "utah" ) ) ) {
                         if ( modifiedAngle - angle > angleEpsilon ) {
                             // lone-pair angle version is larger
                             formatString = Strings.ANGLE__GREATER_THAN_DEGREES;

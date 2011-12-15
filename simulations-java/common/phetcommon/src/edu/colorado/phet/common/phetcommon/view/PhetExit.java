@@ -4,10 +4,10 @@ package edu.colorado.phet.common.phetcommon.view;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.sendSystemEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendSystemEvent;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.EXITED;
 
 /**
@@ -37,7 +37,7 @@ public class PhetExit {
             exitListener.apply();
         }
         // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
-        sendSystemEvent( EXITED, Parameter.param( "messageCount", SimSharingEvents.messageCount ) );
+        sendSystemEvent( EXITED, Parameter.param( "messageCount", SimSharingManager.getInstance().getEventCount() ) );
         System.exit( 0 );
     }
 }

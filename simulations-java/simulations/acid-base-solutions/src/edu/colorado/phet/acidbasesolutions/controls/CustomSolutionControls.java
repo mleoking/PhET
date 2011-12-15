@@ -33,7 +33,7 @@ import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.CustomWeakAcid
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.CustomWeakBaseSolution;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
@@ -298,7 +298,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 concentrationControl.setValue( value );
                 concentrationControl.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        SimSharingEvents.sendEvent( Objects.CONCENTRATION_CONTROL, Actions.CHANGED, Parameter.param( Parameters.VALUE, concentrationControl.getValue() ) );
+                        SimSharingManager.sendEvent( Objects.CONCENTRATION_CONTROL, Actions.CHANGED, Parameter.param( Parameters.VALUE, concentrationControl.getValue() ) );
                         fireStateChanged();
                     }
                 } );
@@ -398,7 +398,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 weakStrengthControl.setTickLabels( strengthLabelTable );
                 weakStrengthControl.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        SimSharingEvents.sendEvent( Objects.WEAK_STRENGTH_CONTROL, Actions.CHANGED, Parameter.param( Parameters.VALUE, weakStrengthControl.getValue() ) );
+                        SimSharingManager.sendEvent( Objects.WEAK_STRENGTH_CONTROL, Actions.CHANGED, Parameter.param( Parameters.VALUE, weakStrengthControl.getValue() ) );
                         fireStateChanged();
                     }
                 } );

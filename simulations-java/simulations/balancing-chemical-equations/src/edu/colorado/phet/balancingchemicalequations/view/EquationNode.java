@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
@@ -239,9 +239,9 @@ public class EquationNode extends PhetPNode {
             spinner.setValue( coefficientProperty.get() );
             spinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    SimSharingEvents.sendEvent( Objects.SPINNER, Actions.CHANGED,
-                                                param( Parameters.DESCRIPTION, coefficientProperty.getDescriptionOrElseQuestion() ),
-                                                param( Parameters.VALUE, spinner.getIntValue() ) );
+                    SimSharingManager.sendEvent( Objects.SPINNER, Actions.CHANGED,
+                                                 param( Parameters.DESCRIPTION, coefficientProperty.getDescriptionOrElseQuestion() ),
+                                                 param( Parameters.VALUE, spinner.getIntValue() ) );
 
                     coefficientProperty.set( spinner.getIntValue() );
                 }
