@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.simsharing.IActor;
-import edu.colorado.phet.common.phetcommon.simsharing.ObjectActor;
-import edu.colorado.phet.common.phetcommon.simsharing.ThreadedActor;
+import edu.colorado.phet.common.phetcommon.simsharing.client.IActor;
+import edu.colorado.phet.common.phetcommon.simsharing.client.ObjectActor;
+import edu.colorado.phet.common.phetcommon.simsharing.client.ThreadedActor;
 import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 import edu.colorado.phet.common.phetcommon.simsharing.state.SimsharingApplication;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;

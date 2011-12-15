@@ -9,8 +9,8 @@ import java.util.Random;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.StringActor;
-import edu.colorado.phet.common.phetcommon.simsharing.ThreadedActor;
+import edu.colorado.phet.common.phetcommon.simsharing.client.StringActor;
+import edu.colorado.phet.common.phetcommon.simsharing.client.ThreadedActor;
 
 /**
  * @author Sam Reid

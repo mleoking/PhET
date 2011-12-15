@@ -22,6 +22,9 @@ import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
+import edu.colorado.phet.common.phetcommon.simsharing.client.IActor;
+import edu.colorado.phet.common.phetcommon.simsharing.client.StringActor;
+import edu.colorado.phet.common.phetcommon.simsharing.client.ThreadedActor;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDialog;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 

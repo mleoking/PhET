@@ -1,3 +1,4 @@
+12/14/11 repackage sim-sharing, add package doc
 12/14/11 #3184, overhaul of central access point for sim-sharing: converted SimSharingEvents to SimSharingManger singleton; created SimSharingEvent
 12/14/11 #3182, changes related to saving the sim-sharing log to a file
 12/14/11 #3181, change requests for sim-sharing id dialog

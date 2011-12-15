@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.simsharing.MessageHandler;
-import edu.colorado.phet.common.phetcommon.simsharing.ObjectStreamMessageServer;
-import edu.colorado.phet.common.phetcommon.simsharing.StringServer;
+import edu.colorado.phet.common.phetcommon.simsharing.server.MessageHandler;
+import edu.colorado.phet.common.phetcommon.simsharing.server.ObjectStreamMessageServer;
+import edu.colorado.phet.common.phetcommon.simsharing.server.StringServer;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.EXITED;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects.SYSTEM;
