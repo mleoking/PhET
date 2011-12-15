@@ -16,7 +16,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -44,7 +44,7 @@ public class SponsorDialog extends JDialog {
         addMouseListener( new MouseAdapter() {
             @Override
             public void mousePressed( MouseEvent event ) {
-                SimSharingEvents.sendEvent( SIMSHARING_OBJECT, Actions.PRESSED );
+                SimSharingManager.sendEvent( SIMSHARING_OBJECT, Actions.PRESSED );
                 dispose();
             }
         } );
@@ -57,7 +57,7 @@ public class SponsorDialog extends JDialog {
         dialog.addWindowListener( new WindowAdapter() {
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
-                SimSharingEvents.sendEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED );
+                SimSharingManager.sendEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED );
                 dialog.dispose();
             }
         } );
@@ -69,7 +69,7 @@ public class SponsorDialog extends JDialog {
             final Timer timer = new Timer( DISPLAY_TIME * 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( dialog.isDisplayable() ) {
-                        SimSharingEvents.sendSystemEvent( Actions.CLOSED, Parameter.param( Parameters.WINDOW, SIMSHARING_OBJECT ) );
+                        SimSharingManager.sendSystemEvent( Actions.CLOSED, Parameter.param( Parameters.WINDOW, SIMSHARING_OBJECT ) );
                         dialog.dispose();
                     }
                 }

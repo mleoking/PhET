@@ -19,7 +19,7 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -286,9 +286,9 @@ public class ElectronegativityControlNode extends PhetPNode {
             this.snapInterval = snapInterval;
             setStartEndDragFunction( new DragFunction() {
                 public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingEvents.sendEvent( Objects.OBJECT_ELECTRONEGATIVITY_CONTROL, action, xParameter, yParameter,
-                                                new Parameter( Parameters.PARAM_ATOM, atom.getName() ),
-                                                new Parameter( Parameters.PARAM_ELECTRONEGATIVITY, atom.electronegativity.get() ) );
+                    SimSharingManager.sendEvent( Objects.OBJECT_ELECTRONEGATIVITY_CONTROL, action, xParameter, yParameter,
+                                                 new Parameter( Parameters.PARAM_ATOM, atom.getName() ),
+                                                 new Parameter( Parameters.PARAM_ELECTRONEGATIVITY, atom.electronegativity.get() ) );
                 }
             } );
         }

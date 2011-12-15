@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
@@ -93,6 +94,17 @@ public class PhetApplicationConfig implements ISimInfo {
 
     public boolean hasCommandLineArg( String arg ) {
         return StringUtil.contains( commandLineArgs, arg );
+    }
+
+    // Gets the argument that follows a command line option. Eg, for "-foo bar", return "bar".
+    public String getOptionArg( String option ) {
+        int s = Arrays.asList( commandLineArgs ).indexOf( option );
+        if ( s >= 0 && s <= commandLineArgs.length - 2 && !commandLineArgs[s + 1].startsWith( "-" ) ) {
+            return commandLineArgs[s + 1];
+        }
+        else {
+            return null;
+        }
     }
 
     public void setFrameSetup( FrameSetup frameSetup ) {
@@ -197,10 +209,6 @@ public class PhetApplicationConfig implements ISimInfo {
 
     public boolean isStatisticsEnabled() {
         return isStatisticsFeatureIncluded() && PhetPreferences.getInstance().isStatisticsEnabled();
-    }
-
-    public boolean isSimSharingEnabled() {
-        return hasCommandLineArg( "-study" );
     }
 
     // Provided so that customer installers can disable the sponsor feature via JNLP.

@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -59,7 +59,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                 add( new JScrollPane( new JTextArea( 20, 40 ) {{
                     setEditable( false );
                     //TODO the scrollpane has scrolling issues when it's created, and as it dynamically updates. Horizontal scrollbar should start full left, and stay where it's put.
-                    SimSharingEvents.log.addObserver( new VoidFunction1<String>() {
+                    SimSharingManager.getInstance().log.addObserver( new VoidFunction1<String>() {
                         public void apply( String s ) {
                             setText( s );
                             scrollRectToVisible( new Rectangle( 0, getHeight() - 1, 1, 1 ) );
@@ -92,7 +92,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                 // Write log to file.
                                 try {
                                     BufferedWriter writer = new BufferedWriter( new FileWriter( selectedFile ) );
-                                    writer.write( SimSharingEvents.log.get() );
+                                    writer.write( SimSharingManager.getInstance().log.get() );
                                     writer.close();
                                 }
                                 catch ( IOException ioe ) {

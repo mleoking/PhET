@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
@@ -55,9 +55,9 @@ public class PropertyCheckBox extends JCheckBox {
 
     //Send a message to the sim sharing event collector that the user toggled the check box
     public static void notifyActionPerformed( JCheckBox checkBox, SettableProperty<Boolean> property ) {
-        SimSharingEvents.sendEvent( Objects.CHECK_BOX, Actions.PRESSED,
-                                    param( Parameters.TEXT, checkBox.getText() ),
-                                    param( Parameters.DESCRIPTION, property.getDescriptionOrElseQuestion() ),
-                                    param( Parameters.IS_SELECTED, checkBox.isSelected() ) );
+        SimSharingManager.sendEvent( Objects.CHECK_BOX, Actions.PRESSED,
+                                     param( Parameters.TEXT, checkBox.getText() ),
+                                     param( Parameters.DESCRIPTION, property.getDescriptionOrElseQuestion() ),
+                                     param( Parameters.IS_SELECTED, checkBox.isSelected() ) );
     }
 }

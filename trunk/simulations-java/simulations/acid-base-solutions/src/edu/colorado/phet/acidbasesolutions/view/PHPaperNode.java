@@ -14,7 +14,7 @@ import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
@@ -134,7 +134,7 @@ public class PHPaperNode extends PhetPNode {
         }
 
         private void sendEvent( String action ) {
-            SimSharingEvents.sendEvent( Objects.PH_PAPER, action, new Parameter( Parameters.IS_IN_SOLUTION, paper.isInSolution() ) );
+            SimSharingManager.sendEvent( Objects.PH_PAPER, action, new Parameter( Parameters.IS_IN_SOLUTION, paper.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {

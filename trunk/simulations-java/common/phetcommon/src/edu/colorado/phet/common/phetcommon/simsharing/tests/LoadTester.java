@@ -16,7 +16,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 
 import static java.lang.Integer.parseInt;
 
@@ -56,7 +56,7 @@ public class LoadTester {
     }
 
     private void start( String[] args ) {
-        SimSharingEvents.simStarted( new PhetApplicationConfig( args, "test-java-project" ) );
+        SimSharingManager.init( new PhetApplicationConfig( args, "test-java-project" ) );
 
         System.out.println( "Started loadTester at " + eventsPerMinute + " events per minute" );
         double eventsPerSecond = eventsPerMinute / 60.0;
@@ -77,7 +77,7 @@ public class LoadTester {
     private void sendEvent() {
         eventCount++;
 
-        String message = SimSharingEvents.sendEvent( "loadTester", "sentTest", rand() );
+        String message = SimSharingManager.sendEvent( "loadTester", "sentTest", rand() );
         System.out.println( "LoadTester.sendEvent, eventCount = " + eventCount );
 
         try {

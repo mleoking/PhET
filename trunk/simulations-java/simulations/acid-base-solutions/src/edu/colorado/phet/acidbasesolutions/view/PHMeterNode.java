@@ -22,7 +22,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -253,7 +253,7 @@ public class PHMeterNode extends PhetPNode {
         }
 
         private void sendEvent( String action ) {
-            SimSharingEvents.sendEvent( Objects.PH_METER, action, new Parameter( Parameters.IS_IN_SOLUTION, meter.isInSolution() ) );
+            SimSharingManager.sendEvent( Objects.PH_METER, action, new Parameter( Parameters.IS_IN_SOLUTION, meter.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {

@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -277,10 +277,10 @@ public class RealMoleculesTab extends MoleculeViewTab {
         moleculeView.getScene().attachChild( moleculeNode );
 
         showRealView.addObserver( new SimpleObserver() {
-                                      public void update() {
-                                          rebuildMolecule( false );
-                                      }
-                                  }, false );
+            public void update() {
+                rebuildMolecule( false );
+            }
+        }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel
@@ -436,9 +436,9 @@ public class RealMoleculesTab extends MoleculeViewTab {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingEvents.sendEvent( Objects.DRAGGING_STATE, Actions.CHANGED,
-                                        param( Parameters.DRAGGING, dragging ),
-                                        param( Parameters.DRAG_MODE, dragMode.toString() ) );
+            SimSharingManager.sendEvent( Objects.DRAGGING_STATE, Actions.CHANGED,
+                                         param( Parameters.DRAGGING, dragging ),
+                                         param( Parameters.DRAG_MODE, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }

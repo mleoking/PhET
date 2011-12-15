@@ -11,7 +11,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -70,7 +70,7 @@ public class PHColorKeyNode extends PhetPNode {
         // send sim-sharing event if user tries to interact
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingEvents.sendNotInteractiveEvent( Objects.PH_COLOR_KEY, Actions.PRESSED );
+                SimSharingManager.sendNotInteractiveEvent( Objects.PH_COLOR_KEY, Actions.PRESSED );
             }
         } );
     }

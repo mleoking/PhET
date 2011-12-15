@@ -8,7 +8,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Parameters;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
@@ -73,8 +73,8 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
     }
 
     private static void sendProbeEvent( String object, String action, boolean inSolution, boolean circuitCompleted ) {
-        SimSharingEvents.sendEvent( object, action,
-                                    new Parameter( Parameters.IS_IN_SOLUTION, inSolution ),
-                                    new Parameter( Parameters.IS_CIRCUIT_COMPLETED, circuitCompleted ) );
+        SimSharingManager.sendEvent( object, action,
+                                     new Parameter( Parameters.IS_IN_SOLUTION, inSolution ),
+                                     new Parameter( Parameters.IS_CIRCUIT_COMPLETED, circuitCompleted ) );
     }
 }

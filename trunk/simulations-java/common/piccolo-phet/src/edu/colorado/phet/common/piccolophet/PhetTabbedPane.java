@@ -36,7 +36,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
@@ -918,7 +918,7 @@ public class PhetTabbedPane extends JPanel {
         public void mouseReleased( PInputEvent e ) {
             if ( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
 
-                SimSharingEvents.sendEvent( Objects.TAB, Actions.PRESSED, Parameter.param( Parameters.TEXT, tab.getText() ) );
+                SimSharingManager.sendEvent( Objects.TAB, Actions.PRESSED, Parameter.param( Parameters.TEXT, tab.getText() ) );
 
                 setSelectedTab( tab );
             }
@@ -1019,7 +1019,7 @@ public class PhetTabbedPane extends JPanel {
                     @Override public void mouseReleased( PInputEvent event ) {
                         if ( getFullBounds().contains( event.getCanvasPosition() ) ) {
 
-                            SimSharingEvents.sendEvent( Objects.TAB, Actions.PRESSED, Parameter.param( Parameters.TEXT, getText() ) );
+                            SimSharingManager.sendEvent( Objects.TAB, Actions.PRESSED, Parameter.param( Parameters.TEXT, getText() ) );
 
                             selectedTab.set( tabNodeReverseMap.get( htmlTabNode ) );
                         }

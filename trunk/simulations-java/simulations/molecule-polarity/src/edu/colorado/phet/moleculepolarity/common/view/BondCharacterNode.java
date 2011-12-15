@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -104,7 +104,7 @@ public class BondCharacterNode extends PComposite {
         //Report when the user tries to interactive with this non-interactive control
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingEvents.sendNotInteractiveEvent( Objects.OBJECT_BOND_CHARACTER_NODE, Actions.PRESSED );
+                SimSharingManager.sendNotInteractiveEvent( Objects.OBJECT_BOND_CHARACTER_NODE, Actions.PRESSED );
             }
         } );
     }

@@ -11,12 +11,9 @@ import java.util.StringTokenizer;
  * @author Sam Reid
  */
 public class Parameter {
+
     public final String name;
     public final String value;
-
-    //Delimiter between parameter items in a list of parameters, used by the text generator and the parser
-    //We use Tab instead of comma since it is much less common in string representation of objects
-    public static final String DELIMITER = "\t";
 
     public Parameter( String name, boolean value ) {
         this( name, value + "" );
@@ -56,8 +53,8 @@ public class Parameter {
     }
 
     //Parses a String into a list of parameters, used by the post-processor
-    public static Parameter[] parseParameters( String line ) {
-        StringTokenizer st = new StringTokenizer( line, DELIMITER );
+    public static Parameter[] parseParameters( String line, String delimiter ) {
+        StringTokenizer st = new StringTokenizer( line, delimiter );
         ArrayList<Parameter> parameters = new ArrayList<Parameter>();
         while ( st.hasMoreTokens() ) {
             parameters.add( parseParameter( st.nextToken() ) );

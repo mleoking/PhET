@@ -26,8 +26,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.sendEvent;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents.sendSystemEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendSystemEvent;
 
 /**
  * Displays a graphic showing a bonding type (single/double/triple/lone pair) where dragging the graphic

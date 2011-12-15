@@ -8,7 +8,7 @@ import javax.swing.Icon;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
@@ -52,9 +52,9 @@ public class SimSharingJRadioButton extends JRadioButton {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingEvents.sendEvent( Objects.RADIO_BUTTON,
-                                    Actions.PRESSED,
-                                    Parameter.param( Parameters.TEXT, getText() ) );
+        SimSharingManager.sendEvent( Objects.RADIO_BUTTON,
+                                     Actions.PRESSED,
+                                     Parameter.param( Parameters.TEXT, getText() ) );
         super.fireActionPerformed( event );
     }
 }
