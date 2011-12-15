@@ -103,13 +103,13 @@ public class SimSharingIdDialog extends JDialog {
 
             // enabled/disable the button based on whether the text field contains valid input
             @Override public void keyReleased( KeyEvent e ) {
-                continueButton.setEnabled( isInputValid() || !idRequired );
+                continueButton.setEnabled( isValidId( textField.getText() ) || !idRequired );
             }
         } );
         textField.addActionListener( new ActionListener() {
             // pressing Enter is the same as pressing the Continue button
             public void actionPerformed( ActionEvent e ) {
-                if ( isInputValid() ) {
+                if ( isValidId( textField.getText() ) ) {
                     doContinue();
                 }
             }
@@ -127,8 +127,8 @@ public class SimSharingIdDialog extends JDialog {
         pack();
     }
 
-    private boolean isInputValid() {
-        return ( textField.getText() != null ) && ( textField.getText().length() != 0 );
+    private boolean isValidId( String id ) {
+        return ( id != null ) && ( id.length() != 0 );
     }
 
     private void doContinue() {
@@ -139,6 +139,7 @@ public class SimSharingIdDialog extends JDialog {
         dispose();
     }
 
+    // Gets the id entered by the user. Returns null if no id was entered.
     public String getId() {
         return id;
     }
