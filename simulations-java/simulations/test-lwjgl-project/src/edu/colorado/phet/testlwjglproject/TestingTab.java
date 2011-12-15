@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
+import java.nio.FloatBuffer;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,6 +18,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -25,8 +27,10 @@ import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.testlwjglproject.lwjgl.CanvasTransform;
 import edu.colorado.phet.testlwjglproject.lwjgl.CanvasTransform.StageCenteringCanvasTransform;
+import edu.colorado.phet.testlwjglproject.lwjgl.GridMesh;
 import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLCanvas;
 import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLTab;
+import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLUtils;
 import edu.colorado.phet.testlwjglproject.lwjgl.OrthoComponentNode;
 import edu.colorado.phet.testlwjglproject.lwjgl.OrthoPiccoloNode;
 import edu.umd.cs.piccolo.PNode;
@@ -35,12 +39,18 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public class TestingTab extends LWJGLTab {
+    private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[] { 0, 0, 0, 0 } );
+    private FloatBuffer shininess = LWJGLUtils.floatBuffer( new float[] { 50 } );
+    private FloatBuffer lightPosition = LWJGLUtils.floatBuffer( new float[] { 1, 1, 1, 0 } );
+
     private long timeElapsed = 0;
     private long lastTime = 0;
     private OrthoComponentNode testSwingNode;
     private OrthoPiccoloNode testPiccoloNode;
     private CanvasTransform canvasTransform;
     private Dimension stageSize;
+    private GridMesh testTerrain;
+    private GridMesh testGround;
 
     // TODO: consider a different way of handling this, or moving this up to LWJGLTab
     public final VoidNotifier mouseEventNotifier = new VoidNotifier();
@@ -104,6 +114,37 @@ public class TestingTab extends LWJGLTab {
                 setOffset( 20.5, button.getFullBounds().getMaxY() + 50 );
             }} );
         }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 100 ) ), mouseEventNotifier );
+
+        {
+            int terrainRows = 20;
+            int groundRows = 100;
+            int cols = 100;
+            ImmutableVector3D[] terrain = new ImmutableVector3D[terrainRows * cols];
+            ImmutableVector3D[] ground = new ImmutableVector3D[groundRows * cols];
+
+            double[] frontHeights = new double[cols];
+
+            for ( int row = 0; row < terrainRows; row++ ) {
+                for ( int col = 0; col < cols; col++ ) {
+                    double x = ( ( (double) col ) / ( (double) ( cols - 1 ) ) ) * 40 - 20;
+                    double z = ( ( (double) row ) / ( (double) ( terrainRows - 1 ) ) ) * 4 - 4;
+                    double height = Math.random() / 10;
+                    if ( row == terrainRows - 1 ) {
+                        frontHeights[col] = height;
+                    }
+                    terrain[row * cols + col] = convertToRadial( new ImmutableVector3D( x, height, z ) );
+                }
+            }
+            for ( int row = 0; row < groundRows; row++ ) {
+                for ( int col = 0; col < cols; col++ ) {
+                    double x = ( ( (double) col ) / ( (double) ( cols - 1 ) ) ) * 40 - 20;
+                    double y = ( ( (double) row ) / ( (double) ( groundRows - 1 ) ) ) * 40 - 40 + frontHeights[col];
+                    ground[row * cols + col] = convertToRadial( new ImmutableVector3D( x, y, 0 ) );
+                }
+            }
+            testTerrain = new GridMesh( terrainRows, cols, terrain );
+            testGround = new GridMesh( groundRows, cols, ground );
+        }
     }
 
     @Override public void stop() {
@@ -166,6 +207,8 @@ public class TestingTab extends LWJGLTab {
             *----------------------------------------------------------------------------*/
             float angle = (float) ( timeElapsed ) / 200;
 
+            glScaled( 2, 2, 2 );
+
             // add a fractal-like thing in the background
             fractalThing( angle, 12, 0, 2 );
         }
@@ -176,14 +219,13 @@ public class TestingTab extends LWJGLTab {
         {
             glMatrixMode( GL_PROJECTION );
             glLoadIdentity();
-            glScalef( 1 / ( (float) canvasSize.get().width ), 1 / ( (float) canvasSize.get().height ), 1 );
+            glScalef( 100 / ( (float) canvasSize.get().width ), 100 / ( (float) canvasSize.get().height ), 1 );
             AffineTransform transform = canvasTransform.transform.get();
             glScaled( transform.getScaleX(), transform.getScaleY(), 1 );
-            gluPerspective( 40, 1, 1, 1000 );
+            gluPerspective( 40, 1, 1, 5000 );
             glMatrixMode( GL_MODELVIEW );
             glLoadIdentity();
-            glTranslatef( 0, 0, -10 );
-            glScalef( 100, 100, 100 );
+            glTranslatef( 0, -4, -4 );
 
             glColor4f( 1f, 1, 1f, 1f );
 
@@ -191,39 +233,25 @@ public class TestingTab extends LWJGLTab {
 
             // TODO: do scene drawing here. the setup is correct
 
-            // draw quad
-//            glBegin( GL_QUADS );
-//            glVertex3f( -size, -size, 0 );
-//            glVertex3f( size, -size, 0 );
-//            glVertex3f( size, size, 0 );
-//            glVertex3f( -size, size, 0 );
-//            glEnd();
-//            FloatBuffer floatBuffer = BufferUtils.createFloatBuffer( 16 * 3 );
-//            floatBuffer.put( new float[] {
-//                    -1.5f, -1.5f, 4.0f,
-//                    -0.5f, -1.5f, 2.0f,
-//                    0.5f, -1.5f, -1.0f,
-//                    1.5f, -1.5f, 2.0f,
-//
-//                    -1.5f, -0.5f, 1.0f,
-//                    -0.5f, -0.5f, 3.0f,
-//                    0.5f, -0.5f, 0.0f,
-//                    1.5f, -0.5f, -1.0f,
-//
-//                    -1.5f, 0.5f, 4.0f,
-//                    -0.5f, 0.5f, 0.0f,
-//                    0.5f, 0.5f, 3.0f,
-//                    1.5f, 0.5f, 4.0f,
-//
-//                    -1.5f, 1.5f, -2.0f,
-//                    -0.5f, 1.5f, -2.0f,
-//                    0.5f, 1.5f, 0.0f,
-//                    1.5f, 1.5f, -1.0f
-//            } );
-//            glMap2f( GL11.GL_MAP2_VERTEX_3, 0, 1, 3, 4, 0, 1, 12, 4, floatBuffer );
-//            glEnable( GL_MAP2_VERTEX_3 );
-//            glEvalMesh2( GL_FILL, 0, 8, 0, 8 );
-//            glDisable( GL_MAP2_VERTEX_3 );
+            glMaterial( GL_FRONT, GL_SPECULAR, specular );
+//            glMaterial( GL_FRONT, GL_SHININESS, shininess );
+            glLight( GL_LIGHT0, GL_POSITION, lightPosition );
+            glEnable( GL_LIGHTING );
+            glEnable( GL_LIGHT0 );
+            glColor4f( 1, 0, 0, 1 );
+            testTerrain.render();
+            glDisable( GL_LIGHTING );
+            glColor4f( 0.5f, 0.5f, 0.5f, 1 );
+            testGround.render();
+
+            // wireframe
+            {
+//                glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+//                glColor4f( 1, 1, 1, 0.3f );
+//                testTerrain.render();
+//                testGround.render();
+//                glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+            }
         }
 
         glDisable( GL_DEPTH_TEST );
@@ -274,5 +302,56 @@ public class TestingTab extends LWJGLTab {
             }
         }
         glPopMatrix();
+    }
+
+    public static final double RADIUS = 100;
+    public static final ImmutableVector3D CENTER = new ImmutableVector3D( 0, -RADIUS, 0 );
+    public static final ImmutableVector3D RADIAL_Z_0 = new ImmutableVector3D( 1, 1, 0 );
+
+    /**
+     * Converts a given "planar" point into a full 3D model point.
+     *
+     * @param planar "Planar" point, where y is elevation relative to sea level, and x,z are essentially
+     *               distance around the circumference of the earth (assumed to be a sphere, not actually
+     *               the geoid shape) in the x and z directions. Basically, think of this "planar" point
+     *               as spherical coordinates.
+     * @return A point in the cartesian coordinate frame in 3D
+     */
+    public static ImmutableVector3D convertToRadial( ImmutableVector3D planar ) {
+        return convertToRadial( getXRadialVector( planar.getX() ), getZRadialVector( planar.getZ() ), planar.getY() );
+    }
+
+    /**
+     * Decomposed performance shortcut for convertToRadial( Vector3f planar ).
+     *
+     * @param xRadialVector result of getXRadialVector( x )
+     * @param zRadialVector result of getZRadialVector( z )
+     * @param y             Same as in the simple version
+     * @return A point in the cartesian coordinate frame in 3D
+     */
+    public static ImmutableVector3D convertToRadial( ImmutableVector3D xRadialVector, ImmutableVector3D zRadialVector, double y ) {
+        double radius = y + RADIUS; // add in the radius of the earth, since y is relative to mean sea level
+        return xRadialVector.componentTimes( zRadialVector ).times( radius ).plus( CENTER );
+    }
+
+    // improved performance version for z=0 plane
+    public static ImmutableVector3D convertToRadial( double x, double y ) {
+        return convertToRadial( getXRadialVector( x ), y );
+    }
+
+    // improved performance version for z=0 plane
+    public static ImmutableVector3D convertToRadial( ImmutableVector3D xRadialVector, double y ) {
+        return convertToRadial( xRadialVector, RADIAL_Z_0, y );
+    }
+
+    public static ImmutableVector3D getXRadialVector( double x ) {
+        double theta = Math.PI / 2 - x / RADIUS; // dividing by the radius actually gets us the correct angle
+        return new ImmutableVector3D( Math.cos( theta ), Math.sin( theta ), 1 );
+    }
+
+    public static ImmutableVector3D getZRadialVector( double z ) {
+        double phi = Math.PI / 2 - z / RADIUS; // dividing by the radius actually gets us the correct angle
+        double sinPhi = Math.sin( phi );
+        return new ImmutableVector3D( sinPhi, sinPhi, Math.cos( phi ) );
     }
 }
