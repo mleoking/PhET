@@ -7,12 +7,22 @@ import java.awt.Font;
 import java.awt.Image;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
-import edu.colorado.phet.acidbasesolutions.model.*;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
+import edu.colorado.phet.acidbasesolutions.model.AcidSolution;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
+import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
+import edu.colorado.phet.acidbasesolutions.model.ReactionEquation;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution;
+import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ChemicalSymbolNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -24,26 +34,26 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ReactionEquationNode extends PComposite {
-    
+
     private static final Font SYMBOL_FONT = new PhetFont( 20 );
     private static final Color SYMBOL_COLOR = Color.BLACK;
     private static final Image TWO_H2O_IMAGE = create2H2OImage();
     private static final double X_SPACING = 15; // horizontal distance between nodes
     private static final double Y_SPACING = 10; // vertical distance between molecule image and top of capital letters in symbol
-    
+
     private static class SymbolNode extends ChemicalSymbolNode {
         public SymbolNode( String html ) {
             super( html, SYMBOL_FONT, SYMBOL_COLOR );
         }
     }
-    
+
     private static class PlusNode extends PText {
         public PlusNode() {
             super( "+" );
             setFont( SYMBOL_FONT );
         }
     }
-    
+
     private static class ArrowNode extends PImage {
         public ArrowNode( boolean isStrong ) {
             super( isStrong ? ABSImages.ARROW_SINGLE : ABSImages.ARROW_DOUBLE );
@@ -51,43 +61,46 @@ public class ReactionEquationNode extends PComposite {
     }
 
     private final ReactionEquation equation;
-    
+
     public ReactionEquationNode( final ReactionEquation equation ) {
-        
-        // not interactive
-        setPickable( false );
-        setChildrenPickable( false );
-        
+
         this.equation = equation;
         equation.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
             @Override
             public void solutionChanged() {
                 update();
             }
-        });
-        
+        } );
+
+        // send sim-sharing event if user tries to interact
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mousePressed( PInputEvent event ) {
+                SimSharingManager.sendNotInteractiveEvent( Objects.REACTION_EQUATION, Actions.PRESSED );
+            }
+        } );
+
         setOffset( equation.getLocationReference() );
         update();
     }
-    
+
     /*
-     * Pure water: 2H2O <-> H3O+ + OH-
-     * Strong acid: HA + H2O -> H3O+ + A-
-     * Weak acid: HA + H2O <-> H3O+ + A-
-     * Strong base: MOH -> M+ + OH-
-     * Weak base: B + H2O <-> BH+ + OH-
-     * 
-     * So the 2nd term on the left-hand-side (LHS) may or may not be present.
-     */
+    * Pure water: 2H2O <-> H3O+ + OH-
+    * Strong acid: HA + H2O -> H3O+ + A-
+    * Weak acid: HA + H2O <-> H3O+ + A-
+    * Strong base: MOH -> M+ + OH-
+    * Weak base: B + H2O <-> BH+ + OH-
+    *
+    * So the 2nd term on the left-hand-side (LHS) may or may not be present.
+    */
     private void update() {
-        
+
         removeAllChildren();
-        
+
         AqueousSolution solution = equation.getSolution();
         boolean isPureWater = ( solution instanceof PureWaterSolution );
         boolean isAcid = ( solution instanceof AcidSolution );
         boolean isStrong = ( solution instanceof StrongAcidSolution || solution instanceof StrongBaseSolution );
-        
+
         // molecule images & symbols
         PImage imageLHS1, imageLHS2, imageRHS1, imageRHS2;
         SymbolNode symbolLHS1, symbolLHS2, symbolRHS1, symbolRHS2;
@@ -121,12 +134,12 @@ public class ReactionEquationNode extends PComposite {
                 symbolRHS2 = new SymbolNode( solution.getOHMolecule().getSymbol() );
             }
         }
-        
+
         // mathematical symbols
         ArrowNode arrowNode = new ArrowNode( isStrong );
         PlusNode plusLeftNode = new PlusNode();
         PlusNode plusRightNode = new PlusNode();
-        
+
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
@@ -143,7 +156,7 @@ public class ReactionEquationNode extends PComposite {
         parentNode.addChild( plusRightNode );
         parentNode.addChild( imageRHS2 );
         parentNode.addChild( symbolRHS2 );
-        
+
         // layout
         // LHS1
         double x, y;
@@ -170,16 +183,16 @@ public class ReactionEquationNode extends PComposite {
         plusRightNode.setOffset( x, y );
         // RHS2
         layoutSymbolAndImage( symbolRHS2, imageRHS2, plusRightNode.getFullBoundsReference().getMaxX() + X_SPACING );
-        
+
         // origin is at the top center of this node
         x = -parentNode.getFullBoundsReference().getWidth() / 2;
         y = -PNodeLayoutUtils.getOriginYOffset( parentNode );
         parentNode.setOffset( x, y );
     }
-    
+
     /*
-     * General layout for a molecule's symbol and image.
-     */
+    * General layout for a molecule's symbol and image.
+    */
     private static void layoutSymbolAndImage( SymbolNode symbolNode, PImage imageNode, double symbolXOffset ) {
         double x = symbolXOffset;
         double y = 0;
@@ -188,11 +201,11 @@ public class ReactionEquationNode extends PComposite {
         y = symbolNode.getYOffset() - symbolNode.getCapHeight() - Y_SPACING - imageNode.getFullBoundsReference().getHeight();
         imageNode.setOffset( x, y );
     }
-    
+
     /*
-     * For the water reaction equation, the first term is "2H2O",
-     * so we need 2 water molecules side by side.
-     */
+    * For the water reaction equation, the first term is "2H2O",
+    * so we need 2 water molecules side by side.
+    */
     private static Image create2H2OImage() {
         WaterMolecule waterMolecule = new WaterMolecule();
         // create 2 identical image nodes
