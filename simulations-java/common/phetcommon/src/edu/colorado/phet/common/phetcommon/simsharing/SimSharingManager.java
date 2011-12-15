@@ -298,6 +298,7 @@ public class SimSharingManager {
             return p.getProperty( MACHINE_COOKIE_KEY ); //TODO what if this property is missing from file?
         }
         else {
+            //TODO why does ordering matter?
             //Attempt to make the properties come out in a reliable order to make diffing usable if/when more properties are added (just in case)
             //see http://stackoverflow.com/questions/54295/how-to-write-java-util-properties-to-xml-with-sorted-keys
             Properties p = new Properties() {
