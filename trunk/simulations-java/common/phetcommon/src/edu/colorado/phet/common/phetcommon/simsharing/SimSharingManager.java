@@ -47,8 +47,6 @@ public class SimSharingManager {
     private static final boolean ALLOW_SERVER_CONNECTION = true;
     // Delimiter between fields. We use Tab instead of comma since it is much less common in string representation of objects.
     private static final String DELIMITER = "\t";
-    // Value for things that are unknown
-    private static final String UNKNOWN = "?";
     // Command line option to enable sim-sharing
     private static final String COMMAND_LINE_OPTION = "-study";
 
@@ -101,7 +99,6 @@ public class SimSharingManager {
             machineCookie = getMachineCookie();
         }
         catch ( IOException e ) {
-            machineCookie = UNKNOWN;
             e.printStackTrace();
         }
 
