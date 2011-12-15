@@ -9,9 +9,11 @@ import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -67,6 +69,20 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
                         sendProbeEvent( Objects.CONDUCTIVITY_TESTER_NEGATIVE_PROBE, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                     }
                     inSolution = tester.isNegativeProbeInSolution();
+                }
+            } );
+        }
+
+        // sim-sharing, light bulb and battery (not interactive)
+        {
+            getLightBulbNode().addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    SimSharingManager.sendNotInteractiveEvent( Objects.LIGHT_BULB, Actions.PRESSED );
+                }
+            } );
+            getBatteryNode().addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    SimSharingManager.sendNotInteractiveEvent( Objects.BATTERY, Actions.PRESSED );
                 }
             } );
         }
