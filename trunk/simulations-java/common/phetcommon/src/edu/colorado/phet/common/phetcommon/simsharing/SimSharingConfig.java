@@ -32,12 +32,14 @@ public abstract class SimSharingConfig {
 
     public final String studyName; // optional study name, as identified on via program args
     public final boolean requestId; // does the study request that students provide an id?
+    public final boolean idRequired; // true=id required, false=optional
     public final String idPrompt; // prompt used to request student's id (irrelevant if requestId is false)
 
-    protected SimSharingConfig( String studyName, boolean requestId, String idPrompt ) {
+    protected SimSharingConfig( String studyName, boolean requestId, boolean idRequired, String idPrompt ) {
         this.studyName = studyName;
         this.requestId = requestId;
         this.idPrompt = idPrompt;
+        this.idRequired = idRequired;
     }
 
     // Default behavior, used if there is no study specified or the specified study isn't found.
@@ -47,7 +49,7 @@ public abstract class SimSharingConfig {
         }
 
         protected DefaultConfig( String name ) {
-            super( name, false, "" );
+            super( name, false, false, "" );
         }
     }
 
@@ -63,7 +65,7 @@ public abstract class SimSharingConfig {
      */
     private static class ColoradoConfig extends SimSharingConfig {
         public ColoradoConfig() {
-            super( "colorado", true, "Enter your computer number:" );
+            super( "colorado", true, true, "Enter your computer number:" );
         }
     }
 
@@ -79,7 +81,7 @@ public abstract class SimSharingConfig {
      */
     private static class UtahConfig extends SimSharingConfig {
         public UtahConfig() {
-            super( "utah", true, "Enter your audio recorder number:" );
+            super( "utah", true, false, "Enter your audio recorder number:" );
         }
     }
 }

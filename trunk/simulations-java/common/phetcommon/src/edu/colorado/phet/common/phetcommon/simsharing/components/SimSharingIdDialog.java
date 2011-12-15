@@ -2,7 +2,6 @@
 package edu.colorado.phet.common.phetcommon.simsharing.components;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,19 +33,18 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class SimSharingIdDialog extends JDialog {
 
     // Strings used herein. No i18n needed now, but perhaps in the future.
-    private static final String RESEARCH_STUDY = "Research Study";
     private static final String CONTINUE = "Continue";
     private static final String EXIT = "Exit";
 
     private final JTextField textField;
     private String id;
 
-    public SimSharingIdDialog( String prompt ) {
-        this( null, prompt );
+    public SimSharingIdDialog( String prompt, boolean idRequired ) {
+        this( null, prompt, idRequired );
         SwingUtils.centerWindowOnScreen( this );
     }
 
-    public SimSharingIdDialog( Frame owner, String prompt ) {
+    public SimSharingIdDialog( Frame owner, String prompt, final boolean idRequired ) {
         super( owner, true /* modal */ );
         setResizable( false );
         setUndecorated( true ); // so that the user can't use the close button. Also means that can't move the dialog.
@@ -55,12 +53,8 @@ public class SimSharingIdDialog extends JDialog {
         JLabel phetLogo = new JLabel( new ImageIcon( PhetCommonResources.getImage( PhetCommonResources.IMAGE_PHET_LOGO ) ) ) {{
             setBorder( new LineBorder( Color.BLACK ) );
         }};
-        JLabel studyLabel = new JLabel( RESEARCH_STUDY ) {{
-            setFont( new PhetFont( Font.BOLD, 20 ) );
-        }};
         JPanel bannerPanel = new JPanel();
         bannerPanel.add( phetLogo );
-        bannerPanel.add( studyLabel );
 
         // input panel
         JLabel promptLabel = new JLabel( prompt ) {{
@@ -78,7 +72,7 @@ public class SimSharingIdDialog extends JDialog {
 
         // action panel
         final JButton continueButton = new JButton( CONTINUE ) {{
-            setEnabled( false );
+            setEnabled( !idRequired );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     doContinue();
@@ -109,7 +103,7 @@ public class SimSharingIdDialog extends JDialog {
 
             // enabled/disable the button based on whether the text field contains valid input
             @Override public void keyReleased( KeyEvent e ) {
-                continueButton.setEnabled( isInputValid() );
+                continueButton.setEnabled( isInputValid() || !idRequired );
             }
         } );
         textField.addActionListener( new ActionListener() {
@@ -139,6 +133,9 @@ public class SimSharingIdDialog extends JDialog {
 
     private void doContinue() {
         id = textField.getText();
+        if ( id != null && id.length() == 0 ) {
+            id = null;
+        }
         dispose();
     }
 
@@ -148,8 +145,8 @@ public class SimSharingIdDialog extends JDialog {
 
     // test
     public static void main( String[] args ) {
-        String prompt = SimSharingConfig.getConfig( "colorado" ).idPrompt;
-        SimSharingIdDialog dialog = new SimSharingIdDialog( prompt );
+        SimSharingConfig config = SimSharingConfig.getConfig( "utah" );
+        SimSharingIdDialog dialog = new SimSharingIdDialog( config.idPrompt, config.idRequired );
         dialog.setVisible( true );
         System.out.println( "id = " + dialog.getId() );
         System.exit( 0 );
