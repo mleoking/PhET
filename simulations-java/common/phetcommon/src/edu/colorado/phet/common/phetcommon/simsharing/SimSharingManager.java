@@ -295,7 +295,7 @@ public class SimSharingManager {
             Properties p = new Properties() {{
                 load( new FileInputStream( simsharingFile ) );
             }};
-            return p.getProperty( MACHINE_COOKIE_KEY ); //TODO what if this property is missing from file?
+            return p.getProperty( MACHINE_COOKIE_KEY ); //TODO if this property in null, shouldn't we add it?
         }
         else {
             //TODO why does ordering matter?
