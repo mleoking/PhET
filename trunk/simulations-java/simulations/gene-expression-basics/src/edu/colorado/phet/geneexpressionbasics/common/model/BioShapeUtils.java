@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +14,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -26,10 +28,13 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class BiomoleculeShapeUtils {
+public class BioShapeUtils {
+
+    private static final Random RAND = new Random();
+
 
     /* not intended for instantiation */
-    private BiomoleculeShapeUtils() {
+    private BioShapeUtils() {
     }
 
     public static Shape createShapeFromPoints( List<Point2D> points ) {
@@ -255,16 +260,19 @@ public class BiomoleculeShapeUtils {
 
         // Add the shapes.  Many are translated somewhat to avoid overlap.
         PCanvas canvas = new PCanvas();
-        Shape shape = BiomoleculeShapeUtils.createShapeFromPoints( vLikePointList );
+        Shape shape = BioShapeUtils.createShapeFromPoints( vLikePointList );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 50 ).createTransformedShape( shape ), Color.PINK ) );
-        shape = BiomoleculeShapeUtils.createRoundedShapeFromPoints( vLikePointList );
+        shape = BioShapeUtils.createRoundedShapeFromPoints( vLikePointList );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 50 ).createTransformedShape( shape ), Color.GREEN ) );
-        shape = BiomoleculeShapeUtils.createRandomShapeFromPoints( vLikePointList, 101 );
+        shape = BioShapeUtils.createRandomShapeFromPoints( vLikePointList, 101 );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 100 ).createTransformedShape( shape ), Color.ORANGE ) );
-        shape = BiomoleculeShapeUtils.createRandomShape( new PDimension( 40, 40 ), 100 );
+        shape = BioShapeUtils.createRandomShape( new PDimension( 40, 40 ), 100 );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 100 ).createTransformedShape( shape ), Color.BLUE ) );
-        shape = BiomoleculeShapeUtils.createRandomShape( new PDimension( 80, 40 ), 123 );
+        shape = BioShapeUtils.createRandomShape( new PDimension( 80, 40 ), 123 );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 200 ).createTransformedShape( shape ), Color.MAGENTA ) );
+
+        shape = BioShapeUtils.createCurvyEnclosedShape( new Rectangle2D.Double( -100, -50, 200, 100 ), 1 );
+        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 200, 200 ).createTransformedShape( shape ), Color.BLACK ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame( "Shape Util Testing" );
@@ -272,5 +280,37 @@ public class BiomoleculeShapeUtils {
         frame.setSize( 500, 500 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
+    }
+
+    /**
+     * Create a curvy shape that is pretty much within the provided bounds.
+     * Full enclosure within the bounds is not guaranteed.  This was initially
+     * written for the purpose of creating shapes that look like cells, but it
+     * may have other uses.
+     *
+     * @param bounds
+     * @return
+     */
+    public static Shape createCurvyEnclosedShape( Rectangle2D bounds, double variationFactor ) {
+
+        // Limit the variation to the allowed range.
+        assert variationFactor >= 0 && variationFactor <= 1; // Catch incorrect uses when debugging.
+        variationFactor = MathUtil.clamp( 0, variationFactor, 1 ); // Prevent them at run time.
+
+        // Use variables names that are typical when working with ellipses.
+        double a = bounds.getWidth() / 2;
+        double b = bounds.getHeight() / 2;
+
+        ImmutableVector2D centerOfEllipse = new ImmutableVector2D( bounds.getCenterX(), bounds.getCenterY() );
+        Vector2D vectorToEdge = new Vector2D();
+        List<Point2D> pointList = new ArrayList<Point2D>();
+        int numPoints = 8;
+        for ( double angle = 0; angle < 2 * Math.PI; angle += 2 * Math.PI / numPoints ) {
+            double alteredAngle = angle + ( 2 * Math.PI / numPoints * ( RAND.nextDouble() - 0.5 ) * variationFactor );
+            vectorToEdge.setComponents( a * Math.sin( alteredAngle ), b * Math.cos( alteredAngle ) );
+            pointList.add( centerOfEllipse.getAddedInstance( vectorToEdge ).toPoint2D() );
+        }
+
+        return createRoundedShapeFromPoints( pointList );
     }
 }
