@@ -273,7 +273,7 @@ public class SimSharingManager {
         sendSystemEvent( "connected to server" ); //TODO should this action use camel case?
     }
 
-    //TODO should these go to the console and log, too?
+    //TODO is it possible to have incorrect sequencing of events?
     // Deliver events in the queue to the server.
     private synchronized void deliverQueue() {
         assert ( enabled );
