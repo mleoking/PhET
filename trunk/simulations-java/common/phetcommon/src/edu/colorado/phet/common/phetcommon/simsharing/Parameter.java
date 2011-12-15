@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
- * Standardizes the rules for formatting action parameters, so that we can also standardize on a parser.
- * Parameters cannot contain the tab character \t because it is used as a delimiter in the parser.
+ * Parameter portion of a sim-sharing event.
+ * Standardizes the rules for formatting parameters, so that we can also standardize on a parser.
+ * Parameters cannot contain the delimiter character that is used in their conversion to string.
  *
  * @author Sam Reid
  */

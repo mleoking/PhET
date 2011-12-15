@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Logger;
 
+//TODO class doc
 public abstract class ObjectStreamMessageServer {
 
     private static final Logger LOGGER = Logger.getLogger( ObjectStreamMessageServer.class.getCanonicalName() );
