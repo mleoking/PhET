@@ -8,11 +8,14 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
 import java.nio.FloatBuffer;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -21,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
@@ -47,6 +51,7 @@ public class TestingTab extends LWJGLTab {
     private long lastTime = 0;
     private OrthoComponentNode testSwingNode;
     private OrthoPiccoloNode testPiccoloNode;
+    private OrthoComponentNode fpsNode;
     private CanvasTransform canvasTransform;
     private Dimension stageSize;
     private GridMesh testTerrain;
@@ -54,6 +59,8 @@ public class TestingTab extends LWJGLTab {
 
     // TODO: consider a different way of handling this, or moving this up to LWJGLTab
     public final VoidNotifier mouseEventNotifier = new VoidNotifier();
+
+    public final Property<Double> framesPerSecond = new Property<Double>( 0.0 );
 
     public TestingTab( LWJGLCanvas canvas, String title ) {
         super( canvas, title );
@@ -114,6 +121,25 @@ public class TestingTab extends LWJGLTab {
                 setOffset( 20.5, button.getFullBounds().getMaxY() + 50 );
             }} );
         }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 100 ) ), mouseEventNotifier );
+        JPanel fpsPanel = new JPanel() {{
+            setPreferredSize( new Dimension( 100, 30 ) );
+            setOpaque( true );
+            add( new JLabel( "(FPS here)" ) {{
+                setForeground( Color.WHITE );
+                framesPerSecond.addObserver( new SimpleObserver() {
+                    public void update() {
+                        final double fps = Math.round( framesPerSecond.get() * 10 ) / 10;
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                setText( "FPS: " + fps );
+                            }
+                        } );
+                    }
+                } );
+            }} );
+        }};
+        fpsNode = new OrthoComponentNode( fpsPanel, this, canvasTransform,
+                                          new Property<ImmutableVector2D>( new ImmutableVector2D( 0, stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier );
 
         {
             int terrainRows = 20;
@@ -143,7 +169,13 @@ public class TestingTab extends LWJGLTab {
                 }
             }
             testTerrain = new GridMesh( terrainRows, cols, terrain );
-            testGround = new GridMesh( groundRows, cols, ground );
+            testGround = new GridMesh( groundRows, cols, ground ) {
+                private final ImmutableVector3D normal = new ImmutableVector3D( 0, 0, 1 );
+
+                @Override public ImmutableVector3D getNormal( int row, int col ) {
+                    return normal;
+                }
+            };
         }
     }
 
@@ -151,8 +183,18 @@ public class TestingTab extends LWJGLTab {
         // store state here?
     }
 
+    private final LinkedList<Long> timeQueue = new LinkedList<Long>();
+
     @Override public void loop() {
-        Display.sync( 60 );
+        Display.sync( 1024 );
+
+        int framesToCount = 10;
+        long current = System.currentTimeMillis();
+        timeQueue.add( current );
+        if ( timeQueue.size() == framesToCount + 1 ) {
+            long previous = timeQueue.poll();
+            framesPerSecond.set( (double) ( 1000 * ( (float) framesToCount ) / ( (float) ( current - previous ) ) ) );
+        }
 
         // walk through all of the mouse events that occurred
         while ( Mouse.next() ) {
@@ -161,6 +203,7 @@ public class TestingTab extends LWJGLTab {
 
         testSwingNode.update();
         testPiccoloNode.update();
+        fpsNode.update();
 
         glEnable( GL_BLEND );
         glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
@@ -246,10 +289,11 @@ public class TestingTab extends LWJGLTab {
 
             // wireframe
             {
+//                glTranslated( 0, 0, 0.0001 );
 //                glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-//                glColor4f( 1, 1, 1, 0.3f );
+//                glColor4f( 1, 1, 1, 0.2f );
 //                testTerrain.render();
-//                testGround.render();
+////                testGround.render();
 //                glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
             }
         }
@@ -263,6 +307,7 @@ public class TestingTab extends LWJGLTab {
             // our test GUI
             testSwingNode.render();
             testPiccoloNode.render();
+            fpsNode.render();
         }
 
         Display.update();
