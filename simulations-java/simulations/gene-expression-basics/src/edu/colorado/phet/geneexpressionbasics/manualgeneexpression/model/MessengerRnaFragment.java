@@ -10,7 +10,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
+import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.MessengerRnaFragmentAttachmentStateMachine;
@@ -140,7 +140,7 @@ public class MessengerRnaFragment extends MobileBiomolecule {
         runSpringAlgorithm( firstShapeDefiningPoint, lastShapeDefiningPoint, shapeSegment.getBounds() );
 
         // Update the shape property based on the newly positioned points.
-        shapeProperty.set( BiomoleculeShapeUtils.createCurvyLineFromPoints( getPointList() ) );
+        shapeProperty.set( BioShapeUtils.createCurvyLineFromPoints( getPointList() ) );
     }
 
     /**

@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
+import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -32,7 +32,7 @@ public class ShapeCreationTest {
         for ( int i = 0; i < 10; i++ ) {
             for ( int j = 0; j < 10; j++ ) {
 
-                shape = BiomoleculeShapeUtils.createRandomShape( new PDimension( WIDTH, HEIGHT ), startSeed );
+                shape = BioShapeUtils.createRandomShape( new PDimension( WIDTH, HEIGHT ), startSeed );
                 // Invert the shape vertically, since in model space we usually have up mean positive Y.
                 shape = AffineTransform.getScaleInstance( 1, -1 ).createTransformedShape( shape );
                 PhetPPath shapeNode = new PhetPPath( AffineTransform.getTranslateInstance( ( j + 1 ) * ( WIDTH * 1.5 ), ( i + 1 ) * ( HEIGHT * 1.5 ) ).createTransformedShape( shape ), Color.ORANGE );

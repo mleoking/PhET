@@ -11,7 +11,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
-import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
+import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.RibosomeAttachmentStateMachine;
@@ -149,7 +149,7 @@ public class Ribosome extends MobileBiomolecule {
             add( new Point2D.Double( -WIDTH * 0.3, -TOP_SUBUNIT_HEIGHT * 0.4 ) );
             add( new Point2D.Double( -WIDTH * 0.5, 0 ) );
         }};
-        Shape topSubunitShape = AffineTransform.getTranslateInstance( 0, OVERALL_HEIGHT / 4 ).createTransformedShape( BiomoleculeShapeUtils.createRoundedShapeFromPoints( topSubunitPointList ) );
+        Shape topSubunitShape = AffineTransform.getTranslateInstance( 0, OVERALL_HEIGHT / 4 ).createTransformedShape( BioShapeUtils.createRoundedShapeFromPoints( topSubunitPointList ) );
         // Draw the bottom portion, which in this sim is the smaller subunit.
         List<Point2D> bottomSubunitPointList = new ArrayList<Point2D>() {{
             // Define the shape with a series of points.
@@ -160,7 +160,7 @@ public class Ribosome extends MobileBiomolecule {
             add( new Point2D.Double( 0, -BOTTOM_SUBUNIT_HEIGHT * 0.45 ) );
             add( new Point2D.Double( -WIDTH * 0.45, -BOTTOM_SUBUNIT_HEIGHT * 0.5 ) );
         }};
-        Shape bottomSubunitShape = AffineTransform.getTranslateInstance( 0, -OVERALL_HEIGHT / 4 ).createTransformedShape( BiomoleculeShapeUtils.createRoundedShapeFromPoints( bottomSubunitPointList ) );
+        Shape bottomSubunitShape = AffineTransform.getTranslateInstance( 0, -OVERALL_HEIGHT / 4 ).createTransformedShape( BioShapeUtils.createRoundedShapeFromPoints( bottomSubunitPointList ) );
         // Combine the two subunits into one shape.
         Area combinedShape = new Area( topSubunitShape );
         combinedShape.add( new Area( bottomSubunitShape ) );
