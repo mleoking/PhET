@@ -50,6 +50,11 @@ public class ImmutableVector3D {
         return new ImmutableVector3D( x * s, y * s, z * s );
     }
 
+    // component-wise multiplication
+    public ImmutableVector3D componentTimes( ImmutableVector3D v ) {
+        return new ImmutableVector3D( x * v.x, y * v.y, z * v.z );
+    }
+
     public double magnitude() {
         return Math.sqrt( x * x + y * y + z * z );
     }

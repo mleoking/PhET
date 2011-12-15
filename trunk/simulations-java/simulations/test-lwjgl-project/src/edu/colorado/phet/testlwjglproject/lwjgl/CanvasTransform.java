@@ -7,6 +7,7 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 import java.nio.DoubleBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -80,7 +81,7 @@ public abstract class CanvasTransform {
     public static void applyAffineTransform( AffineTransform transform ) {
         double[] m = new double[6];
         transform.getMatrix( m );
-        DoubleBuffer buffer = LWJGLUtils.doubleBuffer( 16 );
+        DoubleBuffer buffer = BufferUtils.createDoubleBuffer( 16 );
         // column-major order. argh
         buffer.put( new double[] { m[0], m[1], 0, 0, m[2], m[3], 0, 0, 0, 0, 1, 0, m[4], m[5], 0, 1 } );
         buffer.rewind();
