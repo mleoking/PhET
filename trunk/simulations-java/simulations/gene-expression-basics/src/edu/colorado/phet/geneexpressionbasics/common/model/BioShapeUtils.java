@@ -271,7 +271,7 @@ public class BioShapeUtils {
         shape = BioShapeUtils.createRandomShape( new PDimension( 80, 40 ), 123 );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 200 ).createTransformedShape( shape ), Color.MAGENTA ) );
 
-        shape = BioShapeUtils.createCurvyEnclosedShape( new Rectangle2D.Double( -100, -50, 200, 100 ), 1 );
+        shape = BioShapeUtils.createCurvyEnclosedShape( new Rectangle2D.Double( -100, -50, 200, 100 ), 1, 0 );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 200, 200 ).createTransformedShape( shape ), Color.BLACK ) );
 
         // Boiler plate app stuff.
@@ -289,13 +289,17 @@ public class BioShapeUtils {
      * may have other uses.
      *
      * @param bounds
+     * @param seed
      * @return
      */
-    public static Shape createCurvyEnclosedShape( Rectangle2D bounds, double variationFactor ) {
+    public static Shape createCurvyEnclosedShape( Rectangle2D bounds, double variationFactor, long seed ) {
 
         // Limit the variation to the allowed range.
         assert variationFactor >= 0 && variationFactor <= 1; // Catch incorrect uses when debugging.
         variationFactor = MathUtil.clamp( 0, variationFactor, 1 ); // Prevent them at run time.
+
+        // Create random number generator for use in varying the shape.
+        Random rand = new Random( seed );
 
         // Use variables names that are typical when working with ellipses.
         double a = bounds.getWidth() / 2;
@@ -306,7 +310,7 @@ public class BioShapeUtils {
         List<Point2D> pointList = new ArrayList<Point2D>();
         int numPoints = 8;
         for ( double angle = 0; angle < 2 * Math.PI; angle += 2 * Math.PI / numPoints ) {
-            double alteredAngle = angle + ( 2 * Math.PI / numPoints * ( RAND.nextDouble() - 0.5 ) * variationFactor );
+            double alteredAngle = angle + ( 2 * Math.PI / numPoints * ( rand.nextDouble() - 0.5 ) * variationFactor );
             vectorToEdge.setComponents( a * Math.sin( alteredAngle ), b * Math.cos( alteredAngle ) );
             pointList.add( centerOfEllipse.getAddedInstance( vectorToEdge ).toPoint2D() );
         }
