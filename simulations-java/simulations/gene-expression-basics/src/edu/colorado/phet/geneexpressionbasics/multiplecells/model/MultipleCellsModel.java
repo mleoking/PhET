@@ -38,8 +38,9 @@ public class MultipleCellsModel {
     public void reset() {
         // Clear out all existing cells.
         cellList.clear();
-        // Add a single cell.
-        cellList.add( new Cell( new Point2D.Double( 0, 0 ) ) );
+        // Add a single cell.  Use the cell list size as the seed so that the
+        // same cell is always the same shape.
+        cellList.add( new Cell( new Point2D.Double( 0, 0 ), cellList.size() ) );
     }
 
     public void setNumCells( int numCells ) {
@@ -50,7 +51,7 @@ public class MultipleCellsModel {
             }
         }
         else if ( cellList.size() < numCells ) {
-            Cell newCell = new Cell();
+            Cell newCell = new Cell( cellList.size() ); // Use index as seed so that same cell looks the same.
             placeCellInOpenLocation( newCell );
             cellList.add( newCell );
         }
