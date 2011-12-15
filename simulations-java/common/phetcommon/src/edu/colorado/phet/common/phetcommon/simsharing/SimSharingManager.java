@@ -227,6 +227,7 @@ public class SimSharingManager {
         return id;
     }
 
+    // Creates the connection to the server. If the connection fails, returns null.
     private IActor createActor() {
         assert ( enabled );
         IActor actor = null;
@@ -265,8 +266,6 @@ public class SimSharingManager {
                          param( "osName", System.getProperty( "os.name" ) ),
                          param( "osVersion", System.getProperty( "os.version" ) ),
                          param( "parserVersion", PARSER_VERSION ),
-
-                         //Can't have commas in args because of the parser, but can look up the study argument
                          param( "study", studyName ),
                          param( "id", studentId ) );
     }
