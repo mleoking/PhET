@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.simsharing.IActor;
+import edu.colorado.phet.common.phetcommon.simsharing.client.IActor;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.Sim;

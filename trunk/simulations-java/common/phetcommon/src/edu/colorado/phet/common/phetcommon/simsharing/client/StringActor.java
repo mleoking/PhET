@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.simsharing;
+package edu.colorado.phet.common.phetcommon.simsharing.client;
 
 import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.simsharing.server.StringServer;
 
 /**
  * Client that uses writeUTF and readUTF because it is safe against version/serialization changes.

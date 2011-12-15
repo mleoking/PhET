@@ -6,7 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import edu.colorado.phet.common.phetcommon.simsharing.ObjectStreamMessageServer;
+import edu.colorado.phet.common.phetcommon.simsharing.server.ObjectStreamMessageServer;
 
 public class TestMessageServer {
     private int numQuestions;
