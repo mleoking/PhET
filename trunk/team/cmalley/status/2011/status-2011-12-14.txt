@@ -1,0 +1,59 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Dec 8-14, 2011
+
+Sim Sharing (aka Data Collection)
+- #3185, overhauled initialization and events (SimSharingManager)
+- #3181, rewrote dialog that prompt for student identifier
+- #3181, created "study configurations" for customizing sim-sharing for specific studies
+- #3182, replaced "Copy to clipboard" with "Save to file" for event log
+- #3175, overhauled drag handlers
+- various discussions with SR
+
+Sim Sponsorship
+- developer meeting to discuss options
+- meeting with KP, KD, JO (summarized in #3166)
+- various discussions with SR
+- completed prototype for "CCK DC", using "CU Boulder" as the company.
+  See http://www.colorado.edu/physics/phet/dev/circuit-construction-kit/3.20.01/circuit-construction-kit-dc_en-production.jnlp
+
+Acid-Base Solutions
+- #3170, more sim-sharing
+
+Beer's Law Lab
+- design team meeting to discuss tab 1
+
+Molecule Shapes
+- Mac testing, no problems on Mac OSX 10.5, 10.6, 10.7
+
+Mobile Devices
+- minor amount of time spent coming up to speed on iOS
+- purchased an iPad2
+
+Administrative
+- status meeting
+- developer meeting (git, build process)
+- weekly reports
+- misc developer discussions via email
+
+WHAT'S NEXT:
+
+- Beer's Law Lab: design & implementation
+- Acid-Base Solutions: #3170, add sim-sharing for 1/23/12 study
+- iPad development: come up to speed
+- Gas Properties: #3167, "Return Lid" feature: feedback, test, publish
+- Dilutions: revise and turn this into a sim?
+- Jmol: common code generalization, #3104
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- might be out a couple of days between Xmas and New Year's
+- Jan 19-20
+- Feb 24
+
+--
