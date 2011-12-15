@@ -93,8 +93,8 @@ public class SimSharingManager {
     private void initIfEnabled( final PhetApplicationConfig config ) {
         assert ( enabled );
 
-        studentId = getStudentId();
         studyName = config.getOptionArg( COMMAND_LINE_OPTION );
+        studentId = getStudentId();
         sessionId = generateStrongId();
 
         //Create or load the machine id
@@ -217,9 +217,11 @@ public class SimSharingManager {
     private String getStudentId() {
         assert ( enabled );
         SimSharingConfig simSharingConfig = SimSharingConfig.getConfig( studyName );
+        System.out.println( "studyName = " + studyName );
+        System.out.println( "using study config = " + simSharingConfig.studyName );
         String id = null;
         if ( simSharingConfig.requestId ) {
-            SimSharingIdDialog dialog = new SimSharingIdDialog( null, simSharingConfig.idPrompt );
+            SimSharingIdDialog dialog = new SimSharingIdDialog( null, simSharingConfig.idPrompt, simSharingConfig.idRequired );
             SwingUtils.centerWindowOnScreen( dialog );
             dialog.setVisible( true ); // dialog is modal, so this blocks until an id is entered.
             id = dialog.getId();
