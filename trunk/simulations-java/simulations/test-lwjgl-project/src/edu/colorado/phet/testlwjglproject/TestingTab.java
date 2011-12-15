@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
@@ -31,6 +32,7 @@ import edu.colorado.phet.testlwjglproject.lwjgl.OrthoPiccoloNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public class TestingTab extends LWJGLTab {
     private long timeElapsed = 0;
@@ -127,9 +129,7 @@ public class TestingTab extends LWJGLTab {
         glPolygonMode( GL_BACK, GL_FILL );
 
         glViewport( 0, 0, getCanvasWidth(), getCanvasHeight() );
-        glMatrixMode( GL_PROJECTION );
-        glLoadIdentity();
-        glOrtho( 0, getCanvasWidth(), getCanvasHeight(), 0, 1, -1 );
+        guiProjection();
         glMatrixMode( GL_MODELVIEW );
         glLoadIdentity();
 
@@ -142,8 +142,13 @@ public class TestingTab extends LWJGLTab {
 
         glPushMatrix();
         {
+            glMatrixMode( GL_PROJECTION );
             CanvasTransform.applyAffineTransform( canvasTransform.transform.get() );
+            glMatrixMode( GL_MODELVIEW );
 
+            /*---------------------------------------------------------------------------*
+            * testing background
+            *----------------------------------------------------------------------------*/
             glColor4f( 0f, 1, 1f, 0.1f );
 
             // draw quad
@@ -154,9 +159,11 @@ public class TestingTab extends LWJGLTab {
             glVertex3f( 0, stageSize.height, 0 );
             glEnd();
 
-            // translate our stuff a bit (can deal with centering after we get resizing working properly
             glTranslatef( stageSize.width / 2, stageSize.height / 3, 0 );
 
+            /*---------------------------------------------------------------------------*
+            * fractal thing
+            *----------------------------------------------------------------------------*/
             float angle = (float) ( timeElapsed ) / 200;
 
             // add a fractal-like thing in the background
@@ -164,11 +171,81 @@ public class TestingTab extends LWJGLTab {
         }
         glPopMatrix();
 
-        // our test GUI
-        testSwingNode.render();
-        testPiccoloNode.render();
+        glEnable( GL_DEPTH_TEST );
+
+        {
+            glMatrixMode( GL_PROJECTION );
+            glLoadIdentity();
+            glScalef( 1 / ( (float) canvasSize.get().width ), 1 / ( (float) canvasSize.get().height ), 1 );
+            AffineTransform transform = canvasTransform.transform.get();
+            glScaled( transform.getScaleX(), transform.getScaleY(), 1 );
+            gluPerspective( 40, 1, 1, 1000 );
+            glMatrixMode( GL_MODELVIEW );
+            glLoadIdentity();
+            glTranslatef( 0, 0, -10 );
+            glScalef( 100, 100, 100 );
+
+            glColor4f( 1f, 1, 1f, 1f );
+
+            float size = 100f;
+
+            // TODO: do scene drawing here. the setup is correct
+
+            // draw quad
+//            glBegin( GL_QUADS );
+//            glVertex3f( -size, -size, 0 );
+//            glVertex3f( size, -size, 0 );
+//            glVertex3f( size, size, 0 );
+//            glVertex3f( -size, size, 0 );
+//            glEnd();
+//            FloatBuffer floatBuffer = BufferUtils.createFloatBuffer( 16 * 3 );
+//            floatBuffer.put( new float[] {
+//                    -1.5f, -1.5f, 4.0f,
+//                    -0.5f, -1.5f, 2.0f,
+//                    0.5f, -1.5f, -1.0f,
+//                    1.5f, -1.5f, 2.0f,
+//
+//                    -1.5f, -0.5f, 1.0f,
+//                    -0.5f, -0.5f, 3.0f,
+//                    0.5f, -0.5f, 0.0f,
+//                    1.5f, -0.5f, -1.0f,
+//
+//                    -1.5f, 0.5f, 4.0f,
+//                    -0.5f, 0.5f, 0.0f,
+//                    0.5f, 0.5f, 3.0f,
+//                    1.5f, 0.5f, 4.0f,
+//
+//                    -1.5f, 1.5f, -2.0f,
+//                    -0.5f, 1.5f, -2.0f,
+//                    0.5f, 1.5f, 0.0f,
+//                    1.5f, 1.5f, -1.0f
+//            } );
+//            glMap2f( GL11.GL_MAP2_VERTEX_3, 0, 1, 3, 4, 0, 1, 12, 4, floatBuffer );
+//            glEnable( GL_MAP2_VERTEX_3 );
+//            glEvalMesh2( GL_FILL, 0, 8, 0, 8 );
+//            glDisable( GL_MAP2_VERTEX_3 );
+        }
+
+        glDisable( GL_DEPTH_TEST );
+
+
+        {
+            guiProjection();
+
+            // our test GUI
+            testSwingNode.render();
+            testPiccoloNode.render();
+        }
 
         Display.update();
+    }
+
+    private void guiProjection() {
+        glMatrixMode( GL_PROJECTION );
+        glLoadIdentity();
+        glOrtho( 0, getCanvasWidth(), getCanvasHeight(), 0, 1, -1 );
+        glMatrixMode( GL_MODELVIEW );
+        glLoadIdentity();
     }
 
     private void fractalThing( float angle, int num, int depth, int limit ) {
