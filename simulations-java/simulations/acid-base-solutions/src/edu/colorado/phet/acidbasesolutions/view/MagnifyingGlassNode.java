@@ -9,11 +9,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -39,8 +42,8 @@ public class MagnifyingGlassNode extends PhetPNode {
     private final MagnifyingGlass magnifyingGlass;
     private final PPath handleNode;
     private final RoundRectangle2D handlePath;
-    private final PPath circleNode, backgroundNode;
-    private final Ellipse2D circlePath;
+    private final PPath rimNode, lensNode;
+    private final Ellipse2D rimPath;
     private final MoleculesNode moleculesNode;
 
     public MagnifyingGlassNode( final MagnifyingGlass magnifyingGlass ) {
@@ -67,10 +70,11 @@ public class MagnifyingGlassNode extends PhetPNode {
         handleNode.setStrokePaint( HANDLE_STROKE_COLOR );
         handleNode.setPaint( HANDLE_FILL_COLOR );
 
-        circlePath = new Ellipse2D.Double();
-        circleNode = new PClip();
-        circleNode.setStroke( GLASS_STROKE );
-        circleNode.setStrokePaint( GLASS_STROKE_COLOR );
+        rimPath = new Ellipse2D.Double();
+        rimNode = new PClip();
+        rimNode.setStroke( GLASS_STROKE );
+        rimNode.setStrokePaint( GLASS_STROKE_COLOR );
+        rimNode.setPaint( null );
 
         /*
         * Use an opaque background node so that we can't see other things that go behind
@@ -79,40 +83,48 @@ public class MagnifyingGlassNode extends PhetPNode {
         * will appear to be the same color as the liquid in the beaker.  The shape of the
         * background is identical to the shape of the magnifying glass.
         */
-        backgroundNode = new PPath();
-        backgroundNode.setPaint( ABSColors.CANVAS_BACKGROUND );
+        lensNode = new PPath();
+        lensNode.setPaint( ABSColors.CANVAS_BACKGROUND );
 
         moleculesNode = new MoleculesNode( magnifyingGlass );
 
         // rendering order
         addChild( handleNode );
-        addChild( backgroundNode );
-        addChild( circleNode );
-        circleNode.addChild( moleculesNode ); // clip images to circle
+        addChild( lensNode );
+        addChild( rimNode );
+        rimNode.addChild( moleculesNode ); // clip images to circle
 
         updateGeometry();
         updateColor();
         setOffset( magnifyingGlass.getLocationReference() );
         setVisible( magnifyingGlass.isVisible() );
 
-        // send sim-sharing event if user tries to interact
+        // send sim-sharing event if user tries to interact, identify which part they clicked on
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNotInteractiveEvent( Objects.MAGNIFYING_GLASS, Actions.PRESSED );
+                String partValue;
+                if ( event.getPickedNode() == handleNode ) {
+                    partValue = ABSSimSharing.Parameters.HANDLE;
+                }
+                else if ( event.getPickedNode() == moleculesNode ) {
+                    partValue = ABSSimSharing.Parameters.MOLECULE;
+                }
+                else {
+                    partValue = ABSSimSharing.Parameters.LENS;
+                }
+                SimSharingManager.sendEvent( Objects.MAGNIFYING_GLASS, Actions.PRESSED,
+                                             new Parameter( Parameters.INTERACTIVE, false ),
+                                             new Parameter( Parameters.PART, partValue ) );
             }
         } );
     }
 
-    public MoleculesNode getMoleculesNode() {
-        return moleculesNode;
-    }
-
     private void updateGeometry() {
         double diameter = magnifyingGlass.getDiameter();
-        // glass
-        circlePath.setFrame( -diameter / 2, -diameter / 2, diameter, diameter );
-        circleNode.setPathTo( circlePath );
-        backgroundNode.setPathTo( circlePath );
+        // lens
+        rimPath.setFrame( -diameter / 2, -diameter / 2, diameter, diameter );
+        rimNode.setPathTo( rimPath );
+        lensNode.setPathTo( rimPath );
         // handle
         double width = diameter / 8;
         double height = diameter / 2.25;
@@ -126,7 +138,7 @@ public class MagnifyingGlassNode extends PhetPNode {
     }
 
     private void updateColor() {
-        circleNode.setPaint( magnifyingGlass.getSolution().getColor() );
+        rimNode.setPaint( magnifyingGlass.getSolution().getColor() );
     }
 
 }

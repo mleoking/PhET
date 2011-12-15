@@ -23,9 +23,11 @@ public class ABSSimSharing {
     }
 
     public static class Parameters {
+        public static final String HANDLE = "handle";
         public static final String IS_CIRCUIT_COMPLETED = "isCircuitCompleted";
-        public static final String IS_DIPPED = "isDipped";
         public static final String IS_IN_SOLUTION = "isInSolution";
+        public static final String LENS = "lens";
+        public static final String MOLECULE = "molecule";
     }
 
 }

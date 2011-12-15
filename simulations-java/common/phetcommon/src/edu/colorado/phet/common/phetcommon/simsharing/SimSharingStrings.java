@@ -50,6 +50,7 @@ public class SimSharingStrings {
         public static final String INTERACTIVE = "interactive";
         public static final String ITEM = "item";
         public static final String IS_SELECTED = "isSelected";
+        public static final String PART = "part";
         public static final String TEXT = "text";
         public static final String TITLE = "title";
         public static final String VALUE = "value";
