@@ -1,3 +1,4 @@
+12/16/2011 common: Grab onto a nearby track while dragging
 # 2.08.08 (59163) Dec 8, 2011
 12/8/2011 common: Improved performance for Energy Skate Park grid
 # 2.08.07 (59055) Dec 5, 2011

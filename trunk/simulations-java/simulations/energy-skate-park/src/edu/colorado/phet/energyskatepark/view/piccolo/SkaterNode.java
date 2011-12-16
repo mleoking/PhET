@@ -4,16 +4,19 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 import java.awt.Cursor;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.Body;
+import edu.colorado.phet.energyskatepark.model.LinearFloorSpline2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacter;
 import edu.umd.cs.piccolo.PNode;
@@ -21,7 +24,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * User: Sam Reid
@@ -80,14 +82,23 @@ public class SkaterNode extends PNode {
         }
 
         addInputEventListener( new PBasicInputEventHandler() {
+
+            public Point2D pressPoint;
+            public SerializablePoint2D bodyPosition;
+
+            @Override public void mousePressed( PInputEvent event ) {
+                pressPoint = event.getPositionRelativeTo( SkaterNode.this );
+                bodyPosition = getBody().getPosition();
+            }
+
             public void mouseDragged( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( SkaterNode.this );
-                getBody().translate( delta.getWidth(), delta.getHeight() );
-                double y = getBody().getCenterOfMass().getY();
-                getBody().translate( -delta.getWidth(), -delta.getHeight() );
-                if ( y > 0 ) {
-                    getBody().translate( delta.getWidth(), delta.getHeight() );
-                    updateDragAngle();
+                Point2D dragPoint = event.getPositionRelativeTo( SkaterNode.this );
+                Point2D delta = new Point2D.Double( dragPoint.getX() - pressPoint.getX(), dragPoint.getY() - pressPoint.getY() );
+
+                Point2D newBodyPosition = new Point2D.Double( bodyPosition.getX() + delta.getX(), bodyPosition.getY() + delta.getY() );
+                getBody().setPosition( newBodyPosition.getX(), newBodyPosition.getY() );
+                if ( newBodyPosition.getY() > 0 ) {
+                    snapToTrackDuringDrag();
                 }
             }
         } );
@@ -113,13 +124,20 @@ public class SkaterNode extends PNode {
         update();
     }
 
-    private void updateDragAngle() {
-        TraversalState state = getBody().getTrackMatch( 0, -2 );
-        if ( state != null ) {
+    private void snapToTrackDuringDrag() {
+        TraversalState state = getBody().getTrackMatch( 0, -1 );
+
+        //Don't attach to the floor--it's more important that the skater "picks up" immediately instead of sticking to the floor until the user passes a vertical threshold, and
+        // it's okay if the skater falls and adds energy then
+        if ( state != null && !( state.getParametricFunction2D() instanceof LinearFloorSpline2D ) ) {
             ImmutableVector2D vector = state.getParametricFunction2D().getUnitNormalVector( state.getAlpha() );//todo: this code is highly similar to code in Particle.updateStateFrom1D
             double sign = state.isTop() ? 1.0 : -1.0;
-            ImmutableVector2D vect = vector.getInstanceOfMagnitude( sign );
-            getBody().setAngle( vect.getAngle() - Math.PI / 2 );
+            ImmutableVector2D v = vector.getInstanceOfMagnitude( sign );
+            getBody().setAngle( v.getAngle() - Math.PI / 2 );
+
+            //Put it on the track so it will snap to the track
+            final Point2D.Double x = vector.times( 1E-6 ).plus( state.getPosition().getX(), state.getPosition().getY() ).toPoint2D();
+            getBody().setPosition( x.getX(), x.getY() );
         }
     }
 
