@@ -20,6 +20,7 @@ public abstract class SimSharingConfig {
     static {
         addConfig( new ColoradoConfig() );
         addConfig( new UtahConfig() );
+        addConfig( new Spring2012AcidBaseSolutionsConfig() );
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
@@ -82,6 +83,16 @@ public abstract class SimSharingConfig {
     private static class UtahConfig extends SimSharingConfig {
         public UtahConfig() {
             super( "utah", true, false, "Enter your audio recorder number:" );
+        }
+    }
+
+    /*
+     * Acid-Base Solutions study to be done in Spring 2012.
+     * TODO document details
+     */
+    private static class Spring2012AcidBaseSolutionsConfig extends SimSharingConfig {
+        public Spring2012AcidBaseSolutionsConfig() {
+            super( "acid-base-solutions-spring-2012", false, false, "" );
         }
     }
 }
