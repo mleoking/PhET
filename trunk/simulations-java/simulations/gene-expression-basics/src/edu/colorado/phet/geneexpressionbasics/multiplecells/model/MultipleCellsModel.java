@@ -73,9 +73,11 @@ public class MultipleCellsModel {
             }
         }
         else if ( cellList.size() < numCells ) {
-            Cell newCell = new Cell( cellList.size() ); // Use index as seed so that same cell looks the same.
-            newCell.setPosition( cellLocations.get( cellList.size() ) );
-            cellList.add( newCell );
+            while ( cellList.size() < numCells ) {
+                Cell newCell = new Cell( cellList.size() ); // Use index as seed so that same cell looks the same.
+                newCell.setPosition( cellLocations.get( cellList.size() ) );
+                cellList.add( newCell );
+            }
         }
     }
 
