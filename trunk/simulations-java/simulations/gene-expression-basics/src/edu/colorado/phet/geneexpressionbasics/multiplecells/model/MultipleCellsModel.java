@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
  */
 public class MultipleCellsModel {
 
-    public static final int MAX_CELLS = 20;
+    public static final int MAX_CELLS = 100;
     private static final Random RAND = new Random();
 
     // Clock that drives all time-dependent behavior in this model.
@@ -89,8 +89,8 @@ public class MultipleCellsModel {
     }
 
     /**
-     * Get a rectangle in model space that is positioned and sized such that
-     * it will contain all of the cells currently in the model.
+     * Get a rectangle in model space that is centered at coordinates (0, 0)
+     * and that is large enough to contain all of the cells.
      *
      * @return
      */
@@ -98,22 +98,26 @@ public class MultipleCellsModel {
 
         assert cellList.size() > 0;  // Check that the model isn't in a state the makes this operation meaningless.
 
-        double minX = Double.POSITIVE_INFINITY;
-        double minY = Double.POSITIVE_INFINITY;
-        double maxX = Double.NEGATIVE_INFINITY;
-        double maxY = Double.NEGATIVE_INFINITY;
+        double minX = 0;
+        double minY = 0;
+        double maxX = 0;
+        double maxY = 0;
         for ( Cell cell : cellList ) {
             if ( cell.getShape().getBounds2D().getMinX() < minX ) {
                 minX = cell.getShape().getBounds2D().getMinX();
+                maxX = -minX;
             }
             if ( cell.getShape().getBounds2D().getMinY() < minY ) {
                 minY = cell.getShape().getBounds2D().getMinY();
+                maxY = -minY;
             }
             if ( cell.getShape().getBounds2D().getMaxX() > maxX ) {
                 maxX = cell.getShape().getBounds2D().getMaxX();
+                minX = -maxX;
             }
             if ( cell.getShape().getBounds2D().getMaxY() > maxY ) {
                 maxY = cell.getShape().getBounds2D().getMaxY();
+                minY = -maxY;
             }
         }
         return new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
