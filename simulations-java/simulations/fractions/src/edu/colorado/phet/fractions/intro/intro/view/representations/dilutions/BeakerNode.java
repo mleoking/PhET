@@ -8,6 +8,7 @@ import java.awt.Stroke;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -37,14 +38,14 @@ public class BeakerNode extends PComposite {
     private final BeakerImageNode beakerImageNode;
     public final LabelNode labelNode;
 
-    public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont, double MINOR_TICK_SPACING, int MINOR_TICKS_PER_MAJOR_TICK ) {
+    public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont, double MINOR_TICK_SPACING, int MINOR_TICKS_PER_MAJOR_TICK, final BufferedImage image ) {
 
         // this node is not interactive
         setPickable( false );
         setChildrenPickable( false );
 
         // the glass beaker
-        beakerImageNode = new BeakerImageNode() {{
+        beakerImageNode = new BeakerImageNode( image ) {{
             getTransformReference( true ).scale( imageScaleX, imageScaleY );
         }};
         final PDimension cylinderSize = beakerImageNode.getCylinderSize();

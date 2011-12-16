@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.fractions.FractionsResources;
 import edu.colorado.phet.fractions.intro.intro.view.representations.dilutions.BeakerNode;
 import edu.colorado.phet.fractions.intro.intro.view.representations.dilutions.Solute;
 import edu.colorado.phet.fractions.intro.intro.view.representations.dilutions.Solution;
@@ -31,15 +32,23 @@ public class WaterGlassNode extends PNode {
 
     public WaterGlassNode( Integer numerator, Integer denominator ) {
 
-        final BeakerNode waterBeakerNode = new BeakerNode( 1, BEAKER_SCALE_X, BEAKER_SCALE_Y, null, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, 1.0 / denominator, 2 );
+        final BeakerNode waterBeakerNode = new BeakerNode( 1, BEAKER_SCALE_X, BEAKER_SCALE_Y, null, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, 1.0 / denominator, 2, FractionsResources.Images.WATER_GLASS_FRONT );
         waterBeakerNode.setLabelVisible( false );
         final PDimension cylinderSize = waterBeakerNode.getCylinderSize();
 
         Solute solute = new Solute( "solute", "?", CONCENTRATION_RANGE.getMax(), new Color( 0xE0FFFF ), 5, 200 ); // hypothetical solute with unknown formula
         Solution solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), numerator / (double) denominator );
         // Water beaker, with water inside of it
-        SolutionNode waterNode = new SolutionNode( cylinderSize, waterBeakerNode.getCylinderEndHeight(), solution, new DoubleRange( 0, 1 ) );
+        SolutionNode waterNode = new SolutionNode( cylinderSize, waterBeakerNode.getCylinderEndHeight(), solution, new DoubleRange( 0, 1 ) ) {
+            @Override protected Color getColor() {
+                return FractionsIntroCanvas.FILL_COLOR;
+            }
+        };
 
+        BeakerNode waterBeakerBackgroundNode = new BeakerNode( 1, BEAKER_SCALE_X, BEAKER_SCALE_Y, null, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, 1.0 / denominator, 2, FractionsResources.Images.WATER_GLASS_BACK );
+        waterBeakerBackgroundNode.setLabelVisible( false );
+
+        addChild( waterBeakerBackgroundNode );
         addChild( waterNode );
         addChild( waterBeakerNode );
 

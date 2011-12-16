@@ -71,10 +71,7 @@ public class SolutionNode extends PComposite {
     private void updateNode() {
 
         // update the color of the solution, accounting for saturation
-        LinearFunction f = new LinearFunction( 0, solution.getSaturatedConcentration(), 0, 1 );
-        double colorScale = f.evaluate( solution.getConcentration() );
-        final Color WATER_COLOR = new Color( 0xE0FFFF );
-        Color color = ColorUtils.interpolateRBGA( WATER_COLOR, solution.solute.get().solutionColor, colorScale );
+        Color color = getColor();
         cylinderNode.setPaint( color );
         surfaceNode.setPaint( color );
 
@@ -82,6 +79,13 @@ public class SolutionNode extends PComposite {
         double height = volumeFunction.evaluate( solution.volume.get() );
         cylinderNode.setPathTo( createCylinderShape( height ) );
         surfaceNode.setPathTo( createSurfaceShape( height ) );
+    }
+
+    protected Color getColor() {
+        LinearFunction f = new LinearFunction( 0, solution.getSaturatedConcentration(), 0, 1 );
+        double colorScale = f.evaluate( solution.getConcentration() );
+        final Color WATER_COLOR = new Color( 0xE0FFFF );
+        return ColorUtils.interpolateRBGA( WATER_COLOR, solution.solute.get().solutionColor, colorScale );
     }
 
     private Shape createCylinderShape( double height ) {

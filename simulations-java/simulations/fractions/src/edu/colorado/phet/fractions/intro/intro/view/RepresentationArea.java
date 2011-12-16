@@ -36,7 +36,14 @@ public class RepresentationArea extends PNode {
             setOffset( 0, 0 );
         }} );
         addChild( new WaterGlassSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.WATER_GLASSES ) ) {{
-            setOffset( 15, -10 );
+            setOffset( 15, -65 );
+
+//            addInputEventListener( new PBasicInputEventHandler() {
+//                @Override public void mouseDragged( PInputEvent event ) {
+//                    translate( 0, event.getDeltaRelativeTo( RepresentationArea.this.getParent() ).getHeight() );
+//                    System.out.println( "offset y = " + getOffset().getY() );
+//                }
+//            } );
         }} );
 
         //Since it is unclear how to subdivide a single grid while keeping it the same size, we have discarded this representation for now.
