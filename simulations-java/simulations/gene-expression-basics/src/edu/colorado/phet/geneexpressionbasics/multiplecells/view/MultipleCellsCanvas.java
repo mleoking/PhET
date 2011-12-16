@@ -104,7 +104,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             localWorldRootNode.setTransform( new AffineTransform() );
 
             // Set the scale so that the cells fit on the "stage".
-            double scale = STAGE_SIZE.getWidth() / mvt.modelToViewDeltaX( model.getCellCollectionBounds().getWidth() );
+            double scale = Math.min( STAGE_SIZE.getWidth() / mvt.modelToViewDeltaX( model.getCellCollectionBounds().getWidth() ), 1 );
             System.out.println( "scale = " + scale );
             localWorldRootNode.scaleAboutPoint( scale, mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
         }
