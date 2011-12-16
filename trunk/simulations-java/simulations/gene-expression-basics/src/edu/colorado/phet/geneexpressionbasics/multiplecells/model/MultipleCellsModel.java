@@ -3,11 +3,13 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -53,7 +55,17 @@ public class MultipleCellsModel {
         setNumCells( 1 );
     }
 
+    /**
+     * Set the number of cells currently in the model.  Adds or removes cells
+     * from the model until the number matches the target.
+     *
+     * @param numCells - target number of cells.
+     */
     public void setNumCells( int numCells ) {
+
+        assert numCells > 0 && numCells <= MAX_CELLS;  // Bounds checking.
+        numCells = MathUtil.clamp( 1, numCells, MAX_CELLS ); // Defensive programming.
+
         if ( cellList.size() > numCells ) {
             // Remove cells from the end of the list.
             while ( cellList.size() > numCells ) {
@@ -67,15 +79,44 @@ public class MultipleCellsModel {
         }
     }
 
-    private void placeCellInOpenLocation( Cell cell ) {
-        if ( cellList.size() == 0 ) {
-            cell.setPosition( 0, 0 );
+    /**
+     * Get the number of cells currently in the model.
+     *
+     * @return - current number of cells.
+     */
+    public int getNumCells() {
+        return cellList.size();
+    }
+
+    /**
+     * Get a rectangle in model space that is positioned and sized such that
+     * it will contain all of the cells currently in the model.
+     *
+     * @return
+     */
+    public Rectangle2D getCellCollectionBounds() {
+
+        assert cellList.size() > 0;  // Check that the model isn't in a state the makes this operation meaningless.
+
+        double minX = Double.POSITIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+        for ( Cell cell : cellList ) {
+            if ( cell.getShape().getBounds2D().getMinX() < minX ) {
+                minX = cell.getShape().getBounds2D().getMinX();
+            }
+            if ( cell.getShape().getBounds2D().getMinY() < minY ) {
+                minY = cell.getShape().getBounds2D().getMinY();
+            }
+            if ( cell.getShape().getBounds2D().getMaxX() > maxX ) {
+                maxX = cell.getShape().getBounds2D().getMaxX();
+            }
+            if ( cell.getShape().getBounds2D().getMaxY() > maxY ) {
+                maxY = cell.getShape().getBounds2D().getMaxY();
+            }
         }
-        else {
-            // TODO: Just random for now, needs to be a search.
-            cell.setPosition( ( RAND.nextDouble() - 0.5 ) * 2 * cell.getShape().getBounds2D().getWidth(),
-                              ( RAND.nextDouble() - 0.5 ) * 2 * cell.getShape().getBounds2D().getHeight() );
-        }
+        return new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
     }
 
     private void initializeCellLocations() {
@@ -88,6 +129,9 @@ public class MultipleCellsModel {
         // Set the first location to be at the origin.
         cellLocations.add( new Point2D.Double( 0, 0 ) );
 
+        // Create the list of potential locations for cells.  This algorithm
+        // is based on a unit circle, and the resulting positions are
+        // transformed based on the dimensions of the cells.
         int layer = 1;
         int placedCells = 1;
         while ( placedCells < MAX_CELLS ) {
