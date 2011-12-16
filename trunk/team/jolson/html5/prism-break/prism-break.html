@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Prism Break</title>
+    <link rel="stylesheet" type="text/css" href="reset.css"/>
+    <script type="text/javascript" src="jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="common.js"></script>
+    <script type="text/javascript" src="vec2.js"></script>
+    <script type="text/javascript" src="ray2.js"></script>
+    <script type="text/javascript" src="circle.js"></script>
+    <script type="text/javascript" src="halfplane.js"></script>
+    <script type="text/javascript" src="xyzdat.js"></script>
+    <script type="text/javascript" src="materials.js"></script>
+    <script type="text/javascript" src="reflection.js"></script>
+    <script type="text/javascript" src="csg.js"></script>
+    <script type="text/javascript">
+        $( document ).ready( function() {
+            var canvas = $( '#canvas' )[0];
+
+            // stop text selection on the canvas
+            canvas.onselectstart = function() {
+                return false;
+            };
+
+            if ( canvas.getContext ) {
+                var context = canvas.getContext( '2d' );
+
+                var clearBackground = function() {
+                    context.save();
+                    context.globalCompositeOperation = "source-over";
+                    context.fillStyle = "rgb(0,0,0)";
+                    context.fillRect( 0, 0, canvas.width, canvas.height );
+                    context.restore();
+                };
+
+                var draggedSurface = null;
+                var dragging = false;
+
+                var quality = 25;
+                var QUALITIES = {
+                    low: 50,
+                    med: 25,
+                    high: 5,
+                    ridiculous: 2
+                };
+
+                var brightness = 255;
+
+                var modelToView = function( point ) {
+                    return point;
+                };
+                var viewToModel = function( point ) {
+                    return point;
+                };
+                var modelToViewDelta = function( vec ) {
+                    return vec;
+                };
+                var viewToModelDelta = function( vec ) {
+                    return vec;
+                };
+                var modelToViewDistance = function( scalar ) {
+                    return scalar;
+                };
+                var viewToModelDistance = function( scalar ) {
+                    return scalar;
+                };
+
+                var lastMouseX = 0;
+                var lastMouseY = 0;
+
+                var outsideMaterial = light.AIR;
+
+                var circle1 = new light.Circle( new light.Vec2( 100, 100 ), 50 );
+                var circle2 = new light.Circle( new light.Vec2( 250, 100 ), 50 );
+                var circle3 = new light.Circle( new light.Vec2( 400, 100 ), 50 );
+
+                circle1.material = light.FUSED_SILICA;
+                circle2.material = light.FUSED_SILICA;
+                circle3.material = light.FUSED_SILICA;
+
+                var surfaces = [
+                    circle1,
+                    circle2,
+                    circle3
+                ];
+
+                var drawSurfaces = function() {
+                    context.globalCompositeOperation = "source-over";
+                    for ( var ob in surfaces ) {
+                        var surface = surfaces[ob]; // temporary workaround for Intellij failure. change to for each
+                        if ( surface instanceof light.Circle ) {
+                            context.save();
+                            if ( surface == draggedSurface ) {
+                                context.strokeStyle = "rgb(255,255,255)";
+                                context.lineWidth = 2;
+                            }
+                            else {
+                                context.strokeStyle = "rgb(128,128,128)";
+                            }
+                            context.fillStyle = "rgb(24,24,24)";
+                            context.beginPath();
+                            var viewCenter = modelToView( surface.center );
+                            var viewRadius = modelToViewDistance( surface.radius );
+                            context.arc( viewCenter.x, viewCenter.y, viewRadius, 0, Math.PI * 2, true );
+                            context.closePath();
+                            context.stroke();
+                            context.fill();
+                            context.restore();
+                        }
+                    }
+                };
+
+                var shootRay = function( ray, color, wavelength, maxSteps ) {
+                    var viewRayPos;
+                    if ( color[0] + color[1] + color[2] < 0.0002 * quality ) {
+                        // threshold very small ray contributions
+                        return;
+                    }
+                    var hit = light.findClosestHit( surfaces, ray );
+                    context.globalCompositeOperation = "lighter";
+                    var red = Math.min( 255, Math.floor( brightness * Math.sqrt( color[0] ) * (quality / 25) ) );
+                    var green = Math.min( 255, Math.floor( brightness * Math.sqrt( color[1] ) * (quality / 25) ) );
+                    var blue = Math.min( 255, Math.floor( brightness * Math.sqrt( color[2] ) * (quality / 25) ) );
+                    context.strokeStyle = "rgb(" + red + "," + green + "," + blue + ")";
+                    if ( hit ) {
+                        context.beginPath();
+                        viewRayPos = modelToView( ray.pos );
+                        var viewHitPoint = modelToView( hit.hitPoint );
+                        context.moveTo( viewRayPos.x, viewRayPos.y );
+                        context.lineTo( viewHitPoint.x, viewHitPoint.y );
+                        context.closePath();
+                        context.stroke();
+                        if ( maxSteps > 1 ) {
+                            var incident = ray.dir;
+                            var normal = hit.normal;
+                            var nOutside = outsideMaterial( wavelength );
+                            var nInside = hit.surface.material( wavelength );
+                            var na = hit.fromOutside ? nOutside : nInside;
+                            var nb = hit.fromOutside ? nInside : nOutside;
+                            var tir = light.isTotalInternalReflection( incident, normal, na, nb );
+                            var transmittedDir = null;
+                            if ( !tir ) {
+                                transmittedDir = light.transmit( incident, normal, na, nb );
+                            }
+                            var reflectance = (tir ? {s:1,p:1} : light.fresnelDielectric( incident, normal, transmittedDir, na, nb ));
+                            var simpleReflectance = (reflectance.s + reflectance.p) / 2; // TODO: improve for keeping track of polarization
+                            var reflectedColor = [color[0] * simpleReflectance, color[1] * simpleReflectance, color[2] * simpleReflectance];
+                            shootRay( new light.Ray2( hit.hitPoint, light.reflect( incident, normal ) ), reflectedColor, wavelength, maxSteps - 1 );
+                            if ( !tir ) {
+                                var simpleTransmittance = 1 - simpleReflectance;
+                                var transmittedColor = [color[0] * simpleTransmittance, color[1] * simpleTransmittance, color[2] * simpleTransmittance];
+                                shootRay( new light.Ray2( hit.hitPoint, transmittedDir ), transmittedColor, wavelength, maxSteps - 1 );
+                            }
+                        }
+                    }
+                    else {
+                        var miss = ray.withDistance( 3000 );
+                        context.beginPath();
+                        viewRayPos = modelToView( ray.pos );
+                        var viewHorizon = modelToView( miss );
+                        context.moveTo( viewRayPos.x, viewRayPos.y );
+                        context.lineTo( viewHorizon.x, viewHorizon.y );
+                        context.closePath();
+                        context.stroke();
+                    }
+                };
+
+                var draw = function() {
+                    //var ray1 = new light.Ray2( viewToModel( new light.Vec2( lastMouseX, lastMouseY ) ), new light.Vec2( -1, -1 ) );
+                    var ray1 = new light.Ray2( viewToModel( new light.Vec2( canvas.width / 2, 0 ) ), new light.Vec2( 0, 1 ) );
+
+                    clearBackground();
+
+                    drawSurfaces();
+
+                    for ( var wavelength = 400; wavelength <= 750; wavelength += quality ) {
+                        shootRay( ray1, light.xyzdat[wavelength], wavelength, 10 );
+                    }
+                };
+
+                var isOverSurface = function( viewPoint ) {
+                    var modelPoint = viewToModel( viewPoint );
+                    for ( var sidx in surfaces ) {
+                        var surface = surfaces[sidx];
+                        if ( surface.isPointInside( modelPoint ) ) {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+
+                var updateCursor = function( x, y ) {
+                    if ( isOverSurface( new light.Vec2( x, y ) ) ) {
+                        $( canvas ).css( "cursor", "pointer" );
+                    }
+                    else {
+                        $( canvas ).css( "cursor", "auto" );
+                    }
+                };
+
+                var resizer = function() {
+                    canvas.width = $( window ).width();
+                    canvas.height = $( window ).height();
+                    draw();
+                };
+                $( window ).resize( resizer );
+
+                var moveListener = function( x, y ) {
+                    if ( dragging ) {
+                        var delta = viewToModelDelta( new light.Vec2( x - lastMouseX, y - lastMouseY ) );
+                        // TODO: figure out how to handle more than just a circle. probably use canvas transformations
+                        if ( draggedSurface instanceof light.Circle ) {
+                            draggedSurface.center = draggedSurface.center.add( delta );
+                        }
+                        draw();
+                    }
+                    updateCursor( x, y );
+                    lastMouseX = x;
+                    lastMouseY = y;
+                };
+
+                var downListener = function( x, y ) {
+                    draggedSurface = null;
+                    var modelMousePoint = viewToModel( new light.Vec2( x, y ) );
+                    for ( var sidx in surfaces ) {
+                        var surface = surfaces[sidx];
+                        if ( surface.isPointInside( modelMousePoint ) ) {
+                            draggedSurface = surface;
+                        }
+                    }
+                    dragging = draggedSurface != null;
+                    updateCursor( x, y );
+                    draw();
+                    lastMouseX = x;
+                    lastMouseY = y;
+                };
+
+                var upListener = function( x, y ) {
+                    dragging = false;
+                    draggedSurface = null;
+                    updateCursor( x, y );
+                    draw();
+                };
+
+                var touchFromJQueryEvent = function( evt ) {
+                    return evt.originalEvent.targetTouches[0];
+                };
+
+                $( canvas ).bind( "mousemove", function( evt ) {
+                    evt.preventDefault();
+                    moveListener( evt.pageX, evt.pageY );
+                } );
+                $( canvas ).bind( "mousedown", function( evt ) {
+                    evt.preventDefault();
+                    downListener( evt.pageX, evt.pageY );
+                } );
+                $( canvas ).bind( "mouseup", function( evt ) {
+                    evt.preventDefault();
+                    upListener( evt.pageX, evt.pageY );
+                } );
+                $( canvas ).bind( "touchmove", function( evt ) {
+                    evt.preventDefault();
+                    var touch = touchFromJQueryEvent( evt );
+                    moveListener( touch.pageX, touch.pageY );
+                } );
+                $( canvas ).bind( "touchstart", function( evt ) {
+                    evt.preventDefault();
+                    var touch = touchFromJQueryEvent( evt );
+                    downListener( touch.pageX, touch.pageY );
+                } );
+                $( canvas ).bind( "touchend", function( evt ) {
+                    evt.preventDefault();
+                    var touch = touchFromJQueryEvent( evt );
+                    upListener( touch.pageX, touch.pageY );
+                } );
+                $( canvas ).bind( "touchcancel", function( evt ) {
+                    evt.preventDefault();
+                    var touch = touchFromJQueryEvent( evt );
+                    upListener( touch.pageX, touch.pageY );
+                } );
+                resizer();
+
+                $( '#quality' ).change( function() {
+                    var selected = $( "#quality option:selected" );
+                    quality = QUALITIES[selected.val()];
+                    draw();
+                } );
+
+                $( '#brightness' ).change( function() {
+                    brightness = $( "#brightness" ).val();
+                    draw();
+                } );
+
+            }
+        } );
+    </script>
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        #canvas {
+            position: absolute;
+        }
+
+        #topleftui {
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: white;
+            background-color: #222;
+            padding: 0.25em;
+            font-size: 12px;
+        }
+
+        #topleftui label:not(:first-child) {
+            padding-left: 1em;
+        }
+
+    </style>
+</head>
+
+<body id="home">
+
+<canvas id="canvas" width="1024" height="768">
+    Fallback content
+</canvas>
+
+<div id="topleftui">
+    <label for="quality">Quality</label>
+    <select id="quality">
+        <option value="low">Low</option>
+        <option value="med" selected>Med</option>
+        <option value="high">High</option>
+        <option value="ridiculous">Ridiculous</option>
+    </select>
+    <label for="brightness">Brightness</label>
+    <input id="brightness" type="range" min="32" max="2048" step="32" value="255"/>
+</div>
+
+</body>
+</html>
