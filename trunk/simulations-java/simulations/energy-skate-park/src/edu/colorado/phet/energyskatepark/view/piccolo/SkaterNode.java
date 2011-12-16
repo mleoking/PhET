@@ -82,14 +82,10 @@ public class SkaterNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( SkaterNode.this );
-                boolean okToTranslate = true;
                 getBody().translate( delta.getWidth(), delta.getHeight() );
                 double y = getBody().getCenterOfMass().getY();
-                if ( y <= 0 ) {
-                    okToTranslate = false;
-                }
                 getBody().translate( -delta.getWidth(), -delta.getHeight() );
-                if ( okToTranslate ) {
+                if ( y > 0 ) {
                     getBody().translate( delta.getWidth(), delta.getHeight() );
                     updateDragAngle();
                 }
