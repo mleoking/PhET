@@ -33,6 +33,7 @@ public class SimSharingStrings {
         public static final String DRAG = "drag";
         public static final String END_DRAG = "endDrag";
         public static final String ICONIFIED = "iconified";
+        public static final String MOVED = "moved";
         public static final String PRESSED = "pressed";
         public static final String RESIZED = "resized";
         public static final String SELECTED = "selected";

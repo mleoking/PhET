@@ -1,3 +1,4 @@
+12/13/11 #3170, send event when the user is comparing the pH paper to the pH color key
 12/13/11 #3170, when user tries to interact with the magnifying glass, identify which part they clicked on (handle, lens, molecule)
 12/13/11 #3170, add event for attempt to interact with battery or light bulb
 12/13/11 #3170, add event for attempt to interact with reaction equation
