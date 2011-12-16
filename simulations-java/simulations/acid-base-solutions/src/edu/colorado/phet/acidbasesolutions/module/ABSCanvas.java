@@ -7,7 +7,10 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.ABSConductivityTesterNode;
 import edu.colorado.phet.acidbasesolutions.view.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.MagnifyingGlassNode;
@@ -16,6 +19,9 @@ import edu.colorado.phet.acidbasesolutions.view.PHMeterNode;
 import edu.colorado.phet.acidbasesolutions.view.PHPaperNode;
 import edu.colorado.phet.acidbasesolutions.view.ReactionEquationNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -30,6 +36,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class ABSCanvas extends PhetPCanvas {
 
     private final PNode rootNode;
+    private boolean isPaperAlignedWithColorKey; // true if the pH paper is between the horizontal bounds of the pH color key
 
     public ABSCanvas( ABSModel model, boolean dev ) {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
@@ -45,8 +52,8 @@ public class ABSCanvas extends PhetPCanvas {
         PNode magnifyingGlassNode = new MagnifyingGlassNode( model.getMagnifyingGlass() );
         PNode concentrationGraphNode = new ConcentrationGraphNode( model.getConcentrationGraph() );
         PNode reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
-        PNode pHPaperNode = new PHPaperNode( model.getPHPaper() );
-        PNode pHColorKeyNode = new PHColorKeyNode( model.getPHPaper() );
+        final PNode pHPaperNode = new PHPaperNode( model.getPHPaper() );
+        final PNode pHColorKeyNode = new PHColorKeyNode( model.getPHPaper() );
         PNode conductivityTesterNode = new ABSConductivityTesterNode( model.getConductivityTester(), ModelViewTransform.createIdentity(), Color.BLACK, Color.RED, Color.BLACK, dev );
 
         // rendering order
@@ -60,7 +67,23 @@ public class ABSCanvas extends PhetPCanvas {
         addNode( reactionEquationNode );
 
         pHColorKeyNode.setOffset( ABSConstants.PH_COLOR_KEY_LOCATION );
-        // NOTE: all layout is handled via locations of model elements.
+        // NOTE: all other layout is handled via locations of model elements.
+
+        /*
+         * sim-sharing: determine when the user is comparing the pH paper to the color key.
+         * This must be handled in the view, because there is no model of the color key.
+         */
+        model.getPHPaper().addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+            public void locationChanged() {
+                boolean isPaperAlignedWithColorKey = ( pHPaperNode.getFullBoundsReference().getMinX() < pHColorKeyNode.getFullBoundsReference().getMaxX() &&
+                                                       pHPaperNode.getFullBoundsReference().getMaxX() > pHColorKeyNode.getFullBoundsReference().getMinX() );
+                if ( isPaperAlignedWithColorKey != ABSCanvas.this.isPaperAlignedWithColorKey ) {
+                    // send an event whenever the alignment status changes
+                    SimSharingManager.sendEvent( Objects.PH_PAPER, Actions.MOVED, new Parameter( ABSSimSharing.Parameters.IS_PAPER_ALIGNED_WITH_COLOR_KEY, isPaperAlignedWithColorKey ) );
+                    ABSCanvas.this.isPaperAlignedWithColorKey = isPaperAlignedWithColorKey;
+                }
+            }
+        } );
     }
 
     protected void addNode( PNode node ) {
