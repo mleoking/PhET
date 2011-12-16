@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class Cell extends ShapeChangingModelElement {
 
     // Bounding size for cells.
-    private static final Dimension2D CELL_SIZE = new PDimension( 2E-6, 1E-6 ); // In meters.
+    public static final Dimension2D CELL_SIZE = new PDimension( 2E-6, 1E-6 ); // In meters.
 
     public Cell( long seed ) {
         this( new Point2D.Double( 0, 0 ), seed );

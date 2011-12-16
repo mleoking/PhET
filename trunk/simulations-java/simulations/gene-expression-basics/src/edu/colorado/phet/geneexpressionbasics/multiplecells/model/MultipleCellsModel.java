@@ -1,9 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -24,7 +29,12 @@ public class MultipleCellsModel {
     // List of cells in the model.
     public final ObservableList<Cell> cellList = new ObservableList<Cell>();
 
+    // Locations where cells are placed.  This is initialized at construction
+    // so that placements are consistent as cells come and go.
+    public final List<Point2D> cellLocations = new ArrayList<Point2D>();
+
     public MultipleCellsModel() {
+        initializeCellLocations();
     }
 
     public IClock getClock() {
@@ -40,7 +50,7 @@ public class MultipleCellsModel {
         cellList.clear();
         // Add a single cell.  Use the cell list size as the seed so that the
         // same cell is always the same shape.
-        cellList.add( new Cell( new Point2D.Double( 0, 0 ), cellList.size() ) );
+        setNumCells( 1 );
     }
 
     public void setNumCells( int numCells ) {
@@ -52,7 +62,7 @@ public class MultipleCellsModel {
         }
         else if ( cellList.size() < numCells ) {
             Cell newCell = new Cell( cellList.size() ); // Use index as seed so that same cell looks the same.
-            placeCellInOpenLocation( newCell );
+            newCell.setPosition( cellLocations.get( cellList.size() ) );
             cellList.add( newCell );
         }
     }
@@ -65,6 +75,40 @@ public class MultipleCellsModel {
             // TODO: Just random for now, needs to be a search.
             cell.setPosition( ( RAND.nextDouble() - 0.5 ) * 2 * cell.getShape().getBounds2D().getWidth(),
                               ( RAND.nextDouble() - 0.5 ) * 2 * cell.getShape().getBounds2D().getHeight() );
+        }
+    }
+
+    private void initializeCellLocations() {
+        assert cellLocations.size() == 0; // Should only be called once.
+
+        // Transform for converting from unit-circle based locations to
+        // locations that will work for the elliptical cells.
+        AffineTransform transform = AffineTransform.getScaleInstance( Cell.CELL_SIZE.getWidth(), Cell.CELL_SIZE.getHeight() );
+
+        // Set the first location to be at the origin.
+        cellLocations.add( new Point2D.Double( 0, 0 ) );
+
+        int layer = 1;
+        int placedCells = 1;
+        while ( placedCells < MAX_CELLS ) {
+            List<Point2D> preTransformLocations = new ArrayList<Point2D>();
+            int numCellsOnThisLayer = (int) Math.floor( layer * 2 * Math.PI );
+            double angleIncrement = 2 * Math.PI / numCellsOnThisLayer;
+            Vector2D nextLocation = new Vector2D();
+            nextLocation.setMagnitudeAndAngle( layer, RAND.nextDouble() * 2 * Math.PI );
+            for ( int i = 0; i < numCellsOnThisLayer && placedCells < MAX_CELLS; i++ ) {
+                preTransformLocations.add( nextLocation.toPoint2D() );
+                nextLocation.rotate( angleIncrement );
+                placedCells++;
+            }
+            // Shuffle the locations.
+            Collections.shuffle( preTransformLocations );
+            // Transform the locations and add them to the final list.
+            for ( Point2D preTransformLocation : preTransformLocations ) {
+                cellLocations.add( transform.transform( preTransformLocation, null ) );
+            }
+            // Next layer.
+            layer++;
         }
     }
 }
