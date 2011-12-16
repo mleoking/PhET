@@ -95,7 +95,10 @@ public class SkaterNode extends PNode {
                 Point2D dragPoint = event.getPositionRelativeTo( SkaterNode.this );
                 Point2D delta = new Point2D.Double( dragPoint.getX() - pressPoint.getX(), dragPoint.getY() - pressPoint.getY() );
 
-                Point2D newBodyPosition = new Point2D.Double( bodyPosition.getX() + delta.getX(), bodyPosition.getY() + delta.getY() );
+                //Don't allow to drag through the floor if any (no floor in space when g=0)
+                final double proposedY = bodyPosition.getY() + delta.getY();
+                final double y = body.getGravity() != 0 ? Math.max( 0, proposedY ) : proposedY;
+                Point2D newBodyPosition = new Point2D.Double( bodyPosition.getX() + delta.getX(), y );
                 getBody().setPosition( newBodyPosition.getX(), newBodyPosition.getY() );
                 if ( newBodyPosition.getY() > 0 ) {
                     snapToTrackDuringDrag();
@@ -127,17 +130,20 @@ public class SkaterNode extends PNode {
     private void snapToTrackDuringDrag() {
         TraversalState state = getBody().getTrackMatch( 0, -1 );
 
-        //Don't attach to the floor--it's more important that the skater "picks up" immediately instead of sticking to the floor until the user passes a vertical threshold, and
-        // it's okay if the skater falls and adds energy then
-        if ( state != null && !( state.getParametricFunction2D() instanceof LinearFloorSpline2D ) ) {
+        //Point at the track so the skater will have the right orientation for a smooth landing
+        if ( state != null ) {
             ImmutableVector2D vector = state.getParametricFunction2D().getUnitNormalVector( state.getAlpha() );//todo: this code is highly similar to code in Particle.updateStateFrom1D
             double sign = state.isTop() ? 1.0 : -1.0;
             ImmutableVector2D v = vector.getInstanceOfMagnitude( sign );
             getBody().setAngle( v.getAngle() - Math.PI / 2 );
 
-            //Put it on the track so it will snap to the track
-            final Point2D.Double x = vector.times( 1E-6 ).plus( state.getPosition().getX(), state.getPosition().getY() ).toPoint2D();
-            getBody().setPosition( x.getX(), x.getY() );
+            //Don't attach to the floor--it's more important that the skater "picks up" immediately instead of sticking to the floor until the user passes a vertical threshold, and
+            // it's okay if the skater falls and adds energy then
+            if ( !( state.getParametricFunction2D() instanceof LinearFloorSpline2D ) ) {
+                //Put it on the track so it will snap to the track
+                final Point2D.Double x = vector.times( 1E-6 ).plus( state.getPosition().getX(), state.getPosition().getY() ).toPoint2D();
+                getBody().setPosition( x.getX(), x.getY() );
+            }
         }
     }
 
