@@ -34,7 +34,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class SimSharingLogMenuItem extends SimSharingJMenuItem {
 
     private static final String TITLE = "Data Collection Log"; // give it a less scary name
-    private static final String ACTION = "Save As";
+    private static final String ACTION = "Save";
 
     private SimSharingLogDialog dialog;
 
@@ -69,7 +69,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                 }} ), BorderLayout.CENTER );
                 // Save button that saves the log to a file
                 add( new JPanel() {{
-                    add( new JButton( ACTION ) {{
+                    add( new JButton( ACTION + "..." ) {{
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
 
