@@ -7,19 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="lwjgl" />
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="piccolo-phet" />
-    <orderEntry type="module" module-name="lwjgl-phet" />
   </component>
 </module>
 

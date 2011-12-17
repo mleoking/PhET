@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.testlwjglproject.lwjgl;
+package edu.colorado.phet.lwjglphet;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;

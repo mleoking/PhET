@@ -1,10 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.testlwjglproject.lwjgl;
+package edu.colorado.phet.lwjglphet;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 
-import static edu.colorado.phet.testlwjglproject.lwjgl.LWJGLUtils.*;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -34,14 +33,14 @@ public class GridMesh {
 //            glBegin( GL_POINTS );
             for ( int col = 0; col < columns; col++ ) {
                 // top point
-                texCoord2d( getTextureCoordinate( row, col ) );
-                normal3d( getNormal( row, col ) );
-                vertex3d( getPosition( row, col ) );
+                LWJGLUtils.texCoord2d( getTextureCoordinate( row, col ) );
+                LWJGLUtils.normal3d( getNormal( row, col ) );
+                LWJGLUtils.vertex3d( getPosition( row, col ) );
 
                 // bottom point
-                texCoord2d( getTextureCoordinate( row + 1, col ) );
-                normal3d( getNormal( row + 1, col ) );
-                vertex3d( getPosition( row + 1, col ) );
+                LWJGLUtils.texCoord2d( getTextureCoordinate( row + 1, col ) );
+                LWJGLUtils.normal3d( getNormal( row + 1, col ) );
+                LWJGLUtils.vertex3d( getPosition( row + 1, col ) );
             }
             glEnd();
         }
