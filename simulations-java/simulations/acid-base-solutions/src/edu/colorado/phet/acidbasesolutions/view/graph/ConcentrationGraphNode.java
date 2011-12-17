@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.acidbasesolutions.view.graph;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
@@ -11,10 +10,21 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.acidbasesolutions.model.*;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
+import edu.colorado.phet.acidbasesolutions.model.AcidSolution;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.ConcentrationGraph;
+import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution;
+import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution;
+import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -38,10 +48,6 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
     public ConcentrationGraphNode( final ConcentrationGraph graph ) {
         super( graph.getSizeReference(), ICONS_VISIBLE, SYMBOLS_VISIBLE );
 
-        // not interactive
-        setPickable( false );
-        setChildrenPickable( false );
-
         // model changes
         this.graph = graph;
         graph.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
@@ -60,7 +66,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
             public void strengthChanged() {
                 updateValues();
             }
-        });
+        } );
 
         // graph listener
         graph.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
@@ -68,7 +74,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
             public void visibilityChanged() {
                 setVisible( graph.isVisible() );
             }
-        });
+        } );
 
         double x = graph.getLocationReference().getX() - ( graph.getSizeReference().getWidth() / 2 );
         double y = graph.getLocationReference().getY() - ( getFullBoundsReference().getHeight() / 2 );
@@ -76,6 +82,13 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         setVisible( graph.isVisible() );
         updateMolecules();
         updateValues();
+
+        // send sim-sharing event if user tries to interact
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mousePressed( PInputEvent event ) {
+                SimSharingManager.sendNotInteractiveEvent( Objects.CONCENTRATION_GRAPH, Actions.PRESSED );
+            }
+        } );
     }
 
     /*
@@ -208,7 +221,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         // bars
         final Color[] barColors = { ABSColors.HA, ABSColors.H2O, ABSColors.A_MINUS, ABSColors.H3O_PLUS };
         final double[] barHeightRatios = { 0.65, 0.8, 0.5, 0.5 };
-        assert( barHeightRatios.length == barColors.length );
+        assert ( barHeightRatios.length == barColors.length );
         final double xSpacing = 0.1 * graphSize.getWidth();
         final double barWidth = ( graphSize.getWidth() - ( xSpacing * ( barColors.length + 1 ) ) ) / barColors.length;
         double x = xSpacing;
@@ -229,7 +242,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
          * do make sure that our stroke is fully inside the bounds of the background.
          */
         final float strokeWidth = 0.5f;
-        PPath outlineNode = new PPath( new Rectangle2D.Double( strokeWidth/2, strokeWidth/2, graphSize.getWidth() - strokeWidth, graphSize.getHeight() - strokeWidth ) );
+        PPath outlineNode = new PPath( new Rectangle2D.Double( strokeWidth / 2, strokeWidth / 2, graphSize.getWidth() - strokeWidth, graphSize.getHeight() - strokeWidth ) );
         outlineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
         parentNode.addChild( outlineNode );
 

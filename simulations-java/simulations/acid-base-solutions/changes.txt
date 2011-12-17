@@ -1,7 +1,8 @@
-12/13/11 #3170, send event when the user is comparing the pH paper to the pH color key
-12/13/11 #3170, when user tries to interact with the magnifying glass, identify which part they clicked on (handle, lens, molecule)
-12/13/11 #3170, add event for attempt to interact with battery or light bulb
-12/13/11 #3170, add event for attempt to interact with reaction equation
+12/16/11 #3170, add event for attempt to interact with concentration graph
+12/15/11 #3170, send event when the user is comparing the pH paper to the pH color key
+12/15/11 #3170, when user tries to interact with the magnifying glass, identify which part they clicked on (handle, lens, molecule)
+12/15/11 #3170, add event for attempt to interact with battery or light bulb
+12/15/11 #3170, add event for attempt to interact with reaction equation
 12/13/11 #3170, add events for when the conductivity probes transition between in/out of solution
 12/13/11 #3170, add events for when the pH meter and pH paper transition between in/out of solution
 12/13/11 #3175, overhaul sim-sharing drag handlers to support optional functions for start/end/drag
