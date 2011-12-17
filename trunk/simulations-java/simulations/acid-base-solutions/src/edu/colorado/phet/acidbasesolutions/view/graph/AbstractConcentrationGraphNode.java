@@ -69,16 +69,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
     //----------------------------------------------------------------------------
 
     /**
-     * @param outlineSize size of the outline that goes around the data portion of the graph
-     * @param iconsVisible are molecule icons visible on the x axis?
-     * @param symbols are molecule symbols visible on the x axis?
+     * @param outlineSize    size of the outline that goes around the data portion of the graph
+     * @param iconsVisible   are molecule icons visible on the x axis?
+     * @param symbolsVisible are molecule symbols visible on the x axis?
      */
     public AbstractConcentrationGraphNode( PDimension outlineSize, boolean iconsVisible, boolean symbolsVisible ) {
         super();
-
-        // not interactive
-        setPickable( false );
-        setChildrenPickable( false );
 
         // outline of graph's data area
         this.outlineSize = new PDimension( outlineSize );
@@ -121,7 +117,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
     //----------------------------------------------------------------------------
 
     protected void setMolecule( int index, Molecule molecule, NumberFormat format ) {
-        setMolecule( index, molecule, format, false /* negligibleEnabled */);
+        setMolecule( index, molecule, format, false /* negligibleEnabled */ );
     }
 
     /*
