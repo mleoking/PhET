@@ -190,7 +190,10 @@ public class SimSharingManager {
     // Sends an event to the sim-sharing log.
     private void sendToLog( String event ) {
         assert ( enabled );
-        log.set( log.get() + "\n" + event );
+        if ( log.get().length() != 0 ) {
+            log.set( log.get() + "\n" );
+        }
+        log.set( log.get() + event );
     }
 
     // Sends an event to the server, and prefixes the event with a couple of additional fields.
@@ -217,8 +220,6 @@ public class SimSharingManager {
     private String getStudentId() {
         assert ( enabled );
         SimSharingConfig simSharingConfig = SimSharingConfig.getConfig( studyName );
-        System.out.println( "studyName = " + studyName );
-        System.out.println( "using study config = " + simSharingConfig.studyName );
         String id = null;
         if ( simSharingConfig.requestId ) {
             SimSharingIdDialog dialog = new SimSharingIdDialog( null, simSharingConfig.idPrompt, simSharingConfig.idRequired );
