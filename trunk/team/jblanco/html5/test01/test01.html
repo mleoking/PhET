@@ -31,11 +31,31 @@
                     context.textBaseline = 'top';
                     context.fillText( 'Build an Atom', 20, 20 );
                 }
+
+                var drawParticle = function ( xPos, yPos, radius, color ) {
+                    context.strokeStyle = '#000'; // black
+                    context.lineWidth = 4;
+
+                    var gradient1 = context.createRadialGradient( xPos, yPos, 0, xPos, yPos, radius );
+                    gradient1.addColorStop( 0, "white" );
+                    gradient1.addColorStop( 1, color );
+                    context.fillStyle = gradient1;
+
+                    // Draw some rectangles.
+                    context.beginPath();
+                    context.arc( xPos, yPos, radius, 0, Math.PI * 2, true );
+                    context.closePath();
+                    context.fill();
+                }
             }
 
             var draw = function() {
                 clearBackground();
                 addTitle();
+                drawParticle( 190, 190, 20, "black" );
+                drawParticle( 210, 190, 20, "red" );
+                drawParticle( 190, 210, 20, "red" );
+                drawParticle( 210, 210, 20, "black" );
             }
 
             var resizer = function() {
