@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Dialog that prompts the user for their sim-sharing id (an integer stored in String format.)
+ * Dialog that prompts the user for their sim-sharing id.
  * This dialog is modal, and blocks until the user enters and id, or quits.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -93,7 +93,7 @@ public class SimSharingIdDialog extends JDialog {
 
         textField.addKeyListener( new KeyAdapter() {
 
-            // accept only keystrokes related to integer input
+            // accept only keystrokes related to numeric input
             @Override public void keyTyped( KeyEvent e ) {
                 char c = e.getKeyChar();
                 if ( !( ( c == KeyEvent.VK_BACK_SPACE ) || ( c == KeyEvent.VK_DELETE ) || ( c == KeyEvent.VK_ENTER ) || ( c == KeyEvent.VK_TAB ) || ( Character.isDigit( c ) ) ) ) {
