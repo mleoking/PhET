@@ -53,26 +53,16 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import edu.colorado.phet.testlwjglproject.lwjgl.StartupUtils;
+import edu.colorado.phet.lwjglphet.StartupUtils;
 
 /**
  * @author tomu
  */
 
 public class PickingTest {
-    /**
-     * The normal title of the window
-     */
+
     private String WINDOW_TITLE = "Picking Test";
-
-    /**
-     * The width of the game display area
-     */
     private int width = 800;
-
-    /**
-     * The height of the game display area
-     */
     private int height = 600;
 
     /**
@@ -80,32 +70,17 @@ public class PickingTest {
      */
     private long lastLoopTime = getTime();
 
-    /**
-     * The time since the last record of fps
-     */
     private long lastFpsTime = 0;
-
     private boolean running = true;
-
-    /**
-     * The recorded fps
-     */
     private int fps;
 
     private static long timerTicksPerSecond;
-
     private boolean lastMouseDown = false;
 
-    /**
-     * Creates a new instance of Main
-     */
     public PickingTest() {
         initialize();
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main( String[] args ) {
         try {
             StartupUtils.setupLibraries();

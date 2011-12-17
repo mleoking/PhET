@@ -45,7 +45,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import edu.colorado.phet.testlwjglproject.lwjgl.StartupUtils;
+import edu.colorado.phet.lwjglphet.StartupUtils;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluOrtho2D;

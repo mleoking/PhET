@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule;
-import edu.colorado.phet.testlwjglproject.lwjgl.LWJGLCanvas;
-import edu.colorado.phet.testlwjglproject.lwjgl.StartupUtils;
+import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.StartupUtils;
 
 public class TestLWJGLApplication extends PhetApplication {
 
