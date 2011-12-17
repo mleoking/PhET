@@ -24,10 +24,18 @@
                     context.fillRect( 0, 0, canvas.width, canvas.height );
                     context.restore();
                 };
+
+                var addTitle = function() {
+                    context.fillStyle = '#00f';
+                    context.font = '48px sans-serif';
+                    context.textBaseline = 'top';
+                    context.fillText( 'Build an Atom', 20, 20 );
+                }
             }
 
             var draw = function() {
                 clearBackground();
+                addTitle();
             }
 
             var resizer = function() {
