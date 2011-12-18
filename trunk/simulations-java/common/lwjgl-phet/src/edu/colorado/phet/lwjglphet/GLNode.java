@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F.MatrixType;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -71,6 +72,7 @@ public class GLNode {
                     break;
                 default:
                     // fall back to sending the entire matrix
+                    modelViewTransformBuffer.rewind();
                     glMultMatrix( modelViewTransformBuffer );
             }
         }
@@ -119,5 +121,29 @@ public class GLNode {
     public void removeChild( GLNode node ) {
         node.parent = null;
         children.remove( node );
+    }
+
+    public void setTransform( ImmutableMatrix4F matrix ) {
+        modelViewTransform.set( matrix );
+    }
+
+    public void appendTransform( ImmutableMatrix4F matrix ) {
+        modelViewTransform.set( modelViewTransform.get().times( matrix ) );
+    }
+
+    public void translate( float x, float y, float z ) {
+        appendTransform( ImmutableMatrix4F.translation( x, y, z ) );
+    }
+
+    public void scale( float x, float y, float z ) {
+        appendTransform( ImmutableMatrix4F.scaling( x, y, z ) );
+    }
+
+    public void scale( float s ) {
+        appendTransform( ImmutableMatrix4F.scaling( s ) );
+    }
+
+    public void rotate( ImmutableVector3F axis, float angle ) {
+        appendTransform( ImmutableMatrix4F.rotate( axis, angle ) );
     }
 }
