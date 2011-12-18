@@ -229,6 +229,7 @@ public class TestingTab extends LWJGLTab {
         glPushMatrix();
         {
             glMatrixMode( GL_PROJECTION );
+            // NOTE: this transform is applied on top of the ORTHO one
             CanvasTransform.applyAffineTransform( canvasTransform.transform.get() );
             glMatrixMode( GL_MODELVIEW );
 
@@ -264,6 +265,7 @@ public class TestingTab extends LWJGLTab {
         {
             glMatrixMode( GL_PROJECTION );
             glLoadIdentity();
+            // TODO: incorrect projection scaling going on in here! beware!
             glScalef( 100 / ( (float) canvasSize.get().width ), 100 / ( (float) canvasSize.get().height ), 1 );
             AffineTransform transform = canvasTransform.transform.get();
             glScaled( transform.getScaleX(), transform.getScaleY(), 1 );
@@ -277,6 +279,7 @@ public class TestingTab extends LWJGLTab {
             float size = 100f;
 
             // TODO: do scene drawing here. the setup is correct
+//            testTerrain.rotate( new ImmutableVector3F( 0, 1, 0 ), 0.01f );
 
             GLOptions options = new GLOptions();
 

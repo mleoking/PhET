@@ -79,6 +79,7 @@ public abstract class CanvasTransform {
     }
 
     public static void applyAffineTransform( AffineTransform transform ) {
+        // TODO: beware of potential perm-gen memory leaks here? are we sure that all JREs collect the direct buffers?
         double[] m = new double[6];
         transform.getMatrix( m );
         DoubleBuffer buffer = BufferUtils.createDoubleBuffer( 16 );
