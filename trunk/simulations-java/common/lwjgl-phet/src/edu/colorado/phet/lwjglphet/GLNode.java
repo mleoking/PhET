@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
+import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F.MatrixType;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * General scene-graph node for our LWJGL usage
@@ -18,17 +20,17 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
  * TODO: add selection names for use with glLoadName
  */
 public class GLNode {
+    private GLNode parent = null;
     private final List<GLNode> children = new ArrayList<GLNode>();
 
     /*---------------------------------------------------------------------------*
     * model-view transform state
     *----------------------------------------------------------------------------*/
-    private boolean modelViewIsIdentity = true;
 
     // model-view transform, changed to the identity
-    private final Property<ImmutableMatrix4F> modelViewTransform = new Property<ImmutableMatrix4F>( ImmutableMatrix4F.identity() );
+    private final Property<ImmutableMatrix4F> modelViewTransform = new Property<ImmutableMatrix4F>( ImmutableMatrix4F.IDENTITY );
 
-    private ImmutableMatrix4F modelViewInverseTransform = ImmutableMatrix4F.identity();
+    private ImmutableMatrix4F modelViewInverseTransform = ImmutableMatrix4F.IDENTITY;
 
     // various buffers for quick handling of the model-view transform
     private FloatBuffer modelViewTransformBuffer = BufferUtils.createFloatBuffer( 16 );
@@ -44,8 +46,6 @@ public class GLNode {
                 // store both into buffers so they can be sent to OpenGL with less overhead
                 modelViewTransform.get().store( modelViewTransformBuffer );
                 modelViewInverseTransform.store( modelViewInverseTransformBuffer );
-
-                // TODO: check MVT for identity, and set modelViewIsIdentity as result
             }
         } );
     }
@@ -57,18 +57,36 @@ public class GLNode {
      * @param options Options specified that can affect certain operations
      */
     public final void render( GLOptions options ) {
-        if ( !modelViewIsIdentity ) {
-            GL11.glPushMatrix();
-            GL11.glMultMatrix( modelViewTransformBuffer );
+        // handle the model-view transform
+        ImmutableMatrix4F transform = modelViewTransform.get();
+        boolean hasNontrivialTransform = transform.type != MatrixType.IDENTITY;
+        if ( hasNontrivialTransform ) {
+            glPushMatrix();
+            switch( transform.type ) {
+                case SCALING:
+                    glScalef( transform.m00, transform.m11, transform.m22 );
+                    break;
+                case TRANSLATION:
+                    glTranslatef( transform.m30, transform.m31, transform.m32 );
+                    break;
+                default:
+                    // fall back to sending the entire matrix
+                    glMultMatrix( modelViewTransformBuffer );
+            }
         }
+
+        preRender( options );
 
         renderSelf( options );
         for ( GLNode child : children ) {
             child.render( options );
         }
 
-        if ( !modelViewIsIdentity ) {
-            GL11.glPopMatrix();
+        postRender( options );
+
+        // reverse our model-view transform for our parent
+        if ( hasNontrivialTransform ) {
+            glPopMatrix();
         }
     }
 
@@ -94,10 +112,12 @@ public class GLNode {
     }
 
     public void addChild( GLNode node ) {
+        node.parent = this;
         children.add( node );
     }
 
     public void removeChild( GLNode node ) {
+        node.parent = null;
         children.remove( node );
     }
 }

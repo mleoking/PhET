@@ -30,13 +30,14 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.lwjglphet.CanvasTransform;
+import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform;
+import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GridMesh;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
-import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.OrthoPiccoloNode;
-import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.PNode;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -276,25 +277,29 @@ public class TestingTab extends LWJGLTab {
 
             // TODO: do scene drawing here. the setup is correct
 
+            GLOptions options = new GLOptions();
+
             glMaterial( GL_FRONT, GL_SPECULAR, specular );
 //            glMaterial( GL_FRONT, GL_SHININESS, shininess );
             glLight( GL_LIGHT0, GL_POSITION, lightPosition );
             glEnable( GL_LIGHTING );
             glEnable( GL_LIGHT0 );
             glColor4f( 1, 0, 0, 1 );
-            testTerrain.render();
+            testTerrain.render( options );
             glDisable( GL_LIGHTING );
             glColor4f( 0.5f, 0.5f, 0.5f, 1 );
-            testGround.render();
+            testGround.render( options );
 
             // wireframe
             {
-//                glTranslated( 0, 0, 0.0001 );
-//                glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-//                glColor4f( 1, 1, 1, 0.2f );
-//                testTerrain.render();
-////                testGround.render();
-//                glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+                glTranslated( 0, 0, 0.0001 );
+                glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+                glColor4f( 1, 1, 1, 0.2f );
+                testTerrain.render( new GLOptions() {{
+                    forSelection = true;
+                }} );
+//                testGround.render();
+                glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
             }
         }
 
