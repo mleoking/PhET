@@ -33,7 +33,7 @@ import edu.colorado.phet.lwjglphet.CanvasTransform;
 import edu.colorado.phet.lwjglphet.GridMesh;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
-import edu.colorado.phet.lwjglphet.LWJGLUtils;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform;

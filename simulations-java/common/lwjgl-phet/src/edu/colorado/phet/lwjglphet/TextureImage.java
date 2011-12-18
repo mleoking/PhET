@@ -6,6 +6,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public abstract class TextureImage {

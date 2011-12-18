@@ -3,6 +3,7 @@ package edu.colorado.phet.lwjglphet;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 
 import static org.lwjgl.opengl.GL11.*;
 
