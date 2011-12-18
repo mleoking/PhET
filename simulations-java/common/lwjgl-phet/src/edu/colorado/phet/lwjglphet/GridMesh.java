@@ -11,7 +11,7 @@ import static org.lwjgl.opengl.GL11.*;
  * Displays a quad-based polygonal grid tesselated with triangles. Think of it as a table of
  * vertices, each connected to its neighbors.
  */
-public class GridMesh {
+public class GridMesh extends GLNode {
     private int rows;
     private int columns;
     private ImmutableVector3D[] positions;
@@ -27,20 +27,20 @@ public class GridMesh {
         this.positions = positions;
     }
 
-    public void render() {
+    @Override public void renderSelf( GLOptions options ) {
         // renders in a series of triangle strips. quad strips rejected since we can't guarantee they will be planar
         for ( int row = 0; row < rows - 1; row++ ) {
             glBegin( GL_TRIANGLE_STRIP );
 //            glBegin( GL_POINTS );
             for ( int col = 0; col < columns; col++ ) {
                 // top point
-                LWJGLUtils.texCoord2d( getTextureCoordinate( row, col ) );
-                LWJGLUtils.normal3d( getNormal( row, col ) );
+                if ( options.shouldSendTexture() ) { LWJGLUtils.texCoord2d( getTextureCoordinate( row, col ) ); }
+                if ( options.shouldSendNormals() ) { LWJGLUtils.normal3d( getNormal( row, col ) ); }
                 LWJGLUtils.vertex3d( getPosition( row, col ) );
 
                 // bottom point
-                LWJGLUtils.texCoord2d( getTextureCoordinate( row + 1, col ) );
-                LWJGLUtils.normal3d( getNormal( row + 1, col ) );
+                if ( options.shouldSendTexture() ) { LWJGLUtils.texCoord2d( getTextureCoordinate( row + 1, col ) ); }
+                if ( options.shouldSendNormals() ) { LWJGLUtils.normal3d( getNormal( row + 1, col ) ); }
                 LWJGLUtils.vertex3d( getPosition( row + 1, col ) );
             }
             glEnd();

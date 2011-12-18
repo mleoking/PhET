@@ -40,25 +40,46 @@ import java.nio.FloatBuffer;
 // TODO: add equals implementation so we can use it in GLNode
 // TODO: verifications. this is cobbled together from various sources and needs to be checked thoroughly
 public class ImmutableMatrix4F {
-    public final float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33;
+    public final float m00;
+    public final float m01;
+    public final float m02;
+    public final float m03;
+    public final float m10;
+    public final float m11;
+    public final float m12;
+    public final float m13;
+    public final float m20;
+    public final float m21;
+    public final float m22;
+    public final float m23;
+    public final float m30;
+    public final float m31;
+    public final float m32;
+    public final float m33;
+
+    // keep track of matrix type so we can better handle OpenGL uses (like just using translation)
+    public final MatrixType type;
+
+    public static enum MatrixType {
+        IDENTITY, TRANSLATION, SCALING, OTHER
+    }
+
+    public static final ImmutableMatrix4F IDENTITY = rowMajor( 1, 0, 0, 0,
+                                                               0, 1, 0, 0,
+                                                               0, 0, 1, 0,
+                                                               0, 0, 0, 1,
+                                                               MatrixType.IDENTITY );
 
     /*---------------------------------------------------------------------------*
     * static constructors
     *----------------------------------------------------------------------------*/
 
-    // TODO: change this to a constant?
-    public static ImmutableMatrix4F identity() {
-        return rowMajor( 1, 0, 0, 0,
-                         0, 1, 0, 0,
-                         0, 0, 1, 0,
-                         0, 0, 0, 1 );
-    }
-
     public static ImmutableMatrix4F translation( float x, float y, float z ) {
         return rowMajor( 1, 0, 0, x,
                          0, 1, 0, y,
                          0, 0, 1, z,
-                         0, 0, 0, 1 );
+                         0, 0, 0, 1,
+                         MatrixType.TRANSLATION );
     }
 
     public static ImmutableMatrix4F scaling( float s ) {
@@ -69,7 +90,8 @@ public class ImmutableMatrix4F {
         return rowMajor( x, 0, 0, 0,
                          0, y, 0, 0,
                          0, 0, z, 0,
-                         0, 0, 0, 1 );
+                         0, 0, 0, 1,
+                         MatrixType.SCALING );
     }
 
     /**
@@ -91,7 +113,8 @@ public class ImmutableMatrix4F {
         return rowMajor( x * x * C + c, x * y * C - z * s, x * z * C + y * s, 0,
                          y * x * C + z * s, y * y * C + c, y * z * C - x * s, 0,
                          z * x * C - y * s, z * y * C + x * s, z * z * C + c, 0,
-                         0, 0, 0, 1 );
+                         0, 0, 0, 1,
+                         MatrixType.OTHER );
     }
 
     public static ImmutableMatrix4F rotateX( float angle ) {
@@ -101,7 +124,8 @@ public class ImmutableMatrix4F {
         return rowMajor( 1, 0, 0, 0,
                          0, c, -s, 0,
                          0, s, c, 0,
-                         0, 0, 0, 1 );
+                         0, 0, 0, 1,
+                         MatrixType.OTHER );
     }
 
     public static ImmutableMatrix4F rotateY( float angle ) {
@@ -111,7 +135,8 @@ public class ImmutableMatrix4F {
         return rowMajor( c, 0, s, 0,
                          0, 1, 0, 0,
                          -s, 0, c, 0,
-                         0, 0, 0, 1 );
+                         0, 0, 0, 1,
+                         MatrixType.OTHER );
     }
 
     public static ImmutableMatrix4F rotateZ( float angle ) {
@@ -121,21 +146,27 @@ public class ImmutableMatrix4F {
         return rowMajor( c, -s, 0, 0,
                          s, c, 0, 0,
                          0, 0, 1, 0,
-                         0, 0, 0, 1 );
-    }
-
-    public static ImmutableMatrix4F columnMajor( float m00, float m01, float m02, float m03,
-                                                 float m10, float m11, float m12, float m13,
-                                                 float m20, float m21, float m22, float m23,
-                                                 float m30, float m31, float m32, float m33 ) {
-        return new ImmutableMatrix4F( m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33 );
+                         0, 0, 0, 1,
+                         MatrixType.OTHER );
     }
 
     public static ImmutableMatrix4F rowMajor( float m00, float m10, float m20, float m30,
                                               float m01, float m11, float m21, float m31,
                                               float m02, float m12, float m22, float m32,
                                               float m03, float m13, float m23, float m33 ) {
-        return new ImmutableMatrix4F( m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33 );
+        return rowMajor( m00, m10, m20, m30,
+                         m01, m11, m21, m31,
+                         m02, m12, m22, m32,
+                         m03, m13, m23, m33,
+                         MatrixType.OTHER );
+    }
+
+    public static ImmutableMatrix4F rowMajor( float m00, float m10, float m20, float m30,
+                                              float m01, float m11, float m21, float m31,
+                                              float m02, float m12, float m22, float m32,
+                                              float m03, float m13, float m23, float m33,
+                                              MatrixType type ) {
+        return new ImmutableMatrix4F( m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33, type );
     }
 
     /*---------------------------------------------------------------------------*
@@ -143,7 +174,7 @@ public class ImmutableMatrix4F {
     *----------------------------------------------------------------------------*/
 
     // column-major order
-    protected ImmutableMatrix4F( float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33 ) {
+    protected ImmutableMatrix4F( float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33, MatrixType type ) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
@@ -160,6 +191,7 @@ public class ImmutableMatrix4F {
         this.m31 = m31;
         this.m32 = m32;
         this.m33 = m33;
+        this.type = type;
     }
 
     public ImmutableMatrix4F plus( ImmutableMatrix4F m ) {
