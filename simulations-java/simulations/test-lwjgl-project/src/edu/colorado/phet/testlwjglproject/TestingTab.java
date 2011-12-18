@@ -37,6 +37,7 @@ import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.OrthoPiccoloNode;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.PNode;
 

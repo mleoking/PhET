@@ -359,6 +359,7 @@ public class ImmutableMatrix4F {
      * @param buf The buffer to store this matrix in
      */
     public void store( FloatBuffer buf ) {
+        buf.rewind();
         buf.put( m00 );
         buf.put( m01 );
         buf.put( m02 );
@@ -384,6 +385,7 @@ public class ImmutableMatrix4F {
      * @param buf The buffer to store this matrix in
      */
     public void storeTranspose( FloatBuffer buf ) {
+        buf.rewind();
         buf.put( m00 );
         buf.put( m10 );
         buf.put( m20 );
