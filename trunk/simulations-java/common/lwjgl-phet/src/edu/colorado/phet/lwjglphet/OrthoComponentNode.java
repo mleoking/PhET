@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;

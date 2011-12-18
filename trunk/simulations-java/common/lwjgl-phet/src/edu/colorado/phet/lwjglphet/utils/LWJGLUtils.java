@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lwjglphet;
+package edu.colorado.phet.lwjglphet.utils;
 
 import java.awt.Dimension;
 import java.nio.FloatBuffer;
