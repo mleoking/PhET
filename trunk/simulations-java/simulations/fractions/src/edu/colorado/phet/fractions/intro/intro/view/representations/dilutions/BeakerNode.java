@@ -29,7 +29,8 @@ public class BeakerNode extends PComposite {
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( BeakerNode.class.getCanonicalName() );
 
     // tick mark properties
-    private static final Color TICK_COLOR = Color.GRAY;
+    private static final Color MAJOR_TICK_COLOR = Color.BLACK;
+    private static final Color MINOR_TICK_COLOR = Color.DARK_GRAY;
     private static final double MINOR_TICK_SPACING = 0.1; // L
     private static final int MINOR_TICKS_PER_MAJOR_TICK = 5;
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
@@ -76,7 +77,7 @@ public class BeakerNode extends PComposite {
                 // major tick, no label
                 PPath tickNode = new PPath( new Arc2D.Double( 0, y, cylinderSize.getWidth(), cylinderEndHeight, 195, 30, Arc2D.OPEN ) ) {{
                     setStroke( MAJOR_TICK_STROKE );
-                    setStrokePaint( TICK_COLOR );
+                    setStrokePaint( MAJOR_TICK_COLOR );
                 }};
                 ticksNode.addChild( tickNode );
             }
@@ -84,7 +85,7 @@ public class BeakerNode extends PComposite {
                 // minor tick, no label
                 PPath tickNode = new PPath( new Arc2D.Double( 0, y, cylinderSize.getWidth(), cylinderEndHeight, 195, 15, Arc2D.OPEN ) ) {{
                     setStroke( MINOR_TICK_STROKE );
-                    setStrokePaint( TICK_COLOR );
+                    setStrokePaint( MINOR_TICK_COLOR );
                 }};
                 ticksNode.addChild( tickNode );
             }
