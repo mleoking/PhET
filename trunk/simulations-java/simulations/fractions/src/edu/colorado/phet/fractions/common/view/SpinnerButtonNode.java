@@ -2,7 +2,11 @@
 package edu.colorado.phet.fractions.common.view;
 
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -16,20 +20,37 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
+ * Button with nice up or down images provided by NP
+ *
  * @author Sam Reid
  */
 public class SpinnerButtonNode extends PNode {
+    private final VoidFunction0 callback;
     public final ObservableProperty<Boolean> enabled;
     public final BooleanProperty pressed = new BooleanProperty( false );
     public final BooleanProperty entered = new BooleanProperty( true );
     private final PImage imageNode;
     private final CursorHandler listener = new CursorHandler();
 
+    //If holding down the button, then automatically spin
+    private Timer timer = new Timer( 200, new ActionListener() {
+        public void actionPerformed( ActionEvent e ) {
+            if ( enabled.get() ) {
+                autospinning = true;
+                callback.apply();
+            }
+        }
+    } ) {{
+        setInitialDelay( 500 );
+    }};
+    private boolean autospinning = false;
+
     public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction0 callback ) {
         this( unpressedImage, pressedImage, disabledImage, callback, new BooleanProperty( true ) );
     }
 
     public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction0 callback, ObservableProperty<Boolean> enabled ) {
+        this.callback = callback;
         this.enabled = enabled;
         imageNode = new PImage();
         addChild( imageNode );
@@ -53,9 +74,15 @@ public class SpinnerButtonNode extends PNode {
         imageNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( SpinnerButtonNode.this.enabled.get() && entered.get() && pressed.get() ) {
-                    callback.apply();
+
+                    //Only fire the release event if the user didn't hold it down long enough to start autospin
+                    if ( !autospinning ) {
+                        callback.apply();
+                    }
                     pressed.set( false );
+                    autospinning = false;
                 }
+                timer.stop();
             }
 
             @Override public void mouseEntered( PInputEvent event ) {
@@ -69,6 +96,7 @@ public class SpinnerButtonNode extends PNode {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( SpinnerButtonNode.this.enabled.get() && entered.get() ) {
                     pressed.set( true );
+                    timer.start();
                 }
             }
         } );
