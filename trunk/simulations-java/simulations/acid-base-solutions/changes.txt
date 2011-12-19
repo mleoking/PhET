@@ -1,3 +1,4 @@
+12/19/11 #3170, distinguish between slider and textfield input for custom solution controls
 12/16/11 #3170, add event for attempt to interact with concentration graph
 12/15/11 #3170, send event when the user is comparing the pH paper to the pH color key
 12/15/11 #3170, when user tries to interact with the magnifying glass, identify which part they clicked on (handle, lens, molecule)

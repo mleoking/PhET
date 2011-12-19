@@ -32,10 +32,6 @@ import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.CustomWeakAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.CustomWeakBaseSolution;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
 import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
@@ -298,10 +294,10 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 concentrationControl.setValue( value );
                 concentrationControl.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        SimSharingManager.sendEvent( Objects.CONCENTRATION_CONTROL, Actions.CHANGED, Parameter.param( Parameters.VALUE, concentrationControl.getValue() ) );
                         fireStateChanged();
                     }
                 } );
+                concentrationControl.setSimSharingObject( Objects.CONCENTRATION_CONTROL );
             }
 
             // labels on the slider
@@ -398,10 +394,10 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 weakStrengthControl.setTickLabels( strengthLabelTable );
                 weakStrengthControl.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        SimSharingManager.sendEvent( Objects.WEAK_STRENGTH_CONTROL, Actions.CHANGED, Parameter.param( Parameters.VALUE, weakStrengthControl.getValue() ) );
                         fireStateChanged();
                     }
                 } );
+                weakStrengthControl.setSimSharingObject( Objects.WEAK_STRENGTH_CONTROL );
             }
 
             // layout with inner panel
