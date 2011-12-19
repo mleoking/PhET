@@ -15,7 +15,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class EqualityDisplayOptionsControlPanel extends ControlPanelNode {
     public EqualityDisplayOptionsControlPanel( SettableProperty<Visualization> visualization ) {
         super( new VBox( new PSwing( new PropertyRadioButton<Visualization>( "None", visualization, Visualization.NONE ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ),
-                         new PSwing( new PropertyRadioButton<Visualization>( "Improper", visualization, Visualization.FRACTION ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ),
+                         new PSwing( new PropertyRadioButton<Visualization>( "Reduced", visualization, Visualization.FRACTION ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ),
                          new PSwing( new PropertyRadioButton<Visualization>( "Mixed", visualization, Visualization.MIXED ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ) ) );
     }
 
