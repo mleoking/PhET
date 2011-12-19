@@ -1,3 +1,4 @@
+# 1.02.02 (59468) Dec 19, 2011
 12/19/11 dev version with many sim-sharing change requests
 12/19/11 #3170, distinguish between slider and textfield input for custom solution controls
 12/16/11 #3170, add event for attempt to interact with concentration graph
