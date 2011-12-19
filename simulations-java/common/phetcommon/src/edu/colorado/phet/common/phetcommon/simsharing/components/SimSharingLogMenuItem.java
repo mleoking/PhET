@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -35,6 +37,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
 
     private static final String TITLE = "Data Collection Log"; // give it a less scary name
     private static final String ACTION = "Save";
+    private static final String FILE_SUFFIX = ".txt";
 
     private SimSharingLogDialog dialog;
 
@@ -74,17 +77,23 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                             public void actionPerformed( ActionEvent e ) {
 
                                 // Choose the file
-                                JFileChooser fileChooser = new JFileChooser( "phet-research-study-log.txt" );
+                                JFileChooser fileChooser = new JFileChooser();
                                 fileChooser.setDialogTitle( TITLE + " : " + ACTION );
-                                int rval = fileChooser.showSaveDialog( parent );
+                                int rval = fileChooser.showSaveDialog( parent ); // blocks
                                 File selectedFile = fileChooser.getSelectedFile();
                                 if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
                                     return;
                                 }
 
+                                // Ensure that the file has the proper suffix.
+                                if ( !FileUtils.hasSuffix( selectedFile, FILE_SUFFIX ) ) {
+                                    selectedFile = new File( selectedFile.getParent(), selectedFile.getName() + FILE_SUFFIX );
+                                }
+
                                 // If the file exists, confirm overwrite.
                                 if ( selectedFile.exists() ) {
-                                    int reply = PhetOptionPane.showYesNoDialog( parent, "File exists. OK to replace?", "Confirm" );
+                                    String message = MessageFormat.format( "File {0} exists. OK to replace?", selectedFile.getName() );
+                                    int reply = PhetOptionPane.showYesNoDialog( parent, message, "Confirm" );
                                     if ( reply != JOptionPane.YES_OPTION ) {
                                         return;
                                     }
