@@ -1,3 +1,4 @@
+12/19-11 #3189, Added "setCursor" method to CursorHandler
 12/13/11 #3175, overhaul sim-sharing drag handlers to support optional functions for start/end/drag
 12/12/11 Added RichPNode and methods to facilitate layouts
 12/12/11 Fixed PhetTabbedPane's TabPane handling of tab removal for visibility and re-layout
