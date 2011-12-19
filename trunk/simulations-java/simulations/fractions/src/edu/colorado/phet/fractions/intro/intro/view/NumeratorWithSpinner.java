@@ -11,6 +11,8 @@ import edu.colorado.phet.fractions.common.view.SpinnerButtonPanel;
  * @author Sam Reid
  */
 public class NumeratorWithSpinner extends FractionNumberNode {
+    //Allow numerator to go to 0
+    private static final int MIN_VALUE = 0;
 
     public NumeratorWithSpinner( final IntegerProperty numerator, IntegerProperty denominator ) {
         super( numerator );
@@ -27,7 +29,7 @@ public class NumeratorWithSpinner extends FractionNumberNode {
             public void apply() {
                 numerator.set( numerator.get() - 1 );
             }
-        }, numerator.greaterThanOrEqualTo( 2 )
+        }, numerator.greaterThanOrEqualTo( MIN_VALUE + 1 )
         ) {{
             setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth(), biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
