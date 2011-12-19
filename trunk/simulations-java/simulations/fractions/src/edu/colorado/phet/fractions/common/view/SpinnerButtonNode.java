@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.common.view;
 
+import java.awt.Cursor;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -22,6 +23,7 @@ public class SpinnerButtonNode extends PNode {
     public final BooleanProperty pressed = new BooleanProperty( false );
     public final BooleanProperty entered = new BooleanProperty( true );
     private final PImage imageNode;
+    private final CursorHandler listener = new CursorHandler();
 
     public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction0 callback ) {
         this( unpressedImage, pressedImage, disabledImage, callback, new BooleanProperty( true ) );
@@ -34,6 +36,10 @@ public class SpinnerButtonNode extends PNode {
 
         new RichSimpleObserver() {
             @Override public void update() {
+
+                //Show a cursor hand but only if enabled
+                listener.setCursor( SpinnerButtonNode.this.enabled.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR );
+
                 imageNode.setImage( new Function0<BufferedImage>() {
                     public BufferedImage apply() {
                         if ( SpinnerButtonNode.this.enabled.get() && !pressed.get() ) { return unpressedImage; }
@@ -67,6 +73,6 @@ public class SpinnerButtonNode extends PNode {
             }
         } );
 
-        addInputEventListener( new CursorHandler() );
+        addInputEventListener( listener );
     }
 }
