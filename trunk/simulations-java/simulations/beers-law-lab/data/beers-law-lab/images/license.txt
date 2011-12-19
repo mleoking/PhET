@@ -1,0 +1,1 @@
+saltShaker.png author=PhET notes=copied salt_micro.png from sugar-and-salt-solutions
