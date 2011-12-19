@@ -10,6 +10,8 @@ import edu.colorado.phet.fractions.intro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractions.intro.matchinggame.MatchingGameModule;
 
 /**
+ * "Fractions Intro" PhET Application
+ *
  * @author Sam Reid
  */
 public class FractionsIntroApplication extends PiccoloPhetApplication {

@@ -1,3 +1,4 @@
+Truncated the number line at 6 (the max value for fractions to be displayed on the screen)
 Use a cup image instead of beaker
 Made liquid green instead of blue
 Added logic for "random fill"

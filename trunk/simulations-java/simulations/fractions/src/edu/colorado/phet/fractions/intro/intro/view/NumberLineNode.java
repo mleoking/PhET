@@ -17,6 +17,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Shows a number line and a dot on the number line to represent a fraction.
+ * The dot is draggable to change the fraction.  The number line is truncated at 6 (the max number for fraction values) so it won't look weird at odd aspect ratios.
+ *
  * @author Sam Reid
  */
 public class NumberLineNode extends PNode {
@@ -33,12 +36,13 @@ public class NumberLineNode extends PNode {
                 removeAllChildren();
 
                 //always go the same distance to whole numbers
-
                 final double distanceBetweenTicks = 32;
                 int divisionsBetweenTicks = denominator.get();
 
                 double dx = distanceBetweenTicks / divisionsBetweenTicks;
-                addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 12 * divisionsBetweenTicks, 0 ) ) );
+
+                //The number line itself
+                addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 6 * divisionsBetweenTicks, 0 ) ) );
 
                 for ( int i = 0; i <= divisionsBetweenTicks * 6; i++ ) {
 
