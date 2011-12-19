@@ -2,8 +2,8 @@
 # This file documents changes to the sim-sharing event protocol.
 #
 
-12/19/11 [] common: added "machineCookie" param to startup event
-12/19/11 [] common: system message, action "connected to server" -> "connectedToServer"
+12/19/11 [59451] common: added "machineCookie" param to startup event
+12/19/11 [59450] common: system message, action "connected to server" -> "connectedToServer"
 12/14/11 [59367] common: system message "messageCount" -> "eventCount"
 12/13/11 [59330] molecule-polarity: BondCharacterNode: use standardized event for interactiving with non-interactive component "BondCharacterNode pressed interactive=false"
 12/6/11 [59085] common: SimSharingJMenu: action "selected" -> "pressed"
