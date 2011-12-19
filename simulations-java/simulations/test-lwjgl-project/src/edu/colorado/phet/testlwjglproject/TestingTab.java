@@ -265,21 +265,16 @@ public class TestingTab extends LWJGLTab {
         {
             glMatrixMode( GL_PROJECTION );
             glLoadIdentity();
-            // TODO: incorrect projection scaling going on in here! beware!
-            glScalef( 100 / ( (float) canvasSize.get().width ), 100 / ( (float) canvasSize.get().height ), 1 );
             AffineTransform transform = canvasTransform.transform.get();
             glScaled( transform.getScaleX(), transform.getScaleY(), 1 );
-            gluPerspective( 40, 1, 1, 5000 );
+            gluPerspective( 40, (float) canvasSize.get().width / (float) canvasSize.get().height, 1, 5000 );
             glMatrixMode( GL_MODELVIEW );
             glLoadIdentity();
-            glTranslatef( 0, -4, -4 );
+            glTranslatef( 0, -4, -20 );
 
             glColor4f( 1f, 1, 1f, 1f );
 
             float size = 100f;
-
-            // TODO: do scene drawing here. the setup is correct
-//            testTerrain.rotate( new ImmutableVector3F( 0, 1, 0 ), 0.01f );
 
             GLOptions options = new GLOptions();
 
