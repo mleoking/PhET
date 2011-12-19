@@ -1,3 +1,5 @@
+Fixed: When pressing toggle button, mouse hand should turn into an arrow
+Fixed: If toggle button already pressed, it shouldn't have a mouse hand
 Allow numerator to go to 0
 Renamed "improper" -> "reduced"
 Truncated the number line at 6 (the max value for fractions to be displayed on the screen)

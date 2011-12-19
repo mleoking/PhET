@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
@@ -23,7 +24,13 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class ToggleButtonNode extends PNode {
+    private final CursorHandler cursorHandler = new CursorHandler();
+
     public ToggleButtonNode( final PNode node, final ObservableProperty<Boolean> selected, final VoidFunction0 pressed ) {
+
+        //We have to handle the pickability since the cursor changes, so disable on the target node
+        node.setPickable( false );
+        node.setChildrenPickable( false );
 
         final double pressAmountX = 4;
         final double pressAmountY = 6;
@@ -40,10 +47,14 @@ public class ToggleButtonNode extends PNode {
                 border.setStroke( selected ? new BasicStroke( 2 ) : new BasicStroke( 2 ) );
                 node.setOffset( selected ? new Point( 0, 0 ) : new Point2D.Double( -pressAmountX, -pressAmountY ) );
                 border.setOffset( selected ? new Point( 0, 0 ) : new Point2D.Double( -pressAmountX, -pressAmountY ) );
+
+                //If the button got pressed in, change from being a hand to an arrow so it doesn't like you can still press the button
+                //And vice versa
+                cursorHandler.setCursor( selected ? Cursor.DEFAULT_CURSOR : Cursor.HAND_CURSOR );
             }
         } );
 
-        addInputEventListener( new CursorHandler() );
+        addInputEventListener( cursorHandler );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 pressed.apply();
