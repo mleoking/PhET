@@ -29,6 +29,11 @@ import javax.swing.event.EventListenerList;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.view.controls.HTMLLabel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -56,6 +61,11 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class AbstractValueControl extends JPanel {
+
+    // sim-sharing strings
+    public static final String DEFAULT_OBJECT = "valueControl";
+    public static final String CORRECTED_VALUE = "correctedValue";
+    public static final String SLIDER_MOVED = "sliderMoved";
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -87,6 +97,8 @@ public abstract class AbstractValueControl extends JPanel {
     private boolean _initialized; // true when the constructor has completed
     private boolean _paintTickLabels;
     private boolean _signifyOutOfBounds; //true if the system should beep and print a message when out-of-bounds value is requested
+
+    private String simSharingObject = DEFAULT_OBJECT; // call setSimSharingObject to set a more specific event object
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -153,6 +165,15 @@ public abstract class AbstractValueControl extends JPanel {
         setValue( slider.getModelValue() );
 
         _initialized = true;
+    }
+
+    //----------------------------------------------------------------------------
+    // Sim-sharing
+    //----------------------------------------------------------------------------
+
+    // Allows clients to set a specific object for sim-sharing events.
+    public void setSimSharingObject( String simSharingObject ) {
+        this.simSharingObject = simSharingObject;
     }
 
     //----------------------------------------------------------------------------
@@ -242,11 +263,14 @@ public abstract class AbstractValueControl extends JPanel {
             }
         }
         else {
-            if ( _signifyOutOfBounds ) {
-                Toolkit.getDefaultToolkit().beep();
-                String message = getClass().getName() + ".setValue: ignoring invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value;
-                new IllegalArgumentException( message ).printStackTrace();
+            if ( value < getMinimum() ) {
+                _value = getMinimum();
             }
+            else if ( value > getMaximum() ) {
+                _value = getMaximum();
+            }
+            SimSharingManager.sendEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( CORRECTED_VALUE, _value ) );
+            beep();
             updateView(); // revert
         }
     }
@@ -436,14 +460,13 @@ public abstract class AbstractValueControl extends JPanel {
      */
     private double getTextFieldValue() {
         String text = _textField.getText();
-        double value = 0;
+        double value;
         try {
             Number number = _textFieldFormat.parse( text );
             value = number.doubleValue();
         }
         catch ( ParseException e ) {
-            e.printStackTrace();
-            //TODO Is this the best way to recover?...
+            beep();
             value = _value;
         }
         return value;
@@ -749,6 +772,7 @@ public abstract class AbstractValueControl extends JPanel {
                 _isAdjusting = _slider.getValueIsAdjusting();
                 boolean notify = ( _notifyWhileAdjusting || !_isAdjusting );
                 double modelValue = _slider.getModelValue();
+                SimSharingManager.sendEvent( simSharingObject, SLIDER_MOVED, new Parameter( Parameters.VALUE, modelValue ) );
                 setValue( modelValue, notify );
             }
         }
@@ -767,12 +791,14 @@ public abstract class AbstractValueControl extends JPanel {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
                     final double value = getValue() + _upDownArrowDelta;
                     if ( value <= getMaximum() ) {
+                        SimSharingManager.sendEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.UP_ARROW ), new Parameter( Parameters.VALUE, value ) );
                         setValue( value );
                     }
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
                     final double value = getValue() - _upDownArrowDelta;
                     if ( value >= getMinimum() ) {
+                        SimSharingManager.sendEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.DOWN_ARROW ), new Parameter( Parameters.VALUE, value ) );
                         setValue( value );
                     }
                 }
@@ -785,14 +811,7 @@ public abstract class AbstractValueControl extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _textField ) {
                 double value = getTextFieldValue();
-                if ( value < getMinimum() ) {
-                    value = getMinimum();
-                    Toolkit.getDefaultToolkit().beep();
-                }
-                else if ( value > getMaximum() ) {
-                    value = getMaximum();
-                    Toolkit.getDefaultToolkit().beep();
-                }
+                SimSharingManager.sendEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.ENTER ), new Parameter( Parameters.VALUE, value ) );
                 setValue( value );
             }
         }
@@ -814,10 +833,12 @@ public abstract class AbstractValueControl extends JPanel {
                 try {
                     _textField.commitEdit();
                     double value = getTextFieldValue();
+                    SimSharingManager.sendEvent( simSharingObject, Actions.FOCUS_LOST, new Parameter( Parameters.VALUE, value ) );
                     setValue( value );
                 }
                 catch ( ParseException pe ) {
-                    Toolkit.getDefaultToolkit().beep();
+                    SimSharingManager.sendEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( Parameters.VALUE, getValue() ) );
+                    beep();
                     updateView(); // revert
                 }
             }
@@ -867,5 +888,11 @@ public abstract class AbstractValueControl extends JPanel {
      */
     public void setSignifyOutOfBounds( boolean signifyOutOfBounds ) {
         this._signifyOutOfBounds = signifyOutOfBounds;
+    }
+
+    private void beep() {
+        if ( _signifyOutOfBounds ) {
+            Toolkit.getDefaultToolkit().beep();
+        }
     }
 }
