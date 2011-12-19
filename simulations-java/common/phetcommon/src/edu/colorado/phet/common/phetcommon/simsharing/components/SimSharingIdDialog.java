@@ -93,7 +93,8 @@ public class SimSharingIdDialog extends JDialog {
 
         textField.addKeyListener( new KeyAdapter() {
 
-            // accept only keystrokes related to numeric input
+            //TODO if we need something other than numbers in the future, add an input validation function to SimSharingConfig
+            // accept only keystrokes related to entering numbers
             @Override public void keyTyped( KeyEvent e ) {
                 char c = e.getKeyChar();
                 if ( !( ( c == KeyEvent.VK_BACK_SPACE ) || ( c == KeyEvent.VK_DELETE ) || ( c == KeyEvent.VK_ENTER ) || ( c == KeyEvent.VK_TAB ) || ( Character.isDigit( c ) ) ) ) {
