@@ -32,12 +32,16 @@ public class SimSharingStrings {
         public static final String DEICONIFIED = "deiconified";
         public static final String DRAG = "drag";
         public static final String END_DRAG = "endDrag";
+        public static final String FOCUS_LOST = "focusLost";
         public static final String ICONIFIED = "iconified";
+        public static final String INVALID_INPUT = "invalidInput";
+        public static final String KEY_PRESSED = "keyPressed";
         public static final String MOVED = "moved";
         public static final String PRESSED = "pressed";
         public static final String RESIZED = "resized";
         public static final String SELECTED = "selected";
         public static final String START_DRAG = "startDrag";
+        public static final String TEXT_ENTERED = "textEntered";
         public static final String TOGGLED = "toggled";
         public static final String WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED = "windowSystemCloseButtonPressed";
     }
@@ -51,6 +55,7 @@ public class SimSharingStrings {
         public static final String INTERACTIVE = "interactive";
         public static final String ITEM = "item";
         public static final String IS_SELECTED = "isSelected";
+        public static final String KEY = "key";
         public static final String PART = "part";
         public static final String TEXT = "text";
         public static final String TITLE = "title";
@@ -59,5 +64,11 @@ public class SimSharingStrings {
         public static final String WINDOW = "window";
         public static final String X = "x";
         public static final String Y = "y";
+    }
+
+    public static class ParameterValues {
+        public static final String DOWN_ARROW = "downArrow";
+        public static final String ENTER = "enter";
+        public static final String UP_ARROW = "upArrow";
     }
 }
