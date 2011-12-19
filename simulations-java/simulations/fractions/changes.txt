@@ -1,3 +1,4 @@
+Changed max denominator back to 8
 Fixed: Cursor hand should turn into an arrow when spinner button disables
 Fixed: When pressing toggle button, mouse hand should turn into an arrow
 Fixed: If toggle button already pressed, it shouldn't have a mouse hand
