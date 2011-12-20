@@ -39,6 +39,10 @@ public class LWJGLTransform {
         inverse.store( inverseTransformBuffer );
     }
 
+    public void prepend( ImmutableMatrix4F matrix ) {
+        set( matrix.times( this.matrix ) );
+    }
+
     public void append( ImmutableMatrix4F matrix ) {
         set( this.matrix.times( matrix ) );
     }
