@@ -1,1 +1,5 @@
+12/20/11 added string resources for 1st tab
+12/20/11 added more basic infrastructure
+12/20/11 grabbed relevant model code from dilutions
+12/19/11 grabbed shaker image from sugar-and-salt-solutions
 12/7/11 created project skeleton

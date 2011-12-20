@@ -1,0 +1,14 @@
+TODO list for beers-law-lab
+
+DEADLINES
+- 1.0 in April 2012
+
+DESIGN
+
+HIGH
+
+MEDIUM
+
+LOW
+
+MIGRATE TO COMMON
