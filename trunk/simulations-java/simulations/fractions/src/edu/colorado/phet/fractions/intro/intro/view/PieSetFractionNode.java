@@ -8,6 +8,8 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
+import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
+import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 
 /**
  * Shows a fraction as a set of pies.
@@ -16,7 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
  */
 public class PieSetFractionNode extends VisibilityNode {
 
-    public PieSetFractionNode( final Property<Integer> numerator, final Property<Integer> denominator, ObservableProperty<Boolean> enabled ) {
+    public PieSetFractionNode( final Property<ContainerState> containerState, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         new RichSimpleObserver() {
             public void update() {
@@ -28,29 +30,20 @@ public class PieSetFractionNode extends VisibilityNode {
                 final Rectangle PIE_SIZE = new Rectangle( 0, 0, (int) DIAMETER, (int) DIAMETER );
 
                 removeAllChildren();
-                int numFullPies = numerator.get() / denominator.get();
-                int slicesInLastPie = numerator.get() % denominator.get();
-                int numSlices = denominator.get();
                 SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
 
-                for ( int i = 0; i < numFullPies; i++ ) {
-                    final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];
+                final ContainerState state = containerState.get();
+                for ( int i = 0; i < state.size; i++ ) {
+                    final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[state.denominator];
                     for ( int j = 0; j < slices.length; j++ ) {
-                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, FractionsIntroCanvas.FILL_COLOR );
-                    }
-                    box.addChild( new PieChartNode( slices, PIE_SIZE ) );
-                }
-
-                if ( slicesInLastPie > 0 ) {
-                    final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[numSlices];
-                    for ( int j = 0; j < slices.length; j++ ) {
-                        slices[j] = new PieChartNode.PieValue( 1.0 / numSlices, j < slicesInLastPie ? FractionsIntroCanvas.FILL_COLOR : Color.white );
+                        CellPointer cp = new CellPointer( i, j );
+                        slices[j] = new PieChartNode.PieValue( 1.0 / state.denominator, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white );
                     }
                     box.addChild( new PieChartNode( slices, PIE_SIZE ) );
                 }
 
                 addChild( box );
             }
-        }.observe( numerator, denominator );
+        }.observe( containerState );
     }
 }

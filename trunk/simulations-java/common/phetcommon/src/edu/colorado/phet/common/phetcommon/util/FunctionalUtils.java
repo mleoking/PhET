@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +33,13 @@ public class FunctionalUtils {
             }
         }
         return new None<T>();
+    }
+
+    // Returns the last object in the collection that satisfies the predicate (if any), in option form
+    public static <T> Option<T> last( Collection<T> collection, Function1<? super T, Boolean> predicate ) {
+        final ArrayList<T> reversed = new ArrayList<T>( collection );
+        Collections.reverse( reversed );
+        return first( reversed, predicate );
     }
 
     // Returns whether predicate( element ) is true for any element in the collection
@@ -134,10 +142,10 @@ public class FunctionalUtils {
     // Scala-style mkString
     public static <T> String mkString( Collection<T> collection, String separator ) {
         return mkString( collection, new Function1<T, String>() {
-                             public String apply( T t ) {
-                                 return t.toString();
-                             }
-                         }, separator );
+            public String apply( T t ) {
+                return t.toString();
+            }
+        }, separator );
     }
 
     // Standard functional map function

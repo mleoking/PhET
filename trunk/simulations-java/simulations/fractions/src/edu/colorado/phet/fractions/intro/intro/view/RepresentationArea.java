@@ -27,7 +27,7 @@ public class RepresentationArea extends PNode {
         addChild( new VerticalBarChosenRepresentationNode( chosenRepresentation, numerator, denominator ) {{
             setOffset( 0, -73 );
         }} );
-        addChild( new PieSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.PIE ) ) {{
+        addChild( new PieSetFractionNode( containerState, chosenRepresentation.valueEquals( ChosenRepresentation.PIE ) ) {{
             setOffset( 0, -48 );
         }} );
         addChild( new NumberLineNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.NUMBER_LINE ) ) {{

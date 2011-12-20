@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.intro.intro.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
@@ -15,8 +16,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  */
 public class ContainerState {
     public final List<Container> containers;
-    private final int denominator;
-    private final int numerator;
+    public final int denominator;
+    public final int numerator;
     public final int size;  //Number of containers to show
 
     public ContainerState( int numerator, int denominator, Container[] containers ) {
@@ -57,15 +58,60 @@ public class ContainerState {
     }
 
     public ContainerState addPieces( int delta ) {
+        ContainerState cs = padAndTrim();
+
         if ( delta == 0 ) {
-            return this;
+            return cs;
         }
         else if ( delta > 0 ) {
-            return toggle( getLowestEmptyCell() ).addPieces( delta - 1 );
+            return cs.toggle( getFirstEmptyCell() ).padAndTrim().addPieces( delta - 1 ).padAndTrim();
         }
         else {
-            return toggle( getLowestFilledCell() ).addPieces( delta + 1 );
+            return cs.toggle( getLastFullCell() ).padAndTrim().addPieces( delta + 1 ).padAndTrim();
         }
+    }
+
+    //Add an empty container if this one is all full, but don't go past 6 (would be off the screen)
+    private ContainerState padAndTrim() {
+        ContainerState cs = trimAll();
+        return cs.isFull() && cs.size <= 5 ? cs.addEmptyContainer() : cs;
+    }
+
+    //Remove any trailing containers that are completely empty
+    private ContainerState trimAll() {
+        final ArrayList<Container> reversed = new ArrayList<Container>( containers );
+        Collections.reverse( reversed );
+        final boolean[] foundNonEmpty = { false };
+
+        final ArrayList<Container> all = new ArrayList<Container>() {{
+            for ( Container container : reversed ) {
+                if ( container.isEmpty() ) {
+
+                }
+                else {
+                    //as soon as finding a non-empty container, add all after that
+                    foundNonEmpty[0] = true;
+                }
+                if ( foundNonEmpty[0] ) {
+                    add( container );
+                }
+            }
+        }};
+        Collections.reverse( all );
+        return new ContainerState( numerator, denominator, all );
+    }
+
+    private ContainerState addEmptyContainer() {
+        return new ContainerState( numerator, denominator, new ArrayList<Container>( containers ) {{
+            add( new Container( denominator, new int[0] ) );
+        }} );
+    }
+
+    private boolean isFull() {
+        for ( Container container : containers ) {
+            if ( !container.isFull() ) { return false; }
+        }
+        return true;
     }
 
     private ContainerState toggle( final CellPointer pointer ) {
@@ -82,8 +128,8 @@ public class ContainerState {
         } ) );
     }
 
-    private CellPointer getLowestFilledCell() {
-        return FunctionalUtils.first( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
+    private CellPointer getLastFullCell() {
+        return FunctionalUtils.last( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
             public Boolean apply( CellPointer cellPointer ) {
                 return !isEmpty( cellPointer );
             }
@@ -100,7 +146,7 @@ public class ContainerState {
         }};
     }
 
-    private CellPointer getLowestEmptyCell() {
+    private CellPointer getFirstEmptyCell() {
         return FunctionalUtils.first( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
             public Boolean apply( CellPointer cellPointer ) {
                 return isEmpty( cellPointer );
@@ -108,7 +154,11 @@ public class ContainerState {
         } ).get();
     }
 
-    private Boolean isEmpty( CellPointer cellPointer ) {
+    public Boolean isEmpty( CellPointer cellPointer ) {
         return containers.get( cellPointer.container ).isEmpty( cellPointer.cell );
+    }
+
+    public boolean isFilled( CellPointer cp ) {
+        return !isEmpty( cp );
     }
 }

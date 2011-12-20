@@ -62,12 +62,21 @@ public class Container {
         return new Container( numCells, newFilledCells );
     }
 
+    public Boolean isEmpty() {
+        return filledCells.size() == 0;
+    }
+
     public Boolean isEmpty( int cell ) {
-        return filledCells.contains( cell );
+        return !filledCells.contains( cell );
     }
 
     //Return a copy but with the specified cell toggled
-    public Container toggle( int cell ) {
-        return null;
+    public Container toggle( final int cell ) {
+        if ( !filledCells.contains( cell ) ) {
+            return new Container( numCells, new ArrayList<Integer>( filledCells ) {{add( cell );}} );
+        }
+        else {
+            return new Container( numCells, new ArrayList<Integer>( filledCells ) {{remove( cell );}} );
+        }
     }
 }
