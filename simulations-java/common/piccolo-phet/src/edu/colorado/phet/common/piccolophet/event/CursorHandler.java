@@ -122,7 +122,7 @@ public class CursorHandler extends PBasicInputEventHandler {
     //----------------------------------------------------------------------------
 
     // Sets a different cursor.
-    // If the mouse is over a components, immediately show the new cursor on the component.
+    // If the mouse is over a component, immediately show the new cursor on the component.
     public void setCursor( int cursor ) {
         this.cursor = Cursor.getPredefinedCursor( cursor );
         if ( mouseOverComponent != null ) {
