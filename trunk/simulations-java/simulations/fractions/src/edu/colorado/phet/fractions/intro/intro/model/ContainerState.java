@@ -48,18 +48,18 @@ public class ContainerState {
             return cs.toggle( cs.getFirstEmptyCell() ).addPieces( delta - 1 );
         }
         else {
-            return toggle( getLastFullCell() ).addPieces( delta + 1 ).trimAll();
+            return toggle( getLastFullCell() ).addPieces( delta + 1 ).trim();
         }
     }
 
     //Add an empty container if this one is all full, but don't go past 6 (would be off the screen)
     public ContainerState padAndTrim() {
-        ContainerState cs = trimAll();
+        ContainerState cs = trim();
         return cs.isFull() && cs.size <= 5 ? cs.addEmptyContainer() : cs;
     }
 
     //Remove any trailing containers that are completely empty
-    public ContainerState trimAll() {
+    public ContainerState trim() {
         final ArrayList<Container> reversed = new ArrayList<Container>( containers );
         Collections.reverse( reversed );
         final boolean[] foundNonEmpty = { false };
