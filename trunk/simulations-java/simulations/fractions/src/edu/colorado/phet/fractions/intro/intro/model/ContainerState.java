@@ -134,8 +134,8 @@ public class ContainerState {
 
     private CellPointer getLastFullCell() {
         return FunctionalUtils.last( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
-            public Boolean apply( CellPointer cellPointer ) {
-                return !isEmpty( cellPointer );
+            public Boolean apply( CellPointer p ) {
+                return !isEmpty( p );
             }
         } ).get();
     }
@@ -152,8 +152,8 @@ public class ContainerState {
 
     private CellPointer getFirstEmptyCell() {
         return FunctionalUtils.first( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
-            public Boolean apply( CellPointer cellPointer ) {
-                return isEmpty( cellPointer );
+            public Boolean apply( CellPointer p ) {
+                return isEmpty( p );
             }
         } ).get();
     }
