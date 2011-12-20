@@ -35,28 +35,6 @@ public class ContainerState {
         this.numerator = count;
     }
 
-    public ContainerState nextRandomState() {
-        ArrayList<Container> newContainers = new ArrayList<Container>();
-        boolean incrementedCount = false;
-        for ( Container container : containers ) {
-            if ( container.isFull() ) {
-                newContainers.add( container );
-            }
-            else {
-
-                //Assumes things fill to the right and not randomly
-                newContainers.add( container.addRandom() );
-                incrementedCount = true;
-            }
-        }
-
-        //Didn't add one yet, so add a new container now
-        if ( !incrementedCount ) {
-            newContainers.add( new Container( denominator, new int[] { RandomFill.random.nextInt( denominator ) } ) );
-        }
-        return new ContainerState( denominator, newContainers );
-    }
-
     @Override public String toString() {
         return containers.toString();
     }
