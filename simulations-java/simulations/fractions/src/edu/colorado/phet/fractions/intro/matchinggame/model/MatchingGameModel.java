@@ -6,7 +6,10 @@ import java.util.Collection;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.fractions.intro.intro.model.Container;
+import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 import edu.colorado.phet.fractions.intro.intro.model.Fraction;
 import edu.colorado.phet.fractions.intro.matchinggame.view.FractionRepresentationNode;
 import edu.colorado.phet.fractions.intro.matchinggame.view.HorizontalBarsNode;
@@ -103,8 +106,10 @@ public class MatchingGameModel {
                 }
             } );
             add( new Representation() {
+
+                //TODO: Fix
                 public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
-                    return new PieNode( transform, fraction );
+                    return new PieNode( transform, fraction, new Property<ContainerState>( new ContainerState( fraction.numerator, fraction.denominator, new Container[0] ) ) );
                 }
             } );
             add( new Representation() {

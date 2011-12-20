@@ -2,9 +2,6 @@
 package edu.colorado.phet.fractions.intro.intro.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -20,7 +17,7 @@ import java.util.Random;
  * @author Sam Reid
  */
 public class RandomFill {
-    private ArrayList<State> history = new ArrayList<State>();
+    private ArrayList<ContainerState> history = new ArrayList<ContainerState>();
     private int numerator = 1;
     private int denominator = 1;
 
@@ -29,112 +26,15 @@ public class RandomFill {
     }
 
     public RandomFill() {
-        history.add( new State( numerator, denominator, new Container[] { new Container( 1, new int[] { 0 } ) } ) );
+        history.add( new ContainerState( numerator, denominator, new Container[] { new Container( 1, new int[] { 0 } ) } ) );
     }
 
-    public State getCurrentState() {
+    public ContainerState getCurrentState() {
         if ( history.size() > 0 ) {
             return history.get( history.size() - 1 );
         }
         else {
             return null;
-        }
-    }
-
-    //The entire state of what is filled and empty.
-    static class State {
-        public final List<Container> containers;
-        private final int denominator;
-        private final int numerator;
-
-        State( int numerator, int denominator, Container[] containers ) {
-            this( numerator, denominator, Arrays.asList( containers ) );
-        }
-
-        State( int numerator, int denominator, List<Container> containers ) {
-            this.containers = containers;
-            this.denominator = denominator;
-            this.numerator = numerator;
-        }
-
-        public State nextRandomState() {
-            ArrayList<Container> newContainers = new ArrayList<Container>();
-            boolean incrementedCount = false;
-            for ( Container container : containers ) {
-                if ( container.isFull() ) {
-                    newContainers.add( container );
-                }
-                else {
-
-                    //Assumes things fill to the right and not randomly
-                    newContainers.add( container.addRandom() );
-                    incrementedCount = true;
-                }
-            }
-
-            //Didn't add one yet, so add a new container now
-            if ( !incrementedCount ) {
-                newContainers.add( new Container( denominator, new int[] { random.nextInt( denominator ) } ) );
-            }
-            return new State( numerator, denominator, newContainers );
-        }
-
-        @Override public String toString() {
-            return containers.toString();
-        }
-    }
-
-    //Do not mutate, other code relies on this class being immutable.
-    static class Container {
-        public final int numCells;
-        public final ArrayList<Integer> filledCells;
-
-        Container( int numCells, int[] filledCells ) {
-            this( numCells, toList( filledCells ) );
-        }
-
-        private static ArrayList<Integer> toList( int[] filledCells ) {
-            ArrayList<Integer> list = new ArrayList<Integer>();
-            for ( int cell : filledCells ) {
-                list.add( cell );
-            }
-            return list;
-        }
-
-        @Override public String toString() {
-            return filledCells.toString();
-        }
-
-        Container( int numCells, ArrayList<Integer> filledCells ) {
-            this.numCells = numCells;
-            this.filledCells = filledCells;
-        }
-
-        public static Container full( final int denominator ) {
-            return new Container( denominator, new ArrayList<Integer>() {{
-                for ( int i = 0; i < denominator; i++ ) {
-                    add( i );
-                }
-            }} );
-        }
-
-        public boolean isFull() {
-            return new HashSet<Integer>( filledCells ).equals( new HashSet<Integer>( listAll( numCells ) ) );
-        }
-
-        public Container addRandom() {
-            if ( isFull() ) {
-                throw new RuntimeException( "tried to add to full container" );
-            }
-            final HashSet<Integer> empty = new HashSet<Integer>( listAll( numCells ) ) {{
-                removeAll( filledCells );
-            }};
-            final ArrayList<Integer> listOfEmptyCells = new ArrayList<Integer>( empty );
-            ArrayList<Integer> newFilledCells = new ArrayList<Integer>( filledCells ) {{
-                final int randomIndex = random.nextInt( empty.size() );
-                add( listOfEmptyCells.get( randomIndex ) );
-            }};
-            return new Container( numCells, newFilledCells );
         }
     }
 
@@ -144,12 +44,12 @@ public class RandomFill {
         history.add( createRandomState() );
     }
 
-    private State createRandomState() {
+    private ContainerState createRandomState() {
         final int numFullContainers = numerator / denominator;
         final int numCellsInLast = numerator % denominator;
         final boolean partiallyFullContainer = numCellsInLast != 0;
         int numContainers = numFullContainers + ( partiallyFullContainer ? 1 : 0 );
-        return new State( numerator, denominator, new ArrayList<Container>() {{
+        return new ContainerState( numerator, denominator, new ArrayList<Container>() {{
             for ( int i = 0; i < numFullContainers; i++ ) {
                 add( Container.full( denominator ) );
             }
@@ -174,7 +74,7 @@ public class RandomFill {
         return value;
     }
 
-    private static ArrayList<Integer> listAll( final int denominator ) {
+    public static ArrayList<Integer> listAll( final int denominator ) {
         return new ArrayList<Integer>() {{
             for ( int i = 0; i < denominator; i++ ) {
                 add( i );
