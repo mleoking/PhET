@@ -25,8 +25,8 @@ public class RulerNode3D extends OrthoPiccoloNode implements DraggableTool2D {
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
     private static final float RULER_PIXEL_SCALE = 3f;
 
-    public RulerNode3D( final LWJGLModelViewTransform transform, final PlateTectonicsTab tab ) {
-        super( new RulerNode2D( transform.modelToViewDeltaX( 1000 ) ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
+    public RulerNode3D( final LWJGLModelViewTransform modelViewTransform, final PlateTectonicsTab tab ) {
+        super( new RulerNode2D( modelViewTransform.modelToViewDeltaX( 1000 ) ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
 
         // scale the node to handle the subsampling
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
@@ -46,7 +46,7 @@ public class RulerNode3D extends OrthoPiccoloNode implements DraggableTool2D {
     }
 
     public void dragDelta( ImmutableVector2F delta ) {
-        appendTransform( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        transform.append( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
     }
 
     public Property<Boolean> getInsideToolboxProperty( ToolboxState toolboxState ) {
