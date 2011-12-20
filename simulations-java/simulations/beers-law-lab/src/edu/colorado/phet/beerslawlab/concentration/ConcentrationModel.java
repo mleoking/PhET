@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLResources.Symbols;
 import edu.colorado.phet.beerslawlab.model.Solute;
+import edu.colorado.phet.beerslawlab.model.SoluteForm;
 import edu.colorado.phet.beerslawlab.model.Solution;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
@@ -28,6 +30,7 @@ public class ConcentrationModel implements Resettable {
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Solution solution;
+    public final Property<SoluteForm> soluteForm = new Property<SoluteForm>( SoluteForm.SOLID );
 
     public ConcentrationModel() {
 
@@ -61,5 +64,6 @@ public class ConcentrationModel implements Resettable {
 
     public void reset() {
         solution.reset();
+        soluteForm.reset();
     }
 }

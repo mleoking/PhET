@@ -17,9 +17,8 @@ public class ConcentrationCanvas extends BLLCanvas {
 
     public ConcentrationCanvas( final ConcentrationModel model, Frame parentFrame ) {
 
-        // Solute control
-        SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
-
+        // Solute controls
+        SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute, model.soluteForm );
         // Reset All button
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, 18, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
