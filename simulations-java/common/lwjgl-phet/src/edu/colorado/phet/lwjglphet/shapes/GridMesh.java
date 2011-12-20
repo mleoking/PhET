@@ -5,7 +5,6 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.lwjglphet.GLNode;
@@ -124,39 +123,45 @@ public class GridMesh extends GLNode {
                 * normal
                 *----------------------------------------------------------------------------*/
                 if ( updateNormals ) {
-                    ImmutableVector3F up, down, left, right;
-
-                    // calculate up/down vectors
-                    if ( row > 0 ) {
-                        up = getPosition( row - 1, col ).minus( position );
-                        down = ( row < rows - 1 ) ? getPosition( row + 1, col ).minus( position ) : up.negated();
-                    }
-                    else {
-                        down = getPosition( row + 1, col ).minus( position );
-                        up = down.negated();
-                    }
-
-                    // calculate left/right vectors
-                    if ( col > 0 ) {
-                        left = getPosition( row, col - 1 ).minus( position );
-                        right = ( col < columns - 1 ) ? getPosition( row, col + 1 ).minus( position ) : left.negated();
-                    }
-                    else {
-                        right = getPosition( row, col + 1 ).minus( position );
-                        left = right.negated();
-                    }
-
-                    ImmutableVector3F normal = new ImmutableVector3F();
-                    // basically, sum up the normals of each quad this vertex is part of, and take the average
-                    normal = normal.plus( right.cross( up ).normalized() );
-                    normal = normal.plus( up.cross( left ).normalized() );
-                    normal = normal.plus( left.cross( down ).normalized() );
-                    normal = normal.plus( down.cross( right ).normalized() );
-                    normal = normal.normalized();
+                    ImmutableVector3F normal = getNormal( row, col );
                     normalBuffer.put( new float[] { normal.x, normal.y, normal.z } );
                 }
             }
         }
+    }
+
+    public ImmutableVector3F getNormal( int row, int col ) {
+        // basic approximation based on neighbors.
+        ImmutableVector3F position = getPosition( row, col );
+        ImmutableVector3F up, down, left, right;
+
+        // calculate up/down vectors
+        if ( row > 0 ) {
+            up = getPosition( row - 1, col ).minus( position );
+            down = ( row < rows - 1 ) ? getPosition( row + 1, col ).minus( position ) : up.negated();
+        }
+        else {
+            down = getPosition( row + 1, col ).minus( position );
+            up = down.negated();
+        }
+
+        // calculate left/right vectors
+        if ( col > 0 ) {
+            left = getPosition( row, col - 1 ).minus( position );
+            right = ( col < columns - 1 ) ? getPosition( row, col + 1 ).minus( position ) : left.negated();
+        }
+        else {
+            right = getPosition( row, col + 1 ).minus( position );
+            left = right.negated();
+        }
+
+        ImmutableVector3F normal = new ImmutableVector3F();
+        // basically, sum up the normals of each quad this vertex is part of, and take the average
+        normal = normal.plus( right.cross( up ).normalized() );
+        normal = normal.plus( up.cross( left ).normalized() );
+        normal = normal.plus( left.cross( down ).normalized() );
+        normal = normal.plus( down.cross( right ).normalized() );
+        return normal.normalized();
     }
 
     public void setUpdateNormals( boolean updateNormals ) {
@@ -177,8 +182,8 @@ public class GridMesh extends GLNode {
             glTexCoordPointer( 2, 0, textureBuffer );
         }
         if ( options.shouldSendNormals() ) {
-            glEnableClientState( GL11.GL_NORMAL_ARRAY );
-            glNormalPointer( 3, normalBuffer );
+            glEnableClientState( GL_NORMAL_ARRAY );
+            glNormalPointer( 0, normalBuffer );
         }
         glVertexPointer( 3, 0, positionBuffer );
 
@@ -188,7 +193,7 @@ public class GridMesh extends GLNode {
         // disable the changed states
         glDisableClientState( GL_VERTEX_ARRAY );
         if ( options.shouldSendTexture() ) { glDisableClientState( GL_TEXTURE_COORD_ARRAY ); }
-        if ( options.shouldSendNormals() ) { glDisableClientState( GL11.GL_NORMAL_ARRAY ); }
+        if ( options.shouldSendNormals() ) { glDisableClientState( GL_NORMAL_ARRAY ); }
     }
 
     public ImmutableVector3F getPosition( int row, int col ) {
