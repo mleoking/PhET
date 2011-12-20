@@ -28,14 +28,14 @@ public class ThermometerNode3D extends OrthoPiccoloNode implements DraggableTool
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
     public static final float PIXEL_SCALE = 3f;
 
-    private final LWJGLModelViewTransform transform;
+    private final LWJGLModelViewTransform modelViewTransform;
     private final PlateModel model;
 
-    public ThermometerNode3D( final LWJGLModelViewTransform transform, final PlateTectonicsTab tab, PlateModel model ) {
+    public ThermometerNode3D( final LWJGLModelViewTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
-        super( new ThermometerNode2D( transform.modelToViewDeltaX( 1000 ) ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
-        this.transform = transform;
+        super( new ThermometerNode2D( modelViewTransform.modelToViewDeltaX( 1000 ) ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
+        this.modelViewTransform = modelViewTransform;
         this.model = model;
 
         // scale the node to handle the subsampling
@@ -62,14 +62,14 @@ public class ThermometerNode3D extends OrthoPiccoloNode implements DraggableTool
     }
 
     public void dragDelta( ImmutableVector2F delta ) {
-        appendTransform( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        this.transform.append( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
 
         updateLiquidHeight();
     }
 
     private void updateLiquidHeight() {
         // get model coordinates
-        ImmutableVector3F modelSensorPosition = transform.viewToModel( getTransform().getTranslation() );
+        ImmutableVector3F modelSensorPosition = modelViewTransform.viewToModel( transform.getMatrix().getTranslation() );
         final Double temp = model.getTemperature( modelSensorPosition.getX(), modelSensorPosition.getY() );
         double liquidHeight = new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp );
 //        System.out.println( "liquidHeight = " + liquidHeight );

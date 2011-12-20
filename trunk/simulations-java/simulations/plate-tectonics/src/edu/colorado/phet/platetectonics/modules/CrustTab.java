@@ -162,9 +162,9 @@ public class CrustTab extends PlateTectonicsTab {
                     // offset the ruler slightly from the mouse, and start the drag
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = ruler.getInitialMouseOffset();
-                    ruler.setTransform( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
-                                                                       mousePosition.y - initialMouseOffset.y,
-                                                                       RULER_Z ) ); // on Z=0 plane
+                    ruler.transform.set( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
+                                                                                   mousePosition.y - initialMouseOffset.y,
+                                                                                   RULER_Z ) );
                     toolDragHandler.startDragging( ruler, mousePosition );
                 }
             }
@@ -181,9 +181,9 @@ public class CrustTab extends PlateTectonicsTab {
                     // offset the ruler slightly from the mouse, and start the drag
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = thermometer.getInitialMouseOffset();
-                    thermometer.setTransform( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
-                                                                             mousePosition.y - initialMouseOffset.y,
-                                                                             THERMOMETER_Z ) ); // on Z=0 plane
+                    thermometer.transform.set( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
+                                                                                         mousePosition.y - initialMouseOffset.y,
+                                                                                         THERMOMETER_Z ) );
 
                     toolDragHandler.startDragging( thermometer, mousePosition );
                 }
@@ -201,9 +201,9 @@ public class CrustTab extends PlateTectonicsTab {
                     // offset the ruler slightly from the mouse, and start the drag
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = sensorNode.getInitialMouseOffset();
-                    sensorNode.setTransform( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
-                                                                            mousePosition.y - initialMouseOffset.y,
-                                                                            DENSITY_SENSOR_Z ) );
+                    sensorNode.transform.set( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
+                                                                                        mousePosition.y - initialMouseOffset.y,
+                                                                                        DENSITY_SENSOR_Z ) );
 
                     toolDragHandler.startDragging( sensorNode, mousePosition );
                 }

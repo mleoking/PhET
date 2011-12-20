@@ -24,14 +24,14 @@ public class DensitySensorNode3D extends OrthoPiccoloNode implements DraggableTo
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
 
-    private final LWJGLModelViewTransform transform;
+    private final LWJGLModelViewTransform modelViewTransform;
     private final PlateModel model;
 
-    public DensitySensorNode3D( final LWJGLModelViewTransform transform, final PlateTectonicsTab tab, PlateModel model ) {
+    public DensitySensorNode3D( final LWJGLModelViewTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
-        super( new DensitySensorNode2D( transform.modelToViewDeltaX( 1000 ) ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
-        this.transform = transform;
+        super( new DensitySensorNode2D( modelViewTransform.modelToViewDeltaX( 1000 ) ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
+        this.modelViewTransform = modelViewTransform;
         this.model = model;
 
         // scale the node to handle the subsampling
@@ -59,14 +59,14 @@ public class DensitySensorNode3D extends OrthoPiccoloNode implements DraggableTo
     }
 
     public void dragDelta( ImmutableVector2F delta ) {
-        appendTransform( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        transform.append( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         updateReadout();
     }
 
     private void updateReadout() {
         // get model coordinates
 
-        ImmutableVector3F modelSensorPosition = transform.viewToModel( getTransform().getTranslation() );//TODO: is this the hot spot of the sensor?
+        ImmutableVector3F modelSensorPosition = modelViewTransform.viewToModel( transform.getMatrix().getTranslation() );//TODO: is this the hot spot of the sensor?
 
         final Double density = model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
         DensitySensorNode2D node = (DensitySensorNode2D) getNode();
