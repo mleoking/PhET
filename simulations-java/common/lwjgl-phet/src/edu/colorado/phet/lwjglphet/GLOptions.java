@@ -9,13 +9,14 @@ public class GLOptions implements Cloneable {
 
     // whether we are just drawing for "picking" purposes.
     public boolean forSelection = false;
+    public boolean forWireframe = false;
 
     public boolean shouldSendNormals() {
-        return !forSelection;
+        return !forSelection && !forWireframe;
     }
 
     public boolean shouldSendTexture() {
-        return !forSelection;
+        return !forSelection && !forWireframe;
     }
 
     public GLOptions getCopy() {

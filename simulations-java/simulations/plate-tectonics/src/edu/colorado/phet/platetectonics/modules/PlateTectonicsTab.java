@@ -57,6 +57,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     private LWJGLModelViewTransform modelViewTransform;
     private long lastSeenTime;
     public final GLNode rootNode = new GLNode();
+    private boolean showWireframe = false;
 
     // in seconds
     private float timeElapsed;
@@ -98,6 +99,14 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                             else if ( Mouse.isButtonDown( 1 ) ) {
                                 debugCameraTransform.prepend( ImmutableMatrix4F.rotateZ( (float) dx / 100 ) );
                             }
+                        }
+                    }
+                }, false );
+        keyboardEventNotifier.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        if ( Keyboard.getEventKey() == Keyboard.KEY_F ) {
+                            showWireframe = Keyboard.getEventKeyState();
                         }
                     }
                 }, false );
@@ -162,6 +171,14 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         // TODO: improve area where the model is updated. Should happen after mouse events (here)
 
         GLOptions options = new GLOptions();
+
+        if ( showWireframe ) {
+            options.forWireframe = true;
+            glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        }
+        else {
+            glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+        }
 
         glViewport( 0, 0, getCanvasWidth(), getCanvasHeight() );
         setupGuiTransformations();
