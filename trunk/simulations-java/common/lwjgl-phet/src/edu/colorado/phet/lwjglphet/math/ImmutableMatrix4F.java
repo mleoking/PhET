@@ -225,10 +225,23 @@ public class ImmutableMatrix4F {
         float m31 = this.m01 * m.m30 + this.m11 * m.m31 + this.m21 * m.m32 + this.m31 * m.m33;
         float m32 = this.m02 * m.m30 + this.m12 * m.m31 + this.m22 * m.m32 + this.m32 * m.m33;
         float m33 = this.m03 * m.m30 + this.m13 * m.m31 + this.m23 * m.m32 + this.m33 * m.m33;
+        MatrixType type = MatrixType.OTHER;
+        if ( this.type == MatrixType.TRANSLATION && m.type == MatrixType.TRANSLATION ) {
+            type = MatrixType.TRANSLATION;
+        }
+        if ( this.type == MatrixType.SCALING && m.type == MatrixType.SCALING ) {
+            type = MatrixType.SCALING;
+        }
+        if ( this.type == MatrixType.IDENTITY ) {
+            type = m.type;
+        }
+        if ( m.type == MatrixType.IDENTITY ) {
+            type = this.type;
+        }
         return rowMajor( m00, m10, m20, m30,
                          m01, m11, m21, m31,
                          m02, m12, m22, m32,
-                         m03, m13, m23, m33 );
+                         m03, m13, m23, m33, type );
     }
 
     public ImmutableVector4F times( ImmutableVector4F v ) {
@@ -411,6 +424,14 @@ public class ImmutableMatrix4F {
         buf.append( m02 ).append( ' ' ).append( m12 ).append( ' ' ).append( m22 ).append( ' ' ).append( m32 ).append( '\n' );
         buf.append( m03 ).append( ' ' ).append( m13 ).append( ' ' ).append( m23 ).append( ' ' ).append( m33 ).append( '\n' );
         return buf.toString();
+    }
+
+    public ImmutableVector3F getTranslation() {
+        return new ImmutableVector3F( m30, m31, m32 );
+    }
+
+    public ImmutableVector3F getScaling() {
+        return new ImmutableVector3F( m00, m11, m22 );
     }
 
 }

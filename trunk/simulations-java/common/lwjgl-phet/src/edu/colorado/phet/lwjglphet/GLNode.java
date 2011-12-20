@@ -25,28 +25,30 @@ public class GLNode {
     private final List<GLNode> children = new ArrayList<GLNode>();
 
     /*---------------------------------------------------------------------------*
-    * model-view transform state
+    * transform state
     *----------------------------------------------------------------------------*/
 
-    // model-view transform, changed to the identity
-    private final Property<ImmutableMatrix4F> modelViewTransform = new Property<ImmutableMatrix4F>( ImmutableMatrix4F.IDENTITY );
+    // transform that is applied to OpenGL's MODELVIEW matrix
+    private final Property<ImmutableMatrix4F> transform = new Property<ImmutableMatrix4F>( ImmutableMatrix4F.IDENTITY );
 
-    private ImmutableMatrix4F modelViewInverseTransform = ImmutableMatrix4F.IDENTITY;
+    private ImmutableMatrix4F inverseTransform = ImmutableMatrix4F.IDENTITY;
 
     // various buffers for quick handling of the model-view transform
-    private FloatBuffer modelViewTransformBuffer = BufferUtils.createFloatBuffer( 16 );
-    private FloatBuffer modelViewInverseTransformBuffer = BufferUtils.createFloatBuffer( 16 );
+    private FloatBuffer transformBuffer = BufferUtils.createFloatBuffer( 16 );
+    private FloatBuffer inverseTransformBuffer = BufferUtils.createFloatBuffer( 16 );
+
+    private GLMaterial material;
 
     public GLNode() {
         // when our MVT changes, update all of our other transformation states
-        modelViewTransform.addObserver( new SimpleObserver() {
+        transform.addObserver( new SimpleObserver() {
             public void update() {
                 // store the inverse matrix
-                modelViewInverseTransform = modelViewTransform.get().inverted();
+                inverseTransform = transform.get().inverted();
 
                 // store both into buffers so they can be sent to OpenGL with less overhead
-                modelViewTransform.get().store( modelViewTransformBuffer );
-                modelViewInverseTransform.store( modelViewInverseTransformBuffer );
+                transform.get().store( transformBuffer );
+                inverseTransform.store( inverseTransformBuffer );
             }
         } );
     }
@@ -59,7 +61,7 @@ public class GLNode {
      */
     public final void render( GLOptions options ) {
         // handle the model-view transform
-        ImmutableMatrix4F transform = modelViewTransform.get();
+        ImmutableMatrix4F transform = this.transform.get();
         boolean hasNontrivialTransform = transform.type != MatrixType.IDENTITY;
         if ( hasNontrivialTransform ) {
             glPushMatrix();
@@ -72,18 +74,25 @@ public class GLNode {
                     break;
                 default:
                     // fall back to sending the entire matrix
-                    modelViewTransformBuffer.rewind();
-                    glMultMatrix( modelViewTransformBuffer );
+                    transformBuffer.rewind();
+                    glMultMatrix( transformBuffer );
             }
         }
 
         preRender( options );
+        if ( material != null ) {
+            material.before( options );
+        }
 
         renderSelf( options );
         for ( GLNode child : children ) {
             child.render( options );
         }
 
+        // NOTE: for now material will clean up after children, in case we want to use the material for all of the children
+        if ( material != null ) {
+            material.after( options );
+        }
         postRender( options );
 
         // reverse our model-view transform for our parent
@@ -124,11 +133,11 @@ public class GLNode {
     }
 
     public void setTransform( ImmutableMatrix4F matrix ) {
-        modelViewTransform.set( matrix );
+        transform.set( matrix );
     }
 
     public void appendTransform( ImmutableMatrix4F matrix ) {
-        modelViewTransform.set( modelViewTransform.get().times( matrix ) );
+        transform.set( transform.get().times( matrix ) );
     }
 
     public void translate( float x, float y, float z ) {
@@ -145,5 +154,25 @@ public class GLNode {
 
     public void rotate( ImmutableVector3F axis, float angle ) {
         appendTransform( ImmutableMatrix4F.rotate( axis, angle ) );
+    }
+
+    public GLNode getParent() {
+        return parent;
+    }
+
+    public ImmutableMatrix4F getTransform() {
+        return transform.get();
+    }
+
+    public Property<ImmutableMatrix4F> getTransformProperty() {
+        return transform;
+    }
+
+    public GLMaterial getMaterial() {
+        return material;
+    }
+
+    public void setMaterial( GLMaterial material ) {
+        this.material = material;
     }
 }

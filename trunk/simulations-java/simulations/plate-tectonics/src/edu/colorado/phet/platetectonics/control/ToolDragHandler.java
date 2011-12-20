@@ -1,9 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
-
-import com.jme3.math.Vector2f;
 
 /**
  * Handles tool dragging, so that we don't clutter the module with this information
@@ -12,7 +11,7 @@ public class ToolDragHandler {
 
     private boolean dragging = false;
     private DraggableTool2D tool;
-    private Vector2f lastPosition;
+    private ImmutableVector2F lastPosition;
 
     private ToolboxState toolboxState;
 
@@ -20,20 +19,20 @@ public class ToolDragHandler {
         this.toolboxState = toolboxState;
     }
 
-    public void mouseDownOnTool( DraggableTool2D tool, Vector2f viewPosition ) {
+    public void mouseDownOnTool( DraggableTool2D tool, ImmutableVector2F viewPosition ) {
         // TODO: improve the x/y on this? not sure what coordinate system it will be using!!!
         if ( tool.allowsDrag( viewPosition ) ) {
             startDragging( tool, viewPosition );
         }
     }
 
-    public void startDragging( DraggableTool2D tool, Vector2f viewPosition ) {
+    public void startDragging( DraggableTool2D tool, ImmutableVector2F viewPosition ) {
         this.tool = tool;
-        lastPosition = viewPosition.clone();
+        lastPosition = new ImmutableVector2F( viewPosition );
         dragging = true;
 
         /// send an empty drag delta to hopefully synchronize any model
-        tool.dragDelta( new Vector2f( 0, 0 ) );
+        tool.dragDelta( new ImmutableVector2F( 0, 0 ) );
     }
 
     public void mouseUp( boolean overToolbox ) {
@@ -47,9 +46,9 @@ public class ToolDragHandler {
         dragging = false;
     }
 
-    public void mouseMove( Vector2f viewPosition ) {
+    public void mouseMove( ImmutableVector2F viewPosition ) {
         if ( dragging ) {
-            tool.dragDelta( viewPosition.subtract( lastPosition ) );
+            tool.dragDelta( viewPosition.minus( lastPosition ) );
             lastPosition = viewPosition;
         }
     }

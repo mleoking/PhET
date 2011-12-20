@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
-import com.jme3.math.Vector2f;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
 /**
  * A region models an internal polygon inside the earth in the z=0 planeP
@@ -14,16 +14,16 @@ public abstract class Region {
         this.type = type;
     }
 
-    public abstract float getDensity( Vector2f position );
+    public abstract float getDensity( ImmutableVector2F position );
 
-    public abstract float getTemperature( Vector2f position );
+    public abstract float getTemperature( ImmutableVector2F position );
 
     public abstract boolean isStatic();
 
     /**
      * @return The outside boundary of the region. Can be concave, but should have no holes
      */
-    public abstract Vector2f[] getBoundary();
+    public abstract ImmutableVector2F[] getBoundary();
 
     public static enum Type {
         CRUST,

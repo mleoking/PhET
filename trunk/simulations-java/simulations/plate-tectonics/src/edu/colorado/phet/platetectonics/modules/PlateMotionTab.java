@@ -1,17 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.Frame;
-
+import edu.colorado.phet.lwjglphet.GLNode;
+import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
 
-import com.jme3.renderer.Camera;
-
-import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.PLATE_MOTION_TAB;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Displays two main plates that the user can direct to move towards, away from, or along each other.
@@ -20,17 +20,12 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
     private PlateModel model;
 
-    public PlateMotionTab( Frame parentFrame ) {
-        super( PLATE_MOTION_TAB, 0.5f );
+    public PlateMotionTab( LWJGLCanvas canvas ) {
+        super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
     }
 
-    @Override public void updateState( float tpf ) {
-        super.updateState( tpf );
-        model.update( tpf );
-    }
-
-    @Override public void initialize() {
-        super.initialize();
+    @Override public void start() {
+        super.start();
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
@@ -42,10 +37,25 @@ public class PlateMotionTab extends PlateTectonicsTab {
         // create the model and terrain
 //        model = new AnimatedPlateModel( grid );
         model = new PlateMotionModel( grid );
-        mainView.getScene().attachChild( new PlateView( model, this, grid ) );
+
+        final GLNode sceneLayer = new GLNode() {
+            @Override protected void preRender( GLOptions options ) {
+                loadCameraMatrices();
+                glEnable( GL_DEPTH_TEST );
+            }
+
+            @Override protected void postRender( GLOptions options ) {
+                glDisable( GL_DEPTH_TEST );
+            }
+        };
+        rootNode.addChild( sceneLayer );
+
+        sceneLayer.addChild( new PlateView( model, this, grid ) );
     }
 
-    @Override public Camera getDebugCamera() {
-        return mainView.getCamera();
+
+    @Override public void loop() {
+        super.loop();
+        model.update( getTimeElapsed() );
     }
 }

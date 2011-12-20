@@ -4,31 +4,25 @@ package edu.colorado.phet.platetectonics.view;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.lwjglphet.GLNode;
+import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.util.TransparentColorMaterial;
+import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
-import com.jme3.bounding.BoundingVolume;
-import com.jme3.collision.Collidable;
-import com.jme3.collision.CollisionResults;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.Matrix4f;
-import com.jme3.math.Vector3f;
-import com.jme3.renderer.queue.RenderQueue.Bucket;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
-import com.jme3.scene.Node;
-import com.jme3.scene.VertexBuffer;
-import com.jme3.scene.VertexBuffer.Type;
-import com.jme3.util.BufferUtils;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Displays the top and front of the water, according to the plate model.
  */
-public class WaterNode extends Node {
+public class WaterNode extends GLNode {
     private final Terrain terrain;
     private final PlateModel model;
     private final PlateTectonicsTab module;
@@ -38,46 +32,43 @@ public class WaterNode extends Node {
         this.model = model;
         this.module = module;
 
-        // render the top of the water (flat surface. we rely on OpenGL's intersection handling)
-        attachChild( new Geometry( "Water Top" ) {{
-            // construct grid mesh
-            int rows = terrain.numZSamples;
-            int columns = terrain.numXSamples;
-            Vector3f[] positions = new Vector3f[rows * columns];
-            for ( int zIndex = 0; zIndex < rows; zIndex++ ) {
-                float z = terrain.zData[zIndex];
-                for ( int xIndex = 0; xIndex < columns; xIndex++ ) {
-                    float x = terrain.xData[xIndex];
-                    float y = 0;
-                    // TODO: performance increases
-                    positions[zIndex * columns + xIndex] = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new Vector3f( x, y, z ) ) );
-                }
+        int rows = terrain.numZSamples;
+        int columns = terrain.numXSamples;
+        ImmutableVector3F[] positions = new ImmutableVector3F[rows * columns];
+        for ( int zIndex = 0; zIndex < rows; zIndex++ ) {
+            float z = terrain.zData[zIndex];
+            for ( int xIndex = 0; xIndex < columns; xIndex++ ) {
+                float x = terrain.xData[xIndex];
+                float y = 0;
+                // TODO: performance increases
+                positions[zIndex * columns + xIndex] = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new ImmutableVector3F( x, y, z ) ) );
             }
-            setMesh( new GridMesh( rows, columns, positions ) {{
-                setUpdateNormals( false );
-            }} );
-
-            setMaterial( new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0.2f, 0.5f, 0.8f, 0.5f ) ) ) );
-            setQueueBucket( Bucket.Transparent ); // allow it to be transparent
+        }
+        addChild( new GridMesh( rows, columns, positions ) {{
+            setUpdateNormals( false );
+            setMaterial( new ColorMaterial( 0.2f, 0.5f, 0.8f, 0.5f ) );
         }} );
 
         // render the top of the water. dynamically changes as a strip mesh based on what terrain is above or below sea level
-        attachChild( new Geometry( "Water Front", new WaterFrontMesh() ) {{
-            setMaterial( new TransparentColorMaterial( module.getAssetManager(), new Property<ColorRGBA>( new ColorRGBA( 0.1f, 0.3f, 0.7f, 0.5f ) ) ) );
-            setQueueBucket( Bucket.Transparent ); // allow it to be transparent
+        addChild( new WaterFrontMesh() {{
+            setMaterial( new ColorMaterial( 0.1f, 0.3f, 0.7f, 0.5f ) );
         }} );
     }
 
     /**
      * A mesh that updates to fill in the area of the cross section between the ocean floor and sea level.
      */
-    private class WaterFrontMesh extends Mesh {
+    private class WaterFrontMesh extends GLNode {
+
+        final FloatBuffer positionBuffer;
+        final FloatBuffer normalBuffer;
+        final IntBuffer indexBuffer;
+
         public WaterFrontMesh() {
             final int maxVertexCount = terrain.numXSamples * 2;
-            final FloatBuffer positionBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
-            final FloatBuffer normalBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
-//            final FloatBuffer textureBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 2 );
-            final IntBuffer indexBuffer = BufferUtils.createIntBuffer( maxVertexCount );
+            positionBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
+            normalBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
+            indexBuffer = BufferUtils.createIntBuffer( maxVertexCount );
             // TODO: update front water mesh at each timestep!
 
             for ( int i = 0; i < maxVertexCount; i++ ) {
@@ -120,7 +111,7 @@ public class WaterNode extends Node {
                                 assert xIntercept <= x;
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                Vector3f position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( xIntercept, 0 ) );
+                                ImmutableVector3F position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( xIntercept, 0 ) );
                                 positionBuffer.put( new float[] {
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z } );
@@ -139,7 +130,7 @@ public class WaterNode extends Node {
                                 assert xIntercept <= x;
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                Vector3f position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( xIntercept, 0 ) );
+                                ImmutableVector3F position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( xIntercept, 0 ) );
                                 positionBuffer.put( new float[] {
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z } );
@@ -147,8 +138,8 @@ public class WaterNode extends Node {
                                 indexBuffer.put( vertexQuantity++ );
                             }
 
-                            Vector3f topPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( x, 0 ) );
-                            Vector3f bottomPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( x, y ) );
+                            ImmutableVector3F topPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( x, 0 ) );
+                            ImmutableVector3F bottomPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( x, y ) );
                             positionBuffer.put( new float[] {
                                     topPosition.x, topPosition.y, topPosition.z,
                                     bottomPosition.x, bottomPosition.y, bottomPosition.z
@@ -171,29 +162,28 @@ public class WaterNode extends Node {
             model.modelChanged.addUpdateListener( new UpdateListener() {
                                                       public void update() {
                                                           setPositions.run();
-
-                                                          getBuffer( Type.Position ).updateData( positionBuffer );
-                                                          getBuffer( Type.Index ).updateData( indexBuffer );
-
-                                                          updateBound();
-                                                          updateCounts(); // TODO: if this doesn't work, put before buffer calls
-//                    getBuffer( Type.TexCoord ).updateData( textureBuffer );
                                                       }
                                                   }, false );
-
-            setMode( Mode.TriangleStrip );
-            setBuffer( VertexBuffer.Type.Position, 3, positionBuffer );
-            setBuffer( VertexBuffer.Type.Normal, 3, normalBuffer );
-//            setBuffer( VertexBuffer.Type.TexCoord, 2, textureBuffer );
-            setBuffer( VertexBuffer.Type.Index, 3, indexBuffer );
-            updateBound();
-            updateCounts();
         }
 
-        // TODO: find out why ray-casting fails on this mesh. Seems to be an Index-buffer related issue
-        @Override public int collideWith( Collidable other, Matrix4f worldMatrix, BoundingVolume worldBound, CollisionResults results ) {
-            // don't allow ray-casting with this object, due to a bug. see above TODO
-            return 0;
+        @Override public void renderSelf( GLOptions options ) {
+            super.renderSelf( options );
+
+            // TODO: seeing a lot of this type of code. refactor away if possible
+            // initialize the needed states
+            glEnableClientState( GL_VERTEX_ARRAY );
+            if ( options.shouldSendNormals() ) {
+                glEnableClientState( GL11.GL_NORMAL_ARRAY );
+                glNormalPointer( 3, normalBuffer );
+            }
+            glVertexPointer( 3, 0, positionBuffer );
+
+            // renders in a series of triangle strips. quad strips rejected since we can't guarantee they will be planar
+            glDrawElements( GL_TRIANGLE_STRIP, indexBuffer );
+
+            // disable the changed states
+            glDisableClientState( GL_VERTEX_ARRAY );
+            if ( options.shouldSendNormals() ) { glDisableClientState( GL11.GL_NORMAL_ARRAY ); }
         }
     }
 }

@@ -4,35 +4,23 @@ package edu.colorado.phet.platetectonics;
 
 
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule;
-import edu.colorado.phet.jmephet.JMEModule;
-import edu.colorado.phet.jmephet.JMEPhetApplication;
-import edu.colorado.phet.jmephet.JMEUtils;
-import edu.colorado.phet.jmephet.PhetJMEApplication;
+import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.StartupUtils;
 import edu.colorado.phet.platetectonics.modules.CrustTab;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.view.PlateTectonicsJMEApplication;
 
-import com.jme3.input.FlyByCamera;
-import com.jme3.renderer.Camera;
-
-public class PlateTectonicsApplication extends JMEPhetApplication {
+public class PlateTectonicsApplication extends PhetApplication {
 
     private CrustTab singlePlateTab;
     private PlateMotionTab doublePlateTab;
@@ -60,15 +48,12 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
 
         final Frame parentFrame = getPhetFrame();
 
-        module = new JMEModule( parentFrame, new Function1<Frame, PhetJMEApplication>() {
-            public PhetJMEApplication apply( Frame frame ) {
-                return new PlateTectonicsJMEApplication( parentFrame );
-            }
-        } ) {{
-            addTab( singlePlateTab = new CrustTab( parentFrame ) );
-            addTab( doublePlateTab = new PlateMotionTab( parentFrame ) );
-        }};
-        addModule( module );
+        final LWJGLCanvas canvas = LWJGLCanvas.getCanvasInstance();
+
+        addModule( new TabbedModule( canvas ) {{
+            addTab( new CrustTab( canvas ) );
+            addTab( new PlateMotionTab( canvas ) );
+        }} );
     }
 
     /*
@@ -93,37 +78,7 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
 
         developerMenu.add( new JSeparator() );
 
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
-            addObserver( new SimpleObserver() {
-                             public void update() {
-                                 JMEUtils.getApplication().statistics.setDisplayFps( get() );
-                             }
-                         }, false );
-        }} ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Show Statistics", new Property<Boolean>( false ) {{
-            addObserver( new SimpleObserver() {
-                             public void update() {
-                                 JMEUtils.getApplication().statistics.setDisplayStatView( get() );
-                             }
-                         }, false );
-        }} ) );
-        developerMenu.add( new JMenuItem( "Activate fly-by camera" ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    JMEUtils.invoke( new Runnable() {
-                        public void run() {
-                            PlateTectonicsTab activeModule = (PlateTectonicsTab) module.selectedTab.get();
-                            Camera cam = activeModule.getDebugCamera();
-                            if ( cam != null ) {
-                                FlyByCamera flyCam = new FlyByCamera( cam );
-                                flyCam.setMoveSpeed( 400f );
-                                flyCam.registerWithInput( JMEUtils.getApplication().getInputManager() );
-                            }
-                        }
-                    } );
-                }
-            } );
-        }} );
+        // TODO: developer controls, like fly-by cam, etc.
     }
 
     //----------------------------------------------------------------------------
@@ -131,8 +86,13 @@ public class PlateTectonicsApplication extends JMEPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        JMEUtils.frameRate.set( 10000 ); // unlimited, for testing TODO: remove after dev
-        JMEUtils.initializeJME( args );
+        // TODO: set the frame rate
+        try {
+            StartupUtils.setupLibraries();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
 
         /*
         * If you want to customize your application (look-&-feel, window size, etc)

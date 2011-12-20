@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.util;
 
-import com.jme3.math.FastMath;
-
 /**
  * 3D grid sampling handling for bounds and precomputation of samples
  */
@@ -24,9 +22,9 @@ public class Grid3D {
      */
     public Grid3D( Bounds3D bounds, float approximateSampleSize ) {
         this( bounds,
-              (int) FastMath.ceil( bounds.getWidth() / approximateSampleSize ),
-              (int) FastMath.ceil( bounds.getHeight() / approximateSampleSize ),
-              (int) FastMath.ceil( bounds.getDepth() / approximateSampleSize )
+              (int) Math.ceil( bounds.getWidth() / approximateSampleSize ),
+              (int) Math.ceil( bounds.getHeight() / approximateSampleSize ),
+              (int) Math.ceil( bounds.getDepth() / approximateSampleSize )
         );
     }
 

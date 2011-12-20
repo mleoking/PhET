@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 
 /**
  * Represents a terrain within the pseudospherical coordinate frame. Specifically,
@@ -50,12 +50,12 @@ public class Terrain {
     }
 
     // get the pseudospherical position for a vertex in the grid (before handling the roundness of earth)
-    public Vector3f getSphericalPoint( int xIndex, int zIndex ) {
-        return new Vector3f( xData[xIndex], getElevation( xIndex, zIndex ), zData[zIndex] );
+    public ImmutableVector3F getSphericalPoint( int xIndex, int zIndex ) {
+        return new ImmutableVector3F( xData[xIndex], getElevation( xIndex, zIndex ), zData[zIndex] );
     }
 
     // get the cartesian position for a vertex in the grid (after handling the roundness of the earth)
-    public Vector3f getCartesianPoint( int xIndex, int zIndex ) {
+    public ImmutableVector3F getCartesianPoint( int xIndex, int zIndex ) {
         return PlateModel.convertToRadial( getSphericalPoint( xIndex, zIndex ) );
     }
 
@@ -80,11 +80,11 @@ public class Terrain {
         return true;
     }
 
-    public Vector2f[] getFrontVertices() {
-        Vector2f[] result = new Vector2f[numXSamples];
+    public ImmutableVector2F[] getFrontVertices() {
+        ImmutableVector2F[] result = new ImmutableVector2F[numXSamples];
         int zIndex = getFrontZIndex();
         for ( int xIndex = 0; xIndex < numXSamples; xIndex++ ) {
-            result[xIndex] = new Vector2f( xData[xIndex], getElevation( xIndex, zIndex ) );
+            result[xIndex] = new ImmutableVector2F( xData[xIndex], getElevation( xIndex, zIndex ) );
         }
         return result;
     }

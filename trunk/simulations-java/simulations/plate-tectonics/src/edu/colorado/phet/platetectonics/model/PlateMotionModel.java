@@ -3,10 +3,9 @@ package edu.colorado.phet.platetectonics.model;
 
 import java.util.Random;
 
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.Region.Type;
 import edu.colorado.phet.platetectonics.util.Grid3D;
-
-import com.jme3.math.Vector2f;
 
 public class PlateMotionModel extends PlateModel {
 
@@ -24,10 +23,10 @@ public class PlateMotionModel extends PlateModel {
         updateTerrain();
 
 
-        Vector2f[] leftCrustTop = new Vector2f[terrain.numXSamples];
-        Vector2f[] leftCrustBottom = new Vector2f[terrain.numXSamples];
-        Vector2f[] leftLithosphereBottom = new Vector2f[terrain.numXSamples];
-        Vector2f[] lowerBounds = new Vector2f[terrain.numXSamples];
+        ImmutableVector2F[] leftCrustTop = new ImmutableVector2F[terrain.numXSamples];
+        ImmutableVector2F[] leftCrustBottom = new ImmutableVector2F[terrain.numXSamples];
+        ImmutableVector2F[] leftLithosphereBottom = new ImmutableVector2F[terrain.numXSamples];
+        ImmutableVector2F[] lowerBounds = new ImmutableVector2F[terrain.numXSamples];
 
         rightCrustOffset = 0;
 
@@ -39,13 +38,15 @@ public class PlateMotionModel extends PlateModel {
                 rightCrustOffset = xIndex;
             }
             float topElevation = getLeftCrustTopElevation( x );
-            leftCrustTop[xIndex] = new Vector2f( x, topElevation );
-            leftCrustBottom[xIndex] = new Vector2f( Math.max( x - 2000, minX ), topElevation - 7000 );
-            leftLithosphereBottom[xIndex] = new Vector2f( Math.max( x - 17000, minX ), topElevation - 57000 );
+            leftCrustTop[xIndex] = new ImmutableVector2F( x, topElevation );
+            leftCrustBottom[xIndex] = new ImmutableVector2F( Math.max( x - 2000, minX ), topElevation - 7000 );
+            leftLithosphereBottom[xIndex] = new ImmutableVector2F( Math.max( x - 17000, minX ), topElevation - 57000 );
             if ( x < 0 ) {
-                leftLithosphereBottom[xIndex].setY( leftLithosphereBottom[xIndex].getY() - x / 75 );
+                leftLithosphereBottom[xIndex] = new ImmutableVector2F(
+                        leftLithosphereBottom[xIndex].x, // original x
+                        leftLithosphereBottom[xIndex].getY() - x / 75 ); // offset y
             }
-            lowerBounds[xIndex] = new Vector2f( x, grid.getBounds().getMinY() - 500000 );
+            lowerBounds[xIndex] = new ImmutableVector2F( x, grid.getBounds().getMinY() - 500000 );
         }
 
         // lazy-blur the left lithosphere bottom
@@ -58,11 +59,11 @@ public class PlateMotionModel extends PlateModel {
 
         // left crust region
         addRegion( new SimpleRegion( Type.CRUST, leftCrustTop, leftCrustBottom ) {
-            @Override public float getDensity( Vector2f position ) {
+            @Override public float getDensity( ImmutableVector2F position ) {
                 return 2700; // TODO!
             }
 
-            @Override public float getTemperature( Vector2f position ) {
+            @Override public float getTemperature( ImmutableVector2F position ) {
                 return 0;
             }
 
@@ -72,11 +73,11 @@ public class PlateMotionModel extends PlateModel {
         } );
 
         addRegion( new SimpleRegion( Type.UPPER_MANTLE, leftCrustBottom, leftLithosphereBottom ) {
-            @Override public float getDensity( Vector2f position ) {
+            @Override public float getDensity( ImmutableVector2F position ) {
                 return 3300; // TODO!
             }
 
-            @Override public float getTemperature( Vector2f position ) {
+            @Override public float getTemperature( ImmutableVector2F position ) {
                 return 0;
             }
 
@@ -86,11 +87,11 @@ public class PlateMotionModel extends PlateModel {
         } );
 
         addRegion( new SimpleRegion( Type.UPPER_MANTLE, leftLithosphereBottom, lowerBounds ) {
-            @Override public float getDensity( Vector2f position ) {
+            @Override public float getDensity( ImmutableVector2F position ) {
                 return 3500; // TODO!
             }
 
-            @Override public float getTemperature( Vector2f position ) {
+            @Override public float getTemperature( ImmutableVector2F position ) {
                 return 0;
             }
 
@@ -173,15 +174,15 @@ public class PlateMotionModel extends PlateModel {
         }
     }
 
-    private void boxBlurY( Vector2f[] vertexArray ) {
+    private void boxBlurY( ImmutableVector2F[] vertexArray ) {
         for ( int i = 2; i < vertexArray.length - 2; i++ ) {
-            vertexArray[i].setY( (
-                                         vertexArray[i - 2].getY() +
-                                         vertexArray[i - 1].getY() +
-                                         vertexArray[i].getY() +
-                                         vertexArray[i + 1].getY() +
-                                         vertexArray[i + 2].getY()
-                                 ) / 5 );
+            vertexArray[i].y = (
+                                       vertexArray[i - 2].getY() +
+                                       vertexArray[i - 1].getY() +
+                                       vertexArray[i].getY() +
+                                       vertexArray[i + 1].getY() +
+                                       vertexArray[i + 2].getY()
+                               ) / 5;
         }
     }
 
