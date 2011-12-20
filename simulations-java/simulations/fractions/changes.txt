@@ -1,3 +1,4 @@
+# 0.00.18 (59483) Dec 19, 2011
 Made water tick marks darker
 Enabled "holding down the spinner" to cycle through the numbers at a medium speed
 Changed max denominator back to 8
