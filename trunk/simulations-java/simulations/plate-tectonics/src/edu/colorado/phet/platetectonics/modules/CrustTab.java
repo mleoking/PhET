@@ -233,7 +233,7 @@ public class CrustTab extends PlateTectonicsTab {
                 }},
                                       this,
                                       getCanvasTransform(),
-                                      new Property<ImmutableVector2D>( new ImmutableVector2D( 30, getStageSize().getHeight() * 0.4 ) ),
+                                      new Property<ImmutableVector2D>( new ImmutableVector2D( 30, getStageSize().getHeight() * 0.38 ) ),
                                       mouseEventNotifier ) );
 
         // "continental crust" label
@@ -242,7 +242,7 @@ public class CrustTab extends PlateTectonicsTab {
         }}, this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             // TODO: improve positioning to handle i18n?
             position.set( new ImmutableVector2D( getStageSize().getWidth() - getComponentWidth() - 30,
-                                                 getStageSize().getHeight() * 0.4 ) );
+                                                 getStageSize().getHeight() * 0.38 ) );
         }} );
 
         // earth mesh
