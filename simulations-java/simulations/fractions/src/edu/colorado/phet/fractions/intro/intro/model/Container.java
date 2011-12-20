@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -12,15 +11,15 @@ import java.util.HashSet;
  */
 public class Container {
     public final int numCells;
-    public final ArrayList<Integer> filledCells;
+    public final HashSet<Integer> filledCells;
     public final int numFilledCells;
 
     Container( int numCells, int[] filledCells ) {
-        this( numCells, toList( filledCells ) );
+        this( numCells, toSet( filledCells ) );
     }
 
-    private static ArrayList<Integer> toList( int[] filledCells ) {
-        ArrayList<Integer> list = new ArrayList<Integer>();
+    private static HashSet<Integer> toSet( int[] filledCells ) {
+        HashSet<Integer> list = new HashSet<Integer>();
         for ( int cell : filledCells ) {
             list.add( cell );
         }
@@ -31,14 +30,14 @@ public class Container {
         return filledCells.toString();
     }
 
-    Container( int numCells, ArrayList<Integer> filledCells ) {
+    Container( int numCells, HashSet<Integer> filledCells ) {
         this.numCells = numCells;
         this.filledCells = filledCells;
         this.numFilledCells = filledCells.size();
     }
 
     public static Container full( final int denominator ) {
-        return new Container( denominator, new ArrayList<Integer>() {{
+        return new Container( denominator, new HashSet<Integer>() {{
             for ( int i = 0; i < denominator; i++ ) {
                 add( i );
             }
@@ -47,21 +46,6 @@ public class Container {
 
     public boolean isFull() {
         return new HashSet<Integer>( filledCells ).equals( new HashSet<Integer>( RandomFill.listAll( numCells ) ) );
-    }
-
-    public Container addRandom() {
-        if ( isFull() ) {
-            throw new RuntimeException( "tried to add to full container" );
-        }
-        final HashSet<Integer> empty = new HashSet<Integer>( RandomFill.listAll( numCells ) ) {{
-            removeAll( filledCells );
-        }};
-        final ArrayList<Integer> listOfEmptyCells = new ArrayList<Integer>( empty );
-        ArrayList<Integer> newFilledCells = new ArrayList<Integer>( filledCells ) {{
-            final int randomIndex = RandomFill.random.nextInt( empty.size() );
-            add( listOfEmptyCells.get( randomIndex ) );
-        }};
-        return new Container( numCells, newFilledCells );
     }
 
     public Boolean isEmpty() {
@@ -75,10 +59,10 @@ public class Container {
     //Return a copy but with the specified cell toggled
     public Container toggle( final int cell ) {
         if ( !filledCells.contains( cell ) ) {
-            return new Container( numCells, new ArrayList<Integer>( filledCells ) {{add( cell );}} );
+            return new Container( numCells, new HashSet<Integer>( filledCells ) {{add( cell );}} );
         }
         else {
-            return new Container( numCells, new ArrayList<Integer>( filledCells ) {{remove( cell );}} );
+            return new Container( numCells, new HashSet<Integer>( filledCells ) {{remove( cell );}} );
         }
     }
 }

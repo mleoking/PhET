@@ -64,6 +64,29 @@ public class RandomFill {
         return null;
     }
 
+
+//    public ContainerState nextRandomState( ContainerState cs ) {
+//        ArrayList<Container> newContainers = new ArrayList<Container>();
+//        boolean incrementedCount = false;
+//        for ( Container container : cs.containers ) {
+//            if ( container.isFull() ) {
+//                newContainers.add( container );
+//            }
+//            else {
+//
+//                //Assumes things fill to the right and not randomly
+//                newContainers.add( container.addRandom() );
+//                incrementedCount = true;
+//            }
+//        }
+//
+//        //Didn't add one yet, so add a new container now
+//        if ( !incrementedCount ) {
+//            newContainers.add( new Container( denominator, new int[] { RandomFill.random.nextInt( denominator ) } ) );
+//        }
+//        return new ContainerState( denominator, newContainers );
+//    }
+
     public static final Random random = new Random();
 
     private Integer removeRandom( ArrayList<Integer> toChooseFrom ) {
@@ -83,15 +106,31 @@ public class RandomFill {
         }};
     }
 
-    public void incrementNumerator() {
-        numerator = numerator + 1;
-        if ( getCurrentState() == null ) {
-            history.add( createRandomState() );
-        }
-        else {
-            history.add( getCurrentState().nextRandomState() );
-        }
-    }
+//    public void incrementNumerator() {
+//        numerator = numerator + 1;
+//        if ( getCurrentState() == null ) {
+//            history.add( createRandomState() );
+//        }
+//        else {
+//            history.add( nextRandomState( getCurrentState() ) );
+//        }
+//    }
+
+//    public Container addRandom() {
+//        if ( isFull() ) {
+//            throw new RuntimeException( "tried to add to full container" );
+//        }
+//        final HashSet<Integer> empty = new HashSet<Integer>( RandomFill.listAll( numCells ) ) {{
+//            removeAll( filledCells );
+//        }};
+//        final ArrayList<Integer> listOfEmptyCells = new ArrayList<Integer>( empty );
+//        HashSet<Integer> newFilledCells = new HashSet<Integer>( filledCells ) {{
+//            final int randomIndex = RandomFill.random.nextInt( empty.size() );
+//            add( listOfEmptyCells.get( randomIndex ) );
+//        }};
+//        return new Container( numCells, newFilledCells );
+//    }
+
 
     public void decrementNumerator() {
         numerator = numerator - 1;
@@ -110,15 +149,15 @@ public class RandomFill {
         }
     }
 
-    public static void main( String[] args ) {
-        RandomFill randomFill = new RandomFill();
-        randomFill.incrementDenominator();
-        System.out.println( randomFill.toString() );
-        randomFill.incrementNumerator();
-        System.out.println( randomFill.toString() );
-        randomFill.incrementNumerator();
-        System.out.println( randomFill.toString() );
-        randomFill.decrementNumerator();
-        System.out.println( randomFill.toString() );
-    }
+//    public static void main( String[] args ) {
+//        RandomFill randomFill = new RandomFill();
+//        randomFill.incrementDenominator();
+//        System.out.println( randomFill.toString() );
+//        randomFill.incrementNumerator();
+//        System.out.println( randomFill.toString() );
+//        randomFill.incrementNumerator();
+//        System.out.println( randomFill.toString() );
+//        randomFill.decrementNumerator();
+//        System.out.println( randomFill.toString() );
+//    }
 }
