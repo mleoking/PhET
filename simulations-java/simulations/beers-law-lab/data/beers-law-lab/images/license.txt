@@ -1,1 +1,2 @@
+dropper.png author=PhET notes=retrieved by Sam Reid from changeset [54402]
 shaker.png author=PhET notes=copied salt_micro.png from sugar-and-salt-solutions
