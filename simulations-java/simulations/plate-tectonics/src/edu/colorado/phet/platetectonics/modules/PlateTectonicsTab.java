@@ -15,6 +15,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -26,6 +27,7 @@ import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPerSecondLimit;
@@ -47,8 +49,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     private Dimension stageSize;
 
     public final VoidNotifier mouseEventNotifier = new VoidNotifier();
+    public final VoidNotifier keyboardEventNotifier = new VoidNotifier();
     public final VoidNotifier beforeFrameRender = new VoidNotifier();
 
+    private LWJGLTransform debugCameraTransform = new LWJGLTransform();
     protected CanvasTransform canvasTransform;
     private LWJGLModelViewTransform modelViewTransform;
     private long lastSeenTime;
@@ -77,6 +81,43 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         // show both sides
         glPolygonMode( GL_FRONT, GL_FILL );
         glPolygonMode( GL_BACK, GL_FILL );
+
+        /*---------------------------------------------------------------------------*
+        * debug camera controls
+        *----------------------------------------------------------------------------*/
+        mouseEventNotifier.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        if ( Keyboard.isKeyDown( Keyboard.KEY_Q ) ) {
+                            int dx = Mouse.getEventDX();
+                            if ( Mouse.isButtonDown( 0 ) ) {
+                                int dy = Mouse.getEventDY();
+                                debugCameraTransform.prepend( ImmutableMatrix4F.rotateY( (float) dx / 100 ) );
+                                debugCameraTransform.prepend( ImmutableMatrix4F.rotateX( (float) -dy / 100 ) );
+                            }
+                            else if ( Mouse.isButtonDown( 1 ) ) {
+                                debugCameraTransform.prepend( ImmutableMatrix4F.rotateZ( (float) dx / 100 ) );
+                            }
+                        }
+                    }
+                }, false );
+        beforeFrameRender.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        if ( Keyboard.isKeyDown( Keyboard.KEY_W ) ) {
+                            debugCameraTransform.prepend( ImmutableMatrix4F.translation( 0, 0, 1 ) );
+                        }
+                        if ( Keyboard.isKeyDown( Keyboard.KEY_S ) ) {
+                            debugCameraTransform.prepend( ImmutableMatrix4F.translation( 0, 0, -1 ) );
+                        }
+                        if ( Keyboard.isKeyDown( Keyboard.KEY_A ) ) {
+                            debugCameraTransform.prepend( ImmutableMatrix4F.translation( 1, 0, 0 ) );
+                        }
+                        if ( Keyboard.isKeyDown( Keyboard.KEY_D ) ) {
+                            debugCameraTransform.prepend( ImmutableMatrix4F.translation( -1, 0, 0 ) );
+                        }
+                    }
+                }, false );
 
         // TODO: add in lighting for consistency
     }
@@ -113,6 +154,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         // walk through all of the mouse events that occurred
         while ( Mouse.next() ) {
             mouseEventNotifier.updateListeners();
+        }
+        while ( Keyboard.next() ) {
+            keyboardEventNotifier.updateListeners();
         }
 
         // TODO: improve area where the model is updated. Should happen after mouse events (here)
@@ -155,6 +199,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         gluPerspective( 40, (float) canvasSize.get().width / (float) canvasSize.get().height, 1, 5000 );
         glMatrixMode( GL_MODELVIEW );
         glLoadIdentity();
+        debugCameraTransform.apply();
         glRotatef( 13, 1, 0, 0 );
         glTranslatef( 0, -80, -400 );
     }
@@ -178,7 +223,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             }} );
         }};
         return new OrthoComponentNode( fpsPanel, this, canvasTransform,
-                                       new Property<ImmutableVector2D>( new ImmutableVector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth(), stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier ){{
+                                       new Property<ImmutableVector2D>( new ImmutableVector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth(), stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier ) {{
             updateOnEvent( beforeFrameRender );
         }};
     }
