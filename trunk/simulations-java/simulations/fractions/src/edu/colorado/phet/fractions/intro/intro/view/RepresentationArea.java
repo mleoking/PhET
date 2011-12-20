@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.intro.intro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -10,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class RepresentationArea extends PNode {
-    public RepresentationArea( Property<ChosenRepresentation> chosenRepresentation, Property<Integer> numerator, Property<Integer> denominator ) {
+    public RepresentationArea( Property<ChosenRepresentation> chosenRepresentation, Property<Integer> numerator, Property<Integer> denominator, Property<ContainerState> containerState ) {
 
         //Y offset values sampled with this inner class listener:
 //        addInputEventListener( new PBasicInputEventHandler() {
