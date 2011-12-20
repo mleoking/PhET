@@ -129,7 +129,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         gluPerspective( 40, (float) canvasSize.get().width / (float) canvasSize.get().height, 1, 5000 );
         glMatrixMode( GL_MODELVIEW );
         glLoadIdentity();
-//        glRotatef( 90, 0, 1, 0 );
-        glTranslatef( 0, -20, -500 );
+        glRotatef( 13, 1, 0, 0 );
+        glTranslatef( 0, -80, -400 );
     }
 }
