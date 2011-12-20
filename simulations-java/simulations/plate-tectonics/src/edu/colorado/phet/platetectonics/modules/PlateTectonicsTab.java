@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.modules;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
+import java.nio.FloatBuffer;
 import java.util.LinkedList;
 
 import javax.swing.JLabel;
@@ -28,6 +29,7 @@ import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPerSecondLimit;
@@ -66,6 +68,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public final Property<Double> framesPerSecond = new Property<Double>( 0.0 );
     private final LinkedList<Long> timeQueue = new LinkedList<Long>();
 
+    private boolean initialized = false;
+
     public PlateTectonicsTab( LWJGLCanvas canvas, String title, float kilometerScale ) {
         super( canvas, title );
 
@@ -73,9 +77,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         modelViewTransform = new LWJGLModelViewTransform( ImmutableMatrix4F.scaling( kilometerScale / 1000 ) );
     }
 
-    @Override public void start() {
-        lastSeenTime = System.currentTimeMillis();
-
+    public void initialize() {
         stageSize = initialCanvasSize;
         canvasTransform = new StageCenteringCanvasTransform( canvasSize, stageSize );
 
@@ -127,8 +129,15 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                         }
                     }
                 }, false );
+    }
 
-        // TODO: add in lighting for consistency
+    @Override public void start() {
+        if ( !initialized ) {
+            initialize();
+            initialized = true;
+        }
+
+        lastSeenTime = System.currentTimeMillis();
     }
 
     @Override public void loop() {
@@ -219,6 +228,33 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         debugCameraTransform.apply();
         glRotatef( 13, 1, 0, 0 );
         glTranslatef( 0, -80, -400 );
+    }
+
+    private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[] { 0, 0, 0, 0 } );
+    private FloatBuffer shininess = LWJGLUtils.floatBuffer( new float[] { 50 } );
+    private FloatBuffer sunDirection = LWJGLUtils.floatBuffer( new float[] { 1, 3, -2, 0 } );
+    private FloatBuffer moonDirection = LWJGLUtils.floatBuffer( new float[] { -2, 1, -1, 0 } );
+
+    public void loadLighting() {
+        /*
+        final DirectionalLight sun = new DirectionalLight();
+        sun.setDirection( new Vector3f( 1, 3f, -2 ).normalizeLocal() );
+        sun.setColor( new ColorRGBA( 1, 1, 1, 1.3f ) );
+        node.addLight( sun );
+
+        final DirectionalLight moon = new DirectionalLight();
+        moon.setDirection( new Vector3f( -2, 1, -1 ).normalizeLocal() );
+        moon.setColor( new ColorRGBA( 1, 1, 1, 0.5f ) );
+        node.addLight( moon );
+         */
+
+        glMaterial( GL_FRONT, GL_SPECULAR, specular );
+//            glMaterial( GL_FRONT, GL_SHININESS, shininess );
+        glLight( GL_LIGHT0, GL_POSITION, sunDirection );
+        glLight( GL_LIGHT1, GL_POSITION, moonDirection );
+//        glEnable( GL_LIGHTING );
+        glEnable( GL_LIGHT0 );
+        glEnable( GL_LIGHT1 );
     }
 
     public OrthoComponentNode createFPSReadout( final Color color ) {
