@@ -15,7 +15,7 @@ public class PieNode extends RepresentationNode {
     public PieNode( ModelViewTransform transform, final Fraction fraction, Property<ContainerState> containerState ) {
         super( transform, fraction );
 
-        PieSetFractionNode pieSetFractionNode = new PieSetFractionNode( new Property<Integer>( fraction.numerator ), new Property<Integer>( fraction.denominator ), new Property<Boolean>( true ) );
+        PieSetFractionNode pieSetFractionNode = new PieSetFractionNode( containerState, new Property<Boolean>( true ) );
         addChild( new ZeroOffsetNode( pieSetFractionNode ) );
 
         scale( 0.5 );
