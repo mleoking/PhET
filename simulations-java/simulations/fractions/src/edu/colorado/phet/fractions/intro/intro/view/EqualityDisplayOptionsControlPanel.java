@@ -7,6 +7,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.fractions.intro.intro.view.Visualization.*;
+
 /**
  * Shows options for whether or not to show the improper or mixed fraction equivalent to the main fraction.
  *
@@ -14,9 +17,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class EqualityDisplayOptionsControlPanel extends ControlPanelNode {
     public EqualityDisplayOptionsControlPanel( SettableProperty<Visualization> visualization ) {
-        super( new VBox( new PSwing( new PropertyRadioButton<Visualization>( "None", visualization, Visualization.NONE ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ),
-                         new PSwing( new PropertyRadioButton<Visualization>( "Reduced", visualization, Visualization.FRACTION ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ),
-                         new PSwing( new PropertyRadioButton<Visualization>( "Mixed", visualization, Visualization.MIXED ) {{setFont( FractionsIntroCanvas.CONTROL_FONT );}} ) ) );
+        super( new VBox( new PSwing( new PropertyRadioButton<Visualization>( "None", visualization, NONE ) {{setFont( CONTROL_FONT );}} ),
+                         new PSwing( new PropertyRadioButton<Visualization>( "Reduced", visualization, FRACTION ) {{setFont( CONTROL_FONT );}} ),
+                         new PSwing( new PropertyRadioButton<Visualization>( "Mixed", visualization, MIXED ) {{setFont( CONTROL_FONT );}} ) ) );
     }
-
 }

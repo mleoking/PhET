@@ -68,10 +68,16 @@ public class ContainerState {
         }
     }
 
-    private ContainerState toggle( final CellPointer cell ) {
+    private ContainerState toggle( final CellPointer pointer ) {
         return new ContainerState( numerator, denominator, FunctionalUtils.map( containers, new Function1<Container, Container>() {
             public Container apply( Container container ) {
-                return cell.container.equals( container ) ? container.toggle( cell.cell ) : container;
+                int containerIndex = containers.indexOf( container );
+                if ( pointer.container == containerIndex ) {
+                    return container.toggle( pointer.cell );
+                }
+                else {
+                    return container;
+                }
             }
         } ) );
     }
@@ -87,9 +93,8 @@ public class ContainerState {
     public ArrayList<CellPointer> getAllCellPointers() {
         return new ArrayList<CellPointer>() {{
             for ( int i = 0; i < size; i++ ) {
-                Container c = containers.get( i );
-                for ( int k = 0; k < c.numCells; k++ ) {
-                    add( new CellPointer( c, k ) );
+                for ( int k = 0; k < containers.get( i ).numCells; k++ ) {
+                    add( new CellPointer( i, k ) );
                 }
             }
         }};
@@ -104,6 +109,6 @@ public class ContainerState {
     }
 
     private Boolean isEmpty( CellPointer cellPointer ) {
-        return cellPointer.container.isEmpty( cellPointer.cell );
+        return containers.get( cellPointer.container ).isEmpty( cellPointer.cell );
     }
 }

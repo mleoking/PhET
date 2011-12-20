@@ -66,26 +66,6 @@ public class Container {
         return filledCells.contains( cell );
     }
 
-    @Override
-    public boolean equals( Object o ) {
-        if ( this == o ) { return true; }
-        if ( o == null || getClass() != o.getClass() ) { return false; }
-
-        Container container = (Container) o;
-
-        if ( numCells != container.numCells ) { return false; }
-        if ( !filledCells.equals( container.filledCells ) ) { return false; }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = numCells;
-        result = 31 * result + filledCells.hashCode();
-        return result;
-    }
-
     //Return a copy but with the specified cell toggled
     public Container toggle( int cell ) {
         return null;
