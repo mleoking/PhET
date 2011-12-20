@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule.Tab;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public abstract class LWJGLTab implements Tab {
     private final String title;
     public final Property<Boolean> active = new Property<Boolean>( false );
@@ -85,5 +87,13 @@ public abstract class LWJGLTab implements Tab {
 
     public int getCanvasHeight() {
         return canvasSize.get().height;
+    }
+
+    public void setupGuiTransformations() {
+        glMatrixMode( GL_PROJECTION );
+        glLoadIdentity();
+        glOrtho( 0, getCanvasWidth(), getCanvasHeight(), 0, 1, -1 );
+        glMatrixMode( GL_MODELVIEW );
+        glLoadIdentity();
     }
 }

@@ -29,7 +29,7 @@ public class ComponentImage extends TextureImage {
     private final JComponent component;
 
     // owned by the EDT
-    private boolean dirty = true;
+    private volatile boolean dirty = true;
 
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
@@ -97,6 +97,10 @@ public class ComponentImage extends TextureImage {
                 }
             }
         } );
+    }
+
+    public void repaint() {
+        dirty = true;
     }
 
     @Override public void paint( Graphics2D g ) {

@@ -9,12 +9,11 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.Region.Type;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
-
-import com.jme3.math.Vector2f;
 
 /**
  * Displays a simplified block model of crusts resting on the mantle. Their elevation is dependent on
@@ -102,62 +101,62 @@ public class CrustModel extends PlateModel {
         * regions
         *----------------------------------------------------------------------------*/
 
-        Function1<Vector2f, Vector2f> lowerBoundaryFunct = new Function1<Vector2f, Vector2f>() {
-            public Vector2f apply( Vector2f vector ) {
-                return new Vector2f( vector.x, bounds.getMinY() );
+        Function1<ImmutableVector2F, ImmutableVector2F> lowerBoundaryFunct = new Function1<ImmutableVector2F, ImmutableVector2F>() {
+            public ImmutableVector2F apply( ImmutableVector2F vector ) {
+                return new ImmutableVector2F( vector.x, bounds.getMinY() );
             }
         };
 
-        Vector2f[] oceanTop = oceanicTerrain.getFrontVertices();
-        Vector2f[] oceanCrustBottom = map( oceanTop, new Function1<Vector2f, Vector2f>() {
-                                               public Vector2f apply( Vector2f vector ) {
-                                                   return new Vector2f( vector.x, (float) ( vector.y - LEFT_OCEANIC_THICKNESS ) );
-                                               }
-                                           }, new Vector2f[oceanTop.length] );
-        Vector2f[] oceanSideMinY = map( oceanTop, lowerBoundaryFunct, new Vector2f[oceanTop.length] );
+        ImmutableVector2F[] oceanTop = oceanicTerrain.getFrontVertices();
+        ImmutableVector2F[] oceanCrustBottom = map( oceanTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
+                                                        public ImmutableVector2F apply( ImmutableVector2F vector ) {
+                                                            return new ImmutableVector2F( vector.x, (float) ( vector.y - LEFT_OCEANIC_THICKNESS ) );
+                                                        }
+                                                    }, new ImmutableVector2F[oceanTop.length] );
+        ImmutableVector2F[] oceanSideMinY = map( oceanTop, lowerBoundaryFunct, new ImmutableVector2F[oceanTop.length] );
 
-        Vector2f[] continentTop = continentalTerrain.getFrontVertices();
-        Vector2f[] continentCrustBottom = map( continentTop, new Function1<Vector2f, Vector2f>() {
-                                                   public Vector2f apply( Vector2f vector ) {
-                                                       return new Vector2f( vector.x, (float) ( vector.y - RIGHT_CONTINENTAL_THICKNESS ) );
-                                                   }
-                                               }, new Vector2f[continentTop.length] );
-        Vector2f[] continentSideMinY = map( continentTop, lowerBoundaryFunct, new Vector2f[continentTop.length] );
+        ImmutableVector2F[] continentTop = continentalTerrain.getFrontVertices();
+        ImmutableVector2F[] continentCrustBottom = map( continentTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
+                                                            public ImmutableVector2F apply( ImmutableVector2F vector ) {
+                                                                return new ImmutableVector2F( vector.x, (float) ( vector.y - RIGHT_CONTINENTAL_THICKNESS ) );
+                                                            }
+                                                        }, new ImmutableVector2F[continentTop.length] );
+        ImmutableVector2F[] continentSideMinY = map( continentTop, lowerBoundaryFunct, new ImmutableVector2F[continentTop.length] );
 
-        final Vector2f[] middleTop = middleTerrain.getFrontVertices();
-        final Vector2f[] middleCrustBottom = new Vector2f[middleTop.length];
-        final Vector2f[] middleSideMinY = map( middleTop, lowerBoundaryFunct, new Vector2f[middleTop.length] );
+        final ImmutableVector2F[] middleTop = middleTerrain.getFrontVertices();
+        final ImmutableVector2F[] middleCrustBottom = new ImmutableVector2F[middleTop.length];
+        final ImmutableVector2F[] middleSideMinY = map( middleTop, lowerBoundaryFunct, new ImmutableVector2F[middleTop.length] );
 
         updateMiddleRegions = new Runnable() {
             public void run() {
                 System.arraycopy( middleTerrain.getFrontVertices(), 0, middleTop, 0, middleTop.length );
                 for ( int i = 0; i < middleTop.length; i++ ) {
-                    middleCrustBottom[i] = new Vector2f( middleTop[i].getX(), (float) ( middleTop[i].getY() - thickness.get() ) );
+                    middleCrustBottom[i] = new ImmutableVector2F( middleTop[i].getX(), (float) ( middleTop[i].getY() - thickness.get() ) );
                 }
             }
         };
         updateMiddleRegions.run();
 
-        Vector2f[] mantleTop = new Vector2f[oceanSideMinY.length + middleSideMinY.length + continentSideMinY.length - 2];
+        ImmutableVector2F[] mantleTop = new ImmutableVector2F[oceanSideMinY.length + middleSideMinY.length + continentSideMinY.length - 2];
         System.arraycopy( oceanSideMinY, 0, mantleTop, 0, oceanSideMinY.length );
         System.arraycopy( middleSideMinY, 0, mantleTop, oceanSideMinY.length - 1, middleSideMinY.length );
         System.arraycopy( continentSideMinY, 0, mantleTop, oceanSideMinY.length + middleSideMinY.length - 2, continentSideMinY.length );
-        Vector2f[] mantleMiddle = map( mantleTop, new Function1<Vector2f, Vector2f>() {
-                                           public Vector2f apply( Vector2f vector2f ) {
-                                               return new Vector2f( vector2f.x, -750000 ); // to 750km depth
-                                           }
-                                       }, new Vector2f[mantleTop.length] );
-        Vector2f[] mantleBottom = map( mantleTop, new Function1<Vector2f, Vector2f>() {
-                                           public Vector2f apply( Vector2f vector2f ) {
-                                               return new Vector2f( vector2f.x, -2921000 ); // to 2921km depth
-                                           }
-                                       }, new Vector2f[mantleTop.length] );
-        Vector2f[] innerOuterCoreBoundary = map( mantleTop, new Function1<Vector2f, Vector2f>() {
-                                                     public Vector2f apply( Vector2f vector2f ) {
-                                                         return new Vector2f( vector2f.x, -5180000 ); // to 5180km depth
-                                                     }
-                                                 }, new Vector2f[mantleTop.length] );
-        Vector2f[] centerOfTheEarth = new Vector2f[] { new Vector2f( 0, -PlateModel.EARTH_RADIUS ) };
+        ImmutableVector2F[] mantleMiddle = map( mantleTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
+                                                    public ImmutableVector2F apply( ImmutableVector2F vector2f ) {
+                                                        return new ImmutableVector2F( vector2f.x, -750000 ); // to 750km depth
+                                                    }
+                                                }, new ImmutableVector2F[mantleTop.length] );
+        ImmutableVector2F[] mantleBottom = map( mantleTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
+                                                    public ImmutableVector2F apply( ImmutableVector2F vector2f ) {
+                                                        return new ImmutableVector2F( vector2f.x, -2921000 ); // to 2921km depth
+                                                    }
+                                                }, new ImmutableVector2F[mantleTop.length] );
+        ImmutableVector2F[] innerOuterCoreBoundary = map( mantleTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
+                                                              public ImmutableVector2F apply( ImmutableVector2F vector2f ) {
+                                                                  return new ImmutableVector2F( vector2f.x, -5180000 ); // to 5180km depth
+                                                              }
+                                                          }, new ImmutableVector2F[mantleTop.length] );
+        ImmutableVector2F[] centerOfTheEarth = new ImmutableVector2F[] { new ImmutableVector2F( 0, -PlateModel.EARTH_RADIUS ) };
 
         addRegion( new SimpleConstantRegion( Type.CRUST,
                                              oceanTop,

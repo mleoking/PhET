@@ -3,24 +3,21 @@ package edu.colorado.phet.platetectonics.view;
 
 import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
+
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
-
-import com.jme3.material.Material;
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.VertexBuffer;
-import com.jme3.scene.VertexBuffer.Type;
-import com.jme3.texture.Texture;
-import com.jme3.texture.Texture.WrapMode;
-import com.jme3.util.BufferUtils;
+import edu.colorado.phet.platetectonics.util.ColorMaterial;
+import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
 /**
  * Displays the top terrain of a plate model, within the bounds of the specified grid
  */
-public class TerrainNode extends Geometry {
+public class TerrainNode extends GridMesh {
     private final PlateTectonicsTab module;
 //    private TerrainNode.TerrainTextureImage image;
 
@@ -31,69 +28,70 @@ public class TerrainNode extends Geometry {
     private FloatBuffer texture2;
 
     public TerrainNode( final Terrain terrain, PlateModel model, final PlateTectonicsTab module ) {
+        super( terrain.numZSamples, terrain.numXSamples, computePositions( terrain, module.getModelViewTransform() ) );
         this.module = module;
 
-        Vector3f[] positions = computePositions( terrain );
         texture2 = BufferUtils.createFloatBuffer( terrain.numXSamples * terrain.numZSamples * 2 );
 
         // use the gridded mesh to handle the terrain
         final GridMesh gridMesh = new GridMesh( terrain.numZSamples, terrain.numXSamples, positions );
-        updateSphericalCoordinates( gridMesh, terrain );
-        updateHeightmap( terrain, gridMesh );
-        setMesh( gridMesh );
+//        updateSphericalCoordinates( gridMesh, terrain );
+//        updateHeightmap( terrain, gridMesh );
+
+        // TODO: add in terrain texture
+        setMaterial( new ColorMaterial( 1, 0.7f, 0.5f, 1 ) );
 
         // use a terrain-style texture. this allows us to blend between three different textures
-        setMaterial( new Material( module.getAssetManager(), "plate-tectonics/materials/Surface.j3md" ) {{
-            setFloat( "TextureScale", 1 / 5000f );
-
-            /** 1.2) Add GRASS texture into the red layer (Tex1). */
-            Texture grass = module.getAssetManager().loadTexture( GRASS );
-            grass.setWrap( WrapMode.Repeat );
-            setTexture( "Tex1", grass );
-
-            /** 1.3) Add DIRT texture into the green layer (Tex2) */
-            Texture dirt = module.getAssetManager().loadTexture( DIRT );
-            dirt.setWrap( WrapMode.Repeat );
-            setTexture( "Tex2", dirt );
-
-            /** 1.4) Add ROAD texture into the blue layer (Tex3) */
-            Texture rock = module.getAssetManager().loadTexture( ROAD );
-            rock.setWrap( WrapMode.Repeat );
-            setTexture( "Tex3", rock );
-
-//            setBoolean( "useTriPlanarMapping", true );
-//            getAdditionalRenderState().setFaceCullMode( FaceCullMode.Off );
-        }} );
+//        setMaterial( new Material( module.getAssetManager(), "plate-tectonics/materials/Surface.j3md" ) {{
+//            setFloat( "TextureScale", 1 / 5000f );
+//
+//            /** 1.2) Add GRASS texture into the red layer (Tex1). */
+//            Texture grass = module.getAssetManager().loadTexture( GRASS );
+//            grass.setWrap( WrapMode.Repeat );
+//            setTexture( "Tex1", grass );
+//
+//            /** 1.3) Add DIRT texture into the green layer (Tex2) */
+//            Texture dirt = module.getAssetManager().loadTexture( DIRT );
+//            dirt.setWrap( WrapMode.Repeat );
+//            setTexture( "Tex2", dirt );
+//
+//            /** 1.4) Add ROAD texture into the blue layer (Tex3) */
+//            Texture rock = module.getAssetManager().loadTexture( ROAD );
+//            rock.setWrap( WrapMode.Repeat );
+//            setTexture( "Tex3", rock );
+//
+////            setBoolean( "useTriPlanarMapping", true );
+////            getAdditionalRenderState().setFaceCullMode( FaceCullMode.Off );
+//        }} );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
                                                   public void update() {
-                                                      gridMesh.updateGeometry( computePositions( terrain ) );
-                                                      updateSphericalCoordinates( gridMesh, terrain );
-                                                      updateHeightmap( terrain, gridMesh );
+                                                      gridMesh.updateGeometry( computePositions( terrain, module.getModelViewTransform() ) );
+//                                                      updateSphericalCoordinates( gridMesh, terrain );
+//                                                      updateHeightmap( terrain, gridMesh );
                                                   }
                                               }, false );
     }
 
     // put our (constant) x and z values into the TexCoord mesh buffer. this is only needed on startup
-    private void updateSphericalCoordinates( GridMesh gridMesh, Terrain terrain ) {
-        int vertexCount = terrain.numXSamples * terrain.numZSamples;
-        FloatBuffer texture1 = BufferUtils.createFloatBuffer( vertexCount * 2 );
+    // TODO: use this for shading the texture
+//    private void updateSphericalCoordinates( GridMesh gridMesh, Terrain terrain ) {
+//        int vertexCount = terrain.numXSamples * terrain.numZSamples;
+//        textureBuffer.rewind();
+//
+//        for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
+//            float z = terrain.zData[zIndex];
+//            for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
+//                float x = terrain.xData[xIndex];
+//                textureBuffer.put( new float[] { x, z } ); // store x and z coordinates in the main texture
+//            }
+//        }
+//    }
 
-        for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
-            float z = terrain.zData[zIndex];
-            for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
-                float x = terrain.xData[xIndex];
-                texture1.put( new float[] { x, z } ); // store x and z coordinates in the main texture
-            }
-        }
-
-        gridMesh.getBuffer( Type.TexCoord ).updateData( texture1 );
-    }
-
-    private Vector3f[] computePositions( Terrain terrain ) {
-        Vector3f[] positions = new Vector3f[terrain.numXSamples * terrain.numZSamples];
-        Vector3f[] xRadials = new Vector3f[terrain.numXSamples];
-        Vector3f[] zRadials = new Vector3f[terrain.numZSamples];
+    private static ImmutableVector3F[] computePositions( Terrain terrain, LWJGLModelViewTransform modelViewTransform ) {
+        ImmutableVector3F[] positions = new ImmutableVector3F[terrain.numXSamples * terrain.numZSamples];
+        ImmutableVector3F[] xRadials = new ImmutableVector3F[terrain.numXSamples];
+        ImmutableVector3F[] zRadials = new ImmutableVector3F[terrain.numZSamples];
 
         for ( int i = 0; i < terrain.numXSamples; i++ ) {
             xRadials[i] = PlateModel.getXRadialVector( terrain.xData[i] );
@@ -103,11 +101,11 @@ public class TerrainNode extends Geometry {
         }
 
         for ( int zIndex = terrain.numZSamples - 1; zIndex >= 0; zIndex-- ) {
-            Vector3f zRadial = zRadials[zIndex];
+            ImmutableVector3F zRadial = zRadials[zIndex];
             for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
                 float elevation = terrain.getElevation( xIndex, zIndex );
-                Vector3f cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
-                Vector3f viewVector = module.getModelViewTransform().modelToView( cartesianModelVector );
+                ImmutableVector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
+                ImmutableVector3F viewVector = modelViewTransform.modelToView( cartesianModelVector );
                 positions[zIndex * terrain.numXSamples + xIndex] = viewVector;
             }
         }
@@ -115,22 +113,23 @@ public class TerrainNode extends Geometry {
     }
 
     // put our elevation information into the x coordinate of the TexCoord2 mesh buffer
-    private void updateHeightmap( Terrain terrain, GridMesh gridMesh ) {
-        // also update the texture height-map whenever this is done
-        texture2.clear();
-        for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
-            for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
-                texture2.put( new float[] { terrain.getElevation( xIndex, zIndex ), 0 } ); // store elevation in the other texture
-            }
-        }
-
-        // update (or set) the buffer
-        VertexBuffer buffer = gridMesh.getBuffer( Type.TexCoord2 );
-        if ( buffer == null ) {
-            gridMesh.setBuffer( VertexBuffer.Type.TexCoord2, 2, texture2 );
-        }
-        else {
-            buffer.updateData( texture2 );
-        }
-    }
+    // TODO: use this for shading the texture
+//    private void updateHeightmap( Terrain terrain, GridMesh gridMesh ) {
+//        // also update the texture height-map whenever this is done
+//        texture2.clear();
+//        for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
+//            for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
+//                texture2.put( new float[] { terrain.getElevation( xIndex, zIndex ), 0 } ); // store elevation in the other texture
+//            }
+//        }
+//
+//        // update (or set) the buffer
+//        VertexBuffer buffer = gridMesh.getBuffer( Type.TexCoord2 );
+//        if ( buffer == null ) {
+//            gridMesh.setBuffer( VertexBuffer.Type.TexCoord2, 2, texture2 );
+//        }
+//        else {
+//            buffer.updateData( texture2 );
+//        }
+//    }
 }

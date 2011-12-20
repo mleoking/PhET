@@ -18,8 +18,9 @@ import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
  * @author Sam Reid
  */
 public class ImmutableVector2F implements Serializable {
-    private float x;
-    private float y;
+    // treated as immutable, but public for performance needs and convenience with getters
+    public float x;
+    public float y;
 
     //Immutable instance for zero so it doesn't need to be duplicated/re-instantiated in multiple places
     public static final ImmutableVector2F ZERO = new ImmutableVector2F();

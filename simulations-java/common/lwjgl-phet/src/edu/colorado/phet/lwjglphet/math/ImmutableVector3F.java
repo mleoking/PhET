@@ -9,9 +9,10 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
  * @author Jonathan Olson
  */
 public class ImmutableVector3F {
-    private float x;
-    private float y;
-    private float z;
+    // treat these as immutable, however in certain circumstances performance may dictate otherwise
+    public float x;
+    public float y;
+    public float z;
 
     // public instances so we don't need to duplicate these
     public static final ImmutableVector3F ZERO = new ImmutableVector3F();

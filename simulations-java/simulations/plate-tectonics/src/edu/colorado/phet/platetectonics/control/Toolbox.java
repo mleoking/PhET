@@ -1,11 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.jmephet.JMEUtils;
-import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
+import edu.colorado.phet.lwjglphet.OrthoPiccoloNode;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.control.RulerNode3D.RulerNode2D;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
@@ -17,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * Displays a toolbox that contains meters (ruler, thermometer, density meter, composition meter), and display options
  */
-public class Toolbox extends PiccoloJMENode {
+public class Toolbox extends OrthoPiccoloNode {
     private static final double INSET = 5;
 
     public Toolbox( PlateTectonicsTab tab, final ToolboxState toolboxState ) {
@@ -25,7 +27,7 @@ public class Toolbox extends PiccoloJMENode {
             final float kmToViewUnit = 0.75f;
             final ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( kmToViewUnit ) {{
                 // make the ruler visible when it is in the toolbox
-                toolboxState.rulerInToolbox.addObserver( JMEUtils.swingObserver( new Runnable() {
+                toolboxState.rulerInToolbox.addObserver( LWJGLUtils.swingObserver( new Runnable() {
                     public void run() {
                         setVisible( toolboxState.rulerInToolbox.get() );
                     }
@@ -34,7 +36,7 @@ public class Toolbox extends PiccoloJMENode {
                 // remove it from the toolbox when pressed
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        JMEUtils.invoke( new Runnable() {
+                        LWJGLUtils.invoke( new Runnable() {
                             public void run() {
                                 toolboxState.rulerInToolbox.set( false );
                             }
@@ -51,7 +53,7 @@ public class Toolbox extends PiccoloJMENode {
                 setOffset( rulerNode2D.getFullBounds().getWidth() + INSET, rulerNode2D.getFullBounds().getMaxY() - getFullBounds().getHeight() );
 
                 // make it visible when it is in the toolbox
-                toolboxState.thermometerInToolbox.addObserver( JMEUtils.swingObserver( new Runnable() {
+                toolboxState.thermometerInToolbox.addObserver( LWJGLUtils.swingObserver( new Runnable() {
                     public void run() {
                         setVisible( toolboxState.thermometerInToolbox.get() );
                     }
@@ -60,7 +62,7 @@ public class Toolbox extends PiccoloJMENode {
                 // remove it from the toolbox when pressed
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        JMEUtils.invoke( new Runnable() {
+                        LWJGLUtils.invoke( new Runnable() {
                             public void run() {
                                 toolboxState.thermometerInToolbox.set( false );
                             }
@@ -74,7 +76,7 @@ public class Toolbox extends PiccoloJMENode {
                 setOffset( thermometer.getFullBounds().getMaxX() + INSET, rulerNode2D.getFullBounds().getMaxY() - getFullBounds().getHeight() );
 
                 // make it visible when it is in the toolbox
-                toolboxState.densitySensorInToolbox.addObserver( JMEUtils.swingObserver( new Runnable() {
+                toolboxState.densitySensorInToolbox.addObserver( LWJGLUtils.swingObserver( new Runnable() {
                     public void run() {
                         setVisible( toolboxState.densitySensorInToolbox.get() );
                     }
@@ -83,7 +85,7 @@ public class Toolbox extends PiccoloJMENode {
                 // remove it from the toolbox when pressed
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        JMEUtils.invoke( new Runnable() {
+                        LWJGLUtils.invoke( new Runnable() {
                             public void run() {
                                 toolboxState.densitySensorInToolbox.set( false );
                             }
@@ -98,6 +100,6 @@ public class Toolbox extends PiccoloJMENode {
                 setFont( new PhetFont( 16, true ) );
                 setOffset( rulerNode2D.getFullBounds().getWidth() + 10, 0 ); // TODO: change positioning once we have added other toolbox elements
             }} );
-        }} ), tab.getInputHandler(), tab, tab.getCanvasTransform() );
+        }} ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
     }
 }

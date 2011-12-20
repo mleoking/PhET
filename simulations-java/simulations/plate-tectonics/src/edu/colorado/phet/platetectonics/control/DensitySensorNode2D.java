@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
 import edu.colorado.phet.common.piccolophet.nodes.SensorNode;
-import edu.colorado.phet.jmephet.JMECursorHandler;
+import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 
 /**
  * @author Sam Reid
@@ -31,6 +31,6 @@ public class DensitySensorNode2D extends SensorNode<Double> {
         scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
 
         // give it the "Hand" cursor
-        addInputEventListener( new JMECursorHandler() );
+        addInputEventListener( new LWJGLCursorHandler() );
     }
 }

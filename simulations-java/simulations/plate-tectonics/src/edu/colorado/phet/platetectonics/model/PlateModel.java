@@ -7,11 +7,9 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
-
-import com.jme3.math.FastMath;
-import com.jme3.math.Vector3f;
 
 /**
  * All units in SI unless otherwise noted
@@ -115,8 +113,8 @@ public abstract class PlateModel {
     *----------------------------------------------------------------------------*/
 
     public static final float EARTH_RADIUS = 6371000;
-    public static final Vector3f EARTH_CENTER = new Vector3f( 0, -EARTH_RADIUS, 0 );
-    public static final Vector3f RADIAL_Z_0 = new Vector3f( 1, 1, 0 );
+    public static final ImmutableVector3F EARTH_CENTER = new ImmutableVector3F( 0, -EARTH_RADIUS, 0 );
+    public static final ImmutableVector3F RADIAL_Z_0 = new ImmutableVector3F( 1, 1, 0 );
 
     /**
      * Converts a given "planar" point into a full 3D model point.
@@ -127,41 +125,41 @@ public abstract class PlateModel {
      *               as spherical coordinates.
      * @return A point in the cartesian coordinate frame in 3D
      */
-    public static Vector3f convertToRadial( Vector3f planar ) {
+    public static ImmutableVector3F convertToRadial( ImmutableVector3F planar ) {
         return convertToRadial( getXRadialVector( planar.x ), getZRadialVector( planar.z ), planar.y );
     }
 
     /**
-     * Decomposed performance shortcut for convertToRadial( Vector3f planar ).
+     * Decomposed performance shortcut for convertToRadial( ImmutableVector3F planar ).
      *
      * @param xRadialVector result of getXRadialVector( x )
      * @param zRadialVector result of getZRadialVector( z )
      * @param y             Same as in the simple version
      * @return A point in the cartesian coordinate frame in 3D
      */
-    public static Vector3f convertToRadial( Vector3f xRadialVector, Vector3f zRadialVector, float y ) {
+    public static ImmutableVector3F convertToRadial( ImmutableVector3F xRadialVector, ImmutableVector3F zRadialVector, float y ) {
         float radius = y + EARTH_RADIUS; // add in the radius of the earth, since y is relative to mean sea level
-        return xRadialVector.mult( zRadialVector ).mult( radius ).add( EARTH_CENTER );
+        return xRadialVector.componentTimes( zRadialVector ).times( radius ).plus( EARTH_CENTER );
     }
 
     // improved performance version for z=0 plane
-    public static Vector3f convertToRadial( float x, float y ) {
+    public static ImmutableVector3F convertToRadial( float x, float y ) {
         return convertToRadial( getXRadialVector( x ), y );
     }
 
     // improved performance version for z=0 plane
-    public static Vector3f convertToRadial( Vector3f xRadialVector, float y ) {
+    public static ImmutableVector3F convertToRadial( ImmutableVector3F xRadialVector, float y ) {
         return convertToRadial( xRadialVector, RADIAL_Z_0, y );
     }
 
-    public static Vector3f getXRadialVector( float x ) {
-        float theta = FastMath.PI / 2 - x / EARTH_RADIUS; // dividing by the radius actually gets us the correct angle
-        return new Vector3f( FastMath.cos( theta ), FastMath.sin( theta ), 1 );
+    public static ImmutableVector3F getXRadialVector( float x ) {
+        float theta = (float) Math.PI / 2 - x / EARTH_RADIUS; // dividing by the radius actually gets us the correct angle
+        return new ImmutableVector3F( (float) Math.cos( theta ), (float) Math.sin( theta ), 1 );
     }
 
-    public static Vector3f getZRadialVector( float z ) {
-        float phi = FastMath.PI / 2 - z / EARTH_RADIUS; // dividing by the radius actually gets us the correct angle
-        float sinPhi = FastMath.sin( phi );
-        return new Vector3f( sinPhi, sinPhi, FastMath.cos( phi ) );
+    public static ImmutableVector3F getZRadialVector( float z ) {
+        float phi = (float) Math.PI / 2 - z / EARTH_RADIUS; // dividing by the radius actually gets us the correct angle
+        float sinPhi = (float) Math.sin( phi );
+        return new ImmutableVector3F( sinPhi, sinPhi, (float) Math.cos( phi ) );
     }
 }

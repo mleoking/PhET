@@ -7,7 +7,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -90,7 +90,7 @@ public class MyCrustPanel extends PNode {
                     final double value = getValue();
 
                     // invoke the model change in the JME thread
-                    JMEUtils.invoke( new Runnable() {
+                    LWJGLUtils.invoke( new Runnable() {
                         public void run() {
                             property.set( value );
                         }

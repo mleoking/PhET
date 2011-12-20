@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -21,7 +22,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class OrthoComponentNode {
+public class OrthoComponentNode extends GLNode {
     private final JComponent component;
     private final LWJGLTab tab;
     private final CanvasTransform canvasTransform;
@@ -33,6 +34,8 @@ public class OrthoComponentNode {
 
     private int offsetX;
     private int offsetY;
+    private int magnificationFilter = GL_NEAREST;
+    private int minificationFilter = GL_NEAREST;
 
     public OrthoComponentNode( final JComponent component, final LWJGLTab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position, final VoidNotifier mouseEventNotifier ) {
         this.component = component;
@@ -94,6 +97,14 @@ public class OrthoComponentNode {
                 }, false );
     }
 
+    public <T> void updateOnEvent( Notifier<T> notifier ) {
+        notifier.addUpdateListener( new UpdateListener() {
+                                        public void update() {
+                                            OrthoComponentNode.this.update();
+                                        }
+                                    }, false );
+    }
+
     // should be called every frame
     public void update() {
         if ( componentImage != null ) {
@@ -101,7 +112,14 @@ public class OrthoComponentNode {
         }
     }
 
-    public void render() {
+    // force repainting of the image
+    public void repaint() {
+        if ( componentImage != null ) {
+            componentImage.repaint();
+        }
+    }
+
+    @Override public void renderSelf( GLOptions options ) {
         if ( componentImage == null ) {
             return;
         }
@@ -112,8 +130,8 @@ public class OrthoComponentNode {
         componentImage.useTexture();
         glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
         glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magnificationFilter );
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minificationFilter );
 
         glColor4f( 1, 1, 1, 1 );
 
@@ -218,5 +236,17 @@ public class OrthoComponentNode {
 
     public JComponent getComponent() {
         return component;
+    }
+
+    public void setAntialiased( boolean antialiased ) {
+        if ( antialiased ) {
+            // can't guarantee any mipmapping, so just set to nearest
+            magnificationFilter = GL_NEAREST;
+            minificationFilter = GL_NEAREST;
+        }
+        else {
+            magnificationFilter = GL_NEAREST;
+            minificationFilter = GL_NEAREST;
+        }
     }
 }

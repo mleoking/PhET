@@ -17,7 +17,8 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="piccolo-phet" />
-    <orderEntry type="module" module-name="jme-phet" />
+    <orderEntry type="module" module-name="lwjgl-phet" />
+    <orderEntry type="module" module-name="lwjgl" />
   </component>
 </module>
 

@@ -3,35 +3,34 @@ package edu.colorado.phet.platetectonics.control;
 
 import java.awt.Cursor;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.jmephet.JMETab;
-import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
-import edu.colorado.phet.jmephet.hud.SwingJMENode;
+import edu.colorado.phet.lwjglphet.OrthoPiccoloNode;
+import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
-import edu.colorado.phet.platetectonics.util.JMEModelViewTransform;
-
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
-import com.jme3.renderer.queue.RenderQueue.Bucket;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
 /**
  * Displays a ruler in the 3D play area space
  */
-public class DensitySensorNode3D extends PiccoloJMENode implements DraggableTool2D {
+public class DensitySensorNode3D extends OrthoPiccoloNode implements DraggableTool2D {
 
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
 
-    private final JMEModelViewTransform transform;
+    private final LWJGLModelViewTransform transform;
     private final PlateModel model;
 
-    public DensitySensorNode3D( final JMEModelViewTransform transform, final JMETab tab, PlateModel model ) {
+    public DensitySensorNode3D( final LWJGLModelViewTransform transform, final PlateTectonicsTab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
-        super( new DensitySensorNode2D( transform.modelToViewDeltaX( 1000 ) ), tab.getInputHandler(), tab, SwingJMENode.getDefaultTransform() );
+        super( new DensitySensorNode2D( transform.modelToViewDeltaX( 1000 ) ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
         this.transform = transform;
         this.model = model;
 
@@ -40,13 +39,10 @@ public class DensitySensorNode3D extends PiccoloJMENode implements DraggableTool
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
 
         // allow antialiasing for a cleaner look
-        antialiased.set( true );
-
-        // allow parts to see through
-        setQueueBucket( Bucket.Transparent );
+        setAntialiased( true );
 
         // don't forward mouse events!
-        ignoreInput();
+//        ignoreInput();
 
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
@@ -58,19 +54,19 @@ public class DensitySensorNode3D extends PiccoloJMENode implements DraggableTool
                                               }, true );
     }
 
-    public boolean allowsDrag( Vector2f initialPosition ) {
+    public boolean allowsDrag( ImmutableVector2F initialPosition ) {
         return true; // if this node is picked, always allow a drag anywhere on it
     }
 
-    public void dragDelta( Vector2f delta ) {
-        setLocalTranslation( getLocalTranslation().add( new Vector3f( delta.x, delta.y, 0 ) ) );
+    public void dragDelta( ImmutableVector2F delta ) {
+        appendTransform( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         updateReadout();
     }
 
     private void updateReadout() {
         // get model coordinates
 
-        Vector3f modelSensorPosition = transform.viewToModel( getLocalTranslation() );//TODO: is this the hot spot of the sensor?
+        ImmutableVector3F modelSensorPosition = transform.viewToModel( getTransform().getTranslation() );//TODO: is this the hot spot of the sensor?
 
         final Double density = model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
         DensitySensorNode2D node = (DensitySensorNode2D) getNode();
@@ -82,11 +78,11 @@ public class DensitySensorNode3D extends PiccoloJMENode implements DraggableTool
         return toolboxState.densitySensorInToolbox;
     }
 
-    public Vector2f getInitialMouseOffset() {
-        return new Vector2f( (float) ( getNode().getFullBounds().getWidth() / 2 ) / PICCOLO_PIXELS_TO_VIEW_UNIT, 0 );
+    public ImmutableVector2F getInitialMouseOffset() {
+        return new ImmutableVector2F( (float) ( getNode().getFullBounds().getWidth() / 2 ) / PICCOLO_PIXELS_TO_VIEW_UNIT, 0 );
     }
 
     public void recycle() {
-        getParent().detachChild( this );
+        getParent().removeChild( this );
     }
 }

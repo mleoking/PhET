@@ -2,7 +2,7 @@
 package edu.colorado.phet.platetectonics.control;
 
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
-import edu.colorado.phet.jmephet.JMECursorHandler;
+import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -22,6 +22,6 @@ public class ThermometerNode2D extends LiquidExpansionThermometerNode {
         scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
 
         // give it the "Hand" cursor
-        addInputEventListener( new JMECursorHandler() );
+        addInputEventListener( new LWJGLCursorHandler() );
     }
 }
