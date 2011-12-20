@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -125,6 +127,8 @@ public class CrustTab extends PlateTectonicsTab {
         rootNode.addChild( sceneLayer );
         rootNode.addChild( guiLayer );
         rootNode.addChild( toolLayer );
+
+        guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         // TODO: improve the plate view
         sceneLayer.addChild( new PlateView( model, this, grid ) );

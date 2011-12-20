@@ -1,9 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
+import java.awt.Color;
+
 import edu.colorado.phet.lwjglphet.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
@@ -48,7 +51,11 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 glDisable( GL_DEPTH_TEST );
             }
         };
+        final GuiNode guiLayer = new GuiNode( this );
         rootNode.addChild( sceneLayer );
+        rootNode.addChild( guiLayer );
+
+        guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         sceneLayer.addChild( new PlateView( model, this, grid ) );
     }

@@ -1,19 +1,29 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
+import java.util.LinkedList;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.CanvasTransform;
 import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform;
 import edu.colorado.phet.lwjglphet.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
+import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
@@ -46,6 +56,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     // in seconds
     private float timeElapsed;
 
+    // recorded amount
+    public final Property<Double> framesPerSecond = new Property<Double>( 0.0 );
+    private final LinkedList<Long> timeQueue = new LinkedList<Long>();
+
     public PlateTectonicsTab( LWJGLCanvas canvas, String title, float kilometerScale ) {
         super( canvas, title );
 
@@ -70,6 +84,15 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         // delay if we need to, limiting our FPS
         Display.sync( framesPerSecondLimit.get() );
 
+        // calculate FPS
+        int framesToCount = 10;
+        long current = System.currentTimeMillis();
+        timeQueue.add( current );
+        if ( timeQueue.size() == framesToCount + 1 ) {
+            long previous = timeQueue.poll();
+            framesPerSecond.set( (double) ( 1000 * ( (float) framesToCount ) / ( (float) ( current - previous ) ) ) );
+        }
+
         beforeFrameRender.updateListeners();
 
         // Clear the screen and depth buffer
@@ -90,6 +113,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         while ( Mouse.next() ) {
             mouseEventNotifier.updateListeners();
         }
+
+        // TODO: improve area where the model is updated. Should happen after mouse events (here)
 
         GLOptions options = new GLOptions();
 
@@ -131,5 +156,29 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         glLoadIdentity();
         glRotatef( 13, 1, 0, 0 );
         glTranslatef( 0, -80, -400 );
+    }
+
+    public OrthoComponentNode createFPSReadout( final Color color ) {
+        JPanel fpsPanel = new JPanel() {{
+            setPreferredSize( new Dimension( 100, 30 ) );
+            setOpaque( true );
+            add( new JLabel( "(FPS here)" ) {{
+                setForeground( color );
+                framesPerSecond.addObserver( new SimpleObserver() {
+                    public void update() {
+                        final double fps = Math.round( framesPerSecond.get() * 10 ) / 10;
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                setText( "FPS: " + fps );
+                            }
+                        } );
+                    }
+                } );
+            }} );
+        }};
+        return new OrthoComponentNode( fpsPanel, this, canvasTransform,
+                                       new Property<ImmutableVector2D>( new ImmutableVector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth(), stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier ){{
+            updateOnEvent( beforeFrameRender );
+        }};
     }
 }
