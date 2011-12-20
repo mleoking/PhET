@@ -3,15 +3,11 @@ package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -28,9 +24,10 @@ public class RepresentationControlPanel extends ControlPanelNode {
 
     private static class RepresentationControlPanelContentNode extends PNode {
         private RepresentationControlPanelContentNode( final Property<ChosenRepresentation> selected ) {
-            final RepIcon[] elements = new RepIcon[] { new PieElement( selected ), new HorizontalBarElement( selected ), new VerticalBarElement( selected ),
-                    //Comment out grid until we figure it out, see docs in GridFractionNode
-//                    new SquareElement( selected ),
+            final RepIcon[] elements = new RepIcon[] {
+                    new PieElement( selected ),
+                    new HorizontalBarElement( selected ),
+                    new VerticalBarElement( selected ),
                     new NumberLineElement( selected ) {{
                         scale( 1.2 );
                     }},
@@ -70,23 +67,8 @@ public class RepresentationControlPanel extends ControlPanelNode {
                         }
                     } ) );
                 }
-//                setOffset( 30, title.getFullBounds().getMaxY() );
             }};
             addChild( representationLayer );
-        }
-
-        //Add padding around the node so it doesn't disturb the HBox layout when it moves within the padded node
-        private class PaddedNode extends PNode {
-            public PaddedNode( final PNode node, double dx, double dy, ValueEquals<ChosenRepresentation> isSelected ) {
-                addChild( new PhetPPath( RectangleUtils.expand( node.getFullBoundsReference(), dx, dy ), null ) );
-                addChild( node );
-
-                isSelected.addObserver( new VoidFunction1<Boolean>() {
-                    public void apply( Boolean selected ) {
-                        node.setOffset( selected ? new Point( 5, 5 ) : new Point( 0, 0 ) );
-                    }
-                } );
-            }
         }
     }
 }
