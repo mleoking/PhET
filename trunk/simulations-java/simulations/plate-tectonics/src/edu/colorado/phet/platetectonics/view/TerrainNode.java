@@ -6,6 +6,7 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -13,6 +14,8 @@ import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Displays the top terrain of a plate model, within the bounds of the specified grid
@@ -87,6 +90,19 @@ public class TerrainNode extends GridMesh {
 //            }
 //        }
 //    }
+
+
+    @Override protected void preRender( GLOptions options ) {
+        super.preRender( options );
+
+        glEnable( GL_LIGHTING );
+    }
+
+    @Override protected void postRender( GLOptions options ) {
+        super.postRender( options );
+
+        glDisable( GL_LIGHTING );
+    }
 
     private static ImmutableVector3F[] computePositions( Terrain terrain, LWJGLModelViewTransform modelViewTransform ) {
         ImmutableVector3F[] positions = new ImmutableVector3F[terrain.numXSamples * terrain.numZSamples];

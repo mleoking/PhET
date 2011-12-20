@@ -27,8 +27,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
     }
 
-    @Override public void start() {
-        super.start();
+    @Override public void initialize() {
+        super.initialize();
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
@@ -44,6 +44,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         final GLNode sceneLayer = new GLNode() {
             @Override protected void preRender( GLOptions options ) {
                 loadCameraMatrices();
+                loadLighting();
                 glEnable( GL_DEPTH_TEST );
             }
 
@@ -58,6 +59,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         sceneLayer.addChild( new PlateView( model, this, grid ) );
+    }
+
+    @Override public void start() {
+        super.start();
     }
 
 
