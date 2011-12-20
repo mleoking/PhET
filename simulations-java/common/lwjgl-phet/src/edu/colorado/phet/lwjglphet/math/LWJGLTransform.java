@@ -51,6 +51,10 @@ public class LWJGLTransform {
         return matrix;
     }
 
+    public ImmutableMatrix4F getInverse() {
+        return inverse;
+    }
+
     public void apply() {
         switch( matrix.type ) {
             case SCALING:

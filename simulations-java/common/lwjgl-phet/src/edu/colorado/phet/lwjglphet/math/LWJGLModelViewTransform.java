@@ -1,9 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.platetectonics.util;
-
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
-import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
+package edu.colorado.phet.lwjglphet.math;
 
 /**
  * LWJGL 3D version of our ModelViewTransform
