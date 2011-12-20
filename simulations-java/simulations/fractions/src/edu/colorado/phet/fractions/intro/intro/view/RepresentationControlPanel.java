@@ -15,6 +15,8 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Control panel that lets you see and choose from different representation types for the fraction.
+ *
  * @author Sam Reid
  */
 public class RepresentationControlPanel extends ControlPanelNode {
