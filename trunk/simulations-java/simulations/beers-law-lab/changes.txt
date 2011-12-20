@@ -1,3 +1,4 @@
+12/20/11 grab solute control from dilutions
 12/20/11 specify solutes as in design document
 12/20/11 added string resources for 1st tab
 12/20/11 added more basic infrastructure
