@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * Shaker that contains the solid form of a solute.
+ * Shaker that contains a solute in solid form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
