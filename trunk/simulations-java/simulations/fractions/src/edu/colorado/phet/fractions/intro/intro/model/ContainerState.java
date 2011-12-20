@@ -40,16 +40,15 @@ public class ContainerState {
     }
 
     public ContainerState addPieces( int delta ) {
-        ContainerState cs = padAndTrim();
-
         if ( delta == 0 ) {
-            return cs;
+            return this;
         }
         else if ( delta > 0 ) {
-            return cs.toggle( getFirstEmptyCell() ).padAndTrim().addPieces( delta - 1 ).padAndTrim();
+            ContainerState cs = isFull() ? addEmptyContainer() : this;
+            return cs.toggle( cs.getFirstEmptyCell() ).addPieces( delta - 1 );
         }
         else {
-            return cs.toggle( getLastFullCell() ).padAndTrim().addPieces( delta + 1 ).padAndTrim();
+            return toggle( getLastFullCell() ).addPieces( delta + 1 ).trimAll();
         }
     }
 
