@@ -54,6 +54,7 @@ public class BLLResources {
 
     // Images
     public static class Images {
+        public static final Image DROPPER = RESOURCES.getImage( "dropper.png" );
         public static final Image SHAKER = RESOURCES.getImage( "shaker.png" );
     }
 }
