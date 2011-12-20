@@ -30,8 +30,7 @@ public class SoluteControlNode extends ControlPanelNode {
      */
     @Override protected PBounds getControlPanelBounds( PNode content ) {
         if ( contentBounds == null ) {
-            final PBounds bounds = content.getFullBounds();
-            contentBounds = new PBounds( bounds.getX(), bounds.getY(), bounds.getWidth() + 18, bounds.getHeight() );
+            contentBounds = content.getFullBounds();
         }
         return contentBounds;
     }
