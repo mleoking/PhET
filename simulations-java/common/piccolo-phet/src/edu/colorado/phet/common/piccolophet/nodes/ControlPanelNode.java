@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -22,7 +23,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Sam Reid
  */
-public class ControlPanelNode extends PNode {
+public class ControlPanelNode extends RichPNode {
 
     public static final int DEFAULT_ARC = 20;
     public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 238, 238, 238 );
