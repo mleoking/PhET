@@ -22,8 +22,6 @@ window.onload = function() {
                              }
     );
 
-    circle.makeDraggable();
-
     var text = new TextNode( "help", {
         text: 'TextNode!',
         cx : 100,
@@ -31,22 +29,6 @@ window.onload = function() {
         height : 40
     } );
 
-    circle.addEventListener( 'click', function( event ) {
-        console.log( event.type + " caught!" );
-        text.text = event.type;
-        circle.fill = "blue";
-    }, true );
-
-    circle.addEventListener( 'mouseover', function( event ) {
-        console.log( event.type + " caught!" );
-        text.text = event.type;
-        circle.fill = "pink";
-    }, true );
-    circle.addEventListener( 'mouseout', function( event ) {
-        console.log( event.type + " caught!" );
-        text.text = event.type;
-        circle.fill = "green";
-    }, true );
     circle.addEventListener( 'dragstart', function( event ) {
         console.log( event.type + " caught!" );
         text.text = event.type;
@@ -62,15 +44,30 @@ window.onload = function() {
         text.text = event.type;
         circle.fill = "white";
     }, true );
+    circle.addEventListener( 'touchmove', function( event ) {
+        console.log( event.type + " caught!" );
+        text.text = event.type;
+        circle.fill = "green";
+    }, true );
     circle.addEventListener( 'touchend', function( event ) {
         console.log( event.type + " caught!" );
         text.text = event.type;
         circle.fill = "black";
     }, true );
 
+    circle.makeDraggable();
+
     scene.append( circle );
     scene.append( text );
     CAKECanvas.append( scene );
+
+    // Temp - Handler to log touch start events.
+//    document.addEventListener( 'touchstart', function( event ) {
+//        console.log( event.type + " caught!" );
+//        text.text = event.type;
+//        circle.fill = "orange";
+//    }, true );
+
 
     // Disable elastic scrolling.
     document.addEventListener(
