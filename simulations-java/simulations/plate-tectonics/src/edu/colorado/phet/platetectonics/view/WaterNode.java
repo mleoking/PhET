@@ -166,6 +166,23 @@ public class WaterNode extends GLNode {
                                                   }, false );
         }
 
+        @Override protected void preRender( GLOptions options ) {
+            super.preRender( options );
+
+            // don't write to the depth buffer
+//            glDepthMask( false );
+            glEnable( GL_BLEND );
+            glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        }
+
+        @Override protected void postRender( GLOptions options ) {
+            super.postRender( options );
+
+            // write to the depth buffer again
+//            glDepthMask( true );
+            glDisable( GL_BLEND );
+        }
+
         @Override public void renderSelf( GLOptions options ) {
             super.renderSelf( options );
 
