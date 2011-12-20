@@ -3,11 +3,16 @@ package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
 import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
@@ -50,13 +55,30 @@ public class PieSetFractionNode extends VisibilityNode {
                             addInputEventListener( new PBasicInputEventHandler() {
                                 @Override public void mouseReleased( PInputEvent event ) {
                                     FractionsIntroModel.setUserToggled( true );
-                                    containerState.set( containerState.get().toggle( cp ) );
+                                    containerState.set( containerState.get().toggle( cp ).trimAll() );
                                     FractionsIntroModel.setUserToggled( false );
                                 }
                             } );
                         }} );
                     }
                     box.addChild( pie );
+                }
+
+                if ( state.size <= 5 ) {
+
+                    //Empty area to center the button in so we can use the box layout
+                    box.addChild( new PhetPPath( PIE_SIZE, new Color( 0, 0, 0, 0 ) ) {{
+                        addChild( new TextButtonNode( "+", new PhetFont( 18, true ), Color.orange ) {{
+                            setOffset( PIE_SIZE.getWidth() / 2 - getFullWidth() / 2, PIE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
+                            addActionListener( new ActionListener() {
+                                public void actionPerformed( ActionEvent e ) {
+                                    FractionsIntroModel.setUserToggled( true );
+                                    containerState.set( containerState.get().addEmptyContainer() );
+                                    FractionsIntroModel.setUserToggled( false );
+                                }
+                            } );
+                        }} );
+                    }} );
                 }
 
                 addChild( box );
