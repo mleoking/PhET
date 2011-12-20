@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Simple model of a solution
+ * Simple model of a solution, consisting of water (the solvent) and a solute.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -15,8 +15,8 @@ public class Solution implements Resettable {
 
     public final Property<Solute> solute;
     public final Property<Double> soluteAmount; // moles
-    public final Property<Double> volume; // Liters
-    private final Property<Double> concentration; // molarity, moles/Liter (derived property)
+    public final Property<Double> volume; // liters
+    private final Property<Double> concentration; // M (derived property)
     private final Property<Double> precipitateAmount; // moles (derived property)
 
     public Solution( Solute solute, double soluteAmount, double volume ) {
