@@ -4,14 +4,10 @@ package edu.colorado.phet.fractions.intro.intro.view;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for "Fractions Intro" sim.
@@ -23,7 +19,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation ) {{
-            setOffset( INSET, INSET );
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() / 2, INSET );
         }};
         addChild( representationControlPanel );
 
@@ -31,11 +27,6 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             setOffset( INSET, representationControlPanel.getFullBounds().getMaxY() + 100 );
         }};
         addChild( representationArea );
-
-        addChild( new ControlPanelNode( new VBox( 0, new PSwing( new PropertyRadioButton<Fill>( "In order", model.fill, Fill.SEQUENTIAL ) {{setFont( CONTROL_FONT );}} ),
-                                                  new PSwing( new PropertyRadioButton<Fill>( "Random", model.fill, Fill.RANDOM ) {{setFont( CONTROL_FONT );}} ) ) ) {{
-            setOffset( representationControlPanel.getFullBounds().getMaxX() + INSET, representationControlPanel.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-        }} );
 
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionEqualityPanel( model ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
