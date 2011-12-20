@@ -69,22 +69,6 @@ function init() {
     resizer();
 }
 
-function drawParticle( xPos, yPos, radius, color ) {
-    context.strokeStyle = '#000'; // black
-    context.lineWidth = 4;
-
-    var gradient1 = context.createRadialGradient( xPos, yPos, 0, xPos, yPos, radius );
-    gradient1.addColorStop( 0, "white" );
-    gradient1.addColorStop( 1, color );
-    context.fillStyle = gradient1;
-
-    // Draw some rectangles.
-    context.beginPath();
-    context.arc( xPos, yPos, radius, 0, Math.PI * 2, true );
-    context.closePath();
-    context.fill();
-}
-
 function clearBackground() {
     context.save();
     context.globalCompositeOperation = "source-over";
@@ -92,7 +76,6 @@ function clearBackground() {
     context.fillRect( 0, 0, canvas.width, canvas.height );
     context.restore();
 }
-;
 
 function drawCircle( xPos, yPos, radius, color ) {
     context.strokeStyle = '#000'; // black
