@@ -17,18 +17,22 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 public class ContainerState {
     public final List<Container> containers;
     public final int denominator;
-    public final int numerator;
     public final int size;  //Number of containers to show
+    public final int numerator;
 
-    public ContainerState( int numerator, int denominator, Container[] containers ) {
-        this( numerator, denominator, Arrays.asList( containers ) );
+    public ContainerState( int denominator, Container[] containers ) {
+        this( denominator, Arrays.asList( containers ) );
     }
 
-    public ContainerState( int numerator, int denominator, List<Container> containers ) {
+    public ContainerState( int denominator, List<Container> containers ) {
         this.containers = containers;
         this.denominator = denominator;
-        this.numerator = numerator;
         this.size = containers.size();
+        int count = 0;
+        for ( Container container : containers ) {
+            count += container.numFilledCells;
+        }
+        this.numerator = count;
     }
 
     public ContainerState nextRandomState() {
@@ -50,7 +54,7 @@ public class ContainerState {
         if ( !incrementedCount ) {
             newContainers.add( new Container( denominator, new int[] { RandomFill.random.nextInt( denominator ) } ) );
         }
-        return new ContainerState( numerator, denominator, newContainers );
+        return new ContainerState( denominator, newContainers );
     }
 
     @Override public String toString() {
@@ -98,11 +102,11 @@ public class ContainerState {
             }
         }};
         Collections.reverse( all );
-        return new ContainerState( numerator, denominator, all );
+        return new ContainerState( denominator, all );
     }
 
     private ContainerState addEmptyContainer() {
-        return new ContainerState( numerator, denominator, new ArrayList<Container>( containers ) {{
+        return new ContainerState( denominator, new ArrayList<Container>( containers ) {{
             add( new Container( denominator, new int[0] ) );
         }} );
     }
@@ -115,7 +119,7 @@ public class ContainerState {
     }
 
     public ContainerState toggle( final CellPointer pointer ) {
-        return new ContainerState( numerator, denominator, FunctionalUtils.map( containers, new Function1<Container, Container>() {
+        return new ContainerState( denominator, FunctionalUtils.map( containers, new Function1<Container, Container>() {
             public Container apply( Container container ) {
                 int containerIndex = containers.indexOf( container );
                 if ( pointer.container == containerIndex ) {

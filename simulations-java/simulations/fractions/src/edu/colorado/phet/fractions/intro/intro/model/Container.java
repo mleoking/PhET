@@ -13,6 +13,7 @@ import java.util.HashSet;
 public class Container {
     public final int numCells;
     public final ArrayList<Integer> filledCells;
+    public final int numFilledCells;
 
     Container( int numCells, int[] filledCells ) {
         this( numCells, toList( filledCells ) );
@@ -33,6 +34,7 @@ public class Container {
     Container( int numCells, ArrayList<Integer> filledCells ) {
         this.numCells = numCells;
         this.filledCells = filledCells;
+        this.numFilledCells = filledCells.size();
     }
 
     public static Container full( final int denominator ) {

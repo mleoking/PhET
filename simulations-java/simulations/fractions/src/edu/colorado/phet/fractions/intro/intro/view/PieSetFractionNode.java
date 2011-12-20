@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
 import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
+import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -48,7 +49,9 @@ public class PieSetFractionNode extends VisibilityNode {
                             addInputEventListener( new CursorHandler() );
                             addInputEventListener( new PBasicInputEventHandler() {
                                 @Override public void mouseReleased( PInputEvent event ) {
+                                    FractionsIntroModel.setUserToggled( true );
                                     containerState.set( containerState.get().toggle( cp ) );
+                                    FractionsIntroModel.setUserToggled( false );
                                 }
                             } );
                         }} );

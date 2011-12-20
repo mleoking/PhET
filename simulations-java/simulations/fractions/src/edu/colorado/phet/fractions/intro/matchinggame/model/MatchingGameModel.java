@@ -109,7 +109,7 @@ public class MatchingGameModel {
 
                 //TODO: Fix
                 public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
-                    return new PieNode( transform, fraction, new Property<ContainerState>( new ContainerState( fraction.numerator, fraction.denominator, new Container[0] ) ) );
+                    return new PieNode( transform, fraction, new Property<ContainerState>( new ContainerState( fraction.denominator, new Container[0] ) ) );
                 }
             } );
             add( new Representation() {
