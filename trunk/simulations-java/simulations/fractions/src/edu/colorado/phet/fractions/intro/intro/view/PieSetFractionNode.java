@@ -53,5 +53,4 @@ public class PieSetFractionNode extends VisibilityNode {
             }
         }.observe( numerator, denominator );
     }
-
 }

@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -22,13 +23,21 @@ public class MixedFractionNode extends PNode {
         final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12 ), Color.black );
         addChild( line );
 
+        //Integer in front of the fraction part
         addChild( new ZeroOffsetNode( new FractionNumberNode( integer ) ) {{
             setOffset( line.getFullBounds().getX() - getFullBounds().getWidth() - 10, line.getFullBounds().getY() - getFullBounds().getHeight() / 2 );
-            integer.addObserver( new VoidFunction1<Integer>() {
-                public void apply( Integer value ) {
-                    setVisible( value != 0 );
+
+            new RichSimpleObserver() {
+                @Override public void update() {
+
+                    //Show the zero if the entire fraction is just zero, but hide the prefix if the numerator is nonzero
+                    //Which would cause it to show something like 0 1/12
+                    setVisible( integer.get() >= 0 );
+                    if ( integer.get() == 0 && numerator.get() != 0 ) {
+                        setVisible( false );
+                    }
                 }
-            } );
+            }.observe( integer, numerator );
         }} );
 
         final ZeroOffsetNode den = new ZeroOffsetNode( new FractionNumberNode( numerator ) ) {{

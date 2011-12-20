@@ -7,10 +7,10 @@ package edu.colorado.phet.fractions.intro.intro.model;
  * @author Sam Reid
  */
 public class CellPointer {
-    public final Container container;
+    public final int container;
     public final int cell;
 
-    public CellPointer( Container container, int cell ) {
+    public CellPointer( int container, int cell ) {
         this.container = container;
         this.cell = cell;
     }
