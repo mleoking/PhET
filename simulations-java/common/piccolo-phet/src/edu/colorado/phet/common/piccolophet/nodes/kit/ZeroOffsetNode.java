@@ -9,8 +9,13 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 
 /**
- * Node that translates its content so that the origin is at (0,0).  This is to help with layouts for nodes that don't default to this coordinate frame.
+ * Node that translates its content so that the origin is at (0,0).
+ * This is to help with layouts for nodes that don't default to this coordinate frame.
  * It extends RichPNode to make it easier to write layout code using the methods provided in RichPNode.
+ * <p>
+ * NOTE: Because the offset is computed in the constructor, you must perform any transforms
+ * on the child node prior to instantiating this node.
+ * </p>
  *
  * @author Sam Reid
  */
