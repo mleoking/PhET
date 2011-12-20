@@ -76,7 +76,7 @@ public class ContainerState {
     }
 
     //Add an empty container if this one is all full, but don't go past 6 (would be off the screen)
-    private ContainerState padAndTrim() {
+    public ContainerState padAndTrim() {
         ContainerState cs = trimAll();
         return cs.isFull() && cs.size <= 5 ? cs.addEmptyContainer() : cs;
     }

@@ -50,7 +50,7 @@ public class PieSetFractionNode extends VisibilityNode {
                             addInputEventListener( new PBasicInputEventHandler() {
                                 @Override public void mouseReleased( PInputEvent event ) {
                                     FractionsIntroModel.setUserToggled( true );
-                                    containerState.set( containerState.get().toggle( cp ) );
+                                    containerState.set( containerState.get().toggle( cp ).padAndTrim() );
                                     FractionsIntroModel.setUserToggled( false );
                                 }
                             } );
