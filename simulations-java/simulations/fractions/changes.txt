@@ -1,3 +1,4 @@
+Don't show next pie as empty
 Removed "Random/In Order" control panel
 # 0.00.20 (59522) Dec 20, 2011
 Fixed: Whole pie node has a line at theta=0
