@@ -14,27 +14,46 @@ import edu.colorado.phet.fractions.intro.intro.view.Visualization;
  * @author Sam Reid
  */
 public class FractionsIntroModel extends SingleFractionModel {
+    private static boolean userToggled = false;
     public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
     public final Property<Visualization> visualization = new Property<Visualization>( Visualization.NONE );
-    public final Property<ContainerState> containerState = new Property<ContainerState>( new ContainerState( numerator.get(), denominator.get(), new Container[] { new Container( 1, new int[] { 1 } ) } ) );
+    public final Property<ContainerState> containerState = new Property<ContainerState>( new ContainerState( denominator.get(), new Container[] { new Container( 1, new int[] { 0 } ) } ) );
 
     public FractionsIntroModel() {
         //synchronize the container state with the numerator and denominator for when the user uses the spinners
         numerator.addObserver( new ChangeObserver<Integer>() {
             public void update( Integer newValue, Integer oldValue ) {
-                int delta = newValue - oldValue;
-                containerState.set( containerState.get().addPieces( delta ) );
+
+                if ( !userToggled ) {
+                    int delta = newValue - oldValue;
+                    containerState.set( containerState.get().addPieces( delta ) );
+                }
             }
         } );
 
         denominator.addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer denominator ) {
-                int numContainers = numerator.get() / denominator + 1;
-                Container[] c = new Container[numContainers];
-                int numPieces = numerator.get();
 
-                ContainerState cs = new ContainerState( numerator.get(), denominator, new Container[] { new Container( denominator, new int[0] ) } ).addPieces( numPieces );
-                containerState.set( cs );
+                if ( !userToggled ) {
+                    int numContainers = numerator.get() / denominator + 1;
+                    Container[] c = new Container[numContainers];
+                    int numPieces = numerator.get();
+
+                    ContainerState cs = new ContainerState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).addPieces( numPieces );
+                    containerState.set( cs );
+                }
+            }
+        } );
+
+        containerState.addObserver( new ChangeObserver<ContainerState>() {
+            public void update( ContainerState newValue, ContainerState oldValue ) {
+
+                //If caused by the user, then send the changes back to the numerator & denominator.
+                if ( userToggled ) {
+                    if ( newValue.denominator == oldValue.denominator ) {
+                        numerator.set( newValue.numerator );
+                    }
+                }
             }
         } );
     }
@@ -43,5 +62,11 @@ public class FractionsIntroModel extends SingleFractionModel {
         super.resetAll();
         fill.reset();
         visualization.reset();
+    }
+
+    //Flag to indicate the source of changes--if coming from the user, then changes need to be pushed to numerator and denominator
+    //TODO: Any better way of doing this?
+    public static void setUserToggled( boolean userToggled ) {
+        FractionsIntroModel.userToggled = userToggled;
     }
 }

@@ -26,7 +26,7 @@ public class RandomFill {
     }
 
     public RandomFill() {
-        history.add( new ContainerState( numerator, denominator, new Container[] { new Container( 1, new int[] { 0 } ) } ) );
+//        history.add( new ContainerState( numerator, denominator, new Container[] { new Container( 1, new int[] { 0 } ) } ) );
     }
 
     public ContainerState getCurrentState() {
@@ -48,19 +48,20 @@ public class RandomFill {
         final int numFullContainers = numerator / denominator;
         final int numCellsInLast = numerator % denominator;
         final boolean partiallyFullContainer = numCellsInLast != 0;
-        int numContainers = numFullContainers + ( partiallyFullContainer ? 1 : 0 );
-        return new ContainerState( numerator, denominator, new ArrayList<Container>() {{
-            for ( int i = 0; i < numFullContainers; i++ ) {
-                add( Container.full( denominator ) );
-            }
-            if ( partiallyFullContainer ) {
-                Container c = new Container( denominator, new int[0] );
-                for ( int i = 0; i < numCellsInLast; i++ ) {
-                    c = c.addRandom();
-                }
-                add( c );
-            }
-        }} );
+//        int numContainers = numFullContainers + ( partiallyFullContainer ? 1 : 0 );
+//        return new ContainerState( numerator, denominator, new ArrayList<Container>() {{
+//            for ( int i = 0; i < numFullContainers; i++ ) {
+//                add( Container.full( denominator ) );
+//            }
+//            if ( partiallyFullContainer ) {
+//                Container c = new Container( denominator, new int[0] );
+//                for ( int i = 0; i < numCellsInLast; i++ ) {
+//                    c = c.addRandom();
+//                }
+//                add( c );
+//            }
+//        }} );
+        return null;
     }
 
     public static final Random random = new Random();
