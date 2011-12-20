@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Test 01</title>
+    <link rel="stylesheet" type="text/css" href="reset.css"/>
+    <script type="text/javascript" src="jquery-1.5.1.min.js"></script>
+    <script type="text/javascript">
+        $( document ).ready( function() {
+
+            var canvas = $( '#canvas' )[0];
+
+            if ( canvas.getContext ) {
+                var context = canvas.getContext( '2d' );
+
+                var clearBackground = function() {
+                    context.save();
+                    context.globalCompositeOperation = "source-over";
+                    context.fillStyle = "rgb(255, 255, 153)";
+                    context.fillRect( 0, 0, canvas.width, canvas.height );
+                    context.restore();
+                };
+
+                var drawCircle = function ( xPos, yPos, radius, color ) {
+                    context.strokeStyle = '#000'; // black
+                    context.lineWidth = 4;
+                    context.fillStyle = color;
+                    context.beginPath();
+                    context.arc( xPos, yPos, radius, 0, Math.PI * 2, true );
+                    context.closePath();
+                    context.fill();
+                }
+
+                // Main drawing function.
+                var draw = function() {
+                    clearBackground();
+                    drawCircle( mouseX, mouseY, 20, "red" );
+                }
+            }
+
+            //-----------------------------------------------------------------
+            // Event handling.
+            //-----------------------------------------------------------------
+            var mouseX = 0;
+            var mouseY = 0;
+            var mouseDown = false;
+
+            var mouseDownHandler = function onDocumentMouseDown( event ) {
+                mouseDown = true;
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+                draw();
+            }
+
+            var mouseMoveHandler = function onDocumentMouseMove( event ) {
+                if ( mouseDown ) {
+                    mouseX = event.clientX;
+                    mouseY = event.clientY;
+                    draw();
+                }
+            }
+
+            var mouseUpHandler = function onDocumentMouseUp( event ) {
+                mouseDown = false;
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+                draw();
+            }
+
+            var touchStartHandler = function onTouchStart( event ) {
+                if ( event.touches.length == 1 ) {
+                    event.preventDefault();
+                    mouseX = event.touches[ 0 ].pageX;
+                    mouseY = event.touches[ 0 ].pageY;
+                    draw();
+                }
+            }
+
+            var touchMoveHandler = function onTouchMove( event ) {
+                if ( event.touches.length == 1 ) {
+                    event.preventDefault();
+                    mouseX = event.touches[ 0 ].pageX;
+                    mouseY = event.touches[ 0 ].pageY;
+                    draw();
+                }
+            }
+
+            var resizer = function() {
+                canvas.width = $( window ).width();
+                canvas.height = $( window ).height();
+                draw();
+            };
+            $( window ).resize( resizer );
+
+            // Hook up event handlers.
+            document.onmousedown = mouseDownHandler;
+            document.onmousemove = mouseMoveHandler;
+            document.onmouseup = mouseUpHandler;
+            document.addEventListener( 'touchstart', touchStartHandler, false );
+            document.addEventListener( 'touchmove', touchMoveHandler, false );
+
+            // Initial call to paint the canvas.
+            resizer();
+        } );
+    </script>
+
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        #canvas {
+            position: absolute;
+        }
+
+        #topleftui {
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: white;
+            background-color: #222;
+            padding: 0.25em;
+            font-size: 12px;
+        }
+
+        #topleftui label:not(:first-child) {
+            padding-left: 1em;
+        }
+
+    </style>
+</head>
+
+<body id="home">
+
+<canvas id="canvas" width="1024" height="768">
+    Fallback content
+</canvas>
+
+</body>
+</html>
