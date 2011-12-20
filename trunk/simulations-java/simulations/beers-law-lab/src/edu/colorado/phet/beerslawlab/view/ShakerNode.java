@@ -1,0 +1,63 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.beerslawlab.view;
+
+import java.awt.Color;
+import java.awt.Font;
+
+import edu.colorado.phet.beerslawlab.BLLResources.Images;
+import edu.colorado.phet.beerslawlab.model.Solute;
+import edu.colorado.phet.beerslawlab.model.SoluteForm;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+
+/**
+ * Shaker that contains the solid form of a solute.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class ShakerNode extends PhetPNode {
+
+    private static final double IMAGE_SCALE = 0.75;
+    private static final double LABEL_X_OFFSET = 40 * IMAGE_SCALE; // x offset of the label's center from the image's center
+
+    public ShakerNode( final Property<Solute> solute, final Property<SoluteForm> soluteFormProperty ) {
+
+        final PImage imageNode = new PImage( Images.SHAKER ) {{
+            scale( IMAGE_SCALE );
+        }};
+        final HTMLNode labelNode = new HTMLNode( "", Color.BLACK, new PhetFont( Font.BOLD, 22 ) );
+
+        PNode parentNode = new PNode();
+        addChild( parentNode );
+        parentNode.addChild( imageNode );
+        parentNode.addChild( labelNode );
+        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() / 2 );
+
+        // Rotate the image and label. Image file is assumed to be oriented with shaker holes pointing left.
+        parentNode.rotate( 0.25 * -Math.PI );
+
+        // Change the label when the solute changes.
+        solute.addObserver( new SimpleObserver() {
+            public void update() {
+                labelNode.setHTML( solute.get().formula );
+                labelNode.setOffset( -( labelNode.getFullBoundsReference().getWidth() / 2 ) + LABEL_X_OFFSET,
+                                     -labelNode.getFullBoundsReference().getHeight() / 2 );
+            }
+        } );
+
+        // Make this node visible only when the solute is in solid form.
+        soluteFormProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                setVisible( soluteFormProperty.get().equals( SoluteForm.SOLID ) );
+            }
+        } );
+
+        addInputEventListener( new CursorHandler() );
+    }
+}
