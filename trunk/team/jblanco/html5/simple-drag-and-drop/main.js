@@ -25,19 +25,6 @@ function resizer() {
 
 // Initialize the canvas, context,
 function init() {
-    function Node() {
-        this.x = 5;
-        this.y = 10;
-
-        this.funcName = function() {
-            this.y = 20;
-        }
-    }
-
-    var testNode = new Node();
-    console.log( testNode.y );
-    testNode.funcName();
-    console.log( testNode.y );
 
     canvas = $( '#canvas' )[0];
 
