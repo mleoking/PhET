@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -33,14 +34,15 @@ public class ShakerNode extends PhetPNode {
         }};
         final HTMLNode labelNode = new HTMLNode( "", Color.BLACK, new PhetFont( Font.BOLD, 22 ) );
 
+        // Combine image and label into a parent, to simplify rotation and label alignment.
         PNode parentNode = new PNode();
-        addChild( parentNode );
         parentNode.addChild( imageNode );
         parentNode.addChild( labelNode );
         imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() / 2 );
+        parentNode.rotate( 0.25 * -Math.PI ); // Image file is assumed to be oriented with shaker holes pointing left.
 
-        // Rotate the image and label. Image file is assumed to be oriented with shaker holes pointing left.
-        parentNode.rotate( 0.25 * -Math.PI );
+        // Apply a wrapper node to move the origin to (0,0). Do this after transforming parentNode and its children.
+        addChild( new ZeroOffsetNode( parentNode ) );
 
         // Change the label when the solute changes.
         solute.addObserver( new SimpleObserver() {
