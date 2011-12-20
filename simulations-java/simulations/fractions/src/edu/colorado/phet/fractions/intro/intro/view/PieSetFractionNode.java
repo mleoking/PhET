@@ -7,9 +7,12 @@ import java.awt.Rectangle;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
 import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Shows a fraction as a set of pies.
@@ -37,9 +40,18 @@ public class PieSetFractionNode extends VisibilityNode {
                     int numSlices = state.denominator;
                     PNode pie = new PNode();
                     for ( int j = 0; j < numSlices; j++ ) {
-                        CellPointer cp = new CellPointer( i, j );
+                        final CellPointer cp = new CellPointer( i, j );
                         double degreesPerSlice = 360.0 / numSlices;
-                        pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white ) );
+                        pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white ) {{
+
+                            //When clicking, toggle the slice
+                            addInputEventListener( new CursorHandler() );
+                            addInputEventListener( new PBasicInputEventHandler() {
+                                @Override public void mouseReleased( PInputEvent event ) {
+                                    containerState.set( containerState.get().toggle( cp ) );
+                                }
+                            } );
+                        }} );
                     }
                     box.addChild( pie );
                 }

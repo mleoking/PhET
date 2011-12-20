@@ -114,7 +114,7 @@ public class ContainerState {
         return true;
     }
 
-    private ContainerState toggle( final CellPointer pointer ) {
+    public ContainerState toggle( final CellPointer pointer ) {
         return new ContainerState( numerator, denominator, FunctionalUtils.map( containers, new Function1<Container, Container>() {
             public Container apply( Container container ) {
                 int containerIndex = containers.indexOf( container );
