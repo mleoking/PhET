@@ -55,6 +55,8 @@ public class BLLResources {
     // Images
     public static class Images {
         public static final Image DROPPER = RESOURCES.getImage( "dropper.png" );
+        public static final Image DROPPER_BUTTON_PRESSED = new PhetResources( "piccolo-phet" ).getImage( "button_pressed.png" );
+        public static final Image DROPPER_BUTTON_UNPRESSED = new PhetResources( "piccolo-phet" ).getImage( "button_unpressed.png" );
         public static final Image SHAKER = RESOURCES.getImage( "shaker.png" );
     }
 }
