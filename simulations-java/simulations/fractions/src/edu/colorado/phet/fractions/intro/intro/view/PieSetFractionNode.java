@@ -7,9 +7,9 @@ import java.awt.Rectangle;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
 import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Shows a fraction as a set of pies.
@@ -34,12 +34,14 @@ public class PieSetFractionNode extends VisibilityNode {
 
                 final ContainerState state = containerState.get();
                 for ( int i = 0; i < state.size; i++ ) {
-                    final PieChartNode.PieValue[] slices = new PieChartNode.PieValue[state.denominator];
-                    for ( int j = 0; j < slices.length; j++ ) {
+                    int numSlices = state.denominator;
+                    PNode pie = new PNode();
+                    for ( int j = 0; j < numSlices; j++ ) {
                         CellPointer cp = new CellPointer( i, j );
-                        slices[j] = new PieChartNode.PieValue( 1.0 / state.denominator, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white );
+                        double degreesPerSlice = 360.0 / numSlices;
+                        pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white ) );
                     }
-                    box.addChild( new PieChartNode( slices, PIE_SIZE ) );
+                    box.addChild( pie );
                 }
 
                 addChild( box );
