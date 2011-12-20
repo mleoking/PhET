@@ -3364,7 +3364,6 @@ CanvasNode = Klass( Animatable, Transformable, {
     },
 
     handleEvent : function( event ) {
-        console.log( "Canvas node handling event, type = " + event.type );
         var type = event.type
         var phase = event.canvasPhase
         if ( this.cursor && phase == 'capture' ) {
@@ -3806,6 +3805,23 @@ CanvasNode = Klass( Animatable, Transformable, {
             ev.preventDefault();
             return false;
         }, false );
+        this.addEventListener( 'touchstart', function( ev ) {
+            if ( ev.touches.length == 1 ) {
+                ev.preventDefault();
+                ev.preventDefault();
+                this.dragStartPosition = {x: this.x, y: this.y};
+            }
+            return false;
+        }, false );
+        this.addEventListener( 'touchmove', function( ev ) {
+            if ( ev.touches.length == 1 ) {
+                ev.stopPropagation();
+                ev.preventDefault();
+                this.x = event.touches[ 0 ].pageX;
+                this.y = event.touches[ 0 ].pageY;
+            }
+            return false;
+        }, false );
     }
 } )
 
@@ -4079,6 +4095,7 @@ Canvas = Klass( CanvasNode, {
         var dispatch = this.dispatchEvent.bind( this )
         var types = [
             'mousemove', 'mouseover', 'mouseout',
+            'touchstart', 'touchmove', 'touchend',
             'click', 'dblclick',
             'mousedown', 'mouseup',
             'keypress', 'keydown', 'keyup',
@@ -4309,6 +4326,7 @@ Canvas = Klass( CanvasNode, {
     },
 
     dispatchEvent : function( ev ) {
+        console.log( "dispatchEvent, type = " + ev.type )
         var rv = CanvasNode.prototype.dispatchEvent.call( this, ev )
         if ( ev.cursor ) {
             if ( this.canvas.style.cursor != ev.cursor ) {
