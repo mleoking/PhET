@@ -41,7 +41,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             // upper right
             soluteControlNode.setOffset( getStageSize().getWidth() - soluteControlNode.getFullBoundsReference().getWidth() - xMargin, yMargin );
             // upper center
-            shakerNode.setOffset( soluteControlNode.getFullBoundsReference().getMinX() - shakerNode.getFullBoundsReference().getWidth() - 40, 50 );
+            shakerNode.setOffset( soluteControlNode.getFullBoundsReference().getMinX() - shakerNode.getFullBoundsReference().getWidth() - 40, yMargin );
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
