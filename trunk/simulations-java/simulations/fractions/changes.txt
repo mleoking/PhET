@@ -1,3 +1,4 @@
+Show a "+" button for adding empty pies
 Don't show next pie as empty
 Removed "Random/In Order" control panel
 # 0.00.20 (59522) Dec 20, 2011

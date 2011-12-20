@@ -59,7 +59,7 @@ public class ContainerState {
     }
 
     //Remove any trailing containers that are completely empty
-    private ContainerState trimAll() {
+    public ContainerState trimAll() {
         final ArrayList<Container> reversed = new ArrayList<Container>( containers );
         Collections.reverse( reversed );
         final boolean[] foundNonEmpty = { false };
@@ -82,7 +82,7 @@ public class ContainerState {
         return new ContainerState( denominator, all );
     }
 
-    private ContainerState addEmptyContainer() {
+    public ContainerState addEmptyContainer() {
         return new ContainerState( denominator, new ArrayList<Container>( containers ) {{
             add( new Container( denominator, new int[0] ) );
         }} );
