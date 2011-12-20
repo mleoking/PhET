@@ -37,7 +37,7 @@ public class TerrainNode extends GridMesh {
         texture2 = BufferUtils.createFloatBuffer( terrain.numXSamples * terrain.numZSamples * 2 );
 
         // use the gridded mesh to handle the terrain
-        final GridMesh gridMesh = new GridMesh( terrain.numZSamples, terrain.numXSamples, positions );
+//        final GridMesh gridMesh = new GridMesh( terrain.numZSamples, terrain.numXSamples, positions );
 //        updateSphericalCoordinates( gridMesh, terrain );
 //        updateHeightmap( terrain, gridMesh );
 
@@ -69,7 +69,7 @@ public class TerrainNode extends GridMesh {
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
                                                   public void update() {
-                                                      gridMesh.updateGeometry( computePositions( terrain, module.getModelViewTransform() ) );
+                                                      updateGeometry( computePositions( terrain, module.getModelViewTransform() ) );
 //                                                      updateSphericalCoordinates( gridMesh, terrain );
 //                                                      updateHeightmap( terrain, gridMesh );
                                                   }
