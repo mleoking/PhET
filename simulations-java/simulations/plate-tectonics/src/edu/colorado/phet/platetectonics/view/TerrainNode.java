@@ -39,7 +39,7 @@ public class TerrainNode extends GridMesh {
 //        updateHeightmap( terrain, gridMesh );
 
         // TODO: add in terrain texture
-        setMaterial( new ColorMaterial( 1, 0.7f, 0.5f, 1 ) );
+        setMaterial( new ColorMaterial( 0.7f, 0.65f, 0.45f, 1 ) );
 
         // use a terrain-style texture. this allows us to blend between three different textures
 //        setMaterial( new Material( module.getAssetManager(), "plate-tectonics/materials/Surface.j3md" ) {{

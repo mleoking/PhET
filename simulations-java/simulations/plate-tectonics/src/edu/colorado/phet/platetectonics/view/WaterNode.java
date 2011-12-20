@@ -169,6 +169,10 @@ public class WaterNode extends GLNode {
         @Override public void renderSelf( GLOptions options ) {
             super.renderSelf( options );
 
+            positionBuffer.rewind();
+            normalBuffer.rewind();
+            indexBuffer.rewind();
+
             // TODO: seeing a lot of this type of code. refactor away if possible
             // initialize the needed states
             glEnableClientState( GL_VERTEX_ARRAY );
