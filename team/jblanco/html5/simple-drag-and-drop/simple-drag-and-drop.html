@@ -40,9 +40,7 @@
                 }
             }
 
-            //-----------------------------------------------------------------
-            // Event handling.
-            //-----------------------------------------------------------------
+            // Define event handlers for mouse and touch events.
             var mouseX = 0;
             var mouseY = 0;
             var mouseDown = false;
@@ -92,14 +90,16 @@
                 canvas.height = $( window ).height();
                 draw();
             };
-            $( window ).resize( resizer );
 
-            // Hook up event handlers.
+            // Hook up event handlers for mouse and touch.
             document.onmousedown = mouseDownHandler;
             document.onmousemove = mouseMoveHandler;
             document.onmouseup = mouseUpHandler;
             document.addEventListener( 'touchstart', touchStartHandler, false );
             document.addEventListener( 'touchmove', touchMoveHandler, false );
+
+            // Hook up event handler for window resize.
+            $( window ).resize( resizer );
 
             // Initial call to paint the canvas.
             resizer();
