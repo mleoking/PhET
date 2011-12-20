@@ -8,6 +8,9 @@ window.onload = function() {
                                  }
     );
 
+    // Root of our scene graph.
+    var scene = new CanvasNode( {x: 0, y: 0} )
+
     var circle = new Circle( 40,
                              {
                                  id: 'myCircle',
@@ -21,11 +24,60 @@ window.onload = function() {
 
     circle.makeDraggable();
 
-    circle.addFrameListener(
-            function( t, dt ) {
-                // Should set canvas position.
-            }
-    );
+    var text = new TextNode( "help", {
+        text: 'TextNode!',
+        cx : 100,
+        cy : 100,
+        height : 40
+    } );
 
-    CAKECanvas.append( circle );
+    circle.addEventListener( 'click', function( event ) {
+        console.log( event.type + " caught!" );
+        text.text = event.type;
+        circle.fill = "blue";
+    }, true );
+
+    circle.addEventListener( 'mouseover', function( event ) {
+        console.log( event.type + " caught!" );
+        text.text = event.type;
+        circle.fill = "pink";
+    }, true );
+    circle.addEventListener( 'mouseout', function( event ) {
+        console.log( event.type + " caught!" );
+        text.text = event.type;
+        circle.fill = "green";
+    }, true );
+    circle.addEventListener( 'dragstart', function( event ) {
+        console.log( event.type + " caught!" );
+        text.text = event.type;
+        circle.fill = "cyan";
+    }, true );
+    circle.addEventListener( 'drag', function( event ) {
+        console.log( event.type + " caught!" );
+        text.text = event.type;
+        circle.fill = "magenta";
+    }, true );
+    circle.addEventListener( 'touchstart', function( event ) {
+        console.log( event.type + " caught!" );
+        text.text = event.type;
+        circle.fill = "white";
+    }, true );
+    circle.addEventListener( 'touchend', function( event ) {
+        console.log( event.type + " caught!" );
+        text.text = event.type;
+        circle.fill = "black";
+    }, true );
+
+    scene.append( circle );
+    scene.append( text );
+    CAKECanvas.append( scene );
+
+    // Disable elastic scrolling.
+    document.addEventListener(
+            'touchmove',
+            function( e ) {
+                e.preventDefault();
+            },
+            false
+    );
 };

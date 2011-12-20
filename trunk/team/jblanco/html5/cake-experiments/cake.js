@@ -3364,6 +3364,7 @@ CanvasNode = Klass( Animatable, Transformable, {
     },
 
     handleEvent : function( event ) {
+        console.log( "Canvas node handling event, type = " + event.type );
         var type = event.type
         var phase = event.canvasPhase
         if ( this.cursor && phase == 'capture' ) {
