@@ -8,6 +8,7 @@ import edu.colorado.phet.beerslawlab.model.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Control panel for solute.
@@ -16,8 +17,23 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class SoluteControlNode extends ControlPanelNode {
 
+    private PBounds contentBounds;
+
     public SoluteControlNode( ArrayList<Solute> solutes, Property<Solute> currentSolute, Property<SoluteForm> soluteForm ) {
         super( new LayoutNode( solutes, currentSolute, soluteForm ) );
+    }
+
+    /*
+     * WORKAROUND for #3190.
+     * Popping up the solute combo box causes the control panel to resize, undesirable behavior.
+     * This workaround makes the control panel use its initial size, effectively disabling resizing.
+     */
+    @Override protected PBounds getControlPanelBounds( PNode content ) {
+        if ( contentBounds == null ) {
+            final PBounds bounds = content.getFullBounds();
+            contentBounds = new PBounds( bounds.getX(), bounds.getY(), bounds.getWidth() + 18, bounds.getHeight() );
+        }
+        return contentBounds;
     }
 
     private static class LayoutNode extends PNode {
