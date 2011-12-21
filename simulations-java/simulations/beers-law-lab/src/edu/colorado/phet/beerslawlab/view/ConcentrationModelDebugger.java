@@ -2,6 +2,7 @@
 package edu.colorado.phet.beerslawlab.view;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.beerslawlab.concentration.ConcentrationModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -25,8 +26,8 @@ public class ConcentrationModelDebugger extends VBox {
         // nodes, initialized with "?" as a workaround for VBox bug #3191
         final PText evaporationRate = new PText( "?" );
         final PText dropperLocation = new PText( "?" );
-        final PText inputFlowRate = new PText( "?" );
-        final PText outputFlowRate = new PText( "?" );
+        final PText inputFaucetFlowRate = new PText( "?" );
+        final PText outputFaucetFlowRate = new PText( "?" );
         final PText shakerLocation = new PText( "?" );
         final PText soluteForm = new PText( "?" );
         final HTMLNode soluteFormula = new HTMLNode( "?" );
@@ -39,8 +40,8 @@ public class ConcentrationModelDebugger extends VBox {
         addChild( new PText( "MODEL PROPERTIES" ) {{ setTextPaint( Color.RED ); }} );
         addChild( dropperLocation );
         addChild( evaporationRate );
-        addChild( inputFlowRate );
-        addChild( outputFlowRate );
+        addChild( inputFaucetFlowRate );
+        addChild( outputFaucetFlowRate );
         addChild( shakerLocation );
         addChild( soluteForm );
         addChild( soluteFormula );
@@ -48,6 +49,11 @@ public class ConcentrationModelDebugger extends VBox {
         addChild( solutionPrecipitateAmount );
         addChild( solutionSoluteAmount );
         addChild( solutionVolume );
+
+        final DecimalFormat rateFormat = new DecimalFormat( "0.000" );
+        final DecimalFormat volumeFormat = new DecimalFormat( "0.00" );
+        final DecimalFormat molesFormat = new DecimalFormat( "0.0000" );
+        final DecimalFormat concentrationFormat = new DecimalFormat( "0.0000" );
 
         // observers
         model.dropper.location.addObserver( new SimpleObserver() {
@@ -57,17 +63,17 @@ public class ConcentrationModelDebugger extends VBox {
         } );
         model.evaporationRate.addObserver( new SimpleObserver() {
             public void update() {
-                evaporationRate.setText( "evaporationRate = " + model.evaporationRate.get() + " L/sec" );
+                evaporationRate.setText( "evaporationRate = " + rateFormat.format( model.evaporationRate.get() ) + " L/sec" );
             }
         } );
-        model.inputFlowRate.addObserver( new SimpleObserver() {
+        model.inputFaucet.addFlowRateObserver( new SimpleObserver() {
             public void update() {
-                inputFlowRate.setText( "inputFlowRate = " + model.inputFlowRate.get() + " L/sec" );
+                inputFaucetFlowRate.setText( "inputFaucet.flowRate = " + rateFormat.format( model.inputFaucet.getFlowRate() ) + " L/sec" );
             }
         } );
-        model.outputFlowRate.addObserver( new SimpleObserver() {
+        model.outputFaucet.addFlowRateObserver( new SimpleObserver() {
             public void update() {
-                outputFlowRate.setText( "outputFlowRate = " + model.outputFlowRate.get() + " L/sec" );
+                outputFaucetFlowRate.setText( "outputFaucet.flowRate = " + rateFormat.format( model.outputFaucet.getFlowRate() ) + " L/sec" );
             }
         } );
         model.shaker.location.addObserver( new SimpleObserver() {
@@ -87,22 +93,22 @@ public class ConcentrationModelDebugger extends VBox {
         } );
         model.solution.addConcentrationObserver( new SimpleObserver() {
             public void update() {
-                solutionConcentration.setText( "solution.concentration = " + model.solution.getConcentration() + " M" );
+                solutionConcentration.setText( "solution.concentration = " + concentrationFormat.format( model.solution.getConcentration() ) + " M" );
             }
         } );
         model.solution.addPrecipitateAmountObserver( new SimpleObserver() {
             public void update() {
-                solutionPrecipitateAmount.setText( "solution.precipitateAmount = " + model.solution.getPrecipitateAmount() + " mol" );
+                solutionPrecipitateAmount.setText( "solution.precipitateAmount = " + molesFormat.format( model.solution.getPrecipitateAmount() ) + " mol" );
             }
         } );
         model.solution.soluteAmount.addObserver( new SimpleObserver() {
             public void update() {
-                solutionSoluteAmount.setText( "solution.soluteAmount = " + model.solution.soluteAmount.get() + " mol" );
+                solutionSoluteAmount.setText( "solution.soluteAmount = " + molesFormat.format( model.solution.soluteAmount.get() ) + " mol" );
             }
         } );
         model.solution.volume.addObserver( new SimpleObserver() {
             public void update() {
-                solutionVolume.setText( "solution.volume = " + model.solution.volume.get() + " L" );
+                solutionVolume.setText( "solution.volume = " + volumeFormat.format( model.solution.volume.get() ) + " L" );
             }
         } );
     }

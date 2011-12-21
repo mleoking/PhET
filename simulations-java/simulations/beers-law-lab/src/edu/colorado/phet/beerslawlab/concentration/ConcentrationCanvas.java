@@ -15,6 +15,7 @@ import edu.colorado.phet.beerslawlab.view.DropperNode;
 import edu.colorado.phet.beerslawlab.view.ShakerNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -28,6 +29,8 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // Nodes
         PNode beakerNode = new BeakerNode( model.beaker );
+        PNode inputFaucetNode = new FaucetNode( model.inputFaucet.flowPercentage, model.inputFaucet.enabled, 50, true );
+        PNode outputFaucetNode = new FaucetNode( model.outputFaucet.flowPercentage, model.outputFaucet.enabled, 20, true );
         PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
         PNode shakerNode = new ShakerNode( model.shaker, model.soluteForm );
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
@@ -40,6 +43,8 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // rendering order
         {
+            addChild( inputFaucetNode );
+            addChild( outputFaucetNode );
             addChild( beakerNode );
             addChild( shakerNode );
             addChild( dropperNode );
@@ -57,6 +62,9 @@ public class ConcentrationCanvas extends BLLCanvas {
             // NOTE: Nodes that have corresponding model elements handle their own offsets.
             final double xMargin = 20;
             final double yMargin = 20;
+            inputFaucetNode.setOffset( 50, 30 );
+            outputFaucetNode.setOffset( beakerNode.getFullBoundsReference().getMaxX(),
+                                        beakerNode.getFullBoundsReference().getMaxY() - 95 );
             // upper right
             soluteControlNode.setOffset( getStageSize().getWidth() - soluteControlNode.getFullBoundsReference().getWidth() - xMargin, yMargin );
             // left aligned below beaker
