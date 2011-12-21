@@ -21,7 +21,7 @@ public class RemoveSoluteButtonNode extends TextButtonNode {
         super( Strings.REMOVE_SOLUTE, new PhetFont( 18 ), Color.ORANGE );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                solution.setSoluteAmount( 0 );
+                solution.soluteAmount.set( 0d );
             }
         } );
     }

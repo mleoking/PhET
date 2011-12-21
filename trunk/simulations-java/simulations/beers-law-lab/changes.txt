@@ -1,3 +1,4 @@
+12/21/11 add debug node for model properties
 12/21/11 refine some controls
 12/20/11 grabbed evaporation control from sugar-and-salt-solutions
 12/20/11 add "Remove Solute" button
