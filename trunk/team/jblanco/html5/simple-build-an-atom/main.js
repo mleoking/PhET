@@ -3,7 +3,8 @@
 var canvas;
 var mouseDown = false;
 var context;
-var particle;
+var particles = new Array();
+var addProtonNext = true;
 
 
 //Hook up the initialization function.
@@ -52,9 +53,6 @@ function init() {
             false
     );
 
-    // Create the particle.
-    particle = new Particle( "red" );
-
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
 }
@@ -65,17 +63,6 @@ function clearBackground() {
     context.fillStyle = "rgb(255, 255, 153)";
     context.fillRect( 0, 0, canvas.width, canvas.height );
     context.restore();
-}
-
-function drawParticle( xPos, yPos, radius, color ) {
-    var gradient1 = context.createRadialGradient( xPos - radius / 3, yPos - radius / 3, 0, xPos, yPos, radius );
-    gradient1.addColorStop( 0, "white" );
-    gradient1.addColorStop( 1, color );
-    context.fillStyle = gradient1;
-    context.beginPath();
-    context.arc( xPos, yPos, radius, 0, Math.PI * 2, true );
-    context.closePath();
-    context.fill();
 }
 
 function Particle( color ) {
@@ -99,58 +86,66 @@ Particle.prototype.draw = function( context ) {
 // Main drawing function.
 function draw() {
     clearBackground();
-    particle.draw( context );
+    for ( var i = 0; i < particles.length; i++ ) {
+        particles[i].draw( context );
+    }
 }
 
 // Event handlers.
 
 function onDocumentMouseDown() {
-    console.log( "onDocumentMouseDown" );
     mouseDown = true;
-    particle.xPos = event.clientX;
-    particle.yPos = event.clientY;
+    var color = 'red';
+    if ( !addProtonNext ) {
+        color = 'gray'
+    }
+    addProtonNext = !addProtonNext;
+    particles.push( new Particle( color ) );
+    particles[particles.length - 1].xPos = event.clientX;
+    particles[particles.length - 1].yPos = event.clientY;
     draw();
 }
 
 function onDocumentMouseUp() {
-    console.log( "onDocumentMouseDown" );
     mouseDown = false;
-    particle.xPos = event.clientX;
-    particle.yPos = event.clientY;
+    particles[particles.length - 1].xPos = event.clientX;
+    particles[particles.length - 1].yPos = event.clientY;
     draw();
 }
 
 function onDocumentMouseMove( event ) {
-    console.log( "onDocumentMouseMove" );
     if ( mouseDown ) {
-        particle.xPos = event.clientX;
-        particle.yPos = event.clientY;
+        particles[particles.length - 1].xPos = event.clientX;
+        particles[particles.length - 1].yPos = event.clientY;
         draw();
     }
 }
 
 function onDocumentTouchStart( event ) {
-    console.log( "onDocumentTouchStart" );
     if ( event.touches.length == 1 ) {
         event.preventDefault();
-        particle.xPos = event.touches[ 0 ].pageX;
-        particle.yPos = event.touches[ 0 ].pageY;
+        var color = 'red';
+        if ( !addProtonNext ) {
+            color = 'gray'
+        }
+        addProtonNext = !addProtonNext;
+        particles.push( new Particle( color ) );
+        particles[particles.length - 1].xPos = event.touches[ 0 ].pageX;
+        particles[particles.length - 1].yPos = event.touches[ 0 ].pageY;
         draw();
     }
 }
 
 function onDocumentTouchMove( event ) {
-    console.log( "onDocumentTouchMove" );
     if ( event.touches.length == 1 ) {
         event.preventDefault();
-        particle.xPos = event.touches[ 0 ].pageX;
-        particle.yPos = event.touches[ 0 ].pageY;
+        particles[particles.length - 1].xPos = event.touches[ 0 ].pageX;
+        particles[particles.length - 1].yPos = event.touches[ 0 ].pageY;
         draw();
     }
 }
 
 function onDocumentTouchEnd( event ) {
-    console.log( "onDocumentTouchEnd" );
     mouseDown = false;
 }
 
