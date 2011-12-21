@@ -35,7 +35,7 @@ public class FaucetNode extends PNode {
 
     //Locations where the left side of the faucet connects to the pipe, so that the pipe can be tiled beyond the faucet image
     private final double inputPipeY1 = 32;
-    private final double inputPipeY2 = 77;
+    private final double inputPipeY2 = 78;
     private final double inputPipeX = 0;
 
     private final double outputPipeX1 = 57;
@@ -74,7 +74,7 @@ public class FaucetNode extends PNode {
             addChild( faucetSliderNode );
 
             //Show the pipe to the left of the faucet with a tiled image
-            final Rectangle2D.Double rect = new Rectangle2D.Double( -faucetLength + 1, inputPipeY1 - 0.5, faucetLength, inputPipeY2 - inputPipeY1 + 1.5 );
+            final Rectangle2D.Double rect = new Rectangle2D.Double( -faucetLength, inputPipeY1, faucetLength, inputPipeY2 - inputPipeY1 );
             addChild( new PhetPPath( rect, new TexturePaint( FAUCET_PIPE, new Rectangle2D.Double( 0, rect.getY(), FAUCET_PIPE.getWidth(), FAUCET_PIPE.getHeight() ) ) ) );
         }};
 
@@ -103,7 +103,6 @@ public class FaucetNode extends PNode {
             } );
         }};
         final FaucetNode faucetNode = new FaucetNode( flowRate, new Property<Boolean>( true ), 50, true ) {{
-            scale( 2 ); // scale to make alignment problem #3192 more visible
             setOffset( 100, 100 );
         }};
         final PhetPCanvas canvas = new PhetPCanvas() {{
