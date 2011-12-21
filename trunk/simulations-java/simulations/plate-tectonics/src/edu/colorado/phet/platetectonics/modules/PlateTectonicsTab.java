@@ -72,6 +72,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     private LWJGLModelViewTransform modelViewTransform;
     private long lastSeenTime;
     public final GLNode rootNode = new GLNode();
+    public final GLNode sceneNode = new GLNode();
     private boolean showWireframe = false;
 
     // in seconds
@@ -143,24 +144,21 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     }
                 }, false );
 
+        /*---------------------------------------------------------------------------*
+        * debugging marker on z=0 plane, press "M" and click
+        *----------------------------------------------------------------------------*/
         mouseEventNotifier.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
-//                        System.out.println( "x: " + Mouse.getEventX() + ", y: " + Mouse.getEventY() );
-
                         // LMB down
-                        if ( Mouse.getEventButton() == 0 && Mouse.getEventButtonState() ) {
-                            System.out.println( "click" );
+                        if ( Mouse.getEventButton() == 0 && Mouse.getEventButtonState() && Keyboard.isKeyDown( Keyboard.KEY_M ) ) {
                             Ray3F cameraRay = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
-                            System.out.println( cameraRay );
                             final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
-                            System.out.println( "intersection: " + intersection );
 
-                            rootNode.addChild( new UnitMarker() {{
+                            sceneNode.addChild( new UnitMarker() {{
                                 translate( intersection.x, intersection.y, intersection.z );
+                                scale( 10 );
                             }} );
-
-                            // TODO: picking testing
                         }
                     }
                 }, false );
@@ -232,6 +230,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         options.renderPass = RenderPass.TRANSPARENCY;
         rootNode.render( options );
 
+        // kind of a debugging node
+        loadCameraMatrices();
+        sceneNode.render( new GLOptions() );
+
         Display.update();
     }
 
@@ -298,19 +300,18 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     public Ray3F getCameraRay( int mouseX, int mouseY ) {
-        ImmutableMatrix4F projectionMatrix = getSceneProjectionMatrix();
-        ImmutableMatrix4F modelViewMatrix = getSceneModelViewMatrix();
+        ImmutableVector3F normalizedDeviceCoordinates = new ImmutableVector3F(
+                2 * mouseX / (float) getCanvasWidth() - 1,
+                2 * mouseY / (float) getCanvasHeight() - 1,
+                1 );
 
-        System.out.println( "projection:\n" + projectionMatrix );
-        System.out.println( "modelView:\n" + modelViewMatrix );
-        System.out.println( "P*M:\n" + ( projectionMatrix.times( modelViewMatrix ) ) );
+        ImmutableVector3F eyeCoordinates = sceneProjectionTransform.getInverse().times( normalizedDeviceCoordinates );
 
-        ImmutableMatrix4F inverseTransform = ( projectionMatrix.times( modelViewMatrix ) ).inverted();
+        ImmutableVector3F objectCoordinatesA = sceneModelViewTransform.getInverse().times( eyeCoordinates );
+        ImmutableVector3F objectCoordinatesB = sceneModelViewTransform.getInverse().times( eyeCoordinates.times( 2 ) );
 
-        ImmutableVector3F position = inverseTransform.times( getNormalizedDeviceCoordinates( new ImmutableVector3F( mouseX, mouseY, 0 ) ) );
-        ImmutableVector3F farPlanePosition = inverseTransform.times( getNormalizedDeviceCoordinates( new ImmutableVector3F( mouseX, mouseY, farPlane ) ) );
-        ImmutableVector3F direction = farPlanePosition.minus( position ).normalized();
-        return new Ray3F( position, direction );
+        Ray3F cameraRay = new Ray3F( objectCoordinatesA, objectCoordinatesB.minus( objectCoordinatesA ) );
+        return cameraRay;
     }
 
     public static String bufferString( FloatBuffer buffer ) {
