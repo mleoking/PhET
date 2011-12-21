@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -29,13 +30,14 @@ import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
+import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPerSecondLimit;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 /**
  * General plate tectonics module that consolidates common behavior between the various tabs
@@ -48,6 +50,13 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public static final String MAP_UP = "CameraUp";
     public static final String MAP_DOWN = "CameraDown";
     public static final String MAP_LMB = "CameraDrag";
+
+    // frustum properties
+    public static final float fieldOfViewDegrees = 40;
+    public static final float nearPlane = 1;
+    public static final float farPlane = 5000;
+
+    public final LWJGLTransform sceneProjectionTransform = new LWJGLTransform();
 
     private Dimension stageSize;
 
@@ -127,6 +136,19 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                         }
                         if ( Keyboard.isKeyDown( Keyboard.KEY_D ) ) {
                             debugCameraTransform.prepend( ImmutableMatrix4F.translation( -1, 0, 0 ) );
+                        }
+                    }
+                }, false );
+
+        mouseEventNotifier.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        System.out.println( "x: " + Mouse.getEventX() + ", y: " + Mouse.getEventY() );
+
+                        // LMB down
+                        if ( Mouse.getEventButton() == 0 && Mouse.getEventButtonState() ) {
+                            System.out.println( "click" );
+                            System.out.println( getCameraRay( Mouse.getEventX(), Mouse.getEventY() ) );
                         }
                     }
                 }, false );
@@ -223,15 +245,85 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public void loadCameraMatrices() {
         glMatrixMode( GL_PROJECTION );
         glLoadIdentity();
-        AffineTransform transform = canvasTransform.transform.get();
-        glScaled( transform.getScaleX(), transform.getScaleY(), 1 );
-        // TODO: scale is still off. examine history here
-        gluPerspective( 40, (float) canvasSize.get().width / (float) canvasSize.get().height, 1, 5000 );
+        sceneProjectionTransform.set( getSceneProjectionMatrix() );
+        sceneProjectionTransform.apply();
+
         glMatrixMode( GL_MODELVIEW );
         glLoadIdentity();
+
+        // TODO: refactor this into getSceneModelViewMatrix, and keep a transform as above. axe debugCameraTransform
         debugCameraTransform.apply();
         glRotatef( 13, 1, 0, 0 );
         glTranslatef( 0, -80, -400 );
+    }
+
+    public ImmutableMatrix4F getSceneProjectionMatrix() {
+        AffineTransform affineCanvasTransform = canvasTransform.transform.get();
+
+        // TODO: scale is still off. examine history here
+        ImmutableMatrix4F scalingMatrix = ImmutableMatrix4F.scaling(
+                (float) affineCanvasTransform.getScaleX(),
+                (float) affineCanvasTransform.getScaleY(),
+                1 );
+
+        ImmutableMatrix4F perspectiveMatrix = getGluPerspective( fieldOfViewDegrees,
+                                                                 (float) canvasSize.get().width / (float) canvasSize.get().height,
+                                                                 nearPlane, farPlane );
+        return scalingMatrix.times( perspectiveMatrix );
+    }
+
+    public static ImmutableMatrix4F getGluPerspective( float fovy, float aspect, float zNear, float zFar ) {
+        float fovAngle = (float) ( fovy / 2 * Math.PI / 180 );
+        float cotangent = (float) Math.cos( fovAngle ) / (float) Math.sin( fovAngle );
+
+        return ImmutableMatrix4F.rowMajor( cotangent / aspect, 0, 0, 0,
+                                           0, cotangent, 0, 0,
+                                           0, 0, ( zFar + zNear ) / ( zNear - zFar ), ( 2 * zFar * zNear ) / ( zNear - zFar ),
+                                           0, 0, -1, 0 );
+    }
+
+    // we don't want to create these for each function call.
+    private FloatBuffer rayProjectionBuffer = BufferUtils.createFloatBuffer( 16 );
+    private FloatBuffer rayModelViewBuffer = BufferUtils.createFloatBuffer( 16 );
+
+    public Ray3F getCameraRay( int mouseX, int mouseY ) {
+        loadCameraMatrices();
+
+        // TODO: get rid of the slow glGet calls and use our home-grown matrices
+        rayProjectionBuffer.clear();
+        glGetFloat( GL_PROJECTION_MATRIX, rayProjectionBuffer );
+        rayModelViewBuffer.clear();
+        glGetFloat( GL_MODELVIEW_MATRIX, rayModelViewBuffer );
+
+        ImmutableMatrix4F projectionMatrix = ImmutableMatrix4F.fromGLBuffer( rayProjectionBuffer );
+        ImmutableMatrix4F modelViewMatrix = ImmutableMatrix4F.fromGLBuffer( rayModelViewBuffer );
+
+        System.out.println( "projection:\n" + projectionMatrix );
+        System.out.println( "modelView:\n" + projectionMatrix );
+        System.out.println( "P*M:\n" + ( projectionMatrix.times( modelViewMatrix ) ) );
+
+        ImmutableMatrix4F inverseTransform = ( projectionMatrix.times( modelViewMatrix ) ).inverted();
+
+        ImmutableVector3F position = inverseTransform.times( getNormalizedDeviceCoordinates( new ImmutableVector3F( mouseX, mouseY, 0 ) ) );
+        ImmutableVector3F farPlanePosition = inverseTransform.times( getNormalizedDeviceCoordinates( new ImmutableVector3F( mouseX, mouseY, farPlane ) ) );
+        ImmutableVector3F direction = farPlanePosition.minus( position ).normalized();
+        return new Ray3F( position, direction );
+    }
+
+    public static String bufferString( FloatBuffer buffer ) {
+        StringBuilder builder = new StringBuilder();
+        buffer.rewind();
+        while ( buffer.hasRemaining() ) {
+            builder.append( buffer.get() + " " );
+        }
+        return builder.toString();
+    }
+
+    // similar to gluUnProject
+    public ImmutableVector3F getNormalizedDeviceCoordinates( ImmutableVector3F screenCoordinates ) {
+        return new ImmutableVector3F( 2 * screenCoordinates.x / (float) getCanvasWidth() - 1,
+                                      2 * screenCoordinates.y / (float) getCanvasHeight() - 1,
+                                      2 * screenCoordinates.z - 1 );
     }
 
     private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[] { 0, 0, 0, 0 } );
