@@ -1,3 +1,5 @@
+Made default numerator 0
+Fixed initialization bug that caused it to show only 1 pie on startup
 Show all 6 pies all the time and gray out if empty
 Show a "+" button for adding empty pies
 Don't show next pie as empty
