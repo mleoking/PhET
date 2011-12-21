@@ -408,6 +408,10 @@ function draw() {
     nucleusLabel.draw( context );
 }
 
+//-----------------------------------------------------------------------------
+// Utility functions
+//-----------------------------------------------------------------------------
+
 function removeAllParticles() {
     particlesInNucleus.length = 0;
 }
@@ -417,6 +421,48 @@ function removeParticleFromNucleus( particle ) {
         if ( particlesInNucleus[i] == particle ) {
             particlesInNucleus.splice( i, 1 );
             break;
+        }
+    }
+    adjustNucleonPositions();
+}
+
+// Adjust the positions of the nucleons to look good.
+function adjustNucleonPositions() {
+    var particleRadius = new Particle( "black" ).radius;
+    if ( particlesInNucleus.length == 0 ) {
+        return;
+    }
+    else if ( particlesInNucleus.length == 1 ) {
+        particlesInNucleus[0].setLocation( electronShell.location );
+    }
+    else if ( particlesInNucleus.length == 2 ) {
+        particlesInNucleus[0].setLocationComponents( electronShell.location.x - particleRadius, electronShell.location.y );
+        particlesInNucleus[1].setLocationComponents( electronShell.location.x + particleRadius, electronShell.location.y );
+    }
+    else if ( particlesInNucleus.length == 3 ) {
+        particlesInNucleus[0].setLocationComponents( electronShell.location.x, electronShell.location.y - particleRadius * 1.1 );
+        particlesInNucleus[1].setLocationComponents( electronShell.location.x + particleRadius * 0.77, electronShell.location.y + particleRadius * 0.77 );
+        particlesInNucleus[2].setLocationComponents( electronShell.location.x - particleRadius * 0.77, electronShell.location.y + particleRadius * 0.77 );
+    }
+    else if ( particlesInNucleus.length == 4 ) {
+        particlesInNucleus[0].setLocationComponents( electronShell.location.x, electronShell.location.y - particleRadius * 1.5 );
+        particlesInNucleus[1].setLocationComponents( electronShell.location.x + particleRadius, electronShell.location.y );
+        particlesInNucleus[2].setLocationComponents( electronShell.location.x - particleRadius, electronShell.location.y );
+        particlesInNucleus[3].setLocationComponents( electronShell.location.x, electronShell.location.y + particleRadius * 1.5 );
+    }
+    else if ( particlesInNucleus.length >= 5 ) {
+        // Place the last five as a diamond with one in center.
+        particlesInNucleus[particlesInNucleus.length - 1].setLocationComponents( electronShell.location.x, electronShell.location.y );
+        particlesInNucleus[particlesInNucleus.length - 2].setLocationComponents( electronShell.location.x, electronShell.location.y - particleRadius * 1.5 );
+        particlesInNucleus[particlesInNucleus.length - 3].setLocationComponents( electronShell.location.x + particleRadius, electronShell.location.y );
+        particlesInNucleus[particlesInNucleus.length - 4].setLocationComponents( electronShell.location.x - particleRadius, electronShell.location.y );
+        particlesInNucleus[particlesInNucleus.length - 5].setLocationComponents( electronShell.location.x, electronShell.location.y + particleRadius * 1.5 );
+        // Place remaining particles around the edges of this configuration.
+        var placementRadius = particleRadius * 2;
+        for ( i = particlesInNucleus.length - 6; i >= 0; i-- ) {
+            var angle = Math.random() * Math.PI * 2;
+            particlesInNucleus[i].setLocationComponents( electronShell.location.x + placementRadius * Math.cos( angle ),
+                                                         electronShell.location.y + placementRadius * Math.sin( angle ) );
         }
     }
 }
@@ -507,6 +553,7 @@ function onTouchEnd() {
         // to the nucleus.
         if ( electronShell.containsPoint( particleBeingDragged.location ) ) {
             particlesInNucleus.push( particleBeingDragged );
+            adjustNucleonPositions();
         }
         // Always set to null to indicate that no particle is being dragged.
         particleBeingDragged = null;
