@@ -1,13 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 
 var canvas;
-var mouseDown = false;
+var touchInProgress = false;
 var context;
 var particles = new Array();
 var addProtonNext = true;
 
-
-//Hook up the initialization function.
+// Hook up the initialization function.
 $( document ).ready( function() {
     init();
 } );
@@ -76,7 +75,18 @@ function drawPhetLogo() {
     context.fillStyle = '#f80';
     context.font = 'italic 20px sans-serif';
     context.textBaseline = 'top';
-    context.fillText( 'PhET', canvas.width - 70, canvas.height - 40 );
+//    context.fillText( 'PhET', canvas.width - 70, canvas.height - 40 );
+    context.fillText( 'PhET', canvas.width - 70, canvas.height / 2 );
+}
+
+function Point2D( x, y ) {
+    // Instance Fields or Data Members
+    this.x = x;
+    this.y = y;
+}
+
+Point2D.prototype.toString = function() {
+    return this.x + ", " + this.y;
 }
 
 function Particle( color ) {
@@ -110,61 +120,64 @@ function draw() {
 // Event handlers.
 
 function onDocumentMouseDown() {
-    mouseDown = true;
-    var color = 'red';
-    if ( !addProtonNext ) {
-        color = 'gray'
-    }
-    addProtonNext = !addProtonNext;
-    particles.push( new Particle( color ) );
-    particles[particles.length - 1].xPos = event.clientX;
-    particles[particles.length - 1].yPos = event.clientY;
-    draw();
+    onTouchStart( new Point2D( event.clientX, event.clientY ) );
 }
 
 function onDocumentMouseUp() {
-    mouseDown = false;
-    particles[particles.length - 1].xPos = event.clientX;
-    particles[particles.length - 1].yPos = event.clientY;
-    draw();
+    onTouchEnd( new Point2D( event.clientX, event.clientY ) );
 }
 
 function onDocumentMouseMove( event ) {
-    if ( mouseDown ) {
-        particles[particles.length - 1].xPos = event.clientX;
-        particles[particles.length - 1].yPos = event.clientY;
-        draw();
-    }
+    onDrag( new Point2D( event.clientX, event.clientY ) );
 }
 
 function onDocumentTouchStart( event ) {
     if ( event.touches.length == 1 ) {
         event.preventDefault();
-        var color = 'red';
-        if ( !addProtonNext ) {
-            color = 'gray'
-        }
-        addProtonNext = !addProtonNext;
-        particles.push( new Particle( color ) );
-        particles[particles.length - 1].xPos = event.touches[ 0 ].pageX;
-        particles[particles.length - 1].yPos = event.touches[ 0 ].pageY;
-        draw();
+        onTouchStart( new Point2D( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
     }
 }
 
 function onDocumentTouchMove( event ) {
     if ( event.touches.length == 1 ) {
         event.preventDefault();
-        particles[particles.length - 1].xPos = event.touches[ 0 ].pageX;
-        particles[particles.length - 1].yPos = event.touches[ 0 ].pageY;
-        draw();
+        onDrag( new Point2D( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
     }
 }
 
 function onDocumentTouchEnd( event ) {
-    mouseDown = false;
+    if ( event.touches.length == 1 ) {
+        event.preventDefault();
+        onTouchEnd( new Point2D( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
+    }
 }
 
 function onWindowDeviceOrientation( event ) {
     console.log( "onWindowDeviceOrientation" );
+}
+
+function onTouchStart( location ) {
+    console.log( "onTouchStart called, location = " + location.toString() );
+    touchInProgress = true;
+    var color = 'red';
+    if ( !addProtonNext ) {
+        color = 'gray'
+    }
+    addProtonNext = !addProtonNext;
+    particles.push( new Particle( color ) );
+    particles[particles.length - 1].xPos = location.x;
+    particles[particles.length - 1].yPos = location.y;
+    draw();
+}
+
+function onDrag( location ) {
+    if ( touchInProgress ) {
+        particles[particles.length - 1].xPos = location.x;
+        particles[particles.length - 1].yPos = location.y;
+        draw();
+    }
+}
+
+function onTouchEnd( location ) {
+    touchInProgress = false;
 }
