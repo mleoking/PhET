@@ -6,13 +6,27 @@ DEADLINES
 DESIGN
 - is a stubby dropper OK? because that's the only way we're going to fit a label and button
 - if dropper is transparent and shows solution color, labels won't show up on some solutions
+- move beaker ticks to left side, ala sugar-and-salt-solutions?
+- tilt dropper, ala shaker?
 
 HIGH
+- solution in beaker
+- water exiting input faucet
+- solution exiting output faucet
+- solid solute exiting shaker
+- solution exiting dropper
+- precipitate
+- concentration meter
 
 MEDIUM
-- sim-sharing for Evaporation control
+- adjust drag bounds for shaker and dropper
 
 LOW
+- increase size of thumb on FaucetNode slider
+
+SIM-SHARING
+- EvaporationControlNode
+- FaucetNode (slider, non-interactive elements)
 
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
