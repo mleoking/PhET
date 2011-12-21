@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Debugging node that displays observable properties of ConcentrationModel.
+ * This is for developer use only, no i18n required.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -37,7 +38,7 @@ public class ConcentrationModelDebugger extends VBox {
         final PText solutionVolume = new PText( "?" );
 
         // rendering order
-        addChild( new PText( "MODEL PROPERTIES" ) {{ setTextPaint( Color.RED ); }} );
+        addChild( new PText( "MODEL PROPERTIES (dev)" ) {{ setTextPaint( Color.RED ); }} );
         addChild( dropperLocation );
         addChild( evaporationRate );
         addChild( inputFaucetFlowRate );
