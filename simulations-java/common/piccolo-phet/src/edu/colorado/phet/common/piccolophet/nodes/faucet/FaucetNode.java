@@ -1,15 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.faucet;
 
+import java.awt.Dimension;
 import java.awt.TexturePaint;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -86,5 +92,29 @@ public class FaucetNode extends PNode {
 
     public Dimension2D getGlobalFaucetWidthDimension() {
         return faucetImageNode.localToGlobal( new Dimension2DDouble( outputPipeX2 - outputPipeX1, 0 ) );
+    }
+
+    public static void main( String[] args ) {
+        Property<Double> flowRate = new Property<Double>( 0d ) {{
+            addObserver( new VoidFunction1<Double>() {
+                public void apply( Double flowRate ) {
+                    System.out.println( "flowRate = " + flowRate );
+                }
+            } );
+        }};
+        final FaucetNode faucetNode = new FaucetNode( flowRate, new Property<Boolean>( true ), 50, true ) {{
+            scale( 2 ); // scale to make alignment problem #3192 more visible
+            setOffset( 100, 100 );
+        }};
+        final PhetPCanvas canvas = new PhetPCanvas() {{
+            getLayer().addChild( faucetNode );
+            setPreferredSize( new Dimension( 500, 500 ) );
+        }};
+        new JFrame() {{
+            setContentPane( canvas );
+            pack();
+            setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+            setVisible( true );
+        }};
     }
 }
