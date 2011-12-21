@@ -15,7 +15,7 @@ import edu.colorado.phet.fractions.intro.intro.view.ChosenRepresentation;
  */
 public class SingleFractionModel {
     //Model for numerator and denominator
-    public final IntegerProperty numerator = new IntegerProperty( 1 );
+    public final IntegerProperty numerator = new IntegerProperty( 0 );
     public final IntegerProperty denominator = new IntegerProperty( 1 );
 
     //Fraction value computed as numerator/denominator

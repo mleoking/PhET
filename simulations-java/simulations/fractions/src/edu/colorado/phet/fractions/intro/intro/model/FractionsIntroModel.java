@@ -17,7 +17,7 @@ public class FractionsIntroModel extends SingleFractionModel {
     private static boolean userToggled = false;
     public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
     public final Property<Visualization> visualization = new Property<Visualization>( Visualization.NONE );
-    public final Property<ContainerState> containerState = new Property<ContainerState>( new ContainerState( denominator.get(), new Container[] { new Container( 1, new int[] { 0 } ) } ) );
+    public final Property<ContainerState> containerState = new Property<ContainerState>( new ContainerState( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
 
     public FractionsIntroModel() {
         //synchronize the container state with the numerator and denominator for when the user uses the spinners
@@ -39,7 +39,7 @@ public class FractionsIntroModel extends SingleFractionModel {
                     Container[] c = new Container[numContainers];
                     int numPieces = numerator.get();
 
-                    ContainerState cs = new ContainerState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).addPieces( numPieces );
+                    ContainerState cs = new ContainerState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).addPieces( numPieces ).padAndTrim();
                     containerState.set( cs );
                 }
             }
