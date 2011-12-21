@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.model.Solute;
 import edu.colorado.phet.beerslawlab.model.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -14,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -47,6 +49,7 @@ public class DropperNode extends PhetPNode {
 
         // On/off button
         MomentaryButtonNode buttonNode = new MomentaryButtonNode( dropperOn ) {{
+            setSimSharingObject( Objects.DROPPER_BUTTON );
             scale( 0.45 );
         }};
         addChild( buttonNode );
@@ -69,5 +72,10 @@ public class DropperNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
+        addInputEventListener( new DropperDragHandler() );
+    }
+
+    private static class DropperDragHandler extends SimSharingDragSequenceEventHandler {
+        //TODO
     }
 }
