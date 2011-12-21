@@ -13,10 +13,6 @@ public class Movable {
 
     public final Property<ImmutableVector2D> location;
 
-    public Movable() {
-        this( new ImmutableVector2D() );
-    }
-
     public Movable( ImmutableVector2D location ) {
         this.location = new Property<ImmutableVector2D>( location );
     }
