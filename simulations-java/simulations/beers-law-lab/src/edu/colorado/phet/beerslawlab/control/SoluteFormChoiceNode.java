@@ -3,12 +3,16 @@ package edu.colorado.phet.beerslawlab.control;
 
 import java.awt.Font;
 
+import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.model.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyLabel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -24,16 +28,28 @@ public class SoluteFormChoiceNode extends PhetPNode {
     private static final Font FONT = new PhetFont( 18 );
 
     public SoluteFormChoiceNode( final Property<SoluteForm> soluteForm ) {
-        JPanel panel = new VerticalLayoutPanel() {{
-            setOpaque( false );
+
+        final JPanel solidPanel = new JPanel() {{
             add( new PropertyRadioButton<SoluteForm>( Strings.SOLID, soluteForm, SoluteForm.SOLID ) {{
                 setFont( FONT );
                 setOpaque( false );
             }} );
+            add( new PropertyLabel<SoluteForm>( Objects.SHAKER_ICON, new ImageIcon( Images.SHAKER_ICON ), soluteForm, SoluteForm.SOLID ) );
+        }};
+
+        final JPanel solutionPanel = new JPanel() {{
             add( new PropertyRadioButton<SoluteForm>( Strings.SOLUTION, soluteForm, SoluteForm.SOLUTION ) {{
                 setFont( FONT );
                 setOpaque( false );
             }} );
+            add( new PropertyLabel<SoluteForm>( Objects.DROPPER_ICON, new ImageIcon( Images.DROPPER_ICON ), soluteForm, SoluteForm.SOLUTION ) );
+        }};
+
+        JPanel panel = new JPanel() {{
+            setOpaque( false );
+            add( solidPanel );
+            add( Box.createHorizontalStrut( 15 ) );
+            add( solutionPanel );
         }};
         addChild( new PSwing( panel ) );
     }

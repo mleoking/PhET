@@ -11,7 +11,9 @@ public class BLLSimSharing {
     public static class Objects {
         public static final String DROPPER = "dropper";
         public static final String DROPPER_BUTTON = "dropperButton";
+        public static final String DROPPER_ICON = "dropperIcon";
         public static final String SHAKER = "shaker";
+        public static final String SHAKER_ICON = "shakerIcon";
         public static final String SOLUTE_COMBO_BOX = "soluteComboBox";
     }
 
