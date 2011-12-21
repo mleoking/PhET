@@ -66,7 +66,7 @@ public class MoleculeControlNode extends PhetPNode {
                                setFont( new PhetFont( 14 ) );
                            }};
                        }
-                   }, "Molecule", new Function1<Molecule3D, String>() {
+                   }, "moleculeComboBox", new Function1<Molecule3D, String>() {
                 public String apply( Molecule3D molecule3D ) {
                     return molecule3D.getName();
                 }

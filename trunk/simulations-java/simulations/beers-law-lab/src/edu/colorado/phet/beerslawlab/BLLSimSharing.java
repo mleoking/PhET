@@ -13,4 +13,8 @@ public class BLLSimSharing {
         public static final String DROPPER_BUTTON = "dropperButton";
         public static final String SHAKER = "shaker";
     }
+
+    public static class ParameterValue {
+        public static final String SOLUTE_COMBO_BOX_DESCRIPTION = "soluteComboBox";
+    }
 }
