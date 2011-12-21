@@ -92,17 +92,21 @@ public class OrthoComponentNode extends GLNode {
                     public void update() {
                         if ( componentImage != null ) {
                             // reversal of Y coordinate, and subtract out the offset that the ComponentImage doesn't have access to
-                            ImmutableVector2F localCoordinates = screenToComponent( new ImmutableVector2F( Mouse.getEventX(), Mouse.getEventY() ) );
+                            ImmutableVector2F localCoordinates = screenToLocalCoordinates( new ImmutableVector2F( Mouse.getEventX(), Mouse.getEventY() ) );
                             componentImage.handleMouseEvent( (int) localCoordinates.x, (int) localCoordinates.y );
                         }
                     }
                 }, false );
     }
 
-    public ImmutableVector2F screenToComponent( ImmutableVector2F screenCoordinates ) {
+    public ImmutableVector2F screenToLocalCoordinates( ImmutableVector2F screenCoordinates ) {
         return new ImmutableVector2F( screenCoordinates.x - offsetX,
                                       ( tab.canvasSize.get().height - Mouse.getEventY() ) - offsetY
         );
+    }
+
+    public ImmutableVector2F screentoComponentCoordinates( ImmutableVector2F screenCoordinates ) {
+        return componentImage.localToComponentCoordinates( screenToLocalCoordinates( screenCoordinates ) );
     }
 
     public <T> void updateOnEvent( Notifier<T> notifier ) {
