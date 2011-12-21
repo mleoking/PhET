@@ -24,6 +24,7 @@ import edu.colorado.phet.lwjglphet.CanvasTransform;
 import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform;
 import edu.colorado.phet.lwjglphet.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.OrthoComponentNode;
@@ -192,6 +193,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         glViewport( 0, 0, getCanvasWidth(), getCanvasHeight() );
         setupGuiTransformations();
 
+        options.renderPass = RenderPass.REGULAR;
+        rootNode.render( options );
+        options.renderPass = RenderPass.TRANSPARENCY;
         rootNode.render( options );
 
         Display.update();

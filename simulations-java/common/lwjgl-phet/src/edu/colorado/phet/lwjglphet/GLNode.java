@@ -4,6 +4,7 @@ package edu.colorado.phet.lwjglphet;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
@@ -19,6 +20,9 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 public class GLNode {
     private GLNode parent = null;
     private final List<GLNode> children = new ArrayList<GLNode>();
+
+    private boolean visible = true;
+    private RenderPass renderPass = RenderPass.REGULAR;
 
     // transform that is applied to OpenGL's MODELVIEW matrix
     public final LWJGLTransform transform = new LWJGLTransform();
@@ -36,31 +40,40 @@ public class GLNode {
      * @param options Options specified that can affect certain operations
      */
     public final void render( GLOptions options ) {
-        // handle the model-view transform
-        if ( !transform.isIdentity() ) {
-            glPushMatrix();
-            transform.apply();
-        }
+        if ( isVisible() ) {
+            // handle the model-view transform
+            if ( !transform.isIdentity() ) {
+                glPushMatrix();
+                transform.apply();
+            }
 
-        preRender( options );
-        if ( material != null ) {
-            material.before( options );
-        }
+            preRender( options );
+            if ( material != null ) {
+                material.before( options );
+            }
 
-        renderSelf( options );
+            // only render self if we have an exact match for the render pass. this allows us to render transparent objects later, etc
+            if ( renderPass == options.renderPass ) {
+                renderSelf( options );
+            }
+            renderChildren( options );
+
+            // NOTE: for now material will clean up after children, in case we want to use the material for all of the children
+            if ( material != null ) {
+                material.after( options );
+            }
+            postRender( options );
+
+            // reverse our model-view transform for our parent
+            if ( !transform.isIdentity() ) {
+                glPopMatrix();
+            }
+        }
+    }
+
+    protected void renderChildren( GLOptions options ) {
         for ( GLNode child : children ) {
             child.render( options );
-        }
-
-        // NOTE: for now material will clean up after children, in case we want to use the material for all of the children
-        if ( material != null ) {
-            material.after( options );
-        }
-        postRender( options );
-
-        // reverse our model-view transform for our parent
-        if ( !transform.isIdentity() ) {
-            glPopMatrix();
         }
     }
 
@@ -121,5 +134,21 @@ public class GLNode {
 
     public void setMaterial( GLMaterial material ) {
         this.material = material;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible( boolean visible ) {
+        this.visible = visible;
+    }
+
+    public RenderPass getRenderPass() {
+        return renderPass;
+    }
+
+    public void setRenderPass( RenderPass renderPass ) {
+        this.renderPass = renderPass;
     }
 }

@@ -7,9 +7,19 @@ public class GLOptions implements Cloneable {
      * are taken for modification of these settings.
      */
 
+    // TODO: can we make this something extensible, or is it an advantage of having fixed passes that we don't have to specify their features?
+    public static enum RenderPass {
+        REGULAR,
+
+        // transparency is rendered after regular, generally with depth-write disabled
+        TRANSPARENCY,
+    }
+
     // whether we are just drawing for "picking" purposes.
     public boolean forSelection = false;
     public boolean forWireframe = false;
+
+    public RenderPass renderPass = RenderPass.REGULAR;
 
     public boolean shouldSendNormals() {
         return !forSelection && !forWireframe;
