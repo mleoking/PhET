@@ -33,6 +33,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.PlaneF;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
+import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
@@ -152,7 +153,12 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                             System.out.println( "click" );
                             Ray3F cameraRay = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
                             System.out.println( cameraRay );
-                            System.out.println( "intersection: " + PlaneF.XY.intersectWithRay( cameraRay ) );
+                            final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
+                            System.out.println( "intersection: " + intersection );
+
+                            rootNode.addChild( new UnitMarker() {{
+                                translate( intersection.x, intersection.y, intersection.z );
+                            }} );
 
                             // TODO: picking testing
                         }
