@@ -29,12 +29,12 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // Nodes
         PNode beakerNode = new BeakerNode( model.beaker );
-        PNode inputFaucetNode = new FaucetNode( model.inputFaucet.flowPercentage, model.inputFaucet.enabled, 50, true );
-        PNode outputFaucetNode = new FaucetNode( model.outputFaucet.flowPercentage, model.outputFaucet.enabled, 20, true );
+        PNode inputFaucetNode = new FaucetNode( ConcentrationModel.MAX_INPUT_FLOW_RATE, model.inputFaucet.flowRate, model.inputFaucet.enabled, 1000, true );
+        PNode outputFaucetNode = new FaucetNode( ConcentrationModel.MAX_OUTPUT_FLOW_RATE, model.outputFaucet.flowRate, model.outputFaucet.enabled, 20, true );
         PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
         PNode shakerNode = new ShakerNode( model.shaker, model.soluteForm );
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
-        PNode evaporationControlNode = new EvaporationControlNode( model.evaporationRate, model.getEvaporationRateRange() );
+        PNode evaporationControlNode = new EvaporationControlNode( ConcentrationModel.MAX_EVAPORATION_RATE, model.evaporationRate );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );

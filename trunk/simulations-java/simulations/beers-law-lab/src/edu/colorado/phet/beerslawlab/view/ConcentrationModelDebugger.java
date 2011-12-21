@@ -66,14 +66,14 @@ public class ConcentrationModelDebugger extends VBox {
                 evaporationRate.setText( "evaporationRate = " + rateFormat.format( model.evaporationRate.get() ) + " L/sec" );
             }
         } );
-        model.inputFaucet.addFlowRateObserver( new SimpleObserver() {
+        model.inputFaucet.flowRate.addObserver( new SimpleObserver() {
             public void update() {
-                inputFaucetFlowRate.setText( "inputFaucet.flowRate = " + rateFormat.format( model.inputFaucet.getFlowRate() ) + " L/sec" );
+                inputFaucetFlowRate.setText( "inputFaucet.flowRate = " + rateFormat.format( model.inputFaucet.flowRate.get() ) + " L/sec" );
             }
         } );
-        model.outputFaucet.addFlowRateObserver( new SimpleObserver() {
+        model.outputFaucet.flowRate.addObserver( new SimpleObserver() {
             public void update() {
-                outputFaucetFlowRate.setText( "outputFaucet.flowRate = " + rateFormat.format( model.outputFaucet.getFlowRate() ) + " L/sec" );
+                outputFaucetFlowRate.setText( "outputFaucet.flowRate = " + rateFormat.format( model.outputFaucet.flowRate.get() ) + " L/sec" );
             }
         } );
         model.shaker.location.addObserver( new SimpleObserver() {

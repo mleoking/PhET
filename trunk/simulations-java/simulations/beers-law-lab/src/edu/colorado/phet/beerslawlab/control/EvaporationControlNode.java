@@ -4,7 +4,6 @@ package edu.colorado.phet.beerslawlab.control;
 import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -22,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class EvaporationControlNode extends ControlPanelNode {
 
-    public EvaporationControlNode( final Property<Double> evaporationRate, final DoubleRange range ) {
+    public EvaporationControlNode( final double maxRate, final Property<Double> evaporationRate ) {
         super( new HBox(
 
                 // Label
@@ -31,12 +30,12 @@ public class EvaporationControlNode extends ControlPanelNode {
                 }},
 
                 // Slider
-                new HSliderNode( range.getMin(), range.getMax(), evaporationRate ) {{
+                new HSliderNode( 0, maxRate, evaporationRate ) {{
 
                     // Tick labels
                     PhetFont tickFont = new PhetFont( BLLConstants.TICK_LABEL_FONT_SIZE );
-                    addLabel( range.getMin(), new PhetPText( Strings.NONE, tickFont ) );
-                    addLabel( range.getMax(), new PhetPText( Strings.LOTS, tickFont ) );
+                    addLabel( 0, new PhetPText( Strings.NONE, tickFont ) );
+                    addLabel( maxRate, new PhetPText( Strings.LOTS, tickFont ) );
 
                     // Set rate to zero when slider is released.
                     this.addInputEventListener( new PBasicInputEventHandler() {

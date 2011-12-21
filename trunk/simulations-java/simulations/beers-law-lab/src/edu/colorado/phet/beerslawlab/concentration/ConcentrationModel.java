@@ -28,11 +28,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ConcentrationModel implements Resettable {
 
     private static final double BEAKER_VOLUME = 1; // L
-    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
-    private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
-    private static final DoubleRange EVAPORATION_RATE_RANGE = new DoubleRange( 0, 0.25, 0 ); // L/sec
-    private static final double MAX_INPUT_FLOW_RATE = 0.25; // L/sec
-    private static final double MAX_OUTPUT_FLOW_RATE = MAX_INPUT_FLOW_RATE; // L/sec
+    public static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
+    public static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
+    public static final double MAX_EVAPORATION_RATE = 0.25; // L/sec
+    public static final double MAX_INPUT_FLOW_RATE = 0.25; // L/sec
+    public static final double MAX_OUTPUT_FLOW_RATE = MAX_INPUT_FLOW_RATE; // L/sec
 
     // validate constants
     static {
@@ -70,7 +70,7 @@ public class ConcentrationModel implements Resettable {
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
         this.shaker = new Shaker( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
         this.dropper = new Dropper( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
-        this.evaporationRate = new Property<Double>( EVAPORATION_RATE_RANGE.getDefault() );
+        this.evaporationRate = new Property<Double>( 0d );
         this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
         this.inputFaucet = new Faucet( MAX_INPUT_FLOW_RATE );
         this.outputFaucet = new Faucet( MAX_OUTPUT_FLOW_RATE );
@@ -78,18 +78,6 @@ public class ConcentrationModel implements Resettable {
 
     public ArrayList<Solute> getSolutes() {
         return new ArrayList<Solute>( solutes );
-    }
-
-    public DoubleRange getSolutionVolumeRange() {
-        return SOLUTION_VOLUME_RANGE;
-    }
-
-    public DoubleRange getSoluteAmountRange() {
-        return SOLUTE_AMOUNT_RANGE;
-    }
-
-    public DoubleRange getEvaporationRateRange() {
-        return EVAPORATION_RATE_RANGE;
     }
 
     public void reset() {
