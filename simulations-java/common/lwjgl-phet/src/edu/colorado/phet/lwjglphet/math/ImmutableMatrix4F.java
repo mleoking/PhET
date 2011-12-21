@@ -169,6 +169,36 @@ public class ImmutableMatrix4F {
         return new ImmutableMatrix4F( m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33, type );
     }
 
+    public static ImmutableMatrix4F columnMajor( float m00, float m01, float m02, float m03,
+                                                 float m10, float m11, float m12, float m13,
+                                                 float m20, float m21, float m22, float m23,
+                                                 float m30, float m31, float m32, float m33 ) {
+        return columnMajor( m00, m01, m02, m03,
+                            m10, m11, m12, m13,
+                            m20, m21, m22, m23,
+                            m30, m31, m32, m33, MatrixType.OTHER );
+    }
+
+    public static ImmutableMatrix4F columnMajor( float m00, float m01, float m02, float m03,
+                                                 float m10, float m11, float m12, float m13,
+                                                 float m20, float m21, float m22, float m23,
+                                                 float m30, float m31, float m32, float m33, MatrixType type ) {
+        return new ImmutableMatrix4F( m00, m01, m02, m03,
+                                      m10, m11, m12, m13,
+                                      m20, m21, m22, m23,
+                                      m30, m31, m32, m33, type );
+    }
+
+    public static ImmutableMatrix4F fromGLBuffer( FloatBuffer buffer ) {
+        buffer.rewind();
+
+        // we actually can read them out in order. Java's order of execution is guaranteed to get this right
+        return new ImmutableMatrix4F( buffer.get(), buffer.get(), buffer.get(), buffer.get(),
+                                      buffer.get(), buffer.get(), buffer.get(), buffer.get(),
+                                      buffer.get(), buffer.get(), buffer.get(), buffer.get(),
+                                      buffer.get(), buffer.get(), buffer.get(), buffer.get(), MatrixType.OTHER );
+    }
+
     /*---------------------------------------------------------------------------*
     * constructors
     *----------------------------------------------------------------------------*/
