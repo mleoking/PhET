@@ -23,6 +23,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
 // TODO: event handling (listen to events). use similar to HUDNode model
 public class ComponentImage extends TextureImage {
@@ -60,19 +61,23 @@ public class ComponentImage extends TextureImage {
         } );
     }
 
-    public void handleMouseEvent( int rawX, int rawY ) {
-//        System.out.println( "-----" );
-//        System.out.println( rawX + ", " + rawY );
-//        System.out.println( "actual: " + Mouse.getEventX() + ", " + Mouse.getEventY() );
+    public ImmutableVector2F localToComponentCoordinates( ImmutableVector2F localCoordinates ) {
         Point2D swingPoint;
         try {
-            swingPoint = getImageTransform().inverseTransform( new Point2D.Float( rawX, rawY ), new Point2D.Float() );
+            swingPoint = getImageTransform().inverseTransform( new Point2D.Float( localCoordinates.x, localCoordinates.y ), new Point2D.Float() );
         }
         catch ( NoninvertibleTransformException e ) {
             throw new RuntimeException( e );
         }
         final double x = swingPoint.getX();
         final double y = swingPoint.getY();
+        return new ImmutableVector2F( x, y );
+    }
+
+    public void handleMouseEvent( int rawX, int rawY ) {
+        ImmutableVector2F swingPoint = localToComponentCoordinates( new ImmutableVector2F( rawX, rawY ) );
+        final double x = swingPoint.x;
+        final double y = swingPoint.y;
 //        System.out.println( "swingPoint: " + swingPoint );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {

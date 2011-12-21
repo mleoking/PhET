@@ -2,6 +2,8 @@
 package edu.colorado.phet.platetectonics.modules;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.input.Mouse;
 
@@ -14,12 +16,14 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
+import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.control.RulerNode3D;
 import edu.colorado.phet.platetectonics.control.ThermometerNode3D;
@@ -52,6 +56,8 @@ public class CrustTab extends PlateTectonicsTab {
     private static final float DENSITY_SENSOR_Z = 2;
     private OrthoPiccoloNode myCrustNode;
 
+    private final List<OrthoComponentNode> guiNodes = new ArrayList<OrthoComponentNode>();
+
     public CrustTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
     }
@@ -67,22 +73,37 @@ public class CrustTab extends PlateTectonicsTab {
                     public void update() {
                         // on left mouse button change
                         if ( Mouse.getEventButton() == 0 ) {
+                            OrthoComponentNode toolCollision = null;
+                            OrthoComponentNode guiCollision = null;
+
+                            ImmutableVector2F screenPosition = new ImmutableVector2F( Mouse.getEventX(), Mouse.getEventY() );
+
+                            // TODO: check for tools first, since we want mouse interaction to use the "top"-most one
+                            for ( OrthoComponentNode guiNode : guiNodes ) {
+                                ImmutableVector2F componentPoint = guiNode.screentoComponentCoordinates( screenPosition );
+                                if ( guiNode.getComponent().contains( (int) componentPoint.x, (int) componentPoint.y ) ) {
+                                    // TODO: tool collision not at all working, since the textures are NOT ortho
+                                    if ( guiNode instanceof DraggableTool2D ) {
+                                        toolCollision = guiNode;
+                                    }
+                                    else {
+                                        guiCollision = guiNode;
+                                    }
+                                }
+                            }
 //                            final HUDNodeCollision toolCollision = HUDNode.getHUDCollisionUnderPoint( toolView, getInputHandler().getCursorPosition() );
 //                            final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
 
                             // if mouse is down
                             if ( Mouse.getEventButtonState() ) {
-//                                if ( toolCollision != null ) {
-//                                    Node parentNode = toolCollision.hudNode.getParent();
-//
-//                                    if ( parentNode instanceof DraggableTool2D ) {
-//                                        toolDragHandler.mouseDownOnTool( (DraggableTool2D) parentNode, getMousePositionOnZPlane() );
-//                                    }
-//                                }
+                                if ( toolCollision != null ) {
+                                    toolDragHandler.mouseDownOnTool( (DraggableTool2D) toolCollision, getMousePositionOnZPlane() );
+                                }
                             }
                             else {
-//                                boolean isMouseOverToolbox = guiCollision != null && guiCollision.hudNode.getParent() == toolbox;
-//                                toolDragHandler.mouseUp( isMouseOverToolbox );
+                                boolean isMouseOverToolbox = guiCollision != null && guiCollision == toolbox;
+                                toolDragHandler.mouseUp( isMouseOverToolbox );
+                                // TODO: remove the "removed" tool from the guiNodes list
                             }
                         }
                     }
@@ -155,6 +176,7 @@ public class CrustTab extends PlateTectonicsTab {
             updateOnEvent( beforeFrameRender );
         }};
         guiLayer.addChild( toolbox );
+        guiNodes.add( toolbox );
 
 
         //TODO: factor out duplicated code in tools
@@ -165,6 +187,8 @@ public class CrustTab extends PlateTectonicsTab {
                     // we just "removed" the ruler from the toolbox, so add it to our scene
                     RulerNode3D ruler = new RulerNode3D( getModelViewTransform(), CrustTab.this );
                     toolLayer.addChild( ruler );
+
+                    guiNodes.add( ruler );
 
                     // offset the ruler slightly from the mouse, and start the drag
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
@@ -185,6 +209,8 @@ public class CrustTab extends PlateTectonicsTab {
                     ThermometerNode3D thermometer = new ThermometerNode3D( getModelViewTransform(), CrustTab.this, model );
                     toolLayer.addChild( thermometer );
 
+                    guiNodes.add( thermometer );
+
                     // offset the ruler slightly from the mouse, and start the drag
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = thermometer.getInitialMouseOffset();
@@ -204,6 +230,8 @@ public class CrustTab extends PlateTectonicsTab {
                     // we just "removed" the ruler from the toolbox, so add it to our scene
                     DensitySensorNode3D sensorNode = new DensitySensorNode3D( getModelViewTransform(), CrustTab.this, model );
                     toolLayer.addChild( sensorNode );
+
+                    guiNodes.add( sensorNode );
 
                     // offset the ruler slightly from the mouse, and start the drag
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
@@ -233,6 +261,7 @@ public class CrustTab extends PlateTectonicsTab {
             updateOnEvent( beforeFrameRender );
         }};
         guiLayer.addChild( myCrustNode );
+        guiNodes.add( myCrustNode );
 
         /*---------------------------------------------------------------------------*
         * labels
