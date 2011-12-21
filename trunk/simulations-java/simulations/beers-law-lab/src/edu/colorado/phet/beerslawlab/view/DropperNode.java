@@ -6,7 +6,7 @@ import java.awt.Font;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
-import edu.colorado.phet.beerslawlab.model.Solute;
+import edu.colorado.phet.beerslawlab.model.Dropper;
 import edu.colorado.phet.beerslawlab.model.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -15,7 +15,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -30,7 +29,7 @@ public class DropperNode extends PhetPNode {
     private static final double LABEL_X_OFFSET = -50 * IMAGE_SCALE; // x offset of the label's center from the dropper image's center
     private static final double BUTTON_Y_OFFSET = 10 * IMAGE_SCALE; // y offset of button from the dropper image's center
 
-    public DropperNode( final Property<Solute> solute, final Property<SoluteForm> soluteFormProperty, Property<Boolean> dropperOn ) {
+    public DropperNode( final Dropper dropper, final Property<SoluteForm> soluteFormProperty ) {
 
         final PImage imageNode = new PImage( Images.DROPPER ) {{
             scale( IMAGE_SCALE );
@@ -48,7 +47,7 @@ public class DropperNode extends PhetPNode {
         addChild( new ZeroOffsetNode( parentNode ) );
 
         // On/off button
-        MomentaryButtonNode buttonNode = new MomentaryButtonNode( dropperOn ) {{
+        MomentaryButtonNode buttonNode = new MomentaryButtonNode( dropper.on ) {{
             setSimSharingObject( Objects.DROPPER_BUTTON );
             scale( 0.45 );
         }};
@@ -56,9 +55,9 @@ public class DropperNode extends PhetPNode {
         buttonNode.setOffset( ( parentNode.getFullBoundsReference().getWidth() - buttonNode.getFullBoundsReference().getWidth() ) / 2, BUTTON_Y_OFFSET );
 
         // Change the label when the solute changes.
-        solute.addObserver( new SimpleObserver() {
+        dropper.solute.addObserver( new SimpleObserver() {
             public void update() {
-                labelNode.setHTML( solute.get().formula );
+                labelNode.setHTML( dropper.solute.get().formula );
                 labelNode.setOffset( -( labelNode.getFullBoundsReference().getWidth() / 2 ) + LABEL_X_OFFSET,
                                      -( labelNode.getFullBoundsReference().getHeight() / 2 ) );
             }
@@ -71,11 +70,14 @@ public class DropperNode extends PhetPNode {
             }
         } );
 
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new DropperDragHandler() );
-    }
+        // Update location
+        dropper.location.addObserver( new SimpleObserver() {
+            public void update() {
+                setOffset( dropper.location.get().toPoint2D() );
+            }
+        } );
 
-    private static class DropperDragHandler extends SimSharingDragSequenceEventHandler {
-        //TODO
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new MovableDragHandler( Objects.SHAKER, dropper, this ) );
     }
 }
