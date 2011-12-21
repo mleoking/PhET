@@ -6,6 +6,9 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Standard XYZ lines showing the current coordinate system, with each line having a length of 1
+ */
 public class UnitMarker extends GLNode {
     @Override public void renderSelf( GLOptions options ) {
         // red X
