@@ -32,9 +32,7 @@ public class TrackFrictionSlider extends PNode {
         // Create a property and hook it up to the module.
         frictionAmount.addObserver( new VoidFunction1<Double>() {
             public void apply( Double friction ) {
-                if ( module.frictionEnabled.get() ) {
-                    module.setCoefficientOfFriction( friction );
-                }
+                module.setCoefficientOfFriction( friction );
             }
         } );
 
