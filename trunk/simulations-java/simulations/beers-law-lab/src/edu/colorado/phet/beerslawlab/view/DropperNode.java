@@ -25,9 +25,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class DropperNode extends PhetPNode {
 
     private static final double IMAGE_SCALE = 0.65;
-    private static final double LABEL_X_OFFSET = -50 * IMAGE_SCALE; // y offset of the label's center from the image's center
+    private static final double LABEL_X_OFFSET = -50 * IMAGE_SCALE; // x offset of the label's center from the dropper image's center
+    private static final double BUTTON_Y_OFFSET = 10 * IMAGE_SCALE; // y offset of button from the dropper image's center
 
-    public DropperNode( final Property<Solute> solute, final Property<SoluteForm> soluteFormProperty ) {
+    public DropperNode( final Property<Solute> solute, final Property<SoluteForm> soluteFormProperty, Property<Boolean> dropperOn ) {
 
         final PImage imageNode = new PImage( Images.DROPPER ) {{
             scale( IMAGE_SCALE );
@@ -43,6 +44,13 @@ public class DropperNode extends PhetPNode {
 
         // Apply a wrapper node to move the origin to (0,0). Do this after transforming parentNode and its children.
         addChild( new ZeroOffsetNode( parentNode ) );
+
+        // On/off button
+        MomentaryButtonNode buttonNode = new MomentaryButtonNode( dropperOn ) {{
+            scale( 0.45 );
+        }};
+        addChild( buttonNode );
+        buttonNode.setOffset( ( parentNode.getFullBoundsReference().getWidth() - buttonNode.getFullBoundsReference().getWidth() ) / 2, BUTTON_Y_OFFSET );
 
         // Change the label when the solute changes.
         solute.addObserver( new SimpleObserver() {

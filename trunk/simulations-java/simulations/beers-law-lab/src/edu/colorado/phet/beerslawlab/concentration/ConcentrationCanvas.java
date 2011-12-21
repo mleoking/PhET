@@ -8,6 +8,7 @@ import edu.colorado.phet.beerslawlab.control.SoluteControlNode;
 import edu.colorado.phet.beerslawlab.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.view.DropperNode;
 import edu.colorado.phet.beerslawlab.view.ShakerNode;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
 /**
@@ -24,7 +25,8 @@ public class ConcentrationCanvas extends BLLCanvas {
         // Shaker
         ShakerNode shakerNode = new ShakerNode( model.solution.solute, model.soluteForm );
         // Dropper
-        DropperNode dropperNode = new DropperNode( model.solution.solute, model.soluteForm );
+        Property<Boolean> dropperOn = new Property<Boolean>( false ); //TODO move this property to model
+        DropperNode dropperNode = new DropperNode( model.solution.solute, model.soluteForm, dropperOn );
         // Reset All button
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, 18, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
