@@ -6,15 +6,23 @@ import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Shows a number line and a dot on the number line to represent a fraction.
@@ -23,6 +31,12 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class NumberLineNode extends PNode {
+
+    private ArrayList<Pair<Double, Integer>> tickLocations;
+
+    //When tick marks change, clear everything except the green circle--it has to be persisted across recreations of the number line because the user interacts with it
+    private final PhetPPath greenCircle;
+
     public NumberLineNode( final Property<Integer> numerator, final Property<Integer> denominator, ValueEquals<ChosenRepresentation> showing ) {
         scale( 5 );
         showing.addObserver( new VoidFunction1<Boolean>() {
@@ -43,6 +57,9 @@ public class NumberLineNode extends PNode {
 
                 //The number line itself
                 addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 6 * divisionsBetweenTicks, 0 ) ) );
+
+                //For snapping
+                tickLocations = new ArrayList<Pair<Double, Integer>>();
 
                 for ( int i = 0; i <= divisionsBetweenTicks * 6; i++ ) {
 
@@ -68,6 +85,9 @@ public class NumberLineNode extends PNode {
                                 setOffset( path.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, path.getFullBounds().getMaxY() );
                             }} );
                         }
+
+                        //make it so the green handle can snap to this site
+                        tickLocations.add( new Pair<Double, Integer>( i * dx, i ) );
                     }
                     else {
 
@@ -83,17 +103,43 @@ public class NumberLineNode extends PNode {
 
                         //minor ticks between the integers
                         addChild( new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) );
+
+                        //make it so the green handle can snap to this site
+                        tickLocations.add( new Pair<Double, Integer>( i * dx, i ) );
                     }
                 }
+                if ( greenCircle != null ) {
+                    greenCircle.setOffset( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 );
+                    addChild( greenCircle );
+                }
 
-                final double w = 5;
-                final double w2 = 0;
-                addChild( new PhetPPath( new Area( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) ) {{
-                    subtract( new Area( new Ellipse2D.Double( -w2 / 2, -w2 / 2, w2, w2 ) ) );
-                }}, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 0.6f ), Color.black ) {{
-                    setOffset( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 );
-                }} );
+                System.out.println( "tickLocations = " + tickLocations );
             }
         }.observe( numerator, denominator );
+
+        //Green circle in the middle of it all
+        final double w = 5;
+        final double w2 = 0;
+        greenCircle = new PhetPPath( new Area( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) ) {{
+            subtract( new Area( new Ellipse2D.Double( -w2 / 2, -w2 / 2, w2, w2 ) ) );
+        }}, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 0.6f ), Color.black ) {{
+
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseDragged( PInputEvent event ) {
+                    final Point2D newPressPoint = event.getPositionRelativeTo( getParent() );
+
+                    //whichever tick mark is closer, go to that one
+                    ArrayList<Pair<Double, Integer>> sorted = new ArrayList<Pair<Double, Integer>>( tickLocations );
+                    Collections.sort( sorted, new Comparator<Pair<Double, Integer>>() {
+                        public int compare( Pair<Double, Integer> o1, Pair<Double, Integer> o2 ) {
+                            return Double.compare( Math.abs( o1._1 - newPressPoint.getX() ), Math.abs( o2._1 - newPressPoint.getX() ) );
+                        }
+                    } );
+                    numerator.set( sorted.get( 0 )._2 );
+                }
+            } );
+        }};
+        addChild( greenCircle );
     }
 }
