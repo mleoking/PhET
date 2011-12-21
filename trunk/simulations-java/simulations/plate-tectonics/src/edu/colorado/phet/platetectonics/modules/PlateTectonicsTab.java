@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -32,10 +31,12 @@ import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
+import edu.colorado.phet.lwjglphet.math.PlaneF;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
+import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.X_UNIT;
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPerSecondLimit;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -57,6 +58,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public static final float farPlane = 5000;
 
     public final LWJGLTransform sceneProjectionTransform = new LWJGLTransform();
+    public final LWJGLTransform sceneModelViewTransform = new LWJGLTransform();
 
     private Dimension stageSize;
 
@@ -105,11 +107,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                             int dx = Mouse.getEventDX();
                             if ( Mouse.isButtonDown( 0 ) ) {
                                 int dy = Mouse.getEventDY();
-                                debugCameraTransform.prepend( ImmutableMatrix4F.rotateY( (float) dx / 100 ) );
-                                debugCameraTransform.prepend( ImmutableMatrix4F.rotateX( (float) -dy / 100 ) );
+                                debugCameraTransform.prepend( ImmutableMatrix4F.rotationY( (float) dx / 100 ) );
+                                debugCameraTransform.prepend( ImmutableMatrix4F.rotationX( (float) -dy / 100 ) );
                             }
                             else if ( Mouse.isButtonDown( 1 ) ) {
-                                debugCameraTransform.prepend( ImmutableMatrix4F.rotateZ( (float) dx / 100 ) );
+                                debugCameraTransform.prepend( ImmutableMatrix4F.rotationZ( (float) dx / 100 ) );
                             }
                         }
                     }
@@ -143,12 +145,16 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         mouseEventNotifier.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
-                        System.out.println( "x: " + Mouse.getEventX() + ", y: " + Mouse.getEventY() );
+//                        System.out.println( "x: " + Mouse.getEventX() + ", y: " + Mouse.getEventY() );
 
                         // LMB down
                         if ( Mouse.getEventButton() == 0 && Mouse.getEventButtonState() ) {
                             System.out.println( "click" );
-                            System.out.println( getCameraRay( Mouse.getEventX(), Mouse.getEventY() ) );
+                            Ray3F cameraRay = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
+                            System.out.println( cameraRay );
+                            System.out.println( "intersection: " + PlaneF.XY.intersectWithRay( cameraRay ) );
+
+                            // TODO: picking testing
                         }
                     }
                 }, false );
@@ -250,11 +256,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
         glMatrixMode( GL_MODELVIEW );
         glLoadIdentity();
-
-        // TODO: refactor this into getSceneModelViewMatrix, and keep a transform as above. axe debugCameraTransform
-        debugCameraTransform.apply();
-        glRotatef( 13, 1, 0, 0 );
-        glTranslatef( 0, -80, -400 );
+        sceneModelViewTransform.set( getSceneModelViewMatrix() );
+        sceneModelViewTransform.apply();
     }
 
     public ImmutableMatrix4F getSceneProjectionMatrix() {
@@ -272,6 +275,12 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return scalingMatrix.times( perspectiveMatrix );
     }
 
+    public ImmutableMatrix4F getSceneModelViewMatrix() {
+        return debugCameraTransform.getMatrix()
+                .times( ImmutableMatrix4F.rotation( X_UNIT, 13 / 180f * (float) Math.PI ) )
+                .times( ImmutableMatrix4F.translation( 0, -80, -400 ) );
+    }
+
     public static ImmutableMatrix4F getGluPerspective( float fovy, float aspect, float zNear, float zFar ) {
         float fovAngle = (float) ( fovy / 2 * Math.PI / 180 );
         float cotangent = (float) Math.cos( fovAngle ) / (float) Math.sin( fovAngle );
@@ -282,24 +291,12 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                            0, 0, -1, 0 );
     }
 
-    // we don't want to create these for each function call.
-    private FloatBuffer rayProjectionBuffer = BufferUtils.createFloatBuffer( 16 );
-    private FloatBuffer rayModelViewBuffer = BufferUtils.createFloatBuffer( 16 );
-
     public Ray3F getCameraRay( int mouseX, int mouseY ) {
-        loadCameraMatrices();
-
-        // TODO: get rid of the slow glGet calls and use our home-grown matrices
-        rayProjectionBuffer.clear();
-        glGetFloat( GL_PROJECTION_MATRIX, rayProjectionBuffer );
-        rayModelViewBuffer.clear();
-        glGetFloat( GL_MODELVIEW_MATRIX, rayModelViewBuffer );
-
-        ImmutableMatrix4F projectionMatrix = ImmutableMatrix4F.fromGLBuffer( rayProjectionBuffer );
-        ImmutableMatrix4F modelViewMatrix = ImmutableMatrix4F.fromGLBuffer( rayModelViewBuffer );
+        ImmutableMatrix4F projectionMatrix = getSceneProjectionMatrix();
+        ImmutableMatrix4F modelViewMatrix = getSceneModelViewMatrix();
 
         System.out.println( "projection:\n" + projectionMatrix );
-        System.out.println( "modelView:\n" + projectionMatrix );
+        System.out.println( "modelView:\n" + modelViewMatrix );
         System.out.println( "P*M:\n" + ( projectionMatrix.times( modelViewMatrix ) ) );
 
         ImmutableMatrix4F inverseTransform = ( projectionMatrix.times( modelViewMatrix ) ).inverted();

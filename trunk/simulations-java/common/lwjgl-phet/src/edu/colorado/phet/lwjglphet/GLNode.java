@@ -121,7 +121,7 @@ public class GLNode {
     }
 
     public void rotate( ImmutableVector3F axis, float angle ) {
-        transform.append( ImmutableMatrix4F.rotate( axis, angle ) );
+        transform.append( ImmutableMatrix4F.rotation( axis, angle ) );
     }
 
     public GLNode getParent() {
