@@ -14,11 +14,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
  *
  * @author Sam Reid
  */
-public class HorizontalBarChosenRepresentationNode extends ChosenRepresentationNode {
+public class HorizontalBarSetFractionNode extends ChosenRepresentationNode {
     private static final double NUM_BARS_PER_LINE = 3;
     private static final double DISTANCE_BETWEEN_BARS_Y = 20;
 
-    public HorizontalBarChosenRepresentationNode( Property<ChosenRepresentation> chosenRepresentation, final Property<Integer> numerator, final Property<Integer> denominator ) {
+    public HorizontalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<Integer> numerator, final Property<Integer> denominator ) {
         super( chosenRepresentation, ChosenRepresentation.HORIZONTAL_BAR );
 
         new RichSimpleObserver() {
