@@ -28,7 +28,7 @@ public class TestBox extends JFrame {
             addChild( one );
             addChild( two );
             addChild( three );
-            // simulate what would happen when (for example) observing properties
+            // simulate what would happen when (for example) text is initialized when registering property observers
             one.setText( "one" );
             two.setText( "two" );
             three.setText( "three" );
