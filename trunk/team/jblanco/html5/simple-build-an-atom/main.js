@@ -268,13 +268,52 @@ NucleusLabel.prototype.updateText = function( protonCount, neutronCount ) {
 
         case 1:
             this.text = "Hydrogen";
-            if ( neutronCount != 0 ) {
-                this.text += " - " + (protonCount + neutronCount);
+            if ( neutronCount == 0 || neutronCount == 1 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
             }
             break;
 
         case 2:
             this.text = "Helium";
+            if ( neutronCount == 1 || neutronCount == 2 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
+            }
+            break;
+
+        case 3:
+            this.text = "Lithium";
+            if ( neutronCount == 3 || neutronCount == 4 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
+            }
+            break;
+
+        case 4:
+            this.text = "Beryllium";
+            if ( neutronCount == 5 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
+            }
+            break;
+
+        case 5:
+            this.text = "Boron";
+            if ( neutronCount == 5 || neutronCount == 6 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
+            }
             break;
 
         default:
