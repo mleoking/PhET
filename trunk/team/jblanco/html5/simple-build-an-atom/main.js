@@ -4,7 +4,10 @@ var canvas;
 var touchInProgress = false;
 var context;
 var particles = new Array();
+var neutronBucket;
+var protonBucket;
 var addProtonNext = true;
+var particleBeingDragged = null;
 
 // Hook up the initialization function.
 $( document ).ready( function() {
@@ -39,6 +42,10 @@ function init() {
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
     document.addEventListener( 'touchend', onDocumentTouchEnd, false );
+
+    // Add the buckets where nucleons are created and returned.
+    neutronBucket = new Bucket( new Point2D( 100, 300 ), "gray" );
+    protonBucket = new Bucket( new Point2D( 500, 300 ), "red" );
 
     // Commenting out, since iPad seems to send these continuously.
 //	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
@@ -79,6 +86,10 @@ function drawPhetLogo() {
     context.fillText( 'PhET', canvas.width - 70, canvas.height / 2 );
 }
 
+//-----------------------------------------------------------------------------
+// Point2D class.
+//-----------------------------------------------------------------------------
+
 function Point2D( x, y ) {
     // Instance Fields or Data Members
     this.x = x;
@@ -89,29 +100,106 @@ Point2D.prototype.toString = function() {
     return this.x + ", " + this.y;
 }
 
+Point2D.prototype.setComponents = function( x, y ) {
+    this.x = x;
+    this.y = y;
+}
+
+Point2D.prototype.set = function( point2D ) {
+    this.setComponents( point2D.x, point2D.y );
+}
+
+//-----------------------------------------------------------------------------
+// Particle class.
+//-----------------------------------------------------------------------------
+
 function Particle( color ) {
-    this.xPos = 0;
-    this.yPos = 0;
+    this.location = new Point2D( 0, 0 );
     this.radius = 20;
     this.color = color;
 }
 
 Particle.prototype.draw = function( context ) {
-    var gradient = context.createRadialGradient( this.xPos - this.radius / 3, this.yPos - this.radius / 3, 0, this.xPos, this.yPos, this.radius );
+    var xPos = this.location.x;
+    var yPos = this.location.y;
+    var gradient = context.createRadialGradient( xPos - this.radius / 3, yPos - this.radius / 3, 0, xPos, yPos, this.radius );
     gradient.addColorStop( 0, "white" );
     gradient.addColorStop( 1, this.color );
     context.fillStyle = gradient;
     context.beginPath();
-    context.arc( this.xPos, this.yPos, this.radius, 0, Math.PI * 2, true );
+    context.arc( xPos, yPos, this.radius, 0, Math.PI * 2, true );
     context.closePath();
     context.fill();
 }
+
+Particle.prototype.setLocation = function( location ) {
+    this.setLocationComponents( location.x, location.y );
+}
+
+Particle.prototype.setLocationComponents = function( x, y ) {
+    this.location.x = x;
+    this.location.y = y;
+}
+
+Particle.prototype.containsPoint = function( point ) {
+    return Math.sqrt( Math.pow( point.x - this.location.x, 2 ) + Math.pow( point.y - this.location.y, 2 ) ) < this.radius;
+}
+
+//-----------------------------------------------------------------------------
+// Bucket class.
+//-----------------------------------------------------------------------------
+
+function Bucket( initialLocation, color ) {
+    this.location = initialLocation;
+    this.width = 150;
+    this.height = this.width * 0.5;
+    this.color = color;
+}
+
+Bucket.prototype.draw = function( context ) {
+    var xPos = this.location.x;
+    var yPos = this.location.y;
+    var gradient = context.createLinearGradient( xPos, yPos, xPos + this.width, yPos );
+    gradient.addColorStop( 0, "white" );
+    gradient.addColorStop( 1, this.color );
+    context.fillStyle = gradient;
+    context.beginPath();
+    context.moveTo( xPos, yPos );
+    context.lineTo( xPos + this.width * 0.15, yPos + this.height );
+    context.lineTo( xPos + this.width * 0.85, yPos + this.height );
+    context.lineTo( xPos + this.width, yPos );
+    context.lineTo( xPos, yPos );
+    context.closePath();
+    context.fill();
+}
+
+Bucket.prototype.setLocationComponents = function( x, y ) {
+    this.location.x = x;
+    this.location.y = y;
+}
+
+Bucket.prototype.setLocation = function( location ) {
+    this.setLocationComponents( location.x, location.y );
+}
+
+Bucket.prototype.containsPoint = function( point ) {
+    // Treat the shape as rectangle, even though it may not exactly be one.
+    return point.x > this.location.x && point.x < this.location.x &&
+           point.y > this.location.y && point.y < this.location.y;
+}
+
+//-----------------------------------------------------------------------------
+
 
 // Main drawing function.
 function draw() {
     clearBackground();
     drawTitle();
     drawPhetLogo();
+    // Draw the buckets.
+    neutronBucket.draw( context );
+    protonBucket.draw( context );
+    // Draw the particles.
     for ( var i = 0; i < particles.length; i++ ) {
         particles[i].draw( context );
     }
@@ -119,11 +207,11 @@ function draw() {
 
 // Event handlers.
 
-function onDocumentMouseDown() {
+function onDocumentMouseDown( event ) {
     onTouchStart( new Point2D( event.clientX, event.clientY ) );
 }
 
-function onDocumentMouseUp() {
+function onDocumentMouseUp( event ) {
     onTouchEnd( new Point2D( event.clientX, event.clientY ) );
 }
 
@@ -157,27 +245,37 @@ function onWindowDeviceOrientation( event ) {
 }
 
 function onTouchStart( location ) {
-    console.log( "onTouchStart called, location = " + location.toString() );
     touchInProgress = true;
-    var color = 'red';
-    if ( !addProtonNext ) {
-        color = 'gray'
+    particleBeingDragged = null;
+    // See if this touch start is on any of the existing particles.
+    for ( i = 0; i < particles.length; i++ ) {
+        if ( particles[i].containsPoint( location ) ) {
+            particleBeingDragged = particles[i];
+            break;
+        }
     }
-    addProtonNext = !addProtonNext;
-    particles.push( new Particle( color ) );
-    particles[particles.length - 1].xPos = location.x;
-    particles[particles.length - 1].yPos = location.y;
+    if ( particleBeingDragged == null ) {
+        // Create a new particle.
+        var color = 'red';
+        if ( !addProtonNext ) {
+            color = 'gray'
+        }
+        addProtonNext = !addProtonNext;
+        particleBeingDragged = new Particle( color );
+        particles.push( particleBeingDragged );
+    }
+    particleBeingDragged.setLocation( location );
     draw();
 }
 
 function onDrag( location ) {
-    if ( touchInProgress ) {
-        particles[particles.length - 1].xPos = location.x;
-        particles[particles.length - 1].yPos = location.y;
+    if ( touchInProgress && particleBeingDragged != null ) {
+        particleBeingDragged.setLocation( location );
         draw();
     }
 }
 
 function onTouchEnd( location ) {
     touchInProgress = false;
+    particleBeingDragged = null;
 }

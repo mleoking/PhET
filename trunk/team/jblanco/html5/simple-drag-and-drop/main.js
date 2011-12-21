@@ -82,7 +82,7 @@ function draw() {
 
 // Event handlers.
 
-function onDocumentMouseDown() {
+function onDocumentMouseDown( event ) {
     console.log( "onDocumentMouseDown" );
     mouseDown = true;
     mouseX = event.clientX;
@@ -90,7 +90,7 @@ function onDocumentMouseDown() {
     draw();
 }
 
-function onDocumentMouseUp() {
+function onDocumentMouseUp( event ) {
     console.log( "onDocumentMouseDown" );
     mouseDown = false;
     mouseX = event.clientX;
