@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.beerslawlab.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.model.Movable;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
@@ -28,8 +29,8 @@ public class MovableDragHandler extends SimSharingDragSequenceEventHandler {
         DragFunction function = new DragFunction() {
             public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                 SimSharingManager.sendEvent( simSharingObject, action,
-                                             new Parameter( "locationX", (int) movable.location.get().getX() ),
-                                             new Parameter( "locationY", (int) movable.location.get().getY() ) );
+                                             new Parameter( Parameters.LOCATION_X, (int) movable.location.get().getX() ),
+                                             new Parameter( Parameters.LOCATION_Y, (int) movable.location.get().getY() ) );
             }
         };
         setStartEndDragFunction( function );
