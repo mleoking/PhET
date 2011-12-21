@@ -8,6 +8,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.intro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
+import edu.colorado.phet.fractions.intro.intro.view.representationcontrolpanel.RepresentationControlPanel;
 
 /**
  * Canvas for "Fractions Intro" sim.
