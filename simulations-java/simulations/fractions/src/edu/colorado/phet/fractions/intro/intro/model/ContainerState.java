@@ -45,17 +45,20 @@ public class ContainerState {
         }
         else if ( delta > 0 ) {
             ContainerState cs = isFull() ? addEmptyContainer() : this;
-            return cs.toggle( cs.getFirstEmptyCell() ).addPieces( delta - 1 );
+            return cs.toggle( cs.getFirstEmptyCell() ).addPieces( delta - 1 ).padAndTrim();
         }
         else {
-            return toggle( getLastFullCell() ).addPieces( delta + 1 ).trim();
+            return toggle( getLastFullCell() ).addPieces( delta + 1 ).padAndTrim();
         }
     }
 
     //Add an empty container if this one is all full, but don't go past 6 (would be off the screen)
     public ContainerState padAndTrim() {
         ContainerState cs = trim();
-        return cs.isFull() && cs.size <= 5 ? cs.addEmptyContainer() : cs;
+        while ( cs.size < 6 ) {
+            cs = cs.addEmptyContainer();
+        }
+        return cs;
     }
 
     //Remove any trailing containers that are completely empty
@@ -141,5 +144,19 @@ public class ContainerState {
 
     public boolean isFilled( CellPointer cp ) {
         return !isEmpty( cp );
+    }
+
+    public Container getContainer( int container ) {
+        return containers.get( container );
+    }
+
+    public ContainerState removeContainer( final int container ) {
+        return new ContainerState( denominator, new ArrayList<Container>() {{
+            for ( int i = 0; i < size; i++ ) {
+                if ( i != container ) {
+                    add( getContainer( i ) );
+                }
+            }
+        }} );
     }
 }

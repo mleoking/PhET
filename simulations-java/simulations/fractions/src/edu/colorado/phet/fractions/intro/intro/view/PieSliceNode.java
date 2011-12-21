@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Paint;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
@@ -18,13 +17,13 @@ public class PieSliceNode extends PNode {
     public PieSliceNode( double startDegrees, double extentDegrees,
 
                          //The area which the entire pie should take up
-                         Rectangle2D area, Paint color ) {
+                         Rectangle2D area, Paint color, Paint strokePaint, float stroke ) {
 
         final boolean fullCircle = extentDegrees >= 360 - 1E-6;
 
         final Arc2D.Double arc = new Arc2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight(), startDegrees, extentDegrees, Arc2D.Double.PIE );
         final Ellipse2D.Double ellipse = new Ellipse2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight() );
-        PhetPPath path = new PhetPPath( fullCircle ? ellipse : arc, color, new BasicStroke( 2 ), Color.black );
+        PhetPPath path = new PhetPPath( fullCircle ? ellipse : arc, color, new BasicStroke( stroke ), strokePaint );
         addChild( path );
     }
 }
