@@ -69,6 +69,6 @@ public class ShakerNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new MovableDragHandler( Objects.SHAKER, shaker, this, shaker.dragBounds ) );
+        addInputEventListener( new MovableDragHandler( Objects.SHAKER, shaker, this, shaker.getLocationBounds() ) );
     }
 }

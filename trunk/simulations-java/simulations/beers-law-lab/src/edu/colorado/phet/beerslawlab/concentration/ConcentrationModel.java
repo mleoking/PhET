@@ -2,7 +2,6 @@
 package edu.colorado.phet.beerslawlab.concentration;
 
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
@@ -16,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Model for the "Concentration" module.
@@ -58,8 +58,8 @@ public class ConcentrationModel implements Resettable {
 
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
-        this.shaker = new Shaker( new ImmutableVector2D( 100, 100 ), new Rectangle2D.Double( 10, 10, 400, 200 ), solute );
-        this.dropper = new Dropper( new ImmutableVector2D( 100, 100 ), new Rectangle2D.Double( 10, 10, 400, 200 ), solute );
+        this.shaker = new Shaker( new ImmutableVector2D( 100, 100 ), new PBounds( 10, 10, 400, 200 ), solute );
+        this.dropper = new Dropper( new ImmutableVector2D( 100, 100 ), new PBounds( 10, 10, 400, 200 ), solute );
         this.evaporationRate = new Property<Double>( EVAPORATION_RATE_RANGE.getDefault() );
     }
 
@@ -82,6 +82,8 @@ public class ConcentrationModel implements Resettable {
     public void reset() {
         solution.reset();
         soluteForm.reset();
+        shaker.reset();
+        dropper.reset();
         evaporationRate.reset();
     }
 }

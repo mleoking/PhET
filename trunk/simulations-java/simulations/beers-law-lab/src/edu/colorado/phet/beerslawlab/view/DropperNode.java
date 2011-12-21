@@ -78,6 +78,6 @@ public class DropperNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new MovableDragHandler( Objects.SHAKER, dropper, this, dropper.dragBounds ) );
+        addInputEventListener( new MovableDragHandler( Objects.SHAKER, dropper, this, dropper.getLocationBounds() ) );
     }
 }
