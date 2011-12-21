@@ -22,13 +22,13 @@ public class FaucetSliderNode extends PNode {
      * Creates a slider control to be shown on the faucet to control the flow rate
      *
      * @param enabled                    flag to indicate if more water can be added with this control, used to zero the control
-     * @param flowRate                   the rate of flow, between 0 and 1
+     * @param flowRatePercentage         the percentage of max flow rate, between 0 and 1
      * @param userHasToHoldTheSliderKnob flag to indicate whether the user has to hold down the knob to maintain a flow rate, and if the knob will snap back to zero if the user lets go
      */
-    public FaucetSliderNode( final ObservableProperty<Boolean> enabled, final Property<Double> flowRate, final boolean userHasToHoldTheSliderKnob ) {
+    public FaucetSliderNode( final ObservableProperty<Boolean> enabled, final Property<Double> flowRatePercentage, final boolean userHasToHoldTheSliderKnob ) {
 
         //Wire up 2-way communication with the Property
-        final Property<Double> sliderProperty = new Property<Double>( flowRate.get() ) {
+        final Property<Double> sliderProperty = new Property<Double>( flowRatePercentage.get() ) {
             @Override public void set( Double value ) {
                 if ( enabled.get() ) {
                     super.set( value );
@@ -41,14 +41,14 @@ public class FaucetSliderNode extends PNode {
         sliderProperty.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 if ( enabled.get() ) {
-                    flowRate.set( value );
+                    flowRatePercentage.set( value );
                 }
                 else {
-                    flowRate.set( 0.0 );
+                    flowRatePercentage.set( 0.0 );
                 }
             }
         } );
-        flowRate.addObserver( new VoidFunction1<Double>() {
+        flowRatePercentage.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 sliderProperty.set( value );
             }
@@ -66,7 +66,7 @@ public class FaucetSliderNode extends PNode {
         final VoidFunction0 snapToZero = new VoidFunction0() {
             public void apply() {
                 //Turn off the flow level
-                flowRate.set( 0.0 );
+                flowRatePercentage.set( 0.0 );
             }
         };
 

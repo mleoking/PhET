@@ -45,10 +45,28 @@ public class FaucetNode extends PNode {
     public final PImage faucetImageNode;
     public final FaucetSliderNode faucetSliderNode;
 
+    // Constructor that adapts flow rate to a percentage of max flow rate, see #3193
+    public FaucetNode( final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, boolean userHasToHoldTheSliderKnob ) {
+        this( new Property<Double>( flowRate.get() / maxFlowRate ) {{
+            // set the flow rate when the percentage changes
+            addObserver( new VoidFunction1<Double>() {
+                public void apply( Double newFlowRatePercentage ) {
+                    flowRate.set( newFlowRatePercentage * maxFlowRate );
+                }
+            } );
+            // set the percentage when the flow rate changes
+            flowRate.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double newFlowRate ) {
+                    set( newFlowRate / maxFlowRate );
+                }
+            } );
+        }}, enabled, faucetLength, userHasToHoldTheSliderKnob );
+    }
+
     public FaucetNode(
 
-            //Value between 0 and 1 inclusive to indicate the rate of flow
-            final Property<Double> flowRate,
+            //Value between 0 and 1 inclusive to indicate the percentage of max flow rate
+            final Property<Double> flowRatePercentage,
 
             //true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
             final ObservableProperty<Boolean> enabled,
@@ -60,7 +78,7 @@ public class FaucetNode extends PNode {
             boolean userHasToHoldTheSliderKnob ) {
 
         //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
-        faucetSliderNode = new FaucetSliderNode( enabled, flowRate, userHasToHoldTheSliderKnob ) {{
+        faucetSliderNode = new FaucetSliderNode( enabled, flowRatePercentage, userHasToHoldTheSliderKnob ) {{
             setOffset( 6, 2.5 );
         }};
 
@@ -95,14 +113,15 @@ public class FaucetNode extends PNode {
     }
 
     public static void main( String[] args ) {
+        double maxFlowRate = 20;
         Property<Double> flowRate = new Property<Double>( 0d ) {{
             addObserver( new VoidFunction1<Double>() {
                 public void apply( Double flowRate ) {
-                    System.out.println( "flowRate = " + flowRate );
+                    System.out.println( "flowRate = " + flowRate + " L/sec" );
                 }
             } );
         }};
-        final FaucetNode faucetNode = new FaucetNode( flowRate, new Property<Boolean>( true ), 50, true ) {{
+        final FaucetNode faucetNode = new FaucetNode( maxFlowRate, flowRate, new Property<Boolean>( true ), 50, true ) {{
             setOffset( 100, 100 );
         }};
         final PhetPCanvas canvas = new PhetPCanvas() {{
