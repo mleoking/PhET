@@ -3,12 +3,13 @@
 var canvas;
 var touchInProgress = false;
 var context;
-var particles = new Array();
+var particlesInNucleus = new Array();
 var neutronBucket;
 var protonBucket;
 var particleBeingDragged = null;
 var resetButton;
 var electronShell;
+var nucleusLabel;
 
 // Hook up the initialization function.
 $( document ).ready( function() {
@@ -52,7 +53,10 @@ function init() {
     protonBucket = new Bucket( new Point2D( 400, 300 ), "red" );
 
     // Add the reset button.
-    resetButton = new ResetButton( new Point2D( 600, 350 ), "orange" );
+    resetButton = new ResetButton( new Point2D( 600, 325 ), "orange" );
+
+    // Add the nucleus label.
+    nucleusLabel = new NucleusLabel( new Point2D( 500, 100 ) );
 
     // Commenting out, since iPad seems to send these continuously.
 //	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
@@ -89,7 +93,6 @@ function drawPhetLogo() {
     context.fillStyle = '#f80';
     context.font = 'italic 20px sans-serif';
     context.textBaseline = 'top';
-//    context.fillText( 'PhET', canvas.width - 70, canvas.height - 40 );
     context.fillText( 'PhET', canvas.width - 70, canvas.height / 2 );
 }
 
@@ -231,13 +234,72 @@ Bucket.prototype.containsPoint = function( point ) {
 }
 
 //-----------------------------------------------------------------------------
+// Nucleus label class.
+//-----------------------------------------------------------------------------
+
+function NucleusLabel( initialLocation ) {
+    this.location = initialLocation;
+    this.text = "";
+}
+
+NucleusLabel.prototype.draw = function( context ) {
+    var protonCount = 0;
+    var neutronCount = 0;
+    for ( i = 0; i < particlesInNucleus.length; i++ ) {
+        if ( particlesInNucleus[i].color == "red" ) {
+            protonCount++;
+        }
+        else if ( particlesInNucleus[i].color == "gray" ) {
+            neutronCount++;
+        }
+    }
+    this.updateText( protonCount, neutronCount );
+    context.fillStyle = '#000';
+    context.font = '28px sans-serif';
+    context.textBaseline = 'top';
+    context.fillText( this.text, this.location.x, this.location.y );
+}
+
+NucleusLabel.prototype.updateText = function( protonCount, neutronCount ) {
+    switch( protonCount ) {
+        case 0:
+            this.text = "";
+            break;
+
+        case 1:
+            this.text = "Hydrogen";
+            if ( neutronCount != 0 ) {
+                this.text += " - " + (protonCount + neutronCount);
+            }
+            break;
+
+        case 2:
+            this.text = "Helium";
+            break;
+
+        default:
+            this.text = "Phetium - " + (protonCount + neutronCount);
+            break;
+    }
+}
+
+NucleusLabel.prototype.setLocationComponents = function( x, y ) {
+    this.location.x = x;
+    this.location.y = y;
+}
+
+NucleusLabel.prototype.setLocation = function( location ) {
+    this.setLocationComponents( location.x, location.y );
+}
+
+//-----------------------------------------------------------------------------
 // Reset button class
 //-----------------------------------------------------------------------------
 
 function ResetButton( initialLocation, color ) {
     this.location = initialLocation;
-    this.width = 70;
-    this.height = 30;
+    this.width = 90;
+    this.height = 40;
     this.color = color;
 }
 
@@ -252,7 +314,7 @@ ResetButton.prototype.draw = function( context ) {
     context.fillRect( xPos, yPos, this.width, this.height );
     // Put text on the box.
     context.fillStyle = '#000';
-    context.font = '20px sans-serif';
+    context.font = '28px sans-serif';
     context.textBaseline = 'top';
     context.fillText( 'Reset', xPos + 5, yPos + 5 );
 }
@@ -293,14 +355,31 @@ function draw() {
     neutronBucket.draw( context );
     protonBucket.draw( context );
 
-    // Draw the particles.
-    for ( var i = 0; i < particles.length; i++ ) {
-        particles[i].draw( context );
+    // Draw the particles that are in the nucleus.
+    for ( var i = 0; i < particlesInNucleus.length; i++ ) {
+        particlesInNucleus[i].draw( context );
     }
+
+    // Draw particle that is being dragged if there is one.
+    if ( particleBeingDragged != null ) {
+        particleBeingDragged.draw( context );
+    }
+
+    // Draw the nucleus label.
+    nucleusLabel.draw( context );
 }
 
 function removeAllParticles() {
-    particles.length = 0;
+    particlesInNucleus.length = 0;
+}
+
+function removeParticleFromNucleus( particle ) {
+    for ( i = 0; i < particlesInNucleus.length; i++ ) {
+        if ( particlesInNucleus[i] == particle ) {
+            particlesInNucleus.splice( i, 1 );
+            break;
+        }
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -345,9 +424,10 @@ function onTouchStart( location ) {
     touchInProgress = true;
     particleBeingDragged = null;
     // See if this touch start is on any of the existing particles.
-    for ( i = 0; i < particles.length; i++ ) {
-        if ( particles[i].containsPoint( location ) ) {
-            particleBeingDragged = particles[i];
+    for ( i = 0; i < particlesInNucleus.length; i++ ) {
+        if ( particlesInNucleus[i].containsPoint( location ) ) {
+            particleBeingDragged = particlesInNucleus[i];
+            removeParticleFromNucleus( particleBeingDragged );
             break;
         }
     }
@@ -356,11 +436,9 @@ function onTouchStart( location ) {
         // corresponding particle.
         if ( neutronBucket.containsPoint( location ) ) {
             particleBeingDragged = new Particle( "gray" );
-            particles.push( particleBeingDragged );
         }
         else if ( protonBucket.containsPoint( location ) ) {
             particleBeingDragged = new Particle( "red" );
-            particles.push( particleBeingDragged );
         }
         // Else see if the button is being touched.
         else if ( resetButton.containsPoint( location ) ) {
@@ -386,14 +464,10 @@ function onDrag( location ) {
 function onTouchEnd() {
     touchInProgress = false;
     if ( particleBeingDragged != null ) {
-        // If the particle is not inside the electron shell, remove it.
-        if ( !electronShell.containsPoint( particleBeingDragged.location ) ) {
-            for ( i = 0; i < particles.length; i++ ) {
-                if ( particles[i] == particleBeingDragged ) {
-                    particles.splice( i, 1 );
-                    break;
-                }
-            }
+        // If the particle has been dropped within the electron shell, add it
+        // to the nucleus.
+        if ( electronShell.containsPoint( particleBeingDragged.location ) ) {
+            particlesInNucleus.push( particleBeingDragged );
         }
         // Always set to null to indicate that no particle is being dragged.
         particleBeingDragged = null;
