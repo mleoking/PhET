@@ -13,9 +13,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Solution implements Resettable {
 
-    private final Property<Solute> solute;
-    private final Property<Double> soluteAmount; // moles
-    private final Property<Double> volume; // liters
+    public final Property<Solute> solute;
+    public final Property<Double> soluteAmount; // moles
+    public final Property<Double> volume; // L
     private final Property<Double> concentration; // M (derived property)
     private final Property<Double> precipitateAmount; // moles (derived property)
 
@@ -44,10 +44,6 @@ public class Solution implements Resettable {
 
     private double getSoluteAmount() {
         return soluteAmount.get();
-    }
-
-    public void setSoluteAmount( double moles ) {
-        soluteAmount.set( moles );
     }
 
     private double getVolume() {

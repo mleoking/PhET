@@ -8,8 +8,10 @@ import edu.colorado.phet.beerslawlab.control.EvaporationControlNode;
 import edu.colorado.phet.beerslawlab.control.RemoveSoluteButtonNode;
 import edu.colorado.phet.beerslawlab.control.SoluteControlNode;
 import edu.colorado.phet.beerslawlab.view.BLLCanvas;
+import edu.colorado.phet.beerslawlab.view.ConcentrationModelDebugger;
 import edu.colorado.phet.beerslawlab.view.DropperNode;
 import edu.colorado.phet.beerslawlab.view.ShakerNode;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -31,6 +33,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, 18, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
+        PNode modelDebugNode = new ConcentrationModelDebugger( model );
 
         // rendering order
         {
@@ -39,6 +42,9 @@ public class ConcentrationCanvas extends BLLCanvas {
             addChild( evaporationControlNode );
             addChild( removeSoluteButtonNode );
             addChild( resetAllButtonNode );
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+                addChild( modelDebugNode );
+            }
             addChild( soluteControlNode ); // on top, because it has a combo box popup
         }
 
@@ -57,6 +63,8 @@ public class ConcentrationCanvas extends BLLCanvas {
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
+            // below solute control panel
+            modelDebugNode.setOffset( soluteControlNode.getFullBoundsReference().getCenterX(), soluteControlNode.getFullBoundsReference().getMaxY() + 20 );
         }
         //TODO enable this after more layout is fleshed out
 //        scaleRootNodeToFitStage();
