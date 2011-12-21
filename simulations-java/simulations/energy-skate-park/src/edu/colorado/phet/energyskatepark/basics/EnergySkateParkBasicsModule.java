@@ -48,7 +48,13 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
-    public final Property<Double> frictionAmount = new Property<Double>( 0.0 );
+    public final Property<Double> frictionAmount = new Property<Double>( 0.0 ) {{
+        addObserver( new VoidFunction1<Double>() {
+            public void apply( Double aDouble ) {
+                System.out.println( "EnergySkateParkBasicsModule.apply fric = " + aDouble );
+            }
+        } );
+    }};
 
     public EnergySkateParkBasicsModule( String name, final PhetFrame phetFrame, boolean splinesMovable ) {
         super( name, phetFrame, new EnergySkateParkOptions(), splinesMovable, false,
