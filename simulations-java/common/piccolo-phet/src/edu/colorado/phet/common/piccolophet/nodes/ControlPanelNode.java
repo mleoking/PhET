@@ -26,9 +26,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class ControlPanelNode extends RichPNode {
 
     public static final int DEFAULT_ARC = 20;
-    public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 238, 238, 238 );
-    public static final Color DEFAULT_BORDER_COLOR = Color.gray;
-    public static final BasicStroke DEFAULT_STROKE = new BasicStroke( 2 );
+
+    private static final Color DEFAULT_BACKGROUND_COLOR = new Color( 238, 238, 238 );
+    private static final Color DEFAULT_BORDER_COLOR = Color.gray;
+    private static final BasicStroke DEFAULT_STROKE = new BasicStroke( 2 );
+    private static final int DEFAULT_INSET = 9;
+
     protected final PhetPPath background;
 
     public ControlPanelNode( JComponent jComponent ) {
@@ -44,7 +47,7 @@ public class ControlPanelNode extends RichPNode {
     }
 
     public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor ) {
-        this( content, backgroundColor, borderStroke, borderColor, 9 );
+        this( content, backgroundColor, borderStroke, borderColor, DEFAULT_INSET );
     }
 
     public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor, final int inset ) {
